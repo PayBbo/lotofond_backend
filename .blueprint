@@ -1,0 +1,152 @@
+created:
+    - app/Http/Controllers/MonitoringController.php
+    - app/Http/Controllers/FavouriteController.php
+    - app/Http/Controllers/EventController.php
+    - app/Http/Controllers/NoteController.php
+    - app/Http/Controllers/MarkController.php
+    - database/factories/RegionGroupFactory.php
+    - database/factories/RegionFactory.php
+    - database/factories/BidderTypeFactory.php
+    - database/factories/BidderCategoryFactory.php
+    - database/factories/BiddersFactory.php
+    - database/factories/NotificationTypeGroupFactory.php
+    - database/factories/RegistryNotificationTypeFactory.php
+    - database/factories/RegistryNotificationFactory.php
+    - database/factories/AuctionTypeFactory.php
+    - database/factories/AuctionFactory.php
+    - database/factories/CategoryFactory.php
+    - database/factories/StatusFactory.php
+    - database/factories/LotFactory.php
+    - database/factories/ParamFactory.php
+    - database/factories/LotParamFactory.php
+    - database/factories/SeenLotFactory.php
+    - database/factories/FixedLotFactory.php
+    - database/factories/MonitoringFactory.php
+    - database/factories/FavouriteFactory.php
+    - database/factories/EventTypeFactory.php
+    - database/factories/EventFactory.php
+    - database/factories/NoteFactory.php
+    - database/factories/MarkFactory.php
+    - database/factories/ApplicationFactory.php
+    - database/migrations/2022_05_22_195715_create_region_groups_table.php
+    - database/migrations/2022_05_22_195716_create_regions_table.php
+    - database/migrations/2022_05_22_195717_create_bidder_types_table.php
+    - database/migrations/2022_05_22_195718_create_bidder_categories_table.php
+    - database/migrations/2022_05_22_195719_create_bidders_table.php
+    - database/migrations/2022_05_22_195720_create_notification_type_groups_table.php
+    - database/migrations/2022_05_22_195721_create_registry_notification_types_table.php
+    - database/migrations/2022_05_22_195722_create_registry_notifications_table.php
+    - database/migrations/2022_05_22_195723_create_auction_types_table.php
+    - database/migrations/2022_05_22_195724_create_auctions_table.php
+    - database/migrations/2022_05_22_195725_create_categories_table.php
+    - database/migrations/2022_05_22_195726_create_statuses_table.php
+    - database/migrations/2022_05_22_195727_create_lots_table.php
+    - database/migrations/2022_05_22_195728_create_params_table.php
+    - database/migrations/2022_05_22_195729_create_lot_params_table.php
+    - database/migrations/2022_05_22_195730_create_seen_lots_table.php
+    - database/migrations/2022_05_22_195731_create_fixed_lots_table.php
+    - database/migrations/2022_05_22_195732_create_monitorings_table.php
+    - database/migrations/2022_05_22_195733_create_favourites_table.php
+    - database/migrations/2022_05_22_195734_create_event_types_table.php
+    - database/migrations/2022_05_22_195735_create_events_table.php
+    - database/migrations/2022_05_22_195736_create_notes_table.php
+    - database/migrations/2022_05_22_195737_create_marks_table.php
+    - database/migrations/2022_05_22_195738_create_applications_table.php
+    - database/migrations/2022_05_22_195739_create_auction_lot_table.php
+    - database/migrations/2022_05_22_195740_create_lot_monitoring_table.php
+    - database/migrations/2022_05_22_195741_create_favourite_lot_table.php
+    - database/migrations/2022_05_22_195742_create_lot_mark_table.php
+    - app/Models/RegionGroup.php
+    - app/Models/Region.php
+    - app/Models/BidderType.php
+    - app/Models/BidderCategory.php
+    - app/Models/Bidders.php
+    - app/Models/NotificationTypeGroup.php
+    - app/Models/RegistryNotificationType.php
+    - app/Models/RegistryNotification.php
+    - app/Models/AuctionType.php
+    - app/Models/Auction.php
+    - app/Models/Category.php
+    - app/Models/Status.php
+    - app/Models/Lot.php
+    - app/Models/Param.php
+    - app/Models/LotParam.php
+    - app/Models/SeenLot.php
+    - app/Models/FixedLot.php
+    - app/Models/Monitoring.php
+    - app/Models/Favourite.php
+    - app/Models/EventType.php
+    - app/Models/Event.php
+    - app/Models/Note.php
+    - app/Models/Mark.php
+    - app/Models/Application.php
+    - database/seeders/BidderTypeSeeder.php
+    - database/seeders/BidderCategorySeeder.php
+    - database/seeders/NotificationTypeGroupSeeder.php
+    - database/seeders/RegistryNotificationTypeSeeder.php
+    - database/seeders/AuctionTypeSeeder.php
+    - database/seeders/StatusSeeder.php
+    - database/seeders/NotificationTypeSeeder.php
+    - database/seeders/EventTypeSeeder.php
+    - tests/Feature/Http/Controllers/MonitoringControllerTest.php
+    - tests/Feature/Http/Controllers/FavouriteControllerTest.php
+    - tests/Feature/Http/Controllers/EventControllerTest.php
+    - tests/Feature/Http/Controllers/NoteControllerTest.php
+    - tests/Feature/Http/Controllers/MarkControllerTest.php
+    - app/Http/Requests/MonitoringStoreRequest.php
+    - app/Http/Requests/MonitoringUpdateRequest.php
+    - app/Http/Requests/FavouriteStoreRequest.php
+    - app/Http/Requests/FavouriteUpdateRequest.php
+    - app/Http/Requests/EventStoreRequest.php
+    - app/Http/Requests/EventUpdateRequest.php
+    - app/Http/Requests/NoteStoreRequest.php
+    - app/Http/Requests/NoteUpdateRequest.php
+    - app/Http/Requests/MarkStoreRequest.php
+    - app/Http/Requests/MarkUpdateRequest.php
+    - resources/views/monitoring/index.blade.php
+    - resources/views/monitoring/create.blade.php
+    - resources/views/monitoring/show.blade.php
+    - resources/views/monitoring/edit.blade.php
+    - resources/views/favourite/index.blade.php
+    - resources/views/favourite/create.blade.php
+    - resources/views/favourite/show.blade.php
+    - resources/views/favourite/edit.blade.php
+    - resources/views/event/index.blade.php
+    - resources/views/event/create.blade.php
+    - resources/views/event/show.blade.php
+    - resources/views/event/edit.blade.php
+    - resources/views/note/index.blade.php
+    - resources/views/note/create.blade.php
+    - resources/views/note/show.blade.php
+    - resources/views/note/edit.blade.php
+    - resources/views/mark/index.blade.php
+    - resources/views/mark/create.blade.php
+    - resources/views/mark/show.blade.php
+    - resources/views/mark/edit.blade.php
+updated:
+    - routes/web.php
+models:
+    RegionGroup: { title: 'string:255', relationships: { hasMany: Region } }
+    Region: { title: 'string:255', region_group_id: 'unsignedBigInteger nullable', relationships: { belongsTo: RegionGroup } }
+    BidderType: { title: 'string:255', relationships: { hasMany: Bidder } }
+    BidderCategory: { title: 'string:255', relationships: { hasMany: Bidder } }
+    Bidders: { name: 'string:255', inn: 'string:20', ogrn: 'string:100', snils: 'string:20', address: 'string:255', reg_number: 'string:100', cpo: 'string:255,', region_id: 'unsignedBigInteger nullable', bidder_type_id: unsignedBigInteger, bidder_category_id: 'unsignedBigInteger nullable', relationships: { belongsTo: 'Region, BidderType, BidderCategory' } }
+    NotificationTypeGroup: { title: 'string:255', relationships: { hasMany: RegistryNotificationType } }
+    RegistryNotificationType: { title: 'string:255', notification_type_group_id: unsignedBigInteger, relationships: { belongsTo: NotificationTypeGroup } }
+    RegistryNotification: { description: 'string:255', files: 'json nullable', debitor_id: 'unsignedBigInteger nullable', type_id: unsignedBigInteger, relationships: { belongsTo: RegistryNotificationType } }
+    AuctionType: { title: 'string:255', relationships: { hasMany: Auction } }
+    Auction: { number: 'integer unique', publish_date: timestamp, debitor_id: unsignedBigInteger, arbitration_manager_id: 'unsignedBigInteger nullable', organizer_id: 'unsignedBigInteger nullable', trading_platform_id: 'unsignedBigInteger nullable', auction_type_id: unsignedBigInteger, event_period: 'json nullable', application_period: 'json nullable', result_date: 'timestamp nullable', relationships: { belongsTo: AuctionType, belongsToMany: Lot } }
+    Category: { title: 'string:255', parent_id: 'unsignedBigInteger nullable', relationships: { hasMany: Lot } }
+    Status: { title: 'string:255', relationships: { hasMany: Lot } }
+    Lot: { number: 'integer unique', address: 'string:255', images: 'json nullable', price: bigInteger, auction_step: bigInteger, deposit: bigInteger, description: longText, is_ecp: 'boolean nullable', title: 'string:255', files: 'json nullable', category_id: unsignedBigInteger, status_id: unsignedBigInteger, relationships: { hasMany: Application, belongsToMany: 'Auction, Monitoring, Favourite, Mark', belongsTo: 'Category, Status' } }
+    Param: { title: 'string:255' }
+    LotParam: { param_id: unsignedBigInteger, lot_id: unsignedBigInteger, value: 'string:255' }
+    SeenLot: { user_id: unsignedBigInteger, lot_id: unsignedBigInteger }
+    FixedLot: { user_id: unsignedBigInteger, lot_id: unsignedBigInteger }
+    Monitoring: { user_id: unsignedBigInteger, title: 'string:255', not_frequency: integer, unnecessary_words: 'json nullable', right_words: 'json nullable', relationships: { belongsToMany: Lot, belongsTo: User } }
+    Favourite: { user_id: unsignedBigInteger, title: 'string:255', relationships: { belongsToMany: Lot, belongsTo: User } }
+    EventType: { title: 'string:255', relationships: { hasMany: Event } }
+    Event: { date: date, time: time, title: 'string:255', event_type_id: unsignedBigInteger, user_id: unsignedBigInteger, relationships: { belongsTo: 'User, EventType' } }
+    Note: { title: 'string:255', item_id: unsignedBigInteger, item_type: 'enum:bidder,lot,auction', user_id: unsignedBigInteger, relationships: { belongsTo: User } }
+    Mark: { title: 'string:255', user_id: unsignedBigInteger, relationships: { belongsToMany: Lot, belongsTo: User } }
+    Application: { user_id: unsignedBigInteger, lot_id: unsignedBigInteger, email: 'string:255 nullable', surname: 'string:255 nullable', phone: 'string:255 nullable', for_answer: 'enum:vk,viber,whatsapp, phone', answer_date: timestamp, relationships: { belongsTo: 'User, Lot' } }

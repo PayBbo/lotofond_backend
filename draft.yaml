@@ -1,0 +1,166 @@
+models:
+  RegionGroup:
+    title: string:255
+    relationships:
+      hasMany: Region
+  Region:
+    title: string:255
+    region_group_id: unsignedBigInteger nullable
+    relationships:
+      belongsTo: RegionGroup
+  BidderType:
+    title: string:255
+    relationships:
+      hasMany: Bidder
+  BidderCategory:
+    title: string:255
+    relationships:
+      hasMany: Bidder
+  Bidders:
+    name: string:255
+    inn: string:20
+    ogrn: string:100
+    snils: string:20
+    address: string:255
+    reg_number: string:100
+    cpo: string:255,
+    region_id: unsignedBigInteger nullable
+    bidder_type_id: unsignedBigInteger
+    bidder_category_id: unsignedBigInteger nullable
+    relationships:
+      belongsTo:  Region, BidderType, BidderCategory
+  NotificationTypeGroup:
+    title: string:255
+    relationships:
+      hasMany: RegistryNotificationType
+  RegistryNotificationType:
+    title: string:255
+    notification_type_group_id: unsignedBigInteger
+    relationships:
+      belongsTo: NotificationTypeGroup
+  RegistryNotification:
+    description: string:255
+    files: json nullable
+    debitor_id: unsignedBigInteger nullable
+    type_id: unsignedBigInteger
+    relationships:
+      belongsTo: RegistryNotificationType
+  AuctionType:
+    title: string:255
+    relationships:
+      hasMany: Auction
+  Auction:
+    number: integer unique
+    publish_date: timestamp
+    debitor_id: unsignedBigInteger
+    arbitration_manager_id: unsignedBigInteger nullable
+    organizer_id: unsignedBigInteger nullable
+    trading_platform_id: unsignedBigInteger nullable
+    auction_type_id: unsignedBigInteger
+    event_period: json nullable
+    application_period: json nullable
+    result_date: timestamp nullable
+    relationships:
+      belongsTo: AuctionType
+      belongsToMany: Lot
+  Category:
+    title: string:255
+    parent_id: unsignedBigInteger nullable
+    relationships:
+      hasMany: Lot
+  Status:
+    title: string:255
+    relationships:
+      hasMany: Lot
+  Lot:
+    number: integer unique
+    address: string:255
+    images: json nullable
+    price: bigInteger
+    auction_step: bigInteger
+    deposit: bigInteger
+    description: longText
+    is_ecp: boolean nullable
+    title: string:255
+    files: json nullable
+    category_id: unsignedBigInteger
+    status_id: unsignedBigInteger
+    relationships:
+      hasMany: Application
+      belongsToMany: Auction, Monitoring, Favourite, Mark
+      belongsTo: Category, Status
+  Param:
+    title: string:255
+  LotParam:
+    param_id: unsignedBigInteger
+    lot_id: unsignedBigInteger
+    value: string:255
+  SeenLot:
+    user_id: unsignedBigInteger
+    lot_id: unsignedBigInteger
+  FixedLot:
+    user_id: unsignedBigInteger
+    lot_id: unsignedBigInteger
+  Monitoring:
+    user_id: unsignedBigInteger
+    title: string:255
+    not_frequency: integer
+    unnecessary_words: json nullable
+    right_words: json nullable
+    relationships:
+      belongsToMany: Lot
+      belongsTo: User
+  Favourite:
+    user_id: unsignedBigInteger
+    title: string:255
+    relationships:
+      belongsToMany: Lot
+      belongsTo: User
+  EventType:
+    title: string:255
+    relationships:
+      hasMany: Event
+  Event:
+    date: date
+    time: time
+    title: string:255
+    event_type_id: unsignedBigInteger
+    user_id: unsignedBigInteger
+    relationships:
+      belongsTo: User, EventType
+  Note:
+    title: string:255
+    item_id: unsignedBigInteger
+    item_type: enum:bidder,lot,auction
+    user_id: unsignedBigInteger
+    relationships:
+       belongsTo: User
+  Mark:
+    title: string:255
+    user_id: unsignedBigInteger
+    relationships:
+        belongsToMany: Lot
+        belongsTo: User
+  Application:
+    user_id: unsignedBigInteger
+    lot_id: unsignedBigInteger
+    email: string:255 nullable
+    surname: string:255 nullable
+    phone: string:255 nullable
+    for_answer: enum:vk,viber,whatsapp, phone
+    answer_date: timestamp
+    relationships:
+        belongsTo: User, Lot
+seeders: BidderType, BidderCategory, NotificationTypeGroup, RegistryNotificationType, AuctionType, Status, NotificationType, EventType
+
+controllers:
+  Monitoring:
+    resource
+  Favourite:
+    resource
+  Event:
+    resource
+  Note:
+    resource
+  Mark:
+    resource
