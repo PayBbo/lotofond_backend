@@ -1,0 +1,466 @@
+openapi: 3.0.0
+info:
+  title: 'TBankrot API'
+  version: 1.0.0
+servers:
+  - url: /api
+paths:
+   /registration:
+    post:
+      tags:
+        - Registration
+      summary: 'Регистрация пользователя'
+      operationId: register
+      requestBody:
+        description: 'Pass user credentials'
+        required: true
+        content:
+          application/json:
+            schema:
+              required:
+                - name
+                - surname
+                - phone
+                - email
+                - password
+              properties:
+                name:
+                  type: string
+                  example: Ivan
+                surname:
+                  type: string
+                  example: Ivanov
+                email:
+                  type: string
+                  format: email
+                  example: user1@mail.com
+                phone:
+                  type: string
+                  example: '79225551234'
+                password:
+                  type: string
+                  format: password
+                  example: qwerty12
+              type: object
+      responses:
+        "422":
+          description: 'Wrong credentials response'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "200":
+          description: 'Successful response, verification code sent to user email'
+        "550":
+          description: 'Message can''t be sent to user email'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+   /registration/code:
+     post:
+       tags:
+         - Registration
+       summary: 'Запрос повторной отправки пользователю кода подтверждения'
+       operationId: requestRegistrationCode
+       requestBody:
+         description: 'User email'
+         content:
+           application/json:
+             schema:
+               required:
+                 - email
+               properties:
+                email:
+                  type: string
+                  format: email
+                  example: user1@mail.com
+               type: object
+       responses:
+         "422":
+           description: 'Wrong email response'
+           content:
+             application/json:
+               schema:
+                 $ref: '#/components/schemas/Error'
+         "200":
+           description: 'Successful response, verification code sent to user email'
+         "550":
+           description: 'Message can''t be sent to user email'
+           content:
+             application/json:
+               schema:
+                 $ref: '#/components/schemas/Error'
+
+   /registration/code/verify:
+     post:
+       tags:
+         - Registration
+       summary: 'Отправка кода для завершения регистрации'
+       operationId: verifyRegistrationCode
+       requestBody:
+         description: Код подтверждения
+         content:
+           application/json:
+             schema:
+               required:
+                 - email
+                 - code
+               properties:
+                  email:
+                    type: string
+                    format: email
+                    example: user1@mail.com
+                  code:
+                    type: string
+                    example: 123456
+               type: object
+         required: true
+       responses:
+         "200":
+           description: Данные аккаунта
+           content:
+             application/json:
+               schema:
+                 $ref: '#/components/schemas/TokenData'
+         default:
+           description: unexpected error
+           content:
+             application/json:
+               schema:
+                 $ref: '#/components/schemas/Error'
+   /login:
+     post:
+       tags:
+         - Login
+       summary: Вход пользователя
+       operationId: login
+       requestBody:
+         description: Данные для авторизации
+         content:
+           application/json:
+             schema:
+               $ref: '#/components/schemas/Auth'
+             examples:
+               email:
+                 value:
+                   grantType: email
+                   email: test@gmail.com
+                   password: ne6Jo$zi
+               phone:
+                 value:
+                   grantType: phone
+                   phoneNumber: '74951239999'
+                   password: LRn&z!4Y
+         required: true
+       responses:
+         "200":
+           description: Данные аккаунта
+           content:
+             application/json:
+               schema:
+                 $ref: '#/components/schemas/TokenData'
+         default:
+           description: unexpected error
+           content:
+             application/json:
+               schema:
+                 $ref: '#/components/schemas/Error'
+   /account/password/code:
+     post:
+       tags:
+         - Account
+       summary: Запрос кода подтверждения
+       operationId: getResetPasswordCode
+       requestBody:
+         description: Почта или номер телефона пользователя
+         content:
+           application/json:
+             schema:
+               $ref: '#/components/schemas/ResetPasswordCodeRequest'
+             examples:
+               email:
+                 value:
+                   grantType: email
+                   email: test@gmail.com
+               phone:
+                 value:
+                   grantType: phone
+                   phoneNumber: '74951239999'
+         required: true
+       responses:
+         "422":
+           description: 'Wrong credentials response'
+           content:
+             application/json:
+               schema:
+                 $ref: '#/components/schemas/Error'
+         "200":
+           description: 'Successful response, code sent to user '
+         "550":
+           description: 'Message can''t be sent to user'
+           content:
+             application/json:
+               schema:
+                 $ref: '#/components/schemas/Error'
+   /account/password/code/verify:
+     post:
+       tags:
+         - Account
+       summary: Отправка кода подтверждения
+       operationId: verifyResetPasswordCode
+       requestBody:
+         description: Код подтверждения
+         content:
+           application/json:
+             schema:
+               $ref: '#/components/schemas/CodeRequest'
+             examples:
+               email:
+                 value:
+                   grantType: email
+                   email: test@gmail.com
+                   code: '123451'
+               phone:
+                 value:
+                   grantType: phone
+                   phoneNumber: '74951239999'
+                   code: '123451'
+         required: true
+       responses:
+         "422":
+           description: 'Wrong credentials response'
+           content:
+             application/json:
+               schema:
+                 $ref: '#/components/schemas/Error'
+         "200":
+           description: 'Successful response'
+   /account/password/reset:
+     post:
+       tags:
+         - Account
+       summary: Сброс пароля пользователя
+       operationId: resetPassword
+       requestBody:
+         description: Данные для сброса пароля
+         content:
+           application/json:
+             schema:
+               $ref: '#/components/schemas/ResetPasswordRequest'
+             examples:
+               email:
+                 value:
+                   grantType: email
+                   email: test@gmail.com
+                   password: bc7$etyZ
+                   code: '123451'
+               phone:
+                 value:
+                   grantType: phone
+                   phoneNumber: '74951239999'
+                   password: bc7$etyZ
+                   code: '123451'
+         required: true
+       responses:
+         "200":
+           description: Данные аккаунта
+           content:
+             application/json:
+               schema:
+                 $ref: '#/components/schemas/TokenData'
+         default:
+           description: unexpected error
+           content:
+             application/json:
+               schema:
+                 $ref: '#/components/schemas/Error'
+   /account/user/update:
+     put:
+       tags:
+         - Account
+       summary: Обновление информации о пользователе
+       operationId: updateUser
+       requestBody:
+         description: Информация о пользователе
+         content:
+           application/json:
+             schema:
+               $ref: '#/components/schemas/User'
+         required: true
+       responses:
+         "422":
+           description: 'Wrong credentials response'
+           content:
+             application/json:
+               schema:
+                 $ref: '#/components/schemas/Error'
+         "200":
+           description: 'Successful response'
+       security:
+         - bearerAuth: []
+   /account/user:
+     get:
+       tags:
+         - Account
+       summary: Получение информации о пользователе
+       operationId: getUser
+       responses:
+         "200":
+           description: Информация о пользователе
+           content:
+             application/json:
+               schema:
+                 $ref: '#/components/schemas/User'
+         default:
+           description: unexpected error
+           content:
+             application/json:
+               schema:
+                 $ref: '#/components/schemas/Error'
+       security:
+         - bearerAuth: []
+   /account/logout:
+     get:
+       tags:
+         - Account
+       summary: Выход пользователя из аккаунта
+       operationId: logout
+       responses:
+         "200":
+           description: Выход прошел успешно
+         default:
+           description: unexpected error
+           content:
+             application/json:
+               schema:
+                 $ref: '#/components/schemas/Error'
+       security:
+         - bearerAuth: []
+components:
+  schemas:
+    Auth:
+      required:
+        - grantType
+      type: object
+      properties:
+        grantType:
+          type: string
+          description: Тип авторизационных данных
+          enum:
+            - email
+            - phone
+        phone:
+          type: string
+          description: Номер телефона пользователя
+        email:
+          type: string
+          description: Email пользователя
+        password:
+          type: string
+          description: Пароль пользователя
+    ResetPasswordCodeRequest:
+      required:
+        - grantType
+      type: object
+      properties:
+        grantType:
+          type: string
+          description: Тип данных для восстановления пароля
+          enum:
+            - email
+            - phone
+        phone:
+          type: string
+          description: Номер телефона пользователя
+        email:
+          type: string
+          description: Email пользователя
+    CodeRequest:
+      required:
+        - code
+        - grantType
+      type: object
+      properties:
+        grantType:
+          type: string
+        email:
+          type: string
+        phone:
+          type: string
+        code:
+          type: string
+    ResetPasswordRequest:
+      required:
+        - code
+        - grantType
+        - password
+      type: object
+      properties:
+        grantType:
+          type: string
+        email:
+          type: string
+        phone:
+          type: string
+        password:
+          type: string
+        code:
+          type: string
+    TokenData:
+      required:
+        - accessToken
+        - expiresIn
+        - refreshToken
+      type: object
+      properties:
+        accessToken:
+          type: string
+        expiresIn:
+          type: integer
+          format: int64
+        refreshToken:
+          type: string
+    User:
+      required:
+        - name
+        - surname
+        - email
+        - phone
+      type: object
+      properties:
+        name:
+          type: string
+          example: Ivan
+        lastname:
+          type: string
+          example: Ivanovich
+        surname:
+          type: string
+          example: Ivanov
+        email:
+          type: string
+          format: email
+          example: user1@mail.com
+        phone:
+          type: string
+          example: '79225551234'
+    Error:
+      required:
+        - code
+        - detail
+        - title
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        title:
+          type: string
+        detail:
+          type: string
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

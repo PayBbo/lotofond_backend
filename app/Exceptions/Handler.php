@@ -2,8 +2,12 @@
 
 namespace App\Exceptions;
 
+use App\Exceptions\CustomExceptions\BaseException;
+Use Throwable;
+use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
-use Throwable;
+
+use UnexpectedValueException;
 
 class Handler extends ExceptionHandler
 {
@@ -34,8 +38,49 @@ class Handler extends ExceptionHandler
      */
     public function register()
     {
-        $this->reportable(function (Throwable $e) {
-            //
+
+        $this->renderable(function (Throwable $e, $request) {
+            return $this->customHandleException($request, $e);
         });
+
+    }
+
+    public function customHandleException($request, Throwable $e)
+    {
+        if ($request->wantsJson()) {
+            $response = [];
+            if ($request->wantsJson() && ($e instanceof BaseException)) {
+                $response = [
+                    'code' => $e->getCode(),
+                    'title' => $e->getTitle(),
+                    'detail' => $e->getDetail()
+                ];
+
+            }
+            if ( $e instanceof UnexpectedValueException) {
+                $response['code'] = $e->getCode();
+                $response['title'] = 'ERR_HTTP_FAILED';
+                $response['detail'] = $e->getMessage();
+            }
+            if ($e instanceof AuthenticationException) {
+                $response['code'] = 401;
+                $response['title'] = 'ERR_AUTHORIZATION_CHECK_FAILED';
+                $response['detail'] = $e->getMessage();
+            }
+            if ($e instanceof \Illuminate\Validation\ValidationException) {
+                $response['code'] = 422;
+                $response['title'] = 'ERR_VALIDATION_FAILED';
+                $response['detail'] =$e->validator->errors()->first() . ' : ' . json_encode($request->all());
+            }
+
+            if (count($response) > 0) {
+                return response()->json([
+                    'code' => $response['code'],
+                    'title' => $response['title'],
+                    'detail' => $response['detail'],
+
+                ], $response['code']);
+            }
+        }
     }
 }

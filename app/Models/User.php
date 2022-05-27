@@ -2,11 +2,10 @@
 
 namespace App\Models;
 
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Laravel\Sanctum\HasApiTokens;
+use Laravel\Passport\HasApiTokens;
 
 class User extends Authenticatable
 {
@@ -18,6 +17,12 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
+        'surname',
+        'phone',
+        'lastname',
+        'not_from_organizers',
+        'not_from_monitoring',
+        'frequency_of_auction_nots',
         'name',
         'email',
         'password',
@@ -86,4 +91,17 @@ class User extends Authenticatable
     {
         return $this->hasMany(Notification::class);
     }
+
+    public static function boot()
+    {
+        parent::boot();
+
+        static::updated(function ($user) {
+            if(VerifyAccount::where('value', $user->email)->exists()){
+                VerifyAccount::where('value', $user->email)->delete();
+            }
+        });
+
+    }
+
 }
