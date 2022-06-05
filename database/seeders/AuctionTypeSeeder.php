@@ -15,16 +15,17 @@ class AuctionTypeSeeder extends Seeder
     public function run()
     {
         $types = [
-            'Открытый аукцион',
-            'Открытый конкурс',
-            'Публичное предложение',
-            'Закрытый аукцион',
-            'Закрытый конкурс',
-            'Закрытое публичное предложение'
+            ['description' => 'Открытый аукцион', 'title' => 'OpenAuction'],
+            ['description' => 'Открытый конкурс', 'title' => 'OpenConcours'],
+            ['description' => 'Публичное предложение', 'title' => 'PublicOffer'],
+            ['description' => 'Закрытый аукцион', 'title' => 'CloseAuction'],
+            ['description' => 'Закрытый конкурс', 'title' => 'CloseConcours'],
+            ['description' => 'Закрытое публичное предложение', 'title' => 'ClosePublicOffer'],
         ];
-        foreach($types as $type){
+        foreach ($types as $type) {
             AuctionType::create([
-                'title'=>$type
+                'title' => $type['title'],
+                'description' => $type['description']
             ]);
         }
     }

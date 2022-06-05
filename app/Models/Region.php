@@ -33,4 +33,9 @@ class Region extends Model
     {
         return $this->belongsTo(RegionGroup::class);
     }
+
+    public function debtors()
+    {
+        return $this->hasMany(Debtor::class);
+    }
 }

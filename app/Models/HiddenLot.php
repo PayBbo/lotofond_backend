@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class BidderCategory extends Model
+class HiddenLot extends Model
 {
     use HasFactory;
 
@@ -15,7 +15,8 @@ class BidderCategory extends Model
      * @var array
      */
     protected $fillable = [
-        'title',
+        'user_id',
+        'lot_id',
     ];
 
     /**
@@ -25,10 +26,7 @@ class BidderCategory extends Model
      */
     protected $casts = [
         'id' => 'integer',
+        'user_id' => 'integer',
+        'lot_id' => 'integer',
     ];
-
-    public function bidders()
-    {
-        return $this->hasMany(Bidder::class);
-    }
 }

@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class EventType extends Model
+class SroAu extends Model
 {
     use HasFactory;
 
@@ -15,7 +15,12 @@ class EventType extends Model
      * @var array
      */
     protected $fillable = [
-        'title',
+        'name',
+        'inn',
+        'reg_num',
+        'sro_id',
+        'date_of_last_modifier',
+        'phone'
     ];
 
     /**
@@ -25,10 +30,12 @@ class EventType extends Model
      */
     protected $casts = [
         'id' => 'integer',
+        'sro_id' => 'integer',
+        'date_of_last_modifier' => 'datetime',
     ];
 
-    public function events()
+    public function arbitrManager()
     {
-        return $this->hasMany(Event::class);
+        return $this->belongsTo(ArbitrManager::class);
     }
 }

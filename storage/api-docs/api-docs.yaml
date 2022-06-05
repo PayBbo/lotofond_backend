@@ -1,6 +1,6 @@
 openapi: 3.0.0
 info:
-  title: 'TBankrot API'
+  title: 'BankrotMP API'
   version: 1.0.0
 servers:
   - url: /api
@@ -61,7 +61,7 @@ paths:
      post:
        tags:
          - Registration
-       summary: 'Запрос повторной отправки пользователю кода подтверждения'
+       summary: 'Запрос повторной отправки кода подтверждения электронной почты'
        operationId: requestRegistrationCode
        requestBody:
          description: 'User email'
@@ -170,7 +170,7 @@ paths:
      post:
        tags:
          - Account
-       summary: Запрос кода подтверждения
+       summary: Запрос кода подтверждения для сброса пароля
        operationId: getResetPasswordCode
        requestBody:
          description: Почта или номер телефона пользователя
@@ -207,7 +207,7 @@ paths:
      post:
        tags:
          - Account
-       summary: Отправка кода подтверждения
+       summary: Отправка пользователем кода подтверждения для сброса пароля
        operationId: verifyResetPasswordCode
        requestBody:
          description: Код подтверждения
@@ -279,10 +279,10 @@ paths:
      put:
        tags:
          - Account
-       summary: Обновление информации о пользователе
+       summary: Обновление информации об аккаунте
        operationId: updateUser
        requestBody:
-         description: Информация о пользователе
+         description: Информация об аккаунте пользователя
          content:
            application/json:
              schema:
@@ -303,11 +303,11 @@ paths:
      get:
        tags:
          - Account
-       summary: Получение информации о пользователе
+       summary: Получение информации об аккаунте пользователя
        operationId: getUser
        responses:
          "200":
-           description: Информация о пользователе
+           description: Информация об аккаунте пользователя
            content:
              application/json:
                schema:

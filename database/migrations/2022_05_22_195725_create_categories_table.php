@@ -16,7 +16,8 @@ class CreateCategoriesTable extends Migration
         Schema::disableForeignKeyConstraints();
         Schema::create('categories', function (Blueprint $table) {
             $table->id();
-            $table->string('title', 255);
+            $table->string('title', 255)->nullable();
+            $table->string('code', 8);
             $table->unsignedBigInteger('parent_id')->nullable();
             $table->timestamps();
         });

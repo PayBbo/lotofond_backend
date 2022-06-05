@@ -15,16 +15,21 @@ class Auction extends Model
      * @var array
      */
     protected $fillable = [
-        'number',
+        'id_efrsb',
+        'id_external',
+        'trade_id',
         'publish_date',
-        'debitor_id',
-        'arbitration_manager_id',
-        'organizer_id',
-        'trading_platform_id',
+        'debtor_id',
+        'arbitr_manager_id',
+        'company_trade_organizer_id',
+        'trade_place_id',
         'auction_type_id',
-        'event_period',
-        'application_period',
         'result_date',
+        'event_start_date',
+        'event_end_date',
+        'application_start_date',
+        'application_end_date',
+        'price_form'
     ];
 
     /**
@@ -34,35 +39,37 @@ class Auction extends Model
      */
     protected $casts = [
         'id' => 'integer',
-        'publish_date' => 'timestamp',
-        'debitor_id' => 'integer',
-        'arbitration_manager_id' => 'integer',
-        'organizer_id' => 'integer',
-        'trading_platform_id' => 'integer',
+        'publish_date' => 'datetime',
+        'debtor_id' => 'integer',
+        'arbitr_manager_id' => 'integer',
+        'company_trade_organizer_id' => 'integer',
+        'trade_place_id' => 'integer',
         'auction_type_id' => 'integer',
-        'event_period' => 'array',
-        'application_period' => 'array',
-        'result_date' => 'timestamp',
+        'event_start_date'=>'datetime',
+        'event_end_date'=>'datetime',
+        'application_start_date'=>'datetime',
+        'application_end_date'=>'datetime',
+        'result_date' =>'datetime'
     ];
 
-    public function debitor()
+    public function debtor()
     {
-        return $this->belongsTo(Bidder::class, 'debitor_id');
+        return $this->belongsTo(Debtor::class, 'debtor_id');
     }
 
-    public function arbitrationManager()
+    public function arbitrManager()
     {
-        return $this->belongsTo(Bidder::class, 'arbitration_manager_id');
+        return $this->belongsTo(ArbitrManager::class, 'arbitr_manager_id');
     }
 
-    public function tradingPlatform()
+    public function tradePlace()
     {
-        return $this->belongsTo(Bidder::class, 'trading_platform_id');
+        return $this->belongsTo(TradePlace::class, 'trade_place_id');
     }
 
-    public function organizer()
+    public function companyTradeOrganizer()
     {
-        return $this->belongsTo(Bidder::class, 'organizer_id');
+        return $this->belongsTo(CompanyTradeOrganizer::class, 'company_trade_organizer_id');
     }
 
     public function auctionType()
@@ -72,6 +79,6 @@ class Auction extends Model
 
     public function lots()
     {
-        return $this->belongsToMany(Lot::class);
+        return $this->hasMany(Lot::class);
     }
 }

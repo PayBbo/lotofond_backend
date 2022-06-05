@@ -16,17 +16,18 @@ class Lot extends Model
      */
     protected $fillable = [
         'number',
-        'address',
         'images',
         'price',
         'auction_step',
+        'is_step_rub',
         'deposit',
+        'is_deposit_rub',
         'description',
         'is_ecp',
-        'title',
         'files',
-        'category_id',
         'status_id',
+        'price_state',
+        'auction_id'
     ];
 
     /**
@@ -38,11 +39,13 @@ class Lot extends Model
         'id' => 'integer',
         'images' => 'array',
         'price' => 'integer',
+        'auction_id' => 'integer',
         'auction_step' => 'integer',
         'deposit' => 'integer',
         'is_ecp' => 'boolean',
+        'is_auction_step_rub' => 'boolean',
+        'is_deposit_rub' => 'boolean',
         'files' => 'array',
-        'category_id' => 'integer',
         'status_id' => 'integer',
     ];
 
@@ -51,9 +54,9 @@ class Lot extends Model
         return $this->hasMany(Application::class);
     }
 
-    public function auctions()
+    public function auction()
     {
-        return $this->belongsToMany(Auction::class);
+        return $this->belongsTo(Auction::class);
     }
 
     public function monitorings()
@@ -71,9 +74,9 @@ class Lot extends Model
         return $this->belongsToMany(Mark::class);
     }
 
-    public function category()
+    public function categories()
     {
-        return $this->belongsTo(Category::class);
+        return $this->belongsToMany(Category::class, 'lot_categories');
     }
 
     public function status()
@@ -91,6 +94,12 @@ class Lot extends Model
         return $this->belongsToMany(User::class,'seen_lots');
     }
 
+    public function hiddenLots()
+    {
+        return $this->belongsToMany(User::class,'hidden_lots');
+    }
+
+
     public function lotParams()
     {
         return $this->hasMany(LotParam::class);
@@ -99,5 +108,10 @@ class Lot extends Model
     public function notifications()
     {
         return $this->hasMany(Notification::class);
+    }
+
+    public function tradeMessages()
+    {
+        return $this->hasMany(TradeMessage::class);
     }
 }

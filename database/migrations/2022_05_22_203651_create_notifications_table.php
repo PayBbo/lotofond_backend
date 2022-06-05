@@ -16,7 +16,7 @@ class CreateNotificationsTable extends Migration
         Schema::disableForeignKeyConstraints();
         Schema::create('notifications', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('user_id')->nullable();
             $table->unsignedBigInteger('type_id');
             $table->unsignedBigInteger('lot_id')->nullable();
             $table->unsignedBigInteger('organizer_id')->nullable();
@@ -29,6 +29,7 @@ class CreateNotificationsTable extends Migration
                 ->on('notification_types')->cascadeOnDelete();
             $table->foreign('organizer_id')->references('id')
                 ->on('bidders')->nullOnDelete();
+            $table->dateTime('date')->nullable();
             $table->timestamps();
         });
         Schema::enableForeignKeyConstraints();

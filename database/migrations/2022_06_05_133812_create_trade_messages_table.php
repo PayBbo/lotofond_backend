@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateEventTypesTable extends Migration
+class CreateTradeMessagesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,9 +14,14 @@ class CreateEventTypesTable extends Migration
     public function up()
     {
         Schema::disableForeignKeyConstraints();
-        Schema::create('event_types', function (Blueprint $table) {
+        Schema::create('trade_messages', function (Blueprint $table) {
             $table->id();
-            $table->string('title', 255);
+            $table->unsignedBigInteger('lot_id');
+            $table->string('number', 255);
+            $table->string('value', 255);
+            $table->foreign('lot_id')->references('id')
+                ->on('lots')->cascadeOnDelete();
+            $table->dateTime('date')->nullable();
             $table->timestamps();
         });
         Schema::enableForeignKeyConstraints();
@@ -29,6 +34,6 @@ class CreateEventTypesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('event_types');
+        Schema::dropIfExists('trade_messages');
     }
 }

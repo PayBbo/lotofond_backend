@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateBidderCategoriesTable extends Migration
+class CreateCompanyTradeOrganizersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,9 +14,13 @@ class CreateBidderCategoriesTable extends Migration
     public function up()
     {
         Schema::disableForeignKeyConstraints();
-        Schema::create('bidder_categories', function (Blueprint $table) {
+        Schema::create('company_trade_organizers', function (Blueprint $table) {
             $table->id();
-            $table->string('title', 255);
+            $table->longText('name');
+            $table->mediumText('short_name')->nullable();
+            $table->string('inn', 12);
+            $table->string('ogrn', 13)->nullable();
+            $table->dateTime('date_of_last_modifier')->nullable();
             $table->timestamps();
         });
         Schema::enableForeignKeyConstraints();
@@ -29,6 +33,6 @@ class CreateBidderCategoriesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('bidder_categories');
+        Schema::dropIfExists('company_trade_organizers');
     }
 }

@@ -4,7 +4,7 @@ namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
-use App\Models\BidderCategory;
+use App\Models\DebtorCategory;
 
 class BidderCategoryFactory extends Factory
 {
@@ -13,7 +13,7 @@ class BidderCategoryFactory extends Factory
      *
      * @var string
      */
-    protected $model = BidderCategory::class;
+    protected $model = DebtorCategory::class;
 
     /**
      * Define the model's default state.

@@ -5,18 +5,17 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class AuctionType extends Model
+class LotCategory extends Model
 {
     use HasFactory;
-
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'title',
-        'description'
+        'category_id',
+        'lot_id',
     ];
 
     /**
@@ -26,10 +25,7 @@ class AuctionType extends Model
      */
     protected $casts = [
         'id' => 'integer',
+        'category_id' => 'integer',
+        'lot_id' => 'integer',
     ];
-
-    public function auctions()
-    {
-        return $this->hasMany(Auction::class);
-    }
 }

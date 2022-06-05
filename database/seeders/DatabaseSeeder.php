@@ -16,13 +16,12 @@ class DatabaseSeeder extends Seeder
     {
         $this->call([
             AuctionTypeSeeder::class,
-            BidderCategorySeeder::class,
-            BidderTypeSeeder::class,
-            EventTypeSeeder::class,
+            DebtorCategorySeeder::class,
             NotificationTypeGroupSeeder::class,
             NotificationTypeSeeder::class,
             RegistryNotificationTypeSeeder::class,
-            StatusSeeder::class
+            StatusSeeder::class,
+            CategorySeeder::class
         ]);
     }
 }

@@ -16,6 +16,8 @@ class Status extends Model
      */
     protected $fillable = [
         'title',
+        'code',
+        'value'
     ];
 
     /**

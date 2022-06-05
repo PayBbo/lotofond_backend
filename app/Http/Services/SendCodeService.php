@@ -11,11 +11,11 @@ class SendCodeService
     public function sendEmailCode($toEmail, $code)
     {
         try {
-            $html = "Здравствуйте, подтвердите Ваш адрес электронной почты для приложения TBankrot с помощью кода проверки из данного сообщения
+            $html = "Здравствуйте, подтвердите Ваш адрес электронной почты для приложения BankrotMP с помощью кода проверки из данного сообщения
             <strong> $code </strong>
-            <p>Если Вы не запрашивали код подтверждения для выполнения операции в TBankrot, проигнорируйте данное сообщение.</p>";
+            <p>Если Вы не запрашивали код подтверждения для выполнения операции в BankrotMP, проигнорируйте данное сообщение.</p>";
             Mail::send([], [], function ($message) use ($toEmail, $html) {
-                $message->from('bankr0t.t@yandex.ru', 'TBankrot');
+                $message->from('bankr0t.t@yandex.ru', 'BankrotMP');
                 $message->to($toEmail);
                 $message->subject('Подтверждение электронной почты');
                 $message->setBody($html, 'text/html');

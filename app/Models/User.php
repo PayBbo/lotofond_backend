@@ -77,6 +77,11 @@ class User extends Authenticatable
         return $this->belongsToMany(Lot::class,'seen_lots');
     }
 
+    public function hiddenLots()
+    {
+        return $this->belongsToMany(Lot::class,'hidden_lots');
+    }
+
     public function marks()
     {
         return $this->hasMany(Mark::class);

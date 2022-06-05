@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class RegistryNotification extends Model
+class DebtorCategory extends Model
 {
     use HasFactory;
 
@@ -15,10 +15,8 @@ class RegistryNotification extends Model
      * @var array
      */
     protected $fillable = [
-        'description',
-        'files',
-        'debtor_id',
-        'type_id',
+        'title',
+        'code'
     ];
 
     /**
@@ -28,18 +26,10 @@ class RegistryNotification extends Model
      */
     protected $casts = [
         'id' => 'integer',
-        'files' => 'array',
-        'debtor_id' => 'integer',
-        'type_id' => 'integer',
     ];
 
-    public function debtor()
+    public function debtors()
     {
-        return $this->belongsTo(Debtor::class, 'debtor_id');
-    }
-
-    public function registryNotificationType()
-    {
-        return $this->belongsTo(RegistryNotificationType::class, 'type_id');
+        return $this->hasMany(Debtor::class);
     }
 }

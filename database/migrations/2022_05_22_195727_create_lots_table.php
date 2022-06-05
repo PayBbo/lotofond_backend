@@ -16,22 +16,23 @@ class CreateLotsTable extends Migration
         Schema::disableForeignKeyConstraints();
         Schema::create('lots', function (Blueprint $table) {
             $table->id();
-            $table->integer('number')->unique();
-            $table->string('address', 255);
+            $table->bigInteger('number');
             $table->json('images')->nullable();
             $table->bigInteger('price');
-            $table->bigInteger('auction_step');
-            $table->bigInteger('deposit');
-            $table->longText('description');
+            $table->bigInteger('auction_step')->nullable();
+            $table->boolean('is_step_rub')->default(true);
+            $table->boolean('is_deposit_rub')->default(true);
+            $table->bigInteger('deposit')->nullable();
+            $table->longText('description')->nullable();
             $table->boolean('is_ecp')->nullable();
-            $table->string('title', 255);
             $table->json('files')->nullable();
-            $table->unsignedBigInteger('category_id');
+            $table->enum('price_state', ['up', 'low', 'hold'])->default('hold');
             $table->unsignedBigInteger('status_id');
-            $table->foreign('category_id')->references('id')
-                ->on('categories')->cascadeOnDelete();
             $table->foreign('status_id')->references('id')
                 ->on('statuses')->cascadeOnDelete();
+            $table->unsignedBigInteger('auction_id');
+            $table->foreign('auction_id')->references('id')
+                ->on('auctions')->cascadeOnDelete();
             $table->timestamps();
         });
         Schema::enableForeignKeyConstraints();

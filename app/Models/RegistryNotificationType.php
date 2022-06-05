@@ -16,6 +16,7 @@ class RegistryNotificationType extends Model
      */
     protected $fillable = [
         'title',
+        'code',
         'notification_type_group_id',
     ];
 

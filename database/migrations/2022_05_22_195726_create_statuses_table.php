@@ -17,6 +17,8 @@ class CreateStatusesTable extends Migration
         Schema::create('statuses', function (Blueprint $table) {
             $table->id();
             $table->string('title', 255);
+            $table->string('code', 255);
+            $table->string('value', 255);
             $table->timestamps();
         });
         Schema::enableForeignKeyConstraints();

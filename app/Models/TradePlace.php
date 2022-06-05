@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class AuctionType extends Model
+class TradePlace extends Model
 {
     use HasFactory;
 
@@ -15,8 +15,10 @@ class AuctionType extends Model
      * @var array
      */
     protected $fillable = [
-        'title',
-        'description'
+        'name',
+        'owner_name',
+        'inn',
+        'site'
     ];
 
     /**
@@ -25,7 +27,7 @@ class AuctionType extends Model
      * @var array
      */
     protected $casts = [
-        'id' => 'integer',
+        'id' => 'integer'
     ];
 
     public function auctions()

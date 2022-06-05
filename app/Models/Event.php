@@ -18,7 +18,7 @@ class Event extends Model
         'date',
         'time',
         'title',
-        'event_type_id',
+        'event_type',
         'user_id',
     ];
 
@@ -30,7 +30,6 @@ class Event extends Model
     protected $casts = [
         'id' => 'integer',
         'date' => 'date',
-        'event_type_id' => 'integer',
         'user_id' => 'integer',
     ];
 
@@ -39,8 +38,4 @@ class Event extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function eventType()
-    {
-        return $this->belongsTo(EventType::class);
-    }
 }

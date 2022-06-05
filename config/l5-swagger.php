@@ -5,7 +5,7 @@ return [
     'documentations' => [
         'default' => [
             'api' => [
-                'title' => 'TBankrot API',
+                'title' => 'BankrotMP API',
             ],
 
             'routes' => [

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateAuctionLotTable extends Migration
+class CreateDebtorCategoriesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,9 +14,11 @@ class CreateAuctionLotTable extends Migration
     public function up()
     {
         Schema::disableForeignKeyConstraints();
-        Schema::create('auction_lot', function (Blueprint $table) {
-            $table->foreignId('auction_id');
-            $table->foreignId('lot_id');
+        Schema::create('debtor_categories', function (Blueprint $table) {
+            $table->id();
+            $table->string('title', 255);
+            $table->string('code', 255);
+            $table->timestamps();
         });
         Schema::enableForeignKeyConstraints();
     }
@@ -28,6 +30,6 @@ class CreateAuctionLotTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('auction_lot');
+        Schema::dropIfExists('bidder_categories');
     }
 }

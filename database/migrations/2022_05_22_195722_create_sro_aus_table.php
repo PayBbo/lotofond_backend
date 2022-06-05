@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateEventsTable extends Migration
+class CreateSroAusTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,15 +14,14 @@ class CreateEventsTable extends Migration
     public function up()
     {
         Schema::disableForeignKeyConstraints();
-        Schema::create('events', function (Blueprint $table) {
+        Schema::create('sro_aus', function (Blueprint $table) {
             $table->id();
-            $table->date('date');
-            $table->time('time');
-            $table->string('title', 255);
-            $table->enum('event_type', ['task', 'event', 'reminder']);
-            $table->unsignedBigInteger('user_id');
-            $table->foreign('user_id')->references('id')
-                ->on('users')->cascadeOnDelete();
+            $table->BigInteger('sro_id')->nullable();
+            $table->mediumText('name');
+            $table->string('reg_num', 30)->nullable();
+            $table->string('inn', 10)->nullable();
+            $table->string('phone', 50)->nullable();
+            $table->dateTime('date_of_last_modifier')->nullable();
             $table->timestamps();
         });
         Schema::enableForeignKeyConstraints();
@@ -35,6 +34,6 @@ class CreateEventsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('events');
+        Schema::dropIfExists('sro_aus');
     }
 }

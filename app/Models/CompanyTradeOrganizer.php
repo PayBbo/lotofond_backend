@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class BidderType extends Model
+class CompanyTradeOrganizer extends Model
 {
     use HasFactory;
 
@@ -15,7 +15,11 @@ class BidderType extends Model
      * @var array
      */
     protected $fillable = [
-        'title',
+        'name',
+        'short_name',
+        'inn',
+        'ogrn',
+        'date_of_last_modifier'
     ];
 
     /**
@@ -25,10 +29,12 @@ class BidderType extends Model
      */
     protected $casts = [
         'id' => 'integer',
+        'date_of_last_modifier' => 'datetime'
     ];
 
-    public function bidders()
+    public function auctions()
     {
-        return $this->hasMany(Bidder::class);
+        return $this->hasMany(Auction::class);
     }
+
 }

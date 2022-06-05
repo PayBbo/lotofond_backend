@@ -16,26 +16,31 @@ class CreateAuctionsTable extends Migration
         Schema::disableForeignKeyConstraints();
         Schema::create('auctions', function (Blueprint $table) {
             $table->id();
-            $table->integer('number')->unique();
-            $table->timestamp('publish_date');
-            $table->unsignedBigInteger('debitor_id');
-            $table->unsignedBigInteger('arbitration_manager_id')->nullable();
-            $table->unsignedBigInteger('organizer_id')->nullable();
-            $table->unsignedBigInteger('trading_platform_id')->nullable();
+            $table->integer('id_efrsb')->unique();
+            $table->integer('id_external')->unique();
+            $table->string('trade_id', 255);
+            $table->unsignedBigInteger('debtor_id');
+            $table->unsignedBigInteger('arbitr_manager_id')->nullable();
+            $table->unsignedBigInteger('company_trade_organizer_id')->nullable();
+            $table->unsignedBigInteger('trade_place_id')->nullable();
             $table->unsignedBigInteger('auction_type_id');
-            $table->json('event_period')->nullable();
-            $table->json('application_period')->nullable();
-            $table->timestamp('result_date')->nullable();
-            $table->foreign('debitor_id')->references('id')
-                ->on('bidders')->cascadeOnDelete();
-            $table->foreign('arbitration_manager_id')->references('id')
-                ->on('bidders')->nullOnDelete();
-            $table->foreign('organizer_id')->references('id')
-                ->on('bidders')->nullOnDelete();
-            $table->foreign('trading_platform_id')->references('id')
-                ->on('bidders')->nullOnDelete();
+            $table->dateTime('publish_date');
+            $table->dateTime('event_start_date')->nullable();
+            $table->dateTime('event_end_date')->nullable();
+            $table->dateTime('application_start_date');
+            $table->dateTime('application_end_date');
+            $table->dateTime('result_date')->nullable();
+            $table->foreign('debtor_id')->references('id')
+                ->on('debtors')->cascadeOnDelete();
+            $table->foreign('arbitr_manager_id')->references('id')
+                ->on('arbitr_managers')->nullOnDelete();
+            $table->foreign('company_trade_organizer_id')->references('id')
+                ->on('company_trade_organizers')->nullOnDelete();
+            $table->foreign('trade_place_id')->references('id')
+                ->on('trade_places')->nullOnDelete();
             $table->foreign('auction_type_id')->references('id')
                 ->on('auction_types')->cascadeOnDelete();
+            $table->enum('price_form', ['open', 'close']);
             $table->timestamps();
         });
         Schema::enableForeignKeyConstraints();

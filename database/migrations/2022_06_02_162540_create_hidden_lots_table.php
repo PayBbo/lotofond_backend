@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateEventsTable extends Migration
+class CreateHiddenLotsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,13 +14,12 @@ class CreateEventsTable extends Migration
     public function up()
     {
         Schema::disableForeignKeyConstraints();
-        Schema::create('events', function (Blueprint $table) {
+        Schema::create('hidden_lots', function (Blueprint $table) {
             $table->id();
-            $table->date('date');
-            $table->time('time');
-            $table->string('title', 255);
-            $table->enum('event_type', ['task', 'event', 'reminder']);
             $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('lot_id');
+            $table->foreign('lot_id')->references('id')
+                ->on('lots')->cascadeOnDelete();
             $table->foreign('user_id')->references('id')
                 ->on('users')->cascadeOnDelete();
             $table->timestamps();
@@ -35,6 +34,6 @@ class CreateEventsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('events');
+        Schema::dropIfExists('hidden_lots');
     }
 }

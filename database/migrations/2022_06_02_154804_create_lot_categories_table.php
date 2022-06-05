@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateBidderTypesTable extends Migration
+class CreateLotCategoriesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,9 +14,14 @@ class CreateBidderTypesTable extends Migration
     public function up()
     {
         Schema::disableForeignKeyConstraints();
-        Schema::create('bidder_types', function (Blueprint $table) {
+        Schema::create('lot_categories', function (Blueprint $table) {
             $table->id();
-            $table->string('title', 255);
+            $table->unsignedBigInteger('category_id');
+            $table->unsignedBigInteger('lot_id');
+            $table->foreign('lot_id')->references('id')
+                ->on('lots')->cascadeOnDelete();
+            $table->foreign('category_id')->references('id')
+                ->on('categories')->cascadeOnDelete();
             $table->timestamps();
         });
         Schema::enableForeignKeyConstraints();
@@ -29,6 +34,6 @@ class CreateBidderTypesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('bidder_types');
+        Schema::dropIfExists('lot_categories');
     }
 }

@@ -7,7 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class Notification extends Model
 {
-    use HasFactory;
 
     use HasFactory;
 
@@ -22,6 +21,7 @@ class Notification extends Model
         'lot_id',
         'type_id',
         'value',
+        'date'
     ];
 
     /**
@@ -34,7 +34,8 @@ class Notification extends Model
         'user_id' => 'integer',
         'organizer_id' => 'integer',
         'type_id' => 'integer',
-        'lot_id' => 'integer'
+        'lot_id' => 'integer',
+        'date'=>'datetime'
 
     ];
 

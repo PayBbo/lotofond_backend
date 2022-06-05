@@ -17,6 +17,7 @@ class Category extends Model
     protected $fillable = [
         'title',
         'parent_id',
+        'code'
     ];
 
     /**
@@ -29,8 +30,8 @@ class Category extends Model
         'parent_id' => 'integer',
     ];
 
-    public function lots()
+    public function lotCategories()
     {
-        return $this->hasMany(Lot::class);
+        return $this->belongsToMany(Lot::class,'lot_categories');
     }
 }
