@@ -1,0 +1,88 @@
+.bkt-button {
+    border-radius: 15px;
+    padding: 15px 30px;
+    //padding: 1rem 1.5rem;
+    color: $white;
+    background: transparent;
+    border: none;
+    line-height: 14px;
+    font-size: 14px;
+    font-weight: 700;
+    text-align: center;
+    text-decoration: none;
+    vertical-align: middle;
+
+    &.primary {
+        background: $primary-default;
+        &-outline {
+            outline: 2px solid $primary-default;
+            outline-offset: -2px;
+        }
+        &-lighter {
+            background: $primary-lighter;
+            color: $primary-default;
+        }
+    }
+    &.red {
+        background: $red-default;
+        &-outline {
+            outline: 2px solid $red-default;
+            color: $main-default;
+            outline-offset: -2px;
+        }
+    }
+    &.green {
+        background: $green-default;
+    }
+    &.blue {
+        background: $blue-default;
+        &-lighter {
+            background: $blue-lighter;
+            color: $blue-default;
+        }
+    }
+    &.main {
+        background: $main-default;
+        &-lighter {
+            background: $main-light;
+            color: $primary-default;
+        }
+    }
+    &-ellipse {
+        width: 40px !important;
+        height: 40px !important;
+        border-radius: 100%;
+        border: none;
+        padding: 12px;
+        background: transparent;
+        color: $white;
+        position: relative;
+        line-height: 0;
+        vertical-align: middle;
+        margin: 11px;
+        &.main {
+            background: $main-default;
+            &-light {
+                background: $main-light;
+            }
+        }
+        & .info {
+            position: absolute;
+            background: $green-default;
+            top: 2px;
+            right: 2px;
+            width: 7px;
+            height: 7px;
+            border-radius: 100%;
+        }
+        &__icon {
+            max-height: 22px;
+            max-width: 22px;
+        }
+    }
+
+    &__icon {
+        max-height: 22px;
+        max-width: 22px;
+    }
+}

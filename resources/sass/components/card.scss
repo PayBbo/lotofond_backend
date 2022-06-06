@@ -1,0 +1,130 @@
+.bkt-card {
+    background: $white;
+    border-radius: 25px;
+    padding: 40px;
+    //margin: 15px;
+    flex-grow: 1;
+    display: flex;
+    &__title {
+        //font-size: $font-size-22;
+        color: $main-default;
+        font-weight: 700;
+    }
+    &__subtitle {
+        font-size: $font-size-12;
+        font-weight: 500;
+        color: $neutral-dark;
+    }
+    &__text {
+        font-size: $font-size-14;
+        color: $main-default;
+    }
+    &__list {
+        padding-top: 18px;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 30px;
+    }
+    &__category {
+        width: 44px;
+        height: 100%;
+        border-radius: 15px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        &-icon {
+            max-width: 22px;
+            max-height: 22px;
+        }
+    }
+
+    &__icon {
+        max-width: 22px;
+        max-height: 22px;
+    }
+
+    &__image {
+        border-radius: 15px;
+        //max-height: 210px;
+        //max-width: 321px;
+        width: 100%;
+        height: 100%;
+        background: $neutral-default;
+        object-fit: cover;
+    }
+
+    &.outline {
+        border: 1px solid $neutral-light;
+        padding: 17px 30px;
+        margin: 0;
+        border-radius: 15px;
+        flex-grow: 1;
+    }
+    &.vertical {
+        padding: 16px;
+        align-items: center;
+        justify-content: space-between;
+        flex-flow: column;
+        //width: 100%;
+    }
+
+    &__heading {
+        padding: 0 40px;
+        position: absolute;
+        top:-35px;
+        border-top-left-radius: 25px;
+        border-top-right-radius: 25px;
+        left: 0;
+    }
+    &__head {
+        margin-bottom: 20px !important;
+        & .bkt-card__title {
+            margin-bottom: 0;
+        }
+    }
+
+    &__feature {
+        margin-top: 21px;
+        & .bkt-card__subtitle {
+            margin: 0;
+        }
+        & .bkt-card__title {
+            margin: 0;
+        }
+        & .bkt-card__text {
+            margin: 0;
+        }
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .bkt-card {
+        border-radius: 20px;
+        padding: 25px;
+        //margin-bottom: 10px;
+        //margin-right: 0px;
+        &.outline {
+            padding: 12px 20px;
+        }
+        &__heading {
+            border-top-left-radius: 18px;
+            border-top-right-radius: 18px;
+            background: $primary-default;
+            color: white;
+            padding: 11px 24px;
+            font-size: 8px;
+            & h5 {
+                font-size: 10px;
+                margin: 0;
+            }
+            & .bkt-card__icon svg path{
+                fill: white;
+            }
+        }
+        &__list {
+            gap: 10px;
+        }
+    }
+}

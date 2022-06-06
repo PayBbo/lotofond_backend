@@ -13,7 +13,7 @@
         "laravel/passport": "^10.4",
         "laravel/sanctum": "^2.11",
         "laravel/tinker": "^2.5",
-      "ext-json": "*"
+        "ext-json": "*"
     },
     "require-dev": {
         "facade/ignition": "^2.5",
