@@ -1,0 +1,77 @@
+.bkt-navbar {
+    min-height: 91px;
+    background: $main-dark;
+    border-radius: 0;
+    padding: 20px;
+    //padding: 20px 215px;
+    display: flex;
+    flex-flow: row;
+    align-items: center;
+    justify-content: space-evenly;
+    //flex-wrap: wrap;
+    &.white {
+        min-height: 70px;
+        padding: 15px;
+        //padding: 15px 215px;
+        background: $white;
+        & .bkt-navbar__nav-link {
+            display: flex;
+            font-size: $font-size-14;
+            color: $main-default;
+        }
+
+        & .bkt-button {
+            padding: 13px 30px;
+            line-height: 14px;
+            margin: 5px;
+        }
+    }
+
+    &__wrapper {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+    }
+
+    &__logo {
+
+    }
+
+    &__nav {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        padding: 0;
+        margin: 0;
+        list-style: none;
+        flex-grow: 3;
+
+        &-item {
+
+        }
+        &-icon {
+            margin-right: 9px;
+        }
+        &-link {
+            display: flex;
+            align-items: center;
+            font-size: $font-size-12;
+            color: $white;
+            text-decoration: none;
+            padding-right: 0.5rem;
+            padding-left: 0.5rem;
+            line-height: 14px;
+            text-align: center;
+        }
+    }
+
+    & .bkt-button {
+        margin: 5px;
+        padding: 19px 30px;
+        flex-grow: 1;
+    }
+
+}
+
+
