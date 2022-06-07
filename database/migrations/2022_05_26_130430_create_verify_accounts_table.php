@@ -15,12 +15,12 @@ class CreateVerifyAccountsTable extends Migration
     {
         Schema::create('verify_accounts', function (Blueprint $table) {
             $table->id();
-            $table->string('value')->unique();
+            $table->string('value')->unique()->nullable();
             $table->string('token');
             $table->string('code');
             $table->string('name');
             $table->string('surname');
-            $table->string('phone');
+            $table->string('phone')->unique()->nullable();
             $table->timestamps();
         });
     }

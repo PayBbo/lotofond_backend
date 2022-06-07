@@ -17,31 +17,22 @@ paths:
         content:
           application/json:
             schema:
-              required:
-                - name
-                - surname
-                - phone
-                - email
-                - password
-              properties:
-                name:
-                  type: string
-                  example: Ivan
-                surname:
-                  type: string
-                  example: Ivanov
-                email:
-                  type: string
-                  format: email
-                  example: user1@mail.com
-                phone:
-                  type: string
-                  example: '79225551234'
-                password:
-                  type: string
-                  format: password
-                  example: qwerty12
-              type: object
+              $ref: '#/components/schemas/Register'
+            examples:
+              email:
+                value:
+                  grantType: email
+                  email: test@gmail.com
+                  password: ne6Jo$zi
+                  name: Ivan
+                  surname: Ivanov
+              phone:
+                value:
+                  grantType: phone
+                  phoneNumber: '74951239999'
+                  password: LRn&z!4Y
+                  name: Ivan
+                  surname: Ivanov
       responses:
         "422":
           description: 'Wrong credentials response'
@@ -50,9 +41,9 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
         "200":
-          description: 'Successful response, verification code sent to user email'
+          description: 'Successful response, verification code sent to user'
         "550":
-          description: 'Message can''t be sent to user email'
+          description: 'Message can''t be sent to user'
           content:
             application/json:
               schema:
@@ -61,21 +52,23 @@ paths:
      post:
        tags:
          - Registration
-       summary: 'Запрос повторной отправки кода подтверждения электронной почты'
+       summary: 'Запрос повторной отправки кода подтверждения аккаунта'
        operationId: requestRegistrationCode
        requestBody:
          description: 'User email'
          content:
            application/json:
              schema:
-               required:
-                 - email
-               properties:
-                email:
-                  type: string
-                  format: email
-                  example: user1@mail.com
-               type: object
+               $ref: '#/components/schemas/ResetPasswordCodeRequest'
+             examples:
+               email:
+                 value:
+                   grantType: email
+                   email: test@gmail.com
+               phone:
+                 value:
+                   grantType: phone
+                   phoneNumber: '74951239999'
        responses:
          "422":
            description: 'Wrong email response'
@@ -84,9 +77,9 @@ paths:
                schema:
                  $ref: '#/components/schemas/Error'
          "200":
-           description: 'Successful response, verification code sent to user email'
+           description: 'Successful response, verification code sent to user'
          "550":
-           description: 'Message can''t be sent to user email'
+           description: 'Message can''t be sent to user'
            content:
              application/json:
                schema:
@@ -103,19 +96,18 @@ paths:
          content:
            application/json:
              schema:
-               required:
-                 - email
-                 - code
-               properties:
-                  email:
-                    type: string
-                    format: email
-                    example: user1@mail.com
-                  code:
-                    type: string
-                    example: 123456
-               type: object
-         required: true
+               $ref: '#/components/schemas/CodeRequest'
+             examples:
+               email:
+                 value:
+                   grantType: email
+                   email: test@gmail.com
+                   code: 111111
+               phone:
+                 value:
+                   grantType: phone
+                   phoneNumber: '74951239999'
+                   code: 111111
        responses:
          "200":
            description: Данные аккаунта
@@ -337,8 +329,105 @@ paths:
                  $ref: '#/components/schemas/Error'
        security:
          - bearerAuth: []
+   /trades:
+     get:
+       parameters:
+         - in: query
+           name: page
+           schema:
+             type: integer
+           required: true
+           description: Номер страницы для серверной пагинации
+       tags:
+         - Trades
+       summary: Получение информации о торгах
+       operationId: getTrades
+       responses:
+         "200":
+           description: Информация о 20 последних торгах
+           content:
+             application/json:
+               schema:
+                 $ref: '#/components/schemas/Trade'
+         default:
+           description: unexpected error
+           content:
+             application/json:
+               schema:
+                 $ref: '#/components/schemas/Error'
+       security:
+         - bearerAuth: []
+   /trades/lot/action:
+     put:
+       tags:
+         - Trades
+       summary: Добавление/удаление лота в/из "просмотрено", "скрыто", "закреплено"
+       operationId: actionWithLot
+       requestBody:
+         description: 'Pass user credentials'
+         required: true
+         content:
+           application/json:
+             schema:
+               $ref: '#/components/schemas/ActionWithLot'
+             examples:
+              Add/delete to/from seen:
+                 value:
+                   type: seen
+                   lot_id: 1
+              Add/delete to/from fixed:
+                value:
+                  type: fixed
+                  lot_id: 1
+              Add/delete to/from hidden:
+                value:
+                  type: hidden
+                  lot_id: 1
+       responses:
+         "200":
+           description: Лот успешно добавлен/удален в/из "просмотрено", "скрыто", "закреплено"
+         default:
+           description: unexpected error
+           content:
+             application/json:
+               schema:
+                 $ref: '#/components/schemas/Error'
+       security:
+         - bearerAuth: []
+
 components:
   schemas:
+    Register:
+      required:
+        - grantType
+        - surname
+        - name
+      type: object
+      properties:
+        grantType:
+          type: string
+          description: Тип данных для регистрации
+          enum:
+            - email
+            - phone
+        phone:
+          type: string
+          description: Номер телефона пользователя
+          example: '79225551234'
+        email:
+          type: string
+          description: Email пользователя
+          example: 'user@user.user1'
+        password:
+          type: string
+          description: Пароль пользователя
+          example: 'qwerty12'
+        name:
+          type: string
+          example: Ivan
+        surname:
+          type: string
+          example: Ivanov
     Auth:
       required:
         - grantType
@@ -445,6 +534,67 @@ components:
         phone:
           type: string
           example: '79225551234'
+    Trade:
+      type: object
+      properties:
+        auctionId:
+          type: integer
+          description: айди торга
+        lotId:
+          type: integer
+          description: айди лота
+        isWatched:
+          type: boolean
+          description: Просмотрено/не просмотрено
+        category:
+          type: string
+          description: Тег с классификатором
+        isPinned:
+          type: boolean
+          description:  закреплен/не закреплен
+        inFavourite:
+          type: boolean
+          description: в избранном/нет
+        isHide:
+          type: boolean
+          description: скрыт/не скрыт
+        label:
+          type: string
+          description: Заголовок/название (часть обрезанного описания)
+        date:
+          type: string
+          description: дата/время занесения на федресурс (объявление о торгах)
+        state:
+          type: string
+          description: статус лота
+        tradingNumber:
+          type: string
+          description: номер торгов
+        lotNumber:
+          type: string
+          description: номер лота
+        photos:
+          type: array
+          description: массив фоток
+        geoPosition:
+          type: string
+          description: геометка
+        numberOfLots:
+          type: integer
+          description: количество лотов в торгах
+        price:
+          type: integer
+          description: цена
+        priceState:
+          type: string
+          description: состояние цены (енам рост равно убыль)
+        tags:
+          type: array
+          description: список меток
+        inMonitoring:
+          type: boolean
+          description: в мониторинг/нет
+
     Error:
       required:
         - code
@@ -459,6 +609,21 @@ components:
           type: string
         detail:
           type: string
+    ActionWithLot:
+      required:
+        - lot_id
+        - type
+      type: object
+      properties:
+        lot_id:
+          type: integer
+          description: Айдишник лота, который нужно добавить/удалить в/из "просмотрено", "скрыто", "закреплено"
+        type:
+          type: string
+          enum:
+            - seen
+            - hidden
+            - fixed
   securitySchemes:
     bearerAuth:
       type: http

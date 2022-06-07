@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\Phone;
 use Illuminate\Foundation\Http\FormRequest;
 
 class VerifyRegistrationCodeRequest extends FormRequest
@@ -24,7 +25,9 @@ class VerifyRegistrationCodeRequest extends FormRequest
     public function rules()
     {
         return [
-            'email'=>['required', 'email', 'exists:verify_accounts,value'],
+            'grantType' => ['required', 'string'],
+            'email'=>['sometimes','required', 'email', 'exists:verify_accounts,value'],
+            'phone'=>['sometimes','required', new Phone, 'exists:verify_accounts,phone'],
             'code'=>['required', 'string', 'max:6', 'min:6']
         ];
     }

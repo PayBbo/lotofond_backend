@@ -4,7 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class AccessTokenResource extends JsonResource
+class LotResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -14,10 +14,6 @@ class AccessTokenResource extends JsonResource
      */
     public function toArray($request)
     {
-       return [
-           'accessToken' => $this->access_token,
-           'expiresIn' => $this->expires_in,
-           'refreshToken' => $this->refresh_token
-       ];
+        return parent::toArray($request);
     }
 }

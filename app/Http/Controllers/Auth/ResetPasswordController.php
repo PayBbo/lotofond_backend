@@ -30,7 +30,7 @@ class ResetPasswordController extends Controller
             case 'phone':
             {
                 $username = $request->phone;
-                //$sendCode->sendPhoneCode($request->email, $code);
+                $sendCode->sendPhoneCode($request->email, $code);
                 break;
             }
         }
@@ -92,8 +92,8 @@ class ResetPasswordController extends Controller
         $user->password = Hash::make($request->password);
         $user->save();
         $generateToken = new GenerateAccessTokenService();
-        $token = $generateToken->generateToken($request, $user->email, $request->password);
-        return response(new AccessTokenResource($token), 200);
+        $token = $generateToken->generateToken($request, $username, $request->password);
+        return response($token, 200);
 
     }
 }

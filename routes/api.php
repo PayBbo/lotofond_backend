@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AuctionController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\ResetPasswordController;
@@ -45,5 +46,22 @@ Route::group(['middleware' => ['json.response']], function () {
 
             Route::get('logout', [LoginController::class, 'logout']);
         });
+
+        Route::group(['prefix' => 'trades'], function () {
+
+            Route::get('/', [AuctionController::class, 'getTrades']);
+            Route::put('/lot/action', [AuctionController::class, 'actionWithLot']);
+
+        });
     });
+
+    Route::resource('monitoring', App\Http\Controllers\MonitoringController::class);
+
+    Route::resource('favourite', App\Http\Controllers\FavouriteController::class);
+
+    Route::resource('event', App\Http\Controllers\EventController::class);
+
+    Route::resource('note', App\Http\Controllers\NoteController::class);
+
+    Route::resource('mark', App\Http\Controllers\MarkController::class);
 });

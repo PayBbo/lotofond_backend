@@ -29,7 +29,12 @@ class GenerateAccessTokenService
                 'post'
             );
             $instance = Route::dispatch($tokenRequest);
-            return json_decode($instance->getContent());
+            $token = json_decode($instance->getContent());
+            return [
+                'accessToken' => $token->access_token,
+                'expiresIn' => $token->expires_in,
+                'refreshToken' => $token->refresh_token
+            ];
         } catch (Exception $e) {
             throw new BaseException('ERR_AUTHORIZATION_FAILED', 422, 'Username- '.$username.' '.$e->getMessage());
         }

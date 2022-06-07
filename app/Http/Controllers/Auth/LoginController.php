@@ -18,10 +18,12 @@ class LoginController extends Controller
         switch ($request->grantType){
             case 'email':{
                 $user = User::where('email', $request->email)->first();
+                $username = $request->email;
                 break;
             }
             case 'phone':{
                 $user = User::where('phone', $request->phone)->first();
+                $username = $request->phone;
                 break;
             }
             case 'gosuslugi':{
@@ -35,8 +37,8 @@ class LoginController extends Controller
             }
         }
         $generateToken = new GenerateAccessTokenService();
-        $token = $generateToken->generateToken($request, $user->email, $request->password);
-        return response(new AccessTokenResource($token), 200);
+        $token =  $generateToken->generateToken($request, $username, $request->password);
+        return response($token, 200);
     }
 
     public function logout(){

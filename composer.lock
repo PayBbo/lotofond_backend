@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "95dc14ef58bfbc017556bf45d1810a0f",
+    "content-hash": "f823bb65197d7e6d416f54b02e1e4178",
     "packages": [
         {
             "name": "artisaninweb/laravel-soap",
@@ -178,6 +178,61 @@
                 }
             ],
             "time": "2021-08-15T20:50:18+00:00"
+        },
+        {
+            "name": "codersstudio/sms-ru",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/imjonos/laravel-sms-ru.git",
+                "reference": "3cdfefd3fe6bbb14696ab5a5b4600f5899448aa0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/imjonos/laravel-sms-ru/zipball/3cdfefd3fe6bbb14696ab5a5b4600f5899448aa0",
+                "reference": "3cdfefd3fe6bbb14696ab5a5b4600f5899448aa0",
+                "shasum": ""
+            },
+            "require": {
+                "ext-curl": "*",
+                "illuminate/support": "^6.0|^7.0|^8.0"
+            },
+            "default-branch": true,
+            "type": "package",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "CodersStudio\\SmsRu\\SmsRuServiceProvider"
+                    ],
+                    "aliases": {
+                        "Notifications": "CodersStudio\\SmsRu\\Facades\\SmsRu"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "CodersStudio\\SmsRu\\": "./src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Eugeny Nosenko",
+                    "email": "info@coders.studio"
+                }
+            ],
+            "description": "Package for send sms via sms.ru. Based on official PHP class http://sms.ru/php.",
+            "keywords": [
+                "laravel"
+            ],
+            "support": {
+                "issues": "https://github.com/imjonos/laravel-sms-ru/issues",
+                "source": "https://github.com/imjonos/laravel-sms-ru/tree/master"
+            },
+            "time": "2021-05-27T17:13:31+00:00"
         },
         {
             "name": "darkaonline/l5-swagger",
@@ -9952,7 +10007,9 @@
     ],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": [],
+    "stability-flags": {
+        "codersstudio/sms-ru": 20
+    },
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {

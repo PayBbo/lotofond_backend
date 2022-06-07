@@ -59,14 +59,14 @@ class Lot extends Model
         return $this->belongsTo(Auction::class);
     }
 
-    public function monitorings()
-    {
-        return $this->belongsToMany(Monitoring::class);
-    }
-
     public function favourites()
     {
-        return $this->belongsToMany(Favourite::class);
+        return $this->hasMany(Favourite::class);
+    }
+
+    public function monitorings()
+    {
+        return $this->hasMany(Monitoring::class);
     }
 
     public function marks()
@@ -113,5 +113,13 @@ class Lot extends Model
     public function tradeMessages()
     {
         return $this->hasMany(TradeMessage::class);
+    }
+
+    public function shortDescription(){
+        $desc = substr($this->description, 0, 150);
+        $desc = rtrim($desc, "!,.-");
+        $desc = substr($desc, 0, strrpos($desc, ' '));
+        return $desc."… ";
+
     }
 }

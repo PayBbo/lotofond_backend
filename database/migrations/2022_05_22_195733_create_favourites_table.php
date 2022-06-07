@@ -20,6 +20,9 @@ class CreateFavouritesTable extends Migration
             $table->string('title', 255);
             $table->foreign('user_id')->references('id')
                 ->on('users')->cascadeOnDelete();
+            $table->unsignedBigInteger('lot_id');
+            $table->foreign('lot_id')->references('id')
+                ->on('lots')->cascadeOnDelete();
             $table->timestamps();
         });
         Schema::enableForeignKeyConstraints();

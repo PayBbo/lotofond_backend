@@ -69,17 +69,17 @@ class User extends Authenticatable
 
     public function fixedLots()
     {
-        return $this->belongsToMany(Lot::class,'fixed_lots');
+        return $this->belongsToMany(Lot::class, 'fixed_lots');
     }
 
     public function seenLots()
     {
-        return $this->belongsToMany(Lot::class,'seen_lots');
+        return $this->belongsToMany(Lot::class, 'seen_lots');
     }
 
     public function hiddenLots()
     {
-        return $this->belongsToMany(Lot::class,'hidden_lots');
+        return $this->belongsToMany(Lot::class, 'hidden_lots');
     }
 
     public function marks()
@@ -102,10 +102,28 @@ class User extends Authenticatable
         parent::boot();
 
         static::updated(function ($user) {
-            if(VerifyAccount::where('value', $user->email)->exists()){
+            if (VerifyAccount::where('value', $user->email)->exists()) {
                 VerifyAccount::where('value', $user->email)->delete();
             }
         });
+
+    }
+
+    public function findForPassport($username)
+    {
+
+        /*if (SocialAccount::where(['provider_id' => $data[0], 'provider' => $data[1]])->exists()) {
+            $social = SocialAccount::where(['provider_id' => $data[0], 'provider' => $data[1]])->first();
+            return $this->where('id', $social->user_id)->first();
+        }*/
+
+        if ($this->where('email', $username)->exists()) {
+            return $this->where('email', $username)->first();
+        }
+        if ($this->where('phone', $username)->exists()) {
+            return $this->where('phone', $username)->first();
+        }
+
 
     }
 

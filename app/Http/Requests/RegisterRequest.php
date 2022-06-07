@@ -25,10 +25,11 @@ class RegisterRequest extends FormRequest
     public function rules()
     {
         return [
+            'grantType' => ['required', 'string'],
+            'email' => ['sometimes', 'required', 'email', 'unique:users'],
+            'phone' => ['sometimes', 'required', new Phone, 'unique:users'],
             'surname'=>['required', 'string', 'max:255'],
             'name'=>['required', 'string', 'max:255'],
-            'email'=>['required', 'email', 'unique:users'],
-            'phone'=>['required', 'string', 'unique:users', new Phone],
             'password'=>['required', 'string', 'min:8'],
         ];
     }

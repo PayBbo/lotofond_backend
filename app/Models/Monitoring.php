@@ -20,6 +20,7 @@ class Monitoring extends Model
         'not_frequency',
         'unnecessary_words',
         'right_words',
+        'lot_id'
     ];
 
     /**
@@ -30,13 +31,14 @@ class Monitoring extends Model
     protected $casts = [
         'id' => 'integer',
         'user_id' => 'integer',
+        'lot_id' => 'integer',
         'unnecessary_words' => 'array',
         'right_words' => 'array',
     ];
 
     public function lots()
     {
-        return $this->belongsToMany(Lot::class);
+        return $this->belongsTo(Lot::class);
     }
 
     public function user()

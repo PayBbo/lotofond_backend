@@ -21,16 +21,28 @@ class RegisterController extends Controller
     {
         $code = strval(mt_rand(100000, 999999));
         $sendCode = new SendCodeService();
-        $sendCode->sendEmailCode($request->email, $code);
-        VerifyAccount::create([
-            'surname' => $request->surname,
-            'name' => $request->name,
-            'phone' => $request->phone,
-            'value' => $request->email,
-            'token' => Hash::make($code),
-            'code' => $request->password
-        ]);
-
+        $verify = new VerifyAccount();
+        $verify->surname = $request->surname;
+        $verify->name = $request->name;
+        $verify->token = Hash::make($code);
+        $verify->code = $request->password;
+        switch ($request->grantType){
+            case 'email':{
+                $verify->value = $request->email;
+                $sendCode->sendEmailCode($request->email, $code);
+                break;
+            }
+            case 'phone':{
+                $verify->phone = $request->phone;
+                $sendCode->sendPhoneCode($request->phone, $code);
+                break;
+            }
+            case 'gosuslugi':{
+                //
+                break;
+            }
+        }
+        $verify->save();
         return response(null, 200);
     }
 
@@ -38,8 +50,18 @@ class RegisterController extends Controller
     {
         $code = strval(mt_rand(100000, 999999));
         $sendCode = new SendCodeService();
-        $sendCode->sendEmailCode($request->email, $code);
-        $verifyAccount = VerifyAccount::where('value', $request->email)->first();
+        switch ($request->grantType){
+            case 'email':{
+                $verifyAccount = VerifyAccount::where('value', $request->email)->first();
+                $sendCode->sendEmailCode($request->email, $code);
+                break;
+            }
+            case 'phone':{
+                $verifyAccount = VerifyAccount::where('phone', $request->phone)->first();
+                $sendCode->sendPhoneCode($request->phone, $code);
+                break;
+            }
+        }
         $verifyAccount->token = Hash::make($code);
         $verifyAccount->save();
         return response(null, 200);
@@ -47,7 +69,18 @@ class RegisterController extends Controller
 
     public function verifyRegistrationCode(VerifyRegistrationCodeRequest $request)
     {
-        $verifyAccount = VerifyAccount::where('value', $request->email)->first();
+        switch ($request->grantType){
+            case 'email':{
+                $verifyAccount = VerifyAccount::where('value', $request->email)->first();
+                $username = $request->email;
+                break;
+            }
+            case 'phone':{
+                $verifyAccount = VerifyAccount::where('phone', $request->phone)->first();
+                $username = $request->phone;
+                break;
+            }
+        }
         if (!Hash::check($request->code, $verifyAccount->token)) {
             throw new BaseException("ERR_VALIDATION_FAILED", 422, "Verification code doesn't match our credentials");
         }
@@ -62,8 +95,8 @@ class RegisterController extends Controller
         ]);
         $verifyAccount->delete();
         $generateToken = new GenerateAccessTokenService();
-        $token = $generateToken->generateToken($request, $user->email, $password);
-        return response(new AccessTokenResource($token), 200);
+        $token = $generateToken->generateToken($request, $username, $password);
+        return response($token, 200);
     }
 
 
