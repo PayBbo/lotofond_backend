@@ -9,7 +9,7 @@
         height: String,
     });
     const AsyncComp = defineAsyncComponent(() =>
-        import('../icons/'+props.name+'.vue')
+        import('./icons/'+props.name+'.vue')
     )
     // const name = ref('Home')
 </script>

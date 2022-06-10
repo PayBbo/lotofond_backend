@@ -74,7 +74,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("svg", {
     version: "1.1",
     xmlns: "http://www.w3.org/2000/svg",
-    viewBox: "4 2 30 30",
+    viewBox: "2 2 34 30",
     fill: $props.fill,
     stroke: $props.stroke,
     width: $props.width,
