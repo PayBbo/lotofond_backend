@@ -5,6 +5,7 @@ namespace App\Http\Resources;
 use App\Models\Favourite;
 use App\Models\Monitoring;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class AuctionResource extends JsonResource
@@ -18,14 +19,21 @@ class AuctionResource extends JsonResource
     public function toArray($request)
     {
         $user = User::find(auth()->id());
+        $countDays = null;
+        if(!is_null($this->auction->result_date)){
+            $start = Carbon::parse(Carbon::now())->setTimezone('Europe/Moscow');
+            $end =  Carbon::parse($this->auction->result_date)->setTimezone('Europe/Moscow');
+            $countDays = $end->diffInDays($start);
+            logger($countDays);
+        }
         return [
             'auctionId'=>$this->auction_id,
             'lotId'=>$this->id,
-            'isWatched' => $user->seenLots->contains($this->id),
+            'isWatched' => auth()->check() ? $user->seenLots->contains($this->id) : false,
             'сategory'=>$this->categories->first()->code,
-            'isPinned'=> $user->fixedLots->contains($this->id),
-            'inFavourite' => Favourite::where(['user_id'=> $user->id, 'lot_id'=>$this->id])->exists(),
-            'isHide'=>$user->hiddenLots->contains($this->id),
+            'isPinned'=>  auth()->check() ?  $user->fixedLots->contains($this->id) : false,
+            'inFavourite' =>  auth()->check() ? Favourite::where(['user_id'=> $user->id, 'lot_id'=>$this->id])->exists() : false,
+            'isHide'=> auth()->check() ? $user->hiddenLots->contains($this->id) : false,
             'label'=> $this->shortDescription(),
             'date' =>$this->auction->publish_date->format('d.m.Y H:i'),
             'state'=>$this->status->title,
@@ -37,7 +45,12 @@ class AuctionResource extends JsonResource
             'price'=>$this->price,
             'priceState'=>$this->price_state,
             'tags'=>[],
-            'inMonitoring'=>Monitoring::where(['user_id'=> $user->id, 'lot_id'=>$this->id])->exists()
+            'inMonitoring'=>  auth()->check() ? Monitoring::where(['user_id'=> $user->id, 'lot_id'=>$this->id])->exists() : false,
+            'auctionStep' =>$this->auction_step,
+            'isAuctionRub'=>is_null($this->is_step_rub),
+            'deposit'=>$this->deposit,
+            'isDepositRub'=>$this->is_deposit_rub,
+            'beforeEnd'=>$countDays
         ];
     }
 }
