@@ -28,9 +28,11 @@ class AuctionResource extends JsonResource
         $categories = [];
         $parents = [];
         foreach ($this->categories as $category){
-            $categories[] = $category->title;
             if(!is_null($category->parent())) {
                 $parents[] = $category->parent()->title;
+                $categories[] = $category->title;
+            }else{
+                $parents[] = $category->title;
             }
         }
         return [
