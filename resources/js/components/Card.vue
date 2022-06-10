@@ -1,7 +1,7 @@
 <template>
     <div class="bkt-card-bidding bkt-card row w-100 mx-auto position-relative mx-0">
         <div class="bkt-wrapper-between bkt-card__heading">
-            <h5>торги №</h5>
+            <h5>торги № {{item.tradingNumber}}</h5>
             <h5>до окончания более 14 дней
                 <span class="bkt-card__icon">
                     <bkt-icon :name="'Alarm'" :fill="'#2fbb40'" :width="'14px'" :height="'14px'"></bkt-icon>
@@ -28,7 +28,7 @@
                 </div>
                 <div class="col-12 col-lg-4 order-1 order-lg-2">
                     <div class="bkt-wrapper-between bkt-card__head">
-                        <h3 class="bkt-card__title">Некоторое название торгов</h3>
+                        <h3 class="bkt-card__title">{{item.label}}</h3>
                         <button class="bkt-button bg-primary-lighter bkt-card-menu-button d-block d-lg-none">
                             <bkt-icon :name="'More'"></bkt-icon>
                         </button>
@@ -52,7 +52,7 @@
                     </div>
                 </div>
                 <div class="col order-3 ">
-                    <div class="bkt-card-price bkt-button green w-100">2 485 400 ₽
+                    <div class="bkt-card-price bkt-button green w-100">{{item.price}} ₽
                         <div class="bkt-card-price-icon bg-green-light"></div>
                     </div>
                     <div class="bkt-card-infographics bkt-wrapper-between">
@@ -157,24 +157,11 @@
     </div>
 </template>
 
-<script>
-    export default {
-        name: "Card"
-    }
+<script setup>
+    const props = defineProps({
+        item: Object
+    })
 </script>
 
 <style scoped>
-    /*.parent {*/
-    /*    display: grid;*/
-    /*    !*grid-template-columns: repeat(4, 1fr);*!*/
-    /*    !*grid-template-rows: repeat(2, 1fr);*!*/
-    /*    grid-column-gap: 0px;*/
-    /*    grid-row-gap: 0px;*/
-    /*}*/
-
-    /*.div1 { grid-area: 1 / 1 / 2 / 2; }*/
-    /*.div2 { grid-area: 1 / 2 / 2 / 3; }*/
-    /*.div3 { grid-area: 1 / 3 / 2 / 4; }*/
-    /*.div4 { grid-area: 1 / 4 / 3 / 5; }*/
-    /*.div5 { grid-area: 2 / 1 / 3 / 4; }*/
 </style>
