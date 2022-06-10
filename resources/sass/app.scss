@@ -40,9 +40,15 @@
 @import './components/button.scss';
 @import './components/card.scss';
 @import './components/select.scss';
+@import './components/modal.scss';
+@import './components/search.scss';
+@import './components/container.scss';
+@import './components/input.scss';
+@import './components/checkbox.scss';
 
-// Views
-@import "./pages/main.scss";
+// Custom styles
+@import "./customs/main.scss";
+@import "./customs/auth-modal.scss";
 
 
 
@@ -92,6 +98,9 @@ body {
 .bg-yellow-lighter {
     background: $yellow-lighter;
 }
+.bg-purple {
+    background: $purple-default;
+}
 .bg-purple-lighter {
     background: $purple-lighter;
 }
@@ -112,7 +121,7 @@ h3 {
 }
 h4 {
     font-size: $font-size-18;
-    font-weight: 600;
+    //font-weight: 600;
 }
 h5 {
     font-size: $font-size-14;
@@ -161,4 +170,10 @@ h6 {
 .bkt-text-yellow {
     color: $yellow-default
 }
+.bkt-text-neutral {
+    color: $neutral-default
+}
 
+a:hover {
+    color: inherit;
+}

@@ -40,6 +40,7 @@ class AuctionResource extends JsonResource
             'lotId'=>$this->id,
             'isWatched' => auth()->check() ? $user->seenLots->contains($this->id) : false,
             'categories'=>['cats'=>array_unique($categories), 'mainCats'=>array_unique($parents)],
+
             'isPinned'=>  auth()->check() ?  $user->fixedLots->contains($this->id) : false,
             'inFavourite' =>  auth()->check() ? Favourite::where(['user_id'=> $user->id, 'lot_id'=>$this->id])->exists() : false,
             'isHide'=> auth()->check() ? $user->hiddenLots->contains($this->id) : false,
