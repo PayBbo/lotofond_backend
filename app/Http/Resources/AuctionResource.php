@@ -44,7 +44,7 @@ class AuctionResource extends JsonResource
             'isPinned'=>  auth()->check() ?  $user->fixedLots->contains($this->id) : false,
             'inFavourite' =>  auth()->check() ? Favourite::where(['user_id'=> $user->id, 'lot_id'=>$this->id])->exists() : false,
             'isHide'=> auth()->check() ? $user->hiddenLots->contains($this->id) : false,
-            'label'=> $this->shortDescription(),
+            'label'=> $this->description,
             'date' =>$this->auction->publish_date->format('d.m.Y H:i'),
             'state'=>$this->status->title,
             'tradingNumber'=>$this->auction->trade_id,
