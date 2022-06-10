@@ -74,7 +74,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("svg", {
     version: "1.1",
     xmlns: "http://www.w3.org/2000/svg",
-    viewBox: "4 2 30 30",
+    viewBox: "2 2 34 30",
     fill: $props.fill,
     stroke: $props.stroke,
     width: $props.width,
@@ -98,13 +98,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _Eye_vue_vue_type_template_id_ede7c1e4__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Eye.vue?vue&type=template&id=ede7c1e4 */ "./resources/js/icons/Eye.vue?vue&type=template&id=ede7c1e4");
 /* harmony import */ var _Eye_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Eye.vue?vue&type=script&lang=js */ "./resources/js/icons/Eye.vue?vue&type=script&lang=js");
-/* harmony import */ var E_OpenServer_OSPanel_domains_bankrot_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
+/* harmony import */ var E_OpenServer_domains_bankrotMP_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
 
 
 
 
 ;
-const __exports__ = /*#__PURE__*/(0,E_OpenServer_OSPanel_domains_bankrot_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_2__["default"])(_Eye_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_Eye_vue_vue_type_template_id_ede7c1e4__WEBPACK_IMPORTED_MODULE_0__.render],['__file',"resources/js/icons/Eye.vue"]])
+const __exports__ = /*#__PURE__*/(0,E_OpenServer_domains_bankrotMP_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_2__["default"])(_Eye_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_Eye_vue_vue_type_template_id_ede7c1e4__WEBPACK_IMPORTED_MODULE_0__.render],['__file',"resources/js/icons/Eye.vue"]])
 /* hot reload */
 if (false) {}
 

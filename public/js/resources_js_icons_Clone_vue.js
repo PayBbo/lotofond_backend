@@ -51,7 +51,7 @@ var _hoisted_1 = ["width", "height"];
 var _hoisted_2 = ["fill"];
 
 var _hoisted_3 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("path", {
-  d: "M1977 5074 c-32 -7 -83 -26 -115 -41 -74 -34 -178 -139 -215 -215\n-55 -115 -57 -135 -57 -735 l0 -552 -582 -3 c-575 -3 -584 -4 -642 -26 -152\n-57 -261 -169 -312 -322 -18 -53 -19 -114 -19 -1400 0 -1286 1 -1347 19 -1400\n51 -153 160 -264 312 -322 l59 -23 1323 -3 c1447 -3 1385 -5 1510 56 75 36\n179 140 215 215 54 112 57 143 57 740 l0 547 548 0 c594 0 629 3 733 55 117\n59 210 163 251 282 l23 68 0 1345 c0 1286 -1 1347 -19 1400 -51 153 -160 264\n-312 322 l-59 23 -1330 2 c-1115 1 -1339 -1 -1388 -13z m2673 -380 c64 -39 60\n59 60 -1354 0 -1169 -1 -1284 -16 -1310 -37 -62 -19 -60 -618 -60 l-546 0 0\n548 c0 433 -3 561 -14 614 -37 173 -153 307 -322 370 -58 22 -67 23 -641 26\nl-583 3 0 545 c0 597 -2 580 59 617 24 15 141 16 1309 17 1171 0 1286 -1 1312\n-16z m-1560 -1560 c64 -39 60 59 60 -1354 0 -1169 -1 -1284 -16 -1310 -39 -64\n59 -60 -1354 -60 -1169 0 -1284 1 -1310 16 -64 39 -60 -59 -60 1354 0 1165 1\n1284 16 1309 38 65 -61 60 1352 61 1171 0 1286 -1 1312 -16z"
+  d: "M1977 5074 c-32 -7 -83 -26 -115 -41 -74 -34 -178 -139 -215 -215\r\n-55 -115 -57 -135 -57 -735 l0 -552 -582 -3 c-575 -3 -584 -4 -642 -26 -152\r\n-57 -261 -169 -312 -322 -18 -53 -19 -114 -19 -1400 0 -1286 1 -1347 19 -1400\r\n51 -153 160 -264 312 -322 l59 -23 1323 -3 c1447 -3 1385 -5 1510 56 75 36\r\n179 140 215 215 54 112 57 143 57 740 l0 547 548 0 c594 0 629 3 733 55 117\r\n59 210 163 251 282 l23 68 0 1345 c0 1286 -1 1347 -19 1400 -51 153 -160 264\r\n-312 322 l-59 23 -1330 2 c-1115 1 -1339 -1 -1388 -13z m2673 -380 c64 -39 60\r\n59 60 -1354 0 -1169 -1 -1284 -16 -1310 -37 -62 -19 -60 -618 -60 l-546 0 0\r\n548 c0 433 -3 561 -14 614 -37 173 -153 307 -322 370 -58 22 -67 23 -641 26\r\nl-583 3 0 545 c0 597 -2 580 59 617 24 15 141 16 1309 17 1171 0 1286 -1 1312\r\n-16z m-1560 -1560 c64 -39 60 59 60 -1354 0 -1169 -1 -1284 -16 -1310 -39 -64\r\n59 -60 -1354 -60 -1169 0 -1284 1 -1310 16 -64 39 -60 -59 -60 1354 0 1165 1\r\n1284 16 1309 38 65 -61 60 1352 61 1171 0 1286 -1 1312 -16z"
 }, null, -1
 /* HOISTED */
 );
@@ -90,13 +90,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _Clone_vue_vue_type_template_id_f6a5420c__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Clone.vue?vue&type=template&id=f6a5420c */ "./resources/js/icons/Clone.vue?vue&type=template&id=f6a5420c");
 /* harmony import */ var _Clone_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Clone.vue?vue&type=script&lang=js */ "./resources/js/icons/Clone.vue?vue&type=script&lang=js");
-/* harmony import */ var E_OpenServer_OSPanel_domains_bankrot_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
+/* harmony import */ var E_OpenServer_domains_bankrotMP_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
 
 
 
 
 ;
-const __exports__ = /*#__PURE__*/(0,E_OpenServer_OSPanel_domains_bankrot_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_2__["default"])(_Clone_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_Clone_vue_vue_type_template_id_f6a5420c__WEBPACK_IMPORTED_MODULE_0__.render],['__file',"resources/js/icons/Clone.vue"]])
+const __exports__ = /*#__PURE__*/(0,E_OpenServer_domains_bankrotMP_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_2__["default"])(_Clone_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_Clone_vue_vue_type_template_id_f6a5420c__WEBPACK_IMPORTED_MODULE_0__.render],['__file',"resources/js/icons/Clone.vue"]])
 /* hot reload */
 if (false) {}
 

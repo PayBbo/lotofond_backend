@@ -22,9 +22,7 @@ class AuctionResource extends JsonResource
         $countDays = null;
         if(!is_null($this->auction->result_date)){
             $start = Carbon::parse(Carbon::now())->setTimezone('Europe/Moscow');
-            logger($start);
             $end =  Carbon::parse($this->auction->result_date)->setTimezone('Europe/Moscow');
-            logger($end);
             $countDays = $end->diffInDays($start);
         }
         $categories = [];
