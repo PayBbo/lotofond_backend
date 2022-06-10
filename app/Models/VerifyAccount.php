@@ -17,7 +17,10 @@ class VerifyAccount extends Model
         static::creating(function ($item) {
           if(VerifyAccount::where('value', $item->value)->exists()){
               VerifyAccount::where('value', $item->value)->delete();
+          }else if(VerifyAccount::where('phone', $item->phone)->exists()){
+              VerifyAccount::where('phone', $item->phone)->delete();
           }
+
         });
 
         static::updated(function ($category) {

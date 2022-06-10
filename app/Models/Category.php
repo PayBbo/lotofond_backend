@@ -34,4 +34,8 @@ class Category extends Model
     {
         return $this->belongsToMany(Lot::class,'lot_categories');
     }
+
+    public function parent(){
+        return Category::find($this->parent_id);
+    }
 }

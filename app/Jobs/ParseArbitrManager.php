@@ -42,6 +42,7 @@ class ParseArbitrManager implements ShouldQueue
         foreach ($managers as $value) {
             foreach ($value as $person) {
                 try {
+                    // Trying to get property 'ArbitrManagerID' of non-object ?
                     if (ArbitrManager::where('arbitr_manager_id', $person->ArbitrManagerID)->exists()) {
                         $manager = ArbitrManager::where('arbitr_manager_id', $person->ArbitrManagerID)->first();
                         if ($manager->date_of_last_modifier == $person->DateLastModif) {

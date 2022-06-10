@@ -546,9 +546,18 @@ components:
         isWatched:
           type: boolean
           description: Просмотрено/не просмотрено
-        category:
-          type: string
-          description: Тег с классификатором
+        categories:
+          type: object
+          description: Объект с классификатороми
+          example: {
+            "cats": [
+              "residentialProperty",
+              "land"
+            ],
+            "mainCats": [
+              "realEstate"
+            ]
+          }
         isPinned:
           type: boolean
           description:  закреплен/не закреплен
@@ -594,7 +603,29 @@ components:
         inMonitoring:
           type: boolean
           description: в мониторинг/нет
-
+        auctionStep:
+          type: integer
+          description: Значение шага аукциона, может быть NULL
+        isAuctionStepRub:
+          type: boolean
+          description: если true - auctionStep в рублях, если false - auctionStep в процентах
+        deposit:
+          type: integer
+          description:  Значение задатка, может быть NULL
+        isDepositRub:
+          type: boolean
+          description: если true - deposit в рублях, если false - deposit в процентах
+        beforeEnd:
+          type: integer
+          description: количество дней до окончания торгов, может быть нулевым - дата окончания не задана (пока что только в днях)
+        beforeEndType:
+          type: string
+          description: в каких единицах измеряется время до окончания торгов (месяцы, дни, часы, минуты)
+          enum:
+            - days
+            - month
+            - minutes
+            - hours
     Error:
       required:
         - code
