@@ -126,8 +126,8 @@
         <div class="bkt-main-filters bkt-card bg-main">
             <div class="col-12 col-md-6 col-lg-4">
                 <div class="d-flex w-100 mx-auto justify-content-around">
-                    <div class="form-floating bkt-select__wrapper">
-                        <select class="form-select bkt-select main" id="sortSelect" aria-label="">
+                    <div class="form-floating bkt-select__wrapper main">
+                        <select class="form-select bkt-select" id="sortSelect" aria-label="">
                             <option selected>ключевому слову</option>
                             <option value="1">One</option>
                             <option value="2">Two</option>
@@ -144,8 +144,8 @@
                 </div>
             </div>
             <div class="col-md-6 col-lg-3 d-none d-md-block">
-                <div class="form-floating bkt-select__wrapper ">
-                    <select class="form-select bkt-select main" id="periodSelect" aria-label="">
+                <div class="form-floating bkt-select__wrapper main">
+                    <select class="form-select bkt-select" id="periodSelect" aria-label="">
                         <option selected>все</option>
                         <option value="1">One</option>
                         <option value="2">Two</option>
@@ -160,10 +160,10 @@
                         <div class="bkt-check__wrapper">
                             <div class="bkt-check">
                                 <div class="bkt-check__input">
-                                    <input class="" id="terms" type="checkbox">
+                                    <input class="" type="checkbox">
                                     <div class="bkt-check__input-check"></div>
                                 </div>
-                                <label for="terms" class="bkt-check__label">
+                                <label class="bkt-check__label">
                                     только с фото
                                 </label>
                             </div>
@@ -171,10 +171,10 @@
                         <div class="bkt-check__wrapper">
                             <div class="bkt-check">
                                 <div class="bkt-check__input">
-                                    <input class="" id="terms" type="checkbox">
+                                    <input class="" type="checkbox">
                                     <div class="bkt-check__input-check"></div>
                                 </div>
-                                <label for="terms" class="bkt-check__label">
+                                <label  class="bkt-check__label">
                                     удалённые
                                 </label>
                             </div>
@@ -184,10 +184,10 @@
                         <div class="bkt-check__wrapper">
                             <div class="bkt-check">
                                 <div class="bkt-check__input">
-                                    <input class="" id="terms" type="checkbox">
+                                    <input class="" type="checkbox">
                                     <div class="bkt-check__input-check"></div>
                                 </div>
-                                <label for="terms" class="bkt-check__label">
+                                <label  class="bkt-check__label">
                                     получен ответ организатора
                                 </label>
                             </div>
@@ -195,10 +195,10 @@
                         <div class="bkt-check__wrapper bkt-check__wrapper-inline">
                             <div class="bkt-check">
                                 <div class="bkt-check__input">
-                                    <input class="" id="terms" type="checkbox">
+                                    <input class=""  type="checkbox">
                                     <div class="bkt-check__input-check"></div>
                                 </div>
-                                <label for="terms" class="bkt-check__label">
+                                <label class="bkt-check__label">
                                     завершённые
                                 </label>
                             </div>
@@ -206,10 +206,10 @@
                         <div class="bkt-check__wrapper bkt-check__wrapper-inline">
                             <div class="bkt-check">
                                 <div class="bkt-check__input">
-                                    <input class="" id="terms" type="checkbox">
+                                    <input class=""  type="checkbox">
                                     <div class="bkt-check__input-check"></div>
                                 </div>
-                                <label for="terms" class="bkt-check__label">
+                                <label class="bkt-check__label">
                                     приостановленные
                                 </label>
                             </div>
@@ -218,9 +218,9 @@
                 </div>
             </div>
         </div>
-        <div class="bkt-main-cards bkt-card__list">
-            <bkt-card></bkt-card>
-        </div>
+        <bkt-card-list :current_component="'BktCard'" :items="items" :loading="loading"
+                       :pagination_data="pagination_data">
+        </bkt-card-list>
     </div>
 </template>
 
@@ -229,6 +229,16 @@
         name: "Main",
         mounted() {
             this.getData()
+        },
+        data() {
+            return {
+                loading: false,
+                // pagination
+                pagination_data: {},
+                // table
+                items: [],
+                in_process: []
+            };
         },
         methods: {
             async getData(page = 1) {
@@ -240,11 +250,13 @@
                         },
                     })
                     .then((resp) => {
-                        console.log(resp);
+                        this.loading = false;
+                        this.items = resp.data.data;
+                        this.pagination_data = resp.data;
 
                     })
-                    .catch(function (resp) {
-                        // this.loading = false;
+                    .catch((error)=> {
+                        this.loading = false;
                     });
             },
         }

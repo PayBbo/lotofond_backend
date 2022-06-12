@@ -1,8 +1,8 @@
 <template>
     <div class="bkt-card-bidding bkt-card row w-100 mx-auto position-relative mx-0">
         <div class="bkt-wrapper-between bkt-card__heading">
-            <h5>торги № {{item.tradingNumber}}</h5>
-            <h5>до окончания более 14 дней
+            <h5>торги № {{item && item.tradingNumber ? item.tradingNumber : '0'}}</h5>
+            <h5>до окончания более {{item && item.beforeEnd ? item.beforeEnd : '0'}} дней
                 <span class="bkt-card__icon">
                     <bkt-icon :name="'Alarm'" :fill="'#2fbb40'" :width="'14px'" :height="'14px'"></bkt-icon>
                 </span>
@@ -10,25 +10,41 @@
         </div>
         <div class="col-12 col-lg-11 p-0">
             <div class="row h-100 w-100 mx-auto row-cols-1 row-cols-md-2 row-cols-lg-3">
-                <div class="col order-2 order-lg-1">
-                    <div>
-                        <img src="/images/card-image.jpg" class="bkt-card__image"/>
-                        <div class="bkt-wrapper-between" style="margin-top: 25px; margin-bottom: 25px">
-                            <button class="bkt-button primary">
+                <div class="col p-0 p-sm-2 order-2 order-lg-1">
+                    <div class="bkt-card-image-wrapper">
+                        <hooper :itemsToShow="1" :centerMode="true" class="bkt-card__image-slider">
+                            <slide>
+                                <img src="/images/card-image.jpg" class="bkt-card__image"/>
+                            </slide>
+                            <slide>
+                                <img src="/images/card-image.jpg" class="bkt-card__image"/>
+                            </slide>
+                            <slide>
+                                <img src="/images/card-image.jpg" class="bkt-card__image"/>
+                            </slide>
+                            <hooper-navigation slot="hooper-addons"></hooper-navigation>
+                        </hooper>
+                        <div class="bkt-wrapper-between bkt-card-ecp-wrapper">
+                            <button class="bkt-button primary bkt-card-ecp">
                                 Купить без ЭЦП
                             </button>
-                            <div class="form-check form-check-inline my-2">
-                                <input class="form-check-input bkt-check__input" type="checkbox" value="" id="">
-                                <label class="form-check-label bkt-check__label" for="">
-                                    Есть ЭЦП
-                                </label>
+                            <div class="bkt-check__wrapper">
+                                <div class="bkt-check">
+                                    <div class="bkt-check__input">
+                                        <input class="" type="checkbox" disabled>
+                                        <div class="bkt-check__input-check"></div>
+                                    </div>
+                                    <label  class="bkt-check__label">
+                                        Есть ЭЦП
+                                    </label>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-12 col-lg-4 order-1 order-lg-2">
+                <div class="col-12 col-md-12 col-lg-4 p-0 p-sm-2 order-1 order-lg-2">
                     <div class="bkt-wrapper-between bkt-card__head">
-                        <h3 class="bkt-card__title">{{item.label}}</h3>
+                        <h3 class="bkt-card__title">{{item && item.label ? item.label:'Некоторое название торгов'}}</h3>
                         <button class="bkt-button bg-primary-lighter bkt-card-menu-button d-block d-lg-none">
                             <bkt-icon :name="'More'"></bkt-icon>
                         </button>
@@ -51,22 +67,21 @@
                         </div>
                     </div>
                 </div>
-                <div class="col order-3 ">
-                    <div class="bkt-card-price bkt-button green w-100">{{item.price}} ₽
-                        <div class="bkt-card-price-icon bg-green-light"></div>
+                <div class="col order-3 p-0 p-sm-2">
+                    <div class="bkt-card-price bkt-button green w-100">{{item && item.price ? item.price : '2 485 400'}} ₽
+                        <div class="bkt-card-price-icon bg-green-light"><bkt-icon :name="'ArrowTriple'" :width="'22px'" :height="'22px'"></bkt-icon></div>
                     </div>
-                    <div class="bkt-card-infographics bkt-wrapper-between">
+                    <div class="bkt-card-infographics bkt-wrapper-between bkt-nowrap">
                         <div class="bkt-card outline">
                             <div class="bkt-card__feature text-center w-100 mt-0">
                                 <h5 class="bkt-card__subtitle">шаг аукциона</h5>
-                                <h4 class="bkt-card__title bkt-text-primary">4 700 ₽</h4>
+                                <h4 class="bkt-card__title bkt-text-primary">{{item && item.auctionStep ? item.auctionStep : '0'}} {{item && item.isAuctionRub ? '₽' : '%'}}</h4>
                             </div>
-
                         </div>
                         <div class="bkt-card outline">
                             <div class="bkt-card__feature text-center w-100 mt-0">
                                 <h5 class="bkt-card__subtitle">задаток</h5>
-                                <h4 class="bkt-card__title bkt-text-red">149 990 ₽</h4>
+                                <h4 class="bkt-card__title bkt-text-red">{{item && item.deposit ? item.deposit : '0'}} {{item && item.isDepositRub ? '₽' : '%'}}</h4>
                             </div>
                         </div>
                     </div>
@@ -95,7 +110,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-12 order-4" style="align-self: end;">
+                <div class="col-12 col-md-12 col-lg-12 p-0 p-sm-2 order-4" style="align-self: end;">
                     <div class="bkt-wrapper-between bkt-card-infographics">
                         <div class="bkt-card outline bkt-wrapper-between">
                             <div class="bkt-card__feature">
@@ -157,10 +172,40 @@
     </div>
 </template>
 
-<script setup>
-    const props = defineProps({
-        item: Object
-    })
+<script>
+    import {
+        Hooper,
+        Slide,
+        Navigation as HooperNavigation
+    } from 'hooper';
+    import 'hooper/dist/hooper.css';
+
+    export default {
+        props: {
+            item: {
+                type: Object,
+            },
+            in_process: {
+                type: Array,
+                default: function () {
+                    return [];
+                }
+            }
+        },
+        components: {
+            Hooper,
+            Slide,
+            HooperNavigation
+        },
+        data() {
+            return {
+
+            }
+        },
+        methods: {
+
+        }
+    };
 </script>
 
 <style scoped>

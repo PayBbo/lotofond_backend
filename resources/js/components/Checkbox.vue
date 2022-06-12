@@ -1,39 +1,30 @@
 <template>
-    <div class="bkt-check__wrapper">
+    <ValidationProvider :name="name" :rules="rules" v-slot="{ errors }" tag="div" class="bkt-check__wrapper">
         <div class="bkt-check">
             <div class="bkt-check__input">
                 <input
                     type="checkbox"
-                    :value="value"
-                    :name="name"
-                    :id="name"
-                    @change="onChange"
+                    v-model="model"
+                    @change="saveValue"
                 />
                 <div class="bkt-check__input-check"></div>
             </div>
-            <label :for="name" class="bkt-check__label">
+            <label class="bkt-check__label">
                 <slot name="label">
                     {{label}}
                 </slot>
             </label>
         </div>
-        <p class="bkt-check-error" v-if="!!errorMessage">{{errorMessage}}</p>
-    </div>
-
+        <p class="bkt-check-error" v-if="errors">{{errors[0]}}</p>
+    </ValidationProvider>
 </template>
 
 <script>
-    import {toRef} from "vue";
-    import {useField} from "vee-validate";
-    import * as yup from "yup";
     export default {
         props: {
             value: {
                 type: Boolean,
                 default: false,
-            },
-            modelValue: {
-                type: null,
             },
             name: {
                 type: String,
@@ -52,37 +43,23 @@
                 default: "",
             },
         },
-        setup(props, ctx) {
-            const name = toRef(props, "name");
-            const rules = toRef(props, "rules");
-            const {  checked, handleChange, errorMessage } = useField(props.name, rules, {
-                type: "checkbox",
-                valueProp: props.value,
-                initialValue: false,
-                checkedValue: true,
-                uncheckedValue: false,
-            });
-            const onChange = (event) => {
-                let val = event.target.value;
-
-                if (!event.target.checked) {
-                    val = false;
-                }
-
-                // val = !Number.isNaN(val) ? (Number.isInteger(val) ? parseInt(val) : parseFloat(val)) : '';
-
-                handleChange(val);
-                ctx.emit("update:modelValue", val);
-            };
+        model: {
+            prop: 'value',
+            event: 'input'
+        },
+        data: function() {
             return {
-                handleChange,
-                errorMessage,
-                onChange,
-                // meta,
-                checked,
-                // inputValue
+                model:false,
             };
         },
+        mounted() {
+            this.model = this.value;
+        },
+        methods: {
+            saveValue() {
+                this.$emit('input', this.model);
+            },
+        }
     };
 </script>
 

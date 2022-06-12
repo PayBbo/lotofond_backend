@@ -5,7 +5,7 @@
         font-style: $font-style;
         font-weight: $font-weight;
         font-display: swap;
-        src: url('/fonts/Gilroy-'+$font-file+'.woff2') format('woff2'),
+        src: url('/fonts/Gilroy-'+ $font-file +'.woff2') format('woff2'),
     }
 }
 //@include font('Black', 900);
@@ -29,8 +29,8 @@
 @include font('UltraLight', 200);
 @include font('UltraLightItalic', 200, italic);
 
-// Bootstrap
-//@import '~bootstrap/scss/bootstrap';
+ //Bootstrap
+@import '~bootstrap/scss/bootstrap';
 
 // Variables
 @import 'variables';
@@ -45,10 +45,12 @@
 @import './components/container.scss';
 @import './components/input.scss';
 @import './components/checkbox.scss';
+@import './components/pagination.scss';
 
 // Custom styles
 @import "./customs/main.scss";
 @import "./customs/auth-modal.scss";
+@import "./customs/code-modal.scss";
 
 
 
@@ -107,6 +109,9 @@ body {
 .bg-main {
     background: $main-default;
 }
+.bg-body {
+    background: $body-bg;
+}
 
 h1 {
     font-size: $font-size-38;
@@ -153,6 +158,9 @@ h6 {
     justify-content: space-between;
     flex-flow: column;
     width: 100%;
+}
+.bkt-nowrap {
+    flex-wrap: nowrap;
 }
 
 .bkt-text-green {

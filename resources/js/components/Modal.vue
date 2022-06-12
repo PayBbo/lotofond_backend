@@ -1,42 +1,52 @@
 <template>
-    <div class="modal fade bkt-modal" tabindex="-1"
-         :id="id" :class="modal_class"
-         data-bs-backdrop="static" data-bs-keyboard="false"
-    >
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="bkt-modal-wrapper">
-                <slot name="aside">
-                </slot>
-                <div class="modal-content bkt-modal-content">
-                    <div class="bkt-modal-header" v-if="!no_header">
-                        <slot name="header">
-                            <h3 class="bkt-modal__title" v-if="!no_title">{{title}}</h3>
-                            <button type="button" :class="close_button_class" data-bs-dismiss="modal" aria-label="Close">
-                                <bkt-icon :name="'Cancel'" :width="'13px'" :height="'13px'"></bkt-icon>
-                            </button>
+    <transition name="modal-animation">
+        <div class="modal bkt-modal" tabindex="-1"
+             :id="id" aria-hidden="true"
+             data-bs-backdrop="static" data-bs-keyboard="false"
+        >
+            <div :class="modal_class">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="bkt-modal-wrapper">
+                        <slot name="aside">
                         </slot>
-                    </div>
-                    <div class="bkt-modal-body">
-                        <slot name="body">
-                        </slot>
-                    </div>
-                    <div class="bkt-modal-footer" v-if="!no_footer">
-                        <slot name="footer">
-                            <slot name="left_button">
-                                <button type="button" :class="left_button_class" @click="left_method">
-                                    <slot name="left_button_inner">
-                                    <bkt-icon :name="'Trash'" :width="'22px'" :height="'22px'"></bkt-icon>
-                                    {{left_button}}
+                        <ValidationObserver v-slot="{ invalid }" tag="div" class="modal-content bkt-modal-content">
+                            <div class="bkt-modal-header" :invalid="invalid" v-if="!no_header">
+                                <slot name="header">
+                                    <h3 class="bkt-modal__title" v-if="!no_title">{{title}}</h3>
+                                    <button type="button" :class="close_button_class" data-bs-dismiss="modal"
+                                            aria-label="Close">
+                                        <bkt-icon :name="'Cancel'" :width="'13px'" :height="'13px'"></bkt-icon>
+                                    </button>
+                                </slot>
+                            </div>
+                            <div class="bkt-modal-body">
+                                <slot name="body" :invalid="invalid">
+                                </slot>
+                            </div>
+                            <div class="bkt-modal-footer" v-if="!no_footer">
+                                <slot name="footer" :invalid="invalid">
+                                    <slot name="left_button">
+                                        <button type="button" :class="left_button_class" @click="left_method">
+                                            <slot name="left_button_inner">
+                                                <bkt-icon :name="'Trash'" :width="'22px'" :height="'22px'"></bkt-icon>
+                                                {{left_button}}
+                                            </slot>
+                                        </button>
                                     </slot>
-                                </button>
-                            </slot>
-                            <button type="button" :class="right_button_class" @click="right_method">{{right_button}}</button>
-                        </slot>
+                                    <button type="button" :class="right_button_class" :disabled="invalid"
+                                            @click="right_method">
+                                        <span v-show="loading" class="spinner-border spinner-border-sm"
+                                              role="status"></span>
+                                        {{right_button}}
+                                    </button>
+                                </slot>
+                            </div>
+                        </ValidationObserver>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
+    </transition>
 </template>
 
 <script>
@@ -51,10 +61,6 @@
                 type: String,
                 default: 'Модальное окно'
             },
-            // description: {
-            //     type: String,
-            //     default: 'Вы уверены, что хотите совершить данное действие?'
-            // },
             loading: {
                 type: Boolean,
                 default: false
@@ -87,7 +93,7 @@
                 type: String,
                 default: ''
             },
-            close_button_class:{
+            close_button_class: {
                 type: String,
                 default: 'bkt-close-button bkt-button'
             },
@@ -105,9 +111,7 @@
             },
         },
         data() {
-            return {
-
-            }
+            return {}
         },
         methods: {
             left_method() {
@@ -129,5 +133,30 @@
 </script>
 
 <style scoped>
+    .modal-animation-enter-active,
+    .modal-animation-leave-active {
+        transition: opacity 0.3s cubic-bezier(0.52, 0.02, 0.19, 1.02);
+    }
 
+    .modal-animation-enter-from,
+    .modal-animation-leave-to {
+        opacity: 0;
+    }
+
+    .modal-animation-inner-enter-active {
+        transition: all 0.3s cubic-bezier(0.52, 0.02, 0.19, 1.02) 0.15s;
+    }
+
+    .modal-animation-inner-leave-active {
+        transition: all 0.3s cubic-bezier(0.52, 0.02, 0.19, 1.02);
+    }
+
+    .modal-animation-inner-enter-from {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+
+    .modal-animation-inner-leave-to {
+        transform: scale(0.8);
+    }
 </style>

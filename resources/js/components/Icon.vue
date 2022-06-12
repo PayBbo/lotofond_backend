@@ -1,19 +1,28 @@
-<script setup>
-    import { defineAsyncComponent} from 'vue'
+<script>
+    export default {
+        name: "Icon",
+        props: {
+            name: String,
+            fill: String,
+            stroke: String,
+            width: String,
+            height: String,
+        },
 
-    const props = defineProps({
-        name: String,
-        fill: String,
-        stroke: String,
-        width: String,
-        height: String,
-    });
-    const AsyncComp = defineAsyncComponent(() =>
-        import('../icons/'+props.name+'.vue')
-    )
-    // const name = ref('Home')
+        data() {
+            return {
+
+            }
+        },
+
+        computed: {
+            icon() {
+                return () => import('../icons/'+this.name+'.vue')
+            }
+        }
+    }
 </script>
 
 <template>
-    <AsyncComp v-if="name" v-bind="props"></AsyncComp>
+    <component v-if="name" v-bind:is="icon" v-bind="$props"></component>
 </template>

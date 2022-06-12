@@ -39,18 +39,19 @@
                 </div>
             </div>
         </template>
-        <template #body>
+        <template #body="{ invalid }">
             <ul class="bkt-navbar__nav bkt-navbar__nav-pills">
-                <li class="bkt-navbar__nav-item" :class="{active: tab==='registration'}" @click="tab='registration'">
+                <li class="bkt-navbar__nav-item" :class="{active: tab==='registration'}"
+                    @click="tab='registration'">
                     Регистрация
                 </li>
                 <li class="bkt-navbar__nav-item" :class="{active: tab==='login'}" @click="tab='login'">
                     Вход
                 </li>
             </ul>
-
             <bkt-input
-                v-if="tab=='registration'"
+                v-model="user.name"
+                v-show="tab=='registration'"
                 name="name"
                 type="text"
                 :rules="'required|alpha|min:2'"
@@ -59,8 +60,9 @@
                 icon_name="User"
             />
             <bkt-input
-                v-if="tab=='registration'"
-                name="surname"
+                v-show="tab=='registration'"
+                v-model="user.surname"
+                :name="'surname'"
                 type="text"
                 :rules="'required|alpha|min:2'"
                 label="фамилия"
@@ -68,26 +70,32 @@
                 icon_name="User"
             />
             <bkt-input
-                name="email"
+                v-model="user.email"
+                :name="'email'"
                 type="email"
                 label="e-mail"
                 :rules="'required'"
                 placeholder="pochta@gmail.com"
                 icon_name="Email"
             />
-            <!--            <bkt-input-->
-            <!--                name="phone"-->
-            <!--                type="phone"-->
-            <!--                label="номер телефона"-->
-            <!--                :rules="'required'"-->
-            <!--                icon_name="Smartphone"-->
-            <!--            />-->
             <bkt-input
+                v-model="user.phone"
+                :name="'phone'"
+                type="tel"
+                label="номер телефона"
+                :rules="'required'"
+                :placeholder="'+7 495 000-00-00'"
+                icon_name="Smartphone"
+                v-mask="'+7 ### ###-##-##'"
+            />
+            <bkt-input
+                v-show="tab=='registration'"
+                v-model="user.password"
                 name="password"
                 :type="type1"
                 label="пароль"
                 @click-group-item="switchVisibility('type1')"
-                :rules="'required|min:8'"
+                :rules="'required|min:8|confirmed:confirmation'"
                 group_item_action
             >
                 <template #icon>
@@ -118,12 +126,13 @@
                 </template>
             </bkt-input>
             <bkt-input
-                v-if="tab=='registration'"
+                v-model="user.confirm_password"
+                v-show="tab=='registration'"
                 @click-group-item="switchVisibility('type2')"
-                name="confirm_password"
+                :name="'confirmation'"
                 :type="type2"
                 label="повторите пароль"
-                :rules="'required|confirmed:@password|min:8'"
+                :rules="'required|min:8|confirmed:password'"
                 group_item_action
             >
                 <template #icon>
@@ -153,23 +162,28 @@
                     </svg>
                 </template>
             </bkt-input>
-            <bkt-checkbox name="terms" id="terms" :rules="'is:true'" v-model="values.terms" :value="true"
-                          v-if="tab=='registration'">
+            <bkt-checkbox name="'Условия'" id="terms" :rules="'required_boolean'" v-model="terms"
+                          v-show="tab=='registration'">
                 <template #label>
-                    Согласен с условиями пользовательского соглашения,<br>политики сайта, обработки персональных данных.
+                    Согласен с условиями пользовательского соглашения,<br>политики сайта, обработки персональных
+                    данных.
                 </template>
             </bkt-checkbox>
 
-            <button class="bkt-button primary" v-if="tab=='registration'" :disabled="!meta.valid" @click="onSubmit">
+            <button class="bkt-button primary" v-show="tab=='registration'" :disabled="invalid" @click="submit">
+                <span v-show="loading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                 Зарегистрироваться
             </button>
-            <div class="bkt-wrapper-between w-100" v-if="tab=='login'">
-                <a class="bkt-forgot-password">Забыли пароль?
+            <div class="bkt-wrapper-between w-100" v-show="tab=='login'">
+                <a class="bkt-forgot-password" @click="submit">Забыли пароль?
                     <bkt-icon name="ArrowDown"></bkt-icon>
                 </a>
-                <button class="bkt-button primary" :disabled="!meta.valid" @click="onSubmit">Войти</button>
+                <button class="bkt-button primary" :disabled="invalid" @click="submit">
+                    <span v-show="loading" class="spinner-border spinner-border-sm" role="status"
+                          aria-hidden="true"></span>
+                    Войти
+                </button>
             </div>
-
         </template>
         <template #footer>
             <button class="vk-button">
@@ -197,79 +211,49 @@
 </template>
 
 <script>
-    import {useForm} from 'vee-validate';
-    import {ref, toRef} from 'vue';
     import {Modal} from "bootstrap";
 
     export default {
-        name: "BktRegisterModal",
-        setup() {
-            const tab = ref('registration');
-            const grantType = ref("email");
-            const type1 = ref("password");
-            const type2 = ref("password");
-            const loading = ref(false);
-            const {values, handleSubmit, meta} = useForm({});
-            // const rule = yup.boolean().required();
-            const onSubmit = handleSubmit(values => {
-                submit(values);
-
-            });
-
-            function submit(values) {
-                // var myModal = new bootstrap.Modal(document.getElementById('authModal'));
-
-                let data = values;
-                data.grantType = grantType.value;
-                axios
-                    .post('/api/' + tab.value, data)
-                    .then((resp) => {
-
-                        // myModal.toggle();
-                        // myModal.hide();
-                        // myModal.hide();
-
-                        loading.value = false;
-
-
-
-                    })
-                    .catch(function (resp) {
-                        loading.value = false;
-                    });
-
-            }
-
+        name: "AuthModal",
+        data() {
             return {
-                values,
-                onSubmit,
-                meta,
-                tab,
-                type1,
-                type2,
-                loading
-                // rule
-            };
+                type1: "password",
+                type2: "password",
+                grantType: 'email',
+                tab: 'registration',
+                terms: false,
+                loading: false,
+                user:''
+            }
+        },
+        computed: {
+            shared_user() {
+                return this.$store.getters.user
+            },
+        },
+        mounted() {
+            this.user = JSON.parse(JSON.stringify(this.shared_user));
         },
         methods: {
             switchVisibility(type) {
                 this[type] = this[type] === "password" ? "text" : "password";
             },
-            submit(values) {
-                let data = values;
+            async submit() {
+                let data = JSON.parse(JSON.stringify(this.user));
                 data.grantType = this.grantType;
-                axios
+                this.loading = true;
+                await axios
                     .post('/api/' + this.tab, data)
                     .then((resp) => {
-                        console.log(resp);
-                        // modal.modal('hide');
-                        // modal.hide();
-                        $('#authModal').modal('hide');
+                        this.$store.commit('setUser', data);
+                        this.$store.commit('closeModal', '#authModal');
+                        if (this.tab == 'registration') {
+                            this.$store.commit('openModal', '#codeModal');
+                        }
+
                         this.loading = false;
-
-
                     })
-                    .catch(function (resp) {
+                    .catch(err => {
                         this.loading = false;
                     });
             }

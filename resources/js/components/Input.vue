@@ -1,35 +1,34 @@
 <template>
-    <div class="bkt-input__wrapper">
+    <ValidationProvider :name="label" :rules="rules" v-slot="{ errors }" tag="div" class="bkt-input__wrapper" :vid="name">
         <label :for="name" class="bkt-input__label">{{ label }}</label>
         <div class="bkt-input__group">
             <input
-                :name="name"
-                :id="name"
                 :type="type"
                 class="bkt-input"
-                :value="inputValue"
+                :name="name"
+                :id="name"
+                :value="value"
                 :placeholder="placeholder"
-                @input="handleChange"
-                @blur="handleBlur"
+                :disabled="disabled"
+                @input="saveValue"
             />
-            <div class="bkt-input__group-item" :class="{'active': group_item_action}" @click="clickGroupItem">
-                <slot name="group-item">
-                    <div class="bkt-input__icon">
-                        <slot name="icon">
-                            <bkt-icon :name="icon_name"></bkt-icon>
-                        </slot>
-                    </div>
-                </slot>
-            </div>
+            <slot name="group-item">
+                <div class="bkt-input__group-item" :class="{'active': group_item_action&&!disabled}" @click="clickGroupItem">
+                    <slot name="group-item-inner">
+                        <div class="bkt-input__icon">
+                            <slot name="icon">
+                                <bkt-icon :name="icon_name"></bkt-icon>
+                            </slot>
+                        </div>
+                    </slot>
+                </div>
+            </slot>
         </div>
-        <p class="bkt-input-error" v-if="!!errorMessage">{{errorMessage}}</p>
-    </div>
+        <p class="bkt-input-error" v-if="errors">{{errors[0]}}</p>
+    </ValidationProvider>
 </template>
 
 <script>
-    import {toRef} from "vue";
-    import {useField} from "vee-validate";
-
     export default {
         props: {
             type: {
@@ -63,36 +62,25 @@
             group_item_action: {
                 type: Boolean,
                 default: false,
-            }
+            },
+            disabled: {
+                type: Boolean,
+                default: false,
+            },
+            loading: {
+                type: Boolean,
+                default: false,
+            },
         },
-        setup(props) {
-            // use `toRef` to create reactive references to `name` prop which is passed to `useField`
-            // this is important because vee-validte needs to know if the field name changes
-            // https://vee-validate.logaretm.com/v4/guide/composition-api/caveats
-            const name = toRef(props, "name");
-            const rules = toRef(props, "rules");
-            // const { value, errorMessage } = useField('email',);
-            // we don't provide any rules here because we are using form-level validation
-            // https://vee-validate.logaretm.com/v4/guide/validation#form-level-validation
-            const {
-                value: inputValue,
-                errorMessage,
-                handleBlur,
-                handleChange,
-                meta,
-            } = useField(name, rules, {
-                initialValue: props.value,
-            });
-
+        data: function() {
             return {
-                handleChange,
-                handleBlur,
-                errorMessage,
-                inputValue,
-                meta,
+
             };
         },
         methods: {
+            saveValue(event) {
+                this.$emit('input', event.target.value);
+            },
             clickGroupItem() {
                 if(this.group_item_action)
                 {

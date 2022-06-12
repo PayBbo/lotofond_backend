@@ -1,6 +1,7 @@
 .bkt-input {
     border-radius: 25px;
-    padding: 26px 30px;
+    padding: 16px 10px;
+    //padding:0 10px;
     font-size: 16px;
     border:none;
     outline: none;
@@ -14,7 +15,7 @@
         font-size: 14px;
         font-family: "Gilroy", sans-serif;
         color: rgb(45, 50, 68);
-        font-weight: bold;
+        font-weight: 600;
         line-height: 1.571;
         text-align: left;
         margin-bottom: 9px;
@@ -29,12 +30,21 @@
 
 .bkt-input__group {
     position: relative;
-    &-item.active {
-        cursor: pointer;
+    display: flex;
+    background: $body-bg;
+    border-radius: 25px;
+    align-items: center;
+    padding: 10px;
+    &-item {
+        flex-grow: 1;
+        flex-shrink: 0;
+        &.active {
+            cursor: pointer;
+        }
     }
     & .bkt-input
     {
-        padding: 26px 50px 26px 30px;
+        padding: 16px 10px;
         &__icon {
             position: absolute;
             width: 18px;
