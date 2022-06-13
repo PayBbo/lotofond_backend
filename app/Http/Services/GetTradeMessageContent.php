@@ -203,23 +203,17 @@ class GetTradeMessageContent
             $auction->application_end_date = $invitation[$prefix . 'TradeInfo'][$prefix . 'Application']['@attributes']['TimeEnd'];
             $auction->price_form = $invitation[$prefix . 'TradeInfo']['@attributes']['FormPrice'] == 'OpenForm' ? 'open' : 'close';
             $auction->save();
-            $files = null;
-            $images = null;
+            $url = null;
             if (array_key_exists($prefix . 'Attach', $invitation[$prefix . 'TradeInfo'])) {
-                if(mb_stripos($invitation[$prefix . 'TradeInfo'][$prefix . 'Attach'][$prefix . 'FileName'],  'фото')){
-                    $images = $this->uploadFile($invitation[$prefix . 'TradeInfo'], $auction, $prefix, true);
-                    logger($images);
-                }else {
-                    $files = $this->uploadFile($invitation[$prefix . 'TradeInfo'], $auction, $prefix);
-                }
+                $url = $this->uploadFile($invitation[$prefix . 'TradeInfo'], $auction, $prefix);
             }
             foreach ($invitation[$prefix . 'TradeInfo'][$prefix . 'LotList'] as $lot) {
                 if (array_key_exists('0', $lot)) {
                     foreach ($lot as $value) {
-                        $this->saveLot($auction, $value, $prefix, $files, $images);
+                        $this->saveLot($auction, $value, $prefix, $url);
                     }
                 } else {
-                    $this->saveLot($auction, $lot, $prefix, $files, $images);
+                    $this->saveLot($auction, $lot, $prefix, $url);
                 }
             }
         } catch (\Exception $e) {
@@ -261,7 +255,6 @@ class GetTradeMessageContent
         try {
             $auction = Auction::where('trade_id', $invitation['@attributes']['TradeId'])->first();
             if ($auction) {
-                $eventDate = $invitation['@attributes']['EventTime'];
                 if (array_key_exists($prefix . 'LotList', $invitation)) {
                     if (count($invitation[$prefix . 'LotList'][$prefix . 'LotInfo']) > 1) {
                         foreach ($invitation[$prefix . 'LotList'][$prefix . 'LotInfo'] as $lot) {
@@ -269,7 +262,7 @@ class GetTradeMessageContent
                             if ($auction_lot) {
                                 $auction_lot->status_id = Status::where('code', $type)->first()['id'];
                                 $auction_lot->save();
-                                $this->createNotification($auction_lot->id, $eventDate, $type, $id);
+                                $this->createNotification($auction_lot->id, $lot['@attributes']['EventTime'], $type, $id);
                             }
                         }
                     } else {
@@ -277,14 +270,14 @@ class GetTradeMessageContent
                         if ($auction_lot) {
                             $auction_lot->status_id = Status::where('code', $type)->first()['id'];
                             $auction_lot->save();
-                            $this->createNotification($auction_lot->id, $eventDate, $type, $id);
+                            $this->createNotification($auction_lot->id, $invitation['@attributes']['EventTime'], $type, $id);
                         }
                     }
                 } else {
                     foreach ($auction->lots as $lot) {
                         $lot->status_id = Status::where('code', $type)->first()['id'];
                         $lot->save();
-                        $this->createNotification($lot->id, $eventDate, $type, $id);
+                        $this->createNotification($lot->id, $invitation['@attributes']['EventTime'], $type, $id);
                     }
                 }
             }
@@ -419,7 +412,7 @@ class GetTradeMessageContent
         }
     }
 
-    public function uploadFile($invitation, $auction, $prefix, $isImages=false)
+    public function uploadFile($invitation, $auction, $prefix)
     {
         $filename = $invitation[$prefix . 'Attach'][$prefix . 'FileName'];
         if (strpos($filename, '.')) {
@@ -427,37 +420,11 @@ class GetTradeMessageContent
         } else {
             $name_file = str_replace(' ', '-', $filename . '.' . $invitation[$prefix . 'Attach'][$prefix . 'Type']);
         }
-        $path = 'auction-files/auction-' . $auction->id;
-        if (!Storage::disk('public')->exists($path . '/' . $name_file)) {
-            Storage::disk('public')->put($path . '/' . $name_file,
+        if (!Storage::disk('public')->exists('auction-files/auction-' . $auction->id . '/' . $name_file)) {
+            Storage::disk('public')->put('auction-files/auction-' . $auction->id . '/' . $name_file,
                 base64_decode($invitation[$prefix . 'Attach'][$prefix . 'Blob']));
         }
-        $getImages = new GenerateImagesFromFiles();
-        $dest = 'app\public\auction-files\auction-'.$auction->id;
-        $files = null;
-        if($isImages){
-            switch($invitation[$prefix . 'Attach'][$prefix . 'Type']){
-               /* case 'pdf':{
-                    $files = $getImages->getImagesFromPDF($name_file, $path, $dest);
-                    break;
-                }*/
-                case ('doc' || 'docx'):{
-                    $files = $getImages->getImagesFromDoc($name_file, $path, $dest);
-                    break;
-                }
-                case ('zip' || 'rar'):{
-                    $files = $getImages->getZipFiles($name_file, $path, $dest, true);
-                    break;
-                }
-            }
-            Storage::disk('public')->delete($path . '/' . $name_file);
-        }else  if($invitation[$prefix . 'Attach'][$prefix . 'Type'] == 'zip' || $invitation[$prefix . 'Attach'][$prefix . 'Type'] == 'rar'){
-            $files = $getImages->getZipFiles($name_file, $path, $dest);
-           // Storage::disk('public')->delete($path . '/' . $name_file);
-        }else{
-            $files = [Storage::disk('public')->url('auction-files/auction-' . $auction->id . '/' . $name_file)];
-        }
-        return $files;
+        return Storage::disk('public')->url('auction-files/auction-' . $auction->id . '/' . $name_file);
     }
 
     public function createNotification($lot, $date, $type, $id, $value = null)
@@ -470,7 +437,7 @@ class GetTradeMessageContent
         ]);
     }
 
-    public function saveLot($auction, $value, $prefix, $files=null, $images=null)
+    public function saveLot($auction, $value, $prefix, $url)
     {
         if ($auction->lots->where('number', $value['@attributes']['LotNumber'])->count() == 0) {
             $new_lot = new Lot();
@@ -493,11 +460,9 @@ class GetTradeMessageContent
                 $new_lot->auction_step = gettype($value[$prefix . 'StepPrice']) == 'array' ? NULL : $value[$prefix . 'StepPrice'];
             }
             $new_lot->status_id = Status::where('code', 'BiddingInvitation')->first()['id'];
-            if (!is_null($files)) {
+            if (!is_null($url)) {
+                $files[] = $url;
                 $new_lot->files = $files;
-            }
-            if(!is_null($images)){
-                $new_lot->images = $images;
             }
             $new_lot->save();
             if (gettype($value[$prefix . 'Classification'][$prefix . 'IDClass']) == 'array') {

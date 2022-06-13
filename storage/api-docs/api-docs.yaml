@@ -355,6 +355,8 @@ paths:
              application/json:
                schema:
                  $ref: '#/components/schemas/Error'
+       security:
+         - bearerAuth: []
    /trades/lot/action:
      put:
        tags:
@@ -544,18 +546,9 @@ components:
         isWatched:
           type: boolean
           description: Просмотрено/не просмотрено
-        categories:
-          type: object
-          description: Объект с классификатороми
-          example: {
-            "cats": [
-              "residentialProperty",
-              "land"
-            ],
-            "mainCats": [
-              "realEstate"
-            ]
-          }
+        category:
+          type: string
+          description: Тег с классификатором
         isPinned:
           type: boolean
           description:  закреплен/не закреплен
@@ -583,12 +576,6 @@ components:
         photos:
           type: array
           description: массив фоток
-          example: [
-            {"preview": "http://127.0.0.1:8000/storage/auction-files/auction-695/previews/IMG-20220209-WA0009.jpg",
-            "main":"http://127.0.0.1:8000/storage/auction-files/auction-695/IMG-20220209-WA0009.jpg"},
-            { "preview": "http://127.0.0.1:8000/storage/auction-files/auction-695/previews/IMG-20220209-WA0009.jpg",
-              "main": "http://127.0.0.1:8000/storage/auction-files/auction-695/IMG-20220209-WA0009.jpg" },
-          ]
         geoPosition:
           type: string
           description: геометка
@@ -607,29 +594,7 @@ components:
         inMonitoring:
           type: boolean
           description: в мониторинг/нет
-        auctionStep:
-          type: integer
-          description: Значение шага аукциона, может быть NULL
-        isAuctionStepRub:
-          type: boolean
-          description: если true - auctionStep в рублях, если false - auctionStep в процентах
-        deposit:
-          type: integer
-          description:  Значение задатка, может быть NULL
-        isDepositRub:
-          type: boolean
-          description: если true - deposit в рублях, если false - deposit в процентах
-        beforeEnd:
-          type: integer
-          description: количество дней до окончания торгов, может быть нулевым - дата окончания не задана (пока что только в днях)
-        beforeEndType:
-          type: string
-          description: в каких единицах измеряется время до окончания торгов (месяцы, дни, часы, минуты)
-          enum:
-            - days
-            - month
-            - minutes
-            - hours
+
     Error:
       required:
         - code

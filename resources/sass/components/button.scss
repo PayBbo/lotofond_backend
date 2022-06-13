@@ -17,6 +17,9 @@
         &-outline {
             outline: 2px solid $primary-default;
             outline-offset: -2px;
+            &:focus:not(:focus-visible) {
+                outline: 2px solid $primary-default;
+            }
         }
         &-lighter {
             background: $primary-lighter;
@@ -29,6 +32,9 @@
             outline: 2px solid $red-default;
             color: $main-default;
             outline-offset: -2px;
+            &:focus:not(:focus-visible) {
+                outline: 2px solid $red-default;
+            }
         }
     }
     &.green {
@@ -84,5 +90,11 @@
     &__icon {
         max-height: 22px;
         max-width: 22px;
+    }
+    &:disabled {
+        background: $neutral-default;
+    }
+    &:focus:not(:focus-visible) {
+        outline: initial;
     }
 }

@@ -36,7 +36,6 @@ Route::group(['middleware' => ['json.response']], function () {
 
         Route::post('password/reset', [ResetPasswordController::class, 'resetPassword']);
     });
-    Route::get('trades', [AuctionController::class, 'getTrades']);
 
     Route::middleware("auth:api")->group(function () {
 
@@ -50,6 +49,7 @@ Route::group(['middleware' => ['json.response']], function () {
 
         Route::group(['prefix' => 'trades'], function () {
 
+            Route::get('/', [AuctionController::class, 'getTrades']);
             Route::put('/lot/action', [AuctionController::class, 'actionWithLot']);
 
         });
