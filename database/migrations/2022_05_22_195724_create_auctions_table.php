@@ -16,8 +16,8 @@ class CreateAuctionsTable extends Migration
         Schema::disableForeignKeyConstraints();
         Schema::create('auctions', function (Blueprint $table) {
             $table->id();
-            $table->integer('id_efrsb')->unique();
-            $table->integer('id_external')->unique();
+            $table->string('id_efrsb')->nullable();
+            $table->string('id_external')->nullable();
             $table->string('trade_id', 255);
             $table->unsignedBigInteger('debtor_id');
             $table->unsignedBigInteger('arbitr_manager_id')->nullable();

@@ -101,9 +101,11 @@ class User extends Authenticatable
     {
         parent::boot();
 
-        static::updated(function ($user) {
+        static::created(function ($user) {
             if (VerifyAccount::where('value', $user->email)->exists()) {
                 VerifyAccount::where('value', $user->email)->delete();
+            }else if(VerifyAccount::where('phone', $user->phone)->exists()){
+                VerifyAccount::where('phone', $user->phone)->delete();
             }
         });
 

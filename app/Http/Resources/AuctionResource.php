@@ -24,17 +24,27 @@ class AuctionResource extends JsonResource
             $start = Carbon::parse(Carbon::now())->setTimezone('Europe/Moscow');
             $end =  Carbon::parse($this->auction->result_date)->setTimezone('Europe/Moscow');
             $countDays = $end->diffInDays($start);
-            logger($countDays);
+        }
+        $categories = [];
+        $parents = [];
+        foreach ($this->categories as $category){
+            if(!is_null($category->parent())) {
+                $parents[] = $category->parent()->title;
+                $categories[] = $category->title;
+            }else{
+                $parents[] = $category->title;
+            }
         }
         return [
             'auctionId'=>$this->auction_id,
             'lotId'=>$this->id,
             'isWatched' => auth()->check() ? $user->seenLots->contains($this->id) : false,
-            'сategory'=>$this->categories->first()->code,
+            'categories'=>['cats'=>array_unique($categories), 'mainCats'=>array_unique($parents)],
+
             'isPinned'=>  auth()->check() ?  $user->fixedLots->contains($this->id) : false,
             'inFavourite' =>  auth()->check() ? Favourite::where(['user_id'=> $user->id, 'lot_id'=>$this->id])->exists() : false,
             'isHide'=> auth()->check() ? $user->hiddenLots->contains($this->id) : false,
-            'label'=> $this->shortDescription(),
+            'label'=> $this->description,
             'date' =>$this->auction->publish_date->format('d.m.Y H:i'),
             'state'=>$this->status->title,
             'tradingNumber'=>$this->auction->trade_id,
@@ -47,10 +57,11 @@ class AuctionResource extends JsonResource
             'tags'=>[],
             'inMonitoring'=>  auth()->check() ? Monitoring::where(['user_id'=> $user->id, 'lot_id'=>$this->id])->exists() : false,
             'auctionStep' =>$this->auction_step,
-            'isAuctionRub'=>is_null($this->is_step_rub),
+            'isAuctionStepRub'=>is_null($this->is_step_rub),
             'deposit'=>$this->deposit,
             'isDepositRub'=>$this->is_deposit_rub,
-            'beforeEnd'=>$countDays
+            'beforeEnd'=>$countDays,
+            'beforeEndType'=>'days'
         ];
     }
 }
