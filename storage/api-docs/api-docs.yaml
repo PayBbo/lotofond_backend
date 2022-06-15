@@ -696,12 +696,6 @@ components:
         photos:
           type: array
           description: массив фоток
-          example: [
-            {"preview": "http://127.0.0.1:8000/storage/auction-files/auction-695/previews/IMG-20220209-WA0009.jpg",
-            "main":"http://127.0.0.1:8000/storage/auction-files/auction-695/IMG-20220209-WA0009.jpg"},
-            { "preview": "http://127.0.0.1:8000/storage/auction-files/auction-695/previews/IMG-20220209-WA0009.jpg",
-              "main": "http://127.0.0.1:8000/storage/auction-files/auction-695/IMG-20220209-WA0009.jpg" },
-          ]
         geoPosition:
           type: string
           description: геометка

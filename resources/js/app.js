@@ -1,26 +1,60 @@
 require('./bootstrap');
 
-import { createApp } from "vue";
-// import Bell from "./icons/Bell.vue";
-// import Target from "./icons/Target.vue";
-// import Star from "./icons/Star.vue";
-// import Law from "./icons/Law.vue";
-// import Tree from "./icons/Tree.vue";
-// import Trash from "./icons/Trash.vue";
-// import Clone from "./icons/Clone.vue";
-// import Date from "./icons/Date.vue";
-// import Location from "./icons/Location.vue";
-// import Fire from "./icons/Fire.vue";
-// import Category from "./icons/Category.vue";
-// import More from "./icons/More.vue";
-import Card from "./components/Card.vue";
-import Icon from "./Icon.vue";
+window.Vue = require("vue").default;
 
-const app = createApp({
-    components: {
-        // Bell, Target, Star, Law, Tree, Trash, Clone, Date, Location, Fire, Category, More
-        Card
-    }
+import {ValidationProvider, extend, ValidationObserver, localize} from 'vee-validate';
+import * as rules from 'vee-validate/dist/rules';
+import ru from 'vee-validate/dist/locale/ru.json';
+Object.keys(rules).forEach(rule => {
+    extend(rule, rules[rule]);
 });
-app.component('BktIcon', Icon);
-app.mount("#app");
+localize('ru', ru);
+Vue.component('ValidationProvider', ValidationProvider);
+Vue.component('ValidationObserver', ValidationObserver);
+extend('required_boolean', {
+    message: field => 'Поле '+field+'  обязательно для заполнения',
+    validate(value) {
+        return value==true;
+    },
+});
+import Notifications from 'vue-notification';
+Vue.use(Notifications);
+import VueTheMask from 'vue-the-mask'
+Vue.use(VueTheMask);
+const moment = require('moment');
+require('moment/locale/ru');
+moment.locale('ru');
+Vue.use(require('vue-moment'), {
+    moment
+});
+
+import store from './store/index.js';
+
+
+import Card from "./components/Card.vue";
+import Icon from "./components/Icon.vue";
+import Modal from "./components/Modal.vue";
+import Pagination from "./components/Pagination.vue";
+import Input from "./components/Input.vue";
+import Checkbox from "./components/Checkbox.vue";
+import CardList from "./components/CardList.vue";
+
+import BktAuthModal from "./auth/AuthModal.vue";
+import BktCodeModal from "./auth/CodeModal.vue";
+import Main from "./pages/Main/Main.vue";
+
+Vue.component('BktIcon', Icon);
+Vue.component('BktModal', Modal);
+Vue.component('BktInput', Input);
+Vue.component('BktCheckbox', Checkbox);
+Vue.component('BktCard', Card);
+Vue.component('MainPage', Main);
+Vue.component('BktAuthModal', BktAuthModal);
+Vue.component('BktCodeModal', BktCodeModal);
+Vue.component('BktPagination', Pagination);
+Vue.component('BktCardList', CardList);
+
+const app = new Vue({
+    el: "#app",
+    store
+});

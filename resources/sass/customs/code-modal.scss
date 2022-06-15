@@ -1,0 +1,151 @@
+.bkt-modal .bkt-code-modal {
+    & .bkt-modal-content {
+        //& .bkt-modal-header {
+        //    margin-bottom: 0;
+        //}
+        & .bkt-modal-body {
+            padding-top: 0;
+            padding-bottom: 25px;
+        }
+
+        & .bkt-modal__title {
+            font-weight: 600;
+        }
+
+        & .bkt-modal__subtitle {
+            font-size: 16px;
+            font-weight: 500;
+            color: rgb(45, 50, 68);
+            line-height: 1.375;
+            text-align: left;
+        }
+
+        & .bkt-input__group-item {
+            .bkt-button {
+                font-size: 14px;
+                line-height: 1.2;
+                font-weight: bold;
+                border-radius: 15px;
+                width: 100%;
+                max-width: 144px;
+            }
+        }
+
+        & .bkt-code-modal-steps {
+            position: sticky;
+
+            & .bkt-card {
+                display: block;
+                border-radius: 25px;
+                padding: 22px 70px;
+                position: relative;
+
+                &__title {
+                    color: white;
+                    font-size: 22px;
+                    margin-bottom: 0px;
+                    font-weight: bold;
+                    text-transform: uppercase;
+                    line-height: 1;
+                    text-align: center;
+
+                }
+
+                &__subtitle {
+                    margin-bottom: 0;
+                    font-size: 16px;
+                    color: rgb(255, 255, 255);
+                    font-weight: 600;
+                    line-height: 1.375;
+                    text-align: center;
+                }
+
+                &.bg-green {
+                    background: linear-gradient(153deg, rgba(47, 187, 64, 1) 62%, rgba(60, 191, 76, 1) 83%, rgba(107, 207, 119, 1) 100%);
+                }
+
+                &.bkt-card__background-figure-1 {
+                    position: absolute;
+                    margin: auto;
+                    background: #b6e7bc;
+                    bottom: -7px;
+                    width: 92%;
+                    //height: 100px;
+                    z-index: -1;
+                    left: 4.5%;
+                    right: 4.5%;
+                }
+
+                &.bkt-card__background-figure-2 {
+                    position: absolute;
+                    margin: auto;
+                    bottom: -14px;
+                    width: 81%;
+                    //height: 100px;
+                    z-index: -2;
+                    opacity: 0.15;
+                    left: 10.2%;
+                    right: 10.2%;
+                }
+            }
+        }
+    }
+
+
+}
+
+@media (max-width: 576px) {
+    .bkt-modal .bkt-code-modal .bkt-modal-content {
+        & .bkt-modal-header {
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+        & .bkt-modal__title {
+            font-size: 15px;
+            font-weight: bold;
+            line-height: 1.333;
+            text-align: left;
+        }
+
+        & .bkt-modal__subtitle {
+            font-size: 10px;
+            color: rgb(45, 50, 68);
+            line-height: 1.4;
+            text-align: left;
+        }
+
+        & .bkt-code-modal-steps {
+            & .bkt-card {
+                padding: 13px 24px;
+
+                &__title {
+                    color: white;
+                    font-size: 12px;
+                    line-height: 1.833;
+                }
+
+                &__subtitle {
+                    font-size: 8px;
+                    font-weight: 600;
+                    line-height: 2.75;
+                    text-align: center;
+                }
+            }
+        }
+
+    }
+}
+
+@media (min-width: 1200px) {
+    .bkt-code-modal {
+
+        & .bkt-modal-content {
+            max-width: 570px;
+        }
+
+        & .modal-dialog {
+            max-width: 570px;
+            margin: 1.75rem auto;
+        }
+    }
+}

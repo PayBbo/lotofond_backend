@@ -12,7 +12,9 @@ const mix = require('laravel-mix');
  */
 // const { VueLoaderPlugin } = require('vue-loader');
 // mix.webpackConfig({
-//
+    // stats: {
+    //     children: true,
+    // },
 //     mode: 'development',
 //     module: {
 //         rules: [
@@ -47,7 +49,7 @@ const mix = require('laravel-mix');
 //         new VueLoaderPlugin()
 //     ]
 //
-// })
+// });
 mix.js('resources/js/app.js', 'public/js')
     .vue()
     .sass("resources/sass/app.scss", "public/css")
