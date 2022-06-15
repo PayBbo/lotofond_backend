@@ -16,9 +16,12 @@ class Note extends Model
      */
     protected $fillable = [
         'title',
+        'description',
+        'reminder_date',
         'item_id',
         'item_type',
         'user_id',
+        'is_checked'
     ];
 
     /**
@@ -30,10 +33,17 @@ class Note extends Model
         'id' => 'integer',
         'item_id' => 'integer',
         'user_id' => 'integer',
+        'reminder_date'=>'datetime',
+        'is_checked'=>'boolean'
     ];
 
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function item(){
+
+        return $this->morphTo();
     }
 }

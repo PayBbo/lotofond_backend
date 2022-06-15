@@ -38,4 +38,8 @@ class Category extends Model
     public function parent(){
         return Category::find($this->parent_id);
     }
+
+    public function subcategories(){
+        return Category::where('parent_id', $this->id)->get();
+    }
 }

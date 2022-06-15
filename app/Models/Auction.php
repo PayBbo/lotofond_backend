@@ -29,7 +29,9 @@ class Auction extends Model
         'event_end_date',
         'application_start_date',
         'application_end_date',
-        'price_form'
+        'price_form',
+        'case_number',
+        'court'
     ];
 
     /**

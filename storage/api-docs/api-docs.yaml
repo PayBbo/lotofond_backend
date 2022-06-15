@@ -7,6 +7,11 @@ servers:
 paths:
    /registration:
     post:
+      parameters:
+        - name: Content-Language
+          in: header
+          description: Заголовок для определения локали
+          required: true
       tags:
         - Registration
       summary: 'Регистрация пользователя'
@@ -50,6 +55,11 @@ paths:
                 $ref: '#/components/schemas/Error'
    /registration/code:
      post:
+       parameters:
+         - name: Content-Language
+           in: header
+           description: Заголовок для определения локали
+           required: true
        tags:
          - Registration
        summary: 'Запрос повторной отправки кода подтверждения аккаунта'
@@ -87,6 +97,11 @@ paths:
 
    /registration/code/verify:
      post:
+       parameters:
+         - name: Content-Language
+           in: header
+           description: Заголовок для определения локали
+           required: true
        tags:
          - Registration
        summary: 'Отправка кода для завершения регистрации'
@@ -123,6 +138,11 @@ paths:
                  $ref: '#/components/schemas/Error'
    /login:
      post:
+       parameters:
+         - name: Content-Language
+           in: header
+           description: Заголовок для определения локали
+           required: true
        tags:
          - Login
        summary: Вход пользователя
@@ -159,6 +179,11 @@ paths:
                schema:
                  $ref: '#/components/schemas/Error'
    /account/password/code:
+     parameters:
+       - name: Content-Language
+         in: header
+         description: Заголовок для определения локали
+         required: true
      post:
        tags:
          - Account
@@ -196,6 +221,11 @@ paths:
                schema:
                  $ref: '#/components/schemas/Error'
    /account/password/code/verify:
+     parameters:
+       - name: Content-Language
+         in: header
+         description: Заголовок для определения локали
+         required: true
      post:
        tags:
          - Account
@@ -229,6 +259,11 @@ paths:
          "200":
            description: 'Successful response'
    /account/password/reset:
+     parameters:
+       - name: Content-Language
+         in: header
+         description: Заголовок для определения локали
+         required: true
      post:
        tags:
          - Account
@@ -268,6 +303,11 @@ paths:
                schema:
                  $ref: '#/components/schemas/Error'
    /account/user/update:
+     parameters:
+       - name: Content-Language
+         in: header
+         description: Заголовок для определения локали
+         required: true
      put:
        tags:
          - Account
@@ -355,6 +395,76 @@ paths:
              application/json:
                schema:
                  $ref: '#/components/schemas/Error'
+   /trades/{auctionId}:
+     get:
+       parameters:
+         - in: query
+           name: page
+           schema:
+             type: integer
+           required: true
+           description: Номер страницы для серверной пагинации
+         - in: path
+           name: auctionId
+           schema:
+             type: integer
+           required: true
+           description: Айдишник торга, все лоты которого нужно получить
+       tags:
+         - Trades
+       summary: Получение информации о лотах выбранного торга
+       operationId: getLotsByAuction
+       responses:
+         "200":
+           description: Информация о 20 лотах выбранного торга
+           content:
+             application/json:
+               schema:
+                 $ref: '#/components/schemas/Trade'
+         "404":
+           description: Торг по переданному айдишнику не найден
+           content:
+             application/json:
+               schema:
+                 $ref: '#/components/schemas/Error'
+         default:
+           description: unexpected error
+           content:
+             application/json:
+               schema:
+                 $ref: '#/components/schemas/Error'
+   /trades/lot/{lotId}:
+     get:
+       parameters:
+         - in: path
+           name: lotId
+           schema:
+             type: integer
+           required: true
+           description: Айдишник лота, информацию о котором нужно получить
+       tags:
+         - Trades
+       summary: Получение информации о лоте
+       operationId: getLotInformation
+       responses:
+         "200":
+           description: Информация о лоте
+           content:
+             application/json:
+               schema:
+                 $ref: '#/components/schemas/Lot'
+         "404":
+           description: Лот по переданному айдишнику не найден
+           content:
+             application/json:
+               schema:
+                 $ref: '#/components/schemas/Error'
+         default:
+           description: unexpected error
+           content:
+             application/json:
+               schema:
+                 $ref: '#/components/schemas/Error'
    /trades/lot/action:
      put:
        tags:
@@ -384,6 +494,12 @@ paths:
        responses:
          "200":
            description: Лот успешно добавлен/удален в/из "просмотрено", "скрыто", "закреплено"
+         "404":
+           description: Лот по переданному айдишнику не найден
+           content:
+             application/json:
+               schema:
+                 $ref: '#/components/schemas/Error'
          default:
            description: unexpected error
            content:
@@ -548,13 +664,10 @@ components:
           type: object
           description: Объект с классификатороми
           example: {
-            "cats": [
+            "realEstate": [
               "residentialProperty",
               "land"
             ],
-            "mainCats": [
-              "realEstate"
-            ]
           }
         isPinned:
           type: boolean
@@ -619,17 +732,187 @@ components:
         isDepositRub:
           type: boolean
           description: если true - deposit в рублях, если false - deposit в процентах
-        beforeEnd:
+
+    Lot:
+      type: object
+      properties:
+        auctionId:
           type: integer
-          description: количество дней до окончания торгов, может быть нулевым - дата окончания не задана (пока что только в днях)
-        beforeEndType:
+          description: айди торга
+        lotId:
+          type: integer
+          description: айди лота
+        isWatched:
+          type: boolean
+          description: Просмотрено/не просмотрено
+        categories:
+          type: object
+          description: Объект с классификатороми
+          example: {
+            "realEstate": [
+              "residentialProperty",
+              "land"
+            ],
+          }
+        isPinned:
+          type: boolean
+          description:  закреплен/не закреплен
+        inFavourite:
+          type: boolean
+          description: в избранном/нет
+        isHide:
+          type: boolean
+          description: скрыт/не скрыт
+        label:
           type: string
-          description: в каких единицах измеряется время до окончания торгов (месяцы, дни, часы, минуты)
-          enum:
-            - days
-            - month
-            - minutes
-            - hours
+          description: Заголовок/название (часть обрезанного описания)
+        date:
+          type: string
+          description: дата/время занесения на федресурс (объявление о торгах)
+        state:
+          type: string
+          description: статус лота
+        tradingNumber:
+          type: string
+          description: номер торгов
+        lotNumber:
+          type: string
+          description: номер лота
+        photos:
+          type: array
+          description: массив фоток
+          example: [
+            {"preview": "http://127.0.0.1:8000/storage/auction-files/auction-695/previews/IMG-20220209-WA0009.jpg",
+             "main":"http://127.0.0.1:8000/storage/auction-files/auction-695/IMG-20220209-WA0009.jpg"},
+            { "preview": "http://127.0.0.1:8000/storage/auction-files/auction-695/previews/IMG-20220209-WA0009.jpg",
+              "main": "http://127.0.0.1:8000/storage/auction-files/auction-695/IMG-20220209-WA0009.jpg" },
+          ]
+        geoPosition:
+          type: string
+          description: геометка
+        numberOfLots:
+          type: integer
+          description: количество лотов в торгах
+        price:
+          type: integer
+          description: цена
+        priceState:
+          type: string
+          description: состояние цены (енам рост равно убыль)
+        tags:
+          type: array
+          description: список меток
+        inMonitoring:
+          type: boolean
+          description: в мониторинг/нет
+        auctionStep:
+          type: integer
+          description: Значение шага аукциона, может быть NULL
+        isAuctionStepRub:
+          type: boolean
+          description: если true - auctionStep в рублях, если false - auctionStep в процентах
+        deposit:
+          type: integer
+          description:  Значение задатка, может быть NULL
+        isDepositRub:
+          type: boolean
+          description: если true - deposit в рублях, если false - deposit в процентах
+        auctionType:
+          type: string
+          description: тип аукциона
+        eventStart:
+          type: string
+          description: дата начала торгов
+        eventEnd:
+          type: string
+          description: дата окончания торгов
+        applicationStart:
+          type: string
+          description: дата начала приема заявок
+        applicationEnd:
+          type: string
+          description: дата окончания приема заявок
+        resultDate:
+          type: string
+          description: дата объявления результата  торгах
+        tradePlaceName:
+          type: string
+          description: название ЭТП
+        tradePlaceSite:
+          type: string
+          description: сайт ЭТП
+        arbitrManagerName:
+          type: string
+          description: имя арбитражного управляющего
+        arbitrManagerID:
+          type: integer
+          description: айдишник арбитражного управляющего
+        tradeOrganizerID:
+          type: integer
+          description: айдишник организатора торгов
+        tradeOrganizerINN:
+          type: integer
+          description: инн организатора торгов
+        tradeOrganizerName:
+          type: string
+          description: имя организатора торгов
+        debtorID:
+          type: integer
+          description: айдишник должника
+    Notification:
+      required:
+        - value
+        - date
+      type: object
+      properties:
+        value:
+          type: string
+          description: текст уведомления
+        date:
+          type: string
+          description: дата уведомления
+    Debtor:
+      required:
+        - name
+        - address
+        - region
+      type: object
+      properties:
+        name:
+          type: string
+          description: ФИО должника (физ.лица) или короткое название организации (юр. лица)
+        inn:
+          type: string
+          description: ИНН (может быть нулевым)
+        region:
+          type: string
+        address:
+          type: string
+        caseNumber:
+          type: string
+          description: номер судебного дела
+        court:
+          type: string
+          description: суд
+    ArbitrManager:
+      required:
+        - name
+        - inn
+      type: object
+      properties:
+        name:
+          type: string
+        inn:
+          type: string
+        sro:
+          type: string
+          description: название СРО
+        sroINN:
+          type: string
+          description: ИНН СРО
+        sroRegNum:
+          type: string
+          description: регистрационный номер СРО
     Error:
       required:
         - code

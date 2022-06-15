@@ -115,6 +115,11 @@ class Lot extends Model
         return $this->hasMany(TradeMessage::class);
     }
 
+    public function notes()
+    {
+        return $this->morphMany(Note::class, 'item');
+    }
+
     public function shortDescription(){
         $desc = substr($this->description, 0, 150);
         $desc = rtrim($desc, "!,.-");

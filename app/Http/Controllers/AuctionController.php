@@ -3,7 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Exceptions\CustomExceptions\BaseException;
-use App\Http\Resources\AuctionResource;
+use App\Http\Resources\LotResource;
+use App\Models\Auction;
 use App\Models\Lot;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -14,21 +15,37 @@ class AuctionController extends Controller
         $lots = Lot::orderBy('created_at', 'DESC')->paginate(20);
         $data = [];
         foreach($lots as $lot){
-            $data[] = new AuctionResource($lot);
+            $data[] = new LotResource($lot);
         }
         return response($data, 200);
     }
 
-    public function monitoringLot($id){
-
+    public function getLotsByAuction($auctionId){
+        $auction = Auction::find($auctionId);
+        if(!$auction){
+            throw new BaseException("ERR_FIND_AUCTION_FAILED", 404, "Auction with id= ".$auctionId.' does not exist');
+        }
+        $data = [];
+        foreach($auction->lots()->paginate(20) as $lot){
+            $data[] = new LotResource($lot);
+        }
+        return response($data, 200);
     }
-    public function favouriteLot($id){
 
+    public function getLotInformation($lotId){
+
+        $lot = Lot::find($lotId);
+        if(!$lot){
+            throw new BaseException("ERR_FIND_LOT_FAILED", 404, "Lot with id= ".$lotId.' does not exist');
+        }
+        $lot->isLotInfo = true;
+        return response(new LotResource($lot), 200);
     }
+
     public function actionWithLot(Request $request){
         $lot = Lot::find($request->lot_id);
         if(!$lot){
-            throw new BaseException("ERR_FIND_LOT_FAILED", 422, "Lot with id= ".$request->lot_id/' does not exist');
+            throw new BaseException("ERR_FIND_LOT_FAILED", 404, "Lot with id= ".$request->lot_id.' does not exist');
         }
         $user = User::find(auth()->id());
         switch($request->type){

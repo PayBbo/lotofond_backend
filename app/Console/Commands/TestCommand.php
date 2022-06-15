@@ -39,6 +39,7 @@ class TestCommand extends Command
      */
     public function handle()
     {
+
         dispatch(new ParseTrades);
         return 0;
     }

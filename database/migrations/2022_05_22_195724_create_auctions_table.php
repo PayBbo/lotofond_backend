@@ -41,6 +41,8 @@ class CreateAuctionsTable extends Migration
             $table->foreign('auction_type_id')->references('id')
                 ->on('auction_types')->cascadeOnDelete();
             $table->enum('price_form', ['open', 'close']);
+            $table->string('case_number')->nullable();
+            $table->string('court')->nullable();
             $table->timestamps();
         });
         Schema::enableForeignKeyConstraints();
