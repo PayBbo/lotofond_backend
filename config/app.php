@@ -80,6 +80,8 @@ return [
     |
     */
 
+    'supported_languages' => ['en' => 'English', 'ru' => 'Russian', 'zh_CN'=>'Chinese'],
+
     'locale' => 'en',
 
     /*

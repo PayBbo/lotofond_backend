@@ -69,8 +69,8 @@ class Handler extends ExceptionHandler
             }
             if ($e instanceof \Illuminate\Validation\ValidationException) {
                 $response['code'] = 422;
-                $response['title'] = 'ERR_VALIDATION_FAILED';
-                $response['detail'] =$e->validator->errors()->first() . ' : ' . json_encode($request->all());
+                $response['title'] = $e->validator->errors()->first();
+                $response['detail'] = 'ERR_VALIDATION_FAILED' . ' : ' . json_encode($request->all());
             }
 
             if (count($response) > 0) {

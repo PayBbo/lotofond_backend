@@ -17,29 +17,31 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-Route::group(['middleware' => ['json.response']], function () {
+Route::group(['middleware' => ['json.response', 'localization']], function () {
 
-    Route::post('login', [LoginController::class, 'login'])->name('login');
 
-    Route::group(['prefix' => 'registration'], function () {
+        Route::post('login', [LoginController::class, 'login'])->name('login');
 
-        Route::post('/', [RegisterController::class, 'register']);
+        Route::group(['prefix' => 'registration'], function () {
 
-        Route::post('/code/verify', [RegisterController::class, 'verifyRegistrationCode']);
+            Route::post('/', [RegisterController::class, 'register']);
 
-        Route::post('/code', [RegisterController::class, 'requestRegistrationCode']);
+            Route::post('/code/verify', [RegisterController::class, 'verifyRegistrationCode']);
 
-    });
+            Route::post('/code', [RegisterController::class, 'requestRegistrationCode']);
 
-    Route::group(['prefix' => 'account'], function () {
+        });
 
-        Route::post('password/code', [ResetPasswordController::class, 'getResetPasswordCode']);
+        Route::group(['prefix' => 'account'], function () {
 
-        Route::post('password/code/verify', [ResetPasswordController::class, 'verifyResetPasswordCode']);
+            Route::post('password/code', [ResetPasswordController::class, 'getResetPasswordCode']);
 
-        Route::post('password/reset', [ResetPasswordController::class, 'resetPassword']);
+            Route::post('password/code/verify', [ResetPasswordController::class, 'verifyResetPasswordCode']);
 
-    });
+            Route::post('password/reset', [ResetPasswordController::class, 'resetPassword']);
+
+        });
+
     Route::group(['prefix' => 'trades'], function () {
 
         Route::get('/', [AuctionController::class, 'getTrades']);

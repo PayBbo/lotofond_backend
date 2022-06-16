@@ -10,7 +10,7 @@ paths:
       parameters:
         - name: Content-Language
           in: header
-          description: Заголовок для определения локали
+          description: Заголовок для определения локали (ru, en, zh_CN)
           required: true
       tags:
         - Registration
@@ -58,7 +58,7 @@ paths:
        parameters:
          - name: Content-Language
            in: header
-           description: Заголовок для определения локали
+           description: Заголовок для определения локали (ru, en, zh_CN)
            required: true
        tags:
          - Registration
@@ -100,7 +100,7 @@ paths:
        parameters:
          - name: Content-Language
            in: header
-           description: Заголовок для определения локали
+           description: Заголовок для определения локали (ru, en, zh_CN)
            required: true
        tags:
          - Registration
@@ -141,7 +141,7 @@ paths:
        parameters:
          - name: Content-Language
            in: header
-           description: Заголовок для определения локали
+           description: Заголовок для определения локали (ru, en, zh_CN)
            required: true
        tags:
          - Login
@@ -182,7 +182,7 @@ paths:
      parameters:
        - name: Content-Language
          in: header
-         description: Заголовок для определения локали
+         description: Заголовок для определения локали (ru, en, zh_CN)
          required: true
      post:
        tags:
@@ -224,7 +224,7 @@ paths:
      parameters:
        - name: Content-Language
          in: header
-         description: Заголовок для определения локали
+         description: Заголовок для определения локали (ru, en, zh_CN)
          required: true
      post:
        tags:
@@ -262,7 +262,7 @@ paths:
      parameters:
        - name: Content-Language
          in: header
-         description: Заголовок для определения локали
+         description: Заголовок для определения локали (ru, en, zh_CN)
          required: true
      post:
        tags:
@@ -306,7 +306,7 @@ paths:
      parameters:
        - name: Content-Language
          in: header
-         description: Заголовок для определения локали
+         description: Заголовок для определения локали (ru, en, zh_CN)
          required: true
      put:
        tags:
