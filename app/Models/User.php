@@ -104,7 +104,10 @@ class User extends Authenticatable
         static::updated(function ($user) {
             if (VerifyAccount::where('value', $user->email)->exists()) {
                 VerifyAccount::where('value', $user->email)->delete();
+            }else if(VerifyAccount::where('phone', $user->phone)->exists()){
+                VerifyAccount::where('phone', $user->phone)->delete();
             }
+
         });
 
     }

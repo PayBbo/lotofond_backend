@@ -16,7 +16,9 @@
         "laravel/passport": "^10.4",
         "laravel/sanctum": "^2.11",
         "laravel/tinker": "^2.5",
-        "midnite81/xml2array": "^1.0"
+        "midnite81/xml2array": "^1.0",
+        "ext-imagick": "*",
+        "ext-zip": "*"
     },
     "require-dev": {
         "facade/ignition": "^2.5",

@@ -64,10 +64,8 @@ Route::group(['middleware' => ['json.response']], function () {
 
         Route::group(['prefix' => 'trades'], function () {
 
-            Route::get('/', [AuctionController::class, 'getTrades']);
             Route::put('/lot/action', [AuctionController::class, 'actionWithLot']);
-
-
+            
         });
 
         Route::resource('monitoring', App\Http\Controllers\MonitoringController::class);
