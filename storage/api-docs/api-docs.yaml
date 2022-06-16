@@ -34,7 +34,7 @@ paths:
               phone:
                 value:
                   grantType: phone
-                  phoneNumber: '74951239999'
+                  phone: '74951239999'
                   password: LRn&z!4Y
                   name: Ivan
                   surname: Ivanov
@@ -78,7 +78,7 @@ paths:
                phone:
                  value:
                    grantType: phone
-                   phoneNumber: '74951239999'
+                   phone: '74951239999'
        responses:
          "422":
            description: 'Wrong email response'
@@ -121,7 +121,7 @@ paths:
                phone:
                  value:
                    grantType: phone
-                   phoneNumber: '74951239999'
+                   phone: '74951239999'
                    code: 111111
        responses:
          "200":
@@ -162,7 +162,7 @@ paths:
                phone:
                  value:
                    grantType: phone
-                   phoneNumber: '74951239999'
+                   phone: '74951239999'
                    password: LRn&z!4Y
          required: true
        responses:
@@ -203,7 +203,7 @@ paths:
                phone:
                  value:
                    grantType: phone
-                   phoneNumber: '74951239999'
+                   phone: '74951239999'
          required: true
        responses:
          "422":
@@ -246,7 +246,7 @@ paths:
                phone:
                  value:
                    grantType: phone
-                   phoneNumber: '74951239999'
+                   phone: '74951239999'
                    code: '123451'
          required: true
        responses:
@@ -285,7 +285,7 @@ paths:
                phone:
                  value:
                    grantType: phone
-                   phoneNumber: '74951239999'
+                   phone: '74951239999'
                    password: bc7$etyZ
                    code: '123451'
          required: true

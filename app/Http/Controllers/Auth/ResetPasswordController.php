@@ -30,7 +30,7 @@ class ResetPasswordController extends Controller
             case 'phone':
             {
                 $username = $request->phone;
-                $sendCode->sendPhoneCode($request->email, $code);
+                $sendCode->sendPhoneCode($request->phone, $code);
                 break;
             }
         }
