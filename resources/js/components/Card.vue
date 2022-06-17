@@ -43,8 +43,8 @@
                     </div>
                 </div>
                 <div class="col-12 col-md-12 col-lg-4 p-0 p-sm-2 order-1 order-lg-2">
-                    <div class="bkt-wrapper-between bkt-card__head">
-                        <a class="bkt-card__title" :href="'/lot'">{{item && item.label ? item.label:'Некоторое название торгов'}}</a>
+                    <div class="bkt-wrapper-between bkt-card__head text-truncate bkt-nowrap">
+                        <a class="bkt-card__title text-truncate" :href="'/lot'">{{item && item.label ? item.label:'Некоторое название торгов'}}</a>
                         <div class="dropdown d-block d-lg-none">
                             <button class="bkt-button bkt-bg-primary-lighter bkt-card-menu-button" type="button"
                                     id="dropdownMenuClickableOutside" data-bs-toggle="dropdown" data-bs-offset="10,20" data-bs-display="static"

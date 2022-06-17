@@ -58826,12 +58826,15 @@ var render = function () {
               [
                 _c(
                   "div",
-                  { staticClass: "bkt-wrapper-between bkt-card__head" },
+                  {
+                    staticClass:
+                      "bkt-wrapper-between bkt-card__head text-truncate bkt-nowrap",
+                  },
                   [
                     _c(
                       "a",
                       {
-                        staticClass: "bkt-card__title",
+                        staticClass: "bkt-card__title text-truncate",
                         attrs: { href: "/lot" },
                       },
                       [
