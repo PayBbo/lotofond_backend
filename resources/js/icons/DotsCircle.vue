@@ -21,7 +21,7 @@
 
 <script>
     export default {
-        name: "Circle",
+        name: "DotsCircle",
         props: {
             fill: {
                 type: String,

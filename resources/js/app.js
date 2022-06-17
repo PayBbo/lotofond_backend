@@ -1,7 +1,10 @@
 require('./bootstrap');
 
 window.Vue = require("vue").default;
-
+const token = localStorage.getItem('token');
+if (token) {
+    axios.defaults.headers.common['Authorization'] = "Bearer "+token;
+}
 import {ValidationProvider, extend, ValidationObserver, localize} from 'vee-validate';
 import * as rules from 'vee-validate/dist/rules';
 import ru from 'vee-validate/dist/locale/ru.json';
@@ -15,6 +18,15 @@ extend('required_boolean', {
     message: field => 'Поле '+field+'  обязательно для заполнения',
     validate(value) {
         return value==true;
+    },
+});
+extend('phone', {
+    message: field => 'Поле '+field+' должно быть верным номером телефона',
+    validate(value) {
+        if (value) {
+            return  /^(?:(?:\(?(?:00|\+)([1-4]\d\d|[1-9]\d?)\)?)?[\-\.\ \\\/]?)?((?:\(?\d{1,}\)?[\-\.\ \\\/]?){0,})(?:[\-\.\ \\\/]?(?:#|ext\.?|extension|x)[\-\.\ \\\/]?(\d+))?$/.test(value) && value.length>=10 && value.length<= 19;
+        }
+        return false;
     },
 });
 import Notifications from 'vue-notification';
@@ -39,6 +51,7 @@ import Input from "./components/Input.vue";
 import Textarea from "./components/Textarea.vue";
 import Checkbox from "./components/Checkbox.vue";
 import CardList from "./components/CardList.vue";
+import Header from "./components/Header.vue";
 
 import BktAuthModal from "./auth/AuthModal.vue";
 import BktCodeModal from "./auth/CodeModal.vue";
@@ -55,6 +68,7 @@ Vue.component('BktAuthModal', BktAuthModal);
 Vue.component('BktCodeModal', BktCodeModal);
 Vue.component('BktPagination', Pagination);
 Vue.component('BktCardList', CardList);
+Vue.component('BktHeader', Header);
 
 //pages
 Vue.component('MainPage', Main);

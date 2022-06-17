@@ -103,7 +103,6 @@
                         this.$store.commit('setUser', data);
                         this.$store.commit('closeModal', '#codeModal');
                         this.loading = false;
-
                     })
                     .catch(err => {
                         this.loading = false;

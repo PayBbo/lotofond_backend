@@ -1,11 +1,14 @@
 <template>
     <div class="container bkt-main bkt-single-trade bkt-container">
         <div class="bkt-wrapper" style="margin: 30px 0;">
-            <nav style="--bs-breadcrumb-divider: '...';" aria-label="breadcrumb">
-                <ol class="breadcrumb m-0">
-                    <li class="breadcrumb-item bkt-card__subtitle"><a href="/" class=" bkt-text-neutral-dark">главная</a></li>
-                    <li class="breadcrumb-item bkt-card__subtitle bkt-text-neutral-dark">торги</li>
-                    <li class="breadcrumb-item bkt-card__subtitle bkt-text-main" aria-current="page">торги № 22000068750000000003 (лот 1)</li>
+            <nav class="bkt-wrapper m-0" aria-label="breadcrumb">
+                <div class="bkt-button-icon bg-white" style="margin-right:20px">
+                    <bkt-icon :name="'ArrowDown'" class="bkt-button__icon"></bkt-icon>
+                </div>
+                <ol class="breadcrumb bkt-breadcrumb m-0">
+                    <li class="breadcrumb-item bkt-breadcrumb__item"><a href="/" class=" bkt-text-neutral-dark">главная</a></li>
+                    <li class="breadcrumb-item bkt-breadcrumb__item">торги</li>
+                    <li class="breadcrumb-item bkt-breadcrumb__item active" aria-current="page">торги № 22000068750000000003 (лот 1)</li>
                 </ol>
             </nav>
         </div>
@@ -14,26 +17,26 @@
                 торги № 22000068750000000003 (лот 1)
             </h5>
             <div class="bkt-actions">
-                <button class="bkt-button main-light">
+                <button class="bkt-button-icon main-light">
                     <bkt-icon class="bkt-button__icon" :name="'Eye'" :width="'20px'" :height="'18px'"></bkt-icon>
                 </button>
-                <button class="bkt-button main-light">
-                    <bkt-icon class="bkt-button__icon" :name="'Pencil'"></bkt-icon>
+                <button class="bkt-button-icon main-light">
+                    <bkt-icon class="bkt-button__icon" :name="'Bookmark'"></bkt-icon>
                 </button>
-                <button class="bkt-button main-light">
+                <button class="bkt-button-icon main-light">
                     <bkt-icon class="bkt-button__icon" :name="'Target'" :stroke="'#fff'"></bkt-icon>
                 </button>
-                <button class="bkt-button main-light">
+                <button class="bkt-button-icon main-light">
                     <bkt-icon class="bkt-button__icon" :name="'Star'"></bkt-icon>
                 </button>
-                <button class="bkt-button main-light">
+                <button class="bkt-button-icon main-light">
                     <span class="info"></span>
                     <bkt-icon class="bkt-button__icon" :name="'Bell'"></bkt-icon>
                 </button>
-                <button class="bkt-button main-light">
+                <button class="bkt-button-icon main-light">
                     <bkt-icon class="bkt-button__icon" :name="'Clip'" :width="'15px'" :height="'19px'"></bkt-icon>
                 </button>
-                <button class="bkt-button">
+                <button class="bkt-button-icon">
                     <bkt-icon class="bkt-button__icon" :name="'Trash'"></bkt-icon>
                 </button>
             </div>
@@ -319,7 +322,18 @@
                         </a>
                     </div>
                     <div class="bkt-card__body">
-                        <div class="bkt-wrapper m-0 bkt-nowrap">
+                        <div class="bkt-wrapper-between" style="margin-bottom: 23px;">
+                            <div class="bkt-wrapper m-0">
+                                <div class="bkt-card__category bkt-bg-primary-lighter">
+                                    <bkt-icon :name="'Pencil'" :fill="'#2953ff'" class="bkt-card__category-icon"></bkt-icon>
+                                </div>
+                                <h5>Заметка по лоту (видите только вы)</h5>
+                            </div>
+                            <button class="bkt-button-icon primary">
+                                <bkt-icon :name="'Plus'" class="bkt-button__icon"></bkt-icon>
+                            </button>
+                        </div>
+                        <div class="bkt-single-trade-task">
                             <div class="bkt-row outline bkt-wrapper-between">
                                 <div class="bkt-check__wrapper">
                                     <div class="bkt-check">
@@ -332,9 +346,9 @@
                                 <h5 class="m-auto">Некоторое название задачи</h5>
                                 <h6 class="m-auto">Краткое описание задачи если таково имеется</h6>
                                 <div class="bkt-card-period bkt-wrapper">
-                                    <div class="bkt-card__category bkt-bg-blue">
+                                    <div class="bkt-card__category bkt-bg-blue-lighter">
                                         <bkt-icon :name="'Date'" :width="'16px'"
-                                                  :height="'16px'"></bkt-icon>
+                                                  :height="'16px'" :fill="'#29b1ff'"></bkt-icon>
                                     </div>
                                     <div class="bkt-card_feature">
                                         <h5>
@@ -347,7 +361,7 @@
                                 <bkt-icon class="bkt-button__icon" name="Trash"></bkt-icon>
                             </button>
                         </div>
-                        <div class="bkt-wrapper m-0 bkt-nowrap">
+                        <div class="bkt-single-trade-task">
                             <div class="bkt-row outline bkt-wrapper-between">
                                 <div class="bkt-check__wrapper">
                                     <div class="bkt-check">
@@ -360,9 +374,9 @@
                                 <h5 class="m-auto">Некоторое название задачи</h5>
                                 <h6 class="m-auto">Краткое описание задачи если таково имеется</h6>
                                 <div class="bkt-card-period bkt-wrapper">
-                                    <div class="bkt-card__category bkt-bg-blue">
+                                    <div class="bkt-card__category bkt-bg-blue-lighter">
                                         <bkt-icon :name="'Date'" :width="'16px'"
-                                                  :height="'16px'"></bkt-icon>
+                                                  :height="'16px'" :fill="'#29b1ff'"></bkt-icon>
                                     </div>
                                     <div class="bkt-card_feature">
                                         <h5>
@@ -375,7 +389,7 @@
                                 <bkt-icon class="bkt-button__icon" name="Trash"></bkt-icon>
                             </button>
                         </div>
-                        <div class="bkt-wrapper m-0 bkt-nowrap">
+                        <div class="bkt-single-trade-task">
                             <div class="bkt-row outline bkt-wrapper-between">
                                 <div class="bkt-check__wrapper">
                                     <div class="bkt-check">
@@ -388,9 +402,9 @@
                                 <h5 class="m-auto">Некоторое название задачи</h5>
                                 <h6 class="m-auto">Краткое описание задачи если таково имеется</h6>
                                 <div class="bkt-card-period bkt-wrapper">
-                                    <div class="bkt-card__category bkt-bg-blue">
+                                    <div class="bkt-card__category bkt-bg-blue-lighter">
                                         <bkt-icon :name="'Date'" :width="'16px'"
-                                                  :height="'16px'"></bkt-icon>
+                                                  :height="'16px'" :fill="'#29b1ff'"></bkt-icon>
                                     </div>
                                     <div class="bkt-card_feature">
                                         <h5>
@@ -410,7 +424,7 @@
                 <div class="bkt-card bkt-card__body bkt-single-trade-actual">
                     <div class="bkt-card__header bkt-wrapper-between">
                         <h3 class="bkt-card__title">Актуальное по лоту</h3>
-                        <button class="bkt-button">
+                        <button class="bkt-button" style="gap:8px;">
                             Смотреть отчёт
                             <bkt-icon :name="'Clip'" :fill="'#2953ff'" class="bkt-button__icon"></bkt-icon>
                         </button>
@@ -428,13 +442,19 @@
                         </h5>
                         <h5 class="bkt-text-neutral-dark">1 декабря 2022 в 09:00</h5>
                     </div>
+                    <div class="bkt-wrapper-between">
+                        <button class="bkt-button-icon bkt-bg-body">
+                            <bkt-icon class="bkt-button__icon"></bkt-icon>
+                        </button>
+                        <button class="bkt-button primary">Написать организатору</button>
+                    </div>
                 </div>
             </div>
             <div class="col-12 col-md-5">
                 <div class="bkt-card bkt-card__body bkt-single-trade-templates">
                     <div class="bkt-card__header"><h3 class="bkt-card__title">Шаблоны запросов</h3></div>
                     <div class="bkt-card__row outline bkt-wrapper-between bkt-nowrap">
-                        <div class="bkt-template-name">
+                        <div class="bkt-template-name text-truncate">
                             <div class="bkt-card__icon">
                                 <bkt-icon :name="'Note'" :fill="'#ff41be'" :width="'16px'" :height="'16px'"></bkt-icon>
                             </div>
@@ -446,7 +466,7 @@
                         </div>
                     </div>
                     <div class="bkt-card__row outline bkt-wrapper-between bkt-nowrap">
-                        <div class="bkt-template-name">
+                        <div class="bkt-template-name text-truncate">
                             <div class="bkt-card__icon">
                                 <bkt-icon :name="'Note'" :fill="'#ff41be'" :width="'16px'" :height="'16px'"></bkt-icon>
                             </div>
@@ -458,7 +478,7 @@
                         </div>
                     </div>
                     <div class="bkt-card__row outline bkt-wrapper-between bkt-nowrap">
-                        <div class="bkt-template-name">
+                        <div class="bkt-template-name text-truncate">
                             <div class="bkt-card__icon">
                                 <bkt-icon :name="'Note'" :fill="'#ff41be'" :width="'16px'" :height="'16px'"></bkt-icon>
                             </div>
@@ -470,7 +490,7 @@
                         </div>
                     </div>
                     <div class="bkt-card__row outline bkt-wrapper-between bkt-nowrap">
-                        <div class="bkt-template-name">
+                        <div class="bkt-template-name text-truncate">
                             <div class="bkt-card__icon">
                                 <bkt-icon :name="'Note'" :fill="'#ff41be'" :width="'16px'" :height="'16px'"></bkt-icon>
                             </div>
@@ -482,7 +502,7 @@
                         </div>
                     </div>
                     <div class="bkt-card__row outline bkt-wrapper-between bkt-nowrap">
-                        <div class="bkt-template-name">
+                        <div class="bkt-template-name text-truncate">
                             <div class="bkt-card__icon">
                                 <bkt-icon :name="'Note'" :fill="'#ff41be'" :width="'16px'" :height="'16px'"></bkt-icon>
                             </div>
@@ -494,7 +514,7 @@
                         </div>
                     </div>
                     <div class="bkt-card__row outline bkt-wrapper-between bkt-nowrap">
-                        <div class="bkt-template-name">
+                        <div class="bkt-template-name text-truncate">
                             <div class="bkt-card__icon">
                                 <bkt-icon :name="'Note'" :fill="'#ff41be'" :width="'16px'" :height="'16px'"></bkt-icon>
                             </div>
@@ -594,7 +614,7 @@
                             <div class="bkt-card__row outline w-100 bkt-wrapper-between bkt-nowrap">
                                 <h5 class="text-truncate">Правоустанавливающие документы</h5>
                                 <div class="bkt-card__icon">
-                                    <bkt-icon :name="'Circle'" :width="'16px'" :height="'16px'"></bkt-icon>
+                                    <bkt-icon :name="'DotsCircle'" :width="'16px'" :height="'16px'"></bkt-icon>
                                 </div>
                             </div>
                             <button class="bkt-button">
@@ -708,7 +728,13 @@
             </div>
             <div class="col-12 col-md-12">
                 <div class=" bkt-card bkt-card__body bkt-single-trade-debtor">
-                    <h3 class="bkt-card__title">Информация по должнику</h3>
+                    <div class="bkt-card__header bkt-wrapper-between">
+                        <h3 class="bkt-card__title">Информация по должнику</h3>
+                        <a href="" class="bkt-button next">Сообщения по должнику
+                            <span class="bkt-text-red">(7)</span>
+                            <bkt-icon name="ArrowDown"></bkt-icon>
+                        </a>
+                    </div>
                     <ul class="bkt-contents">
                         <li>
                             <div class="bkt-contents__heading"><span>должник</span></div>
@@ -741,17 +767,29 @@
                 </div>
             </div>
             <div class="col-12 col-md-12">
-                <div class="bkt-card bkt-card__body">
-                    <h3 class="bkt-card__title">
-                        Другие активные лоты должника <span class="bkt-text-neutral-dark">(0)</span>
-                    </h3>
+                <div class="bkt-card bkt-card__body bkt-single-trade-active-lots">
+                    <div class="bkt-wrapper-between">
+                        <h3 class="bkt-card__title">
+                            Другие активные лоты должника <span class="bkt-text-neutral-dark">(0)</span>
+                        </h3>
+                        <a class="bkt-button-icon" data-bs-toggle="collapse" href="#collapseActiveLots"  role="button" aria-expanded="false" >
+                            <bkt-icon :name="'ArrowDown'" class="bkt-button__icon"></bkt-icon>
+                        </a>
+                    </div>
+                    <div class="collapse" id="collapseActiveLots">
+                    </div>
                 </div>
             </div>
             <div class="col-12 col-md-12">
                 <div class=" bkt-card bkt-card__body">
-                    <h3 class="bkt-card__title">
-                        Завершённые лоты должника <span class="bkt-text-green">(1)</span>
-                    </h3>
+                    <div class="bkt-wrapper-between">
+                        <h3 class="bkt-card__title">
+                            Завершённые лоты должника <span class="bkt-text-green">(1)</span>
+                        </h3>
+                        <button class="bkt-button-icon" >
+                            <bkt-icon :name="'ArrowDown'" class="bkt-button__icon"></bkt-icon>
+                        </button>
+                    </div>
                 </div>
             </div>
             <div class="col-12 col-md-8">

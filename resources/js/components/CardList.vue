@@ -21,7 +21,7 @@
                     />
                 </template>
             </slot>
-            <slot name="pagination" v-if="!no_pagination">
+            <slot name="pagination" v-if="!no_pagination && items">
                 <bkt-pagination
                     :limit="3"
                     :data="pagination_data"
@@ -86,7 +86,6 @@
         },
         data() {
             return {
-                results: [],
             }
         },
         methods: {

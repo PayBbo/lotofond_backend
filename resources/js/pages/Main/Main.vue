@@ -219,7 +219,7 @@
             </div>
         </div>
         <bkt-card-list :current_component="'BktCard'" :items="items" :loading="loading"
-                       :pagination_data="pagination_data">
+                       no_pagination :pagination_data="pagination_data">
         </bkt-card-list>
     </div>
 </template>
@@ -251,9 +251,10 @@
                     })
                     .then((resp) => {
                         this.loading = false;
-                        this.items = resp.data.data;
-                        this.pagination_data = resp.data;
-
+                        // if (resp.data.data) {
+                            this.items = resp.data;
+                            // this.pagination_data = resp.data;
+                        // }
                     })
                     .catch((error) => {
                         this.loading = false;
