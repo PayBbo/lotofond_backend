@@ -425,7 +425,6 @@ class GetTradeMessageContent
     public function uploadFile($invitation, $auction, $prefix, $isImages = false)
 
     {
-        logger('File');
         $filename = $invitation[$prefix . 'Attach'][$prefix . 'FileName'];
         if (strpos($filename, '.')) {
             $name_file = str_replace(' ', '-', $filename);
@@ -443,26 +442,32 @@ class GetTradeMessageContent
         $files = null;
         if ($isImages) {
             switch ($invitation[$prefix . 'Attach'][$prefix . 'Type']) {
-                /*case 'pdf':
+               /* case 'pdf':
                 {
                     $files = $getImages->getImagesFromPDF($name_file, $path, $dest);
                     break;
                 }*/
-                case ('doc' || 'docx'):
+                //case ('doc' || 'docx'):
+                case ('docx'):
                 {
                     $files = $getImages->getImagesFromDoc($name_file, $path, $dest);
                     break;
                 }
-                case ('zip' || 'rar'):
+                case ('zip'):
                 {
                     $files = $getImages->getZipFiles($name_file, $path, $dest, true);
                     break;
                 }
+               /* case ('rar'):
+                {
+                    $files = $getImages->getRarFiles($name_file, $path, $dest, true);
+                    break;
+                }*/
             }
-            Storage::disk('public')->delete($path . '/' . $name_file);
-        } else if ($invitation[$prefix . 'Attach'][$prefix . 'Type'] == 'zip' || $invitation[$prefix . 'Attach'][$prefix . 'Type'] == 'rar') {
+           // Storage::disk('public')->delete($path . '/' . $name_file);
+        }/* else if ($invitation[$prefix . 'Attach'][$prefix . 'Type'] == 'zip' || $invitation[$prefix . 'Attach'][$prefix . 'Type'] == 'rar') {
             $files = $getImages->getZipFiles($name_file, $path, $dest);
-        } else {
+        }*/ else {
             $files = [Storage::disk('public')->url($path . '/' . $name_file)];
         }
         return $files;

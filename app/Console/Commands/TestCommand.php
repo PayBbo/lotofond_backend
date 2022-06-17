@@ -40,7 +40,19 @@ class TestCommand extends Command
     public function handle()
     {
 
-        dispatch(new ParseTrades);
+      //  $filename = 'Архив-извещения-о-проведении-торгов-№22935.zip';
+        //$filename = 'Фото-объекта.pdf';
+       // $filename = 'Фото.docx';
+         $filename = 'Архив.rar';
+        $path = 'auction-files/auction-940/17-06-2022-04-28';
+        $s_path = 'app\public\auction-files\auction-940\17-06-2022-04-28';
+        $gener = new GenerateImagesFromFiles();
+       // $gener->getZipFiles($filename, $path, $s_path, true);
+         $gener->getRarFiles($filename, $path, $s_path, true);
+        //$gener->getImagesFromPDF($filename, $path, $s_path);
+       // $gener->getImagesFromDoc($filename, $path, $s_path);
+
+       // dispatch(new ParseTrades);
         return 0;
     }
 }

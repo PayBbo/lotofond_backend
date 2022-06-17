@@ -2,49 +2,98 @@
 
 namespace App\Http\Services;
 
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 use Imagick;
 use Intervention\Image\Facades\Image;
+use RarArchive;
 use ZipArchive;
 
 
 class GenerateImagesFromFiles
 {
-    public function getZipFiles($filename, $path, $s_path, $isImages = false)
+    public function getZipFiles($filename, $path, $s_path)
     {
         $filename = \storage_path($s_path . '\\' . $filename);
         $destination = \storage_path($s_path);
         $files = array();
+        logger('ZIP');
+        logger($path);
         try {
             $zip = new ZipArchive();
             $zip->open($filename);
             for ($i = 0; $i < $zip->numFiles; $i++) {
-                $name = iconv('UTF-8', 'cp437//IGNORE', $zip->getNameIndex($i));
-                $name = iconv('cp437', 'cp865//IGNORE', $name);
-                $name = iconv('cp866','UTF-8//IGNORE',$name);
-                $name = str_replace(' ', '-', $name);
-                $zip->renameIndex($i, $name);
+                $filenames = $zip->getNameIndex($i);
+                $name = 'image-' . $i . '.' . substr($zip->getNameIndex($i),strrpos($zip->getNameIndex($i),'.') + 1,strlen($zip->getNameIndex($i)));
+                $zip->renameName($filenames, $name);
             }
             $zip->close();
-            $zip = new ZipArchive();
-            $zip->open($filename);
-            $zip->extractTo($destination);
-            $zip->close();
-            $zip = new ZipArchive();
-            $zip->open($filename);
-            for ($i = 0; $i < $zip->numFiles; $i++) {
-                $name = str_replace(' ', '-', $zip->getNameIndex($i));
+            $zip2 = new ZipArchive();
+            $zip2->open($filename);
+            $zip2->extractTo($destination);
+            $zip2->close();
+           // unlink($filename);
+
+
+            $all_files = File::files($destination);
+            //$i = 0;
+            foreach($all_files as $f) {
+                $name = substr($f,strrpos($f,'\\') + 1,strlen($f));
+                //if ($isImages) {
+                /*     $extension= substr($old_name,strrpos($old_name,'.') + 1,strlen($old_name));
+                    $name = 'image-' . $i . '.' . $extension;
+                }else {
+                    $name = str_replace(' ', '-', $old_name);
+                }*/
+                //rename($destination.'\\'.$old_name, $destination.'\\'.$name);
                 $file = Storage::disk('public')->url($path . '/' . $name);
-                if ($isImages) {
+                //if ($isImages && preg_match("([^\s]+(\.(?i)(jpg|jpeg|png|bmp))$)", $name)) {
+                if (preg_match("([^\s]+(\.(?i)(jpg|jpeg|png|bmp))$)", $name)) {
                     $this->generatePreview($file, $path . '/previews/' . $name);
                     $preview = Storage::disk('public')->url($path . '/previews/' . $name);
-                    $files[$i] = ['main' => $file, 'preview' => $preview];
-                } else {
-                    $files[$i] = $file;
+                    $files[] = ['main' => $file, 'preview' => $preview];
+                } /*elseif (!$isImages) {
+                    $files[] = $file;
+                }*/
+                //$i++;
+            }
+            logger($files);
+
+        } catch (\Exception $exception) {
+            logger($exception);
+        }
+        return $files;
+    }
+    public function getRarFiles($filename, $path, $s_path)
+    {
+        $filename = \storage_path($s_path . '\\' . $filename);
+        $destination = \storage_path($s_path);
+        $files = array();
+        logger('RAR');
+        logger($path);
+        try {
+            $RarName = 'archive.rar';
+            rename($filename, $destination . '\\' . $RarName);
+            $archive = \RarArchive::open($destination . '\\' . $RarName);
+            $entries = $archive->getEntries();
+            $i = 1;
+            foreach ($entries as $entry) {
+                $entry->extract(public_path($destination), $destination.'\\'.'image-' . $i . '.' . substr($entry->getName(),strrpos($entry->getName(),'.') + 1,strlen($entry->getName())));
+                $i++;
+            }
+            $archive->close();
+            // unlink($destination . '\\' . $RarName);
+            $all_files = File::files($destination);
+            foreach($all_files as $f) {
+                $name = substr($f,strrpos($f,'\\') + 1,strlen($f));
+                $file = Storage::disk('public')->url($path . '/' . $name);
+                if (preg_match("([^\s]+(\.(?i)(jpg|jpeg|png|bmp))$)", $name)) {
+                    $this->generatePreview($file, $path . '/previews/' . $name);
+                    $preview = Storage::disk('public')->url($path . '/previews/' . $name);
+                    $files[] = ['main' => $file, 'preview' => $preview];
                 }
             }
-            $zip->close();
-            unlink($filename);
+            logger($files);
         } catch (\Exception $exception) {
             logger($exception);
         }
@@ -54,44 +103,39 @@ class GenerateImagesFromFiles
     public function getImagesFromDoc($filename, $path, $s_path)
     {
         $imageAssets = array();
+        logger('DOC');
+        logger($path);
         try {
-            $zip = zip_open(\storage_path($s_path . '\\' . $filename));
-            $i = 0;
-            if (!$zip || is_numeric($zip)) return false;
-            while ($zip_entry = zip_read($zip)) {
-                if (zip_entry_open($zip, $zip_entry) == FALSE) continue;
-
-                $zipEntryName = zip_entry_name($zip_entry);
-
-                if (strpos($zipEntryName, 'word/media') !== false) {
-
-                    $imageName = substr($zipEntryName, 11);
-
-                    if (substr($imageName, -3) == 'emf') continue;
-
-                    Storage::disk('public')->put($path . '/' . $imageName,
-                        zip_entry_read($zip_entry, zip_entry_filesize($zip_entry)));
-                    $file = Storage::disk('public')->url($path . '/' . $imageName);
-                    logger($file);
-                    $this->generatePreview($file, $path . '/previews/' . $imageName);
-                    $preview = Storage::disk('public')->url($path . '/previews/' . $imageName);
-                    $imageAssets[$i] = ['main' => $file, 'preview' => $preview];
-                    $i++;
+            $document = \storage_path($s_path . '\\' . $filename);
+            $zip = new ZipArchive;
+            if (true === $zip->open($document)) {
+                for ($i = 0; $i < $zip->numFiles; $i++) {
+                    $zip_element = $zip->statIndex($i);
+                    if (preg_match("([^\s]+(\.(?i)(jpg|jpeg|png|bmp))$)", $zip_element["name"])) {
+                        $extension = substr($zip_element["name"],strrpos($zip_element["name"],'.') + 1,strlen($zip_element["name"]));
+                        Storage::disk('public')->put($path . '/' . 'image-' . $i . '.' . $extension, $zip->getFromIndex( $i ) );
+                        $file = Storage::disk('public')->url($path . '/' . 'image-' . $i . '.' . $extension);
+                        //logger($file);
+                        $this->generatePreview($file, $path . '/previews/' . 'image-' . $i . '.' . $extension);
+                        $preview = Storage::disk('public')->url($path . '/previews/' . 'image-' . $i . '.' . $extension);
+                        $imageAssets[$i] = ['main' => $file, 'preview' => $preview];
+                    }
                 }
-                if ($zipEntryName != "word/document.xml") continue;
-                zip_entry_close($zip_entry);
             }
-            zip_close($zip);
-            unlink(\storage_path($s_path . '\\' . $filename));
+            $zip->close();
+            //unlink(\storage_path($s_path . '\\' . $filename));
         } catch (\Exception $exception) {
             logger($exception);
         }
+        logger($imageAssets);
         return $imageAssets;
     }
 
     public function getImagesFromPDF($filename, $s_path, $path)
     {
         $images = array();
+        logger('PDF');
+        logger($path);
         try {
             $imagick = new Imagick();
             $imagick->readImage(\storage_path($path . '\\' . $filename));
@@ -100,7 +144,11 @@ class GenerateImagesFromFiles
             $count = $imagick->getNumberImages();
             $i = 0;
             while ($i < $count) {
-                $f_name = 'img-' . $i . '.jpg';
+                if ($count>1) {
+                    $f_name = 'img-' . $i . '.jpg';
+                }else{
+                    $f_name = 'img.jpg';
+                }
                 $img = new Imagick(\storage_path($path .'\\'. $f_name));
                 $img->trimImage(0);
 
@@ -116,6 +164,8 @@ class GenerateImagesFromFiles
                 $img->destroy();
 
                 $file = Storage::disk('public')->url($s_path . '/' . $f_name);
+               // logger($file);
+              //  logger($s_path . '/previews/' . $f_name);
                 $this->generatePreview($file, $s_path . '/previews/' . $f_name);
                 $preview = Storage::disk('public')->url($s_path . '/previews/' . $f_name);
                 $images[$i] = ['main' => $file, 'preview' => $preview];
@@ -126,6 +176,7 @@ class GenerateImagesFromFiles
         } catch (\Exception $exception) {
             logger($exception);
         }
+        logger($images);
         return $images;
     }
 
