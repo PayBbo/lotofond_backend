@@ -455,12 +455,12 @@ class GetTradeMessageContent
                 }
                 case ('zip'):
                 {
-                    $files = $getImages->getZipFiles($name_file, $path, $dest, true);
+                    $files = $getImages->getZipFiles($name_file, $path, $dest);
                     break;
                 }
                /* case ('rar'):
                 {
-                    $files = $getImages->getRarFiles($name_file, $path, $dest, true);
+                    $files = $getImages->getRarFiles($name_file, $path, $dest);
                     break;
                 }*/
             }
