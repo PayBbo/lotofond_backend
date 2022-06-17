@@ -98,7 +98,7 @@
                 data.region = this.region;
                 this.loading = true;
                 axios
-                    .post('/api/registration/code/verify', data)
+                    .post('/api/registration/code/verify', {region:this.region, grantType: 'email', email: data.email, code: data.code})
                     .then((resp) => {
                         this.$store.commit('setUser', data);
                         this.$store.commit('closeModal', '#codeModal');

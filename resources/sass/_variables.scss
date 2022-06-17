@@ -44,7 +44,7 @@ $primary-lighter: #eef2ff;
 
 // Red
 $red-dark: #ac3f28;
-$red-default: #ac3f28;
+$red-default: #ec4c27;
 $red-light: #ec4c27;
 $red-lighter: #fef1ee;
 
@@ -77,3 +77,46 @@ $neutral-light: #f4f5f5;
 $purple-default: #ff41be;
 $purple-light: #ff48c0;
 $purple-lighter: #fff0fa;
+
+
+$theme-colors: (
+    "body-bg": #f5f7fe,
+    //Main theme
+    "main-dark": #13161d,
+    "main-default": #2d3244,
+    "main-light": #373c4d,
+    // Primary
+    "primary-dark": #2953ff,
+    "primary-default": #2953ff,
+    "primary-light": #29b1ff,
+    "primary-lighter": #eef2ff,
+    // Red
+    "red-dark": #ac3f28,
+    "red-default": #ec4c27,
+    "red-light": #ec4c27,
+    "red-lighter": #fef1ee,
+    //Green
+    "green-dark": #2fbb40,
+    "green-default": #2fbb40,
+    "green-light": #42c052,
+    "green-lighter": #2fbb40,
+    //Yellow
+    "yellow-dark": #ffc515,
+    "yellow-default": #ffc515,
+    "yellow-light": #ffd863,
+    "yellow": #f8e8b8,
+    "yellow-lighter": #fff9e7,
+    //Blue
+    "blue-default": #29b1ff,
+    "blue-light": #50bfff,
+    "blue-lighter": #eef9ff,
+    // Neutral
+    "neutral-darker": #a7a7a7,
+    "neutral-dark": #abadb4,
+    "neutral-default": #cdced2,
+    "neutral-light": #f4f5f5,
+    //Purple
+    "purple-default": #ff41be,
+    "purple-light": #ff48c0,
+    "purple-lighter": #fff0fa,
+);

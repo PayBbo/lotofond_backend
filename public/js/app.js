@@ -5664,7 +5664,12 @@ __webpack_require__.r(__webpack_exports__);
       var data = JSON.parse(JSON.stringify(this.user));
       data.region = this.region;
       this.loading = true;
-      axios.post('/api/registration/code/verify', data).then(function (resp) {
+      axios.post('/api/registration/code/verify', {
+        region: this.region,
+        grantType: 'email',
+        email: data.email,
+        code: data.code
+      }).then(function (resp) {
         _this.$store.commit('setUser', data);
 
         _this.$store.commit('closeModal', '#codeModal');
@@ -5710,6 +5715,48 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var hooper__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! hooper */ "./node_modules/hooper/dist/hooper.esm.js");
 /* harmony import */ var hooper_dist_hooper_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! hooper/dist/hooper.css */ "./node_modules/hooper/dist/hooper.css");
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -6616,6 +6663,963 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Textarea.vue?vue&type=script&lang=js&":
+/*!***************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Textarea.vue?vue&type=script&lang=js& ***!
+  \***************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  props: {
+    type: {
+      type: String,
+      "default": "text"
+    },
+    value: {
+      type: String,
+      "default": ""
+    },
+    name: {
+      type: String,
+      required: true
+    },
+    label: {
+      type: String,
+      required: true
+    },
+    placeholder: {
+      type: String,
+      "default": ""
+    },
+    rules: {
+      type: String,
+      "default": ""
+    },
+    // icon_name: {
+    //     type: String,
+    //     default: "",
+    // },
+    // group_item_action: {
+    //     type: Boolean,
+    //     default: false,
+    // },
+    disabled: {
+      type: Boolean,
+      "default": false
+    },
+    loading: {
+      type: Boolean,
+      "default": false
+    }
+  },
+  data: function data() {
+    return {};
+  },
+  methods: {
+    saveValue: function saveValue(event) {
+      this.$emit('input', event.target.value);
+    },
+    clickGroupItem: function clickGroupItem() {
+      if (this.group_item_action) {
+        this.$emit('click-group-item');
+      }
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/pages/LotCard.vue?vue&type=script&lang=js&":
+/*!*********************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/pages/LotCard.vue?vue&type=script&lang=js& ***!
+  \*********************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var hooper__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! hooper */ "./node_modules/hooper/dist/hooper.esm.js");
+/* harmony import */ var hooper_dist_hooper_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! hooper/dist/hooper.css */ "./node_modules/hooper/dist/hooper.css");
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  name: "LotCard",
+  props: ['item'],
+  components: {
+    Hooper: hooper__WEBPACK_IMPORTED_MODULE_0__.Hooper,
+    Slide: hooper__WEBPACK_IMPORTED_MODULE_0__.Slide,
+    HooperNavigation: hooper__WEBPACK_IMPORTED_MODULE_0__.Navigation
+  }
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/pages/Main/Main.vue?vue&type=script&lang=js&":
 /*!***********************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/pages/Main/Main.vue?vue&type=script&lang=js& ***!
@@ -6872,7 +7876,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       // pagination
       pagination_data: {},
       // table
-      items: [],
+      items: [{
+        id: 1,
+        label: 'Test'
+      }],
       in_process: []
     };
   },
@@ -6936,11 +7943,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_Modal_vue__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./components/Modal.vue */ "./resources/js/components/Modal.vue");
 /* harmony import */ var _components_Pagination_vue__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./components/Pagination.vue */ "./resources/js/components/Pagination.vue");
 /* harmony import */ var _components_Input_vue__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./components/Input.vue */ "./resources/js/components/Input.vue");
-/* harmony import */ var _components_Checkbox_vue__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./components/Checkbox.vue */ "./resources/js/components/Checkbox.vue");
-/* harmony import */ var _components_CardList_vue__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./components/CardList.vue */ "./resources/js/components/CardList.vue");
-/* harmony import */ var _auth_AuthModal_vue__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./auth/AuthModal.vue */ "./resources/js/auth/AuthModal.vue");
-/* harmony import */ var _auth_CodeModal_vue__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./auth/CodeModal.vue */ "./resources/js/auth/CodeModal.vue");
-/* harmony import */ var _pages_Main_Main_vue__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./pages/Main/Main.vue */ "./resources/js/pages/Main/Main.vue");
+/* harmony import */ var _components_Textarea_vue__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./components/Textarea.vue */ "./resources/js/components/Textarea.vue");
+/* harmony import */ var _components_Checkbox_vue__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./components/Checkbox.vue */ "./resources/js/components/Checkbox.vue");
+/* harmony import */ var _components_CardList_vue__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./components/CardList.vue */ "./resources/js/components/CardList.vue");
+/* harmony import */ var _auth_AuthModal_vue__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./auth/AuthModal.vue */ "./resources/js/auth/AuthModal.vue");
+/* harmony import */ var _auth_CodeModal_vue__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./auth/CodeModal.vue */ "./resources/js/auth/CodeModal.vue");
+/* harmony import */ var _pages_Main_Main_vue__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./pages/Main/Main.vue */ "./resources/js/pages/Main/Main.vue");
+/* harmony import */ var _pages_LotCard_vue__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./pages/LotCard.vue */ "./resources/js/pages/LotCard.vue");
 __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
 window.Vue = (__webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js")["default"]);
@@ -6985,16 +7994,21 @@ Vue.use(__webpack_require__(/*! vue-moment */ "./node_modules/vue-moment/dist/vu
 
 
 
+
+
 Vue.component('BktIcon', _components_Icon_vue__WEBPACK_IMPORTED_MODULE_7__["default"]);
 Vue.component('BktModal', _components_Modal_vue__WEBPACK_IMPORTED_MODULE_8__["default"]);
 Vue.component('BktInput', _components_Input_vue__WEBPACK_IMPORTED_MODULE_10__["default"]);
-Vue.component('BktCheckbox', _components_Checkbox_vue__WEBPACK_IMPORTED_MODULE_11__["default"]);
+Vue.component('BktTextarea', _components_Textarea_vue__WEBPACK_IMPORTED_MODULE_11__["default"]);
+Vue.component('BktCheckbox', _components_Checkbox_vue__WEBPACK_IMPORTED_MODULE_12__["default"]);
 Vue.component('BktCard', _components_Card_vue__WEBPACK_IMPORTED_MODULE_6__["default"]);
-Vue.component('MainPage', _pages_Main_Main_vue__WEBPACK_IMPORTED_MODULE_15__["default"]);
-Vue.component('BktAuthModal', _auth_AuthModal_vue__WEBPACK_IMPORTED_MODULE_13__["default"]);
-Vue.component('BktCodeModal', _auth_CodeModal_vue__WEBPACK_IMPORTED_MODULE_14__["default"]);
+Vue.component('BktAuthModal', _auth_AuthModal_vue__WEBPACK_IMPORTED_MODULE_14__["default"]);
+Vue.component('BktCodeModal', _auth_CodeModal_vue__WEBPACK_IMPORTED_MODULE_15__["default"]);
 Vue.component('BktPagination', _components_Pagination_vue__WEBPACK_IMPORTED_MODULE_9__["default"]);
-Vue.component('BktCardList', _components_CardList_vue__WEBPACK_IMPORTED_MODULE_12__["default"]);
+Vue.component('BktCardList', _components_CardList_vue__WEBPACK_IMPORTED_MODULE_13__["default"]); //pages
+
+Vue.component('MainPage', _pages_Main_Main_vue__WEBPACK_IMPORTED_MODULE_16__["default"]);
+Vue.component('LotCardPage', _pages_LotCard_vue__WEBPACK_IMPORTED_MODULE_17__["default"]);
 var app = new Vue({
   el: "#app",
   store: _store_index_js__WEBPACK_IMPORTED_MODULE_5__["default"]
@@ -7111,28 +8125,18 @@ __webpack_require__.r(__webpack_exports__);
         duration: payload.duration | 5000
       });
     },
-    dismissModal: function dismissModal(_ref2) {
+    runGlobalSearch: function runGlobalSearch(_ref2, payload) {
       var commit = _ref2.commit;
-      commit('updateConfirm', {
-        key: 'loading',
-        value: false
-      });
-      commit('dismissModal');
-      commit('toggleConfirmModal');
-      commit('setModalInfo', null);
-    },
-    runGlobalSearch: function runGlobalSearch(_ref3, payload) {
-      var commit = _ref3.commit;
       return axios.post('/api/global-search', payload);
     }
   },
   mutations: {
     openModal: function openModal(state, payload) {
-      var modal = bootstrap.Modal.getOrCreateInstance(document.querySelector(payload));
+      var modal = bootstrap.Modal.getOrCreateInstance(document.querySelector('' + payload));
       modal.show();
     },
     closeModal: function closeModal(state, payload) {
-      var modal = bootstrap.Modal.getOrCreateInstance(document.querySelector(payload));
+      var modal = bootstrap.Modal.getOrCreateInstance(document.querySelector('' + payload));
       modal.hide();
       var backdrop = document.querySelector('.modal-backdrop');
 
@@ -56033,6 +57037,84 @@ component.options.__file = "resources/js/components/Pagination.vue"
 
 /***/ }),
 
+/***/ "./resources/js/components/Textarea.vue":
+/*!**********************************************!*\
+  !*** ./resources/js/components/Textarea.vue ***!
+  \**********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _Textarea_vue_vue_type_template_id_b9eec0b6_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Textarea.vue?vue&type=template&id=b9eec0b6&scoped=true& */ "./resources/js/components/Textarea.vue?vue&type=template&id=b9eec0b6&scoped=true&");
+/* harmony import */ var _Textarea_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Textarea.vue?vue&type=script&lang=js& */ "./resources/js/components/Textarea.vue?vue&type=script&lang=js&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+;
+var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _Textarea_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _Textarea_vue_vue_type_template_id_b9eec0b6_scoped_true___WEBPACK_IMPORTED_MODULE_0__.render,
+  _Textarea_vue_vue_type_template_id_b9eec0b6_scoped_true___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
+  false,
+  null,
+  "b9eec0b6",
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/Textarea.vue"
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/pages/LotCard.vue":
+/*!****************************************!*\
+  !*** ./resources/js/pages/LotCard.vue ***!
+  \****************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _LotCard_vue_vue_type_template_id_292e9bf0_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./LotCard.vue?vue&type=template&id=292e9bf0&scoped=true& */ "./resources/js/pages/LotCard.vue?vue&type=template&id=292e9bf0&scoped=true&");
+/* harmony import */ var _LotCard_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./LotCard.vue?vue&type=script&lang=js& */ "./resources/js/pages/LotCard.vue?vue&type=script&lang=js&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+;
+var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _LotCard_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _LotCard_vue_vue_type_template_id_292e9bf0_scoped_true___WEBPACK_IMPORTED_MODULE_0__.render,
+  _LotCard_vue_vue_type_template_id_292e9bf0_scoped_true___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
+  false,
+  null,
+  "292e9bf0",
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/pages/LotCard.vue"
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (component.exports);
+
+/***/ }),
+
 /***/ "./resources/js/pages/Main/Main.vue":
 /*!******************************************!*\
   !*** ./resources/js/pages/Main/Main.vue ***!
@@ -56216,6 +57298,38 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/components/Textarea.vue?vue&type=script&lang=js&":
+/*!***********************************************************************!*\
+  !*** ./resources/js/components/Textarea.vue?vue&type=script&lang=js& ***!
+  \***********************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Textarea_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./Textarea.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Textarea.vue?vue&type=script&lang=js&");
+ /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Textarea_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/pages/LotCard.vue?vue&type=script&lang=js&":
+/*!*****************************************************************!*\
+  !*** ./resources/js/pages/LotCard.vue?vue&type=script&lang=js& ***!
+  \*****************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_LotCard_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./LotCard.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/pages/LotCard.vue?vue&type=script&lang=js&");
+ /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_LotCard_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
 /***/ "./resources/js/pages/Main/Main.vue?vue&type=script&lang=js&":
 /*!*******************************************************************!*\
   !*** ./resources/js/pages/Main/Main.vue?vue&type=script&lang=js& ***!
@@ -56394,6 +57508,40 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Pagination_vue_vue_type_template_id_d7acf176_scoped_true___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
 /* harmony export */ });
 /* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Pagination_vue_vue_type_template_id_d7acf176_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./Pagination.vue?vue&type=template&id=d7acf176&scoped=true& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Pagination.vue?vue&type=template&id=d7acf176&scoped=true&");
+
+
+/***/ }),
+
+/***/ "./resources/js/components/Textarea.vue?vue&type=template&id=b9eec0b6&scoped=true&":
+/*!*****************************************************************************************!*\
+  !*** ./resources/js/components/Textarea.vue?vue&type=template&id=b9eec0b6&scoped=true& ***!
+  \*****************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Textarea_vue_vue_type_template_id_b9eec0b6_scoped_true___WEBPACK_IMPORTED_MODULE_0__.render),
+/* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Textarea_vue_vue_type_template_id_b9eec0b6_scoped_true___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
+/* harmony export */ });
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Textarea_vue_vue_type_template_id_b9eec0b6_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./Textarea.vue?vue&type=template&id=b9eec0b6&scoped=true& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Textarea.vue?vue&type=template&id=b9eec0b6&scoped=true&");
+
+
+/***/ }),
+
+/***/ "./resources/js/pages/LotCard.vue?vue&type=template&id=292e9bf0&scoped=true&":
+/*!***********************************************************************************!*\
+  !*** ./resources/js/pages/LotCard.vue?vue&type=template&id=292e9bf0&scoped=true& ***!
+  \***********************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_LotCard_vue_vue_type_template_id_292e9bf0_scoped_true___WEBPACK_IMPORTED_MODULE_0__.render),
+/* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_LotCard_vue_vue_type_template_id_292e9bf0_scoped_true___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
+/* harmony export */ });
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_LotCard_vue_vue_type_template_id_292e9bf0_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./LotCard.vue?vue&type=template&id=292e9bf0&scoped=true& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/pages/LotCard.vue?vue&type=template&id=292e9bf0&scoped=true&");
 
 
 /***/ }),
@@ -57241,48 +58389,49 @@ var render = function () {
   var _c = _vm._self._c || _h
   return _c(
     "div",
-    {
-      staticClass:
-        "bkt-card-bidding bkt-card row w-100 mx-auto position-relative mx-0",
-    },
+    { staticClass: "bkt-card-trade bkt-card__row w-100 mx-auto mx-0" },
     [
-      _c("div", { staticClass: "bkt-wrapper-between bkt-card__heading" }, [
-        _c("h5", [
-          _vm._v(
-            "торги № " +
-              _vm._s(
-                _vm.item && _vm.item.tradingNumber
-                  ? _vm.item.tradingNumber
-                  : "0"
-              )
-          ),
-        ]),
-        _vm._v(" "),
-        _c("h5", [
-          _vm._v(
-            "до окончания более " +
-              _vm._s(
-                _vm.item && _vm.item.beforeEnd ? _vm.item.beforeEnd : "0"
-              ) +
-              " дней\n            "
-          ),
-          _c(
-            "span",
-            { staticClass: "bkt-card__icon" },
-            [
-              _c("bkt-icon", {
-                attrs: {
-                  name: "Alarm",
-                  fill: "#2fbb40",
-                  width: "14px",
-                  height: "14px",
-                },
-              }),
-            ],
-            1
-          ),
-        ]),
-      ]),
+      _c(
+        "div",
+        { staticClass: "bkt-wrapper-between bkt-card__heading w-100" },
+        [
+          _c("h5", [
+            _vm._v(
+              "торги № " +
+                _vm._s(
+                  _vm.item && _vm.item.tradingNumber
+                    ? _vm.item.tradingNumber
+                    : "0"
+                )
+            ),
+          ]),
+          _vm._v(" "),
+          _c("h5", [
+            _vm._v(
+              "до окончания более " +
+                _vm._s(
+                  _vm.item && _vm.item.beforeEnd ? _vm.item.beforeEnd : "0"
+                ) +
+                " дней\n            "
+            ),
+            _c(
+              "span",
+              { staticClass: "bkt-card__icon d-inline-block" },
+              [
+                _c("bkt-icon", {
+                  attrs: {
+                    name: "Alarm",
+                    fill: "#2fbb40",
+                    width: "14px",
+                    height: "14px",
+                  },
+                }),
+              ],
+              1
+            ),
+          ]),
+        ]
+      ),
       _vm._v(" "),
       _c("div", { staticClass: "col-12 col-lg-11 p-0" }, [
         _c(
@@ -57350,25 +58499,161 @@ var render = function () {
                   "div",
                   { staticClass: "bkt-wrapper-between bkt-card__head" },
                   [
-                    _c("h3", { staticClass: "bkt-card__title" }, [
-                      _vm._v(
-                        _vm._s(
-                          _vm.item && _vm.item.label
-                            ? _vm.item.label
-                            : "Некоторое название торгов"
-                        )
+                    _c(
+                      "a",
+                      {
+                        staticClass: "bkt-card__title",
+                        attrs: { href: "/lot" },
+                      },
+                      [
+                        _vm._v(
+                          _vm._s(
+                            _vm.item && _vm.item.label
+                              ? _vm.item.label
+                              : "Некоторое название торгов"
+                          )
+                        ),
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "dropdown d-block d-lg-none" }, [
+                      _c(
+                        "button",
+                        {
+                          staticClass:
+                            "bkt-button bkt-bg-primary-lighter bkt-card-menu-button",
+                          attrs: {
+                            type: "button",
+                            id: "dropdownMenuClickableOutside",
+                            "data-bs-toggle": "dropdown",
+                            "data-bs-offset": "10,20",
+                            "data-bs-display": "static",
+                            "data-bs-auto-close": "inside",
+                            "aria-expanded": "false",
+                          },
+                        },
+                        [_c("bkt-icon", { attrs: { name: "More" } })],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "div",
+                        {
+                          staticClass:
+                            "bkt-card-menu m-0 dropdown-menu dropdown-menu-end position-absolute",
+                          attrs: {
+                            "aria-labelledby": "dropdownMenuClickableOutside",
+                          },
+                        },
+                        [
+                          _c("div", { staticClass: "bkt-card-menu-inner" }, [
+                            _c(
+                              "button",
+                              { staticClass: "bkt-button main-light" },
+                              [
+                                _c("bkt-icon", {
+                                  staticClass: "bkt-button__icon",
+                                  attrs: { name: "Eye", stroke: "#2953ff" },
+                                }),
+                                _vm._v(
+                                  "\n                                    Инфо о должнике\n                                "
+                                ),
+                              ],
+                              1
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "button",
+                              { staticClass: "bkt-button main-light" },
+                              [
+                                _c("bkt-icon", {
+                                  staticClass: "bkt-button__icon",
+                                  attrs: { name: "Pencil", fill: "#29b1ff" },
+                                }),
+                                _vm._v(
+                                  "\n                                    Добавить заметку\n                                "
+                                ),
+                              ],
+                              1
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "button",
+                              { staticClass: "bkt-button main-light" },
+                              [
+                                _c("bkt-icon", {
+                                  staticClass: "bkt-button__icon",
+                                  attrs: { name: "Target", stroke: "#ec4c27" },
+                                }),
+                                _vm._v(
+                                  "\n                                    Следить за лотом\n                                "
+                                ),
+                              ],
+                              1
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "button",
+                              { staticClass: "bkt-button main-light" },
+                              [
+                                _c("bkt-icon", {
+                                  staticClass: "bkt-button__icon",
+                                  attrs: { name: "Star", fill: "#ffc515" },
+                                }),
+                                _vm._v(
+                                  "\n                                    В избранное\n                                "
+                                ),
+                              ],
+                              1
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "button",
+                              { staticClass: "bkt-button main-light" },
+                              [
+                                _c("span", { staticClass: "info" }),
+                                _vm._v(" "),
+                                _c("bkt-icon", {
+                                  staticClass: "bkt-button__icon",
+                                  attrs: { name: "Bell", fill: "#2fbb40" },
+                                }),
+                                _vm._v(
+                                  "\n                                    Уведомления\n                                "
+                                ),
+                              ],
+                              1
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "button",
+                              { staticClass: "bkt-button main-light" },
+                              [
+                                _c("bkt-icon", {
+                                  staticClass: "bkt-button__icon",
+                                  attrs: { name: "Clip", fill: "#ff41be" },
+                                }),
+                                _vm._v(
+                                  "\n                                    Закрепить\n                                "
+                                ),
+                              ],
+                              1
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "button",
+                              { staticClass: "bkt-button pb-0" },
+                              [
+                                _c("bkt-icon", {
+                                  staticClass: "bkt-button__icon mx-auto",
+                                  attrs: { name: "Trash" },
+                                }),
+                              ],
+                              1
+                            ),
+                          ]),
+                        ]
                       ),
                     ]),
-                    _vm._v(" "),
-                    _c(
-                      "button",
-                      {
-                        staticClass:
-                          "bkt-button bg-primary-lighter bkt-card-menu-button d-block d-lg-none",
-                      },
-                      [_c("bkt-icon", { attrs: { name: "More" } })],
-                      1
-                    ),
                   ]
                 ),
                 _vm._v(" "),
@@ -57405,7 +58690,7 @@ var render = function () {
                   ),
                   _c(
                     "div",
-                    { staticClass: "bkt-card-price-icon bg-green-light" },
+                    { staticClass: "bkt-card-price-icon bkt-bg-green-light" },
                     [
                       _c("bkt-icon", {
                         attrs: {
@@ -57496,7 +58781,7 @@ var render = function () {
               _c("div", { staticClass: "bkt-card-period bkt-wrapper" }, [
                 _c(
                   "div",
-                  { staticClass: "bkt-card__category bg-primary-lighter" },
+                  { staticClass: "bkt-card__category bkt-bg-primary-lighter" },
                   [
                     _c("bkt-icon", {
                       attrs: {
@@ -57516,7 +58801,7 @@ var render = function () {
               _c("div", { staticClass: "bkt-card-period bkt-wrapper" }, [
                 _c(
                   "div",
-                  { staticClass: "bkt-card__category bg-primary-lighter" },
+                  { staticClass: "bkt-card__category bkt-bg-primary-lighter" },
                   [
                     _c("bkt-icon", {
                       attrs: {
@@ -57598,7 +58883,7 @@ var render = function () {
       ]),
       _vm._v(" "),
       _c("div", { staticClass: "col-2 col-lg-1 p-0 d-none d-lg-block" }, [
-        _c("div", { staticClass: "bkt-card bg-main vertical m-0" }, [
+        _c("div", { staticClass: "bkt-card bkt-bg-main vertical m-0" }, [
           _c(
             "button",
             { staticClass: "bkt-button-ellipse main-light" },
@@ -58661,6 +59946,2446 @@ render._withStripped = true
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Textarea.vue?vue&type=template&id=b9eec0b6&scoped=true&":
+/*!********************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Textarea.vue?vue&type=template&id=b9eec0b6&scoped=true& ***!
+  \********************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* binding */ render),
+/* harmony export */   "staticRenderFns": () => (/* binding */ staticRenderFns)
+/* harmony export */ });
+var render = function () {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("ValidationProvider", {
+    staticClass: "bkt-input__wrapper",
+    attrs: { name: _vm.label, rules: _vm.rules, tag: "div", vid: _vm.name },
+    scopedSlots: _vm._u([
+      {
+        key: "default",
+        fn: function (ref) {
+          var errors = ref.errors
+          return [
+            _c(
+              "label",
+              { staticClass: "bkt-input__label", attrs: { for: _vm.name } },
+              [_vm._v(_vm._s(_vm.label))]
+            ),
+            _vm._v(" "),
+            _c("div", { staticClass: "bkt-input__group" }, [
+              _c("textarea", {
+                staticClass: "bkt-input",
+                attrs: {
+                  name: _vm.name,
+                  id: _vm.name,
+                  placeholder: _vm.placeholder,
+                  disabled: _vm.disabled,
+                },
+                domProps: { value: _vm.value },
+                on: { input: _vm.saveValue },
+              }),
+            ]),
+            _vm._v(" "),
+            errors
+              ? _c("p", { staticClass: "bkt-input-error" }, [
+                  _vm._v(_vm._s(errors[0])),
+                ])
+              : _vm._e(),
+          ]
+        },
+      },
+    ]),
+  })
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/pages/LotCard.vue?vue&type=template&id=292e9bf0&scoped=true&":
+/*!**************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/pages/LotCard.vue?vue&type=template&id=292e9bf0&scoped=true& ***!
+  \**************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* binding */ render),
+/* harmony export */   "staticRenderFns": () => (/* binding */ staticRenderFns)
+/* harmony export */ });
+var render = function () {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    { staticClass: "container bkt-main bkt-single-trade bkt-container" },
+    [
+      _vm._m(0),
+      _vm._v(" "),
+      _c(
+        "div",
+        {
+          staticClass:
+            "bkt-row bkt-bg-main bkt-wrapper-between bkt-single-trade-actions-nav",
+        },
+        [
+          _c("h5", { staticClass: "bkt-trading-number" }, [
+            _vm._v(
+              "\n            торги № 22000068750000000003 (лот 1)\n        "
+            ),
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "bkt-actions" }, [
+            _c(
+              "button",
+              { staticClass: "bkt-button main-light" },
+              [
+                _c("bkt-icon", {
+                  staticClass: "bkt-button__icon",
+                  attrs: { name: "Eye", width: "20px", height: "18px" },
+                }),
+              ],
+              1
+            ),
+            _vm._v(" "),
+            _c(
+              "button",
+              { staticClass: "bkt-button main-light" },
+              [
+                _c("bkt-icon", {
+                  staticClass: "bkt-button__icon",
+                  attrs: { name: "Pencil" },
+                }),
+              ],
+              1
+            ),
+            _vm._v(" "),
+            _c(
+              "button",
+              { staticClass: "bkt-button main-light" },
+              [
+                _c("bkt-icon", {
+                  staticClass: "bkt-button__icon",
+                  attrs: { name: "Target", stroke: "#fff" },
+                }),
+              ],
+              1
+            ),
+            _vm._v(" "),
+            _c(
+              "button",
+              { staticClass: "bkt-button main-light" },
+              [
+                _c("bkt-icon", {
+                  staticClass: "bkt-button__icon",
+                  attrs: { name: "Star" },
+                }),
+              ],
+              1
+            ),
+            _vm._v(" "),
+            _c(
+              "button",
+              { staticClass: "bkt-button main-light" },
+              [
+                _c("span", { staticClass: "info" }),
+                _vm._v(" "),
+                _c("bkt-icon", {
+                  staticClass: "bkt-button__icon",
+                  attrs: { name: "Bell" },
+                }),
+              ],
+              1
+            ),
+            _vm._v(" "),
+            _c(
+              "button",
+              { staticClass: "bkt-button main-light" },
+              [
+                _c("bkt-icon", {
+                  staticClass: "bkt-button__icon",
+                  attrs: { name: "Clip", width: "15px", height: "19px" },
+                }),
+              ],
+              1
+            ),
+            _vm._v(" "),
+            _c(
+              "button",
+              { staticClass: "bkt-button" },
+              [
+                _c("bkt-icon", {
+                  staticClass: "bkt-button__icon",
+                  attrs: { name: "Trash" },
+                }),
+              ],
+              1
+            ),
+          ]),
+        ]
+      ),
+      _vm._v(" "),
+      _c(
+        "div",
+        {
+          staticClass: "row",
+          staticStyle: { gap: "30px 0", margin: "30px auto" },
+        },
+        [
+          _c("div", { staticClass: "col-12 col-md-7" }, [
+            _c("div", { staticClass: "bkt-card" }, [
+              _c("div", { staticClass: "bkt-card__body" }, [
+                _c("h3", { staticClass: "bkt-card__title" }, [
+                  _vm._v("Некоторое название торгов"),
+                ]),
+                _vm._v(" "),
+                _vm._m(1),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  {
+                    staticClass:
+                      "bkt-row outline bkt-wrapper-between align-items-center",
+                  },
+                  [
+                    _vm._m(2),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      { staticClass: "bkt-row__icon" },
+                      [_c("bkt-icon", { attrs: { name: "Tree" } })],
+                      1
+                    ),
+                  ]
+                ),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  { staticClass: "bkt-row outline bkt-wrapper-between" },
+                  [
+                    _vm._m(3),
+                    _vm._v(" "),
+                    _c(
+                      "span",
+                      { staticClass: "bkt-row__icon" },
+                      [_c("bkt-icon", { attrs: { name: "File" } })],
+                      1
+                    ),
+                  ]
+                ),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  { staticClass: "bkt-row outline bkt-wrapper-between" },
+                  [
+                    _vm._m(4),
+                    _vm._v(" "),
+                    _c(
+                      "span",
+                      { staticClass: "bkt-row__icon" },
+                      [_c("bkt-icon", { attrs: { name: "Pie" } })],
+                      1
+                    ),
+                  ]
+                ),
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "bkt-card__footer" }, [
+                _c("h6", [
+                  _c("a", { attrs: { href: "" } }, [
+                    _vm._v(
+                      '№135-ФЗ "О защите конкуренции", статья 17.1\n                            '
+                    ),
+                    _c(
+                      "span",
+                      [
+                        _c("bkt-icon", {
+                          staticStyle: { transform: "rotate(270deg)" },
+                          attrs: { name: "ArrowDown", fill: "#2953ff" },
+                        }),
+                      ],
+                      1
+                    ),
+                  ]),
+                ]),
+              ]),
+            ]),
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "col-12 col-md-5" }, [
+            _c(
+              "div",
+              { staticClass: "bkt-card bkt-card-trade bkt-single-trade-card" },
+              [
+                _c("div", { staticClass: "bkt-card__body" }, [
+                  _c(
+                    "div",
+                    { staticClass: "bkt-card-image-wrapper" },
+                    [
+                      _c(
+                        "hooper",
+                        {
+                          staticClass: "bkt-card__image-slider",
+                          attrs: { itemsToShow: 1, centerMode: true },
+                        },
+                        [
+                          _c("slide", [
+                            _c("img", {
+                              staticClass: "bkt-card__image",
+                              attrs: { src: "/images/card-image.jpg" },
+                            }),
+                          ]),
+                          _vm._v(" "),
+                          _c("slide", [
+                            _c("img", {
+                              staticClass: "bkt-card__image",
+                              attrs: { src: "/images/card-image.jpg" },
+                            }),
+                          ]),
+                          _vm._v(" "),
+                          _c("slide", [
+                            _c("img", {
+                              staticClass: "bkt-card__image",
+                              attrs: { src: "/images/card-image.jpg" },
+                            }),
+                          ]),
+                          _vm._v(" "),
+                          _c("hooper-navigation", {
+                            attrs: { slot: "hooper-addons" },
+                            slot: "hooper-addons",
+                          }),
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _vm._m(5),
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    { staticClass: "bkt-card-price bkt-button green w-100" },
+                    [
+                      _vm._v(
+                        "\n                        " +
+                          _vm._s(
+                            _vm.item && _vm.item.price
+                              ? _vm.item.price
+                              : "2 485 400"
+                          ) +
+                          " ₽\n                        "
+                      ),
+                      _c(
+                        "div",
+                        {
+                          staticClass: "bkt-card-price-icon bkt-bg-green-light",
+                        },
+                        [
+                          _c("bkt-icon", {
+                            attrs: {
+                              name: "ArrowTriple",
+                              width: "22px",
+                              height: "22px",
+                            },
+                          }),
+                        ],
+                        1
+                      ),
+                    ]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    {
+                      staticClass: "bkt-card-infographics",
+                      staticStyle: { gap: "10px" },
+                    },
+                    [
+                      _c(
+                        "div",
+                        {
+                          staticClass:
+                            "bkt-card__row outline bkt-wrapper-between",
+                        },
+                        [
+                          _c("h5", { staticClass: "bkt-card__subtitle" }, [
+                            _vm._v("текущая цена"),
+                          ]),
+                          _vm._v(" "),
+                          _c(
+                            "h4",
+                            { staticClass: "bkt-card__title bkt-text-primary" },
+                            [
+                              _vm._v(
+                                "\n                                    " +
+                                  _vm._s(
+                                    _vm.item && _vm.item.auctionStep
+                                      ? _vm.item.auctionStep
+                                      : "0"
+                                  ) +
+                                  "\n                                    " +
+                                  _vm._s(
+                                    _vm.item && _vm.item.isAuctionRub
+                                      ? "₽"
+                                      : "%"
+                                  ) +
+                                  "\n                                "
+                              ),
+                            ]
+                          ),
+                        ]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "div",
+                        {
+                          staticClass:
+                            "bkt-card__row outline bkt-wrapper-between",
+                        },
+                        [
+                          _c("h5", { staticClass: "bkt-card__subtitle" }, [
+                            _vm._v("минимальная цена"),
+                          ]),
+                          _vm._v(" "),
+                          _c(
+                            "h4",
+                            { staticClass: "bkt-card__title bkt-text-red" },
+                            [
+                              _vm._v(
+                                "\n                                    " +
+                                  _vm._s(
+                                    _vm.item && _vm.item.deposit
+                                      ? _vm.item.deposit
+                                      : "0"
+                                  ) +
+                                  "\n                                    " +
+                                  _vm._s(
+                                    _vm.item && _vm.item.isDepositRub
+                                      ? "₽"
+                                      : "%"
+                                  ) +
+                                  "\n                                "
+                              ),
+                            ]
+                          ),
+                        ]
+                      ),
+                    ]
+                  ),
+                ]),
+              ]
+            ),
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "col-12 col-md-12" }, [
+            _c("div", { staticClass: "bkt-card bkt-single-trade-tasks" }, [
+              _c(
+                "div",
+                { staticClass: "bkt-card__header bkt-wrapper-between m-0" },
+                [
+                  _c("div", { staticClass: "bkt-card-periods" }, [
+                    _c("div", { staticClass: "bkt-card-period bkt-wrapper" }, [
+                      _c(
+                        "div",
+                        { staticClass: "bkt-card__category bkt-bg-blue" },
+                        [
+                          _c("bkt-icon", {
+                            attrs: {
+                              name: "Date",
+                              width: "16px",
+                              height: "16px",
+                            },
+                          }),
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _vm._m(6),
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "bkt-card-period bkt-wrapper" }, [
+                      _c(
+                        "div",
+                        { staticClass: "bkt-card__category bkt-bg-yellow" },
+                        [
+                          _c("bkt-icon", {
+                            attrs: {
+                              name: "Alarm",
+                              width: "16px",
+                              height: "16px",
+                            },
+                          }),
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _vm._m(7),
+                    ]),
+                  ]),
+                  _vm._v(" "),
+                  _c(
+                    "a",
+                    { staticClass: "bkt-platform-button", attrs: { href: "" } },
+                    [
+                      _c("div", { staticClass: "bkt-platform-button-title" }, [
+                        _vm._v("ЭТП TORGI.GOV"),
+                      ]),
+                      _vm._v(" "),
+                      _c(
+                        "div",
+                        { staticClass: "bkt-platform-button-subtitle" },
+                        [_vm._v("torgi.gov - аренда")]
+                      ),
+                      _vm._v(" "),
+                      _c("bkt-icon", {
+                        attrs: { name: "ArrowDown", fill: "#2953ff" },
+                      }),
+                    ],
+                    1
+                  ),
+                ]
+              ),
+              _vm._v(" "),
+              _c("div", { staticClass: "bkt-card__body" }, [
+                _c("div", { staticClass: "bkt-wrapper m-0 bkt-nowrap" }, [
+                  _c(
+                    "div",
+                    { staticClass: "bkt-row outline bkt-wrapper-between" },
+                    [
+                      _vm._m(8),
+                      _vm._v(" "),
+                      _c("h5", { staticClass: "m-auto" }, [
+                        _vm._v("Некоторое название задачи"),
+                      ]),
+                      _vm._v(" "),
+                      _c("h6", { staticClass: "m-auto" }, [
+                        _vm._v("Краткое описание задачи если таково имеется"),
+                      ]),
+                      _vm._v(" "),
+                      _c(
+                        "div",
+                        { staticClass: "bkt-card-period bkt-wrapper" },
+                        [
+                          _c(
+                            "div",
+                            { staticClass: "bkt-card__category bkt-bg-blue" },
+                            [
+                              _c("bkt-icon", {
+                                attrs: {
+                                  name: "Date",
+                                  width: "16px",
+                                  height: "16px",
+                                },
+                              }),
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _vm._m(9),
+                        ]
+                      ),
+                    ]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "button",
+                    { staticClass: "bkt-button" },
+                    [
+                      _c("bkt-icon", {
+                        staticClass: "bkt-button__icon",
+                        attrs: { name: "Trash" },
+                      }),
+                    ],
+                    1
+                  ),
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "bkt-wrapper m-0 bkt-nowrap" }, [
+                  _c(
+                    "div",
+                    { staticClass: "bkt-row outline bkt-wrapper-between" },
+                    [
+                      _vm._m(10),
+                      _vm._v(" "),
+                      _c("h5", { staticClass: "m-auto" }, [
+                        _vm._v("Некоторое название задачи"),
+                      ]),
+                      _vm._v(" "),
+                      _c("h6", { staticClass: "m-auto" }, [
+                        _vm._v("Краткое описание задачи если таково имеется"),
+                      ]),
+                      _vm._v(" "),
+                      _c(
+                        "div",
+                        { staticClass: "bkt-card-period bkt-wrapper" },
+                        [
+                          _c(
+                            "div",
+                            { staticClass: "bkt-card__category bkt-bg-blue" },
+                            [
+                              _c("bkt-icon", {
+                                attrs: {
+                                  name: "Date",
+                                  width: "16px",
+                                  height: "16px",
+                                },
+                              }),
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _vm._m(11),
+                        ]
+                      ),
+                    ]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "button",
+                    { staticClass: "bkt-button" },
+                    [
+                      _c("bkt-icon", {
+                        staticClass: "bkt-button__icon",
+                        attrs: { name: "Trash" },
+                      }),
+                    ],
+                    1
+                  ),
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "bkt-wrapper m-0 bkt-nowrap" }, [
+                  _c(
+                    "div",
+                    { staticClass: "bkt-row outline bkt-wrapper-between" },
+                    [
+                      _vm._m(12),
+                      _vm._v(" "),
+                      _c("h5", { staticClass: "m-auto" }, [
+                        _vm._v("Некоторое название задачи"),
+                      ]),
+                      _vm._v(" "),
+                      _c("h6", { staticClass: "m-auto" }, [
+                        _vm._v("Краткое описание задачи если таково имеется"),
+                      ]),
+                      _vm._v(" "),
+                      _c(
+                        "div",
+                        { staticClass: "bkt-card-period bkt-wrapper" },
+                        [
+                          _c(
+                            "div",
+                            { staticClass: "bkt-card__category bkt-bg-blue" },
+                            [
+                              _c("bkt-icon", {
+                                attrs: {
+                                  name: "Date",
+                                  width: "16px",
+                                  height: "16px",
+                                },
+                              }),
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _vm._m(13),
+                        ]
+                      ),
+                    ]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "button",
+                    { staticClass: "bkt-button" },
+                    [
+                      _c("bkt-icon", {
+                        staticClass: "bkt-button__icon",
+                        attrs: { name: "Trash" },
+                      }),
+                    ],
+                    1
+                  ),
+                ]),
+              ]),
+            ]),
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "col-12 col-md-12" }, [
+            _c(
+              "div",
+              {
+                staticClass: "bkt-card bkt-card__body bkt-single-trade-actual",
+              },
+              [
+                _c(
+                  "div",
+                  { staticClass: "bkt-card__header bkt-wrapper-between" },
+                  [
+                    _c("h3", { staticClass: "bkt-card__title" }, [
+                      _vm._v("Актуальное по лоту"),
+                    ]),
+                    _vm._v(" "),
+                    _c(
+                      "button",
+                      { staticClass: "bkt-button" },
+                      [
+                        _vm._v(
+                          "\n                        Смотреть отчёт\n                        "
+                        ),
+                        _c("bkt-icon", {
+                          staticClass: "bkt-button__icon",
+                          attrs: { name: "Clip", fill: "#2953ff" },
+                        }),
+                      ],
+                      1
+                    ),
+                  ]
+                ),
+                _vm._v(" "),
+                _vm._m(14),
+                _vm._v(" "),
+                _vm._m(15),
+                _vm._v(" "),
+                _vm._m(16),
+              ]
+            ),
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "col-12 col-md-5" }, [
+            _c(
+              "div",
+              {
+                staticClass:
+                  "bkt-card bkt-card__body bkt-single-trade-templates",
+              },
+              [
+                _vm._m(17),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  {
+                    staticClass:
+                      "bkt-card__row outline bkt-wrapper-between bkt-nowrap",
+                  },
+                  [
+                    _c("div", { staticClass: "bkt-template-name" }, [
+                      _c(
+                        "div",
+                        { staticClass: "bkt-card__icon" },
+                        [
+                          _c("bkt-icon", {
+                            attrs: {
+                              name: "Note",
+                              fill: "#ff41be",
+                              width: "16px",
+                              height: "16px",
+                            },
+                          }),
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c("h5", { staticClass: "text-truncate" }, [
+                        _vm._v("Заявка на участие в торгах"),
+                      ]),
+                    ]),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      { staticClass: "bkt-card__icon" },
+                      [
+                        _c("bkt-icon", {
+                          staticStyle: { transform: "rotate(270deg)" },
+                          attrs: { name: "ArrowDown", fill: "#2953ff" },
+                        }),
+                      ],
+                      1
+                    ),
+                  ]
+                ),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  {
+                    staticClass:
+                      "bkt-card__row outline bkt-wrapper-between bkt-nowrap",
+                  },
+                  [
+                    _c("div", { staticClass: "bkt-template-name" }, [
+                      _c(
+                        "div",
+                        { staticClass: "bkt-card__icon" },
+                        [
+                          _c("bkt-icon", {
+                            attrs: {
+                              name: "Note",
+                              fill: "#ff41be",
+                              width: "16px",
+                              height: "16px",
+                            },
+                          }),
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c("h5", { staticClass: "text-truncate" }, [
+                        _vm._v("Авто"),
+                      ]),
+                    ]),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      { staticClass: "bkt-card__icon" },
+                      [
+                        _c("bkt-icon", {
+                          staticStyle: { transform: "rotate(270deg)" },
+                          attrs: { name: "ArrowDown", fill: "#2953ff" },
+                        }),
+                      ],
+                      1
+                    ),
+                  ]
+                ),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  {
+                    staticClass:
+                      "bkt-card__row outline bkt-wrapper-between bkt-nowrap",
+                  },
+                  [
+                    _c("div", { staticClass: "bkt-template-name" }, [
+                      _c(
+                        "div",
+                        { staticClass: "bkt-card__icon" },
+                        [
+                          _c("bkt-icon", {
+                            attrs: {
+                              name: "Note",
+                              fill: "#ff41be",
+                              width: "16px",
+                              height: "16px",
+                            },
+                          }),
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c("h5", { staticClass: "text-truncate" }, [
+                        _vm._v("Квартира"),
+                      ]),
+                    ]),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      { staticClass: "bkt-card__icon" },
+                      [
+                        _c("bkt-icon", {
+                          staticStyle: { transform: "rotate(270deg)" },
+                          attrs: { name: "ArrowDown", fill: "#2953ff" },
+                        }),
+                      ],
+                      1
+                    ),
+                  ]
+                ),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  {
+                    staticClass:
+                      "bkt-card__row outline bkt-wrapper-between bkt-nowrap",
+                  },
+                  [
+                    _c("div", { staticClass: "bkt-template-name" }, [
+                      _c(
+                        "div",
+                        { staticClass: "bkt-card__icon" },
+                        [
+                          _c("bkt-icon", {
+                            attrs: {
+                              name: "Note",
+                              fill: "#ff41be",
+                              width: "16px",
+                              height: "16px",
+                            },
+                          }),
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c("h5", { staticClass: "text-truncate" }, [
+                        _vm._v("Земля"),
+                      ]),
+                    ]),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      { staticClass: "bkt-card__icon" },
+                      [
+                        _c("bkt-icon", {
+                          staticStyle: { transform: "rotate(270deg)" },
+                          attrs: { name: "ArrowDown", fill: "#2953ff" },
+                        }),
+                      ],
+                      1
+                    ),
+                  ]
+                ),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  {
+                    staticClass:
+                      "bkt-card__row outline bkt-wrapper-between bkt-nowrap",
+                  },
+                  [
+                    _c("div", { staticClass: "bkt-template-name" }, [
+                      _c(
+                        "div",
+                        { staticClass: "bkt-card__icon" },
+                        [
+                          _c("bkt-icon", {
+                            attrs: {
+                              name: "Note",
+                              fill: "#ff41be",
+                              width: "16px",
+                              height: "16px",
+                            },
+                          }),
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c("h5", { staticClass: "text-truncate" }, [
+                        _vm._v("Дом с участком"),
+                      ]),
+                    ]),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      { staticClass: "bkt-card__icon" },
+                      [
+                        _c("bkt-icon", {
+                          staticStyle: { transform: "rotate(270deg)" },
+                          attrs: { name: "ArrowDown", fill: "#2953ff" },
+                        }),
+                      ],
+                      1
+                    ),
+                  ]
+                ),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  {
+                    staticClass:
+                      "bkt-card__row outline bkt-wrapper-between bkt-nowrap",
+                  },
+                  [
+                    _c("div", { staticClass: "bkt-template-name" }, [
+                      _c(
+                        "div",
+                        { staticClass: "bkt-card__icon" },
+                        [
+                          _c("bkt-icon", {
+                            attrs: {
+                              name: "Note",
+                              fill: "#ff41be",
+                              width: "16px",
+                              height: "16px",
+                            },
+                          }),
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c("h5", { staticClass: "text-truncate" }, [
+                        _vm._v("Дебиторская задолженность"),
+                      ]),
+                    ]),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      { staticClass: "bkt-card__icon" },
+                      [
+                        _c("bkt-icon", {
+                          staticStyle: { transform: "rotate(270deg)" },
+                          attrs: { name: "ArrowDown", fill: "#2953ff" },
+                        }),
+                      ],
+                      1
+                    ),
+                  ]
+                ),
+                _vm._v(" "),
+                _c("button", { staticClass: "bkt-button primary" }, [
+                  _vm._v(
+                    "\n                    Загрузить другой шаблон\n                "
+                  ),
+                ]),
+              ]
+            ),
+            _vm._v(" "),
+            _vm._m(18),
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "col-12 col-md-7" }, [
+            _c(
+              "div",
+              {
+                staticClass: "bkt-card bkt-card__body bkt-single-trade-request",
+              },
+              [
+                _vm._m(19),
+                _vm._v(" "),
+                _vm._m(20),
+                _vm._v(" "),
+                _c("bkt-input", {
+                  attrs: {
+                    name: "from_email",
+                    type: "email",
+                    label: "от кого",
+                    rules: "required|email",
+                    placeholder: "pochta@gmail.com",
+                  },
+                }),
+                _vm._v(" "),
+                _c("bkt-input", {
+                  attrs: {
+                    name: "to_email",
+                    type: "email",
+                    label: "кому",
+                    rules: "required|email",
+                    placeholder: "pochta@gmail.com",
+                  },
+                }),
+                _vm._v(" "),
+                _c("bkt-input", {
+                  attrs: {
+                    name: "subject",
+                    type: "text",
+                    label: "тема запроса",
+                    rules: "required",
+                    placeholder: "",
+                  },
+                }),
+                _vm._v(" "),
+                _c("bkt-textarea", {
+                  attrs: {
+                    name: "description",
+                    type: "text",
+                    label: "текст запроса",
+                    rules: "required",
+                    placeholder: "",
+                  },
+                }),
+              ],
+              1
+            ),
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "col-12 col-md-6" }, [
+            _c(
+              "div",
+              { staticClass: "bkt-card bkt-single-trade-required-documents" },
+              [
+                _c("div", { staticClass: "bkt-card__body" }, [
+                  _vm._m(21),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "bkt-requred-document" }, [
+                    _c(
+                      "div",
+                      {
+                        staticClass:
+                          "bkt-card__row outline w-100 bkt-wrapper-between bkt-nowrap",
+                      },
+                      [
+                        _c("h5", { staticClass: "text-truncate" }, [
+                          _vm._v("Свидетельство о праве собственности"),
+                        ]),
+                        _vm._v(" "),
+                        _c(
+                          "div",
+                          { staticClass: "bkt-card__icon" },
+                          [
+                            _c("bkt-icon", {
+                              attrs: { name: "Check", fill: "#2fbb40" },
+                            }),
+                          ],
+                          1
+                        ),
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "button",
+                      { staticClass: "bkt-button" },
+                      [
+                        _c("bkt-icon", {
+                          staticClass: "bkt-button__icon",
+                          attrs: { name: "Trash" },
+                        }),
+                      ],
+                      1
+                    ),
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "bkt-requred-document" }, [
+                    _c(
+                      "div",
+                      {
+                        staticClass:
+                          "bkt-card__row outline w-100 bkt-wrapper-between bkt-nowrap",
+                      },
+                      [
+                        _c("h5", { staticClass: "text-truncate" }, [
+                          _vm._v("Правоустанавливающие документы"),
+                        ]),
+                        _vm._v(" "),
+                        _c(
+                          "div",
+                          { staticClass: "bkt-card__icon" },
+                          [
+                            _c("bkt-icon", {
+                              attrs: {
+                                name: "Circle",
+                                width: "16px",
+                                height: "16px",
+                              },
+                            }),
+                          ],
+                          1
+                        ),
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "button",
+                      { staticClass: "bkt-button" },
+                      [
+                        _c("bkt-icon", {
+                          staticClass: "bkt-button__icon",
+                          attrs: { name: "Trash" },
+                        }),
+                      ],
+                      1
+                    ),
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "bkt-requred-document" }, [
+                    _c(
+                      "div",
+                      {
+                        staticClass:
+                          "bkt-card__row outline w-100 bkt-wrapper-between bkt-nowrap",
+                      },
+                      [
+                        _c("h5", { staticClass: "text-truncate" }, [
+                          _vm._v("Кадастровый паспорт участка"),
+                        ]),
+                        _vm._v(" "),
+                        _c(
+                          "div",
+                          { staticClass: "bkt-card__icon" },
+                          [
+                            _c("bkt-icon", {
+                              attrs: {
+                                name: "Download",
+                                fill: "#2953ff",
+                                width: "16px",
+                                height: "16px",
+                              },
+                            }),
+                          ],
+                          1
+                        ),
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "button",
+                      { staticClass: "bkt-button" },
+                      [
+                        _c("bkt-icon", {
+                          staticClass: "bkt-button__icon",
+                          attrs: { name: "Trash" },
+                        }),
+                      ],
+                      1
+                    ),
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "bkt-requred-document" }, [
+                    _c(
+                      "div",
+                      {
+                        staticClass:
+                          "bkt-card__row outline  w-100 bkt-wrapper-between bkt-nowrap",
+                      },
+                      [
+                        _c("h5", { staticClass: "text-truncate" }, [
+                          _vm._v(
+                            "Положение о порядке и сроках реализации имуще..."
+                          ),
+                        ]),
+                        _vm._v(" "),
+                        _c(
+                          "div",
+                          { staticClass: "bkt-card__icon" },
+                          [
+                            _c("bkt-icon", {
+                              attrs: {
+                                name: "Download",
+                                fill: "#2953ff",
+                                width: "16px",
+                                height: "16px",
+                              },
+                            }),
+                          ],
+                          1
+                        ),
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "button",
+                      { staticClass: "bkt-button" },
+                      [
+                        _c("bkt-icon", {
+                          staticClass: "bkt-button__icon",
+                          attrs: { name: "Trash" },
+                        }),
+                      ],
+                      1
+                    ),
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "bkt-requred-document" }, [
+                    _c(
+                      "div",
+                      {
+                        staticClass:
+                          "bkt-card__row outline w-100 bkt-wrapper-between bkt-nowrap",
+                      },
+                      [
+                        _c("h5", { staticClass: "text-truncate" }, [
+                          _vm._v("Оценка рыночной стоимости участка"),
+                        ]),
+                        _vm._v(" "),
+                        _c(
+                          "div",
+                          { staticClass: "bkt-card__icon" },
+                          [
+                            _c("bkt-icon", {
+                              attrs: { name: "Check", fill: "#2fbb40" },
+                            }),
+                          ],
+                          1
+                        ),
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "button",
+                      { staticClass: "bkt-button" },
+                      [
+                        _c("bkt-icon", {
+                          staticClass: "bkt-button__icon",
+                          attrs: { name: "Trash" },
+                        }),
+                      ],
+                      1
+                    ),
+                  ]),
+                ]),
+              ]
+            ),
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "col-12 col-md-3" }, [
+            _c(
+              "div",
+              {
+                staticClass:
+                  "bkt-card bkt-card__body bkt-single-trade-document-sets",
+              },
+              [
+                _vm._m(22),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  {
+                    staticClass: "bkt-card__row outline bkt-wrapper bkt-nowrap",
+                  },
+                  [
+                    _c(
+                      "div",
+                      { staticClass: "bkt-card__icon" },
+                      [
+                        _c("bkt-icon", {
+                          attrs: {
+                            name: "Note",
+                            fill: "#29b1ff",
+                            width: "16px",
+                            height: "16px",
+                          },
+                        }),
+                      ],
+                      1
+                    ),
+                    _vm._v(" "),
+                    _c("h5", { staticClass: "text-truncate" }, [
+                      _vm._v("Авто"),
+                    ]),
+                  ]
+                ),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  {
+                    staticClass: "bkt-card__row outline bkt-wrapper bkt-nowrap",
+                  },
+                  [
+                    _c(
+                      "div",
+                      { staticClass: "bkt-card__icon" },
+                      [
+                        _c("bkt-icon", {
+                          attrs: {
+                            name: "Note",
+                            fill: "#29b1ff",
+                            width: "16px",
+                            height: "16px",
+                          },
+                        }),
+                      ],
+                      1
+                    ),
+                    _vm._v(" "),
+                    _c("h5", { staticClass: "text-truncate" }, [
+                      _vm._v("Квартира"),
+                    ]),
+                  ]
+                ),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  {
+                    staticClass: "bkt-card__row outline bkt-wrapper bkt-nowrap",
+                  },
+                  [
+                    _c(
+                      "div",
+                      { staticClass: "bkt-card__icon" },
+                      [
+                        _c("bkt-icon", {
+                          attrs: {
+                            name: "Note",
+                            fill: "#29b1ff",
+                            width: "16px",
+                            height: "16px",
+                          },
+                        }),
+                      ],
+                      1
+                    ),
+                    _vm._v(" "),
+                    _c("h5", { staticClass: "text-truncate" }, [
+                      _vm._v("Земля"),
+                    ]),
+                  ]
+                ),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  {
+                    staticClass: "bkt-card__row outline bkt-wrapper bkt-nowrap",
+                  },
+                  [
+                    _c(
+                      "div",
+                      { staticClass: "bkt-card__icon" },
+                      [
+                        _c("bkt-icon", {
+                          attrs: {
+                            name: "Note",
+                            fill: "#29b1ff",
+                            width: "16px",
+                            height: "16px",
+                          },
+                        }),
+                      ],
+                      1
+                    ),
+                    _vm._v(" "),
+                    _c("h5", { staticClass: "text-truncate" }, [
+                      _vm._v("Дом с участком"),
+                    ]),
+                  ]
+                ),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  {
+                    staticClass: "bkt-card__row outline bkt-wrapper bkt-nowrap",
+                  },
+                  [
+                    _c(
+                      "div",
+                      { staticClass: "bkt-card__icon" },
+                      [
+                        _c("bkt-icon", {
+                          attrs: {
+                            name: "Note",
+                            fill: "#29b1ff",
+                            width: "16px",
+                            height: "16px",
+                          },
+                        }),
+                      ],
+                      1
+                    ),
+                    _vm._v(" "),
+                    _c("h5", { staticClass: "text-truncate" }, [
+                      _vm._v("Дебиторская задолженность"),
+                    ]),
+                  ]
+                ),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  {
+                    staticClass: "bkt-card__row outline bkt-wrapper bkt-nowrap",
+                  },
+                  [
+                    _c(
+                      "div",
+                      { staticClass: "bkt-card__icon" },
+                      [
+                        _c("bkt-icon", {
+                          attrs: {
+                            name: "Note",
+                            fill: "#29b1ff",
+                            width: "16px",
+                            height: "16px",
+                          },
+                        }),
+                      ],
+                      1
+                    ),
+                    _vm._v(" "),
+                    _c("h5", { staticClass: "text-truncate" }, [
+                      _vm._v("Свой набор"),
+                    ]),
+                  ]
+                ),
+                _vm._v(" "),
+                _c("button", { staticClass: "bkt-button primary" }, [
+                  _vm._v("Добавить набор"),
+                ]),
+              ]
+            ),
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "col-12 col-md-3" }, [
+            _c(
+              "div",
+              {
+                staticClass:
+                  "bkt-card bkt-card__body bkt-single-trade-my-files",
+              },
+              [
+                _vm._m(23),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  {
+                    staticClass:
+                      "bkt-card__row outline bkt-wrapper-between bkt-nowrap",
+                  },
+                  [
+                    _vm._m(24),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      { staticClass: "bkt-card__icon" },
+                      [_c("bkt-icon", { attrs: { name: "More" } })],
+                      1
+                    ),
+                  ]
+                ),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  {
+                    staticClass:
+                      "bkt-card__row outline bkt-wrapper-between bkt-nowrap",
+                  },
+                  [
+                    _vm._m(25),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      { staticClass: "bkt-card__icon" },
+                      [_c("bkt-icon", { attrs: { name: "More" } })],
+                      1
+                    ),
+                  ]
+                ),
+                _vm._v(" "),
+                _c("button", { staticClass: "bkt-button green" }, [
+                  _vm._v("Добавить фото"),
+                ]),
+                _vm._v(" "),
+                _c("button", { staticClass: "bkt-button green" }, [
+                  _vm._v("Добавить документ"),
+                ]),
+              ]
+            ),
+          ]),
+          _vm._v(" "),
+          _vm._m(26),
+          _vm._v(" "),
+          _vm._m(27),
+          _vm._v(" "),
+          _vm._m(28),
+          _vm._v(" "),
+          _vm._m(29),
+          _vm._v(" "),
+          _vm._m(30),
+          _vm._v(" "),
+          _vm._m(31),
+        ]
+      ),
+    ]
+  )
+}
+var staticRenderFns = [
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "div",
+      { staticClass: "bkt-wrapper", staticStyle: { margin: "30px 0" } },
+      [
+        _c(
+          "nav",
+          {
+            staticStyle: { "--bs-breadcrumb-divider": "'...'" },
+            attrs: { "aria-label": "breadcrumb" },
+          },
+          [
+            _c("ol", { staticClass: "breadcrumb m-0" }, [
+              _c("li", { staticClass: "breadcrumb-item bkt-card__subtitle" }, [
+                _c(
+                  "a",
+                  {
+                    staticClass: " bkt-text-neutral-dark",
+                    attrs: { href: "/" },
+                  },
+                  [_vm._v("главная")]
+                ),
+              ]),
+              _vm._v(" "),
+              _c(
+                "li",
+                {
+                  staticClass:
+                    "breadcrumb-item bkt-card__subtitle bkt-text-neutral-dark",
+                },
+                [_vm._v("торги")]
+              ),
+              _vm._v(" "),
+              _c(
+                "li",
+                {
+                  staticClass:
+                    "breadcrumb-item bkt-card__subtitle bkt-text-main",
+                  attrs: { "aria-current": "page" },
+                },
+                [_vm._v("торги № 22000068750000000003 (лот 1)")]
+              ),
+            ]),
+          ]
+        ),
+      ]
+    )
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("ul", { staticClass: "bkt-contents" }, [
+      _c("li", [
+        _c("div", { staticClass: "bkt-contents__heading" }, [
+          _c("span", { staticClass: "bkt-contents__heading" }, [
+            _vm._v("общая площадь"),
+          ]),
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "bkt-contents__answer" }, [
+          _c("span", [_vm._v("207 м2")]),
+        ]),
+      ]),
+      _vm._v(" "),
+      _c("li", [
+        _c("div", { staticClass: "bkt-contents__heading" }, [
+          _c("span", { staticClass: "bkt-contents__heading" }, [
+            _vm._v("общие сведения об ограничениях и обременениях"),
+          ]),
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "bkt-contents__answer" }, [
+          _c("span", [_vm._v("нет")]),
+        ]),
+      ]),
+      _vm._v(" "),
+      _c("li", [
+        _c("div", { staticClass: "bkt-contents__heading" }, [
+          _c("span", { staticClass: "bkt-contents__heading" }, [
+            _vm._v("назначение нежилого помещения"),
+          ]),
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "bkt-contents__answer" }, [
+          _c("span", [_vm._v("офисное помещение")]),
+        ]),
+      ]),
+      _vm._v(" "),
+      _c("li", [
+        _c("div", { staticClass: "bkt-contents__heading" }, [
+          _c("span", { staticClass: "bkt-contents__heading" }, [
+            _vm._v(
+              "расположение в пределах объекта недвижимости (этажа, части этажа, нескольких этажей)"
+            ),
+          ]),
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "bkt-contents__answer" }, [
+          _c("span", [_vm._v("7 этаж")]),
+        ]),
+      ]),
+      _vm._v(" "),
+      _c("li", [
+        _c("div", { staticClass: "bkt-contents__heading" }, [
+          _c("span", { staticClass: "bkt-contents__heading" }, [
+            _vm._v("кадастровый номер"),
+          ]),
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "bkt-contents__answer" }, [
+          _c("span", [_vm._v("77:06:0004004:1051")]),
+        ]),
+      ]),
+      _vm._v(" "),
+      _c("li", [
+        _c("div", { staticClass: "bkt-contents__heading" }, [
+          _c("span", { staticClass: "bkt-contents__heading" }, [
+            _vm._v("год ввода в эксплуатацию"),
+          ]),
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "bkt-contents__answer" }, [
+          _c("span", [_vm._v("1980")]),
+        ]),
+      ]),
+      _vm._v(" "),
+      _c("li", [
+        _c("div", { staticClass: "bkt-contents__heading" }, [
+          _c("span", { staticClass: "bkt-contents__heading" }, [
+            _vm._v("местонахождение имущества"),
+          ]),
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "bkt-contents__answer" }, [
+          _c("span", [_vm._v("Нахимовский проспект, дом 47")]),
+        ]),
+      ]),
+      _vm._v(" "),
+      _c("li", [
+        _c("div", { staticClass: "bkt-contents__heading" }, [
+          _c("span", { staticClass: "bkt-contents__heading" }, [
+            _vm._v("категория объекта"),
+          ]),
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "bkt-contents__answer" }, [
+          _c("span", [_vm._v("нежилые помещения")]),
+        ]),
+      ]),
+      _vm._v(" "),
+      _c("li", [
+        _c("div", { staticClass: "bkt-contents__heading" }, [
+          _c("span", { staticClass: "bkt-contents__heading" }, [
+            _vm._v("форма собственности"),
+          ]),
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "bkt-contents__answer" }, [
+          _c("span", [_vm._v("федеральная собственность")]),
+        ]),
+      ]),
+      _vm._v(" "),
+      _c("li", [
+        _c("div", { staticClass: "bkt-contents__heading" }, [
+          _c("span", [
+            _vm._v(
+              "\n                                    Информация о сроках и порядке внесения задатка, реквизитах счета для перечисления задатка указана в документации (при наличии  требования о внесении задатка)\n                               "
+            ),
+          ]),
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "bkt-contents__answer" }, [
+          _c("span", [_vm._v("1")]),
+        ]),
+      ]),
+      _vm._v(" "),
+      _c("li", [
+        _c("div", { staticClass: "bkt-contents__heading" }, [
+          _c("span", { staticClass: "bkt-contents__heading" }, [
+            _vm._v("перечисление задатка"),
+          ]),
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "bkt-contents__answer" }, [
+          _c("span", [_vm._v("задаток перечисляется на счет организатора")]),
+        ]),
+      ]),
+      _vm._v(" "),
+      _c("li", [
+        _c("div", { staticClass: "bkt-contents__heading" }, [
+          _c("span", { staticClass: "bkt-contents__heading" }, [
+            _vm._v("вид договора"),
+          ]),
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "bkt-contents__answer" }, [
+          _c("span", [_vm._v("договор аренды")]),
+        ]),
+      ]),
+      _vm._v(" "),
+      _c("li", [
+        _c("div", { staticClass: "bkt-contents__heading" }, [
+          _c("span", { staticClass: "bkt-contents__heading" }, [
+            _vm._v("порядок оплаты"),
+          ]),
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "bkt-contents__answer" }, [
+          _c("span", [_vm._v("ежемесячный платеж")]),
+        ]),
+      ]),
+      _vm._v(" "),
+      _c("li", [
+        _c("div", { staticClass: "bkt-contents__heading" }, [
+          _c("span", { staticClass: "bkt-contents__heading" }, [
+            _vm._v("начальная цена за кв.м "),
+          ]),
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "bkt-contents__answer" }, [
+          _c("span", [_vm._v("12000")]),
+        ]),
+      ]),
+      _vm._v(" "),
+      _c("li", [
+        _c("div", { staticClass: "bkt-contents__heading" }, [
+          _c("span", { staticClass: "bkt-contents__heading" }, [
+            _vm._v("ежемесячный платеж за объект"),
+          ]),
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "bkt-contents__answer" }, [
+          _c("span", [_vm._v("207000")]),
+        ]),
+      ]),
+      _vm._v(" "),
+      _c("li", [
+        _c("div", { staticClass: "bkt-contents__heading" }, [
+          _c("span", { staticClass: "bkt-contents__heading" }, [
+            _vm._v("срок действия договора - лет"),
+          ]),
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "bkt-contents__answer" }, [
+          _c("span", [_vm._v("5")]),
+        ]),
+      ]),
+      _vm._v(" "),
+      _c("li", [
+        _c("div", { staticClass: "bkt-contents__heading" }, [
+          _c("span", [
+            _vm._v("порядок ознакомления с имуществом, иной информацией"),
+          ]),
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "bkt-contents__answer" }, [
+          _c("span", [_vm._v("в соответствии с аукционной документацией")]),
+        ]),
+      ]),
+      _vm._v(" "),
+      _c("li", [
+        _c("div", { staticClass: "bkt-contents__heading" }, [
+          _c("span", { staticClass: "bkt-contents__heading" }, [
+            _vm._v("обременения, ограничения"),
+          ]),
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "bkt-contents__answer" }, [
+          _c("span", [_vm._v("нет")]),
+        ]),
+      ]),
+      _vm._v(" "),
+      _c("li", [
+        _c("div", { staticClass: "bkt-contents__heading" }, [
+          _c("span", { staticClass: "bkt-contents__heading" }, [
+            _vm._v(
+              "целевое назначение государственного или муниципального имущества, права на которое передаются по договору"
+            ),
+          ]),
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "bkt-contents__answer" }, [
+          _c("span", [_vm._v("офисное помещение")]),
+        ]),
+      ]),
+    ])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "bkt-row__feature" }, [
+      _c("h4", { staticClass: "bkt-row__feature-title" }, [
+        _vm._v("600 кв.м."),
+      ]),
+      _vm._v(" "),
+      _c("h6", { staticClass: "bkt-row__feature-subtitle" }, [
+        _vm._v("земельный участок"),
+      ]),
+    ])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "bkt-row__feature" }, [
+      _c("h4", { staticClass: "bkt-row__feature-title" }, [
+        _vm._v("800 478 ₽"),
+      ]),
+      _vm._v(" "),
+      _c("h6", { staticClass: "bkt-row__feature-subtitle" }, [
+        _vm._v("кадастровая стоимость"),
+      ]),
+    ])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "bkt-row__feature" }, [
+      _c("h4", { staticClass: "bkt-row__feature-title" }, [_vm._v("95%")]),
+      _vm._v(" "),
+      _c("h6", { staticClass: "bkt-row__feature-subtitle" }, [
+        _vm._v("доля в собственности"),
+      ]),
+    ])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "div",
+      { staticClass: "bkt-wrapper-between bkt-card-ecp-wrapper" },
+      [
+        _c("button", { staticClass: "bkt-button primary bkt-card-ecp" }, [
+          _vm._v(
+            "\n                                Купить без ЭЦП\n                            "
+          ),
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "bkt-check__wrapper" }, [
+          _c("div", { staticClass: "bkt-check" }, [
+            _c("div", { staticClass: "bkt-check__input" }, [
+              _c("input", { attrs: { type: "checkbox", disabled: "" } }),
+              _vm._v(" "),
+              _c("div", { staticClass: "bkt-check__input-check" }),
+            ]),
+            _vm._v(" "),
+            _c("label", { staticClass: "bkt-check__label" }, [
+              _vm._v(
+                "\n                                        Есть ЭЦП\n                                    "
+              ),
+            ]),
+          ]),
+        ]),
+      ]
+    )
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "bkt-card_feature" }, [
+      _c("h6", [
+        _vm._v("прием заявок\n                                    "),
+        _c("strong", [
+          _vm._v(
+            "\n                                        с 22 сентября 2022 "
+          ),
+          _c("span", { staticClass: "bkt-text-blue" }, [_vm._v("09:00")]),
+          _vm._v(
+            "\n                                        до 25 сентября 2022 "
+          ),
+          _c("span", { staticClass: "bkt-text-blue" }, [_vm._v("19:00")]),
+        ]),
+      ]),
+    ])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "bkt-card_feature" }, [
+      _c("h6", [
+        _vm._v("проведение торгов\n                                    "),
+        _c("strong", [
+          _vm._v("\n                                        с 21 апреля 2022 "),
+          _c("span", { staticClass: "bkt-text-yellow" }, [_vm._v("10:30")]),
+        ]),
+      ]),
+    ])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "bkt-check__wrapper" }, [
+      _c("div", { staticClass: "bkt-check" }, [
+        _c("div", { staticClass: "bkt-check__input" }, [
+          _c("input", { attrs: { type: "checkbox", disabled: "" } }),
+          _vm._v(" "),
+          _c("div", { staticClass: "bkt-check__input-check" }),
+        ]),
+      ]),
+    ])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "bkt-card_feature" }, [
+      _c("h5", [
+        _vm._v("\n                                        с 22 сентября 2022 "),
+        _c("span", { staticClass: "bkt-text-blue" }, [_vm._v("09:00")]),
+      ]),
+    ])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "bkt-check__wrapper" }, [
+      _c("div", { staticClass: "bkt-check" }, [
+        _c("div", { staticClass: "bkt-check__input" }, [
+          _c("input", { attrs: { type: "checkbox", disabled: "" } }),
+          _vm._v(" "),
+          _c("div", { staticClass: "bkt-check__input-check" }),
+        ]),
+      ]),
+    ])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "bkt-card_feature" }, [
+      _c("h5", [
+        _vm._v("\n                                        с 22 сентября 2022 "),
+        _c("span", { staticClass: "bkt-text-blue" }, [_vm._v("09:00")]),
+      ]),
+    ])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "bkt-check__wrapper" }, [
+      _c("div", { staticClass: "bkt-check" }, [
+        _c("div", { staticClass: "bkt-check__input" }, [
+          _c("input", { attrs: { type: "checkbox", disabled: "" } }),
+          _vm._v(" "),
+          _c("div", { staticClass: "bkt-check__input-check" }),
+        ]),
+      ]),
+    ])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "bkt-card_feature" }, [
+      _c("h5", [
+        _vm._v("\n                                        с 22 сентября 2022 "),
+        _c("span", { staticClass: "bkt-text-blue" }, [_vm._v("09:00")]),
+      ]),
+    ])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "bkt-card outline bkt-wrapper-between" }, [
+      _c("h5", {}, [
+        _c("span", { staticClass: "bkt-text-green" }, [
+          _vm._v("Идёт приём заявок"),
+        ]),
+        _vm._v(" (до 19.04.2022)"),
+      ]),
+      _vm._v(" "),
+      _c("h5", { staticClass: "bkt-text-neutral-dark" }, [
+        _vm._v("1 декабря 2022 в 09:00"),
+      ]),
+    ])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "bkt-card outline bkt-wrapper-between" }, [
+      _c("h5", { staticClass: "bkt-text-red" }, [
+        _vm._v("Приём заявок заканчивается через 2 дня!"),
+      ]),
+      _vm._v(" "),
+      _c("h5", { staticClass: "bkt-text-neutral-dark" }, [
+        _vm._v("1 декабря 2022 в 09:00"),
+      ]),
+    ])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "bkt-card outline bkt-wrapper-between" }, [
+      _c("h5", {}, [
+        _c("span", { staticClass: "bkt-text-green" }, [
+          _vm._v("Проведение торгов с 21.04.2022"),
+        ]),
+        _vm._v(" (до 19.04.2022)\n                    "),
+      ]),
+      _vm._v(" "),
+      _c("h5", { staticClass: "bkt-text-neutral-dark" }, [
+        _vm._v("1 декабря 2022 в 09:00"),
+      ]),
+    ])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "bkt-card__header" }, [
+      _c("h3", { staticClass: "bkt-card__title" }, [
+        _vm._v("Шаблоны запросов"),
+      ]),
+    ])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "div",
+      { staticClass: "bkt-card bkt-card__body bkt-single-trade-sent-requests" },
+      [
+        _c("div", { staticClass: "bkt-card__header" }, [
+          _c("h3", { staticClass: "bkt-card__title" }, [
+            _vm._v("Отправленные запросы"),
+          ]),
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "bkt-card outline" }, [
+          _c("div", { staticClass: "bkt-card__feature" }, [
+            _c("h6", { staticClass: "bkt-card__subtitle" }, [
+              _vm._v("16 апреля 2022"),
+            ]),
+            _vm._v(" "),
+            _c("h6", { staticClass: "bkt-card__title" }, [
+              _vm._v("Запрос документов по торгам"),
+            ]),
+          ]),
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "bkt-card outline" }, [
+          _c("div", { staticClass: "bkt-card__feature" }, [
+            _c("h6", { staticClass: "bkt-card__subtitle" }, [
+              _vm._v("17 апреля 2022"),
+            ]),
+            _vm._v(" "),
+            _c("h6", { staticClass: "bkt-card__title" }, [
+              _vm._v("Какой-то запрос"),
+            ]),
+          ]),
+        ]),
+      ]
+    )
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "bkt-card__header" }, [
+      _c("h3", { staticClass: "bkt-card__title" }, [
+        _vm._v("Запрос организатору торгов"),
+      ]),
+    ])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "bkt-select__wrapper" }, [
+      _c(
+        "label",
+        { staticClass: "bkt-select__label", attrs: { for: "sortSelect" } },
+        [_vm._v("шаблон запроса")]
+      ),
+      _vm._v(" "),
+      _c(
+        "select",
+        {
+          staticClass: "form-select bkt-select",
+          attrs: { id: "sortSelect", "aria-label": "" },
+        },
+        [
+          _c("option", { attrs: { selected: "" } }, [_vm._v("Авто")]),
+          _vm._v(" "),
+          _c("option", { attrs: { value: "1" } }, [_vm._v("One")]),
+          _vm._v(" "),
+          _c("option", { attrs: { value: "2" } }, [_vm._v("Two")]),
+          _vm._v(" "),
+          _c("option", { attrs: { value: "3" } }, [_vm._v("Three")]),
+        ]
+      ),
+    ])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "bkt-card__header" }, [
+      _c("h3", { staticClass: "bkt-card__title" }, [
+        _vm._v("Необходимые документы"),
+      ]),
+    ])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "bkt-card__header" }, [
+      _c("h3", { staticClass: "bkt-card__title" }, [
+        _vm._v("Наборы документов"),
+      ]),
+    ])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "bkt-card__header" }, [
+      _c("h3", { staticClass: "bkt-card__title" }, [_vm._v("Мои файлы")]),
+    ])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "bkt-card__feature text-truncate" }, [
+      _c("h5", { staticClass: "text-truncate" }, [_vm._v("Nazvanie.pdf")]),
+      _vm._v(" "),
+      _c("h6", { staticClass: "bkt-card__subtitle" }, [_vm._v("23.1 Mb")]),
+    ])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "bkt-card__feature text-truncate" }, [
+      _c("h5", { staticClass: "text-truncate" }, [_vm._v("Foto.jpg")]),
+      _vm._v(" "),
+      _c("h6", { staticClass: "bkt-card__subtitle" }, [_vm._v("45.99 Kb")]),
+    ])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col-12 col-md-12" }, [
+      _c(
+        "div",
+        { staticClass: " bkt-card bkt-card__body bkt-single-trade-debtor" },
+        [
+          _c("h3", { staticClass: "bkt-card__title" }, [
+            _vm._v("Информация по должнику"),
+          ]),
+          _vm._v(" "),
+          _c("ul", { staticClass: "bkt-contents" }, [
+            _c("li", [
+              _c("div", { staticClass: "bkt-contents__heading" }, [
+                _c("span", [_vm._v("должник")]),
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "bkt-contents__answer" }, [
+                _c("span", [_vm._v("Васильев Василий Васильевич")]),
+              ]),
+            ]),
+            _vm._v(" "),
+            _c("li", [
+              _c("div", { staticClass: "bkt-contents__heading" }, [
+                _c("span", [_vm._v("дело №")]),
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "bkt-contents__answer" }, [
+                _c("span", [_vm._v("1234567890/85")]),
+              ]),
+            ]),
+            _vm._v(" "),
+            _c("li", [
+              _c("div", { staticClass: "bkt-contents__heading" }, [
+                _c("span", [_vm._v("суд")]),
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "bkt-contents__answer" }, [
+                _c("span", [_vm._v("Арбитражный Суд республики Башкортостан")]),
+              ]),
+            ]),
+            _vm._v(" "),
+            _c("li", [
+              _c("div", { staticClass: "bkt-contents__heading" }, [
+                _c("span", [_vm._v("ИНН")]),
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "bkt-contents__answer" }, [
+                _c("span", [_vm._v("34334567890")]),
+              ]),
+            ]),
+            _vm._v(" "),
+            _c("li", [
+              _c("div", { staticClass: "bkt-contents__heading" }, [
+                _c("span", [_vm._v("регион")]),
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "bkt-contents__answer" }, [
+                _c("span", [_vm._v("Республика Башкортостан")]),
+              ]),
+            ]),
+            _vm._v(" "),
+            _c("li", [
+              _c("div", { staticClass: "bkt-contents__heading" }, [
+                _c("span", [_vm._v("адрес должника")]),
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "bkt-contents__answer" }, [
+                _c("span", [_vm._v("РБ, г. Стерлитамак ул. Фурманова д. 6")]),
+              ]),
+            ]),
+          ]),
+        ]
+      ),
+    ])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col-12 col-md-12" }, [
+      _c("div", { staticClass: "bkt-card bkt-card__body" }, [
+        _c("h3", { staticClass: "bkt-card__title" }, [
+          _vm._v("\n                    Другие активные лоты должника "),
+          _c("span", { staticClass: "bkt-text-neutral-dark" }, [_vm._v("(0)")]),
+        ]),
+      ]),
+    ])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col-12 col-md-12" }, [
+      _c("div", { staticClass: " bkt-card bkt-card__body" }, [
+        _c("h3", { staticClass: "bkt-card__title" }, [
+          _vm._v("\n                    Завершённые лоты должника "),
+          _c("span", { staticClass: "bkt-text-green" }, [_vm._v("(1)")]),
+        ]),
+      ]),
+    ])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col-12 col-md-8" }, [
+      _c("div", { staticClass: " bkt-card bkt-card__body" }, [
+        _c("h3", { staticClass: "bkt-card__title" }, [
+          _vm._v("Информация по организатору"),
+        ]),
+        _vm._v(" "),
+        _c("ul", { staticClass: "bkt-contents" }, [
+          _c("li", [
+            _c("div", { staticClass: "bkt-contents__heading" }, [
+              _c("span", [_vm._v("организатор")]),
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "bkt-contents__answer bkt-text-green" }, [
+              _c("span", [
+                _vm._v(
+                  "ФЕДЕРАЛЬНОЕ ГОСУДАРСТВЕННОЕ БЮДЖЕТНОЕ УЧРЕЖДЕНИЕ НАУКИ\n                        ЦЕНТРАЛЬНЫЙ ЭКОНОМИКО-МАТЕМАТИЧЕСКИЙ ИНСТИТУТ РОССИЙСКОЙ АКАДЕМИИ НАУК"
+                ),
+              ]),
+            ]),
+          ]),
+          _vm._v(" "),
+          _c("li", [
+            _c("div", { staticClass: "bkt-contents__heading" }, [
+              _c("span", { staticClass: "bkt-contents__heading" }, [
+                _vm._v("ИНН"),
+              ]),
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "bkt-contents__answer" }, [
+              _c("span", [_vm._v("45757541414")]),
+            ]),
+          ]),
+          _vm._v(" "),
+          _c("li", [
+            _c("div", { staticClass: "bkt-contents__heading" }, [
+              _c("span", { staticClass: "bkt-contents__heading" }, [
+                _vm._v("телефон"),
+              ]),
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "bkt-contents__answer kt-text-primary" }, [
+              _c("span", [_vm._v("+7 (919) 333 44-55")]),
+            ]),
+          ]),
+          _vm._v(" "),
+          _c("li", [
+            _c("div", { staticClass: "bkt-contents__heading" }, [
+              _c("span", { staticClass: "bkt-contents__heading" }, [
+                _vm._v("почта"),
+              ]),
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "bkt-contents__answer" }, [
+              _c("span", [_vm._v("pochta@mail.ru")]),
+            ]),
+          ]),
+        ]),
+      ]),
+    ])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col-12 col-md-4" }, [
+      _c(
+        "div",
+        {
+          staticClass:
+            " bkt-card bkt-card__body bkt-single-trade-arbitration-manager",
+        },
+        [
+          _c("h3", { staticClass: "bkt-card__title" }, [
+            _vm._v(
+              "\n                    Информация по арбитражному управляющему\n                "
+            ),
+          ]),
+          _vm._v(" "),
+          _c("ul", { staticClass: "bkt-contents" }, [
+            _c("li", [
+              _c("div", { staticClass: "bkt-contents__heading" }, [
+                _c("span", { staticClass: "bkt-contents__heading" }, [
+                  _vm._v("арбитражный управляющий"),
+                ]),
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "bkt-contents__answer" }, [
+                _c("span", [_vm._v("Иванов Иван Иванович")]),
+              ]),
+            ]),
+            _vm._v(" "),
+            _c("li", [
+              _c("div", { staticClass: "bkt-contents__heading" }, [
+                _c("span", { staticClass: "bkt-contents__heading" }, [
+                  _vm._v("ИНН"),
+                ]),
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "bkt-contents__answer" }, [
+                _c("span", [_vm._v("7745424377")]),
+              ]),
+            ]),
+            _vm._v(" "),
+            _c("li", [
+              _c("div", { staticClass: "bkt-contents__heading" }, [
+                _c("span", { staticClass: "bkt-contents__heading" }, [
+                  _vm._v("СРО"),
+                ]),
+              ]),
+              _vm._v(" "),
+              _c(
+                "div",
+                {
+                  staticClass: "bkt-contents__answer",
+                  staticStyle: { "font-size": "12px", "font-weight": "600" },
+                },
+                [
+                  _c("span", [
+                    _vm._v(
+                      'Ассоциация арбитражных управляющих саморегулируемая организация "Центральное\n                                агентство арбитражных управляющих" (ИНН 7731024000, ГРН 1107799028523)'
+                    ),
+                  ]),
+                ]
+              ),
+            ]),
+          ]),
+        ]
+      ),
+    ])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col-12 col-md-12" }, [
+      _c("div", { staticClass: "bkt-card bkt-card__body" }, [
+        _c("h3", { staticClass: "bkt-card__title" }, [
+          _vm._v("Документы по торгам "),
+          _c("span", { staticClass: "bkt-text-blue" }, [_vm._v("(6)")]),
+        ]),
+      ]),
+    ])
+  },
+]
+render._withStripped = true
+
+
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/pages/Main/Main.vue?vue&type=template&id=b4580c94&scoped=true&":
 /*!****************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/pages/Main/Main.vue?vue&type=template&id=b4580c94&scoped=true& ***!
@@ -58687,7 +62412,7 @@ var render = function () {
         _vm._v("Электронные торги по банкротству"),
       ]),
       _vm._v(" "),
-      _c("div", { staticClass: "bkt-search bkt-card position-relative" }, [
+      _c("div", { staticClass: "bkt-search position-relative bg-white" }, [
         _c("input", {
           staticClass: "w-100 bkt-search__input",
           attrs: {
@@ -58712,92 +62437,120 @@ var render = function () {
       ]),
       _vm._v(" "),
       _c("div", { staticClass: "bkt-main-categories bkt-card__list" }, [
-        _c("div", { staticClass: "bkt-card" }, [
+        _c("div", { staticClass: "bkt-card__row" }, [
           _vm._m(0),
           _vm._v(" "),
           _c("div", { staticClass: "col-2" }, [
-            _c("div", { staticClass: "bkt-card__category bg-green" }, [
-              _c(
-                "span",
-                { staticClass: "bkt-card__category-icon" },
-                [_c("bkt-icon", { attrs: { name: "Category" } })],
-                1
-              ),
-            ]),
+            _c(
+              "div",
+              { staticClass: "bkt-card__category bkt-bg-green ms-auto" },
+              [
+                _c(
+                  "span",
+                  { staticClass: "bkt-card__category-icon" },
+                  [_c("bkt-icon", { attrs: { name: "Category" } })],
+                  1
+                ),
+              ]
+            ),
           ]),
         ]),
         _vm._v(" "),
-        _c("div", { staticClass: "bkt-card" }, [
+        _c("div", { staticClass: "bkt-card__row" }, [
           _vm._m(1),
           _vm._v(" "),
           _c("div", { staticClass: "col-2" }, [
-            _c("div", { staticClass: "bkt-card__category bg-red-lighter" }, [
-              _c(
-                "span",
-                { staticClass: "bkt-card__category-icon" },
-                [_c("bkt-icon", { attrs: { name: "Location" } })],
-                1
-              ),
-            ]),
+            _c(
+              "div",
+              { staticClass: "bkt-card__category bkt-bg-red-lighter ms-auto" },
+              [
+                _c(
+                  "span",
+                  { staticClass: "bkt-card__category-icon" },
+                  [_c("bkt-icon", { attrs: { name: "Location" } })],
+                  1
+                ),
+              ]
+            ),
           ]),
         ]),
         _vm._v(" "),
-        _c("div", { staticClass: "bkt-card" }, [
+        _c("div", { staticClass: "bkt-card__row" }, [
           _vm._m(2),
           _vm._v(" "),
           _c("div", { staticClass: "col-2" }, [
-            _c("div", { staticClass: "bkt-card__category bg-purple-lighter" }, [
-              _c(
-                "span",
-                { staticClass: "bkt-card__category-icon" },
-                [
-                  _c("bkt-icon", {
-                    attrs: { name: "Options", fill: "#ff41be" },
-                  }),
-                ],
-                1
-              ),
-            ]),
+            _c(
+              "div",
+              {
+                staticClass:
+                  "bkt-card__category bkt-bg-purple-lighter  ms-auto",
+              },
+              [
+                _c(
+                  "span",
+                  { staticClass: "bkt-card__category-icon" },
+                  [
+                    _c("bkt-icon", {
+                      attrs: { name: "Options", fill: "#ff41be" },
+                    }),
+                  ],
+                  1
+                ),
+              ]
+            ),
           ]),
         ]),
         _vm._v(" "),
-        _c("div", { staticClass: "bkt-card" }, [
+        _c("div", { staticClass: "bkt-card__row" }, [
           _vm._m(3),
           _vm._v(" "),
           _c("div", { staticClass: "col-2" }, [
-            _c("div", { staticClass: "bkt-card__category bg-yellow-lighter" }, [
-              _c(
-                "span",
-                { staticClass: "bkt-card__category-icon" },
-                [_c("bkt-icon", { attrs: { name: "Wallet" } })],
-                1
-              ),
-            ]),
+            _c(
+              "div",
+              {
+                staticClass: "bkt-card__category bkt-bg-yellow-lighter ms-auto",
+              },
+              [
+                _c(
+                  "span",
+                  { staticClass: "bkt-card__category-icon" },
+                  [_c("bkt-icon", { attrs: { name: "Wallet" } })],
+                  1
+                ),
+              ]
+            ),
           ]),
         ]),
         _vm._v(" "),
-        _c("div", { staticClass: "bkt-card" }, [
+        _c("div", { staticClass: "bkt-card__row" }, [
           _vm._m(4),
           _vm._v(" "),
           _c("div", { staticClass: "col-2" }, [
-            _c("div", { staticClass: "bkt-card__category bg-blue" }, [
-              _c(
-                "span",
-                { staticClass: "bkt-card__category-icon" },
-                [_c("bkt-icon", { attrs: { name: "Date", fill: "#fff" } })],
-                1
-              ),
-            ]),
+            _c(
+              "div",
+              { staticClass: "bkt-card__category bkt-bg-blue ms-auto" },
+              [
+                _c(
+                  "span",
+                  { staticClass: "bkt-card__category-icon" },
+                  [_c("bkt-icon", { attrs: { name: "Date", fill: "#fff" } })],
+                  1
+                ),
+              ]
+            ),
           ]),
         ]),
         _vm._v(" "),
-        _c("div", { staticClass: "bkt-card" }, [
+        _c("div", { staticClass: "bkt-card__row" }, [
           _vm._m(5),
           _vm._v(" "),
           _c("div", { staticClass: "col-2" }, [
             _c(
               "div",
-              { staticClass: "bkt-card__category bg-primary-lighter" },
+              {
+                staticClass:
+                  "bkt-card__category bkt-bg-primary-lighter ms-auto",
+              },
               [
                 _c(
                   "span",
@@ -58813,7 +62566,7 @@ var render = function () {
       _vm._v(" "),
       _vm._m(6),
       _vm._v(" "),
-      _c("div", { staticClass: "bkt-main-filters bkt-card bg-main" }, [
+      _c("div", { staticClass: "bkt-main-filters bkt-row bkt-bg-main" }, [
         _c("div", { staticClass: "col-12 col-md-6 col-lg-4" }, [
           _c(
             "div",
@@ -58865,7 +62618,11 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "col-10" }, [
-      _c("h4", [_vm._v("Выберите"), _c("br"), _vm._v(" нужные категории")]),
+      _c("h4", { staticClass: "bkt-card__title" }, [
+        _vm._v("Выберите"),
+        _c("br"),
+        _vm._v(" нужные категории"),
+      ]),
       _vm._v(" "),
       _c("h5", { staticClass: "bkt-card__subtitle bkt-text-green" }, [
         _vm._v("выбрано 4"),
@@ -58886,7 +62643,11 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "col-10" }, [
-      _c("h4", [_vm._v("Выберите"), _c("br"), _vm._v(" регион")]),
+      _c("h4", { staticClass: "bkt-card__title" }, [
+        _vm._v("Выберите"),
+        _c("br"),
+        _vm._v(" регион"),
+      ]),
       _vm._v(" "),
       _c("h5", { staticClass: "bkt-card__subtitle" }, [
         _vm._v("ничего не выбрано"),
@@ -58900,7 +62661,7 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "col-10" }, [
-      _c("h4", [
+      _c("h4", { staticClass: "bkt-card__title" }, [
         _vm._v("Выберите основные"),
         _c("br"),
         _vm._v(" параметры объекта"),
@@ -58918,7 +62679,11 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "col-10" }, [
-      _c("h4", [_vm._v("Выберите"), _c("br"), _vm._v(" стоимость объекта")]),
+      _c("h4", { staticClass: "bkt-card__title" }, [
+        _vm._v("Выберите"),
+        _c("br"),
+        _vm._v(" стоимость объекта"),
+      ]),
       _vm._v(" "),
       _c("h5", { staticClass: "bkt-card__subtitle" }, [
         _vm._v("ничего не выбрано"),
@@ -58932,7 +62697,11 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "col-10" }, [
-      _c("h4", [_vm._v("Выберите"), _c("br"), _vm._v(" дату торгов")]),
+      _c("h4", { staticClass: "bkt-card__title" }, [
+        _vm._v("Выберите"),
+        _c("br"),
+        _vm._v(" дату торгов"),
+      ]),
       _vm._v(" "),
       _c("h5", { staticClass: "bkt-card__subtitle bkt-text-green" }, [
         _vm._v("выбрано 2"),
@@ -58948,7 +62717,11 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "col-10" }, [
-      _c("h4", [_vm._v("Выберите"), _c("br"), _vm._v(" доп. параметры")]),
+      _c("h4", { staticClass: "bkt-card__title" }, [
+        _vm._v("Выберите"),
+        _c("br"),
+        _vm._v(" доп. параметры"),
+      ]),
       _vm._v(" "),
       _c("h5", { staticClass: "bkt-card__subtitle" }, [
         _vm._v("ничего не выбрано"),
@@ -58962,48 +62735,58 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "bkt-main-statistic bkt-card__list" }, [
-      _c("div", { staticClass: "bkt-card bg-red-light position-relative" }, [
-        _c("h5", { staticClass: "bkt-card__text" }, [_vm._v("Всего лотов")]),
-        _vm._v(" "),
-        _c("h1", { staticClass: "bkt-card__title" }, [_vm._v("58 961")]),
-        _vm._v(" "),
-        _c("div", { staticClass: "bkt-card bkt-card__background-figure-1" }),
-        _vm._v(" "),
-        _c("div", {
-          staticClass: "bkt-card bkt-card__background-figure-2 bg-red-light",
-        }),
-      ]),
+      _c(
+        "div",
+        { staticClass: "bkt-card__row bkt-bg-red-light position-relative" },
+        [
+          _c("h5", { staticClass: "bkt-card__text" }, [_vm._v("Всего лотов")]),
+          _vm._v(" "),
+          _c("h1", { staticClass: "bkt-card__title" }, [_vm._v("58 961")]),
+          _vm._v(" "),
+          _c("div", { staticClass: "bkt-card bkt-card__background-figure-1" }),
+          _vm._v(" "),
+          _c("div", {
+            staticClass:
+              "bkt-card bkt-card__background-figure-2 bkt-bg-red-light",
+          }),
+        ]
+      ),
       _vm._v(" "),
-      _c("div", { staticClass: "bkt-card bg-yellow position-relative" }, [
-        _c("h5", { staticClass: "bkt-card__text" }, [_vm._v("Активных лотов")]),
-        _vm._v(" "),
-        _c("h1", { staticClass: "bkt-card__title" }, [_vm._v("4 372")]),
-        _vm._v(" "),
-        _c("div", {
-          staticClass:
-            "bkt-card bkt-card__background-figure-1 bg-yellow-lighter",
-        }),
-        _vm._v(" "),
-        _c("div", {
-          staticClass: "bkt-card bkt-card__background-figure-2 bg-yellow",
-        }),
-      ]),
+      _c(
+        "div",
+        { staticClass: "bkt-card__row bkt-bg-yellow position-relative" },
+        [
+          _c("h5", { staticClass: "bkt-card__text" }, [
+            _vm._v("Активных лотов"),
+          ]),
+          _vm._v(" "),
+          _c("h1", { staticClass: "bkt-card__title" }, [_vm._v("4 372")]),
+          _vm._v(" "),
+          _c("div", { staticClass: "bkt-card bkt-card__background-figure-1" }),
+          _vm._v(" "),
+          _c("div", {
+            staticClass: "bkt-card bkt-card__background-figure-2 bkt-bg-yellow",
+          }),
+        ]
+      ),
       _vm._v(" "),
-      _c("div", { staticClass: "bkt-card bg-blue position-relative" }, [
-        _c("h5", { staticClass: "bkt-card__text" }, [
-          _vm._v("Добавлено сегодня"),
-        ]),
-        _vm._v(" "),
-        _c("h1", { staticClass: "bkt-card__title" }, [_vm._v("64")]),
-        _vm._v(" "),
-        _c("div", {
-          staticClass: "bkt-card bkt-card__background-figure-1 bg-blue-light",
-        }),
-        _vm._v(" "),
-        _c("div", {
-          staticClass: "bkt-card bkt-card__background-figure-2 bg-blue",
-        }),
-      ]),
+      _c(
+        "div",
+        { staticClass: "bkt-card__row bkt-bg-blue position-relative" },
+        [
+          _c("h5", { staticClass: "bkt-card__text" }, [
+            _vm._v("Добавлено сегодня"),
+          ]),
+          _vm._v(" "),
+          _c("h1", { staticClass: "bkt-card__title" }, [_vm._v("64")]),
+          _vm._v(" "),
+          _c("div", { staticClass: "bkt-card bkt-card__background-figure-1" }),
+          _vm._v(" "),
+          _c("div", {
+            staticClass: "bkt-card bkt-card__background-figure-2 bkt-bg-blue",
+          }),
+        ]
+      ),
     ])
   },
   function () {
@@ -78622,6 +82405,14 @@ var map = {
 		"./resources/js/icons/Category.vue",
 		"resources_js_icons_Category_vue"
 	],
+	"./Check.vue": [
+		"./resources/js/icons/Check.vue",
+		"resources_js_icons_Check_vue"
+	],
+	"./Circle.vue": [
+		"./resources/js/icons/Circle.vue",
+		"resources_js_icons_Circle_vue"
+	],
 	"./Clip.vue": [
 		"./resources/js/icons/Clip.vue",
 		"resources_js_icons_Clip_vue"
@@ -78633,6 +82424,10 @@ var map = {
 	"./Date.vue": [
 		"./resources/js/icons/Date.vue",
 		"resources_js_icons_Date_vue"
+	],
+	"./Download.vue": [
+		"./resources/js/icons/Download.vue",
+		"resources_js_icons_Download_vue"
 	],
 	"./Email.vue": [
 		"./resources/js/icons/Email.vue",
@@ -78673,6 +82468,10 @@ var map = {
 	"./More.vue": [
 		"./resources/js/icons/More.vue",
 		"resources_js_icons_More_vue"
+	],
+	"./Note.vue": [
+		"./resources/js/icons/Note.vue",
+		"resources_js_icons_Note_vue"
 	],
 	"./Options.vue": [
 		"./resources/js/icons/Options.vue",
@@ -78746,7 +82545,7 @@ module.exports = webpackAsyncContext;
 /***/ ((module) => {
 
 "use strict";
-module.exports = JSON.parse('{"name":"axios","version":"0.21.4","description":"Promise based HTTP client for the browser and node.js","main":"index.js","scripts":{"test":"grunt test","start":"node ./sandbox/server.js","build":"NODE_ENV=production grunt build","preversion":"npm test","version":"npm run build && grunt version && git add -A dist && git add CHANGELOG.md bower.json package.json","postversion":"git push && git push --tags","examples":"node ./examples/server.js","coveralls":"cat coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js","fix":"eslint --fix lib/**/*.js"},"repository":{"type":"git","url":"https://github.com/axios/axios.git"},"keywords":["xhr","http","ajax","promise","node"],"author":"Matt Zabriskie","license":"MIT","bugs":{"url":"https://github.com/axios/axios/issues"},"homepage":"https://axios-http.com","devDependencies":{"coveralls":"^3.0.0","es6-promise":"^4.2.4","grunt":"^1.3.0","grunt-banner":"^0.6.0","grunt-cli":"^1.2.0","grunt-contrib-clean":"^1.1.0","grunt-contrib-watch":"^1.0.0","grunt-eslint":"^23.0.0","grunt-karma":"^4.0.0","grunt-mocha-test":"^0.13.3","grunt-ts":"^6.0.0-beta.19","grunt-webpack":"^4.0.2","istanbul-instrumenter-loader":"^1.0.0","jasmine-core":"^2.4.1","karma":"^6.3.2","karma-chrome-launcher":"^3.1.0","karma-firefox-launcher":"^2.1.0","karma-jasmine":"^1.1.1","karma-jasmine-ajax":"^0.1.13","karma-safari-launcher":"^1.0.0","karma-sauce-launcher":"^4.3.6","karma-sinon":"^1.0.5","karma-sourcemap-loader":"^0.3.8","karma-webpack":"^4.0.2","load-grunt-tasks":"^3.5.2","minimist":"^1.2.0","mocha":"^8.2.1","sinon":"^4.5.0","terser-webpack-plugin":"^4.2.3","typescript":"^4.0.5","url-search-params":"^0.10.0","webpack":"^4.44.2","webpack-dev-server":"^3.11.0"},"browser":{"./lib/adapters/http.js":"./lib/adapters/xhr.js"},"jsdelivr":"dist/axios.min.js","unpkg":"dist/axios.min.js","typings":"./index.d.ts","dependencies":{"follow-redirects":"^1.14.0"},"bundlesize":[{"path":"./dist/axios.min.js","threshold":"5kB"}]}');
+module.exports = JSON.parse('{"_args":[["axios@0.21.4","E:\\\\OpenServer\\\\OSPanel\\\\domains\\\\bankrot"]],"_development":true,"_from":"axios@0.21.4","_id":"axios@0.21.4","_inBundle":false,"_integrity":"sha512-ut5vewkiu8jjGBdqpM44XxjuCjq9LAKeHVmoVfHVzy8eHgxxq8SbAVQNovDA8mVi05kP0Ea/n/UzcSHcTJQfNg==","_location":"/axios","_phantomChildren":{},"_requested":{"type":"version","registry":true,"raw":"axios@0.21.4","name":"axios","escapedName":"axios","rawSpec":"0.21.4","saveSpec":null,"fetchSpec":"0.21.4"},"_requiredBy":["#DEV:/"],"_resolved":"https://registry.npmjs.org/axios/-/axios-0.21.4.tgz","_spec":"0.21.4","_where":"E:\\\\OpenServer\\\\OSPanel\\\\domains\\\\bankrot","author":{"name":"Matt Zabriskie"},"browser":{"./lib/adapters/http.js":"./lib/adapters/xhr.js"},"bugs":{"url":"https://github.com/axios/axios/issues"},"bundlesize":[{"path":"./dist/axios.min.js","threshold":"5kB"}],"dependencies":{"follow-redirects":"^1.14.0"},"description":"Promise based HTTP client for the browser and node.js","devDependencies":{"coveralls":"^3.0.0","es6-promise":"^4.2.4","grunt":"^1.3.0","grunt-banner":"^0.6.0","grunt-cli":"^1.2.0","grunt-contrib-clean":"^1.1.0","grunt-contrib-watch":"^1.0.0","grunt-eslint":"^23.0.0","grunt-karma":"^4.0.0","grunt-mocha-test":"^0.13.3","grunt-ts":"^6.0.0-beta.19","grunt-webpack":"^4.0.2","istanbul-instrumenter-loader":"^1.0.0","jasmine-core":"^2.4.1","karma":"^6.3.2","karma-chrome-launcher":"^3.1.0","karma-firefox-launcher":"^2.1.0","karma-jasmine":"^1.1.1","karma-jasmine-ajax":"^0.1.13","karma-safari-launcher":"^1.0.0","karma-sauce-launcher":"^4.3.6","karma-sinon":"^1.0.5","karma-sourcemap-loader":"^0.3.8","karma-webpack":"^4.0.2","load-grunt-tasks":"^3.5.2","minimist":"^1.2.0","mocha":"^8.2.1","sinon":"^4.5.0","terser-webpack-plugin":"^4.2.3","typescript":"^4.0.5","url-search-params":"^0.10.0","webpack":"^4.44.2","webpack-dev-server":"^3.11.0"},"homepage":"https://axios-http.com","jsdelivr":"dist/axios.min.js","keywords":["xhr","http","ajax","promise","node"],"license":"MIT","main":"index.js","name":"axios","repository":{"type":"git","url":"git+https://github.com/axios/axios.git"},"scripts":{"build":"NODE_ENV=production grunt build","coveralls":"cat coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js","examples":"node ./examples/server.js","fix":"eslint --fix lib/**/*.js","postversion":"git push && git push --tags","preversion":"npm test","start":"node ./sandbox/server.js","test":"grunt test","version":"npm run build && grunt version && git add -A dist && git add CHANGELOG.md bower.json package.json"},"typings":"./index.d.ts","unpkg":"dist/axios.min.js","version":"0.21.4"}');
 
 /***/ }),
 
@@ -78868,7 +82667,7 @@ module.exports = JSON.parse('{"code":"ru","messages":{"alpha":"Поле {_field_
 /******/ 		// This function allow to reference async chunks
 /******/ 		__webpack_require__.u = (chunkId) => {
 /******/ 			// return url for filenames not based on template
-/******/ 			if ({"resources_js_icons_Alarm_vue":1,"resources_js_icons_ArrowDown_vue":1,"resources_js_icons_ArrowTriple_vue":1,"resources_js_icons_Bars_vue":1,"resources_js_icons_Bell_vue":1,"resources_js_icons_Cancel_vue":1,"resources_js_icons_Category_vue":1,"resources_js_icons_Clip_vue":1,"resources_js_icons_Clone_vue":1,"resources_js_icons_Date_vue":1,"resources_js_icons_Email_vue":1,"resources_js_icons_Eye_vue":1,"resources_js_icons_File_vue":1,"resources_js_icons_Filter_vue":1,"resources_js_icons_Fire_vue":1,"resources_js_icons_Funnel_vue":1,"resources_js_icons_Law_vue":1,"resources_js_icons_Location_vue":1,"resources_js_icons_Menu_vue":1,"resources_js_icons_More_vue":1,"resources_js_icons_Options_vue":1,"resources_js_icons_Pencil_vue":1,"resources_js_icons_Pie_vue":1,"resources_js_icons_Search_vue":1,"resources_js_icons_Smartphone_vue":1,"resources_js_icons_Star_vue":1,"resources_js_icons_Target_vue":1,"resources_js_icons_Trash_vue":1,"resources_js_icons_Tree_vue":1,"resources_js_icons_User_vue":1,"resources_js_icons_Wallet_vue":1}[chunkId]) return "js/" + chunkId + ".js";
+/******/ 			if ({"resources_js_icons_Alarm_vue":1,"resources_js_icons_ArrowDown_vue":1,"resources_js_icons_ArrowTriple_vue":1,"resources_js_icons_Bars_vue":1,"resources_js_icons_Bell_vue":1,"resources_js_icons_Cancel_vue":1,"resources_js_icons_Category_vue":1,"resources_js_icons_Check_vue":1,"resources_js_icons_Circle_vue":1,"resources_js_icons_Clip_vue":1,"resources_js_icons_Clone_vue":1,"resources_js_icons_Date_vue":1,"resources_js_icons_Download_vue":1,"resources_js_icons_Email_vue":1,"resources_js_icons_Eye_vue":1,"resources_js_icons_File_vue":1,"resources_js_icons_Filter_vue":1,"resources_js_icons_Fire_vue":1,"resources_js_icons_Funnel_vue":1,"resources_js_icons_Law_vue":1,"resources_js_icons_Location_vue":1,"resources_js_icons_Menu_vue":1,"resources_js_icons_More_vue":1,"resources_js_icons_Note_vue":1,"resources_js_icons_Options_vue":1,"resources_js_icons_Pencil_vue":1,"resources_js_icons_Pie_vue":1,"resources_js_icons_Search_vue":1,"resources_js_icons_Smartphone_vue":1,"resources_js_icons_Star_vue":1,"resources_js_icons_Target_vue":1,"resources_js_icons_Trash_vue":1,"resources_js_icons_Tree_vue":1,"resources_js_icons_User_vue":1,"resources_js_icons_Wallet_vue":1}[chunkId]) return "js/" + chunkId + ".js";
 /******/ 			// return url for filenames based on template
 /******/ 			return undefined;
 /******/ 		};

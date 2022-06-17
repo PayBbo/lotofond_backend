@@ -1,0 +1,32 @@
+//@mixin text-color($class, $color) {
+//    #{'.bkt-text-'+$class} {
+//        color: $color !important;
+//    }
+//}
+@mixin text-color($color, $types...) {
+    @each $type in $types {
+        @if $type != ''
+        {
+            #{'.bkt-text-'+$color+'-'+$type} {
+                color: map-get($theme-colors, $color+'-'+$type) !important;
+            }
+        }
+        @else {
+            #{'.bkt-text-'+$color} {
+                color: map-get($theme-colors, $color+'-default') !important;
+            }
+        }
+
+    }
+}
+
+@include text-color('main', '', 'light');
+@include text-color('primary', '', 'light', 'lighter', 'dark');
+@include text-color('green', '', 'light', 'lighter');
+@include text-color('red', '', 'light', 'lighter');
+@include text-color('blue', '', 'light', 'lighter');
+@include text-color('yellow', '', 'light', 'lighter');
+@include text-color('purple', '', 'light', 'lighter');
+@include text-color('neutral', '', 'light', 'lighter','dark', 'darker');
+
+
