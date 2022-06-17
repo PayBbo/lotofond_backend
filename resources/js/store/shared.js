@@ -1,10 +1,11 @@
 export default {
     state: {
+        auth_user: null,
         user: {
             name:'',
             surname:'',
             email:'',
-            phone:'',
+            // phone:'',
             code:'',
             password:'',
             confirm_password:'',
@@ -15,6 +16,9 @@ export default {
     getters: {
         user(state) {
             return state.user;
+        },
+        auth_user(state) {
+            return state.auth_user;
         },
     },
 
@@ -49,6 +53,9 @@ export default {
         },
         setUser(state, payload) {
             return (state.user = payload);
+        },
+        setAuthUser(state, payload) {
+            return (state.auth_user = payload);
         },
         saveUserProperty(state, payload) {
             Vue.set(state.user, payload.key, payload.value)

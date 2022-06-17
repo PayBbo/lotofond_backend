@@ -14,46 +14,79 @@
 
     &.primary {
         background: $primary-default;
+
         &-outline {
             outline: 2px solid $primary-default;
             outline-offset: -2px;
+
             &:focus:not(:focus-visible) {
                 outline: 2px solid $primary-default;
             }
         }
+
         &-lighter {
             background: $primary-lighter;
             color: $primary-default;
         }
     }
+
     &.red {
         background: $red-default;
+
         &-outline {
             outline: 2px solid $red-default;
             color: $main-default;
             outline-offset: -2px;
+
             &:focus:not(:focus-visible) {
                 outline: 2px solid $red-default;
             }
         }
     }
+
     &.green {
         background: $green-default;
     }
+
     &.blue {
         background: $blue-default;
+
         &-lighter {
             background: $blue-lighter;
             color: $blue-default;
         }
     }
+
     &.main {
         background: $main-default;
+
         &-light {
             background: $main-light;
             //color: $primary-default;
         }
     }
+
+    &.next {
+        font-size: 12px;
+        font-family: 'Gilroy', sans-serif;
+        font-weight: 500;
+        color: rgb(45, 50, 68);
+        text-transform: uppercase;
+        line-height: 1.833;
+        text-align: left;
+        display: flex;
+        align-items: center;
+        text-decoration: none;
+        cursor: pointer;
+        padding-left: 0;
+        padding-right: 0;
+
+
+        & svg {
+            transform: rotate(270deg);
+        }
+    }
+
     &-ellipse {
         width: 40px !important;
         height: 40px !important;
@@ -66,12 +99,15 @@
         line-height: 0;
         vertical-align: middle;
         margin: 11px;
+
         &.main {
             background: $main-default;
+
             &-light {
                 background: $main-light;
             }
         }
+
         & .info {
             position: absolute;
             background: $green-default;
@@ -81,6 +117,7 @@
             height: 7px;
             border-radius: 100%;
         }
+
         &__icon {
             max-height: 22px;
             max-width: 22px;
@@ -91,10 +128,24 @@
         max-height: 22px;
         max-width: 22px;
     }
+
     &:disabled {
         background: $neutral-default;
     }
+
     &:focus:not(:focus-visible) {
         outline: initial;
+    }
+}
+
+.bkt-button-icon {
+    @extend .bkt-button;
+    border-radius: 15px;
+    width: 44px;
+    height: 44px;
+    padding: 14px;
+    .bkt-button__icon {
+        max-height: 16px;
+        max-width: 16px;
     }
 }

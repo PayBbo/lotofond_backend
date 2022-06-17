@@ -51,7 +51,7 @@
             </ul>
             <bkt-input
                 v-model="user.name"
-                v-show="tab=='registration'"
+                v-if="tab=='registration'"
                 name="name"
                 type="text"
                 :rules="'required|alpha|min:2'"
@@ -60,7 +60,7 @@
                 icon_name="User"
             />
             <bkt-input
-                v-show="tab=='registration'"
+                v-if="tab=='registration'"
                 v-model="user.surname"
                 :name="'surname'"
                 type="text"
@@ -78,24 +78,23 @@
                 placeholder="pochta@gmail.com"
                 icon_name="Email"
             />
+<!--            <bkt-input-->
+<!--                v-model="user.phone"-->
+<!--                v-if="tab=='registration'"-->
+<!--                :name="'phone'"-->
+<!--                type="tel"-->
+<!--                label="номер телефона"-->
+<!--                :rules="'required|phone'"-->
+<!--                :placeholder="'+7 495 000-00-00'"-->
+<!--                icon_name="Smartphone"-->
+<!--            />-->
             <bkt-input
-                v-model="user.phone"
-                :name="'phone'"
-                type="tel"
-                label="номер телефона"
-                :rules="'required'"
-                :placeholder="'+7 495 000-00-00'"
-                icon_name="Smartphone"
-                v-mask="'+7 ### ###-##-##'"
-            />
-            <bkt-input
-                v-show="tab=='registration'"
                 v-model="user.password"
                 name="password"
                 :type="type1"
                 label="пароль"
                 @click-group-item="switchVisibility('type1')"
-                :rules="'required|min:8|confirmed:confirmation'"
+                :rules="'required|min:8'"
                 group_item_action
             >
                 <template #icon>
@@ -127,7 +126,7 @@
             </bkt-input>
             <bkt-input
                 v-model="user.confirm_password"
-                v-show="tab=='registration'"
+                v-if="tab=='registration'"
                 @click-group-item="switchVisibility('type2')"
                 :name="'confirmation'"
                 :type="type2"
@@ -163,23 +162,23 @@
                 </template>
             </bkt-input>
             <bkt-checkbox name="'Условия'" id="terms" :rules="'required_boolean'" v-model="terms"
-                          v-show="tab=='registration'">
+                          v-if="tab=='registration'">
                 <template #label>
                     Согласен с условиями пользовательского соглашения,<br>политики сайта, обработки персональных
                     данных.
                 </template>
             </bkt-checkbox>
 
-            <button class="bkt-button primary" v-show="tab=='registration'" :disabled="invalid" @click="submit">
-                <span v-show="loading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+            <button class="bkt-button primary" v-if="tab=='registration'" :disabled="invalid" @click="submit">
+                <span v-if="loading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                 Зарегистрироваться
             </button>
-            <div class="bkt-wrapper-between w-100" v-show="tab=='login'">
+            <div class="bkt-wrapper-between w-100" v-if="tab=='login'">
                 <a class="bkt-forgot-password" @click="submit">Забыли пароль?
                     <bkt-icon name="ArrowDown"></bkt-icon>
                 </a>
                 <button class="bkt-button primary" :disabled="invalid" @click="submit">
-                    <span v-show="loading" class="spinner-border spinner-border-sm" role="status"
+                    <span v-if="loading" class="spinner-border spinner-border-sm" role="status"
                           aria-hidden="true"></span>
                     Войти
                 </button>
@@ -212,7 +211,7 @@
 
 <script>
     import {Modal} from "bootstrap";
-
+    import {mask} from 'vue-the-mask'
     export default {
         name: "AuthModal",
         data() {
@@ -249,6 +248,13 @@
                         this.$store.commit('closeModal', '#authModal');
                         if (this.tab == 'registration') {
                             this.$store.commit('openModal', '#codeModal');
+                        }else {
+                            const token = resp.data.accessToken;
+                            const refreshToken = resp.data.refreshToken;
+                            localStorage.setItem('token', token);
+                            localStorage.setItem('refreshToken', refreshToken);
+                            axios.defaults.headers.common['Authorization'] =  "Bearer "+token;
+                            location.reload();
                         }
 
                         this.loading = false;
@@ -257,7 +263,8 @@
                         this.loading = false;
                     });
             }
-        }
+        },
+        directives: {mask}
     }
 </script>
 

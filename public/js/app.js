@@ -5267,6 +5267,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var bootstrap__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! bootstrap */ "./node_modules/bootstrap/dist/js/bootstrap.esm.js");
+/* harmony import */ var vue_the_mask__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue-the-mask */ "./node_modules/vue-the-mask/dist/vue-the-mask.js");
+/* harmony import */ var vue_the_mask__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(vue_the_mask__WEBPACK_IMPORTED_MODULE_1__);
 function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 
 function _regeneratorRuntime() { "use strict"; /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/facebook/regenerator/blob/main/LICENSE */ _regeneratorRuntime = function _regeneratorRuntime() { return exports; }; var exports = {}, Op = Object.prototype, hasOwn = Op.hasOwnProperty, $Symbol = "function" == typeof Symbol ? Symbol : {}, iteratorSymbol = $Symbol.iterator || "@@iterator", asyncIteratorSymbol = $Symbol.asyncIterator || "@@asyncIterator", toStringTagSymbol = $Symbol.toStringTag || "@@toStringTag"; function define(obj, key, value) { return Object.defineProperty(obj, key, { value: value, enumerable: !0, configurable: !0, writable: !0 }), obj[key]; } try { define({}, ""); } catch (err) { define = function define(obj, key, value) { return obj[key] = value; }; } function wrap(innerFn, outerFn, self, tryLocsList) { var protoGenerator = outerFn && outerFn.prototype instanceof Generator ? outerFn : Generator, generator = Object.create(protoGenerator.prototype), context = new Context(tryLocsList || []); return generator._invoke = function (innerFn, self, context) { var state = "suspendedStart"; return function (method, arg) { if ("executing" === state) throw new Error("Generator is already running"); if ("completed" === state) { if ("throw" === method) throw arg; return doneResult(); } for (context.method = method, context.arg = arg;;) { var delegate = context.delegate; if (delegate) { var delegateResult = maybeInvokeDelegate(delegate, context); if (delegateResult) { if (delegateResult === ContinueSentinel) continue; return delegateResult; } } if ("next" === context.method) context.sent = context._sent = context.arg;else if ("throw" === context.method) { if ("suspendedStart" === state) throw state = "completed", context.arg; context.dispatchException(context.arg); } else "return" === context.method && context.abrupt("return", context.arg); state = "executing"; var record = tryCatch(innerFn, self, context); if ("normal" === record.type) { if (state = context.done ? "completed" : "suspendedYield", record.arg === ContinueSentinel) continue; return { value: record.arg, done: context.done }; } "throw" === record.type && (state = "completed", context.method = "throw", context.arg = record.arg); } }; }(innerFn, self, context), generator; } function tryCatch(fn, obj, arg) { try { return { type: "normal", arg: fn.call(obj, arg) }; } catch (err) { return { type: "throw", arg: err }; } } exports.wrap = wrap; var ContinueSentinel = {}; function Generator() {} function GeneratorFunction() {} function GeneratorFunctionPrototype() {} var IteratorPrototype = {}; define(IteratorPrototype, iteratorSymbol, function () { return this; }); var getProto = Object.getPrototypeOf, NativeIteratorPrototype = getProto && getProto(getProto(values([]))); NativeIteratorPrototype && NativeIteratorPrototype !== Op && hasOwn.call(NativeIteratorPrototype, iteratorSymbol) && (IteratorPrototype = NativeIteratorPrototype); var Gp = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(IteratorPrototype); function defineIteratorMethods(prototype) { ["next", "throw", "return"].forEach(function (method) { define(prototype, method, function (arg) { return this._invoke(method, arg); }); }); } function AsyncIterator(generator, PromiseImpl) { function invoke(method, arg, resolve, reject) { var record = tryCatch(generator[method], generator, arg); if ("throw" !== record.type) { var result = record.arg, value = result.value; return value && "object" == _typeof(value) && hasOwn.call(value, "__await") ? PromiseImpl.resolve(value.__await).then(function (value) { invoke("next", value, resolve, reject); }, function (err) { invoke("throw", err, resolve, reject); }) : PromiseImpl.resolve(value).then(function (unwrapped) { result.value = unwrapped, resolve(result); }, function (error) { return invoke("throw", error, resolve, reject); }); } reject(record.arg); } var previousPromise; this._invoke = function (method, arg) { function callInvokeWithMethodAndArg() { return new PromiseImpl(function (resolve, reject) { invoke(method, arg, resolve, reject); }); } return previousPromise = previousPromise ? previousPromise.then(callInvokeWithMethodAndArg, callInvokeWithMethodAndArg) : callInvokeWithMethodAndArg(); }; } function maybeInvokeDelegate(delegate, context) { var method = delegate.iterator[context.method]; if (undefined === method) { if (context.delegate = null, "throw" === context.method) { if (delegate.iterator["return"] && (context.method = "return", context.arg = undefined, maybeInvokeDelegate(delegate, context), "throw" === context.method)) return ContinueSentinel; context.method = "throw", context.arg = new TypeError("The iterator does not provide a 'throw' method"); } return ContinueSentinel; } var record = tryCatch(method, delegate.iterator, context.arg); if ("throw" === record.type) return context.method = "throw", context.arg = record.arg, context.delegate = null, ContinueSentinel; var info = record.arg; return info ? info.done ? (context[delegate.resultName] = info.value, context.next = delegate.nextLoc, "return" !== context.method && (context.method = "next", context.arg = undefined), context.delegate = null, ContinueSentinel) : info : (context.method = "throw", context.arg = new TypeError("iterator result is not an object"), context.delegate = null, ContinueSentinel); } function pushTryEntry(locs) { var entry = { tryLoc: locs[0] }; 1 in locs && (entry.catchLoc = locs[1]), 2 in locs && (entry.finallyLoc = locs[2], entry.afterLoc = locs[3]), this.tryEntries.push(entry); } function resetTryEntry(entry) { var record = entry.completion || {}; record.type = "normal", delete record.arg, entry.completion = record; } function Context(tryLocsList) { this.tryEntries = [{ tryLoc: "root" }], tryLocsList.forEach(pushTryEntry, this), this.reset(!0); } function values(iterable) { if (iterable) { var iteratorMethod = iterable[iteratorSymbol]; if (iteratorMethod) return iteratorMethod.call(iterable); if ("function" == typeof iterable.next) return iterable; if (!isNaN(iterable.length)) { var i = -1, next = function next() { for (; ++i < iterable.length;) { if (hasOwn.call(iterable, i)) return next.value = iterable[i], next.done = !1, next; } return next.value = undefined, next.done = !0, next; }; return next.next = next; } } return { next: doneResult }; } function doneResult() { return { value: undefined, done: !0 }; } return GeneratorFunction.prototype = GeneratorFunctionPrototype, define(Gp, "constructor", GeneratorFunctionPrototype), define(GeneratorFunctionPrototype, "constructor", GeneratorFunction), GeneratorFunction.displayName = define(GeneratorFunctionPrototype, toStringTagSymbol, "GeneratorFunction"), exports.isGeneratorFunction = function (genFun) { var ctor = "function" == typeof genFun && genFun.constructor; return !!ctor && (ctor === GeneratorFunction || "GeneratorFunction" === (ctor.displayName || ctor.name)); }, exports.mark = function (genFun) { return Object.setPrototypeOf ? Object.setPrototypeOf(genFun, GeneratorFunctionPrototype) : (genFun.__proto__ = GeneratorFunctionPrototype, define(genFun, toStringTagSymbol, "GeneratorFunction")), genFun.prototype = Object.create(Gp), genFun; }, exports.awrap = function (arg) { return { __await: arg }; }, defineIteratorMethods(AsyncIterator.prototype), define(AsyncIterator.prototype, asyncIteratorSymbol, function () { return this; }), exports.AsyncIterator = AsyncIterator, exports.async = function (innerFn, outerFn, self, tryLocsList, PromiseImpl) { void 0 === PromiseImpl && (PromiseImpl = Promise); var iter = new AsyncIterator(wrap(innerFn, outerFn, self, tryLocsList), PromiseImpl); return exports.isGeneratorFunction(outerFn) ? iter : iter.next().then(function (result) { return result.done ? result.value : iter.next(); }); }, defineIteratorMethods(Gp), define(Gp, toStringTagSymbol, "Generator"), define(Gp, iteratorSymbol, function () { return this; }), define(Gp, "toString", function () { return "[object Generator]"; }), exports.keys = function (object) { var keys = []; for (var key in object) { keys.push(key); } return keys.reverse(), function next() { for (; keys.length;) { var key = keys.pop(); if (key in object) return next.value = key, next.done = !1, next; } return next.done = !0, next; }; }, exports.values = values, Context.prototype = { constructor: Context, reset: function reset(skipTempReset) { if (this.prev = 0, this.next = 0, this.sent = this._sent = undefined, this.done = !1, this.delegate = null, this.method = "next", this.arg = undefined, this.tryEntries.forEach(resetTryEntry), !skipTempReset) for (var name in this) { "t" === name.charAt(0) && hasOwn.call(this, name) && !isNaN(+name.slice(1)) && (this[name] = undefined); } }, stop: function stop() { this.done = !0; var rootRecord = this.tryEntries[0].completion; if ("throw" === rootRecord.type) throw rootRecord.arg; return this.rval; }, dispatchException: function dispatchException(exception) { if (this.done) throw exception; var context = this; function handle(loc, caught) { return record.type = "throw", record.arg = exception, context.next = loc, caught && (context.method = "next", context.arg = undefined), !!caught; } for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i], record = entry.completion; if ("root" === entry.tryLoc) return handle("end"); if (entry.tryLoc <= this.prev) { var hasCatch = hasOwn.call(entry, "catchLoc"), hasFinally = hasOwn.call(entry, "finallyLoc"); if (hasCatch && hasFinally) { if (this.prev < entry.catchLoc) return handle(entry.catchLoc, !0); if (this.prev < entry.finallyLoc) return handle(entry.finallyLoc); } else if (hasCatch) { if (this.prev < entry.catchLoc) return handle(entry.catchLoc, !0); } else { if (!hasFinally) throw new Error("try statement without catch or finally"); if (this.prev < entry.finallyLoc) return handle(entry.finallyLoc); } } } }, abrupt: function abrupt(type, arg) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.tryLoc <= this.prev && hasOwn.call(entry, "finallyLoc") && this.prev < entry.finallyLoc) { var finallyEntry = entry; break; } } finallyEntry && ("break" === type || "continue" === type) && finallyEntry.tryLoc <= arg && arg <= finallyEntry.finallyLoc && (finallyEntry = null); var record = finallyEntry ? finallyEntry.completion : {}; return record.type = type, record.arg = arg, finallyEntry ? (this.method = "next", this.next = finallyEntry.finallyLoc, ContinueSentinel) : this.complete(record); }, complete: function complete(record, afterLoc) { if ("throw" === record.type) throw record.arg; return "break" === record.type || "continue" === record.type ? this.next = record.arg : "return" === record.type ? (this.rval = this.arg = record.arg, this.method = "return", this.next = "end") : "normal" === record.type && afterLoc && (this.next = afterLoc), ContinueSentinel; }, finish: function finish(finallyLoc) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.finallyLoc === finallyLoc) return this.complete(entry.completion, entry.afterLoc), resetTryEntry(entry), ContinueSentinel; } }, "catch": function _catch(tryLoc) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.tryLoc === tryLoc) { var record = entry.completion; if ("throw" === record.type) { var thrown = record.arg; resetTryEntry(entry); } return thrown; } } throw new Error("illegal catch attempt"); }, delegateYield: function delegateYield(iterable, resultName, nextLoc) { return this.delegate = { iterator: values(iterable), resultName: resultName, nextLoc: nextLoc }, "next" === this.method && (this.arg = undefined), ContinueSentinel; } }, exports; }
@@ -5486,7 +5488,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
+
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "AuthModal",
@@ -5533,6 +5535,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
                   if (_this.tab == 'registration') {
                     _this.$store.commit('openModal', '#codeModal');
+                  } else {
+                    var token = resp.data.accessToken;
+                    var refreshToken = resp.data.refreshToken;
+                    localStorage.setItem('token', token);
+                    localStorage.setItem('refreshToken', refreshToken);
+                    axios.defaults.headers.common['Authorization'] = "Bearer " + token;
+                    location.reload();
                   }
 
                   _this.loading = false;
@@ -5548,6 +5557,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, _callee);
       }))();
     }
+  },
+  directives: {
+    mask: vue_the_mask__WEBPACK_IMPORTED_MODULE_1__.mask
   }
 });
 
@@ -6054,9 +6066,7 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   data: function data() {
-    return {
-      results: []
-    };
+    return {};
   },
   methods: {
     changePage: function changePage(page) {
@@ -6137,6 +6147,266 @@ __webpack_require__.r(__webpack_exports__);
   methods: {
     saveValue: function saveValue() {
       this.$emit('input', this.model);
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Header.vue?vue&type=script&lang=js&":
+/*!*************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Header.vue?vue&type=script&lang=js& ***!
+  \*************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
+
+function _regeneratorRuntime() { "use strict"; /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/facebook/regenerator/blob/main/LICENSE */ _regeneratorRuntime = function _regeneratorRuntime() { return exports; }; var exports = {}, Op = Object.prototype, hasOwn = Op.hasOwnProperty, $Symbol = "function" == typeof Symbol ? Symbol : {}, iteratorSymbol = $Symbol.iterator || "@@iterator", asyncIteratorSymbol = $Symbol.asyncIterator || "@@asyncIterator", toStringTagSymbol = $Symbol.toStringTag || "@@toStringTag"; function define(obj, key, value) { return Object.defineProperty(obj, key, { value: value, enumerable: !0, configurable: !0, writable: !0 }), obj[key]; } try { define({}, ""); } catch (err) { define = function define(obj, key, value) { return obj[key] = value; }; } function wrap(innerFn, outerFn, self, tryLocsList) { var protoGenerator = outerFn && outerFn.prototype instanceof Generator ? outerFn : Generator, generator = Object.create(protoGenerator.prototype), context = new Context(tryLocsList || []); return generator._invoke = function (innerFn, self, context) { var state = "suspendedStart"; return function (method, arg) { if ("executing" === state) throw new Error("Generator is already running"); if ("completed" === state) { if ("throw" === method) throw arg; return doneResult(); } for (context.method = method, context.arg = arg;;) { var delegate = context.delegate; if (delegate) { var delegateResult = maybeInvokeDelegate(delegate, context); if (delegateResult) { if (delegateResult === ContinueSentinel) continue; return delegateResult; } } if ("next" === context.method) context.sent = context._sent = context.arg;else if ("throw" === context.method) { if ("suspendedStart" === state) throw state = "completed", context.arg; context.dispatchException(context.arg); } else "return" === context.method && context.abrupt("return", context.arg); state = "executing"; var record = tryCatch(innerFn, self, context); if ("normal" === record.type) { if (state = context.done ? "completed" : "suspendedYield", record.arg === ContinueSentinel) continue; return { value: record.arg, done: context.done }; } "throw" === record.type && (state = "completed", context.method = "throw", context.arg = record.arg); } }; }(innerFn, self, context), generator; } function tryCatch(fn, obj, arg) { try { return { type: "normal", arg: fn.call(obj, arg) }; } catch (err) { return { type: "throw", arg: err }; } } exports.wrap = wrap; var ContinueSentinel = {}; function Generator() {} function GeneratorFunction() {} function GeneratorFunctionPrototype() {} var IteratorPrototype = {}; define(IteratorPrototype, iteratorSymbol, function () { return this; }); var getProto = Object.getPrototypeOf, NativeIteratorPrototype = getProto && getProto(getProto(values([]))); NativeIteratorPrototype && NativeIteratorPrototype !== Op && hasOwn.call(NativeIteratorPrototype, iteratorSymbol) && (IteratorPrototype = NativeIteratorPrototype); var Gp = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(IteratorPrototype); function defineIteratorMethods(prototype) { ["next", "throw", "return"].forEach(function (method) { define(prototype, method, function (arg) { return this._invoke(method, arg); }); }); } function AsyncIterator(generator, PromiseImpl) { function invoke(method, arg, resolve, reject) { var record = tryCatch(generator[method], generator, arg); if ("throw" !== record.type) { var result = record.arg, value = result.value; return value && "object" == _typeof(value) && hasOwn.call(value, "__await") ? PromiseImpl.resolve(value.__await).then(function (value) { invoke("next", value, resolve, reject); }, function (err) { invoke("throw", err, resolve, reject); }) : PromiseImpl.resolve(value).then(function (unwrapped) { result.value = unwrapped, resolve(result); }, function (error) { return invoke("throw", error, resolve, reject); }); } reject(record.arg); } var previousPromise; this._invoke = function (method, arg) { function callInvokeWithMethodAndArg() { return new PromiseImpl(function (resolve, reject) { invoke(method, arg, resolve, reject); }); } return previousPromise = previousPromise ? previousPromise.then(callInvokeWithMethodAndArg, callInvokeWithMethodAndArg) : callInvokeWithMethodAndArg(); }; } function maybeInvokeDelegate(delegate, context) { var method = delegate.iterator[context.method]; if (undefined === method) { if (context.delegate = null, "throw" === context.method) { if (delegate.iterator["return"] && (context.method = "return", context.arg = undefined, maybeInvokeDelegate(delegate, context), "throw" === context.method)) return ContinueSentinel; context.method = "throw", context.arg = new TypeError("The iterator does not provide a 'throw' method"); } return ContinueSentinel; } var record = tryCatch(method, delegate.iterator, context.arg); if ("throw" === record.type) return context.method = "throw", context.arg = record.arg, context.delegate = null, ContinueSentinel; var info = record.arg; return info ? info.done ? (context[delegate.resultName] = info.value, context.next = delegate.nextLoc, "return" !== context.method && (context.method = "next", context.arg = undefined), context.delegate = null, ContinueSentinel) : info : (context.method = "throw", context.arg = new TypeError("iterator result is not an object"), context.delegate = null, ContinueSentinel); } function pushTryEntry(locs) { var entry = { tryLoc: locs[0] }; 1 in locs && (entry.catchLoc = locs[1]), 2 in locs && (entry.finallyLoc = locs[2], entry.afterLoc = locs[3]), this.tryEntries.push(entry); } function resetTryEntry(entry) { var record = entry.completion || {}; record.type = "normal", delete record.arg, entry.completion = record; } function Context(tryLocsList) { this.tryEntries = [{ tryLoc: "root" }], tryLocsList.forEach(pushTryEntry, this), this.reset(!0); } function values(iterable) { if (iterable) { var iteratorMethod = iterable[iteratorSymbol]; if (iteratorMethod) return iteratorMethod.call(iterable); if ("function" == typeof iterable.next) return iterable; if (!isNaN(iterable.length)) { var i = -1, next = function next() { for (; ++i < iterable.length;) { if (hasOwn.call(iterable, i)) return next.value = iterable[i], next.done = !1, next; } return next.value = undefined, next.done = !0, next; }; return next.next = next; } } return { next: doneResult }; } function doneResult() { return { value: undefined, done: !0 }; } return GeneratorFunction.prototype = GeneratorFunctionPrototype, define(Gp, "constructor", GeneratorFunctionPrototype), define(GeneratorFunctionPrototype, "constructor", GeneratorFunction), GeneratorFunction.displayName = define(GeneratorFunctionPrototype, toStringTagSymbol, "GeneratorFunction"), exports.isGeneratorFunction = function (genFun) { var ctor = "function" == typeof genFun && genFun.constructor; return !!ctor && (ctor === GeneratorFunction || "GeneratorFunction" === (ctor.displayName || ctor.name)); }, exports.mark = function (genFun) { return Object.setPrototypeOf ? Object.setPrototypeOf(genFun, GeneratorFunctionPrototype) : (genFun.__proto__ = GeneratorFunctionPrototype, define(genFun, toStringTagSymbol, "GeneratorFunction")), genFun.prototype = Object.create(Gp), genFun; }, exports.awrap = function (arg) { return { __await: arg }; }, defineIteratorMethods(AsyncIterator.prototype), define(AsyncIterator.prototype, asyncIteratorSymbol, function () { return this; }), exports.AsyncIterator = AsyncIterator, exports.async = function (innerFn, outerFn, self, tryLocsList, PromiseImpl) { void 0 === PromiseImpl && (PromiseImpl = Promise); var iter = new AsyncIterator(wrap(innerFn, outerFn, self, tryLocsList), PromiseImpl); return exports.isGeneratorFunction(outerFn) ? iter : iter.next().then(function (result) { return result.done ? result.value : iter.next(); }); }, defineIteratorMethods(Gp), define(Gp, toStringTagSymbol, "Generator"), define(Gp, iteratorSymbol, function () { return this; }), define(Gp, "toString", function () { return "[object Generator]"; }), exports.keys = function (object) { var keys = []; for (var key in object) { keys.push(key); } return keys.reverse(), function next() { for (; keys.length;) { var key = keys.pop(); if (key in object) return next.value = key, next.done = !1, next; } return next.done = !0, next; }; }, exports.values = values, Context.prototype = { constructor: Context, reset: function reset(skipTempReset) { if (this.prev = 0, this.next = 0, this.sent = this._sent = undefined, this.done = !1, this.delegate = null, this.method = "next", this.arg = undefined, this.tryEntries.forEach(resetTryEntry), !skipTempReset) for (var name in this) { "t" === name.charAt(0) && hasOwn.call(this, name) && !isNaN(+name.slice(1)) && (this[name] = undefined); } }, stop: function stop() { this.done = !0; var rootRecord = this.tryEntries[0].completion; if ("throw" === rootRecord.type) throw rootRecord.arg; return this.rval; }, dispatchException: function dispatchException(exception) { if (this.done) throw exception; var context = this; function handle(loc, caught) { return record.type = "throw", record.arg = exception, context.next = loc, caught && (context.method = "next", context.arg = undefined), !!caught; } for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i], record = entry.completion; if ("root" === entry.tryLoc) return handle("end"); if (entry.tryLoc <= this.prev) { var hasCatch = hasOwn.call(entry, "catchLoc"), hasFinally = hasOwn.call(entry, "finallyLoc"); if (hasCatch && hasFinally) { if (this.prev < entry.catchLoc) return handle(entry.catchLoc, !0); if (this.prev < entry.finallyLoc) return handle(entry.finallyLoc); } else if (hasCatch) { if (this.prev < entry.catchLoc) return handle(entry.catchLoc, !0); } else { if (!hasFinally) throw new Error("try statement without catch or finally"); if (this.prev < entry.finallyLoc) return handle(entry.finallyLoc); } } } }, abrupt: function abrupt(type, arg) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.tryLoc <= this.prev && hasOwn.call(entry, "finallyLoc") && this.prev < entry.finallyLoc) { var finallyEntry = entry; break; } } finallyEntry && ("break" === type || "continue" === type) && finallyEntry.tryLoc <= arg && arg <= finallyEntry.finallyLoc && (finallyEntry = null); var record = finallyEntry ? finallyEntry.completion : {}; return record.type = type, record.arg = arg, finallyEntry ? (this.method = "next", this.next = finallyEntry.finallyLoc, ContinueSentinel) : this.complete(record); }, complete: function complete(record, afterLoc) { if ("throw" === record.type) throw record.arg; return "break" === record.type || "continue" === record.type ? this.next = record.arg : "return" === record.type ? (this.rval = this.arg = record.arg, this.method = "return", this.next = "end") : "normal" === record.type && afterLoc && (this.next = afterLoc), ContinueSentinel; }, finish: function finish(finallyLoc) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.finallyLoc === finallyLoc) return this.complete(entry.completion, entry.afterLoc), resetTryEntry(entry), ContinueSentinel; } }, "catch": function _catch(tryLoc) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.tryLoc === tryLoc) { var record = entry.completion; if ("throw" === record.type) { var thrown = record.arg; resetTryEntry(entry); } return thrown; } } throw new Error("illegal catch attempt"); }, delegateYield: function delegateYield(iterable, resultName, nextLoc) { return this.delegate = { iterator: values(iterable), resultName: resultName, nextLoc: nextLoc }, "next" === this.method && (this.arg = undefined), ContinueSentinel; } }, exports; }
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  name: "Header",
+  data: function data() {
+    return {
+      loading: false
+    };
+  },
+  computed: {
+    auth_user: function auth_user() {
+      return this.$store.getters.auth_user;
+    }
+  },
+  created: function created() {
+    this.getUser();
+  },
+  methods: {
+    getUser: function getUser() {
+      var _this = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
+        return _regeneratorRuntime().wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                _this.loading = true;
+                _context.next = 3;
+                return axios.get('/api/account/user').then(function (resp) {
+                  _this.$store.commit('setAuthUser', resp.data);
+
+                  _this.loading = false;
+                })["catch"](function (err) {
+                  _this.loading = false;
+
+                  _this.$store.commit('setAuthUser', null);
+                });
+
+              case 3:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee);
+      }))();
+    },
+    logout: function logout() {
+      var _this2 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2() {
+        return _regeneratorRuntime().wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                _this2.loading = true;
+                _context2.next = 3;
+                return axios.get('/api/account/logout').then(function (resp) {
+                  _this2.$store.commit('setAuthUser', null);
+
+                  localStorage.setItem('token', null);
+                  localStorage.setItem('refreshToken', null);
+                  _this2.loading = false;
+                })["catch"](function (err) {
+                  _this2.loading = false;
+                });
+
+              case 3:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2);
+      }))();
     }
   }
 });
@@ -7606,6 +7876,44 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -7902,9 +8210,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                     page: page
                   }
                 }).then(function (resp) {
-                  _this.loading = false;
-                  _this.items = resp.data.data;
-                  _this.pagination_data = resp.data;
+                  _this.loading = false; // if (resp.data.data) {
+
+                  _this.items = resp.data; // this.pagination_data = resp.data;
+                  // }
                 })["catch"](function (error) {
                   _this.loading = false;
                 });
@@ -7946,13 +8255,20 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_Textarea_vue__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./components/Textarea.vue */ "./resources/js/components/Textarea.vue");
 /* harmony import */ var _components_Checkbox_vue__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./components/Checkbox.vue */ "./resources/js/components/Checkbox.vue");
 /* harmony import */ var _components_CardList_vue__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./components/CardList.vue */ "./resources/js/components/CardList.vue");
-/* harmony import */ var _auth_AuthModal_vue__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./auth/AuthModal.vue */ "./resources/js/auth/AuthModal.vue");
-/* harmony import */ var _auth_CodeModal_vue__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./auth/CodeModal.vue */ "./resources/js/auth/CodeModal.vue");
-/* harmony import */ var _pages_Main_Main_vue__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./pages/Main/Main.vue */ "./resources/js/pages/Main/Main.vue");
-/* harmony import */ var _pages_LotCard_vue__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./pages/LotCard.vue */ "./resources/js/pages/LotCard.vue");
+/* harmony import */ var _components_Header_vue__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./components/Header.vue */ "./resources/js/components/Header.vue");
+/* harmony import */ var _auth_AuthModal_vue__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./auth/AuthModal.vue */ "./resources/js/auth/AuthModal.vue");
+/* harmony import */ var _auth_CodeModal_vue__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./auth/CodeModal.vue */ "./resources/js/auth/CodeModal.vue");
+/* harmony import */ var _pages_Main_Main_vue__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./pages/Main/Main.vue */ "./resources/js/pages/Main/Main.vue");
+/* harmony import */ var _pages_LotCard_vue__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ./pages/LotCard.vue */ "./resources/js/pages/LotCard.vue");
 __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
 window.Vue = (__webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js")["default"]);
+var token = localStorage.getItem('token');
+
+if (token) {
+  axios.defaults.headers.common['Authorization'] = "Bearer " + token;
+}
+
 
 
 
@@ -7968,6 +8284,18 @@ Vue.component('ValidationObserver', vee_validate__WEBPACK_IMPORTED_MODULE_1__.Va
   },
   validate: function validate(value) {
     return value == true;
+  }
+});
+(0,vee_validate__WEBPACK_IMPORTED_MODULE_1__.extend)('phone', {
+  message: function message(field) {
+    return 'Поле ' + field + ' должно быть верным номером телефона';
+  },
+  validate: function validate(value) {
+    if (value) {
+      return /^(?:(?:\(?(?:00|\+)([1-4]\d\d|[1-9]\d?)\)?)?[\-\.\ \\\/]?)?((?:\(?\d{1,}\)?[\-\.\ \\\/]?){0,})(?:[\-\.\ \\\/]?(?:#|ext\.?|extension|x)[\-\.\ \\\/]?(\d+))?$/.test(value) && value.length >= 10 && value.length <= 19;
+    }
+
+    return false;
   }
 });
 
@@ -7996,19 +8324,21 @@ Vue.use(__webpack_require__(/*! vue-moment */ "./node_modules/vue-moment/dist/vu
 
 
 
+
 Vue.component('BktIcon', _components_Icon_vue__WEBPACK_IMPORTED_MODULE_7__["default"]);
 Vue.component('BktModal', _components_Modal_vue__WEBPACK_IMPORTED_MODULE_8__["default"]);
 Vue.component('BktInput', _components_Input_vue__WEBPACK_IMPORTED_MODULE_10__["default"]);
 Vue.component('BktTextarea', _components_Textarea_vue__WEBPACK_IMPORTED_MODULE_11__["default"]);
 Vue.component('BktCheckbox', _components_Checkbox_vue__WEBPACK_IMPORTED_MODULE_12__["default"]);
 Vue.component('BktCard', _components_Card_vue__WEBPACK_IMPORTED_MODULE_6__["default"]);
-Vue.component('BktAuthModal', _auth_AuthModal_vue__WEBPACK_IMPORTED_MODULE_14__["default"]);
-Vue.component('BktCodeModal', _auth_CodeModal_vue__WEBPACK_IMPORTED_MODULE_15__["default"]);
+Vue.component('BktAuthModal', _auth_AuthModal_vue__WEBPACK_IMPORTED_MODULE_15__["default"]);
+Vue.component('BktCodeModal', _auth_CodeModal_vue__WEBPACK_IMPORTED_MODULE_16__["default"]);
 Vue.component('BktPagination', _components_Pagination_vue__WEBPACK_IMPORTED_MODULE_9__["default"]);
-Vue.component('BktCardList', _components_CardList_vue__WEBPACK_IMPORTED_MODULE_13__["default"]); //pages
+Vue.component('BktCardList', _components_CardList_vue__WEBPACK_IMPORTED_MODULE_13__["default"]);
+Vue.component('BktHeader', _components_Header_vue__WEBPACK_IMPORTED_MODULE_14__["default"]); //pages
 
-Vue.component('MainPage', _pages_Main_Main_vue__WEBPACK_IMPORTED_MODULE_16__["default"]);
-Vue.component('LotCardPage', _pages_LotCard_vue__WEBPACK_IMPORTED_MODULE_17__["default"]);
+Vue.component('MainPage', _pages_Main_Main_vue__WEBPACK_IMPORTED_MODULE_17__["default"]);
+Vue.component('LotCardPage', _pages_LotCard_vue__WEBPACK_IMPORTED_MODULE_18__["default"]);
 var app = new Vue({
   el: "#app",
   store: _store_index_js__WEBPACK_IMPORTED_MODULE_5__["default"]
@@ -8036,6 +8366,12 @@ try {
 
 window.axios = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+var token = localStorage.getItem('token');
+
+if (token) {
+  window.axios.defaults.headers.common['Authorization'] = "Bearer " + token;
+  window.token = token;
+}
 /**
  * Echo exposes an expressive API for subscribing to channels and listening
  * for events that are broadcast by Laravel. Echo and event broadcasting
@@ -8093,11 +8429,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   state: {
+    auth_user: null,
     user: {
       name: '',
       surname: '',
       email: '',
-      phone: '',
+      // phone:'',
       code: '',
       password: '',
       confirm_password: '',
@@ -8107,6 +8444,9 @@ __webpack_require__.r(__webpack_exports__);
   getters: {
     user: function user(state) {
       return state.user;
+    },
+    auth_user: function auth_user(state) {
+      return state.auth_user;
     }
   },
   actions: {
@@ -8146,6 +8486,9 @@ __webpack_require__.r(__webpack_exports__);
     },
     setUser: function setUser(state, payload) {
       return state.user = payload;
+    },
+    setAuthUser: function setAuthUser(state, payload) {
+      return state.auth_user = payload;
     },
     saveUserProperty: function saveUserProperty(state, payload) {
       Vue.set(state.user, payload.key, payload.value);
@@ -56879,6 +57222,45 @@ component.options.__file = "resources/js/components/Checkbox.vue"
 
 /***/ }),
 
+/***/ "./resources/js/components/Header.vue":
+/*!********************************************!*\
+  !*** ./resources/js/components/Header.vue ***!
+  \********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _Header_vue_vue_type_template_id_1f42fb90_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Header.vue?vue&type=template&id=1f42fb90&scoped=true& */ "./resources/js/components/Header.vue?vue&type=template&id=1f42fb90&scoped=true&");
+/* harmony import */ var _Header_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Header.vue?vue&type=script&lang=js& */ "./resources/js/components/Header.vue?vue&type=script&lang=js&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+;
+var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _Header_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _Header_vue_vue_type_template_id_1f42fb90_scoped_true___WEBPACK_IMPORTED_MODULE_0__.render,
+  _Header_vue_vue_type_template_id_1f42fb90_scoped_true___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
+  false,
+  null,
+  "1f42fb90",
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/Header.vue"
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (component.exports);
+
+/***/ }),
+
 /***/ "./resources/js/components/Icon.vue":
 /*!******************************************!*\
   !*** ./resources/js/components/Icon.vue ***!
@@ -57234,6 +57616,22 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/components/Header.vue?vue&type=script&lang=js&":
+/*!*********************************************************************!*\
+  !*** ./resources/js/components/Header.vue?vue&type=script&lang=js& ***!
+  \*********************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Header_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./Header.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Header.vue?vue&type=script&lang=js&");
+ /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Header_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
 /***/ "./resources/js/components/Icon.vue?vue&type=script&lang=js&":
 /*!*******************************************************************!*\
   !*** ./resources/js/components/Icon.vue?vue&type=script&lang=js& ***!
@@ -57444,6 +57842,23 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/components/Header.vue?vue&type=template&id=1f42fb90&scoped=true&":
+/*!***************************************************************************************!*\
+  !*** ./resources/js/components/Header.vue?vue&type=template&id=1f42fb90&scoped=true& ***!
+  \***************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Header_vue_vue_type_template_id_1f42fb90_scoped_true___WEBPACK_IMPORTED_MODULE_0__.render),
+/* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Header_vue_vue_type_template_id_1f42fb90_scoped_true___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
+/* harmony export */ });
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Header_vue_vue_type_template_id_1f42fb90_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./Header.vue?vue&type=template&id=1f42fb90&scoped=true& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Header.vue?vue&type=template&id=1f42fb90&scoped=true&");
+
+
+/***/ }),
+
 /***/ "./resources/js/components/Icon.vue?vue&type=template&id=77a3cee4&":
 /*!*************************************************************************!*\
   !*** ./resources/js/components/Icon.vue?vue&type=template&id=77a3cee4& ***!
@@ -57605,7 +58020,7 @@ var render = function () {
               _c("div", { staticClass: "bkt-modal__aside-description" }, [
                 _c("h4", { staticClass: "bkt-modal__aside-description-text" }, [
                   _vm._v(
-                    "Прохождение регистрации позволит вам получить\n                    "
+                    "Прохождение регистрации позволит вам получить\n                        "
                   ),
                   _c("span", { staticClass: "bkt-text-yellow" }, [
                     _vm._v('7-ми дневный пробный период тарифа "Бизнес",'),
@@ -57625,7 +58040,7 @@ var render = function () {
                       _vm._v("Поиск по самой полной базе"),
                       _c("br"),
                       _vm._v(
-                        " торгов по\n                            банкротству (более"
+                        " торгов по\n                                банкротству (более"
                       ),
                       _c("br"),
                       _vm._v(" 65 000 открытых лотов)."),
@@ -57643,7 +58058,7 @@ var render = function () {
                       _vm._v("Мониторинг новых лотов,"),
                       _c("br"),
                       _vm._v(
-                        " получение уведомлений\n                            на e-mail."
+                        " получение уведомлений\n                                на e-mail."
                       ),
                     ]),
                   ]),
@@ -57671,7 +58086,7 @@ var render = function () {
                     _vm._v(" "),
                     _c("h5", { staticClass: "bkt-modal__aside-feature-text" }, [
                       _vm._v(
-                        "Реестры торговых площадок, должников,\n                            арбитражных"
+                        "Реестры торговых площадок, должников,\n                                арбитражных"
                       ),
                       _c("br"),
                       _vm._v(" управляющих и организаторов долгов."),
@@ -57701,7 +58116,7 @@ var render = function () {
                     },
                   },
                 },
-                [_vm._v("\n                Регистрация\n            ")]
+                [_vm._v("\n                    Регистрация\n                ")]
               ),
               _vm._v(" "),
               _c(
@@ -57715,61 +58130,49 @@ var render = function () {
                     },
                   },
                 },
-                [_vm._v("\n                Вход\n            ")]
+                [_vm._v("\n                    Вход\n                ")]
               ),
             ]),
             _vm._v(" "),
-            _c("bkt-input", {
-              directives: [
-                {
-                  name: "show",
-                  rawName: "v-show",
-                  value: _vm.tab == "registration",
-                  expression: "tab=='registration'",
-                },
-              ],
-              attrs: {
-                name: "name",
-                type: "text",
-                rules: "required|alpha|min:2",
-                label: "имя",
-                placeholder: "Иван",
-                icon_name: "User",
-              },
-              model: {
-                value: _vm.user.name,
-                callback: function ($$v) {
-                  _vm.$set(_vm.user, "name", $$v)
-                },
-                expression: "user.name",
-              },
-            }),
+            _vm.tab == "registration"
+              ? _c("bkt-input", {
+                  attrs: {
+                    name: "name",
+                    type: "text",
+                    rules: "required|alpha|min:2",
+                    label: "имя",
+                    placeholder: "Иван",
+                    icon_name: "User",
+                  },
+                  model: {
+                    value: _vm.user.name,
+                    callback: function ($$v) {
+                      _vm.$set(_vm.user, "name", $$v)
+                    },
+                    expression: "user.name",
+                  },
+                })
+              : _vm._e(),
             _vm._v(" "),
-            _c("bkt-input", {
-              directives: [
-                {
-                  name: "show",
-                  rawName: "v-show",
-                  value: _vm.tab == "registration",
-                  expression: "tab=='registration'",
-                },
-              ],
-              attrs: {
-                name: "surname",
-                type: "text",
-                rules: "required|alpha|min:2",
-                label: "фамилия",
-                placeholder: "Иванов",
-                icon_name: "User",
-              },
-              model: {
-                value: _vm.user.surname,
-                callback: function ($$v) {
-                  _vm.$set(_vm.user, "surname", $$v)
-                },
-                expression: "user.surname",
-              },
-            }),
+            _vm.tab == "registration"
+              ? _c("bkt-input", {
+                  attrs: {
+                    name: "surname",
+                    type: "text",
+                    rules: "required|alpha|min:2",
+                    label: "фамилия",
+                    placeholder: "Иванов",
+                    icon_name: "User",
+                  },
+                  model: {
+                    value: _vm.user.surname,
+                    callback: function ($$v) {
+                      _vm.$set(_vm.user, "surname", $$v)
+                    },
+                    expression: "user.surname",
+                  },
+                })
+              : _vm._e(),
             _vm._v(" "),
             _c("bkt-input", {
               attrs: {
@@ -57790,45 +58193,11 @@ var render = function () {
             }),
             _vm._v(" "),
             _c("bkt-input", {
-              directives: [
-                {
-                  name: "mask",
-                  rawName: "v-mask",
-                  value: "+7 ### ###-##-##",
-                  expression: "'+7 ### ###-##-##'",
-                },
-              ],
-              attrs: {
-                name: "phone",
-                type: "tel",
-                label: "номер телефона",
-                rules: "required",
-                placeholder: "+7 495 000-00-00",
-                icon_name: "Smartphone",
-              },
-              model: {
-                value: _vm.user.phone,
-                callback: function ($$v) {
-                  _vm.$set(_vm.user, "phone", $$v)
-                },
-                expression: "user.phone",
-              },
-            }),
-            _vm._v(" "),
-            _c("bkt-input", {
-              directives: [
-                {
-                  name: "show",
-                  rawName: "v-show",
-                  value: _vm.tab == "registration",
-                  expression: "tab=='registration'",
-                },
-              ],
               attrs: {
                 name: "password",
                 type: _vm.type1,
                 label: "пароль",
-                rules: "required|min:8|confirmed:confirmation",
+                rules: "required|min:8",
                 group_item_action: "",
               },
               on: {
@@ -57867,13 +58236,13 @@ var render = function () {
                               [
                                 _c("path", {
                                   attrs: {
-                                    d: "M2295 4020 c-138 -17 -272 -42 -402 -76 -652 -168 -1237 -609 -1667\n                                -1258 -98 -148 -159 -276 -193 -403 -24 -87 -27 -116 -27 -263 0 -147 3 -176\n                                27 -263 47 -177 161 -379 348 -619 352 -453 761 -767 1244 -956 322 -126 641\n                                -178 1025 -169 250 6 363 20 580 73 188 46 330 98 515 189 462 227 868 596\n                                1189 1079 98 148 159 276 193 403 24 87 27 116 27 263 0 147 -3 176 -27 263\n                                -34 127 -95 255 -193 403 -328 495 -744 869 -1217 1094 -226 108 -479 185\n                                -737 226 -121 19 -571 28 -685 14z m456 -461 c453 -36 855 -199 1224 -496 193\n                                -156 417 -405 568 -633 115 -173 147 -263 147 -410 0 -149 -31 -234 -146 -408\n                                -311 -466 -718 -811 -1169 -990 -429 -170 -932 -195 -1385 -68 -532 148 -1015\n                                520 -1374 1058 -115 174 -146 259 -146 408 0 149 31 234 146 408 395 593 934\n                                978 1534 1096 215 42 386 52 601 35z",
+                                    d: "M2295 4020 c-138 -17 -272 -42 -402 -76 -652 -168 -1237 -609 -1667\n                                    -1258 -98 -148 -159 -276 -193 -403 -24 -87 -27 -116 -27 -263 0 -147 3 -176\n                                    27 -263 47 -177 161 -379 348 -619 352 -453 761 -767 1244 -956 322 -126 641\n                                    -178 1025 -169 250 6 363 20 580 73 188 46 330 98 515 189 462 227 868 596\n                                    1189 1079 98 148 159 276 193 403 24 87 27 116 27 263 0 147 -3 176 -27 263\n                                    -34 127 -95 255 -193 403 -328 495 -744 869 -1217 1094 -226 108 -479 185\n                                    -737 226 -121 19 -571 28 -685 14z m456 -461 c453 -36 855 -199 1224 -496 193\n                                    -156 417 -405 568 -633 115 -173 147 -263 147 -410 0 -149 -31 -234 -146 -408\n                                    -311 -466 -718 -811 -1169 -990 -429 -170 -932 -195 -1385 -68 -532 148 -1015\n                                    520 -1374 1058 -115 174 -146 259 -146 408 0 149 31 234 146 408 395 593 934\n                                    978 1534 1096 215 42 386 52 601 35z",
                                   },
                                 }),
                                 _vm._v(" "),
                                 _c("path", {
                                   attrs: {
-                                    d: "M2458 3100 c-790 -100 -1213 -962 -806 -1644 91 -153 247 -301 409\n                                -390 295 -162 667 -173 977 -30 208 95 389 267 500 474 141 262 166 593 65\n                                875 -107 298 -344 539 -638 650 -149 57 -360 84 -507 65z m322 -495 c183 -67\n                                316 -198 385 -385 25 -66 29 -89 29 -195 0 -85 -4 -135 -16 -171 -92 -288\n                                -344 -467 -633 -451 -250 15 -460 174 -551 417 -24 66 -28 89 -28 195 0 85 4\n                                135 16 171 56 176 175 316 332 391 53 26 82 36 171 57 11 3 65 3 120 1 77 -2\n                                117 -9 175 -30z",
+                                    d: "M2458 3100 c-790 -100 -1213 -962 -806 -1644 91 -153 247 -301 409\n                                    -390 295 -162 667 -173 977 -30 208 95 389 267 500 474 141 262 166 593 65\n                                    875 -107 298 -344 539 -638 650 -149 57 -360 84 -507 65z m322 -495 c183 -67\n                                    316 -198 385 -385 25 -66 29 -89 29 -195 0 -85 -4 -135 -16 -171 -92 -288\n                                    -344 -467 -633 -451 -250 15 -460 174 -551 417 -24 66 -28 89 -28 195 0 85 4\n                                    135 16 171 56 176 175 316 332 391 53 26 82 36 171 57 11 3 65 3 120 1 77 -2\n                                    117 -9 175 -30z",
                                   },
                                 }),
                               ]
@@ -57897,192 +58266,122 @@ var render = function () {
               },
             }),
             _vm._v(" "),
-            _c("bkt-input", {
-              directives: [
-                {
-                  name: "show",
-                  rawName: "v-show",
-                  value: _vm.tab == "registration",
-                  expression: "tab=='registration'",
-                },
-              ],
-              attrs: {
-                name: "confirmation",
-                type: _vm.type2,
-                label: "повторите пароль",
-                rules: "required|min:8|confirmed:password",
-                group_item_action: "",
-              },
-              on: {
-                "click-group-item": function ($event) {
-                  return _vm.switchVisibility("type2")
-                },
-              },
-              scopedSlots: _vm._u(
-                [
-                  {
-                    key: "icon",
-                    fn: function () {
-                      return [
-                        _c(
-                          "svg",
-                          {
-                            attrs: {
-                              version: "1.1",
-                              xmlns: "http://www.w3.org/2000/svg",
-                              viewBox: "0 0 516.000000 404.000000",
-                              width: "100%",
-                              height: "18px",
-                            },
-                          },
-                          [
+            _vm.tab == "registration"
+              ? _c("bkt-input", {
+                  attrs: {
+                    name: "confirmation",
+                    type: _vm.type2,
+                    label: "повторите пароль",
+                    rules: "required|min:8|confirmed:password",
+                    group_item_action: "",
+                  },
+                  on: {
+                    "click-group-item": function ($event) {
+                      return _vm.switchVisibility("type2")
+                    },
+                  },
+                  scopedSlots: _vm._u(
+                    [
+                      {
+                        key: "icon",
+                        fn: function () {
+                          return [
                             _c(
-                              "g",
+                              "svg",
                               {
                                 attrs: {
-                                  transform:
-                                    "translate(0.000000,404.000000) scale(0.100000,-0.100000)",
-                                  fill: "#2953ff",
-                                  stroke: "none",
+                                  version: "1.1",
+                                  xmlns: "http://www.w3.org/2000/svg",
+                                  viewBox: "0 0 516.000000 404.000000",
+                                  width: "100%",
+                                  height: "18px",
                                 },
                               },
                               [
-                                _c("path", {
-                                  attrs: {
-                                    d: "M2295 4020 c-138 -17 -272 -42 -402 -76 -652 -168 -1237 -609 -1667\n                                -1258 -98 -148 -159 -276 -193 -403 -24 -87 -27 -116 -27 -263 0 -147 3 -176\n                                27 -263 47 -177 161 -379 348 -619 352 -453 761 -767 1244 -956 322 -126 641\n                                -178 1025 -169 250 6 363 20 580 73 188 46 330 98 515 189 462 227 868 596\n                                1189 1079 98 148 159 276 193 403 24 87 27 116 27 263 0 147 -3 176 -27 263\n                                -34 127 -95 255 -193 403 -328 495 -744 869 -1217 1094 -226 108 -479 185\n                                -737 226 -121 19 -571 28 -685 14z m456 -461 c453 -36 855 -199 1224 -496 193\n                                -156 417 -405 568 -633 115 -173 147 -263 147 -410 0 -149 -31 -234 -146 -408\n                                -311 -466 -718 -811 -1169 -990 -429 -170 -932 -195 -1385 -68 -532 148 -1015\n                                520 -1374 1058 -115 174 -146 259 -146 408 0 149 31 234 146 408 395 593 934\n                                978 1534 1096 215 42 386 52 601 35z",
+                                _c(
+                                  "g",
+                                  {
+                                    attrs: {
+                                      transform:
+                                        "translate(0.000000,404.000000) scale(0.100000,-0.100000)",
+                                      fill: "#2953ff",
+                                      stroke: "none",
+                                    },
                                   },
-                                }),
-                                _vm._v(" "),
-                                _c("path", {
-                                  attrs: {
-                                    d: "M2458 3100 c-790 -100 -1213 -962 -806 -1644 91 -153 247 -301 409\n                                -390 295 -162 667 -173 977 -30 208 95 389 267 500 474 141 262 166 593 65\n                                875 -107 298 -344 539 -638 650 -149 57 -360 84 -507 65z m322 -495 c183 -67\n                                316 -198 385 -385 25 -66 29 -89 29 -195 0 -85 -4 -135 -16 -171 -92 -288\n                                -344 -467 -633 -451 -250 15 -460 174 -551 417 -24 66 -28 89 -28 195 0 85 4\n                                135 16 171 56 176 175 316 332 391 53 26 82 36 171 57 11 3 65 3 120 1 77 -2\n                                117 -9 175 -30z",
-                                  },
-                                }),
+                                  [
+                                    _c("path", {
+                                      attrs: {
+                                        d: "M2295 4020 c-138 -17 -272 -42 -402 -76 -652 -168 -1237 -609 -1667\n                                    -1258 -98 -148 -159 -276 -193 -403 -24 -87 -27 -116 -27 -263 0 -147 3 -176\n                                    27 -263 47 -177 161 -379 348 -619 352 -453 761 -767 1244 -956 322 -126 641\n                                    -178 1025 -169 250 6 363 20 580 73 188 46 330 98 515 189 462 227 868 596\n                                    1189 1079 98 148 159 276 193 403 24 87 27 116 27 263 0 147 -3 176 -27 263\n                                    -34 127 -95 255 -193 403 -328 495 -744 869 -1217 1094 -226 108 -479 185\n                                    -737 226 -121 19 -571 28 -685 14z m456 -461 c453 -36 855 -199 1224 -496 193\n                                    -156 417 -405 568 -633 115 -173 147 -263 147 -410 0 -149 -31 -234 -146 -408\n                                    -311 -466 -718 -811 -1169 -990 -429 -170 -932 -195 -1385 -68 -532 148 -1015\n                                    520 -1374 1058 -115 174 -146 259 -146 408 0 149 31 234 146 408 395 593 934\n                                    978 1534 1096 215 42 386 52 601 35z",
+                                      },
+                                    }),
+                                    _vm._v(" "),
+                                    _c("path", {
+                                      attrs: {
+                                        d: "M2458 3100 c-790 -100 -1213 -962 -806 -1644 91 -153 247 -301 409\n                                    -390 295 -162 667 -173 977 -30 208 95 389 267 500 474 141 262 166 593 65\n                                    875 -107 298 -344 539 -638 650 -149 57 -360 84 -507 65z m322 -495 c183 -67\n                                    316 -198 385 -385 25 -66 29 -89 29 -195 0 -85 -4 -135 -16 -171 -92 -288\n                                    -344 -467 -633 -451 -250 15 -460 174 -551 417 -24 66 -28 89 -28 195 0 85 4\n                                    135 16 171 56 176 175 316 332 391 53 26 82 36 171 57 11 3 65 3 120 1 77 -2\n                                    117 -9 175 -30z",
+                                      },
+                                    }),
+                                  ]
+                                ),
                               ]
                             ),
                           ]
-                        ),
-                      ]
+                        },
+                        proxy: true,
+                      },
+                    ],
+                    null,
+                    true
+                  ),
+                  model: {
+                    value: _vm.user.confirm_password,
+                    callback: function ($$v) {
+                      _vm.$set(_vm.user, "confirm_password", $$v)
                     },
-                    proxy: true,
+                    expression: "user.confirm_password",
                   },
-                ],
-                null,
-                true
-              ),
-              model: {
-                value: _vm.user.confirm_password,
-                callback: function ($$v) {
-                  _vm.$set(_vm.user, "confirm_password", $$v)
-                },
-                expression: "user.confirm_password",
-              },
-            }),
+                })
+              : _vm._e(),
             _vm._v(" "),
-            _c("bkt-checkbox", {
-              directives: [
-                {
-                  name: "show",
-                  rawName: "v-show",
-                  value: _vm.tab == "registration",
-                  expression: "tab=='registration'",
-                },
-              ],
-              attrs: {
-                name: "'Условия'",
-                id: "terms",
-                rules: "required_boolean",
-              },
-              scopedSlots: _vm._u(
-                [
-                  {
-                    key: "label",
-                    fn: function () {
-                      return [
-                        _vm._v(
-                          "\n                Согласен с условиями пользовательского соглашения,"
-                        ),
-                        _c("br"),
-                        _vm._v(
-                          "политики сайта, обработки персональных\n                данных.\n            "
-                        ),
-                      ]
+            _vm.tab == "registration"
+              ? _c("bkt-checkbox", {
+                  attrs: {
+                    name: "'Условия'",
+                    id: "terms",
+                    rules: "required_boolean",
+                  },
+                  scopedSlots: _vm._u(
+                    [
+                      {
+                        key: "label",
+                        fn: function () {
+                          return [
+                            _vm._v(
+                              "\n                    Согласен с условиями пользовательского соглашения,"
+                            ),
+                            _c("br"),
+                            _vm._v(
+                              "политики сайта, обработки персональных\n                    данных.\n                "
+                            ),
+                          ]
+                        },
+                        proxy: true,
+                      },
+                    ],
+                    null,
+                    true
+                  ),
+                  model: {
+                    value: _vm.terms,
+                    callback: function ($$v) {
+                      _vm.terms = $$v
                     },
-                    proxy: true,
+                    expression: "terms",
                   },
-                ],
-                null,
-                true
-              ),
-              model: {
-                value: _vm.terms,
-                callback: function ($$v) {
-                  _vm.terms = $$v
-                },
-                expression: "terms",
-              },
-            }),
+                })
+              : _vm._e(),
             _vm._v(" "),
-            _c(
-              "button",
-              {
-                directives: [
-                  {
-                    name: "show",
-                    rawName: "v-show",
-                    value: _vm.tab == "registration",
-                    expression: "tab=='registration'",
-                  },
-                ],
-                staticClass: "bkt-button primary",
-                attrs: { disabled: invalid },
-                on: { click: _vm.submit },
-              },
-              [
-                _c("span", {
-                  directives: [
-                    {
-                      name: "show",
-                      rawName: "v-show",
-                      value: _vm.loading,
-                      expression: "loading",
-                    },
-                  ],
-                  staticClass: "spinner-border spinner-border-sm",
-                  attrs: { role: "status", "aria-hidden": "true" },
-                }),
-                _vm._v("\n            Зарегистрироваться\n        "),
-              ]
-            ),
-            _vm._v(" "),
-            _c(
-              "div",
-              {
-                directives: [
-                  {
-                    name: "show",
-                    rawName: "v-show",
-                    value: _vm.tab == "login",
-                    expression: "tab=='login'",
-                  },
-                ],
-                staticClass: "bkt-wrapper-between w-100",
-              },
-              [
-                _c(
-                  "a",
-                  {
-                    staticClass: "bkt-forgot-password",
-                    on: { click: _vm.submit },
-                  },
-                  [
-                    _vm._v("Забыли пароль?\n                "),
-                    _c("bkt-icon", { attrs: { name: "ArrowDown" } }),
-                  ],
-                  1
-                ),
-                _vm._v(" "),
-                _c(
+            _vm.tab == "registration"
+              ? _c(
                   "button",
                   {
                     staticClass: "bkt-button primary",
@@ -58090,23 +58389,53 @@ var render = function () {
                     on: { click: _vm.submit },
                   },
                   [
-                    _c("span", {
-                      directives: [
-                        {
-                          name: "show",
-                          rawName: "v-show",
-                          value: _vm.loading,
-                          expression: "loading",
-                        },
-                      ],
-                      staticClass: "spinner-border spinner-border-sm",
-                      attrs: { role: "status", "aria-hidden": "true" },
-                    }),
-                    _vm._v("\n                Войти\n            "),
+                    _vm.loading
+                      ? _c("span", {
+                          staticClass: "spinner-border spinner-border-sm",
+                          attrs: { role: "status", "aria-hidden": "true" },
+                        })
+                      : _vm._e(),
+                    _vm._v(
+                      "\n                Зарегистрироваться\n            "
+                    ),
                   ]
-                ),
-              ]
-            ),
+                )
+              : _vm._e(),
+            _vm._v(" "),
+            _vm.tab == "login"
+              ? _c("div", { staticClass: "bkt-wrapper-between w-100" }, [
+                  _c(
+                    "a",
+                    {
+                      staticClass: "bkt-forgot-password",
+                      on: { click: _vm.submit },
+                    },
+                    [
+                      _vm._v("Забыли пароль?\n                    "),
+                      _c("bkt-icon", { attrs: { name: "ArrowDown" } }),
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "button",
+                    {
+                      staticClass: "bkt-button primary",
+                      attrs: { disabled: invalid },
+                      on: { click: _vm.submit },
+                    },
+                    [
+                      _vm.loading
+                        ? _c("span", {
+                            staticClass: "spinner-border spinner-border-sm",
+                            attrs: { role: "status", "aria-hidden": "true" },
+                          })
+                        : _vm._e(),
+                      _vm._v("\n                    Войти\n                "),
+                    ]
+                  ),
+                ])
+              : _vm._e(),
           ]
         },
       },
@@ -58136,17 +58465,17 @@ var render = function () {
                 ]
               ),
               _vm._v(
-                "\n            " +
+                "\n                " +
                   _vm._s(_vm.tab == "registration" ? "Регистрация" : "Вход") +
-                  " через ВКонтакте\n        "
+                  " через ВКонтакте\n            "
               ),
             ]),
             _vm._v(" "),
             _c("button", { staticClass: "gosuslugi-button" }, [
               _vm._v(
-                "\n            " +
+                "\n                " +
                   _vm._s(_vm.tab == "registration" ? "Регистрация" : "Вход") +
-                  " через\n            "
+                  " через\n                "
               ),
               _c(
                 "svg",
@@ -59188,7 +59517,7 @@ var render = function () {
               })
             : _vm._e(),
           _vm._v(" "),
-          !_vm.no_pagination
+          !_vm.no_pagination && _vm.items
             ? _vm._t("pagination", function () {
                 return [
                   _c("bkt-pagination", {
@@ -59316,6 +59645,457 @@ var render = function () {
   })
 }
 var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Header.vue?vue&type=template&id=1f42fb90&scoped=true&":
+/*!******************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Header.vue?vue&type=template&id=1f42fb90&scoped=true& ***!
+  \******************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* binding */ render),
+/* harmony export */   "staticRenderFns": () => (/* binding */ staticRenderFns)
+/* harmony export */ });
+var render = function () {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "header",
+    {},
+    [
+      _c("nav", { staticClass: "bkt-navbar" }, [
+        _c("div", { staticClass: "bkt-container bkt-navbar__wrapper" }, [
+          _c("button", { staticClass: "bkt-button blue" }, [
+            _vm._v("\n                Покупка без ЭЦП\n            "),
+          ]),
+          _vm._v(" "),
+          _c("ul", { staticClass: "bkt-navbar__nav d-none d-lg-flex" }, [
+            _c("li", { staticClass: "bkt-navbar__nav-item" }, [
+              _c(
+                "a",
+                { staticClass: "bkt-navbar__nav-link", attrs: { href: "#" } },
+                [
+                  _c(
+                    "span",
+                    { staticClass: "bkt-button-ellipse main" },
+                    [
+                      _c("bkt-icon", {
+                        attrs: { name: "Star", fill: "#ffc515" },
+                      }),
+                    ],
+                    1
+                  ),
+                  _vm._v(
+                    "\n                        Топ-Избранное\n                    "
+                  ),
+                ]
+              ),
+            ]),
+            _vm._v(" "),
+            _c("li", { staticClass: "bkt-navbar__nav-item" }, [
+              _c(
+                "a",
+                { staticClass: "bkt-navbar__nav-link", attrs: { href: "#" } },
+                [
+                  _c(
+                    "span",
+                    { staticClass: "bkt-button-ellipse main" },
+                    [
+                      _c("bkt-icon", {
+                        attrs: { name: "Target", stroke: "#ec4c27" },
+                      }),
+                    ],
+                    1
+                  ),
+                  _vm._v(
+                    "\n                        Мониторинг\n                    "
+                  ),
+                ]
+              ),
+            ]),
+            _vm._v(" "),
+            _c("li", { staticClass: "bkt-navbar__nav-item" }, [
+              _c(
+                "a",
+                { staticClass: "bkt-navbar__nav-link", attrs: { href: "#" } },
+                [
+                  _c(
+                    "span",
+                    { staticClass: "bkt-button-ellipse main" },
+                    [
+                      _c("span", { staticClass: "info" }),
+                      _vm._v(" "),
+                      _c("bkt-icon", {
+                        attrs: { name: "Bell", fill: "#2fbb40" },
+                      }),
+                    ],
+                    1
+                  ),
+                  _vm._v(
+                    "\n                        Сообщения\n                    "
+                  ),
+                ]
+              ),
+            ]),
+          ]),
+          _vm._v(" "),
+          _c("button", { staticClass: "bkt-button primary" }, [
+            _vm._v("\n                Приложение\n            "),
+          ]),
+          _vm._v(" "),
+          _vm.auth_user && _vm.auth_user.name
+            ? _c("div", { staticClass: "btn-group d-none d-md-block" }, [
+                _c(
+                  "div",
+                  {
+                    staticClass: "bkt-navbar__user-wrapper",
+                    attrs: {
+                      id: "navbarDropdown",
+                      role: "button",
+                      "data-bs-toggle": "dropdown",
+                      "aria-haspopup": "true",
+                      "aria-expanded": "false",
+                    },
+                  },
+                  [
+                    _c(
+                      "div",
+                      { staticClass: "bkt-navbar__user text-truncate me-1" },
+                      [
+                        _c(
+                          "div",
+                          {
+                            staticClass: "bkt-navbar__user-name text-truncate",
+                          },
+                          [
+                            _vm._v(
+                              "\n                            " +
+                                _vm._s(_vm.auth_user.name) +
+                                " " +
+                                _vm._s(_vm.auth_user.surname) +
+                                "\n                        "
+                            ),
+                          ]
+                        ),
+                        _vm._v(" "),
+                        _vm._m(0),
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      { staticClass: "bkt-navbar__user-icon" },
+                      [_c("bkt-icon", { attrs: { name: "ArrowDown" } })],
+                      1
+                    ),
+                  ]
+                ),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  {
+                    staticClass:
+                      "dropdown-menu dropdown-menu-right bkt-navbar__user-dropdown",
+                    attrs: { "aria-labelledby": "navbarDropdown" },
+                  },
+                  [
+                    _c(
+                      "div",
+                      { staticClass: "bkt-navbar__user-dropdown-menu" },
+                      [
+                        _c(
+                          "button",
+                          { staticClass: "bkt-button bkt-tarif-button" },
+                          [_vm._v("Сменить тариф")]
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "div",
+                          { staticClass: "bkt-navbar__user-dropdown-item" },
+                          [
+                            _c(
+                              "div",
+                              {
+                                staticClass:
+                                  "bkt-navbar__user-dropdown-item-icon bg-primary-lighter",
+                              },
+                              [
+                                _c("bkt-icon", {
+                                  attrs: { name: "User", fill: "#2953ff" },
+                                }),
+                              ],
+                              1
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "a",
+                              {
+                                staticClass:
+                                  "bkt-navbar__user-dropdown-item-text",
+                                attrs: { href: "#" },
+                              },
+                              [_vm._v("Профиль")]
+                            ),
+                          ]
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "div",
+                          {
+                            staticClass: "bkt-navbar__user-dropdown-item",
+                            staticStyle: { cursor: "pointer" },
+                            on: { click: _vm.logout },
+                          },
+                          [
+                            _c(
+                              "div",
+                              {
+                                staticClass:
+                                  "bkt-navbar__user-dropdown-item-icon bg-red-lighter",
+                              },
+                              [
+                                _c(
+                                  "svg",
+                                  {
+                                    attrs: {
+                                      version: "1.0",
+                                      xmlns: "http://www.w3.org/2000/svg",
+                                      width: "100%",
+                                      height: "100%",
+                                      viewBox: "0 0 512.000000 512.000000",
+                                      preserveAspectRatio: "xMidYMid meet",
+                                    },
+                                  },
+                                  [
+                                    _c(
+                                      "g",
+                                      {
+                                        attrs: {
+                                          transform:
+                                            "translate(0.000000,512.000000) scale(0.100000,-0.100000)",
+                                          fill: "#ec4c27",
+                                          stroke: "none",
+                                        },
+                                      },
+                                      [
+                                        _c("path", {
+                                          attrs: {
+                                            d: "M161 5103 c-59 -21 -124 -87 -144 -148 -16 -45 -17 -237 -17 -2395 0\n                                        -2633 -7 -2404 75 -2485 80 -80 -21 -75 1430 -75 1451 0 1350 -5 1430 75 98\n                                        98 98 252 0 350 -79 80 4 75 -1287 75 l-1148 0 0 2060 0 2060 1148 0 c1291 0\n                                        1208 -5 1287 75 98 98 98 252 0 350 -80 80 22 75 -1434 74 -1147 0 -1301 -2\n                                        -1340 -16z",
+                                          },
+                                        }),
+                                        _vm._v(" "),
+                                        _c("path", {
+                                          attrs: {
+                                            d: "M3520 4065 c-136 -44 -208 -205 -149 -335 15 -34 127 -152 457 -482\n                                        l437 -438 -1216 0 c-1366 0 -1274 5 -1354 -75 -98 -98 -98 -252 0 -350 80 -80\n                                        -12 -75 1354 -75 l1216 0 -437 -437 c-240 -241 -444 -454 -454 -473 -27 -51\n                                        -25 -162 3 -216 25 -47 82 -101 129 -120 48 -20 151 -17 200 5 61 28 1354\n                                        1315 1386 1379 32 65 32 159 0 224 -30 60 -1320 1347 -1384 1379 -52 27 -131\n                                        33 -188 14z",
+                                          },
+                                        }),
+                                      ]
+                                    ),
+                                  ]
+                                ),
+                              ]
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "div",
+                              {
+                                staticClass:
+                                  "bkt-navbar__user-dropdown-item-text",
+                              },
+                              [_vm._v("Выйти")]
+                            ),
+                          ]
+                        ),
+                      ]
+                    ),
+                  ]
+                ),
+              ])
+            : _c(
+                "button",
+                {
+                  staticClass: "bkt-button primary-outline d-none d-md-block",
+                  attrs: {
+                    "data-bs-toggle": "modal",
+                    "data-bs-target": "#authModal",
+                  },
+                },
+                [_vm._v("\n                Вход и регистрация\n            ")]
+              ),
+        ]),
+      ]),
+      _vm._v(" "),
+      _c("nav", { staticClass: "bkt-navbar white" }, [
+        _c("div", { staticClass: "bkt-navbar__wrapper bkt-container" }, [
+          _vm._m(1),
+          _vm._v(" "),
+          _c("div", { staticClass: "bkt-navbar__logo d-flex d-lg-none" }, [
+            _vm._v("\n                LOGO\n            "),
+          ]),
+          _vm._v(" "),
+          _c("ul", { staticClass: "bkt-navbar__nav" }, [
+            _vm._m(2),
+            _vm._v(" "),
+            _c("li", { staticClass: "bkt-navbar__nav-item" }, [
+              _c(
+                "a",
+                { staticClass: "bkt-navbar__nav-link", attrs: { href: "#" } },
+                [
+                  _c(
+                    "span",
+                    { staticClass: "bkt-navbar__nav-icon" },
+                    [
+                      _c("bkt-icon", {
+                        attrs: { name: "Fire", width: "22px", height: "22px" },
+                      }),
+                    ],
+                    1
+                  ),
+                  _vm._v(
+                    "\n                        Горящие торги\n                    "
+                  ),
+                ]
+              ),
+            ]),
+            _vm._v(" "),
+            _vm._m(3),
+            _vm._v(" "),
+            _vm._m(4),
+            _vm._v(" "),
+            _vm._m(5),
+            _vm._v(" "),
+            _vm._m(6),
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "bkt-navbar__wrapper" }, [
+            _c(
+              "button",
+              { staticClass: "bkt-button red-outline d-none d-lg-flex" },
+              [
+                _c(
+                  "span",
+                  { staticClass: "bkt-button__icon mx-2" },
+                  [
+                    _c("bkt-icon", {
+                      attrs: { name: "Law", width: "16px", height: "16px" },
+                    }),
+                  ],
+                  1
+                ),
+                _vm._v(
+                  "\n                    Изменения в законах\n                "
+                ),
+              ]
+            ),
+            _vm._v(" "),
+            _c(
+              "button",
+              { staticClass: "bkt-button-ellipse m-0 d-flex d-lg-none" },
+              [
+                _c(
+                  "span",
+                  { staticClass: "bkt-button__icon" },
+                  [_c("bkt-icon", { attrs: { name: "Menu" } })],
+                  1
+                ),
+              ]
+            ),
+          ]),
+        ]),
+      ]),
+      _vm._v(" "),
+      _c("bkt-auth-modal"),
+      _vm._v(" "),
+      _c("bkt-code-modal"),
+    ],
+    1
+  )
+}
+var staticRenderFns = [
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "bkt-navbar__user-tarif" }, [
+      _vm._v("\n                            тариф: "),
+      _c("span", { staticClass: "bkt-navbar__user-tarif-name" }, [
+        _vm._v("Базовый"),
+      ]),
+    ])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "bkt-navbar__wrapper d-none d-lg-flex" }, [
+      _c("button", { staticClass: "bkt-button primary-lighter" }, [
+        _vm._v("\n                    Торги\n                "),
+      ]),
+      _vm._v(" "),
+      _c("button", { staticClass: "bkt-button blue-lighter" }, [
+        _vm._v("\n                    Тарифы\n                "),
+      ]),
+    ])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("li", { staticClass: "bkt-navbar__nav-item d-none d-lg-flex" }, [
+      _c("a", { staticClass: "bkt-navbar__nav-link", attrs: { href: "#" } }, [
+        _vm._v("Купить через агента"),
+      ]),
+    ])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("li", { staticClass: "bkt-navbar__nav-item d-none d-md-flex" }, [
+      _c("a", { staticClass: "bkt-navbar__nav-link", attrs: { href: "#" } }, [
+        _vm._v("Топ-побед"),
+      ]),
+    ])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("li", { staticClass: "bkt-navbar__nav-item d-none d-md-flex" }, [
+      _c("a", { staticClass: "bkt-navbar__nav-link", attrs: { href: "#" } }, [
+        _vm._v("Реестры"),
+      ]),
+    ])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("li", { staticClass: "bkt-navbar__nav-item d-none d-lg-flex" }, [
+      _c("a", { staticClass: "bkt-navbar__nav-link", attrs: { href: "#" } }, [
+        _vm._v("Контакты"),
+      ]),
+    ])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("li", { staticClass: "bkt-navbar__nav-item d-flex d-lg-none" }, [
+      _c("a", { staticClass: "bkt-navbar__nav-link", attrs: { href: "#" } }, [
+        _vm._v("Тарифы"),
+      ]),
+    ])
+  },
+]
 render._withStripped = true
 
 
@@ -60029,7 +60809,37 @@ var render = function () {
     "div",
     { staticClass: "container bkt-main bkt-single-trade bkt-container" },
     [
-      _vm._m(0),
+      _c(
+        "div",
+        { staticClass: "bkt-wrapper", staticStyle: { margin: "30px 0" } },
+        [
+          _c(
+            "nav",
+            {
+              staticClass: "bkt-wrapper m-0",
+              attrs: { "aria-label": "breadcrumb" },
+            },
+            [
+              _c(
+                "div",
+                {
+                  staticClass: "bkt-button-icon bg-white",
+                  staticStyle: { "margin-right": "20px" },
+                },
+                [
+                  _c("bkt-icon", {
+                    staticClass: "bkt-button__icon",
+                    attrs: { name: "ArrowDown" },
+                  }),
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _vm._m(0),
+            ]
+          ),
+        ]
+      ),
       _vm._v(" "),
       _c(
         "div",
@@ -60047,7 +60857,7 @@ var render = function () {
           _c("div", { staticClass: "bkt-actions" }, [
             _c(
               "button",
-              { staticClass: "bkt-button main-light" },
+              { staticClass: "bkt-button-icon main-light" },
               [
                 _c("bkt-icon", {
                   staticClass: "bkt-button__icon",
@@ -60059,11 +60869,11 @@ var render = function () {
             _vm._v(" "),
             _c(
               "button",
-              { staticClass: "bkt-button main-light" },
+              { staticClass: "bkt-button-icon main-light" },
               [
                 _c("bkt-icon", {
                   staticClass: "bkt-button__icon",
-                  attrs: { name: "Pencil" },
+                  attrs: { name: "Bookmark" },
                 }),
               ],
               1
@@ -60071,7 +60881,7 @@ var render = function () {
             _vm._v(" "),
             _c(
               "button",
-              { staticClass: "bkt-button main-light" },
+              { staticClass: "bkt-button-icon main-light" },
               [
                 _c("bkt-icon", {
                   staticClass: "bkt-button__icon",
@@ -60083,7 +60893,7 @@ var render = function () {
             _vm._v(" "),
             _c(
               "button",
-              { staticClass: "bkt-button main-light" },
+              { staticClass: "bkt-button-icon main-light" },
               [
                 _c("bkt-icon", {
                   staticClass: "bkt-button__icon",
@@ -60095,7 +60905,7 @@ var render = function () {
             _vm._v(" "),
             _c(
               "button",
-              { staticClass: "bkt-button main-light" },
+              { staticClass: "bkt-button-icon main-light" },
               [
                 _c("span", { staticClass: "info" }),
                 _vm._v(" "),
@@ -60109,7 +60919,7 @@ var render = function () {
             _vm._v(" "),
             _c(
               "button",
-              { staticClass: "bkt-button main-light" },
+              { staticClass: "bkt-button-icon main-light" },
               [
                 _c("bkt-icon", {
                   staticClass: "bkt-button__icon",
@@ -60121,7 +60931,7 @@ var render = function () {
             _vm._v(" "),
             _c(
               "button",
-              { staticClass: "bkt-button" },
+              { staticClass: "bkt-button-icon" },
               [
                 _c("bkt-icon", {
                   staticClass: "bkt-button__icon",
@@ -60457,7 +61267,47 @@ var render = function () {
               ),
               _vm._v(" "),
               _c("div", { staticClass: "bkt-card__body" }, [
-                _c("div", { staticClass: "bkt-wrapper m-0 bkt-nowrap" }, [
+                _c(
+                  "div",
+                  {
+                    staticClass: "bkt-wrapper-between",
+                    staticStyle: { "margin-bottom": "23px" },
+                  },
+                  [
+                    _c("div", { staticClass: "bkt-wrapper m-0" }, [
+                      _c(
+                        "div",
+                        {
+                          staticClass:
+                            "bkt-card__category bkt-bg-primary-lighter",
+                        },
+                        [
+                          _c("bkt-icon", {
+                            staticClass: "bkt-card__category-icon",
+                            attrs: { name: "Pencil", fill: "#2953ff" },
+                          }),
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c("h5", [_vm._v("Заметка по лоту (видите только вы)")]),
+                    ]),
+                    _vm._v(" "),
+                    _c(
+                      "button",
+                      { staticClass: "bkt-button-icon primary" },
+                      [
+                        _c("bkt-icon", {
+                          staticClass: "bkt-button__icon",
+                          attrs: { name: "Plus" },
+                        }),
+                      ],
+                      1
+                    ),
+                  ]
+                ),
+                _vm._v(" "),
+                _c("div", { staticClass: "bkt-single-trade-task" }, [
                   _c(
                     "div",
                     { staticClass: "bkt-row outline bkt-wrapper-between" },
@@ -60478,13 +61328,17 @@ var render = function () {
                         [
                           _c(
                             "div",
-                            { staticClass: "bkt-card__category bkt-bg-blue" },
+                            {
+                              staticClass:
+                                "bkt-card__category bkt-bg-blue-lighter",
+                            },
                             [
                               _c("bkt-icon", {
                                 attrs: {
                                   name: "Date",
                                   width: "16px",
                                   height: "16px",
+                                  fill: "#29b1ff",
                                 },
                               }),
                             ],
@@ -60510,7 +61364,7 @@ var render = function () {
                   ),
                 ]),
                 _vm._v(" "),
-                _c("div", { staticClass: "bkt-wrapper m-0 bkt-nowrap" }, [
+                _c("div", { staticClass: "bkt-single-trade-task" }, [
                   _c(
                     "div",
                     { staticClass: "bkt-row outline bkt-wrapper-between" },
@@ -60531,13 +61385,17 @@ var render = function () {
                         [
                           _c(
                             "div",
-                            { staticClass: "bkt-card__category bkt-bg-blue" },
+                            {
+                              staticClass:
+                                "bkt-card__category bkt-bg-blue-lighter",
+                            },
                             [
                               _c("bkt-icon", {
                                 attrs: {
                                   name: "Date",
                                   width: "16px",
                                   height: "16px",
+                                  fill: "#29b1ff",
                                 },
                               }),
                             ],
@@ -60563,7 +61421,7 @@ var render = function () {
                   ),
                 ]),
                 _vm._v(" "),
-                _c("div", { staticClass: "bkt-wrapper m-0 bkt-nowrap" }, [
+                _c("div", { staticClass: "bkt-single-trade-task" }, [
                   _c(
                     "div",
                     { staticClass: "bkt-row outline bkt-wrapper-between" },
@@ -60584,13 +61442,17 @@ var render = function () {
                         [
                           _c(
                             "div",
-                            { staticClass: "bkt-card__category bkt-bg-blue" },
+                            {
+                              staticClass:
+                                "bkt-card__category bkt-bg-blue-lighter",
+                            },
                             [
                               _c("bkt-icon", {
                                 attrs: {
                                   name: "Date",
                                   width: "16px",
                                   height: "16px",
+                                  fill: "#29b1ff",
                                 },
                               }),
                             ],
@@ -60636,7 +61498,10 @@ var render = function () {
                     _vm._v(" "),
                     _c(
                       "button",
-                      { staticClass: "bkt-button" },
+                      {
+                        staticClass: "bkt-button",
+                        staticStyle: { gap: "8px" },
+                      },
                       [
                         _vm._v(
                           "\n                        Смотреть отчёт\n                        "
@@ -60656,6 +61521,19 @@ var render = function () {
                 _vm._m(15),
                 _vm._v(" "),
                 _vm._m(16),
+                _vm._v(" "),
+                _c("div", { staticClass: "bkt-wrapper-between" }, [
+                  _c(
+                    "button",
+                    { staticClass: "bkt-button-icon bkt-bg-body" },
+                    [_c("bkt-icon", { staticClass: "bkt-button__icon" })],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c("button", { staticClass: "bkt-button primary" }, [
+                    _vm._v("Написать организатору"),
+                  ]),
+                ]),
               ]
             ),
           ]),
@@ -60677,27 +61555,31 @@ var render = function () {
                       "bkt-card__row outline bkt-wrapper-between bkt-nowrap",
                   },
                   [
-                    _c("div", { staticClass: "bkt-template-name" }, [
-                      _c(
-                        "div",
-                        { staticClass: "bkt-card__icon" },
-                        [
-                          _c("bkt-icon", {
-                            attrs: {
-                              name: "Note",
-                              fill: "#ff41be",
-                              width: "16px",
-                              height: "16px",
-                            },
-                          }),
-                        ],
-                        1
-                      ),
-                      _vm._v(" "),
-                      _c("h5", { staticClass: "text-truncate" }, [
-                        _vm._v("Заявка на участие в торгах"),
-                      ]),
-                    ]),
+                    _c(
+                      "div",
+                      { staticClass: "bkt-template-name text-truncate" },
+                      [
+                        _c(
+                          "div",
+                          { staticClass: "bkt-card__icon" },
+                          [
+                            _c("bkt-icon", {
+                              attrs: {
+                                name: "Note",
+                                fill: "#ff41be",
+                                width: "16px",
+                                height: "16px",
+                              },
+                            }),
+                          ],
+                          1
+                        ),
+                        _vm._v(" "),
+                        _c("h5", { staticClass: "text-truncate" }, [
+                          _vm._v("Заявка на участие в торгах"),
+                        ]),
+                      ]
+                    ),
                     _vm._v(" "),
                     _c(
                       "div",
@@ -60720,27 +61602,31 @@ var render = function () {
                       "bkt-card__row outline bkt-wrapper-between bkt-nowrap",
                   },
                   [
-                    _c("div", { staticClass: "bkt-template-name" }, [
-                      _c(
-                        "div",
-                        { staticClass: "bkt-card__icon" },
-                        [
-                          _c("bkt-icon", {
-                            attrs: {
-                              name: "Note",
-                              fill: "#ff41be",
-                              width: "16px",
-                              height: "16px",
-                            },
-                          }),
-                        ],
-                        1
-                      ),
-                      _vm._v(" "),
-                      _c("h5", { staticClass: "text-truncate" }, [
-                        _vm._v("Авто"),
-                      ]),
-                    ]),
+                    _c(
+                      "div",
+                      { staticClass: "bkt-template-name text-truncate" },
+                      [
+                        _c(
+                          "div",
+                          { staticClass: "bkt-card__icon" },
+                          [
+                            _c("bkt-icon", {
+                              attrs: {
+                                name: "Note",
+                                fill: "#ff41be",
+                                width: "16px",
+                                height: "16px",
+                              },
+                            }),
+                          ],
+                          1
+                        ),
+                        _vm._v(" "),
+                        _c("h5", { staticClass: "text-truncate" }, [
+                          _vm._v("Авто"),
+                        ]),
+                      ]
+                    ),
                     _vm._v(" "),
                     _c(
                       "div",
@@ -60763,27 +61649,31 @@ var render = function () {
                       "bkt-card__row outline bkt-wrapper-between bkt-nowrap",
                   },
                   [
-                    _c("div", { staticClass: "bkt-template-name" }, [
-                      _c(
-                        "div",
-                        { staticClass: "bkt-card__icon" },
-                        [
-                          _c("bkt-icon", {
-                            attrs: {
-                              name: "Note",
-                              fill: "#ff41be",
-                              width: "16px",
-                              height: "16px",
-                            },
-                          }),
-                        ],
-                        1
-                      ),
-                      _vm._v(" "),
-                      _c("h5", { staticClass: "text-truncate" }, [
-                        _vm._v("Квартира"),
-                      ]),
-                    ]),
+                    _c(
+                      "div",
+                      { staticClass: "bkt-template-name text-truncate" },
+                      [
+                        _c(
+                          "div",
+                          { staticClass: "bkt-card__icon" },
+                          [
+                            _c("bkt-icon", {
+                              attrs: {
+                                name: "Note",
+                                fill: "#ff41be",
+                                width: "16px",
+                                height: "16px",
+                              },
+                            }),
+                          ],
+                          1
+                        ),
+                        _vm._v(" "),
+                        _c("h5", { staticClass: "text-truncate" }, [
+                          _vm._v("Квартира"),
+                        ]),
+                      ]
+                    ),
                     _vm._v(" "),
                     _c(
                       "div",
@@ -60806,27 +61696,31 @@ var render = function () {
                       "bkt-card__row outline bkt-wrapper-between bkt-nowrap",
                   },
                   [
-                    _c("div", { staticClass: "bkt-template-name" }, [
-                      _c(
-                        "div",
-                        { staticClass: "bkt-card__icon" },
-                        [
-                          _c("bkt-icon", {
-                            attrs: {
-                              name: "Note",
-                              fill: "#ff41be",
-                              width: "16px",
-                              height: "16px",
-                            },
-                          }),
-                        ],
-                        1
-                      ),
-                      _vm._v(" "),
-                      _c("h5", { staticClass: "text-truncate" }, [
-                        _vm._v("Земля"),
-                      ]),
-                    ]),
+                    _c(
+                      "div",
+                      { staticClass: "bkt-template-name text-truncate" },
+                      [
+                        _c(
+                          "div",
+                          { staticClass: "bkt-card__icon" },
+                          [
+                            _c("bkt-icon", {
+                              attrs: {
+                                name: "Note",
+                                fill: "#ff41be",
+                                width: "16px",
+                                height: "16px",
+                              },
+                            }),
+                          ],
+                          1
+                        ),
+                        _vm._v(" "),
+                        _c("h5", { staticClass: "text-truncate" }, [
+                          _vm._v("Земля"),
+                        ]),
+                      ]
+                    ),
                     _vm._v(" "),
                     _c(
                       "div",
@@ -60849,27 +61743,31 @@ var render = function () {
                       "bkt-card__row outline bkt-wrapper-between bkt-nowrap",
                   },
                   [
-                    _c("div", { staticClass: "bkt-template-name" }, [
-                      _c(
-                        "div",
-                        { staticClass: "bkt-card__icon" },
-                        [
-                          _c("bkt-icon", {
-                            attrs: {
-                              name: "Note",
-                              fill: "#ff41be",
-                              width: "16px",
-                              height: "16px",
-                            },
-                          }),
-                        ],
-                        1
-                      ),
-                      _vm._v(" "),
-                      _c("h5", { staticClass: "text-truncate" }, [
-                        _vm._v("Дом с участком"),
-                      ]),
-                    ]),
+                    _c(
+                      "div",
+                      { staticClass: "bkt-template-name text-truncate" },
+                      [
+                        _c(
+                          "div",
+                          { staticClass: "bkt-card__icon" },
+                          [
+                            _c("bkt-icon", {
+                              attrs: {
+                                name: "Note",
+                                fill: "#ff41be",
+                                width: "16px",
+                                height: "16px",
+                              },
+                            }),
+                          ],
+                          1
+                        ),
+                        _vm._v(" "),
+                        _c("h5", { staticClass: "text-truncate" }, [
+                          _vm._v("Дом с участком"),
+                        ]),
+                      ]
+                    ),
                     _vm._v(" "),
                     _c(
                       "div",
@@ -60892,27 +61790,31 @@ var render = function () {
                       "bkt-card__row outline bkt-wrapper-between bkt-nowrap",
                   },
                   [
-                    _c("div", { staticClass: "bkt-template-name" }, [
-                      _c(
-                        "div",
-                        { staticClass: "bkt-card__icon" },
-                        [
-                          _c("bkt-icon", {
-                            attrs: {
-                              name: "Note",
-                              fill: "#ff41be",
-                              width: "16px",
-                              height: "16px",
-                            },
-                          }),
-                        ],
-                        1
-                      ),
-                      _vm._v(" "),
-                      _c("h5", { staticClass: "text-truncate" }, [
-                        _vm._v("Дебиторская задолженность"),
-                      ]),
-                    ]),
+                    _c(
+                      "div",
+                      { staticClass: "bkt-template-name text-truncate" },
+                      [
+                        _c(
+                          "div",
+                          { staticClass: "bkt-card__icon" },
+                          [
+                            _c("bkt-icon", {
+                              attrs: {
+                                name: "Note",
+                                fill: "#ff41be",
+                                width: "16px",
+                                height: "16px",
+                              },
+                            }),
+                          ],
+                          1
+                        ),
+                        _vm._v(" "),
+                        _c("h5", { staticClass: "text-truncate" }, [
+                          _vm._v("Дебиторская задолженность"),
+                        ]),
+                      ]
+                    ),
                     _vm._v(" "),
                     _c(
                       "div",
@@ -61058,7 +61960,7 @@ var render = function () {
                           [
                             _c("bkt-icon", {
                               attrs: {
-                                name: "Circle",
+                                name: "DotsCircle",
                                 width: "16px",
                                 height: "16px",
                               },
@@ -61454,11 +62356,103 @@ var render = function () {
             ),
           ]),
           _vm._v(" "),
-          _vm._m(26),
+          _c("div", { staticClass: "col-12 col-md-12" }, [
+            _c(
+              "div",
+              {
+                staticClass: " bkt-card bkt-card__body bkt-single-trade-debtor",
+              },
+              [
+                _c(
+                  "div",
+                  { staticClass: "bkt-card__header bkt-wrapper-between" },
+                  [
+                    _c("h3", { staticClass: "bkt-card__title" }, [
+                      _vm._v("Информация по должнику"),
+                    ]),
+                    _vm._v(" "),
+                    _c(
+                      "a",
+                      { staticClass: "bkt-button next", attrs: { href: "" } },
+                      [
+                        _vm._v(
+                          "Сообщения по должнику\n                        "
+                        ),
+                        _c("span", { staticClass: "bkt-text-red" }, [
+                          _vm._v("(7)"),
+                        ]),
+                        _vm._v(" "),
+                        _c("bkt-icon", { attrs: { name: "ArrowDown" } }),
+                      ],
+                      1
+                    ),
+                  ]
+                ),
+                _vm._v(" "),
+                _vm._m(26),
+              ]
+            ),
+          ]),
           _vm._v(" "),
-          _vm._m(27),
+          _c("div", { staticClass: "col-12 col-md-12" }, [
+            _c(
+              "div",
+              {
+                staticClass:
+                  "bkt-card bkt-card__body bkt-single-trade-active-lots",
+              },
+              [
+                _c("div", { staticClass: "bkt-wrapper-between" }, [
+                  _vm._m(27),
+                  _vm._v(" "),
+                  _c(
+                    "a",
+                    {
+                      staticClass: "bkt-button-icon",
+                      attrs: {
+                        "data-bs-toggle": "collapse",
+                        href: "#collapseActiveLots",
+                        role: "button",
+                        "aria-expanded": "false",
+                      },
+                    },
+                    [
+                      _c("bkt-icon", {
+                        staticClass: "bkt-button__icon",
+                        attrs: { name: "ArrowDown" },
+                      }),
+                    ],
+                    1
+                  ),
+                ]),
+                _vm._v(" "),
+                _c("div", {
+                  staticClass: "collapse",
+                  attrs: { id: "collapseActiveLots" },
+                }),
+              ]
+            ),
+          ]),
           _vm._v(" "),
-          _vm._m(28),
+          _c("div", { staticClass: "col-12 col-md-12" }, [
+            _c("div", { staticClass: " bkt-card bkt-card__body" }, [
+              _c("div", { staticClass: "bkt-wrapper-between" }, [
+                _vm._m(28),
+                _vm._v(" "),
+                _c(
+                  "button",
+                  { staticClass: "bkt-button-icon" },
+                  [
+                    _c("bkt-icon", {
+                      staticClass: "bkt-button__icon",
+                      attrs: { name: "ArrowDown" },
+                    }),
+                  ],
+                  1
+                ),
+              ]),
+            ]),
+          ]),
           _vm._v(" "),
           _vm._m(29),
           _vm._v(" "),
@@ -61475,52 +62469,28 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c(
-      "div",
-      { staticClass: "bkt-wrapper", staticStyle: { margin: "30px 0" } },
-      [
+    return _c("ol", { staticClass: "breadcrumb bkt-breadcrumb m-0" }, [
+      _c("li", { staticClass: "breadcrumb-item bkt-breadcrumb__item" }, [
         _c(
-          "nav",
-          {
-            staticStyle: { "--bs-breadcrumb-divider": "'...'" },
-            attrs: { "aria-label": "breadcrumb" },
-          },
-          [
-            _c("ol", { staticClass: "breadcrumb m-0" }, [
-              _c("li", { staticClass: "breadcrumb-item bkt-card__subtitle" }, [
-                _c(
-                  "a",
-                  {
-                    staticClass: " bkt-text-neutral-dark",
-                    attrs: { href: "/" },
-                  },
-                  [_vm._v("главная")]
-                ),
-              ]),
-              _vm._v(" "),
-              _c(
-                "li",
-                {
-                  staticClass:
-                    "breadcrumb-item bkt-card__subtitle bkt-text-neutral-dark",
-                },
-                [_vm._v("торги")]
-              ),
-              _vm._v(" "),
-              _c(
-                "li",
-                {
-                  staticClass:
-                    "breadcrumb-item bkt-card__subtitle bkt-text-main",
-                  attrs: { "aria-current": "page" },
-                },
-                [_vm._v("торги № 22000068750000000003 (лот 1)")]
-              ),
-            ]),
-          ]
+          "a",
+          { staticClass: " bkt-text-neutral-dark", attrs: { href: "/" } },
+          [_vm._v("главная")]
         ),
-      ]
-    )
+      ]),
+      _vm._v(" "),
+      _c("li", { staticClass: "breadcrumb-item bkt-breadcrumb__item" }, [
+        _vm._v("торги"),
+      ]),
+      _vm._v(" "),
+      _c(
+        "li",
+        {
+          staticClass: "breadcrumb-item bkt-breadcrumb__item active",
+          attrs: { "aria-current": "page" },
+        },
+        [_vm._v("торги № 22000068750000000003 (лот 1)")]
+      ),
+    ])
   },
   function () {
     var _vm = this
@@ -62132,89 +63102,64 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-12 col-md-12" }, [
-      _c(
-        "div",
-        { staticClass: " bkt-card bkt-card__body bkt-single-trade-debtor" },
-        [
-          _c("h3", { staticClass: "bkt-card__title" }, [
-            _vm._v("Информация по должнику"),
-          ]),
-          _vm._v(" "),
-          _c("ul", { staticClass: "bkt-contents" }, [
-            _c("li", [
-              _c("div", { staticClass: "bkt-contents__heading" }, [
-                _c("span", [_vm._v("должник")]),
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "bkt-contents__answer" }, [
-                _c("span", [_vm._v("Васильев Василий Васильевич")]),
-              ]),
-            ]),
-            _vm._v(" "),
-            _c("li", [
-              _c("div", { staticClass: "bkt-contents__heading" }, [
-                _c("span", [_vm._v("дело №")]),
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "bkt-contents__answer" }, [
-                _c("span", [_vm._v("1234567890/85")]),
-              ]),
-            ]),
-            _vm._v(" "),
-            _c("li", [
-              _c("div", { staticClass: "bkt-contents__heading" }, [
-                _c("span", [_vm._v("суд")]),
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "bkt-contents__answer" }, [
-                _c("span", [_vm._v("Арбитражный Суд республики Башкортостан")]),
-              ]),
-            ]),
-            _vm._v(" "),
-            _c("li", [
-              _c("div", { staticClass: "bkt-contents__heading" }, [
-                _c("span", [_vm._v("ИНН")]),
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "bkt-contents__answer" }, [
-                _c("span", [_vm._v("34334567890")]),
-              ]),
-            ]),
-            _vm._v(" "),
-            _c("li", [
-              _c("div", { staticClass: "bkt-contents__heading" }, [
-                _c("span", [_vm._v("регион")]),
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "bkt-contents__answer" }, [
-                _c("span", [_vm._v("Республика Башкортостан")]),
-              ]),
-            ]),
-            _vm._v(" "),
-            _c("li", [
-              _c("div", { staticClass: "bkt-contents__heading" }, [
-                _c("span", [_vm._v("адрес должника")]),
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "bkt-contents__answer" }, [
-                _c("span", [_vm._v("РБ, г. Стерлитамак ул. Фурманова д. 6")]),
-              ]),
-            ]),
-          ]),
-        ]
-      ),
-    ])
-  },
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-12 col-md-12" }, [
-      _c("div", { staticClass: "bkt-card bkt-card__body" }, [
-        _c("h3", { staticClass: "bkt-card__title" }, [
-          _vm._v("\n                    Другие активные лоты должника "),
-          _c("span", { staticClass: "bkt-text-neutral-dark" }, [_vm._v("(0)")]),
+    return _c("ul", { staticClass: "bkt-contents" }, [
+      _c("li", [
+        _c("div", { staticClass: "bkt-contents__heading" }, [
+          _c("span", [_vm._v("должник")]),
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "bkt-contents__answer" }, [
+          _c("span", [_vm._v("Васильев Василий Васильевич")]),
+        ]),
+      ]),
+      _vm._v(" "),
+      _c("li", [
+        _c("div", { staticClass: "bkt-contents__heading" }, [
+          _c("span", [_vm._v("дело №")]),
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "bkt-contents__answer" }, [
+          _c("span", [_vm._v("1234567890/85")]),
+        ]),
+      ]),
+      _vm._v(" "),
+      _c("li", [
+        _c("div", { staticClass: "bkt-contents__heading" }, [
+          _c("span", [_vm._v("суд")]),
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "bkt-contents__answer" }, [
+          _c("span", [_vm._v("Арбитражный Суд республики Башкортостан")]),
+        ]),
+      ]),
+      _vm._v(" "),
+      _c("li", [
+        _c("div", { staticClass: "bkt-contents__heading" }, [
+          _c("span", [_vm._v("ИНН")]),
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "bkt-contents__answer" }, [
+          _c("span", [_vm._v("34334567890")]),
+        ]),
+      ]),
+      _vm._v(" "),
+      _c("li", [
+        _c("div", { staticClass: "bkt-contents__heading" }, [
+          _c("span", [_vm._v("регион")]),
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "bkt-contents__answer" }, [
+          _c("span", [_vm._v("Республика Башкортостан")]),
+        ]),
+      ]),
+      _vm._v(" "),
+      _c("li", [
+        _c("div", { staticClass: "bkt-contents__heading" }, [
+          _c("span", [_vm._v("адрес должника")]),
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "bkt-contents__answer" }, [
+          _c("span", [_vm._v("РБ, г. Стерлитамак ул. Фурманова д. 6")]),
         ]),
       ]),
     ])
@@ -62223,13 +63168,18 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-12 col-md-12" }, [
-      _c("div", { staticClass: " bkt-card bkt-card__body" }, [
-        _c("h3", { staticClass: "bkt-card__title" }, [
-          _vm._v("\n                    Завершённые лоты должника "),
-          _c("span", { staticClass: "bkt-text-green" }, [_vm._v("(1)")]),
-        ]),
-      ]),
+    return _c("h3", { staticClass: "bkt-card__title" }, [
+      _vm._v("\n                        Другие активные лоты должника "),
+      _c("span", { staticClass: "bkt-text-neutral-dark" }, [_vm._v("(0)")]),
+    ])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("h3", { staticClass: "bkt-card__title" }, [
+      _vm._v("\n                        Завершённые лоты должника "),
+      _c("span", { staticClass: "bkt-text-green" }, [_vm._v("(1)")]),
     ])
   },
   function () {
@@ -62605,6 +63555,7 @@ var render = function () {
           current_component: "BktCard",
           items: _vm.items,
           loading: _vm.loading,
+          no_pagination: "",
           pagination_data: _vm.pagination_data,
         },
       }),
@@ -82397,6 +83348,10 @@ var map = {
 		"./resources/js/icons/Bell.vue",
 		"resources_js_icons_Bell_vue"
 	],
+	"./Bookmark.vue": [
+		"./resources/js/icons/Bookmark.vue",
+		"resources_js_icons_Bookmark_vue"
+	],
 	"./Cancel.vue": [
 		"./resources/js/icons/Cancel.vue",
 		"resources_js_icons_Cancel_vue"
@@ -82409,10 +83364,6 @@ var map = {
 		"./resources/js/icons/Check.vue",
 		"resources_js_icons_Check_vue"
 	],
-	"./Circle.vue": [
-		"./resources/js/icons/Circle.vue",
-		"resources_js_icons_Circle_vue"
-	],
 	"./Clip.vue": [
 		"./resources/js/icons/Clip.vue",
 		"resources_js_icons_Clip_vue"
@@ -82424,6 +83375,10 @@ var map = {
 	"./Date.vue": [
 		"./resources/js/icons/Date.vue",
 		"resources_js_icons_Date_vue"
+	],
+	"./DotsCircle.vue": [
+		"./resources/js/icons/DotsCircle.vue",
+		"resources_js_icons_DotsCircle_vue"
 	],
 	"./Download.vue": [
 		"./resources/js/icons/Download.vue",
@@ -82484,6 +83439,10 @@ var map = {
 	"./Pie.vue": [
 		"./resources/js/icons/Pie.vue",
 		"resources_js_icons_Pie_vue"
+	],
+	"./Plus.vue": [
+		"./resources/js/icons/Plus.vue",
+		"resources_js_icons_Plus_vue"
 	],
 	"./Search.vue": [
 		"./resources/js/icons/Search.vue",
@@ -82667,7 +83626,7 @@ module.exports = JSON.parse('{"code":"ru","messages":{"alpha":"Поле {_field_
 /******/ 		// This function allow to reference async chunks
 /******/ 		__webpack_require__.u = (chunkId) => {
 /******/ 			// return url for filenames not based on template
-/******/ 			if ({"resources_js_icons_Alarm_vue":1,"resources_js_icons_ArrowDown_vue":1,"resources_js_icons_ArrowTriple_vue":1,"resources_js_icons_Bars_vue":1,"resources_js_icons_Bell_vue":1,"resources_js_icons_Cancel_vue":1,"resources_js_icons_Category_vue":1,"resources_js_icons_Check_vue":1,"resources_js_icons_Circle_vue":1,"resources_js_icons_Clip_vue":1,"resources_js_icons_Clone_vue":1,"resources_js_icons_Date_vue":1,"resources_js_icons_Download_vue":1,"resources_js_icons_Email_vue":1,"resources_js_icons_Eye_vue":1,"resources_js_icons_File_vue":1,"resources_js_icons_Filter_vue":1,"resources_js_icons_Fire_vue":1,"resources_js_icons_Funnel_vue":1,"resources_js_icons_Law_vue":1,"resources_js_icons_Location_vue":1,"resources_js_icons_Menu_vue":1,"resources_js_icons_More_vue":1,"resources_js_icons_Note_vue":1,"resources_js_icons_Options_vue":1,"resources_js_icons_Pencil_vue":1,"resources_js_icons_Pie_vue":1,"resources_js_icons_Search_vue":1,"resources_js_icons_Smartphone_vue":1,"resources_js_icons_Star_vue":1,"resources_js_icons_Target_vue":1,"resources_js_icons_Trash_vue":1,"resources_js_icons_Tree_vue":1,"resources_js_icons_User_vue":1,"resources_js_icons_Wallet_vue":1}[chunkId]) return "js/" + chunkId + ".js";
+/******/ 			if ({"resources_js_icons_Alarm_vue":1,"resources_js_icons_ArrowDown_vue":1,"resources_js_icons_ArrowTriple_vue":1,"resources_js_icons_Bars_vue":1,"resources_js_icons_Bell_vue":1,"resources_js_icons_Bookmark_vue":1,"resources_js_icons_Cancel_vue":1,"resources_js_icons_Category_vue":1,"resources_js_icons_Check_vue":1,"resources_js_icons_Clip_vue":1,"resources_js_icons_Clone_vue":1,"resources_js_icons_Date_vue":1,"resources_js_icons_DotsCircle_vue":1,"resources_js_icons_Download_vue":1,"resources_js_icons_Email_vue":1,"resources_js_icons_Eye_vue":1,"resources_js_icons_File_vue":1,"resources_js_icons_Filter_vue":1,"resources_js_icons_Fire_vue":1,"resources_js_icons_Funnel_vue":1,"resources_js_icons_Law_vue":1,"resources_js_icons_Location_vue":1,"resources_js_icons_Menu_vue":1,"resources_js_icons_More_vue":1,"resources_js_icons_Note_vue":1,"resources_js_icons_Options_vue":1,"resources_js_icons_Pencil_vue":1,"resources_js_icons_Pie_vue":1,"resources_js_icons_Plus_vue":1,"resources_js_icons_Search_vue":1,"resources_js_icons_Smartphone_vue":1,"resources_js_icons_Star_vue":1,"resources_js_icons_Target_vue":1,"resources_js_icons_Trash_vue":1,"resources_js_icons_Tree_vue":1,"resources_js_icons_User_vue":1,"resources_js_icons_Wallet_vue":1}[chunkId]) return "js/" + chunkId + ".js";
 /******/ 			// return url for filenames based on template
 /******/ 			return undefined;
 /******/ 		};
