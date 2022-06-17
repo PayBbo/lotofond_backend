@@ -1,39 +1,15 @@
 // Fonts
-@mixin font($font-file, $font-weight,$font-style: normal) {
-    @font-face {
-        font-family: 'Gilroy';
-        font-style: $font-style;
-        font-weight: $font-weight;
-        font-display: swap;
-        src: url('/fonts/Gilroy-'+ $font-file +'.woff2') format('woff2'),
-    }
-}
-//@include font('Black', 900);
-//@include font('BlackItalic',900, italic);
-@include font('Bold', 700);
-@include font('BoldItalic', 700, italic);
-@include font('Extrabold', 800);
-@include font('ExtraboldItalic', 800, italic);
-@include font('Heavy', 900);
-@include font('HeavyItalic', 900, italic);
-@include font('Light', 300);
-@include font('LightItalic', 300, italic);
-@include font('Medium', 500);
-@include font('MediumItalic', 500, italic);
-@include font('Regular', 400);
-@include font('RegularItalic', 400, italic);
-@include font('Semibold', 600);
-@include font('SemiboldItalic', 600, italic);
-@include font('Thin', 100);
-@include font('ThinItalic', 100, italic);
-@include font('UltraLight', 200);
-@include font('UltraLightItalic', 200, italic);
+@import "./base/fonts.scss";
 
  //Bootstrap
 @import '~bootstrap/scss/bootstrap';
 
 // Variables
 @import 'variables';
+
+//Base
+@import "./base/text.scss";
+@import "./base/background.scss";
 
 // Components
 @import "./components/navbar.scss";
@@ -46,11 +22,14 @@
 @import './components/input.scss';
 @import './components/checkbox.scss';
 @import './components/pagination.scss';
+@import './components/row.scss';
 
 // Custom styles
 @import "./customs/main.scss";
 @import "./customs/auth-modal.scss";
 @import "./customs/code-modal.scss";
+@import "./customs/contents.scss";
+@import "./customs/single-trade.scss";
 
 
 
@@ -61,78 +40,32 @@ body {
     font-weight: 400;
 }
 
-.bg-primary {
-    background: $primary-default;
-}
-.bg-primary-lighter {
-    background: $primary-lighter;
-}
-.bg-green {
-    background: $green-default;
-}
-.bg-green-light {
-    background: $green-light;
-}
-.bg-green-lighter {
-    background: $green-lighter;
-}
-.bg-red {
-    background: $red-default;
-}
-.bg-red-light {
-    background: $red-light;
-}
-.bg-red-lighter {
-    background: $red-lighter;
-}
-.bg-blue {
-    background: $blue-default;
-}
-.bg-blue-light {
-    background: $blue-light;
-}
-.bg-blue-lighter {
-    background: $blue-lighter;
-}
-.bg-yellow {
-    background: $yellow-default;
-}
-.bg-yellow-lighter {
-    background: $yellow-lighter;
-}
-.bg-purple {
-    background: $purple-default;
-}
-.bg-purple-lighter {
-    background: $purple-lighter;
-}
-.bg-main {
-    background: $main-default;
-}
-.bg-body {
-    background: $body-bg;
-}
 
 h1 {
     font-size: $font-size-38;
     font-weight: 700;
+    margin-bottom: 0;
 }
 
 h2 {
     font-size: $font-size-30;
+    margin-bottom: 0;
 }
 h3 {
     font-size:  $font-size-22;
+    margin-bottom: 0;
 }
 h4 {
     font-size: $font-size-18;
-    //font-weight: 600;
+    margin-bottom: 0;
 }
 h5 {
     font-size: $font-size-14;
+    margin-bottom: 0;
 }
 h6 {
     font-size: $font-size-12;
+    margin-bottom: 0;
 }
 
 .bkt-wrapper {
@@ -150,7 +83,7 @@ h6 {
     //width: 100%;
     flex-direction: row;
     flex-flow: row wrap;
-    margin: auto;
+    //margin: auto;
 }
 .bkt-wrapper-vertical {
     display: flex;
@@ -159,29 +92,20 @@ h6 {
     flex-flow: column;
     width: 100%;
 }
+.bkt-wrapper-column {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    width: 100%;
+}
 .bkt-nowrap {
     flex-wrap: nowrap;
 }
 
-.bkt-text-green {
-    color: $green-default
+a {
+    text-decoration: none;
+    color: $main-default;
 }
-.bkt-text-primary {
-    color: $primary-default
-}
-.bkt-text-red {
-    color: $red-light
-}
-.bkt-text-blue {
-    color: $blue-default
-}
-.bkt-text-yellow {
-    color: $yellow-default
-}
-.bkt-text-neutral {
-    color: $neutral-default
-}
-
 a:hover {
     color: inherit;
 }

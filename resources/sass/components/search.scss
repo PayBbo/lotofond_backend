@@ -1,6 +1,9 @@
 .bkt-search {
     position: relative;
     padding: 15px;
+    background: $white;
+    border-radius: 25px;
+    display: flex;
     margin-right: 0;
     & .bkt-search__input {
         border:none;

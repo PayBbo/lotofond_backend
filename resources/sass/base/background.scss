@@ -1,0 +1,40 @@
+//
+//@use "sass:map";
+//
+//@mixin background($class, $color) {
+//    #{'.bkt-bg-'+$class} {
+//        background: $color !important;
+//    }
+//}
+
+@mixin background($color, $types...) {
+    @each $type in $types {
+        @if $type != ''
+        {
+            #{'.bkt-bg-'+$color+'-'+$type} {
+                background: map-get($theme-colors, $color+'-'+$type) !important;
+            }
+        }
+        @else {
+            #{'.bkt-bg-'+$color} {
+                background: map-get($theme-colors, $color+'-default') !important;
+            }
+        }
+
+    }
+}
+@include background('main', '', 'light');
+@include background('primary', '', 'light', 'lighter', 'dark');
+@include background('green', '', 'light', 'lighter');
+@include background('red', '', 'light', 'lighter');
+@include background('blue', '', 'light', 'lighter');
+@include background('yellow', '', 'light', 'lighter');
+@include background('purple', '', 'light', 'lighter');
+@include background('neutral', '', 'light', 'lighter','dark', 'darker');
+
+.bg-body {
+    background: $body-bg;
+}
+.bkt-bg-body {
+    background: $body-bg;
+}

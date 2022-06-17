@@ -49,9 +49,9 @@
     }
     &.main {
         background: $main-default;
-        &-lighter {
+        &-light {
             background: $main-light;
-            color: $primary-default;
+            //color: $primary-default;
         }
     }
     &-ellipse {

@@ -16,5 +16,8 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('main');
 });
+Route::get('/lot', function () {
+    return view('pages.lot-card');
+});
 
 

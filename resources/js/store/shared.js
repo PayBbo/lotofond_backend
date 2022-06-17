@@ -29,12 +29,6 @@ export default {
                 duration: payload.duration|5000
             });
         },
-        dismissModal({commit}) {
-            commit('updateConfirm',{key: 'loading', value: false});
-            commit('dismissModal');
-            commit('toggleConfirmModal');
-            commit('setModalInfo', null);
-        },
         runGlobalSearch({commit}, payload) {
             return axios.post('/api/global-search', payload);
         },
@@ -42,11 +36,11 @@ export default {
 
     mutations: {
         openModal(state, payload) {
-            let modal = bootstrap.Modal.getOrCreateInstance(document.querySelector(payload));
+            let modal = bootstrap.Modal.getOrCreateInstance(document.querySelector(''+payload));
             modal.show();
         },
         closeModal(state, payload) {
-            let modal = bootstrap.Modal.getOrCreateInstance(document.querySelector(payload));
+            let modal = bootstrap.Modal.getOrCreateInstance(document.querySelector(''+payload));
             modal.hide();
             let backdrop = document.querySelector('.modal-backdrop');
             if (backdrop) {

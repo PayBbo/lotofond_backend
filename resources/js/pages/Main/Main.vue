@@ -2,7 +2,7 @@
     <div class="container bkt-main bkt-container">
         <bkt-modal></bkt-modal>
         <h1 class="bkt-main-title text-center">Электронные торги по банкротству</h1>
-        <div class="bkt-search bkt-card position-relative">
+        <div class="bkt-search position-relative bg-white">
             <input class="w-100 bkt-search__input" type="text" placeholder="Введите нужное слово или фразу">
             <button class="bkt-button green bkt-search__button">
                 <span class="d-none d-md-block">Найти</span>
@@ -10,86 +10,86 @@
             </button>
         </div>
         <div class="bkt-main-categories bkt-card__list">
-            <div class="bkt-card">
+            <div class="bkt-card__row">
                 <div class="col-10">
-                    <h4>Выберите<br> нужные категории</h4>
+                    <h4 class="bkt-card__title">Выберите<br> нужные категории</h4>
                     <h5 class="bkt-card__subtitle bkt-text-green">выбрано 4</h5>
                     <button class="bkt-button primary-lighter" data-bs-toggle="modal" data-bs-target="#bkt-modal">
                         Изменить
                     </button>
                 </div>
                 <div class="col-2">
-                    <div class="bkt-card__category bg-green">
+                    <div class="bkt-card__category bkt-bg-green ms-auto">
                         <span class="bkt-card__category-icon">
                             <bkt-icon :name="'Category'"></bkt-icon>
                         </span>
                     </div>
                 </div>
             </div>
-            <div class="bkt-card">
+            <div class="bkt-card__row">
                 <div class="col-10">
-                    <h4>Выберите<br> регион</h4>
+                    <h4 class="bkt-card__title">Выберите<br> регион</h4>
                     <h5 class="bkt-card__subtitle">ничего не выбрано</h5>
                     <button class="bkt-button primary">Выбрать</button>
                 </div>
                 <div class="col-2">
-                    <div class="bkt-card__category bg-red-lighter">
+                    <div class="bkt-card__category bkt-bg-red-lighter ms-auto">
                         <span class="bkt-card__category-icon">
                              <bkt-icon :name="'Location'"></bkt-icon>
                         </span>
                     </div>
                 </div>
             </div>
-            <div class="bkt-card">
+            <div class="bkt-card__row">
                 <div class="col-10">
-                    <h4>Выберите основные<br> параметры объекта</h4>
+                    <h4 class="bkt-card__title">Выберите основные<br> параметры объекта</h4>
                     <h5 class="bkt-card__subtitle">ничего не выбрано</h5>
                     <button class="bkt-button primary">Выбрать</button>
                 </div>
                 <div class="col-2">
-                    <div class="bkt-card__category bg-purple-lighter">
+                    <div class="bkt-card__category bkt-bg-purple-lighter  ms-auto">
                         <span class="bkt-card__category-icon">
                              <bkt-icon :name="'Options'" :fill="'#ff41be'"></bkt-icon>
                         </span>
                     </div>
                 </div>
             </div>
-            <div class="bkt-card">
+            <div class="bkt-card__row">
                 <div class="col-10">
-                    <h4>Выберите<br> стоимость объекта</h4>
+                    <h4 class="bkt-card__title">Выберите<br> стоимость объекта</h4>
                     <h5 class="bkt-card__subtitle">ничего не выбрано</h5>
                     <button class="bkt-button primary">Выбрать</button>
                 </div>
                 <div class="col-2">
-                    <div class="bkt-card__category bg-yellow-lighter">
+                    <div class="bkt-card__category bkt-bg-yellow-lighter ms-auto">
                         <span class="bkt-card__category-icon">
                             <bkt-icon :name="'Wallet'"></bkt-icon>
                         </span>
                     </div>
                 </div>
             </div>
-            <div class="bkt-card">
+            <div class="bkt-card__row">
                 <div class="col-10">
-                    <h4>Выберите<br> дату торгов</h4>
+                    <h4 class="bkt-card__title">Выберите<br> дату торгов</h4>
                     <h5 class="bkt-card__subtitle bkt-text-green">выбрано 2</h5>
                     <button class="bkt-button primary-lighter">Изменить</button>
                 </div>
                 <div class="col-2">
-                    <div class="bkt-card__category bg-blue">
+                    <div class="bkt-card__category bkt-bg-blue ms-auto">
                         <span class="bkt-card__category-icon">
                             <bkt-icon :name="'Date'" :fill="'#fff'"></bkt-icon>
                         </span>
                     </div>
                 </div>
             </div>
-            <div class="bkt-card">
+            <div class="bkt-card__row">
                 <div class="col-10">
-                    <h4>Выберите<br> доп. параметры</h4>
+                    <h4 class="bkt-card__title">Выберите<br> доп. параметры</h4>
                     <h5 class="bkt-card__subtitle">ничего не выбрано</h5>
                     <button class="bkt-button primary">Выбрать</button>
                 </div>
                 <div class="col-2">
-                    <div class="bkt-card__category bg-primary-lighter">
+                    <div class="bkt-card__category bkt-bg-primary-lighter ms-auto">
                         <span class="bkt-card__category-icon">
                             <bkt-icon :name="'Clone'"></bkt-icon>
                         </span>
@@ -98,32 +98,32 @@
             </div>
         </div>
         <div class="bkt-main-statistic bkt-card__list">
-            <div class="bkt-card bg-red-light position-relative">
+            <div class="bkt-card__row bkt-bg-red-light position-relative">
                 <h5 class="bkt-card__text">Всего лотов</h5>
                 <h1 class="bkt-card__title">58 961</h1>
                 <div class="bkt-card bkt-card__background-figure-1">
                 </div>
-                <div class="bkt-card bkt-card__background-figure-2 bg-red-light">
+                <div class="bkt-card bkt-card__background-figure-2 bkt-bg-red-light">
                 </div>
             </div>
-            <div class="bkt-card bg-yellow position-relative">
+            <div class="bkt-card__row bkt-bg-yellow position-relative">
                 <h5 class="bkt-card__text">Активных лотов</h5>
                 <h1 class="bkt-card__title">4 372</h1>
-                <div class="bkt-card bkt-card__background-figure-1 bg-yellow-lighter">
+                <div class="bkt-card bkt-card__background-figure-1">
                 </div>
-                <div class="bkt-card bkt-card__background-figure-2 bg-yellow">
+                <div class="bkt-card bkt-card__background-figure-2 bkt-bg-yellow">
                 </div>
             </div>
-            <div class="bkt-card bg-blue position-relative">
+            <div class="bkt-card__row bkt-bg-blue position-relative">
                 <h5 class="bkt-card__text">Добавлено сегодня</h5>
                 <h1 class="bkt-card__title">64</h1>
-                <div class="bkt-card bkt-card__background-figure-1 bg-blue-light">
+                <div class="bkt-card bkt-card__background-figure-1">
                 </div>
-                <div class="bkt-card bkt-card__background-figure-2 bg-blue">
+                <div class="bkt-card bkt-card__background-figure-2 bkt-bg-blue">
                 </div>
             </div>
         </div>
-        <div class="bkt-main-filters bkt-card bg-main">
+        <div class="bkt-main-filters bkt-row bkt-bg-main">
             <div class="col-12 col-md-6 col-lg-4">
                 <div class="d-flex w-100 mx-auto justify-content-around">
                     <div class="form-floating bkt-select__wrapper main">
@@ -174,7 +174,7 @@
                                     <input class="" type="checkbox">
                                     <div class="bkt-check__input-check"></div>
                                 </div>
-                                <label  class="bkt-check__label">
+                                <label class="bkt-check__label">
                                     удалённые
                                 </label>
                             </div>
@@ -187,7 +187,7 @@
                                     <input class="" type="checkbox">
                                     <div class="bkt-check__input-check"></div>
                                 </div>
-                                <label  class="bkt-check__label">
+                                <label class="bkt-check__label">
                                     получен ответ организатора
                                 </label>
                             </div>
@@ -195,7 +195,7 @@
                         <div class="bkt-check__wrapper bkt-check__wrapper-inline">
                             <div class="bkt-check">
                                 <div class="bkt-check__input">
-                                    <input class=""  type="checkbox">
+                                    <input class="" type="checkbox">
                                     <div class="bkt-check__input-check"></div>
                                 </div>
                                 <label class="bkt-check__label">
@@ -206,7 +206,7 @@
                         <div class="bkt-check__wrapper bkt-check__wrapper-inline">
                             <div class="bkt-check">
                                 <div class="bkt-check__input">
-                                    <input class=""  type="checkbox">
+                                    <input class="" type="checkbox">
                                     <div class="bkt-check__input-check"></div>
                                 </div>
                                 <label class="bkt-check__label">
@@ -236,7 +236,7 @@
                 // pagination
                 pagination_data: {},
                 // table
-                items: [],
+                items: [{id: 1, label: 'Test'}],
                 in_process: []
             };
         },
@@ -255,7 +255,7 @@
                         this.pagination_data = resp.data;
 
                     })
-                    .catch((error)=> {
+                    .catch((error) => {
                         this.loading = false;
                     });
             },
