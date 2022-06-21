@@ -31,13 +31,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "Menu",
   props: {
-    fill: {
+    color: {
       type: String,
-      "default": '#2953ff'
-    },
-    stroke: {
-      type: String,
-      "default": '#2953ff'
+      "default": 'primary'
     },
     width: {
       type: String,
@@ -139,13 +135,12 @@ var render = function () {
   return _c(
     "svg",
     {
+      class: "bkt-fill-" + _vm.color,
       attrs: {
         xmlns: "http://www.w3.org/2000/svg",
         viewBox: "0 0 358.39 308",
         width: _vm.width,
         height: _vm.height,
-        fill: _vm.fill,
-        stroke: _vm.stroke,
       },
     },
     [

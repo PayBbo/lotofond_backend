@@ -1,9 +1,10 @@
 <template>
     <svg version="1.0" xmlns="http://www.w3.org/2000/svg"
          :width="width" :height="height" viewBox="0 0 512.000000 512.000000"
-         preserveAspectRatio="xMidYMid meet">
-        <g transform="translate(0.000000,512.000000) scale(0.100000,-0.100000)"
-           :fill="fill" stroke="none">
+         preserveAspectRatio="xMidYMid meet"
+         :class="'bkt-fill-'+color"
+    >
+        <g transform="translate(0.000000,512.000000) scale(0.100000,-0.100000)">
             <path d="M1977 5074 c-32 -7 -83 -26 -115 -41 -74 -34 -178 -139 -215 -215
 -55 -115 -57 -135 -57 -735 l0 -552 -582 -3 c-575 -3 -584 -4 -642 -26 -152
 -57 -261 -169 -312 -322 -18 -53 -19 -114 -19 -1400 0 -1286 1 -1347 19 -1400
@@ -25,21 +26,17 @@ l-583 3 0 545 c0 597 -2 580 59 617 24 15 141 16 1309 17 1171 0 1286 -1 1312
     export default {
         name: "Clone",
         props: {
-            fill:{
-                type:String,
-                default:'#2953ff'
+            color: {
+                type: String,
+                default: 'primary'
             },
-            stroke:{
-                type:String,
-                default:'none'
+            width: {
+                type: String,
+                default: '22px'
             },
-            width:{
-                type:String,
-                default:'22px'
-            },
-            height:{
-                type:String,
-                default:'22px'
+            height: {
+                type: String,
+                default: '22px'
             },
         }
     }

@@ -1,0 +1,20 @@
+@mixin setColor($property, $class, $color, $types...) {
+    @each $type in $types {
+        @if $type == 'default'
+        {
+            #{'.bkt-'+$class+'-'+$color} {
+                #{$property}: map-get($theme-colors, $color+'-default') !important;
+            }
+        }
+        @else if $type == '' {
+            #{'.bkt-'+$class+'-'+$color} {
+                #{$property}: map-get($theme-colors, $color) !important;
+            }
+        }
+        @else {
+            #{'.bkt-'+$class+'-'+$color+'-'+$type} {
+                #{$property}: map-get($theme-colors, $color+'-'+$type) !important;
+            }
+        }
+    }
+}

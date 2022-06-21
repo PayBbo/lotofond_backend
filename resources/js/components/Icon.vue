@@ -3,10 +3,9 @@
         name: "Icon",
         props: {
             name: String,
-            fill: String,
-            stroke: String,
             width: String,
             height: String,
+            color: String,
         },
 
         data() {
@@ -26,3 +25,6 @@
 <template>
     <component v-if="name" v-bind:is="icon" v-bind="$props"></component>
 </template>
+<style scoped>
+
+</style>

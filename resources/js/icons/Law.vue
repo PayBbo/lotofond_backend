@@ -1,10 +1,11 @@
 <template>
     <svg version="1.0" xmlns="http://www.w3.org/2000/svg"
          :width="width" :height="height" viewBox="0 0 512.000000 512.000000"
-         preserveAspectRatio="xMidYMid meet">
+         preserveAspectRatio="xMidYMid meet"
+         :class="'bkt-fill-'+color"
+    >
 
-        <g transform="translate(0.000000,512.000000) scale(0.100000,-0.100000)"
-           :fill="fill" stroke="none">
+        <g transform="translate(0.000000,512.000000) scale(0.100000,-0.100000)">
             <path d="M2455 5106 c-83 -20 -147 -56 -210 -120 -68 -69 -107 -141 -126 -234
                 l-13 -62 -96 -30 c-52 -16 -328 -99 -613 -184 l-519 -156 -379 0 c-361 0 -382
                 -1 -419 -20 -45 -23 -80 -80 -80 -130 0 -50 35 -107 80 -130 36 -19 58 -20
@@ -44,13 +45,9 @@
     export default {
         name: "Law",
         props: {
-            fill: {
+            color: {
                 type: String,
-                default: '#ac3f28'
-            },
-            stroke: {
-                type: String,
-                default: 'none'
+                default: 'red'
             },
             width: {
                 type: String,

@@ -6,10 +6,12 @@
 
 // Variables
 @import 'variables';
+@import 'mixins';
 
 //Base
 @import "./base/text.scss";
 @import "./base/background.scss";
+@import "./base/svg.scss";
 
 // Components
 @import "./components/navbar.scss";
@@ -30,7 +32,7 @@
 @import "./customs/auth-modal.scss";
 @import "./customs/code-modal.scss";
 @import "./customs/contents.scss";
-@import "./customs/single-trade.scss";
+@import "customs/lot-card.scss";
 
 
 

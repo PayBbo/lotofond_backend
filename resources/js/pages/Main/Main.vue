@@ -49,7 +49,7 @@
                 <div class="col-2">
                     <div class="bkt-card__category bkt-bg-purple-lighter  ms-auto">
                         <span class="bkt-card__category-icon">
-                             <bkt-icon :name="'Options'" :fill="'#ff41be'"></bkt-icon>
+                             <bkt-icon :name="'Options'" :color="'purple'"></bkt-icon>
                         </span>
                     </div>
                 </div>
@@ -77,7 +77,7 @@
                 <div class="col-2">
                     <div class="bkt-card__category bkt-bg-blue ms-auto">
                         <span class="bkt-card__category-icon">
-                            <bkt-icon :name="'Date'" :fill="'#fff'"></bkt-icon>
+                            <bkt-icon :name="'Date'"></bkt-icon>
                         </span>
                     </div>
                 </div>
@@ -219,7 +219,7 @@
             </div>
         </div>
         <bkt-card-list :current_component="'BktCard'" :items="items" :loading="loading"
-                       no_pagination :pagination_data="pagination_data">
+                       :pagination_data="pagination_data" @change-page="getData">
         </bkt-card-list>
     </div>
 </template>
@@ -227,8 +227,8 @@
 <script>
     export default {
         name: "Main",
-        mounted() {
-            this.getData()
+        async mounted() {
+            await this.getData()
         },
         data() {
             return {
@@ -244,16 +244,13 @@
             async getData(page = 1) {
                 this.loading = true;
                 await axios
-                    .get('/api/trades?page=' + page, {
-                        params: {
-                            page: page,
-                        },
-                    })
+                    .get('/api/trades/v2?page=' + page)
                     .then((resp) => {
                         this.loading = false;
                         // if (resp.data.data) {
-                            this.items = resp.data;
-                            // this.pagination_data = resp.data;
+                        console.log(resp.data)
+                            this.items = resp.data.data;
+                            this.pagination_data = resp.data.pagination;
                         // }
                     })
                     .catch((error) => {

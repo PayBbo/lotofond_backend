@@ -1,9 +1,10 @@
 <template>
     <svg version="1.0" xmlns="http://www.w3.org/2000/svg"
          :width="width" :height="height" viewBox="0 0 512.000000 512.000000"
-         preserveAspectRatio="xMidYMid meet">
-        <g transform="translate(0.000000,512.000000) scale(0.100000,-0.100000)"
-           :fill="fill"  :stroke="stroke">
+         preserveAspectRatio="xMidYMid meet"
+         :class="'bkt-fill-'+color"
+    >
+        <g transform="translate(0.000000,512.000000) scale(0.100000,-0.100000)">
             <path d="M1317 5076 c-47 -17 -81 -48 -101 -91 -13 -26 -16 -69 -16 -194 l0
                 -161 -253 0 c-220 0 -264 -3 -333 -20 -308 -78 -533 -330 -574 -642 -7 -58
                 -10 -572 -8 -1688 4 -1811 -3 -1649 85 -1830 40 -81 61 -109 142 -191 82 -81
@@ -28,21 +29,17 @@
     export default {
         name: "Date",
         props: {
-            fill:{
-                type:String,
-                default:'#fff'
+            color: {
+                type: String,
+                default: 'white'
             },
-            stroke:{
-                type:String,
-                default:'none'
+            width: {
+                type: String,
+                default: '22px'
             },
-            width:{
-                type:String,
-                default:'22px'
-            },
-            height:{
-                type:String,
-                default:'22px'
+            height: {
+                type: String,
+                default: '22px'
             },
         }
     }

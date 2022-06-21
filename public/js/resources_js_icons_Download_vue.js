@@ -21,16 +21,13 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "Download",
   props: {
-    fill: {
+    color: {
       type: String,
-      "default": '#fff'
-    },
-    stroke: {
-      type: String,
-      "default": 'none'
+      "default": 'white'
     },
     width: {
       type: String,
@@ -132,6 +129,7 @@ var render = function () {
   return _c(
     "svg",
     {
+      class: "bkt-fill-" + _vm.color,
       attrs: {
         xmlns: "http://www.w3.org/2000/svg",
         "xmlns:xlink": "http://www.w3.org/1999/xlink",
@@ -139,7 +137,6 @@ var render = function () {
         y: "0px",
         width: _vm.width,
         height: _vm.height,
-        fill: _vm.fill,
         viewBox: "0 0 92 92",
         "enable-background": "new 0 0 92 92",
         "xml:space": "preserve",
@@ -149,7 +146,7 @@ var render = function () {
       _c("path", {
         attrs: {
           id: "XMLID_1335_",
-          d: "M89,58.8V86c0,2.8-2.2,5-5,5H8c-2.8,0-5-2.2-5-5V58.8c0-2.8,2.2-5,5-5s5,2.2,5,5V81h66V58.8\n\tc0-2.8,2.2-5,5-5S89,56,89,58.8z M42.4,65c0.9,1,2.2,1.5,3.6,1.5s2.6-0.5,3.6-1.5l19.9-20.4c1.9-2,1.9-5.1-0.1-7.1\n\tc-2-1.9-5.1-1.9-7.1,0.1L51,49.3V6c0-2.8-2.2-5-5-5s-5,2.2-5,5v43.3L29.6,37.7c-1.9-2-5.1-2-7.1-0.1c-2,1.9-2,5.1-0.1,7.1L42.4,65z",
+          d: "M89,58.8V86c0,2.8-2.2,5-5,5H8c-2.8,0-5-2.2-5-5V58.8c0-2.8,2.2-5,5-5s5,2.2,5,5V81h66V58.8\n            c0-2.8,2.2-5,5-5S89,56,89,58.8z M42.4,65c0.9,1,2.2,1.5,3.6,1.5s2.6-0.5,3.6-1.5l19.9-20.4c1.9-2,1.9-5.1-0.1-7.1\n            c-2-1.9-5.1-1.9-7.1,0.1L51,49.3V6c0-2.8-2.2-5-5-5s-5,2.2-5,5v43.3L29.6,37.7c-1.9-2-5.1-2-7.1-0.1c-2,1.9-2,5.1-0.1,7.1L42.4,65z",
         },
       }),
     ]

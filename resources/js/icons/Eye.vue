@@ -1,8 +1,8 @@
 <template>
     <svg version="1.1" xmlns="http://www.w3.org/2000/svg"
          viewBox="4 2 30 30"
-         :fill="fill" :stroke="stroke"
-         :width="width" :height="height"
+         :class="'bkt-stroke-'+color"
+         :width="width" :height="height" fill="none"
     >
         <path stroke-width="2" stroke-linejoin="round" stroke-miterlimit="10" d="M29,16c0,0-5.8,8-13,8S3,16,3,16s5.8-8,13-8S29,16,29,16z"/>
         <circle stroke-width="2" stroke-linejoin="round" stroke-miterlimit="10" cx="16" cy="16" r="4"/>
@@ -14,13 +14,9 @@
     export default {
         name: "Eye",
         props: {
-            fill:{
+            color:{
                 type:String,
-                default:'none'
-            },
-            stroke:{
-                type:String,
-                default:'#fff'
+                default:'white'
             },
             width:{
                 type:String,

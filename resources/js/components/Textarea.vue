@@ -1,6 +1,6 @@
 <template>
     <ValidationProvider :name="label" :rules="rules" v-slot="{ errors }" tag="div" class="bkt-input__wrapper" :vid="name">
-        <label :for="name" class="bkt-input__label">{{ label }}</label>
+        <label :for="name" class="bkt-input__label" :class="label_class">{{ label }}</label>
         <div class="bkt-input__group">
             <textarea
                 class="bkt-input"
@@ -10,18 +10,19 @@
                 :placeholder="placeholder"
                 :disabled="disabled"
                 @input="saveValue"
+                rows="9"
             />
-<!--            <slot name="group-item">-->
-<!--                <div class="bkt-input__group-item" :class="{'active': group_item_action&&!disabled}" @click="clickGroupItem">-->
-<!--                    <slot name="group-item-inner">-->
-<!--                        <div class="bkt-input__icon">-->
-<!--                            <slot name="icon">-->
-<!--                                <bkt-icon :name="icon_name"></bkt-icon>-->
-<!--                            </slot>-->
-<!--                        </div>-->
-<!--                    </slot>-->
-<!--                </div>-->
-<!--            </slot>-->
+            <slot name="group-item">
+                <div class="bkt-input__group-item" :class="{'active': group_item_action&&!disabled}" @click="clickGroupItem">
+                    <slot name="group-item-inner">
+                        <div class="bkt-input__icon">
+                            <slot name="icon">
+                                <bkt-icon :name="icon_name"></bkt-icon>
+                            </slot>
+                        </div>
+                    </slot>
+                </div>
+            </slot>
         </div>
         <p class="bkt-input-error" v-if="errors">{{errors[0]}}</p>
     </ValidationProvider>
@@ -46,6 +47,9 @@
                 type: String,
                 required: true,
             },
+            label_class: {
+                type: String,
+            },
             placeholder: {
                 type: String,
                 default: "",
@@ -54,14 +58,14 @@
                 type: String,
                 default: "",
             },
-            // icon_name: {
-            //     type: String,
-            //     default: "",
-            // },
-            // group_item_action: {
-            //     type: Boolean,
-            //     default: false,
-            // },
+            icon_name: {
+                type: String,
+                default: "",
+            },
+            group_item_action: {
+                type: Boolean,
+                default: false,
+            },
             disabled: {
                 type: Boolean,
                 default: false,

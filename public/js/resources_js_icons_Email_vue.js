@@ -39,13 +39,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "Email",
   props: {
-    fill: {
+    color: {
       type: String,
-      "default": '#ffc515'
-    },
-    stroke: {
-      type: String,
-      "default": 'none'
+      "default": 'yellow'
     },
     width: {
       type: String,
@@ -147,6 +143,7 @@ var render = function () {
   return _c(
     "svg",
     {
+      class: "bkt-fill-" + _vm.color,
       attrs: {
         version: "1.0",
         xmlns: "http://www.w3.org/2000/svg",
@@ -163,8 +160,6 @@ var render = function () {
           attrs: {
             transform:
               "translate(0.000000,516.000000) scale(0.100000,-0.100000)",
-            fill: _vm.fill,
-            stroke: _vm.stroke,
           },
         },
         [

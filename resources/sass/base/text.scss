@@ -1,32 +1,16 @@
-//@mixin text-color($class, $color) {
-//    #{'.bkt-text-'+$class} {
-//        color: $color !important;
-//    }
-//}
-@mixin text-color($color, $types...) {
-    @each $type in $types {
-        @if $type != ''
-        {
-            #{'.bkt-text-'+$color+'-'+$type} {
-                color: map-get($theme-colors, $color+'-'+$type) !important;
-            }
-        }
-        @else {
-            #{'.bkt-text-'+$color} {
-                color: map-get($theme-colors, $color+'-default') !important;
-            }
-        }
+@include setColor('color', 'text', 'main', 'default', 'light');
+@include setColor('color', 'text', 'primary', 'default', 'light', 'lighter', 'dark');
+@include setColor('color', 'text', 'green', 'default', 'light', 'lighter');
+@include setColor('color', 'text', 'red', 'default', 'light', 'lighter');
+@include setColor('color', 'text', 'blue', 'default', 'light', 'lighter');
+@include setColor('color', 'text', 'yellow', 'default', 'light', 'lighter');
+@include setColor('color', 'text', 'purple', 'default', 'light', 'lighter');
+@include setColor('color', 'text', 'neutral', 'default', 'light', 'lighter','dark', 'darker');
 
-    }
+.bkt-text-truncate {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -webkit-line-clamp: 2;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
 }
-
-@include text-color('main', '', 'light');
-@include text-color('primary', '', 'light', 'lighter', 'dark');
-@include text-color('green', '', 'light', 'lighter');
-@include text-color('red', '', 'light', 'lighter');
-@include text-color('blue', '', 'light', 'lighter');
-@include text-color('yellow', '', 'light', 'lighter');
-@include text-color('purple', '', 'light', 'lighter');
-@include text-color('neutral', '', 'light', 'lighter','dark', 'darker');
-
-

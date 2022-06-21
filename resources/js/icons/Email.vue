@@ -1,11 +1,11 @@
 <template>
     <svg version="1.0" xmlns="http://www.w3.org/2000/svg"
          :width="width" :height="height"
-        viewBox="0 0 516.000000 516.000000"
+         :class="'bkt-fill-'+color"
+         viewBox="0 0 516.000000 516.000000"
          preserveAspectRatio="xMidYMid meet">
 
-        <g transform="translate(0.000000,516.000000) scale(0.100000,-0.100000)"
-           :fill="fill" :stroke="stroke">
+        <g transform="translate(0.000000,516.000000) scale(0.100000,-0.100000)">
             <path d="M2445 5149 c-174 -23 -384 -107 -517 -208 -68 -51 -1491 -1407 -1621
             -1544 -133 -140 -220 -297 -276 -496 l-26 -96 0 -940 0 -940 26 -96 c58 -209
             150 -372 289 -510 136 -136 303 -230 509 -288 l96 -26 1655 0 1655 0 96 26
@@ -27,13 +27,9 @@
     export default {
         name: "Email",
         props: {
-            fill: {
+            color: {
                 type: String,
-                default: '#ffc515'
-            },
-            stroke: {
-                type: String,
-                default: 'none'
+                default: 'yellow'
             },
             width: {
                 type: String,

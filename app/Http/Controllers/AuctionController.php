@@ -20,6 +20,16 @@ class AuctionController extends Controller
         return response($data, 200);
     }
 
+    public function getTradesV2(){
+        $lots = Lot::orderBy('created_at', 'DESC')->paginate(20);
+        $data = [];
+        foreach($lots as $lot){
+            $data[] = new LotResource($lot);
+        }
+        $pagination = $lots;
+        return response(['data'=>$data, 'pagination'=>$pagination], 200);
+    }
+
     public function getLotsByAuction($auctionId){
         $auction = Auction::find($auctionId);
         if(!$auction){

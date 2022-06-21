@@ -132,8 +132,12 @@
         padding-right: 0;
         border: none;
     }
-    &__body + &__footer{
+    &__body &__footer{
         padding-top: 20px;
+        padding-bottom: 0;
+        padding-left: 0;
+        padding-right: 0;
+        border: none;
     }
     &__header:first-child {
         border-radius: 25px 25px 0 0;
@@ -148,9 +152,16 @@
 }
 
 @media screen and (max-width: 768px) {
-    .bkt-card, .bkt-card__row {
+    .bkt-card__row {
         border-radius: 20px;
         padding: 25px;
+    }
+    .bkt-card__body {
+        border-radius: 20px;
+        padding: 25px;
+    }
+
+    .bkt-card, .bkt-card__row {
         //margin-bottom: 10px;
         //margin-right: 0px;
         &.outline {

@@ -1,7 +1,7 @@
 <template>
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 358.39 308"
          :width="width" :height="height"
-         :fill="fill" :stroke="stroke"
+         :class="'bkt-fill-'+color"
     >
         <path
             d="M557,247c1.24.38,2.47.81,3.73,1.12,12.16,3.07,20,14,19.32,26.84a25.25,25.25,0,0,1-21.72,23.23,49.16,49.16,0,0,1-7,.46q-150.36,0-300.73.05c-8,0-15.25-1.58-21-7.41-6.89-6.94-9.28-15.27-6.84-24.73,2.51-9.71,9-15.65,18.52-18.43L245,247Z"
@@ -19,13 +19,9 @@
     export default {
         name: "Menu",
         props: {
-            fill: {
+            color: {
                 type: String,
-                default: '#2953ff'
-            },
-            stroke: {
-                type: String,
-                default: '#2953ff'
+                default: 'primary'
             },
             width: {
                 type: String,

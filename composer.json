@@ -8,8 +8,6 @@
         "php": "^7.3|^8.0",
         "ext-imagick": "*",
         "ext-json": "*",
-        "ext-rar": "*",
-        "ext-zip": "*",
         "artisaninweb/laravel-soap": "0.3.0.10",
         "codersstudio/sms-ru": "dev-master",
         "darkaonline/l5-swagger": "^8.3",

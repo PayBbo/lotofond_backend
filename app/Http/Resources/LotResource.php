@@ -57,6 +57,11 @@ class LotResource extends JsonResource
             'isAuctionStepRub' => is_null($this->is_step_rub),
             'deposit' => $this->deposit,
             'isDepositRub' => $this->is_deposit_rub,
+            'eventStart' => is_null($this->auction->event_start_date) ? null : $this->auction->event_start_date->format('d.m.Y H:i'),
+            'eventEnd' => is_null($this->auction->event_end_date) ? null : $this->auction->event_end_date->format('d.m.Y H:i'),
+            'applicationStart' => is_null($this->auction->application_start_date) ? null : $this->auction->application_start_date->format('d.m.Y H:i'),
+            'applicationEnd' => is_null($this->auction->application_end_date) ? null : $this->auction->application_end_date->format('d.m.Y H:i'),
+            'resultDate' => is_null($this->auction->result_date) ? null : $this->auction->result_date->format('d.m.Y H:i'),
             $this->mergeWhen($this->isLotInfo === true, [
                 'tradePlaceName' => $this->auction->tradePlace->name,
                 'tradePlaceSite' => $this->auction->tradePlace->site,
@@ -66,12 +71,7 @@ class LotResource extends JsonResource
                 'tradeOrganizerName' => $this->auction->companyTradeOrganizer->name,
                 'tradeOrganizerINN' => $this->auction->companyTradeOrganizer->inn,
                 'debtorID' => $this->auction->debtor_id,
-                'auctionType' => $this->auction->auctionType->title,
-                'eventStart' => is_null($this->auction->event_start_date) ? null : $this->auction->event_start_date->format('d.m.Y H:i'),
-                'eventEnd' => is_null($this->auction->event_end_date) ? null : $this->auction->event_end_date->format('d.m.Y H:i'),
-                'applicationStart' => is_null($this->auction->application_start_date) ? null : $this->auction->application_start_date->format('d.m.Y H:i'),
-                'applicationEnd' => is_null($this->auction->application_end_date) ? null : $this->auction->application_end_date->format('d.m.Y H:i'),
-                'resultDate' => is_null($this->auction->result_date) ? null : $this->auction->result_date->format('d.m.Y H:i'),
+                'auctionType' => $this->auction->auctionType->title
             ]),
         ];
     }

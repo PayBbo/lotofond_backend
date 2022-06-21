@@ -1,20 +1,24 @@
 <template>
-    <div class="container bkt-main bkt-single-trade bkt-container">
+    <div class="container bkt-main bkt-lot-card bkt-container">
         <div class="bkt-wrapper" style="margin: 30px 0;">
-            <nav class="bkt-wrapper m-0" aria-label="breadcrumb">
-                <div class="bkt-button-icon bg-white" style="margin-right:20px">
-                    <bkt-icon :name="'ArrowDown'" class="bkt-button__icon"></bkt-icon>
-                </div>
+            <nav class="bkt-wrapper bkt-nowrap m-0" aria-label="breadcrumb">
+                <button class="bkt-button-icon bg-white" style="margin-right:20px" @click="goBack">
+                    <bkt-icon :name="'ArrowDown'" class="bkt-button__icon bkt-rotate-90"></bkt-icon>
+                </button>
                 <ol class="breadcrumb bkt-breadcrumb m-0">
-                    <li class="breadcrumb-item bkt-breadcrumb__item"><a href="/" class=" bkt-text-neutral-dark">главная</a></li>
+                    <li class="breadcrumb-item bkt-breadcrumb__item">
+                        <a href="/" class="bkt-text-neutral-dark">главная</a>
+                    </li>
                     <li class="breadcrumb-item bkt-breadcrumb__item">торги</li>
-                    <li class="breadcrumb-item bkt-breadcrumb__item active" aria-current="page">торги № 22000068750000000003 (лот 1)</li>
+                    <li class="breadcrumb-item bkt-breadcrumb__item active" aria-current="page">торги №
+                       {{lot.tradingNumber}} (лот {{lot.lotNumber}})
+                    </li>
                 </ol>
             </nav>
         </div>
-        <div class="bkt-row bkt-bg-main bkt-wrapper-between bkt-single-trade-actions-nav">
+        <div class="bkt-row bkt-bg-main bkt-wrapper-between bkt-lot-card-actions-nav d-none d-lg-flex">
             <h5 class="bkt-trading-number">
-                торги № 22000068750000000003 (лот 1)
+                торги № {{lot.tradingNumber}} (лот {{lot.lotNumber}})
             </h5>
             <div class="bkt-actions">
                 <button class="bkt-button-icon main-light">
@@ -24,7 +28,7 @@
                     <bkt-icon class="bkt-button__icon" :name="'Bookmark'"></bkt-icon>
                 </button>
                 <button class="bkt-button-icon main-light">
-                    <bkt-icon class="bkt-button__icon" :name="'Target'" :stroke="'#fff'"></bkt-icon>
+                    <bkt-icon class="bkt-button__icon" :name="'Target'"></bkt-icon>
                 </button>
                 <button class="bkt-button-icon main-light">
                     <bkt-icon class="bkt-button__icon" :name="'Star'"></bkt-icon>
@@ -41,12 +45,12 @@
                 </button>
             </div>
         </div>
-        <div class="row" style="gap: 30px 0; margin:30px auto;">
-            <div class="col-12 col-md-7">
+        <div class="row p-0" style="gap: 30px 0; margin:30px auto;">
+            <div class="col-12 col-lg-7 order-2 order-lg-1">
                 <div class="bkt-card">
                     <div class="bkt-card__body">
-                        <h3 class="bkt-card__title">Некоторое название торгов</h3>
-                        <ul class="bkt-contents">
+                        <h3 class="bkt-card__title bkt-text-truncate">{{lot && lot.label ? lot.label:'Некоторое название торгов'}}</h3>
+                        <ul class="d-none bkt-contents">
                             <li>
                                 <div class="bkt-contents__heading">
                                     <span class="bkt-contents__heading">общая площадь</span>
@@ -56,8 +60,9 @@
                             </li>
                             <li>
                                 <div class="bkt-contents__heading">
-                                    <span
-                                        class="bkt-contents__heading">общие сведения об ограничениях и обременениях</span>
+                                    <span class="bkt-contents__heading">
+                                        общие сведения об ограничениях и обременениях
+                                    </span>
                                 </div>
                                 <div class="bkt-contents__answer"><span>нет</span>
                                 </div>
@@ -185,6 +190,9 @@
                                 </div>
                             </li>
                         </ul>
+                        <div class="bkt-contents">
+                          {{lot.label}}
+                        </div>
                         <div class="bkt-row outline bkt-wrapper-between align-items-center">
                             <div class="bkt-row__feature">
                                 <h4 class="bkt-row__feature-title">600 кв.м.</h4>
@@ -217,27 +225,77 @@
                         <h6>
                             <a href="">№135-ФЗ "О защите конкуренции", статья 17.1
                                 <span>
-                                    <bkt-icon :name="'ArrowDown'" :fill="'#2953ff'"
-                                              style="transform: rotate(270deg)"></bkt-icon>
+                                    <bkt-icon :name="'ArrowDown'" :color="'primary'"
+                                              class="bkt-rotate-270"></bkt-icon>
                                 </span>
                             </a>
                         </h6>
                     </div>
                 </div>
             </div>
-            <div class="col-12 col-md-5">
-                <div class="bkt-card bkt-card-trade bkt-single-trade-card">
+            <div class="col-12 col-lg-5 order-1 order-lg-2">
+                <div class="bkt-card bkt-lot-card-card">
                     <div class="bkt-card__body">
+                        <div class="bkt-wrapper-between bkt-card__head bkt-nowrap d-flex d-lg-none">
+                            <h5 class="bkt-card__title bkt-text-truncate">
+                                {{lot && lot.label ? lot.label:'Некоторое название торгов'}}
+                            </h5>
+                            <div class="dropdown d-block d-lg-none">
+                                <button class="bkt-button bkt-bg-primary-lighter bkt-card-menu-button" type="button"
+                                        id="dropdownMenuClickableOutside" data-bs-toggle="dropdown" data-bs-offset="10,20" data-bs-display="static"
+                                        data-bs-auto-close="inside"  aria-expanded="false">
+                                    <bkt-icon :name="'More'"></bkt-icon>
+                                </button>
+                                <div class="bkt-card-menu m-0 dropdown-menu dropdown-menu-end position-absolute"
+                                     aria-labelledby="dropdownMenuClickableOutside"
+                                >
+                                    <div class="bkt-card-menu-inner">
+                                        <button class="bkt-button main-light">
+                                            <bkt-icon class="bkt-button__icon" :name="'Eye'" :color="'primary'"></bkt-icon>
+                                            Инфо о должнике
+                                        </button>
+                                        <button class="bkt-button main-light">
+                                            <bkt-icon class="bkt-button__icon" :name="'Pencil'" :color="'blue'"></bkt-icon>
+                                            Добавить заметку
+                                        </button>
+                                        <button class="bkt-button main-light">
+                                            <bkt-icon class="bkt-button__icon" :name="'Target'" :color="'red'"></bkt-icon>
+                                            Следить за лотом
+                                        </button>
+                                        <button class="bkt-button main-light">
+                                            <bkt-icon class="bkt-button__icon" :name="'Star'" :color="'yellow'"></bkt-icon>
+                                            В избранное
+                                        </button>
+                                        <button class="bkt-button main-light">
+                                            <span class="info"></span>
+                                            <bkt-icon class="bkt-button__icon" :name="'Bell'" :color="'green'"></bkt-icon>
+                                            Уведомления
+                                        </button>
+                                        <button class="bkt-button main-light">
+                                            <bkt-icon class="bkt-button__icon" :name="'Clip'" :color="'purple'"></bkt-icon>
+                                            Закрепить
+                                        </button>
+                                        <button class="bkt-button pb-0">
+                                            <bkt-icon class="bkt-button__icon mx-auto" :name="'Trash'"></bkt-icon>
+                                        </button>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <!--                        <button class="bkt-button bkt-bg-primary-lighter bkt-card-menu-button">-->
+                            <!--                            <bkt-icon :name="'More'"></bkt-icon>-->
+                            <!--                        </button>-->
+                        </div>
                         <div class="bkt-card-image-wrapper">
                             <hooper :itemsToShow="1" :centerMode="true" class="bkt-card__image-slider">
                                 <slide>
-                                    <img src="/images/card-image.jpg" class="bkt-card__image"/>
+                                    <img v-lazy="'/images/card-image.jpg'" class="bkt-card__image"/>
                                 </slide>
                                 <slide>
-                                    <img src="/images/card-image.jpg" class="bkt-card__image"/>
+                                    <img v-lazy="'/images/card-image.jpg'" class="bkt-card__image"/>
                                 </slide>
                                 <slide>
-                                    <img src="/images/card-image.jpg" class="bkt-card__image"/>
+                                    <img v-lazy="'/images/card-image.jpg'" class="bkt-card__image"/>
                                 </slide>
                                 <hooper-navigation slot="hooper-addons"></hooper-navigation>
                             </hooper>
@@ -259,32 +317,34 @@
                             </div>
                         </div>
                         <div class="bkt-card-price bkt-button green w-100">
-                            {{item && item.price ? item.price : '2 485 400'}} ₽
+                            {{lot && lot.price ? lot.price : '0' | priceFormat}} ₽
                             <div class="bkt-card-price-icon bkt-bg-green-light">
                                 <bkt-icon :name="'ArrowTriple'" :width="'22px'" :height="'22px'"></bkt-icon>
                             </div>
                         </div>
                         <div class="bkt-card-infographics" style="gap: 10px;">
                             <div class="bkt-card__row outline bkt-wrapper-between">
-                                    <h5 class="bkt-card__subtitle">текущая цена</h5>
-                                    <h4 class="bkt-card__title bkt-text-primary">
-                                        {{item && item.auctionStep ? item.auctionStep : '0'}}
-                                        {{item && item.isAuctionRub ? '₽' : '%'}}
-                                    </h4>
+                                <h5 class="bkt-card__subtitle">текущая цена</h5>
+                                <h4 class="bkt-card__title bkt-text-primary">
+<!--                                    {{lot && lot.auctionStep ? lot.auctionStep : '0' | priceFormat}}-->
+<!--                                    {{lot && lot.isAuctionRub ? '₽' : '%'}}-->
+                                    0 ₽
+                                </h4>
                             </div>
                             <div class="bkt-card__row outline bkt-wrapper-between">
-                                    <h5 class="bkt-card__subtitle">минимальная цена</h5>
-                                    <h4 class="bkt-card__title bkt-text-red">
-                                        {{item && item.deposit ? item.deposit : '0'}}
-                                        {{item && item.isDepositRub ? '₽' : '%'}}
-                                    </h4>
+                                <h5 class="bkt-card__subtitle">минимальная цена</h5>
+                                <h4 class="bkt-card__title bkt-text-red">
+<!--                                    {{lot && lot.deposit ? lot.deposit : '0' | priceFormat}}-->
+<!--                                    {{lot && lot.isDepositRub ? '₽' : '%'}}-->
+                                    0 ₽
+                                </h4>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="col-12 col-md-12">
-                <div class="bkt-card bkt-single-trade-tasks">
+            <div class="col-12 col-lg-12 order-3">
+                <div class="bkt-card bkt-lot-card-tasks">
                     <div class="bkt-card__header bkt-wrapper-between m-0">
                         <div class="bkt-card-periods">
                             <div class="bkt-card-period bkt-wrapper">
@@ -295,8 +355,10 @@
                                 <div class="bkt-card_feature">
                                     <h6>прием заявок
                                         <strong>
-                                            с 22 сентября 2022 <span class="bkt-text-blue">09:00</span>
-                                            до 25 сентября 2022 <span class="bkt-text-blue">19:00</span>
+                                            с {{[lot.applicationStart, "DD.MM.YYYY HH:mm"] | moment('DD MMMM YYYY')}}
+                                            <span class="bkt-text-blue">{{[lot.applicationStart, "DD.MM.YYYY HH:mm"] | moment('HH:mm')}}</span>
+                                            до {{[lot.applicationEnd, "DD.MM.YYYY HH:mm"] | moment('DD MMMM YYYY')}}
+                                            <span class="bkt-text-blue">{{[lot.applicationEnd, "DD.MM.YYYY HH:mm"] | moment('HH:mm')}}</span>
                                         </strong>
                                     </h6>
                                 </div>
@@ -309,23 +371,26 @@
                                 <div class="bkt-card_feature">
                                     <h6>проведение торгов
                                         <strong>
-                                            с 21 апреля 2022 <span class="bkt-text-yellow">10:30</span>
+                                            с {{[lot.eventStart, "DD.MM.YYYY HH:mm"] | moment('DD MMMM YYYY')}}
+                                            <span class="bkt-text-yellow">{{[lot.eventStart, "DD.MM.YYYY HH:mm"] | moment('HH:mm')}}
+                                            </span>
                                         </strong>
                                     </h6>
                                 </div>
                             </div>
                         </div>
-                        <a href="" class="bkt-platform-button">
-                            <div class="bkt-platform-button-title">ЭТП TORGI.GOV</div>
-                            <div class="bkt-platform-button-subtitle">torgi.gov - аренда</div>
-                            <bkt-icon :name="'ArrowDown'" :fill="'#2953ff'"></bkt-icon>
+                        <a :href="'http://'+lot.tradePlaceSite" target="_blank" class="bkt-platform-button">
+                            <div class="bkt-platform-button-title">ЭТП {{lot.tradePlaceName}}</div>
+                            <div class="bkt-platform-button-subtitle">{{lot.tradePlaceSite}}</div>
+                            <bkt-icon :name="'ArrowDown'" :color="'primary'"></bkt-icon>
                         </a>
                     </div>
                     <div class="bkt-card__body">
-                        <div class="bkt-wrapper-between" style="margin-bottom: 23px;">
-                            <div class="bkt-wrapper m-0">
+                        <div class="bkt-wrapper-between bkt-nowrap" style="margin-bottom: 23px;">
+                            <div class="bkt-wrapper bkt-nowrap m-0">
                                 <div class="bkt-card__category bkt-bg-primary-lighter">
-                                    <bkt-icon :name="'Pencil'" :fill="'#2953ff'" class="bkt-card__category-icon"></bkt-icon>
+                                    <bkt-icon :name="'Pencil'" :color="'primary'"
+                                              class="bkt-card__category-icon"></bkt-icon>
                                 </div>
                                 <h5>Заметка по лоту (видите только вы)</h5>
                             </div>
@@ -333,12 +398,12 @@
                                 <bkt-icon :name="'Plus'" class="bkt-button__icon"></bkt-icon>
                             </button>
                         </div>
-                        <div class="bkt-single-trade-task">
+                        <div class="bkt-lot-card-task">
                             <div class="bkt-row outline bkt-wrapper-between">
                                 <div class="bkt-check__wrapper">
-                                    <div class="bkt-check">
+                                    <div class="bkt-check check">
                                         <div class="bkt-check__input">
-                                            <input class="" type="checkbox" disabled>
+                                            <input class="" type="checkbox">
                                             <div class="bkt-check__input-check"></div>
                                         </div>
                                     </div>
@@ -348,11 +413,11 @@
                                 <div class="bkt-card-period bkt-wrapper">
                                     <div class="bkt-card__category bkt-bg-blue-lighter">
                                         <bkt-icon :name="'Date'" :width="'16px'"
-                                                  :height="'16px'" :fill="'#29b1ff'"></bkt-icon>
+                                                  :height="'16px'" :color="'blue'"></bkt-icon>
                                     </div>
                                     <div class="bkt-card_feature">
                                         <h5>
-                                            с 22 сентября 2022 <span class="bkt-text-blue">09:00</span>
+                                            22 сентября 2022 <span class="bkt-text-blue">09:00</span>
                                         </h5>
                                     </div>
                                 </div>
@@ -361,12 +426,12 @@
                                 <bkt-icon class="bkt-button__icon" name="Trash"></bkt-icon>
                             </button>
                         </div>
-                        <div class="bkt-single-trade-task">
+                        <div class="bkt-lot-card-task">
                             <div class="bkt-row outline bkt-wrapper-between">
                                 <div class="bkt-check__wrapper">
-                                    <div class="bkt-check">
+                                    <div class="bkt-check check">
                                         <div class="bkt-check__input">
-                                            <input class="" type="checkbox" disabled>
+                                            <input class="" type="checkbox">
                                             <div class="bkt-check__input-check"></div>
                                         </div>
                                     </div>
@@ -376,11 +441,11 @@
                                 <div class="bkt-card-period bkt-wrapper">
                                     <div class="bkt-card__category bkt-bg-blue-lighter">
                                         <bkt-icon :name="'Date'" :width="'16px'"
-                                                  :height="'16px'" :fill="'#29b1ff'"></bkt-icon>
+                                                  :height="'16px'" :color="'blue'"></bkt-icon>
                                     </div>
                                     <div class="bkt-card_feature">
                                         <h5>
-                                            с 22 сентября 2022 <span class="bkt-text-blue">09:00</span>
+                                            22 сентября 2022 <span class="bkt-text-blue">09:00</span>
                                         </h5>
                                     </div>
                                 </div>
@@ -389,13 +454,13 @@
                                 <bkt-icon class="bkt-button__icon" name="Trash"></bkt-icon>
                             </button>
                         </div>
-                        <div class="bkt-single-trade-task">
+                        <div class="bkt-lot-card-task">
                             <div class="bkt-row outline bkt-wrapper-between">
                                 <div class="bkt-check__wrapper">
                                     <div class="bkt-check">
                                         <div class="bkt-check__input">
-                                            <input class="" type="checkbox" disabled>
-                                            <div class="bkt-check__input-check"></div>
+                                            <input class="" type="checkbox">
+                                            <div class="bkt-check__input-check check"></div>
                                         </div>
                                     </div>
                                 </div>
@@ -404,11 +469,11 @@
                                 <div class="bkt-card-period bkt-wrapper">
                                     <div class="bkt-card__category bkt-bg-blue-lighter">
                                         <bkt-icon :name="'Date'" :width="'16px'"
-                                                  :height="'16px'" :fill="'#29b1ff'"></bkt-icon>
+                                                  :height="'16px'" :color="'blue'"></bkt-icon>
                                     </div>
                                     <div class="bkt-card_feature">
                                         <h5>
-                                            с 22 сентября 2022 <span class="bkt-text-blue">09:00</span>
+                                            22 сентября 2022 <span class="bkt-text-blue">09:00</span>
                                         </h5>
                                     </div>
                                 </div>
@@ -420,13 +485,13 @@
                     </div>
                 </div>
             </div>
-            <div class="col-12 col-md-12">
-                <div class="bkt-card bkt-card__body bkt-single-trade-actual">
+            <div class="col-12 col-lg-12 order-3">
+                <div class="bkt-card bkt-card__body bkt-lot-card-actual">
                     <div class="bkt-card__header bkt-wrapper-between">
                         <h3 class="bkt-card__title">Актуальное по лоту</h3>
                         <button class="bkt-button" style="gap:8px;">
                             Смотреть отчёт
-                            <bkt-icon :name="'Clip'" :fill="'#2953ff'" class="bkt-button__icon"></bkt-icon>
+                            <bkt-icon :name="'Clip'" :color="'primary'" class="bkt-button__icon"></bkt-icon>
                         </button>
                     </div>
                     <div class="bkt-card outline bkt-wrapper-between">
@@ -442,94 +507,94 @@
                         </h5>
                         <h5 class="bkt-text-neutral-dark">1 декабря 2022 в 09:00</h5>
                     </div>
-                    <div class="bkt-wrapper-between">
+                    <div class="bkt-card__footer bkt-wrapper-between">
                         <button class="bkt-button-icon bkt-bg-body">
-                            <bkt-icon class="bkt-button__icon"></bkt-icon>
+                            <bkt-icon class="bkt-button__icon" name="ArrowDown"></bkt-icon>
                         </button>
                         <button class="bkt-button primary">Написать организатору</button>
                     </div>
                 </div>
             </div>
-            <div class="col-12 col-md-5">
-                <div class="bkt-card bkt-card__body bkt-single-trade-templates">
+            <div class="col-12 col-lg-5 order-3">
+                <div class="bkt-card bkt-card__body bkt-lot-card-templates">
                     <div class="bkt-card__header"><h3 class="bkt-card__title">Шаблоны запросов</h3></div>
                     <div class="bkt-card__row outline bkt-wrapper-between bkt-nowrap">
                         <div class="bkt-template-name text-truncate">
                             <div class="bkt-card__icon">
-                                <bkt-icon :name="'Note'" :fill="'#ff41be'" :width="'16px'" :height="'16px'"></bkt-icon>
+                                <bkt-icon :name="'Note'" :color="'purple'" :width="'16px'" :height="'16px'"></bkt-icon>
                             </div>
                             <h5 class="text-truncate">Заявка на участие в торгах</h5>
                         </div>
                         <div class="bkt-card__icon">
-                            <bkt-icon :name="'ArrowDown'" :fill="'#2953ff'"
-                                      style="transform: rotate(270deg)"></bkt-icon>
+                            <bkt-icon :name="'ArrowDown'" :color="'primary'"
+                                      class="bkt-rotate-270"></bkt-icon>
                         </div>
                     </div>
                     <div class="bkt-card__row outline bkt-wrapper-between bkt-nowrap">
                         <div class="bkt-template-name text-truncate">
                             <div class="bkt-card__icon">
-                                <bkt-icon :name="'Note'" :fill="'#ff41be'" :width="'16px'" :height="'16px'"></bkt-icon>
+                                <bkt-icon :name="'Note'" :color="'purple'" :width="'16px'" :height="'16px'"></bkt-icon>
                             </div>
                             <h5 class="text-truncate">Авто</h5>
                         </div>
                         <div class="bkt-card__icon">
-                            <bkt-icon :name="'ArrowDown'" :fill="'#2953ff'"
-                                      style="transform: rotate(270deg)"></bkt-icon>
+                            <bkt-icon :name="'ArrowDown'" :color="'primary'"
+                                      class="bkt-rotate-270"></bkt-icon>
                         </div>
                     </div>
                     <div class="bkt-card__row outline bkt-wrapper-between bkt-nowrap">
                         <div class="bkt-template-name text-truncate">
                             <div class="bkt-card__icon">
-                                <bkt-icon :name="'Note'" :fill="'#ff41be'" :width="'16px'" :height="'16px'"></bkt-icon>
+                                <bkt-icon :name="'Note'" :color="'purple'" :width="'16px'" :height="'16px'"></bkt-icon>
                             </div>
                             <h5 class="text-truncate">Квартира</h5>
                         </div>
                         <div class="bkt-card__icon">
-                            <bkt-icon :name="'ArrowDown'" :fill="'#2953ff'"
+                            <bkt-icon :name="'ArrowDown'" :color="'primary'"
                                       style="transform: rotate(270deg)"></bkt-icon>
                         </div>
                     </div>
                     <div class="bkt-card__row outline bkt-wrapper-between bkt-nowrap">
                         <div class="bkt-template-name text-truncate">
                             <div class="bkt-card__icon">
-                                <bkt-icon :name="'Note'" :fill="'#ff41be'" :width="'16px'" :height="'16px'"></bkt-icon>
+                                <bkt-icon :name="'Note'" :color="'purple'" :width="'16px'" :height="'16px'"></bkt-icon>
                             </div>
                             <h5 class="text-truncate">Земля</h5>
                         </div>
                         <div class="bkt-card__icon">
-                            <bkt-icon :name="'ArrowDown'" :fill="'#2953ff'"
-                                      style="transform: rotate(270deg)"></bkt-icon>
+                            <bkt-icon :name="'ArrowDown'" :color="'primary'"
+                                      class="bkt-rotate-270"></bkt-icon>
                         </div>
                     </div>
                     <div class="bkt-card__row outline bkt-wrapper-between bkt-nowrap">
                         <div class="bkt-template-name text-truncate">
                             <div class="bkt-card__icon">
-                                <bkt-icon :name="'Note'" :fill="'#ff41be'" :width="'16px'" :height="'16px'"></bkt-icon>
+                                <bkt-icon :name="'Note'" :color="'purple'" :width="'16px'" :height="'16px'"></bkt-icon>
                             </div>
                             <h5 class="text-truncate">Дом с участком</h5>
                         </div>
                         <div class="bkt-card__icon">
-                            <bkt-icon :name="'ArrowDown'" :fill="'#2953ff'"
-                                      style="transform: rotate(270deg)"></bkt-icon>
+                            <bkt-icon :name="'ArrowDown'" :color="'primary'"
+                                      class="bkt-rotate-270"></bkt-icon>
                         </div>
                     </div>
                     <div class="bkt-card__row outline bkt-wrapper-between bkt-nowrap">
                         <div class="bkt-template-name text-truncate">
                             <div class="bkt-card__icon">
-                                <bkt-icon :name="'Note'" :fill="'#ff41be'" :width="'16px'" :height="'16px'"></bkt-icon>
+                                <bkt-icon :name="'Note'" :color="'purple'" :width="'16px'" :height="'16px'"></bkt-icon>
                             </div>
                             <h5 class="text-truncate">Дебиторская задолженность</h5>
                         </div>
                         <div class="bkt-card__icon">
-                            <bkt-icon :name="'ArrowDown'" :fill="'#2953ff'"
-                                      style="transform: rotate(270deg)"></bkt-icon>
+                            <bkt-icon :name="'ArrowDown'" :color="'primary'"
+                                      class="bkt-rotate-270"></bkt-icon>
                         </div>
                     </div>
                     <button class="bkt-button primary">
                         Загрузить другой шаблон
                     </button>
                 </div>
-                <div class="bkt-card bkt-card__body bkt-single-trade-sent-requests">
+                <div class="bkt-card bkt-card__body bkt-lot-card-sent-requests">
                     <div class="bkt-card__header"><h3 class="bkt-card__title">Отправленные запросы</h3></div>
                     <div class="bkt-card outline">
                         <div class="bkt-card__feature">
@@ -545,56 +610,99 @@
                     </div>
                 </div>
             </div>
-            <div class="col-12 col-md-7">
-                <div class="bkt-card bkt-card__body bkt-single-trade-request">
-                    <div class="bkt-card__header"><h3 class="bkt-card__title">Запрос организатору торгов</h3></div>
-                    <div class="bkt-select__wrapper">
-                        <label class="bkt-select__label" for="sortSelect">шаблон запроса</label>
-                        <select class="form-select bkt-select" id="sortSelect" aria-label="">
-                            <option selected>Авто</option>
-                            <option value="1">One</option>
-                            <option value="2">Two</option>
-                            <option value="3">Three</option>
-                        </select>
+            <div class="col-12 col-lg-7 order-3">
+                <div class="bkt-card bkt-card__body bkt-lot-card-request">
+                    <div class="bkt-card__header">
+                        <h3 class="bkt-card__title">Запрос организатору торгов</h3>
                     </div>
-                    <bkt-input
-                        name="from_email"
-                        type="email"
-                        label="от кого"
-                        :rules="'required|email'"
-                        placeholder="pochta@gmail.com"
-                    >
-                    </bkt-input>
+                    <div class="row align-items-start" style="gap: 10px 0;">
+                        <div class="col-4 ps-md-0 d-none d-md-block">
+                            <h5 class="bkt-lot-card-request-label">шаблон запроса</h5>
+                        </div>
+                        <div class="col-12 col-md-8 p-md-0">
+                            <div class="bkt-select__wrapper">
+                                <label class="bkt-select__label d-md-none" for="sortSelect">шаблон запроса</label>
+                                <select class="form-select bkt-select" id="sortSelect" aria-label="">
+                                    <option selected>Авто</option>
+                                    <option value="1">One</option>
+                                    <option value="2">Two</option>
+                                    <option value="3">Three</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-4 ps-md-0 d-none d-md-block">
+                            <h5 class="bkt-lot-card-request-label">от кого</h5>
+                        </div>
+                        <div class="col-12 col-md-8 p-md-0">
+                            <bkt-input
+                                name="from_email"
+                                type="email"
+                                label="от кого"
+                                :rules="'required|email'"
+                                placeholder="pochta@gmail.com"
+                                :label_class="'d-md-none'"
+                            >
+                            </bkt-input>
+                        </div>
+                        <div class="col-4 ps-md-0 d-none d-md-block">
+                            <h5 class="bkt-lot-card-request-label">кому</h5>
+                        </div>
+                        <div class="col-12 col-md-8 p-md-0">
+                            <bkt-input
+                                name="to_email"
+                                type="email"
+                                label="кому"
+                                :rules="'required|email'"
+                                placeholder="pochta@gmail.com"
+                                :label_class="'d-md-none'"
+                            >
+                            </bkt-input>
+                        </div>
+                        <div class="col-4 ps-md-0 d-none d-md-block">
+                            <h5 class="bkt-lot-card-request-label">тема запрос</h5>
+                        </div>
+                        <div class="col-12 col-md-8 p-md-0">
+                            <bkt-input
+                                name="subject"
+                                type="text"
+                                label="тема запроса"
+                                :rules="'required'"
+                                placeholder=""
+                                :label_class="'d-md-none'"
+                            >
+                            </bkt-input>
+                        </div>
+                        <div class="col-4 ps-md-0 d-none d-md-block">
+                            <h5 class="bkt-lot-card-request-label">текст запроса</h5>
+                        </div>
+                        <div class="col-12 col-md-8 p-md-0">
+                            <bkt-textarea
+                                name="description"
+                                type="text"
+                                label="текст запроса"
+                                :rules="'required'"
+                                placeholder=""
+                                :label_class="'d-md-none'"
+                            ></bkt-textarea>
+                        </div>
 
-                    <bkt-input
-                        name="to_email"
-                        type="email"
-                        label="кому"
-                        :rules="'required|email'"
-                        placeholder="pochta@gmail.com"
-                    >
-                    </bkt-input>
-                    <bkt-input
-                        name="subject"
-                        type="text"
-                        label="тема запроса"
-                        :rules="'required'"
-                        placeholder=""
-                    >
-                    </bkt-input>
-                    <bkt-textarea
-                        name="description"
-                        type="text"
-                        label="текст запроса"
-                        :rules="'required'"
-                        placeholder=""
-                    >
-                    </bkt-textarea>
-
+                        <div class="col-4 ps-md-0 d-none d-md-block"></div>
+                        <div class="col-12 col-md-8 p-md-0">
+                            <div class="bkt-lot-card-request-actions bkt-wrapper-between">
+                                <button class="bkt-button-link">
+                                    <bkt-icon name="Clip" color="primary" class="bkt-button__icon"></bkt-icon>
+                                    прикрепить файл
+                                </button>
+                                <button class="bkt-button primary" style="flex-grow:1">
+                                    Отправить
+                                </button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="col-12 col-md-6">
-                <div class="bkt-card bkt-single-trade-required-documents">
+            <div class="col-12 col-lg-6 order-3">
+                <div class="bkt-card bkt-lot-card-required-documents">
                     <div class="bkt-card__body">
                         <div class="bkt-card__header">
                             <h3 class="bkt-card__title">Необходимые документы</h3>
@@ -603,7 +711,7 @@
                             <div class="bkt-card__row outline w-100 bkt-wrapper-between bkt-nowrap">
                                 <h5 class="text-truncate">Свидетельство о праве собственности</h5>
                                 <div class="bkt-card__icon">
-                                    <bkt-icon :name="'Check'" :fill="'#2fbb40'"></bkt-icon>
+                                    <bkt-icon :name="'Check'" :color="'green'"></bkt-icon>
                                 </div>
                             </div>
                             <button class="bkt-button">
@@ -625,7 +733,7 @@
                             <div class="bkt-card__row outline w-100 bkt-wrapper-between bkt-nowrap">
                                 <h5 class="text-truncate">Кадастровый паспорт участка</h5>
                                 <div class="bkt-card__icon">
-                                    <bkt-icon :name="'Download'" :fill="'#2953ff'" :width="'16px'"
+                                    <bkt-icon :name="'Download'" :color="'primary'" :width="'16px'"
                                               :height="'16px'"></bkt-icon>
                                 </div>
                             </div>
@@ -637,7 +745,7 @@
                             <div class="bkt-card__row outline  w-100 bkt-wrapper-between bkt-nowrap">
                                 <h5 class="text-truncate">Положение о порядке и сроках реализации имуще...</h5>
                                 <div class="bkt-card__icon">
-                                    <bkt-icon :name="'Download'" :fill="'#2953ff'" :width="'16px'"
+                                    <bkt-icon :name="'Download'" :color="'primary'" :width="'16px'"
                                               :height="'16px'"></bkt-icon>
                                 </div>
                             </div>
@@ -649,7 +757,7 @@
                             <div class="bkt-card__row outline w-100 bkt-wrapper-between bkt-nowrap">
                                 <h5 class="text-truncate">Оценка рыночной стоимости участка</h5>
                                 <div class="bkt-card__icon">
-                                    <bkt-icon :name="'Check'" :fill="'#2fbb40'"></bkt-icon>
+                                    <bkt-icon :name="'Check'" :color="'green'"></bkt-icon>
                                 </div>
                             </div>
                             <button class="bkt-button">
@@ -659,50 +767,50 @@
                     </div>
                 </div>
             </div>
-            <div class="col-12 col-md-3">
-                <div class="bkt-card bkt-card__body bkt-single-trade-document-sets">
+            <div class="col-12 col-lg-3 order-3">
+                <div class="bkt-card bkt-card__body bkt-lot-card-document-sets">
                     <div class="bkt-card__header"><h3 class="bkt-card__title">Наборы документов</h3></div>
                     <div class="bkt-card__row outline bkt-wrapper bkt-nowrap">
                         <div class="bkt-card__icon">
-                            <bkt-icon :name="'Note'" :fill="'#29b1ff'" :width="'16px'" :height="'16px'"></bkt-icon>
+                            <bkt-icon :name="'Note'" :color="'blue'" :width="'16px'" :height="'16px'"></bkt-icon>
                         </div>
                         <h5 class="text-truncate">Авто</h5>
                     </div>
                     <div class="bkt-card__row outline bkt-wrapper bkt-nowrap">
                         <div class="bkt-card__icon">
-                            <bkt-icon :name="'Note'" :fill="'#29b1ff'" :width="'16px'" :height="'16px'"></bkt-icon>
+                            <bkt-icon :name="'Note'" :color="'blue'" :width="'16px'" :height="'16px'"></bkt-icon>
                         </div>
                         <h5 class="text-truncate">Квартира</h5>
                     </div>
                     <div class="bkt-card__row outline bkt-wrapper bkt-nowrap">
                         <div class="bkt-card__icon">
-                            <bkt-icon :name="'Note'" :fill="'#29b1ff'" :width="'16px'" :height="'16px'"></bkt-icon>
+                            <bkt-icon :name="'Note'" :color="'blue'" :width="'16px'" :height="'16px'"></bkt-icon>
                         </div>
                         <h5 class="text-truncate">Земля</h5>
                     </div>
                     <div class="bkt-card__row outline bkt-wrapper bkt-nowrap">
                         <div class="bkt-card__icon">
-                            <bkt-icon :name="'Note'" :fill="'#29b1ff'" :width="'16px'" :height="'16px'"></bkt-icon>
+                            <bkt-icon :name="'Note'" :color="'blue'" :width="'16px'" :height="'16px'"></bkt-icon>
                         </div>
                         <h5 class="text-truncate">Дом с участком</h5>
                     </div>
                     <div class="bkt-card__row outline bkt-wrapper bkt-nowrap">
                         <div class="bkt-card__icon">
-                            <bkt-icon :name="'Note'" :fill="'#29b1ff'" :width="'16px'" :height="'16px'"></bkt-icon>
+                            <bkt-icon :name="'Note'" :color="'blue'" :width="'16px'" :height="'16px'"></bkt-icon>
                         </div>
                         <h5 class="text-truncate">Дебиторская задолженность</h5>
                     </div>
                     <div class="bkt-card__row outline bkt-wrapper bkt-nowrap">
                         <div class="bkt-card__icon">
-                            <bkt-icon :name="'Note'" :fill="'#29b1ff'" :width="'16px'" :height="'16px'"></bkt-icon>
+                            <bkt-icon :name="'Note'" :color="'blue'" :width="'16px'" :height="'16px'"></bkt-icon>
                         </div>
                         <h5 class="text-truncate">Свой набор</h5>
                     </div>
                     <button class="bkt-button primary">Добавить набор</button>
                 </div>
             </div>
-            <div class="col-12 col-md-3">
-                <div class="bkt-card bkt-card__body bkt-single-trade-my-files">
+            <div class="col-12 col-lg-3 order-3">
+                <div class="bkt-card bkt-card__body bkt-lot-card-my-files">
                     <div class="bkt-card__header"><h3 class="bkt-card__title">Мои файлы</h3></div>
                     <div class="bkt-card__row outline bkt-wrapper-between bkt-nowrap">
                         <div class="bkt-card__feature text-truncate">
@@ -726,8 +834,8 @@
                     <button class="bkt-button green">Добавить документ</button>
                 </div>
             </div>
-            <div class="col-12 col-md-12">
-                <div class=" bkt-card bkt-card__body bkt-single-trade-debtor">
+            <div class="col-12 col-lg-12 order-3">
+                <div class=" bkt-card bkt-card__body bkt-lot-card-debtor">
                     <div class="bkt-card__header bkt-wrapper-between">
                         <h3 class="bkt-card__title">Информация по должнику</h3>
                         <a href="" class="bkt-button next">Сообщения по должнику
@@ -766,47 +874,111 @@
                     </ul>
                 </div>
             </div>
-            <div class="col-12 col-md-12">
-                <div class="bkt-card bkt-card__body bkt-single-trade-active-lots">
-                    <div class="bkt-wrapper-between">
+            <div class="col-12 col-lg-12 order-3">
+                <div class="bkt-card bkt-card__body bkt-lot-card-active-lots">
+                    <div class="bkt-wrapper-between bkt-nowrap">
                         <h3 class="bkt-card__title">
                             Другие активные лоты должника <span class="bkt-text-neutral-dark">(0)</span>
                         </h3>
-                        <a class="bkt-button-icon" data-bs-toggle="collapse" href="#collapseActiveLots"  role="button" aria-expanded="false" >
-                            <bkt-icon :name="'ArrowDown'" class="bkt-button__icon"></bkt-icon>
-                        </a>
-                    </div>
-                    <div class="collapse" id="collapseActiveLots">
-                    </div>
-                </div>
-            </div>
-            <div class="col-12 col-md-12">
-                <div class=" bkt-card bkt-card__body">
-                    <div class="bkt-wrapper-between">
-                        <h3 class="bkt-card__title">
-                            Завершённые лоты должника <span class="bkt-text-green">(1)</span>
-                        </h3>
-                        <button class="bkt-button-icon" >
+                        <button class="bkt-button-icon bkt-bg-body" data-bs-toggle="collapse"
+                                data-bs-target="#collapseActiveLots" aria-expanded="false"
+                        >
                             <bkt-icon :name="'ArrowDown'" class="bkt-button__icon"></bkt-icon>
                         </button>
                     </div>
+                    <!--                    <div class="collapse" id="collapseActiveLots">-->
+                    <!--                    </div>-->
                 </div>
             </div>
-            <div class="col-12 col-md-8">
-                <div class=" bkt-card bkt-card__body">
-                    <h3 class="bkt-card__title">Информация по организатору</h3>
+            <div class="col-12 col-lg-12 order-3">
+                <div class="bkt-card bkt-card__body bkt-lot-card-completed-lots">
+                    <div class="bkt-wrapper-between bkt-nowrap">
+                        <h3 class="bkt-card__title">
+                            Завершённые лоты должника <span class="bkt-text-green">(1)</span>
+                        </h3>
+                        <button class="bkt-button-icon bkt-bg-body" data-bs-toggle="collapse"
+                                data-bs-target="#collapseCompletedLots" aria-expanded="false">
+                            <bkt-icon :name="'ArrowDown'" class="bkt-button__icon"></bkt-icon>
+                        </button>
+                    </div>
+                    <div class="collapse" id="collapseCompletedLots">
+                        <div class="row w-100 m-auto">
+                            <div class="col-12 p-0 d-none d-md-block">
+                                <div
+                                    style="padding-bottom: 10px"
+                                    class="row w-100 mx-auto align-items-center justify-content-center"
+                                >
+                                    <div class="col-2 pl-0">
+                                        <h6 class="bkt-text-neutral-dark">фото</h6>
+                                    </div>
+                                    <div class="col-3">
+                                        <h6 class="bkt-text-neutral-dark">описание лота</h6>
+                                    </div>
+                                    <div class="col-2">
+                                        <h6 class="bkt-text-neutral-dark">цена</h6>
+                                    </div>
+                                    <div class="col-2">
+                                        <h6 class="bkt-text-neutral-dark">даты торгов</h6>
+                                    </div>
+                                    <div class="col-3">
+                                        <h6 class="bkt-text-neutral-dark">ЭТП и организатор</h6>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 p-0">
+                                <div class="row w-100 mx-auto bkt-row outline">
+                                    <div class="col-12 col-md-2 ps-0">
+                                        <img v-lazy="'/images/card-image.jpg'" class="bkt-card__image"/>
+                                    </div>
+                                    <div class="col-12 col-md-3">
+                                        <h6 class="bkt-card__subtitle">№ 113351, лот 1</h6>
+                                        <h5 class="">
+                                            1/4 доли в праве на квартиру, общей площадью 64 кв.м.
+                                        </h5>
+                                    </div>
+                                    <div class="col-12 col-md-2">
+                                        <h6 class="bkt-card__subtitle d-md-none">цена</h6>
+                                        <h4 class="bkt-card__title bkt-text-primary">2 485 400 ₽</h4>
+                                    </div>
+                                    <div class="col-12 col-md-2">
+                                        <h6 class="bkt-card__subtitle d-md-none">даты торгов</h6>
+                                        <h6>с 25 апреля 2022</h6>
+                                    </div>
+                                    <div class="col-12 col-md-3">
+                                        <h6 class="bkt-card__subtitle d-md-none">ЭТП и организатор</h6>
+                                        <h6 class="bkt-card__title bkt-text-main text-uppercase">nazvanie.com</h6>
+                                        <h5 class="">
+                                            Перов Сергей Николаевич
+                                        </h5>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-lg-8  order-3">
+                <div class="bkt-card bkt-card__body">
+                    <div class="bkt-card__header">
+                        <h3 class="bkt-card__title">Информация по организатору</h3>
+                        <button class="bkt-button next">
+                            Подробнее об организаторе
+                            <bkt-icon name="ArrowDown" color="primary"></bkt-icon>
+                        </button>
+                    </div>
+
                     <ul class="bkt-contents">
                         <li>
                             <div class="bkt-contents__heading"><span>организатор</span></div>
-                            <div class="bkt-contents__answer bkt-text-green"><span>ФЕДЕРАЛЬНОЕ ГОСУДАРСТВЕННОЕ БЮДЖЕТНОЕ УЧРЕЖДЕНИЕ НАУКИ
-                            ЦЕНТРАЛЬНЫЙ ЭКОНОМИКО-МАТЕМАТИЧЕСКИЙ ИНСТИТУТ РОССИЙСКОЙ АКАДЕМИИ НАУК</span>
+                            <div class="bkt-contents__answer bkt-text-green">
+                                <span>{{lot.tradeOrganizerName}}</span>
                             </div>
                         </li>
                         <li>
                             <div class="bkt-contents__heading">
                                 <span class="bkt-contents__heading">ИНН</span>
                             </div>
-                            <div class="bkt-contents__answer"><span>45757541414</span>
+                            <div class="bkt-contents__answer"><span>{{lot.tradeOrganizerINN}}</span>
                             </div>
                         </li>
                         <li>
@@ -824,10 +996,26 @@
                             </div>
                         </li>
                     </ul>
+                    <div class="bkt-wrapper-between align-items-center">
+                        <button class="bkt-button next">
+                            мои победы
+                            <span class="bkt-text-red" style="text-transform: initial"> (добавьте ИНН)  </span>
+                            <bkt-icon name="ArrowDown" color="green"></bkt-icon>
+                        </button>
+                        <div class="bkt-rating text-center">
+                            <h6>3,3 / 5</h6>
+                            <star-rating :show-rating="false" :rating="3.3" :read-only="true" :star-size="16"
+                                         :increment="0.01" :rounded-corners="false"></star-rating>
+                        </div>
+                        <button class="bkt-button bkt-bg-body text-uppercase bkt-text-main">
+                            оценить организатора
+                            <bkt-icon name="ArrowDown" color="primary" class="bkt-rotate-270"></bkt-icon>
+                        </button>
+                    </div>
                 </div>
             </div>
-            <div class="col-12 col-md-4">
-                <div class=" bkt-card bkt-card__body bkt-single-trade-arbitration-manager">
+            <div class="col-12 col-lg-4 order-3">
+                <div class=" bkt-card bkt-card__body bkt-lot-card-arbitration-manager">
                     <h3 class="bkt-card__title">
                         Информация по арбитражному управляющему
                     </h3>
@@ -836,7 +1024,7 @@
                             <div class="bkt-contents__heading">
                                 <span class="bkt-contents__heading">арбитражный управляющий</span>
                             </div>
-                            <div class="bkt-contents__answer"><span>Иванов Иван Иванович</span></div>
+                            <div class="bkt-contents__answer"><span>{{lot.arbitrManagerName}}</span></div>
                         </li>
                         <li>
                             <div class="bkt-contents__heading">
@@ -857,9 +1045,124 @@
                     </ul>
                 </div>
             </div>
-            <div class="col-12 col-md-12">
+            <div class="col-12 col-lg-12 order-3">
                 <div class="bkt-card bkt-card__body">
-                    <h3 class="bkt-card__title">Документы по торгам <span class="bkt-text-blue">(6)</span></h3>
+                    <div class="bkt-wrapper-between bkt-nowrap">
+                        <h3 class="bkt-card__title">
+                            Документы по торгам <span class="bkt-text-blue">(6)</span>
+                        </h3>
+                        <button class="bkt-button-icon bkt-bg-body" data-bs-toggle="collapse"
+                                data-bs-target="#collapseDocuments" aria-expanded="false"
+                        >
+                            <bkt-icon :name="'ArrowDown'" class="bkt-button__icon"></bkt-icon>
+                        </button>
+                    </div>
+                    <div class="collapse show" id="collapseDocuments">
+                        <div class="row w-100 g-2 align-items-stretch mx-auto">
+                            <div class="col-12 col-md-6">
+                                <div class="row bkt-row outline align-items-start bkt-nowrap">
+                                    <div class="col p-0" style="max-width: 28px;">
+                                        <bkt-icon name="Note" color="red" width="16px" height="16px"
+                                                  class="d-flex"></bkt-icon>
+                                    </div>
+                                    <div class="col-7 col-md-8 px-1">
+                                        <h6>728-732</h6>
+                                    </div>
+                                    <div class="col p-0">
+                                        <h6 class="bkt-text-blue">jpg</h6>
+                                    </div>
+                                    <div class="col p-0">
+                                        <h6 class="bkt-text-neutral-dark">23.1 Mb</h6>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <div class="row bkt-row outline align-items-start bkt-nowrap">
+                                    <div class="col p-0" style="max-width: 28px;">
+                                        <bkt-icon name="Note" color="red" width="16px" height="16px"
+                                                  class="d-flex"></bkt-icon>
+                                    </div>
+                                    <div class="col-7 col-md-8 px-1">
+                                        <h6>7 этаж</h6>
+                                    </div>
+                                    <div class="col p-0">
+                                        <h6 class="bkt-text-blue">pdf</h6>
+                                    </div>
+                                    <div class="col p-0">
+                                        <h6 class="bkt-text-neutral-dark">0.71 Mb</h6>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <div class="row bkt-row outline align-items-start bkt-nowrap">
+                                    <div class="col p-0" style="max-width: 28px;">
+                                        <bkt-icon name="Note" color="red" width="16px" height="16px"
+                                                  class="d-flex"></bkt-icon>
+                                    </div>
+                                    <div class="col-7 col-md-8 px-1">
+                                        <h6>Справка БТИ о состоянии здания от 28.07.2021</h6>
+                                    </div>
+                                    <div class="col p-0">
+                                        <h6 class="bkt-text-blue">pdf</h6>
+                                    </div>
+                                    <div class="col p-0">
+                                        <h6 class="bkt-text-neutral-dark">46.6 Mb</h6>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <div class="row bkt-row outline align-items-start bkt-nowrap">
+                                    <div class="col p-0" style="max-width: 28px;">
+                                        <bkt-icon name="Note" color="red" width="16px" height="16px"
+                                                  class="d-flex"></bkt-icon>
+                                    </div>
+                                    <div class="col-7 col-md-8 px-1">
+                                        <h6>Св-во оперативного управления</h6>
+                                    </div>
+                                    <div class="col p-0">
+                                        <h6 class="bkt-text-blue">pdf</h6>
+                                    </div>
+                                    <div class="col p-0">
+                                        <h6 class="bkt-text-neutral-dark">147.21 Mb</h6>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <div class="row bkt-row outline align-items-start bkt-nowrap">
+                                    <div class="col p-0" style="max-width: 28px;">
+                                        <bkt-icon name="Note" color="red" width="16px" height="16px"
+                                                  class="d-flex"></bkt-icon>
+                                    </div>
+                                    <div class="col-7 col-md-8 px-1">
+                                        <h6>Выписка ЕГРН</h6>
+                                    </div>
+                                    <div class="col p-0">
+                                        <h6 class="bkt-text-blue">pdf</h6>
+                                    </div>
+                                    <div class="col p-0">
+                                        <h6 class="bkt-text-neutral-dark">22.47 Mb</h6>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <div class="row bkt-row outline align-items-start bkt-nowrap">
+                                    <div class="col p-0" style="max-width: 28px;">
+                                        <bkt-icon name="Note" color="red" width="16px" height="16px"
+                                                  class="d-flex"></bkt-icon>
+                                    </div>
+                                    <div class="col-7 col-md-8 px-1">
+                                        <h6>Аукционная документация Лот № 3</h6>
+                                    </div>
+                                    <div class="col p-0">
+                                        <h6 class="bkt-text-blue">pdf</h6>
+                                    </div>
+                                    <div class="col p-0">
+                                        <h6 class="bkt-text-neutral-dark">4.02 Mb</h6>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -873,15 +1176,59 @@
         Navigation as HooperNavigation
     } from 'hooper';
     import 'hooper/dist/hooper.css';
+    import StarRating from 'vue-star-rating'
 
     export default {
         name: "LotCard",
-        props: ['item'],
         components: {
             Hooper,
             Slide,
-            HooperNavigation
+            HooperNavigation,
+            StarRating
         },
+        data() {
+            return {
+                loading: false,
+                lot: '',
+            };
+        },
+        computed: {
+            trades: function () {
+                return this.$store.getters.trades;
+            },
+            auth_user: function () {
+                return this.$store.getters.auth_user;
+            },
+        },
+        mounted() {
+           this.getLot();
+        },
+        methods: {
+            goBack() {
+                window.history.length > 1 ? this.$router.go(-1) : this.$router.push('/')
+            },
+            async getLot() {
+                this.loading = true;
+                if (this.trades.length > 0) {
+                    let trade = this.trades.findIndex(item => item.id == this.$route.params.id);
+                    if (trade >= 0) {
+                        this.lot = JSON.parse(JSON.stringify(this.trades[trade]));
+                    }
+                    this.loading = false;
+                }
+                else {
+                    await this.$store.dispatch('getTradeLot', this.$route.params.id)
+                        .then(resp => {
+                            this.lot = resp.data;
+                            this.loading = false;
+                        })
+                        .catch(error => {
+                            this.loading = false;
+                        });
+
+                }
+            }
+        }
     }
 </script>
 

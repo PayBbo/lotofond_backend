@@ -2,10 +2,9 @@
     <svg version="1.0" xmlns="http://www.w3.org/2000/svg"
          viewBox="0 0 512.000000 512.000000"
          preserveAspectRatio="xMidYMid meet"
-         :width="width" :height="height"
+         :width="width" :height="height" :class="'bkt-fill-'+color"
     >
-        <g transform="translate(0.000000,512.000000) scale(0.100000,-0.100000)"
-           :fill="fill" :stroke="stroke">
+        <g transform="translate(0.000000,512.000000) scale(0.100000,-0.100000)">
             <path d="M1891 5110 c-288 -41 -545 -170 -751 -379 -185 -187 -286 -370 -353
                 -641 -21 -83 -21 -107 -25 -1220 -3 -1185 -1 -1260 40 -1450 103 -477 405
                 -902 820 -1154 667 -405 1497 -341 2100 161 292 243 514 613 596 993 41 188
@@ -29,21 +28,17 @@
     export default {
         name: "Clip",
         props: {
-            fill:{
-                type:String,
-                default:'#fff'
+            color: {
+                type: String,
+                default: 'white'
             },
-            stroke:{
-                type:String,
-                default:'none'
+            width: {
+                type: String,
+                default: '100%'
             },
-            width:{
-                type:String,
-                default:'100%'
-            },
-            height:{
-                type:String,
-                default:'100%'
+            height: {
+                type: String,
+                default: '100%'
             },
         }
     }
