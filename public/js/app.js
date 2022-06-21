@@ -9036,7 +9036,7 @@ vue__WEBPACK_IMPORTED_MODULE_1__["default"].use(vuex__WEBPACK_IMPORTED_MODULE_2_
                 dispatch = _ref2.dispatch, commit = _ref2.commit;
                 _context2.next = 3;
                 return axios__WEBPACK_IMPORTED_MODULE_0___default().post('/api/registration', payload).then(function (resp) {
-                  commit('setUser', data);
+                  commit('setUser', payload);
                   commit('closeModal', '#authModal');
                   commit('openModal', '#codeModal');
                 })["catch"](function (error) {

@@ -75,7 +75,7 @@ export default {
         async registration({dispatch, commit}, payload) {
             await axios.post('/api/registration', payload)
                 .then(resp => {
-                   commit('setUser', data);
+                   commit('setUser', payload);
                     commit('closeModal', '#authModal');
                     commit('openModal', '#codeModal');
                 })
