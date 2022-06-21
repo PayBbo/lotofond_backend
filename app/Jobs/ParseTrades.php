@@ -2,13 +2,12 @@
 
 namespace App\Jobs;
 
-use App\Http\Services\GetTradeMessageContent;
-use App\Http\Services\SoapWrapperService;
+use App\Http\Services\Parse\GetTradeMessageContent;
+use App\Http\Services\Parse\SoapWrapperService;
 use App\Models\TradePlace;
 use Artisaninweb\SoapWrapper\SoapWrapper;
 use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;

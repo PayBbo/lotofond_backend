@@ -1,9 +1,8 @@
 <?php
 
-namespace App\Http\Services;
+namespace App\Http\Services\Parse;
 
 use Artisaninweb\SoapWrapper\SoapWrapper;
-use Carbon\Carbon;
 
 class SoapWrapperService
 {

@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Status;
+use App\Models\Type;
 use Illuminate\Database\Seeder;
 
 class StatusSeeder extends Seeder
@@ -33,6 +34,18 @@ class StatusSeeder extends Seeder
                 'title'=>$type['title'],
                 'code'=>$type['code'],
                 'value'=>$type['value']
+            ]);
+        }
+
+        $bidder_types = [
+            'arbitr_manager',
+            'trade_organizer',
+            'debtor',
+            'participant'
+        ];
+        foreach ($bidder_types as $bidder_type){
+            Type::create([
+                'title'=>$bidder_type
             ]);
         }
     }

@@ -2,13 +2,11 @@
 
 namespace App\Jobs;
 
-use App\Http\Services\SoapWrapperService;
-use App\Models\ArbitrManager;
-use App\Models\Region;
+use App\Http\Services\Parse\BidderService;
+use App\Http\Services\Parse\SoapWrapperService;
 use Artisaninweb\SoapWrapper\SoapWrapper;
 use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
@@ -39,41 +37,23 @@ class ParseArbitrManager implements ShouldQueue
         $soapWrapper = new SoapWrapper();
         $service = new SoapWrapperService($soapWrapper);
         $managers = get_object_vars($service->getArbitrManagerRegister($startFrom));
-        foreach ($managers as $value) {
-            foreach ($value as $person) {
-                try {
-                    if (ArbitrManager::where('arbitr_manager_id', $person->ArbitrManagerID)->exists()) {
-                        $manager = ArbitrManager::where('arbitr_manager_id', $person->ArbitrManagerID)->first();
-                        if ($manager->date_of_last_modifier == $person->DateLastModif) {
-                            continue;
-                        }
-                    } else {
-                        $manager = new ArbitrManager();
-                    }
-                    $region = Region::where('title', $person->Region)->first();
-                    if (!$region) {
-                        $region = Region::create(['title' => $person->Region]);
-                    }
-
-                    /* $name = $person->LastName . ' ' . $person->FirstName . ' ' . $person->MiddleName;
-                      if (array_key_exists('MiddleName', $person)) {
-                         $name .= ' ' . $person->MiddleName;
-                     }*/
-
-                    $manager->arbitr_manager_id = $person->ArbitrManagerID;
-                    $manager->name = $person->LastName . ' ' . $person->FirstName . ' ' . $person->MiddleName;
-                    $manager->inn = $person->INN; //array_key_exists('INN', $person) ? $person->INN : NULL;
-                    $manager->reg_num = array_key_exists('RegNum', $person) ? $person->RegNum : NULL;
-                    $manager->sro_reg_num = array_key_exists('SRORegNum', $person) ? $person->SRORegNum : NULL;
-                    $manager->region_id = $region->id;
-                    $manager->ogrnip = array_key_exists('OGRNIP', $person) ? $person->OGRNIP : NULL;
-                    $manager->date_of_last_modifier = $person->DateLastModif;
-                    $manager->save();
-
-                } catch (\Exception $e) {
-                    logger('ParseArbitrManagerExc: ' . $e);
+        if(!array_key_exists('ArbitrManager', $managers)){
+            return;
+        }
+        foreach ($managers['ArbitrManager'] as $person) {
+            try {
+                $bidder = get_object_vars($person);
+                if (array_key_exists('INN', $bidder) && $bidder['INN'] != "" && !is_null($bidder['INN'])) {
+                    $bidderParse = new BidderService('arbitr_manager', $bidder['INN'], 'person');
+                    $bidderParse->saveBidder($bidder);
+                } else {
+                    continue;
                 }
+
+            } catch (\Exception $e) {
+                logger('ParseArbitrManagerExc: ' . $e);
             }
         }
+
     }
 }

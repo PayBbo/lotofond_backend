@@ -31,18 +31,22 @@ class CreateAuctionsTable extends Migration
             $table->dateTime('application_end_date');
             $table->dateTime('result_date')->nullable();
             $table->foreign('debtor_id')->references('id')
-                ->on('debtors')->cascadeOnDelete();
+                ->on('bidders')->cascadeOnDelete();
             $table->foreign('arbitr_manager_id')->references('id')
-                ->on('arbitr_managers')->nullOnDelete();
+                ->on('bidders')->cascadeOnDelete();
             $table->foreign('company_trade_organizer_id')->references('id')
-                ->on('company_trade_organizers')->nullOnDelete();
+                ->on('bidders')->cascadeOnDelete();
             $table->foreign('trade_place_id')->references('id')
-                ->on('trade_places')->nullOnDelete();
+                ->on('trade_places')->cascadeOnDelete();
             $table->foreign('auction_type_id')->references('id')
                 ->on('auction_types')->cascadeOnDelete();
             $table->enum('price_form', ['open', 'close']);
             $table->string('case_number')->nullable();
             $table->string('court')->nullable();
+            $table->string('base')->nullable();
+            $table->longText('rules')->nullable();
+            $table->dateTime('date_publish_smi')->nullable();
+            $table->dateTime('date_publish_efir')->nullable();
             $table->timestamps();
         });
         Schema::enableForeignKeyConstraints();

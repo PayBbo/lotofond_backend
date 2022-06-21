@@ -30,6 +30,6 @@ class DebtorCategory extends Model
 
     public function debtors()
     {
-        return $this->hasMany(Debtor::class);
+        return $this->hasMany(Bidder::class);
     }
 }

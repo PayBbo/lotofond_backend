@@ -1,16 +1,17 @@
 <?php
 
-namespace App\Http\Services;
+namespace App\Http\Services\Parse;
 
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 use Imagick;
 use Intervention\Image\Facades\Image;
-use RarArchive;
 use ZipArchive;
+use function logger;
+use function public_path;
 
 
-class GenerateImagesFromFiles
+class FilesService
 {
     public function getZipFiles($filename, $path, $s_path)
     {

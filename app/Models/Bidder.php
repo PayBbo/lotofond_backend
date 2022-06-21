@@ -5,10 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class ArbitrManager extends Model
+class Bidder extends Model
 {
     use HasFactory;
-
     /**
      * The attributes that are mass assignable.
      *
@@ -16,14 +15,23 @@ class ArbitrManager extends Model
      */
     protected $fillable = [
         'name',
+        'short_name',
         'inn',
+        'ogrn',
+        'ogrnip',
+        'snils',
+        'type',
+        'address',
+        'middle_name',
+        'last_name',
+        'phone',
+        'email',
+        'region_id',
+        'debtor_category_id',
         'reg_num',
         'sro_reg_num',
-        'ogrnip',
-        'region_id',
-        'arbitr_manager_id',
-        'date_of_last_modifier',
-        'sro_au_id'
+        'sro_au_id',
+        'reg_date'
     ];
 
     /**
@@ -34,14 +42,19 @@ class ArbitrManager extends Model
     protected $casts = [
         'id' => 'integer',
         'region_id' => 'integer',
-        'arbitr_manager_id'=>'integer',
-        'date_of_last_modifier' => 'datetime',
-        'sro_au_id'=> 'integer'
+        'debtor_category_id' => 'integer',
+        'reg_date' => 'datetime',
+        'sro_au_id' => 'integer',
     ];
 
     public function region()
     {
         return $this->belongsTo(Region::class);
+    }
+
+    public function debtorCategory()
+    {
+        return $this->belongsTo(DebtorCategory::class);
     }
 
     public function sroAu()
@@ -54,7 +67,7 @@ class ArbitrManager extends Model
         return $this->hasMany(Auction::class);
     }
 
-  /*  public function notifications()
+    public function notifications()
     {
         return $this->hasMany(Notification::class);
     }
@@ -62,5 +75,16 @@ class ArbitrManager extends Model
     public function registryNotifications()
     {
         return $this->hasMany(RegistryNotification::class);
-    }*/
+    }
+
+    public function types(){
+
+        return $this->belongsToMany(Type::class, 'bidder_types');
+    }
+
+    public function biddingParticipants(){
+
+        return $this->hasMany(BiddingParticipant::class);
+
+    }
 }

@@ -13,7 +13,9 @@ class TradeMessage extends Model
         'number',
         'lot_id',
         'value',
-        'date'
+        'date',
+        'param',
+        'param_type'
     ];
 
     protected $casts = [
@@ -25,4 +27,21 @@ class TradeMessage extends Model
     {
         return $this->belongsTo(Lot::class);
     }
+
+    public function lotFiles()
+    {
+        return $this->hasMany(LotFile::class);
+    }
+
+    public function lotApplications()
+    {
+        return $this->hasMany(LotApplication::class);
+    }
+
+    public function biddingResults()
+    {
+        return $this->hasMany(BiddingResult::class);
+    }
+
+
 }

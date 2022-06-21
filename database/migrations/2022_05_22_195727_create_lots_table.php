@@ -17,16 +17,21 @@ class CreateLotsTable extends Migration
         Schema::create('lots', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('number');
+            $table->string('cadastral_number')->nullable();
+            $table->boolean('is_parse_ecp')->default(false);
             $table->json('images')->nullable();
-            $table->bigInteger('price');
+            $table->bigInteger('start_price');
             $table->bigInteger('auction_step')->nullable();
             $table->boolean('is_step_rub')->default(true);
             $table->boolean('is_deposit_rub')->default(true);
             $table->bigInteger('deposit')->nullable();
             $table->longText('description')->nullable();
-            $table->boolean('is_ecp')->nullable();
-            $table->json('files')->nullable();
             $table->enum('price_state', ['up', 'low', 'hold'])->default('hold');
+            $table->json('price_reduction')->nullable();
+            $table->longText('concours')->nullable();
+            $table->longText('participants')->nullable();
+            $table->longText('payment_info')->nullable();
+            $table->longText('sale_agreement')->nullable();
             $table->unsignedBigInteger('status_id');
             $table->foreign('status_id')->references('id')
                 ->on('statuses')->cascadeOnDelete();

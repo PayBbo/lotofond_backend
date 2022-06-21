@@ -16,18 +16,23 @@ class Lot extends Model
      */
     protected $fillable = [
         'number',
+        'cadastral_number',
         'images',
-        'price',
+        'start_price',
         'auction_step',
         'is_step_rub',
         'deposit',
         'is_deposit_rub',
         'description',
-        'is_ecp',
-        'files',
         'status_id',
         'price_state',
-        'auction_id'
+        'auction_id',
+        'price_reduction',
+        'concours',
+        'participants',
+        'payment_info',
+        'sale_agreement',
+        'is_parse_ecp'
     ];
 
     /**
@@ -42,10 +47,10 @@ class Lot extends Model
         'auction_id' => 'integer',
         'auction_step' => 'integer',
         'deposit' => 'integer',
-        'is_ecp' => 'boolean',
+        'is_parse_ecp' => 'boolean',
         'is_auction_step_rub' => 'boolean',
         'is_deposit_rub' => 'boolean',
-        'files' => 'array',
+        'price_reduction' => 'array',
         'status_id' => 'integer',
     ];
 
@@ -120,11 +125,8 @@ class Lot extends Model
         return $this->morphMany(Note::class, 'item');
     }
 
-    public function shortDescription(){
-        $desc = substr($this->description, 0, 150);
-        $desc = rtrim($desc, "!,.-");
-        $desc = substr($desc, 0, strrpos($desc, ' '));
-        return $desc."… ";
-
+    public function lotFiles()
+    {
+        return $this->hasMany(LotFile::class);
     }
 }

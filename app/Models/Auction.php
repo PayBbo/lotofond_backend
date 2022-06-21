@@ -31,7 +31,11 @@ class Auction extends Model
         'application_end_date',
         'price_form',
         'case_number',
-        'court'
+        'court',
+        'base',
+        'rules',
+        'date_publish_smi',
+        'date_publish_efir'
     ];
 
     /**
@@ -51,17 +55,19 @@ class Auction extends Model
         'event_end_date'=>'datetime',
         'application_start_date'=>'datetime',
         'application_end_date'=>'datetime',
-        'result_date' =>'datetime'
+        'result_date' =>'datetime',
+        'date_publish_smi'=>'datetime',
+        'date_publish_efir'=>'datetime',
     ];
 
     public function debtor()
     {
-        return $this->belongsTo(Debtor::class, 'debtor_id');
+        return $this->belongsTo(Bidder::class, 'debtor_id');
     }
 
     public function arbitrManager()
     {
-        return $this->belongsTo(ArbitrManager::class, 'arbitr_manager_id');
+        return $this->belongsTo(Bidder::class, 'arbitr_manager_id');
     }
 
     public function tradePlace()
@@ -71,7 +77,7 @@ class Auction extends Model
 
     public function companyTradeOrganizer()
     {
-        return $this->belongsTo(CompanyTradeOrganizer::class, 'company_trade_organizer_id');
+        return $this->belongsTo(Bidder::class, 'company_trade_organizer_id');
     }
 
     public function auctionType()

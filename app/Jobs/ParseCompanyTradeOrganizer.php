@@ -2,12 +2,12 @@
 
 namespace App\Jobs;
 
-use App\Http\Services\SoapWrapperService;
+use App\Http\Services\Parse\BidderService;
+use App\Http\Services\Parse\SoapWrapperService;
 use App\Models\CompanyTradeOrganizer;
 use Artisaninweb\SoapWrapper\SoapWrapper;
 use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
@@ -34,32 +34,23 @@ class ParseCompanyTradeOrganizer implements ShouldQueue
      */
     public function handle()
     {
-        $startFrom = Carbon::now()->subHour()->format('Y-m-d\TH:i:s');
+        $startFrom = Carbon::now()->subDays(100)->format('Y-m-d\TH:i:s');
         $soapWrapper = new SoapWrapper();
         $service = new SoapWrapperService($soapWrapper);
         $organizers = get_object_vars($service->getCompanyTradeOrganizerRegister($startFrom));
-        foreach ($organizers as $value) {
-            foreach ($value as $person) {
-                try {
-                    if (CompanyTradeOrganizer::where('inn', $person->INN)->exists()) {
-                        $organizer = CompanyTradeOrganizer::where('inn', $person->INN)->first();
-                        if ($organizer->date_of_last_modifier == $person->DateLastModif) {
-                            continue;
-                        }
-                    } else {
-                        $organizer = new CompanyTradeOrganizer();
+        try {
+            if (array_key_exists('TradeOrganizer', $organizers)) {
+                foreach ( $organizers['TradeOrganizer'] as $company) {
+                    $bidder = get_object_vars($company);
+                    if (array_key_exists('INN', $bidder) && $bidder['INN'] != "" && !is_null($bidder['INN'])) {
+                        $bidderParse = new BidderService('trade_organizer', $bidder['INN'], 'company');
+                        $bidderParse->saveBidder($bidder);
                     }
-
-                    $organizer->name = $person->FullName;
-                    $organizer->short_name = $person->ShortName;
-                    $organizer->inn = $person->INN; //array_key_exists('INN', $person) ? $person->INN : NULL;
-                    $organizer->ogrn = $person->OGRN;//array_key_exists('OGRN', $person) ? $person->OGRN : NULL;
-                    $organizer->date_of_last_modifier = $person->DateLastModif;
-                    $organizer->save();
-                } catch (\Exception $e) {
-                    logger('ParseCompanyTradeOrganizerExc: ' . $e);
                 }
             }
+        } catch (\Exception $e) {
+            logger('ParseCompanyTradeOrganizerExc: ' . $e);
         }
+
     }
 }

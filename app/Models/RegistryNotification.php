@@ -35,7 +35,7 @@ class RegistryNotification extends Model
 
     public function debtor()
     {
-        return $this->belongsTo(Debtor::class, 'debtor_id');
+        return $this->belongsTo(Bidder::class, 'debtor_id');
     }
 
     public function registryNotificationType()

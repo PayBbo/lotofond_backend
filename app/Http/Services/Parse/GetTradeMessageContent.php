@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Http\Services;
+namespace App\Http\Services\Parse;
 
 use App\Models\ArbitrManager;
 use App\Models\Auction;
 use App\Models\AuctionType;
+use App\Models\Bidder;
 use App\Models\Category;
 use App\Models\CompanyTradeOrganizer;
-use App\Models\Debtor;
 use App\Models\Lot;
 use App\Models\SroAu;
 use App\Models\Status;
@@ -15,6 +15,8 @@ use App\Models\TradeMessage;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Storage;
 use Midnite81\Xml2Array\Xml2Array;
+use function App\Http\Services\mb_stripos;
+use function logger;
 
 class GetTradeMessageContent
 {
@@ -103,18 +105,18 @@ class GetTradeMessageContent
                 if (array_key_exists('MiddleName', $debtor[$prefix . 'DebtorPerson']['@attributes'])) {
                     $name .= ' ' . $debtor[$prefix . 'DebtorPerson']['@attributes']['MiddleName'];
                 }
-                $debtor_exists = Debtor::where('name', $name)->first();
+                $debtor_exists = Bidder::where('name', $name)->first();
                 if (!$debtor_exists) {
-                    $debtor_exists = new Debtor();
+                    $debtor_exists = new Bidder();
                     $debtor_exists->name = $name;
                     $debtor_exists->inn = array_key_exists('INN', $debtor[$prefix . 'DebtorPerson']['@attributes']) ? $debtor[$prefix . 'DebtorPerson']['@attributes']['INN'] : NULL;
                     $debtor_exists->save();
 
                 }
             } else {
-                $debtor_exists = Debtor::where('inn', $debtor[$prefix . 'DebtorCompany']['@attributes']['INN'])->first();
+                $debtor_exists = Bidder::where('inn', $debtor[$prefix . 'DebtorCompany']['@attributes']['INN'])->first();
                 if (!$debtor_exists) {
-                    $debtor_exists = new Debtor();
+                    $debtor_exists = new Bidder();
                     $debtor_exists->name = $debtor[$prefix . 'DebtorCompany']['@attributes']['FullName'];
                     $debtor_exists->short_name = $debtor[$prefix . 'DebtorCompany']['@attributes']['ShortName'];
                     $debtor_exists->inn = $debtor[$prefix . 'DebtorCompany']['@attributes']['INN'];
@@ -437,7 +439,7 @@ class GetTradeMessageContent
             Storage::disk('public')->put($path . '/' . $name_file,
                 base64_decode($invitation[$prefix . 'Attach'][$prefix . 'Blob']));
         }
-        $getImages = new GenerateImagesFromFiles();
+        $getImages = new FilesService();
         $dest = 'app\public\auction-files\auction-' . $auction->id . '\\' . Carbon::now()->format('d-m-Y-H-i');
         $files = null;
         if ($isImages) {

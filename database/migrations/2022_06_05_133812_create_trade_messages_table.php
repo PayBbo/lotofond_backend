@@ -22,6 +22,8 @@ class CreateTradeMessagesTable extends Migration
             $table->foreign('lot_id')->references('id')
                 ->on('lots')->cascadeOnDelete();
             $table->dateTime('date')->nullable();
+            $table->string('param')->nullable();
+            $table->string('param_type')->nullable();
             $table->timestamps();
         });
         Schema::enableForeignKeyConstraints();

@@ -2,13 +2,13 @@
 
 namespace App\Jobs;
 
-use App\Http\Services\SoapWrapperService;
+use App\Http\Services\Parse\BidderService;
+use App\Http\Services\Parse\SoapWrapperService;
 use App\Models\ArbitrManager;
 use App\Models\SroAu;
 use Artisaninweb\SoapWrapper\SoapWrapper;
 use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
@@ -39,8 +39,10 @@ class ParseSRORegister implements ShouldQueue
         $soapWrapper = new SoapWrapper();
         $service = new SoapWrapperService($soapWrapper);
         $sros = get_object_vars($service->getSroRegister($startFrom));
-        foreach ($sros as $value) {
-            foreach ($value as $sro) {
+        if (!array_key_exists('SRO', $sros)) {
+            return;
+        }
+            foreach ($sros['SRO'] as $sro) {
                 try {
                     if (SroAu::where('inn', $sro->INN)->exists()) {
                         $sro_au = SroAu::where('inn', $sro->INN)->first();
@@ -60,32 +62,32 @@ class ParseSRORegister implements ShouldQueue
                     if (is_null($sro->AMList)) {
                         continue;
                     }
-                    foreach (get_object_vars($sro->AMList) as $value)
-                        foreach ($value as $person) {
-                            if (ArbitrManager::where('arbitr_manager_id', $person->ArbitrManagerID)->exists()) {
-                                $manager = ArbitrManager::where('arbitr_manager_id', $person->ArbitrManagerID)->first();
-                                if ($manager->date_of_last_modifier == $person->DateLastModif) {
-                                    $manager->sro_au_id = $sro_au->id;
-                                    $manager->save();
-                                    continue;
+                    foreach (get_object_vars($sro->AMList)['ArbitrManager'] as $person) {
+                        try {
+                            $bidder = get_object_vars($person);
+                            if(gettype($bidder['DateAffiliations']->DateAffiliation) == 'object'){
+                                $date_exclude = $bidder['DateAffiliations']->DateAffiliation->DateExclude;
+                            }else{
+                                $date_exclude = $bidder['DateAffiliations']->DateAffiliation[count($bidder['DateAffiliations']->DateAffiliation)-1]->DateExclude;
+                            }
+                            if (is_null($date_exclude)) {
+                                if (array_key_exists('INN', $bidder) && $bidder['INN'] != "" && !is_null($bidder['INN'])) {
+                                    $bidderParse = new BidderService('arbitr_manager', $bidder['INN'], 'person');
+                                    $arb_manager = $bidderParse->saveBidder($bidder);
+                                    $arb_manager->sro_au_id = $sro_au->id;
+                                    $arb_manager->save();
                                 }
-                            } else {
-                                $manager = new ArbitrManager();
                             }
 
-                            $manager->arbitr_manager_id = $person->ArbitrManagerID;
-                            $manager->name = $person->LastName . ' ' . $person->FirstName . ' ' . $person->MiddleName;
-                            $manager->inn = $person->INN; //array_key_exists('INN', $person) ? $person->INN : NULL;
-                            $manager->reg_num = array_key_exists('RegNum', $person) ? $person->RegNum : NULL;
-                            $manager->sro_au_id = $sro_au->id;
-                            $manager->date_of_last_modifier = $person->DateLastModif;
-                            $manager->save();
-
+                        } catch (\Exception $e) {
+                            logger('ParseArbitrManagerExc: ' . $e);
                         }
+                    }
+
                 } catch (\Exception $e) {
                     logger('ParseSROExc: ' . $e);
                 }
             }
         }
-    }
+
 }

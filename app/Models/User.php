@@ -130,4 +130,9 @@ class User extends Authenticatable
 
     }
 
+    public function lotFiles()
+    {
+        return $this->hasMany(LotFile::class);
+    }
+
 }
