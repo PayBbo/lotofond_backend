@@ -242,7 +242,11 @@
                 data.grantType = this.grantType;
                 this.loading = true;
 
-                await this.$store.dispatch(this.tab, data)
+                await this.$store.dispatch(this.tab, data).then(resp => {
+                    this.loading = false;
+                }).catch(err => {
+                    this.loading = false;
+                });
 
                 // await axios
                 //     .post('/api/' + this.tab, data)

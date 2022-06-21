@@ -5556,7 +5556,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 data.grantType = _this.grantType;
                 _this.loading = true;
                 _context.next = 5;
-                return _this.$store.dispatch(_this.tab, data);
+                return _this.$store.dispatch(_this.tab, data).then(function (resp) {
+                  _this.loading = false;
+                })["catch"](function (err) {
+                  _this.loading = false;
+                });
 
               case 5:
               case "end":
@@ -8681,32 +8685,36 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var vee_validate__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vee-validate */ "./node_modules/vee-validate/dist/vee-validate.esm.js");
-/* harmony import */ var vee_validate_dist_rules__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vee-validate/dist/rules */ "./node_modules/vee-validate/dist/rules.js");
-/* harmony import */ var vee_validate_dist_locale_ru_json__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vee-validate/dist/locale/ru.json */ "./node_modules/vee-validate/dist/locale/ru.json");
-/* harmony import */ var vue_notification__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! vue-notification */ "./node_modules/vue-notification/dist/index.js");
-/* harmony import */ var vue_notification__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(vue_notification__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var vue_the_mask__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! vue-the-mask */ "./node_modules/vue-the-mask/dist/vue-the-mask.js");
-/* harmony import */ var vue_the_mask__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(vue_the_mask__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var vue_lazyload__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! vue-lazyload */ "./node_modules/vue-lazyload/vue-lazyload.esm.js");
-/* harmony import */ var vue_router__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! vue-router */ "./node_modules/vue-router/dist/vue-router.esm.js");
-/* harmony import */ var _routes__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./routes */ "./resources/js/routes.js");
-/* harmony import */ var _store_index_js__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./store/index.js */ "./resources/js/store/index.js");
-/* harmony import */ var _components_Card_vue__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./components/Card.vue */ "./resources/js/components/Card.vue");
-/* harmony import */ var _components_Icon_vue__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./components/Icon.vue */ "./resources/js/components/Icon.vue");
-/* harmony import */ var _components_Modal_vue__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./components/Modal.vue */ "./resources/js/components/Modal.vue");
-/* harmony import */ var _components_Pagination_vue__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./components/Pagination.vue */ "./resources/js/components/Pagination.vue");
-/* harmony import */ var _components_Input_vue__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./components/Input.vue */ "./resources/js/components/Input.vue");
-/* harmony import */ var _components_Textarea_vue__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./components/Textarea.vue */ "./resources/js/components/Textarea.vue");
-/* harmony import */ var _components_Checkbox_vue__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./components/Checkbox.vue */ "./resources/js/components/Checkbox.vue");
-/* harmony import */ var _components_CardList_vue__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./components/CardList.vue */ "./resources/js/components/CardList.vue");
-/* harmony import */ var _components_Header_vue__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./components/Header.vue */ "./resources/js/components/Header.vue");
-/* harmony import */ var _components_Footer_vue__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ./components/Footer.vue */ "./resources/js/components/Footer.vue");
-/* harmony import */ var _auth_AuthModal_vue__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ./auth/AuthModal.vue */ "./resources/js/auth/AuthModal.vue");
-/* harmony import */ var _auth_CodeModal_vue__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ./auth/CodeModal.vue */ "./resources/js/auth/CodeModal.vue");
-/* harmony import */ var _pages_Main_Main_vue__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! ./pages/Main/Main.vue */ "./resources/js/pages/Main/Main.vue");
-/* harmony import */ var _pages_LotCard_vue__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! ./pages/LotCard.vue */ "./resources/js/pages/LotCard.vue");
+/* harmony import */ var bootstrap__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! bootstrap */ "./node_modules/bootstrap/dist/js/bootstrap.esm.js");
+/* harmony import */ var vee_validate__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vee-validate */ "./node_modules/vee-validate/dist/vee-validate.esm.js");
+/* harmony import */ var vee_validate_dist_rules__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vee-validate/dist/rules */ "./node_modules/vee-validate/dist/rules.js");
+/* harmony import */ var vee_validate_dist_locale_ru_json__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! vee-validate/dist/locale/ru.json */ "./node_modules/vee-validate/dist/locale/ru.json");
+/* harmony import */ var vue_notification__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! vue-notification */ "./node_modules/vue-notification/dist/index.js");
+/* harmony import */ var vue_notification__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(vue_notification__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var vue_the_mask__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! vue-the-mask */ "./node_modules/vue-the-mask/dist/vue-the-mask.js");
+/* harmony import */ var vue_the_mask__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(vue_the_mask__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var vue_lazyload__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! vue-lazyload */ "./node_modules/vue-lazyload/vue-lazyload.esm.js");
+/* harmony import */ var vue_router__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! vue-router */ "./node_modules/vue-router/dist/vue-router.esm.js");
+/* harmony import */ var _routes__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./routes */ "./resources/js/routes.js");
+/* harmony import */ var _store_index_js__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./store/index.js */ "./resources/js/store/index.js");
+/* harmony import */ var _components_Card_vue__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./components/Card.vue */ "./resources/js/components/Card.vue");
+/* harmony import */ var _components_Icon_vue__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./components/Icon.vue */ "./resources/js/components/Icon.vue");
+/* harmony import */ var _components_Modal_vue__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./components/Modal.vue */ "./resources/js/components/Modal.vue");
+/* harmony import */ var _components_Pagination_vue__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./components/Pagination.vue */ "./resources/js/components/Pagination.vue");
+/* harmony import */ var _components_Input_vue__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./components/Input.vue */ "./resources/js/components/Input.vue");
+/* harmony import */ var _components_Textarea_vue__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./components/Textarea.vue */ "./resources/js/components/Textarea.vue");
+/* harmony import */ var _components_Checkbox_vue__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./components/Checkbox.vue */ "./resources/js/components/Checkbox.vue");
+/* harmony import */ var _components_CardList_vue__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./components/CardList.vue */ "./resources/js/components/CardList.vue");
+/* harmony import */ var _components_Header_vue__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ./components/Header.vue */ "./resources/js/components/Header.vue");
+/* harmony import */ var _components_Footer_vue__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ./components/Footer.vue */ "./resources/js/components/Footer.vue");
+/* harmony import */ var _auth_AuthModal_vue__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ./auth/AuthModal.vue */ "./resources/js/auth/AuthModal.vue");
+/* harmony import */ var _auth_CodeModal_vue__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! ./auth/CodeModal.vue */ "./resources/js/auth/CodeModal.vue");
+/* harmony import */ var _pages_Main_Main_vue__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! ./pages/Main/Main.vue */ "./resources/js/pages/Main/Main.vue");
+/* harmony import */ var _pages_LotCard_vue__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! ./pages/LotCard.vue */ "./resources/js/pages/LotCard.vue");
 __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
+
+ // import '@popperjs/core'
+// import 'bootstrap/dist/css/bootstrap.min.css'
 
 window.Vue = (__webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js")["default"]);
 var token = localStorage.getItem('token');
@@ -8718,13 +8726,13 @@ if (token) {
 
 
 
-Object.keys(vee_validate_dist_rules__WEBPACK_IMPORTED_MODULE_0__).forEach(function (rule) {
-  (0,vee_validate__WEBPACK_IMPORTED_MODULE_1__.extend)(rule, vee_validate_dist_rules__WEBPACK_IMPORTED_MODULE_0__[rule]);
+Object.keys(vee_validate_dist_rules__WEBPACK_IMPORTED_MODULE_1__).forEach(function (rule) {
+  (0,vee_validate__WEBPACK_IMPORTED_MODULE_2__.extend)(rule, vee_validate_dist_rules__WEBPACK_IMPORTED_MODULE_1__[rule]);
 });
-(0,vee_validate__WEBPACK_IMPORTED_MODULE_1__.localize)('ru', vee_validate_dist_locale_ru_json__WEBPACK_IMPORTED_MODULE_2__);
-Vue.component('ValidationProvider', vee_validate__WEBPACK_IMPORTED_MODULE_1__.ValidationProvider);
-Vue.component('ValidationObserver', vee_validate__WEBPACK_IMPORTED_MODULE_1__.ValidationObserver);
-(0,vee_validate__WEBPACK_IMPORTED_MODULE_1__.extend)('required_boolean', {
+(0,vee_validate__WEBPACK_IMPORTED_MODULE_2__.localize)('ru', vee_validate_dist_locale_ru_json__WEBPACK_IMPORTED_MODULE_3__);
+Vue.component('ValidationProvider', vee_validate__WEBPACK_IMPORTED_MODULE_2__.ValidationProvider);
+Vue.component('ValidationObserver', vee_validate__WEBPACK_IMPORTED_MODULE_2__.ValidationObserver);
+(0,vee_validate__WEBPACK_IMPORTED_MODULE_2__.extend)('required_boolean', {
   message: function message(field) {
     return 'Поле ' + field + '  обязательно для заполнения';
   },
@@ -8732,7 +8740,7 @@ Vue.component('ValidationObserver', vee_validate__WEBPACK_IMPORTED_MODULE_1__.Va
     return value == true;
   }
 });
-(0,vee_validate__WEBPACK_IMPORTED_MODULE_1__.extend)('phone', {
+(0,vee_validate__WEBPACK_IMPORTED_MODULE_2__.extend)('phone', {
   message: function message(field) {
     return 'Поле ' + field + ' должно быть верным номером телефона';
   },
@@ -8745,11 +8753,11 @@ Vue.component('ValidationObserver', vee_validate__WEBPACK_IMPORTED_MODULE_1__.Va
   }
 });
 
-Vue.use((vue_notification__WEBPACK_IMPORTED_MODULE_3___default()));
+Vue.use((vue_notification__WEBPACK_IMPORTED_MODULE_4___default()));
 
-Vue.use((vue_the_mask__WEBPACK_IMPORTED_MODULE_4___default()));
+Vue.use((vue_the_mask__WEBPACK_IMPORTED_MODULE_5___default()));
 
-Vue.use(vue_lazyload__WEBPACK_IMPORTED_MODULE_5__["default"], {
+Vue.use(vue_lazyload__WEBPACK_IMPORTED_MODULE_6__["default"], {
   preLoad: 1.3,
   error: "/images/card-image.jpg",
   loading: "/images/card-image.jpg",
@@ -8766,7 +8774,7 @@ Vue.use(__webpack_require__(/*! vue-moment */ "./node_modules/vue-moment/dist/vu
 });
 
 
-Vue.use(vue_router__WEBPACK_IMPORTED_MODULE_7__["default"]);
+Vue.use(vue_router__WEBPACK_IMPORTED_MODULE_8__["default"]);
 
 Vue.component("App", (__webpack_require__(/*! ./App.vue */ "./resources/js/App.vue")["default"]));
 
@@ -8783,21 +8791,21 @@ Vue.component("App", (__webpack_require__(/*! ./App.vue */ "./resources/js/App.v
 
 
 
-Vue.component('BktIcon', _components_Icon_vue__WEBPACK_IMPORTED_MODULE_10__["default"]);
-Vue.component('BktModal', _components_Modal_vue__WEBPACK_IMPORTED_MODULE_11__["default"]);
-Vue.component('BktInput', _components_Input_vue__WEBPACK_IMPORTED_MODULE_13__["default"]);
-Vue.component('BktTextarea', _components_Textarea_vue__WEBPACK_IMPORTED_MODULE_14__["default"]);
-Vue.component('BktCheckbox', _components_Checkbox_vue__WEBPACK_IMPORTED_MODULE_15__["default"]);
-Vue.component('BktCard', _components_Card_vue__WEBPACK_IMPORTED_MODULE_9__["default"]);
-Vue.component('BktAuthModal', _auth_AuthModal_vue__WEBPACK_IMPORTED_MODULE_19__["default"]);
-Vue.component('BktCodeModal', _auth_CodeModal_vue__WEBPACK_IMPORTED_MODULE_20__["default"]);
-Vue.component('BktPagination', _components_Pagination_vue__WEBPACK_IMPORTED_MODULE_12__["default"]);
-Vue.component('BktCardList', _components_CardList_vue__WEBPACK_IMPORTED_MODULE_16__["default"]);
-Vue.component('BktHeader', _components_Header_vue__WEBPACK_IMPORTED_MODULE_17__["default"]);
-Vue.component('BktFooter', _components_Footer_vue__WEBPACK_IMPORTED_MODULE_18__["default"]); //pages
+Vue.component('BktIcon', _components_Icon_vue__WEBPACK_IMPORTED_MODULE_11__["default"]);
+Vue.component('BktModal', _components_Modal_vue__WEBPACK_IMPORTED_MODULE_12__["default"]);
+Vue.component('BktInput', _components_Input_vue__WEBPACK_IMPORTED_MODULE_14__["default"]);
+Vue.component('BktTextarea', _components_Textarea_vue__WEBPACK_IMPORTED_MODULE_15__["default"]);
+Vue.component('BktCheckbox', _components_Checkbox_vue__WEBPACK_IMPORTED_MODULE_16__["default"]);
+Vue.component('BktCard', _components_Card_vue__WEBPACK_IMPORTED_MODULE_10__["default"]);
+Vue.component('BktAuthModal', _auth_AuthModal_vue__WEBPACK_IMPORTED_MODULE_20__["default"]);
+Vue.component('BktCodeModal', _auth_CodeModal_vue__WEBPACK_IMPORTED_MODULE_21__["default"]);
+Vue.component('BktPagination', _components_Pagination_vue__WEBPACK_IMPORTED_MODULE_13__["default"]);
+Vue.component('BktCardList', _components_CardList_vue__WEBPACK_IMPORTED_MODULE_17__["default"]);
+Vue.component('BktHeader', _components_Header_vue__WEBPACK_IMPORTED_MODULE_18__["default"]);
+Vue.component('BktFooter', _components_Footer_vue__WEBPACK_IMPORTED_MODULE_19__["default"]); //pages
 
-Vue.component('MainPage', _pages_Main_Main_vue__WEBPACK_IMPORTED_MODULE_21__["default"]);
-Vue.component('LotCardPage', _pages_LotCard_vue__WEBPACK_IMPORTED_MODULE_22__["default"]);
+Vue.component('MainPage', _pages_Main_Main_vue__WEBPACK_IMPORTED_MODULE_22__["default"]);
+Vue.component('LotCardPage', _pages_LotCard_vue__WEBPACK_IMPORTED_MODULE_23__["default"]);
 Vue.filter('priceFormat', function (value) {
   return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
 });
@@ -8808,8 +8816,8 @@ Vue.filter('daysToDate', function (value) {
 });
 var app = new Vue({
   el: "#app",
-  router: new vue_router__WEBPACK_IMPORTED_MODULE_7__["default"](_routes__WEBPACK_IMPORTED_MODULE_6__["default"]),
-  store: _store_index_js__WEBPACK_IMPORTED_MODULE_8__["default"]
+  router: new vue_router__WEBPACK_IMPORTED_MODULE_8__["default"](_routes__WEBPACK_IMPORTED_MODULE_7__["default"]),
+  store: _store_index_js__WEBPACK_IMPORTED_MODULE_9__["default"]
 }); // function loadLocale(code) {
 //     return import(`vee-validate/dist/locale/${code}.json`).then(locale => {
 //         localize(code, locale);
@@ -8821,16 +8829,16 @@ if (localStorage.getItem('locale')) {
 
   app.$moment.locale(localStorage.getItem('locale')); // loadLocale(localStorage.getItem('locale'));
 
-  (0,vee_validate__WEBPACK_IMPORTED_MODULE_1__.localize)(localStorage.getItem('locale'));
-  (0,vee_validate__WEBPACK_IMPORTED_MODULE_1__.localeChanged)();
+  (0,vee_validate__WEBPACK_IMPORTED_MODULE_2__.localize)(localStorage.getItem('locale'));
+  (0,vee_validate__WEBPACK_IMPORTED_MODULE_2__.localeChanged)();
 } else {
   axios.defaults.headers.common['Content-Language'] = 'ru';
   localStorage.setItem('locale', 'ru'); // app.$lang.setLocale('fr');
 
   app.$moment.locale('ru');
-  (0,vee_validate__WEBPACK_IMPORTED_MODULE_1__.localize)('ru'); // loadLocale('ru');
+  (0,vee_validate__WEBPACK_IMPORTED_MODULE_2__.localize)('ru'); // loadLocale('ru');
 
-  (0,vee_validate__WEBPACK_IMPORTED_MODULE_1__.localeChanged)();
+  (0,vee_validate__WEBPACK_IMPORTED_MODULE_2__.localeChanged)();
 }
 
 /***/ }),

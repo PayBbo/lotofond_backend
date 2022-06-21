@@ -1,4 +1,7 @@
 require('./bootstrap');
+import 'bootstrap'
+// import '@popperjs/core'
+// import 'bootstrap/dist/css/bootstrap.min.css'
 window.Vue = require("vue").default;
 const token = localStorage.getItem('token');
 if (token) {
