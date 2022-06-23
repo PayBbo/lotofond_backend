@@ -27,16 +27,14 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "Target",
   props: {
-    fill: {
+    color: {
       type: String,
-      "default": 'none'
-    },
-    stroke: {
-      type: String,
-      "default": 'none'
+      "default": 'white'
     },
     width: {
       type: String,
@@ -138,11 +136,13 @@ var render = function () {
   return _c(
     "svg",
     {
+      class: "bkt-stroke-" + _vm.color,
       attrs: {
         xmlns: "http://www.w3.org/2000/svg",
         width: _vm.width,
         height: _vm.height,
         viewBox: "0 0 24 24",
+        fill: "none",
       },
     },
     [
@@ -152,9 +152,7 @@ var render = function () {
             cx: "12",
             cy: "12",
             r: "9",
-            stroke: _vm.stroke,
             "stroke-width": "2px",
-            fill: _vm.fill,
             "stroke-linecap": "round",
             "stroke-linejoin": "round",
           },
@@ -162,7 +160,6 @@ var render = function () {
         _vm._v(" "),
         _c("line", {
           attrs: {
-            stroke: _vm.stroke,
             "stroke-width": "2px",
             x1: "12",
             y1: "1",
@@ -173,7 +170,6 @@ var render = function () {
         _vm._v(" "),
         _c("line", {
           attrs: {
-            stroke: _vm.stroke,
             "stroke-width": "2px",
             x1: "12",
             y1: "17",
@@ -184,7 +180,6 @@ var render = function () {
         _vm._v(" "),
         _c("line", {
           attrs: {
-            stroke: _vm.stroke,
             "stroke-width": "2px",
             x1: "1",
             y1: "12",
@@ -195,7 +190,6 @@ var render = function () {
         _vm._v(" "),
         _c("line", {
           attrs: {
-            stroke: _vm.stroke,
             "stroke-width": "2px",
             x1: "17",
             y1: "12",
@@ -206,7 +200,6 @@ var render = function () {
         _vm._v(" "),
         _c("line", {
           attrs: {
-            stroke: _vm.stroke,
             "stroke-width": "2px",
             x1: "12",
             y1: "12",

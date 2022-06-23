@@ -1,9 +1,10 @@
 <template>
     <svg version="1.0" xmlns="http://www.w3.org/2000/svg"
          :width="width" :height="height" viewBox="0 0 512.000000 512.000000"
-         preserveAspectRatio="xMidYMid meet">
-        <g transform="translate(0.000000,512.000000) scale(0.100000,-0.100000)"
-           :fill="fill"  :stroke="stroke">
+         preserveAspectRatio="xMidYMid meet"
+         :class="'bkt-fill-'+color"
+    >
+        <g transform="translate(0.000000,512.000000) scale(0.100000,-0.100000)">
             <path d="M2270 5100 c-411 -70 -738 -238 -1025 -525 -334 -333 -514 -746 -540
             -1235 -20 -369 100 -801 374 -1344 235 -465 535 -925 942 -1446 214 -274 404
             -498 448 -527 47 -32 135 -32 182 0 68 45 487 563 724 892 535 746 894 1452
@@ -28,13 +29,9 @@
     export default {
         name: "Location",
         props: {
-            fill:{
+            color:{
                 type:String,
-                default:'#ec4c27'
-            },
-            stroke:{
-                type:String,
-                default:'none'
+                default:'red'
             },
             width:{
                 type:String,

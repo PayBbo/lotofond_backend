@@ -22,9 +22,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "Pencil",
   props: {
-    fill: {
+    color: {
       type: String,
-      "default": '#fff'
+      "default": 'white'
     },
     stroke: {
       type: String,
@@ -130,10 +130,9 @@ var render = function () {
   return _c(
     "svg",
     {
+      class: "bkt-fill-" + _vm.color,
       attrs: {
         xmlns: "http://www.w3.org/2000/svg",
-        fill: _vm.fill,
-        stroke: _vm.stroke,
         width: _vm.width,
         height: _vm.height,
         viewBox: "0 0 512 512",

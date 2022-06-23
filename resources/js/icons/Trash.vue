@@ -1,6 +1,6 @@
 <template>
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" :fill="fill" :stroke="stroke" stroke-width="2"
-         stroke-linecap="round" stroke-linejoin="round" class="feather feather-trash-2"
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" :class="'bkt-stroke-'+color" stroke-width="2"
+         stroke-linecap="round" stroke-linejoin="round" fill="none"
          :width="width" :height="height"
     >
         <polyline points="3 6 5 6 21 6"></polyline>
@@ -14,13 +14,9 @@
     export default {
         name: "Trash",
         props: {
-            fill:{
+            color:{
                 type:String,
-                default:'none'
-            },
-            stroke:{
-                type:String,
-                default:'#ec4c27'
+                default:'red'
             },
             width:{
                 type:String,

@@ -50,35 +50,22 @@ class LotResource extends JsonResource
             'isHide' => auth()->check() ? $user->hiddenLots->contains($this->id) : false,
             'inMonitoring' => auth()->check() ? Monitoring::where(['user_id' => $user->id, 'lot_id' => $this->id])->exists() : false,
             'startPrice' => $this->start_price,
-            'stepPrice'=>[
-                'type'=> $this->is_step_rub ? 'rubles' : 'percent',
-                'value'=>$this->auction_step
+            'stepPrice' => [
+                'type' => $this->is_step_rub ? 'rubles' : 'percent',
+                'value' => $this->auction_step
             ],
-            'deposit'=>[
-                'type'=> $this->is_deposit_rub ? 'rubles' : 'percent',
-                'value'=>$this->deposit
+            'deposit' => [
+                'type' => $this->is_deposit_rub ? 'rubles' : 'percent',
+                'value' => $this->deposit
             ],
             'priceState' => $this->price_state,
-            'priceReduction'=>$this->price_reduction,
-            'currentPrice'=>$this->current_price,
-            'currentPriceState'=>$this->current_price_state,
-            'link'=> URL::to('/lot/'.$this->id),
-            'efrsbLink' => 'https://fedresurs.ru/bidding/'. $this->auction->guid
+            'priceReduction' => $this->price_reduction,
+            'currentPrice' => $this->current_price,
+            'currentPriceState' => $this->current_price_state,
+            'link' => URL::to('/lot/' . $this->id),
+            'efrsbLink' => 'https://fedresurs.ru/bidding/' . $this->auction->guid
         ];
     }
 
-    public static function collection($data)
-    {
-        if (is_a($data, \Illuminate\Pagination\AbstractPaginator::class)) {
-            $data->setCollection(
-                $data->getCollection()->map(function ($listing) {
-                    return new static($listing);
-                })
-            );
 
-            return $data;
-        }
-
-        return parent::collection($data);
-    }
 }

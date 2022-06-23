@@ -241,27 +241,34 @@
                 let data = JSON.parse(JSON.stringify(this.user));
                 data.grantType = this.grantType;
                 this.loading = true;
-                await axios
-                    .post('/api/' + this.tab, data)
-                    .then((resp) => {
-                        this.$store.commit('setUser', data);
-                        this.$store.commit('closeModal', '#authModal');
-                        if (this.tab == 'registration') {
-                            this.$store.commit('openModal', '#codeModal');
-                        }else {
-                            const token = resp.data.accessToken;
-                            const refreshToken = resp.data.refreshToken;
-                            localStorage.setItem('token', token);
-                            localStorage.setItem('refreshToken', refreshToken);
-                            axios.defaults.headers.common['Authorization'] =  "Bearer "+token;
-                            location.reload();
-                        }
 
-                        this.loading = false;
-                    })
-                    .catch(err => {
-                        this.loading = false;
-                    });
+                await this.$store.dispatch(this.tab, data).then(resp => {
+                    this.loading = false;
+                }).catch(err => {
+                    this.loading = false;
+                });
+
+                // await axios
+                //     .post('/api/' + this.tab, data)
+                //     .then((resp) => {
+                //         this.$store.commit('setUser', data);
+                //         this.$store.commit('closeModal', '#authModal');
+                //         if (this.tab == 'registration') {
+                //             this.$store.commit('openModal', '#codeModal');
+                //         }else {
+                //             const token = resp.data.accessToken;
+                //             const refreshToken = resp.data.refreshToken;
+                //             localStorage.setItem('token', token);
+                //             localStorage.setItem('refreshToken', refreshToken);
+                //             axios.defaults.headers.common['Authorization'] =  "Bearer "+token;
+                //             this.$store.commit('setAuthUser', data);
+                //         }
+                //
+                //         this.loading = false;
+                //     })
+                //     .catch(err => {
+                //         this.loading = false;
+                //     });
             }
         },
         directives: {mask}

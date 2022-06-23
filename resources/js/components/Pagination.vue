@@ -16,20 +16,19 @@
         >
             <li class="page-item page-item-control d-none d-sm-block" :class="{'disabled': !prevPageUrl}"
                 v-if="prevPageUrl || showDisabled">
-                <a class="page-link" href="#" aria-label="Previous" :tabindex="!prevPageUrl && -1"
+                <div class="page-link" aria-label="Previous" :tabindex="!prevPageUrl && -1"
                    @click.prevent=changePage(1)>
                     <svg fill="#ffc515" width="14" height="12" viewBox="0 0 14 12">
                         <path
                             d="M14 10.59L12.59 12L6.59 6L12.59 1.23266e-07L14 1.41L9.42 6L14 10.59ZM8 10.59L6.59 12L0.59 6L6.59 6.47803e-07L8 1.41L3.42 6L8 10.59Z"
                         ></path>
                     </svg>
-                </a>
+                </div>
             </li>
             <li class="page-item page-item-control" :class="{'disabled': !prevPageUrl}"
             >
-                <a
+                <div
                     class="page-link"
-                    href=""
                     @click.prevent="previousPage"
                 >
                     <svg
@@ -42,22 +41,21 @@
                             d="M8 1.42L3.42 6L8 10.59L6.59 12L0.59 6L6.59 1.23266e-07L8 1.42Z"
                         ></path>
                     </svg>
-                </a>
+                </div>
             </li>
             <li class="page-item" v-for="(page, key) in pageRange" :key="key"
                 :class="{ 'active': page == currentPage, 'dots': page == '...' }">
-                <a class="page-link" href="#" @click.prevent="changePage(page)">
+                <div class="page-link" @click.prevent="changePage(page)">
                     {{ page }}
-                </a>
+                </div>
             </li>
 
             <li
                 class="page-item page-item-control"
                 :class="{'disabled': !nextPageUrl}"
             >
-                <a
+                <div
                     class="page-link"
-                    href=""
                     @click.prevent="nextPage"
                 >
                     <svg
@@ -70,11 +68,11 @@
                             d="M0 10.5801L4.58 6.00012L0 1.41012L1.41 0.00012207L7.41 6.00012L1.41 12.0001L0 10.5801Z"
                         ></path>
                     </svg>
-                </a>
+                </div>
             </li>
             <li class="page-item page-item-control d-none d-sm-block" :class="{'disabled': !nextPageUrl}"
                 v-if="nextPageUrl || showDisabled">
-                <a class="page-link" href="#" aria-label="Next" :tabindex="!nextPageUrl && -1"
+                <div class="page-link" aria-label="Next" :tabindex="!nextPageUrl && -1"
                    @click.prevent=changePage(lastPage)>
                     <svg
                         fill="#ffc515"
@@ -86,7 +84,7 @@
                             d="M0 1.41012L1.41 0.00012207L7.41 6.00012L1.41 12.0001L0 10.5901L4.58 6.00012L0 1.41012ZM6 1.41012L7.41 0.00012207L13.41 6.00012L7.41 12.0001L6 10.5901L10.58 6.00012L6 1.41012Z"
                         ></path>
                     </svg>
-                </a>
+                </div>
             </li>
         </ul>
     </nav>
@@ -212,6 +210,7 @@
                 if (page === '...') {
                     return;
                 }
+                console.log('changePage pagination', page)
                 this.$emit("change-page", page);
             },
             previousPage() {

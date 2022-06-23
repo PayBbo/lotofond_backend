@@ -1,0 +1,581 @@
+.bkt-lot-card {
+    gap: 30px;
+
+    &-actions-nav {
+        & .bkt-trading-number {
+            font-size: 14px;
+            font-family: "Gilroy";
+            color: rgba(255, 255, 255, 0.4);
+            text-align: left;
+        }
+
+        & .bkt-actions {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin: 0;
+
+            & .bkt-button-icon {
+                width: 44px;
+                height: 44px;
+                border-radius: 15px;
+                padding: 12px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+
+                & .bkt-button__icon {
+                    max-width: 20px;
+                    max-height: 20px;
+                }
+            }
+        }
+
+    }
+
+    &-card {
+        .bkt-main &.bkt-card {
+            margin: 0;
+        }
+
+        & .bkt-card__row {
+            margin-top: 10px !important;
+            margin-bottom: 0 !important;
+        }
+
+        & .bkt-card-price {
+            font-size: 30px;
+            font-family: "Gilroy";
+            font-weight: 700;
+            padding: 18px 46px;
+            position: relative;
+            border-radius: 15px;
+            width: 320px;
+            height: 60px;
+            color: rgb(255, 255, 255);
+            line-height: 1;
+            text-align: left;
+
+            &-icon {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                position: absolute;
+                right: 10px;
+                top: 10px;
+                bottom: 10px;
+                border-radius: 10px;
+                width: 52px;
+                height: 40px;
+                text-align: center;
+                line-height: 1.2;
+                -webkit-box-shadow: 0px 11px 15px 0px rgba(13, 85, 21, 0.15);
+                box-shadow: 0px 11px 15px 0px rgba(13, 85, 21, 0.15);
+            }
+        }
+
+        & .bkt-card-menu {
+            background-color: $main-default;
+            width: 230px;
+            height: 386px;
+            border-radius: 13px 0 13px 13px;
+            padding: 25px;
+            top: 37px;
+
+            &::before {
+                position: absolute;
+                top: -10px;
+                right: 0;
+                content: "\A";
+                border-style: solid;
+                border-width: 10px 8px 0 0;
+                border-color: transparent $main-default transparent transparent;
+            }
+
+            & .bkt-card-menu-inner {
+                gap: 6px;
+                display: flex;
+                flex-direction: column;
+            }
+
+            & .bkt-button {
+                font-size: 12px;
+                padding: 15px;
+                width: 100%;
+                height: 44px;
+                border-radius: 13px;
+                text-align: left;
+                display: flex;
+                align-items: center;
+                position: relative;
+
+                & .info {
+                    position: absolute;
+                    background: $green-default;
+                    top: 18px;
+                    right: 15px;
+                    width: 7px;
+                    height: 7px;
+                    border-radius: 100%;
+                }
+
+                & .bkt-button__icon {
+                    max-width: 18px;
+                    max-height: 17px;
+                    margin-right: 12px;
+                }
+            }
+        }
+
+        & .bkt-card-menu-button {
+            width: 44px;
+            height: 44px;
+            padding: 12px;
+            border-radius: 10px;
+
+            & svg {
+                transform: rotate(90deg);
+            }
+        }
+
+        & .bkt-card__image-slider {
+            & .hooper-prev, & .hooper-next {
+                border-radius: 10px;
+                background-color: rgb(255, 255, 255);
+                width: 30px;
+                height: 30px;
+                display: flex;
+                padding: 7px;
+                align-items: center;
+                justify-content: center;
+
+                & svg {
+                    fill: $primary-default;
+                }
+            }
+
+            & .hooper-next {
+                right: 10px;
+            }
+
+            & .hooper-prev {
+                left: 10px;
+            }
+        }
+
+        & .bkt-card-image-wrapper {
+            gap: 25px;
+            display: flex;
+            flex-flow: column;
+        }
+
+        & .bkt-card-ecp-wrapper {
+            gap: 25px;
+            flex-wrap: nowrap;
+            margin-bottom: 25px;
+        }
+    }
+
+    &-tasks {
+        & .bkt-card__header {
+            & .bkt-card-periods {
+                gap: 10px;
+                display: flex;
+                flex-direction: column;
+            }
+
+            & .bkt-card-period {
+                margin: 0;
+                flex-wrap: nowrap;
+
+                & .bkt-card__category {
+                    height: 44px;
+                    margin-right: 15px;
+                    flex-shrink: 0;
+                }
+
+                & .bkt-card__category-icon {
+                    max-width: 16px;
+                    max-height: 16px;
+                }
+            }
+
+            & .bkt-platform-button {
+                border-width: 2px;
+                border-color: rgb(45, 50, 68, 0.051);
+                border-style: solid;
+                border-radius: 15px;
+                font-family: 'Gilroy', sans-serif;
+                //display: flex;
+                //align-items: center;
+                text-decoration: none;
+                cursor: pointer;
+                padding: 33px 40px;
+                width: 260px;
+                position: relative;
+
+                &-title {
+                    font-size: 14px;
+                    text-transform: uppercase;
+                    color: rgb(45, 50, 68);
+                    font-weight: 700;
+                    text-align: left;
+                }
+
+                &-subtitle {
+                    font-size: 12px;
+                    color: rgba(45, 50, 68, 0.4);
+                    text-align: left;
+                }
+
+                & svg {
+                    position: absolute;
+                    right: 29px;
+                    top: 45%;
+                    transform: rotate(270deg);
+                }
+            }
+        }
+
+        & .bkt-card__body {
+            & .bkt-card-period {
+                flex-wrap: nowrap;
+            }
+
+            & .bkt-card__category {
+                height: 44px;
+                min-height: 44px;
+                width: 44px;
+                margin-right: 15px;
+                flex-shrink: 0;
+            }
+
+            & .bkt-card__category-icon {
+                max-width: 16px;
+                max-height: 16px;
+            }
+
+            & .bkt-lot-card-task {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                width: 100%;
+                flex-wrap: wrap;
+                gap: 19px;
+
+                & .bkt-row {
+                    padding: 15px 30px;
+
+                    & .bkt-card__category {
+                        height: 40px;
+                        min-height: 40px;
+                        width: 40px;
+                        margin-right: 15px;
+                    }
+                }
+
+                & .bkt-button {
+                    padding: 0;
+                }
+            }
+        }
+    }
+
+    &-actual {
+        & .bkt-card__header {
+            & .bkt-button {
+                font-size: 12px;
+                font-family: 'Gilroy', sans-serif;
+                font-weight: 500;
+                color: rgb(45, 50, 68);
+                text-transform: uppercase;
+                line-height: 1.833;
+                text-align: left;
+                display: flex;
+                align-items: center;
+                text-decoration: none;
+                cursor: pointer;
+                padding: 0;
+
+                &__icon {
+                    max-width: 12px;
+                }
+            }
+        }
+    }
+
+    &-templates {
+        margin-bottom: 30px;
+
+        & .bkt-template-name {
+            display: flex;
+            flex-wrap: nowrap;
+
+            & .bkt-card__icon {
+                margin-right: 12px;
+            }
+        }
+    }
+
+    &-request {
+        //& .bkt-select__wrapper {
+        //    display: flex;
+        //    align-items: center;
+        //    justify-content: space-around;
+        //    width: 100%;
+        //    flex-wrap: wrap;
+        //
+        //    & .bkt-select {
+        //        max-width: 450px;
+        //        width: 100%;
+        //        flex-grow: 1;
+        //        margin-left: auto;
+        //    }
+        //
+        //    & .bkt-select__label {
+        //        flex-shrink: 0;
+        //        margin-right: auto;
+        //        flex-grow: 1;
+        //    }
+        //}
+        //
+        //& .bkt-input__wrapper {
+        //    display: flex;
+        //    align-items: center;
+        //    justify-content: space-around;
+        //    width: 100%;
+        //    flex-wrap: wrap;
+        //
+        //    & .bkt-input__group {
+        //        max-width: 450px;
+        //        width: 100%;
+        //        flex-grow: 1;
+        //        margin-left: auto;
+        //    }
+        //
+        //    & .bkt-input__label {
+        //        flex-shrink: 0;
+        //        margin-right: auto;
+        //        flex-grow: 1;
+        //    }
+        //
+        //    & .bkt-input-error {
+        //        flex-grow: 0;
+        //    }
+        //}
+        .bkt-lot-card-request-label {
+            font-size: 14px;
+            font-family: "Gilroy", sans-serif;
+            color: rgb(45, 50, 68);
+            font-weight: 600;
+            text-align: left;
+            margin-top: 30px;
+        }
+
+        .bkt-lot-card-request-actions {
+            & button {
+                flex-grow: 1;
+            }
+        }
+    }
+
+    &-sent-requests {
+        & .bkt-card__feature {
+            margin-top: 0;
+
+            & .bkt-card__title {
+                font-weight: 500;
+                font-size: 14px;
+            }
+
+            & .bkt-card__subtitle {
+                font-weight: 500;
+                font-size: 12px;
+                color: rgba(45, 50, 68, 0.4);
+            }
+        }
+    }
+
+    &-required-documents {
+        & .bkt-requred-document {
+            width: 100%;
+            display: flex;
+            flex-direction: row;
+            flex-wrap: nowrap;
+            flex-grow: 1;
+            gap: 19px;
+            align-items: center;
+
+            & .bkt-card__row {
+                align-items: center;
+
+                & .bkt-card__icon {
+                    max-width: 16px;
+                    max-height: 16px;
+                }
+            }
+
+            & .bkt-button {
+                padding: 0;
+            }
+        }
+    }
+
+    &-document-sets {
+
+    }
+
+    &-my-files {
+        & .bkt-card__feature {
+            margin-top: 0;
+
+            & .bkt-card__title {
+                font-weight: 500;
+                font-size: 12px;
+            }
+
+            & .bkt-card__subtitle {
+                font-weight: 500;
+                font-size: 12px;
+                color: rgba(45, 50, 68, 0.4);
+            }
+        }
+
+        & .bkt-card__row {
+            padding-right: 20px;
+
+            & .bkt-card__icon {
+                cursor: pointer;
+                flex-shrink: 0;
+                transform: rotate(90deg);
+                width: 12px;
+            }
+        }
+
+        & .bkt-button {
+            padding-right: 25px;
+            padding-left: 25px;
+        }
+    }
+
+    &-debtor {
+
+    }
+
+    &-completed-lots {
+        & .bkt-row {
+            padding: 15px;
+            border-width: 2px;
+            border-color: rgb(45, 50, 68, 0.051);
+            border-style: solid;
+            border-radius: 15px;
+            align-items: center;
+            justify-content: center;
+        }
+
+        //& .bkt-card__image {
+        //    max-height: 90px;
+        //    max-width: 138px;
+        //}
+    }
+
+    &-active-lots {
+
+    }
+
+    &-organizer {
+
+    }
+
+    &-arbitration-manager {
+
+    }
+
+    &-auction-documents {
+
+    }
+
+    @media screen and (max-width: 568px) {
+        .bkt-card-ecp-wrapper {
+            //gap: 20px;
+            width: 100%;
+
+            & .bkt-card-ecp {
+                font-size: 10px;
+                font-family: "Gilroy";
+                color: rgb(255, 255, 255);
+                font-weight: 700;
+                line-height: 1.2;
+                padding: 9px 15px;
+                border-radius: 10px;
+            }
+        }
+
+    }
+
+    @media screen and (max-width: 991px) {
+        .bkt-card-menu-button {
+            width: 32px !important;
+            height: 32px !important;
+            padding: 7px !important;
+        }
+    }
+
+    @media screen and (max-width: 1200px) {
+        .bkt-card-price {
+            font-size: 18px;
+            font-family: "Gilroy";
+            font-weight: 700;
+            padding: 15px 40px;
+            position: relative;
+            border-radius: 13px;
+            width: 230px;
+            height: 44px;
+            color: rgb(255, 255, 255);
+            line-height: 1;
+            text-align: center;
+
+            &-icon {
+                position: absolute;
+                right: 6px;
+                top: 6px;
+                bottom: 6px;
+                border-radius: 10px;
+                width: 46px;
+                height: 32px;
+                text-align: center;
+                line-height: 1.2;
+                -webkit-box-shadow: 0px 11px 15px 0px rgba(13, 85, 21, 0.15);
+                box-shadow: 0px 11px 15px 0px rgba(13, 85, 21, 0.15);
+
+            }
+        }
+    }
+    @media screen and (min-width: 1200px) {
+
+
+        .bkt-card__image-slider {
+            & .hooper-prev, & .hooper-next {
+                border-radius: 10px;
+                width: 30px;
+                height: 30px;
+                display: flex;
+                padding: 7px;
+                top: auto;
+                bottom: 15px;
+                transform: none;
+            }
+
+            & .hooper-next {
+                right: 15px;
+            }
+
+            & .hooper-prev {
+                right: 61px;
+                left: auto;
+            }
+        }
+
+    }
+}

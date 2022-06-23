@@ -187,6 +187,7 @@
             & .bkt-card-period {
                 margin-bottom: 15px;
                 margin-top: 15px;
+                flex-wrap: nowrap;
 
                 & h6 {
                     line-height: 18px;
@@ -196,6 +197,7 @@
                 & .bkt-card__category {
                     height: 56px;
                     margin-right: 15px;
+                    flex-shrink: 0;
                 }
 
                 & .bkt-card__category-icon {

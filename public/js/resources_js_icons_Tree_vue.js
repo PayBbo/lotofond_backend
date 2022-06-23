@@ -30,13 +30,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "Tree",
   props: {
-    fill: {
+    color: {
       type: String,
-      "default": 'none'
-    },
-    stroke: {
-      type: String,
-      "default": '#2fbb40'
+      "default": 'green'
     },
     width: {
       type: String,
@@ -204,6 +200,7 @@ var render = function () {
   return _c(
     "svg",
     {
+      class: "bkt-stroke-" + _vm.color,
       staticStyle: { "enable-background": "new 0 0 32 32" },
       attrs: {
         version: "1.1",
@@ -221,7 +218,6 @@ var render = function () {
       _c("path", {
         staticClass: "st0",
         attrs: {
-          stroke: _vm.stroke,
           d: "M22,13v-3c0-3.3-2.7-6-6-6h0c-3.3,0-6,2.7-6,6v3h0c-2.8,0-5,2.2-5,5v0c0,2.8,2.2,5,5,5h12c2.8,0,5-2.2,5-5v0 C27,15.2,24.8,13,22,13L22,13z",
         },
       }),
@@ -229,19 +225,18 @@ var render = function () {
       _c("path", {
         staticClass: "st0",
         attrs: {
-          stroke: _vm.stroke,
           d: "M16,30v-8.7c0-1.4-0.7-2.8-1.9-3.6l0,0c-0.7-0.5-1.5-0.7-2.4-0.7H10",
         },
       }),
       _vm._v(" "),
       _c("line", {
         staticClass: "st0",
-        attrs: { stroke: _vm.stroke, x1: "16", y1: "9", x2: "16", y2: "19" },
+        attrs: { x1: "16", y1: "9", x2: "16", y2: "19" },
       }),
       _vm._v(" "),
       _c("path", {
         staticClass: "st0",
-        attrs: { stroke: _vm.stroke, d: "M16,20h0.4c2.3,0,4.4-1.1,5.6-3l0,0" },
+        attrs: { d: "M16,20h0.4c2.3,0,4.4-1.1,5.6-3l0,0" },
       }),
     ]
   )

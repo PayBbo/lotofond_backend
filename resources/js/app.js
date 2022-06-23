@@ -1,11 +1,13 @@
 require('./bootstrap');
-
+import 'bootstrap'
+// import '@popperjs/core'
+// import 'bootstrap/dist/css/bootstrap.min.css'
 window.Vue = require("vue").default;
 const token = localStorage.getItem('token');
 if (token) {
     axios.defaults.headers.common['Authorization'] = "Bearer "+token;
 }
-import {ValidationProvider, extend, ValidationObserver, localize} from 'vee-validate';
+import {ValidationProvider, extend, ValidationObserver, localize, localeChanged} from 'vee-validate';
 import * as rules from 'vee-validate/dist/rules';
 import ru from 'vee-validate/dist/locale/ru.json';
 Object.keys(rules).forEach(rule => {
@@ -33,16 +35,25 @@ import Notifications from 'vue-notification';
 Vue.use(Notifications);
 import VueTheMask from 'vue-the-mask'
 Vue.use(VueTheMask);
+import VueLazyload from 'vue-lazyload'
+Vue.use(VueLazyload, {
+    preLoad: 1.3,
+    error: "/images/card-image.jpg",
+    loading: "/images/card-image.jpg",
+    attempt: 1
+});
 const moment = require('moment');
 require('moment/locale/ru');
 moment.locale('ru');
 Vue.use(require('vue-moment'), {
     moment
 });
-
+import VueRouter from 'vue-router';
+import routes from './routes';
+Vue.use(VueRouter);
 import store from './store/index.js';
 
-
+Vue.component("App", require("./App.vue").default);
 import Card from "./components/Card.vue";
 import Icon from "./components/Icon.vue";
 import Modal from "./components/Modal.vue";
@@ -52,6 +63,7 @@ import Textarea from "./components/Textarea.vue";
 import Checkbox from "./components/Checkbox.vue";
 import CardList from "./components/CardList.vue";
 import Header from "./components/Header.vue";
+import Footer from "./components/Footer.vue";
 
 import BktAuthModal from "./auth/AuthModal.vue";
 import BktCodeModal from "./auth/CodeModal.vue";
@@ -69,11 +81,46 @@ Vue.component('BktCodeModal', BktCodeModal);
 Vue.component('BktPagination', Pagination);
 Vue.component('BktCardList', CardList);
 Vue.component('BktHeader', Header);
+Vue.component('BktFooter', Footer);
 
 //pages
 Vue.component('MainPage', Main);
 Vue.component('LotCardPage', LotCard);
+
+Vue.filter('priceFormat', value => {
+    return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+});
+Vue.filter('daysToDate', value => {
+    const start = moment(value, "DD.MM.YYYY HH:mm");
+    const end = moment();
+    return start.diff(end, "days");
+});
+
 const app = new Vue({
     el: "#app",
+    router: new VueRouter(routes),
     store
 });
+
+// function loadLocale(code) {
+//     return import(`vee-validate/dist/locale/${code}.json`).then(locale => {
+//         localize(code, locale);
+//     });
+// }
+if (localStorage.getItem('locale')) {
+    axios.defaults.headers.common['Content-Language'] = localStorage.getItem('locale');
+    // app.$lang.setLocale(localStorage.getItem('locale'));
+    app.$moment.locale(localStorage.getItem('locale'));
+    // loadLocale(localStorage.getItem('locale'));
+    localize(localStorage.getItem('locale'));
+    localeChanged();
+} else {
+    axios.defaults.headers.common['Content-Language'] = 'ru';
+    localStorage.setItem('locale', 'ru');
+    // app.$lang.setLocale('fr');
+    app.$moment.locale('ru');
+    localize('ru');
+    // loadLocale('ru');
+    localeChanged();
+}
+

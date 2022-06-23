@@ -32,9 +32,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "ArrowTriple",
   props: {
-    fill: {
+    color: {
       type: String,
-      "default": '#ffc515'
+      "default": 'yellow'
     },
     width: {
       type: String,
@@ -136,12 +136,12 @@ var render = function () {
   return _c(
     "svg",
     {
+      class: "bkt-fill-" + _vm.color,
       attrs: {
         xmlns: "http://www.w3.org/2000/svg",
         viewBox: "0 0 225.6 496.9",
         width: _vm.width,
         height: _vm.height,
-        fill: _vm.fill,
       },
     },
     [

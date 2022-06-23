@@ -1,6 +1,6 @@
 <template>
     <ValidationProvider :name="label" :rules="rules" v-slot="{ errors }" tag="div" class="bkt-input__wrapper" :vid="name">
-        <label :for="name" class="bkt-input__label">{{ label }}</label>
+        <label :for="name" class="bkt-input__label" :class="label_class">{{ label }}</label>
         <div class="bkt-input__group">
             <input
                 :type="type"
@@ -46,6 +46,9 @@
             label: {
                 type: String,
                 required: true,
+            },
+            label_class: {
+                type: String,
             },
             placeholder: {
                 type: String,

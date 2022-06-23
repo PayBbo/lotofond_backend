@@ -1,10 +1,11 @@
 <template>
     <svg version="1.0" xmlns="http://www.w3.org/2000/svg"
          :width="width" :height="height" viewBox="0 0 512.000000 512.000000"
-         preserveAspectRatio="xMidYMid meet">
+         preserveAspectRatio="xMidYMid meet"
+         :class="'bkt-fill-'+color"
+    >
 
-        <g transform="translate(0.000000,512.000000) scale(0.100000,-0.100000)"
-           :fill="fill" stroke="none">
+        <g transform="translate(0.000000,512.000000) scale(0.100000,-0.100000)">
             <path d="M368 5061 c-147 -47 -269 -172 -312 -320 -14 -48 -16 -142 -16 -742
 0 -646 1 -691 19 -748 49 -157 191 -288 348 -321 31 -7 294 -10 748 -8 l700 3
 58 23 c126 51 231 159 279 287 22 60 23 63 26 725 2 460 0 685 -8 730 -31 180
@@ -40,13 +41,9 @@ m1415 -357 c67 -31 65 -14 65 -703 0 -682 1 -675 -59 -706 -27 -14 -103 -15
     export default {
         name: "Category",
         props: {
-            fill: {
+            color: {
                 type: String,
-                default: '#fff'
-            },
-            stroke: {
-                type: String,
-                default: 'none'
+                default: 'white'
             },
             width: {
                 type: String,

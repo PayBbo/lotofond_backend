@@ -23,7 +23,7 @@
             </slot>
             <slot name="pagination" v-if="!no_pagination && items">
                 <bkt-pagination
-                    :limit="3"
+                    :limit="1"
                     :data="pagination_data"
                     @change-page="changePage"
                 ></bkt-pagination>
@@ -90,6 +90,7 @@
         },
         methods: {
             changePage(page) {
+                console.log('changePage card-list', page)
                 this.$emit('change-page', page)
             }
         }

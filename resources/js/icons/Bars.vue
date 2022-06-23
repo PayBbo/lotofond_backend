@@ -1,5 +1,5 @@
 <template>
-    <svg xmlns="http://www.w3.org/2000/svg" :width="width" :height="height" :fill="fill" viewBox="0 0 512 507.98">
+    <svg xmlns="http://www.w3.org/2000/svg" :width="width" :height="height" :class="'bkt-fill-'+color" viewBox="0 0 512 507.98">
         <path
             d="M657,655H529.34v-5.6q0-227.4,0-454.79c0-19.29,7.42-34.35,25.15-43a39.47,39.47,0,0,1,15.76-4.11c16.13-.43,32.36-.89,48.41.39,19.59,1.57,34,16.24,37.55,35.8A17,17,0,0,0,657,186Z"
             transform="translate(-145 -147.02)"/>
@@ -16,13 +16,9 @@
     export default {
         name: "Bars",
         props: {
-            fill:{
+            color:{
                 type:String,
-                default:'#2953ff'
-            },
-            stroke:{
-                type:String,
-                default:'none'
+                default:'primary'
             },
             width:{
                 type:String,

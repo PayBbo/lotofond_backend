@@ -2,9 +2,11 @@
     <div class="bkt-card-trade bkt-card__row w-100 mx-auto mx-0">
         <div class="bkt-wrapper-between bkt-card__heading w-100">
             <h5>торги № {{item && item.tradingNumber ? item.tradingNumber : '0'}}</h5>
-            <h5>до окончания более {{item && item.beforeEnd ? item.beforeEnd : '0'}} дней
+            <h5>до окончания более
+                <span v-if="item.resultDate">{{ [item.resultDate, "DD.MM.YYYY HH:mm"] | daysToDate }} дней</span>
+                <span v-else>0 дней</span>
                 <span class="bkt-card__icon d-inline-block">
-                    <bkt-icon :name="'Alarm'" :fill="'#2fbb40'" :width="'14px'" :height="'14px'"></bkt-icon>
+                    <bkt-icon :name="'Alarm'" :color="'green'" :width="'14px'" :height="'14px'"></bkt-icon>
                 </span>
             </h5>
         </div>
@@ -14,13 +16,13 @@
                     <div class="bkt-card-image-wrapper">
                         <hooper :itemsToShow="1" :centerMode="true" class="bkt-card__image-slider">
                             <slide>
-                                <img src="/images/card-image.jpg" class="bkt-card__image"/>
+                                <img v-lazy="'/images/card-image.jpg'" class="bkt-card__image"/>
                             </slide>
                             <slide>
-                                <img src="/images/card-image.jpg" class="bkt-card__image"/>
+                                <img v-lazy="'/images/card-image.jpg'" class="bkt-card__image"/>
                             </slide>
                             <slide>
-                                <img src="/images/card-image.jpg" class="bkt-card__image"/>
+                                <img v-lazy="'/images/card-image.jpg'" class="bkt-card__image"/>
                             </slide>
                             <hooper-navigation slot="hooper-addons"></hooper-navigation>
                         </hooper>
@@ -43,8 +45,10 @@
                     </div>
                 </div>
                 <div class="col-12 col-md-12 col-lg-4 p-0 p-sm-2 order-1 order-lg-2">
-                    <div class="bkt-wrapper-between bkt-card__head text-truncate bkt-nowrap">
-                        <a class="bkt-card__title text-truncate" :href="'/lot'">{{item && item.label ? item.label:'Некоторое название торгов'}}</a>
+                    <div class="bkt-wrapper-between bkt-card__head bkt-nowrap">
+                        <a class="bkt-card__title bkt-text-truncate" :href="'/lot/'+item.lotId">
+                            {{item && item.label ? item.label:'Некоторое название торгов'}}
+                        </a>
                         <div class="dropdown d-block d-lg-none">
                             <button class="bkt-button bkt-bg-primary-lighter bkt-card-menu-button" type="button"
                                     id="dropdownMenuClickableOutside" data-bs-toggle="dropdown" data-bs-offset="10,20" data-bs-display="static"
@@ -56,28 +60,28 @@
                             >
                                 <div class="bkt-card-menu-inner">
                                     <button class="bkt-button main-light">
-                                        <bkt-icon class="bkt-button__icon" :name="'Eye'" :stroke="'#2953ff'"></bkt-icon>
+                                        <bkt-icon class="bkt-button__icon" :name="'Eye'" :color="'primary'"></bkt-icon>
                                         Инфо о должнике
                                     </button>
                                     <button class="bkt-button main-light">
-                                        <bkt-icon class="bkt-button__icon" :name="'Pencil'" :fill="'#29b1ff'"></bkt-icon>
+                                        <bkt-icon class="bkt-button__icon" :name="'Pencil'" :color="'blue'"></bkt-icon>
                                         Добавить заметку
                                     </button>
                                     <button class="bkt-button main-light">
-                                        <bkt-icon class="bkt-button__icon" :name="'Target'" :stroke="'#ec4c27'"></bkt-icon>
+                                        <bkt-icon class="bkt-button__icon" :name="'Target'" :color="'red'"></bkt-icon>
                                         Следить за лотом
                                     </button>
                                     <button class="bkt-button main-light">
-                                        <bkt-icon class="bkt-button__icon" :name="'Star'" :fill="'#ffc515'"></bkt-icon>
+                                        <bkt-icon class="bkt-button__icon" :name="'Star'" :color="'yellow'"></bkt-icon>
                                         В избранное
                                     </button>
                                     <button class="bkt-button main-light">
                                         <span class="info"></span>
-                                        <bkt-icon class="bkt-button__icon" :name="'Bell'" :fill="'#2fbb40'"></bkt-icon>
+                                        <bkt-icon class="bkt-button__icon" :name="'Bell'" :color="'green'"></bkt-icon>
                                         Уведомления
                                     </button>
                                     <button class="bkt-button main-light">
-                                        <bkt-icon class="bkt-button__icon" :name="'Clip'" :fill="'#ff41be'"></bkt-icon>
+                                        <bkt-icon class="bkt-button__icon" :name="'Clip'" :color="'purple'"></bkt-icon>
                                         Закрепить
                                     </button>
                                     <button class="bkt-button pb-0">
@@ -110,45 +114,59 @@
                     </div>
                 </div>
                 <div class="col order-3 p-0 p-sm-2">
-                    <div class="bkt-card-price bkt-button green w-100">{{item && item.price ? item.price : '2 485 400'}} ₽
-                        <div class="bkt-card-price-icon bkt-bg-green-light"><bkt-icon :name="'ArrowTriple'" :width="'22px'" :height="'22px'"></bkt-icon></div>
+                    <div class="bkt-card-price bkt-button green w-100">{{item && item.price ? item.price : '2 485 400' | priceFormat}} ₽
+                        <div class="bkt-card-price-icon bkt-bg-green-light">
+                            <bkt-icon :name="'ArrowTriple'" :width="'22px'" :height="'22px'"></bkt-icon>
+                        </div>
                     </div>
                     <div class="bkt-card-infographics bkt-wrapper-between bkt-nowrap">
                         <div class="bkt-card outline">
                             <div class="bkt-card__feature text-center w-100 mt-0">
                                 <h5 class="bkt-card__subtitle">шаг аукциона</h5>
-                                <h4 class="bkt-card__title bkt-text-primary">{{item && item.auctionStep ? item.auctionStep : '0'}} {{item && item.isAuctionRub ? '₽' : '%'}}</h4>
+                                <h4 class="bkt-card__title bkt-text-primary">{{item && item.auctionStep ? item.auctionStep : '0' | priceFormat}} {{item && item.isAuctionRub ? '₽' : '%'}}</h4>
                             </div>
                         </div>
                         <div class="bkt-card outline">
                             <div class="bkt-card__feature text-center w-100 mt-0">
                                 <h5 class="bkt-card__subtitle">задаток</h5>
-                                <h4 class="bkt-card__title bkt-text-red">{{item && item.deposit ? item.deposit : '0'}} {{item && item.isDepositRub ? '₽' : '%'}}</h4>
+                                <h4 class="bkt-card__title bkt-text-red">{{item && item.deposit ? item.deposit : '0' | priceFormat}} {{item && item.isDepositRub ? '₽' : '%'}}</h4>
                             </div>
                         </div>
                     </div>
-                    <div class="bkt-card-period bkt-wrapper">
+                    <div class="bkt-card-period bkt-wrapper" v-if="item.applicationStart || item.applicationEnd">
                         <div class="bkt-card__category bkt-bg-primary-lighter">
-                            <bkt-icon :name="'Date'" :fill="'#2953ff'" :width="'16px'" :height="'16px'"></bkt-icon>
+                            <bkt-icon :name="'Date'" :color="'primary'" :width="'16px'" :height="'16px'"></bkt-icon>
                         </div>
-                        <div class="bkt-card_feature">
+                        <div class="bkt-card_feature" >
                             <h6>прием заявок</h6>
-                            <h6>
-                                с 22 сентября 2022 <span class="bkt-text-blue">09:00</span>
-                                <br>до 25 сентября 2022 <span class="bkt-text-blue">19:00</span>
-                            </h6>
+                            <div>
+                                <h6 v-if="item.applicationStart"> с {{[item.applicationStart, "DD.MM.YYYY HH:mm"] | moment('DD MMMM YYYY')}}
+                                    <span class="bkt-text-blue">{{[item.applicationStart, "DD.MM.YYYY HH:mm"] | moment('HH:mm')}}</span></h6>
+                                <h6 v-if="item.applicationEnd">до {{[item.applicationEnd, "DD.MM.YYYY HH:mm"] | moment('DD MMMM YYYY')}}
+                                <span class="bkt-text-blue">{{[item.applicationEnd, "DD.MM.YYYY HH:mm"] | moment('HH:mm')}}</span></h6>
+                            </div>
                         </div>
                     </div>
-                    <div class="bkt-card-period bkt-wrapper">
+                    <div class="bkt-card-period bkt-wrapper" v-if="item.eventStart || item.eventEnd">
                         <div class="bkt-card__category bkt-bg-primary-lighter">
-                            <bkt-icon :name="'Alarm'" :fill="'#2953ff'" :width="'16px'" :height="'16px'"></bkt-icon>
+                            <bkt-icon :name="'Alarm'" :color="'primary'" :width="'16px'" :height="'16px'"></bkt-icon>
                         </div>
                         <div class="bkt-card_feature">
                             <h6>проведение торгов</h6>
-                            <h6>
-                                с 21 апреля 2022 <span class="bkt-text-yellow">10:30</span>
-                                <br>до 21 апреля 2022 <span class="bkt-text-yellow">13:30</span>
-                            </h6>
+                            <div>
+                                <h6 v-if="item.eventStart">
+                                    с {{[item.eventStart, "DD.MM.YYYY HH:mm"] | moment('DD MMMM YYYY')}}
+                                <span class="bkt-text-yellow">
+                                    {{[item.eventStart, "DD.MM.YYYY HH:mm"] | moment('HH:mm')}}
+                                </span>
+                                </h6>
+                                <h6 v-if="item.eventEnd">до
+                                    {{[item.eventEnd, "DD.MM.YYYY HH:mm"] | moment('DD MMMM YYYY')}}
+                                <span class="bkt-text-yellow">
+                                    {{[item.eventEnd, "DD.MM.YYYY HH:mm"] | moment('HH:mm')}}
+                                </span>
+                                </h6>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -194,7 +212,7 @@
                     <bkt-icon class="bkt-button__icon" :name="'Pencil'"></bkt-icon>
                 </button>
                 <button class="bkt-button-ellipse main-light">
-                    <bkt-icon class="bkt-button__icon" :name="'Target'" :stroke="'#fff'"></bkt-icon>
+                    <bkt-icon class="bkt-button__icon" :name="'Target'"></bkt-icon>
                 </button>
                 <button class="bkt-button-ellipse main-light">
                     <bkt-icon class="bkt-button__icon" :name="'Star'"></bkt-icon>

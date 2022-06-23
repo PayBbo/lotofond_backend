@@ -138,6 +138,27 @@
     }
 }
 
+.bkt-button-link {
+    @extend .bkt-button;
+    font-size: 12px;
+    font-family: 'Gilroy', sans-serif;
+    font-weight: 500;
+    color: rgb(45, 50, 68);
+    text-transform: lowercase;
+    line-height: 1.833;
+    text-align: left;
+    display: flex;
+    align-items: center;
+    text-decoration: underline;
+    cursor: pointer;
+    padding-left: 0;
+    padding-right: 0;
+    .bkt-button__icon {
+        max-height: 18px;
+        max-width: 18px;
+    }
+}
+
 .bkt-button-icon {
     @extend .bkt-button;
     border-radius: 15px;

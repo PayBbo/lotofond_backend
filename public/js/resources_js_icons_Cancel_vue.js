@@ -28,13 +28,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "Cancel",
   props: {
-    fill: {
+    color: {
       type: String,
-      "default": '#231F20'
-    },
-    stroke: {
-      type: String,
-      "default": 'none'
+      "default": 'main'
     },
     width: {
       type: String,
@@ -136,6 +132,7 @@ var render = function () {
   return _c(
     "svg",
     {
+      class: "bkt-fill-" + _vm.color,
       staticStyle: { "enable-background": "new 0 0 60.963 60.842" },
       attrs: {
         version: "1.1",
@@ -152,7 +149,6 @@ var render = function () {
     [
       _c("path", {
         attrs: {
-          fill: _vm.fill,
           d: "M59.595,52.861L37.094,30.359L59.473,7.98c1.825-1.826,1.825-4.786,0-6.611\n        c-1.826-1.825-4.785-1.825-6.611,0L30.483,23.748L8.105,1.369c-1.826-1.825-4.785-1.825-6.611,0c-1.826,1.826-1.826,4.786,0,6.611\n        l22.378,22.379L1.369,52.861c-1.826,1.826-1.826,4.785,0,6.611c0.913,0.913,2.109,1.369,3.306,1.369s2.393-0.456,3.306-1.369\n        l22.502-22.502l22.501,22.502c0.913,0.913,2.109,1.369,3.306,1.369s2.393-0.456,3.306-1.369\n        C61.42,57.647,61.42,54.687,59.595,52.861z",
         },
       }),

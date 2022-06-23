@@ -1,10 +1,9 @@
 <template>
     <svg version="1.0" xmlns="http://www.w3.org/2000/svg"
-         :width="width" :height="height" viewBox="0 0 512.000000 512.000000"
-         preserveAspectRatio="xMidYMid meet">
-
-        <g transform="translate(0.000000,512.000000) scale(0.100000,-0.100000)"
-           :fill="fill" stroke="none">
+         :class="'bkt-fill-'+color" :width="width" :height="height" viewBox="0 0 512.000000 512.000000"
+         preserveAspectRatio="xMidYMid meet"
+    >
+        <g transform="translate(0.000000,512.000000) scale(0.100000,-0.100000)">
             <path d="M277 4009 c-103 -24 -197 -103 -244 -204 -23 -51 -28 -73 -27 -145 0
                 -160 -96 -52 1192 -1342 777 -778 1160 -1155 1191 -1172 73 -39 158 -53 234
                 -37 34 7 83 24 108 37 31 17 414 394 1191 1172 1288 1290 1192 1182 1192 1342
@@ -18,9 +17,9 @@
     export default {
         name: "ArrowDown",
         props: {
-            fill:{
+            color:{
                 type:String,
-                default:'#2953ff'
+                default:'primary'
             },
             width:{
                 type:String,
@@ -30,7 +29,7 @@
                 type:String,
                 default:'12px'
             },
-        }
+        },
     }
 </script>
 

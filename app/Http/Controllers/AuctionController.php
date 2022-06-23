@@ -17,7 +17,6 @@ class AuctionController extends Controller
         return response(new LotCollection($lots), 200);
     }
 
-
     public function getLotsByAuction($auctionId){
         $auction = Auction::find($auctionId);
         if(!$auction){

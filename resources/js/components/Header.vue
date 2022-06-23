@@ -9,7 +9,7 @@
                     <li class="bkt-navbar__nav-item">
                         <a class="bkt-navbar__nav-link" href="#">
                     <span class="bkt-button-ellipse main">
-                        <bkt-icon :name="'Star'" :fill="'#ffc515'"/>
+                        <bkt-icon :name="'Star'" :color="'yellow'"/>
                     </span>
                             Топ-Избранное
                         </a>
@@ -17,7 +17,7 @@
                     <li class="bkt-navbar__nav-item">
                         <a class="bkt-navbar__nav-link" href="#">
                     <span class="bkt-button-ellipse main">
-                         <bkt-icon :name="'Target'" :stroke="'#ec4c27'"/>
+                         <bkt-icon :name="'Target'" :color="'red'"/>
                     </span>
                             Мониторинг
                         </a>
@@ -26,7 +26,7 @@
                         <a class="bkt-navbar__nav-link" href="#">
                     <span class="bkt-button-ellipse main">
                         <span class="info"></span>
-                        <bkt-icon :name="'Bell'" :fill="'#2fbb40'"/>
+                        <bkt-icon :name="'Bell'" :color="'green'"/>
                     </span>
                             Сообщения
                         </a>
@@ -62,7 +62,7 @@
                             <button class="bkt-button bkt-tarif-button">Сменить тариф</button>
                             <div class="bkt-navbar__user-dropdown-item">
                                 <div class="bkt-navbar__user-dropdown-item-icon bg-primary-lighter">
-                                    <bkt-icon :name="'User'" :fill="'#2953ff'"></bkt-icon>
+                                    <bkt-icon :name="'User'" :color="'primary'"></bkt-icon>
                                 </div>
                                 <a class="bkt-navbar__user-dropdown-item-text" href="#">Профиль</a>
                             </div>
@@ -99,9 +99,7 @@
                         data-bs-target="#authModal">
                     Вход и регистрация
                 </button>
-
             </div>
-
         </nav>
         <nav class="bkt-navbar white">
             <div class="bkt-navbar__wrapper bkt-container">
@@ -174,37 +172,31 @@
             auth_user() {
                 return this.$store.getters.auth_user
             },
+            token() {
+                return this.$store.getters.auth_user
+            },
         },
         created() {
             this.getUser();
         },
         methods: {
             async getUser() {
-                this.loading = true;
-                await axios
-                    .get('/api/account/user')
-                    .then((resp) => {
-                        this.$store.commit('setAuthUser', resp.data);
+                // if (this.token) {
+                    this.loading = true;
+                    await this.$store.dispatch('getAuthUser').then(resp => {
+                        this.loading = false;
+                    }).catch(error => {
                         this.loading = false;
                     })
-                    .catch(err => {
-                        this.loading = false;
-                        this.$store.commit('setAuthUser',null);
-                    });
+                // }
             },
             async logout() {
                 this.loading = true;
-                await axios
-                    .get('/api/account/logout')
-                    .then((resp) => {
-                        this.$store.commit('setAuthUser',null);
-                        localStorage.setItem('token',null);
-                        localStorage.setItem('refreshToken', null);
-                        this.loading = false;
-                    })
-                    .catch(err => {
-                        this.loading = false;
-                    });
+                await this.$store.dispatch('logout').then(resp => {
+                    this.loading = false;
+                }).catch(error => {
+                    this.loading = false;
+                })
             }
         }
 
