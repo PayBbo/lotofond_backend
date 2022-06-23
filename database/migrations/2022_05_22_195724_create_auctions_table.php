@@ -16,8 +16,9 @@ class CreateAuctionsTable extends Migration
         Schema::disableForeignKeyConstraints();
         Schema::create('auctions', function (Blueprint $table) {
             $table->id();
-            $table->integer('id_efrsb')->unique();
-            $table->integer('id_external')->unique();
+            $table->string('id_efrsb', 255)->unique();
+            $table->string('id_external', 255)->unique();
+            $table->string('guid', 50)->unique();
             $table->string('trade_id', 255);
             $table->unsignedBigInteger('debtor_id');
             $table->unsignedBigInteger('arbitr_manager_id')->nullable();
@@ -43,8 +44,6 @@ class CreateAuctionsTable extends Migration
             $table->enum('price_form', ['open', 'close']);
             $table->string('case_number')->nullable();
             $table->string('court')->nullable();
-            $table->string('base')->nullable();
-            $table->longText('rules')->nullable();
             $table->dateTime('date_publish_smi')->nullable();
             $table->dateTime('date_publish_efir')->nullable();
             $table->timestamps();

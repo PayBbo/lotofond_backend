@@ -32,10 +32,9 @@ class Auction extends Model
         'price_form',
         'case_number',
         'court',
-        'base',
-        'rules',
         'date_publish_smi',
-        'date_publish_efir'
+        'date_publish_efir',
+        'guid'
     ];
 
     /**

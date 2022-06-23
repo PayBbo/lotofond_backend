@@ -7,6 +7,7 @@ use App\Models\Favourite;
 use App\Models\Monitoring;
 use App\Models\User;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Facades\URL;
 
 class LotResource extends JsonResource
 {
@@ -33,46 +34,51 @@ class LotResource extends JsonResource
             $subs = array_intersect($category->subcategories()->pluck('id')->toArray(), $categoriesIds);
             $categories[$category->title] = Category::whereIn('id', $subs)->get()->pluck('title')->toArray();
         }
+        $this->auction->isLotInfo = $this->isLotInfo;
         return [
-            'auctionId' => $this->auction_id,
-            'lotId' => $this->id,
-            'isWatched' => auth()->check() ? $user->seenLots->contains($this->id) : false,
-            'categories' => $categories,
-            'isPinned' => auth()->check() ? $user->fixedLots->contains($this->id) : false,
-            'inFavourite' => auth()->check() ? Favourite::where(['user_id' => $user->id, 'lot_id' => $this->id])->exists() : false,
-            'isHide' => auth()->check() ? $user->hiddenLots->contains($this->id) : false,
-            'label' => stripslashes(preg_replace('/[\x00-\x1F\x7F]/u', ' ', $this->description)),
-            'date' => $this->auction->publish_date->format('d.m.Y H:i'),
-            'state' => $this->status->title,
-            'tradingNumber' => $this->auction->trade_id,
+            'id' => $this->id,
+            'trade' => new TradeResource($this->auction),
             'lotNumber' => $this->number,
             'photos' => is_null($this->images) ? [] : $this->images,
-            'geoPosition' => $this->auction->debtor->address,
-            'numberOfLots' => $this->auction->lots->count(),
-            'price' => $this->price,
-            'priceState' => $this->price_state,
-            'tags' => [],
+            'categories' => $categories,
+            'description' => stripslashes(preg_replace('/[\x00-\x1F\x7F]/u', ' ', $this->description)),
+            'state' => $this->status->title,
+            'location' => $this->auction->debtor->address,
+            'isWatched' => auth()->check() ? $user->seenLots->contains($this->id) : false,
+            'isPinned' => auth()->check() ? $user->fixedLots->contains($this->id) : false,
+            'inFavourites' => auth()->check() ? Favourite::where(['user_id' => $user->id, 'lot_id' => $this->id])->exists() : false,
+            'isHide' => auth()->check() ? $user->hiddenLots->contains($this->id) : false,
             'inMonitoring' => auth()->check() ? Monitoring::where(['user_id' => $user->id, 'lot_id' => $this->id])->exists() : false,
-            'auctionStep' => $this->auction_step,
-            'isAuctionStepRub' => is_null($this->is_step_rub),
-            'deposit' => $this->deposit,
-            'isDepositRub' => $this->is_deposit_rub,
-            'eventStart' => is_null($this->auction->event_start_date) ? null : $this->auction->event_start_date->format('d.m.Y H:i'),
-            'eventEnd' => is_null($this->auction->event_end_date) ? null : $this->auction->event_end_date->format('d.m.Y H:i'),
-            'applicationStart' => is_null($this->auction->application_start_date) ? null : $this->auction->application_start_date->format('d.m.Y H:i'),
-            'applicationEnd' => is_null($this->auction->application_end_date) ? null : $this->auction->application_end_date->format('d.m.Y H:i'),
-            'resultDate' => is_null($this->auction->result_date) ? null : $this->auction->result_date->format('d.m.Y H:i'),
-            $this->mergeWhen($this->isLotInfo === true, [
-                'tradePlaceName' => $this->auction->tradePlace->name,
-                'tradePlaceSite' => $this->auction->tradePlace->site,
-                'arbitrManagerID' => $this->auction->arbitr_manager_id,
-                'arbitrManagerName' => $this->auction->arbitrManager->name,
-                'tradeOrganizerID' => $this->auction->company_trade_organizer_id,
-                'tradeOrganizerName' => $this->auction->companyTradeOrganizer->name,
-                'tradeOrganizerINN' => $this->auction->companyTradeOrganizer->inn,
-                'debtorID' => $this->auction->debtor_id,
-                'auctionType' => $this->auction->auctionType->title
-            ]),
+            'startPrice' => $this->start_price,
+            'stepPrice'=>[
+                'type'=> $this->is_step_rub ? 'rubles' : 'percent',
+                'value'=>$this->auction_step
+            ],
+            'deposit'=>[
+                'type'=> $this->is_deposit_rub ? 'rubles' : 'percent',
+                'value'=>$this->deposit
+            ],
+            'priceState' => $this->price_state,
+            'priceReduction'=>$this->price_reduction,
+            'currentPrice'=>$this->current_price,
+            'currentPriceState'=>$this->current_price_state,
+            'link'=> URL::to('/lot/'.$this->id),
+            'efrsbLink' => 'https://fedresurs.ru/bidding/'. $this->auction->guid
         ];
+    }
+
+    public static function collection($data)
+    {
+        if (is_a($data, \Illuminate\Pagination\AbstractPaginator::class)) {
+            $data->setCollection(
+                $data->getCollection()->map(function ($listing) {
+                    return new static($listing);
+                })
+            );
+
+            return $data;
+        }
+
+        return parent::collection($data);
     }
 }

@@ -34,7 +34,7 @@ class ParseTrades implements ShouldQueue
      */
     public function handle()
     {
-        $startFrom = Carbon::now()->subDays(3)->format('Y-m-d\TH:i:s');
+        $startFrom = Carbon::now()->subHour(7)->format('Y-m-d\TH:i:s');
         $endTo = Carbon::now()->format('Y-m-d\TH:i:s');
         $soapWrapper = new SoapWrapper();
         $service = new SoapWrapperService($soapWrapper);
@@ -56,13 +56,13 @@ class ParseTrades implements ShouldQueue
                             if (!array_key_exists('MessageList', $trade)) {
                                 if(gettype($trade->TradeMessage) == 'object') {
                                     $xml = $service->getTradeMessageContent($trade->TradeMessage->ID);
-                                    $get_trade_message_content = new GetTradeMessageContent($xml);
-                                    $get_trade_message_content->switchMessageType($trade->TradeMessage->Type, $tradePlace->id, $trade, $trade->TradeMessage->ID);
+                                    $get_trade_message_content = new GetTradeMessageContent($xml, $trade->TradeMessage->Type);
+                                    $get_trade_message_content->switchMessageType( $tradePlace->id, $trade, $trade->TradeMessage->ID);
                                 }else{
                                     foreach ($trade->TradeMessage as $message){
                                         $xml = $service->getTradeMessageContent($message->ID);
-                                        $get_trade_message_content = new GetTradeMessageContent($xml);
-                                        $get_trade_message_content->switchMessageType($message->Type, $tradePlace->id, $trade, $message->ID);
+                                        $get_trade_message_content = new GetTradeMessageContent($xml, $message->Type);
+                                        $get_trade_message_content->switchMessageType( $tradePlace->id, $trade, $message->ID);
                                     }
                                 }
                                 break;
@@ -73,14 +73,14 @@ class ParseTrades implements ShouldQueue
                                 }
                                 if (gettype($item) == 'object') {
                                     $xml = $service->getTradeMessageContent($item->ID);
-                                    $get_trade_message_content = new GetTradeMessageContent($xml);
-                                    $get_trade_message_content->switchMessageType($item->Type, $tradePlace->id, $trade, $item->ID);
+                                    $get_trade_message_content = new GetTradeMessageContent($xml,$item->Type);
+                                    $get_trade_message_content->switchMessageType($tradePlace->id, $trade, $item->ID);
 
                                 } else {
                                     foreach ($item as $i) {
                                         $xml = $service->getTradeMessageContent($i->ID);
-                                        $get_trade_message_content = new GetTradeMessageContent($xml);
-                                        $get_trade_message_content->switchMessageType($i->Type, $tradePlace->id, $trade, $i->ID);
+                                        $get_trade_message_content = new GetTradeMessageContent($xml, $i->Type);
+                                        $get_trade_message_content->switchMessageType($tradePlace->id, $trade, $i->ID);
                                     }
                                 }
 

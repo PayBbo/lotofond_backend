@@ -4,7 +4,6 @@ namespace App\Jobs;
 
 use App\Http\Services\Parse\BidderService;
 use App\Http\Services\Parse\SoapWrapperService;
-use App\Models\CompanyTradeOrganizer;
 use Artisaninweb\SoapWrapper\SoapWrapper;
 use Carbon\Carbon;
 use Illuminate\Bus\Queueable;

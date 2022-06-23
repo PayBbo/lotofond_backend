@@ -388,7 +388,7 @@ paths:
            content:
              application/json:
                schema:
-                 $ref: '#/components/schemas/Trade'
+                 $ref: '#/components/schemas/TradeInfo'
          default:
            description: unexpected error
            content:
@@ -420,7 +420,7 @@ paths:
            content:
              application/json:
                schema:
-                 $ref: '#/components/schemas/Trade'
+                 $ref: '#/components/schemas/LotShort'
          "404":
            description: Торг по переданному айдишнику не найден
            content:
@@ -651,91 +651,164 @@ components:
     Trade:
       type: object
       properties:
-        auctionId:
+        id:
           type: integer
           description: айди торга
-        lotId:
-          type: integer
-          description: айди лота
-        isWatched:
-          type: boolean
-          description: Просмотрено/не просмотрено
-        categories:
-          type: object
-          description: Объект с классификатороми
-          example: {
-            "realEstate": [
-              "residentialProperty",
-              "land"
-            ],
-          }
-        isPinned:
-          type: boolean
-          description:  закреплен/не закреплен
-        inFavourite:
-          type: boolean
-          description: в избранном/нет
-        isHide:
-          type: boolean
-          description: скрыт/не скрыт
-        label:
-          type: string
-          description: Заголовок/название (часть обрезанного описания)
-        date:
-          type: string
-          description: дата/время занесения на федресурс (объявление о торгах)
-        state:
-          type: string
-          description: статус лота
-        tradingNumber:
-          type: string
-          description: номер торгов
-        lotNumber:
-          type: string
-          description: номер лота
-        photos:
-          type: array
-          description: массив фоток
-        geoPosition:
-          type: string
-          description: геометка
-        numberOfLots:
+        lotCount:
           type: integer
           description: количество лотов в торгах
-        price:
-          type: integer
-          description: цена
-        priceState:
+        externalId:
           type: string
-          description: состояние цены (енам рост равно убыль)
-        tags:
-          type: array
-          description: список меток
-        inMonitoring:
-          type: boolean
-          description: в мониторинг/нет
-        auctionStep:
+          description: номер торгов
+        publishDateSmi:
+          type: string
+          description: дата в формате Iso8601
+        publishDateEfir:
+          type: string
+          description: дата в формате Iso8601
+        type:
+          type: string
+          description: тип аукциона
+        state:
+          type: string
+        priceOfferForm:
+          type: string
+          enum:
+            - open
+            - close
+          description: тип предложения о цене
+        eventTime:
+          type: object
+          properties:
+            start:
+              type: string
+              description: дата и время начала торгов (null, если priceOfferForm = close)
+            end:
+              type: string
+              description: дата и время окончания торгов (null, если priceOfferForm = close)
+            result:
+              type: string
+              description: //Дата и время объявления результатов торгов (null, если priceOfferForm = open)
+        applicationTime:
+          type: object
+          properties:
+            start:
+              type: string
+              description: дата и время начала приема заявок
+            end:
+              type: string
+              description: дата и время окончания приема заявок
+        organizer:
+          type: object
+          properties:
+            type:
+              type: string
+              enum:
+                - person
+                - company
+            id:
+              type: integer
+            person:
+              type: object
+              properties:
+                firstName:
+                  type: string
+                middleName:
+                  type: string
+                lastName:
+                  type: string
+            company:
+              type: object
+              properties:
+                shortName:
+                  type: string
+                fullName:
+                  type: string
+        arbitrManager:
+          type: object
+          description: арбитражный управляющий может быть как физическим, так и юридическим лицом
+          properties:
+            type:
+              type: string
+              enum:
+                - person
+                - company
+            id:
+              type: integer
+            person:
+              type: object
+              properties:
+                firstName:
+                  type: string
+                middleName:
+                  type: string
+                lastName:
+                  type: string
+            company:
+              type: object
+              properties:
+                shortName:
+                  type: string
+                fullName:
+                  type: string
+        debtorID:
           type: integer
-          description: Значение шага аукциона, может быть NULL
-        isAuctionStepRub:
-          type: boolean
-          description: если true - auctionStep в рублях, если false - auctionStep в процентах
-        deposit:
-          type: integer
-          description:  Значение задатка, может быть NULL
-        isDepositRub:
-          type: boolean
-          description: если true - deposit в рублях, если false - deposit в процентах
-
-    Lot:
+          description: айдишник должника
+        tradePlace:
+          type: object
+          properties:
+            name:
+              type: string
+              description: название ЭТП
+            site:
+              type: string
+              description: сайт ЭТП
+    TradeInfo:
       type: object
       properties:
-        auctionId:
+        data:
+          $ref: '#/components/schemas/LotShort'
+        pagination:
+          type: object
+          description: щбъект пагинации (для веба)
+    TradeShort:
+      type: object
+      properties:
+        id:
           type: integer
           description: айди торга
-        lotId:
+        lotCount:
+          type: integer
+          description: количество лотов в торгах
+        eventTime:
+          type: object
+          properties:
+            start:
+              type: string
+              description: дата и время начала торгов (null, если priceOfferForm = close)
+            end:
+              type: string
+              description: дата и время окончания торгов (null, если priceOfferForm = close)
+            result:
+              type: string
+              description: //Дата и время объявления результатов торгов (null, если priceOfferForm = open)
+        applicationTime:
+          type: object
+          properties:
+            start:
+              type: string
+              description: дата и время начала приема заявок
+            end:
+              type: string
+              description: дата и время окончания приема заявок
+    LotShort:
+      type: object
+      properties:
+        id:
           type: integer
           description: айди лота
+        trade:
+          $ref: '#/components/schemas/TradeShort'
         isWatched:
           type: boolean
           description: Просмотрено/не просмотрено
@@ -751,18 +824,15 @@ components:
         isPinned:
           type: boolean
           description:  закреплен/не закреплен
-        inFavourite:
+        inFavourites:
           type: boolean
           description: в избранном/нет
         isHide:
           type: boolean
           description: скрыт/не скрыт
-        label:
+        description:
           type: string
-          description: Заголовок/название (часть обрезанного описания)
-        date:
-          type: string
-          description: дата/время занесения на федресурс (объявление о торгах)
+          description: описание лота
         state:
           type: string
           description: статус лота
@@ -781,78 +851,160 @@ components:
             { "preview": "http://127.0.0.1:8000/storage/auction-files/auction-695/previews/IMG-20220209-WA0009.jpg",
               "main": "http://127.0.0.1:8000/storage/auction-files/auction-695/IMG-20220209-WA0009.jpg" },
           ]
-        geoPosition:
+        location:
           type: string
-          description: геометка
-        numberOfLots:
-          type: integer
-          description: количество лотов в торгах
-        price:
-          type: integer
-          description: цена
-        priceState:
-          type: string
-          description: состояние цены (енам рост равно убыль)
-        tags:
-          type: array
-          description: список меток
-        inMonitoring:
-          type: boolean
-          description: в мониторинг/нет
-        auctionStep:
-          type: integer
-          description: Значение шага аукциона, может быть NULL
-        isAuctionStepRub:
-          type: boolean
-          description: если true - auctionStep в рублях, если false - auctionStep в процентах
+          description: геометка (адрес у нас будет именно для лота, а не для торга)
+        startPrice:
+          type: number
+          example: 0.00
+        stepPrice:
+          type: object
+          properties:
+            type:
+              type: string
+              enum:
+                - rubles
+                - percent
+            value:
+              type: number
+              example: 0.00
         deposit:
+          type: object
+          properties:
+            type:
+              type: string
+              enum:
+                - rubles
+                - percent
+            value:
+              type: number
+              example: 0.00
+        currentPrice:
+          type: number
+        currentPriceState:
+          type: string
+          enum:
+            - up
+            - hold
+            - down
+        cadastralData:
+          type: object
+          properties:
+            number:
+              type: string
+          description: пока только кадастровый номер, потом добавлю площадь и кадастровую стоимость
+    Lot:
+      type: object
+      properties:
+        id:
           type: integer
-          description:  Значение задатка, может быть NULL
-        isDepositRub:
+          description: айди лота
+        trade:
+          $ref: '#/components/schemas/Trade'
+        isWatched:
           type: boolean
-          description: если true - deposit в рублях, если false - deposit в процентах
-        auctionType:
+          description: Просмотрено/не просмотрено
+        categories:
+          type: object
+          description: Объект с классификатороми
+          example: {
+            "realEstate": [
+              "residentialProperty",
+              "land"
+            ],
+          }
+        isPinned:
+          type: boolean
+          description:  закреплен/не закреплен
+        inFavourites:
+          type: boolean
+          description: в избранном/нет
+        isHide:
+          type: boolean
+          description: скрыт/не скрыт
+        description:
           type: string
-          description: тип аукциона
-        eventStart:
+          description: описание лота
+        state:
           type: string
-          description: дата начала торгов
-        eventEnd:
+          description: статус лота
+        tradingNumber:
           type: string
-          description: дата окончания торгов
-        applicationStart:
+          description: номер торгов
+        lotNumber:
           type: string
-          description: дата начала приема заявок
-        applicationEnd:
+          description: номер лота
+        photos:
+          type: array
+          description: массив фоток
+          example: [
+            {"preview": "http://127.0.0.1:8000/storage/auction-files/auction-695/previews/IMG-20220209-WA0009.jpg",
+             "main":"http://127.0.0.1:8000/storage/auction-files/auction-695/IMG-20220209-WA0009.jpg"},
+            { "preview": "http://127.0.0.1:8000/storage/auction-files/auction-695/previews/IMG-20220209-WA0009.jpg",
+              "main": "http://127.0.0.1:8000/storage/auction-files/auction-695/IMG-20220209-WA0009.jpg" },
+          ]
+        location:
           type: string
-          description: дата окончания приема заявок
-        resultDate:
+          description: геометка (адрес у нас будет именно для лота, а не для торга)
+        startPrice:
+          type: number
+          example: 0.00
+        stepPrice:
+          type: object
+          properties:
+            type:
+              type: string
+              enum:
+               - rubles
+               - percent
+            value:
+              type: number
+              example: 0.00
+        deposit:
+          type: object
+          properties:
+            type:
+              type: string
+              enum:
+                - rubles
+                - percent
+            value:
+              type: number
+              example: 0.00
+        priceReduction:
+          type: array
+          example:
+            [ {
+              "time": "string",
+              "price": 0.0,
+              "deposit": 0.0
+            },{
+              "time": "string",
+              "price": 0.0,
+              "deposit": 0.0
+            } ]
+          description: цена или сумма залога могут быть нулевыми
+        currentPrice:
+          type: number
+        currentPriceState:
           type: string
-          description: дата объявления результата  торгах
-        tradePlaceName:
+          enum:
+            - up
+            - hold
+            - down
+        link:
           type: string
-          description: название ЭТП
-        tradePlaceSite:
+        efrsbLink:
           type: string
-          description: сайт ЭТП
-        arbitrManagerName:
-          type: string
-          description: имя арбитражного управляющего
-        arbitrManagerID:
-          type: integer
-          description: айдишник арбитражного управляющего
-        tradeOrganizerID:
-          type: integer
-          description: айдишник организатора торгов
-        tradeOrganizerINN:
-          type: integer
-          description: инн организатора торгов
-        tradeOrganizerName:
-          type: string
-          description: имя организатора торгов
-        debtorID:
-          type: integer
-          description: айдишник должника
+          description: ссылка на лот на федресурсе
+        cadastralData:
+          type: object
+          properties:
+            number:
+              type: string
+          description: пока только кадастровый номер, потом добавлю площадь и кадастровую стоимость
+
+
     Notification:
       required:
         - value

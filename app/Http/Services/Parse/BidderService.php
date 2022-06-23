@@ -32,11 +32,7 @@ class BidderService
     {
         $region = null;
         if (array_key_exists( 'Region', $person)) {
-            $region = Region::where('title', $person['Region'])->first();
-            if (!$region) {
-                $region = Region::create(['title' => $person['Region']]);
-            }
-            $region = $region->id;
+            $region = Region::where('title', 'LIKE', '%' . $person['Region'] . '%')->first()['id'];
         }
         if (array_key_exists('FullName', $person)) {
             $name = $person[ 'FullName'];

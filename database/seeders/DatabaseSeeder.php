@@ -21,7 +21,8 @@ class DatabaseSeeder extends Seeder
             NotificationTypeSeeder::class,
             RegistryNotificationTypeSeeder::class,
             StatusSeeder::class,
-            CategorySeeder::class
+            CategorySeeder::class,
+            RegionSeeder::class
         ]);
     }
 }

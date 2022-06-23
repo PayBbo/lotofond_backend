@@ -20,11 +20,11 @@ class CreateLotsTable extends Migration
             $table->string('cadastral_number')->nullable();
             $table->boolean('is_parse_ecp')->default(false);
             $table->json('images')->nullable();
-            $table->bigInteger('start_price');
-            $table->bigInteger('auction_step')->nullable();
+            $table->decimal('start_price', 15,2);
+            $table->decimal('auction_step', 15, 2)->nullable();
             $table->boolean('is_step_rub')->default(true);
             $table->boolean('is_deposit_rub')->default(true);
-            $table->bigInteger('deposit')->nullable();
+            $table->decimal('deposit', 15, 2)->nullable();
             $table->longText('description')->nullable();
             $table->enum('price_state', ['up', 'low', 'hold'])->default('hold');
             $table->json('price_reduction')->nullable();

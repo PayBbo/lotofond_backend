@@ -21,7 +21,8 @@ class BiddingResult extends Model
 
     protected $casts = [
         'trade_message_id'=>'integer',
-        'contact_date'=>'datetime'
+        'contact_date'=>'datetime',
+        'end_price'=>'decimal:2'
     ];
 
     public function tradeMessage()

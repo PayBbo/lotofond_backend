@@ -3,10 +3,12 @@
 namespace App\Console\Commands;
 
 use App\Http\Services\Parse\FilesService;
+use App\Http\Services\Parse\TradeService;
 use App\Jobs\ParseArbitrManager;
 use App\Jobs\ParseCompanyTradeOrganizer;
 use App\Jobs\ParseDebtor;
 use App\Jobs\ParseSRORegister;
+use App\Jobs\ParseTrades;
 use Illuminate\Console\Command;
 
 class TestCommand extends Command
@@ -55,7 +57,15 @@ class TestCommand extends Command
         //$gener->getImagesFromPDF($filename, $path, $s_path);
        // $gener->getImagesFromDoc($filename, $path, $s_path);
 
-        dispatch(new ParseSRORegister);
-        return 0;
+       dispatch(new ParseTrades);
+       // logger($this->is_image(\storage_path("app\\public\\фото")));
+    }
+
+    public function is_image($path)
+    {
+        $finfo = finfo_open(FILEINFO_MIME_TYPE);
+        $image_type = finfo_file($finfo, $path);
+        if(in_array($image_type , array("image/jpeg" ,"image/png" , "image/bmp"))) { return true; }
+        return false;
     }
 }

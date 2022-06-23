@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Exceptions\CustomExceptions\BaseException;
+use App\Http\Resources\LotCollection;
 use App\Http\Resources\LotResource;
 use App\Models\Auction;
 use App\Models\Lot;
@@ -13,25 +14,9 @@ class AuctionController extends Controller
 {
     public function getTrades(){
         $lots = Lot::orderBy('created_at', 'DESC')->paginate(20);
-        $data = [];
-        foreach($lots as $lot){
-            $data[] = new LotResource($lot);
-        }
-        return response($data, 200);
+        return response(new LotCollection($lots), 200);
     }
 
-    public function getTradesV2(){
-        $lots = Lot::orderBy('created_at', 'DESC')->paginate(20);
-        $data = [];
-        foreach($lots as $lot){
-            $data[] = new LotResource($lot);
-        }
-        $pagination = [
-            'links'=>$lots->links,
-            'meta'=>$lots->meta
-        ];
-        return response(['data'=>$data, 'pagination'=>$pagination], 200);
-    }
 
     public function getLotsByAuction($auctionId){
         $auction = Auction::find($auctionId);

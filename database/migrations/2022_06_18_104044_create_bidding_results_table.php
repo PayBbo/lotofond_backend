@@ -18,7 +18,7 @@ class CreateBiddingResultsTable extends Migration
             $table->unsignedBigInteger('trade_message_id');
             $table->foreign('trade_message_id')->references('id')
                 ->on('trade_messages')->cascadeOnDelete();
-            $table->bigInteger('end_price')->nullable();
+            $table->decimal('end_price', 15, 2)->nullable();
             $table->longText('substantiation')->nullable();
             $table->string('contract_number')->nullable();
             $table->dateTime('contract_date')->nullable();

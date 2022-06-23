@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -17,7 +18,6 @@ class Lot extends Model
     protected $fillable = [
         'number',
         'cadastral_number',
-        'images',
         'start_price',
         'auction_step',
         'is_step_rub',
@@ -27,12 +27,12 @@ class Lot extends Model
         'status_id',
         'price_state',
         'auction_id',
-        'price_reduction',
         'concours',
         'participants',
         'payment_info',
         'sale_agreement',
-        'is_parse_ecp'
+        'is_parse_ecp',
+        'price_reduction'
     ];
 
     /**
@@ -43,16 +43,18 @@ class Lot extends Model
     protected $casts = [
         'id' => 'integer',
         'images' => 'array',
-        'price' => 'integer',
+        'start_price' => 'decimal:2',
         'auction_id' => 'integer',
-        'auction_step' => 'integer',
-        'deposit' => 'integer',
+        'auction_step' =>'decimal:2',
+        'deposit' => 'decimal:2',
         'is_parse_ecp' => 'boolean',
         'is_auction_step_rub' => 'boolean',
         'is_deposit_rub' => 'boolean',
-        'price_reduction' => 'array',
         'status_id' => 'integer',
+        'price_reduction' => 'array'
     ];
+
+    protected $appends = ['current_price', 'current_price_state'];
 
     public function applications()
     {
@@ -128,5 +130,64 @@ class Lot extends Model
     public function lotFiles()
     {
         return $this->hasMany(LotFile::class);
+    }
+
+    public function getCurrentPriceAttribute(){
+        if(is_null($this->price_reduction) || count($this->price_reduction) == 0){
+            return $this->start_price;
+        }else{
+            $date = Carbon::now();
+            for($i=0; $i<= count($this->price_reduction)-1; $i++){
+                $date1 = Carbon::parse($this->price_reduction[$i]['time']);
+                if($i+1 <= count($this->price_reduction)-1) {
+                    $date2 = Carbon::parse($this->price_reduction[$i+1]['time']);
+                    if ($date1 < $date && $date2 > $date) {
+                        return $this->price_reduction[$i]['price'];
+                    }
+                }else {
+                    if ($date1 < $date) {
+                        return $this->price_reduction[$i]['price'];
+                    }else{
+                        return $this->start_price;
+                    }
+                }
+            }
+
+        }
+    }
+
+    public function getCurrentPriceStateAttribute(){
+        if(is_null($this->price_reduction) || count($this->price_reduction) == 0){
+            return 'hold';
+        }else{
+            $date = Carbon::now();
+            for($i=0; $i< count($this->price_reduction)-1; $i++){
+                if($i+1 < count($this->price_reduction)-1) {
+                    $date1 = Carbon::parse($this->price_reduction[$i]['time']);
+                    $date2 = Carbon::parse($this->price_reduction[$i+1]['time']);
+                    if ($date1 < $date && $date2 > $date) {
+                        if($i-1 >= 0) {
+                            if ($this->price_reduction[$i]['price'] > $this->price_reduction[$i - 1]['price']) {
+                                return 'up';
+                            } elseif ($this->price_reduction[$i]['price'] < $this->price_reduction[$i - 1]['price']) {
+                                return 'down';
+                            } else {
+                                return 'hold';
+                            }
+                        }else{
+                            if ($this->price_reduction[$i]['price'] > $this->start_price) {
+                                return 'up';
+                            } elseif ($this->price_reduction[$i]['price'] < $this->start_price) {
+                                return 'down';
+                            } else {
+                                return 'hold';
+                            }
+                        }
+                    }
+                }else{
+                    return 'hold';
+                }
+            }
+        }
     }
 }
