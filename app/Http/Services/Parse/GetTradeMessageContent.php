@@ -180,14 +180,14 @@ class GetTradeMessageContent
             $auction->save();
             $files = null;
             $images = null;
-           /* if (array_key_exists($prefix . 'Attach', $data)) {
+            if (array_key_exists($prefix . 'Attach', $data)) {
                 if (mb_stripos($data[$prefix . 'Attach'][$prefix . 'FileName'], 'фото') !== false) {
                     $images = new FilesService($data, $auction, $prefix, true);
                 } else {
                     $files = new FilesService($data, $auction, $prefix);
                 }
 
-            }*/
+            }
             foreach ($data[$prefix . 'LotList'] as $lot) {
                 if (array_key_exists('0', $lot) || array_key_exists('Lot', $lot)) {
                     foreach ($lot as $value) {
