@@ -64,11 +64,6 @@ class TradeService
         }
         $lot->status_id = Status::where('code', 'BiddingInvitation')->first()['id'];
 
-        if (!is_null($this->files)) {
-           foreach($this->files as $file){
-               $this->saveFiles($file);
-           }
-        }
         if (!is_null($this->images)) {
            $lot->images = $this->images;
         }
@@ -82,6 +77,12 @@ class TradeService
         $lot->sale_agreement = $value[$prefix . 'SaleAgreement'];
 
         $lot->save();
+
+        if (!is_null($this->files)) {
+            foreach($this->files as $file){
+                $this->saveFiles($file);
+            }
+        }
         if (gettype($value[$prefix . 'Classification'][$prefix . 'IDClass']) == 'array') {
             foreach ($value[$prefix . 'Classification'][$prefix . 'IDClass'] as $item) {
                 $category = Category::where('code', $item)->first();
