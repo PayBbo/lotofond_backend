@@ -54,7 +54,7 @@ class FilesService
 
             }
         } else {
-            $files = ['storage/app/public/' . $path . '/' . $name_file];
+            $files = ['storage/' . $path . '/' . $name_file];
         }
         return $files;
 
@@ -89,9 +89,9 @@ class FilesService
             foreach ($resurl_files as $key=>$f) {
                 $name = substr($f, strrpos($f, '\\') + 1, strlen($f));
                 $extension = substr($name,strrpos($name,'.') + 1,strlen($name));
-                $file = 'storage/app/public/' . $path . '/' . 'image-' . $key . '.' . $extension;
+                $file = 'storage/' . $path . '/' . 'image-' . $key . '.' . $extension;
                 $this->generatePreview($file, $path . '/previews/' . 'image-' . $key . '.' . $extension);
-                $preview = 'storage/app/public/' . $path . '/previews/' . 'image-' . $key . '.' . $extension;;
+                $preview = 'storage/' . $path . '/previews/' . 'image-' . $key . '.' . $extension;;
                 $imageAssets[$key] = ['main' => $file, 'preview' => $preview];
             }
         } catch (\Exception $exception) {
@@ -132,9 +132,9 @@ class FilesService
                 $name = substr($f, strrpos($f, '\\') + 1, strlen($f));
                 $extension = substr($name,strrpos($name,'.') + 1,strlen($name));
                 if (preg_match("([^\s]+(\.(?i)(jpg|jpeg|png|bmp))$)", $name) && $this->is_image($f)) {
-                    $file = 'storage/app/public/' . $path . '/' . 'image-' . $key . '.' . $extension;;
+                    $file = 'storage/' . $path . '/' . 'image-' . $key . '.' . $extension;;
                     $this->generatePreview($file, $path . '/previews/' . 'image-'.$key.'.'.$extension);
-                    $preview = 'storage/app/public/' . $path . '/previews/' . 'image-' . $key . '.' . $extension;
+                    $preview = 'storage/' . $path . '/previews/' . 'image-' . $key . '.' . $extension;
                     $imageAssets[] = ['main' => $file, 'preview' => $preview];
                 }
             }
@@ -160,9 +160,9 @@ class FilesService
                 $extension = substr($name,strrpos($name,'.') + 1,strlen($name));
                 if (preg_match("([^\s]+(\.(?i)(jpg|jpeg|png|bmp))$)", $name) && $this->is_image($f)) {
                     rename($destination.$name, $destination. 'image-'.$key.'.'.$extension);
-                    $file = 'storage/app/public/' . $path . '/' . 'image-' . $key . '.' . $extension;;
+                    $file = 'storage/' . $path . '/' . 'image-' . $key . '.' . $extension;;
                     $this->generatePreview($file, $path . '/previews/' . 'image-'.$key.'.'.$extension);
-                    $preview = 'storage/app/public/' . $path . '/previews/' . 'image-' . $key . '.' . $extension;;
+                    $preview = 'storage/' . $path . '/previews/' . 'image-' . $key . '.' . $extension;;
                     $files[] = ['main' => $file, 'preview' => $preview];
                 }
             }

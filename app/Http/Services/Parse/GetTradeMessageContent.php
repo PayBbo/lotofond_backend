@@ -4,6 +4,7 @@ namespace App\Http\Services\Parse;
 
 use App\Models\Auction;
 use App\Models\AuctionType;
+use App\Models\LotFile;
 use App\Models\Status;
 use App\Models\TradeMessage;
 use Midnite81\Xml2Array\Xml2Array;
@@ -221,9 +222,13 @@ class GetTradeMessageContent
                 $url = new FilesService($invitation, $auction, $prefix);
                 $auction_lot = $auction->lots->where('number', $invitation[$prefix . 'LotList'][$prefix . 'LotStatistic']['@attributes']['LotNumber'])->first();
                 if ($auction_lot) {
-                    $files[] = $url;
-                    $auction_lot->files = $files;
-                    $auction_lot->save();
+                    if(!LotFile::where(['url'=>$url, 'lot_id'=>$auction_lot->id, 'type'=>'file'])->exists()){
+                        LotFile::create([
+                            'url'=>$url,
+                            'type'=>'file',
+                            'lot_id'=>$auction_lot->id
+                        ]);
+                    }
                 }
 
             }

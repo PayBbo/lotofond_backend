@@ -18,7 +18,7 @@ class CreateTradeMessagesTable extends Migration
             $table->id();
             $table->unsignedBigInteger('lot_id');
             $table->string('number', 255);
-            $table->string('value', 255);
+            $table->longText('value');
             $table->foreign('lot_id')->references('id')
                 ->on('lots')->cascadeOnDelete();
             $table->dateTime('date')->nullable();
