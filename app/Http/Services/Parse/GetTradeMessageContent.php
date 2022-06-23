@@ -182,9 +182,11 @@ class GetTradeMessageContent
             $images = null;
             if (array_key_exists($prefix . 'Attach', $data)) {
                 if (mb_stripos($data[$prefix . 'Attach'][$prefix . 'FileName'], 'фото') !== false) {
-                    $images = new FilesService($data, $auction, $prefix, true);
+                    $parseFiles= new FilesService();
+                    $images = $parseFiles->parseFiles($data, $auction, $prefix, true);
                 } else {
-                    $files = new FilesService($data, $auction, $prefix);
+                    $parseFiles= new FilesService();
+                    $files = $parseFiles->parseFiles($data, $auction, $prefix);
                 }
 
             }
@@ -246,7 +248,7 @@ class GetTradeMessageContent
                             if ($auction_lot) {
                                 $auction_lot->status_id = Status::where('code', $this->type)->first()['id'];
                                 $auction_lot->save();
-                                $this->createNotification($auction_lot->id, $lot['@attributes']['EventTime']);
+                                $this->createNotification($auction_lot->id, $invitation['@attributes']['EventTime']);
                             }
                         }
                     } else {

@@ -13,7 +13,12 @@ use function public_path;
 class FilesService
 {
 
-    public function __construct($invitation, $auction, $prefix, $isImages = false)
+    public function __construct()
+    {
+
+    }
+
+    public function parseFiles($invitation, $auction, $prefix, $isImages = false)
     {
         $filename = $invitation[$prefix . 'Attach'][$prefix . 'FileName'];
         if (strpos($filename, '.')) {
@@ -32,10 +37,10 @@ class FilesService
         if ($isImages) {
             switch ($invitation[$prefix . 'Attach'][$prefix . 'Type']) {
                 case ('doc' || 'pdf'):
-                 {
-                     $files = $this->getImagesFromDocOrPdf($name_file, $path, $dest);
-                     break;
-                 }
+                {
+                    $files = $this->getImagesFromDocOrPdf($name_file, $path, $dest);
+                    break;
+                }
                 case ('docx'):
                 {
                     $files = $this->getImagesFromDocx($name_file, $path, $dest);
