@@ -45,7 +45,7 @@ class Lot extends Model
         'images' => 'array',
         'start_price' => 'float',
         'auction_id' => 'integer',
-        'auction_step' =>'float',
+        'auction_step' => 'float',
         'deposit' => 'float',
         'is_parse_ecp' => 'boolean',
         'is_auction_step_rub' => 'boolean',
@@ -93,17 +93,17 @@ class Lot extends Model
 
     public function fixedLots()
     {
-        return $this->belongsToMany(User::class,'fixed_lots');
+        return $this->belongsToMany(User::class, 'fixed_lots');
     }
 
     public function seenLots()
     {
-        return $this->belongsToMany(User::class,'seen_lots');
+        return $this->belongsToMany(User::class, 'seen_lots');
     }
 
     public function hiddenLots()
     {
-        return $this->belongsToMany(User::class,'hidden_lots');
+        return $this->belongsToMany(User::class, 'hidden_lots');
     }
 
 
@@ -132,12 +132,13 @@ class Lot extends Model
         return $this->hasMany(LotFile::class);
     }
 
-    public function getCurrentPriceAttribute(){
-        if(is_null($this->price_reduction) || count($this->price_reduction) == 0){
+    public function getCurrentPriceAttribute()
+    {
+        if (is_null($this->price_reduction) || count($this->price_reduction) == 0) {
             return $this->start_price;
-        }else{
+        } else {
             $date = Carbon::now();
-            for($i=0; $i<= count($this->price_reduction)-1; $i++){
+            for ($i = 0; $i <= count($this->price_reduction) - 1; $i++) {
                 try {
                     $date1 = Carbon::parse($this->price_reduction[$i]['time']);
                     if ($i + 1 <= count($this->price_reduction) - 1) {
@@ -152,7 +153,7 @@ class Lot extends Model
                             return $this->start_price;
                         }
                     }
-                }catch(\Exception $e){
+                } catch (\Exception $e) {
                     return $this->start_price;
                 }
             }
@@ -160,60 +161,67 @@ class Lot extends Model
         }
     }
 
-    public function getCurrentPriceStateAttribute(){
-        if(is_null($this->price_reduction) || count($this->price_reduction) == 0){
+    public function getCurrentPriceStateAttribute()
+    {
+        if (is_null($this->price_reduction) || count($this->price_reduction) == 0) {
             return 'hold';
-        }else{
+        } else {
             $date = Carbon::now();
-            for($i=0; $i< count($this->price_reduction)-1; $i++){
-                if($i+1 < count($this->price_reduction)-1) {
-                    $date1 = Carbon::parse($this->price_reduction[$i]['time']);
-                    $date2 = Carbon::parse($this->price_reduction[$i+1]['time']);
-                    if ($date1 < $date && $date2 > $date) {
-                        if($i-1 >= 0) {
-                            if ((float)$this->price_reduction[$i]['price'] > (float)$this->price_reduction[$i - 1]['price']) {
-                                return 'up';
-                            } elseif ((float)$this->price_reduction[$i]['price'] < (float)$this->price_reduction[$i - 1]['price']) {
-                                return 'down';
+            for ($i = 0; $i < count($this->price_reduction) - 1; $i++) {
+                if ($i + 1 < count($this->price_reduction) - 1) {
+                    try {
+                        $date1 = Carbon::parse($this->price_reduction[$i]['time']);
+                        $date2 = Carbon::parse($this->price_reduction[$i + 1]['time']);
+                        if ($date1 < $date && $date2 > $date) {
+                            if ($i - 1 >= 0) {
+                                if ((float)$this->price_reduction[$i]['price'] > (float)$this->price_reduction[$i - 1]['price']) {
+                                    return 'up';
+                                } elseif ((float)$this->price_reduction[$i]['price'] < (float)$this->price_reduction[$i - 1]['price']) {
+                                    return 'down';
+                                } else {
+                                    return 'hold';
+                                }
                             } else {
-                                return 'hold';
-                            }
-                        }else{
-                            if ((float)$this->price_reduction[$i]['price'] > (float)$this->start_price) {
-                                return 'up';
-                            } elseif ((float)$this->price_reduction[$i]['price'] < (float)$this->start_price) {
-                                return 'down';
-                            } else {
-                                return 'hold';
+                                if ((float)$this->price_reduction[$i]['price'] > (float)$this->start_price) {
+                                    return 'up';
+                                } elseif ((float)$this->price_reduction[$i]['price'] < (float)$this->start_price) {
+                                    return 'down';
+                                } else {
+                                    return 'hold';
+                                }
                             }
                         }
+                    } catch (\Exception $e) {
+                        return 'hold';
                     }
-                }else{
+
+                } else {
                     return 'hold';
                 }
             }
         }
     }
 
-    public function getMinPriceAttribute(){
-        if(is_null($this->price_reduction) || count($this->price_reduction) == 0){
+    public
+    function getMinPriceAttribute()
+    {
+        if (is_null($this->price_reduction) || count($this->price_reduction) == 0) {
             return (float)$this->start_price;
-        }else{
+        } else {
             $result = [];
-            for($i=0; $i<= count($this->price_reduction)-1; $i++){
-                if(!is_null($this->price_reduction[$i]['price'])){
+            for ($i = 0; $i <= count($this->price_reduction) - 1; $i++) {
+                if (!is_null($this->price_reduction[$i]['price'])) {
                     $result[] = (float)$this->price_reduction[$i]['price'];
                 }
             }
-            if(count($result)>0){
+            if (count($result) > 0) {
                 return (float)min($result);
-            }else{
+            } else {
                 return (float)$this->start_price;
             }
 
         }
     }
-
 
 
 }
