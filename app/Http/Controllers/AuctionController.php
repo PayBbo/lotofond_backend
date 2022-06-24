@@ -47,8 +47,8 @@ class AuctionController extends Controller
                 $applicationTimeEndMax = Carbon::parse($request->dates['applicationTimeEnd']['end']);
             }
         }
-        $lots = Lot::with(['auction', 'categories'])
-            ->when(isset($request->categories), function ($query) use ($request) {
+        logger($request->extraOptions);
+        $lots = Lot::when(isset($request->categories), function ($query) use ($request) {
                 return $query->whereHas('categories', function ($q) use ($request) {
                     $q->whereIn('title', $request->categories);
                 });

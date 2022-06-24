@@ -54,7 +54,7 @@ class Bidder extends Model
 
     public function debtorCategory()
     {
-        return $this->belongsTo(DebtorCategory::class);
+        return $this->belongsTo(DebtorCategory::class, 'debtor_category_id');
     }
 
     public function sroAu()

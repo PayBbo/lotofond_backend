@@ -47,7 +47,7 @@ Route::group(['middleware' => ['json.response', 'localization']], function () {
 
         Route::get('/', [AuctionController::class, 'getTrades']);
 
-        Route::post('/filter', [AuctionController::class, 'getFilteredTrades']);
+        Route::put('/filter', [AuctionController::class, 'getFilteredTrades']);
 
         Route::get('/{auctionId}', [AuctionController::class, 'getLotsByAuction']);
 

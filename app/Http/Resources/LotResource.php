@@ -32,7 +32,7 @@ class LotResource extends JsonResource
         $categoriesIds = $this->categories->pluck('id')->toArray();
         foreach (array_unique($parents) as $category) {
             $subs = array_intersect($category->subcategories()->pluck('id')->toArray(), $categoriesIds);
-            $categories[$category->title] = Category::whereIn('id', $subs)->get()->pluck('title')->toArray();
+            $categories[$category->title] = array_unique(Category::whereIn('id', $subs)->get()->pluck('title')->toArray());
         }
         $this->auction->isLotInfo = $this->isLotInfo;
         $priceReduction = null;

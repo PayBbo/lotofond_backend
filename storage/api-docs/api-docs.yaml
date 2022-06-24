@@ -396,7 +396,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
   /trades/filter:
-    post:
+    put:
       parameters:
         - in: query
           name: page
@@ -481,11 +481,11 @@ paths:
           description: Роль участников торгов, которых нужно получить для фильтрации
       tags:
         - Trades
-      summary: Получение информации о должниках/организотарах торгов/арбитражных управляющих для отображения в фильтрах
+      summary: Получение информации о должниках/организаторах торгов/арбитражных управляющих для отображения в фильтрах
       operationId: getBiddersForFilter
       responses:
         "200":
-          description: Информация о должнике/организотаре торгов/арбитражном управляющем
+          description: Информация о должнике/организаторе торгов/арбитражном управляющем
           content:
             application/json:
               schema:
