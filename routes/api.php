@@ -4,6 +4,7 @@ use App\Http\Controllers\AuctionController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\ResetPasswordController;
+use App\Http\Controllers\BidderController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -45,11 +46,15 @@ Route::group(['middleware' => ['json.response', 'localization']], function () {
     Route::group(['prefix' => 'trades'], function () {
 
         Route::get('/', [AuctionController::class, 'getTrades']);
-        Route::get('/v2', [AuctionController::class, 'getTradesV2']);
+
+        Route::post('/filter', [AuctionController::class, 'getFilteredTrades']);
 
         Route::get('/{auctionId}', [AuctionController::class, 'getLotsByAuction']);
 
         Route::get('/lot/{lotId}', [AuctionController::class, 'getLotInformation']);
+
+        Route::get('/filter/bidders/{type}', [BidderController::class, 'getBiddersForFilter']);
+
 
     });
 

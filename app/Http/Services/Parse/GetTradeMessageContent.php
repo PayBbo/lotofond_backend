@@ -110,7 +110,7 @@ class GetTradeMessageContent
                 $debtor = $debtor[$prefix . 'DebtorCompany']['@attributes'];
                 $debtor_type = 'company';
             }
-            if(array_key_exists('INN', $debtor)&&  $debtor['INN'] != "" && !is_null( $debtor['INN'])){
+            if(array_key_exists('INN', $debtor) &&  $debtor['INN'] !== "" && !is_null( $debtor['INN'])){
                 $bidderParse = new BidderService('debtor', $debtor['INN'], $debtor_type);
                 $debtor = $bidderParse->saveBidder($debtor);
             }else{
@@ -128,7 +128,7 @@ class GetTradeMessageContent
                 $manager_type = 'company';
             }
             if(array_key_exists('INN',$arbitr_manager)&&  $arbitr_manager['INN'] != "" && !is_null( $arbitr_manager['INN'])){
-                $managerParse = new BidderService('arbitr_manager', $arbitr_manager['INN'], $manager_type);
+                $managerParse = new BidderService('arbitrManager', $arbitr_manager['INN'], $manager_type);
                 $arbitr_manager = $managerParse->saveBidder($arbitr_manager);
             }
 
@@ -145,7 +145,7 @@ class GetTradeMessageContent
                     $org_type = 'company';
                 }
                 if(array_key_exists('INN',$org)&&  $org['INN'] != "" && !is_null($org['INN'])){
-                    $orgParse = new BidderService('trade_organizer', $org['INN'], $org_type);
+                    $orgParse = new BidderService('organizer', $org['INN'], $org_type);
                     $trade_organizer = $orgParse->saveBidder($org);
                 }
             }
@@ -219,15 +219,18 @@ class GetTradeMessageContent
         try {
             $auction = Auction::where('trade_id', $invitation['@attributes']['TradeId'])->first();
             if ($auction && array_key_exists($prefix . 'Attach', $invitation)) {
-                $url = new FilesService($invitation, $auction, $prefix);
+                $parseFiles = new FilesService();
+                $files = $parseFiles->parseFiles($invitation, $auction, $prefix);
                 $auction_lot = $auction->lots->where('number', $invitation[$prefix . 'LotList'][$prefix . 'LotStatistic']['@attributes']['LotNumber'])->first();
                 if ($auction_lot) {
-                    if(!LotFile::where(['url'=>$url, 'lot_id'=>$auction_lot->id, 'type'=>'file'])->exists()){
-                        LotFile::create([
-                            'url'=>$url,
-                            'type'=>'file',
-                            'lot_id'=>$auction_lot->id
-                        ]);
+                    foreach($files as $file){
+                        if(!LotFile::where(['url'=>$file, 'lot_id'=>$auction_lot->id, 'type'=>'file'])->exists()){
+                            LotFile::create([
+                                'url'=>$file,
+                                'type'=>'file',
+                                'lot_id'=>$auction_lot->id
+                            ]);
+                        }
                     }
                 }
 

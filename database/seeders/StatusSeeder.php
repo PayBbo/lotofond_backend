@@ -38,8 +38,8 @@ class StatusSeeder extends Seeder
         }
 
         $bidder_types = [
-            'arbitr_manager',
-            'trade_organizer',
+            'arbitrManager',
+            'organizer',
             'debtor',
             'participant'
         ];

@@ -49,16 +49,25 @@ class LotResource extends JsonResource
             'inFavourites' => auth()->check() ? Favourite::where(['user_id' => $user->id, 'lot_id' => $this->id])->exists() : false,
             'isHide' => auth()->check() ? $user->hiddenLots->contains($this->id) : false,
             'inMonitoring' => auth()->check() ? Monitoring::where(['user_id' => $user->id, 'lot_id' => $this->id])->exists() : false,
-            'startPrice' => $this->start_price,
-            'stepPrice' => [
-                'type' => $this->is_step_rub ? 'rubles' : 'percent',
-                'value' => $this->auction_step
-            ],
-            'deposit' => [
-                'type' => $this->is_deposit_rub ? 'rubles' : 'percent',
-                'value' => $this->deposit
-            ],
-            'priceState' => $this->price_state,
+            'startPrice' =>  $this->start_price,
+            $this->mergeWhen(!is_null($this->auction_step), [
+                'stepPrice' => [
+                    'type' => $this->is_step_rub ? 'rubles' : 'percent',
+                    'value' => $this->auction_step
+                ],
+            ]),
+            $this->mergeWhen(is_null($this->auction_step), [
+                'stepPrice' => null
+            ]),
+            $this->mergeWhen(!is_null($this->deposit), [
+                'deposit' => [
+                    'type' => $this->is_deposit_rub ? 'rubles' : 'percent',
+                    'value' => $this->deposit
+                ],
+            ]),
+            $this->mergeWhen(is_null($this->deposit), [
+                'deposit' => null
+            ]),
             'priceReduction' => $this->price_reduction,
             'currentPrice' => $this->current_price,
             'currentPriceState' => $this->current_price_state,

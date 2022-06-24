@@ -5,7 +5,7 @@ info:
 servers:
   - url: /api
 paths:
-   /registration:
+  /registration:
     post:
       parameters:
         - name: Content-Language
@@ -53,436 +53,499 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
-   /registration/code:
-     post:
-       parameters:
-         - name: Content-Language
-           in: header
-           description: Заголовок для определения локали (ru, en, zh_CN)
-           required: true
-       tags:
-         - Registration
-       summary: 'Запрос повторной отправки кода подтверждения аккаунта'
-       operationId: requestRegistrationCode
-       requestBody:
-         description: 'User email'
-         content:
-           application/json:
-             schema:
-               $ref: '#/components/schemas/ResetPasswordCodeRequest'
-             examples:
-               email:
-                 value:
-                   grantType: email
-                   email: test@gmail.com
-               phone:
-                 value:
-                   grantType: phone
-                   phone: '74951239999'
-       responses:
-         "422":
-           description: 'Wrong email response'
-           content:
-             application/json:
-               schema:
-                 $ref: '#/components/schemas/Error'
-         "200":
-           description: 'Successful response, verification code sent to user'
-         "550":
-           description: 'Message can''t be sent to user'
-           content:
-             application/json:
-               schema:
-                 $ref: '#/components/schemas/Error'
+  /registration/code:
+    post:
+      parameters:
+        - name: Content-Language
+          in: header
+          description: Заголовок для определения локали (ru, en, zh_CN)
+          required: true
+      tags:
+        - Registration
+      summary: 'Запрос повторной отправки кода подтверждения аккаунта'
+      operationId: requestRegistrationCode
+      requestBody:
+        description: 'User email'
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ResetPasswordCodeRequest'
+            examples:
+              email:
+                value:
+                  grantType: email
+                  email: test@gmail.com
+              phone:
+                value:
+                  grantType: phone
+                  phone: '74951239999'
+      responses:
+        "422":
+          description: 'Wrong email response'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "200":
+          description: 'Successful response, verification code sent to user'
+        "550":
+          description: 'Message can''t be sent to user'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
 
-   /registration/code/verify:
-     post:
-       parameters:
-         - name: Content-Language
-           in: header
-           description: Заголовок для определения локали (ru, en, zh_CN)
-           required: true
-       tags:
-         - Registration
-       summary: 'Отправка кода для завершения регистрации'
-       operationId: verifyRegistrationCode
-       requestBody:
-         description: Код подтверждения
-         content:
-           application/json:
-             schema:
-               $ref: '#/components/schemas/CodeRequest'
-             examples:
-               email:
-                 value:
-                   grantType: email
-                   email: test@gmail.com
-                   code: 111111
-               phone:
-                 value:
-                   grantType: phone
-                   phone: '74951239999'
-                   code: 111111
-       responses:
-         "200":
-           description: Данные аккаунта
-           content:
-             application/json:
-               schema:
-                 $ref: '#/components/schemas/TokenData'
-         default:
-           description: unexpected error
-           content:
-             application/json:
-               schema:
-                 $ref: '#/components/schemas/Error'
-   /login:
-     post:
-       parameters:
-         - name: Content-Language
-           in: header
-           description: Заголовок для определения локали (ru, en, zh_CN)
-           required: true
-       tags:
-         - Login
-       summary: Вход пользователя
-       operationId: login
-       requestBody:
-         description: Данные для авторизации
-         content:
-           application/json:
-             schema:
-               $ref: '#/components/schemas/Auth'
-             examples:
-               email:
-                 value:
-                   grantType: email
-                   email: test@gmail.com
-                   password: ne6Jo$zi
-               phone:
-                 value:
-                   grantType: phone
-                   phone: '74951239999'
-                   password: LRn&z!4Y
-         required: true
-       responses:
-         "200":
-           description: Данные аккаунта
-           content:
-             application/json:
-               schema:
-                 $ref: '#/components/schemas/TokenData'
-         default:
-           description: unexpected error
-           content:
-             application/json:
-               schema:
-                 $ref: '#/components/schemas/Error'
-   /account/password/code:
-     parameters:
-       - name: Content-Language
-         in: header
-         description: Заголовок для определения локали (ru, en, zh_CN)
-         required: true
-     post:
-       tags:
-         - Account
-       summary: Запрос кода подтверждения для сброса пароля
-       operationId: getResetPasswordCode
-       requestBody:
-         description: Почта или номер телефона пользователя
-         content:
-           application/json:
-             schema:
-               $ref: '#/components/schemas/ResetPasswordCodeRequest'
-             examples:
-               email:
-                 value:
-                   grantType: email
-                   email: test@gmail.com
-               phone:
-                 value:
-                   grantType: phone
-                   phone: '74951239999'
-         required: true
-       responses:
-         "422":
-           description: 'Wrong credentials response'
-           content:
-             application/json:
-               schema:
-                 $ref: '#/components/schemas/Error'
-         "200":
-           description: 'Successful response, code sent to user '
-         "550":
-           description: 'Message can''t be sent to user'
-           content:
-             application/json:
-               schema:
-                 $ref: '#/components/schemas/Error'
-   /account/password/code/verify:
-     parameters:
-       - name: Content-Language
-         in: header
-         description: Заголовок для определения локали (ru, en, zh_CN)
-         required: true
-     post:
-       tags:
-         - Account
-       summary: Отправка пользователем кода подтверждения для сброса пароля
-       operationId: verifyResetPasswordCode
-       requestBody:
-         description: Код подтверждения
-         content:
-           application/json:
-             schema:
-               $ref: '#/components/schemas/CodeRequest'
-             examples:
-               email:
-                 value:
-                   grantType: email
-                   email: test@gmail.com
-                   code: '123451'
-               phone:
-                 value:
-                   grantType: phone
-                   phone: '74951239999'
-                   code: '123451'
-         required: true
-       responses:
-         "422":
-           description: 'Wrong credentials response'
-           content:
-             application/json:
-               schema:
-                 $ref: '#/components/schemas/Error'
-         "200":
-           description: 'Successful response'
-   /account/password/reset:
-     parameters:
-       - name: Content-Language
-         in: header
-         description: Заголовок для определения локали (ru, en, zh_CN)
-         required: true
-     post:
-       tags:
-         - Account
-       summary: Сброс пароля пользователя
-       operationId: resetPassword
-       requestBody:
-         description: Данные для сброса пароля
-         content:
-           application/json:
-             schema:
-               $ref: '#/components/schemas/ResetPasswordRequest'
-             examples:
-               email:
-                 value:
-                   grantType: email
-                   email: test@gmail.com
-                   password: bc7$etyZ
-                   code: '123451'
-               phone:
-                 value:
-                   grantType: phone
-                   phone: '74951239999'
-                   password: bc7$etyZ
-                   code: '123451'
-         required: true
-       responses:
-         "200":
-           description: Данные аккаунта
-           content:
-             application/json:
-               schema:
-                 $ref: '#/components/schemas/TokenData'
-         default:
-           description: unexpected error
-           content:
-             application/json:
-               schema:
-                 $ref: '#/components/schemas/Error'
-   /account/user/update:
-     parameters:
-       - name: Content-Language
-         in: header
-         description: Заголовок для определения локали (ru, en, zh_CN)
-         required: true
-     put:
-       tags:
-         - Account
-       summary: Обновление информации об аккаунте
-       operationId: updateUser
-       requestBody:
-         description: Информация об аккаунте пользователя
-         content:
-           application/json:
-             schema:
-               $ref: '#/components/schemas/User'
-         required: true
-       responses:
-         "422":
-           description: 'Wrong credentials response'
-           content:
-             application/json:
-               schema:
-                 $ref: '#/components/schemas/Error'
-         "200":
-           description: 'Successful response'
-       security:
-         - bearerAuth: []
-   /account/user:
-     get:
-       tags:
-         - Account
-       summary: Получение информации об аккаунте пользователя
-       operationId: getUser
-       responses:
-         "200":
-           description: Информация об аккаунте пользователя
-           content:
-             application/json:
-               schema:
-                 $ref: '#/components/schemas/User'
-         default:
-           description: unexpected error
-           content:
-             application/json:
-               schema:
-                 $ref: '#/components/schemas/Error'
-       security:
-         - bearerAuth: []
-   /account/logout:
-     get:
-       tags:
-         - Account
-       summary: Выход пользователя из аккаунта
-       operationId: logout
-       responses:
-         "200":
-           description: Выход прошел успешно
-         default:
-           description: unexpected error
-           content:
-             application/json:
-               schema:
-                 $ref: '#/components/schemas/Error'
-       security:
-         - bearerAuth: []
-   /trades:
-     get:
-       parameters:
-         - in: query
-           name: page
-           schema:
-             type: integer
-           required: true
-           description: Номер страницы для серверной пагинации
-       tags:
-         - Trades
-       summary: Получение информации о торгах
-       operationId: getTrades
-       responses:
-         "200":
-           description: Информация о 20 последних торгах
-           content:
-             application/json:
-               schema:
-                 $ref: '#/components/schemas/TradeInfo'
-         default:
-           description: unexpected error
-           content:
-             application/json:
-               schema:
-                 $ref: '#/components/schemas/Error'
-   /trades/{auctionId}:
-     get:
-       parameters:
-         - in: query
-           name: page
-           schema:
-             type: integer
-           required: true
-           description: Номер страницы для серверной пагинации
-         - in: path
-           name: auctionId
-           schema:
-             type: integer
-           required: true
-           description: Айдишник торга, все лоты которого нужно получить
-       tags:
-         - Trades
-       summary: Получение информации о лотах выбранного торга
-       operationId: getLotsByAuction
-       responses:
-         "200":
-           description: Информация о 20 лотах выбранного торга
-           content:
-             application/json:
-               schema:
-                 $ref: '#/components/schemas/LotShort'
-         "404":
-           description: Торг по переданному айдишнику не найден
-           content:
-             application/json:
-               schema:
-                 $ref: '#/components/schemas/Error'
-         default:
-           description: unexpected error
-           content:
-             application/json:
-               schema:
-                 $ref: '#/components/schemas/Error'
-   /trades/lot/{lotId}:
-     get:
-       parameters:
-         - in: path
-           name: lotId
-           schema:
-             type: integer
-           required: true
-           description: Айдишник лота, информацию о котором нужно получить
-       tags:
-         - Trades
-       summary: Получение информации о лоте
-       operationId: getLotInformation
-       responses:
-         "200":
-           description: Информация о лоте
-           content:
-             application/json:
-               schema:
-                 $ref: '#/components/schemas/Lot'
-         "404":
-           description: Лот по переданному айдишнику не найден
-           content:
-             application/json:
-               schema:
-                 $ref: '#/components/schemas/Error'
-         default:
-           description: unexpected error
-           content:
-             application/json:
-               schema:
-                 $ref: '#/components/schemas/Error'
-   /trades/lot/action:
-     put:
-       tags:
-         - Trades
-       summary: Добавление/удаление лота в/из "просмотрено", "скрыто", "закреплено"
-       operationId: actionWithLot
-       requestBody:
-         description: 'Pass user credentials'
-         required: true
-         content:
-           application/json:
-             schema:
-               $ref: '#/components/schemas/ActionWithLot'
-             examples:
+  /registration/code/verify:
+    post:
+      parameters:
+        - name: Content-Language
+          in: header
+          description: Заголовок для определения локали (ru, en, zh_CN)
+          required: true
+      tags:
+        - Registration
+      summary: 'Отправка кода для завершения регистрации'
+      operationId: verifyRegistrationCode
+      requestBody:
+        description: Код подтверждения
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CodeRequest'
+            examples:
+              email:
+                value:
+                  grantType: email
+                  email: test@gmail.com
+                  code: 111111
+              phone:
+                value:
+                  grantType: phone
+                  phone: '74951239999'
+                  code: 111111
+      responses:
+        "200":
+          description: Данные аккаунта
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenData'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /login:
+    post:
+      parameters:
+        - name: Content-Language
+          in: header
+          description: Заголовок для определения локали (ru, en, zh_CN)
+          required: true
+      tags:
+        - Login
+      summary: Вход пользователя
+      operationId: login
+      requestBody:
+        description: Данные для авторизации
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Auth'
+            examples:
+              email:
+                value:
+                  grantType: email
+                  email: test@gmail.com
+                  password: ne6Jo$zi
+              phone:
+                value:
+                  grantType: phone
+                  phone: '74951239999'
+                  password: LRn&z!4Y
+        required: true
+      responses:
+        "200":
+          description: Данные аккаунта
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenData'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /account/password/code:
+    parameters:
+      - name: Content-Language
+        in: header
+        description: Заголовок для определения локали (ru, en, zh_CN)
+        required: true
+    post:
+      tags:
+        - Account
+      summary: Запрос кода подтверждения для сброса пароля
+      operationId: getResetPasswordCode
+      requestBody:
+        description: Почта или номер телефона пользователя
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ResetPasswordCodeRequest'
+            examples:
+              email:
+                value:
+                  grantType: email
+                  email: test@gmail.com
+              phone:
+                value:
+                  grantType: phone
+                  phone: '74951239999'
+        required: true
+      responses:
+        "422":
+          description: 'Wrong credentials response'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "200":
+          description: 'Successful response, code sent to user '
+        "550":
+          description: 'Message can''t be sent to user'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /account/password/code/verify:
+    parameters:
+      - name: Content-Language
+        in: header
+        description: Заголовок для определения локали (ru, en, zh_CN)
+        required: true
+    post:
+      tags:
+        - Account
+      summary: Отправка пользователем кода подтверждения для сброса пароля
+      operationId: verifyResetPasswordCode
+      requestBody:
+        description: Код подтверждения
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CodeRequest'
+            examples:
+              email:
+                value:
+                  grantType: email
+                  email: test@gmail.com
+                  code: '123451'
+              phone:
+                value:
+                  grantType: phone
+                  phone: '74951239999'
+                  code: '123451'
+        required: true
+      responses:
+        "422":
+          description: 'Wrong credentials response'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "200":
+          description: 'Successful response'
+  /account/password/reset:
+    parameters:
+      - name: Content-Language
+        in: header
+        description: Заголовок для определения локали (ru, en, zh_CN)
+        required: true
+    post:
+      tags:
+        - Account
+      summary: Сброс пароля пользователя
+      operationId: resetPassword
+      requestBody:
+        description: Данные для сброса пароля
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ResetPasswordRequest'
+            examples:
+              email:
+                value:
+                  grantType: email
+                  email: test@gmail.com
+                  password: bc7$etyZ
+                  code: '123451'
+              phone:
+                value:
+                  grantType: phone
+                  phone: '74951239999'
+                  password: bc7$etyZ
+                  code: '123451'
+        required: true
+      responses:
+        "200":
+          description: Данные аккаунта
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenData'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /account/user/update:
+    parameters:
+      - name: Content-Language
+        in: header
+        description: Заголовок для определения локали (ru, en, zh_CN)
+        required: true
+    put:
+      tags:
+        - Account
+      summary: Обновление информации об аккаунте
+      operationId: updateUser
+      requestBody:
+        description: Информация об аккаунте пользователя
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+        required: true
+      responses:
+        "422":
+          description: 'Wrong credentials response'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "200":
+          description: 'Successful response'
+      security:
+        - bearerAuth: [ ]
+  /account/user:
+    get:
+      tags:
+        - Account
+      summary: Получение информации об аккаунте пользователя
+      operationId: getUser
+      responses:
+        "200":
+          description: Информация об аккаунте пользователя
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+        - bearerAuth: [ ]
+  /account/logout:
+    get:
+      tags:
+        - Account
+      summary: Выход пользователя из аккаунта
+      operationId: logout
+      responses:
+        "200":
+          description: Выход прошел успешно
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+        - bearerAuth: [ ]
+  /trades:
+    get:
+      parameters:
+        - in: query
+          name: page
+          schema:
+            type: integer
+          required: true
+          description: Номер страницы для серверной пагинации
+      tags:
+        - Trades
+      summary: Получение информации о торгах
+      operationId: getTrades
+      responses:
+        "200":
+          description: Информация о 20 последних торгах
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TradeInfo'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /trades/filter:
+    post:
+      parameters:
+        - in: query
+          name: page
+          schema:
+            type: integer
+          required: true
+          description: Номер страницы для серверной пагинации
+      tags:
+        - Trades
+      summary: Получение информации о торгах в соответствии с фильтрами
+      operationId: getFilteredTrades
+      requestBody:
+        description: Данные о выбранных фитрах
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Filters'
+        required: true
+      responses:
+        "200":
+          description: Информация о 20 торгах
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TradeInfo'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /trades/{auctionId}:
+    get:
+      parameters:
+        - in: query
+          name: page
+          schema:
+            type: integer
+          required: true
+          description: Номер страницы для серверной пагинации
+        - in: path
+          name: auctionId
+          schema:
+            type: integer
+          required: true
+          description: Айдишник торга, все лоты которого нужно получить
+      tags:
+        - Trades
+      summary: Получение информации о лотах выбранного торга
+      operationId: getLotsByAuction
+      responses:
+        "200":
+          description: Информация о 20 лотах выбранного торга
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TradeInfo'
+        "404":
+          description: Торг по переданному айдишнику не найден
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /trades/filter/bidders/{type}:
+    get:
+      parameters:
+        - in: path
+          name: type
+          schema:
+            type: string
+            enum:
+              - debtor
+              - organizer
+              - arbitrManager
+          required: true
+          description: Роль участников торгов, которых нужно получить для фильтрации
+      tags:
+        - Trades
+      summary: Получение информации о должниках/организотарах торгов/арбитражных управляющих для отображения в фильтрах
+      operationId: getBiddersForFilter
+      responses:
+        "200":
+          description: Информация о должнике/организотаре торгов/арбитражном управляющем
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BidderInfo'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /trades/lot/{lotId}:
+    get:
+      parameters:
+        - in: path
+          name: lotId
+          schema:
+            type: integer
+          required: true
+          description: Айдишник лота, информацию о котором нужно получить
+      tags:
+        - Trades
+      summary: Получение информации о лоте
+      operationId: getLotInformation
+      responses:
+        "200":
+          description: Информация о лоте
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Lot'
+        "404":
+          description: Лот по переданному айдишнику не найден
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /trades/lot/action:
+    put:
+      tags:
+        - Trades
+      summary: Добавление/удаление лота в/из "просмотрено", "скрыто", "закреплено"
+      operationId: actionWithLot
+      requestBody:
+        description: 'Pass user credentials'
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ActionWithLot'
+            examples:
               Add/delete to/from seen:
-                 value:
-                   type: seen
-                   lot_id: 1
+                value:
+                  type: seen
+                  lot_id: 1
               Add/delete to/from fixed:
                 value:
                   type: fixed
@@ -491,23 +554,23 @@ paths:
                 value:
                   type: hidden
                   lot_id: 1
-       responses:
-         "200":
-           description: Лот успешно добавлен/удален в/из "просмотрено", "скрыто", "закреплено"
-         "404":
-           description: Лот по переданному айдишнику не найден
-           content:
-             application/json:
-               schema:
-                 $ref: '#/components/schemas/Error'
-         default:
-           description: unexpected error
-           content:
-             application/json:
-               schema:
-                 $ref: '#/components/schemas/Error'
-       security:
-         - bearerAuth: []
+      responses:
+        "200":
+          description: Лот успешно добавлен/удален в/из "просмотрено", "скрыто", "закреплено"
+        "404":
+          description: Лот по переданному айдишнику не найден
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+        - bearerAuth: [ ]
 
 components:
   schemas:
@@ -669,8 +732,6 @@ components:
         type:
           type: string
           description: тип аукциона
-        state:
-          type: string
         priceOfferForm:
           type: string
           enum:
@@ -699,58 +760,9 @@ components:
               type: string
               description: дата и время окончания приема заявок
         organizer:
-          type: object
-          properties:
-            type:
-              type: string
-              enum:
-                - person
-                - company
-            id:
-              type: integer
-            person:
-              type: object
-              properties:
-                firstName:
-                  type: string
-                middleName:
-                  type: string
-                lastName:
-                  type: string
-            company:
-              type: object
-              properties:
-                shortName:
-                  type: string
-                fullName:
-                  type: string
+          $ref: "#/components/schemas/BidderInfo"
         arbitrManager:
-          type: object
-          description: арбитражный управляющий может быть как физическим, так и юридическим лицом
-          properties:
-            type:
-              type: string
-              enum:
-                - person
-                - company
-            id:
-              type: integer
-            person:
-              type: object
-              properties:
-                firstName:
-                  type: string
-                middleName:
-                  type: string
-                lastName:
-                  type: string
-            company:
-              type: object
-              properties:
-                shortName:
-                  type: string
-                fullName:
-                  type: string
+          $ref: "#/components/schemas/BidderInfo"
         debtorID:
           type: integer
           description: айдишник должника
@@ -767,16 +779,23 @@ components:
       type: object
       properties:
         data:
-          $ref: '#/components/schemas/LotShort'
+          type: array
+          items:
+            $ref: '#/components/schemas/LotShort'
         pagination:
-          type: object
-          description: щбъект пагинации (для веба)
+          $ref: '#/components/schemas/Pagination'
     TradeShort:
       type: object
       properties:
         id:
           type: integer
           description: айди торга
+        externalId:
+          type: string
+          description: номер торгов
+        type:
+          type: string
+          description: тип аукциона
         lotCount:
           type: integer
           description: количество лотов в торгах
@@ -823,7 +842,7 @@ components:
           }
         isPinned:
           type: boolean
-          description:  закреплен/не закреплен
+          description: закреплен/не закреплен
         inFavourites:
           type: boolean
           description: в избранном/нет
@@ -846,8 +865,8 @@ components:
           type: array
           description: массив фоток
           example: [
-            {"preview": "http://127.0.0.1:8000/storage/auction-files/auction-695/previews/IMG-20220209-WA0009.jpg",
-             "main":"http://127.0.0.1:8000/storage/auction-files/auction-695/IMG-20220209-WA0009.jpg"},
+            { "preview": "http://127.0.0.1:8000/storage/auction-files/auction-695/previews/IMG-20220209-WA0009.jpg",
+              "main": "http://127.0.0.1:8000/storage/auction-files/auction-695/IMG-20220209-WA0009.jpg" },
             { "preview": "http://127.0.0.1:8000/storage/auction-files/auction-695/previews/IMG-20220209-WA0009.jpg",
               "main": "http://127.0.0.1:8000/storage/auction-files/auction-695/IMG-20220209-WA0009.jpg" },
           ]
@@ -915,7 +934,7 @@ components:
           }
         isPinned:
           type: boolean
-          description:  закреплен/не закреплен
+          description: закреплен/не закреплен
         inFavourites:
           type: boolean
           description: в избранном/нет
@@ -938,8 +957,8 @@ components:
           type: array
           description: массив фоток
           example: [
-            {"preview": "http://127.0.0.1:8000/storage/auction-files/auction-695/previews/IMG-20220209-WA0009.jpg",
-             "main":"http://127.0.0.1:8000/storage/auction-files/auction-695/IMG-20220209-WA0009.jpg"},
+            { "preview": "http://127.0.0.1:8000/storage/auction-files/auction-695/previews/IMG-20220209-WA0009.jpg",
+              "main": "http://127.0.0.1:8000/storage/auction-files/auction-695/IMG-20220209-WA0009.jpg" },
             { "preview": "http://127.0.0.1:8000/storage/auction-files/auction-695/previews/IMG-20220209-WA0009.jpg",
               "main": "http://127.0.0.1:8000/storage/auction-files/auction-695/IMG-20220209-WA0009.jpg" },
           ]
@@ -955,8 +974,8 @@ components:
             type:
               type: string
               enum:
-               - rubles
-               - percent
+                - rubles
+                - percent
             value:
               type: number
               example: 0.00
@@ -1003,8 +1022,24 @@ components:
             number:
               type: string
           description: пока только кадастровый номер, потом добавлю площадь и кадастровую стоимость
-
-
+    Pagination:
+      type: object
+      properties:
+        total:
+          type: integer
+          description: количество всех записей
+        count:
+          type: integer
+          description: количество выведенных записей
+        perPage:
+          type: integer
+          description: предыдущая страница
+        currentPage:
+          type: integer
+          description: текущая страница
+        totalPages:
+          type: integer
+          description: количество всех страниц
     Notification:
       required:
         - value
@@ -1088,6 +1123,210 @@ components:
             - seen
             - hidden
             - fixed
+    BidderInfo:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+             - person
+             - company
+        id:
+          type: integer
+        person:
+          type: object
+          properties:
+            firstName:
+              type: string
+            middleName:
+              type: string
+            lastName:
+              type: string
+        company:
+          type: object
+          properties:
+            shortName:
+              type: string
+            fullName:
+              type: string
+
+    Filters:
+      type: object
+      properties:
+        categories:
+          type: array
+          default: null
+          example: [ 'commercialRealEstate', 'land', 'obligations' ]
+          items:
+            type: string
+            description: названия отмеченных категорий, если выбрана одна из главных категорий - присылать ее название и названия всех подкатегорий
+        regions:
+          type: array
+          default: null
+          example: [ 'MoscowCity', 'VoronezhRegion', 'KamchatkaKrai' ]
+          items:
+            type: string
+            description: названия отмеченных регионов, если выбрана группа регионов - присылать все регионы этой группы
+        prices:
+          default: null
+          type: object
+          example: {
+            currentPrice:
+              {
+                min: 0,
+                max: 100000
+              },
+            startPrice:
+              {
+                min: 0,
+                max: 100000
+              },
+            minPrice:
+              {
+                min: 0,
+                max: 100000
+              },
+            percentageReduction:
+              {
+                min: 0,
+                max: 10
+              }
+
+          }
+          properties:
+            currentPrice:
+              type: object
+              default: null
+              properties:
+                max:
+                  type: number
+                  description: максимальная текущая цена лота
+                min:
+                  type: number
+                  description: минимальная текущая цена лота
+            startPrice:
+              type: object
+              default: null
+              properties:
+                max:
+                  type: number
+                  description: максимальная начальная цена лота
+                min:
+                  type: number
+                  description: минимальная начальная цена лота
+            minPrice:
+              type: object
+              default: null
+              properties:
+                max:
+                  type: number
+                  description: максимальная цена лота, если не задана - подать null
+                min:
+                  type: number
+                  description: минимальная цена лота, если не задана - подать null
+            percentageReduction:
+              type: object
+              default: null
+              description: пока не сделано (!)
+              properties:
+                max:
+                  type: number
+                  description: максимальный процент снижения
+                min:
+                  type: number
+                  description: минимальный процент снижения
+        dates:
+          type: object
+          default: null
+          example: {
+            eventTimeStart: {
+              start: '23.06.2022',
+              end: '23.08.2022'
+            },
+            eventTimeEnd: {
+              start: '23.06.2022',
+              end: '23.08.2022'
+            },
+            applicationTimeStart: {
+              start: '23.06.2022',
+              end: '23.08.2022'
+            },
+            applicationTimeEnd: {
+              start: '23.06.2022',
+              end: '23.08.2022'
+            }
+          }
+          properties:
+            eventTimeStart:
+              type: object
+              default: null
+              properties:
+                start:
+                  type: string
+                end:
+                  type: string
+            eventTimeEnd:
+              type: object
+              default: null
+              properties:
+                start:
+                  type: string
+                end:
+                  type: string
+            applicationTimeStart:
+              type: object
+              default: null
+              properties:
+                start:
+                  type: string
+                end:
+                  type: string
+            applicationTimeEnd:
+              type: object
+              default: null
+              properties:
+                start:
+                  type: string
+                end:
+                  type: string
+        extraOptions:
+          type: object
+          default: null
+          example: {
+            debtorCategories:['SimplePerson', 'SimpleOrganization'],
+            debtors: [1, 2, 3],
+            organizers: [1, 2, 3],
+            arbitrManagers: [1, 2, 3]
+          }
+          properties:
+            debtorCategories:
+              type: array
+              default: null
+              items:
+                type: string
+                description: название категории должника
+            debtors:
+              type: array
+              default: null
+              example: [ 1, 2, 3 ]
+              items:
+                type: integer
+                description: айдишники должников
+            organizers:
+              type: array
+              default: null
+              example: [ 1, 2, 3 ]
+              items:
+                type: integer
+                description: айдишники организаторов торгов
+            arbitrManagers:
+              type: array
+              default: null
+              example: [ 1, 2, 3 ]
+              items:
+                type: integer
+                description: айдишники арбитражных управляющих
+
   securitySchemes:
     bearerAuth:
       type: http

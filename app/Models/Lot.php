@@ -43,10 +43,10 @@ class Lot extends Model
     protected $casts = [
         'id' => 'integer',
         'images' => 'array',
-        'start_price' => 'decimal:2',
+        'start_price' => 'float',
         'auction_id' => 'integer',
-        'auction_step' =>'decimal:2',
-        'deposit' => 'decimal:2',
+        'auction_step' =>'float',
+        'deposit' => 'float',
         'is_parse_ecp' => 'boolean',
         'is_auction_step_rub' => 'boolean',
         'is_deposit_rub' => 'boolean',
@@ -54,7 +54,7 @@ class Lot extends Model
         'price_reduction' => 'array'
     ];
 
-    protected $appends = ['current_price', 'current_price_state'];
+    protected $appends = ['current_price', 'current_price_state', 'min_price'];
 
     public function applications()
     {
@@ -167,17 +167,17 @@ class Lot extends Model
                     $date2 = Carbon::parse($this->price_reduction[$i+1]['time']);
                     if ($date1 < $date && $date2 > $date) {
                         if($i-1 >= 0) {
-                            if ($this->price_reduction[$i]['price'] > $this->price_reduction[$i - 1]['price']) {
+                            if ((float)$this->price_reduction[$i]['price'] > (float)$this->price_reduction[$i - 1]['price']) {
                                 return 'up';
-                            } elseif ($this->price_reduction[$i]['price'] < $this->price_reduction[$i - 1]['price']) {
+                            } elseif ((float)$this->price_reduction[$i]['price'] < (float)$this->price_reduction[$i - 1]['price']) {
                                 return 'down';
                             } else {
                                 return 'hold';
                             }
                         }else{
-                            if ($this->price_reduction[$i]['price'] > $this->start_price) {
+                            if ((float)$this->price_reduction[$i]['price'] > (float)$this->start_price) {
                                 return 'up';
-                            } elseif ($this->price_reduction[$i]['price'] < $this->start_price) {
+                            } elseif ((float)$this->price_reduction[$i]['price'] < (float)$this->start_price) {
                                 return 'down';
                             } else {
                                 return 'hold';
@@ -190,4 +190,26 @@ class Lot extends Model
             }
         }
     }
+
+    public function getMinPriceAttribute(){
+        if(is_null($this->price_reduction) || count($this->price_reduction) == 0){
+            return (float)$this->start_price;
+        }else{
+            $result = [];
+            for($i=0; $i<= count($this->price_reduction)-1; $i++){
+                if(!is_null($this->price_reduction[$i]['price'])){
+                    $result[] = (float)$this->price_reduction[$i]['price'];
+                }
+            }
+            if(count($result)>0){
+                return (float)min($result);
+            }else{
+                return (float)$this->start_price;
+            }
+
+        }
+    }
+
+
+
 }

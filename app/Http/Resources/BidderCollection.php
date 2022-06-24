@@ -4,7 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\ResourceCollection;
 
-class LotCollection extends ResourceCollection
+class BidderCollection extends ResourceCollection
 {
     /**
      * Transform the resource collection into an array.
@@ -18,7 +18,7 @@ class LotCollection extends ResourceCollection
      *
      * @var string
      */
-    public $collects = 'App\Http\Resources\LotResource';
+    public $collects = 'App\Http\Resources\BidderResource';
 
     public function toArray($request)
     {

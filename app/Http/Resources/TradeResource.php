@@ -16,7 +16,9 @@ class TradeResource extends JsonResource
     {
         return [
             'id' => $this->id,
+            'externalId' => $this->trade_id,
             'lotCount' => $this->lots->count(),
+            'type' => $this->auctionType->title,
             'eventTime' => [
                 'start' => $this->event_start_date,
                 'end' => $this->event_end_date,
@@ -27,48 +29,11 @@ class TradeResource extends JsonResource
                 'end' => $this->application_end_date,
             ],
             $this->mergeWhen($this->isLotInfo === true, [
-                'externalId' => $this->trade_id,
                 'publishDateSmi' => $this->date_publish_efir,
                 'publishDateEfir' => $this->date_publish_smi,
-                'type' => $this->auctionType->title,
-                'state' => '',
                 'priceOfferForm' => $this->price_form,
-                'organizer' => [
-                    'type' => $this->companyTradeOrganizer->type,
-                    $this->mergeWhen($this->companyTradeOrganizer->type === 'person', [
-                        'person' => [
-                            'firstName' => $this->companyTradeOrganizer->name,
-                            'middleName' => $this->companyTradeOrganizer->middle_name,
-                            'lastName' => $this->companyTradeOrganizer->last_name
-                        ],
-                        'company' => null
-                    ]),
-                    $this->mergeWhen($this->companyTradeOrganizer->type === 'company', [
-                        'person' => null,
-                        'company' => [
-                            'shortName' => $this->companyTradeOrganizer->short_name,
-                            'fullName' => $this->companyTradeOrganizer->name
-                        ]
-                    ])
-                ],
-                'arbitrManager' => [
-                    'type' => $this->arbitrManager->type,
-                    $this->mergeWhen($this->arbitrManager->type === 'person', [
-                        'person' => [
-                            'firstName' => $this->arbitrManager->name,
-                            'middleName' => $this->arbitrManager->middle_name,
-                            'lastName' => $this->arbitrManager->last_name
-                        ],
-                        'company' => null
-                    ]),
-                    $this->mergeWhen($this->arbitrManager->type === 'company', [
-                        'person' => null,
-                        'company' => [
-                            'shortName' => $this->arbitrManager->short_name,
-                            'fullName' => $this->arbitrManager->name
-                        ]
-                    ])
-                ],
+                'organizer' => new BidderResource($this->companyTradeOrganizer),
+                'arbitrManager' => new BidderResource($this->arbitrManager),
                 'debtorId' => $this->debtor_id,
                 'tradePlace' => [
                     'name' => $this->tradePlace->name,
