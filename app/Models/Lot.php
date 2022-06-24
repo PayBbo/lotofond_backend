@@ -138,18 +138,22 @@ class Lot extends Model
         }else{
             $date = Carbon::now();
             for($i=0; $i<= count($this->price_reduction)-1; $i++){
-                $date1 = Carbon::parse($this->price_reduction[$i]['time']);
-                if($i+1 <= count($this->price_reduction)-1) {
-                    $date2 = Carbon::parse($this->price_reduction[$i+1]['time']);
-                    if ($date1 < $date && $date2 > $date) {
-                        return $this->price_reduction[$i]['price'];
+                try {
+                    $date1 = Carbon::parse($this->price_reduction[$i]['time']);
+                    if ($i + 1 <= count($this->price_reduction) - 1) {
+                        $date2 = Carbon::parse($this->price_reduction[$i + 1]['time']);
+                        if ($date1 < $date && $date2 > $date) {
+                            return $this->price_reduction[$i]['price'];
+                        }
+                    } else {
+                        if ($date1 < $date) {
+                            return $this->price_reduction[$i]['price'];
+                        } else {
+                            return $this->start_price;
+                        }
                     }
-                }else {
-                    if ($date1 < $date) {
-                        return $this->price_reduction[$i]['price'];
-                    }else{
-                        return $this->start_price;
-                    }
+                }catch(\Exception $e){
+                    return $this->start_price;
                 }
             }
 

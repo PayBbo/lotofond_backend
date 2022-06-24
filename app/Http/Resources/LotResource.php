@@ -35,6 +35,14 @@ class LotResource extends JsonResource
             $categories[$category->title] = Category::whereIn('id', $subs)->get()->pluck('title')->toArray();
         }
         $this->auction->isLotInfo = $this->isLotInfo;
+        $priceReduction = null;
+        if(gettype($this->price_reduction) == 'array'){
+            if(count($this->price_reduction) == 0){
+                $priceReduction = null;
+            }else{
+                $priceReduction = $this->price_reduction;
+            }
+        }
         return [
             'id' => $this->id,
             'trade' => new TradeResource($this->auction),
@@ -42,7 +50,7 @@ class LotResource extends JsonResource
             'photos' => is_null($this->images) ? [] : $this->images,
             'categories' => $categories,
             'description' => stripslashes(preg_replace('/[\x00-\x1F\x7F]/u', ' ', $this->description)),
-            'state' => $this->status->title,
+            'state' => $this->status->code,
             'location' => $this->auction->debtor->address,
             'isWatched' => auth()->check() ? $user->seenLots->contains($this->id) : false,
             'isPinned' => auth()->check() ? $user->fixedLots->contains($this->id) : false,
@@ -68,7 +76,7 @@ class LotResource extends JsonResource
             $this->mergeWhen(is_null($this->deposit), [
                 'deposit' => null
             ]),
-            'priceReduction' => $this->price_reduction,
+            'priceReduction' => $priceReduction,
             'currentPrice' => $this->current_price,
             'currentPriceState' => $this->current_price_state,
             'link' => URL::to('/lot/' . $this->id),
