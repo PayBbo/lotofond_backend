@@ -723,6 +723,9 @@ components:
         externalId:
           type: string
           description: номер торгов
+        publishDate:
+          type: string
+          description: дата в формате Iso8601
         publishDateSmi:
           type: string
           description: дата в формате Iso8601
@@ -790,6 +793,9 @@ components:
         id:
           type: integer
           description: айди торга
+        publishDate:
+          type: string
+          description: дата в формате Iso8601
         externalId:
           type: string
           description: номер торгов
@@ -874,6 +880,9 @@ components:
           type: string
           description: геометка (адрес у нас будет именно для лота, а не для торга)
         startPrice:
+          type: number
+          example: 0.00
+        minPrice:
           type: number
           example: 0.00
         stepPrice:
@@ -1005,6 +1014,9 @@ components:
           description: цена или сумма залога могут быть нулевыми
         currentPrice:
           type: number
+        minPrice:
+          type: number
+          example: 0.00
         currentPriceState:
           type: string
           enum:
@@ -1133,6 +1145,14 @@ components:
              - company
         id:
           type: integer
+        inn:
+          type: string
+        sroAU:
+          type: string
+          description: название объединения арбитражных управляющих
+        phone:
+          type: string
+        email:
         person:
           type: object
           properties:

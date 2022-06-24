@@ -65,7 +65,6 @@ class ParseTrades implements ShouldQueue
                                         $get_trade_message_content->switchMessageType( $tradePlace->id, $trade, $message->ID);
                                     }
                                 }
-                                break;
                             }
                             foreach (get_object_vars($trade->MessageList) as $item) {
                                 if (gettype($item) == 'string') {

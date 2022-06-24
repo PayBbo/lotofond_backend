@@ -202,8 +202,7 @@ class Lot extends Model
         }
     }
 
-    public
-    function getMinPriceAttribute()
+    public function getMinPriceAttribute()
     {
         if (is_null($this->price_reduction) || count($this->price_reduction) == 0) {
             return (float)$this->start_price;

@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Models\Type;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class BidderResource extends JsonResource
@@ -17,6 +18,7 @@ class BidderResource extends JsonResource
         return [
             'type' => $this->type,
             'id'=>$this->id,
+            'inn'=>$this->inn,
             $this->mergeWhen($this->type === 'person', [
                 'person' => [
                     'firstName' => $this->name,
@@ -31,7 +33,14 @@ class BidderResource extends JsonResource
                     'shortName' => $this->short_name,
                     'fullName' => $this->name
                 ]
-            ])
+            ]),
+             $this->mergeWhen($this->types->contains(Type::where('title','organizer')->first()), [
+                 'phone'=>$this->phone,
+                 'email'=>$this->email
+             ]),
+            $this->mergeWhen($this->types->contains(Type::where('title','arbitrManager')->first()), [
+                'sroAU'=>$this->sroAu ? $this->sroAu->name : null,
+            ]),
         ];
     }
 }

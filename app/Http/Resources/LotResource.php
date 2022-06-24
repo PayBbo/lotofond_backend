@@ -78,6 +78,7 @@ class LotResource extends JsonResource
             ]),
             'priceReduction' => $priceReduction,
             'currentPrice' => $this->current_price,
+            'minPrice'=> $this->min_price,
             'currentPriceState' => $this->current_price_state,
             'link' => URL::to('/lot/' . $this->id),
             'efrsbLink' => 'https://fedresurs.ru/bidding/' . $this->auction->guid
