@@ -34,45 +34,45 @@ class AuctionController extends Controller
         $maxDate = null;
         if (isset($request->dates)) {
             if (isset($request->dates['eventTimeStart'])) {
-                if($request->dates['eventTimeStart']['start'] !== '') {
+                if(isset($request->dates['eventTimeStart']['start']) && strlen((string) $request->dates['eventTimeStart']['start'])>0) {
                     $eventTimeStartMin = Carbon::parse($request->dates['eventTimeStart']['start']);
                 }
-                if($request->dates['eventTimeStart']['end'] !== '') {
+                if(isset($request->dates['eventTimeStart']['end']) && strlen((string)$request->dates['eventTimeStart']['end'])>0) {
                     $eventTimeStartMax = Carbon::parse($request->dates['eventTimeStart']['end']);
                 }
             }
             if (isset($request->dates['eventTimeEnd'])) {
-                if($request->dates['eventTimeEnd']['start'] !== '') {
+                if(isset($request->dates['eventTimeEnd']['start']) && strlen((string)$request->dates['eventTimeEnd']['start'])>0) {
                     $eventTimeEndMin = Carbon::parse($request->dates['eventTimeEnd']['start']);
                 }
-                if($request->dates['eventTimeEnd']['end'] !== '') {
+                if(isset($request->dates['eventTimeEnd']['end']) && strlen((string)$request->dates['eventTimeEnd']['end'])>0) {
                     $eventTimeEndMax = Carbon::parse($request->dates['eventTimeEnd']['end']);
                 }
             }
             if (isset($request->dates['applicationTimeStart'])) {
-                if($request->dates['applicationTimeStart']['start'] !== '') {
+                if(isset($request->dates['applicationTimeStart']['start']) && strlen((string)$request->dates['applicationTimeStart']['start'])>0) {
                     $applicationTimeStartMin = Carbon::parse($request->dates['applicationTimeStart']['start']);
                 }
-                if($request->dates['applicationTimeStart']['end'] !== '') {
+                if(isset($request->dates['applicationTimeStart']['end']) && strlen((string)$request->dates['applicationTimeStart']['end'])>0) {
                     $applicationTimeStartMax = Carbon::parse($request->dates['applicationTimeStart']['end']);
                 }
             }
             if (isset($request->dates['applicationTimeEnd'])) {
-                if($request->dates['applicationTimeEnd']['start'] !== '') {
+                if(isset($request->dates['applicationTimeEnd']['start']) && strlen((string)$request->dates['applicationTimeEnd']['start'])>0) {
                     $applicationTimeEndMin = Carbon::parse($request->dates['applicationTimeEnd']['start']);
                 }
-                if($request->dates['applicationTimeEnd']['end'] !== '') {
+                if(isset($request->dates['applicationTimeEnd']['end']) && strlen((string)$request->dates['applicationTimeEnd']['end'])>0) {
                     $applicationTimeEndMax = Carbon::parse($request->dates['applicationTimeEnd']['end']);
                 }
             }
         }
-        if(isset($request->mainParams) && isset($request->mainParams['period']) && $request->mainParams['period'] !== '' && $request->mainParams['period'] !== 'all'){
+        if(isset($request->mainParams) && isset($request->mainParams['period']) && strlen((string)$request->mainParams['period']) >0 && $request->mainParams['period'] !== 'all'){
             $result = $this->getPeriodDates($request->mainParams['period']);
             $minDate = $result[0];
             $maxDate = $result[1];
         }
         if(isset($request->mainParams)){
-            if(isset($request->mainParams['exceptionWords']) && $request->mainParams['exceptionWords'] !=='' ){
+            if(isset($request->mainParams['exceptionWords']) && strlen((string)$request->mainParams['exceptionWords'])>0){
                 $exceptionWords = explode(',', $request->mainParams['exceptionWords']);
             }
         }
@@ -87,7 +87,7 @@ class AuctionController extends Controller
                 });
             })*/
             ->when(isset($request->prices) && isset($request->prices['startPrice'])
-                   && $request->prices['startPrice']['min']!=='' && $request->prices['startPrice']['max']!=='', function ($query) use ($request) {
+                   && strlen((string)$request->prices['startPrice']['min'])>0 && strlen((string)$request->prices['startPrice']['max'])>0, function ($query) use ($request) {
                 $query->whereBetween('start_price',
                     [$request->prices['startPrice']['min'], $request->prices['startPrice']['max']]);
             })
@@ -165,31 +165,31 @@ class AuctionController extends Controller
                     $q->whereIn('trade_place_id', $request->mainParams['tradePlaces']);
                 });
             })
-            ->when(isset($request->mainParams) && isset($request->mainParams['tradeNumber']) && $request->mainParams['tradeNumber'] !== '', function ($query) use ($request) {
+            ->when(isset($request->mainParams) && isset($request->mainParams['tradeNumber']) && strlen((string)$request->mainParams['tradeNumber'])>0, function ($query) use ($request) {
                 return $query->whereHas('auction', function ($q) use ($request) {
                     $q->where('trade_id', $request->mainParams['tradeNumber']);
                 });
             })
-            ->when(isset($request->mainParams) && isset($request->mainParams['tradeType']) && $request->mainParams['tradeType'] !== '', function ($query) use ($request) {
+            ->when(isset($request->mainParams) && isset($request->mainParams['tradeType']) && strlen((string)$request->mainParams['tradeType'])>0, function ($query) use ($request) {
                 return $query->whereHas('auction.auctionType', function ($q) use ($request) {
                     $q->where('title', $request->mainParams['tradeType']);
                 });
             })
-            ->when(isset($request->mainParams) && isset($request->mainParams['isWithPhotos']) && $request->mainParams['isWithPhotos']==true, function($query) use ($request){
+            ->when(isset($request->mainParams) && isset($request->mainParams['isWithPhotos']) && $request->mainParams['isWithPhotos']===true, function($query) use ($request){
                 $query->where('photos', 'IS NOT', null);
             })
-            ->when(isset($request->mainParams) && isset($request->mainParams['isStopped']) && $request->mainParams['isStopped'] == true, function($query) use ($request){
+            ->when(isset($request->mainParams) && isset($request->mainParams['isStopped']) && $request->mainParams['isStopped'] === true, function($query) use ($request){
                 return $query->whereHas('status', function ($q) use ($request) {
                     $q->where('id', 10);
                 });
             })
-            ->when(isset($request->mainParams) && isset($request->mainParams['isCompleted']) && $request->mainParams['isCompleted'] == true, function($query) use ($request){
+            ->when(isset($request->mainParams) && isset($request->mainParams['isCompleted']) && $request->mainParams['isCompleted'] === true, function($query) use ($request){
                 return $query->whereHas('status', function ($q) use ($request) {
                     $q->where('id', 6);
                 });
             })
 
-            ->when(isset($request->mainParams) && isset($request->mainParams['isDeleted']) && $request->mainParams['isDeleted'] == true, function($query) use ($request){
+            ->when(isset($request->mainParams) && isset($request->mainParams['isDeleted']) && $request->mainParams['isDeleted'] === true, function($query) use ($request){
                 return $query->whereHas('status', function ($q) use ($request) {
                     $q->where('id', 8);
                 });
