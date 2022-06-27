@@ -6,8 +6,8 @@
     "license": "MIT",
     "require": {
         "php": "^7.3|^8.0",
-        "ext-json": "*",
         "ext-fileinfo": "*",
+        "ext-json": "*",
         "artisaninweb/laravel-soap": "0.3.0.10",
         "codersstudio/sms-ru": "dev-master",
         "darkaonline/l5-swagger": "^8.3",
@@ -18,7 +18,8 @@
         "laravel/passport": "^10.4",
         "laravel/sanctum": "^2.11",
         "laravel/tinker": "^2.5",
-        "midnite81/xml2array": "^1.0"
+        "midnite81/xml2array": "^1.0",
+        "spatie/laravel-translatable": "^4.6"
     },
     "require-dev": {
         "facade/ignition": "^2.5",

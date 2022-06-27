@@ -34,4 +34,9 @@ class TradePlace extends Model
     {
         return $this->hasMany(Auction::class);
     }
+
+    public function auctionsWithLots()
+    {
+        return $this->hasMany(Auction::class)->whereHas('lots');
+    }
 }

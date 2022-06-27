@@ -330,7 +330,7 @@ paths:
         "200":
           description: 'Successful response'
       security:
-        - bearerAuth: [ ]
+        - bearerAuth: []
   /account/user:
     get:
       tags:
@@ -466,6 +466,25 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+  /trades/filter/trade-places:
+    get:
+      tags:
+        - Trades
+      summary: Получение информации о торговых площадках для отображения в фильтрах
+      operationId: getTradePlacesForFilter
+      responses:
+        "200":
+          description: Информация о торговых площадках
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TradePlaces'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
   /trades/filter/bidders/{type}:
     get:
       parameters:
@@ -570,7 +589,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
       security:
-        - bearerAuth: [ ]
+        - bearerAuth: []
 
 components:
   schemas:
@@ -1346,6 +1365,61 @@ components:
               items:
                 type: integer
                 description: айдишники арбитражных управляющих
+        mainParams:
+          type: object
+          properties:
+            exceptionWords:
+              type: string
+              description: разделитель - запятая
+              example: Машина, лот №1
+            tradePlaces:
+              type: array
+              example: [1, 2, 3]
+              description: массив айдишников торговых площадок
+            tradeNumber:
+              type: string
+              description: номер торгов
+            tradeType:
+              type: string
+              enum:
+                - OpenAuction
+                - OpenConcours
+                - PublicOffer
+                - CloseAuction
+                - CloseConcours
+                - ClosePublicOffer
+              description: вид торгов
+            period:
+              type: string
+              enum:
+                - all
+                - 1 day
+                - 7 days
+                - 30 days
+            isWithPhotos:
+              type: boolean
+              example: false
+            isStopped:
+              type: boolean
+              example: false
+            isCompleted:
+              type: boolean
+              example: false
+            isDeleted:
+              type: boolean
+              example: false
+    TradePlace:
+      type: object
+      properties:
+        name:
+          type: string
+        id:
+          type: integer
+    TradePlaces:
+      type: array
+      items:
+        $ref: '#/components/schemas/TradePlace'
+
 
   securitySchemes:
     bearerAuth:

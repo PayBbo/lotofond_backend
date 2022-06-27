@@ -29,36 +29,65 @@ class AuctionController extends Controller
         $applicationTimeStartMax = null;
         $applicationTimeEndMin = null;
         $applicationTimeEndMax = null;
-        if (!is_null($request->dates)) {
+        $exceptionWords = null;
+        $minDate = null;
+        $maxDate = null;
+        if (isset($request->dates)) {
             if (isset($request->dates['eventTimeStart'])) {
-                $eventTimeStartMin = Carbon::parse($request->dates['eventTimeStart']['start']);
-                $eventTimeStartMax = Carbon::parse($request->dates['eventTimeStart']['end']);
+                if($request->dates['eventTimeStart']['start'] !== '') {
+                    $eventTimeStartMin = Carbon::parse($request->dates['eventTimeStart']['start']);
+                }
+                if($request->dates['eventTimeStart']['end'] !== '') {
+                    $eventTimeStartMax = Carbon::parse($request->dates['eventTimeStart']['end']);
+                }
             }
             if (isset($request->dates['eventTimeEnd'])) {
-                $eventTimeEndMin = Carbon::parse($request->dates['eventTimeEnd']['start']);
-                $eventTimeEndMax = Carbon::parse($request->dates['eventTimeEnd']['end']);
+                if($request->dates['eventTimeEnd']['start'] !== '') {
+                    $eventTimeEndMin = Carbon::parse($request->dates['eventTimeEnd']['start']);
+                }
+                if($request->dates['eventTimeEnd']['end'] !== '') {
+                    $eventTimeEndMax = Carbon::parse($request->dates['eventTimeEnd']['end']);
+                }
             }
             if (isset($request->dates['applicationTimeStart'])) {
-                $applicationTimeStartMin = Carbon::parse($request->dates['applicationTimeStart']['start']);
-                $applicationTimeStartMax = Carbon::parse($request->dates['applicationTimeStart']['end']);
+                if($request->dates['applicationTimeStart']['start'] !== '') {
+                    $applicationTimeStartMin = Carbon::parse($request->dates['applicationTimeStart']['start']);
+                }
+                if($request->dates['applicationTimeStart']['end'] !== '') {
+                    $applicationTimeStartMax = Carbon::parse($request->dates['applicationTimeStart']['end']);
+                }
             }
             if (isset($request->dates['applicationTimeEnd'])) {
-                $applicationTimeEndMin = Carbon::parse($request->dates['applicationTimeEnd']['start']);
-                $applicationTimeEndMax = Carbon::parse($request->dates['applicationTimeEnd']['end']);
+                if($request->dates['applicationTimeEnd']['start'] !== '') {
+                    $applicationTimeEndMin = Carbon::parse($request->dates['applicationTimeEnd']['start']);
+                }
+                if($request->dates['applicationTimeEnd']['end'] !== '') {
+                    $applicationTimeEndMax = Carbon::parse($request->dates['applicationTimeEnd']['end']);
+                }
             }
         }
-        logger($request->extraOptions);
-        $lots = Lot::when(isset($request->categories), function ($query) use ($request) {
+        if(isset($request->mainParams) && isset($request->mainParams['period']) && $request->mainParams['period'] !== '' && $request->mainParams['period'] !== 'all'){
+            $result = $this->getPeriodDates($request->mainParams['period']);
+            $minDate = $result[0];
+            $maxDate = $result[1];
+        }
+        if(isset($request->mainParams)){
+            if(isset($request->mainParams['exceptionWords']) && $request->mainParams['exceptionWords'] !=='' ){
+                $exceptionWords = explode(',', $request->mainParams['exceptionWords']);
+            }
+        }
+        $lots = Lot::when(isset($request->categories) && count($request->categories)>0, function ($query) use ($request) {
                 return $query->whereHas('categories', function ($q) use ($request) {
                     $q->whereIn('title', $request->categories);
                 });
             })
-            ->when(isset($request->regions), function ($query) use ($request) {
+           /* ->when(isset($request->regions), function ($query) use ($request) {
                 return $query->whereHas('auction.debtor.region', function ($q) use ($request) {
                     $q->whereIn('title', $request->regions);
                 });
-            })
-            ->when(isset($request->prices) && isset($request->prices['startPrice']), function ($query) use ($request) {
+            })*/
+            ->when(isset($request->prices) && isset($request->prices['startPrice'])
+                   && $request->prices['startPrice']['min']!=='' && $request->prices['startPrice']['max']!=='', function ($query) use ($request) {
                 $query->whereBetween('start_price',
                     [$request->prices['startPrice']['min'], $request->prices['startPrice']['max']]);
             })
@@ -106,30 +135,98 @@ class AuctionController extends Controller
                         [$applicationTimeEndMin, $applicationTimeEndMax]);
                 });
             })
-            ->when(isset($request->extraOptions) && isset($request->extraOptions['debtorCategories']), function ($query) use ($request) {
+            ->when(isset($request->extraOptions) && isset($request->extraOptions['debtorCategories']) && count($request->extraOptions['debtorCategories'])>0, function ($query) use ($request) {
                 return $query->whereHas('auction.debtor.debtorCategory', function ($q) use ($request) {
                     $q->whereIn('code', $request->extraOptions['debtorCategories']);
                 });
             })
-            ->when(isset($request->extraOptions) && isset($request->extraOptions['debtors']), function ($query) use ($request) {
+            ->when(isset($request->extraOptions) && isset($request->extraOptions['debtors']) && count($request->extraOptions['debtors'])>0, function ($query) use ($request) {
                 return $query->whereHas('auction.debtor', function ($q) use ($request) {
                     $q->whereIn('id', $request->extraOptions['debtors']);
                 });
             })
-            ->when(isset($request->extraOptions) && isset($request->extraOptions['organizers']), function ($query) use ($request) {
+            ->when(isset($request->extraOptions) && isset($request->extraOptions['organizers']) && count($request->extraOptions['organizers'])>0, function ($query) use ($request) {
                 return $query->whereHas('auction.companyTradeOrganizer', function ($q) use ($request) {
                     $q->whereIn('id', $request->extraOptions['organizers']);
                 });
             })
-            ->when(isset($request->extraOptions) && isset($request->extraOptions['arbitrManagers']), function ($query) use ($request) {
+            ->when(isset($request->extraOptions) && isset($request->extraOptions['arbitrManagers']) && count($request->extraOptions['arbitrManagers'])>0, function ($query) use ($request) {
                 return $query->whereHas('auction.arbitrManager', function ($q) use ($request) {
                     $q->whereIn('id', $request->extraOptions['arbitrManagers']);
                 });
             })
+            ->when(isset($exceptionWords), function($query) use ($exceptionWords) {
+                foreach($exceptionWords as $word){
+                    $query->where('description', 'NOT LIKE', '%'.$word.'%');
+                }
+            })
+            ->when(isset($request->mainParams) && isset($request->mainParams['tradePlaces']) && count($request->mainParams['tradePlaces'])>0, function ($query) use ($request) {
+                return $query->whereHas('auction', function ($q) use ($request) {
+                    $q->whereIn('trade_place_id', $request->mainParams['tradePlaces']);
+                });
+            })
+            ->when(isset($request->mainParams) && isset($request->mainParams['tradeNumber']) && $request->mainParams['tradeNumber'] !== '', function ($query) use ($request) {
+                return $query->whereHas('auction', function ($q) use ($request) {
+                    $q->where('trade_id', $request->mainParams['tradeNumber']);
+                });
+            })
+            ->when(isset($request->mainParams) && isset($request->mainParams['tradeType']) && $request->mainParams['tradeType'] !== '', function ($query) use ($request) {
+                return $query->whereHas('auction.auctionType', function ($q) use ($request) {
+                    $q->where('title', $request->mainParams['tradeType']);
+                });
+            })
+            ->when(isset($request->mainParams) && isset($request->mainParams['isWithPhotos']) && $request->mainParams['isWithPhotos']==true, function($query) use ($request){
+                $query->where('photos', 'IS NOT', null);
+            })
+            ->when(isset($request->mainParams) && isset($request->mainParams['isStopped']) && $request->mainParams['isStopped'] == true, function($query) use ($request){
+                return $query->whereHas('status', function ($q) use ($request) {
+                    $q->where('id', 10);
+                });
+            })
+            ->when(isset($request->mainParams) && isset($request->mainParams['isCompleted']) && $request->mainParams['isCompleted'] == true, function($query) use ($request){
+                return $query->whereHas('status', function ($q) use ($request) {
+                    $q->where('id', 6);
+                });
+            })
+
+            ->when(isset($request->mainParams) && isset($request->mainParams['isDeleted']) && $request->mainParams['isDeleted'] == true, function($query) use ($request){
+                return $query->whereHas('status', function ($q) use ($request) {
+                    $q->where('id', 8);
+                });
+            })
+
+            ->when(isset($minDate) && isset($maxDate), function ($query)
+            use ($minDate, $maxDate) {
+                return $query->whereHas('auction', function ($q) use ($minDate, $maxDate) {
+                    $q->whereBetween('publish_date',
+                        [$minDate, $maxDate]);
+                });
+            })
+
             ->latest()
             ->paginate(20);
 
         return response(new LotCollection($lots), 200);
+    }
+
+    public function getPeriodDates($period){
+        $result = [];
+        switch($period){
+            case '1 day':{
+                $result[0]=Carbon::now()->setTimezone('Europe/Moscow')->startOfDay();
+                break;
+            }
+            case '7 days':{
+                $result[0]=Carbon::now()->setTimezone('Europe/Moscow')->startOfDay()->subWeek();
+                break;
+            }
+            case '30 days':{
+                $result[0]=Carbon::now()->setTimezone('Europe/Moscow')->startOfDay()->subDays(30);
+                break;
+            }
+        }
+        $result[1]=Carbon::now()->setTimezone('Europe/Moscow')->endOfDay();
+        return $result;
     }
 
     public function getLotsByAuction($auctionId)

@@ -16,8 +16,7 @@ class Lot extends Model
      * @var array
      */
     protected $fillable = [
-        'number',
-        'cadastral_number',
+        'cadastral_number', //
         'start_price',
         'auction_step',
         'is_step_rub',
@@ -32,7 +31,8 @@ class Lot extends Model
         'payment_info',
         'sale_agreement',
         'is_parse_ecp',
-        'price_reduction'
+        'price_reduction' //
+
     ];
 
     /**
@@ -50,8 +50,7 @@ class Lot extends Model
         'is_parse_ecp' => 'boolean',
         'is_auction_step_rub' => 'boolean',
         'is_deposit_rub' => 'boolean',
-        'status_id' => 'integer',
-        'price_reduction' => 'array'
+        'status_id' => 'integer'
     ];
 
     protected $appends = ['current_price', 'current_price_state', 'min_price'];
@@ -107,9 +106,9 @@ class Lot extends Model
     }
 
 
-    public function lotParams()
+    public function params()
     {
-        return $this->hasMany(LotParam::class);
+        return $this->belongsToMany(Param::class, 'lot_params')->withPivot(['value']);
     }
 
     public function notifications()
@@ -222,5 +221,9 @@ class Lot extends Model
         }
     }
 
+    public function priceReductions(){
 
+        return $this->hasMany(PriceReduction::class);
+
+    }
 }

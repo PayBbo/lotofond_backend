@@ -34,7 +34,7 @@ class ParseTrades implements ShouldQueue
      */
     public function handle()
     {
-        $startFrom = Carbon::now()->subHour()->format('Y-m-d\TH:i:s');
+        $startFrom = Carbon::now()->subDays(4)->format('Y-m-d\TH:i:s');
         $endTo = Carbon::now()->format('Y-m-d\TH:i:s');
         $soapWrapper = new SoapWrapper();
         $service = new SoapWrapperService($soapWrapper);
@@ -65,6 +65,7 @@ class ParseTrades implements ShouldQueue
                                         $get_trade_message_content->switchMessageType( $tradePlace->id, $trade, $message->ID);
                                     }
                                 }
+                                continue;
                             }
                             foreach (get_object_vars($trade->MessageList) as $item) {
                                 if (gettype($item) == 'string') {

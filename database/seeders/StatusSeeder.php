@@ -24,7 +24,7 @@ class StatusSeeder extends Seeder
             ['code' => 'BiddingEnd', 'value' => 'Торги завершены'],
             ['code' => 'BiddingCancel', 'value' => 'Отмена торгов'],
             ['code' => 'Annulment', 'value' => 'Аннулирование'],
-            ['title' => 'not_been', 'code' => 'BiddingFail', 'value' => 'Торги не состоялись'],
+            ['code' => 'BiddingFail', 'value' => 'Торги не состоялись'],
             ['code' => 'BiddingPause', 'value' => 'Торги приостановлены'],
             ['code' => 'BiddingResume', 'value' => 'Торги возобновлены'],
 

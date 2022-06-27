@@ -13,11 +13,6 @@ use function public_path;
 class FilesService
 {
 
-    public function __construct()
-    {
-
-    }
-
     public function parseFiles($invitation, $auction, $prefix, $isImages = false)
     {
         $filename = $invitation[$prefix . 'Attach'][$prefix . 'FileName'];
@@ -74,8 +69,8 @@ class FilesService
             foreach ($results as $result) {
                 if ($result === '.' or $result === '..') continue;
                 if (is_dir($full_path . $result) || preg_match("([^\s]+(\.(?i)extracted)$)", $result)) {
-                    $resurl_files = File::files($full_path . $result);
-                    foreach ($resurl_files as $key=>$f) {
+                    $result_files = File::files($full_path . $result);
+                    foreach ($result_files as $key=>$f) {
                         $name = substr($f, strrpos($f, '\\') + 1, strlen($f));
                         $extension = substr($name,strrpos($name,'.') + 1,strlen($name));
                         if (preg_match("([^\s]+(\.(?i)(jpg|jpeg|png|bmp))$)", $name) && $this->is_image($f)) {
@@ -85,8 +80,8 @@ class FilesService
                 }
             }
             $this->deleteAllFilesForExtractDocx(\storage_path($s_path), \storage_path($s_path));
-            $resurl_files = File::files($full_path);
-            foreach ($resurl_files as $key=>$f) {
+            $result_files = File::files($full_path);
+            foreach ($result_files as $key=>$f) {
                 $name = substr($f, strrpos($f, '\\') + 1, strlen($f));
                 $extension = substr($name,strrpos($name,'.') + 1,strlen($name));
                 $file = 'storage/' . $path . '/' . 'image-' . $key . '.' . $extension;

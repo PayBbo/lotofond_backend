@@ -4,10 +4,14 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Translatable\HasTranslations;
 
 class Param extends Model
 {
     use HasFactory;
+    use HasTranslations;
+
+    public $translatable = ['title'];
 
     /**
      * The attributes that are mass assignable.
@@ -16,6 +20,7 @@ class Param extends Model
      */
     protected $fillable = [
         'title',
+        'type'
     ];
 
     /**
@@ -27,8 +32,9 @@ class Param extends Model
         'id' => 'integer',
     ];
 
-    public function lotParams()
+    public function lots()
     {
-        return $this->hasMany(LotParam::class);
+        return $this->belongsToMany(Lot::class, 'lot_params')->withPivot(['value']);
     }
+
 }

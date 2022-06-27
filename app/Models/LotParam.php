@@ -31,13 +31,4 @@ class LotParam extends Model
         'lot_id' => 'integer',
     ];
 
-    public function param()
-    {
-        return $this->belongsTo(Param::class);
-    }
-
-    public function lot()
-    {
-        return $this->belongsTo(Lot::class);
-    }
 }

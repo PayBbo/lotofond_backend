@@ -102,4 +102,19 @@ class Bidder extends Model
         return $this->hasMany(BiddingParticipant::class);
 
     }
+
+    public function debtorAuctionsWithLots()
+    {
+        return $this->hasMany(Auction::class, 'debtor_id')->whereHas('lots');
+    }
+
+    public function arbitrManagerAuctionsWithLots()
+    {
+        return $this->hasMany(Auction::class, 'arbitr_manager_id')->whereHas('lots');
+    }
+
+    public function organizerAuctionsWithLots()
+    {
+        return $this->hasMany(Auction::class, 'company_trade_organizer_id')->whereHas('lots');
+    }
 }
