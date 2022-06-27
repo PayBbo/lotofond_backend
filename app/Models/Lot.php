@@ -43,6 +43,7 @@ class Lot extends Model
     protected $casts = [
         'id' => 'integer',
         'images' => 'array',
+        'price_reduction' => 'array',
         'start_price' => 'float',
         'auction_id' => 'integer',
         'auction_step' => 'float',

@@ -1,0 +1,114 @@
+// Fonts
+@import "./base/fonts.scss";
+
+ //Bootstrap
+@import '~bootstrap/scss/bootstrap';
+
+// Variables
+@import 'variables';
+@import 'mixins';
+
+//Base
+@import "./base/text.scss";
+@import "./base/background.scss";
+@import "./base/svg.scss";
+
+// Components
+@import "./components/navbar.scss";
+@import './components/button.scss';
+@import './components/card.scss';
+@import './components/select.scss';
+@import './components/modal.scss';
+@import './components/search.scss';
+@import './components/container.scss';
+@import './components/input.scss';
+@import './components/checkbox.scss';
+@import './components/pagination.scss';
+@import './components/row.scss';
+@import './components/breadcrumb.scss';
+
+// Custom styles
+@import "./customs/main.scss";
+@import "./customs/auth-modal.scss";
+@import "./customs/code-modal.scss";
+@import "./customs/contents.scss";
+@import "customs/lot-card.scss";
+
+
+
+body {
+    background: $body-bg;
+    margin: 0;
+    font-family: 'Gilroy', sans-serif;
+    font-weight: 400;
+}
+
+
+h1 {
+    font-size: $font-size-38;
+    font-weight: 700;
+    margin-bottom: 0;
+}
+
+h2 {
+    font-size: $font-size-30;
+    margin-bottom: 0;
+}
+h3 {
+    font-size:  $font-size-22;
+    margin-bottom: 0;
+}
+h4 {
+    font-size: $font-size-18;
+    margin-bottom: 0;
+}
+h5 {
+    font-size: $font-size-14;
+    margin-bottom: 0;
+}
+h6 {
+    font-size: $font-size-12;
+    margin-bottom: 0;
+}
+
+.bkt-wrapper {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    flex-flow: row wrap;
+    margin: auto;
+
+}
+.bkt-wrapper-between {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    //width: 100%;
+    flex-direction: row;
+    flex-flow: row wrap;
+    //margin: auto;
+}
+.bkt-wrapper-vertical {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-flow: column;
+    width: 100%;
+}
+.bkt-wrapper-column {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    width: 100%;
+}
+.bkt-nowrap {
+    flex-wrap: nowrap;
+}
+
+a {
+    text-decoration: none;
+    color: $main-default;
+}
+a:hover {
+    color: inherit;
+}

@@ -353,9 +353,6 @@
 
 @media (max-width: 576px) {
     .bkt-auth-modal {
-        & .modal-dialog {
-            margin: 200px 20px;
-        }
 
         &.registration .bkt-modal__aside {
             border-radius: 0 0 18px 18px;
@@ -442,7 +439,8 @@
                 }
             }
             & .bkt-modal-header {
-                padding: 25px;
+                padding: 25px 25px 0 25px;
+                margin: 0;
             }
             & .bkt-modal-footer {
                 padding: 25px;

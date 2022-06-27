@@ -7,8 +7,8 @@ window._ = require('lodash');
  */
 
 try {
-    // window.Popper = require('popper.js').default;
-
+    window.Popper = require('@popperjs/core').default;
+    window.bootstrap =  require('bootstrap');
     require('bootstrap');
 } catch (e) {}
 

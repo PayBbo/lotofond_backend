@@ -20,7 +20,7 @@
 
     }
 }
-@mixin setColor($property, $color, $types...) {
+@mixin setColorSvg($property, $color, $types...) {
     @each $type in $types {
         @if $type == 'default'
         {
@@ -42,18 +42,18 @@
 }
 
 
-@include svg-color('main', '', 'light');
+@include svg-color('main', '', 'light', 'lighter');
 @include svg-color('primary', '', 'light', 'lighter', 'dark');
 @include svg-color('green', '', 'light', 'lighter');
 @include svg-color('red', '', 'light', 'lighter');
 @include svg-color('blue', '', 'light', 'lighter');
 @include svg-color('yellow', '', 'light', 'lighter');
 @include svg-color('purple', '', 'light', 'lighter');
-@include setColor('fill', 'neutral', 'default', 'light', 'dark', 'darker');
-@include setColor('stroke', 'neutral', 'default', 'light', 'dark', 'darker');
-@include setColor('fill', 'white', '');
-@include setColor('stroke', 'white', '');
-@include setColor('stroke', 'black', '');
+@include setColorSvg('fill', 'neutral', 'default', 'light', 'dark', 'darker');
+@include setColorSvg('stroke', 'neutral', 'default', 'light', 'dark', 'darker');
+@include setColorSvg('fill', 'white', '');
+@include setColorSvg('stroke', 'white', '');
+@include setColorSvg('stroke', 'black', '');
 
 
 .bkt-fill-body {

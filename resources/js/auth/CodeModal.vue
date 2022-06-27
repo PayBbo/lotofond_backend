@@ -1,5 +1,5 @@
 <template>
-    <bkt-modal :id="'codeModal'" v-if="user" :title="'Добро пожаловать'"
+    <bkt-modal :id="'codeModal'" ref="codeModal" v-if="user" :title="'Добро пожаловать'"
                :left_button_class="'d-none'"
                :modal_class="'bkt-code-modal'" :loading="loading"
                :left_action="skip"
@@ -28,7 +28,9 @@
                 disabled
             >
                 <template #group-item-inner>
-                    <button class="bkt-button primary" @click="sendCode">
+                    <button class="bkt-button primary" @click="sendCode" :disabled="code_loading">
+                         <span v-if="code_loading" class="spinner-border spinner-border-sm"
+                               role="status"></span>
                         Выслать код
                     </button>
                 </template>
@@ -75,6 +77,7 @@
             return {
                 region: 'region',
                 loading: false,
+                code_loading: false,
                 // user:''
             }
         },
@@ -97,29 +100,32 @@
                 let data = JSON.parse(JSON.stringify(this.user));
                 data.region = this.region;
                 this.loading = true;
-                axios
-                    .post('/api/registration/code/verify', {region:this.region, grantType: 'email', email: data.email, code: data.code})
+                this.$store.dispatch('registrationCodeVerify', {
+                    region: this.region,
+                    grantType: 'email',
+                    email: data.email,
+                    code: data.code
+                })
                     .then((resp) => {
-                        this.$store.commit('setUser', data);
-                        this.$store.commit('closeModal', '#codeModal');
                         this.loading = false;
                     })
                     .catch(err => {
                         this.loading = false;
-                    });
+                    })
+                .finally(() => {
+                    console.log('finally');
+                });
             },
             sendCode() {
                 let data = JSON.parse(JSON.stringify(this.user));
-                this.loading = true;
-                axios
-                    .post('/api/registration/code', data)
+                this.code_loading = true;
+
+                this.$store.dispatch('registrationCode', data)
                     .then((resp) => {
-                        this.$store.commit('setUser', data);
-                        this.$store.commit('closeModal', '#codeModal');
-                        this.loading = false;
+                        this.code_loading = false;
                     })
                     .catch(err => {
-                        this.loading = false;
+                        this.code_loading = false;
                     });
             },
             skip() {

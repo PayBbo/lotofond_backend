@@ -1,5 +1,5 @@
 <template>
-    <bkt-modal :id="'authModal'" no_title :modal_class="'bkt-auth-modal '+tab">
+    <bkt-modal :id="'authModal'" ref="authModal" no_title :modal_class="'bkt-auth-modal '+tab">
         <template #aside>
             <div class="bkt-modal__aside">
                 <img class="bkt-modal__aside-image" :src="'/images/'+tab+'_image.png'" alt="">
@@ -11,27 +11,27 @@
                 <div class="bkt-modal__aside-features">
                     <div class="col-12 p-0">
                         <div class="bkt-modal__aside-feature">
-                            <div class="bkt-modal__aside-feature-check bg-purple"></div>
+                            <div class="bkt-modal__aside-feature-check bkt-bg-purple"></div>
                             <h5 class="bkt-modal__aside-feature-text">Поиск по самой полной базе<br> торгов по
                                 банкротству (более<br> 65 000 открытых лотов).</h5>
                         </div>
                     </div>
                     <div class="col-sm-7 col-12 p-0">
                         <div class="bkt-modal__aside-feature">
-                            <div class="bkt-modal__aside-feature-check bg-green"></div>
+                            <div class="bkt-modal__aside-feature-check bkt-bg-green"></div>
                             <h5 class="bkt-modal__aside-feature-text">Мониторинг новых лотов,<br> получение уведомлений
                                 на e-mail.</h5>
                         </div>
                     </div>
                     <div class="col-sm-5 col-12 p-0">
                         <div class="bkt-modal__aside-feature">
-                            <div class="bkt-modal__aside-feature-check bg-yellow"></div>
+                            <div class="bkt-modal__aside-feature-check bkt-bg-yellow"></div>
                             <h5 class="bkt-modal__aside-feature-text">Работа с<br> избранными лотами.</h5>
                         </div>
                     </div>
                     <div class="col-12 p-0">
                         <div class="bkt-modal__aside-feature">
-                            <div class="bkt-modal__aside-feature-check bg-primary"></div>
+                            <div class="bkt-modal__aside-feature-check bkt-bg-primary"></div>
                             <h5 class="bkt-modal__aside-feature-text">Реестры торговых площадок, должников,
                                 арбитражных<br> управляющих и организаторов долгов.</h5>
                         </div>
@@ -78,16 +78,17 @@
                 placeholder="pochta@gmail.com"
                 icon_name="Email"
             />
-<!--            <bkt-input-->
-<!--                v-model="user.phone"-->
-<!--                v-if="tab=='registration'"-->
-<!--                :name="'phone'"-->
-<!--                type="tel"-->
-<!--                label="номер телефона"-->
-<!--                :rules="'required|phone'"-->
-<!--                :placeholder="'+7 495 000-00-00'"-->
-<!--                icon_name="Smartphone"-->
-<!--            />-->
+            <bkt-input
+                v-model="user.phone"
+                v-if="tab=='registration'"
+                :name="'phone'"
+                type="tel"
+                label="номер телефона"
+                :rules="'required|phone'"
+                :placeholder="'+7 495 000-00-00'"
+                icon_name="Smartphone"
+                :mask="['+# ### ### ####','+## ### ### ####', '+## ### #### ####',]"
+            />
             <bkt-input
                 v-model="user.password"
                 name="password"
@@ -185,7 +186,7 @@
             </div>
         </template>
         <template #footer>
-            <button class="vk-button">
+            <button class="vk-button" @click="vkSubmit">
                 <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="25px" fill="#0077ff"
                      viewBox="0 25 548.4 312.9">
                     <path
@@ -194,7 +195,7 @@
                 </svg>
                 {{tab=='registration'? 'Регистрация':'Вход'}} через ВКонтакте
             </button>
-            <button class="gosuslugi-button">
+            <button class="gosuslugi-button"  @click="gosuslugiSubmit">
                 {{tab=='registration'? 'Регистрация':'Вход'}} через
                 <svg xmlns="http://www.w3.org/2000/svg" width="69px"
                      height="11px" viewBox="4 -3 146 26">
@@ -204,7 +205,6 @@
                           d="M20.8 13.8c-2.6 0-3.4-.7-3.4-5 0-4.6.9-5 3.4-5s3.5.4 3.5 5c-.1 4.4-.9 5-3.5 5m0-13.7C15.2.1 13 2.5 13 8.7c0 6.3 2.2 8.7 7.8 8.7s7.9-2.4 7.9-8.7c0-6.1-2.3-8.6-7.9-8.6M44.2 13.2c0-.1-.1-.1-.1-.1h-.2c-.9.3-2.7.7-4 .7-2.7 0-4-.7-4-4.9 0-3.3.4-4.9 4-4.9 1 0 2 .1 3.2.5.1 0 .2 0 .3-.1.5-.9 1-1.9 1.6-3.2V1c0-.1-.1-.1-.1-.1-1.5-.5-3.5-.7-5.1-.7-5.7 0-8.2 2.6-8.2 8.7s2.5 8.8 8.2 8.8c1.4 0 4.2-.3 5.6-.9.1-.1.1-.1.1-.3l-1.3-3.3zM11.7.6H.2C.1.6 0 .7 0 .9v15.9c0 .1.1.2.2.2h3.9c.1 0 .2-.1.2-.2V4.4h6c.1 0 .1-.1.2-.1.5-1.1 1-2.3 1.4-3.4V.7s-.1-.1-.2-.1"/>
                 </svg>
             </button>
-
         </template>
     </bkt-modal>
 </template>
@@ -246,29 +246,18 @@
                     this.loading = false;
                 }).catch(err => {
                     this.loading = false;
+                }).finally(() => {
+                    console.log('finally');
                 });
+            },
+            vkSubmit() {
 
-                // await axios
-                //     .post('/api/' + this.tab, data)
-                //     .then((resp) => {
-                //         this.$store.commit('setUser', data);
-                //         this.$store.commit('closeModal', '#authModal');
-                //         if (this.tab == 'registration') {
-                //             this.$store.commit('openModal', '#codeModal');
-                //         }else {
-                //             const token = resp.data.accessToken;
-                //             const refreshToken = resp.data.refreshToken;
-                //             localStorage.setItem('token', token);
-                //             localStorage.setItem('refreshToken', refreshToken);
-                //             axios.defaults.headers.common['Authorization'] =  "Bearer "+token;
-                //             this.$store.commit('setAuthUser', data);
-                //         }
-                //
-                //         this.loading = false;
-                //     })
-                //     .catch(err => {
-                //         this.loading = false;
-                //     });
+            },
+            gosuslugiSubmit() {
+
+            },
+            changeTab(tab) {
+                this.tab = tab;
             }
         },
         directives: {mask}

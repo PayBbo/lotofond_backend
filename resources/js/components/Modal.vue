@@ -26,14 +26,14 @@
                             <div class="bkt-modal-footer" v-if="!no_footer">
                                 <slot name="footer" :invalid="invalid">
                                     <slot name="left_button">
-                                        <button type="button" :class="left_button_class" @click="left_method">
+                                        <button type="button" :class="left_button_class" @click="left_method" :disabled="loading">
                                             <slot name="left_button_inner">
                                                 <bkt-icon :name="'Trash'" :width="'22px'" :height="'22px'"></bkt-icon>
                                                 {{left_button}}
                                             </slot>
                                         </button>
                                     </slot>
-                                    <button type="button" :class="right_button_class" :disabled="invalid"
+                                    <button type="button" :class="right_button_class" :disabled="invalid||loading"
                                             @click="right_method">
                                         <span v-show="loading" class="spinner-border spinner-border-sm"
                                               role="status"></span>
@@ -83,11 +83,11 @@
             },
             right_button_class: {
                 type: String,
-                default: 'bkt-button bg-primary bkt-modal-save'
+                default: 'bkt-button bkt-bg-primary bkt-modal-save'
             },
             left_button_class: {
                 type: String,
-                default: 'bkt-button bg-red-lighter bkt-modal-delete'
+                default: 'bkt-button bkt-bg-red-lighter bkt-modal-delete'
             },
             modal_class: {
                 type: String,
@@ -122,7 +122,7 @@
                 }
             },
             right_method() {
-                this.$emit('right-action');
+                this.$emit('right_action');
                 if (this.right_action) {
                     this.right_action();
                     return;

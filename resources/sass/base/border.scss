@@ -1,0 +1,13 @@
+@include setBorderColor('border', 'main', 'default', 'light', 'lighter');
+@include setBorderColor('border', 'primary', 'default', 'light', 'lighter', 'dark');
+@include setBorderColor('border', 'green', 'default', 'light', 'lighter');
+@include setBorderColor('border', 'red', 'default', 'light', 'lighter');
+@include setBorderColor('border', 'blue', 'default', 'light', 'lighter');
+@include setBorderColor('border', 'yellow', 'default', 'light', 'lighter');
+@include setBorderColor('border', 'purple', 'default', 'light', 'lighter');
+@include setBorderColor('border', 'neutral', 'default', 'light', 'lighter','dark', 'darker');
+@include setBorderColor('border', 'white', '');
+
+.bkt-border-body {
+    border: 2px solid $body-bg !important;
+}

@@ -11,6 +11,7 @@
 //Base
 @import "./base/text.scss";
 @import "./base/background.scss";
+@import "./base/border.scss";
 @import "./base/svg.scss";
 
 // Components
@@ -26,13 +27,16 @@
 @import './components/pagination.scss';
 @import './components/row.scss';
 @import './components/breadcrumb.scss';
+@import './components/datepicker.scss';
+@import './components/form.scss';
 
 // Custom styles
 @import "./customs/main.scss";
 @import "./customs/auth-modal.scss";
 @import "./customs/code-modal.scss";
+@import "./customs/filters-modal";
 @import "./customs/contents.scss";
-@import "customs/lot-card.scss";
+@import "./customs/lot-card.scss";
 
 
 

@@ -1,0 +1,514 @@
+.bkt-main {
+    .bkt-main-title {
+        font-weight: 700;
+        margin: 52px 0;
+    }
+
+    .bkt-main-search {
+        position: relative;
+        padding: 15px;
+        margin-right: 0;
+
+        & .bkt-main-search__input {
+            border: none;
+            outline: none;
+            box-shadow: none;
+            padding: 0 15px;
+        }
+
+        & .bkt-button {
+            font-size: $font-size-14;
+        }
+    }
+
+    .bkt-main-categories .bkt-card {
+        width: 370px;
+
+        &__subtitle {
+            font-size: 14px;
+        }
+    }
+
+    .bkt-main-statistic {
+        gap: 30px;
+
+        & .bkt-card {
+            height: 100px;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-between;
+
+            &__title {
+                color: white;
+            }
+
+            &__text {
+                color: rgb(255, 255, 255, 0.5);
+            }
+
+            &.bkt-bg-red-light .bkt-card__background-figure-1 {
+                background: #f2bbb3;
+            }
+
+            &.bkt-bg-yellow .bkt-card__background-figure-1 {
+                background: #f8e8b8;
+            }
+
+            &.bkt-bg-blue .bkt-card__background-figure-1 {
+                background: #aedffe;
+            }
+
+            & .bkt-card__background-figure-1 {
+                position: absolute;
+                margin: auto;
+                top: 7px;
+                width: 92%;
+                height: 100px;
+                z-index: -1;
+                left: 4.5%;
+                right: 4.5%;
+            }
+
+            & .bkt-card__background-figure-2 {
+                position: absolute;
+                margin: auto;
+                top: 14px;
+                width: 81%;
+                height: 100px;
+                z-index: -2;
+                opacity: 0.15;
+                left: 10.2%;
+                right: 10.2%;
+            }
+        }
+    }
+
+    .bkt-main-filters {
+        background: $main-default;
+        align-items: center;
+        //justify-content: space-between;
+        padding: 20px;
+        flex-wrap: wrap;
+        margin: 38px 0;
+
+        & .bkt-select__wrapper {
+            width: 100%;
+        }
+
+        & .bkt-select {
+            border-radius: 15px;
+            max-width: 374px;
+            width: 100%;
+        }
+
+        & .bkt-check {
+            margin-bottom: 8px;
+        }
+
+        & .bkt-check__list {
+            flex-flow: column;
+        }
+
+        & .bkt-check__wrapper {
+            margin-left: 25px;
+        }
+
+        & .bkt-check__input {
+            border: 2px solid $main-light;
+            background-color: $main-default;
+            outline: none;
+            box-shadow: none;
+            margin-right: 8px;
+            border-radius: 6px;
+            width: 24px;
+            height: 24px;
+
+        }
+
+        & input:checked ~ .bkt-check__input-check {
+            background: $white;
+            box-shadow: 0 3px 10px 0 rgba(255, 255, 255, 0.53);
+        }
+
+        & .bkt-check__label {
+            color: $white;
+            line-height: 1.833;
+            font-size: $font-size-12;
+        }
+    }
+
+    //& .bkt-main-cards {
+        & .bkt-card-trade.bkt-card {
+            //max-height: 456px;
+            margin: 18px 0;
+            & .bkt-card__title {
+                font-size:  $font-size-22;
+            }
+
+            & .bkt-card.vertical {
+                margin: 0;
+                width: 76px;
+
+                & .bkt-button-ellipse {
+                    margin: 3px;
+                    width: 44px;
+                    height: 44px;
+
+                    &:hover {
+                        background: $yellow-default;
+                    }
+
+                    &:last-child:hover {
+                        background: transparent;
+                    }
+                }
+            }
+
+            & .bkt-card-infographics {
+                gap: 0 6px;
+
+                & .bkt-card {
+                    //margin-right: 6px;
+                    margin-bottom: 3px;
+                    margin-top: 3px;
+
+                    & .bkt-card__feature {
+                        margin: 0;
+
+                        & .bkt-card__subtitle {
+                            margin: 0;
+                        }
+                    }
+                }
+
+            }
+
+            & .bkt-card-period {
+                margin-bottom: 15px;
+                margin-top: 15px;
+                flex-wrap: nowrap;
+
+                & h6 {
+                    line-height: 18px;
+                    margin: 0;
+                }
+
+                & .bkt-card__category {
+                    height: 56px;
+                    margin-right: 15px;
+                    flex-shrink: 0;
+                }
+
+                & .bkt-card__category-icon {
+                    max-width: 16px;
+                    max-height: 16px;
+                }
+            }
+
+            & .bkt-card-price {
+                font-size: 30px;
+                font-family: "Gilroy";
+                font-weight: 700;
+                padding: 18px 46px;
+                position: relative;
+                border-radius: 15px;
+                width: 320px;
+                height: 60px;
+                color: rgb(255, 255, 255);
+                line-height: 1;
+                text-align: left;
+
+                &-icon {
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    position: absolute;
+                    right: 10px;
+                    top: 10px;
+                    bottom: 10px;
+                    border-radius: 10px;
+                    width: 52px;
+                    height: 40px;
+                    text-align: center;
+                    line-height: 1.2;
+                    -webkit-box-shadow: 0px 11px 15px 0px rgba(13, 85, 21, 0.15);
+                    box-shadow: 0px 11px 15px 0px rgba(13, 85, 21, 0.15);
+                }
+            }
+
+            & .bkt-card-menu {
+                background-color: $main-default;
+                width: 230px;
+                height: 386px;
+                border-radius: 13px 0 13px 13px;
+                padding: 25px;
+                top: 37px;
+
+                &::before {
+                    position: absolute;
+                    top: -10px;
+                    right: 0;
+                    content: "\A";
+                    border-style: solid;
+                    border-width: 10px 8px 0 0;
+                    border-color: transparent $main-default transparent transparent;
+                }
+
+                & .bkt-card-menu-inner {
+                    gap: 6px;
+                    display: flex;
+                    flex-direction: column;
+                }
+
+                & .bkt-button {
+                    font-size: 12px;
+                    padding: 15px;
+                    width: 100%;
+                    height: 44px;
+                    border-radius: 13px;
+                    text-align: left;
+                    display: flex;
+                    align-items: center;
+                    position: relative;
+
+                    & .info {
+                        position: absolute;
+                        background: $green-default;
+                        top: 18px;
+                        right: 15px;
+                        width: 7px;
+                        height: 7px;
+                        border-radius: 100%;
+                    }
+
+                    & .bkt-button__icon {
+                        max-width: 18px;
+                        max-height: 17px;
+                        margin-right: 12px;
+                    }
+                }
+            }
+
+            & .bkt-card-menu-button {
+                width: 44px;
+                height: 44px;
+                padding: 12px;
+                border-radius: 10px;
+
+                & svg {
+                    transform: rotate(90deg);
+                }
+            }
+
+            & .bkt-card__image-slider {
+                & .hooper-prev, & .hooper-next {
+                    border-radius: 10px;
+                    background-color: rgb(255, 255, 255);
+                    width: 30px;
+                    height: 30px;
+                    display: flex;
+                    padding: 7px;
+                    align-items: center;
+                    justify-content: center;
+
+                    & svg {
+                        fill: $primary-default;
+                    }
+                }
+
+                & .hooper-next {
+                    right: 10px;
+                }
+
+                & .hooper-prev {
+                    left: 10px;
+                }
+            }
+
+            & .bkt-card-image-wrapper {
+                gap: 25px;
+                display: flex;
+                flex-flow: column;
+            }
+
+            & .bkt-card-ecp-wrapper {
+                gap: 25px;
+                flex-wrap: nowrap;
+                margin-bottom: 25px;
+            }
+
+        }
+    //}
+
+    @media screen and (max-width: 568px) {
+        //& .bkt-main-cards {
+            & .bkt-card-trade.bkt-card {
+                & .bkt-card-ecp-wrapper {
+                    //gap: 20px;
+                    width: 100%;
+
+                    & .bkt-card-ecp {
+                        font-size: 10px;
+                        font-family: "Gilroy";
+                        color: rgb(255, 255, 255);
+                        font-weight: 700;
+                        line-height: 1.2;
+                        padding: 9px 15px;
+                        border-radius: 10px;
+                    }
+                }
+
+                .bkt-card__head {
+                    flex-wrap: nowrap;
+
+                    & .bkt-card__title {
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                        white-space: nowrap;
+                        display: block;
+                    }
+                }
+            }
+        //}
+    }
+    @media screen and (max-width: 768px) {
+
+        & .bkt-main-title {
+            font-weight: 700;
+            margin: 35px 0;
+            font-size: 22px;
+        }
+
+        & .bkt-main-search {
+            & .bkt-main-search__input {
+                padding: 0 10px;
+            }
+
+            & .bkt-button {
+                width: 44px;
+                height: 44px;
+                padding: 14px;
+            }
+        }
+        & .bkt-main-filters {
+            padding: 10px;
+        }
+    }
+
+    @media screen and (max-width: 991px) {
+        & .bkt-main-filters {
+            & .bkt-check__list {
+                margin-top: 20px;
+            }
+
+            & .bkt-check__wrapper {
+                margin-left: 0;
+                margin-right: 25px;
+            }
+        }
+        & .bkt-card-trade.bkt-card {
+            border-top-left-radius: 0;
+            border-top-right-radius: 0;
+            border-bottom-left-radius: 18px;
+            border-bottom-right-radius: 18px;
+            padding: 25px;
+            //margin: 10px 0 !important;
+            & .bkt-card__title {
+                font-size: 15px;
+            }
+
+            &.outline {
+                padding: 12px 20px;
+            }
+
+            &__heading {
+                border-top-left-radius: 18px;
+                border-top-right-radius: 18px;
+                background: $primary-default;
+                color: white;
+                padding: 11px 24px;
+                font-size: 8px;
+
+                & h5 {
+                    font-size: 10px;
+                    margin: 0;
+                }
+            }
+
+            & .bkt-card-menu-button {
+                width: 32px !important;
+                height: 32px !important;
+                padding: 7px !important;
+            }
+
+        }
+    }
+
+    @media screen and (max-width: 1200px) {
+        //& .bkt-main-cards {
+            & .bkt-card-trade.bkt-card {
+                & .bkt-card-price {
+                    font-size: 18px;
+                    font-family: "Gilroy";
+                    font-weight: 700;
+                    padding: 15px 40px;
+                    position: relative;
+                    border-radius: 13px;
+                    width: 230px;
+                    height: 44px;
+                    color: rgb(255, 255, 255);
+                    line-height: 1;
+                    text-align: center;
+
+                    &-icon {
+                        position: absolute;
+                        right: 6px;
+                        top: 6px;
+                        bottom: 6px;
+                        border-radius: 10px;
+                        width: 46px;
+                        height: 32px;
+                        text-align: center;
+                        line-height: 1.2;
+                        -webkit-box-shadow: 0px 11px 15px 0px rgba(13, 85, 21, 0.15);
+                        box-shadow: 0px 11px 15px 0px rgba(13, 85, 21, 0.15);
+
+                    }
+                }
+
+                & .bkt-card.outline {
+                    padding: 12px 20px;
+                }
+            }
+        //}
+    }
+    @media screen and (min-width: 1200px) {
+        //& .bkt-main-cards {
+            & .bkt-card-trade.bkt-card {
+                & .bkt-card__image-slider {
+                    & .hooper-prev, & .hooper-next {
+                        border-radius: 10px;
+                        width: 30px;
+                        height: 30px;
+                        display: flex;
+                        padding: 7px;
+                        top: auto;
+                        bottom: 15px;
+                        transform: none;
+                    }
+
+                    & .hooper-next {
+                        right: 15px;
+                    }
+
+                    & .hooper-prev {
+                        right: 61px;
+                        left: auto;
+                    }
+                }
+            }
+        //}
+    }
+}
+

@@ -1,7 +1,9 @@
 <template>
-    <ValidationProvider :name="label" :rules="rules" v-slot="{ errors }" tag="div" class="bkt-input__wrapper" :vid="name">
-        <label :for="name" class="bkt-input__label" :class="label_class">{{ label }}</label>
+    <ValidationProvider :name="field_label" :rules="rules" v-slot="{ errors }" tag="div" class="bkt-input__wrapper" :vid="name">
+        <label :for="name" class="bkt-input__label" v-if="label" :class="label_class">{{ label }}</label>
         <div class="bkt-input__group">
+            <slot name="group-text">
+            </slot>
             <input
                 :type="type"
                 class="bkt-input"
@@ -13,11 +15,14 @@
                 @input="saveValue"
             />
             <slot name="group-item">
-                <div class="bkt-input__group-item" :class="{'active': group_item_action&&!disabled}" @click="clickGroupItem">
+                <div class="bkt-input__group-item"
+                     :class="[{'active': group_item_action&&!disabled}, group_item_class]"
+                     @click="clickGroupItem"
+                >
                     <slot name="group-item-inner">
-                        <div class="bkt-input__icon">
+                        <div :class="group_item_inner_class">
                             <slot name="icon">
-                                <bkt-icon :name="icon_name"></bkt-icon>
+                                <bkt-icon :name="icon_name" :color="icon_color" :class="icon_class"></bkt-icon>
                             </slot>
                         </div>
                     </slot>
@@ -36,16 +41,18 @@
                 default: "text",
             },
             value: {
-                type: String,
+                type: [String, Number],
                 default: "",
             },
             name: {
                 type: String,
                 required: true,
             },
+            field_name: {
+                type: String,
+            },
             label: {
                 type: String,
-                required: true,
             },
             label_class: {
                 type: String,
@@ -62,9 +69,24 @@
                 type: String,
                 default: "",
             },
+            icon_color: {
+                type: String,
+            },
+            icon_class: {
+                type: String,
+                default: "",
+            },
             group_item_action: {
                 type: Boolean,
                 default: false,
+            },
+            group_item_class: {
+                type: String,
+                default: '',
+            },
+            group_item_inner_class: {
+                type: String,
+                default: 'bkt-input__icon',
             },
             disabled: {
                 type: Boolean,
@@ -74,21 +96,121 @@
                 type: Boolean,
                 default: false,
             },
+            mask: {
+                type: [String, Array],
+                default: "",
+            },
         },
         data: function() {
             return {
-
+                lastValue: null,
+                tokens: {
+                    '#': { pattern: /\d/ },
+                    X: { pattern: /[0-9a-zA-Z]/ },
+                    S: { pattern: /[a-zA-Z]/ },
+                    A: { pattern: /[a-zA-Z]/, transform: v => v.toLocaleUpperCase() },
+                    a: { pattern: /[a-zA-Z]/, transform: v => v.toLocaleLowerCase() },
+                    '!': { escape: true }
+                },
+                field_label:''
             };
         },
+        mounted() {
+            if(!this.field_name) {
+                this.field_label = this.label;
+                if (!this.label) {
+                    this.field_label = this.name;
+                }
+            }
+        },
         methods: {
-            saveValue(event) {
-                this.$emit('input', event.target.value);
+            saveValue(e) {
+                if(this.mask) {
+                    console.log(e.isTrusted)
+                    // if (e.isTrusted) return // ignore native event
+                    this.refresh(e.target.value)
+                }
+                else {
+                    this.$emit('input', e.target.value);
+                }
+                // this.$emit('input', event.target.value);
             },
             clickGroupItem() {
                 if(this.group_item_action)
                 {
                     this.$emit('click-group-item');
                 }
+            },
+            refresh (value) {
+                // this.value = value;
+                value = this.masker(value, this.mask, this.masked)
+                if (value !== this.lastValue) {
+                    this.lastValue = value;
+                    this.$emit('input', value)
+                }
+            },
+            masker(value, mask, masked = true) {
+                return Array.isArray(mask)
+                    ? this.dynamicMask( mask, value, masked)
+                    : this.maskit(value, mask, masked)
+            },
+            dynamicMask (masks, value, masked) {
+                masks = masks.sort((a, b) => a.length - b.length);
+                let i = 0;
+                while (i < masks.length) {
+                    let currentMask = masks[i];
+                    i++;
+                    let nextMask = masks[i];
+                    if (! (nextMask && this.maskit(value, nextMask, true).length > currentMask.length) ) {
+                        return this.maskit(value, currentMask, masked)
+                    }
+                }
+                return '' // empty masks
+
+            },
+            maskit (value, mask, masked = true) {
+                value = value || '';
+                mask = mask || '';
+                let iMask = 0;
+                let iValue = 0;
+                let output = '';
+                let cMask = '';
+                let masker = '';
+                let cValue = '';
+                while (iMask < mask.length && iValue < value.length) {
+                    cMask = mask[iMask];
+                    masker = this.tokens[cMask];
+                    cValue = value[iValue];
+                    if (masker && !masker.escape) {
+                        if (masker.pattern.test(cValue)) {
+                            output += masker.transform ? masker.transform(cValue) : cValue;
+                            iMask++
+                        }
+                        iValue++
+                    } else {
+                        if (masker && masker.escape) {
+                            iMask++;// take the next mask char and treat it as char
+                            cMask = mask[iMask]
+                        }
+                        if (masked) output += cMask;
+                        if (cValue === cMask) iValue++; // user typed the same char
+                        iMask++
+                    }
+                }
+
+                // fix mask that ends with a char: (#)
+                let restOutput = '';
+                while (iMask < mask.length && masked) {
+                    cMask = mask[iMask];
+                    if (this.tokens[cMask]) {
+                        restOutput = '';
+                        break
+                    }
+                    restOutput += cMask;
+                    iMask++
+                }
+
+                return output + restOutput
             }
         }
     };

@@ -1,5 +1,5 @@
 <template>
-    <ValidationProvider :name="name" :rules="rules" v-slot="{ errors }" tag="div" class="bkt-check__wrapper">
+    <ValidationProvider :name="name" :rules="rules" v-slot="{ errors }" tag="div" class="bkt-check__wrapper" :class="wrapper_class">
         <div class="bkt-check">
             <div class="bkt-check__input">
                 <input
@@ -40,6 +40,10 @@
             },
             rules: {
                 type: null,
+                default: "",
+            },
+            wrapper_class: {
+                type: String,
                 default: "",
             },
         },

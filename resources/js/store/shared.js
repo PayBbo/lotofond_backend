@@ -1,3 +1,5 @@
+import { localize, localeChanged } from "vee-validate";
+import DatePicker from "vue2-datepicker";
 export default {
     state: {
         user: {
@@ -9,12 +11,16 @@ export default {
             password:'',
             confirm_password:'',
             grantType:'email'
-        }
+        },
+        locale: localStorage.getItem('locale') || 'ru'
     },
 
     getters: {
         user(state) {
             return state.user;
+        },
+        locale(state) {
+            return state.locale;
         },
     },
 
@@ -52,6 +58,19 @@ export default {
         },
         saveUserProperty(state, payload) {
             Vue.set(state.user, payload.key, payload.value)
+        },
+        changeLocale(state, payload) {
+            state.locale = payload;
+            localStorage.setItem('locale', payload);
+            axios.defaults.headers.common['Content-Language'] = payload;
+            // $moment.locale(payload);
+            import('vee-validate/dist/locale/' + payload + '.json')
+                .then(locale => {
+                    localize(payload, locale);
+                });
+            DatePicker.locale(payload);
+            localize(payload);
+            localeChanged();
         }
     }
 };

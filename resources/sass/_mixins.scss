@@ -18,3 +18,24 @@
         }
     }
 }
+
+@mixin setBorderColor($class, $color, $types...) {
+    @each $type in $types {
+        @if $type == 'default'
+        {
+            #{'.bkt-'+$class+'-'+$color} {
+                #{$class}: 2px solid map-get($theme-colors, $color+'-default') !important;
+            }
+        }
+        @else if $type == '' {
+            #{'.bkt-'+$class+'-'+$color} {
+                #{$class}: 2px solid map-get($theme-colors, $color) !important;
+            }
+        }
+        @else {
+            #{'.bkt-'+$class+'-'+$color+'-'+$type} {
+                #{$class}: 2px solid map-get($theme-colors, $color+'-'+$type) !important;
+            }
+        }
+    }
+}

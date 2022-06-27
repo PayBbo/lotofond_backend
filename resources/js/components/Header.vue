@@ -36,7 +36,7 @@
                     Приложение
                 </button>
 
-                <div v-if="auth_user&&auth_user.name" class="btn-group d-none d-md-block">
+                <div v-if="isLoggedIn" class="btn-group d-none d-md-block">
                     <div class="bkt-navbar__user-wrapper"
                          id="navbarDropdown"
                          role="button"
@@ -95,8 +95,9 @@
                     </div>
                 </div>
 
-                <button v-else class="bkt-button primary-outline d-none d-md-block" data-bs-toggle="modal"
-                        data-bs-target="#authModal">
+                <button v-else class="bkt-button primary-outline d-none d-md-block"
+                        data-bs-toggle="modal" data-bs-target="#authModal"
+                >
                     Вход и регистрация
                 </button>
             </div>
@@ -172,8 +173,8 @@
             auth_user() {
                 return this.$store.getters.auth_user
             },
-            token() {
-                return this.$store.getters.auth_user
+            isLoggedIn() {
+                return this.$store.getters.isLoggedIn
             },
         },
         created() {
@@ -181,14 +182,14 @@
         },
         methods: {
             async getUser() {
-                // if (this.token) {
+                if (this.isLoggedIn) {
                     this.loading = true;
                     await this.$store.dispatch('getAuthUser').then(resp => {
                         this.loading = false;
                     }).catch(error => {
                         this.loading = false;
                     })
-                // }
+                }
             },
             async logout() {
                 this.loading = true;

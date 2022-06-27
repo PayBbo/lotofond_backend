@@ -75,7 +75,7 @@ export default {
         async registration({dispatch, commit}, payload) {
             await axios.post('/api/registration', payload)
                 .then(resp => {
-                   commit('setUser', payload);
+                    commit('setUser', payload);
                     commit('closeModal', '#authModal');
                     commit('openModal', '#codeModal');
                 })
@@ -84,16 +84,14 @@ export default {
                 })
         },
         async registrationCode({dispatch, commit}, payload) {
-            await axios.post('/auth/registration/code', payload)
-                .then(resp => {
-
-                })
-                .catch(error => {
-                })
+            await axios.post('/api/registration/code', payload);
         },
         async registrationCodeVerify({dispatch, commit}, payload) {
-            await axios.post('/auth/registration/code/verify', payload)
+            await axios.post('/api/registration/code/verify', payload)
                 .then(resp => {
+                    commit('auth_success', {token: resp.data.accessToken, refreshToken: resp.data.refreshToken});
+                    dispatch('getAuthUser');
+                    commit('closeModal', '#codeModal');
                 })
                 .catch(error => {
                 })

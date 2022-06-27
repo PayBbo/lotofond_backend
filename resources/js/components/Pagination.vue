@@ -137,28 +137,28 @@
                 return !!this.data.meta;
             },
             currentPage() {
-                return this.isApiResource ? this.data.meta.current_page : this.data.current_page;
+                return this.isApiResource ? this.data.meta.currentPage : this.data.currentPage;
             },
             firstPageUrl() {
-                return this.isApiResource ? this.data.links.first : null;
+                return this.isApiResource ? this.data.links.first : this.data.firstPageUrl;
             },
             from() {
                 return this.isApiResource ? this.data.meta.from : this.data.from;
             },
             lastPage() {
-                return this.isApiResource ? this.data.meta.last_page : this.data.last_page;
+                return this.isApiResource ? this.data.meta.lastPage : this.data.lastPage;
             },
             lastPageUrl() {
-                return this.isApiResource ? this.data.links.last : null;
+                return this.isApiResource ? this.data.links.last : this.data.lastPageUrl;
             },
             nextPageUrl() {
-                return this.isApiResource ? this.data.links.next : this.data.next_page_url;
+                return this.isApiResource ? this.data.links.next : this.data.nextPageUrl;
             },
             perPage() {
-                return this.isApiResource ? this.data.meta.per_page : this.data.per_page;
+                return this.isApiResource ? this.data.meta.perPage : this.data.perPage;
             },
             prevPageUrl() {
-                return this.isApiResource ? this.data.links.prev : this.data.prev_page_url;
+                return this.isApiResource ? this.data.links.prev : this.data.prevPageUrl;
             },
             to() {
                 return this.isApiResource ? this.data.meta.to : this.data.to;
@@ -210,7 +210,6 @@
                 if (page === '...') {
                     return;
                 }
-                console.log('changePage pagination', page)
                 this.$emit("change-page", page);
             },
             previousPage() {

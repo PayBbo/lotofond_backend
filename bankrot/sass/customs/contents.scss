@@ -1,0 +1,59 @@
+ul.bkt-contents {
+    padding: 0;
+    margin: 0;
+    list-style-type: none;
+
+    & li {
+        border-bottom: 2px dotted rgba(45, 50, 68, 0.4); /* Необязателен. Здесь задается толщина, тип и цвет точек */
+        //font-size: 12px;
+        font-family: "Gilroy", sans-serif;
+        //line-height: 2.5;
+        position: relative;
+        padding: 0;
+        margin-bottom: 17px; /* Необязателен. Задается для установки расстояния между блоками li */
+        display: flex;
+        align-items: flex-end;
+        justify-content: space-between;
+    }
+
+    & li span {
+        background-color: #FFF; /* Это необходимо, чтобы перекрыть точки фоном */
+        //display: block;
+        //margin: 0;
+    }
+
+    & li .bkt-contents__heading span{
+        position: relative;
+        bottom: -6px; /* Смещаем значимые блоки, чтобы они перекрыли точки */
+        padding-right: 3px; /* Необязателен. Задается чтобы точки не подходили вплотную к концу текста */
+    }
+    & li .bkt-contents__answer {
+        bottom: -6px; /* Смещаем значимые блоки, чтобы они перекрыли точки */
+    }
+
+    & .bkt-contents__heading {
+        font-size: 12px;
+        font-family: "Gilroy", sans-serif;
+        color: rgba(45, 50, 68, 0.4);
+        //line-height: 2.5;
+        font-weight: 500;
+        position: relative;
+        //margin-right: 3em; /* Задается чтобы текст не заходил на номера страниц */
+        max-width: 70%;
+    }
+
+    & .bkt-contents__answer {
+        font-size: 14px;
+        font-family: "Gilroy", sans-serif;
+        color: rgb(45, 50, 68);
+        font-weight: bold;
+        //line-height: 1.571;
+        position: relative;
+        right: 0;
+        padding-left: 3px; /* Необязателен. Задается чтобы точки не подходили вплотную к номерам страниц */
+        text-align:right;
+        flex-shrink: 1;
+        margin-left: 30px;
+    }
+
+}

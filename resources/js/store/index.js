@@ -4,11 +4,16 @@ Vue.use(Vuex)
 import shared from './shared';
 import trades from './trades';
 import auth from './auth';
+import filters from './filters';
+import debtors from './debtors';
+import organizers from './organizers';
+import arbitrManagers from './arbitrManagers';
+import tradePlaces from './tradePlaces';
 
 export default new Vuex.Store({
     namespaced: false,
     modules: {
-         shared, auth, trades
+         shared, auth, trades, filters, debtors, organizers, arbitrManagers, tradePlaces
     }
 })
 

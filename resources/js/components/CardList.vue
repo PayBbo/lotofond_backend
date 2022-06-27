@@ -90,7 +90,6 @@
         },
         methods: {
             changePage(page) {
-                console.log('changePage card-list', page)
                 this.$emit('change-page', page)
             }
         }

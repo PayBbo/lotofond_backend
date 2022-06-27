@@ -1,0 +1,30 @@
+// Fonts
+@mixin font($font-file, $font-weight,$font-style: normal) {
+    @font-face {
+        font-family: 'Gilroy';
+        font-style: $font-style;
+        font-weight: $font-weight;
+        font-display: swap;
+        src: url('/fonts/Gilroy-'+ $font-file +'.woff2') format('woff2'),
+    }
+}
+@include font('Thin', 100);
+//@include font('ThinItalic', 100, italic);
+@include font('UltraLight', 200);
+//@include font('UltraLightItalic', 200, italic);
+@include font('Light', 300);
+//@include font('LightItalic', 300, italic);
+@include font('Regular', 400);
+//@include font('RegularItalic', 400, italic);
+@include font('Medium', 500);
+//@include font('MediumItalic', 500, italic);
+@include font('Semibold', 600);
+//@include font('SemiboldItalic', 600, italic);
+@include font('Bold', 700);
+//@include font('BoldItalic', 700, italic);
+@include font('Extrabold', 800);
+//@include font('ExtraboldItalic', 800, italic);
+@include font('Black', 900);
+//@include font('BlackItalic',900, italic);
+//@include font('Heavy', 900);
+//@include font('HeavyItalic', 900, italic);
