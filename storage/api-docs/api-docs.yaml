@@ -330,7 +330,7 @@ paths:
         "200":
           description: 'Successful response'
       security:
-        - bearerAuth: []
+        - bearerAuth: [ ]
   /account/user:
     get:
       tags:
@@ -469,7 +469,7 @@ paths:
   /trades/filter/trade-places:
     get:
       tags:
-        - Trades
+        - FiltersData
       summary: Получение информации о торговых площадках для отображения в фильтрах
       operationId: getTradePlacesForFilter
       responses:
@@ -499,7 +499,7 @@ paths:
           required: true
           description: Роль участников торгов, которых нужно получить для фильтрации
       tags:
-        - Trades
+        - FiltersData
       summary: Получение информации о должниках/организаторах торгов/арбитражных управляющих для отображения в фильтрах
       operationId: getBiddersForFilter
       responses:
@@ -589,8 +589,700 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
       security:
+        - bearerAuth: [ ]
+  /favourite/add/edit/path:
+    post:
+      tags:
+        - Favourite
+      summary: Создание/редактирование папки в избранном
+      operationId: addEditFavouritePath
+      requestBody:
+        description: данные папки избранного
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PathFavourite'
+      responses:
+        "200":
+          description: Папка избранного успешно создана/отредактирована
+        "422":
+          description: Ошибка валидации данных
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+        - bearerAuth: [ ]
+  /favourites/delete/path/{id}:
+    delete:
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: Айдишник папки, которую удаляем в избранном
+      tags:
+        - Favourite
+      summary: Удаление папки в избранном
+      operationId: deleteFavouritePath
+      responses:
+        "200":
+          description: Папка избранного успешно удалена
+        "422":
+          description: Ошибка валидации данных (папка не существует или пользователь не является ее владельцем)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+        - bearerAuth: [ ]
+  /favourites/download/path:
+    post:
+      tags:
+        - Favourite
+      summary: Скачивание в эксель файл папки в избранном
+      operationId: downloadFavouritePath
+      requestBody:
+        description: данные для создания эксель-файла
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ExcelParams'
+      responses:
+        "200":
+          description: Файл эксель успешно создан
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  url:
+                    type: string
+                    description: ссылка для скачивания файла
+        "422":
+          description: Ошибка валидации данных (папка не существует)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+        - bearerAuth: [ ]
+  /favourite:
+    put:
+      parameters:
+        - in: query
+          name: page
+          schema:
+            type: integer
+          required: true
+          description: Номер страницы для серверной пагинации
+      tags:
+        - Favourite
+      summary: Получение данных о лотах в папке избранного
+      operationId: getFavourites
+      requestBody:
+        description: данные для получения лотов
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                pathId:
+                  type: integer
+                  description: айдишник папки избранного - если нужна папка "Все" - параметр пуст или не указан
+                keyWord:
+                  type: string
+                  description: ключевое слово или фраза для поиска
+                mark:
+                  type: integer
+                  description: айдишник метки для поиска
+      responses:
+        "200":
+          description: данные о лотах в папке избранного
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TradeInfo'
+        "422":
+          description: Ошибка валидации данных (папка не существует)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+        - bearerAuth: [ ]
+  /favourite/add/lots:
+    post:
+      tags:
+        - Favourite
+      summary: Добавление лотов в папку избранного
+      operationId: getLotsToFavourite
+      requestBody:
+        description: данные для добавления лотов
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - lots
+              properties:
+                pathId:
+                  type: integer
+                  description: айдишник папки избранного, если выбрана существующая папка
+                pathName:
+                  type: string
+                  description: название папки, если создаем ее
+                lots:
+                  type: array
+                  example: [1, 2, 3]
+                  description: массив с айдишниками лотов для добавления в папку
+      responses:
+        "200":
+          description: лоты успешно добавлены в избранное
+        "422":
+          description: Ошибка валидации данных (папка не существует)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
         - bearerAuth: []
-
+  /favourite/get/pathes:
+    get:
+      tags:
+        - Favourite
+      summary: Получение данных о папках избранного авторизованного пользователя
+      operationId: getFavouritePathes
+      responses:
+        "200":
+          description: данные о папках избранного
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PathFavourite"
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+        - bearerAuth: []
+  /favourite/delete/{pathId}/lot/{lotId}:
+    delete:
+      parameters:
+        - in: path
+          name: pathId
+          schema:
+            type: integer
+          required: true
+          description: Айдишник папки, из которой удаляем лот
+        - in: path
+          name: lotId
+          schema:
+            type: integer
+          required: true
+          description: Айдишник лота, который удаляем из избранного
+      tags:
+        - Favourite
+      summary: Удаление лота из папки избранного
+      operationId: deleteLotFromFavourite
+      responses:
+        "200":
+          description: лот был успешно удален из избранного
+        "422":
+          description: Ошибка валидации данных (папка или лот не существует)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+        - bearerAuth: []
+  /favourite/move/lot:
+    put:
+      tags:
+        - Favourite
+      summary: Перемещение лота из одной папки избранного в другую
+      operationId: moveLotInFavourite
+      requestBody:
+        description: данные для перемещения лота
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - lotId
+                - currentPathId
+                - newPathId
+              properties:
+                currentPathId:
+                  type: integer
+                  description: айдишник папки избранного, в которой сейчас находится лот
+                newPathId:
+                  type: integer
+                  description: айдишник папки избранного, в которую нужно переместить лот
+                lotId:
+                  type: integer
+                  description: айдишник лота
+      responses:
+        "200":
+          description: лот был успешно перемещен
+        "422":
+          description: Ошибка валидации данных (папка или лот не существует)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+        - bearerAuth: []
+  /monitoring/add/edit/path:
+    post:
+      tags:
+        - Monitoring
+      summary: Создание/редактирование папки в мониторинге
+      operationId: addEditMonitoringPath
+      requestBody:
+        description: данные папки в мониторинге
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PathMonitoring'
+      responses:
+        "200":
+          description: Папка в мониторинге успешно создана/отредактирована
+        "422":
+          description: Ошибка валидации данных
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+        - bearerAuth: []
+  /monitoring/delete/path/{id}:
+    delete:
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: Айдишник папки, которую удаляем в мониторинге
+      tags:
+        - Monitoring
+      summary: Удаление папки в мониторинге
+      operationId: deleteMonitoringPath
+      responses:
+        "200":
+          description: Папка избранного успешно удалена
+        "422":
+          description: Ошибка валидации данных (папка не существует)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+        - bearerAuth: []
+  /monitoring/{pathId}:
+    get:
+      parameters:
+        - in: query
+          name: page
+          schema:
+            type: integer
+          required: true
+          description: Номер страницы для серверной пагинации
+        - in: path
+          name: pathId
+          schema:
+            type: integer
+          required: true
+          description: Айдишник папки в мониторинге, лоты которого получаем
+      tags:
+        - Monitoring
+      summary: Получение данных о лотах в папке мониторинга
+      operationId: getMonitoringLots
+      responses:
+        "200":
+          description: данные о лотах в папке мониторинга
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TradeInfo'
+        "422":
+          description: Ошибка валидации данных (папка не существует)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+        - bearerAuth: []
+  /monitoring/get/pathes:
+    get:
+      tags:
+        - Monitoring
+      summary: Получение данных о папках мониторинга авторизованного пользователя
+      operationId: getMonitoringPathes
+      responses:
+        "200":
+          description: данные о папках мониторинга
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PathMonitoring"
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+        - bearerAuth: [ ]
+  /monitoring/delete/{pathId}/lot/{lotId}:
+    delete:
+      parameters:
+        - in: path
+          name: pathId
+          schema:
+            type: integer
+          required: true
+          description: Айдишник папки, из которой удаляем лот
+        - in: path
+          name: lotId
+          schema:
+            type: integer
+          required: true
+          description: Айдишник лота, который удаляем из мониторинга
+      tags:
+        - Monitoring
+      summary: Удаление лота из папки мониторинга
+      operationId: deleteLotFromMonitoring
+      responses:
+        "200":
+          description: лот был успешно удален из мониторинга
+        "422":
+          description: Ошибка валидации данных (папка или лот не существует)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+        - bearerAuth: []
+  /notifications/{type}:
+    get:
+      parameters:
+        - in: query
+          name: page
+          schema:
+            type: integer
+          required: true
+          description: Номер страницы для серверной пагинации
+        - in: path
+          name: type
+          schema:
+            type: string
+            enum:
+              - favourite
+              - monitoring
+              - platform
+              - organizers
+              - all
+          required: true
+          description: Номер страницы для серверной пагинации
+      tags:
+        - Notifications
+      summary: Получение данных об уведомлениях пользователя
+      operationId: getNotifications
+      responses:
+        "200":
+          description: данные об уведомлениях
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Notifications"
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+        - bearerAuth: []
+  /mark:
+    post:
+      tags:
+        - Marks
+      summary: Добавление метки к лоту
+      operationId: addMark
+      requestBody:
+        description: данные для добавления метки
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                lotId:
+                  type: integer
+                  description: айдишник лота
+                mark:
+                  type: string
+                  description: значение метки
+      responses:
+        "200":
+          description: метка успешно добавлена
+        "422":
+          description: Ошибка валидации данных (лот не существует)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+        - bearerAuth: []
+  /mark/{markId}/lot/{lotId}:
+    delete:
+      parameters:
+        - in: path
+          name: lotId
+          schema:
+            type: integer
+          required: true
+          description: Айдишник лота, с которого удаляем метку
+        - in: path
+          name: markId
+          schema:
+            type: integer
+          required: true
+          description: Айдишник метки, которую удаляем
+      tags:
+        - Marks
+      summary: Удаление метки
+      operationId: deleteMark
+      responses:
+        "200":
+          description: Метка была успешно удалена с лота
+        "422":
+          description: Ошибка валидации данных (лот либо метка не существуют)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+        - bearerAuth: []
+  /mark/lot/{lotId}:
+    get:
+      parameters:
+        - in: path
+          name: lotId
+          schema:
+            type: integer
+          required: true
+          description: Айдишник лота, для которого получаем список меток
+      tags:
+        - Marks
+      summary: Получение меток для лота
+      operationId: getMarksByLot
+      responses:
+        "200":
+          description: список меток, присвоенных лоту
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Marks'
+        "422":
+          description: Ошибка валидации данных (лот не существуют)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+        - bearerAuth: []
+  /marks:
+    get:
+      tags:
+        - Marks
+      summary: Получение всех меток пользователя
+      operationId: getMarks
+      responses:
+        "200":
+          description: список меток пользователя
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Marks'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+        - bearerAuth: []
+  /lot/files/{lotId}:
+    get:
+      parameters:
+        - in: path
+          name: lotId
+          schema:
+            type: integer
+          required: true
+          description: Айдишник лота, для которого получаем список файлов
+      tags:
+        - LotInfo
+      summary: Получение списка файлов для лота
+      operationId: getFiles
+      responses:
+        "200":
+          description: список файлов
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Files'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+        - bearerAuth: []
+  /trades/{type}/{bidderType}/{bidderId}:
+    get:
+      tags:
+        - Trades
+      parameters:
+        - in: path
+          name: type
+          schema:
+            type: string
+            enum:
+              - active
+              - inactive
+          required: true
+          description: Какие торги получаем - активные/неактивные
+        - in: path
+          name: bidderType
+          schema:
+            type: string
+            enum:
+              - debtor
+              - organizer
+              - arbitrManager
+          required: true
+          description: Роль участников торгов, активные/неактивные торги которого получаем
+        - in: path
+          name: bidderId
+          schema:
+            type: integer
+          required: true
+          description: Айдишник участника торгов
+      summary: Получение активных/неактивных торгов выбранного участника
+      operationId: getTradesByBidder
+      responses:
+        "200":
+          description: список активных/неактивных торгов выбранного участника
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TradeInfo'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+        - bearerAuth: []
 components:
   schemas:
     Register:
@@ -835,7 +1527,7 @@ components:
               description: дата и время окончания торгов (null, если priceOfferForm = close)
             result:
               type: string
-              description: //Дата и время объявления результатов торгов (null, если priceOfferForm = open)
+              description: Дата и время объявления результатов торгов (null, если priceOfferForm = open)
         applicationTime:
           type: object
           properties:
@@ -1056,33 +1748,30 @@ components:
     Pagination:
       type: object
       properties:
-        total:
-          type: integer
-          description: количество всех записей
         count:
           type: integer
           description: количество выведенных записей
         perPage:
           type: integer
-          description: предыдущая страница
+          description: количество записей на каждой странице
         currentPage:
           type: integer
-          description: текущая страница
-        totalPages:
+          description: номер текущей страницы
+        lastPage:
           type: integer
-          description: количество всех страниц
-    Notification:
-      required:
-        - value
-        - date
-      type: object
-      properties:
-        value:
+          description: номер последней страницы
+        from:
+          type: integer
+          description: начало интервала
+        to:
+          type: integer
+          description: конец интервала
+        nextPageUrl:
           type: string
-          description: текст уведомления
-        date:
+          description: ссылка на следующую страницу
+        prevPageUrl:
           type: string
-          description: дата уведомления
+          description: ссылка на предыдущую страницу
     Debtor:
       required:
         - name
@@ -1160,8 +1849,8 @@ components:
         type:
           type: string
           enum:
-             - person
-             - company
+            - person
+            - company
         id:
           type: integer
         inn:
@@ -1332,10 +2021,10 @@ components:
           type: object
           default: null
           example: {
-            debtorCategories:['SimplePerson', 'SimpleOrganization'],
-            debtors: [1, 2, 3],
-            organizers: [1, 2, 3],
-            arbitrManagers: [1, 2, 3]
+            debtorCategories: [ 'SimplePerson', 'SimpleOrganization' ],
+            debtors: [ 1, 2, 3 ],
+            organizers: [ 1, 2, 3 ],
+            arbitrManagers: [ 1, 2, 3 ]
           }
           properties:
             debtorCategories:
@@ -1372,9 +2061,16 @@ components:
               type: string
               description: разделитель - запятая
               example: Машина, лот №1
+            rightWords:
+              type: string
+              description: разделитель - запятая
+              example: Машина, лот №1
+            marks:
+              type: array
+              description: массив айдишников меток пользователя
             tradePlaces:
               type: array
-              example: [1, 2, 3]
+              example: [ 1, 2, 3 ]
               description: массив айдишников торговых площадок
             tradeNumber:
               type: string
@@ -1419,8 +2115,186 @@ components:
       type: array
       items:
         $ref: '#/components/schemas/TradePlace'
-
-
+    PathFavourite:
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          type: string
+          description: название папки
+        pathId:
+          type: integer
+          description: айдишник папки (если редактируем папку)
+        isPublic:
+          type: boolean
+          description: флаг для определения - папка личная или для группы пользователей
+          default: false
+        users:
+          type: array
+          description: массив айдишников пользователей, елси папка публичная
+          example: [ 1, 2, 3 ]
+        color:
+          type: string
+          description: название цвета папки
+    ExcelParams:
+      type: object
+      properties:
+        pathId:
+          type: integer
+          description: айдишник папки в избранном
+        addTradeNumber:
+          type: boolean
+          default: false
+        addEfrsbLink:
+          type: boolean
+          default: false
+        addDescription:
+          type: boolean
+          default: false
+        addCurrentPrice:
+          type: boolean
+          default: false
+        addAuctionPrice:
+          type: boolean
+          default: false
+        addDebtor:
+          type: boolean
+          default: false
+        addArbitrManager:
+          type: boolean
+          default: false
+        addApplicationStart:
+          type: boolean
+          default: false
+        addApplicationEnd:
+          type: boolean
+          default: false
+        addWinner:
+          type: boolean
+          default: false
+        addLotNumber:
+          type: boolean
+          default: false
+        addTradePlace:
+          type: boolean
+          default: false
+        addStartPrice:
+          type: boolean
+          default: false
+        addMinPrice:
+          type: boolean
+          default: false
+        addRegion:
+          type: boolean
+          default: false
+        addOrganizer:
+          type: boolean
+          default: false
+        addEventStart:
+          type: boolean
+          default: false
+        addEventEnd:
+          type: boolean
+          default: false
+        addNote:
+          type: boolean
+          default: false
+    PathMonitoring:
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          type: string
+          description: название папки
+        pathId:
+          type: integer
+          description: айдишник папки (если редактируем папку)
+        color:
+          type: string
+          description: название цвета папки
+        notificationTime:
+          type: string
+          enum:
+            - hourly
+            - daily
+            - weekly
+        filters:
+          $ref: "#/components/schemas/Filters"
+    Notification:
+      required:
+        - value
+        - date
+      type: object
+      properties:
+        value:
+          type: string
+          description: текст уведомления
+        date:
+          type: string
+          description: дата уведомления
+        lot:
+          type: object
+          properties:
+            photos:
+              type: array
+              description: массив фоток
+              example: [
+            { "preview": "http://127.0.0.1:8000/storage/auction-files/auction-695/previews/IMG-20220209-WA0009.jpg",
+              "main": "http://127.0.0.1:8000/storage/auction-files/auction-695/IMG-20220209-WA0009.jpg" },
+            { "preview": "http://127.0.0.1:8000/storage/auction-files/auction-695/previews/IMG-20220209-WA0009.jpg",
+              "main": "http://127.0.0.1:8000/storage/auction-files/auction-695/IMG-20220209-WA0009.jpg" },
+            ]
+            description:
+              type: string
+        organizer:
+          $ref: "#/components/schemas/BidderInfo"
+    Notifications:
+      type: object
+      properties:
+        data:
+          $ref: "#/components/schemas/Notification"
+        pagination:
+          $ref: "#/components/schemas/Pagination"
+        platformNotificationsCount:
+          type: integer
+          description: количество уведомлений от платформы
+        favouriteNotificationsCount:
+          type: integer
+          description: количество уведомлений избранного
+        monitoringNotificationsCount:
+          type: integer
+          description: количество уведомлений мониторинга
+        organizersNotificationsCount:
+          type: integer
+          description: количество уведомлений от организаторов
+    Marks:
+      type: array
+      items:
+        type: object
+        properties:
+          id:
+            type: integer
+            description: айдишник метки
+          title:
+            type: string
+            description: значение метки
+    Files:
+      type: object
+      properties:
+        userImages:
+          type: array
+          items:
+            type: string
+        files:
+          type: array
+          items:
+            type: string
+        userFiles:
+          type: array
+          items:
+            type: string
   securitySchemes:
     bearerAuth:
       type: http

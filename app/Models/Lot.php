@@ -16,7 +16,6 @@ class Lot extends Model
      * @var array
      */
     protected $fillable = [
-        'cadastral_number', //
         'start_price',
         'auction_step',
         'is_step_rub',
@@ -30,8 +29,7 @@ class Lot extends Model
         'participants',
         'payment_info',
         'sale_agreement',
-        'is_parse_ecp',
-        'price_reduction' //
+        'is_parse_ecp'
 
     ];
 
