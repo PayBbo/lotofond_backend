@@ -18,9 +18,11 @@ class CreateMonitoringsTable extends Migration
             $table->id();
             $table->unsignedBigInteger('user_id');
             $table->string('title', 255);
-            $table->integer('not_frequency');
+            $table->string('color', 255)->nullable();
+            $table->enum('not_time', ['hourly', 'daily', 'weekly'])->default('hourly');
             $table->json('unnecessary_words')->nullable();
             $table->json('right_words')->nullable();
+            $table->json('filters')->nullable();
             $table->foreign('user_id')->references('id')
                 ->on('users')->cascadeOnDelete();
             $table->unsignedBigInteger('lot_id');

@@ -18,14 +18,12 @@ class CreateLotsTable extends Migration
             $table->id();
             $table->bigInteger('number');
             $table->boolean('is_parse_ecp')->default(false);
-            $table->json('images')->nullable();
             $table->decimal('start_price', 15,2);
             $table->decimal('auction_step', 15, 2)->nullable();
             $table->boolean('is_step_rub')->default(true);
             $table->boolean('is_deposit_rub')->default(true);
             $table->decimal('deposit', 15, 2)->nullable();
             $table->longText('description')->nullable();
-            $table->longText('concours')->nullable();
             $table->longText('participants')->nullable();
             $table->longText('payment_info')->nullable();
             $table->longText('sale_agreement')->nullable();

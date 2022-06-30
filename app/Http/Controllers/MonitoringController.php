@@ -9,70 +9,24 @@ use Illuminate\Http\Request;
 
 class MonitoringController extends Controller
 {
-    /**
-     * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
-     */
-    public function index(Request $request)
-    {
-        $monitorings = Monitoring::all();
-    }
+   public function addEditMonitoringPath(Request $request){
 
-    /**
-     * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
-     */
-    public function create(Request $request)
-    {
-    }
+   }
 
-    /**
-     * @param \App\Http\Requests\MonitoringStoreRequest $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(MonitoringStoreRequest $request)
-    {
-        $monitoring = Monitoring::create($request->validated());
+    public function deleteMonitoringPath($id){
 
     }
 
-    /**
-     * @param \Illuminate\Http\Request $request
-     * @param \App\Models\Monitoring $monitoring
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Request $request, Monitoring $monitoring)
-    {
+    public function getMonitoringLots($pathId){
 
     }
 
-    /**
-     * @param \Illuminate\Http\Request $request
-     * @param \App\Models\Monitoring $monitoring
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Request $request, Monitoring $monitoring)
-    {
-    }
-
-    /**
-     * @param \App\Http\Requests\MonitoringUpdateRequest $request
-     * @param \App\Models\Monitoring $monitoring
-     * @return \Illuminate\Http\Response
-     */
-    public function update(MonitoringUpdateRequest $request, Monitoring $monitoring)
-    {
-        $monitoring->update($request->validated());
+    public function getMonitoringPaths(){
 
     }
 
-    /**
-     * @param \Illuminate\Http\Request $request
-     * @param \App\Models\Monitoring $monitoring
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Request $request, Monitoring $monitoring)
-    {
-        $monitoring->delete();
+    public function deleteLotFromMonitoring($pathId, $lotId){
+
     }
+
 }

@@ -16,7 +16,7 @@ class CreateParamsTable extends Migration
         Schema::disableForeignKeyConstraints();
         Schema::create('params', function (Blueprint $table) {
             $table->id();
-            $table->string('title', 500);
+            $table->string('title', 225);
             $table->enum('type', ['cadastralDataPrice', 'cadastralDataArea', 'cadastralDataFractionalOwnership', 'other']);
             $table->timestamps();
         });

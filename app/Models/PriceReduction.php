@@ -15,7 +15,8 @@ class PriceReduction extends Model
         'start_time',
         'end_time',
         'deposit',
-        'percent'
+        'percent',
+        'is_system'
     ];
     protected $casts = [
         'lot_id'=>'integer',
@@ -23,7 +24,8 @@ class PriceReduction extends Model
         'start_time'=>'datetime',
         'end_time'=>'datetime',
         'deposit'=>'float',
-        'percent'=>'integer'
+        'percent'=>'integer',
+        'is_system'=>'boolean'
     ];
 
     public function lot(){

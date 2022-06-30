@@ -9,70 +9,35 @@ use Illuminate\Http\Request;
 
 class FavouriteController extends Controller
 {
-    /**
-     * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
-     */
-    public function index(Request $request)
-    {
-        $favourites = Favourite::all();
-    }
-
-    /**
-     * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
-     */
-    public function create(Request $request)
-    {
+    public function addEditFavouritePath(Request $request){
 
     }
 
-    /**
-     * @param \App\Http\Requests\FavouriteStoreRequest $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(FavouriteStoreRequest $request)
-    {
-        $favourite = Favourite::create($request->validated());
+    public function deleteFavouritePath($id){
 
     }
 
-    /**
-     * @param \Illuminate\Http\Request $request
-     * @param \App\Models\Favourite $favourite
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Request $request, Favourite $favourite)
-    {
-    }
-
-    /**
-     * @param \Illuminate\Http\Request $request
-     * @param \App\Models\Favourite $favourite
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Request $request, Favourite $favourite)
-    {
-    }
-
-    /**
-     * @param \App\Http\Requests\FavouriteUpdateRequest $request
-     * @param \App\Models\Favourite $favourite
-     * @return \Illuminate\Http\Response
-     */
-    public function update(FavouriteUpdateRequest $request, Favourite $favourite)
-    {
-        $favourite->update($request->validated());
+    public function downloadFavouritePath(Request $request){
 
     }
 
-    /**
-     * @param \Illuminate\Http\Request $request
-     * @param \App\Models\Favourite $favourite
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Request $request, Favourite $favourite)
-    {
-        $favourite->delete();
+    public function getFavourites(Request $request){
+
+    }
+
+    public function addLotsToFavourite(Request $request){
+
+    }
+
+    public function getFavouritePaths(){
+
+    }
+
+    public function deleteLotFromFavourite($pathId, $lotId){
+
+    }
+
+    public function moveLotInFavourite(Request $request){
+
     }
 }

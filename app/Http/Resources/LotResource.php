@@ -32,29 +32,30 @@ class LotResource extends JsonResource
         $categoriesIds = $this->categories->pluck('id')->toArray();
         foreach (array_unique($parents) as $category) {
             $subs = array_intersect($category->subcategories()->pluck('id')->toArray(), $categoriesIds);
-            $categories[$category->title] = array_unique(Category::whereIn('id', $subs)->get()->pluck('title')->toArray());
+            $subs = Category::whereIn('id', array_unique($subs))->get();
+            $subcategories = [];
+            foreach($subs as $sub){
+                $value = ['label'=>$sub->label, 'key'=>$sub->title];
+                if(!in_array($value, $subcategories)) {
+                    $subcategories[] = $value;
+                }
+            }
+            $categories[] = ['label'=>$category->label, 'key'=>$category->title, 'subcategories'=>$subcategories];
         }
         $this->auction->isLotInfo = $this->isLotInfo;
-        $priceReduction = null;
-        if(gettype($this->price_reduction) == 'array'){
-            if(count($this->price_reduction) == 0){
-                $priceReduction = null;
-            }else{
-                $priceReduction = $this->price_reduction;
-            }
-        }
+        $params = $this->params()->select('title', 'type', 'lot_params.value')->get();
         return [
             'id' => $this->id,
             'trade' => new TradeResource($this->auction),
             'lotNumber' => $this->number,
-            'photos' => is_null($this->images) ? [] : $this->images,
+            'photos' => $this->photos,
             'categories' => $categories,
             'description' => stripslashes(preg_replace('/[\x00-\x1F\x7F]/u', ' ', $this->description)),
             'state' => $this->status->code,
             'location' => $this->auction->debtor->address,
             'isWatched' => auth()->check() ? $user->seenLots->contains($this->id) : false,
             'isPinned' => auth()->check() ? $user->fixedLots->contains($this->id) : false,
-            'inFavourites' => auth()->check() ? Favourite::where(['user_id' => $user->id, 'lot_id' => $this->id])->exists() : false,
+            'inFavourite' => auth()->check() ? Favourite::where(['user_id' => $user->id, 'lot_id' => $this->id])->exists() : false,
             'isHide' => auth()->check() ? $user->hiddenLots->contains($this->id) : false,
             'inMonitoring' => auth()->check() ? Monitoring::where(['user_id' => $user->id, 'lot_id' => $this->id])->exists() : false,
             'startPrice' =>  $this->start_price,
@@ -76,12 +77,14 @@ class LotResource extends JsonResource
             $this->mergeWhen(is_null($this->deposit), [
                 'deposit' => null
             ]),
-            'priceReduction' => $priceReduction,
+            'priceReduction' => $this->has('priceReductions') ? $this->showPriceReductions()->select('start_time as time', 'price')->get() : null,
             'currentPrice' => (float)$this->current_price,
             'minPrice'=> (float)$this->min_price,
             'currentPriceState' => $this->current_price_state,
             'link' => URL::to('/lot/' . $this->id),
-            'efrsbLink' => 'https://fedresurs.ru/bidding/' . $this->auction->guid
+            'efrsbLink' => 'https://fedresurs.ru/bidding/' . $this->auction->guid,
+            'marks'=> $this->user_marks,
+            'description_extracts'=>$params->makeHidden(['pivot'])
         ];
     }
 

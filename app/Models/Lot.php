@@ -2,14 +2,20 @@
 
 namespace App\Models;
 
+use App\Utilities\FilterBuilder;
+use App\Utilities\SortBuilder;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class Lot extends Model
 {
     use HasFactory;
 
+    protected $table = 'lots';
+
+    protected $appends = ['current_price', 'min_price', 'current_price_state', 'photos', 'user_marks'];
     /**
      * The attributes that are mass assignable.
      *
@@ -23,9 +29,7 @@ class Lot extends Model
         'is_deposit_rub',
         'description',
         'status_id',
-        'price_state',
         'auction_id',
-        'concours',
         'participants',
         'payment_info',
         'sale_agreement',
@@ -40,8 +44,6 @@ class Lot extends Model
      */
     protected $casts = [
         'id' => 'integer',
-        'images' => 'array',
-        'price_reduction' => 'array',
         'start_price' => 'float',
         'auction_id' => 'integer',
         'auction_step' => 'float',
@@ -51,8 +53,6 @@ class Lot extends Model
         'is_deposit_rub' => 'boolean',
         'status_id' => 'integer'
     ];
-
-    protected $appends = ['current_price', 'current_price_state', 'min_price'];
 
     public function applications()
     {
@@ -107,7 +107,7 @@ class Lot extends Model
 
     public function params()
     {
-        return $this->belongsToMany(Param::class, 'lot_params')->withPivot(['value']);
+        return $this->belongsToMany(Param::class, 'lot_params')->withPivot('value');
     }
 
     public function notifications()
@@ -130,99 +130,133 @@ class Lot extends Model
         return $this->hasMany(LotFile::class);
     }
 
-    public function getCurrentPriceAttribute()
+    public function lotImages()
     {
-        if (is_null($this->price_reduction) || count($this->price_reduction) == 0) {
-            return $this->start_price;
-        } else {
-            $date = Carbon::now();
-            for ($i = 0; $i <= count($this->price_reduction) - 1; $i++) {
-                try {
-                    $date1 = Carbon::parse($this->price_reduction[$i]['time']);
-                    if ($i + 1 <= count($this->price_reduction) - 1) {
-                        $date2 = Carbon::parse($this->price_reduction[$i + 1]['time']);
-                        if ($date1 < $date && $date2 > $date) {
-                            return $this->price_reduction[$i]['price'];
-                        }
-                    } else {
-                        if ($date1 < $date) {
-                            return $this->price_reduction[$i]['price'];
-                        } else {
-                            return $this->start_price;
-                        }
-                    }
-                } catch (\Exception $e) {
-                    return $this->start_price;
-                }
-            }
-
-        }
+        return $this->hasMany(LotFile::class)->where(['type' => 'image', 'user_id' => null]);
     }
 
-    public function getCurrentPriceStateAttribute()
+    public function lotUserImages()
     {
-        if (is_null($this->price_reduction) || count($this->price_reduction) == 0) {
-            return 'hold';
-        } else {
-            $date = Carbon::now();
-            for ($i = 0; $i < count($this->price_reduction) - 1; $i++) {
-                if ($i + 1 < count($this->price_reduction) - 1) {
-                    try {
-                        $date1 = Carbon::parse($this->price_reduction[$i]['time']);
-                        $date2 = Carbon::parse($this->price_reduction[$i + 1]['time']);
-                        if ($date1 < $date && $date2 > $date) {
-                            if ($i - 1 >= 0) {
-                                if ((float)$this->price_reduction[$i]['price'] > (float)$this->price_reduction[$i - 1]['price']) {
-                                    return 'up';
-                                } elseif ((float)$this->price_reduction[$i]['price'] < (float)$this->price_reduction[$i - 1]['price']) {
-                                    return 'down';
-                                } else {
-                                    return 'hold';
-                                }
-                            } else {
-                                if ((float)$this->price_reduction[$i]['price'] > (float)$this->start_price) {
-                                    return 'up';
-                                } elseif ((float)$this->price_reduction[$i]['price'] < (float)$this->start_price) {
-                                    return 'down';
-                                } else {
-                                    return 'hold';
-                                }
-                            }
-                        }
-                    } catch (\Exception $e) {
-                        return 'hold';
-                    }
+        return $this->hasMany(LotFile::class)->where(['type' => 'image', 'user_id' => auth()->id()]);
+    }
 
-                } else {
-                    return 'hold';
-                }
+    public function priceReductions()
+    {
+        return $this->hasMany(PriceReduction::class);
+    }
+
+    public function showPriceReductions()
+    {
+        return $this->hasMany(PriceReduction::class)->where('is_system', false);
+    }
+
+    public function priceReductionsMin()
+    {
+        return $this->hasOne(PriceReduction::class)->orderBy('price');
+    }
+
+    public function getCurrentPriceAttribute()
+    {
+        if ($this->has('priceReductions')) {
+            $currentDate = Carbon::now()->setTimezone('Europe/Moscow');
+            $currentRed = $this->hasMany(PriceReduction::class)
+                ->whereDate('start_time', '<=', $currentDate)
+                ->whereDate('end_time', '>', $currentDate)
+                ->first();
+            if ($currentRed) {
+                return $currentRed->price;
+            } else {
+                return $this->start_price;
             }
+        } else {
+            return $this->start_price;
         }
     }
 
     public function getMinPriceAttribute()
     {
-        if (is_null($this->price_reduction) || count($this->price_reduction) == 0) {
-            return (float)$this->start_price;
-        } else {
-            $result = [];
-            for ($i = 0; $i <= count($this->price_reduction) - 1; $i++) {
-                if (!is_null($this->price_reduction[$i]['price'])) {
-                    $result[] = (float)$this->price_reduction[$i]['price'];
-                }
-            }
-            if (count($result) > 0) {
-                return (float)min($result);
-            } else {
-                return (float)$this->start_price;
-            }
+        $prices = $this->hasMany(PriceReduction::class)->pluck('price')->toArray();
+        $prices[] = $this->start_price;
+        return min($prices);
 
+    }
+
+    public function getCurrentPriceStateAttribute()
+    {
+        if ($this->has('priceReductions')) {
+            $currentDate = Carbon::now()->setTimezone('Europe/Moscow');
+            $currentPrice = $this->hasMany(PriceReduction::class)
+                ->whereDate('start_time', '<=', $currentDate)
+                ->whereDate('end_time', '>', $currentDate)
+                ->first();
+            if ($currentPrice) {
+                $prev = PriceReduction::where('id', '<', $currentPrice->id)
+                    ->latest('id')
+                    ->first();
+                if ($prev && $prev->lot_id == $this->id) {
+                    if ((float)$prev->price > (float)$currentPrice->price) {
+                        return 'down';
+                    } elseif ((float)$prev->price < (float)$currentPrice->price) {
+                        return 'up';
+                    } else {
+                        return 'hold';
+                    }
+                } else {
+                    if ((float)$this->start_price > (float)$currentPrice->price) {
+                        return 'down';
+                    } elseif ((float)$this->start_price < (float)$currentPrice->price) {
+                        return 'up';
+                    } else {
+                        return 'hold';
+                    }
+                }
+            } else {
+                return 'hold';
+            }
+        } else {
+            return 'hold';
         }
     }
 
-    public function priceReductions(){
+    public function getPhotosAttribute()
+    {
+        $photos = [];
+        foreach ($this->lotImages as $image) {
+            $photos[] = ['type' => 'system', 'main' => $image->main, 'preview' => $image->preview, 'id' => $image->id];
+        }
+        if (auth()->check()) {
+            foreach ($this->lotUserImages as $image) {
+                $photos[] = ['type' => 'user', 'main' => $image->main, 'preview' => $image->preview, 'id' => $image->id];
+            }
+        }
+        return $photos;
+    }
 
-        return $this->hasMany(PriceReduction::class);
+    public function getUserMarksAttribute()
+    {
+        if (auth()->check()) {
+            return $this->belongsToMany(Mark::class)->where('user_id', auth()->id());
+        }
+        return [];
+    }
+
+    public function scopeCustomSortBy($query, $request)
+    {
+        if (isset($request->sort) && isset($request->sort['direction']) && strlen((string)$request->sort['direction']) > 0
+            && isset($request->sort['type']) && strlen((string)$request->sort['type']) > 0) {
+            $namespace = 'App\Utilities\LotSorts';
+            $sort = new SortBuilder($query, $request->sort, $namespace);
+
+            return $sort->apply();
+        }
+        return $query;
+    }
+
+    public function scopeFilterBy($query, $request)
+    {
+        $namespace = 'App\Utilities\LotFilters';
+        $filters = new FilterBuilder($query, $request, $namespace);
+        return $filters->apply();
 
     }
 }

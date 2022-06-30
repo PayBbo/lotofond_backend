@@ -9,9 +9,6 @@ use Spatie\Translatable\HasTranslations;
 class Param extends Model
 {
     use HasFactory;
-    use HasTranslations;
-
-    public $translatable = ['title'];
 
     /**
      * The attributes that are mass assignable.

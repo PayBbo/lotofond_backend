@@ -16,17 +16,14 @@ class StatusSeeder extends Seeder
     public function run()
     {
         $types = [
-            ['code' => 'BiddingInvitation', 'value' => 'Сообщение о продаже'],
-            ['code' => 'BiddingDeclaration', 'value' => 'Объявлены торги'],
-            ['code' => 'ApplicationSessionStart', 'value' => 'Начат прием заявок'],
-            ['code' => 'ApplicationSessionEnd', 'value' => 'Приём заявок закончен'],
-            ['code' => 'BiddingStart', 'value' => 'Начаты торги'],
-            ['code' => 'BiddingEnd', 'value' => 'Торги завершены'],
-            ['code' => 'BiddingCancel', 'value' => 'Отмена торгов'],
-            ['code' => 'Annulment', 'value' => 'Аннулирование'],
-            ['code' => 'BiddingFail', 'value' => 'Торги не состоялись'],
-            ['code' => 'BiddingPause', 'value' => 'Торги приостановлены'],
-            ['code' => 'BiddingResume', 'value' => 'Торги возобновлены'],
+            ['code' => 'biddingDeclared', 'value' => 'Объявлены торги'],
+            ['code' => 'applicationSessionStarted', 'value' => 'Начат прием заявок'],
+            ['code' => 'applicationSessionEnd', 'value' => 'Приём заявок закончен'],
+            ['code' => 'finished', 'value' => 'Торги завершены'],
+            ['code' => 'biddingCanceled', 'value' => 'Отмена торгов'],
+            ['code' => 'annul', 'value' => 'Аннулирование'],
+            ['code' => 'biddingFail', 'value' => 'Торги не состоялись'],
+            ['code' => 'biddingPaused', 'value' => 'Торги приостановлены'],
 
         ];
         foreach ($types as $type) {

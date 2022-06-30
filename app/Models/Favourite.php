@@ -17,7 +17,8 @@ class Favourite extends Model
     protected $fillable = [
         'user_id',
         'title',
-        'lot_id'
+        'lot_id',
+        'color'
     ];
 
     /**

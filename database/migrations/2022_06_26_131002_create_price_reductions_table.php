@@ -23,6 +23,7 @@ class CreatePriceReductionsTable extends Migration
             $table->decimal('price', 15,2)->default(0.00);
             $table->decimal('deposit', 15,2)->default(0.00);
             $table->integer('percent')->default(0);
+            $table->boolean('is_system')->default(false);
             $table->timestamps();
         });
     }

@@ -57,5 +57,6 @@ class TestCommand extends Command
         $gener->getImagesFromZipOrRar($filename, $path, $s_path);
         **/
         dispatch(new ParseTrades);
+
     }
 }

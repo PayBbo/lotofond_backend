@@ -16,35 +16,17 @@ class ParamSeeder extends Seeder
     {
         $params = [
             ['type' => 'cadastralDataPrice',
-                'title'=>
-                    ['ru'=>'Кадастровая стоимость',
-                    'en'=>'Cadastral value',
-                    'zh_CN'=>'地籍价值']],
+                'title'=>'Кадастровая стоимость'],
             ['type' => 'cadastralDataArea',
-                'title'=>
-                    ['ru'=>'Кадастровые данные о площади',
-                    'en'=>'Cadastral data on the area',
-                    'zh_CN'=>'该地区的地籍数据']],
+                'title'=>'Кадастровые данные о площади'],
             ['type' => 'cadastralDataFractionalOwnership',
-                'title'=>
-                    ['ru'=>'Кадастровые данные о частичном владении',
-                    'en'=>'Cadastral data on partial ownership',
-                    'zh_CN'=>'关于部分所有权的地籍数据']],
+                'title'=>'Кадастровые данные о частичном владении'],
             ['type' => 'other',
-                'title'=>
-                    ['ru'=>'Кадастровый номер',
-                    'en'=>'Cadastral number',
-                    'zh_CN'=>'地籍编号']],
+                'title'=>'Кадастровый номер'],
             ['type' => 'other',
-                'title'=>
-                    ['ru'=>'Государственный номер автомобиля',
-                        'en'=>'The state number of the car',
-                        'zh_CN'=>'汽车的状态号']],
+                'title'=>'Государственный номер автомобиля'],
             ['type' => 'other',
-            'title'=>
-                ['ru'=>'VIN автомобиля',
-                    'en'=>'Vehicle VIN',
-                    'zh_CN'=>'车辆VIN']]
+            'title'=>'VIN автомобиля']
         ];
         foreach($params as $param){
             Param::create([

@@ -23,4 +23,9 @@ class BidderController extends Controller
         return response(new TradePlaceCollection($tradePlaces), 200);
 
     }
+
+    public function getTradesBidder($bidderType, $bidderId){
+
+    }
+
 }

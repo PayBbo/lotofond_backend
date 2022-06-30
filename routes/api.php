@@ -5,6 +5,11 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\BidderController;
+use App\Http\Controllers\FavouriteController;
+use App\Http\Controllers\FileController;
+use App\Http\Controllers\MarkController;
+use App\Http\Controllers\MonitoringController;
+use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -45,17 +50,19 @@ Route::group(['middleware' => ['json.response', 'localization']], function () {
 
     Route::group(['prefix' => 'trades'], function () {
 
-        Route::get('/', [AuctionController::class, 'getTrades']);
+        Route::put('/', [AuctionController::class, 'getTrades']);
 
         Route::put('/filter', [AuctionController::class, 'getFilteredTrades']);
 
-        Route::get('/{auctionId}', [AuctionController::class, 'getLotsByAuction']);
+        Route::put('/{auctionId}', [AuctionController::class, 'getLotsByAuction']);
 
         Route::get('/lot/{lotId}', [AuctionController::class, 'getLotInformation']);
 
         Route::get('/filter/bidders/{type}', [BidderController::class, 'getBiddersForFilter']);
 
         Route::get('/filter/trade-places', [BidderController::class, 'getTradePlacesForFilter']);
+
+        Route::get('/{type}/{bidderType}/{bidderId}', [BidderController::class, 'getTradesByBidder']);
 
 
     });
@@ -78,15 +85,74 @@ Route::group(['middleware' => ['json.response', 'localization']], function () {
 
         });
 
-        Route::resource('monitoring', App\Http\Controllers\MonitoringController::class);
+        Route::group(['prefix' => 'favourite'], function () {
 
-        Route::resource('favourite', App\Http\Controllers\FavouriteController::class);
+            Route::post('/add/edit/path', [FavouriteController::class, 'addEditFavouritePath']);
+
+            Route::delete('/delete/path/{id}', [FavouriteController::class, 'deleteFavouritePath']);
+
+            Route::post('/download/path', [FavouriteController::class, 'downloadFavouritePath']);
+
+            Route::put('/', [FavouriteController::class, 'getFavourites']);
+
+            Route::post('/add/lots', [FavouriteController::class, 'addLotsToFavourite']);
+
+            Route::get('/get/paths', [FavouriteController::class, 'getFavouritePaths']);
+
+            Route::delete('/delete/{pathId}/lot/{lotId}', [FavouriteController::class, 'deleteLotFromFavourite']);
+
+            Route::put('/move/lot', [FavouriteController::class, 'moveLotInFavourite']);
+
+        });
+
+        Route::group(['prefix'=>'monitoring'], function(){
+
+            Route::post('/add/edit/path', [MonitoringController::class, 'addEditMonitoringPath']);
+
+            Route::delete('/delete/path/{id}', [MonitoringController::class, 'deleteMonitoringPath']);
+
+            Route::put('/{pathId}', [MonitoringController::class, 'getMonitoringLots']);
+
+            Route::get('/get/paths', [MonitoringController::class, 'getMonitoringPaths']);
+
+            Route::delete('/delete/{pathId}/lot/{lotId}', [MonitoringController::class, 'deleteLotFromMonitoring']);
+
+        });
+
+        Route::group(['prefix'=>'marks'], function(){
+
+            Route::post('/', [MarkController::class, 'addMark']);
+
+            Route::delete('/mark/{markId}/lot/{lotId}', [MarkController::class, 'deleteMark']);
+
+            Route::get('/mark/lot/{lotId}', [MarkController::class, 'getMarksByLot']);
+
+            Route::get('/marks', [MarkController::class, 'getMarks']);
+
+        });
+
+        Route::group(['prefix'=>'files'], function(){
+
+            Route::post('/store', [FileController::class, 'storeFile']);
+
+            Route::delete('/{id}', [FileController::class, 'deleteUserFile']);
+
+            Route::get('/{lotId}', [FileController::class, 'getFiles']);
+
+        });
+
+        Route::group(['prefix'=>'notifications'], function(){
+
+            Route::get('/{type}', [NotificationController::class, 'getNotifications']);
+
+        });
+
+
 
         Route::resource('event', App\Http\Controllers\EventController::class);
 
         Route::resource('note', App\Http\Controllers\NoteController::class);
 
-        Route::resource('mark', App\Http\Controllers\MarkController::class);
     });
 
 });

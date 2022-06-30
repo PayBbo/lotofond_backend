@@ -7,6 +7,7 @@ use App\Models\AuctionType;
 use App\Models\LotFile;
 use App\Models\Status;
 use App\Models\TradeMessage;
+use Artisaninweb\SoapWrapper\SoapWrapper;
 use Midnite81\Xml2Array\Xml2Array;
 use function logger;
 
@@ -17,12 +18,13 @@ class GetTradeMessageContent
     protected $type;
     protected $xml;
     protected $messageId;
+    protected $messageType;
 
     public function __construct($xml, $type)
     {
         try {
             $xml = Xml2Array::create($xml)->toArray();
-            $this->type = $type;
+            $this->messageType = $type;
             $this->xml = $xml;
             $key = preg_grep('/:Body/', array_keys($xml));
             if($type == 'BiddingProcess'){
@@ -46,9 +48,10 @@ class GetTradeMessageContent
             return;
         }
         $this->messageId = $id;
-        switch ($this->type) {
+        switch ($this->messageType) {
             case 'BiddingInvitation':
             {
+                $this->type = 'biddingDeclared';
                 $this->biddingInvitationResponse($tradePlace, $trade);
                 break;
             }
@@ -64,18 +67,50 @@ class GetTradeMessageContent
             }
             case 'AnnulmentMessage':
             {
+                //$this->type = 'annul';
                 $this->annulmentMessage();
                 break;
             }
 
-            case ($this->type == 'BiddingEnd' || $this->type == 'BiddingStart'
-                || $this->type == 'ApplicationSessionEnd' || $this->type == 'ApplicationSessionStart'):
-            {
+            case 'BiddingEnd': {
+                $this->type = 'finished';
                 $this->applicationSession();
                 break;
             }
-            case ($this->type == 'BiddingCancel' || $this->type == 'BiddingFail'
-                || $this->type == 'BiddingPause' || $this->type == 'BiddingResume'):
+            case 'BiddingStart': {
+                $this->applicationSession();
+                break;
+            }
+            case 'ApplicationSessionEnd':  {
+                $this->type = 'applicationSessionEnd';
+                $this->applicationSession();
+                break;
+            }
+            case 'ApplicationSessionStart':
+            {
+                $this->type = 'applicationSessionStarted';
+                $this->applicationSession();
+                break;
+            }
+            case 'BiddingCancel':
+            {
+                $this->type = 'biddingCanceled';
+                $this->biddingStatusWithReason();
+                break;
+            }
+            case 'BiddingFail':
+            {
+                $this->type = 'biddingFail';
+                $this->biddingStatusWithReason();
+                break;
+            }
+            case  'BiddingPause':
+            {
+                $this->type = 'biddingPaused';
+                $this->biddingStatusWithReason();
+                break;
+            }
+            case 'BiddingResume':
             {
                 $this->biddingStatusWithReason();
                 break;
@@ -106,11 +141,21 @@ class GetTradeMessageContent
             if (array_key_exists($prefix . 'DebtorPerson', $debtor)) {
                 $debtor = $debtor[$prefix . 'DebtorPerson']['@attributes'];
                 $debtor_type = 'person';
+                $codeType = 'PersonInn';
             } elseif(array_key_exists($prefix . 'DebtorCompany', $debtor)){
                 $debtor = $debtor[$prefix . 'DebtorCompany']['@attributes'];
                 $debtor_type = 'company';
+                $codeType = 'CompanyInn';
             }
             if(array_key_exists('INN', $debtor) &&  $debtor['INN'] !== "" && !is_null( $debtor['INN'])){
+                $soapWrapper = new SoapWrapper();
+                $service = new SoapWrapperService($soapWrapper);
+                $debtor_data = get_object_vars($service->searchDebtorByCode($codeType, $debtor['INN']));
+                if (array_key_exists($prefix . 'DebtorPerson', $debtor_data)) {
+                    $debtor = get_object_vars($debtor_data['DebtorPerson']);
+                } elseif(array_key_exists('DebtorCompany', $debtor_data)){
+                    $debtor = get_object_vars($debtor_data['DebtorCompany']);
+                }
                 $bidderParse = new BidderService('debtor', $debtor['INN'], $debtor_type);
                 $debtor = $bidderParse->saveBidder($debtor);
             }else{
@@ -332,7 +377,7 @@ class GetTradeMessageContent
         $invitation =  $this->invitation;
         $prefix =  $this->prefix;
         try {
-            $auction = Auction::where('trade_id', $invitation['@attributes']['TradeId'])->first();
+           /* $auction = Auction::where('trade_id', $invitation['@attributes']['TradeId'])->first();
             if ($auction) {
                 $url = null;
                 if (array_key_exists($prefix . 'Attach', $invitation)) {
@@ -348,7 +393,7 @@ class GetTradeMessageContent
                             $auction_lot->files = $files;
                         }
                         $auction_lot->save();
-                        $this->createNotification($auction_lot->id, $invitation['@attributes']['EventTime'],
+                        $this->createNotification($auction_lot->id, $invitation[$prefix . 'LotList']['@attributes']['EventTime'],
                             $invitation[$prefix . 'LotList'][$prefix . 'BiddingStateLotInfo']['@attributes']['Reason']);
                     }
 
@@ -361,11 +406,11 @@ class GetTradeMessageContent
                             $lot->files = $files;
                         }
                         $lot->save();
-                        $this->createNotification($lot->id, $invitation['@attributes']['EventTime'],
-                            $invitation['@attributes']['Reason']);
+                        $this->createNotification($auction_lot->id, $invitation[$prefix . 'LotList']['@attributes']['EventTime'],
+                            $invitation[$prefix . 'LotList'][$prefix . 'BiddingStateLotInfo']['@attributes']['Reason']);
                     }
                 }
-            }
+            }*/
         } catch (\Exception $e) {
             logger('biddingStatusWithReasonExc: ' . $e);
             logger($invitation);

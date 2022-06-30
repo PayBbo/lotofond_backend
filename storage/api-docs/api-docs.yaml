@@ -370,8 +370,12 @@ paths:
       security:
         - bearerAuth: [ ]
   /trades:
-    get:
+    put:
       parameters:
+        - name: Content-Language
+          in: header
+          description: Заголовок для определения локали (ru, en, zh_CN)
+          required: true
         - in: query
           name: page
           schema:
@@ -381,6 +385,16 @@ paths:
       tags:
         - Trades
       summary: Получение информации о торгах
+      requestBody:
+        description: данные для сортировки лотов
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                sort:
+                  $ref: '#/components/schemas/Sort'
       operationId: getTrades
       responses:
         "200":
@@ -398,6 +412,10 @@ paths:
   /trades/filter:
     put:
       parameters:
+        - name: Content-Language
+          in: header
+          description: Заголовок для определения локали (ru, en, zh_CN)
+          required: true
         - in: query
           name: page
           schema:
@@ -409,7 +427,7 @@ paths:
       summary: Получение информации о торгах в соответствии с фильтрами
       operationId: getFilteredTrades
       requestBody:
-        description: Данные о выбранных фитрах
+        description: Данные о выбранных фильтрах
         content:
           application/json:
             schema:
@@ -429,7 +447,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
   /trades/{auctionId}:
-    get:
+    put:
       parameters:
         - in: query
           name: page
@@ -446,6 +464,16 @@ paths:
       tags:
         - Trades
       summary: Получение информации о лотах выбранного торга
+      requestBody:
+        description: данные для сортировки лотов
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                sort:
+                  $ref: '#/components/schemas/Sort'
       operationId: getLotsByAuction
       responses:
         "200":
@@ -554,7 +582,6 @@ paths:
       summary: Добавление/удаление лота в/из "просмотрено", "скрыто", "закреплено"
       operationId: actionWithLot
       requestBody:
-        description: 'Pass user credentials'
         required: true
         content:
           application/json:
@@ -606,6 +633,8 @@ paths:
       responses:
         "200":
           description: Папка избранного успешно создана/отредактирована
+        "403":
+          description: Ошибка при редактировании папки "Общее"
         "422":
           description: Ошибка валидации данных
           content:
@@ -620,7 +649,7 @@ paths:
                 $ref: '#/components/schemas/Error'
       security:
         - bearerAuth: [ ]
-  /favourites/delete/path/{id}:
+  /favourite/delete/path/{id}:
     delete:
       parameters:
         - in: path
@@ -636,8 +665,10 @@ paths:
       responses:
         "200":
           description: Папка избранного успешно удалена
+        "403":
+          description: Ошибка при удалении папки "Общее"
         "422":
-          description: Ошибка валидации данных (папка не существует или пользователь не является ее владельцем)
+          description: Ошибка валидации данных (папка не существует)
           content:
             application/json:
               schema:
@@ -650,7 +681,7 @@ paths:
                 $ref: '#/components/schemas/Error'
       security:
         - bearerAuth: [ ]
-  /favourites/download/path:
+  /favourite/download/path:
     post:
       tags:
         - Favourite
@@ -712,12 +743,15 @@ paths:
                 pathId:
                   type: integer
                   description: айдишник папки избранного - если нужна папка "Все" - параметр пуст или не указан
-                keyWord:
+                includedWords:
                   type: string
-                  description: ключевое слово или фраза для поиска
-                mark:
-                  type: integer
-                  description: айдишник метки для поиска
+                  description: разделитель - запятая
+                  example: Машина, лот №1
+                marks:
+                  type: array
+                  description: айдишники меток пользователя для поиска
+                sort:
+                  $ref: "#/components/schemas/Sort"
       responses:
         "200":
           description: данные о лотах в папке избранного
@@ -744,7 +778,7 @@ paths:
       tags:
         - Favourite
       summary: Добавление лотов в папку избранного
-      operationId: getLotsToFavourite
+      operationId: addLotsToFavourite
       requestBody:
         description: данные для добавления лотов
         required: true
@@ -782,12 +816,12 @@ paths:
                 $ref: '#/components/schemas/Error'
       security:
         - bearerAuth: []
-  /favourite/get/pathes:
+  /favourite/get/paths:
     get:
       tags:
         - Favourite
       summary: Получение данных о папках избранного авторизованного пользователя
-      operationId: getFavouritePathes
+      operationId: getFavouritePaths
       responses:
         "200":
           description: данные о папках избранного
@@ -944,7 +978,7 @@ paths:
       security:
         - bearerAuth: []
   /monitoring/{pathId}:
-    get:
+    put:
       parameters:
         - in: query
           name: page
@@ -962,6 +996,23 @@ paths:
         - Monitoring
       summary: Получение данных о лотах в папке мониторинга
       operationId: getMonitoringLots
+      requestBody:
+        description: данные для сортировки лотов
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                includedWords:
+                  type: string
+                  description: разделитель - запятая
+                  example: Машина, лот №1
+                marks:
+                  type: array
+                  description: айдишники меток пользователя для поиска
+                sort:
+                  $ref: '#/components/schemas/Sort'
       responses:
         "200":
           description: данные о лотах в папке мониторинга
@@ -983,19 +1034,19 @@ paths:
                 $ref: '#/components/schemas/Error'
       security:
         - bearerAuth: []
-  /monitoring/get/pathes:
+  /monitoring/get/paths:
     get:
       tags:
         - Monitoring
       summary: Получение данных о папках мониторинга авторизованного пользователя
-      operationId: getMonitoringPathes
+      operationId: getMonitoringPaths
       responses:
         "200":
           description: данные о папках мониторинга
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/PathMonitoring"
+                $ref: "#/components/schemas/PathMonitoringData"
         default:
           description: unexpected error
           content:
@@ -1208,7 +1259,7 @@ paths:
                 $ref: '#/components/schemas/Error'
       security:
         - bearerAuth: []
-  /lot/files/{lotId}:
+  /files/{lotId}:
     get:
       parameters:
         - in: path
@@ -1218,7 +1269,7 @@ paths:
           required: true
           description: Айдишник лота, для которого получаем список файлов
       tags:
-        - LotInfo
+        - Files
       summary: Получение списка файлов для лота
       operationId: getFiles
       responses:
@@ -1275,6 +1326,62 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/TradeInfo'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+        - bearerAuth: []
+  /files/store:
+    post:
+      tags:
+        - Files
+      summary: Загрузка файлов на сервер
+      operationId: storeFile
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/File'
+      responses:
+        "200":
+          description: Загрузка файла прошла успешно
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Files"
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+        - bearerAuth: []
+  /files/{id}:
+    delete:
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: Айдишник файла, который удаляем
+      tags:
+        - Files
+      summary: Удаление пользовательского файла/картинки
+      operationId: deleteUserFile
+      responses:
+        "200":
+          description: Файл был успешно удален
+        "422":
+          description: Ошибка валидации данных (файла не существует либо он не является пользовательским)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
         default:
           description: unexpected error
           content:
@@ -1549,14 +1656,7 @@ components:
           type: boolean
           description: Просмотрено/не просмотрено
         categories:
-          type: object
-          description: Объект с классификатороми
-          example: {
-            "realEstate": [
-              "residentialProperty",
-              "land"
-            ],
-          }
+          $ref: "#/components/schemas/Categories"
         isPinned:
           type: boolean
           description: закреплен/не закреплен
@@ -1579,14 +1679,7 @@ components:
           type: string
           description: номер лота
         photos:
-          type: array
-          description: массив фоток
-          example: [
-            { "preview": "http://127.0.0.1:8000/storage/auction-files/auction-695/previews/IMG-20220209-WA0009.jpg",
-              "main": "http://127.0.0.1:8000/storage/auction-files/auction-695/IMG-20220209-WA0009.jpg" },
-            { "preview": "http://127.0.0.1:8000/storage/auction-files/auction-695/previews/IMG-20220209-WA0009.jpg",
-              "main": "http://127.0.0.1:8000/storage/auction-files/auction-695/IMG-20220209-WA0009.jpg" },
-          ]
+          $ref: "#/components/schemas/Images"
         location:
           type: string
           description: геометка (адрес у нас будет именно для лота, а не для торга)
@@ -1626,12 +1719,8 @@ components:
             - up
             - hold
             - down
-        cadastralData:
-          type: object
-          properties:
-            number:
-              type: string
-          description: пока только кадастровый номер, потом добавлю площадь и кадастровую стоимость
+        descriptionExtracts:
+          $ref: "#/components/schemas/DescriptionExtracts"
     Lot:
       type: object
       properties:
@@ -1644,14 +1733,7 @@ components:
           type: boolean
           description: Просмотрено/не просмотрено
         categories:
-          type: object
-          description: Объект с классификатороми
-          example: {
-            "realEstate": [
-              "residentialProperty",
-              "land"
-            ],
-          }
+          $ref: "#/components/schemas/Categories"
         isPinned:
           type: boolean
           description: закреплен/не закреплен
@@ -1674,14 +1756,7 @@ components:
           type: string
           description: номер лота
         photos:
-          type: array
-          description: массив фоток
-          example: [
-            { "preview": "http://127.0.0.1:8000/storage/auction-files/auction-695/previews/IMG-20220209-WA0009.jpg",
-              "main": "http://127.0.0.1:8000/storage/auction-files/auction-695/IMG-20220209-WA0009.jpg" },
-            { "preview": "http://127.0.0.1:8000/storage/auction-files/auction-695/previews/IMG-20220209-WA0009.jpg",
-              "main": "http://127.0.0.1:8000/storage/auction-files/auction-695/IMG-20220209-WA0009.jpg" },
-          ]
+          $ref: "#/components/schemas/Images"
         location:
           type: string
           description: геометка (адрес у нас будет именно для лота, а не для торга)
@@ -1739,12 +1814,10 @@ components:
         efrsbLink:
           type: string
           description: ссылка на лот на федресурсе
-        cadastralData:
-          type: object
-          properties:
-            number:
-              type: string
-          description: пока только кадастровый номер, потом добавлю площадь и кадастровую стоимость
+        marks:
+          $ref: "#/components/schemas/Marks"
+        descriptionExtracts:
+          $ref: "#/components/schemas/DescriptionExtracts"
     Pagination:
       type: object
       properties:
@@ -1861,6 +1934,7 @@ components:
         phone:
           type: string
         email:
+          type: string
         person:
           type: object
           properties:
@@ -1881,6 +1955,8 @@ components:
     Filters:
       type: object
       properties:
+        sort:
+          $ref: "#/components/schemas/Sort"
         categories:
           type: array
           default: null
@@ -2054,14 +2130,36 @@ components:
               items:
                 type: integer
                 description: айдишники арбитражных управляющих
+        other:
+          type: object
+          properties:
+            period:
+              type: string
+              enum:
+                - all
+                - 1 day
+                - 7 days
+                - 30 days
+            hasPhotos:
+              type: boolean
+              example: false
+            isStopped:
+              type: boolean
+              example: false
+            isCompleted:
+              type: boolean
+              example: false
+            isHidden:
+              type: boolean
+              example: false
         mainParams:
           type: object
           properties:
-            exceptionWords:
+            excludedWords:
               type: string
               description: разделитель - запятая
               example: Машина, лот №1
-            rightWords:
+            includedWords:
               type: string
               description: разделитель - запятая
               example: Машина, лот №1
@@ -2072,9 +2170,6 @@ components:
               type: array
               example: [ 1, 2, 3 ]
               description: массив айдишников торговых площадок
-            tradeNumber:
-              type: string
-              description: номер торгов
             tradeType:
               type: string
               enum:
@@ -2085,25 +2180,6 @@ components:
                 - CloseConcours
                 - ClosePublicOffer
               description: вид торгов
-            period:
-              type: string
-              enum:
-                - all
-                - 1 day
-                - 7 days
-                - 30 days
-            isWithPhotos:
-              type: boolean
-              example: false
-            isStopped:
-              type: boolean
-              example: false
-            isCompleted:
-              type: boolean
-              example: false
-            isDeleted:
-              type: boolean
-              example: false
     TradePlace:
       type: object
       properties:
@@ -2126,14 +2202,6 @@ components:
         pathId:
           type: integer
           description: айдишник папки (если редактируем папку)
-        isPublic:
-          type: boolean
-          description: флаг для определения - папка личная или для группы пользователей
-          default: false
-        users:
-          type: array
-          description: массив айдишников пользователей, елси папка публичная
-          example: [ 1, 2, 3 ]
         color:
           type: string
           description: название цвета папки
@@ -2222,6 +2290,32 @@ components:
             - weekly
         filters:
           $ref: "#/components/schemas/Filters"
+    PathMonitoringData:
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          type: string
+          description: название папки
+        pathId:
+          type: integer
+          description: айдишник папки (если редактируем папку)
+        color:
+          type: string
+          description: название цвета папки
+        notificationTime:
+          type: string
+          enum:
+            - hourly
+            - daily
+            - weekly
+        filters:
+          $ref: "#/components/schemas/Filters"
+        newLotCount:
+          type: integer
+          description: количество новых лотов в папке за последний час
+
     Notification:
       required:
         - value
@@ -2238,14 +2332,7 @@ components:
           type: object
           properties:
             photos:
-              type: array
-              description: массив фоток
-              example: [
-            { "preview": "http://127.0.0.1:8000/storage/auction-files/auction-695/previews/IMG-20220209-WA0009.jpg",
-              "main": "http://127.0.0.1:8000/storage/auction-files/auction-695/IMG-20220209-WA0009.jpg" },
-            { "preview": "http://127.0.0.1:8000/storage/auction-files/auction-695/previews/IMG-20220209-WA0009.jpg",
-              "main": "http://127.0.0.1:8000/storage/auction-files/auction-695/IMG-20220209-WA0009.jpg" },
-            ]
+              $ref: "#/components/schemas/Images"
             description:
               type: string
         organizer:
@@ -2283,10 +2370,6 @@ components:
     Files:
       type: object
       properties:
-        userImages:
-          type: array
-          items:
-            type: string
         files:
           type: array
           items:
@@ -2294,7 +2377,102 @@ components:
         userFiles:
           type: array
           items:
+            type: object
+            properties:
+              id:
+                type: integer
+                description: айдишник файла на сервере
+              url:
+                type: string
+                description: ссылка на файл
+    File:
+      required:
+        - fileType
+        - file
+      type: object
+      properties:
+        fileType:
+          type: string
+          enum:
+            - image
+            - file
+        file:
+          type: string
+          format: binary
+          description: "Доступные расширения картинок - jpg,png,jpeg,bmp. На файлы нет ограничений"
+    Categories:
+      type: array
+      items:
+        type: object
+        properties:
+          label:
             type: string
+            description: локализованное название категории
+          key:
+            type: string
+            description: enum категорий
+          subcategories:
+            type: array
+            items:
+              type: object
+              properties:
+                label:
+                  type: string
+                key:
+                  type: string
+    Images:
+      type: array
+      items:
+        type: object
+        properties:
+          type:
+            type: string
+            enum:
+              - system
+              - user
+          preview:
+            type: string
+          main:
+            type: string
+          id:
+            type: integer
+    DescriptionExtracts:
+      type: array
+      items:
+        type: object
+        properties:
+          type:
+            type: string
+            enum:
+              - cadastralDataPrice
+              - cadastralDataArea
+              - cadastralDataFractionalOwnership
+              - other
+          title:
+            type: string
+            example: Кадастровый номер
+          content:
+            type: string
+            example: 46:02:020301:169
+    Sort:
+      type: object
+      properties:
+        direction:
+          type: string
+          enum:
+            - asc
+            - desc
+        type:
+          type: string
+          enum:
+            - publishDate
+            - currentPrice
+            - eventStart
+            - eventEnd
+            - applicationStart
+            - applicationEnd
+
+
   securitySchemes:
     bearerAuth:
       type: http

@@ -17,10 +17,12 @@ class Monitoring extends Model
     protected $fillable = [
         'user_id',
         'title',
-        'not_frequency',
+        'color',
+        'not_time',
         'unnecessary_words',
         'right_words',
-        'lot_id'
+        'lot_id',
+        'filters'
     ];
 
     /**
@@ -34,6 +36,7 @@ class Monitoring extends Model
         'lot_id' => 'integer',
         'unnecessary_words' => 'array',
         'right_words' => 'array',
+        'filters' => 'array'
     ];
 
     public function lots()

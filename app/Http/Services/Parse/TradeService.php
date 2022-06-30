@@ -7,7 +7,6 @@ use App\Models\Lot;
 use App\Models\LotFile;
 use App\Models\Param;
 use App\Models\PriceReduction;
-use App\Models\Status;
 use Exception;
 
 class TradeService
@@ -54,19 +53,23 @@ class TradeService
         } elseif (array_key_exists($prefix . 'StepPrice', $value)) {
             $lot->auction_step = gettype($value[$prefix . 'StepPrice']) == 'array' ? NULL : $value[$prefix . 'StepPrice'];
         }
-        $lot->status_id = Status::where('code', 'BiddingInvitation')->first()['id'];
+        $lot->status_id = 1;
 
-        if (!is_null($this->images)) {
-            $lot->images = $this->images;
+        if (array_key_exists($prefix . 'Participants', $value) ) {
+            if(gettype($value[$prefix . 'Participants']) == 'array'){
+                $lot->payment_info = $value[$prefix . 'Participants'][$prefix . 'PaymentInfo'];
+                $lot->sale_agreement = $value[$prefix . 'Participants'][$prefix . 'SaleAgreement'];
+            }else{
+                $lot->participants = $value[$prefix . 'Participants'];
+                if(array_key_exists($prefix . 'SaleAgreement', $value)){
+                    $lot->sale_agreement = $value[$prefix . 'SaleAgreement'];
+                }
+                if(array_key_exists($prefix . 'PaymentInfo', $value)){
+                    $lot->payment_info = $value[$prefix . 'PaymentInfo'];
+                }
+            }
+
         }
-        if (array_key_exists($prefix . 'Concours', $value)) {
-            $lot->concours = $value[$prefix . 'Concours'];
-        }
-        if (array_key_exists($prefix . 'Participants', $value)) {
-            $lot->participants = $value[$prefix . 'Participants'];
-        }
-        $lot->payment_info = $value[$prefix . 'PaymentInfo'];
-        $lot->sale_agreement = $value[$prefix . 'SaleAgreement'];
 
         $lot->save();
 
@@ -78,16 +81,14 @@ class TradeService
                 $lot->is_parse_ecp = true;
                 $lot->params()->attach(Param::find(4), ['value' => $matches[0][0]]);
             }
-            $avto_number = '/^[АВЕКМНОРСТУХ]\d{3}(?<!000)[АВЕКМНОРСТУХ]{2}\d{2,3}$/ui';
+            $avto_number = '/[АВЕКМНОРСТУХ]\d{3}(?<!000)[АВЕКМНОРСТУХ]{2}\d{2,3}/ui';
             preg_match_all($avto_number, $value[$prefix . 'TradeObjectHtml'], $matches);
             if (count($matches[0]) > 0) {
-                logger('AvtoNumber:' . $matches[0][0]);
                 $lot->params()->attach(Param::find(5), ['value' => $matches[0][0]]);
             }
-            $avto_vin = '/^[A-HJ-NPR-Za-hj-npr-zd]{8}[dX][A-HJ-NPR-Za-hj-npr-zd]{2}[0-9a-z]{6}$/ui';
+            $avto_vin = '/[A-HJ-NPR-Z0-9]{17}/ui';
             preg_match_all($avto_vin, $value[$prefix . 'TradeObjectHtml'], $matches);
             if (count($matches[0]) > 0) {
-                logger('AvtoVin' . $matches[0][0]);
                 $lot->params()->attach(Param::find(6), ['value' => $matches[0][0]]);
             }
         }
@@ -95,13 +96,22 @@ class TradeService
 
         if (array_key_exists($prefix . 'PriceReduction', $value)) {
             $this->getPriceReduction($value[$prefix . 'PriceReduction'], $lot->id);
+        }else{
+            $this->savePriceReduction($lot->id, $lot->start_price, $lot->auction->event_start_date, $lot->auction->event_end_date, null, 0, 0, true);
         }
 
         if (!is_null($this->files)) {
             foreach ($this->files as $file) {
-                $this->saveFiles($file);
+                $this->saveFiles($file, 'file');
             }
         }
+
+        if (!is_null($this->images)) {
+            foreach ($this->images as $image) {
+                $this->saveFiles($image, 'image');
+            }
+        }
+
         if (gettype($value[$prefix . 'Classification'][$prefix . 'IDClass']) == 'array') {
             foreach ($value[$prefix . 'Classification'][$prefix . 'IDClass'] as $item) {
                 $category = Category::where('code', $item)->first();
@@ -119,13 +129,13 @@ class TradeService
 
     }
 
-    public function saveFiles($file)
+    public function saveFiles($file, $type)
     {
         $lot = $this->lot;
-        if (!LotFile::where(['url' => $file, 'lot_id' => $lot->id, 'type' => 'file'])->exists()) {
+        if (!LotFile::where(['url' => $file, 'lot_id' => $lot->id, 'type' => $type])->exists()) {
             LotFile::create([
                 'url' => $file,
-                'type' => 'file',
+                'type' => $type,
                 'lot_id' => $lot->id
             ]);
         }
@@ -134,7 +144,6 @@ class TradeService
     public function getPriceReduction($red, $lot_id)
     {
         try {
-            logger($red);
             $lot = Lot::find($lot_id);
             if (str_starts_with($red, '<table><tr><td><b>')) {
                 $pattern = '/<tr[\s\S]*?<\/tr>/';
@@ -165,33 +174,33 @@ class TradeService
                     }
                 }
             }elseif (str_starts_with($red, '<table><thead><tr><td>')){
-
-            }
-            elseif (str_starts_with($red, '<table><tr><td>')) {
-                $new_pattern = '/<td[\s\S]*?<\/td>/';
-                preg_match_all($new_pattern, $red, $items);
-                $i = 0;
-                if (count($items[0]) > 0) {
-                    foreach ($items[0] as $item) {
-                        $start_time = substr($item[0], 4, strlen($item[0]) - 5);
-                        $end_time = substr($item[1], 4, strlen($item[1]) - 5);
-                        $price = array_key_exists('2', $item) ? number_format((float)preg_replace("/[^,.0-9]/", '',
+                $pattern = '/<tr[\s\S]*?<\/tr>/';
+                preg_match_all($pattern, $red, $matches);
+                if (count($matches[0]) > 0) {
+                    unset($matches[0][0]);
+                    $i = 0;
+                    foreach ($matches[0] as $match) {
+                        $new_pattern = '/<td[\s\S]*?<\/td>/';
+                        preg_match_all($new_pattern, $match, $items);
+                        $start_time = substr($items[0][3], 4, strlen($items[0][3]) - 9);
+                        $end_time = substr($items[0][4], 4, strlen($items[0][4]) - 9);
+                        $price =  number_format((float)preg_replace("/[^,.0-9]/", '',
                             str_replace(',', '.',
-                                substr($item[2], 4, strlen($item[2]) - 5)
-                            )), 2, '.', '') : 0;
-
+                                substr($items[0][1], 4, strlen($items[0][1]) - 9)
+                            )), 2, '.', '');
+                        $deposit =  number_format((float)preg_replace("/[^,.0-9]/", '',
+                            str_replace(',', '.',
+                                substr($items[0][2], 4, strlen($items[0][2]) - 9)
+                            )), 2, '.', '');
+                        if($i>0){
+                            $prev_item = explode(': ',$matches[0][$i-1]);
+                            $prev_price = (float)$prev_item[1];
+                        }else{
+                            $prev_price = $lot->start_price;
+                        }
                         if (date('Y-m-d H:i:s', strtotime($start_time) == $start_time) && $price > 0
                             && date('Y-m-d H:i:s', strtotime($end_time) == $end_time)) {
-                            if ($i == 0) {
-                                $prev_price = $lot->start_price;
-
-                            } else {
-                                $prev_price = array_key_exists('2', $items[0][$i - 1]) ? number_format((float)preg_replace("/[^,.0-9]/", '',
-                                    str_replace(',', '.',
-                                        substr($items[0][$i - 1], 4, strlen($items[0][$i - 1]) - 5)
-                                    )), 2, '.', '') : 0;
-                            }
-                            $this->savePriceReduction($lot_id, $price, $start_time, $end_time, $prev_price);
+                            $this->savePriceReduction($lot_id, $price, $start_time, $end_time, $prev_price, 0, $deposit);
                         }
                         $i++;
                     }
@@ -218,8 +227,8 @@ class TradeService
                             }
                           $this->savePriceReduction($lot_id, $price, $items[0], $time_end, $prev_price);
                         }
-                        $i++;
                     }
+                    $i++;
                 }
             }
         } catch (Exception $e) {
@@ -227,7 +236,7 @@ class TradeService
         }
     }
 
-    public function savePriceReduction($lot_id, $price, $start_time, $end_time, $prev_price=null, $percent=0, $deposit=null)
+    public function savePriceReduction($lot_id, $price, $start_time, $end_time, $prev_price=null, $percent=0, $deposit=0, $is_system=false)
     {
         if(!is_null($prev_price)) {
             if ($prev_price > $price) {
@@ -240,7 +249,8 @@ class TradeService
             'start_time' => $start_time,
             'end_time' => $end_time,
             'percent' => $percent,
-            'deposit'=>$deposit
+            'deposit'=>$deposit,
+            'is_system'=>$is_system
         ]);
     }
 

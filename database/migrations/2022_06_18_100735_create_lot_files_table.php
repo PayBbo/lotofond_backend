@@ -15,7 +15,7 @@ class CreateLotFilesTable extends Migration
     {
         Schema::create('lot_files', function (Blueprint $table) {
             $table->id();
-            $table->string('url');
+            $table->mediumText('url');
             $table->enum('type', ['file', 'image'])->default('file');
             $table->unsignedBigInteger('user_id')->nullable();
             $table->unsignedBigInteger('lot_id');
