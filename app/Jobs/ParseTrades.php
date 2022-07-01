@@ -51,7 +51,8 @@ class ParseTrades implements ShouldQueue
                     $tradePlace->save();
                 }
                 if ($message->TradeList) {
-                    foreach (get_object_vars($message->TradeList) as $val) {
+                    try {
+                        foreach (get_object_vars($message->TradeList) as $val) {
                             foreach ($val as $trade) {
                                 if (gettype($trade) == 'string') {
                                     //$item = json_decode($item);
@@ -85,8 +86,8 @@ class ParseTrades implements ShouldQueue
                                         foreach ($item as $i) {
                                             $xml = $service->getTradeMessageContent($i->ID);
                                             try {
-                                            $get_trade_message_content = new GetTradeMessageContent($xml, $i->Type);
-                                            $get_trade_message_content->switchMessageType($tradePlace->id, $trade, $i->ID);
+                                                $get_trade_message_content = new GetTradeMessageContent($xml, $i->Type);
+                                                $get_trade_message_content->switchMessageType($tradePlace->id, $trade, $i->ID);
                                             } catch (\Exception $e) {
                                                 logger($i);
                                                 logger($xml);
@@ -96,6 +97,9 @@ class ParseTrades implements ShouldQueue
 
                                 }
                             }
+                        }
+                    }catch(\Exception $e){
+
                     }
                 }
             }
