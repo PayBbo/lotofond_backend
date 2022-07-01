@@ -22,6 +22,7 @@ class LotResource extends JsonResource
         $user = User::find(auth()->id());
         $categories = [];
         $parents = [];
+        logger($this->categories);
         foreach ($this->categories as $category) {
             if (!is_null($category->parent())) {
                 $parents[] = $category->parent();
@@ -30,9 +31,9 @@ class LotResource extends JsonResource
             }
         }
         $categoriesIds = $this->categories->pluck('id')->toArray();
-        foreach (array_unique($parents) as $category) {
-            $subs = array_intersect($category->subcategories()->pluck('id')->toArray(), $categoriesIds);
-            $subs = Category::whereIn('id', array_unique($subs))->get();
+        foreach ($parents as $category) {
+            $tmp_subs = array_intersect($category->subcategories()->pluck('id')->toArray(), $categoriesIds);
+            $subs = Category::whereIn('id', $tmp_subs)->get();
             $subcategories = [];
             foreach($subs as $sub){
                 $value = ['label'=>$sub->label, 'key'=>$sub->title];
@@ -42,6 +43,7 @@ class LotResource extends JsonResource
             }
             $categories[] = ['label'=>$category->label, 'key'=>$category->title, 'subcategories'=>$subcategories];
         }
+        logger($categories);
         $this->auction->isLotInfo = $this->isLotInfo;
         $params = $this->params()->select('title', 'type', 'lot_params.value')->get();
         return [
@@ -52,7 +54,7 @@ class LotResource extends JsonResource
             'categories' => $categories,
             'description' => stripslashes(preg_replace('/[\x00-\x1F\x7F]/u', ' ', $this->description)),
             'state' => $this->status->code,
-            'location' => $this->auction->debtor->address,
+            'location' => $this->auction->debtor->region ? $this->auction->debtor->region->code : null,
             'isWatched' => auth()->check() ? $user->seenLots->contains($this->id) : false,
             'isPinned' => auth()->check() ? $user->fixedLots->contains($this->id) : false,
             'inFavourite' => auth()->check() ? $this->inFavourite() : false,
