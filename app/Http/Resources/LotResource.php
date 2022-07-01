@@ -50,7 +50,7 @@ class LotResource extends JsonResource
             'categories' => $categories,
             'description' => stripslashes(preg_replace('/[\x00-\x1F\x7F]/u', ' ', $this->description)),
             'state' => $this->status->code,
-            'location' => $this->auction->debtor->address,
+            'location' => $this->auction->debtor->region ? $this->auction->debtor->region->code : null,
             'isWatched' => auth()->check() ? $user->seenLots->contains($this->id) : false,
             'isPinned' => auth()->check() ? $user->fixedLots->contains($this->id) : false,
             'inFavourite' => auth()->check() ? $this->inFavourite() : false,
