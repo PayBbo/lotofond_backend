@@ -53,6 +53,10 @@ class ParseTrades implements ShouldQueue
                 if ($message->TradeList) {
                     foreach (get_object_vars($message->TradeList) as $val) {
                             foreach ($val as $trade) {
+                                if (gettype($trade) == 'string') {
+                                    //$item = json_decode($item);
+                                    continue;
+                                }
                                 if (!array_key_exists('MessageList', $trade)) {
                                     if (gettype($trade->TradeMessage) == 'object') {
                                         $xml = $service->getTradeMessageContent($trade->TradeMessage->ID);
