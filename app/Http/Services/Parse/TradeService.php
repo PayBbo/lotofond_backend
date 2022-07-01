@@ -233,6 +233,7 @@ class TradeService
             }
         } catch (Exception $e) {
             logger('e: ' . $e);
+            logger($red);
         }
     }
 

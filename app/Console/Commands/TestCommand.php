@@ -3,12 +3,14 @@
 namespace App\Console\Commands;
 
 use App\Http\Services\Parse\FilesService;
+use App\Http\Services\Parse\SoapWrapperService;
 use App\Http\Services\Parse\TradeService;
 use App\Jobs\ParseArbitrManager;
 use App\Jobs\ParseCompanyTradeOrganizer;
 use App\Jobs\ParseDebtor;
 use App\Jobs\ParseSRORegister;
 use App\Jobs\ParseTrades;
+use Artisaninweb\SoapWrapper\SoapWrapper;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;

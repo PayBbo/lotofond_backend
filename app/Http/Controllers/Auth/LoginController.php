@@ -33,7 +33,7 @@ class LoginController extends Controller
         }
         if ($request->grantType == 'email' || $request->grantType == 'phone') {
             if (!Hash::check($request->password, $user->password)) {
-                throw new BaseException("ERR_VALIDATION_FAILED", 422, "User password doesn't match our credentials");
+                throw new BaseException("ERR_VALIDATION_FAILED_PASSWORD", 422, __('validation.current_password'));
             }
         }
         $generateToken = new GenerateAccessTokenService();
