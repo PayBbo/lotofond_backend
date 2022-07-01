@@ -11,7 +11,7 @@ class CurrentPrice  extends SortQuery implements SortContract
     public function handle($value): void
     {
         $currentDate = Carbon::now()->setTimezone('Europe/Moscow');
-        if(!is_null($value) && count($value)>0) {
+        if(!is_null($value) && strlen((string)$value['min']) > 0 && strlen((string)$value['max']) > 0) {
             $this->query
                 ->whereHas('priceReductions', function ($q) use ($value, $currentDate) {
                     $q->whereDate('start_time', '<=', $currentDate)->
