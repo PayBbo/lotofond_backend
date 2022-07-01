@@ -50,7 +50,7 @@ class FavouriteControllerTest extends TestCase
         $this->assertActionUsesFormRequest(
             \App\Http\Controllers\FavouriteController::class,
             'store',
-            \App\Http\Requests\FavouriteStoreRequest::class
+            \App\Http\Requests\FavouriteLotStoreRequest::class
         );
     }
 
@@ -117,7 +117,7 @@ class FavouriteControllerTest extends TestCase
         $this->assertActionUsesFormRequest(
             \App\Http\Controllers\FavouriteController::class,
             'update',
-            \App\Http\Requests\FavouriteUpdateRequest::class
+            \App\Http\Requests\FavouriteLotUpdateRequest::class
         );
     }
 

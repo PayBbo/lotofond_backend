@@ -54,7 +54,7 @@ class CategorySeeder extends Seeder
             ['title'=>'residentialProperty', 'code'=>'0101017', 'parent_id'=>1,
                 'label'=>['ru'=>'Недвижимость жилая', 'en'=>'Residential property', 'zh_CN'=>'住宅地产']],
             ['title'=>'commercialRealEstate', 'code'=>'0102', 'parent_id'=>1,
-                'label'=>['ru'=>'Недвижимость', 'en'=>'Estate', 'zh_CN'=>'房地产']],
+                'label'=>['ru'=>'Недвижимость коммерческая', 'en'=>'Estate', 'zh_CN'=>'房地产']],
             ['title'=>'land', 'code'=>'0103', 'parent_id'=>1,
                 'label'=>['ru'=>'Земельные участки', 'en'=>'Land', 'zh_CN'=>'地皮']],
             ['title'=>'equipment', 'code'=>'0104', 'parent_id'=>NULL,

@@ -2,9 +2,11 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\IsUniqueFavouritePath;
+use App\Rules\IsUserFavouritePath;
 use Illuminate\Foundation\Http\FormRequest;
 
-class MonitoringStoreRequest extends FormRequest
+class FavouritePathRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,11 +26,9 @@ class MonitoringStoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'user_id' => ['required', 'integer', 'gt:0'],
-            'title' => ['required', 'string', 'max:255'],
-            'not_frequency' => ['required', 'integer'],
-            'unnecessary_words' => ['json'],
-            'right_words' => ['json'],
+            'name'=>['required', 'string', 'max:255', new IsUniqueFavouritePath($this->request->get('pathId'))],
+            'pathId'=>['sometimes', 'numeric', 'exists:favourites,id', new IsUserFavouritePath()],
+            'color'=>['sometimes', 'string', 'nullable']
         ];
     }
 }

@@ -15,7 +15,7 @@ class Lot extends Model
 
     protected $table = 'lots';
 
-    protected $appends = ['current_price', 'min_price', 'current_price_state', 'photos', 'user_marks'];
+    protected $appends = ['current_price', 'min_price', 'current_price_state', 'photos'];
     /**
      * The attributes that are mass assignable.
      *
@@ -71,7 +71,7 @@ class Lot extends Model
 
     public function monitorings()
     {
-        return $this->hasMany(Monitoring::class);
+        return $this->belongsToMany(Monitoring::class, 'lot_monitoring')->withPivot('created_at');
     }
 
     public function marks()
@@ -127,7 +127,12 @@ class Lot extends Model
 
     public function lotFiles()
     {
-        return $this->hasMany(LotFile::class);
+        return $this->hasMany(LotFile::class)->where('user_id', null);
+    }
+
+    public function userLotFiles()
+    {
+        return $this->hasMany(LotFile::class)->where(['user_id'=> auth()->id(), 'type'=>'file']);
     }
 
     public function lotImages()
@@ -221,23 +226,19 @@ class Lot extends Model
     public function getPhotosAttribute()
     {
         $photos = [];
-        foreach ($this->lotImages as $image) {
+        foreach ($this->lotImages() as $image) {
             $photos[] = ['type' => 'system', 'main' => $image->main, 'preview' => $image->preview, 'id' => $image->id];
         }
         if (auth()->check()) {
-            foreach ($this->lotUserImages as $image) {
+            foreach ($this->lotUserImages() as $image) {
                 $photos[] = ['type' => 'user', 'main' => $image->main, 'preview' => $image->preview, 'id' => $image->id];
             }
         }
         return $photos;
     }
 
-    public function getUserMarksAttribute()
-    {
-        if (auth()->check()) {
-            return $this->belongsToMany(Mark::class)->where('user_id', auth()->id());
-        }
-        return [];
+    public function userMarks(){
+        return $this->belongsToMany(Mark::class)->where('user_id', auth()->id());
     }
 
     public function scopeCustomSortBy($query, $request)
@@ -257,6 +258,28 @@ class Lot extends Model
         $namespace = 'App\Utilities\LotFilters';
         $filters = new FilterBuilder($query, $request, $namespace);
         return $filters->apply();
+
+    }
+
+    public function inFavourite(){
+        $favourites = User::find(auth()->id())->favourites;
+        foreach($favourites as $favourite){
+            if($favourite->lots->contains($this)){
+                return true;
+            }
+        }
+        return false;
+
+    }
+
+    public function inMonitoring(){
+        $monitorings = User::find(auth()->id())->monitorings;
+        foreach($monitorings as $monitoring){
+            if($monitoring->lots->contains($this)){
+                return true;
+            }
+        }
+        return false;
 
     }
 }

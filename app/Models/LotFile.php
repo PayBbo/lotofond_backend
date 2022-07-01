@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\URL;
 
 class LotFile extends Model
 {
@@ -38,5 +39,18 @@ class LotFile extends Model
     public function tradeMessage()
     {
         return $this->belongsTo(TradeMessage::class);
+    }
+
+    public function getUrlAttribute($value) {
+        $urls = explode(',', $value);
+        if(count($urls)>1){
+            $result = [];
+            foreach($urls as $url){
+                $result[] = URL::to('/') .'/'. $url;
+            }
+            return $result;
+        }else{
+            return URL::to('/') .'/'. $value;
+        }
     }
 }

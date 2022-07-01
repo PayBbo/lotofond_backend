@@ -10,6 +10,7 @@ use App\Http\Requests\VerifyRegistrationCodeRequest;
 use App\Http\Resources\AccessTokenResource;
 use App\Http\Services\GenerateAccessTokenService;
 use App\Http\Services\SendCodeService;
+use App\Models\Favourite;
 use App\Models\User;
 use App\Models\VerifyAccount;
 use Carbon\Carbon;
@@ -94,6 +95,10 @@ class RegisterController extends Controller
             'email_verified_at' => Carbon::now()
         ]);
         $verifyAccount->delete();
+        Favourite::create([
+            'user_id'=>$user->id,
+            'name'=>'Общее'
+        ]);
         $generateToken = new GenerateAccessTokenService();
         $token = $generateToken->generateToken($request, $username, $password);
         return response($token, 200);

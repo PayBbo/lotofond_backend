@@ -21,7 +21,6 @@ class Monitoring extends Model
         'not_time',
         'unnecessary_words',
         'right_words',
-        'lot_id',
         'filters'
     ];
 
@@ -41,7 +40,7 @@ class Monitoring extends Model
 
     public function lots()
     {
-        return $this->belongsTo(Lot::class);
+        return $this->belongsToMany(Lot::class, 'lot_monitoring')->withPivot('created_at');
     }
 
     public function user()

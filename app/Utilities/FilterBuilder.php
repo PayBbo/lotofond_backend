@@ -42,7 +42,10 @@ class FilterBuilder
                     }
                 }
             }else {
-
+                if ($name == 'excludedWords' || $name == 'includedWords') {
+                    $words = new Words($this->query);
+                    $words->handle($value, $name);
+                }
                 if (!class_exists($class)) {
                     continue;
                 }

@@ -133,6 +133,8 @@ return [
             'rule-name' => 'custom-message',
         ],
     ],
+    'unique_path' => '此文件夹名称已存在。',
+    'exists_path' => '所选文件夹不存在。',
     'attributes' => [
         'phone' => '电话号码',
         'surname'=> '姓',

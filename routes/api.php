@@ -7,6 +7,7 @@ use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\BidderController;
 use App\Http\Controllers\FavouriteController;
 use App\Http\Controllers\FileController;
+use App\Http\Controllers\FilterController;
 use App\Http\Controllers\MarkController;
 use App\Http\Controllers\MonitoringController;
 use App\Http\Controllers\NotificationController;
@@ -58,12 +59,17 @@ Route::group(['middleware' => ['json.response', 'localization']], function () {
 
         Route::get('/lot/{lotId}', [AuctionController::class, 'getLotInformation']);
 
-        Route::get('/filter/bidders/{type}', [BidderController::class, 'getBiddersForFilter']);
+        Route::group(['prefix' => 'filter'], function () {
 
-        Route::get('/filter/trade-places', [BidderController::class, 'getTradePlacesForFilter']);
+            Route::get('/bidders/{type}', [FilterController::class, 'getBiddersForFilter']);
+
+            Route::get('/trade-places', [FilterController::class, 'getTradePlacesForFilter']);
+
+            Route::get('/categories', [FilterController::class, 'getCategoriesForFilter']);
+
+        });
 
         Route::get('/{type}/{bidderType}/{bidderId}', [BidderController::class, 'getTradesByBidder']);
-
 
     });
 
@@ -111,25 +117,23 @@ Route::group(['middleware' => ['json.response', 'localization']], function () {
 
             Route::delete('/delete/path/{id}', [MonitoringController::class, 'deleteMonitoringPath']);
 
-            Route::put('/{pathId}', [MonitoringController::class, 'getMonitoringLots']);
+            Route::put('/', [MonitoringController::class, 'getMonitoringLots']);
 
             Route::get('/get/paths', [MonitoringController::class, 'getMonitoringPaths']);
 
             Route::delete('/delete/{pathId}/lot/{lotId}', [MonitoringController::class, 'deleteLotFromMonitoring']);
 
         });
+        Route::group(['prefix'=>'mark'], function(){
 
-        Route::group(['prefix'=>'marks'], function(){
+            Route::delete('/{markId}/lot/{lotId}', [MarkController::class, 'deleteMark']);
+
+            Route::get('/lot/{lotId}', [MarkController::class, 'getMarksByLot']);
 
             Route::post('/', [MarkController::class, 'addMark']);
 
-            Route::delete('/mark/{markId}/lot/{lotId}', [MarkController::class, 'deleteMark']);
-
-            Route::get('/mark/lot/{lotId}', [MarkController::class, 'getMarksByLot']);
-
-            Route::get('/marks', [MarkController::class, 'getMarks']);
-
         });
+        Route::get('/marks', [MarkController::class, 'getMarks']);
 
         Route::group(['prefix'=>'files'], function(){
 

@@ -455,6 +455,10 @@ paths:
             type: integer
           required: true
           description: Номер страницы для серверной пагинации
+        - name: Content-Language
+          in: header
+          description: Заголовок для определения локали (ru, en, zh_CN)
+          required: true
         - in: path
           name: auctionId
           schema:
@@ -507,6 +511,30 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/TradePlaces'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /trades/filter/categories:
+    get:
+      parameters:
+        - name: Content-Language
+          in: header
+          description: Заголовок для определения локали (ru, en, zh_CN)
+          required: true
+      tags:
+        - FiltersData
+      summary: Получение информации о категориях для отображения в фильтрах
+      operationId: getCategoriesForFilter
+      responses:
+        "200":
+          description: Информация о категориях
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Categories'
         default:
           description: unexpected error
           content:
@@ -619,6 +647,11 @@ paths:
         - bearerAuth: [ ]
   /favourite/add/edit/path:
     post:
+      parameters:
+        - name: Content-Language
+          in: header
+          description: Заголовок для определения локали (ru, en, zh_CN)
+          required: true
       tags:
         - Favourite
       summary: Создание/редактирование папки в избранном
@@ -722,6 +755,10 @@ paths:
   /favourite:
     put:
       parameters:
+        - name: Content-Language
+          in: header
+          description: Заголовок для определения локали (ru, en, zh_CN)
+          required: true
         - in: query
           name: page
           schema:
@@ -775,6 +812,11 @@ paths:
         - bearerAuth: [ ]
   /favourite/add/lots:
     post:
+      parameters:
+        - name: Content-Language
+          in: header
+          description: Заголовок для определения локали (ru, en, zh_CN)
+          required: true
       tags:
         - Favourite
       summary: Добавление лотов в папку избранного
@@ -875,6 +917,11 @@ paths:
         - bearerAuth: []
   /favourite/move/lot:
     put:
+      parameters:
+        - name: Content-Language
+          in: header
+          description: Заголовок для определения локали (ru, en, zh_CN)
+          required: true
       tags:
         - Favourite
       summary: Перемещение лота из одной папки избранного в другую
@@ -977,7 +1024,7 @@ paths:
                 $ref: '#/components/schemas/Error'
       security:
         - bearerAuth: []
-  /monitoring/{pathId}:
+  /monitoring:
     put:
       parameters:
         - in: query
@@ -986,12 +1033,6 @@ paths:
             type: integer
           required: true
           description: Номер страницы для серверной пагинации
-        - in: path
-          name: pathId
-          schema:
-            type: integer
-          required: true
-          description: Айдишник папки в мониторинге, лоты которого получаем
       tags:
         - Monitoring
       summary: Получение данных о лотах в папке мониторинга
@@ -1004,6 +1045,9 @@ paths:
             schema:
               type: object
               properties:
+                pathId:
+                  type: integer
+                  required: true
                 includedWords:
                   type: string
                   description: разделитель - запятая
@@ -1011,6 +1055,7 @@ paths:
                 marks:
                   type: array
                   description: айдишники меток пользователя для поиска
+                  example: [1, 2, 3]
                 sort:
                   $ref: '#/components/schemas/Sort'
       responses:
@@ -2389,6 +2434,7 @@ components:
       required:
         - fileType
         - file
+        - lotId
       type: object
       properties:
         fileType:
@@ -2400,6 +2446,8 @@ components:
           type: string
           format: binary
           description: "Доступные расширения картинок - jpg,png,jpeg,bmp. На файлы нет ограничений"
+        lotId:
+          type: integer
     Categories:
       type: array
       items:

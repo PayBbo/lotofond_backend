@@ -55,9 +55,9 @@ class LotResource extends JsonResource
             'location' => $this->auction->debtor->address,
             'isWatched' => auth()->check() ? $user->seenLots->contains($this->id) : false,
             'isPinned' => auth()->check() ? $user->fixedLots->contains($this->id) : false,
-            'inFavourite' => auth()->check() ? Favourite::where(['user_id' => $user->id, 'lot_id' => $this->id])->exists() : false,
+            'inFavourite' => auth()->check() ? $this->inFavourite() : false,
             'isHide' => auth()->check() ? $user->hiddenLots->contains($this->id) : false,
-            'inMonitoring' => auth()->check() ? Monitoring::where(['user_id' => $user->id, 'lot_id' => $this->id])->exists() : false,
+            'inMonitoring' => auth()->check() ? $this->inMonitoring() : false,
             'startPrice' =>  $this->start_price,
             $this->mergeWhen(!is_null($this->auction_step), [
                 'stepPrice' => [
@@ -83,7 +83,7 @@ class LotResource extends JsonResource
             'currentPriceState' => $this->current_price_state,
             'link' => URL::to('/lot/' . $this->id),
             'efrsbLink' => 'https://fedresurs.ru/bidding/' . $this->auction->guid,
-            'marks'=> $this->user_marks,
+            'marks'=> $this->userMarks,
             'description_extracts'=>$params->makeHidden(['pivot'])
         ];
     }

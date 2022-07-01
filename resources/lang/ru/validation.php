@@ -133,6 +133,8 @@ return [
             'rule-name' => 'custom-message',
         ],
     ],
+    'unique_path'               => 'Такое название папки уже существует.',
+    'exists_path'               => 'Выбранная папка не существует.',
 
     'attributes' => [
         'phone' => 'номер телефона',

@@ -15,8 +15,14 @@ class CreateFavouriteLotTable extends Migration
     {
         Schema::disableForeignKeyConstraints();
         Schema::create('favourite_lot', function (Blueprint $table) {
-            $table->foreignId('favourite_id');
-            $table->foreignId('lot_id');
+            $table->id();
+            $table->unsignedBigInteger('favourite_id');
+            $table->unsignedBigInteger('lot_id');
+            $table->foreign('lot_id')->references('id')
+                ->on('lots')->cascadeOnDelete();
+            $table->foreign('favourite_id')->references('id')
+                ->on('favourites')->cascadeOnDelete();
+            $table->dateTime('created_at');
         });
         Schema::enableForeignKeyConstraints();
     }

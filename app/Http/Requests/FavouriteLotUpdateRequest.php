@@ -2,9 +2,10 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\IsUserFavouritePath;
 use Illuminate\Foundation\Http\FormRequest;
 
-class MarkStoreRequest extends FormRequest
+class FavouriteLotUpdateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,8 +25,9 @@ class MarkStoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'title' => ['required', 'string', 'max:255'],
-            'user_id' => ['required', 'integer', 'gt:0'],
+            'currentPathId' => ['required', 'integer', new IsUserFavouritePath()],
+            'newPathId' => ['required', 'integer', new IsUserFavouritePath()],
+            'lotId'=>['required', 'integer', 'exists:lots,id']
         ];
     }
 }

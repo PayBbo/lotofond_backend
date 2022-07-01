@@ -17,7 +17,6 @@ class Favourite extends Model
     protected $fillable = [
         'user_id',
         'title',
-        'lot_id',
         'color'
     ];
 
@@ -28,8 +27,7 @@ class Favourite extends Model
      */
     protected $casts = [
         'id' => 'integer',
-        'user_id' => 'integer',
-        'lot_id' => 'integer',
+        'user_id' => 'integer'
     ];
 
     public function lots()

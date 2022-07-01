@@ -15,8 +15,14 @@ class CreateLotMonitoringTable extends Migration
     {
         Schema::disableForeignKeyConstraints();
         Schema::create('lot_monitoring', function (Blueprint $table) {
-            $table->foreignId('lot_id');
-            $table->foreignId('monitoring_id');
+            $table->id();
+            $table->unsignedBigInteger('monitoring_id');
+            $table->unsignedBigInteger('lot_id');
+            $table->foreign('lot_id')->references('id')
+                ->on('lots')->cascadeOnDelete();
+            $table->foreign('monitoring_id')->references('id')
+                ->on('monitorings')->cascadeOnDelete();
+            $table->dateTime('created_at');
         });
         Schema::enableForeignKeyConstraints();
     }

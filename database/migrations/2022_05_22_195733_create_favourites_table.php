@@ -21,9 +21,6 @@ class CreateFavouritesTable extends Migration
             $table->string('color', 255)->nullable();
             $table->foreign('user_id')->references('id')
                 ->on('users')->cascadeOnDelete();
-            $table->unsignedBigInteger('lot_id');
-            $table->foreign('lot_id')->references('id')
-                ->on('lots')->cascadeOnDelete();
             $table->timestamps();
         });
         Schema::enableForeignKeyConstraints();

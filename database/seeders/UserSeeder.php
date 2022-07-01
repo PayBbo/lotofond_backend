@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Favourite;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
@@ -18,13 +19,17 @@ class UserSeeder extends Seeder
     {
         $i = 1;
         while($i<=2){
-            User::create([
+            $user = User::create([
                 'name'=>'Name'.$i,
                 'surname'=>'Surname'.$i,
                 'lastname'=>'Lastname'.$i,
                 'email'=>'user@user.user'.$i,
                 'phone'=>'7902111111'.$i,
                 'password'=>Hash::make('11111111')
+            ]);
+            Favourite::create([
+                'user_id'=>$user->id,
+                'name'=>'Общее'
             ]);
             $i++;
         }

@@ -2,6 +2,7 @@
 
 namespace App\Console;
 
+use App\Jobs\MonitoringJob;
 use App\Jobs\ParseArbitrManager;
 use App\Jobs\ParseCompanyTradeOrganizer;
 use App\Jobs\ParseDebtor;
@@ -25,6 +26,7 @@ class Kernel extends ConsoleKernel
         $schedule->job(new ParseSRORegister)->hourly();
         $schedule->job(new ParseDebtor)->hourly();
         $schedule->job(new ParseTrades)->hourly();
+        $schedule->job(new MonitoringJob)->hourly();
     }
 
     /**
