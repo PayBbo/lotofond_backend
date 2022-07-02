@@ -9,7 +9,7 @@ class Words extends SortQuery
     public function handle($value, $type): void
     {
         $words = null;
-        if (strlen((string)$value) > 0) {
+        if (!is_null($value) && strlen((string)$value) > 0) {
             $words = explode(',', $value);
         }
         if(!is_null($words)) {

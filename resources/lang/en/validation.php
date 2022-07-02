@@ -131,6 +131,7 @@ return [
     'uuid' => 'The :attribute must be a valid UUID.',
     'unique_path' => 'This folder name already exists.',
     'exists_path' => 'The selected folder does not exist.',
+    'verification_code'=>'The confirmation code is not correct.',
 
     /*
     |--------------------------------------------------------------------------

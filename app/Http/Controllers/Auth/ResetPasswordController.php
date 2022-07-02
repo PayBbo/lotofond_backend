@@ -61,7 +61,7 @@ class ResetPasswordController extends Controller
         }
         $passwordReset = DB::table('password_resets')->where('email', $username)->where('created_at', '>', Carbon::now())->first();
         if ($passwordReset == null || !Hash::check($request->code, $passwordReset->token)) {
-            throw new BaseException("ERR_VALIDATION_FAILED", 422, "Reset Password Code doesn't match our credentials");
+            throw new BaseException("ERR_VALIDATION_FAILED_CODE", 422, __('validation.verification_code'));
         }
         return response(null, 200);
 
@@ -86,7 +86,7 @@ class ResetPasswordController extends Controller
         }
         $passwordReset = DB::table('password_resets')->where('email', $username)->where('created_at', '>', Carbon::now())->first();
         if ($passwordReset == null || !Hash::check($request->code, $passwordReset->token)) {
-            throw new BaseException("ERR_VALIDATION_FAILED", 422, "Reset Password Code doesn't match our credentials");
+            throw new BaseException("ERR_VALIDATION_FAILED_CODE", 422, __('validation.verification_code'));
         }
         DB::table('password_resets')->where('email', $username)->delete();
         $user->password = Hash::make($request->password);

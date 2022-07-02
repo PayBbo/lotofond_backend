@@ -27,6 +27,7 @@ class RegisterController extends Controller
         $verify->name = $request->name;
         $verify->token = Hash::make($code);
         $verify->code = $request->password;
+        $verify->created_at = Carbon::now()->setTimezone('Europe/Moscow')->addDay();
         switch ($request->grantType){
             case 'email':{
                 $verify->value = $request->email;
@@ -64,6 +65,7 @@ class RegisterController extends Controller
             }
         }
         $verifyAccount->token = Hash::make($code);
+        $verifyAccount->created_at = Carbon::now()->setTimezone('Europe/Moscow')->addDay();
         $verifyAccount->save();
         return response(null, 200);
     }
@@ -82,8 +84,9 @@ class RegisterController extends Controller
                 break;
             }
         }
-        if (!Hash::check($request->code, $verifyAccount->token)) {
-            throw new BaseException("ERR_VALIDATION_FAILED", 422, "Verification code doesn't match our credentials");
+        $currentDate = Carbon::now()->setTimezone('Europe/Moscow')->addDay();
+        if (!Hash::check($request->code, $verifyAccount->token) || $verifyAccount->created_at < $currentDate) {
+            throw new BaseException("ERR_VALIDATION_FAILED_CODE", 422, __('validation.verification_code'));
         }
         $password = $verifyAccount->code;
         $user = User::create([
@@ -97,7 +100,7 @@ class RegisterController extends Controller
         $verifyAccount->delete();
         Favourite::create([
             'user_id'=>$user->id,
-            'name'=>'Общее'
+            'title'=>'Общее'
         ]);
         $generateToken = new GenerateAccessTokenService();
         $token = $generateToken->generateToken($request, $username, $password);

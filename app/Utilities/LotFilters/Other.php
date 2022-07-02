@@ -12,25 +12,25 @@ class Other extends SortQuery implements SortContract
     {
         $minDate = null;
         $maxDate = null;
-        if (isset($value['period']) && strlen((string)$value['period']) > 0 && $value['period'] !== 'all') {
+        if (!is_null($value) && isset($value['period']) && strlen((string)$value['period']) > 0 && $value['period'] !== 'all') {
             $result = $this->getPeriodDates($value['period']);
             $minDate = $result[0];
             $maxDate = $result[1];
         }
-        if(isset($value['hasPhotos']) && $value['hasPhotos'] === true) {
+        if(!is_null($value) && isset($value['hasPhotos']) && $value['hasPhotos'] === true) {
             $this->query->has('lotImages');
         }
-        if(isset($value['isCompleted']) && $value['isCompleted'] === true) {
+        if(!is_null($value) && isset($value['isCompleted']) && $value['isCompleted'] === true) {
             $this->query->whereHas('status', function ($q)  {
                 $q->where('id', 6);
             });
         }
-        if(isset($value['isStopped']) && $value['isStopped'] === true) {
+        if(!is_null($value) && isset($value['isStopped']) && $value['isStopped'] === true) {
             $this->query->whereHas('status', function ($q)  {
                 $q->where('id', 10);
             });
         }
-        if(isset($value['isHidden']) && $value['isHidden'] === true) {
+        if(!is_null($value) && isset($value['isHidden']) && $value['isHidden'] === true) {
             $this->query->whereHas('status', function ($q)  {
                 $q->where('id', 8);
             });

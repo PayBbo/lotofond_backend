@@ -45,10 +45,10 @@ class Dates extends SortQuery
     {
         $start = null;
         $end = null;
-        if (isset($value['start']) && strlen((string)$value['start']) > 0) {
+        if (!is_null($value) && isset($value['start']) && strlen((string)$value['start']) > 0) {
             $start = Carbon::parse($value['start']);
         }
-        if (isset($value['end']) && strlen((string)$value['end']) > 0) {
+        if (!is_null($value) && isset($value['end']) && strlen((string)$value['end']) > 0) {
             $end = Carbon::parse($value['end']);
         }
         $this->start = $start;

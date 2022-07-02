@@ -11,6 +11,7 @@ use App\Http\Resources\LotCollection;
 use App\Models\Favourite;
 use App\Models\Lot;
 use App\Rules\IsUserFavouritePath;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class FavouriteController extends Controller
@@ -74,7 +75,7 @@ class FavouriteController extends Controller
         $lots = Lot::whereIn('id', $request->lots)->get();
         foreach ($lots as $lot) {
             if (!$path->lots->contains($lot)) {
-                $path->lots()->attach($lot);
+                $path->lots()->attach($lot, ['created_at'=>Carbon::now()]);
             }
         }
         return response(null, 200);
@@ -110,7 +111,7 @@ class FavouriteController extends Controller
             $currentPath->lots()->detach($lot);
         }
         if (!$newPath->lots->contains($lot)) {
-            $newPath->lots()->attach($lot);
+            $newPath->lots()->attach($lot, ['created_at'=>Carbon::now()]);
         }
         return response(null, 200);
 

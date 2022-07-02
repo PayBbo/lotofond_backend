@@ -135,6 +135,7 @@ return [
     ],
     'unique_path' => '此文件夹名称已存在。',
     'exists_path' => '所选文件夹不存在。',
+    'verification_code'=>'确认码不正确。',
     'attributes' => [
         'phone' => '电话号码',
         'surname'=> '姓',

@@ -226,19 +226,19 @@ class Lot extends Model
     public function getPhotosAttribute()
     {
         $photos = [];
-        foreach ($this->lotImages() as $image) {
-            $photos[] = ['type' => 'system', 'main' => $image->main, 'preview' => $image->preview, 'id' => $image->id];
+        foreach ($this->lotImages as $image) {
+            $photos[] = ['type' => 'system', 'main' => $image->url[0], 'preview' => $image->url[1], 'id' => $image->id];
         }
         if (auth()->check()) {
-            foreach ($this->lotUserImages() as $image) {
-                $photos[] = ['type' => 'user', 'main' => $image->main, 'preview' => $image->preview, 'id' => $image->id];
+            foreach ($this->lotUserImages as $image) {
+                $photos[] = ['type' => 'user', 'main' => $image->url[0], 'preview' => $image->url[1],  'id' => $image->id];
             }
         }
         return $photos;
     }
 
     public function userMarks(){
-        return $this->belongsToMany(Mark::class)->where('user_id', auth()->id());
+        return $this->belongsToMany(Mark::class)->where('user_id', auth()->id())->select('id', 'title')->get();
     }
 
     public function scopeCustomSortBy($query, $request)
