@@ -1,0 +1,485 @@
+.btn-yellow {
+    background-color: $yellow;
+    color: black;
+}
+
+.btn-light-gray {
+    background-color: $gray-200;
+    color: black;
+}
+
+.col_div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+
+    h1 {
+        margin: 80px 0;
+    }
+
+    h2 {
+        margin: 80px 0 20px 0;
+    }
+
+    .promo-wrapper {
+        text-align: start;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+
+        .promo {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            padding: 80px;
+            color: white;
+            background-image: url();
+            background-color: $blue;
+            border-radius: 30px;
+            width: 100%;
+
+            @media (max-width: 768px) {
+                padding: 40px;
+            }
+
+            .promo_block_wrapper {
+                max-width: 400px;
+                min-width: 200px;
+
+                .promo_block {
+                    display: flex;
+                    align-items: center;
+
+                    .check_mark {
+                        min-width: 40px;
+                        min-height: 40px;
+                        margin: 10px;
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        border-radius: 15px;
+                    }
+                }
+            }
+
+            div:nth-child(2) div {
+                display: flex;
+                flex-direction: row;
+            }
+
+            .promo_buy {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                width: 180px;
+                margin: auto 0 0 auto;
+
+                h2 {
+                    margin-bottom: 20px;
+                }
+
+                button {
+                    width: 160px;
+                    height: 70px;
+                    border-radius: 20px;
+                }
+            }
+
+            h1,
+            h2 {
+                margin: 0;
+            }
+
+            p {
+                margin-top: 60px;
+
+                @media (max-width: 992px) {
+                    margin-top: 30px;
+                }
+            }
+        }
+
+        .promo-shadow {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 20px;
+            position: relative;
+            border-radius: 0 0 30px 30px;
+        }
+    }
+
+    .row_div {
+        text-align: start;
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+
+        p {
+            margin: 0;
+        }
+
+        .profit_cell {
+            max-width: 300px;
+            min-width: 300px;
+            min-height: 200px;
+            background-color: white;
+            border-radius: 30px;
+            padding: 40px;
+            margin: 20px 20px 0 0;
+
+            @media (max-width: 768px) {
+                display: flex;
+                flex-direction: row;
+                padding: 20px;
+                min-height: 100px;
+                margin: 10px 0 0 0;
+                max-width: 400px;
+                min-width: 400px;
+            }
+
+            @media (max-width: 576px) {
+                max-width: 300px;
+                min-width: 300px;
+            }
+
+            @media (max-width: 290px) {
+                max-width: 250px;
+                min-width: 250px;
+            }
+
+            p {
+                overflow: hidden;
+                word-wrap: break-word;
+                width: 100%;
+            }
+
+            div {
+                min-width: 50px;
+                min-height: 50px;
+                max-width: 50px;
+                max-height: 50px;
+                border-radius: 15px;
+                background-color: black;
+                margin-bottom: 30px;
+
+                @media (max-width: 768px) {
+                    margin-right: 20px;
+                    margin-bottom: 0;
+                }
+
+                svg {
+                    width: 30px;
+                    height: 30px;
+                }
+            }
+        }
+
+        .action_cell {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            max-width: 300px;
+            min-width: 300px;
+            min-height: 130px;
+            border: 1px solid rgb(228, 228, 228);
+            border-radius: 30px;
+            padding: 20px;
+            margin: 80px 20px 0 0;
+
+            @media (max-width: 768px) {
+                flex-direction: row;
+                min-height: 100px;
+                max-width: 400px;
+                min-width: 400px;
+                margin: 10px 0 10px 0;
+            }
+
+            @media (max-width: 576px) {
+                max-width: 300px;
+                min-width: 300px;
+            }
+
+            @media (max-width: 390px) {
+                max-width: 250px;
+                min-width: 250px;
+            }
+
+            p {
+                overflow: hidden;
+                word-wrap: break-word;
+                width: 100%;
+            }
+
+            .plus {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                position: relative;
+                min-width: 40px;
+                max-width: 40px;
+                min-height: 40px;
+                max-height: 40px;
+                margin-bottom: auto;
+                background-color: $green;
+                color: white;
+                border: 5px solid rgb(233, 241, 225);
+                border-radius: 12px;
+                box-shadow: 0 0 20px rgb(200, 212, 187);
+                font-size: 30px;
+                top: -40px;
+
+                @media (max-width: 768px) {
+                    left: 100%;
+                    top: calc(50% - 20px);
+                }
+            }
+
+            .number {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                position: relative;
+                min-width: 80px;
+                min-height: 55px;
+                max-width: 80px;
+                max-height: 55px;
+                margin-top: auto;
+                bottom: -47.5px;
+                background-color: white;
+                border-radius: 15px;
+                box-shadow: 0 0 10px rgb(245, 245, 245);
+
+                @media (max-width: 768px) {
+                    right: calc(100% - 2px);
+                    bottom: calc(50% - 22.5px);
+                    min-width: 45px;
+                    min-height: 45px;
+                    max-width: 45px;
+                    max-height: 45px;
+                }
+
+                span {
+                    color: $blue;
+                    font-size: 30px;
+                    font-weight: bolder;
+
+                    @media (max-width: 768px) {
+                        font-size: 20px;
+                    }
+                }
+            }
+        }
+
+        .todo_cell {
+            display: flex;
+            align-items: center;
+            position: relative;
+            max-width: 300px;
+            min-width: 300px;
+            min-height: 100px;
+            background-color: white;
+            border-radius: 30px;
+            padding: 40px;
+            margin: 20px 40px 0 0;
+
+            @media (max-width: 768px) {
+                display: flex;
+                flex-direction: row;
+                padding: 20px;
+                min-height: 100px;
+                margin-right: 0;
+                max-width: 400px;
+                min-width: 400px;
+            }
+
+            @media (max-width: 576px) {
+                max-width: 300px;
+                min-width: 300px;
+            }
+
+            @media (max-width: 290px) {
+                max-width: 250px;
+                min-width: 250px;
+            }
+
+            p {
+                overflow: hidden;
+                word-wrap: break-word;
+                width: 100%;
+
+                @media (max-width: 768px) {
+                    margin-left: 10px;
+                }
+            }
+
+            .check_mark {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                min-width: 40px;
+                max-width: 40px;
+                min-height: 40px;
+                max-height: 40px;
+                background-color: rgb(0, 183, 255);
+                color: white;
+                border: 5px solid rgb(245, 247, 254);
+                border-radius: 12px;
+                font-size: 12px;
+                position: absolute;
+                top: -20px;
+                left: -20px;
+
+                @media (max-width: 768px) {
+                    top: calc(50% - 20px);
+                }
+            }
+        }
+    }
+
+    .mini-promo {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        padding: 30px 40px;
+        color: white;
+        background-image: url();
+        background-color: $blue;
+        border-radius: 30px;
+        width: 100%;
+        margin: 80px 0 0 0;
+
+        @media (max-width: 1200px) {
+            flex-direction: column;
+            padding: 30px 30px 0 30px;
+        }
+
+        h2 {
+            margin: 0;
+        }
+
+        strong:nth-child(2) {
+            margin: 0 0 0 10px;
+            font-size: 80px;
+            line-height: normal;
+        }
+    }
+
+    .modal-content {
+        text-align: start;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-bottom: 80px;
+        border: none;
+        border-radius: 30px;
+        width: 600px;
+        padding: 40px;
+
+        @media (max-width: 768px) {
+            width: 500px;
+        }
+
+        @media (max-width: 576px) {
+            width: 300px;
+            padding: 30px;
+        }
+
+        .bkt-input__wrapper {
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+        .communications {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            flex-wrap: wrap;
+
+            .bkt-button {
+                overflow: hidden;
+                width: 120px;
+                height: 50px;
+                border-radius: 15px;
+                margin: 5px 10px 0 0;
+                background-color: rgb(245, 247, 254);
+
+                @media (max-width: 768px) {
+                    width: 95px;
+                    padding: 10px 20px;
+                }
+
+                @media (max-width: 576px) {
+                    width: 55px;
+                    height: 40px;
+                    padding: 5px 10px;
+                    margin: 5px 5px 0 0;
+                }
+            }
+
+            button:last-child {
+                align-self: flex-end;
+                min-width: 100%;
+            }
+        }
+
+        .time_to_call {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            width: 100%;
+
+            .form-select {
+                border: none;
+                border-radius: 15px;
+                background-color: rgb(245, 247, 254);
+                margin: 15px 10px 0 0;
+                min-width: 120px;
+                height: 50px;
+                overflow: hidden;
+
+                @media (max-width: 768px) {
+                    margin: 10px 10px 0 0;
+                    min-width: 80px;
+                }
+
+                @media (max-width: 576px) {
+                    margin: 5px 5px 0 0;
+                    min-width: 60px;
+                    padding-right: 5px;
+                    height: 40px;
+                    font-size: small;
+                }
+            }
+        }
+
+        .bkt-check__wrapper {
+            margin: 20px 0;
+            width: 100%;
+            overflow: hidden;
+
+            .bkt-check__input {
+                width: 50px;
+                height: 50px;
+
+                input {
+                    opacity: 1;
+                }
+            }
+        }
+
+        .bkt-button {
+            width: 100%;
+            height: 70px;
+            border-radius: 20px;
+        }
+    }
+}

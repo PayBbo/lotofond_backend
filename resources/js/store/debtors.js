@@ -21,8 +21,8 @@ export default {
         setDebtors(state, payload) {
             // state.debtors = payload.data;
             payload.data.forEach(item => {
-                let trade = state.debtors.findIndex(el => el.id === item.id);
-                if (trade < 0) {
+                let debtor = state.debtors.findIndex(el => el.id === item.id);
+                if (debtor < 0) {
                     let tmp_item = item;
                     if(item.type === 'person')
                     {
@@ -48,24 +48,24 @@ export default {
             state.debtors.push(payload)
         },
         saveDebtor(state, payload) {
-            let trade = state.debtors.findIndex(item => item.id === payload.id);
-            if (trade >= 0) {
-                Vue.set(state.debtors, trade, payload)
+            let debtor = state.debtors.findIndex(item => item.id === payload.id);
+            if (debtor >= 0) {
+                Vue.set(state.debtors, debtor, payload)
             }
         },
         removeDebtor(state, payload) {
-            let trade = state.debtors.findIndex(item => item.id === payload);
-            if (trade >= 0) {
-                state.debtors.splice(trade, 1);
+            let debtor = state.debtors.findIndex(item => item.id === payload);
+            if (debtor >= 0) {
+                state.debtors.splice(debtor, 1);
             }
         },
         setDebtorsLoading(state, payload) {
             return (state.debtors_loading = payload);
         },
         saveDebtorProperty(state, payload) {
-            let trade = state.debtors.findIndex(item => item.id === payload.id);
-            if (trade >= 0 && state.debtors[trade].hasOwnProperty(payload.key)) {
-                Vue.set(state.debtors[trade], payload.key, payload.value)
+            let debtor = state.debtors.findIndex(item => item.id === payload.id);
+            if (debtor >= 0 && state.debtors[debtor].hasOwnProperty(payload.key)) {
+                Vue.set(state.debtors[debtor], payload.key, payload.value)
             }
         },
     },
@@ -139,7 +139,7 @@ export default {
                         value: payload.value
                     }
                 ).then((response) => {
-                    commit('saveDebtor', response.data.trade)
+                    commit('saveDebtor', response.data.debtor)
                 }).catch(error => {
                     console.log(error);
                     throw error

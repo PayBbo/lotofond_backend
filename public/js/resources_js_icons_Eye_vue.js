@@ -130,11 +130,11 @@ var render = function () {
   return _c(
     "svg",
     {
-      class: "bkt-stroke-" + _vm.color,
+      class: "bkt-stroke bkt-stroke-" + _vm.color,
       attrs: {
         version: "1.1",
         xmlns: "http://www.w3.org/2000/svg",
-        viewBox: "4 2 30 30",
+        viewBox: "0 0 30 30",
         width: _vm.width,
         height: _vm.height,
         fill: "none",

@@ -1,0 +1,53 @@
+.bkt-profile {
+    margin: 60px auto;
+    & .bkt-profile-tariff {
+        padding: 25px;
+        text-align: center;
+        & .bkt-card__subtitle
+        {
+            color: rgba(255, 255, 255, 0.6);
+        }
+        & .bkt-card__title
+        {
+            font-size: 16px;
+            color: white;
+        }
+        & .bkt-card__background-figure-1 {
+            position: absolute;
+            margin: auto;
+            top: 7px;
+            width: 92%;
+            height: 100%;
+            z-index: -1;
+            left: 4.5%;
+            right: 4.5%;
+            background: #b8c6fe;
+        }
+
+        & .bkt-card__background-figure-2 {
+            position: absolute;
+            margin: auto;
+            top: 14px;
+            width: 81%;
+            height: 100%;
+            z-index: -2;
+            opacity: 0.15;
+            left: 10.2%;
+            right: 10.2%;
+        }
+    }
+    & .bkt-tariff-button {
+        font-size: 16px;
+        font-family: "Gilroy";
+        color: rgb(45, 50, 68);
+        font-weight: 700;
+        border-radius: 25px;
+        background: rgb(255, 197, 21);
+        min-height: 70px;
+        padding: 26px 35px;
+    }
+
+    & .bkt-sidebar {
+        padding: 20px;
+    }
+}

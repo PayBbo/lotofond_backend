@@ -2,7 +2,7 @@
     <header class="">
         <nav class="bkt-navbar">
             <div class="bkt-container bkt-navbar__wrapper">
-                <button class="bkt-button blue">
+                <button class="bkt-button blue"  data-bs-toggle="modal" data-bs-target="#codeModal">
                     Покупка без ЭЦП
                 </button>
                 <ul class="bkt-navbar__nav d-none d-lg-flex">
@@ -46,7 +46,7 @@
 
                         <div class="bkt-navbar__user text-truncate me-1">
                             <div class="bkt-navbar__user-name text-truncate">
-                                {{auth_user.name}} {{auth_user.surname}}
+                                {{auth_user ? auth_user.name: ''}} {{auth_user ? auth_user.surname : ''}}
                             </div>
                             <div class="bkt-navbar__user-tarif">
                                 тариф: <span class="bkt-navbar__user-tarif-name">Базовый</span>
@@ -64,29 +64,11 @@
                                 <div class="bkt-navbar__user-dropdown-item-icon bg-primary-lighter">
                                     <bkt-icon :name="'User'" :color="'primary'"></bkt-icon>
                                 </div>
-                                <a class="bkt-navbar__user-dropdown-item-text" href="#">Профиль</a>
+                                <a class="bkt-navbar__user-dropdown-item-text" href="/profile">Профиль</a>
                             </div>
                             <div class="bkt-navbar__user-dropdown-item" @click="logout" style="cursor: pointer">
                                 <div class="bkt-navbar__user-dropdown-item-icon bg-red-lighter">
-                                    <svg version="1.0" xmlns="http://www.w3.org/2000/svg"
-                                         width="100%" height="100%" viewBox="0 0 512.000000 512.000000"
-                                         preserveAspectRatio="xMidYMid meet">
-                                        <g transform="translate(0.000000,512.000000) scale(0.100000,-0.100000)"
-                                           fill="#ec4c27" stroke="none">
-                                            <path d="M161 5103 c-59 -21 -124 -87 -144 -148 -16 -45 -17 -237 -17 -2395 0
-                                            -2633 -7 -2404 75 -2485 80 -80 -21 -75 1430 -75 1451 0 1350 -5 1430 75 98
-                                            98 98 252 0 350 -79 80 4 75 -1287 75 l-1148 0 0 2060 0 2060 1148 0 c1291 0
-                                            1208 -5 1287 75 98 98 98 252 0 350 -80 80 22 75 -1434 74 -1147 0 -1301 -2
-                                            -1340 -16z"/>
-                                            <path d="M3520 4065 c-136 -44 -208 -205 -149 -335 15 -34 127 -152 457 -482
-                                            l437 -438 -1216 0 c-1366 0 -1274 5 -1354 -75 -98 -98 -98 -252 0 -350 80 -80
-                                            -12 -75 1354 -75 l1216 0 -437 -437 c-240 -241 -444 -454 -454 -473 -27 -51
-                                            -25 -162 3 -216 25 -47 82 -101 129 -120 48 -20 151 -17 200 5 61 28 1354
-                                            1315 1386 1379 32 65 32 159 0 224 -30 60 -1320 1347 -1384 1379 -52 27 -131
-                                            33 -188 14z"/>
-                                        </g>
-                                    </svg>
-
+                                    <bkt-icon name="LogOut"></bkt-icon>
                                 </div>
                                 <div class="bkt-navbar__user-dropdown-item-text">Выйти</div>
                             </div>
@@ -94,7 +76,6 @@
 
                     </div>
                 </div>
-
                 <button v-else class="bkt-button primary-outline d-none d-md-block"
                         data-bs-toggle="modal" data-bs-target="#authModal"
                 >
@@ -128,16 +109,16 @@
                         </a>
                     </li>
                     <li class="bkt-navbar__nav-item d-none d-md-flex">
-                        <a class="bkt-navbar__nav-link" href="#">Топ-побед</a>
+                        <a class="bkt-navbar__nav-link" href="/top-wins">Топ-побед</a>
                     </li>
                     <li class="bkt-navbar__nav-item d-none d-md-flex">
-                        <a class="bkt-navbar__nav-link" href="#">Реестры</a>
+                        <a class="bkt-navbar__nav-link" href="/registries">Реестры</a>
                     </li>
                     <li class="bkt-navbar__nav-item d-none d-lg-flex">
-                        <a class="bkt-navbar__nav-link" href="#">Контакты</a>
+                        <a class="bkt-navbar__nav-link" href="/contacts">Контакты</a>
                     </li>
                     <li class="bkt-navbar__nav-item d-flex d-lg-none">
-                        <a class="bkt-navbar__nav-link" href="#">Тарифы</a>
+                        <a class="bkt-navbar__nav-link" href="/tariffs">Тарифы</a>
                     </li>
                 </ul>
                 <div class="bkt-navbar__wrapper">
@@ -147,15 +128,72 @@
                     </span>
                         Изменения в законах
                     </button>
-                    <button class="bkt-button-ellipse m-0 d-flex d-lg-none">
-                    <span class="bkt-button__icon">
-                         <bkt-icon :name="'Menu'"/>
-                    </span>
+                    <button class="bkt-button-ellipse m-0 d-flex d-lg-none" type="button" data-bs-toggle="offcanvas"
+                            data-bs-target="#offcanvasExample"
+                    >
+                        <span class="bkt-button__icon">
+                             <bkt-icon :name="'Menu'"/>
+                        </span>
                     </button>
                 </div>
             </div>
-
         </nav>
+        <div class="offcanvas offcanvas-start bkt-sidebar" tabindex="-1" id="offcanvasExample"
+             aria-labelledby="offcanvasExampleLabel">
+            <div class="offcanvas-header bkt-sidebar__header">
+                <h4 class="offcanvas-title bkt-sidebar__title" id="offcanvasExampleLabel">LotoFond</h4>
+                <button type="button" class="bkt-button bkt-sidebar__button" data-bs-dismiss="offcanvas"
+                        aria-label="Close">
+                    <bkt-icon :name="'Cancel'" :width="'13px'" :height="'13px'" color="white"></bkt-icon>
+                </button>
+            </div>
+            <div class="offcanvas-body bkt-sidebar__body">
+                <ul class="bkt-sidebar__links">
+                    <template v-for="(link, index) in links">
+                        <router-link
+                            :to="link.path"
+                            custom
+                            v-slot="{navigate, isExactActive }"
+                        >
+                            <li class="bkt-sidebar__link" @click="navigate"
+                                :class="[isExactActive ? 'bkt-bg-'+link.color+'-lighter' : '']"
+                            >
+                                <div class="bkt-sidebar__link-icon"
+                                     :class="[isExactActive ? 'bkt-bg-'+link.color : 'bkt-bg-'+link.color+'-lighter',
+                                     isExactActive && 'router-link-exact-active', 'bkt-hover'+link.color+'-lighter']"
+                                >
+                                    <bkt-icon :name="link.icon" :color="isExactActive ? 'white' : link.color"></bkt-icon>
+                                </div>
+                                <div class="bkt-sidebar__link-label">{{link.label}}</div>
+                            </li>
+                        </router-link>
+                    </template>
+                </ul>
+            </div>
+            <div class="bkt-sidebar__footer">
+                <div v-if="isLoggedIn" class="bkt-sidebar__user">
+                    <div class="bkt-sidebar__profile">
+                        <img src="" alt="">
+                        <div class="bkt-navbar__user text-truncate me-1">
+                            <div class="bkt-navbar__user-name text-truncate">
+                                {{auth_user ? auth_user.name: ''}} {{auth_user ? auth_user.surname : ''}}
+                            </div>
+                            <div class="bkt-navbar__user-tarif">
+                                тариф: <span class="bkt-navbar__user-tarif-name">Базовый</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bkt-sidebar__button" @click="logout" data-bs-dismiss="offcanvas">
+                        <bkt-icon name="LogOut" color="white"></bkt-icon>
+                    </div>
+                </div>
+
+                <button v-else class="bkt-button primary w-100" type="button" data-bs-dismiss="offcanvas"
+                        @click="openModal">
+                    Вход и регистрация
+                </button>
+            </div>
+        </div>
         <bkt-auth-modal></bkt-auth-modal>
         <bkt-code-modal></bkt-code-modal>
     </header>
@@ -167,6 +205,51 @@
         data() {
             return {
                 loading: false,
+                links: [
+                    {
+                        path:'/',
+                        icon: 'Home',
+                        code: "Main",
+                        label: "Главная",
+                        color: 'primary',
+                    },
+                    {
+                        path:'/agent',
+                        icon: 'Target',
+                        code: "Agent",
+                        label: "Купить через агента",
+                        color: 'red'
+                    },
+                    {
+                        path:'/registries',
+                        icon: 'Alignment',
+                        code: "Registries",
+                        label: "Реестры",
+                        color: 'green',
+                    },
+                    {
+                        path:'/top-wins',
+                        icon: 'Star',
+                        code: "TopWins",
+                        label: "Топ-побед",
+                        color: 'yellow',
+                    },
+                    {
+                        path:'/contacts',
+                        icon: 'Briefcase',
+                        code: "Contacts",
+                        label: "Контакты",
+                        color: 'blue',
+                    },
+                    {
+                        path:'/profile',
+                        icon: 'User',
+                        code: "Profile",
+                        label: "Профиль",
+                        color: 'primary',
+                        meta: 'auth'
+                    },
+                ],
             }
         },
         computed: {
@@ -198,6 +281,9 @@
                 }).catch(error => {
                     this.loading = false;
                 })
+            },
+            openModal() {
+                this.$store.commit('openModal', '#authModal');
             }
         }
 

@@ -1,0 +1,139 @@
+.bkt-sidebar {
+    &__body {
+        padding: 1.8rem 0.85rem;
+        color: $primary-default;
+        display: flex;
+        flex-direction: column;
+        transition: width 0.5s ease-in-out;
+    }
+
+    &__header {
+        position: relative;
+        display: flex;
+        align-items: center;
+        background: $main-default;
+
+        & .logo {
+            width: 2.1rem;
+            margin: 0 0.8rem;
+        }
+
+        & .bkt-sidebar__title {
+            font-weight: 600;
+            color: #fff;
+        }
+    }
+
+    &__footer {
+        background: $main-default;
+        position: relative;
+        margin-top: auto;
+        padding: 1rem 1rem;
+    }
+
+    &__button {
+        display: flex;
+        height: 40px;
+        padding: 10px;
+        min-width: 2.4rem;
+        align-items: center;
+        justify-content: center;
+        border-radius: 10px;
+        margin: 0 0.65rem;
+        transition: color 0.3s;
+    }
+
+    &__links {
+        position: relative;
+        list-style-type: none;
+        padding: 0;
+
+        & a {
+            color: $primary-default;
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            height: 53px;
+            font-weight: 700;
+            padding: 1rem;
+            transition: opacity 0.3s 0.2s, color 0.3s;
+            gap: 15px;
+        }
+
+        & a.router-link-exact-active,
+        & a:hover {
+            color: #fff;
+            height: 53px;
+            background-color: $primary-default;
+            border-radius: 10px;
+        }
+
+        & h4 {
+            position: relative;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            font-weight: 600;
+            padding: 0 0.8rem;
+            color: $primary-default;
+            letter-spacing: 0.5px;
+            height: 45px;
+            line-height: 45px;
+            transition: opacity 0.3s 0.2s, height 0.5s 0s;
+        }
+
+        & .bkt-sidebar__link {
+            display: flex;
+            gap: 12px;
+            border-radius: 20px;
+            padding: 8px 20px;
+            align-items: center;
+            margin: 0;
+            cursor: pointer;
+
+            &-icon {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                width: 40px;
+                height: 40px;
+                border-radius: 50%;
+                padding: 12px;
+                flex-shrink: 0;
+            }
+
+            &-label {
+                font-size: 14px;
+                font-family: "Gilroy", sans-serif;
+                color: $main-default;
+                line-height: 1.2;
+                text-align: left;
+                font-weight: 500;
+            }
+        }
+    }
+
+    .bkt-sidebar__user {
+        display: flex;
+        align-items: center;
+
+        & img {
+            width: 2.9rem;
+            height: 2.9rem;
+            border-radius: 50%;
+            margin: 0 0.4rem;
+            background: $primary-default;
+            object-fit: cover;
+        }
+    }
+
+    .bkt-sidebar__profile {
+        white-space: nowrap;
+        max-width: 100%;
+        transition: opacity 0.3s 0.2s, max-width 0.7s 0s ease-in-out;
+        display: flex;
+        align-items: center;
+        flex: 1;
+        overflow: hidden;
+    }
+
+}

@@ -1,47 +1,3 @@
-@mixin svg-color($color, $types...) {
-    @each $type in $types {
-        @if $type != ''
-        {
-            #{'.bkt-stroke-'+$color+'-'+$type} {
-                stroke: map-get($theme-colors, $color+'-'+$type) !important;
-            }
-            #{'.bkt-fill-'+$color+'-'+$type} {
-                fill: map-get($theme-colors, $color+'-'+$type) !important;
-            }
-        }
-        @else {
-            #{'.bkt-stroke-'+$color} {
-                stroke: map-get($theme-colors, $color+'-default') !important;
-            }
-            #{'.bkt-fill-'+$color} {
-                fill: map-get($theme-colors, $color+'-default') !important;
-            }
-        }
-
-    }
-}
-@mixin setColorSvg($property, $color, $types...) {
-    @each $type in $types {
-        @if $type == 'default'
-        {
-            #{'.bkt-'+$property+'-'+$color} {
-                #{$property}: map-get($theme-colors, $color+'-default') !important;
-            }
-        }
-        @else if $type == '' {
-            #{'.bkt-'+$property+'-'+$color} {
-                #{$property}: map-get($theme-colors, $color) !important;
-            }
-        }
-        @else {
-            #{'.bkt-'+$property+'-'+$color+'-'+$type} {
-                #{$property}: map-get($theme-colors, $color+'-'+$type) !important;
-            }
-        }
-    }
-}
-
-
 @include svg-color('main', '', 'light', 'lighter');
 @include svg-color('primary', '', 'light', 'lighter', 'dark');
 @include svg-color('green', '', 'light', 'lighter');
@@ -49,8 +5,11 @@
 @include svg-color('blue', '', 'light', 'lighter');
 @include svg-color('yellow', '', 'light', 'lighter');
 @include svg-color('purple', '', 'light', 'lighter');
-@include setColorSvg('fill', 'neutral', 'default', 'light', 'dark', 'darker');
-@include setColorSvg('stroke', 'neutral', 'default', 'light', 'dark', 'darker');
+@include svg-color('pink', '', 'light', 'lighter');
+@include svg-color('orange', '', 'lighter');
+@include svg-color('teal', '', 'lighter');
+@include setColorSvg('fill', 'neutral', 'default','lighter', 'light', 'dark', 'darker');
+@include setColorSvg('stroke', 'neutral', 'default', 'lighter','light', 'dark', 'darker');
 @include setColorSvg('fill', 'white', '');
 @include setColorSvg('stroke', 'white', '');
 @include setColorSvg('stroke', 'black', '');

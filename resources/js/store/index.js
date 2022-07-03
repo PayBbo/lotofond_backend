@@ -9,11 +9,14 @@ import debtors from './debtors';
 import organizers from './organizers';
 import arbitrManagers from './arbitrManagers';
 import tradePlaces from './tradePlaces';
+import categories from './categories';
+import marks from './marks';
+import files from './files';
 
 export default new Vuex.Store({
     namespaced: false,
     modules: {
-         shared, auth, trades, filters, debtors, organizers, arbitrManagers, tradePlaces
+         shared, auth, trades, filters, debtors, organizers, arbitrManagers, tradePlaces, categories, marks, files
     }
 })
 

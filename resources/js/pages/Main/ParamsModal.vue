@@ -5,14 +5,14 @@
         <template #body>
             <div class="bkt-form wide w-100 mx-auto align-items-start">
                 <div class="col-12">
-                    <bkt-input v-model="filter.exceptionWords"
+                    <bkt-input v-model="filter.excludedWords"
                                type="text"
                                field_name="'Cлова-исключения'"
                                label="cлова-исключения"
                                label_class="bkt-form__label"
                                name="exception_words" icon_name="Check"
-                               :group_item_class="filter.exceptionWords ? 'bkt-bg-green': 'bkt-bg-white'"
-                               :icon_color="filter.exceptionWords ? 'white': 'main-lighter'"
+                               :group_item_class="filter.excludedWords ? 'bkt-bg-green': 'bkt-bg-white'"
+                               :icon_color="filter.excludedWords ? 'white': 'main-lighter'"
                     >
                     </bkt-input>
                 </div>
@@ -87,32 +87,15 @@
                 <div class="col-12 p-0">
                     <div class="bkt-form m-0">
                         <div class="col-12 col-lg-2">
-                            <h5 class="bkt-form__label">номер торгов</h5>
-                        </div>
-                        <div class="col-12 col-lg-10">
-                            <bkt-input v-model="filter.tradeNumber"
-                                       type="text"
-                                       field_name="'Номер торгов'"
-                                       name="tradeNumber" icon_name="Check"
-                                       :group_item_class="filter.tradeNumber ? 'bkt-bg-green': 'bkt-bg-white'"
-                                       :icon_color="filter.tradeNumber ? 'white': 'main-lighter'"
-                            >
-                            </bkt-input>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-12 p-0">
-                    <div class="bkt-form m-0">
-                        <div class="col-12 col-lg-2">
                             <h5 class="bkt-form__label">вид торгов</h5>
                         </div>
                         <div class="col-12 col-lg-10">
                             <div class="bkt-form bkt-wrapper bkt-auctions-types">
                                 <div class="bkt-auctions-type" v-for="item in auctionTypes">
-                                    <button class="bkt-auctions-type__card bkt-bg-body"
+                                    <button class="bkt-auctions-type__card bkt-auctions-type__title bkt-bg-body"
                                             @click="filter.tradeType=item.title"
                                             :class="[filter.tradeType===item.title ? 'bkt-border-primary': 'bkt-border-body']">
-                                        <h4 class="bkt-auctions-type__title">{{item.description}}</h4>
+                                        {{item.description}}
                                     </button>
                                     <h6 class="bkt-auctions-type__subtitle">что это?</h6>
                                 </div>
@@ -137,15 +120,10 @@
             return {
                 loading: false,
                 template: {
-                    exceptionWords: '',
+                    excludedWords: '',
+                    includedWords:'',
                     tradePlaces: [],
-                    tradeNumber: '',
-                    tradeType: '',
-                    period: '',
-                    isWithPhotos: false,
-                    isStopped: false,
-                    isCompleted: false,
-                    isDeleted: false,
+                    tradeType:'',
                 },
                 auctionTypes: [
                     {description: 'Открытый аукцион', title: 'OpenAuction'},
@@ -155,6 +133,7 @@
                     {description: 'Закрытый конкурс', title: 'CloseConcours'},
                     {description: 'Закрытое публичное предложение', title: 'ClosePublicOffer'},
                 ],
+                params: null,
                 //mock
                 // trade_places: [],
                 // trade_places_pagination: {},
@@ -162,18 +141,15 @@
             };
         },
         computed: {
-            filters_params() {
-                return this.$store.getters.filters_params
-            },
             filters() {
                 return this.$store.getters.filters
             },
             filter: {
                 get() {
-                    return this.filters_params
+                    return JSON.parse(JSON.stringify(this.$store.getters.filters_params))
                 },
                 set(value) {
-                    this.$store.commit('saveFiltersProperty', {key: 'mainParams', value: value})
+                    this.params = value;
                 }
             },
             // current_platform: {
@@ -197,6 +173,7 @@
         },
         methods: {
             saveFilters() {
+                this.$store.commit('saveFiltersProperty', {key: 'mainParams', value: this.filter});
                 this.$store.commit('closeModal', '#paramsModal');
                 this.$store.dispatch('getFilteredTrades', {page: 1, filters: this.filters});
             },

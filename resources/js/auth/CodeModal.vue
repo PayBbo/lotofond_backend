@@ -8,7 +8,7 @@
         <template #body="{ invalid }">
             <div class="bkt-code-modal-steps">
                 <h4 class="bkt-modal__subtitle">Чтобы начать работу, пройдите несколько шагов:</h4>
-                <div class="bkt-card bg-green">
+                <div class="bkt-card bkt-bg-green">
                     <h5 class="bkt-card__subtitle">Попробуйте все услуги нашего сервиса</h5>
                     <h1 class="bkt-card__title">бесплатно в течение 7 дней</h1>
                     <div class="bkt-card bkt-card__background-figure-1">

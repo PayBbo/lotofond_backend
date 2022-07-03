@@ -4,6 +4,8 @@
         <bkt-price-modal></bkt-price-modal>
         <bkt-options-modal></bkt-options-modal>
         <bkt-params-modal></bkt-params-modal>
+        <bkt-category-modal></bkt-category-modal>
+        <bkt-region-modal></bkt-region-modal>
         <h1 class="bkt-main-title text-center">Электронные торги по банкротству</h1>
         <div class="bkt-search position-relative bg-white">
             <input class="w-100 bkt-search__input" type="text" placeholder="Введите нужное слово или фразу">
@@ -13,117 +15,39 @@
             </button>
         </div>
         <div class="bkt-main-categories bkt-card__list">
-            <div class="bkt-card__row">
-                <div class="col-10">
-                    <h4 class="bkt-card__title">Выберите<br> нужные категории</h4>
-                    <h5 class="bkt-card__subtitle bkt-text-green">выбрано 4</h5>
-                    <button class="bkt-button primary-lighter" data-bs-toggle="modal" data-bs-target="#bkt-modal">
-                        Изменить
-                    </button>
-                </div>
-                <div class="col-2">
-                    <div class="bkt-card__category bkt-bg-green ms-auto">
-                        <span class="bkt-card__category-icon">
-                            <bkt-icon :name="'Category'"></bkt-icon>
-                        </span>
-                    </div>
-                </div>
-            </div>
-            <div class="bkt-card__row">
-                <div class="col-10">
-                    <h4 class="bkt-card__title">Выберите<br> регион</h4>
-                    <h5 class="bkt-card__subtitle">ничего не выбрано</h5>
-                    <button class="bkt-button primary">Выбрать</button>
-                </div>
-                <div class="col-2">
-                    <div class="bkt-card__category bkt-bg-red-lighter ms-auto">
-                        <span class="bkt-card__category-icon">
-                             <bkt-icon :name="'Location'"></bkt-icon>
-                        </span>
-                    </div>
-                </div>
-            </div>
-            <div class="bkt-card__row">
-                <div class="col-10">
-                    <h4 class="bkt-card__title">Выберите основные<br> параметры объекта</h4>
-                    <h5 class="bkt-card__subtitle" :class="{'bkt-text-green': filters_params>0}">
-                        {{filters_params>0 ?'' : 'ничего не'}} выбрано {{filters_params>0 ? filters_params : ''}}
-                    </h5>
-                    <button class="bkt-button" :class="[filters_params>0 ? 'primary-lighter': 'primary']"
-                            data-bs-toggle="modal" data-bs-target="#paramsModal"
-                    >
-                        {{filters_params>0 ? 'Изменить' : 'Выбрать'}}
-                    </button>
-                </div>
-                <div class="col-2">
-                    <div class="bkt-card__category bkt-bg-purple-lighter  ms-auto">
-                        <span class="bkt-card__category-icon">
-                             <bkt-icon :name="'Options'" :color="'purple'"></bkt-icon>
-                        </span>
-                    </div>
-                </div>
-            </div>
-            <div class="bkt-card__row">
-                <div class="col-10">
-                    <h4 class="bkt-card__title">Выберите<br> стоимость объекта</h4>
-                    <h5 class="bkt-card__subtitle" :class="{'bkt-text-green': filters_prices>0}">
-                        {{filters_prices>0 ?'' : 'ничего не'}} выбрано {{filters_prices>0 ? filters_prices : ''}}
-                    </h5>
-                    <button class="bkt-button" :class="[filters_prices>0 ? 'primary-lighter': 'primary']"
-                            data-bs-toggle="modal" data-bs-target="#priceModal"
-                    >
-                        {{filters_prices>0 ? 'Изменить' : 'Выбрать'}}
-                    </button>
-                </div>
-                <div class="col-2">
-                    <div class="bkt-card__category bkt-bg-yellow-lighter ms-auto">
-                        <span class="bkt-card__category-icon">
-                            <bkt-icon :name="'Wallet'"></bkt-icon>
-                        </span>
-                    </div>
-                </div>
-            </div>
-            <div class="bkt-card__row">
-                <div class="col-10">
-                    <h4 class="bkt-card__title">Выберите<br> дату торгов</h4>
-                    <h5 class="bkt-card__subtitle" :class="{'bkt-text-green': filters_dates>0}">
-                        {{filters_dates>0 ?'' : 'ничего не'}} выбрано {{filters_dates>0 ? filters_dates : ''}}
-                    </h5>
-                    <button class="bkt-button" :class="[filters_dates>0 ? 'primary-lighter': 'primary']"
-                            data-bs-toggle="modal" data-bs-target="#dateModal"
-                    >
-                        {{filters_dates>0 ? 'Изменить' : 'Выбрать'}}
-                    </button>
-                </div>
-                <div class="col-2">
-                    <div class="bkt-card__category bkt-bg-blue ms-auto">
-                        <span class="bkt-card__category-icon">
-                            <bkt-icon :name="'Date'"></bkt-icon>
-                        </span>
-                    </div>
-                </div>
-            </div>
-            <div class="bkt-card__row">
-                <div class="col-10">
-                    <h4 class="bkt-card__title">Выберите<br> доп. параметры</h4>
-                    <h5 class="bkt-card__subtitle" :class="{'bkt-text-green': filters_extra_options>0}">
-                        {{filters_extra_options>0 ?'' : 'ничего не'}} выбрано {{filters_extra_options>0 ?
-                        filters_extra_options : ''}}
-                    </h5>
-                    <button class="bkt-button primary" :class="[filters_extra_options>0 ? 'primary-lighter': 'primary']"
-                            data-bs-toggle="modal" data-bs-target="#optionsModal"
-                    >
-                        {{filters_extra_options>0 ? 'Изменить' : 'Выбрать'}}
-                    </button>
-                </div>
-                <div class="col-2">
-                    <div class="bkt-card__category bkt-bg-primary-lighter ms-auto">
-                        <span class="bkt-card__category-icon">
-                            <bkt-icon :name="'Clone'"></bkt-icon>
-                        </span>
-                    </div>
-                </div>
-            </div>
+            <bkt-filter-card
+                :icon="{name:'Category'}" category_class="bkt-bg-green"
+                title="Выберите<br> нужные категории" :count="[]" modal_name="#"
+            >
+            </bkt-filter-card>
+            <bkt-filter-card
+                :icon="{name:'Location'}" category_class="bkt-bg-red-lighter"
+                title="Выберите<br> регион" :count="[]" modal_name="#regionModal"
+            >
+            </bkt-filter-card>
+            <bkt-filter-card
+                :icon="{name:'Options', color:'pink'}" category_class="bkt-bg-pink-lighter"
+                title="Выберите основные<br> параметры объекта" :count="filters.mainParams" modal_name="#paramsModal"
+            >
+            </bkt-filter-card>
+            <bkt-filter-card
+                :icon="{name:'Wallet'}" category_class="bkt-bg-yellow-lighter"
+                title="Выберите<br> стоимость объекта" :count="filters.prices"
+                modal_name="#priceModal"
+            >
+            </bkt-filter-card>
+            <bkt-filter-card
+                :icon="{name:'Date'}" category_class="bkt-bg-blue"
+                title="Выберите<br> дату торгов" :count="filters.dates"
+                modal_name="#dateModal"
+            >
+            </bkt-filter-card>
+            <bkt-filter-card
+                :icon="{name:'Clone'}" category_class="bkt-bg-primary-lighter"
+                title="Выберите<br> доп. параметры" :count="filters.extraOptions"
+                modal_name="#dateModal"
+            >
+            </bkt-filter-card>
         </div>
         <div class="bkt-main-statistic bkt-card__list">
             <div class="bkt-card__row bkt-bg-red-light position-relative">
@@ -173,7 +97,7 @@
             </div>
             <div class="col-md-6 col-lg-3 d-none d-md-block">
                 <bkt-select
-                    v-model="filters_main_params.period"
+                    v-model="filters_other.period"
                     select_class="form-floating main"
                     name="period"
                     subtitle="показывать за период"
@@ -184,47 +108,38 @@
                     @input="getData(1)"
                 >
                 </bkt-select>
-<!--                <div class="form-floating bkt-select__wrapper main">-->
-<!--                    <select class="form-select bkt-select" v-model="filters_main_params.period" @input="getData(1)" id="periodSelect" aria-label="">-->
-<!--                        <option selected value="all">все</option>-->
-<!--                        <option value="day">сутки</option>-->
-<!--                        <option value="7 days">7 дней</option>-->
-<!--                        <option value="30 days">30 дней</option>-->
-<!--                    </select>-->
-<!--                    <label class="bkt-select__subtitle" for="periodSelect">показывать за период</label>-->
-<!--                </div>-->
             </div>
             <div class="col-md-12 col-lg-5 d-none d-md-block">
                 <div class="d-flex">
                     <div class="bkt-check__list">
-                        <bkt-checkbox v-model="filters_main_params.isWithPhotos"
+                        <bkt-checkbox v-model="filters_other.hasPhotos"
                                    label="только с фото"
-                                   name="isWithPhotos"
+                                   name="hasPhotos"
                                       @input="getData(1)"
                         >
                         </bkt-checkbox>
-                        <bkt-checkbox v-model="filters_main_params.isDeleted"
+                        <bkt-checkbox v-model="filters_other.isHidden"
                                       label="удалённые"
-                                      name="isDeleted"
+                                      name="isHidden"
                                       @input="getData(1)"
                         >
                         </bkt-checkbox>
                     </div>
                     <div class="bkt-check__list">
-<!--                        <bkt-checkbox v-model="filters_main_params."-->
-<!--                                      label="завершённые"-->
-<!--                                      name="получен ответ организатора"-->
+<!--                        <bkt-checkbox v-model="filters_other."-->
+<!--                                      label="получен ответ организатора"-->
+<!--                                      name="organizer"-->
 <!--                                      @input="getData(1)"-->
 <!--                        >-->
 <!--                        </bkt-checkbox>-->
-                        <bkt-checkbox v-model="filters_main_params.isCompleted"
+                        <bkt-checkbox v-model="filters_other.isCompleted"
                                       label="завершённые"
                                       name="isCompleted"
                                       @input="getData(1)"
                                       wrapper_class="bkt-check__wrapper-inline"
                         >
                         </bkt-checkbox>
-                        <bkt-checkbox v-model="filters_main_params.isStopped"
+                        <bkt-checkbox v-model="filters_other.isStopped"
                                       label="приостановленные"
                                       name="isStopped"
                                       @input="getData(1)"
@@ -247,16 +162,18 @@
     import BktOptionsModal from "./OptionsModal";
     import BktParamsModal from "./ParamsModal";
     import BktRegionModal from "./RegionModal";
+    import BktCategoryModal from "./CategoryModal";
     import BktSelect from "../../components/Select";
-
+    import BktFilterCard from "../../components/FilterCard";
     export default {
         name: "Main",
         components: {
             BktDateModal, BktPriceModal, BktOptionsModal,
-            BktParamsModal, BktRegionModal, BktSelect
+            BktParamsModal, BktRegionModal, BktCategoryModal, BktSelect, BktFilterCard
         },
         async mounted() {
-            await this.getData()
+            this.getCategories();
+            await this.getData();
         },
         data() {
             return {
@@ -273,24 +190,12 @@
             filters() {
                 return this.$store.getters.filters;
             },
-            filters_dates() {
-                return this.total(this.$store.getters.filters_dates);
-            },
-            filters_prices() {
-                return this.total(this.$store.getters.filters_prices);
-            },
-            filters_extra_options() {
-                return this.total(this.$store.getters.filters_extra_options);
-            },
-            filters_params() {
-                return this.total(this.$store.getters.filters_params);
-            },
-            filters_main_params: {
+            filters_other: {
                 get() {
-                    return this.$store.getters.filters_params;
+                    return this.$store.getters.filters_other;
                 },
                 set(value) {
-                    this.$store.commit('saveFiltersProperty', {key: 'mainParams', value: value});
+                    this.$store.commit('saveFiltersProperty', {key: 'other', value: value});
                 }
             },
             items() {
@@ -307,37 +212,9 @@
             async getData(page = 1) {
                 await this.$store.dispatch('getFilteredTrades', {page: page, filters: this.filters});
             },
-            total(filter) {
-                return Object.values(filter)
-                    .reduce((r, o) => {
-                        // if(r && o) {
-                        if (typeof o === 'object') {
-                            if (o != null) {
-                                Object.values(o).forEach(item => {
-                                    if (item) {
-                                        r++;
-                                    }
-                                });
-                            }
-                        }
-                        if (typeof o === 'string') {
-                            if (o !== '') {
-                                r++;
-                            }
-                        }
-                        // if (Array.isArray(o)) {
-                        //     o.forEach(item => {
-                        //         if (item) {
-                        //             r++;
-                        //         }
-                        //         console.log('item', r, item)
-                        //     });
-                        // }
-                        return r;
-                        // }
-                        // return 0;
-                    }, 0);
-            }
+            async getCategories() {
+                await this.$store.dispatch('getCategories');
+            },
         }
     }
 </script>

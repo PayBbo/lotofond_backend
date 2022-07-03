@@ -50,15 +50,19 @@ export default {
                 ]
             },
             mainParams: {
-                exceptionWords: '',
+                excludedWords: '',
+                includedWords:'',
                 tradePlaces: [],
-                tradeNumber:'',
                 tradeType:'',
-                period:'all',
-                isWithPhotos: false,
+            },
+            other: {
+                period: 'all',
+                hasPhotos: false,
                 isStopped: false,
                 isCompleted: false,
-                isDeleted: false,
+                isHidden: false
+                // isWithPhotos: false,
+                // isDeleted: false,
             }
         },
     },
@@ -84,6 +88,9 @@ export default {
         },
         filters_params(state) {
             return state.filters.mainParams;
+        },
+        filters_other(state) {
+            return state.filters.other;
         },
     },
 
