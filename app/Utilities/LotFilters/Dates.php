@@ -2,6 +2,7 @@
 
 namespace App\Utilities\LotFilters;
 
+use App\Models\Auction;
 use App\Utilities\SortQuery;
 use Carbon\Carbon;
 
@@ -31,7 +32,7 @@ class Dates extends SortQuery
             }
         }
         if(!is_null($field)) {
-            $this->getDates($value);
+            $this->getDates($value, $field);
             if (!is_null($this->start) && !is_null($this->end)) {
                 $start = $this->start;
                 $end = $this->end;
@@ -41,15 +42,17 @@ class Dates extends SortQuery
             }
         }
     }
-    public function getDates($value)
+    public function getDates($value, $field)
     {
-        $start = null;
-        $end = null;
         if (!is_null($value) && isset($value['start']) && strlen((string)$value['start']) > 0) {
             $start = Carbon::parse($value['start']);
+        }else{
+            $start = Auction::min($field);
         }
         if (!is_null($value) && isset($value['end']) && strlen((string)$value['end']) > 0) {
             $end = Carbon::parse($value['end']);
+        }else{
+            $end = Auction::max($field);
         }
         $this->start = $start;
         $this->end = $end;

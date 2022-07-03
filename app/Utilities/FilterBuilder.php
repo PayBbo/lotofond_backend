@@ -23,6 +23,9 @@ class FilterBuilder
         foreach ($this->filters as $name => $value) {
             $normailizedName = ucfirst($name);
             $class = $this->namespace . "\\{$normailizedName}";
+            if(is_null($value)){
+                continue;
+            }
             if ($name == 'dates' || $name == 'prices' || $name == 'extraOptions' || $name === 'mainParams') {
                 foreach ($value as $val => $item) {
                     if ($val == 'excludedWords' || $val == 'includedWords') {
