@@ -1,16 +1,19 @@
-@include setColor('background', 'bg', 'main', 'default', 'light', 'lighter');
-@include setColor('background', 'bg', 'primary', 'default', 'light', 'lighter', 'dark');
-@include setColor('background', 'bg', 'green', 'default', 'light', 'lighter');
-@include setColor('background', 'bg', 'red', 'default', 'light', 'lighter');
-@include setColor('background', 'bg', 'blue', 'default', 'light', 'lighter');
-@include setColor('background', 'bg', 'yellow', 'default', 'light', 'lighter');
-@include setColor('background', 'bg', 'purple', 'default', 'light', 'lighter');
-@include setColor('background', 'bg', 'neutral', 'default', 'light', 'lighter','dark', 'darker');
-@include setColor('background', 'bg', 'white', '');
+@include setColor('background-color', 'bg', 'main', 'default', 'light', 'lighter');
+@include setColor('background-color', 'bg', 'primary', 'default', 'light', 'lighter', 'dark');
+@include setColor('background-color', 'bg', 'green', 'default', 'light', 'lighter');
+@include setColor('background-color', 'bg', 'red', 'default', 'light', 'lighter');
+@include setColor('background-color', 'bg', 'blue', 'default', 'light', 'lighter');
+@include setColor('background-color', 'bg', 'yellow', 'default', 'light', 'lighter');
+@include setColor('background-color', 'bg', 'purple', 'default', 'light', 'lighter');
+@include setColor('background-color', 'bg', 'pink', 'default', 'light', 'lighter');
+@include setColor('background-color', 'bg', 'orange', 'default', 'lighter');
+@include setColor('background-color', 'bg', 'teal', 'default', 'lighter');
+@include setColor('background-color', 'bg', 'neutral', 'default', 'light', 'lighter','dark', 'darker');
+@include setColor('background-color', 'bg', 'white', '');
 
 .bg-body {
-    background: $body-bg !important;
+    background-color: $body-bg !important;
 }
 .bkt-bg-body {
-    background: $body-bg !important;
+    background-color: $body-bg !important;
 }

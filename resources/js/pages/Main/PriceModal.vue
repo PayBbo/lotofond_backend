@@ -139,7 +139,7 @@
         data() {
             return {
                 loading: false,
-                price: '',
+                prices: null,
                 priceRange: '',
                 template: {
                     currentPrice: {
@@ -162,24 +162,21 @@
             };
         },
         computed: {
-            filters_prices() {
-                this.filter = JSON.parse(JSON.stringify(this.$store.getters.filters_prices));
-                return this.$store.getters.filters_prices
-            },
             filters() {
                 return this.$store.getters.filters
             },
             filter: {
                 get() {
-                    return this.filters_prices
+                    return JSON.parse(JSON.stringify(this.$store.getters.filters_prices))
                 },
                 set(value) {
-                    this.$store.commit('saveFiltersProperty', {key: 'prices', value: value})
+                    this.prices = value;
                 }
             },
         },
         methods: {
             saveFilters() {
+                this.$store.commit('saveFiltersProperty', {key: 'prices', value: this.filter});
                 this.$store.commit('closeModal', '#priceModal');
                 this.$store.dispatch('getFilteredTrades', {page: 1, filters: this.filters});
             },

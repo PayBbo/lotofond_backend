@@ -77,6 +77,7 @@
         data() {
             return {
                 loading: false,
+                options: null,
                 template: {
                     debtorCategories: [
                     ],
@@ -91,18 +92,15 @@
             };
         },
         computed: {
-            filters_extra_options() {
-                return this.$store.getters.filters_extra_options
-            },
             filters() {
                 return this.$store.getters.filters
             },
             filter: {
                 get() {
-                    return this.filters_extra_options
+                    return JSON.parse(JSON.stringify(this.$store.getters.filters_extra_options))
                 },
                 set(value) {
-                    this.$store.commit('saveFiltersProperty', {key: 'extraOptions', value: value})
+                    this.options = value;
                 }
             },
             debtors() {
@@ -126,6 +124,7 @@
         },
         methods: {
             saveFilters() {
+                this.$store.commit('saveFiltersProperty', {key:'extraOptions', value: this.filter});
                 this.$store.commit('closeModal', '#optionsModal');
                 this.$store.dispatch('getFilteredTrades', {page:1, filters: this.filters});
             },

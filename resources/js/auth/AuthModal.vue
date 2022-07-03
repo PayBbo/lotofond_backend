@@ -1,5 +1,5 @@
 <template>
-    <bkt-modal :id="'authModal'" ref="authModal" no_title :modal_class="'bkt-auth-modal '+tab">
+    <bkt-modal :id="'authModal'" ref="authModal" :modal_class="'bkt-auth-modal '+tab">
         <template #aside>
             <div class="bkt-modal__aside">
                 <img class="bkt-modal__aside-image" :src="'/images/'+tab+'_image.png'" alt="">
@@ -11,7 +11,7 @@
                 <div class="bkt-modal__aside-features">
                     <div class="col-12 p-0">
                         <div class="bkt-modal__aside-feature">
-                            <div class="bkt-modal__aside-feature-check bkt-bg-purple"></div>
+                            <div class="bkt-modal__aside-feature-check bkt-bg-pink"></div>
                             <h5 class="bkt-modal__aside-feature-text">Поиск по самой полной базе<br> торгов по
                                 банкротству (более<br> 65 000 открытых лотов).</h5>
                         </div>
@@ -243,11 +243,9 @@
                 this.loading = true;
 
                 await this.$store.dispatch(this.tab, data).then(resp => {
-                    this.loading = false;
                 }).catch(err => {
-                    this.loading = false;
                 }).finally(() => {
-                    console.log('finally');
+                    this.loading = false;
                 });
             },
             vkSubmit() {

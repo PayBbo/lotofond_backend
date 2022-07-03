@@ -13,6 +13,7 @@
 @import "./base/background.scss";
 @import "./base/border.scss";
 @import "./base/svg.scss";
+@import "./base/hover.scss";
 
 // Components
 @import "./components/navbar.scss";
@@ -29,14 +30,20 @@
 @import './components/breadcrumb.scss';
 @import './components/datepicker.scss';
 @import './components/form.scss';
+@import './components/sidebar.scss';
 
 // Custom styles
 @import "./customs/main.scss";
 @import "./customs/auth-modal.scss";
 @import "./customs/code-modal.scss";
+@import "./customs/category-modal.scss";
 @import "./customs/filters-modal";
 @import "./customs/contents.scss";
 @import "./customs/lot-card.scss";
+@import "./customs/region-modal.scss";
+@import "./customs/registries.scss";
+@import "./customs/profile.scss";
+@import "./customs/agent_buy.scss";
 
 
 
@@ -104,6 +111,7 @@ h6 {
     justify-content: space-between;
     flex-direction: column;
     width: 100%;
+    gap: 10px 0;
 }
 .bkt-nowrap {
     flex-wrap: nowrap;

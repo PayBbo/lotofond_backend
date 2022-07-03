@@ -5,6 +5,9 @@
 @include setColor('color', 'text', 'blue', 'default', 'light', 'lighter');
 @include setColor('color', 'text', 'yellow', 'default', 'light', 'lighter');
 @include setColor('color', 'text', 'purple', 'default', 'light', 'lighter');
+@include setColor('color', 'text', 'pink', 'default', 'light', 'lighter');
+@include setColor('color', 'text', 'orange', 'default', 'lighter');
+@include setColor('color', 'text', 'teal', 'default', 'lighter');
 @include setColor('color', 'text', 'neutral', 'default', 'light', 'lighter','dark', 'darker');
 
 .bkt-text-truncate {

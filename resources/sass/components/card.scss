@@ -9,21 +9,25 @@
     word-wrap: break-word;
     background-clip: border-box;
     border-radius: 25px;
-    gap:10px;
+    gap: 10px;
+
     &__title {
         //font-size: $font-size-22;
         color: $main-default;
         font-weight: 700;
     }
+
     &__subtitle {
         font-size: $font-size-12;
         font-weight: 500;
         color: $neutral-dark;
     }
+
     &__text {
         font-size: $font-size-14;
         color: $main-default;
     }
+
     &__list {
         padding-top: 18px;
         display: flex;
@@ -31,6 +35,7 @@
         flex-wrap: wrap;
         gap: 30px;
     }
+
     &__category {
         width: 44px;
         min-height: 44px;
@@ -39,11 +44,14 @@
         display: flex;
         align-items: center;
         justify-content: center;
+        flex-shrink: 0;
+
         &-icon {
             max-width: 22px;
             max-height: 22px;
         }
     }
+
     &__icon {
         max-width: 22px;
         max-height: 22px;
@@ -51,6 +59,7 @@
         align-items: center;
         justify-content: center;
     }
+
     &__image {
         border-radius: 15px;
         //max-height: 210px;
@@ -60,13 +69,15 @@
         background: $neutral-default;
         object-fit: cover;
     }
+
     &.outline {
-        border: 1px solid $neutral-light;
+        border: 2px solid $neutral-light;
         padding: 17px 30px;
         margin: 0;
         border-radius: 15px;
         flex-grow: 1;
     }
+
     &.vertical {
         padding: 16px;
         align-items: center;
@@ -74,28 +85,35 @@
         flex-flow: column;
         //width: 100%;
     }
+
     &__heading {
         padding: 0 40px;
         position: absolute;
-        top:-35px;
+        top: -35px;
         border-top-left-radius: 25px;
         border-top-right-radius: 25px;
         left: 0;
     }
+
     &__head {
         margin-bottom: 20px !important;
+
         & .bkt-card__title {
             margin-bottom: 0;
         }
     }
+
     &__feature {
         margin-top: 21px;
+
         & .bkt-card__subtitle {
             margin: 0;
         }
+
         & .bkt-card__title {
             margin: 0;
         }
+
         & .bkt-card__text {
             margin: 0;
         }
@@ -112,40 +130,48 @@
         padding: 40px;
         display: flex;
         flex-direction: column;
-        gap:10px;
+        gap: 10px;
+
         & &__header {
             padding: 40px 40px 20px 40px;
         }
     }
+
     &__text:last-child {
         margin-bottom: 0;
     }
-    &__header{
+
+    &__header {
         padding: 40px;
         margin: 0;
         border-bottom: 1px solid rgba(0, 0, 0, 0.125);
     }
-    &__body &__header{
+
+    &__body &__header {
         padding-top: 0px;
         padding-bottom: 35px;
         padding-left: 0;
         padding-right: 0;
         border: none;
     }
-    &__body &__footer{
+
+    &__body &__footer {
         padding-top: 20px;
         padding-bottom: 0;
         padding-left: 0;
         padding-right: 0;
         border: none;
     }
+
     &__header:first-child {
         border-radius: 25px 25px 0 0;
     }
+
     &__footer {
         padding: 20px 40px;
         border-top: 1px solid rgba(0, 0, 0, 0.125);
     }
+
     &__footer:last-child {
         border-radius: 0 0 25px 25px;
     }
@@ -167,6 +193,7 @@
         &.outline {
             padding: 12px 20px;
         }
+
         &__heading {
             border-top-left-radius: 18px;
             border-top-right-radius: 18px;
@@ -174,14 +201,17 @@
             color: white;
             padding: 11px 24px;
             font-size: 8px;
+
             & h5 {
                 font-size: 10px;
                 margin: 0;
             }
-            & .bkt-card__icon svg path{
+
+            & .bkt-card__icon svg path {
                 fill: white;
             }
         }
+
         &__list {
             gap: 10px;
         }
@@ -196,6 +226,16 @@
     align-items: stretch;
     display: flex;
     flex-direction: row;
+
+    &-column {
+        display: flex;
+        flex-direction: column;
+        gap: 16px 0;
+
+        & .bkt-button {
+            width: fit-content;
+        }
+    }
 }
 
 

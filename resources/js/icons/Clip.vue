@@ -2,7 +2,7 @@
     <svg version="1.0" xmlns="http://www.w3.org/2000/svg"
          viewBox="0 0 512.000000 512.000000"
          preserveAspectRatio="xMidYMid meet"
-         :width="width" :height="height" :class="'bkt-fill-'+color"
+         :width="width" :height="height" :class="'bkt-fill bkt-fill-'+color"
     >
         <g transform="translate(0.000000,512.000000) scale(0.100000,-0.100000)">
             <path d="M1891 5110 c-288 -41 -545 -170 -751 -379 -185 -187 -286 -370 -353

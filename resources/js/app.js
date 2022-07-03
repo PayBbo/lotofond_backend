@@ -5,7 +5,8 @@ const token = localStorage.getItem('token');
 if (token) {
     axios.defaults.headers.common['Authorization'] = "Bearer " + token;
 }
-axios.interceptors.response.use((response) => {
+axios.interceptors.response.use(
+    (response) => {
         return response
     },
     async function (error) {
@@ -40,11 +41,11 @@ axios.interceptors.response.use((response) => {
         }
         console.log('interceptors end without return by token case');
         return Promise.reject(error);
-    });
+    }
+);
 
 import {ValidationProvider, extend, ValidationObserver, localize, localeChanged} from 'vee-validate';
 import * as rules from 'vee-validate/dist/rules';
-
 Object.keys(rules).forEach(rule => {
     extend(rule, rules[rule]);
 });
@@ -65,20 +66,21 @@ extend('phone', {
         return false;
     },
 });
+
 import Notifications from 'vue-notification';
-
 Vue.use(Notifications);
+
 import VueTheMask from 'vue-the-mask'
-
 Vue.use(VueTheMask);
-import VueLazyload from 'vue-lazyload'
 
+import VueLazyload from 'vue-lazyload'
 Vue.use(VueLazyload, {
     preLoad: 1.3,
     error: "/images/card-image.jpg",
     loading: "/images/card-image.jpg",
     attempt: 1
 });
+
 const moment = require('moment');
 require('moment/locale/ru');
 moment.locale('ru');
@@ -91,8 +93,21 @@ import 'vue2-datepicker/locale/ru';
 import 'vue2-datepicker/locale/en';
 import 'vue2-datepicker/locale/zh-cn';
 Vue.component("date-picker", DatePicker);
+
 import vSelect from "vue-select";
 Vue.component("v-select", vSelect);
+
+require('lang.js');
+import VueLang from '@eli5/vue-lang-js'
+// get the data source
+import translations from './vue-translations.json';
+
+Vue.use(VueLang, {
+    messages: translations, // Provide locale file
+    // locale: 'en', // Set locale
+    fallback: 'ru' // Set fallback locale
+});
+
 import VueRouter from 'vue-router';
 import routes from './routes';
 Vue.use(VueRouter);

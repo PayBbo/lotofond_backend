@@ -12,7 +12,8 @@ export default {
             confirm_password:'',
             grantType:'email'
         },
-        locale: localStorage.getItem('locale') || 'ru'
+        locale: localStorage.getItem('locale') || 'ru',
+        selected_item: null
     },
 
     getters: {

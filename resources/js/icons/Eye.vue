@@ -1,7 +1,7 @@
 <template>
     <svg version="1.1" xmlns="http://www.w3.org/2000/svg"
-         viewBox="4 2 30 30"
-         :class="'bkt-stroke-'+color"
+         viewBox="0 0 30 30"
+         :class="'bkt-stroke bkt-stroke-'+color"
          :width="width" :height="height" fill="none"
     >
         <path stroke-width="2" stroke-linejoin="round" stroke-miterlimit="10" d="M29,16c0,0-5.8,8-13,8S3,16,3,16s5.8-8,13-8S29,16,29,16z"/>

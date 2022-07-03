@@ -59,3 +59,18 @@
         }
     }
 }
+@media (min-width: 992px) {
+    .bkt-form {
+        &.wide {
+            & .bkt-form__offset-right {
+                padding-right: 30px;
+                padding-left: 0;
+            }
+            & .bkt-form__offset-left {
+                padding-right: 0;
+                padding-left: 30px;
+            }
+        }
+    }
+}
+

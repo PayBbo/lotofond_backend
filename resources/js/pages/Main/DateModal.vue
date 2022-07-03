@@ -1,6 +1,6 @@
 <template>
     <bkt-modal :id="'dateModal'" ref="dateModal" title="Выберите дату торгов" modal_class="bkt-filters-modal"
-        @left_action="clearFilters" @right_action="saveFilters"
+               @left_action="clearFilters" @right_action="saveFilters"
     >
         <template #body>
             <div class="bkt-form mx-auto align-items-start">
@@ -75,8 +75,7 @@
         data() {
             return {
                 loading: false,
-                date: '',
-                dateRange: '',
+                dates: null,
                 template: {
                     eventTimeStart: {
                         start: null,
@@ -98,30 +97,28 @@
             };
         },
         computed: {
-            filters_dates() {
-                return this.$store.getters.filters_dates
-            },
             filters() {
-                return this.$store.getters.filters
+                return this.$store.getters.filters;
             },
             filter: {
                 get() {
-                    return this.filters_dates
+                    return JSON.parse(JSON.stringify(this.$store.getters.filters_dates));
                 },
                 set(value) {
-                    this.$store.commit('saveFiltersProperty', {key: 'dates', value: value})
+                    this.dates = value;
                 }
             },
         },
         methods: {
             saveFilters() {
+                this.$store.commit('saveFiltersProperty', {key: 'dates', value: this.filter});
                 this.$store.commit('closeModal', '#dateModal');
-                this.$store.dispatch('getFilteredTrades', {page:1, filters: this.filters});
+                this.$store.dispatch('getFilteredTrades', {page: 1, filters: this.filters});
             },
             clearFilters() {
-                this.$store.commit('saveFiltersProperty', {key:'dates', value: this.template});
+                this.$store.commit('saveFiltersProperty', {key: 'dates', value: this.template});
                 this.$store.commit('closeModal', '#dateModal');
-                this.$store.dispatch('getFilteredTrades', {page:1, filters: this.filters});
+                this.$store.dispatch('getFilteredTrades', {page: 1, filters: this.filters});
             }
         }
     }

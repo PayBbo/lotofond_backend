@@ -1,17 +1,14 @@
 @mixin setColor($property, $class, $color, $types...) {
     @each $type in $types {
-        @if $type == 'default'
-        {
+        @if $type == 'default' {
             #{'.bkt-'+$class+'-'+$color} {
                 #{$property}: map-get($theme-colors, $color+'-default') !important;
             }
-        }
-        @else if $type == '' {
+        } @else if $type == '' {
             #{'.bkt-'+$class+'-'+$color} {
                 #{$property}: map-get($theme-colors, $color) !important;
             }
-        }
-        @else {
+        } @else {
             #{'.bkt-'+$class+'-'+$color+'-'+$type} {
                 #{$property}: map-get($theme-colors, $color+'-'+$type) !important;
             }
@@ -21,20 +18,92 @@
 
 @mixin setBorderColor($class, $color, $types...) {
     @each $type in $types {
-        @if $type == 'default'
-        {
+        @if $type == 'default' {
             #{'.bkt-'+$class+'-'+$color} {
                 #{$class}: 2px solid map-get($theme-colors, $color+'-default') !important;
             }
-        }
-        @else if $type == '' {
+        } @else if $type == '' {
             #{'.bkt-'+$class+'-'+$color} {
                 #{$class}: 2px solid map-get($theme-colors, $color) !important;
             }
-        }
-        @else {
+        } @else {
             #{'.bkt-'+$class+'-'+$color+'-'+$type} {
                 #{$class}: 2px solid map-get($theme-colors, $color+'-'+$type) !important;
+            }
+        }
+    }
+}
+
+@mixin svg-color($color, $types...) {
+    @each $type in $types {
+        @if $type != '' {
+            #{'.bkt-stroke-'+$color+'-'+$type} {
+                stroke: map-get($theme-colors, $color+'-'+$type) !important;
+            }
+            #{'.bkt-fill-'+$color+'-'+$type} {
+                fill: map-get($theme-colors, $color+'-'+$type) !important;
+            }
+        } @else {
+            #{'.bkt-stroke-'+$color} {
+                stroke: map-get($theme-colors, $color+'-default') !important;
+            }
+            #{'.bkt-fill-'+$color} {
+                fill: map-get($theme-colors, $color+'-default') !important;
+            }
+        }
+
+    }
+}
+
+@mixin setColorSvg($property, $color, $types...) {
+    @each $type in $types {
+        @if $type == 'default' {
+            #{'.bkt-'+$property+'-'+$color} {
+                #{$property}: map-get($theme-colors, $color+'-default') !important;
+            }
+        } @else if $type == '' {
+            #{'.bkt-'+$property+'-'+$color} {
+                #{$property}: map-get($theme-colors, $color) !important;
+            }
+        } @else {
+            #{'.bkt-'+$property+'-'+$color+'-'+$type} {
+                #{$property}: map-get($theme-colors, $color+'-'+$type) !important;
+            }
+        }
+    }
+}
+
+@mixin setHoverColor($target, $color, $types...) {
+    @each $type in $types {
+        @if $type == 'default' {
+            #{'.bkt-hover'+'-'+$color}#{'.'+$target}:hover {
+               background-color: map-get($theme-colors, $color+'-default') !important;
+                & .bkt-fill {
+                    fill: white;
+                }
+                & .bkt-stroke {
+                    stroke: white;
+                }
+            }
+        } @else if $type == '' {
+            #{'.bkt-hover'+'-'+$color}#{'.'+$target}:hover {
+               background-color: map-get($theme-colors, $color) !important;
+                & .bkt-fill {
+                    fill: white;
+                }
+                & .bkt-stroke {
+                    stroke: white;
+                }
+            }
+        } @else {
+            #{'.bkt-hover'+'-'+$color+'-'+$type}#{'.'+$target}:hover {
+               background-color: map-get($theme-colors, $color+'-'+$type) !important;
+                & .bkt-fill {
+                    fill: white;
+                }
+                & .bkt-stroke {
+                    stroke: white;
+                }
             }
         }
     }
