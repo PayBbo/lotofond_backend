@@ -17,8 +17,7 @@ class StartPrice extends SortQuery implements SortContract
             $value['max'] = Lot::max('start_price');
         }
         if (!is_null($value) && strlen((string)$value['min']) > 0 && strlen((string)$value['max']) > 0) {
-            $queryRolls = range($value['min'], $value['max']);
-            $this->query->whereIn('start_price', $queryRolls);
+            $this->query->whereBetween('start_price', [$value['min'], $value['max']]);
         }
     }
 }
