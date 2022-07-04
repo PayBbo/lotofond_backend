@@ -28,6 +28,7 @@ export default {
     actions: {
         sendNotification({commit}, payload) {
             if (!payload.type){ payload.type='success';}
+            if (!payload.message){ payload.message='Ошибка';}
             payload.self.$notify({
                 // group: 'message',
                 type: payload.type,

@@ -14,15 +14,15 @@
                 </div>
                 <div class="promo_block_wrapper">
                     <div class="promo_block">
-                        <div class="check_mark" style="background-color: rgb(214, 51, 132);">&#10003;</div>
+                        <div class="check_mark bkt-bg-pink">&#10003;</div>
                         <span>ЭЦП не нужна</span>
                     </div>
                     <div class="promo_block">
-                        <div class="check_mark" style="background-color: rgb(13, 202, 240);">&#10003;</div>
+                        <div class="check_mark bkt-bg-blue">&#10003;</div>
                         <span>Аккредитация не нужна</span>
                     </div>
                     <div class="promo_block">
-                        <div class="check_mark" style="background-color: rgb(32, 201, 151);">&#10003;</div>
+                        <div class="check_mark bkt-bg-teal">&#10003;</div>
                         <span>Заполнять документы не нужно</span>
                     </div>
                 </div>
@@ -41,32 +41,32 @@
         <h2>Что это даёт?</h2>
         <div class="row_div">
             <div class="profit_cell">
-                <div style="background-color: rgb(226, 242, 255);">
-                    <svg></svg>
+                <div class="bkt-icon-frame" style="background-color: rgb(226, 242, 255);">
+                    <bkt-icon name="LightBulb" color="blue"></bkt-icon>
                 </div>
                 <p>Не нужно вникать в тонкости процесса торгов</p>
             </div>
             <div class="profit_cell">
-                <div style="background-color: rgb(223, 255, 247);">
-                    <svg></svg>
+                <div class="bkt-icon-frame" style="background-color: rgb(223, 255, 247);">
+                    <bkt-icon name="Like" color="green"></bkt-icon>
                 </div>
                 <p>Обходится дешевле, чем покупка ЭЦП</p>
             </div>
             <div class="profit_cell">
-                <div style="background-color: rgb(255, 248, 226);">
-                    <svg></svg>
+                <div class="bkt-icon-frame" style="background-color: rgb(255, 248, 226);">
+                    <bkt-icon name="Devices" color="yellow"></bkt-icon>
                 </div>
                 <p>Не нужно изучать сервисы и площадки</p>
             </div>
             <div class="profit_cell">
-                <div style="background-color: rgb(255, 228, 242);">
-                    <svg></svg>
+                <div class="bkt-icon-frame" style="background-color: rgb(255, 228, 242);">
+                    <bkt-icon name="Clipboard" color="pink"></bkt-icon>
                 </div>
                 <p>Гарантируем допуск к торгам</p>
             </div>
             <div class="profit_cell">
-                <div style="background-color: rgb(255, 240, 227);">
-                    <svg></svg>
+                <div class="bkt-icon-frame" style="background-color: rgb(255, 240, 227);">
+                    <bkt-icon name="Clock" color="red"></bkt-icon>
                 </div>
                 <p>Экономим вам время и силы</p>
             </div>
@@ -136,31 +136,27 @@
             </h2><strong style="color:rgb(255, 196, 0)">80%</strong>
         </div>
         <h2>Как получить услугу?</h2>
-        <form data-v-53ab54d2="" class="modal-content bkt-modal-content form-content" action="#">
-            <div data-v-3814db6f="" data-v-549085c8="" class="bkt-input__wrapper"><label data-v-3814db6f=""
-                                                                                         for="name"
-                                                                                         class="bkt-input__label">введите
-                ваше имя</label>
-                <div data-v-3814db6f="" class="bkt-input__group"><input data-v-3814db6f="" type="text"
-                                                                        name="name" id="name" placeholder="Иванов Иван"
-                                                                        class="bkt-input">
-                    <div data-v-3814db6f="" class="bkt-input__group-item">
-                        <div data-v-3814db6f="" class="bkt-input__icon">
-                            <svg data-v-467a9284=""
-                                 data-v-77a3cee4="" data-v-3814db6f="" version="1.0"
+        <form class="modal-content bkt-modal-content form-content" action="#">
+            <div data-v-549085c8="" class="bkt-input__wrapper">
+                <label for="name" class="bkt-input__label">введите ваше имя</label>
+                <div class="bkt-input__group">
+                    <input type="text" name="name" id="name" placeholder="Иванов Иван" class="bkt-input">
+                    <div class="bkt-input__group-item">
+                        <div class="bkt-input__icon">
+                            <svg version="1.0"
                                  xmlns="http://www.w3.org/2000/svg" width="100%" height="100%"
                                  viewBox="0 0 478.000000 512.000000" preserveAspectRatio="xMidYMid meet"
                                  class="bkt-fill-red" name="User">
-                                <g data-v-467a9284=""
-                                   transform="translate(0.000000,512.000000) scale(0.100000,-0.100000)">
-                                    <path data-v-467a9284="" d="M2215 5113 c-223 -28 -440 -111 -615 -234 -96 -68 -241 -213 -309
+                                <g
+                                    transform="translate(0.000000,512.000000) scale(0.100000,-0.100000)">
+                                    <path d="M2215 5113 c-223 -28 -440 -111 -615 -234 -96 -68 -241 -213 -309
                         -309 -240 -340 -299 -742 -175 -1178 34 -120 159 -367 241 -477 360 -480 905
                         -661 1403 -466 432 169 768 594 875 1108 25 118 30 318 12 438 -46 292 -168
                         536 -372 741 -198 199 -454 328 -726 368 -97 15 -258 19 -334 9z m355 -523
                         c397 -113 648 -510 577 -915 -77 -436 -402 -778 -762 -802 -148 -10 -310 47
                         -450 158 -181 144 -315 366 -365 609 -65 311 50 622 299 814 98 76 228 132
                         359 156 77 14 258 4 342 -20z"></path>
-                                    <path data-v-467a9284="" d="M1108 2109 c-490 -58 -883 -371 -1031 -824 -62 -187 -81 -405 -75
+                                    <path d="M1108 2109 c-490 -58 -883 -371 -1031 -824 -62 -187 -81 -405 -75
                         -830 4 -287 8 -308 71 -373 53 -56 102 -76 182 -76 80 0 129 20 182 76 66 69
                         67 70 74 523 7 464 9 480 92 640 49 94 159 211 249 264 79 46 206 88 308 101
                         59 8 453 10 1285 8 l1200 -3 80 -23 c263 -74 440 -246 516 -502 21 -70 23
@@ -172,20 +168,19 @@
                         </div>
                     </div>
                 </div>
-                <p data-v-3814db6f="" class="bkt-input-error"></p>
             </div>
-            <div data-v-3814db6f="" data-v-549085c8="" class="bkt-input__wrapper"><label data-v-3814db6f=""
-                                                                                         for="phone"
-                                                                                         class="bkt-input__label">введите
+            <div data-v-549085c8="" class="bkt-input__wrapper"><label
+                for="phone"
+                class="bkt-input__label">введите
                 номер телефона</label>
-                <div data-v-3814db6f="" class="bkt-input__group"><input data-v-3814db6f="" type="tel"
-                                                                        name="phone" id="phone"
-                                                                        placeholder="+7 495 000-00-00"
-                                                                        class="bkt-input">
-                    <div data-v-3814db6f="" class="bkt-input__group-item">
-                        <div data-v-3814db6f="" class="bkt-input__icon">
+                <div class="bkt-input__group"><input type="tel"
+                                                     name="phone" id="phone"
+                                                     placeholder="+7 495 000-00-00"
+                                                     class="bkt-input">
+                    <div class="bkt-input__group-item">
+                        <div class="bkt-input__icon">
                             <svg data-v-19124af8=""
-                                 data-v-77a3cee4="" data-v-3814db6f="" xmlns="http://www.w3.org/2000/svg"
+                                 xmlns="http://www.w3.org/2000/svg"
                                  width="100%" height="100%" viewBox="0 0 298.6 470" class="bkt-fill-green"
                                  name="Smartphone">
                                 <path data-v-19124af8=""
@@ -198,19 +193,19 @@
                         </div>
                     </div>
                 </div>
-                <p data-v-3814db6f="" class="bkt-input-error"></p>
+                <p class="bkt-input-error"></p>
             </div>
-            <div data-v-3814db6f="" data-v-549085c8="" class="bkt-input__wrapper"><label data-v-3814db6f=""
-                                                                                         for="email"
-                                                                                         class="bkt-input__label">e-mail</label>
-                <div data-v-3814db6f="" class="bkt-input__group"><input data-v-3814db6f="" type="email"
-                                                                        name="email" id="email"
-                                                                        placeholder="pochta@gmail.com"
-                                                                        class="bkt-input">
-                    <div data-v-3814db6f="" class="bkt-input__group-item">
-                        <div data-v-3814db6f="" class="bkt-input__icon">
+            <div data-v-549085c8="" class="bkt-input__wrapper"><label
+                for="email"
+                class="bkt-input__label">e-mail</label>
+                <div class="bkt-input__group"><input type="email"
+                                                     name="email" id="email"
+                                                     placeholder="pochta@gmail.com"
+                                                     class="bkt-input">
+                    <div class="bkt-input__group-item">
+                        <div class="bkt-input__icon">
                             <svg data-v-285a95b9=""
-                                 data-v-77a3cee4="" data-v-3814db6f="" version="1.0"
+                                 version="1.0"
                                  xmlns="http://www.w3.org/2000/svg" width="100%" height="100%"
                                  viewBox="0 0 516.000000 516.000000" preserveAspectRatio="xMidYMid meet"
                                  class="bkt-fill-yellow" name="Email">
@@ -234,15 +229,23 @@
                         </div>
                     </div>
                 </div>
-                <p data-v-3814db6f="" class="bkt-input-error"></p>
+                <p class="bkt-input-error"></p>
             </div>
             <div class="bkt-input__wrapper">
                 <label class="bkt-input__label" style="margin-bottom: 10px;">где вам удобнее общаться</label>
                 <div class="communications">
-                    <button class="bkt-button btn-light-gray"><img src="" alt="viber"></button>
-                    <button class="bkt-button btn-light-gray"><img src="" alt="vk"></button>
-                    <button class="bkt-button btn-light-gray"><img src="" alt="telegram"></button>
-                    <button class="bkt-button btn-light-gray"><img src="" alt="whatsapp"></button>
+                    <button class="bkt-button btn-light-gray">
+                        <bkt-icon name="Viber" color="purple"></bkt-icon>
+                    </button>
+                    <button class="bkt-button btn-light-gray">
+                        <bkt-icon name="Vk" color="primary"></bkt-icon>
+                    </button>
+                    <button class="bkt-button btn-light-gray">
+                        <bkt-icon name="Telegram" color="blue"></bkt-icon>
+                    </button>
+                    <button class="bkt-button btn-light-gray">
+                        <bkt-icon name="WhatsApp"  color="green"></bkt-icon>
+                    </button>
                     <button class="bkt-button btn-light-gray">перезвоним в течение 10 минут</button>
                 </div>
             </div>

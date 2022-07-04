@@ -195,7 +195,7 @@
                 </svg>
                 {{tab=='registration'? 'Регистрация':'Вход'}} через ВКонтакте
             </button>
-            <button class="gosuslugi-button"  @click="gosuslugiSubmit">
+            <button class="gosuslugi-button" @click="gosuslugiSubmit">
                 {{tab=='registration'? 'Регистрация':'Вход'}} через
                 <svg xmlns="http://www.w3.org/2000/svg" width="69px"
                      height="11px" viewBox="4 -3 146 26">
@@ -212,6 +212,7 @@
 <script>
     import {Modal} from "bootstrap";
     import {mask} from 'vue-the-mask'
+
     export default {
         name: "AuthModal",
         data() {
@@ -222,7 +223,7 @@
                 tab: 'registration',
                 terms: false,
                 loading: false,
-                user:''
+                user: ''
             }
         },
         computed: {
@@ -241,9 +242,10 @@
                 let data = JSON.parse(JSON.stringify(this.user));
                 data.grantType = this.grantType;
                 this.loading = true;
+                await this.$store.dispatch(this.tab, {data: data, self: this}).then(resp => {
 
-                await this.$store.dispatch(this.tab, data).then(resp => {
-                }).catch(err => {
+                }).catch(error => {
+                    console.log(error)
                 }).finally(() => {
                     this.loading = false;
                 });

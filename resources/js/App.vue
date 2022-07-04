@@ -1,6 +1,6 @@
 <template>
     <div>
-        <notifications position="top left"/>
+        <notifications position="top right"/>
         <bkt-header></bkt-header>
         <main>
             <router-view></router-view>

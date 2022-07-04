@@ -277,7 +277,7 @@
                     <template #title>
                         <div class="bkt-register-collapse__header">
                             <div class="bkt-bg-primary-lighter bkt-icon-frame-small bkt-icon-frame-sm">
-                                <bkt-icon :name="'Law'" class="bkt-icon-frame__item" color="primary"></bkt-icon>
+                                <bkt-icon :name="'Scale'" class="bkt-icon-frame__item" color="primary"></bkt-icon>
                             </div>
                             <h4 class="bkt-register-collapse__title">Арбитражные управляющие</h4>
                         </div>

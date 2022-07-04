@@ -2,7 +2,7 @@
     <header class="">
         <nav class="bkt-navbar">
             <div class="bkt-container bkt-navbar__wrapper">
-                <button class="bkt-button blue"  data-bs-toggle="modal" data-bs-target="#codeModal">
+                <button class="bkt-button blue">
                     Покупка без ЭЦП
                 </button>
                 <ul class="bkt-navbar__nav d-none d-lg-flex">
@@ -162,7 +162,8 @@
                                      :class="[isExactActive ? 'bkt-bg-'+link.color : 'bkt-bg-'+link.color+'-lighter',
                                      isExactActive && 'router-link-exact-active', 'bkt-hover'+link.color+'-lighter']"
                                 >
-                                    <bkt-icon :name="link.icon" :color="isExactActive ? 'white' : link.color"></bkt-icon>
+                                    <bkt-icon :name="link.icon"
+                                              :color="isExactActive ? 'white' : link.color"></bkt-icon>
                                 </div>
                                 <div class="bkt-sidebar__link-label">{{link.label}}</div>
                             </li>
@@ -207,42 +208,42 @@
                 loading: false,
                 links: [
                     {
-                        path:'/',
+                        path: '/',
                         icon: 'Home',
                         code: "Main",
                         label: "Главная",
                         color: 'primary',
                     },
                     {
-                        path:'/agent',
+                        path: '/agent',
                         icon: 'Target',
                         code: "Agent",
                         label: "Купить через агента",
                         color: 'red'
                     },
                     {
-                        path:'/registries',
+                        path: '/registries',
                         icon: 'Alignment',
                         code: "Registries",
                         label: "Реестры",
                         color: 'green',
                     },
                     {
-                        path:'/top-wins',
+                        path: '/top-wins',
                         icon: 'Star',
                         code: "TopWins",
                         label: "Топ-побед",
                         color: 'yellow',
                     },
                     {
-                        path:'/contacts',
+                        path: '/contacts',
                         icon: 'Briefcase',
                         code: "Contacts",
                         label: "Контакты",
                         color: 'blue',
                     },
                     {
-                        path:'/profile',
+                        path: '/profile',
                         icon: 'User',
                         code: "Profile",
                         label: "Профиль",
