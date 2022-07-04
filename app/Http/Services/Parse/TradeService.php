@@ -125,6 +125,11 @@ class TradeService
                 $lot->categories()->attach($category);
             }
         }
+
+        if($lot->categories()->count() == 0){
+            $category = Category::where('code', '99')->first();
+            $lot->categories()->attach($category);
+        }
         return $lot;
 
     }

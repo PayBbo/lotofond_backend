@@ -27,7 +27,7 @@ class UpdateAccountRequest extends FormRequest
         return [
             'surname'=>['required', 'string', 'max:255'],
             'name'=>['required', 'string', 'max:255'],
-            'lastname'=>['string', 'nullable'],
+            'middleName'=>['string', 'nullable'],
             'email'=>['required', 'email', 'unique:users,email,'.auth()->user()->getAuthIdentifier()],
             'phone'=>['required', 'string', 'unique:users,phone,'.auth()->user()->getAuthIdentifier(), new Phone],
         ];

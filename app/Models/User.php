@@ -19,7 +19,7 @@ class User extends Authenticatable
     protected $fillable = [
         'surname',
         'phone',
-        'lastname',
+        'middle_name',
         'not_from_organizers',
         'not_from_monitoring',
         'frequency_of_auction_nots',

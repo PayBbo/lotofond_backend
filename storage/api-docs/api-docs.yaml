@@ -1561,7 +1561,7 @@ components:
         name:
           type: string
           example: Ivan
-        lastname:
+        middleName:
           type: string
           example: Ivanovich
         surname:
@@ -2145,7 +2145,8 @@ components:
             debtorCategories: [ 'SimplePerson', 'SimpleOrganization' ],
             debtors: [ 1, 2, 3 ],
             organizers: [ 1, 2, 3 ],
-            arbitrManagers: [ 1, 2, 3 ]
+            arbitrManagers: [ 1, 2, 3 ],
+            other: {"period":"all", "hasPhotos": false, "isHidden": false, "iStopped": false, "isCompleted": false}
           }
           properties:
             debtorCategories:
@@ -2175,28 +2176,29 @@ components:
               items:
                 type: integer
                 description: айдишники арбитражных управляющих
-        other:
-          type: object
-          properties:
-            period:
-              type: string
-              enum:
-                - all
-                - 1 day
-                - 7 days
-                - 30 days
-            hasPhotos:
-              type: boolean
-              example: false
-            isStopped:
-              type: boolean
-              example: false
-            isCompleted:
-              type: boolean
-              example: false
-            isHidden:
-              type: boolean
-              example: false
+            other:
+              type: object
+              properties:
+                period:
+                  type: string
+                  enum:
+                    - all
+                    - 1 day
+                    - 7 days
+                    - 30 days
+                  example: all
+                hasPhotos:
+                  type: boolean
+                  example: false
+                isStopped:
+                  type: boolean
+                  example: false
+                isCompleted:
+                  type: boolean
+                  example: false
+                isHidden:
+                  type: boolean
+                  example: false
         mainParams:
           type: object
           properties:

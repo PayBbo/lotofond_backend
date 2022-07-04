@@ -9,7 +9,7 @@ class ProfileController extends Controller
 {
     public function getUser(){
         $user_id = auth()->user()->getAuthIdentifier();
-        return response(User::find($user_id)->only(['name', 'surname', 'lastname', 'email', 'phone']), 200);
+        return response(User::find($user_id)->only(['name', 'surname', 'middle_name', 'email', 'phone']), 200);
     }
 
     public function updateUser(UpdateAccountRequest $request){
@@ -19,8 +19,8 @@ class ProfileController extends Controller
         $user->phone = $request->phone;
         $user->name = $request->name;
         $user->surname = $request->surname;
-        $user->lastname = $request->lastname;
+        $user->middle_name = $request->middleName;
         $user->save();
-        return response(User::find($user_id)->only(['name', 'surname', 'lastname', 'email', 'phone']), 200);
+        return response(User::find($user_id)->only(['name', 'surname', 'middle_name', 'email', 'phone']), 200);
     }
 }
