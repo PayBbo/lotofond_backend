@@ -1,8 +1,9 @@
 <template>
-    <div class="container bkt-main bkt-container col_div">
-        <h1>Покупка через агента</h1>
+    <div class="container bkt-page bkt-agent bkt-container">
+        <h1 class="bkt-page__title">Покупка через агента</h1>
         <div class="promo-wrapper">
             <div class="promo">
+                <img class="promo__image" src="/images/agent-image.png" alt="">
                 <div class="promo_block_wrapper">
                     <h1>Новичок?</h1>
                     <h1 style="color:rgb(255, 196, 0)">сэкономьте до 50%</h1>
@@ -27,7 +28,7 @@
                 </div>
                 <div class="promo_buy">
                     <h2>3000 ₽</h2>
-                    <button class="bkt-button btn-yellow">Купить</button>
+                    <button class="bkt-button btn-yellow bkt-bg-yellow">Купить</button>
                 </div>
             </div>
             <div class="promo-shadow"
@@ -384,16 +385,13 @@
                     <option value="59">59</option>
                 </select>
             </div>
-            <div data-v-90aed0a4="" data-v-549085c8="" class="bkt-check__wrapper" id="terms">
-                <div data-v-90aed0a4="" class="bkt-check">
-                    <div data-v-90aed0a4="" class="bkt-check__input"><input data-v-90aed0a4="" type="checkbox">
-                    </div>
-                    <label data-v-90aed0a4="" class="bkt-check__label"> Согласен с условиями пользовательского
-                        соглашения, политики сайта, обработки персональных данных.</label>
-                </div>
-                <p data-v-90aed0a4="" class="bkt-check-error"></p>
-            </div>
-            <button data-v-549085c8="" class="bkt-button primary">
+            <bkt-checkbox name="'Условия'" id="terms" :rules="'required_boolean'">
+                <template #label>
+                    Согласен с условиями пользовательского соглашения,<br>политики сайта, обработки персональных
+                    данных.
+                </template>
+            </bkt-checkbox>
+            <button class="bkt-button primary">
                 Получить услугу
             </button>
         </form>

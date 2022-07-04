@@ -153,7 +153,7 @@ Vue.filter('priceFormat', value => {
     return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
 });
 Vue.filter('daysToDate', value => {
-    const start = moment(value, "DD.MM.YYYY HH:mm");
+    const start = moment(value);
     const end = moment();
     return start.diff(end, "days");
 });

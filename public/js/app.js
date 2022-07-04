@@ -6255,6 +6255,14 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   mounted: function mounted() {},
+  watch: {
+    item: {
+      // handler(newVal) {
+      //     this.checked = newVal
+      // },
+      deep: true
+    }
+  },
   methods: {
     makeAction: function makeAction(method, method_params) {
       if (method) {
@@ -6273,7 +6281,12 @@ __webpack_require__.r(__webpack_exports__);
         _this.toggleProcess(payload.icon);
       });
     },
-    addToFavorites: function addToFavorites() {},
+    addToFavorites: function addToFavorites() {// this.toggleProcess(payload.icon)
+      // this.$store.dispatch('addToFavorites', {lot_id: this.item.id, type: payload.type})
+      //     .finally(() => {
+      //         this.toggleProcess(payload.icon)
+      //     })
+    },
     addToMonitoring: function addToMonitoring() {},
     getColor: function getColor(icon) {
       if (this.type == 'menu') {
@@ -6476,6 +6489,8 @@ __webpack_require__.r(__webpack_exports__);
       type: Boolean,
       "default": false
     },
+    // val: {
+    // },
     name: {
       type: String,
       required: true
@@ -6503,11 +6518,17 @@ __webpack_require__.r(__webpack_exports__);
   },
   data: function data() {
     return {
-      model: false
+      model: null // tmp_val:null,
+
     };
   },
   mounted: function mounted() {
-    this.model = this.value;
+    this.model = this.value; // if(!this.val) {
+    //     this.tmp_val = this.model
+    // }
+    // else {
+    //     this.tmp_val =this.val;
+    // }
   },
   methods: {
     saveValue: function saveValue() {
@@ -6570,6 +6591,7 @@ __webpack_require__.r(__webpack_exports__);
   props: {
     id: {
       type: String,
+      "default": 'bkt-collapse',
       required: true
     },
     title: {
@@ -6793,6 +6815,72 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -9627,6 +9715,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+/* harmony import */ var _components_Collapse_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../components/Collapse.vue */ "./resources/js/components/Collapse.vue");
 //
 //
 //
@@ -9837,13 +9926,97 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "Category",
+  components: {
+    BktCollapse: _components_Collapse_vue__WEBPACK_IMPORTED_MODULE_0__["default"]
+  },
   data: function data() {
     return {
-      loading: false,
-      result: []
+      result: [],
+      selectedCategory: {
+        key: 'realEstate',
+        subcategories: []
+      }
     };
+  },
+  mounted: function mounted() {
+    if (this.categories.length > 0) {
+      this.selectedCategory = this.categories[0];
+    }
   },
   computed: {
     filters_categories: function filters_categories() {
@@ -9853,46 +10026,73 @@ __webpack_require__.r(__webpack_exports__);
       return this.$store.getters.filters;
     },
     categories: function categories() {
-      return this.$store.getters.categories.sort(function (one, other) {
-        //a - b is
-        //   0 when elements are the same
-        //  >0 when a > b
-        //  <0 when a < b
-        return one.subcategories.length - other.subcategories.length;
-      });
+      return this.$store.getters.categories; //     .sort(function (one, other) {
+      //     //a - b is
+      //     //   0 when elements are the same
+      //     //  >0 when a > b
+      //     //  <0 when a < b
+      //     return one.subcategories.length - other.subcategories.length;
+      // });
     },
-    filter: {
-      get: function get() {
-        return JSON.parse(JSON.stringify(this.$store.getters.filters_categories));
-      },
-      set: function set(value) {
-        // this.$store.commit('saveFiltersProperty', {key: 'categories', value: value})
-        this.result = value;
-      }
+    loading: function loading() {
+      return this.$store.getters.categories_loading;
     }
   },
   methods: {
     include: function include(category) {
       return this.filter.indexOf(category) >= 0;
     },
-    toggleCategory: function toggleCategory(category) {
-      var index = this.filter.indexOf(category);
-
-      if (index < 0) {
-        this.filter.push(category);
-      } else {
-        this.filter.splice(index, 1);
-      }
-    },
     allChecked: function allChecked(arr, target) {
       return target.every(function (v) {
         return arr.includes(v);
       });
     },
+    toggleCategory: function toggleCategory(subcategory) {
+      var item_index = this.result.findIndex(function (el) {
+        return el == subcategory;
+      });
+
+      if (item_index < 0) {
+        this.result.push(subcategory);
+      } else {
+        this.result.splice(item_index, 1);
+      }
+
+      console.log('filter', this.filter, this.result);
+    },
+    selectAll: function selectAll(index) {
+      var _this = this;
+
+      var tmp = this.categories[index].subcategories.map(function (item) {
+        return item.key;
+      });
+
+      if (this.categories[index].status) {
+        tmp.forEach(function (item) {
+          var item_index = _this.result.findIndex(function (el) {
+            return el == item;
+          });
+
+          if (item_index < 0) {
+            _this.result.push(item);
+          }
+        });
+      } else {
+        tmp.forEach(function (it) {
+          var item_index = _this.result.findIndex(function (el) {
+            return el == it;
+          });
+
+          if (item_index >= 0) {
+            _this.result.splice(item_index, 1);
+          }
+        });
+      }
+    },
     saveFilters: function saveFilters() {
       this.$store.commit('saveFiltersProperty', {
         key: 'categories',
-        value: this.filter
+        value: this.result
       });
       this.$store.commit('closeModal', '#categoryModal');
       this.$store.dispatch('getFilteredTrades', {
@@ -9901,6 +10101,7 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     clearFilters: function clearFilters() {
+      this.result = [];
       this.$store.commit('saveFiltersProperty', {
         key: 'categories',
         value: []
@@ -10250,6 +10451,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
 
 
 
@@ -10306,6 +10508,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }, {
         title: '30 дней',
         value: "30 days"
+      }],
+      sort: [{
+        title: 'По ключевому слову',
+        value: "word"
       }]
     };
   },
@@ -11112,28 +11318,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "RegionModal",
@@ -11175,6 +11359,14 @@ __webpack_require__.r(__webpack_exports__);
           id: 7,
           label: "Сахалинская область",
           key: 'SakhalinRegion'
+        }, {
+          id: 8,
+          label: "Чукотский АО",
+          key: 'ChukotkaAutonomousOkrug'
+        }, {
+          id: 9,
+          label: "Якутия-Саха",
+          key: 'TheRepublicOfSakha'
         }],
         status: false
       }, {
@@ -11215,13 +11407,11 @@ __webpack_require__.r(__webpack_exports__);
       }],
       selectedRegionId: 1,
       selectedRegion: null,
-      selectedAreas: [],
       result: []
     };
   },
   mounted: function mounted() {
-    this.selectedRegion = this.regions[0];
-    this.result = JSON.parse(JSON.stringify(this.$store.getters.filters_regions));
+    this.selectedRegion = this.regions[0]; // this.result = JSON.parse(JSON.stringify(this.$store.getters.filters_regions));
   },
   computed: {
     filters_regions: function filters_regions() {
@@ -11229,28 +11419,23 @@ __webpack_require__.r(__webpack_exports__);
     },
     filters: function filters() {
       return this.$store.getters.filters;
-    },
-    filter: {
-      get: function get() {
-        return JSON.parse(JSON.stringify(this.$store.getters.filters_regions));
-      },
-      set: function set(value) {
-        this.result = value;
-      }
     }
   },
   methods: {
-    addArea: function addArea(area) {
-      // if (!this.selectedAreas.some(data => data.id === area.id)) {
+    toggleRegion: function toggleRegion(area) {
       var item_index = this.result.findIndex(function (el) {
         return el == area;
       });
 
       if (item_index < 0) {
         this.result.push(area);
+      } else {
+        this.result.splice(item_index, 1);
       }
+
+      console.log('filter', this.filter, this.result);
     },
-    selectAllArea: function selectAllArea(index) {
+    selectAll: function selectAll(index) {
       var _this = this;
 
       var tmp = this.regions[index].area.map(function (item) {
@@ -11266,7 +11451,7 @@ __webpack_require__.r(__webpack_exports__);
           if (item_index < 0) {
             _this.result.push(item);
           }
-        }); // this.regions[index].status = true;
+        });
       } else {
         tmp.forEach(function (it) {
           var item_index = _this.result.findIndex(function (el) {
@@ -11276,7 +11461,7 @@ __webpack_require__.r(__webpack_exports__);
           if (item_index >= 0) {
             _this.result.splice(item_index, 1);
           }
-        }); // this.regions[index].status = false;
+        });
       }
     },
     saveFilters: function saveFilters() {
@@ -11291,6 +11476,7 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     clearFilters: function clearFilters() {
+      this.result = [];
       this.$store.commit('saveFiltersProperty', {
         key: 'regions',
         value: []
@@ -11530,7 +11716,7 @@ Vue.filter('priceFormat', function (value) {
   return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
 });
 Vue.filter('daysToDate', function (value) {
-  var start = moment(value, "DD.MM.YYYY HH:mm");
+  var start = moment(value);
   var end = moment();
   return start.diff(end, "days");
 });
@@ -12294,32 +12480,35 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               case 0:
                 commit = _ref.commit, state = _ref.state;
                 _context.prev = 1;
-                _context.next = 4;
+                commit('setCategoriesLoading', true);
+                _context.next = 5;
                 return axios({
                   method: 'get',
                   url: '/api/trades/filter/categories',
                   data: {}
                 }).then(function (response) {
                   commit('setCategories', response.data);
+                  commit('setCategoriesLoading', false);
                 });
 
-              case 4:
-                _context.next = 10;
+              case 5:
+                _context.next = 12;
                 break;
 
-              case 6:
-                _context.prev = 6;
+              case 7:
+                _context.prev = 7;
                 _context.t0 = _context["catch"](1);
-                console.log(_context.t0); // commit('setCategories', []);
+                console.log(_context.t0);
+                commit('setCategoriesLoading', false); // commit('setCategories', []);
 
                 throw _context.t0;
 
-              case 10:
+              case 12:
               case "end":
                 return _context.stop();
             }
           }
-        }, _callee, null, [[1, 6]]);
+        }, _callee, null, [[1, 7]]);
       }))();
     }
   }
@@ -21933,30 +22122,6 @@ __webpack_require__.r(__webpack_exports__);
 var ___CSS_LOADER_EXPORT___ = _laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
 ___CSS_LOADER_EXPORT___.push([module.id, ".hooper-slide {\n  flex-shrink: 0;\n  height: 100%;\n  margin: 0;\n  padding: 0;\n  list-style: none;\n}\n.hooper-progress {\n  position: absolute;\n  top: 0;\n  right: 0;\n  left: 0;\n  height: 4px;\n  background-color: #efefef;\n}\n.hooper-progress-inner {\n  height: 100%;\n  background-color: #4285f4;\n  transition: 300ms;\n}\n.hooper-pagination {\n  position: absolute;\n  bottom: 0;\n  right: 50%;\n  transform: translateX(50%);\n  display: flex;\n  padding: 5px 10px;\n}\n.hooper-indicators {\n  display: flex;\n  list-style: none;\n  margin: 0;\n  padding: 0;\n}\n.hooper-indicator:hover,\n.hooper-indicator.is-active {\n  background-color: #4285f4;\n}\n.hooper-indicator {\n  margin: 0 2px;\n  width: 12px;\n  height: 4px;\n  border-radius: 4px;\n  border: none;\n  padding: 0;\n  background-color: #fff;\n  cursor: pointer;\n}\n.hooper-pagination.is-vertical {\n  bottom: auto;\n  right: 0;\n  top: 50%;\n  transform: translateY(-50%);\n}\n.hooper-pagination.is-vertical .hooper-indicators {\n  flex-direction: column;\n}\n.hooper-pagination.is-vertical .hooper-indicator {\n  width: 6px;\n}\n.hooper-next,\n.hooper-prev {\n  background-color: transparent;\n  border: none;\n  padding: 1em;\n  position: absolute;\n  top: 50%;\n  transform: translateY(-50%);\n  cursor: pointer;\n}\n.hooper-next.is-disabled,\n.hooper-prev.is-disabled {\n  opacity: 0.3;\n  cursor: not-allowed;\n}\n.hooper-next {\n  right: 0;\n}\n.hooper-prev {\n  left: 0;\n}\n.hooper-navigation.is-vertical .hooper-next {\n  top: auto;\n  bottom: 0;\n  transform: initial;\n}\n.hooper-navigation.is-vertical .hooper-prev {\n  top: 0;\n  bottom: auto;\n  right: 0;\n  left: auto;\n  transform: initial;\n}\n.hooper-navigation.is-rtl .hooper-prev {\n  left: auto;\n  right: 0;\n}\n.hooper-navigation.is-rtl .hooper-next {\n  right: auto;\n  left: 0;\n}\n.hooper {\n  position: relative;\n  box-sizing: border-box;\n  width: 100%;\n  height: 200px;\n}\n.hooper * {\n  box-sizing: border-box;\n}\n.hooper-list {\n  overflow: hidden;\n  width: 100%;\n  height: 100%;\n}\n.hooper-track {\n  display: flex;\n  box-sizing: border-box;\n  width: 100%;\n  height: 100%;\n  padding: 0;\n  margin: 0;\n}\n.hooper.is-vertical .hooper-track {\n  flex-direction: column;\n  height: 200px;\n}\n\n.hooper.is-rtl {\n  direction: rtl;\n}\n\n.hooper-sr-only {\n  position: absolute;\n  width: 1px;\n  height: 1px;\n  padding: 0;\n  margin: -1px;\n  overflow: hidden;\n  clip: rect(0, 0, 0, 0);\n  border: 0;\n}", ""]);
-// Exports
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
-
-
-/***/ }),
-
-/***/ "./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/pages/Main/RegionModal.vue?vue&type=style&index=0&id=4027d8ac&scoped=true&lang=css&":
-/*!***************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/pages/Main/RegionModal.vue?vue&type=style&index=0&id=4027d8ac&scoped=true&lang=css& ***!
-  \***************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
-/***/ ((module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../../node_modules/laravel-mix/node_modules/css-loader/dist/runtime/api.js */ "./node_modules/laravel-mix/node_modules/css-loader/dist/runtime/api.js");
-/* harmony import */ var _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__);
-// Imports
-
-var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
-// Module
-___CSS_LOADER_EXPORT___.push([module.id, "\nspan[data-v-4027d8ac] {\n    font-size: 14px;\n    font-weight: 600;\n}\n*[data-v-4027d8ac] {\n    font-size: 14px;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -61078,36 +61243,6 @@ var update = _style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMP
 
 /***/ }),
 
-/***/ "./node_modules/style-loader/dist/cjs.js!./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/pages/Main/RegionModal.vue?vue&type=style&index=0&id=4027d8ac&scoped=true&lang=css&":
-/*!*******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/style-loader/dist/cjs.js!./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/pages/Main/RegionModal.vue?vue&type=style&index=0&id=4027d8ac&scoped=true&lang=css& ***!
-  \*******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
-/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_RegionModal_vue_vue_type_style_index_0_id_4027d8ac_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !!../../../../node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./RegionModal.vue?vue&type=style&index=0&id=4027d8ac&scoped=true&lang=css& */ "./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/pages/Main/RegionModal.vue?vue&type=style&index=0&id=4027d8ac&scoped=true&lang=css&");
-
-            
-
-var options = {};
-
-options.insert = "head";
-options.singleton = false;
-
-var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_RegionModal_vue_vue_type_style_index_0_id_4027d8ac_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_1__["default"], options);
-
-
-
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_RegionModal_vue_vue_type_style_index_0_id_4027d8ac_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_1__["default"].locals || {});
-
-/***/ }),
-
 /***/ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js":
 /*!****************************************************************************!*\
   !*** ./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js ***!
@@ -67122,17 +67257,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _RegionModal_vue_vue_type_template_id_4027d8ac_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./RegionModal.vue?vue&type=template&id=4027d8ac&scoped=true& */ "./resources/js/pages/Main/RegionModal.vue?vue&type=template&id=4027d8ac&scoped=true&");
 /* harmony import */ var _RegionModal_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./RegionModal.vue?vue&type=script&lang=js& */ "./resources/js/pages/Main/RegionModal.vue?vue&type=script&lang=js&");
-/* harmony import */ var _RegionModal_vue_vue_type_style_index_0_id_4027d8ac_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./RegionModal.vue?vue&type=style&index=0&id=4027d8ac&scoped=true&lang=css& */ "./resources/js/pages/Main/RegionModal.vue?vue&type=style&index=0&id=4027d8ac&scoped=true&lang=css&");
-/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! !../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 
 
-;
 
 
 /* normalize component */
-
-var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__["default"])(
+;
+var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
   _RegionModal_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
   _RegionModal_vue_vue_type_template_id_4027d8ac_scoped_true___WEBPACK_IMPORTED_MODULE_0__.render,
   _RegionModal_vue_vue_type_template_id_4027d8ac_scoped_true___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
@@ -67563,19 +67696,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_RegionModal_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./RegionModal.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/pages/Main/RegionModal.vue?vue&type=script&lang=js&");
  /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_RegionModal_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
-
-/***/ }),
-
-/***/ "./resources/js/pages/Main/RegionModal.vue?vue&type=style&index=0&id=4027d8ac&scoped=true&lang=css&":
-/*!**********************************************************************************************************!*\
-  !*** ./resources/js/pages/Main/RegionModal.vue?vue&type=style&index=0&id=4027d8ac&scoped=true&lang=css& ***!
-  \**********************************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_style_loader_dist_cjs_js_node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_RegionModal_vue_vue_type_style_index_0_id_4027d8ac_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/style-loader/dist/cjs.js!../../../../node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./RegionModal.vue?vue&type=style&index=0&id=4027d8ac&scoped=true&lang=css& */ "./node_modules/style-loader/dist/cjs.js!./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/pages/Main/RegionModal.vue?vue&type=style&index=0&id=4027d8ac&scoped=true&lang=css&");
-
 
 /***/ }),
 
@@ -69853,17 +69973,55 @@ var render = function () {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { class: _vm.main_class }, [
+  return _c("div", { staticClass: "bkt-collapse", class: _vm.main_class }, [
     _c(
       "div",
-      { staticClass: "bkt-wrapper-between bkt-nowrap" },
+      {
+        staticClass: "collapse bkt-collapse__body",
+        class: _vm.collapse_class,
+        attrs: { id: _vm.id },
+      },
+      [
+        !_vm.loading ? _vm._t("collapse") : _vm._e(),
+        _vm._v(" "),
+        _vm.loading
+          ? _c(
+              "div",
+              { staticClass: "d-flex w-100 justify-content-center mb-5" },
+              [
+                _vm._t("loading", function () {
+                  return [
+                    _c("div", {
+                      staticClass: "spinner-border",
+                      staticStyle: { color: "#2953ff", "border-width": "2px" },
+                      attrs: { role: "status" },
+                    }),
+                  ]
+                }),
+              ],
+              2
+            )
+          : _vm._e(),
+      ],
+      2
+    ),
+    _vm._v(" "),
+    _c(
+      "div",
+      { staticClass: "bkt-collapse__header" },
       [
         _vm._t("title", function () {
           return [
             _vm.title
               ? _c(
                   "h3",
-                  { staticClass: "bkt-card__title" },
+                  {
+                    staticClass: "bkt-card__title",
+                    attrs: {
+                      "data-bs-toggle": "collapse",
+                      "data-bs-target": "#" + _vm.id,
+                    },
+                  },
                   [
                     _vm._t("title-inner", function () {
                       return [
@@ -69903,7 +70061,7 @@ var render = function () {
         _c(
           "button",
           {
-            staticClass: "bkt-button-icon",
+            staticClass: "bkt-collapse__button bkt-button-icon",
             class: _vm.collapse_button_class,
             attrs: {
               "data-bs-toggle": "collapse",
@@ -69925,38 +70083,6 @@ var render = function () {
           ],
           1
         ),
-      ],
-      2
-    ),
-    _vm._v(" "),
-    _c(
-      "div",
-      {
-        staticClass: "collapse",
-        class: _vm.collapse_class,
-        attrs: { id: _vm.id },
-      },
-      [
-        !_vm.loading ? _vm._t("collapse") : _vm._e(),
-        _vm._v(" "),
-        _vm.loading
-          ? _c(
-              "div",
-              { staticClass: "d-flex w-100 justify-content-center mb-5" },
-              [
-                _vm._t("loading", function () {
-                  return [
-                    _c("div", {
-                      staticClass: "spinner-border",
-                      staticStyle: { color: "#2953ff", "border-width": "2px" },
-                      attrs: { role: "status" },
-                    }),
-                  ]
-                }),
-              ],
-              2
-            )
-          : _vm._e(),
       ],
       2
     ),
@@ -70189,9 +70315,185 @@ var render = function () {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div")
+  return _c("footer", { staticClass: "bkt-footer" }, [
+    _c("div", { staticClass: "container bkt-main bkt-container row_div" }, [
+      _vm._m(0),
+      _vm._v(" "),
+      _c(
+        "div",
+        { staticClass: "footer_block", staticStyle: { "margin-right": "0" } },
+        [
+          _c("div", [
+            _c("ul", [
+              _c("li", [_vm._v("Календарь")]),
+              _vm._v(" "),
+              _c("li", [_vm._v("Купить через агента")]),
+              _vm._v(" "),
+              _c("li", [
+                _vm._v("Горящие торги\n                            "),
+                _c(
+                  "svg",
+                  {
+                    attrs: {
+                      xmlns: "http://www.w3.org/2000/svg",
+                      width: "22px",
+                      height: "22px",
+                      viewBox: "0 0 511.8 511.9",
+                      name: "Fire",
+                    },
+                  },
+                  [
+                    _c("path", {
+                      attrs: {
+                        "data-v-69ead8ae": "",
+                        fill: "#ffc515",
+                        d: "M347,145c11.52,7.52,23.54,14.37,34.47,22.66,44.7,33.9,76.68,76.75,90.93,131.78,5.17,20,6.41,40.39,7.5,60.84,1.44,27.16,1.25,54.3-2.07,81.32-1.87,15.19-4.73,30.23-10.77,44.45a7.54,7.54,0,0,0-.67,3.77c40.4-50.31,58.83-107.92,57.64-172.6,2.9,4.75,5.93,9.41,8.66,14.26,18.22,32.28,31.57,66.36,36.93,103.2a189,189,0,0,1-8.26,89.61c-17.46,51-47.42,93.5-87.37,129.26-1,.87-2,1.62-3.9,3.11,8.84-37.74,18.84-74.23,20.79-113.06-19.8,13.21-38.45,26.92-60.93,35.64-34.37-54-52.49-112.34-48.43-178.61-6.66,5.26-12.47,9.27-17.6,14-30.92,28.55-49.42,63.92-57,105.15-8.13,44.25-2.52,87.5,9.5,130.28.45,1.6.92,3.2,1.33,4.8.07.29-.11.64-.3,1.59-3.43-2.77-6.72-5.23-9.79-8-35.94-31.92-62.59-69.74-73.8-117.2-8.36-35.35-5.51-70.2,6.67-104.13,12.11-33.75,29.83-64.94,45.87-96.88,15.6-31.06,31.93-61.77,47-93.09,12.84-26.72,16.5-55.27,12.94-84.73-.3-2.47-.22-5-.31-7.48Z",
+                        transform: "translate(-145.16 -145)",
+                      },
+                    }),
+                  ]
+                ),
+              ]),
+              _vm._v(" "),
+              _c("li", [_vm._v("Топ-побед")]),
+              _vm._v(" "),
+              _c("li", [_vm._v("Реестры")]),
+              _vm._v(" "),
+              _c("li", [_vm._v("Контакты")]),
+            ]),
+          ]),
+          _vm._v(" "),
+          _vm._m(1),
+        ]
+      ),
+      _vm._v(" "),
+      _vm._m(2),
+    ]),
+    _vm._v(" "),
+    _vm._m(3),
+  ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "footer_block" }, [
+      _c("img", {
+        staticClass: "logo",
+        attrs: { src: "/images/logo.png", alt: "logo" },
+      }),
+      _vm._v(" "),
+      _c("p", { staticStyle: { color: "gray", "margin-bottom": "40px" } }, [
+        _vm._v(
+          "Lorem ipsum dolor sit amet consectetur adipisicing elit.\n                    Delectus necessitatibus\n                    facere qui optio,\n                    incidunt dolorem voluptatem amet, nihil quo unde quidem nam deleniti laudantium ex, quibusdam\n                    dolores voluptas possimus alias? Lorem ipsum dolor, sit amet consectetur adipisicing elit."
+        ),
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "footer_buttons" }, [
+        _c("button", { staticClass: "bkt-button primary" }, [_vm._v("Торги")]),
+        _vm._v(" "),
+        _c("button", { staticClass: "bkt-button blue" }, [_vm._v("Тарифы")]),
+      ]),
+    ])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", [
+      _c("ul", [
+        _c("li", [
+          _vm._v("Приложение "),
+          _c(
+            "strong",
+            { staticStyle: { color: "blue", "margin-left": "5px" } },
+            [_vm._v("❯")]
+          ),
+        ]),
+        _vm._v(" "),
+        _c("li", [
+          _vm._v("Вход и регистрация "),
+          _c(
+            "strong",
+            {
+              staticStyle: { color: "rgb(65, 125, 255)", "margin-left": "5px" },
+            },
+            [_vm._v("❯")]
+          ),
+        ]),
+        _vm._v(" "),
+        _c("li", [
+          _vm._v("Изменения в законах "),
+          _c(
+            "strong",
+            {
+              staticStyle: { color: "rgb(216, 43, 30)", "margin-left": "5px" },
+            },
+            [_vm._v("❯")]
+          ),
+        ]),
+      ]),
+    ])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "div",
+      {
+        staticClass: "footer_block socials",
+        staticStyle: { "margin-right": "0" },
+      },
+      [
+        _c(
+          "p",
+          {
+            staticStyle: {
+              color: "rgb(255, 196, 0)",
+              "font-weight": "bold",
+              "font-size": "25px",
+            },
+          },
+          [_vm._v("8 (800)\n                    560-88-55")]
+        ),
+        _vm._v(" "),
+        _c("p", { staticStyle: { color: "gray" } }, [
+          _vm._v("nazvanieemaila@gmail.com"),
+        ]),
+        _vm._v(" "),
+        _c("p", [_vm._v("г. Название, ул. Ленина, 74")]),
+      ]
+    )
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "politics" }, [
+      _c(
+        "div",
+        { staticClass: "container bkt-main bkt-container row_div politics" },
+        [
+          _c("p", { staticStyle: { color: "gray" } }, [
+            _vm._v("Все права защищены © Название, 2022"),
+          ]),
+          _vm._v(" "),
+          _c("div", [
+            _c("p", { staticStyle: { "text-decoration": "underline" } }, [
+              _vm._v("Политика конфиденциальности"),
+            ]),
+            _vm._v(" "),
+            _c("p", { staticStyle: { "text-decoration": "underline" } }, [
+              _vm._v("Публичная оферта"),
+            ]),
+          ]),
+        ]
+      ),
+    ])
+  },
+]
 render._withStripped = true
 
 
@@ -70766,9 +71068,11 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("li", { staticClass: "bkt-navbar__nav-item d-none d-lg-flex" }, [
-      _c("a", { staticClass: "bkt-navbar__nav-link", attrs: { href: "#" } }, [
-        _vm._v("Купить через агента"),
-      ]),
+      _c(
+        "a",
+        { staticClass: "bkt-navbar__nav-link", attrs: { href: "/agent" } },
+        [_vm._v("Купить через агента")]
+      ),
     ])
   },
   function () {
@@ -72951,109 +73255,404 @@ var render = function () {
     attrs: {
       id: "categoryModal",
       title: "Выберите нужные категории",
-      modal_class: "bkt-category-modal",
+      modal_class: "bkt-category-modal bkt-region-modal",
     },
     on: { left_action: _vm.clearFilters, right_action: _vm.saveFilters },
-    scopedSlots: _vm._u([
-      {
-        key: "body",
-        fn: function () {
-          return [
-            _c(
-              "div",
-              { staticClass: "bkt-categories__grid" },
-              [
-                _vm._l(_vm.categories, function (category) {
-                  return [
-                    _c("div", { staticClass: "bkt-categories__grid-item" }, [
-                      _c("div", { staticClass: "bkt-category__card" }, [
-                        _c(
-                          "div",
-                          { staticClass: "bkt-category__card-header" },
-                          [
-                            _c(
-                              "div",
+    scopedSlots: _vm._u(
+      [
+        {
+          key: "body",
+          fn: function () {
+            return [
+              !_vm.loading
+                ? _c("div", { staticClass: "bkt-wrapper-column" }, [
+                    _c(
+                      "div",
+                      { staticClass: "bkt-wrapper-column" },
+                      _vm._l(_vm.categories, function (category, index) {
+                        return _c("bkt-collapse", {
+                          key: index,
+                          attrs: {
+                            id: "category-collapse-" + index,
+                            main_class: "bkt-regions-tabs__mobile-item",
+                            collapse_button_class:
+                              category.subcategories.length > 0
+                                ? "bkt-bg-white"
+                                : "d-none",
+                          },
+                          scopedSlots: _vm._u(
+                            [
                               {
-                                staticClass:
-                                  "bkt-card__category bkt-bg-yellow-lighter",
-                              },
-                              [
-                                _c(
-                                  "div",
-                                  { staticClass: "bkt-card__category-icon" },
-                                  [
-                                    _c("bkt-icon", {
-                                      attrs: {
-                                        name: "Wrench",
-                                        color: "yellow",
+                                key: "title",
+                                fn: function () {
+                                  return [
+                                    _c(
+                                      "div",
+                                      {
+                                        staticClass:
+                                          "text-left bkt-button d-flex justify-content-between p-2",
                                       },
-                                    }),
-                                  ],
-                                  1
-                                ),
-                              ]
-                            ),
-                            _vm._v(" "),
-                            _c("h5", { staticClass: "bkt-card__title" }, [
-                              _vm._v(_vm._s(category.label)),
-                            ]),
-                          ]
-                        ),
-                        _vm._v(" "),
-                        category.subcategories.length > 0
-                          ? _c(
-                              "div",
-                              { staticClass: "bkt-category__card-body" },
-                              [
-                                _vm._l(
-                                  category.subcategories,
-                                  function (subcategory) {
-                                    return [
-                                      _c(
-                                        "button",
+                                      [
+                                        _c(
+                                          "div",
+                                          { staticClass: "bkt-check__wrapper" },
+                                          [
+                                            _c(
+                                              "div",
+                                              { staticClass: "bkt-check" },
+                                              [
+                                                _c(
+                                                  "div",
+                                                  {
+                                                    staticClass:
+                                                      "bkt-check__input",
+                                                  },
+                                                  [
+                                                    _c("input", {
+                                                      directives: [
+                                                        {
+                                                          name: "model",
+                                                          rawName: "v-model",
+                                                          value: _vm.result,
+                                                          expression: "result",
+                                                        },
+                                                      ],
+                                                      attrs: {
+                                                        type: "checkbox",
+                                                      },
+                                                      domProps: {
+                                                        value: category.key,
+                                                        checked: Array.isArray(
+                                                          _vm.result
+                                                        )
+                                                          ? _vm._i(
+                                                              _vm.result,
+                                                              category.key
+                                                            ) > -1
+                                                          : _vm.result,
+                                                      },
+                                                      on: {
+                                                        change: function (
+                                                          $event
+                                                        ) {
+                                                          var $$a = _vm.result,
+                                                            $$el =
+                                                              $event.target,
+                                                            $$c = $$el.checked
+                                                              ? true
+                                                              : false
+                                                          if (
+                                                            Array.isArray($$a)
+                                                          ) {
+                                                            var $$v =
+                                                                category.key,
+                                                              $$i = _vm._i(
+                                                                $$a,
+                                                                $$v
+                                                              )
+                                                            if ($$el.checked) {
+                                                              $$i < 0 &&
+                                                                (_vm.result =
+                                                                  $$a.concat([
+                                                                    $$v,
+                                                                  ]))
+                                                            } else {
+                                                              $$i > -1 &&
+                                                                (_vm.result =
+                                                                  $$a
+                                                                    .slice(
+                                                                      0,
+                                                                      $$i
+                                                                    )
+                                                                    .concat(
+                                                                      $$a.slice(
+                                                                        $$i + 1
+                                                                      )
+                                                                    ))
+                                                            }
+                                                          } else {
+                                                            _vm.result = $$c
+                                                          }
+                                                        },
+                                                      },
+                                                    }),
+                                                    _vm._v(" "),
+                                                    _c("div", {
+                                                      staticClass:
+                                                        "bkt-check__input-check",
+                                                    }),
+                                                  ]
+                                                ),
+                                                _vm._v(" "),
+                                                _c(
+                                                  "label",
+                                                  {
+                                                    staticClass:
+                                                      "bkt-check__label",
+                                                  },
+                                                  [
+                                                    _vm._v(
+                                                      "\n                                                " +
+                                                        _vm._s(category.label) +
+                                                        "\n                                        "
+                                                    ),
+                                                  ]
+                                                ),
+                                              ]
+                                            ),
+                                          ]
+                                        ),
+                                      ]
+                                    ),
+                                  ]
+                                },
+                                proxy: true,
+                              },
+                              {
+                                key: "collapse",
+                                fn: function () {
+                                  return _vm._l(
+                                    category.subcategories,
+                                    function (subcategory, index) {
+                                      return _c(
+                                        "div",
                                         {
                                           staticClass:
-                                            "bkt-category__card-item bkt-bg-body",
-                                          class: [
-                                            _vm.include(subcategory.key)
-                                              ? "bkt-border-primary"
-                                              : "bkt-border-body",
-                                          ],
-                                          on: {
-                                            click: function ($event) {
-                                              return _vm.toggleCategory(
-                                                subcategory.key
-                                              )
-                                            },
-                                          },
+                                            "bkt-area__item text-left px-2 mb-2",
                                         },
                                         [
-                                          _vm._v(
-                                            "\n                                        " +
-                                              _vm._s(subcategory.label) +
-                                              "\n                                    "
+                                          _c(
+                                            "div",
+                                            {
+                                              staticClass: "bkt-check__wrapper",
+                                            },
+                                            [
+                                              _c(
+                                                "div",
+                                                { staticClass: "bkt-check" },
+                                                [
+                                                  _c(
+                                                    "div",
+                                                    {
+                                                      staticClass:
+                                                        "bkt-check__input",
+                                                    },
+                                                    [
+                                                      _c("input", {
+                                                        directives: [
+                                                          {
+                                                            name: "model",
+                                                            rawName: "v-model",
+                                                            value: _vm.result,
+                                                            expression:
+                                                              "result",
+                                                          },
+                                                        ],
+                                                        attrs: {
+                                                          type: "checkbox",
+                                                        },
+                                                        domProps: {
+                                                          value:
+                                                            subcategory.key,
+                                                          checked:
+                                                            Array.isArray(
+                                                              _vm.result
+                                                            )
+                                                              ? _vm._i(
+                                                                  _vm.result,
+                                                                  subcategory.key
+                                                                ) > -1
+                                                              : _vm.result,
+                                                        },
+                                                        on: {
+                                                          change: function (
+                                                            $event
+                                                          ) {
+                                                            var $$a =
+                                                                _vm.result,
+                                                              $$el =
+                                                                $event.target,
+                                                              $$c = $$el.checked
+                                                                ? true
+                                                                : false
+                                                            if (
+                                                              Array.isArray($$a)
+                                                            ) {
+                                                              var $$v =
+                                                                  subcategory.key,
+                                                                $$i = _vm._i(
+                                                                  $$a,
+                                                                  $$v
+                                                                )
+                                                              if (
+                                                                $$el.checked
+                                                              ) {
+                                                                $$i < 0 &&
+                                                                  (_vm.result =
+                                                                    $$a.concat([
+                                                                      $$v,
+                                                                    ]))
+                                                              } else {
+                                                                $$i > -1 &&
+                                                                  (_vm.result =
+                                                                    $$a
+                                                                      .slice(
+                                                                        0,
+                                                                        $$i
+                                                                      )
+                                                                      .concat(
+                                                                        $$a.slice(
+                                                                          $$i +
+                                                                            1
+                                                                        )
+                                                                      ))
+                                                              }
+                                                            } else {
+                                                              _vm.result = $$c
+                                                            }
+                                                          },
+                                                        },
+                                                      }),
+                                                      _vm._v(" "),
+                                                      _c("div", {
+                                                        staticClass:
+                                                          "bkt-check__input-check",
+                                                      }),
+                                                    ]
+                                                  ),
+                                                  _vm._v(" "),
+                                                  _c(
+                                                    "label",
+                                                    {
+                                                      staticClass:
+                                                        "bkt-check__label",
+                                                    },
+                                                    [
+                                                      _vm._v(
+                                                        "\n                                                " +
+                                                          _vm._s(
+                                                            subcategory.label
+                                                          ) +
+                                                          "\n                                        "
+                                                      ),
+                                                    ]
+                                                  ),
+                                                ]
+                                              ),
+                                            ]
                                           ),
                                         ]
+                                      )
+                                    }
+                                  )
+                                },
+                                proxy: true,
+                              },
+                            ],
+                            null,
+                            true
+                          ),
+                        })
+                      }),
+                      1
+                    ),
+                    _vm._v(" "),
+                    _vm.result.length > 0
+                      ? _c("div", { staticClass: "bkt-region-selected" }, [
+                          _c(
+                            "div",
+                            {
+                              staticClass:
+                                "bkt-region-selected__title text-left mb-2",
+                            },
+                            [
+                              _c("span", { staticClass: "text-muted" }, [
+                                _vm._v("выбранные категории"),
+                              ]),
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "div",
+                            { staticClass: "bkt-tag__list" },
+                            _vm._l(_vm.result, function (item, index) {
+                              return _c(
+                                "div",
+                                {
+                                  staticClass:
+                                    "bkt-region__item bkt-tag justify-content-between flex-fill",
+                                },
+                                [
+                                  _c(
+                                    "span",
+                                    {
+                                      staticClass:
+                                        "bkt-item-rounded__text mr-2",
+                                    },
+                                    [
+                                      _vm._v(
+                                        _vm._s(_vm.$t("categories." + item))
                                       ),
                                     ]
-                                  }
-                                ),
-                              ],
-                              2
-                            )
-                          : _vm._e(),
-                      ]),
-                    ]),
-                  ]
-                }),
-              ],
-              2
-            ),
-          ]
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "span",
+                                    {
+                                      staticClass:
+                                        "bkt-tag__icon bkt-cursor-pointer",
+                                      on: {
+                                        click: function ($event) {
+                                          return _vm.toggleCategory(item)
+                                        },
+                                      },
+                                    },
+                                    [
+                                      _c("bkt-icon", {
+                                        attrs: { name: "Cancel", color: "red" },
+                                      }),
+                                    ],
+                                    1
+                                  ),
+                                ]
+                              )
+                            }),
+                            0
+                          ),
+                        ])
+                      : _vm._e(),
+                  ])
+                : _vm._e(),
+              _vm._v(" "),
+              _vm.loading
+                ? _c(
+                    "div",
+                    { staticClass: "d-flex w-100 justify-content-center my-5" },
+                    [
+                      _vm._t("loading", function () {
+                        return [
+                          _c("div", {
+                            staticClass: "spinner-border",
+                            staticStyle: {
+                              color: "#2953ff",
+                              "border-width": "2px",
+                            },
+                            attrs: { role: "status" },
+                          }),
+                        ]
+                      }),
+                    ],
+                    2
+                  )
+                : _vm._e(),
+            ]
+          },
+          proxy: true,
         },
-        proxy: true,
-      },
-    ]),
+      ],
+      null,
+      true
+    ),
   })
 }
 var staticRenderFns = []
@@ -73317,7 +73916,7 @@ var render = function () {
   var _c = _vm._self._c || _h
   return _c(
     "div",
-    { staticClass: "container bkt-main bkt-container" },
+    { staticClass: "container bkt-main bkt-page bkt-container" },
     [
       _c("bkt-date-modal"),
       _vm._v(" "),
@@ -73331,7 +73930,7 @@ var render = function () {
       _vm._v(" "),
       _c("bkt-region-modal"),
       _vm._v(" "),
-      _c("h1", { staticClass: "bkt-main-title text-center" }, [
+      _c("h1", { staticClass: "bkt-page__title" }, [
         _vm._v("Электронные торги по банкротству"),
       ]),
       _vm._v(" "),
@@ -73368,8 +73967,8 @@ var render = function () {
               icon: { name: "Category" },
               category_class: "bkt-bg-green",
               title: "Выберите<br> нужные категории",
-              count: [],
-              modal_name: "#",
+              count: _vm.filters.categories,
+              modal_name: "#categoryModal",
             },
           }),
           _vm._v(" "),
@@ -73378,7 +73977,7 @@ var render = function () {
               icon: { name: "Location" },
               category_class: "bkt-bg-red-lighter",
               title: "Выберите<br> регион",
-              count: [],
+              count: _vm.filters.regions,
               modal_name: "#regionModal",
             },
           }),
@@ -73429,12 +74028,24 @@ var render = function () {
       _vm._m(0),
       _vm._v(" "),
       _c("div", { staticClass: "bkt-main-filters bkt-row bkt-bg-main" }, [
-        _c("div", { staticClass: "col-12 col-md-6 col-lg-4" }, [
+        _c("div", { staticClass: "col-12 col-md-6 pe-1 col-lg-4" }, [
           _c(
             "div",
             { staticClass: "d-flex w-100 mx-auto justify-content-around" },
             [
-              _vm._m(1),
+              _c("bkt-select", {
+                attrs: {
+                  select_class: "form-floating main",
+                  name: "sort",
+                  subtitle: "сортировать по",
+                  option_label: "title",
+                  options: _vm.sort,
+                  reduce: function (item) {
+                    return item.value
+                  },
+                  clearable: false,
+                },
+              }),
               _vm._v(" "),
               _c(
                 "button",
@@ -73453,7 +74064,8 @@ var render = function () {
                 ],
                 1
               ),
-            ]
+            ],
+            1
           ),
         ]),
         _vm._v(" "),
@@ -73653,41 +74265,6 @@ var staticRenderFns = [
         ]
       ),
     ])
-  },
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "div",
-      { staticClass: "form-floating bkt-select__wrapper main" },
-      [
-        _c(
-          "select",
-          {
-            staticClass: "form-select bkt-select",
-            attrs: { id: "sortSelect", "aria-label": "" },
-          },
-          [
-            _c("option", { attrs: { selected: "" } }, [
-              _vm._v("ключевому слову"),
-            ]),
-            _vm._v(" "),
-            _c("option", { attrs: { value: "1" } }, [_vm._v("One")]),
-            _vm._v(" "),
-            _c("option", { attrs: { value: "2" } }, [_vm._v("Two")]),
-            _vm._v(" "),
-            _c("option", { attrs: { value: "3" } }, [_vm._v("Three")]),
-          ]
-        ),
-        _vm._v(" "),
-        _c(
-          "label",
-          { staticClass: "bkt-select__subtitle", attrs: { for: "sortSelect" } },
-          [_vm._v("сортировать по")]
-        ),
-      ]
-    )
   },
 ]
 render._withStripped = true
@@ -73981,7 +74558,7 @@ var render = function () {
                         _vm._l(_vm.auctionTypes, function (item) {
                           return _c(
                             "div",
-                            { staticClass: "bkt-auctions-type" },
+                            { staticClass: "bkt-auctions-type flex-fill" },
                             [
                               _c(
                                 "button",
@@ -74477,10 +75054,10 @@ var render = function () {
         fn: function (ref) {
           var invalid = ref.invalid
           return [
-            _c("div", { staticClass: "bkt-region-tabs d-lg-block d-none" }, [
+            _c("div", { staticClass: "bkt-regions-tabs d-lg-block d-none" }, [
               _c("div", { staticClass: "bkt-form" }, [
-                _c("div", { staticClass: "col-4 p-0" }, [
-                  _c("div", { staticClass: "bkt-tabs-nav" }, [
+                _c("div", { staticClass: "col-5 p-0" }, [
+                  _c("div", { staticClass: "bkt-regions-tabs__nav" }, [
                     _c(
                       "div",
                       { staticClass: "nav flex-column text-center" },
@@ -74488,8 +75065,7 @@ var render = function () {
                         return _c(
                           "div",
                           {
-                            staticClass:
-                              "text-left bkt-button bkt-card__text bkt-button-federal-district",
+                            staticClass: "bkt-regions-tabs__nav-item",
                             class: {
                               "active bkt-bg-item-neutral":
                                 _vm.selectedRegion.id == region.id,
@@ -74502,9 +75078,9 @@ var render = function () {
                           },
                           [
                             _vm._v(
-                              "\n                                    " +
+                              "\n                                " +
                                 _vm._s(region.label) +
-                                "\n                                "
+                                "\n                            "
                             ),
                           ]
                         )
@@ -74514,12 +75090,11 @@ var render = function () {
                   ]),
                 ]),
                 _vm._v(" "),
-                _c("div", { staticClass: "col-8 p-0" }, [
+                _c("div", { staticClass: "col-7 p-0" }, [
                   _c(
                     "div",
                     {
-                      staticClass:
-                        "bkt-tabs-content h-100 bkt-bg-item-neutral p-5",
+                      staticClass: "bkt-tabs-content h-100 bkt-bg-body",
                       class: {
                         "bkt-rounded-left-top-none":
                           _vm.regions[0].id == _vm.selectedRegion.id,
@@ -74528,137 +75103,81 @@ var render = function () {
                           _vm.selectedRegion.id,
                       },
                     },
-                    [
-                      _c("div", { staticClass: "tab-content" }, [
-                        _c(
-                          "div",
-                          {
-                            staticClass: "tab-pane fade show active",
-                            attrs: {
-                              role: "tabpanel",
-                              "aria-labelledby": "v-tabs-district-tab-1",
-                            },
-                          },
-                          [
-                            _c(
-                              "ul",
-                              {
-                                staticClass:
-                                  "bkt-area-content list-group list-inline",
+                    _vm._l(_vm.selectedRegion.area, function (item, index) {
+                      return _c(
+                        "div",
+                        { key: index, staticClass: "bkt-tag__wrapper" },
+                        [
+                          _c(
+                            "div",
+                            {
+                              staticClass:
+                                "bkt-tag w-100 text-left bkt-bg-item-rounded",
+                              class: {
+                                "bkt-bg-green bkt-text-white":
+                                  _vm.result.findIndex(function (el) {
+                                    return el === item.key
+                                  }) >= 0,
                               },
-                              _vm._l(
-                                _vm.selectedRegion.area,
-                                function (item, index) {
-                                  return _c(
-                                    "li",
-                                    {
-                                      key: index,
-                                      staticClass: "bkt-area-content__item",
-                                    },
-                                    [
-                                      _c(
-                                        "div",
-                                        {
-                                          staticClass:
-                                            "bkt-item text-left d-flex align-items-center",
-                                          staticStyle: {
-                                            gap: "10px",
-                                            "border-top-right-radius": "0",
-                                            "border-bottom-right-radius": "0",
-                                          },
-                                        },
-                                        [
-                                          _c(
-                                            "div",
-                                            {
-                                              staticClass:
-                                                "bkt-bg-item-rounded bkt-item-rounded mb-1 p-2 w-100 pl-4 pr-4 mr-4",
-                                              class: {
-                                                active:
-                                                  _vm.result.findIndex(
-                                                    function (el) {
-                                                      return el === item.key
-                                                    }
-                                                  ) >= 0,
-                                              },
-                                            },
-                                            [
-                                              _c(
-                                                "span",
-                                                {
-                                                  staticClass:
-                                                    "bkt-item-rounded__text",
-                                                },
-                                                [_vm._v(_vm._s(item.label))]
-                                              ),
-                                            ]
-                                          ),
-                                          _vm._v(" "),
-                                          _vm.result.findIndex(function (data) {
-                                            return data === item.key
-                                          }) >= 0
-                                            ? _c(
-                                                "div",
-                                                {
-                                                  staticClass:
-                                                    "bkt-cursor-pointer",
-                                                  on: {
-                                                    click: function ($event) {
-                                                      return _vm.result.splice(
-                                                        index,
-                                                        1
-                                                      )
-                                                    },
-                                                  },
-                                                },
-                                                [
-                                                  _c("bkt-icon", {
-                                                    attrs: {
-                                                      name: "Cancel",
-                                                      width: "20px",
-                                                      height: "20px",
-                                                    },
-                                                  }),
-                                                ],
-                                                1
-                                              )
-                                            : _c(
-                                                "div",
-                                                {
-                                                  staticClass:
-                                                    "bkt-cursor-pointer",
-                                                  on: {
-                                                    click: function ($event) {
-                                                      return _vm.addArea(
-                                                        item.key
-                                                      )
-                                                    },
-                                                  },
-                                                },
-                                                [
-                                                  _c("bkt-icon", {
-                                                    attrs: {
-                                                      name: "Plus",
-                                                      color: "green",
-                                                      width: "20px",
-                                                      height: "20px",
-                                                    },
-                                                  }),
-                                                ],
-                                                1
-                                              ),
-                                        ]
-                                      ),
-                                    ]
-                                  )
-                                }
+                            },
+                            [
+                              _vm._v(
+                                "\n                                " +
+                                  _vm._s(item.label) +
+                                  "\n                            "
                               ),
-                              0
-                            ),
-                          ]
-                        ),
-                      ]),
-                    ]
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "div",
+                            {
+                              staticClass: "bkt-tag__icon",
+                              on: {
+                                click: function ($event) {
+                                  return _vm.toggleRegion(item.key)
+                                },
+                              },
+                            },
+                            [
+                              _c("bkt-icon", {
+                                directives: [
+                                  {
+                                    name: "show",
+                                    rawName: "v-show",
+                                    value:
+                                      _vm.result.findIndex(function (data) {
+                                        return data === item.key
+                                      }) >= 0,
+                                    expression:
+                                      "result.findIndex(data => data === item.key)>=0",
+                                  },
+                                ],
+                                attrs: { name: "Cancel", color: "red" },
+                              }),
+                              _vm._v(" "),
+                              _c("bkt-icon", {
+                                directives: [
+                                  {
+                                    name: "show",
+                                    rawName: "v-show",
+                                    value:
+                                      _vm.result.findIndex(function (data) {
+                                        return data === item.key
+                                      }) < 0,
+                                    expression:
+                                      "result.findIndex(data => data === item.key)<0",
+                                  },
+                                ],
+                                attrs: { name: "Plus", color: "green" },
+                              }),
+                            ],
+                            1
+                          ),
+                        ]
+                      )
+                    }),
+                    0
                   ),
                 ]),
               ]),
@@ -74666,197 +75185,161 @@ var render = function () {
             _vm._v(" "),
             _c(
               "div",
-              {
-                staticClass:
-                  "bkt-region-tabs d-lg-none bkt-regions-tabs__mobile",
-              },
-              [
-                _c(
-                  "div",
-                  { staticClass: "accordion", attrs: { role: "tablist" } },
-                  _vm._l(_vm.regions, function (region, index) {
-                    return _c("bkt-collapse", {
-                      key: index,
-                      attrs: {
-                        id: "region-collapse-" + index,
-                        main_class: "mb-1 bkt-region-border-gray",
-                        collapse_button_class: "bkt-bg-white",
+              { staticClass: "d-lg-none bkt-regions-tabs__mobile" },
+              _vm._l(_vm.regions, function (region, index) {
+                return _c("bkt-collapse", {
+                  key: index,
+                  attrs: {
+                    id: "region-collapse-" + index,
+                    main_class: "bkt-regions-tabs__mobile-item",
+                    collapse_button_class: "bkt-bg-white",
+                  },
+                  scopedSlots: _vm._u(
+                    [
+                      {
+                        key: "title",
+                        fn: function () {
+                          return [
+                            _c(
+                              "div",
+                              {
+                                staticClass:
+                                  "text-left bkt-button d-flex justify-content-between p-2",
+                              },
+                              [
+                                _c("bkt-checkbox", {
+                                  staticClass: "bkt-regions-tabs__title",
+                                  attrs: {
+                                    label: region.label,
+                                    name: "bkt-region-checkbox-" + index,
+                                    id: "bkt-region-checkbox-" + index,
+                                  },
+                                  on: {
+                                    input: function ($event) {
+                                      return _vm.selectAll(index)
+                                    },
+                                  },
+                                  model: {
+                                    value: region.status,
+                                    callback: function ($$v) {
+                                      _vm.$set(region, "status", $$v)
+                                    },
+                                    expression: "region.status",
+                                  },
+                                }),
+                              ],
+                              1
+                            ),
+                          ]
+                        },
+                        proxy: true,
                       },
-                      scopedSlots: _vm._u(
-                        [
-                          {
-                            key: "title",
-                            fn: function () {
-                              return [
+                      {
+                        key: "collapse",
+                        fn: function () {
+                          return _vm._l(region.area, function (area, index) {
+                            return _c(
+                              "div",
+                              {
+                                staticClass:
+                                  "bkt-area__item text-left px-2 mb-2",
+                              },
+                              [
                                 _c(
                                   "div",
-                                  {
-                                    staticClass:
-                                      "text-left bkt-button d-flex justify-content-between p-2",
-                                  },
+                                  { staticClass: "bkt-check__wrapper" },
                                   [
-                                    _c("bkt-checkbox", {
-                                      staticClass: "bkt-regions-tabs__title",
-                                      attrs: {
-                                        label: region.label,
-                                        name: "bkt-region-checkbox-" + index,
-                                        id: "bkt-region-checkbox-" + index,
-                                      },
-                                      on: {
-                                        input: function ($event) {
-                                          return _vm.selectAllArea(index)
-                                        },
-                                      },
-                                      model: {
-                                        value: region.status,
-                                        callback: function ($$v) {
-                                          _vm.$set(region, "status", $$v)
-                                        },
-                                        expression: "region.status",
-                                      },
-                                    }),
-                                  ],
-                                  1
-                                ),
-                              ]
-                            },
-                            proxy: true,
-                          },
-                          {
-                            key: "collapse",
-                            fn: function () {
-                              return _vm._l(
-                                region.area,
-                                function (area, index) {
-                                  return _c(
-                                    "div",
-                                    {
-                                      staticClass:
-                                        "bkt-area__item text-left px-2 mb-2",
-                                    },
-                                    [
+                                    _c("div", { staticClass: "bkt-check" }, [
                                       _c(
                                         "div",
-                                        { staticClass: "bkt-check__wrapper" },
+                                        { staticClass: "bkt-check__input" },
                                         [
-                                          _c(
-                                            "div",
-                                            { staticClass: "bkt-check" },
-                                            [
-                                              _c(
-                                                "div",
-                                                {
-                                                  staticClass:
-                                                    "bkt-check__input",
-                                                },
-                                                [
-                                                  _c("input", {
-                                                    directives: [
-                                                      {
-                                                        name: "model",
-                                                        rawName: "v-model",
-                                                        value: _vm.result,
-                                                        expression: "result",
-                                                      },
-                                                    ],
-                                                    attrs: { type: "checkbox" },
-                                                    domProps: {
-                                                      value: area.key,
-                                                      checked: Array.isArray(
-                                                        _vm.result
-                                                      )
-                                                        ? _vm._i(
-                                                            _vm.result,
-                                                            area.key
-                                                          ) > -1
-                                                        : _vm.result,
-                                                    },
-                                                    on: {
-                                                      change: function (
-                                                        $event
-                                                      ) {
-                                                        var $$a = _vm.result,
-                                                          $$el = $event.target,
-                                                          $$c = $$el.checked
-                                                            ? true
-                                                            : false
-                                                        if (
-                                                          Array.isArray($$a)
-                                                        ) {
-                                                          var $$v = area.key,
-                                                            $$i = _vm._i(
-                                                              $$a,
-                                                              $$v
-                                                            )
-                                                          if ($$el.checked) {
-                                                            $$i < 0 &&
-                                                              (_vm.result =
-                                                                $$a.concat([
-                                                                  $$v,
-                                                                ]))
-                                                          } else {
-                                                            $$i > -1 &&
-                                                              (_vm.result = $$a
-                                                                .slice(0, $$i)
-                                                                .concat(
-                                                                  $$a.slice(
-                                                                    $$i + 1
-                                                                  )
-                                                                ))
-                                                          }
-                                                        } else {
-                                                          _vm.result = $$c
-                                                        }
-                                                      },
-                                                    },
-                                                  }),
-                                                  _vm._v(" "),
-                                                  _c("div", {
-                                                    staticClass:
-                                                      "bkt-check__input-check",
-                                                  }),
-                                                ]
-                                              ),
-                                              _vm._v(" "),
-                                              _c(
-                                                "label",
-                                                {
-                                                  staticClass:
-                                                    "bkt-check__label",
-                                                },
-                                                [
-                                                  _vm._t("label", function () {
-                                                    return [
-                                                      _vm._v(
-                                                        "\n                                                " +
-                                                          _vm._s(area.label) +
-                                                          "\n                                            "
-                                                      ),
-                                                    ]
-                                                  }),
-                                                ],
-                                                2
-                                              ),
-                                            ]
-                                          ),
+                                          _c("input", {
+                                            directives: [
+                                              {
+                                                name: "model",
+                                                rawName: "v-model",
+                                                value: _vm.result,
+                                                expression: "result",
+                                              },
+                                            ],
+                                            attrs: { type: "checkbox" },
+                                            domProps: {
+                                              value: area.key,
+                                              checked: Array.isArray(_vm.result)
+                                                ? _vm._i(_vm.result, area.key) >
+                                                  -1
+                                                : _vm.result,
+                                            },
+                                            on: {
+                                              change: function ($event) {
+                                                var $$a = _vm.result,
+                                                  $$el = $event.target,
+                                                  $$c = $$el.checked
+                                                    ? true
+                                                    : false
+                                                if (Array.isArray($$a)) {
+                                                  var $$v = area.key,
+                                                    $$i = _vm._i($$a, $$v)
+                                                  if ($$el.checked) {
+                                                    $$i < 0 &&
+                                                      (_vm.result = $$a.concat([
+                                                        $$v,
+                                                      ]))
+                                                  } else {
+                                                    $$i > -1 &&
+                                                      (_vm.result = $$a
+                                                        .slice(0, $$i)
+                                                        .concat(
+                                                          $$a.slice($$i + 1)
+                                                        ))
+                                                  }
+                                                } else {
+                                                  _vm.result = $$c
+                                                }
+                                              },
+                                            },
+                                          }),
+                                          _vm._v(" "),
+                                          _c("div", {
+                                            staticClass:
+                                              "bkt-check__input-check",
+                                          }),
                                         ]
                                       ),
-                                    ]
-                                  )
-                                }
-                              )
-                            },
-                            proxy: true,
-                          },
-                        ],
-                        null,
-                        true
-                      ),
-                    })
-                  }),
-                  1
-                ),
-              ]
+                                      _vm._v(" "),
+                                      _c(
+                                        "label",
+                                        { staticClass: "bkt-check__label" },
+                                        [
+                                          _vm._t("label", function () {
+                                            return [
+                                              _vm._v(
+                                                "\n                                        " +
+                                                  _vm._s(area.label) +
+                                                  "\n                                    "
+                                              ),
+                                            ]
+                                          }),
+                                        ],
+                                        2
+                                      ),
+                                    ]),
+                                  ]
+                                ),
+                              ]
+                            )
+                          })
+                        },
+                        proxy: true,
+                      },
+                    ],
+                    null,
+                    true
+                  ),
+                })
+              }),
+              1
             ),
             _vm._v(" "),
             _vm.result.length > 0
@@ -74875,55 +75358,37 @@ var render = function () {
                   _vm._v(" "),
                   _c(
                     "div",
-                    {
-                      staticClass:
-                        "bkt-selected-region-items float-left d-flex flex-wrap",
-                      staticStyle: { gap: "10px" },
-                    },
+                    { staticClass: "bkt-tag__list" },
                     _vm._l(_vm.result, function (item, index) {
                       return _c(
                         "div",
                         {
                           staticClass:
-                            "bkt-region__item bkt-bg-item-rounded bkt-item-rounded",
+                            "bkt-region__item bkt-tag justify-content-between flex-fill",
                         },
                         [
                           _c(
-                            "div",
+                            "span",
+                            { staticClass: "bkt-item-rounded__text mr-2" },
+                            [_vm._v(_vm._s(_vm.$t("regions." + item)))]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "span",
                             {
-                              staticClass: "mb-1 p-2 w-100 pl-4 pr-4 text-left",
+                              staticClass: "bkt-tag__icon bkt-cursor-pointer",
+                              on: {
+                                click: function ($event) {
+                                  return _vm.toggleRegion(item)
+                                },
+                              },
                             },
                             [
-                              _c(
-                                "span",
-                                { staticClass: "bkt-item-rounded__text mr-2" },
-                                [_vm._v(_vm._s(_vm.$t("regions." + item)))]
-                              ),
-                              _vm._v(" "),
-                              _c(
-                                "span",
-                                {
-                                  staticClass: "bkt-cursor-pointer",
-                                  on: {
-                                    click: function ($event) {
-                                      return _vm.result.splice(index, 1)
-                                    },
-                                  },
-                                },
-                                [
-                                  _c("bkt-icon", {
-                                    attrs: {
-                                      name: "Cancel",
-                                      color: "red",
-                                      alt: "cancel",
-                                      width: "15px",
-                                      height: "15px",
-                                    },
-                                  }),
-                                ],
-                                1
-                              ),
-                            ]
+                              _c("bkt-icon", {
+                                attrs: { name: "Cancel", color: "red" },
+                              }),
+                            ],
+                            1
                           ),
                         ]
                       )

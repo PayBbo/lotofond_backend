@@ -1,0 +1,93 @@
+.bkt-table {
+    border-radius: 20px;
+    border-width: 1px;
+    border-style: solid;
+    border-color: lightgray;
+    border-spacing: 0;
+    border-collapse: separate;
+    width: 100%;
+    & tr th:first-child, 
+    & tr td:first-child {
+        text-align: center;
+    }
+    & tr td,
+    & tr th {
+        border-right-width: 1px;
+        border-right-style: solid;
+        border-right-color: lightgray;
+        border-bottom-width: 1px;
+        border-bottom-style: solid;
+        border-bottom-color: lightgray;
+    }
+
+    & tr th:last-child,
+    & tr td:last-child {
+        border-right-width: 1px;
+        border-right-style: none;
+        border-right-color: lightgray;
+    }
+
+    & tr:last-child td,
+    & tr:last-child th {
+        border-bottom-width: 1px;
+        border-bottom-style: none;
+        border-bottom-color: lightgray;
+    }
+
+    & :not(tfoot) tr:first-child th:first-child,
+    & :not(tfoot) tr:first-child td:first-child {
+        border-top-left-radius: 5px;
+        border-bottom-left-radius: 0;
+    }
+
+    & :not(tfoot) tr:first-child th:last-child,
+    & :not(tfoot) tr:first-child td:last-child {
+        border-top-right-radius: 5px;
+        border-bottom-right-radius: 0;
+    }
+
+    & :not(thead) tr:last-child th:first-child,
+    & :not(thead) tr:last-child td:first-child {
+        border-bottom-left-radius: 5px;
+    }
+
+    & :not(thead) tr:last-child th:last-child,
+    & :not(thead) tr:last-child td:last-child {
+        border-bottom-right-radius: 5px;
+    }
+
+    & thead tr:first-child th,
+    & thead tr:first-child td {
+        border-top-style: none;
+    }
+
+    & thead tr:last-child th,
+    & thead tr:last-child td {
+        border-bottom-style: solid;
+        border-bottom-width: 1px;
+        border-bottom-color: lightgray;
+    }
+
+    & tfoot tr:last-child th,
+    & tfoot tr:last-child td {
+        border-bottom-style: none;
+    }
+
+    & tfoot tr:first-child th,
+    & tfoot tr:first-child td {
+        border-top-style: solid;
+        border-top-width: 1px;
+        border-top-color: lightgray;
+    }
+
+    & tr:first-child th,
+    & tr:first-child td {
+        border-top-style: none;
+    }
+}
+
+@media (max-width: 576px) {
+    .bkt-table * {
+        font-size: 8px;
+    }
+}

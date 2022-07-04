@@ -1,6 +1,68 @@
 "use strict";
 (self["webpackChunk"] = self["webpackChunk"] || []).push([["profile"],{
 
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Switch.vue?vue&type=script&lang=js&":
+/*!*************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Switch.vue?vue&type=script&lang=js& ***!
+  \*************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  name: "Switch",
+  props: {
+    value: {
+      type: Boolean,
+      "default": false
+    } // name: {
+    //     type: String,
+    //     required: true,
+    // },
+    // label: {
+    //     type: String,
+    //     default: "",
+    // },
+    // rules: {
+    //     type: null,
+    //     default: "",
+    // },
+    // wrapper_class: {
+    //     type: String,
+    //     default: "",
+    // },
+
+  },
+  model: {
+    prop: 'value',
+    event: 'input'
+  },
+  data: function data() {
+    return {
+      model: false
+    };
+  },
+  mounted: function mounted() {
+    this.model = this.value;
+  },
+  methods: {
+    saveValue: function saveValue() {
+      this.$emit('input', this.model);
+    }
+  }
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/pages/Profile/AboutTab.vue?vue&type=script&lang=js&":
 /*!******************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/pages/Profile/AboutTab.vue?vue&type=script&lang=js& ***!
@@ -11,6 +73,46 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -160,6 +262,32 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "HelpTab",
@@ -180,6 +308,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+/* harmony import */ var _components_Switch__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../components/Switch */ "./resources/js/components/Switch.vue");
 //
 //
 //
@@ -203,8 +332,29 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  name: "NotificationsTab"
+  name: "NotificationsTab",
+  components: {
+    BktSwitch: _components_Switch__WEBPACK_IMPORTED_MODULE_0__["default"]
+  }
 });
 
 /***/ }),
@@ -507,6 +657,44 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/components/Switch.vue":
+/*!********************************************!*\
+  !*** ./resources/js/components/Switch.vue ***!
+  \********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _Switch_vue_vue_type_template_id_65ccab5f_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Switch.vue?vue&type=template&id=65ccab5f&scoped=true& */ "./resources/js/components/Switch.vue?vue&type=template&id=65ccab5f&scoped=true&");
+/* harmony import */ var _Switch_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Switch.vue?vue&type=script&lang=js& */ "./resources/js/components/Switch.vue?vue&type=script&lang=js&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+;
+var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _Switch_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _Switch_vue_vue_type_template_id_65ccab5f_scoped_true___WEBPACK_IMPORTED_MODULE_0__.render,
+  _Switch_vue_vue_type_template_id_65ccab5f_scoped_true___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
+  false,
+  null,
+  "65ccab5f",
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/Switch.vue"
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (component.exports);
+
+/***/ }),
+
 /***/ "./resources/js/pages/Profile/AboutTab.vue":
 /*!*************************************************!*\
   !*** ./resources/js/pages/Profile/AboutTab.vue ***!
@@ -773,6 +961,21 @@ component.options.__file = "resources/js/pages/Profile/ProfileTab.vue"
 
 /***/ }),
 
+/***/ "./resources/js/components/Switch.vue?vue&type=script&lang=js&":
+/*!*********************************************************************!*\
+  !*** ./resources/js/components/Switch.vue?vue&type=script&lang=js& ***!
+  \*********************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Switch_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./Switch.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Switch.vue?vue&type=script&lang=js&");
+ /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Switch_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
 /***/ "./resources/js/pages/Profile/AboutTab.vue?vue&type=script&lang=js&":
 /*!**************************************************************************!*\
   !*** ./resources/js/pages/Profile/AboutTab.vue?vue&type=script&lang=js& ***!
@@ -875,6 +1078,22 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_ProfileTab_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./ProfileTab.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/pages/Profile/ProfileTab.vue?vue&type=script&lang=js&");
  /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_ProfileTab_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/Switch.vue?vue&type=template&id=65ccab5f&scoped=true&":
+/*!***************************************************************************************!*\
+  !*** ./resources/js/components/Switch.vue?vue&type=template&id=65ccab5f&scoped=true& ***!
+  \***************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Switch_vue_vue_type_template_id_65ccab5f_scoped_true___WEBPACK_IMPORTED_MODULE_0__.render),
+/* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Switch_vue_vue_type_template_id_65ccab5f_scoped_true___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
+/* harmony export */ });
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Switch_vue_vue_type_template_id_65ccab5f_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./Switch.vue?vue&type=template&id=65ccab5f&scoped=true& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Switch.vue?vue&type=template&id=65ccab5f&scoped=true&");
+
 
 /***/ }),
 
@@ -990,6 +1209,68 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Switch.vue?vue&type=template&id=65ccab5f&scoped=true&":
+/*!******************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Switch.vue?vue&type=template&id=65ccab5f&scoped=true& ***!
+  \******************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* binding */ render),
+/* harmony export */   "staticRenderFns": () => (/* binding */ staticRenderFns)
+/* harmony export */ });
+var render = function () {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("label", { staticClass: "bkt-switch" }, [
+    _c("input", {
+      directives: [
+        {
+          name: "model",
+          rawName: "v-model",
+          value: _vm.model,
+          expression: "model",
+        },
+      ],
+      attrs: { type: "checkbox" },
+      domProps: {
+        checked: Array.isArray(_vm.model)
+          ? _vm._i(_vm.model, null) > -1
+          : _vm.model,
+      },
+      on: {
+        change: function ($event) {
+          var $$a = _vm.model,
+            $$el = $event.target,
+            $$c = $$el.checked ? true : false
+          if (Array.isArray($$a)) {
+            var $$v = null,
+              $$i = _vm._i($$a, $$v)
+            if ($$el.checked) {
+              $$i < 0 && (_vm.model = $$a.concat([$$v]))
+            } else {
+              $$i > -1 &&
+                (_vm.model = $$a.slice(0, $$i).concat($$a.slice($$i + 1)))
+            }
+          } else {
+            _vm.model = $$c
+          }
+        },
+      },
+    }),
+    _vm._v(" "),
+    _c("span", { staticClass: "bkt-slider" }),
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/pages/Profile/AboutTab.vue?vue&type=template&id=4f920dd2&scoped=true&":
 /*!***********************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/pages/Profile/AboutTab.vue?vue&type=template&id=4f920dd2&scoped=true& ***!
@@ -1014,8 +1295,34 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "bkt-card" }, [
       _c("div", { staticClass: "bkt-card__body" }, [
-        _c("div", { staticClass: "bkt-card__text" }, [
-          _vm._v("\n            Text here\n        "),
+        _c("div", { staticClass: "bkt-card__title" }, [
+          _vm._v("Об сайте domen.ru"),
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "bkt-card__text text-justify" }, [
+          _c("p", [
+            _vm._v(
+              "\n                Мобильное приложение позволяет:\n                - получать и просматривать уведомления;\n                - иметь доступ к сведениям об исполнении обязательств по договорам;\n                - отслеживать текущее состояние задатка и задолженности;\n                - просматривать информацию по арбитражным делам.\n            "
+            ),
+          ]),
+          _vm._v(" "),
+          _c("p", [
+            _vm._v(
+              "\n                Ключевые особенности:\n                - упрощенная авторизация по логину, паролю и sms-коду;\n                - удобный доступ к данным персонального раздела;\n                - push-уведомления о статусе задатка и задолженности;\n                - оперативная связь со структурными подразделениями биржи.\n\n            "
+            ),
+          ]),
+          _vm._v(" "),
+          _c("p", [
+            _vm._v(
+              "\n                С другой стороны постоянный количественный\n                рост и сфера нашей активности требуют определения и уточнения систем массового участия. Товарищи!\n                постоянный количественный рост и сфера нашей активности играет важную роль в формировании новых\n                предложений. Равным образом новая модель организационной деятельности играет важную роль в\n                формировании позиций, занимаемых участниками в отношении поставленных задач.\n            "
+            ),
+          ]),
+          _vm._v(" "),
+          _c("p", [
+            _vm._v(
+              "\n                Равным образом реализация намеченных плановых заданий требуют определения и уточнения\n                соответствующий условий активизации. Идейные соображения высшего порядка, а также постоянный\n                количественный рост и\n                сфера нашей активности представляет собой интересный эксперимент проверки позиций, занимаемых\n                участниками\n                в отношении поставленных задач. Товарищи! укрепление и развитие структуры способствует подготовки и\n                реализации системы обучения кадров, соответствует насущным потребностям. С другой стороны новая\n                модель организационной деятельности позволяет выполнять важные задания по разработке направлений\n                прогрессивного развития. Разнообразный и богатый опыт постоянный количественный рост и сфера нашей\n                активности\n                требуют определения и уточнения существенных финансовых и административных условий. Равным образом\n                дальнейшее\n                развитие различных форм деятельности представляет собой интересный эксперимент проверки позиций,\n                занимаемых участниками в отношении поставленных задач.\n            "
+            ),
+          ]),
         ]),
       ]),
     ])
@@ -1206,15 +1513,38 @@ var render = function () {
     [
       _c("bkt-collapse", {
         attrs: {
-          title: "Безопасно ли это?",
-          id: "collapseDocuments",
+          main_class: "bkt-card bkt-notifications-card",
+          id: "question1",
           collapse_button_class: "bkt-bg-white",
         },
         scopedSlots: _vm._u([
           {
+            key: "title",
+            fn: function () {
+              return [
+                _c(
+                  "h4",
+                  {
+                    staticClass: "bkt-card__title",
+                    attrs: {
+                      "data-bs-toggle": "collapse",
+                      "data-bs-target": "#question1",
+                    },
+                  },
+                  [_vm._v("\n                Безопасно ли это?\n            ")]
+                ),
+              ]
+            },
+            proxy: true,
+          },
+          {
             key: "collapse",
             fn: function () {
-              return [_vm._v("\n            Text\n        ")]
+              return [
+                _vm._v(
+                  "\n            После завершения сделки можно будет оценить и покупателя, и продавца. Запрос на оценку придет\n            специальным сообщением в переписку о товаре между продавцом и покупателем. Оценку можно оставить, если\n            товар будет доставлен в населённый пункт покупателя и будет получен покупателем либо по товару будет\n            оформлен возврат.\n        "
+                ),
+              ]
             },
             proxy: true,
           },
@@ -1224,10 +1554,34 @@ var render = function () {
       _c("bkt-collapse", {
         attrs: {
           title: "Почему к объявдению не подключена доставка?",
-          id: "order",
+          main_class: "bkt-notifications-card",
+          id: "question2",
           collapse_button_class: "bkt-bg-white",
         },
         scopedSlots: _vm._u([
+          {
+            key: "title",
+            fn: function () {
+              return [
+                _c(
+                  "h4",
+                  {
+                    staticClass: "bkt-card__title",
+                    attrs: {
+                      "data-bs-toggle": "collapse",
+                      "data-bs-target": "#question1",
+                    },
+                  },
+                  [
+                    _vm._v(
+                      "\n                Почему к объявдению не подключена доставка?\n            "
+                    ),
+                  ]
+                ),
+              ]
+            },
+            proxy: true,
+          },
           {
             key: "collapse",
             fn: function () {
@@ -1241,10 +1595,34 @@ var render = function () {
       _c("bkt-collapse", {
         attrs: {
           title: "Как отменить заказ?",
-          id: "order",
+          main_class: "bkt-notifications-card",
+          id: "question3",
           collapse_button_class: "bkt-bg-white",
         },
         scopedSlots: _vm._u([
+          {
+            key: "title",
+            fn: function () {
+              return [
+                _c(
+                  "h4",
+                  {
+                    staticClass: "bkt-card__title",
+                    attrs: {
+                      "data-bs-toggle": "collapse",
+                      "data-bs-target": "#question1",
+                    },
+                  },
+                  [
+                    _vm._v(
+                      "\n                Как отменить заказ?\n            "
+                    ),
+                  ]
+                ),
+              ]
+            },
+            proxy: true,
+          },
           {
             key: "collapse",
             fn: function () {
@@ -1258,10 +1636,30 @@ var render = function () {
       _c("bkt-collapse", {
         attrs: {
           title: "Возврат товара?",
-          id: "order",
+          main_class: "bkt-notifications-card",
+          id: "question4",
           collapse_button_class: "bkt-bg-white",
         },
         scopedSlots: _vm._u([
+          {
+            key: "title",
+            fn: function () {
+              return [
+                _c(
+                  "h4",
+                  {
+                    staticClass: "bkt-card__title",
+                    attrs: {
+                      "data-bs-toggle": "collapse",
+                      "data-bs-target": "#question1",
+                    },
+                  },
+                  [_vm._v("\n                Возврат товара?\n            ")]
+                ),
+              ]
+            },
+            proxy: true,
+          },
           {
             key: "collapse",
             fn: function () {
@@ -1297,40 +1695,86 @@ var render = function () {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
+  return _c("div", { staticClass: "bkt-wrapper-column" }, [
+    _c("div", { staticClass: "bkt-card bkt-notifications-card" }, [
+      _c(
+        "div",
+        { staticClass: "bkt-wrapper-between align-items-center" },
+        [_vm._m(0), _vm._v(" "), _c("bkt-switch")],
+        1
+      ),
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "bkt-card bkt-notifications-card" }, [
+      _c(
+        "div",
+        { staticClass: "bkt-wrapper-between align-items-center" },
+        [_vm._m(1), _vm._v(" "), _c("bkt-switch")],
+        1
+      ),
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "bkt-card bkt-notifications-card" }, [
+      _c(
+        "div",
+        { staticClass: "bkt-wrapper-between align-items-center" },
+        [_vm._m(2), _vm._v(" "), _c("bkt-switch")],
+        1
+      ),
+      _vm._v(" "),
+      _c(
+        "div",
+        { staticClass: "bkt-wrapper-column" },
+        [
+          _c("bkt-checkbox", { attrs: { label: "за 1 день" } }),
+          _vm._v(" "),
+          _c("bkt-checkbox", { attrs: { label: "за 2 дня" } }),
+          _vm._v(" "),
+          _c("bkt-checkbox", { attrs: { label: "за 3 дня" } }),
+          _vm._v(" "),
+          _c("bkt-checkbox", { attrs: { label: "за 5 дней" } }),
+        ],
+        1
+      ),
+    ]),
+  ])
 }
 var staticRenderFns = [
   function () {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "bkt-wrapper-column" }, [
-      _c("div", { staticClass: "bkt-card bkt-card__body" }, [
-        _c("div", { staticClass: "bkt-wrapper-between" }, [
-          _c("div", { staticClass: "bkt-card__title" }, [
-            _vm._v("От организаторов"),
-          ]),
-          _vm._v(" "),
-          _c("h5", { staticClass: "bkt-card__subtitle" }),
-        ]),
+    return _c("div", [
+      _c("div", { staticClass: "bkt-card__title" }, [
+        _vm._v("От организаторов"),
       ]),
       _vm._v(" "),
-      _c("div", { staticClass: "bkt-card bkt-card__body" }, [
-        _c("div", { staticClass: "bkt-wrapper-between" }, [
-          _c("div", { staticClass: "bkt-card__title" }, [_vm._v("Мониторинг")]),
-          _vm._v(" "),
-          _c("h5", { staticClass: "bkt-card__subtitle" }),
-        ]),
+      _c("h5", { staticClass: "bkt-card__subtitle" }, [
+        _vm._v("получение уведомлений об отчетах, задачах по лотам"),
       ]),
+    ])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", [
+      _c("div", { staticClass: "bkt-card__title" }, [_vm._v("Мониторинг")]),
       _vm._v(" "),
-      _c("div", { staticClass: "bkt-card bkt-card__body" }, [
-        _c("div", { staticClass: "bkt-wrapper-between" }, [
-          _c("div", { staticClass: "bkt-card__title" }, [
-            _vm._v("Этапы торгов"),
-          ]),
-          _vm._v(" "),
-          _c("h5", { staticClass: "bkt-card__subtitle" }),
-        ]),
+      _c("h5", { staticClass: "bkt-card__subtitle" }, [
+        _vm._v("изменение лотов подобранных\u2028 в разделе “Мониторинг”"),
+      ]),
+    ])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", [
+      _c("div", { staticClass: "bkt-card__title" }, [_vm._v("Этапы торгов")]),
+      _vm._v(" "),
+      _c("h5", { staticClass: "bkt-card__subtitle" }, [
+        _vm._v("изменение цены, начало/окончание торгов"),
       ]),
     ])
   },

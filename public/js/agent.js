@@ -411,8 +411,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "Agent"
 });
@@ -505,9 +503,11 @@ var render = function () {
   var _c = _vm._self._c || _h
   return _c(
     "div",
-    { staticClass: "container bkt-main bkt-container col_div" },
+    { staticClass: "container bkt-page bkt-agent bkt-container" },
     [
-      _c("h1", [_vm._v("Покупка через агента")]),
+      _c("h1", { staticClass: "bkt-page__title" }, [
+        _vm._v("Покупка через агента"),
+      ]),
       _vm._v(" "),
       _vm._m(0),
       _vm._v(" "),
@@ -900,17 +900,36 @@ var render = function () {
           _vm._v(" "),
           _vm._m(5),
           _vm._v(" "),
-          _vm._m(6),
-          _vm._v(" "),
-          _c(
-            "button",
-            {
-              staticClass: "bkt-button primary",
-              attrs: { "data-v-549085c8": "" },
+          _c("bkt-checkbox", {
+            attrs: {
+              name: "'Условия'",
+              id: "terms",
+              rules: "required_boolean",
             },
-            [_vm._v("\n            Получить услугу\n        ")]
-          ),
-        ]
+            scopedSlots: _vm._u([
+              {
+                key: "label",
+                fn: function () {
+                  return [
+                    _vm._v(
+                      "\n                Согласен с условиями пользовательского соглашения,"
+                    ),
+                    _c("br"),
+                    _vm._v(
+                      "политики сайта, обработки персональных\n                данных.\n            "
+                    ),
+                  ]
+                },
+                proxy: true,
+              },
+            ]),
+          }),
+          _vm._v(" "),
+          _c("button", { staticClass: "bkt-button primary" }, [
+            _vm._v("\n            Получить услугу\n        "),
+          ]),
+        ],
+        1
       ),
     ]
   )
@@ -922,6 +941,11 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "promo-wrapper" }, [
       _c("div", { staticClass: "promo" }, [
+        _c("img", {
+          staticClass: "promo__image",
+          attrs: { src: "/images/agent-image.png", alt: "" },
+        }),
+        _vm._v(" "),
         _c("div", { staticClass: "promo_block_wrapper" }, [
           _c("h1", [_vm._v("Новичок?")]),
           _vm._v(" "),
@@ -982,7 +1006,7 @@ var staticRenderFns = [
         _c("div", { staticClass: "promo_buy" }, [
           _c("h2", [_vm._v("3000 ₽")]),
           _vm._v(" "),
-          _c("button", { staticClass: "bkt-button btn-yellow" }, [
+          _c("button", { staticClass: "bkt-button btn-yellow bkt-bg-yellow" }, [
             _vm._v("Купить"),
           ]),
         ]),
@@ -1431,56 +1455,6 @@ var staticRenderFns = [
         ]
       ),
     ])
-  },
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "div",
-      {
-        staticClass: "bkt-check__wrapper",
-        attrs: { "data-v-90aed0a4": "", "data-v-549085c8": "", id: "terms" },
-      },
-      [
-        _c(
-          "div",
-          { staticClass: "bkt-check", attrs: { "data-v-90aed0a4": "" } },
-          [
-            _c(
-              "div",
-              {
-                staticClass: "bkt-check__input",
-                attrs: { "data-v-90aed0a4": "" },
-              },
-              [
-                _c("input", {
-                  attrs: { "data-v-90aed0a4": "", type: "checkbox" },
-                }),
-              ]
-            ),
-            _vm._v(" "),
-            _c(
-              "label",
-              {
-                staticClass: "bkt-check__label",
-                attrs: { "data-v-90aed0a4": "" },
-              },
-              [
-                _vm._v(
-                  " Согласен с условиями пользовательского\n                    соглашения, политики сайта, обработки персональных данных."
-                ),
-              ]
-            ),
-          ]
-        ),
-        _vm._v(" "),
-        _c("p", {
-          staticClass: "bkt-check-error",
-          attrs: { "data-v-90aed0a4": "" },
-        }),
-      ]
-    )
   },
 ]
 render._withStripped = true

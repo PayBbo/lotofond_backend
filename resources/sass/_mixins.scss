@@ -79,30 +79,30 @@
             #{'.bkt-hover'+'-'+$color}#{'.'+$target}:hover {
                background-color: map-get($theme-colors, $color+'-default') !important;
                 & .bkt-fill {
-                    fill: white;
+                    fill: white !important;
                 }
                 & .bkt-stroke {
-                    stroke: white;
+                    stroke: white !important;
                 }
             }
         } @else if $type == '' {
             #{'.bkt-hover'+'-'+$color}#{'.'+$target}:hover {
                background-color: map-get($theme-colors, $color) !important;
                 & .bkt-fill {
-                    fill: white;
+                    fill: white !important;
                 }
                 & .bkt-stroke {
-                    stroke: white;
+                    stroke: white !important;
                 }
             }
         } @else {
             #{'.bkt-hover'+'-'+$color+'-'+$type}#{'.'+$target}:hover {
                background-color: map-get($theme-colors, $color+'-'+$type) !important;
                 & .bkt-fill {
-                    fill: white;
+                    fill: white !important;
                 }
                 & .bkt-stroke {
-                    stroke: white;
+                    stroke: white !important;
                 }
             }
         }

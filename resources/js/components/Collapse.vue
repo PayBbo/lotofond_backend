@@ -1,24 +1,6 @@
 <template>
-    <div :class="main_class">
-        <div class="bkt-wrapper-between bkt-nowrap">
-            <slot name="title">
-                <h3 class="bkt-card__title" v-if="title">
-                    <slot name="title-inner">
-                        {{title}}
-                        <span v-if="count>=0" :class="[count>0 ? 'bkt-text-green' : 'bkt-text-neutral-dark']">
-                            ({{count}})
-                        </span>
-                    </slot>
-                </h3>
-            </slot>
-            <button class="bkt-button-icon" :class="collapse_button_class" data-bs-toggle="collapse"
-                    :data-bs-target="'#'+id" aria-expanded="false" :disabled="loading||count==0"
-            >
-                <span v-if="loading" class="spinner-border spinner-border-sm" role="status"></span>
-                <bkt-icon v-else :name="'ArrowDown'" class="bkt-button__icon"></bkt-icon>
-            </button>
-        </div>
-        <div class="collapse" :class="collapse_class" :id="id">
+    <div class="bkt-collapse" :class="main_class">
+        <div class="collapse bkt-collapse__body" :class="collapse_class" :id="id">
             <slot name="collapse" v-if="!loading">
             </slot>
             <div v-if="loading" class="d-flex w-100 justify-content-center mb-5">
@@ -31,6 +13,24 @@
                 </slot>
             </div>
         </div>
+        <div class="bkt-collapse__header">
+            <slot name="title">
+                <h3 class="bkt-card__title" v-if="title" data-bs-toggle="collapse" :data-bs-target="'#'+id">
+                    <slot name="title-inner">
+                        {{title}}
+                        <span v-if="count>=0" :class="[count>0 ? 'bkt-text-green' : 'bkt-text-neutral-dark']">
+                            ({{count}})
+                        </span>
+                    </slot>
+                </h3>
+            </slot>
+            <button class="bkt-collapse__button bkt-button-icon" :class="collapse_button_class" data-bs-toggle="collapse"
+                    :data-bs-target="'#'+id" aria-expanded="false" :disabled="loading||count==0"
+            >
+                <span v-if="loading" class="spinner-border spinner-border-sm" role="status"></span>
+                <bkt-icon v-else :name="'ArrowDown'" class="bkt-button__icon"></bkt-icon>
+            </button>
+        </div>
     </div>
 </template>
 
@@ -40,6 +40,7 @@
         props: {
             id: {
                 type: String,
+                default: 'bkt-collapse',
                 required: true
             },
             title: {

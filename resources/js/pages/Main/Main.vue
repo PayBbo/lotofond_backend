@@ -1,12 +1,12 @@
 <template>
-    <div class="container bkt-main bkt-container">
+    <div class="container bkt-main bkt-page bkt-container">
         <bkt-date-modal></bkt-date-modal>
         <bkt-price-modal></bkt-price-modal>
         <bkt-options-modal></bkt-options-modal>
         <bkt-params-modal></bkt-params-modal>
         <bkt-category-modal></bkt-category-modal>
         <bkt-region-modal></bkt-region-modal>
-        <h1 class="bkt-main-title text-center">Электронные торги по банкротству</h1>
+        <h1 class="bkt-page__title">Электронные торги по банкротству</h1>
         <div class="bkt-search position-relative bg-white">
             <input class="w-100 bkt-search__input" type="text" placeholder="Введите нужное слово или фразу">
             <button class="bkt-button green bkt-search__button">
@@ -17,12 +17,12 @@
         <div class="bkt-main-categories bkt-card__list">
             <bkt-filter-card
                 :icon="{name:'Category'}" category_class="bkt-bg-green"
-                title="Выберите<br> нужные категории" :count="[]" modal_name="#"
+                title="Выберите<br> нужные категории" :count="filters.categories" modal_name="#categoryModal"
             >
             </bkt-filter-card>
             <bkt-filter-card
                 :icon="{name:'Location'}" category_class="bkt-bg-red-lighter"
-                title="Выберите<br> регион" :count="[]" modal_name="#regionModal"
+                title="Выберите<br> регион" :count="filters.regions" modal_name="#regionModal"
             >
             </bkt-filter-card>
             <bkt-filter-card
@@ -76,17 +76,18 @@
             </div>
         </div>
         <div class="bkt-main-filters bkt-row bkt-bg-main">
-            <div class="col-12 col-md-6 col-lg-4">
+            <div class="col-12 col-md-6 pe-1 col-lg-4">
                 <div class="d-flex w-100 mx-auto justify-content-around">
-                    <div class="form-floating bkt-select__wrapper main">
-                        <select class="form-select bkt-select" id="sortSelect" aria-label="">
-                            <option selected>ключевому слову</option>
-                            <option value="1">One</option>
-                            <option value="2">Two</option>
-                            <option value="3">Three</option>
-                        </select>
-                        <label class="bkt-select__subtitle" for="sortSelect">сортировать по</label>
-                    </div>
+                    <bkt-select
+                        select_class="form-floating main"
+                        name="sort"
+                        subtitle="сортировать по"
+                        :option_label="'title'"
+                        :options="sort"
+                        :reduce="item => item.value"
+                        :clearable="false"
+                    >
+                    </bkt-select>
                     <button class="bkt-button-ellipse main d-none d-md-block">
                         <bkt-icon name="Bars"></bkt-icon>
                     </button>
@@ -183,6 +184,9 @@
                     { title:'Сутки', value:"day"},
                     { title:'7 дней', value:"7 days"},
                     { title:'30 дней', value:"30 days"},
+                ],
+                sort: [
+                    { title:'По ключевому слову', value:"word"},
                 ]
             };
         },

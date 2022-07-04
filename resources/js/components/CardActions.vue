@@ -139,6 +139,14 @@
         },
         mounted() {
         },
+        watch: {
+            item: {
+                // handler(newVal) {
+                //     this.checked = newVal
+                // },
+                deep: true
+            }
+        },
         methods: {
             makeAction(method, method_params) {
                 if (method) {
@@ -154,7 +162,11 @@
                     })
             },
             addToFavorites() {
-
+                // this.toggleProcess(payload.icon)
+                // this.$store.dispatch('addToFavorites', {lot_id: this.item.id, type: payload.type})
+                //     .finally(() => {
+                //         this.toggleProcess(payload.icon)
+                //     })
             },
             addToMonitoring() {
 

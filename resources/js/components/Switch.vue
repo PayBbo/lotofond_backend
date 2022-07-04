@@ -1,0 +1,55 @@
+<template>
+    <label class="bkt-switch">
+        <input type="checkbox" v-model="model">
+        <span class="bkt-slider"></span>
+    </label>
+</template>
+
+<script>
+    export default {
+        name: "Switch",
+        props: {
+            value: {
+                type: Boolean,
+                default: false,
+            },
+            // name: {
+            //     type: String,
+            //     required: true,
+            // },
+            // label: {
+            //     type: String,
+            //     default: "",
+            // },
+            // rules: {
+            //     type: null,
+            //     default: "",
+            // },
+            // wrapper_class: {
+            //     type: String,
+            //     default: "",
+            // },
+        },
+        model: {
+            prop: 'value',
+            event: 'input'
+        },
+        data: function() {
+            return {
+                model:false,
+            };
+        },
+        mounted() {
+            this.model = this.value;
+        },
+        methods: {
+            saveValue() {
+                this.$emit('input', this.model);
+            },
+        }
+    }
+</script>
+
+<style scoped>
+
+</style>
