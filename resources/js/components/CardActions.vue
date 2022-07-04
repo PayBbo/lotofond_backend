@@ -95,7 +95,7 @@
                         color: 'red',
                         code: '',
                         status: 'inMonitoring',
-                        method: this.addToMonitoring,
+                        method: '',
                         method_params: {icon: 'Target'}
                     },
                     {

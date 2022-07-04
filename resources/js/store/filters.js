@@ -63,6 +63,10 @@ export default {
                 isHidden: false
                 // isWithPhotos: false,
                 // isDeleted: false,
+            },
+            sort: {
+                direction: "asc",
+                type: "publishDate"
             }
         },
     },
@@ -91,6 +95,9 @@ export default {
         },
         filters_other(state) {
             return state.filters.other;
+        },
+        filters_sort(state) {
+            return state.filters.sort;
         },
     },
 

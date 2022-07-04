@@ -1929,7 +1929,7 @@ var render = function () {
                             [
                               _c("bkt-icon", {
                                 staticClass: "bkt-icon-frame__item",
-                                attrs: { name: "Law", color: "primary" },
+                                attrs: { name: "Scale", color: "primary" },
                               }),
                             ],
                             1

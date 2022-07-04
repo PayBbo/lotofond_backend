@@ -13,10 +13,10 @@
             :reduce="reduce"
             :options="options"
             :clearable="clearable"
+            :searchable="searchable"
             :disabled="disabled"
             :loading="loading"
             @input="saveValue"
-
         >
 <!--       @open="open"    :filter="fuseSearch"-->
             <template v-slot:option="option" v-if="with_option">
@@ -148,6 +148,10 @@
             clearable: {
                 type: Boolean,
                 default: true
+            },
+            searchable: {
+                type: Boolean,
+                default: false
             },
             rules: {
                 type: String,

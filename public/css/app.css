@@ -12805,6 +12805,9 @@ textarea.form-control-lg {
   --vs-transition-timing-function: cubic-bezier(1, -0.115, 0.975, 0.855);
   --vs-transition-duration: 150ms;
 }
+.bkt-select__wrapper .bkt-v-select.vs--unsearchable .vs__search {
+  position: absolute;
+}
 .bkt-select__wrapper .bkt-v-select .vs__search:focus {
   outline: 0 !important;
   border-color: transparent !important;

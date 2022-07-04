@@ -38,7 +38,7 @@
                             <div class="bkt-check__wrapper">
                                 <div class="bkt-check">
                                     <div class="bkt-check__input">
-                                        <input class="" type="checkbox" disabled>
+                                        <input class="" type="checkbox">
                                         <div class="bkt-check__input-check"></div>
                                     </div>
                                     <label  class="bkt-check__label">
@@ -64,36 +64,6 @@
                                  aria-labelledby="dropdownMenuClickableOutside"
                             >
                                 <card-actions :item="item" class="bkt-card-menu-inner" type="menu"></card-actions>
-<!--                                <div class="bkt-card-menu-inner">-->
-<!--                                    <button class="bkt-button main-light">-->
-<!--                                        <bkt-icon class="bkt-button__icon" :name="'Eye'" :color="'primary'"></bkt-icon>-->
-<!--                                        Инфо о должнике-->
-<!--                                    </button>-->
-<!--                                    <button class="bkt-button main-light">-->
-<!--                                        <bkt-icon class="bkt-button__icon" :name="'Pencil'" :color="'blue'"></bkt-icon>-->
-<!--                                        Добавить заметку-->
-<!--                                    </button>-->
-<!--                                    <button class="bkt-button main-light">-->
-<!--                                        <bkt-icon class="bkt-button__icon" :name="'Target'" :color="'red'"></bkt-icon>-->
-<!--                                        Следить за лотом-->
-<!--                                    </button>-->
-<!--                                    <button class="bkt-button main-light">-->
-<!--                                        <bkt-icon class="bkt-button__icon" :name="'Star'" :color="'yellow'"></bkt-icon>-->
-<!--                                        В избранное-->
-<!--                                    </button>-->
-<!--                                    <button class="bkt-button main-light">-->
-<!--                                        <span class="info"></span>-->
-<!--                                        <bkt-icon class="bkt-button__icon" :name="'Bell'" :color="'green'"></bkt-icon>-->
-<!--                                        Уведомления-->
-<!--                                    </button>-->
-<!--                                    <button class="bkt-button main-light">-->
-<!--                                        <bkt-icon class="bkt-button__icon" :name="'Clip'" :color="'purple'"></bkt-icon>-->
-<!--                                        Закрепить-->
-<!--                                    </button>-->
-<!--                                    <button class="bkt-button pb-0">-->
-<!--                                        <bkt-icon class="bkt-button__icon mx-auto" :name="'Trash'"></bkt-icon>-->
-<!--                                    </button>-->
-<!--                                </div>-->
                             </div>
                         </div>
                         <!--                        <button class="bkt-button bkt-bg-primary-lighter bkt-card-menu-button">-->
@@ -145,7 +115,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="bkt-card-period bkt-wrapper" v-if="item.trade && item.trade.applicationTime">
+                    <div class="bkt-card-period bkt-wrapper" v-if="item.trade && item.trade.applicationTime && (item.trade.applicationTime.start || item.trade.applicationTime.end)">
                         <div class="bkt-card__category bkt-bg-primary-lighter">
                             <bkt-icon :name="'Date'" :color="'primary'" :width="'16px'" :height="'16px'"></bkt-icon>
                         </div>
@@ -159,8 +129,8 @@
                             </div>
                         </div>
                     </div>
-                    <div class="bkt-card-period bkt-wrapper" v-if="item.trade && item.trade.eventTime">
-                        <div class="bkt-card__category bkt-bg-primary-lighter">
+                    <div class="bkt-card-period bkt-wrapper" v-if="item.trade && item.trade.eventTime && (item.trade.eventTime.start ||item.trade.eventTime.end) ">
+                        <div class="bkt-icon-frame bkt-bg-primary-lighter">
                             <bkt-icon :name="'Alarm'" :color="'primary'" :width="'16px'" :height="'16px'"></bkt-icon>
                         </div>
                         <div class="bkt-card_feature">

@@ -79,6 +79,7 @@
             <div class="col-12 col-md-6 pe-1 col-lg-4">
                 <div class="d-flex w-100 mx-auto justify-content-around">
                     <bkt-select
+                        v-model="filters_sort.type"
                         select_class="form-floating main"
                         name="sort"
                         subtitle="сортировать по"
@@ -86,9 +87,10 @@
                         :options="sort"
                         :reduce="item => item.value"
                         :clearable="false"
+                        @input="getData(1)"
                     >
                     </bkt-select>
-                    <button class="bkt-button-ellipse main d-none d-md-block">
+                    <button class="bkt-button-ellipse main d-none d-md-block" @click="toggleDirection">
                         <bkt-icon name="Bars"></bkt-icon>
                     </button>
                     <button class="bkt-button-ellipse main d-md-none">
@@ -172,9 +174,9 @@
             BktDateModal, BktPriceModal, BktOptionsModal,
             BktParamsModal, BktRegionModal, BktCategoryModal, BktSelect, BktFilterCard
         },
-        async mounted() {
+        mounted() {
             this.getCategories();
-            await this.getData();
+            this.getData();
         },
         data() {
             return {
@@ -186,7 +188,12 @@
                     { title:'30 дней', value:"30 days"},
                 ],
                 sort: [
-                    { title:'По ключевому слову', value:"word"},
+                    { title:'Дате добавления', value:"publishDate"},
+                    { title:'Цене', value:"currentPrice"},
+                    { title:'Дате начала торгов', value:"eventStart"},
+                    { title:'Дате окончания торгов', value:"eventEnd"},
+                    { title:'Дате начала приема заявок', value:"applicationStart"},
+                    { title:'Дате окончания приема заявок', value:"applicationEnd"},
                 ]
             };
         },
@@ -200,6 +207,14 @@
                 },
                 set(value) {
                     this.$store.commit('saveFiltersProperty', {key: 'other', value: value});
+                }
+            },
+            filters_sort: {
+                get() {
+                    return this.$store.getters.filters_sort;
+                },
+                set(value) {
+                    this.$store.commit('saveFiltersProperty', {key: 'sort', value: value});
                 }
             },
             items() {
@@ -219,6 +234,14 @@
             async getCategories() {
                 await this.$store.dispatch('getCategories');
             },
+            toggleDirection() {
+                if(this.filters_sort.direction == 'asc') {
+                    this.filters_sort.direction = 'desc';
+                }
+                else {
+                    this.filters_sort.direction = 'asc';
+                }
+            }
         }
     }
 </script>

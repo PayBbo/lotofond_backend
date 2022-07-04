@@ -62,7 +62,7 @@ export default {
         */
 
         async login({dispatch, commit}, payload) {
-            await axios.post('/api/login', payload)
+            await axios.post('/api/login', payload.data)
                 .then(resp => {
                     commit('auth_success', {token: resp.data.accessToken, refreshToken: resp.data.refreshToken});
                     commit('closeModal', '#authModal');
@@ -70,6 +70,8 @@ export default {
                 })
                 .catch(error => {
                     commit('clearStorage');
+                    dispatch('sendNotification',
+                        {self: payload.self, title: 'Авторизация', message: error.response.data.detail, type: 'error'})
                 });
         },
         async registration({dispatch, commit}, payload) {

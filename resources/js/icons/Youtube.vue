@@ -1,0 +1,31 @@
+<template>
+    <svg xmlns="http://www.w3.org/2000/svg" :class="'bkt-fill bkt-fill-'+color" :width="width" :height="height" viewBox="0 0 75 53.2">
+        <path
+            d="M363.8,412.8V389.5c.2-1.2.6-2.3.7-3.5.6-6.1,4.1-10.2,9.7-10.7s9.7-.8,14.5-.8l38.5.8c5.4.1,8.8,2.8,10.2,8.3.5,1.9.9,3.9,1.4,5.9v23.3a18.7,18.7,0,0,0-.8,3.4c-.6,6.2-4.1,10.3-9.7,10.8s-9.7.7-14.5.7c-12.8-.1-25.7-.4-38.5-.7-5.4-.1-8.8-2.9-10.2-8.3C364.6,416.7,364.2,414.7,363.8,412.8Zm28.8-28.3c-.6,1.5-1.8,2.7-1.8,4-.1,8.3-.1,16.7,0,25,0,3.7,1.5,4.5,4.6,2.7l19.8-12.4c2.7-1.7,2.7-3.7-.1-5.5l-19.5-12.1Z"
+            transform="translate(-363.8 -374.5)"/>
+    </svg>
+</template>
+
+<script>
+    export default {
+        name: "Youtube",
+        props: {
+            color: {
+                type: String,
+                default: 'white'
+            },
+            width:{
+                type:String,
+                default:'100%'
+            },
+            height:{
+                type:String,
+                default:'100%'
+            },
+        }
+    }
+</script>
+
+<style scoped>
+
+</style>
