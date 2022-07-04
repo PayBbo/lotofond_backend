@@ -28,7 +28,10 @@ class LotResource extends JsonResource
             }
         }
         $categoriesIds = $this->categories->pluck('id')->toArray();
-        foreach (array_unique($parents) as $category) {
+        $serialized = array_map('serialize', $parents);
+        $unique = array_unique($serialized);
+        $parents = array_intersect_key($parents, $unique);
+        foreach ($parents as $category) {
             $subs = array_intersect($category->subcategories()->pluck('id')->toArray(), $categoriesIds);
             $subs = Category::whereIn('id', array_unique($subs))->get();
             $subcategories = [];

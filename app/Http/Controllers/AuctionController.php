@@ -24,7 +24,7 @@ class AuctionController extends Controller
 
     public function getFilteredTrades(Request $request)
     {
-        $lots = Lot::filterBy($request->request)->customSortBy($request)->paginate(20);
+        $lots = Lot::customSortBy($request->request)->filterBy($request->request)->paginate(20);
         return response(new LotCollection($lots), 200);
     }
 

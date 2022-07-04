@@ -10,6 +10,7 @@ use App\Jobs\ParseCompanyTradeOrganizer;
 use App\Jobs\ParseDebtor;
 use App\Jobs\ParseSRORegister;
 use App\Jobs\ParseTrades;
+use App\Models\Lot;
 use Artisaninweb\SoapWrapper\SoapWrapper;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\File;

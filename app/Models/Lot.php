@@ -7,7 +7,6 @@ use App\Utilities\SortBuilder;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\DB;
 
 class Lot extends Model
 {
@@ -157,7 +156,16 @@ class Lot extends Model
 
     public function priceReductionsMin()
     {
-        return $this->hasOne(PriceReduction::class)->orderBy('price');
+        return $this->hasMany(PriceReduction::class)->orderBy("price", 'desc')->take(1);
+    }
+
+    public function currentPriceReduction()
+    {
+        $currentDate = Carbon::now()->setTimezone('Europe/Moscow');
+        return $this->hasMany(PriceReduction::class)
+            ->whereDate('start_time', '<=', $currentDate)->
+            whereDate('end_time', '>', $currentDate)
+            ->take(1);
     }
 
     public function getCurrentPriceAttribute()

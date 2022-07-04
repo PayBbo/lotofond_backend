@@ -9,7 +9,7 @@ class TradeType extends SortQuery implements SortContract
 {
     public function handle($value): void
     {
-        if(!is_null($value)  && strlen((string)$value['tradeType']) > 0) {
+        if(!is_null($value)  && strlen($value) > 0) {
             $this->query->whereHas('auction.auctionType', function ($q) use ($value) {
                 $q->where('title', $value);
             });

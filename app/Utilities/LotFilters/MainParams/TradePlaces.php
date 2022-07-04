@@ -11,7 +11,7 @@ class TradePlaces extends SortQuery implements SortContract
     {
         if(!is_null($value) && count($value)>0) {
             $this->query->whereHas('auction', function ($q) use ($value) {
-                $q->whereIn('trade_place_id', $value);
+               $q->whereIn('trade_place_id', $value);
             });
         }
     }
