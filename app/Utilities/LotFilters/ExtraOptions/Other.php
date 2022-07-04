@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Utilities\LotFilters;
+namespace App\Utilities\LotFilters\ExtraOptions;
 
 use App\Utilities\SortContract;
 use App\Utilities\SortQuery;
