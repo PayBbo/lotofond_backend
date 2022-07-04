@@ -1,58 +1,69 @@
-.btn-yellow {
-    background-color: $yellow;
-    color: black;
+.bkt-agent {
+    & .btn-yellow {
+        background-color: $yellow;
+        color: black;
+    }
+
+    & .btn-light-gray {
+        background-color: $gray-200;
+        color: black;
+    }
+
+
 }
 
-.btn-light-gray {
-    background-color: $gray-200;
-    color: black;
-}
-
-.col_div {
+.bkt-agent {
     display: flex;
     flex-direction: column;
     align-items: center;
     text-align: center;
 
-    h1 {
-        margin: 80px 0;
-    }
-
-    h2 {
+    & h2 {
+        font-weight: 700;
         margin: 80px 0 20px 0;
     }
 
-    .promo-wrapper {
+    & .promo-wrapper {
         text-align: start;
         display: flex;
         flex-direction: column;
         align-items: center;
         width: 100%;
 
-        .promo {
+        & .promo {
+            position: relative;
             display: flex;
             flex-direction: row;
             flex-wrap: wrap;
-            padding: 80px;
+            padding: 60px;
             color: white;
-            background-image: url();
-            background-color: $blue;
+            background-color: $primary;
             border-radius: 30px;
             width: 100%;
+            overflow: hidden;
 
             @media (max-width: 768px) {
                 padding: 40px;
             }
-
-            .promo_block_wrapper {
+            &__image {
+                width: 468px;
+                height: 120%;
+                position: absolute;
+                //bottom: -46px;
+                top:0;
+                z-index: 0;
+                right: 50px;
+            }
+            & .promo_block_wrapper {
                 max-width: 400px;
                 min-width: 200px;
+                z-index: 1;
 
-                .promo_block {
+                & .promo_block {
                     display: flex;
                     align-items: center;
 
-                    .check_mark {
+                    & .check_mark {
                         min-width: 40px;
                         min-height: 40px;
                         margin: 10px;
@@ -64,35 +75,35 @@
                 }
             }
 
-            div:nth-child(2) div {
+            & div:nth-child(2) div {
                 display: flex;
                 flex-direction: row;
             }
 
-            .promo_buy {
+            & .promo_buy {
                 display: flex;
                 flex-direction: column;
                 align-items: center;
                 width: 180px;
                 margin: auto 0 0 auto;
 
-                h2 {
+                & h2 {
                     margin-bottom: 20px;
                 }
 
-                button {
+                & button {
                     width: 160px;
                     height: 70px;
                     border-radius: 20px;
                 }
             }
 
-            h1,
-            h2 {
+            & h1,
+            & h2 {
                 margin: 0;
             }
 
-            p {
+            & p {
                 margin-top: 60px;
 
                 @media (max-width: 992px) {
@@ -101,7 +112,7 @@
             }
         }
 
-        .promo-shadow {
+        & .promo-shadow {
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -111,7 +122,7 @@
         }
     }
 
-    .row_div {
+    & .row_div {
         text-align: start;
         width: 100%;
         display: flex;
@@ -119,11 +130,11 @@
         flex-wrap: wrap;
         justify-content: center;
 
-        p {
+        & p {
             margin: 0;
         }
 
-        .profit_cell {
+        & .profit_cell {
             max-width: 300px;
             min-width: 300px;
             min-height: 200px;
@@ -152,13 +163,13 @@
                 min-width: 250px;
             }
 
-            p {
+            & p {
                 overflow: hidden;
                 word-wrap: break-word;
                 width: 100%;
             }
 
-            div {
+            & div {
                 min-width: 50px;
                 min-height: 50px;
                 max-width: 50px;
@@ -172,14 +183,14 @@
                     margin-bottom: 0;
                 }
 
-                svg {
+                & svg {
                     width: 30px;
                     height: 30px;
                 }
             }
         }
 
-        .action_cell {
+        & .action_cell {
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -211,13 +222,13 @@
                 min-width: 250px;
             }
 
-            p {
+            & p {
                 overflow: hidden;
                 word-wrap: break-word;
                 width: 100%;
             }
 
-            .plus {
+            & .plus {
                 display: flex;
                 align-items: center;
                 justify-content: center;
@@ -241,7 +252,7 @@
                 }
             }
 
-            .number {
+            & .number {
                 display: flex;
                 justify-content: center;
                 align-items: center;
@@ -265,7 +276,7 @@
                     max-height: 45px;
                 }
 
-                span {
+                & span {
                     color: $blue;
                     font-size: 30px;
                     font-weight: bolder;
@@ -277,7 +288,7 @@
             }
         }
 
-        .todo_cell {
+        & .todo_cell {
             display: flex;
             align-items: center;
             position: relative;
@@ -286,7 +297,7 @@
             min-height: 100px;
             background-color: white;
             border-radius: 30px;
-            padding: 40px;
+            padding: 25px 33px;
             margin: 20px 40px 0 0;
 
             @media (max-width: 768px) {
@@ -309,7 +320,7 @@
                 min-width: 250px;
             }
 
-            p {
+            & p {
                 overflow: hidden;
                 word-wrap: break-word;
                 width: 100%;
@@ -319,7 +330,7 @@
                 }
             }
 
-            .check_mark {
+            & .check_mark {
                 display: flex;
                 align-items: center;
                 justify-content: center;
@@ -343,7 +354,7 @@
         }
     }
 
-    .mini-promo {
+    & .mini-promo {
         display: flex;
         flex-direction: row;
         align-items: center;
@@ -351,8 +362,8 @@
         text-align: center;
         padding: 30px 40px;
         color: white;
-        background-image: url();
-        background-color: $blue;
+        //background-image: url();
+        background-color: $primary-default;
         border-radius: 30px;
         width: 100%;
         margin: 80px 0 0 0;
@@ -362,18 +373,18 @@
             padding: 30px 30px 0 30px;
         }
 
-        h2 {
+        & h2 {
             margin: 0;
         }
 
-        strong:nth-child(2) {
+        & strong:nth-child(2) {
             margin: 0 0 0 10px;
             font-size: 80px;
             line-height: normal;
         }
     }
 
-    .modal-content {
+    & .modal-content {
         text-align: start;
         display: flex;
         flex-direction: column;
@@ -393,18 +404,18 @@
             padding: 30px;
         }
 
-        .bkt-input__wrapper {
+        & .bkt-input__wrapper {
             width: 100%;
             margin-bottom: 20px;
         }
 
-        .communications {
+        & .communications {
             display: flex;
             flex-direction: row;
             justify-content: center;
             flex-wrap: wrap;
 
-            .bkt-button {
+            & .bkt-button {
                 overflow: hidden;
                 width: 120px;
                 height: 50px;
@@ -425,19 +436,19 @@
                 }
             }
 
-            button:last-child {
+            & button:last-child {
                 align-self: flex-end;
                 min-width: 100%;
             }
         }
 
-        .time_to_call {
+        & .time_to_call {
             display: flex;
             flex-direction: row;
             justify-content: center;
             width: 100%;
 
-            .form-select {
+            & .form-select {
                 border: none;
                 border-radius: 15px;
                 background-color: rgb(245, 247, 254);
@@ -461,22 +472,18 @@
             }
         }
 
-        .bkt-check__wrapper {
+        & .bkt-check__wrapper {
             margin: 20px 0;
             width: 100%;
             overflow: hidden;
 
-            .bkt-check__input {
-                width: 50px;
-                height: 50px;
-
-                input {
-                    opacity: 1;
-                }
+            & .bkt-check__input {
+                width: 36px;
+                height: 36px;
             }
         }
 
-        .bkt-button {
+        & .bkt-button {
             width: 100%;
             height: 70px;
             border-radius: 20px;

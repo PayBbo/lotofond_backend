@@ -36,7 +36,7 @@ __webpack_require__.r(__webpack_exports__);
     },
     height: {
       type: String,
-      "default": '18px'
+      "default": '100%'
     }
   }
 });
@@ -143,7 +143,7 @@ var render = function () {
     [
       _c("path", {
         attrs: {
-          "stroke-width": "2",
+          "stroke-width": "3",
           "stroke-linejoin": "round",
           "stroke-miterlimit": "10",
           d: "M29,16c0,0-5.8,8-13,8S3,16,3,16s5.8-8,13-8S29,16,29,16z",
@@ -152,7 +152,7 @@ var render = function () {
       _vm._v(" "),
       _c("circle", {
         attrs: {
-          "stroke-width": "2",
+          "stroke-width": "3",
           "stroke-linejoin": "round",
           "stroke-miterlimit": "10",
           cx: "16",

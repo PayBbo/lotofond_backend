@@ -31,6 +31,13 @@
 @import './components/datepicker.scss';
 @import './components/form.scss';
 @import './components/sidebar.scss';
+@import "./components/footer.scss";
+@import "./components/page.scss";
+@import "./components/table.scss";
+@import "./components/icon-frame.scss";
+@import "./components/collapse.scss";
+@import "./components/tag.scss";
+@import "./components/switch.scss";
 
 // Custom styles
 @import "./customs/main.scss";
@@ -123,4 +130,17 @@ a {
 }
 a:hover {
     color: inherit;
+}
+
+* {
+    outline: none;
+    box-shadow: none;
+}
+*:focus {
+    outline: none;
+    box-shadow: none;
+}
+*:focus-visible {
+    outline: none;
+    box-shadow: none;
 }

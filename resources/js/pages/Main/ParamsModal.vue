@@ -91,7 +91,7 @@
                         </div>
                         <div class="col-12 col-lg-10">
                             <div class="bkt-form bkt-wrapper bkt-auctions-types">
-                                <div class="bkt-auctions-type" v-for="item in auctionTypes">
+                                <div class="bkt-auctions-type flex-fill" v-for="item in auctionTypes">
                                     <button class="bkt-auctions-type__card bkt-auctions-type__title bkt-bg-body"
                                             @click="filter.tradeType=item.title"
                                             :class="[filter.tradeType===item.title ? 'bkt-border-primary': 'bkt-border-body']">

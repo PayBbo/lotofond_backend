@@ -25,6 +25,7 @@ export default {
     actions: {
         async getCategories({commit, state}, payload) {
             try {
+                commit('setCategoriesLoading', true)
                 await axios({
                     method: 'get',
                     url: '/api/trades/filter/categories',
@@ -32,9 +33,11 @@ export default {
                 })
                     .then((response) => {
                         commit('setCategories', response.data)
+                        commit('setCategoriesLoading', false)
                     });
             } catch (error) {
                 console.log(error);
+                commit('setCategoriesLoading', false)
                 // commit('setCategories', []);
                 throw error
             }

@@ -72,3 +72,14 @@
         }
     }
 }
+@media (max-width: 1200px) {
+    .bkt-filters-modal {
+        & .bkt-auctions-types {
+            & .bkt-auctions-type {
+                & .bkt-auctions-type__card {
+                    width: 100%;
+                }
+            }
+        }
+    }
+}

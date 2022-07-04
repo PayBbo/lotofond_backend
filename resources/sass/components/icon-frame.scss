@@ -1,0 +1,110 @@
+.bkt-icon-frame {
+    width: 44px;
+    min-height: 44px;
+    height: 100%;
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+
+    &__item {
+        max-width: 22px;
+        max-height: 22px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+}
+
+.bkt-icon-frame-small {
+    @extend .bkt-icon-frame;
+    width: 34px;
+    min-height: 34px;
+    border-radius: 10px;
+    & .bkt-icon-frame__item {
+        max-width: 16px;
+        max-height: 16px;
+    }
+}
+
+.bkt-icon-frame-large {
+    @extend .bkt-icon-frame;
+    width: 50px;
+    min-height: 50px;
+}
+
+@media (min-width: 576px) {
+    .bkt-icon-frame-sm {
+        width: 44px;
+        min-height: 44px;
+    }
+    .bkt-icon-frame-sm-large {
+        width: 50px;
+        min-height: 50px;
+    }
+    .bkt-icon-frame-sm-small {
+        width: 34px;
+        min-height: 34px;
+    }
+}
+
+@media (min-width: 768px) {
+    .bkt-icon-frame-md {
+        width: 44px;
+        min-height: 44px;
+    }
+    .bkt-icon-frame-md-large {
+        width: 50px;
+        min-height: 50px;
+    }
+    .bkt-icon-frame-md-small {
+        width: 34px;
+        min-height: 34px;
+    }
+}
+
+@media (min-width: 992px) {
+    .bkt-icon-frame-lg {
+        width: 44px;
+        min-height: 44px;
+    }
+    .bkt-icon-frame-lg-large {
+        width: 50px;
+        min-height: 50px;
+    }
+    .bkt-icon-frame-lg-small {
+        width: 34px;
+        min-height: 34px;
+    }
+}
+
+@media (min-width: 1200px) {
+    .bkt-icon-frame-lx {
+        width: 44px;
+        min-height: 44px;
+    }
+    .bkt-icon-frame-lx-large {
+        width: 50px;
+        min-height: 50px;
+    }
+    .bkt-icon-frame-lx-small {
+        width: 34px;
+        min-height: 34px;
+    }
+}
+
+@media (min-width: 1400px) {
+    .bkt-icon-frame-lxx {
+        width: 44px;
+        min-height: 44px;
+    }
+    .bkt-icon-frame-lxx-large {
+        width: 50px;
+        min-height: 50px;
+    }
+    .bkt-icon-frame-lxx-small {
+        width: 34px;
+        min-height: 34px;
+    }
+}

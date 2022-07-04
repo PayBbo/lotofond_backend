@@ -13,6 +13,9 @@ const mix = require('laravel-mix');
 const WebpackShellPlugin = require('webpack-shell-plugin-next');
 mix.webpackConfig({
     mode: 'development',
+    stats: {
+        children: true,
+    },
     plugins: [
         new WebpackShellPlugin({onBuildStart: {scripts: ['php artisan lang:js resources/js/vue-translations.json --json --quiet']}, onBuildEnd:[]}),
     ]

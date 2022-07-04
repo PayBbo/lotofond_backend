@@ -98,7 +98,7 @@
                 </div>
                 <ul class="bkt-navbar__nav">
                     <li class="bkt-navbar__nav-item d-none d-lg-flex">
-                        <a class="bkt-navbar__nav-link" href="#">Купить через агента</a>
+                        <a class="bkt-navbar__nav-link" href="/agent">Купить через агента</a>
                     </li>
                     <li class="bkt-navbar__nav-item">
                         <a class="bkt-navbar__nav-link" href="#">

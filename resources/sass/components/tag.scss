@@ -1,0 +1,51 @@
+.bkt-tag {
+    background-color: rgb(245, 247, 254);
+    padding: 12px 25px;
+    border-radius: 15px;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: nowrap;
+    font-weight: 500;
+    color: rgb(45, 50, 68);
+    line-height: 1.2;
+    text-align: left;
+    max-width: 320px;
+
+    &__wrapper {
+        display: flex;
+        align-items: center;
+        flex-wrap: nowrap;
+        gap: 10px;
+    }
+
+    &__list {
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 6px;
+    }
+
+    &__icon {
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 12px;
+        height: 12px;
+    }
+}
+
+@media (max-width: 565px) {
+    .bkt-tag {
+        border-radius: 10px;
+        background-color: rgb(245, 247, 254);
+        padding: 5px 15px;
+        gap: 6px;
+        font-size: 10px;
+        &__list {
+            gap: 4px;
+        }
+    }
+}

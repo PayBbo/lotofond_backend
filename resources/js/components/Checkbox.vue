@@ -26,6 +26,8 @@
                 type: Boolean,
                 default: false,
             },
+            // val: {
+            // },
             name: {
                 type: String,
                 required: true,
@@ -53,11 +55,18 @@
         },
         data: function() {
             return {
-                model:false,
+                model:null,
+                // tmp_val:null,
             };
         },
         mounted() {
             this.model = this.value;
+            // if(!this.val) {
+            //     this.tmp_val = this.model
+            // }
+            // else {
+            //     this.tmp_val =this.val;
+            // }
         },
         methods: {
             saveValue() {
