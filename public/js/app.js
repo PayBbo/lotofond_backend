@@ -5789,7 +5789,7 @@ __webpack_require__.r(__webpack_exports__);
       })["catch"](function (err) {
         _this.loading = false;
       })["finally"](function () {
-        console.log('finally');
+        _this.loading = false;
       });
     },
     sendCode: function sendCode() {
@@ -5801,6 +5801,12 @@ __webpack_require__.r(__webpack_exports__);
         _this2.code_loading = false;
       })["catch"](function (err) {
         _this2.code_loading = false;
+
+        _this2.$store.dispatch('sendNotification', {
+          self: _this2,
+          message: 'Ошибка',
+          type: 'error'
+        });
       });
     },
     skip: function skip() {
@@ -12188,7 +12194,6 @@ vue__WEBPACK_IMPORTED_MODULE_1__["default"].use(vuex__WEBPACK_IMPORTED_MODULE_2_
                   commit('clearStorage');
                   dispatch('sendNotification', {
                     self: payload.self,
-                    title: 'Авторизация',
                     message: error.response.data.detail,
                     type: 'error'
                   });
@@ -12217,6 +12222,11 @@ vue__WEBPACK_IMPORTED_MODULE_1__["default"].use(vuex__WEBPACK_IMPORTED_MODULE_2_
                   commit('openModal', '#codeModal');
                 })["catch"](function (error) {
                   commit('clearStorage');
+                  dispatch('sendNotification', {
+                    self: payload.self,
+                    message: error.response.data.detail,
+                    type: 'error'
+                  });
                 });
 
               case 3:
@@ -12262,7 +12272,13 @@ vue__WEBPACK_IMPORTED_MODULE_1__["default"].use(vuex__WEBPACK_IMPORTED_MODULE_2_
                   });
                   dispatch('getAuthUser');
                   commit('closeModal', '#codeModal');
-                })["catch"](function (error) {});
+                })["catch"](function (error) {
+                  dispatch('sendNotification', {
+                    self: payload.self,
+                    message: error.response.data.detail,
+                    type: 'error'
+                  });
+                });
 
               case 3:
               case "end":
@@ -13036,7 +13052,14 @@ __webpack_require__.r(__webpack_exports__);
         debtorCategories: [],
         debtors: [],
         organizers: [],
-        arbitrManagers: []
+        arbitrManagers: [],
+        other: {
+          period: 'all',
+          hasPhotos: false,
+          isStopped: false,
+          isCompleted: false,
+          isHidden: false
+        }
       },
       mainParams: {
         excludedWords: '',
@@ -13044,15 +13067,13 @@ __webpack_require__.r(__webpack_exports__);
         tradePlaces: [],
         tradeType: ''
       },
-      other: {
-        period: 'all',
-        hasPhotos: false,
-        isStopped: false,
-        isCompleted: false,
-        isHidden: false // isWithPhotos: false,
-        // isDeleted: false,
-
-      },
+      // other: {
+      //     period: 'all',
+      //     hasPhotos: false,
+      //     isStopped: false,
+      //     isCompleted: false,
+      //     isHidden: false
+      // },
       sort: {
         direction: "asc",
         type: "publishDate"
@@ -13082,7 +13103,7 @@ __webpack_require__.r(__webpack_exports__);
       return state.filters.mainParams;
     },
     filters_other: function filters_other(state) {
-      return state.filters.other;
+      return state.filters.extraOptions.other;
     },
     filters_sort: function filters_sort(state) {
       return state.filters.sort;
@@ -13804,6 +13825,10 @@ __webpack_require__.r(__webpack_exports__);
 
       if (!payload.message) {
         payload.message = 'Ошибка';
+      }
+
+      if (!payload.title) {
+        payload.title = 'LotoFond';
       }
 
       payload.self.$notify({
@@ -74082,7 +74107,7 @@ var render = function () {
               category_class: "bkt-bg-primary-lighter",
               title: "Выберите<br> доп. параметры",
               count: _vm.filters.extraOptions,
-              modal_name: "#dateModal",
+              modal_name: "#optionsModal",
             },
           }),
         ],

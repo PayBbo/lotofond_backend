@@ -29,6 +29,7 @@ export default {
         sendNotification({commit}, payload) {
             if (!payload.type){ payload.type='success';}
             if (!payload.message){ payload.message='Ошибка';}
+            if (!payload.title){ payload.title='LotoFond';}
             payload.self.$notify({
                 // group: 'message',
                 type: payload.type,

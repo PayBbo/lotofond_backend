@@ -113,7 +113,7 @@
                         this.loading = false;
                     })
                 .finally(() => {
-                    console.log('finally');
+                    this.loading = false;
                 });
             },
             sendCode() {
@@ -126,6 +126,8 @@
                     })
                     .catch(err => {
                         this.code_loading = false;
+                        this.$store.dispatch('sendNotification',
+                            {self: this, message:'Ошибка', type: 'error'})
                     });
             },
             skip() {
