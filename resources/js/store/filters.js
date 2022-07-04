@@ -47,7 +47,14 @@ export default {
                 organizers: [
                 ],
                 arbitrManagers: [
-                ]
+                ],
+                other: {
+                    period: 'all',
+                    hasPhotos: false,
+                    isStopped: false,
+                    isCompleted: false,
+                    isHidden: false
+                },
             },
             mainParams: {
                 excludedWords: '',
@@ -55,15 +62,13 @@ export default {
                 tradePlaces: [],
                 tradeType:'',
             },
-            other: {
-                period: 'all',
-                hasPhotos: false,
-                isStopped: false,
-                isCompleted: false,
-                isHidden: false
-                // isWithPhotos: false,
-                // isDeleted: false,
-            },
+            // other: {
+            //     period: 'all',
+            //     hasPhotos: false,
+            //     isStopped: false,
+            //     isCompleted: false,
+            //     isHidden: false
+            // },
             sort: {
                 direction: "asc",
                 type: "publishDate"
@@ -94,7 +99,7 @@ export default {
             return state.filters.mainParams;
         },
         filters_other(state) {
-            return state.filters.other;
+            return state.filters.extraOptions.other;
         },
         filters_sort(state) {
             return state.filters.sort;

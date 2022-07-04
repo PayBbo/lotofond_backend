@@ -45,7 +45,7 @@
             <bkt-filter-card
                 :icon="{name:'Clone'}" category_class="bkt-bg-primary-lighter"
                 title="Выберите<br> доп. параметры" :count="filters.extraOptions"
-                modal_name="#dateModal"
+                modal_name="#optionsModal"
             >
             </bkt-filter-card>
         </div>
