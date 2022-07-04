@@ -26,7 +26,7 @@ class FilterBuilder
             if (!class_exists($class)) {
                 continue;
             }
-            (new $class($this->query))->handle($value);
+            (new $class($this->query))->handle($value, $name);
 
         }
         return $this->query;

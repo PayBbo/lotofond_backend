@@ -17,6 +17,7 @@ class PercentageReduction  extends SortQuery implements SortContract
         if(strlen((string)$value['max']) == 0 || is_null($value['max'])){
             $value['max'] = PriceReduction::max('percent');
         }
+
         if(!is_null($value) && strlen((string)$value['min']) > 0 && strlen((string)$value['max']) > 0) {
             $this->query->whereHas('currentPriceReduction', function ($q) use ($value) {
                 return $q->whereBetween('percent',
