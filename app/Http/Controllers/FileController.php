@@ -38,7 +38,7 @@ class FileController extends Controller
                 }
                 return response(null, 200);
             } else {
-                throw new BaseException('ERR_IMAGE_UPLOAD', 422, 'Image can not be uploaded');
+                throw new BaseException('ERR_IMAGE_UPLOAD', 422, __('validation.image_err'));
             }
         }
         if ($request->fileType == 'file') {
@@ -54,7 +54,7 @@ class FileController extends Controller
                 }
                 return response(null, 200);
             } else {
-                throw new BaseException('ERR_FILE_UPLOAD', 422, 'File can not be uploaded');
+                throw new BaseException('ERR_FILE_UPLOAD', 422,  __('validation.file_err'));
             }
         }
     }

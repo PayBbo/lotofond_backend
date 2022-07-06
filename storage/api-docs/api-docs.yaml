@@ -369,6 +369,32 @@ paths:
                 $ref: '#/components/schemas/Error'
       security:
         - bearerAuth: [ ]
+  /account/refresh/token/{refreshToken}:
+    get:
+      parameters:
+        - name: refreshToken
+          in: path
+          description: Токен для обновления токена доступа
+          required: true
+      tags:
+        - Account
+      summary: Обновление токена
+      operationId: refreshToken
+      responses:
+        "200":
+          description: Данные аккаунта
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenData'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+        - bearerAuth: []
   /trades:
     put:
       parameters:
@@ -535,6 +561,44 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Categories'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /trades/filter/regions:
+    get:
+      tags:
+        - FiltersData
+      summary: Получение информации о регионах для отображения в фильтрах
+      operationId: getRegionsForFilter
+      responses:
+        "200":
+          description: Информация о регионах
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Regions'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /trades/filter/prices:
+    get:
+      tags:
+        - FiltersData
+      summary: Получение информации о минимальных/максимальных ценах для отображения в фильтрах
+      operationId: getPricesForFilter
+      responses:
+        "200":
+          description: Информация о ценах
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Prices'
         default:
           description: unexpected error
           content:
@@ -751,7 +815,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
       security:
-        - bearerAuth: [ ]
+        - bearerAuth: []
   /favourite:
     put:
       parameters:
@@ -828,6 +892,7 @@ paths:
           application/json:
             schema:
               type: object
+              description: если нужно добавить лоты в папку Общее - не передаем ни айдишник, ни имя
               required:
                 - lots
               properties:
@@ -1362,6 +1427,12 @@ paths:
             type: integer
           required: true
           description: Айдишник участника торгов
+        - in: query
+          name: page
+          schema:
+            type: integer
+          required: true
+          description: Номер страницы для серверной пагинации
       summary: Получение активных/неактивных торгов выбранного участника
       operationId: getTradesByBidder
       responses:
@@ -1435,6 +1506,48 @@ paths:
                 $ref: '#/components/schemas/Error'
       security:
         - bearerAuth: []
+  /statistics/categories:
+    get:
+      tags:
+        - Statistics
+      summary: Получение информации о количестве лотов по категориям
+      operationId: getStatisticsByCategories
+      responses:
+        "200":
+          description: Информация о количестве лотов по категориям
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  {'realEstate': 100, 'commercialRealEstate': 200}
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /statistics/lots:
+    get:
+      tags:
+        - Statistics
+      summary: Получение информации о количестве активных/неактивных лотов
+      operationId: getStatisticsByLots
+      responses:
+        "200":
+          description: Информация о количестве активных/неактивных лотов
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  {'activeLotsCount': 100, 'nonactiveLotsCount': 200, 'allLotsCount': 300}
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
 components:
   schemas:
     Register:
@@ -2017,73 +2130,7 @@ components:
             type: string
             description: названия отмеченных регионов, если выбрана группа регионов - присылать все регионы этой группы
         prices:
-          default: null
-          type: object
-          example: {
-            currentPrice:
-              {
-                min: 0,
-                max: 100000
-              },
-            startPrice:
-              {
-                min: 0,
-                max: 100000
-              },
-            minPrice:
-              {
-                min: 0,
-                max: 100000
-              },
-            percentageReduction:
-              {
-                min: 0,
-                max: 10
-              }
-
-          }
-          properties:
-            currentPrice:
-              type: object
-              default: null
-              properties:
-                max:
-                  type: number
-                  description: максимальная текущая цена лота
-                min:
-                  type: number
-                  description: минимальная текущая цена лота
-            startPrice:
-              type: object
-              default: null
-              properties:
-                max:
-                  type: number
-                  description: максимальная начальная цена лота
-                min:
-                  type: number
-                  description: минимальная начальная цена лота
-            minPrice:
-              type: object
-              default: null
-              properties:
-                max:
-                  type: number
-                  description: максимальная цена лота, если не задана - подать null
-                min:
-                  type: number
-                  description: минимальная цена лота, если не задана - подать null
-            percentageReduction:
-              type: object
-              default: null
-              description: пока не сделано (!)
-              properties:
-                max:
-                  type: number
-                  description: максимальный процент снижения
-                min:
-                  type: number
-                  description: минимальный процент снижения
+          $ref: "#/components/schemas/Prices"
         dates:
           type: object
           default: null
@@ -2521,8 +2568,85 @@ components:
             - eventEnd
             - applicationStart
             - applicationEnd
+    Regions:
+      type: array
+      items:
+        type: object
+        properties:
+          regionGroup:
+            type: string
+            description: федеральный округ
+          regions:
+            type: array
+            items:
+              type: string
+              description: enum регионов
+    Prices:
+      type: object
+      example: {
+        currentPrice:
+          {
+            min: 0,
+            max: 100000
+          },
+        startPrice:
+          {
+            min: 0,
+            max: 100000
+          },
+        minPrice:
+          {
+            min: 0,
+            max: 100000
+          },
+        percentageReduction:
+          {
+            min: 0,
+            max: 10
+          }
 
-
+      }
+      properties:
+        currentPrice:
+          type: object
+          default: null
+          properties:
+            max:
+              type: number
+              description: максимальная текущая цена лота
+            min:
+              type: number
+              description: минимальная текущая цена лота
+        startPrice:
+          type: object
+          default: null
+          properties:
+            max:
+              type: number
+              description: максимальная начальная цена лота
+            min:
+              type: number
+              description: минимальная начальная цена лота
+        minPrice:
+          type: object
+          default: null
+          properties:
+            max:
+              type: number
+              description: максимальная цена лота, если не задана - подать null
+            min:
+              type: number
+              description: минимальная цена лота, если не задана - подать null
+        percentageReduction:
+          type: object
+          default: null
+          properties:
+            max:
+              type: number
+              description: максимальный процент снижения
+            min:
+              type: number
+              description: минимальный процент снижения
   securitySchemes:
     bearerAuth:
       type: http
