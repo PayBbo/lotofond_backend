@@ -12,6 +12,7 @@ use App\Http\Controllers\MarkController;
 use App\Http\Controllers\MonitoringController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\StatisticsController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -67,10 +68,27 @@ Route::group(['middleware' => ['json.response', 'localization']], function () {
 
             Route::get('/categories', [FilterController::class, 'getCategoriesForFilter']);
 
+            Route::get('/regions', [FilterController::class, 'getRegionsForFilter']);
+
+            Route::get('/prices', [FilterController::class, 'getPricesForFilter']);
+
         });
+
+    });
+
+    Route::group(['prefix' => 'bidders'], function () {
 
         Route::get('/{type}/{bidderType}/{bidderId}', [BidderController::class, 'getTradesByBidder']);
 
+        Route::get('/{bidderId}', [BidderController::class, 'getBidder']);
+
+    });
+
+    Route::group(['prefix' => 'statistics'], function () {
+
+        Route::get('/categories', [StatisticsController::class, 'getStatisticsByCategories']);
+
+        Route::get('/lots', [StatisticsController::class, 'getStatisticsByLots']);
     });
 
     Route::middleware("auth:api")->group(function () {
@@ -82,6 +100,8 @@ Route::group(['middleware' => ['json.response', 'localization']], function () {
             Route::put('user/update', [ProfileController::class, 'updateUser']);
 
             Route::get('logout', [LoginController::class, 'logout']);
+
+            Route::post('refresh/token', [LoginController::class, 'refreshToken']);
 
         });
 

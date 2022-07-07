@@ -136,6 +136,8 @@ return [
     'unique_path' => '此文件夹名称已存在。',
     'exists_path' => '所选文件夹不存在。',
     'verification_code'=>'确认码不正确。',
+    'image_err'=>'图片无法上传',
+    'file_err'=>'文件无法上传',
     'attributes' => [
         'phone' => '电话号码',
         'surname'=> '姓',

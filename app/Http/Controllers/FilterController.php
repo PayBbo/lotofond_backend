@@ -6,6 +6,9 @@ use App\Http\Resources\BidderCollection;
 use App\Http\Resources\TradePlaceCollection;
 use App\Models\Bidder;
 use App\Models\Category;
+use App\Models\Lot;
+use App\Models\PriceReduction;
+use App\Models\RegionGroup;
 use App\Models\TradePlace;
 use Illuminate\Http\Request;
 
@@ -46,5 +49,38 @@ class FilterController extends Controller
             }
         }
         return response($categories, 200);
+    }
+
+    public function getRegionsForFilter(){
+        $groups = RegionGroup::all();
+        $regions = [];
+        foreach($groups as $group){
+            $regions[] = ['regionGroup'=>$group->title, 'regions'=>$group->regions()->pluck('code')->toArray()];
+        }
+        return response($regions, 200);
+    }
+
+    public function getPricesForFilter(){
+        $data = [
+            "currentPrice"=>[
+                "min"=> PriceReduction::min('price'),
+                "max"=> PriceReduction::max('price'),
+            ],
+            "startPrice"=>[
+                "min"=> (float)Lot::min('start_price'),
+                "max"=> (float)Lot::max('start_price'),
+            ],
+            "minPrice"=>[
+                "min"=> (float)Lot::addSelect(['minimum_price' => PriceReduction::select('price')
+                    ->whereColumn('price_reductions.lot_id', 'lots.id')
+                    ->orderBy('price', 'asc')
+                    ->limit(1)])->get()->min('minimum_price'),
+                "max"=> (float)Lot::addSelect(['minimum_price' => PriceReduction::select('price')
+                    ->whereColumn('price_reductions.lot_id', 'lots.id')
+                    ->orderBy('price', 'asc')
+                    ->limit(1)])->get()->max('minimum_price'),
+            ]
+        ];
+        return response($data, 200);
     }
 }

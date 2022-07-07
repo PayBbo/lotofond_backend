@@ -66,11 +66,13 @@ class FavouriteController extends Controller
         if ($request->has('pathId')) {
             $path = Favourite::find($request->pathId);
 
-        } else {
+        } elseif(!$request->has('pathId') && $request->has('name')) {
             $path = new Favourite();
             $path->user_id = auth()->id();
             $path->title = $request->name;
             $path->save();
+        }else{
+            $path = Favourite::where(['user_id'=>auth()->id(), 'title'=>'Общее'])->first();
         }
         $lots = Lot::whereIn('id', $request->lots)->get();
         foreach ($lots as $lot) {

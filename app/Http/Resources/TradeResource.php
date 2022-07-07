@@ -35,7 +35,7 @@ class TradeResource extends JsonResource
                 'priceOfferForm' => $this->price_form,
                 'organizer' => new BidderResource($this->companyTradeOrganizer),
                 'arbitrManager' => new BidderResource($this->arbitrManager),
-                'debtorId' => $this->debtor_id,
+                'debtor' => new BidderResource($this->debtor),
                 'tradePlace' => [
                     'name' => $this->tradePlace->name,
                     'site' => $this->tradePlace->site

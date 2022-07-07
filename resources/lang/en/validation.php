@@ -132,6 +132,8 @@ return [
     'unique_path' => 'This folder name already exists.',
     'exists_path' => 'The selected folder does not exist.',
     'verification_code'=>'The confirmation code is not correct.',
+    'image_err'=>'Image can not be uploaded',
+    'file_err'=>'File can not be uploaded',
 
     /*
     |--------------------------------------------------------------------------
