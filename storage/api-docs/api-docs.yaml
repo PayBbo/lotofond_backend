@@ -1775,9 +1775,8 @@ components:
           $ref: "#/components/schemas/BidderInfo"
         arbitrManager:
           $ref: "#/components/schemas/BidderInfo"
-        debtorID:
-          type: integer
-          description: айдишник должника
+        debtor:
+          $ref: "#/components/schemas/BidderInfo"
         tradePlace:
           type: object
           properties:
