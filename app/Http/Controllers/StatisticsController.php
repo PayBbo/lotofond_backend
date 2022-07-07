@@ -11,12 +11,19 @@ class StatisticsController extends Controller
     public function getStatisticsByCategories(){
         $categories = Category::where('parent_id', null)->get();
         $data = [];
+        $active_statuses = [1, 2];
         foreach($categories as $category){
             $ids = $category->subcategories()->pluck('title');
             $ids[] = $category->title;
-            $data[$category->title] = Lot::whereHas('categories', function ($q) use ($ids) {
-                $q->whereIn('categories.title', $ids);
-            })->count();
+            $data[$category->title] = [
+                'allLotsCount'=> Lot::whereHas('categories', function ($q) use ($ids) {
+                    $q->whereIn('categories.title', $ids);
+                })->count(),
+                'activeLotsCount'=>Lot::whereIn('status_id', $active_statuses)
+                    ->whereHas('categories', function ($q) use ($ids) {
+                    $q->whereIn('categories.title', $ids);
+                })->count()
+            ];
         }
         return response($data, 200);
     }

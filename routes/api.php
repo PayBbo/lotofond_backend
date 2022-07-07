@@ -74,7 +74,13 @@ Route::group(['middleware' => ['json.response', 'localization']], function () {
 
         });
 
+    });
+
+    Route::group(['prefix' => 'bidders'], function () {
+
         Route::get('/{type}/{bidderType}/{bidderId}', [BidderController::class, 'getTradesByBidder']);
+
+        Route::get('/{bidderId}', [BidderController::class, 'getBidder']);
 
     });
 
@@ -95,7 +101,7 @@ Route::group(['middleware' => ['json.response', 'localization']], function () {
 
             Route::get('logout', [LoginController::class, 'logout']);
 
-            Route::get('refresh/token/{refreshToken}', [LoginController::class, 'refreshToken']);
+            Route::post('refresh/token', [LoginController::class, 'refreshToken']);
 
         });
 

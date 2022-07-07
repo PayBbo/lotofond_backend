@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\BidderCollection;
+use App\Exceptions\CustomExceptions\BaseException;
+use App\Http\Resources\BidderResource;
 use App\Http\Resources\LotCollection;
-use App\Http\Resources\TradePlaceCollection;
 use App\Models\Bidder;
 use App\Models\Lot;
-use App\Models\TradePlace;
 
 class BidderController extends Controller
 {
@@ -26,6 +25,14 @@ class BidderController extends Controller
                 })->paginate(20);
         }
         return response(new LotCollection($lots), 200);
+    }
+
+    public function getBidder($bidderId){
+        $bidder = Bidder::find($bidderId);
+        if(!$bidder){
+            throw new BaseException("ERR_FIND_BIDDER_FAILED", 404, "Bidder with id= " . $bidderId . ' does not exist');
+        }
+        return response(new BidderResource($bidder), 200);
     }
 
 }

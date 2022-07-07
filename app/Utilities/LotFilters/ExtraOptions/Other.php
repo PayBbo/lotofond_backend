@@ -12,7 +12,7 @@ class Other extends SortQuery implements SortContract
     {
         $minDate = null;
         $maxDate = null;
-        if (!is_null($value) && isset($value['period']) && strlen((string)$value['period']) > 0 && $value['period'] !== 'all') {
+        if (!is_null($value) && isset($value['period']) && strlen((string)$value['period']) > 0 && $value['period'] !== 'periodAll') {
             $result = $this->getPeriodDates($value['period']);
             $minDate = $result[0];
             $maxDate = $result[1];
@@ -48,17 +48,17 @@ class Other extends SortQuery implements SortContract
     {
         $result = [];
         switch ($period) {
-            case '1 day':
+            case 'periodDay':
             {
                 $result[0] = Carbon::now()->setTimezone('Europe/Moscow')->startOfDay();
                 break;
             }
-            case '7 days':
+            case 'periodWeek':
             {
                 $result[0] = Carbon::now()->setTimezone('Europe/Moscow')->startOfDay()->subWeek();
                 break;
             }
-            case '30 days':
+            case 'periodMonth':
             {
                 $result[0] = Carbon::now()->setTimezone('Europe/Moscow')->startOfDay()->subDays(30);
                 break;

@@ -369,17 +369,23 @@ paths:
                 $ref: '#/components/schemas/Error'
       security:
         - bearerAuth: [ ]
-  /account/refresh/token/{refreshToken}:
-    get:
-      parameters:
-        - name: refreshToken
-          in: path
-          description: Токен для обновления токена доступа
-          required: true
+  /account/refresh/token:
+    post:
       tags:
         - Account
       summary: Обновление токена
       operationId: refreshToken
+      requestBody:
+        description: данные для обновления токена
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                refreshToken:
+                  type: string
+                  required: true
       responses:
         "200":
           description: Данные аккаунта
@@ -1397,10 +1403,10 @@ paths:
                 $ref: '#/components/schemas/Error'
       security:
         - bearerAuth: []
-  /trades/{type}/{bidderType}/{bidderId}:
+  /bidders/{type}/{bidderType}/{bidderId}:
     get:
       tags:
-        - Trades
+        - Bidders
       parameters:
         - in: path
           name: type
@@ -1448,8 +1454,32 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
-      security:
-        - bearerAuth: []
+  /bidders/{bidderId}:
+    get:
+      tags:
+        - Bidders
+      parameters:
+        - in: path
+          name: bidderId
+          schema:
+            type: integer
+          required: true
+          description: Айдишник участника торгов
+      summary: Получение данных об арбитражном управляющем/организаторе/должнике
+      operationId: getBidder
+      responses:
+        "200":
+          description: данные об арбитражных управляющем/организаторе/должнике
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BidderInfo'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
   /files/store:
     post:
       tags:
@@ -1520,7 +1550,10 @@ paths:
               schema:
                 type: object
                 example:
-                  {'realEstate': 100, 'commercialRealEstate': 200}
+                  {
+                    'realEstate': {'allLotsCount': 100, 'activeLotsCount': 90},
+                   'commercialRealEstate': {'allLotsCount': 100, 'activeLotsCount': 90}
+                  }
         default:
           description: unexpected error
           content:
@@ -2193,7 +2226,7 @@ components:
             debtors: [ 1, 2, 3 ],
             organizers: [ 1, 2, 3 ],
             arbitrManagers: [ 1, 2, 3 ],
-            other: {"period":"all", "hasPhotos": false, "isHidden": false, "iStopped": false, "isCompleted": false}
+            other: {"period":"periodAll", "hasPhotos": false, "isHidden": false, "iStopped": false, "isCompleted": false}
           }
           properties:
             debtorCategories:
@@ -2229,10 +2262,10 @@ components:
                 period:
                   type: string
                   enum:
-                    - all
-                    - 1 day
-                    - 7 days
-                    - 30 days
+                    - periodAll
+                    - periodDay
+                    - periodWeek
+                    - periodMonth
                   example: all
                 hasPhotos:
                   type: boolean

@@ -42,10 +42,14 @@ class LoginController extends Controller
         return response($token, 200);
     }
 
-    public function refreshToken(Request $req, $refreshToken){
+    public function refreshToken(Request $req){
+        $req->validate([
+            'refreshToken'=>['required', 'string']
+        ]);
         $client = DB::table('oauth_clients')
             ->where('password_client', true)
             ->first();
+        $refreshToken = $req->refreshToken;
         try {
             $req->merge([
                 "grant_type" => "refresh_token",
