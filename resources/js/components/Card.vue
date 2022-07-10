@@ -51,13 +51,14 @@
                 </div>
                 <div class="col-12 col-md-12 col-lg-4 p-0 p-sm-2 order-1 order-lg-2">
                     <div class="bkt-wrapper-between bkt-card__head bkt-nowrap">
-                        <a class="bkt-card__title bkt-text-truncate" :href="item.link">
+                        <router-link :to="'/lot/'+item.id" class="bkt-card__title bkt-text-truncate">
                             {{item && item.description ? item.description:'Некоторое название торгов'}}
-                        </a>
+                        </router-link>
                         <div class="dropdown d-block d-lg-none">
                             <button class="bkt-button bkt-bg-primary-lighter bkt-card-menu-button" type="button"
-                                    id="dropdownMenuClickableOutside" data-bs-toggle="dropdown" data-bs-offset="10,20" data-bs-display="static"
-                                    data-bs-auto-close="inside"  aria-expanded="false">
+                                    id="dropdownMenuClickableOutside" data-bs-toggle="dropdown" data-bs-offset="10,20"
+                                    data-bs-display="static" data-bs-auto-close="outside"  aria-expanded="false"
+                            >
                                 <bkt-icon :name="'More'"></bkt-icon>
                             </button>
                             <div class="bkt-card-menu m-0 dropdown-menu dropdown-menu-end position-absolute"
@@ -102,7 +103,8 @@
                             <div class="bkt-card__feature text-center w-100 mt-0">
                                 <h5 class="bkt-card__subtitle">шаг аукциона</h5>
                                 <h4 class="bkt-card__title bkt-text-primary">
-                                    {{item.stepPrice && item.stepPrice.value ? item.stepPrice.value : '0' | priceFormat}} {{item.stepPrice && item.stepPrice.type=='rubles' ? '₽' : '%'}}
+                                    {{item.stepPrice && item.stepPrice.value ? item.stepPrice.value : '0' | priceFormat}}
+                                    {{item.stepPrice && item.stepPrice.type=='rubles' ? '₽' : '%'}}
                                 </h4>
                             </div>
                         </div>
@@ -110,12 +112,14 @@
                             <div class="bkt-card__feature text-center w-100 mt-0">
                                 <h5 class="bkt-card__subtitle">задаток</h5>
                                 <h4 class="bkt-card__title bkt-text-red">
-                                    {{item.deposit && item.deposit.value ? item.deposit.value : '0' | priceFormat}} {{item.deposit && item.deposit.type=='rubles' ? '₽' : '%'}}
+                                    {{item.deposit && item.deposit.value ? item.deposit.value : '0' | priceFormat}}
+                                    {{item.deposit && item.deposit.type=='rubles' ? '₽' : '%'}}
                                 </h4>
                             </div>
                         </div>
                     </div>
-                    <div class="bkt-card-period bkt-wrapper" v-if="item.trade && item.trade.applicationTime && (item.trade.applicationTime.start || item.trade.applicationTime.end)">
+                    <div class="bkt-card-period bkt-wrapper" v-if="item.trade && item.trade.applicationTime
+                    && (item.trade.applicationTime.start || item.trade.applicationTime.end)">
                         <div class="bkt-card__category bkt-bg-primary-lighter">
                             <bkt-icon :name="'Date'" :color="'primary'" :width="'16px'" :height="'16px'"></bkt-icon>
                         </div>

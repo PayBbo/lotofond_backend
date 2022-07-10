@@ -12,7 +12,32 @@ axios.interceptors.response.use(
     async function (error) {
         const originalRequest = error.config;
         if (error.response && error.config && error.config.url !== '/api/refreshtoken') {
-            console.log('interceptors have error.response')
+            console.log('interceptors have error.response');
+            if(error.response.data)
+            {
+                if(error.response.data.code == 401)
+                {
+                    app.$notify({
+                        type: 'error',
+                        title:'LotoFond',
+                        text: 'Необходима авторизация',
+                        duration: 5000
+                    });
+                }
+                else {
+                    if( error.response.data.detail)
+                    {
+                        app.$notify({
+                            type: 'error',
+                            title:'LotoFond',
+                            text: error.response.data.detail,
+                            duration: 5000
+                        });
+                    }
+                }
+
+            }
+
             if (error.response.status === 401 && !originalRequest._retry && !error.response.config.__isRetryRequest) {
                 console.log('interceptors have error.response.status === 401');
                 store.commit('clearStorage');
@@ -104,7 +129,7 @@ import translations from './vue-translations.json';
 
 Vue.use(VueLang, {
     messages: translations, // Provide locale file
-    // locale: 'en', // Set locale
+    locale: 'ru', // Set locale
     fallback: 'ru' // Set fallback locale
 });
 
@@ -125,11 +150,10 @@ import CardList from "./components/CardList.vue";
 import Header from "./components/Header.vue";
 import Footer from "./components/Footer.vue";
 import Datepicker from "./components/Datepicker.vue";
+import Dropdown from "./components/Dropdown.vue";
 
 import BktAuthModal from "./auth/AuthModal.vue";
 import BktCodeModal from "./auth/CodeModal.vue";
-import Main from "./pages/Main/Main.vue";
-import LotCard from "./pages/LotCard.vue";
 
 Vue.component('BktIcon', Icon);
 Vue.component('BktModal', Modal);
@@ -144,13 +168,14 @@ Vue.component('BktCardList', CardList);
 Vue.component('BktHeader', Header);
 Vue.component('BktFooter', Footer);
 Vue.component('BktDatepicker', Datepicker);
+Vue.component('BktDropdown', Dropdown);
 
-//pages
-Vue.component('MainPage', Main);
-Vue.component('LotCardPage', LotCard);
 
 Vue.filter('priceFormat', value => {
-    return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+    if(value) {
+        return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+    }
+    return '0';
 });
 Vue.filter('daysToDate', value => {
     const start = moment(value);

@@ -1,0 +1,566 @@
+.bkt-promo {
+    display: flex;
+    flex-direction: column;
+    gap: 60px;
+
+    &__block-wrapper {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+        text-align: start;
+    }
+
+    &__block {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        padding: 60px;
+        color: white;
+        background-repeat: no-repeat;
+        background-color: $primary-default;
+        border-radius: 30px;
+        width: 100%;
+
+        &_ecp {
+            background-image: url("/images/ecp-image.png");
+        }
+
+        &_agent {
+            background-image: url("/images/agent-image.png");
+            background-position: bottom right;
+            background-size: cover;
+            @media (max-width: 992px) {
+                gap: 25px;
+            }
+
+            & .bkt-promo__block-text {
+                margin-bottom: 0;
+            }
+
+            & .bkt-promo__block-price {
+                margin: auto 0 0 auto;
+                @media (max-width: 992px) {
+                    width: initial;
+                    text-align: center;
+                    margin: 0 0 0 auto;
+                    flex-direction: column;
+                    & h2 {
+                        margin: auto auto 14px auto;
+                    }
+                    & button {
+                        margin: auto auto 50px auto;
+                    }
+                }
+            }
+        }
+
+        &-body {
+            &-row {
+                display: flex;
+                flex-direction: row;
+                gap: 10px;
+
+                @media (max-width: 1400px) {
+                    flex-direction: column;
+                }
+            }
+
+            &-column {
+                display: flex;
+                flex-direction: column;
+                gap: 14px;
+            }
+        }
+
+        & .bkt-promo__block-feature {
+            display: flex;
+            align-items: center;
+            margin-right: 50px;
+            gap: 10px;
+
+            @media (max-width: 1400px) {
+                margin-right: 0;
+            }
+
+            & .check_mark {
+                min-width: 40px;
+                min-height: 40px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                border-radius: 15px;
+            }
+        }
+
+        &-price {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            margin: auto auto 0 auto;
+            font-weight: 700;
+            @media (max-width: 992px) {
+                flex-direction: row;
+                width: 300px;
+            }
+            @media (max-width: 767px) {
+                margin-bottom: 100px;
+            }
+
+            h2 {
+                margin-bottom: 20px;
+                font-weight: 700;
+
+                @media (max-width: 992px) {
+                    margin: 0 auto 0 0;
+                    text-align: center;
+                }
+                @media (max-width: 350px) {
+                    font-size: 22px;
+                }
+            }
+
+            button {
+                width: 160px;
+                height: 70px;
+
+                @media (max-width: 992px) {
+                    width: 140px;
+                    margin-left: 10px;
+                }
+                @media (max-width: 350px) {
+                    width: 100px;
+                }
+            }
+        }
+
+        &-title {
+            margin: 0;
+            word-wrap: break-word;
+            overflow: hidden;
+            line-height: 0.737;
+
+            & span {
+                line-height: 0.895;
+            }
+
+        }
+
+        &-subtitle {
+            font-weight: 700;
+            font-size: 24px;
+            margin: 0;
+            word-wrap: break-word;
+            overflow: hidden;
+        }
+
+        &-text {
+            margin: 40px 0;
+            max-width: 400px;
+            font-size: 18px;
+            font-family: "Gilroy", sans-serif;
+            color: rgb(255, 255, 255);
+            line-height: 1.444;
+            text-align: left;
+
+
+            @media (max-width: 992px) {
+                margin: 20px 0;
+            }
+        }
+    }
+
+    &__block-shadow {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        height: 20px;
+        position: relative;
+        border-radius: 0 0 30px 30px;
+    }
+
+    &__block_mini {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        padding: 25px 40px;
+        color: white;
+        background-color: $primary-default;
+        border-radius: 25px;
+        width: 100%;
+
+        & .bkt-promo__block-title {
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        & .bkt-promo__block-percentage {
+            font-size: 60px;
+            color: $yellow-default;
+        }
+    }
+
+    &__profit-card {
+        padding: 30px;
+        border-radius: 25px;
+        gap: 25px;
+
+        & .bkt-card__title {
+            font-size: 16px;
+        }
+
+        &-body {
+            gap: 25px;
+            display: flex;
+            flex-direction: column;
+        }
+    }
+
+    &__action-card {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        border-radius: 25px;
+        border: 2px solid rgb(228, 228, 228);
+        padding: 40px;
+        position: relative;
+        height: 100%;
+
+        & .plus-wrapper {
+            position: absolute;
+            border-radius: 10px;
+            background-color: rgb(255, 255, 255);
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            top: -20px;
+        }
+
+        & .plus {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 30px;
+            height: 30px;
+            flex-shrink: 0;
+            margin: auto;
+            background-color: $green-default;
+            color: white;
+            //border: 5px solid rgb(233, 241, 225);
+            border-radius: 8px;
+            box-shadow: 0 0 20px rgb(200, 212, 187);
+            font-size: 30px;
+        }
+
+        & .number {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: absolute;
+            width: 70px;
+            height: 50px;
+            margin-top: auto;
+            bottom: -25px;
+            background-color: white;
+            border-radius: 15px;
+
+
+            span {
+                color: $blue;
+                font-size: 30px;
+                font-weight: bolder;
+            }
+        }
+    }
+
+    &__todo-card {
+        border-radius: 25px;
+        background-color: white;
+        padding: 25px 19px 25px 33px;
+        position: relative;
+        justify-content: center;
+
+        &-wrapper {
+            padding: 15px 0 15px 15px;
+        }
+
+        & .check-wrapper {
+            position: absolute;
+            border-radius: 10px;
+            background-color: $body-bg;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            top: -20px;
+            left: -20px;
+        }
+
+        & .check_mark {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 30px;
+            height: 30px;
+            background-color: $blue-default;
+            color: white;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgb(240, 240, 240);
+            font-size: 12px;
+        }
+    }
+
+    & .buy_sample {
+        position: relative;
+        width: 100%;
+        height: 500px;
+        background-image: url("/images/buy_sample.png");
+        background-repeat: no-repeat;
+        background-size: contain;
+        //background-position: center;
+        border-radius: 20px;
+    }
+
+    &__form {
+        display: flex;
+        flex-direction: column;
+        border: none;
+        border-radius: 30px;
+        width: 600px;
+        padding: 40px;
+        gap: 25px;
+
+        @media (max-width: 768px) {
+            width: 500px;
+        }
+
+        @media (max-width: 576px) {
+            width: 100%;
+            padding: 25px;
+        }
+
+        & .communications {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 6px;
+            @media (max-width: 768px) {
+                gap: 4px;
+            }
+            & .bkt-button {
+                overflow: hidden;
+                width: 120px;
+                height: 50px;
+                border-radius: 15px;
+                background-color: rgb(245, 247, 254);
+
+                @media (max-width: 768px) {
+                    width: 95px;
+                    padding: 10px 20px;
+                }
+
+                @media (max-width: 576px) {
+                    width: 50px;
+                    height: 40px;
+                    border-radius: 13px;
+                    flex-grow: 1;
+                }
+            }
+
+            & .bkt-button:last-child {
+                align-self: flex-end;
+                min-width: 100%;
+                @media (max-width: 576px) {
+                    font-size: 10px;
+                }
+            }
+        }
+
+        & .time_to_call {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            width: 100%;
+            gap: 6px;
+            @media (max-width: 768px) {
+                gap: 4px;
+            }
+            & .form-select {
+                border: none;
+                border-radius: 15px;
+                background-color: rgb(245, 247, 254);
+                min-width: 118px;
+                height: 50px;
+                overflow: hidden;
+
+                @media (max-width: 768px) {
+                    min-width: 80px;
+                }
+
+                @media (max-width: 576px) {
+                    min-width: 49px;
+                    max-width: 71px;
+                    height: 40px;
+                    font-size: 10px;
+                    padding: 12px;
+                    border-radius: 13px;
+                    flex-grow: 1;
+                }
+            }
+        }
+
+        & .bkt-input__wrapper {
+            width: 100%;
+        }
+
+        & .bkt-check__wrapper {
+            & .bkt-check__input {
+                width: 36px;
+                height: 36px;
+            }
+            @media (max-width: 768px) {
+                & .bkt-check__label {
+                    font-size: 8px;
+                }
+            }
+        }
+
+        & .bkt-button {
+            width: 100%;
+            height: 70px;
+            border-radius: 20px;
+        }
+    }
+}
+
+@media (max-width: 767px) {
+    .bkt-promo {
+        gap: 40px;
+
+        &__block {
+            padding: 25px;
+            border-radius: 18px;
+
+            &_ecp {
+                background-image: url("/images/ecp-mobile-image.png");
+                background-position: bottom;
+            }
+
+            &_agent {
+                gap: 25px;
+                background-image: url("/images/agent-mobile-image.png");
+                background-position: bottom left;
+                background-size: contain;
+            }
+
+            &-title {
+                font-size: 22px;
+            }
+
+            &-subtitle {
+                font-size: 14px;
+            }
+
+            &-text {
+                font-size: 12px;
+                margin-top: 25px;
+            }
+
+            &-body {
+                width: 100%;
+            }
+
+            &-body-row {
+                gap: 6px;
+            }
+
+            &-feature {
+                font-size: 10px;
+            }
+        }
+
+        &__action-card {
+            flex-direction: row;
+
+            & .plus-wrapper {
+                right: -20px;
+                top: calc(50% - 20px);
+            }
+
+            & .number {
+                left: -22px;
+                bottom: calc(50% - 22.5px);
+                width: 44px;
+                height: 44px;
+
+                span {
+                    font-size: 20px;
+                }
+            }
+        }
+
+        &__todo-card {
+
+            &-wrapper {
+                padding: 0;
+            }
+
+            & .check-wrapper {
+
+                top: calc(50% - 20px);
+            }
+
+            & .check_mark {
+                top: calc(50% - 20px);
+            }
+        }
+
+        &__block_mini {
+            & .bkt-promo__block-title {
+                font-size: 14px;
+                line-height: 1.429;
+            }
+
+            & .bkt-promo__block-percentage {
+                font-size: 44px;
+                line-height: 0.773;
+            }
+        }
+
+        & .buy_sample {
+            background-image: url("/images/buy_sample_mobile.png");
+        }
+
+    }
+}
+
+@media (max-width: 576px) {
+    .bkt-promo {
+        &__profit-card {
+            display: flex;
+            flex-direction: row;
+            padding: 15px;
+            gap: 12px;
+
+            & .bkt-card__title {
+                font-size: 14px;
+            }
+
+            &-body {
+                gap: 12px;
+            }
+        }
+    }
+}

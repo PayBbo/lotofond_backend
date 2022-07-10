@@ -31,3 +31,9 @@
 .bkt-rotate-90 {
     transform: rotate(90deg);
 }
+.bkt-mirror-vertical {
+    transform: scale(-1 , 1)
+}
+.bkt-mirror-horizontal {
+    transform: scale(1, -1)
+}

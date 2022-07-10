@@ -11,13 +11,16 @@
                     >
                         <template #title>
                             <div class="text-left bkt-button d-flex justify-content-between p-2">
-                                <div class="bkt-check__wrapper">
+                                <div class="bkt-check__wrapper" v-if="category.subcategories.length==0">
                                     <div class="bkt-check">
                                         <div class="bkt-check__input">
                                             <input
+
                                                 type="checkbox"
                                                 v-model="result"
                                                 :value="category.key"
+                                                :name="'bkt-category-checkbox-'+index"
+                                                :id="'bkt-category-checkbox-'+index"
                                             />
                                             <div class="bkt-check__input-check"></div>
                                         </div>
@@ -26,6 +29,12 @@
                                         </label>
                                     </div>
                                 </div>
+                                <bkt-checkbox v-else :label="category.label"
+                                              :name="'bkt-category-checkbox-'+index"
+                                              :id="'bkt-category-checkbox-'+index"
+                                              v-model="category.status"
+                                              @input="selectAll(index)"
+                                ></bkt-checkbox>
                             </div>
                         </template>
                         <template #collapse>

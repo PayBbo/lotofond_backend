@@ -270,7 +270,7 @@ class Lot extends Model
     }
 
     public function inFavourite(){
-        $favourites = User::find(auth()->id())->favourites;
+        $favourites = auth()->guard('api')->user()->favourites;
         foreach($favourites as $favourite){
             if($favourite->lots->contains($this)){
                 return true;
@@ -281,7 +281,7 @@ class Lot extends Model
     }
 
     public function inMonitoring(){
-        $monitorings = User::find(auth()->id())->monitorings;
+        $monitorings = auth()->guard('api')->user()->monitorings;
         foreach($monitorings as $monitoring){
             if($monitoring->lots->contains($this)){
                 return true;

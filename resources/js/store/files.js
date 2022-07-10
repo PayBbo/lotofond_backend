@@ -53,64 +53,15 @@ export default {
             /files/{lotId}
             Получение списка файлов для лота
 
-
             POST
             /files/store
             Загрузка файлов на сервер
-
 
             DELETE
             /files/{id}
             Удаление пользовательского файла/картинки
         */
-        // async getFiles({commit, state}, payload) {
-        //     try {
-        //         await axios({
-        //             method: 'get',
-        //             url: '/api/files' + payload,
-        //             data: {},
-        //         })
-        //             .then((response) => {
-        //                 commit('setFiles', response.data)
-        //             });
-        //     } catch (error) {
-        //         console.log(error);
-        //         // commit('setFiles', []);
-        //         throw error
-        //     }
-        // },
-        // async addFile({commit}, payload) {
-        //     await axios.post('/api/files', payload, {
-        //         headers: {
-        //             'Content-Type': 'multipart/form-data',
-        //         }
-        //     }).then((response) => {
-        //         commit('addFile', response.data)
-        //     }).catch(error => {
-        //         console.log(error);
-        //         throw error
-        //     });
-        // },
-        // async removeFile({dispatch, commit}, payload) {
-        //     await axios.delete(`/api/files/${payload.id}`)
-        //         .then(response => {
-        //             commit('removeFile', payload.id);
-        //             dispatch('sendNotification',
-        //                 {
-        //                     self: payload.self,
-        //                     title: 'Должники',
-        //                     message: 'Должник успешно удален'
-        //                 });
-        //         }).catch(error => {
-        //             dispatch('sendNotification',
-        //                 {
-        //                     self: payload.self,
-        //                     title: 'Должники',
-        //                     type: 'error',
-        //                     message: 'Произошла ошибка'
-        //                 });
-        //         });
-        // },
+
         async getLotFiles({commit, state}, payload) {
 
                 await axios({

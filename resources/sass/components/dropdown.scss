@@ -1,0 +1,95 @@
+.bkt-dropdown {
+    &__item {
+        display: flex;
+        justify-content: space-between;
+        border-width: 2px;
+        border-color: rgb(255, 255, 255, 0.078);
+        border-style: solid;
+        border-radius: 15px;
+        padding: 15px 20px;
+        align-items: center;
+        width: 100%;
+        min-height: 51px;
+
+        &.show {
+            border-radius: 15px 15px 0 0;
+        }
+        &-inner {
+
+        }
+        &-icon {
+
+        }
+    }
+    &__menu {
+        box-shadow: 0 20px 29px 0 rgba(45, 50, 68, 0.18);
+        background-color: $white;
+        border: none;
+
+        &__inner {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        &-item {
+            display: flex;
+            align-items: center;
+            gap:6px;
+            flex-wrap: nowrap;
+        }
+        &-text {
+            font-size: 14px;
+            font-family: "Gilroy", sans-serif;
+            font-weight: 500;
+            color: rgb(45, 50, 68);
+            line-height: 1.571;
+            text-align: left;
+            text-decoration: none;
+        }
+        &-icon {
+            border-radius: 50%;
+            width: 32px;
+            height: 32px;
+            padding: 9px;
+            display: flex;
+        }
+
+        &_pointed {
+            padding: 25px;
+            border-radius: 15px 0 15px 15px;
+
+            &::before {
+                position: absolute;
+                top: -10px;
+                right: 0;
+                content: "\A";
+                border-style: solid;
+                border-width: 10px 8px 0 0;
+                border-color: transparent $white transparent transparent;
+            }
+        }
+
+        &_list {
+            padding: 15px 20px;
+            width: 100%;
+            border-radius: 0 0 15px 15px;
+        }
+
+        &_main {
+            background-color: $main-default;
+
+            &::before {
+                border-color: transparent $main-default transparent transparent;
+            }
+        }
+
+        &_neutral {
+            background-color: #eff2fb;
+
+            &::before {
+                border-color: transparent #eff2fb transparent transparent;
+            }
+        }
+    }
+}

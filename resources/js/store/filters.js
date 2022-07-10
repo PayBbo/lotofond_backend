@@ -49,11 +49,12 @@ export default {
                 arbitrManagers: [
                 ],
                 other: {
-                    period: 'all',
+                    period: 'periodAll',
                     hasPhotos: false,
                     isStopped: false,
                     isCompleted: false,
-                    isHidden: false
+                    isHidden: false,
+                    organizer: false
                 },
             },
             mainParams: {
@@ -118,8 +119,8 @@ export default {
             localStorage.setItem(payload.key, JSON.stringify(payload.value));
         },
         saveFilterProperty(state, payload) {
-            Vue.set(state[payload.filter], payload.key, payload.value);
-            localStorage.setItem(payload.filter, state[payload.filter]);
+            Vue.set(state.filters[payload.filter], payload.key, payload.value);
+            localStorage.setItem(payload.filter, JSON.stringify(state.filters[payload.filter]));
         }
     }
 };

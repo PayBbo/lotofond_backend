@@ -22,11 +22,11 @@
             },
             width:{
                 type:String,
-                default:'22px'
+                default:'100%'
             },
             height:{
                 type:String,
-                default:'22px'
+                default:'100%'
             },
         }
     }

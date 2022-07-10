@@ -15,8 +15,14 @@ export default {
     },
     mutations: {
         setCategories(state, payload) {
-            console.log('setCategories', payload)
-            state.categories = payload;
+           //  let tmp = payload
+           // tmp =
+            payload.forEach(item => {
+                Vue.set(item, 'status', false)
+                state.categories.push(item)
+            });
+            // state.categories = payload;
+
         },
         setCategoriesLoading(state, payload) {
             return (state.categories_loading = payload);

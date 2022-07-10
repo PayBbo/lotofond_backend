@@ -1,0 +1,36 @@
+.bkt-wrapper {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    flex-flow: row wrap;
+    margin: auto;
+}
+
+.bkt-wrapper-between {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-direction: row;
+    flex-flow: row wrap;
+}
+
+.bkt-wrapper-vertical {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-flow: column;
+    width: 100%;
+}
+
+.bkt-wrapper-column {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    width: 100%;
+    gap: 10px 0;
+}
+
+.bkt-nowrap {
+    flex-wrap: nowrap;
+}
+

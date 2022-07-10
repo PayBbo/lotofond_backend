@@ -14,6 +14,9 @@
 @import "./base/border.scss";
 @import "./base/svg.scss";
 @import "./base/hover.scss";
+@import "./base/wrapper.scss";
+@import "./base/gap.scss";
+@import "./base/width.scss";
 
 // Components
 @import "./components/navbar.scss";
@@ -38,6 +41,8 @@
 @import "./components/collapse.scss";
 @import "./components/tag.scss";
 @import "./components/switch.scss";
+@import "./components/dropdown.scss";
+@import "./components/notification.scss";
 
 // Custom styles
 @import "./customs/main.scss";
@@ -50,7 +55,10 @@
 @import "./customs/region-modal.scss";
 @import "./customs/registries.scss";
 @import "./customs/profile.scss";
-@import "./customs/agent_buy.scss";
+@import "./customs/promo.scss";
+@import "./customs/tariffs.scss";
+@import "./customs/favourites.scss";
+@import "./customs/auctions.scss";
 
 
 
@@ -87,41 +95,6 @@ h5 {
 h6 {
     font-size: $font-size-12;
     margin-bottom: 0;
-}
-
-.bkt-wrapper {
-    display: flex;
-    align-items: center;
-    flex-direction: row;
-    flex-flow: row wrap;
-    margin: auto;
-
-}
-.bkt-wrapper-between {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    //width: 100%;
-    flex-direction: row;
-    flex-flow: row wrap;
-    //margin: auto;
-}
-.bkt-wrapper-vertical {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex-flow: column;
-    width: 100%;
-}
-.bkt-wrapper-column {
-    display: flex;
-    justify-content: space-between;
-    flex-direction: column;
-    width: 100%;
-    gap: 10px 0;
-}
-.bkt-nowrap {
-    flex-wrap: nowrap;
 }
 
 a {

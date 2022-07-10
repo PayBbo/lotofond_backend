@@ -142,13 +142,19 @@ export default {
             // });
         },
         async changeTradeLotStatus({commit}, payload) {
-            return await axios.put('/api/trades/lot/action', payload)
-                .then((response) => {
-                    commit('saveTradeProperty', {id: payload.lot_id, key: payload.key, value: payload.value})
-                }).catch(error => {
-                    console.log(error);
-                    throw error
-                });
+            return await
+                axios({
+                    method: 'put',
+                    url: '/api/trades/lot/action',
+                    data: payload,
+                })
+                // .then((response) => {
+                //     console.log('changeTradeLotStatus;', response)
+                //     // commit('saveTradeProperty', {id: payload.lot_id, key: payload.key, value: payload.value})
+                // }).catch(error => {
+                //     console.log(error);
+                //     throw error
+                // });
         },
         async addTrade({commit}, payload) {
             await axios.post('/api/trades', payload, {

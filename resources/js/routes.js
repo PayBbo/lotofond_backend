@@ -35,6 +35,46 @@ export default {
                     ),
 		},
         {
+			path: '/contacts',
+            name:'Contacts',
+            component: () =>
+                import(
+                    /* webpackChunkName: "contacts" */ "./pages/Contacts.vue"
+                    ),
+		},
+        {
+			path: '/without-ecp',
+            name:'WithoutEcp',
+            component: () =>
+                import(
+                    /* webpackChunkName: "without-ecp" */ "./pages/WithoutEcp.vue"
+                    ),
+		},
+        {
+			path: '/favourites',
+            name:'Favourites',
+            component: () =>
+                import(
+                    /* webpackChunkName: "favourites" */ "./pages/Favourites.vue"
+                    ),
+		},
+        {
+			path: '/tariffs',
+            name:'Tariffs',
+            component: () =>
+                import(
+                    /* webpackChunkName: "tariffs" */ "./pages/Tariffs.vue"
+                    ),
+		},
+        {
+			path: '/auctions',
+            name:'Auctions',
+            component: () =>
+                import(
+                    /* webpackChunkName: "auctions" */ "./pages/UpcomingAuctions.vue"
+                    ),
+		},
+        {
 			path: '/lot/:id',
             name:'LotCard',
             component: () =>

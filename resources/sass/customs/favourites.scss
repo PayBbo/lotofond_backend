@@ -1,0 +1,315 @@
+.bkt-favourites {
+
+  & .bkt-menu__actions {
+    border: 1px solid lightgray;
+    padding: 1rem;
+    border-radius: 15px;
+    margin-bottom: 20px;
+    //display: flex;
+
+    //& .bkt-select__wrapper {
+    //  & .bkt-select__label {
+    //    text-align: left;
+    //  }
+    //}
+
+    & .bkt-menu__search, & .bkt-menu__group-fields {
+      margin-bottom: 25px;
+
+      //& .bkt-select__wrapper {
+      //  .bkt-select {
+      //    background: white; //#f5f7fe;
+      //    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%232953ff' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3e%3c/svg%3e");
+      //    background-repeat: no-repeat;
+      //    background-position: right 1.75rem center;
+      //    background-size: 16px 12px;
+      //    outline: none;
+      //  }
+      //}
+    }
+  }
+
+  & .bkt-actions__title {
+    & .bkt-actions-buttons {
+      display: flex;
+    }
+
+    & button {
+      font-weight: 600;
+      margin-right: 0.5rem;
+      height: 50px;
+      background-color: white;
+      border-radius: 15px;
+      padding-left: 1.5rem;
+      padding-right: 1.5rem;
+    }
+
+    & .bkt-favourites-group {
+      .bkt-group-arrow {
+        right: 8px;
+        top: 20px;
+        padding-left: 5px;
+      }
+    }
+  }
+
+  &__menu {
+    & .bkt-select__subtitle {
+      left: 12px;
+      top: 5px;
+    }
+
+    & .bkt-btn-folder {
+      background: #2fbb40;
+    }
+
+    & .bkt-actions-search {
+      & button.active {
+        background: #2953ff;
+
+        svg {
+          fill: white !important;
+        }
+      }
+    }
+  }
+
+}
+
+@media (max-width: 576px) {
+  .bkt-favourites {
+    & .bkt-menu {
+      &__actions {
+        border: none;
+        & .bkt-actions__title {
+          flex-wrap: wrap;
+          border: none;
+        }
+
+        & button {
+          padding-right: 0;
+          padding-left: 0;
+        }
+
+        & .bkt-actions-search {
+          order: -1;
+          margin-bottom: 1rem !important;
+
+          button {
+            min-width: 47px;
+            min-height: 47px;
+            align-items: center;
+            justify-content: center;
+            display: grid;
+          }
+        }
+
+        & .bkt-actions-buttons {
+          border: 1px solid lightgray;
+          padding: 1rem;
+          border-radius: 15px;
+          display: flex;
+
+          button {
+            min-width: 47px;
+            min-height: 47px;
+            justify-content: center;
+            margin-right: 4px;
+
+            svg {
+              margin-right: 0 !important;
+            }
+          }
+        }
+
+        & .bkt-favourites-group {
+          order: -1;
+          margin-bottom: 1rem !important;
+        }
+
+        & .bkt-sort-and-search {
+          background-color: white;
+          border-radius: 15px;
+          padding: 2rem;
+
+          & .bkt-search {
+            background-color: #f5f7fe !important;
+            height: 53px;
+            padding: 0;
+            align-items: center;
+
+            .bkt-search__input {
+              background-color: transparent;
+            }
+
+            .bkt-search__button {
+              min-width: 44px;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              margin-right: 7px;
+            }
+          }
+        }
+      }
+
+      & .bkt-btn-folder {
+        height: 44px;
+
+        .bkt-arrow {
+          right: 7px;
+          width: 34px;
+          height: 34px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+      }
+    }
+
+    &__menu {
+      border: none;
+
+      & .bkt-btn-folder {
+        background: #2953ff;
+        font-weight: 100;
+      }
+    }
+
+    & .bkt-menu__group-fields {
+      margin-bottom: 0 !important;
+
+      & .bkt-select__wrapper {
+        margin-bottom: 25px;
+
+        //.bkt-select {
+        //  background: #f5f7fe !important; //#f5f7fe;
+        //  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%232953ff' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3e%3c/svg%3e") !important;
+        //  background-repeat: no-repeat !important;
+        //  background-position: right 1.75rem center !important;
+        //  background-size: 16px 12px !important;
+        //  outline: none !important;
+        //}
+      }
+
+      & .bkt-sort-by {
+        margin-bottom: 0 !important;
+      }
+    }
+  }
+}
+
+.bkt-arrow {
+  border-radius: 10px !important;
+}
+
+.bkt-cursor-pointer {
+  cursor: pointer;
+}
+
+.bkt-select-bg-white {
+  background: white url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%232953ff' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3e%3c/svg%3e") no-repeat right 1.75rem center;
+  outline: none;
+}
+
+/*AddFieldsToDocument*/
+
+.bkt-fields-document-modal {
+  * {
+    font-size: 14px;
+  }
+
+  & .modal-dialog {
+    min-width: 40%;
+
+    .bkt-modal-wrapper {
+      width: 100%;
+    }
+  }
+
+  & .bkt-fields-action {
+    margin-bottom: 40px;
+  }
+
+  @media (max-width: 576px) {
+    * {
+      font-size: 12px;
+    }
+
+    .bkt-modal-save {
+      width: 100%;
+    }
+  }
+}
+
+/*AddFolder*/
+
+.bkt-folder-modal {
+  * {
+    font-size: 14px;
+  }
+
+  & .modal-dialog {
+    min-width: 35%;
+
+    .bkt-modal-wrapper {
+      width: 100%;
+    }
+  }
+
+  & .bkt-folder-field {
+    &__input {
+      height: 70px;
+    }
+
+    &__tabs {
+      display: flex;
+
+      & button {
+        width: 100%;
+      }
+    }
+  }
+
+  & label {
+    font-weight: 700;
+  }
+
+  .bkt-user {
+    .bkt-check {
+      margin-bottom: 0.3rem;
+    }
+
+    .bkt-check__input {
+      width: 35px;
+      height: 35px;
+    }
+
+    .bkt-check__label {
+      font-weight: 100;
+    }
+  }
+
+  @media (max-width: 576px) {
+    * {
+      font-size: 12px;
+    }
+    .bkt-folder-field {
+      &__input {
+        height: 52px;
+      }
+
+      &__tabs {
+        height: 42px;
+        display: flex;
+        align-items: center;
+
+        button {
+          height: 34px;
+          display: flex;
+          align-items: center;
+        }
+      }
+    }
+  }
+}

@@ -21,7 +21,7 @@
                     />
                 </template>
             </slot>
-            <slot name="pagination" v-if="!no_pagination && items.length>0">
+            <slot name="pagination" v-if="!no_pagination && items.length>0 && !loading">
                 <bkt-pagination
                     :limit="1"
                     :data="pagination_data"

@@ -153,6 +153,7 @@
     cursor: pointer;
     padding-left: 0;
     padding-right: 0;
+
     .bkt-button__icon {
         max-height: 18px;
         max-width: 18px;
@@ -165,8 +166,60 @@
     width: 44px;
     height: 44px;
     padding: 14px;
+
     .bkt-button__icon {
         max-height: 16px;
         max-width: 16px;
+    }
+}
+
+.bkt-button_plump {
+    border-radius: 25px;
+    padding: 25px;
+    font-size: 16px;
+    font-weight: bold;
+    line-height: 1.2;
+}
+
+.bkt-button_pill {
+    border-radius: 20px;
+    padding: 17px;
+    font-size: 16px;
+    font-weight: bold;
+    line-height: 1.2;
+    color: $main-default;
+    background-color: $white;
+    min-width: 370px;
+    width: fit-content;
+}
+
+.bkt-button_disabled {
+    background-color: $neutral-default;
+    cursor: default;
+}
+
+.bkt-button_yellow {
+    color: $main-default;
+    background-color: $yellow-default;
+}
+
+@media screen and (max-width: 768px) {
+    .bkt-button_plump {
+        border-radius: 18px;
+        padding: 20px;
+        font-size: 12px;
+        font-weight: bold;
+        line-height: 1.2;
+    }
+    .bkt-button_pill {
+        font-size: 10px;
+        padding: 12px;
+        font-family: "Gilroy", sans-serif;
+        color: $main-default;
+        font-weight: bold;
+        line-height: 0;
+        text-align: center;
+        border-radius: 13px;
+        height: 34px;
     }
 }

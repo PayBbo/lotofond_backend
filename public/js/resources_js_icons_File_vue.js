@@ -34,11 +34,11 @@ __webpack_require__.r(__webpack_exports__);
     },
     width: {
       type: String,
-      "default": '22px'
+      "default": '100%'
     },
     height: {
       type: String,
-      "default": '22px'
+      "default": '100%'
     }
   }
 });

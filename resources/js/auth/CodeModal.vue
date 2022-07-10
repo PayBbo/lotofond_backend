@@ -126,8 +126,8 @@
                     })
                     .catch(err => {
                         this.code_loading = false;
-                        this.$store.dispatch('sendNotification',
-                            {self: this, message:'Ошибка', type: 'error'})
+                        // this.$store.dispatch('sendNotification',
+                        //     {self: this, message:'Ошибка', type: 'error'})
                     });
             },
             skip() {

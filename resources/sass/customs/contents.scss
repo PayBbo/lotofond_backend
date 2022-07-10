@@ -43,6 +43,7 @@ ul.bkt-contents {
     }
 
     & .bkt-contents__answer {
+        word-break: break-all;
         font-size: 14px;
         font-family: "Gilroy", sans-serif;
         color: rgb(45, 50, 68);

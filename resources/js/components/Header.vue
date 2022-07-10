@@ -2,17 +2,20 @@
     <header class="">
         <nav class="bkt-navbar">
             <div class="bkt-container bkt-navbar__wrapper">
-                <button class="bkt-button blue">
-                    Покупка без ЭЦП
-                </button>
+                <router-link :to="'/without-ecp'">
+                    <button class="bkt-button blue">
+                        Покупка без ЭЦП
+                    </button>
+                </router-link>
+
                 <ul class="bkt-navbar__nav d-none d-lg-flex">
                     <li class="bkt-navbar__nav-item">
-                        <a class="bkt-navbar__nav-link" href="#">
-                    <span class="bkt-button-ellipse main">
-                        <bkt-icon :name="'Star'" :color="'yellow'"/>
-                    </span>
+                        <router-link to="/favourites" class="bkt-navbar__nav-link">
+                            <span class="bkt-button-ellipse main">
+                                <bkt-icon :name="'Star'" :color="'yellow'"/>
+                            </span>
                             Топ-Избранное
-                        </a>
+                        </router-link>
                     </li>
                     <li class="bkt-navbar__nav-item">
                         <a class="bkt-navbar__nav-link" href="#">
@@ -61,13 +64,13 @@
                         <div class="bkt-navbar__user-dropdown-menu">
                             <button class="bkt-button bkt-tarif-button">Сменить тариф</button>
                             <div class="bkt-navbar__user-dropdown-item">
-                                <div class="bkt-navbar__user-dropdown-item-icon bg-primary-lighter">
+                                <div class="bkt-navbar__user-dropdown-item-icon bkt-bg-primary-lighter">
                                     <bkt-icon :name="'User'" :color="'primary'"></bkt-icon>
                                 </div>
                                 <a class="bkt-navbar__user-dropdown-item-text" href="/profile">Профиль</a>
                             </div>
                             <div class="bkt-navbar__user-dropdown-item" @click="logout" style="cursor: pointer">
-                                <div class="bkt-navbar__user-dropdown-item-icon bg-red-lighter">
+                                <div class="bkt-navbar__user-dropdown-item-icon bkt-bg-red-lighter">
                                     <bkt-icon name="LogOut"></bkt-icon>
                                 </div>
                                 <div class="bkt-navbar__user-dropdown-item-text">Выйти</div>
@@ -86,12 +89,17 @@
         <nav class="bkt-navbar white">
             <div class="bkt-navbar__wrapper bkt-container">
                 <div class="bkt-navbar__wrapper d-none d-lg-flex">
+                    <router-link custom to="/auctions">
                     <button class="bkt-button primary-lighter">
                         Торги
                     </button>
-                    <button class="bkt-button blue-lighter">
-                        Тарифы
-                    </button>
+                    </router-link>
+                    <router-link custom to="/tariffs">
+                        <button class="bkt-button blue-lighter">
+                            Тарифы
+                        </button>
+                    </router-link>
+
                 </div>
                 <div class="bkt-navbar__logo d-flex d-lg-none">
                     LOGO

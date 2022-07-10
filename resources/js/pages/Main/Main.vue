@@ -52,7 +52,7 @@
         <div class="bkt-main-statistic bkt-card__list">
             <div class="bkt-card__row bkt-bg-red-light position-relative">
                 <h5 class="bkt-card__text">Всего лотов</h5>
-                <h1 class="bkt-card__title">58 961</h1>
+                <h1 class="bkt-card__title">{{ lots_statistic.allLotsCount | priceFormat}}</h1>
                 <div class="bkt-card bkt-card__background-figure-1">
                 </div>
                 <div class="bkt-card bkt-card__background-figure-2 bkt-bg-red-light">
@@ -60,7 +60,7 @@
             </div>
             <div class="bkt-card__row bkt-bg-yellow position-relative">
                 <h5 class="bkt-card__text">Активных лотов</h5>
-                <h1 class="bkt-card__title">4 372</h1>
+                <h1 class="bkt-card__title">{{ lots_statistic.activeLotsCount | priceFormat}}</h1>
                 <div class="bkt-card bkt-card__background-figure-1">
                 </div>
                 <div class="bkt-card bkt-card__background-figure-2 bkt-bg-yellow">
@@ -90,12 +90,72 @@
                         @input="getData(1)"
                     >
                     </bkt-select>
-                    <button class="bkt-button-ellipse main d-none d-md-block" @click="toggleDirection">
+                    <button class="bkt-button-ellipse main d-none d-md-block"
+                            :class="{'bkt-mirror-vertical' : filters_sort.direction =='desc'}" @click="toggleDirection"
+                    >
                         <bkt-icon name="Bars"></bkt-icon>
                     </button>
-                    <button class="bkt-button-ellipse main d-md-none">
-                        <bkt-icon name="Funnel" :width="'18px'" :height="'18px'"></bkt-icon>
-                    </button>
+                    <div class="dropdown d-md-none">
+                        <button class="bkt-button-ellipse main d-md-none" id="filterDropdownMenu"
+                                data-bs-toggle="dropdown" data-bs-display="static" data-bs-auto-close="outside"
+                        >
+                            <bkt-icon name="Funnel" :width="'18px'" :height="'18px'"></bkt-icon>
+                        </button>
+                        <div class="bkt-card-menu m-0 dropdown-menu dropdown-menu-end position-absolute"
+                             aria-labelledby="filterDropdownMenu"
+                        >
+                            <bkt-select
+                                v-model="filters_other.period"
+                                select_class="form-floating main"
+                                name="period"
+                                subtitle="показывать за период"
+                                :option_label="'title'"
+                                :options="periods"
+                                :reduce="item => item.value"
+                                :clearable="false"
+                                @input="getData(1)"
+                            >
+                            </bkt-select>
+                            <div class="d-flex">
+                                <div class="bkt-check__list">
+                                    <bkt-checkbox v-model="filters_other.hasPhotos"
+                                                  label="только с фото"
+                                                  name="hasPhotos"
+                                                  @input="getData(1)"
+                                    >
+                                    </bkt-checkbox>
+                                    <bkt-checkbox v-model="filters_other.isHidden"
+                                                  label="удалённые"
+                                                  name="isHidden"
+                                                  @input="getData(1)"
+                                    >
+                                    </bkt-checkbox>
+                                </div>
+                                <div class="bkt-check__list">
+                                    <bkt-checkbox v-model="filters_other.organizer"
+                                                  label="получен ответ организатора"
+                                                  name="organizer"
+                                                  @input="getData(1)"
+                                    >
+                                    </bkt-checkbox>
+                                    <bkt-checkbox v-model="filters_other.isCompleted"
+                                                  label="завершённые"
+                                                  name="isCompleted"
+                                                  @input="getData(1)"
+                                                  wrapper_class="bkt-check__wrapper-inline"
+                                    >
+                                    </bkt-checkbox>
+                                    <bkt-checkbox v-model="filters_other.isStopped"
+                                                  label="приостановленные"
+                                                  name="isStopped"
+                                                  @input="getData(1)"
+                                                  wrapper_class="bkt-check__wrapper-inline"
+                                    >
+                                    </bkt-checkbox>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="col-md-6 col-lg-3 d-none d-md-block">
@@ -116,8 +176,8 @@
                 <div class="d-flex">
                     <div class="bkt-check__list">
                         <bkt-checkbox v-model="filters_other.hasPhotos"
-                                   label="только с фото"
-                                   name="hasPhotos"
+                                      label="только с фото"
+                                      name="hasPhotos"
                                       @input="getData(1)"
                         >
                         </bkt-checkbox>
@@ -129,12 +189,12 @@
                         </bkt-checkbox>
                     </div>
                     <div class="bkt-check__list">
-<!--                        <bkt-checkbox v-model="filters_other."-->
-<!--                                      label="получен ответ организатора"-->
-<!--                                      name="organizer"-->
-<!--                                      @input="getData(1)"-->
-<!--                        >-->
-<!--                        </bkt-checkbox>-->
+                        <bkt-checkbox v-model="filters_other.organizer"
+                                      label="получен ответ организатора"
+                                      name="organizer"
+                                      @input="getData(1)"
+                        >
+                        </bkt-checkbox>
                         <bkt-checkbox v-model="filters_other.isCompleted"
                                       label="завершённые"
                                       name="isCompleted"
@@ -168,32 +228,36 @@
     import BktCategoryModal from "./CategoryModal";
     import BktSelect from "../../components/Select";
     import BktFilterCard from "../../components/FilterCard";
+
     export default {
         name: "Main",
         components: {
             BktDateModal, BktPriceModal, BktOptionsModal,
             BktParamsModal, BktRegionModal, BktCategoryModal, BktSelect, BktFilterCard
         },
-        mounted() {
+        created() {
+            this.$store.dispatch('getLotsStatistic');
             this.getCategories();
+        },
+        mounted() {
             this.getData();
         },
         data() {
             return {
                 in_process: [],
                 periods: [
-                    { title:'Все', value:"all"},
-                    { title:'Сутки', value:"day"},
-                    { title:'7 дней', value:"7 days"},
-                    { title:'30 дней', value:"30 days"},
+                    {title: 'Все', value: "periodAll"},
+                    {title: 'Сутки', value: "periodDay"},
+                    {title: '7 дней', value: "periodWeek"},
+                    {title: '30 дней', value: "periodMonth"},
                 ],
                 sort: [
-                    { title:'Дате добавления', value:"publishDate"},
-                    { title:'Цене', value:"currentPrice"},
-                    { title:'Дате начала торгов', value:"eventStart"},
-                    { title:'Дате окончания торгов', value:"eventEnd"},
-                    { title:'Дате начала приема заявок', value:"applicationStart"},
-                    { title:'Дате окончания приема заявок', value:"applicationEnd"},
+                    {title: 'Дате добавления', value: "publishDate"},
+                    {title: 'Цене', value: "currentPrice"},
+                    {title: 'Дате начала торгов', value: "eventStart"},
+                    {title: 'Дате окончания торгов', value: "eventEnd"},
+                    {title: 'Дате начала приема заявок', value: "applicationStart"},
+                    {title: 'Дате окончания приема заявок', value: "applicationEnd"},
                 ]
             };
         },
@@ -206,7 +270,7 @@
                     return this.$store.getters.filters_other;
                 },
                 set(value) {
-                    this.$store.commit('saveFiltersProperty', {key: 'other', value: value});
+                    this.$store.commit('saveFilterProperty', {filter: 'extraOptions', key: 'other', value: value});
                 }
             },
             filters_sort: {
@@ -225,6 +289,9 @@
             },
             loading() {
                 return this.$store.getters.trades_loading;
+            },
+            lots_statistic() {
+                return this.$store.getters.lots_statistic;
             }
         },
         methods: {
@@ -232,13 +299,12 @@
                 await this.$store.dispatch('getFilteredTrades', {page: page, filters: this.filters});
             },
             async getCategories() {
-                await this.$store.dispatch('getCategories');
+                this.$store.dispatch('getCategories');
             },
             toggleDirection() {
-                if(this.filters_sort.direction == 'asc') {
+                if (this.filters_sort.direction == 'asc') {
                     this.filters_sort.direction = 'desc';
-                }
-                else {
+                } else {
                     this.filters_sort.direction = 'asc';
                 }
             }

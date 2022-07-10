@@ -1,12 +1,12 @@
 .bkt-icon-frame {
     width: 44px;
     min-height: 44px;
-    height: 100%;
     border-radius: 15px;
     display: flex;
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
+    height: fit-content;
 
     &__item {
         max-width: 22px;
@@ -80,30 +80,30 @@
 }
 
 @media (min-width: 1200px) {
-    .bkt-icon-frame-lx {
+    .bkt-icon-frame-xl {
         width: 44px;
         min-height: 44px;
     }
-    .bkt-icon-frame-lx-large {
+    .bkt-icon-frame-xl-large {
         width: 50px;
         min-height: 50px;
     }
-    .bkt-icon-frame-lx-small {
+    .bkt-icon-frame-xl-small {
         width: 34px;
         min-height: 34px;
     }
 }
 
 @media (min-width: 1400px) {
-    .bkt-icon-frame-lxx {
+    .bkt-icon-frame-xxl {
         width: 44px;
         min-height: 44px;
     }
-    .bkt-icon-frame-lxx-large {
+    .bkt-icon-frame-xxl-large {
         width: 50px;
         min-height: 50px;
     }
-    .bkt-icon-frame-lxx-small {
+    .bkt-icon-frame-xxl-small {
         width: 34px;
         min-height: 34px;
     }

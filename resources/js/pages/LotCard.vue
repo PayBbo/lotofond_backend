@@ -7,11 +7,12 @@
                 </button>
                 <ol class="breadcrumb bkt-breadcrumb m-0">
                     <li class="breadcrumb-item bkt-breadcrumb__item">
-                        <a href="/" class="bkt-text-neutral-dark">главная</a>
+                        <router-link to="/" class="bkt-text-neutral-dark">главная</router-link>
                     </li>
                     <li class="breadcrumb-item bkt-breadcrumb__item">торги</li>
-                    <li class="breadcrumb-item bkt-breadcrumb__item active" aria-current="page">торги №
-                        {{item.trade.externalId ? item.trade.externalId : ''}} (лот {{item.lotNumber}})
+                    <li class="breadcrumb-item bkt-breadcrumb__item active" aria-current="page">
+                        торги № {{item.trade && item.trade.externalId ? item.trade.externalId : ''}} (лот
+                        {{item.lotNumber}})
                     </li>
                 </ol>
             </nav>
@@ -20,7 +21,9 @@
             <h5 class="bkt-trading-number">
                 торги № {{item.tradingNumber}} (лот {{item.lotNumber}})
             </h5>
-            <bkt-card-actions :item="item" class="bkt-actions" button_type="-icon"></bkt-card-actions>
+            <bkt-card-actions :item="item" class="bkt-actions" button_type="-icon" place="lot-card"
+                              @changeStatus="changeStatus"
+            ></bkt-card-actions>
         </div>
         <div class="row p-0" style="gap: 30px 0; margin:30px auto;">
             <div class="col-12 col-lg-7 order-2 order-lg-1">
@@ -30,64 +33,64 @@
                             {{item && item.description ? item.description:'Некоторое название торгов'}}
                         </h3>
                         <ul class="bkt-contents">
-<!--                            <li>-->
-<!--                                <div class="bkt-contents__heading">-->
-<!--                                    <span class="bkt-contents__heading">общая площадь</span>-->
-<!--                                </div>-->
-<!--                                <div class="bkt-contents__answer"><span>207 м2</span>-->
-<!--                                </div>-->
-<!--                            </li>-->
-<!--                            <li>-->
-<!--                                <div class="bkt-contents__heading">-->
-<!--                                    <span class="bkt-contents__heading">-->
-<!--                                        общие сведения об ограничениях и обременениях-->
-<!--                                    </span>-->
-<!--                                </div>-->
-<!--                                <div class="bkt-contents__answer"><span>нет</span>-->
-<!--                                </div>-->
-<!--                            </li>-->
-<!--                            <li>-->
-<!--                                <div class="bkt-contents__heading">-->
-<!--                                    <span class="bkt-contents__heading">назначение нежилого помещения</span>-->
-<!--                                </div>-->
-<!--                                <div class="bkt-contents__answer"><span>офисное помещение</span>-->
-<!--                                </div>-->
-<!--                            </li>-->
-<!--                            <li>-->
-<!--                                <div class="bkt-contents__heading">-->
-<!--                                    <span class="bkt-contents__heading">расположение в пределах объекта недвижимости (этажа, части этажа, нескольких этажей)</span>-->
-<!--                                </div>-->
-<!--                                <div class="bkt-contents__answer"><span>7 этаж</span>-->
-<!--                                </div>-->
-<!--                            </li>-->
-<!--                            <li>-->
-<!--                                <div class="bkt-contents__heading">-->
-<!--                                    <span class="bkt-contents__heading">кадастровый номер</span>-->
-<!--                                </div>-->
-<!--                                <div class="bkt-contents__answer"><span>77:06:0004004:1051</span>-->
-<!--                                </div>-->
-<!--                            </li>-->
-<!--                            <li>-->
-<!--                                <div class="bkt-contents__heading">-->
-<!--                                    <span class="bkt-contents__heading">год ввода в эксплуатацию</span>-->
-<!--                                </div>-->
-<!--                                <div class="bkt-contents__answer"><span>1980</span>-->
-<!--                                </div>-->
-<!--                            </li>-->
-<!--                            <li>-->
-<!--                                <div class="bkt-contents__heading">-->
-<!--                                    <span class="bkt-contents__heading">местонахождение имущества</span>-->
-<!--                                </div>-->
-<!--                                <div class="bkt-contents__answer"><span>Нахимовский проспект, дом 47</span>-->
-<!--                                </div>-->
-<!--                            </li>-->
+                            <!--                            <li>-->
+                            <!--                                <div class="bkt-contents__heading">-->
+                            <!--                                    <span class="bkt-contents__heading">общая площадь</span>-->
+                            <!--                                </div>-->
+                            <!--                                <div class="bkt-contents__answer"><span>207 м2</span>-->
+                            <!--                                </div>-->
+                            <!--                            </li>-->
+                            <!--                            <li>-->
+                            <!--                                <div class="bkt-contents__heading">-->
+                            <!--                                    <span class="bkt-contents__heading">-->
+                            <!--                                        общие сведения об ограничениях и обременениях-->
+                            <!--                                    </span>-->
+                            <!--                                </div>-->
+                            <!--                                <div class="bkt-contents__answer"><span>нет</span>-->
+                            <!--                                </div>-->
+                            <!--                            </li>-->
+                            <!--                            <li>-->
+                            <!--                                <div class="bkt-contents__heading">-->
+                            <!--                                    <span class="bkt-contents__heading">назначение нежилого помещения</span>-->
+                            <!--                                </div>-->
+                            <!--                                <div class="bkt-contents__answer"><span>офисное помещение</span>-->
+                            <!--                                </div>-->
+                            <!--                            </li>-->
+                            <!--                            <li>-->
+                            <!--                                <div class="bkt-contents__heading">-->
+                            <!--                                    <span class="bkt-contents__heading">расположение в пределах объекта недвижимости (этажа, части этажа, нескольких этажей)</span>-->
+                            <!--                                </div>-->
+                            <!--                                <div class="bkt-contents__answer"><span>7 этаж</span>-->
+                            <!--                                </div>-->
+                            <!--                            </li>-->
+                            <!--                                                        <li>-->
+                            <!--                                                            <div class="bkt-contents__heading">-->
+                            <!--                                                                <span class="bkt-contents__heading">кадастровый номер</span>-->
+                            <!--                                                            </div>-->
+                            <!--                                                            <div class="bkt-contents__answer"><span>77:06:0004004:1051</span>-->
+                            <!--                                                            </div>-->
+                            <!--                                                        </li>-->
+                            <!--                            <li>-->
+                            <!--                                <div class="bkt-contents__heading">-->
+                            <!--                                    <span class="bkt-contents__heading">год ввода в эксплуатацию</span>-->
+                            <!--                                </div>-->
+                            <!--                                <div class="bkt-contents__answer"><span>1980</span>-->
+                            <!--                                </div>-->
+                            <!--                            </li>-->
+                            <!--                            <li>-->
+                            <!--                                <div class="bkt-contents__heading">-->
+                            <!--                                    <span class="bkt-contents__heading">местонахождение имущества</span>-->
+                            <!--                                </div>-->
+                            <!--                                <div class="bkt-contents__answer"><span>Нахимовский проспект, дом 47</span>-->
+                            <!--                                </div>-->
+                            <!--                            </li>-->
                             <template v-for="(category, index) in item.categories">
                                 <li>
                                     <div class="bkt-contents__heading">
                                         <span class="bkt-contents__heading">категория объекта</span>
                                     </div>
                                     <div class="bkt-contents__answer">
-<!--                                        <span>{{$t('categories.'+category.key)}}</span>-->
+                                        <!--                                        <span>{{$t('categories.'+category.key)}}</span>-->
                                         <span>{{category.label}}</span>
                                     </div>
                                 </li>
@@ -96,7 +99,7 @@
                                         <span class="bkt-contents__heading">подкатегория объекта</span>
                                     </div>
                                     <div class="bkt-contents__answer">
-<!--                                        <span>{{$t('categories.'+subcategory)}}</span>-->
+                                        <!--                                        <span>{{$t('categories.'+subcategory)}}</span>-->
                                         <span>{{subcategory.label}}</span>
                                     </div>
                                 </li>
@@ -106,96 +109,103 @@
                                     <span class="bkt-contents__heading">регион объекта</span>
                                 </div>
                                 <div class="bkt-contents__answer">
-                                    <span>{{item.location}}</span>
+                                    <span>{{$t('regions.'+item.location)}}</span>
                                 </div>
                             </li>
-<!--                            <li>-->
-<!--                                <div class="bkt-contents__heading">-->
-<!--                                    <span class="bkt-contents__heading">категория объекта</span>-->
-<!--                                </div>-->
-<!--                                <div class="bkt-contents__answer"><span>нежилое</span>-->
-<!--                                </div>-->
-<!--                            </li>-->
-<!--                            <li>-->
-<!--                                <div class="bkt-contents__heading">-->
-<!--                                    <span class="bkt-contents__heading">форма собственности</span>-->
-<!--                                </div>-->
-<!--                                <div class="bkt-contents__answer"><span>федеральная собственность</span>-->
-<!--                                </div>-->
-<!--                            </li>-->
-<!--                            <li>-->
-<!--                                <div class="bkt-contents__heading">-->
-<!--                                    <span>-->
-<!--                                        Информация о сроках и порядке внесения задатка, реквизитах счета для перечисления задатка указана в документации (при наличии  требования о внесении задатка)-->
-<!--                                   </span>-->
-<!--                                </div>-->
-<!--                                <div class="bkt-contents__answer"><span>1</span>-->
-<!--                                </div>-->
-<!--                            </li>-->
-<!--                            <li>-->
-<!--                                <div class="bkt-contents__heading">-->
-<!--                                    <span class="bkt-contents__heading">перечисление задатка</span>-->
-<!--                                </div>-->
-<!--                                <div class="bkt-contents__answer">-->
-<!--                                    <span>задаток перечисляется на счет организатора</span>-->
-<!--                                </div>-->
-<!--                            </li>-->
-<!--                            <li>-->
-<!--                                <div class="bkt-contents__heading">-->
-<!--                                    <span class="bkt-contents__heading">вид договора</span>-->
-<!--                                </div>-->
-<!--                                <div class="bkt-contents__answer"><span>договор аренды</span>-->
-<!--                                </div>-->
-<!--                            </li>-->
-<!--                            <li>-->
-<!--                                <div class="bkt-contents__heading">-->
-<!--                                    <span class="bkt-contents__heading">порядок оплаты</span>-->
-<!--                                </div>-->
-<!--                                <div class="bkt-contents__answer"><span>ежемесячный платеж</span>-->
-<!--                                </div>-->
-<!--                            </li>-->
-<!--                            <li>-->
-<!--                                <div class="bkt-contents__heading">-->
-<!--                                    <span class="bkt-contents__heading">начальная цена за кв.м </span>-->
-<!--                                </div>-->
-<!--                                <div class="bkt-contents__answer"><span>12000</span>-->
-<!--                                </div>-->
-<!--                            </li>-->
-<!--                            <li>-->
-<!--                                <div class="bkt-contents__heading">-->
-<!--                                    <span class="bkt-contents__heading">ежемесячный платеж за объект</span>-->
-<!--                                </div>-->
-<!--                                <div class="bkt-contents__answer"><span>207000</span>-->
-<!--                                </div>-->
-<!--                            </li>-->
-<!--                            <li>-->
-<!--                                <div class="bkt-contents__heading">-->
-<!--                                    <span class="bkt-contents__heading">срок действия договора - лет</span>-->
-<!--                                </div>-->
-<!--                                <div class="bkt-contents__answer"><span>5</span>-->
-<!--                                </div>-->
-<!--                            </li>-->
-<!--                            <li>-->
-<!--                                <div class="bkt-contents__heading">-->
-<!--                                    <span>порядок ознакомления с имуществом, иной информацией</span>-->
-<!--                                </div>-->
-<!--                                <div class="bkt-contents__answer"><span>в соответствии с аукционной документацией</span>-->
-<!--                                </div>-->
-<!--                            </li>-->
-<!--                            <li>-->
-<!--                                <div class="bkt-contents__heading">-->
-<!--                                    <span class="bkt-contents__heading">обременения, ограничения</span>-->
-<!--                                </div>-->
-<!--                                <div class="bkt-contents__answer"><span>нет</span>-->
-<!--                                </div>-->
-<!--                            </li>-->
-<!--                            <li>-->
-<!--                                <div class="bkt-contents__heading">-->
-<!--                                    <span class="bkt-contents__heading">целевое назначение государственного или муниципального имущества, права на которое передаются по договору</span>-->
-<!--                                </div>-->
-<!--                                <div class="bkt-contents__answer"><span>офисное помещение</span>-->
-<!--                                </div>-->
-<!--                            </li>-->
+                            <li v-for="extract in item.description_extracts">
+                                <div class="bkt-contents__heading">
+                                    <span class="bkt-contents__heading text-lowercase">{{extract.title}}</span>
+                                </div>
+                                <div class="bkt-contents__answer"><span>{{extract.value}}</span>
+                                </div>
+                            </li>
+                            <!--                            <li>-->
+                            <!--                                <div class="bkt-contents__heading">-->
+                            <!--                                    <span class="bkt-contents__heading">категория объекта</span>-->
+                            <!--                                </div>-->
+                            <!--                                <div class="bkt-contents__answer"><span>нежилое</span>-->
+                            <!--                                </div>-->
+                            <!--                            </li>-->
+                            <!--                            <li>-->
+                            <!--                                <div class="bkt-contents__heading">-->
+                            <!--                                    <span class="bkt-contents__heading">форма собственности</span>-->
+                            <!--                                </div>-->
+                            <!--                                <div class="bkt-contents__answer"><span>федеральная собственность</span>-->
+                            <!--                                </div>-->
+                            <!--                            </li>-->
+                            <!--                            <li>-->
+                            <!--                                <div class="bkt-contents__heading">-->
+                            <!--                                    <span>-->
+                            <!--                                        Информация о сроках и порядке внесения задатка, реквизитах счета для перечисления задатка указана в документации (при наличии  требования о внесении задатка)-->
+                            <!--                                   </span>-->
+                            <!--                                </div>-->
+                            <!--                                <div class="bkt-contents__answer"><span>1</span>-->
+                            <!--                                </div>-->
+                            <!--                            </li>-->
+                            <!--                            <li>-->
+                            <!--                                <div class="bkt-contents__heading">-->
+                            <!--                                    <span class="bkt-contents__heading">перечисление задатка</span>-->
+                            <!--                                </div>-->
+                            <!--                                <div class="bkt-contents__answer">-->
+                            <!--                                    <span>задаток перечисляется на счет организатора</span>-->
+                            <!--                                </div>-->
+                            <!--                            </li>-->
+                            <!--                            <li>-->
+                            <!--                                <div class="bkt-contents__heading">-->
+                            <!--                                    <span class="bkt-contents__heading">вид договора</span>-->
+                            <!--                                </div>-->
+                            <!--                                <div class="bkt-contents__answer"><span>договор аренды</span>-->
+                            <!--                                </div>-->
+                            <!--                            </li>-->
+                            <!--                            <li>-->
+                            <!--                                <div class="bkt-contents__heading">-->
+                            <!--                                    <span class="bkt-contents__heading">порядок оплаты</span>-->
+                            <!--                                </div>-->
+                            <!--                                <div class="bkt-contents__answer"><span>ежемесячный платеж</span>-->
+                            <!--                                </div>-->
+                            <!--                            </li>-->
+                            <!--                            <li>-->
+                            <!--                                <div class="bkt-contents__heading">-->
+                            <!--                                    <span class="bkt-contents__heading">начальная цена за кв.м </span>-->
+                            <!--                                </div>-->
+                            <!--                                <div class="bkt-contents__answer"><span>12000</span>-->
+                            <!--                                </div>-->
+                            <!--                            </li>-->
+                            <!--                            <li>-->
+                            <!--                                <div class="bkt-contents__heading">-->
+                            <!--                                    <span class="bkt-contents__heading">ежемесячный платеж за объект</span>-->
+                            <!--                                </div>-->
+                            <!--                                <div class="bkt-contents__answer"><span>207000</span>-->
+                            <!--                                </div>-->
+                            <!--                            </li>-->
+                            <!--                            <li>-->
+                            <!--                                <div class="bkt-contents__heading">-->
+                            <!--                                    <span class="bkt-contents__heading">срок действия договора - лет</span>-->
+                            <!--                                </div>-->
+                            <!--                                <div class="bkt-contents__answer"><span>5</span>-->
+                            <!--                                </div>-->
+                            <!--                            </li>-->
+                            <!--                            <li>-->
+                            <!--                                <div class="bkt-contents__heading">-->
+                            <!--                                    <span>порядок ознакомления с имуществом, иной информацией</span>-->
+                            <!--                                </div>-->
+                            <!--                                <div class="bkt-contents__answer"><span>в соответствии с аукционной документацией</span>-->
+                            <!--                                </div>-->
+                            <!--                            </li>-->
+                            <!--                            <li>-->
+                            <!--                                <div class="bkt-contents__heading">-->
+                            <!--                                    <span class="bkt-contents__heading">обременения, ограничения</span>-->
+                            <!--                                </div>-->
+                            <!--                                <div class="bkt-contents__answer"><span>нет</span>-->
+                            <!--                                </div>-->
+                            <!--                            </li>-->
+                            <!--                            <li>-->
+                            <!--                                <div class="bkt-contents__heading">-->
+                            <!--                                    <span class="bkt-contents__heading">целевое назначение государственного или муниципального имущества, права на которое передаются по договору</span>-->
+                            <!--                                </div>-->
+                            <!--                                <div class="bkt-contents__answer"><span>офисное помещение</span>-->
+                            <!--                                </div>-->
+                            <!--                            </li>-->
                         </ul>
                         <div class="bkt-contents">
                             {{item.description}}
@@ -251,13 +261,14 @@
                                 <button class="bkt-button bkt-bg-primary-lighter bkt-card-menu-button" type="button"
                                         id="dropdownMenuClickableOutside" data-bs-toggle="dropdown"
                                         data-bs-offset="10,20" data-bs-display="static"
-                                        data-bs-auto-close="inside" aria-expanded="false">
+                                        data-bs-auto-close="outside" aria-expanded="false">
                                     <bkt-icon :name="'More'"></bkt-icon>
                                 </button>
                                 <div class="bkt-card-menu m-0 dropdown-menu dropdown-menu-end position-absolute"
                                      aria-labelledby="dropdownMenuClickableOutside"
                                 >
-                                    <bkt-card-actions :item="item" type="menu" class="bkt-card-menu-inner"></bkt-card-actions>
+                                    <bkt-card-actions :item="item" type="menu" place="lot-card"
+                                                      class="bkt-card-menu-inner"></bkt-card-actions>
                                 </div>
                             </div>
                             <!--                        <button class="bkt-button bkt-bg-primary-lighter bkt-card-menu-button">-->
@@ -323,43 +334,67 @@
             </div>
             <div class="col-12 col-lg-12 order-3">
                 <div class="bkt-card bkt-lot-card-tasks">
-                    <div class="bkt-card__header bkt-wrapper-between m-0">
+                    <div class="bkt-card__header bkt-wrapper-between m-0 bkt-gap-large">
                         <div class="bkt-card-periods">
-                            <div class="bkt-card-period bkt-wrapper">
+                            <div class="bkt-card-period bkt-wrapper" v-if="item.trade && item.trade.applicationTime
+                                 && (item.trade.applicationTime.start ||item.trade.applicationTime.end)">
                                 <div class="bkt-card__category bkt-bg-blue">
                                     <bkt-icon :name="'Date'" :width="'16px'"
                                               :height="'16px'"></bkt-icon>
                                 </div>
                                 <div class="bkt-card_feature">
-                                    <h6>прием заявок
-                                        <strong>
+                                    <h6>прием заявок</h6>
+                                    <strong>
+                                        <h6 v-if="item.trade.applicationTime.start">
                                             с {{item.trade.applicationTime.start | moment('DD MMMM YYYY')}}
-                                            <span class="bkt-text-blue">{{item.trade.applicationTime.start | moment('HH:mm')}}</span>
-                                            до {{item.trade.applicationTime.end | moment('DD MMMM YYYY')}}
-                                            <span class="bkt-text-blue">{{item.trade.applicationTime.end | moment('HH:mm')}}</span>
-                                        </strong>
-                                    </h6>
+                                            <span class="bkt-text-blue">
+                                                {{item.trade.applicationTime.start | moment('HH:mm')}}
+                                            </span>
+                                        </h6>
+                                        <h6 v-if="item.trade.applicationTime.end">до
+                                            {{item.trade.applicationTime.end | moment('DD MMMM YYYY')}}
+                                            <span class="bkt-text-blue">
+                                                {{item.trade.applicationTime.end | moment('HH:mm')}}
+                                            </span>
+                                        </h6>
+                                    </strong>
                                 </div>
                             </div>
-                            <div class="bkt-card-period bkt-wrapper">
+                            <div class="bkt-card-period bkt-wrapper"
+                                 v-if="item.trade && item.trade.eventTime
+                                 && (item.trade.eventTime.start ||item.trade.eventTime.end)"
+                            >
                                 <div class="bkt-card__category bkt-bg-yellow">
                                     <bkt-icon :name="'Alarm'" :width="'16px'"
                                               :height="'16px'"></bkt-icon>
                                 </div>
                                 <div class="bkt-card_feature">
-                                    <h6>проведение торгов
-                                        <strong>
+                                    <h6>проведение торгов</h6>
+                                    <strong>
+                                        <h6 v-if="item.trade.eventTime.start">
                                             с {{item.trade.eventTime.start | moment('DD MMMM YYYY')}}
-                                            <span class="bkt-text-yellow">{{item.trade.eventTime.start | moment('HH:mm')}}
-                                            </span>
-                                        </strong>
-                                    </h6>
+                                            <span class="bkt-text-yellow">
+                                    {{item.trade.eventTime.start | moment('HH:mm')}}
+                                </span>
+                                        </h6>
+                                        <h6 v-if="item.trade.eventTime.end">до
+                                            {{item.trade.eventTime.end | moment('DD MMMM YYYY')}}
+                                            <span class="bkt-text-yellow">
+                                    {{item.trade.eventTime.end | moment('HH:mm')}}
+                                </span>
+                                        </h6>
+                                    </strong>
                                 </div>
                             </div>
                         </div>
-                        <a :href="'http://'+item.trade.tradePlace.site" target="_blank" class="bkt-platform-button">
-                            <div class="bkt-platform-button-title">ЭТП {{item.trade.tradePlace.name}}</div>
-                            <div class="bkt-platform-button-subtitle">{{item.trade.tradePlace.site}}</div>
+                        <a v-if="item.trade && item.trade.tradePlace" :href="'http://'+item.trade.tradePlace.site"
+                           target="_blank" class="bkt-platform-button">
+                            <div class="bkt-platform-button-title">ЭТП {{item.trade.tradePlace.name ?
+                                item.trade.tradePlace.name : ''}}
+                            </div>
+                            <div class="bkt-platform-button-subtitle">{{item.trade.tradePlace.site ?
+                                item.trade.tradePlace.site : ''}}
+                            </div>
                             <bkt-icon :name="'ArrowDown'" :color="'primary'"></bkt-icon>
                         </a>
                     </div>
@@ -812,132 +847,245 @@
             <!--                    <button class="bkt-button green">Добавить документ</button>-->
             <!--                </div>-->
             <!--            </div>-->
-            <!--            <div v-if="item.trade.debtorId" class="col-12 col-lg-12 order-3">-->
-            <!--                <div class=" bkt-card bkt-card__body bkt-lot-card-debtor">-->
-            <!--                    <div class="bkt-card__header bkt-wrapper-between">-->
-            <!--                        <h3 class="bkt-card__title">Информация по должнику</h3>-->
-            <!--                        <a href="" class="bkt-button next">Сообщения по должнику-->
-            <!--                            <span class="bkt-text-neutral-dark">(0)</span>-->
-            <!--                            <bkt-icon name="ArrowDown"></bkt-icon>-->
-            <!--                        </a>-->
-            <!--                    </div>-->
-            <!--                    <ul class="bkt-contents">-->
-            <!--                        <li>-->
-            <!--                            <div class="bkt-contents__heading"><span>должник</span></div>-->
-            <!--                            <div class="bkt-contents__answer"><span>Васильев Василий Васильевич</span></div>-->
-            <!--                        </li>-->
-            <!--                        <li>-->
-            <!--                            <div class="bkt-contents__heading"><span>дело №</span></div>-->
-            <!--                            <div class="bkt-contents__answer"><span>1234567890/85</span></div>-->
+            <div v-if="item.trade && item.trade.debtor" class="col-12 col-lg-12 order-3">
+                <div class="bkt-card bkt-card__body bkt-lot-card-debtor">
+                    <div class="bkt-card__header bkt-wrapper-between pb-0">
+                        <h3 class="bkt-card__title">Информация по должнику</h3>
+                        <a href="" class="bkt-button next ps-sm-2 py-md-0" style="line-height: 1;">
+                            Сообщения по должнику
+                            Сообщения по должнику
+                            <span class="bkt-text-neutral-dark">(0)</span>
+                            <bkt-icon name="ArrowDown"></bkt-icon>
+                        </a>
+                    </div>
+                    <ul class="bkt-contents">
+                        <li>
+                            <div class="bkt-contents__heading"><span>должник</span></div>
+                            <div class="bkt-contents__answer">
+                                <span v-if="item.trade.debtor.type=='person'">
+                                    <template v-for="(value, key, index) in item.trade.debtor.person">
+                                         {{value ? value+' ' : ''}}
+                                    </template>
+                                </span>
+                                <span v-else>
+                                    {{item.trade.debtor.company.shortName ? item.trade.debtor.company.shortName : item.trade.debtor.company.fullName}}
+                                </span>
+                            </div>
+                        </li>
+                        <!--                        <li>-->
+                        <!--                            <div class="bkt-contents__heading"><span>дело №</span></div>-->
+                        <!--                            <div class="bkt-contents__answer"><span>1234567890/85</span></div>-->
 
-            <!--                        </li>-->
-            <!--                        <li>-->
-            <!--                            <div class="bkt-contents__heading"><span>суд</span></div>-->
-            <!--                            <div class="bkt-contents__answer"><span>Арбитражный Суд республики Башкортостан</span>-->
-            <!--                            </div>-->
-            <!--                        </li>-->
-            <!--                        <li>-->
-            <!--                            <div class="bkt-contents__heading"><span>ИНН</span></div>-->
-            <!--                            <div class="bkt-contents__answer"><span>34334567890</span></div>-->
-            <!--                        </li>-->
-            <!--                        <li>-->
-            <!--                            <div class="bkt-contents__heading"><span>регион</span></div>-->
-            <!--                            <div class="bkt-contents__answer"><span>Республика Башкортостан</span></div>-->
-            <!--                        </li>-->
-            <!--                        <li>-->
-            <!--                            <div class="bkt-contents__heading"><span>адрес должника</span></div>-->
-            <!--                            <div class="bkt-contents__answer"><span>РБ, г. Стерлитамак ул. Фурманова д. 6</span>-->
-            <!--                            </div>-->
-            <!--                        </li>-->
-            <!--                    </ul>-->
-            <!--                </div>-->
-            <!--            </div>-->
-            <!--            <div v-if="item.trade.debtorId" class="col-12 col-lg-12 order-3">-->
-            <!--                <div class="bkt-card bkt-card__body bkt-lot-card-active-lots">-->
-            <!--                    <div class="bkt-wrapper-between bkt-nowrap">-->
-            <!--                        <h3 class="bkt-card__title">-->
-            <!--                            Другие активные лоты должника <span class="bkt-text-neutral-dark">(0)</span>-->
-            <!--                        </h3>-->
-            <!--                        <button class="bkt-button-icon bkt-bg-body" data-bs-toggle="collapse"-->
-            <!--                                data-bs-target="#collapseActiveLots" aria-expanded="false"-->
-            <!--                        >-->
-            <!--                            <bkt-icon :name="'ArrowDown'" class="bkt-button__icon"></bkt-icon>-->
-            <!--                        </button>-->
-            <!--                    </div>-->
-            <!--                    &lt;!&ndash;                    <div class="collapse" id="collapseActiveLots">&ndash;&gt;-->
-            <!--                    &lt;!&ndash;                    </div>&ndash;&gt;-->
-            <!--                </div>-->
-            <!--            </div>-->
-            <!--            <div v-if="item.trade.debtorId" class="col-12 col-lg-12 order-3">-->
-            <!--                <div class="bkt-card bkt-card__body bkt-lot-card-completed-lots">-->
-            <!--                    <div class="bkt-wrapper-between bkt-nowrap">-->
-            <!--                        <h3 class="bkt-card__title">-->
-            <!--                            Завершённые лоты должника <span class="bkt-text-green">(1)</span>-->
-            <!--                        </h3>-->
-            <!--                        <button class="bkt-button-icon bkt-bg-body" data-bs-toggle="collapse"-->
-            <!--                                data-bs-target="#collapseCompletedLots" aria-expanded="false">-->
-            <!--                            <bkt-icon :name="'ArrowDown'" class="bkt-button__icon"></bkt-icon>-->
-            <!--                        </button>-->
-            <!--                    </div>-->
-            <!--                    <div class="collapse" id="collapseCompletedLots">-->
-            <!--                        <div class="row w-100 m-auto">-->
-            <!--                            <div class="col-12 p-0 d-none d-md-block">-->
-            <!--                                <div-->
-            <!--                                    style="padding-bottom: 10px"-->
-            <!--                                    class="row w-100 mx-auto align-items-center justify-content-center"-->
-            <!--                                >-->
-            <!--                                    <div class="col-2 pl-0">-->
-            <!--                                        <h6 class="bkt-text-neutral-dark">фото</h6>-->
-            <!--                                    </div>-->
-            <!--                                    <div class="col-3">-->
-            <!--                                        <h6 class="bkt-text-neutral-dark">описание лота</h6>-->
-            <!--                                    </div>-->
-            <!--                                    <div class="col-2">-->
-            <!--                                        <h6 class="bkt-text-neutral-dark">цена</h6>-->
-            <!--                                    </div>-->
-            <!--                                    <div class="col-2">-->
-            <!--                                        <h6 class="bkt-text-neutral-dark">даты торгов</h6>-->
-            <!--                                    </div>-->
-            <!--                                    <div class="col-3">-->
-            <!--                                        <h6 class="bkt-text-neutral-dark">ЭТП и организатор</h6>-->
-            <!--                                    </div>-->
-            <!--                                </div>-->
-            <!--                            </div>-->
-            <!--                            <div class="col-12 p-0">-->
-            <!--                                <div class="row w-100 mx-auto bkt-row outline">-->
-            <!--                                    <div class="col-12 col-md-2 ps-0">-->
-            <!--                                        <img v-lazy="'/images/card-image.jpg'" class="bkt-card__image"/>-->
-            <!--                                    </div>-->
-            <!--                                    <div class="col-12 col-md-3">-->
-            <!--                                        <h6 class="bkt-card__subtitle">№ 113351, лот 1</h6>-->
-            <!--                                        <h5 class="">-->
-            <!--                                            1/4 доли в праве на квартиру, общей площадью 64 кв.м.-->
-            <!--                                        </h5>-->
-            <!--                                    </div>-->
-            <!--                                    <div class="col-12 col-md-2">-->
-            <!--                                        <h6 class="bkt-card__subtitle d-md-none">цена</h6>-->
-            <!--                                        <h4 class="bkt-card__title bkt-text-primary">2 485 400 ₽</h4>-->
-            <!--                                    </div>-->
-            <!--                                    <div class="col-12 col-md-2">-->
-            <!--                                        <h6 class="bkt-card__subtitle d-md-none">даты торгов</h6>-->
-            <!--                                        <h6>с 25 апреля 2022</h6>-->
-            <!--                                    </div>-->
-            <!--                                    <div class="col-12 col-md-3">-->
-            <!--                                        <h6 class="bkt-card__subtitle d-md-none">ЭТП и организатор</h6>-->
-            <!--                                        <h6 class="bkt-card__title bkt-text-main text-uppercase">nazvanie.com</h6>-->
-            <!--                                        <h5 class="">-->
-            <!--                                            Перов Сергей Николаевич-->
-            <!--                                        </h5>-->
-            <!--                                    </div>-->
-            <!--                                </div>-->
-            <!--                            </div>-->
-            <!--                        </div>-->
-            <!--                    </div>-->
-            <!--                </div>-->
-            <!--            </div>-->
-            <div class="col-12 col-lg-8  order-3">
+                        <!--                        </li>-->
+                        <!--                        <li>-->
+                        <!--                            <div class="bkt-contents__heading"><span>суд</span></div>-->
+                        <!--                            <div class="bkt-contents__answer"><span>Арбитражный Суд республики Башкортостан</span>-->
+                        <!--                            </div>-->
+                        <!--                        </li>-->
+                        <li v-if="item.trade.debtor.inn">
+                            <div class="bkt-contents__heading"><span>ИНН</span></div>
+                            <div class="bkt-contents__answer"><span>{{item.trade.debtor.inn}}</span></div>
+                        </li>
+                        <!--                        <li>-->
+                        <!--                            <div class="bkt-contents__heading"><span>регион</span></div>-->
+                        <!--                            <div class="bkt-contents__answer"><span>Республика Башкортостан</span></div>-->
+                        <!--                        </li>-->
+                        <!--                        <li>-->
+                        <!--                            <div class="bkt-contents__heading"><span>адрес должника</span></div>-->
+                        <!--                            <div class="bkt-contents__answer"><span>РБ, г. Стерлитамак ул. Фурманова д. 6</span>-->
+                        <!--                            </div>-->
+                        <!--                        </li>-->
+                    </ul>
+                </div>
+            </div>
+            <div v-if="item.trade && item.trade.debtor" class="col-12 col-lg-12 order-3">
+                <bkt-collapse title="Другие активные лоты должника" :count="debtor_active_lots_pagination.total"
+                              id="collapseDebtorActiveLots" :loading="debtor_active_lots_loading"
+                              :disabled="debtor_active_lots.length==0&&!debtor_active_lots_loading"
+                              class="bkt-lot-card-active-lots"
+                >
+                    <template #collapse v-if="debtor_active_lots.length>0">
+                        <div class="row w-100 m-auto bkt-gap">
+                            <div class="col-12 px-0 d-none d-md-block">
+                                <div class="row w-100 mx-auto align-items-center justify-content-center">
+                                    <div class="col-2 pl-0">
+                                        <h6 class="bkt-text-neutral-dark">фото</h6>
+                                    </div>
+                                    <div class="col-3">
+                                        <h6 class="bkt-text-neutral-dark">описание лота</h6>
+                                    </div>
+                                    <div class="col-2">
+                                        <h6 class="bkt-text-neutral-dark">цена</h6>
+                                    </div>
+                                    <div class="col-2">
+                                        <h6 class="bkt-text-neutral-dark">даты торгов</h6>
+                                    </div>
+                                    <div class="col-3">
+                                        <h6 class="bkt-text-neutral-dark">ЭТП и организатор</h6>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 px-0" v-for="active_lot in debtor_active_lots">
+                                <div class="row w-100 mx-auto bkt-row outline">
+                                    <div class="col-12 col-md-2 ps-0">
+                                        <img v-lazy="'/images/card-image.jpg'" class="bkt-card__image"/>
+                                    </div>
+                                    <div class="col-12 col-md-3">
+                                        <h6 class="bkt-card__subtitle">
+                                            № {{active_lot.trade.externalId}}, лот {{active_lot.lotNumber}}
+                                        </h6>
+                                        <h5 class="bkt-text-truncate">
+                                            {{active_lot.description}}
+                                        </h5>
+                                    </div>
+                                    <div class="col-12 col-md-2">
+                                        <h6 class="bkt-card__subtitle d-md-none">цена</h6>
+                                        <h4 class="bkt-card__title bkt-text-primary">
+                                            {{active_lot.currentPrice | priceFormat}} ₽</h4>
+                                    </div>
+                                    <div class="col-12 col-md-2">
+                                        <h6 class="bkt-card__subtitle d-md-none">даты торгов</h6>
+                                        <div
+                                            v-if="active_lot.trade && active_lot.trade.eventTime &&
+                                            (active_lot.trade.eventTime.start || active_lot.trade.eventTime.end)">
+                                            <h6 v-if="active_lot.trade.eventTime.start">
+                                                с {{active_lot.trade.eventTime.start | moment('DD MMMM YYYY HH:mm ')}}
+                                            </h6>
+                                            <h6 v-if="active_lot.trade.eventTime.end">до
+                                                {{active_lot.trade.eventTime.end | moment('DD MMMM YYYY HH:mm')}}
+                                            </h6>
+                                        </div>
+                                        <h6 v-else>не указано</h6>
+                                    </div>
+                                    <div class="col-12 col-md-3">
+                                        <h6 class="bkt-card__subtitle d-md-none">ЭТП и организатор</h6>
+                                        <h6 class="bkt-card__title bkt-text-main text-uppercase">
+                                            {{active_lot.trade && active_lot.trade.tradePlace
+                                            && active_lot.trade.tradePlace.name ?
+                                            active_lot.trade.tradePlace.name : ''}}
+                                        </h6>
+                                        <h5 class="" v-if="active_lot.trade.organizer">
+                                            <span v-if="active_lot.trade.organizer.type=='person'">
+                                                <template
+                                                    v-for="(value, key, index) in active_lot.trade.organizer.person">
+                                                     {{value ? value+' ' : ''}}
+                                                </template>
+                                            </span>
+                                            <span v-else>
+                                                {{active_lot.trade.organizer.company.shortName ?
+                                                active_lot.trade.organizer.company.shortName :
+                                                active_lot.trade.organizer.company.fullName}}
+                                            </span>
+                                        </h5>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 px-0">
+                                <bkt-pagination
+                                    :limit="1"
+                                    :data="debtor_active_lots_pagination"
+                                    @change-page="getDebtorActiveLots"
+                                ></bkt-pagination>
+                            </div>
+                        </div>
+                    </template>
+                </bkt-collapse>
+            </div>
+            <div v-if="item.trade && item.trade.debtor" class="col-12 col-lg-12 order-3">
+                <bkt-collapse title="Завершённые лоты должника " :count="debtor_completed_lots_pagination.total"
+                              id="collapseCompletedLots" :loading="debtor_completed_lots_loading"
+                              :disabled="debtor_completed_lots.length==0&&!debtor_active_lots_loading"
+                              class="bkt-lot-card-completed-lots"
+                >
+                    <template #collapse v-if="debtor_completed_lots.length>0">
+                        <div class="row w-100 m-auto bkt-gap">
+                            <div class="col-12 p-0 d-none d-md-block">
+                                <div
+                                    style="padding-bottom: 10px"
+                                    class="row w-100 mx-auto align-items-center justify-content-center"
+                                >
+                                    <div class="col-2 pl-0">
+                                        <h6 class="bkt-text-neutral-dark">фото</h6>
+                                    </div>
+                                    <div class="col-3">
+                                        <h6 class="bkt-text-neutral-dark">описание лота</h6>
+                                    </div>
+                                    <div class="col-2">
+                                        <h6 class="bkt-text-neutral-dark">цена</h6>
+                                    </div>
+                                    <div class="col-2">
+                                        <h6 class="bkt-text-neutral-dark">даты торгов</h6>
+                                    </div>
+                                    <div class="col-3">
+                                        <h6 class="bkt-text-neutral-dark">ЭТП и организатор</h6>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 px-0" v-for="complete_lot in debtor_completed_lots">
+                                <div class="row w-100 mx-auto bkt-row outline">
+                                    <div class="col-12 col-md-2 ps-0">
+                                        <img v-lazy="'/images/card-image.jpg'" class="bkt-card__image"/>
+                                    </div>
+                                    <div class="col-12 col-md-3">
+                                        <h6 class="bkt-card__subtitle">№ {{complete_lot.trade.externalId}}, лот
+                                            {{complete_lot.lotNumber}}</h6>
+                                        <h5 class="">
+                                            {{complete_lot.description}}
+                                        </h5>
+                                    </div>
+                                    <div class="col-12 col-md-2">
+                                        <h6 class="bkt-card__subtitle d-md-none">цена</h6>
+                                        <h4 class="bkt-card__title bkt-text-primary">{{complete_lot.currentPrice |
+                                            priceFormat}} ₽</h4>
+                                    </div>
+                                    <div class="col-12 col-md-2">
+                                        <h6 class="bkt-card__subtitle d-md-none">даты торгов</h6>
+                                        <div
+                                            v-if="complete_lot.trade && complete_lot.trade.eventTime && (complete_lot.trade.eventTime.start ||complete_lot.trade.eventTime.end) ">
+                                            <h6 v-if="complete_lot.trade.eventTime.start">
+                                                с {{complete_lot.trade.eventTime.start | moment('DD MMMM YYYY HH:mm ')}}
+                                            </h6>
+                                            <h6 v-if="complete_lot.trade.eventTime.end">до
+                                                {{complete_lot.trade.eventTime.end | moment('DD MMMM YYYY HH:mm')}}
+                                            </h6>
+                                        </div>
+                                        <h6 v-else>не указано</h6>
+                                    </div>
+                                    <div class="col-12 col-md-3">
+                                        <h6 class="bkt-card__subtitle d-md-none">ЭТП и организатор</h6>
+                                        <h6 class="bkt-card__title bkt-text-main text-uppercase">
+                                            {{complete_lot.trade && complete_lot.trade.tradePlace
+                                            && complete_lot.trade.tradePlace.name ?
+                                            complete_lot.trade.tradePlace.name : 'не указано'}}
+                                        </h6>
+                                        <h5 class="" v-if="complete_lot.trade.organizer">
+                                            <span v-if="complete_lot.trade.organizer.type=='person'">
+                                                <template
+                                                    v-for="(value, key, index) in complete_lot.trade.organizer.person">
+                                                     {{value ? value+' ' : ''}}
+                                                </template>
+                                            </span>
+                                            <span v-else>
+                                                {{complete_lot.trade.organizer.company.shortName ? complete_lot.trade.organizer.company.shortName : complete_lot.trade.organizer.company.fullName}}
+                                            </span>
+                                        </h5>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 px-0">
+                                <bkt-pagination
+                                    :limit="1"
+                                    :data="debtor_completed_lots_pagination"
+                                    @change-page="getDebtorCompletedLots"
+                                ></bkt-pagination>
+                            </div>
+                        </div>
+                    </template>
+                </bkt-collapse>
+            </div>
+            <div class="col-12 col-lg-8 order-3">
                 <div class="bkt-card bkt-card__body">
-                    <div class="bkt-card__header">
+                    <div class="bkt-card__header pb-0">
                         <h3 class="bkt-card__title">Информация по организатору</h3>
                         <button class="bkt-button next">
                             Подробнее об организаторе
@@ -948,7 +1096,7 @@
                     <ul class="bkt-contents">
                         <li>
                             <div class="bkt-contents__heading"><span>организатор</span></div>
-                            <div class="bkt-contents__answer bkt-text-green" v-if="item.trade.organizer">
+                            <div class="bkt-contents__answer bkt-text-green" v-if="item.trade && item.trade.organizer">
                                 <span v-if="item.trade.organizer.type=='person'">
                                     <template v-for="(value, key, index) in item.trade.organizer.person">
                                          {{value ? value+' ' : ''}}
@@ -958,8 +1106,11 @@
                                     {{item.trade.organizer.company.shortName ? item.trade.organizer.company.shortName : item.trade.organizer.company.fullName}}
                                 </span>
                             </div>
+                            <div v-else class="bkt-contents__answer">
+                                не указано
+                            </div>
                         </li>
-                        <li>
+                        <li v-if="item.trade && item.trade.organizer">
                             <div class="bkt-contents__heading">
                                 <span class="bkt-contents__heading">ИНН</span>
                             </div>
@@ -1001,9 +1152,13 @@
             </div>
             <div class="col-12 col-lg-4 order-3">
                 <div class=" bkt-card bkt-card__body bkt-lot-card-arbitration-manager">
-                    <h3 class="bkt-card__title">
-                        Информация по арбитражному управляющему
-                    </h3>
+                    <div class="bkt-card__header pb-0">
+                        <h3 class="bkt-card__title">Информация по арбитражному управляющему</h3>
+                        <button class="bkt-button next">
+                            Подробнее об управляющем
+                            <bkt-icon name="ArrowDown" color="primary"></bkt-icon>
+                        </button>
+                    </div>
                     <ul class="bkt-contents">
                         <li>
                             <div class="bkt-contents__heading">
@@ -1040,7 +1195,7 @@
             </div>
             <div class="col-12 col-lg-12 order-3">
                 <bkt-collapse title="Документы по торгам" :count="files.length"
-                    id="collapseDocuments" :loading="files_loading"
+                              id="collapseDocuments" :loading="files_loading" :disabled="files.length==0"
                 >
                     <template #collapse v-if="files.length>0">
                         <div class="row w-100 g-2 align-items-stretch mx-auto">
@@ -1050,138 +1205,23 @@
                                         <bkt-icon name="Note" color="red" width="16px" height="16px"
                                                   class="d-flex"></bkt-icon>
                                     </div>
-                                    <div class="col-7 col-md-8 px-1">
+                                    <div class="col">
                                         <h6>{{file}}</h6>
                                     </div>
-                                    <div class="col p-0">
-                                        <h6 class="bkt-text-blue">jpg</h6>
-                                    </div>
-                                    <div class="col p-0">
-                                        <h6 class="bkt-text-neutral-dark">23.1 Mb</h6>
-                                    </div>
+                                    <!--                                    <div class="col-7 col-md-8 px-1">-->
+                                    <!--                                        <h6>{{file}}</h6>-->
+                                    <!--                                    </div>-->
+                                    <!--                                    <div class="col p-0">-->
+                                    <!--                                        <h6 class="bkt-text-blue">jpg</h6>-->
+                                    <!--                                    </div>-->
+                                    <!--                                    <div class="col p-0">-->
+                                    <!--                                        <h6 class="bkt-text-neutral-dark">23.1 Mb</h6>-->
+                                    <!--                                    </div>-->
                                 </div>
                             </div>
                         </div>
                     </template>
                 </bkt-collapse>
-<!--                <div class="bkt-card bkt-card__body">-->
-<!--                    <div class="bkt-wrapper-between bkt-nowrap">-->
-<!--                        <h3 class="bkt-card__title">-->
-<!--                            Документы по торгам <span class="bkt-text-neutral-dark">(0)</span>-->
-<!--                        </h3>-->
-<!--                        <button class="bkt-button-icon bkt-bg-body" data-bs-toggle="collapse"-->
-<!--                                data-bs-target="#collapseDocuments" aria-expanded="false"-->
-<!--                        >-->
-<!--                            <bkt-icon :name="'ArrowDown'" class="bkt-button__icon"></bkt-icon>-->
-<!--                        </button>-->
-<!--                    </div>-->
-<!--                    <div class="collapse show" id="collapseDocuments">-->
-<!--                        &lt;!&ndash;                        <div class="row w-100 g-2 align-items-stretch mx-auto">&ndash;&gt;-->
-<!--                        &lt;!&ndash;                            <div class="col-12 col-md-6">&ndash;&gt;-->
-<!--                        &lt;!&ndash;                                <div class="row bkt-row outline align-items-start bkt-nowrap">&ndash;&gt;-->
-<!--                        &lt;!&ndash;                                    <div class="col p-0" style="max-width: 28px;">&ndash;&gt;-->
-<!--                        &lt;!&ndash;                                        <bkt-icon name="Note" color="red" width="16px" height="16px"&ndash;&gt;-->
-<!--                        &lt;!&ndash;                                                  class="d-flex"></bkt-icon>&ndash;&gt;-->
-<!--                        &lt;!&ndash;                                    </div>&ndash;&gt;-->
-<!--                        &lt;!&ndash;                                    <div class="col-7 col-md-8 px-1">&ndash;&gt;-->
-<!--                        &lt;!&ndash;                                        <h6>728-732</h6>&ndash;&gt;-->
-<!--                        &lt;!&ndash;                                    </div>&ndash;&gt;-->
-<!--                        &lt;!&ndash;                                    <div class="col p-0">&ndash;&gt;-->
-<!--                        &lt;!&ndash;                                        <h6 class="bkt-text-blue">jpg</h6>&ndash;&gt;-->
-<!--                        &lt;!&ndash;                                    </div>&ndash;&gt;-->
-<!--                        &lt;!&ndash;                                    <div class="col p-0">&ndash;&gt;-->
-<!--                        &lt;!&ndash;                                        <h6 class="bkt-text-neutral-dark">23.1 Mb</h6>&ndash;&gt;-->
-<!--                        &lt;!&ndash;                                    </div>&ndash;&gt;-->
-<!--                        &lt;!&ndash;                                </div>&ndash;&gt;-->
-<!--                        &lt;!&ndash;                            </div>&ndash;&gt;-->
-<!--                        &lt;!&ndash;                            <div class="col-12 col-md-6">&ndash;&gt;-->
-<!--                        &lt;!&ndash;                                <div class="row bkt-row outline align-items-start bkt-nowrap">&ndash;&gt;-->
-<!--                        &lt;!&ndash;                                    <div class="col p-0" style="max-width: 28px;">&ndash;&gt;-->
-<!--                        &lt;!&ndash;                                        <bkt-icon name="Note" color="red" width="16px" height="16px"&ndash;&gt;-->
-<!--                        &lt;!&ndash;                                                  class="d-flex"></bkt-icon>&ndash;&gt;-->
-<!--                        &lt;!&ndash;                                    </div>&ndash;&gt;-->
-<!--                        &lt;!&ndash;                                    <div class="col-7 col-md-8 px-1">&ndash;&gt;-->
-<!--                        &lt;!&ndash;                                        <h6>7 этаж</h6>&ndash;&gt;-->
-<!--                        &lt;!&ndash;                                    </div>&ndash;&gt;-->
-<!--                        &lt;!&ndash;                                    <div class="col p-0">&ndash;&gt;-->
-<!--                        &lt;!&ndash;                                        <h6 class="bkt-text-blue">pdf</h6>&ndash;&gt;-->
-<!--                        &lt;!&ndash;                                    </div>&ndash;&gt;-->
-<!--                        &lt;!&ndash;                                    <div class="col p-0">&ndash;&gt;-->
-<!--                        &lt;!&ndash;                                        <h6 class="bkt-text-neutral-dark">0.71 Mb</h6>&ndash;&gt;-->
-<!--                        &lt;!&ndash;                                    </div>&ndash;&gt;-->
-<!--                        &lt;!&ndash;                                </div>&ndash;&gt;-->
-<!--                        &lt;!&ndash;                            </div>&ndash;&gt;-->
-<!--                        &lt;!&ndash;                            <div class="col-12 col-md-6">&ndash;&gt;-->
-<!--                        &lt;!&ndash;                                <div class="row bkt-row outline align-items-start bkt-nowrap">&ndash;&gt;-->
-<!--                        &lt;!&ndash;                                    <div class="col p-0" style="max-width: 28px;">&ndash;&gt;-->
-<!--                        &lt;!&ndash;                                        <bkt-icon name="Note" color="red" width="16px" height="16px"&ndash;&gt;-->
-<!--                        &lt;!&ndash;                                                  class="d-flex"></bkt-icon>&ndash;&gt;-->
-<!--                        &lt;!&ndash;                                    </div>&ndash;&gt;-->
-<!--                        &lt;!&ndash;                                    <div class="col-7 col-md-8 px-1">&ndash;&gt;-->
-<!--                        &lt;!&ndash;                                        <h6>Справка БТИ о состоянии здания от 28.07.2021</h6>&ndash;&gt;-->
-<!--                        &lt;!&ndash;                                    </div>&ndash;&gt;-->
-<!--                        &lt;!&ndash;                                    <div class="col p-0">&ndash;&gt;-->
-<!--                        &lt;!&ndash;                                        <h6 class="bkt-text-blue">pdf</h6>&ndash;&gt;-->
-<!--                        &lt;!&ndash;                                    </div>&ndash;&gt;-->
-<!--                        &lt;!&ndash;                                    <div class="col p-0">&ndash;&gt;-->
-<!--                        &lt;!&ndash;                                        <h6 class="bkt-text-neutral-dark">46.6 Mb</h6>&ndash;&gt;-->
-<!--                        &lt;!&ndash;                                    </div>&ndash;&gt;-->
-<!--                        &lt;!&ndash;                                </div>&ndash;&gt;-->
-<!--                        &lt;!&ndash;                            </div>&ndash;&gt;-->
-<!--                        &lt;!&ndash;                            <div class="col-12 col-md-6">&ndash;&gt;-->
-<!--                        &lt;!&ndash;                                <div class="row bkt-row outline align-items-start bkt-nowrap">&ndash;&gt;-->
-<!--                        &lt;!&ndash;                                    <div class="col p-0" style="max-width: 28px;">&ndash;&gt;-->
-<!--                        &lt;!&ndash;                                        <bkt-icon name="Note" color="red" width="16px" height="16px"&ndash;&gt;-->
-<!--                        &lt;!&ndash;                                                  class="d-flex"></bkt-icon>&ndash;&gt;-->
-<!--                        &lt;!&ndash;                                    </div>&ndash;&gt;-->
-<!--                        &lt;!&ndash;                                    <div class="col-7 col-md-8 px-1">&ndash;&gt;-->
-<!--                        &lt;!&ndash;                                        <h6>Св-во оперативного управления</h6>&ndash;&gt;-->
-<!--                        &lt;!&ndash;                                    </div>&ndash;&gt;-->
-<!--                        &lt;!&ndash;                                    <div class="col p-0">&ndash;&gt;-->
-<!--                        &lt;!&ndash;                                        <h6 class="bkt-text-blue">pdf</h6>&ndash;&gt;-->
-<!--                        &lt;!&ndash;                                    </div>&ndash;&gt;-->
-<!--                        &lt;!&ndash;                                    <div class="col p-0">&ndash;&gt;-->
-<!--                        &lt;!&ndash;                                        <h6 class="bkt-text-neutral-dark">147.21 Mb</h6>&ndash;&gt;-->
-<!--                        &lt;!&ndash;                                    </div>&ndash;&gt;-->
-<!--                        &lt;!&ndash;                                </div>&ndash;&gt;-->
-<!--                        &lt;!&ndash;                            </div>&ndash;&gt;-->
-<!--                        &lt;!&ndash;                            <div class="col-12 col-md-6">&ndash;&gt;-->
-<!--                        &lt;!&ndash;                                <div class="row bkt-row outline align-items-start bkt-nowrap">&ndash;&gt;-->
-<!--                        &lt;!&ndash;                                    <div class="col p-0" style="max-width: 28px;">&ndash;&gt;-->
-<!--                        &lt;!&ndash;                                        <bkt-icon name="Note" color="red" width="16px" height="16px"&ndash;&gt;-->
-<!--                        &lt;!&ndash;                                                  class="d-flex"></bkt-icon>&ndash;&gt;-->
-<!--                        &lt;!&ndash;                                    </div>&ndash;&gt;-->
-<!--                        &lt;!&ndash;                                    <div class="col-7 col-md-8 px-1">&ndash;&gt;-->
-<!--                        &lt;!&ndash;                                        <h6>Выписка ЕГРН</h6>&ndash;&gt;-->
-<!--                        &lt;!&ndash;                                    </div>&ndash;&gt;-->
-<!--                        &lt;!&ndash;                                    <div class="col p-0">&ndash;&gt;-->
-<!--                        &lt;!&ndash;                                        <h6 class="bkt-text-blue">pdf</h6>&ndash;&gt;-->
-<!--                        &lt;!&ndash;                                    </div>&ndash;&gt;-->
-<!--                        &lt;!&ndash;                                    <div class="col p-0">&ndash;&gt;-->
-<!--                        &lt;!&ndash;                                        <h6 class="bkt-text-neutral-dark">22.47 Mb</h6>&ndash;&gt;-->
-<!--                        &lt;!&ndash;                                    </div>&ndash;&gt;-->
-<!--                        &lt;!&ndash;                                </div>&ndash;&gt;-->
-<!--                        &lt;!&ndash;                            </div>&ndash;&gt;-->
-<!--                        &lt;!&ndash;                            <div class="col-12 col-md-6">&ndash;&gt;-->
-<!--                        &lt;!&ndash;                                <div class="row bkt-row outline align-items-start bkt-nowrap">&ndash;&gt;-->
-<!--                        &lt;!&ndash;                                    <div class="col p-0" style="max-width: 28px;">&ndash;&gt;-->
-<!--                        &lt;!&ndash;                                        <bkt-icon name="Note" color="red" width="16px" height="16px"&ndash;&gt;-->
-<!--                        &lt;!&ndash;                                                  class="d-flex"></bkt-icon>&ndash;&gt;-->
-<!--                        &lt;!&ndash;                                    </div>&ndash;&gt;-->
-<!--                        &lt;!&ndash;                                    <div class="col-7 col-md-8 px-1">&ndash;&gt;-->
-<!--                        &lt;!&ndash;                                        <h6>Аукционная документация Лот № 3</h6>&ndash;&gt;-->
-<!--                        &lt;!&ndash;                                    </div>&ndash;&gt;-->
-<!--                        &lt;!&ndash;                                    <div class="col p-0">&ndash;&gt;-->
-<!--                        &lt;!&ndash;                                        <h6 class="bkt-text-blue">pdf</h6>&ndash;&gt;-->
-<!--                        &lt;!&ndash;                                    </div>&ndash;&gt;-->
-<!--                        &lt;!&ndash;                                    <div class="col p-0">&ndash;&gt;-->
-<!--                        &lt;!&ndash;                                        <h6 class="bkt-text-neutral-dark">4.02 Mb</h6>&ndash;&gt;-->
-<!--                        &lt;!&ndash;                                    </div>&ndash;&gt;-->
-<!--                        &lt;!&ndash;                                </div>&ndash;&gt;-->
-<!--                        &lt;!&ndash;                            </div>&ndash;&gt;-->
-<!--                        &lt;!&ndash;                        </div>&ndash;&gt;-->
-<!--                    </div>-->
-<!--                </div>-->
             </div>
         </div>
     </div>
@@ -1213,7 +1253,14 @@
                 loading: false,
                 item: '',
                 files: [],
+                user_files: [],
                 files_loading: false,
+                debtor_active_lots: [],
+                debtor_active_lots_loading: false,
+                debtor_active_lots_pagination: {},
+                debtor_completed_lots: [],
+                debtor_completed_lots_loading: false,
+                debtor_completed_lots_pagination: {},
             };
         },
         computed: {
@@ -1223,10 +1270,22 @@
             auth_user: function () {
                 return this.$store.getters.auth_user;
             },
+            isLoggedIn() {
+                return this.$store.getters.isLoggedIn
+            },
+        },
+        watch: {
+            isLoggedIn: function (newVal, oldVal) {
+                if (oldVal == false && newVal == true) {
+                    this.getLotFiles();
+                }
+            }
         },
         async mounted() {
             this.getLot();
-            this.getLotFiles();
+            if (this.isLoggedIn) {
+                this.getLotFiles();
+            }
         },
         methods: {
             goBack() {
@@ -1234,34 +1293,73 @@
             },
             async getLot() {
                 this.loading = true;
-                if (this.trades.length > 0) {
-                    let trade = this.trades.findIndex(item => item.id == this.$route.params.id);
-                    if (trade >= 0) {
-                        this.item = JSON.parse(JSON.stringify(this.trades[trade]));
-                    }
-                    this.loading = false;
-                } else {
-                    await this.$store.dispatch('getTradeLot', this.$route.params.id)
-                        .then(resp => {
-                            this.item = resp.data;
-                            this.loading = false;
-                        })
-                        .catch(error => {
-                            this.loading = false;
-                        });
-
-                }
+                // if (this.trades.length > 0) {
+                //     let trade = this.trades.findIndex(item => item.id == this.$route.params.id);
+                //     if (trade >= 0) {
+                //         this.item = JSON.parse(JSON.stringify(this.trades[trade]));
+                //     }
+                //     this.loading = false;
+                // } else {
+                await this.$store.dispatch('getTradeLot', this.$route.params.id)
+                    .then(resp => {
+                        this.item = resp.data;
+                        this.loading = false;
+                        this.getDebtorActiveLots();
+                        this.getDebtorCompletedLots();
+                    })
+                    .catch(error => {
+                        this.loading = false;
+                    });
+                // }
             },
             async getLotFiles() {
                 this.files_loading = true;
                 await this.$store.dispatch('getLotFiles', this.$route.params.id)
                     .then(resp => {
-                        this.files = resp.files;
+                        this.files = resp.data.files;
+                        this.user_files = resp.data.userFiles;
                     }).catch(error => {
 
                     }).finally(() => {
                         this.files_loading = false;
                     })
+            },
+            async getDebtorActiveLots(page = 1) {
+                this.debtor_active_lots_loading = true;
+                await this.$store.dispatch('getBidderLots', {
+                    type: 'active',
+                    bidderType: 'debtor',
+                    bidderId: this.item.trade.debtor.id,
+                    page: page
+                })
+                    .then(resp => {
+                        this.debtor_active_lots = resp.data.data.filter(lot => lot.id != this.$route.params.id);
+                        this.debtor_active_lots_pagination = resp.data.pagination;
+                    }).catch(error => {
+
+                    }).finally(() => {
+                        this.debtor_active_lots_loading = false;
+                    })
+            },
+            async getDebtorCompletedLots(page = 1) {
+                this.debtor_completed_lots_loading = true;
+                await this.$store.dispatch('getBidderLots', {
+                    type: 'inactive',
+                    bidderType: 'debtor',
+                    bidderId: this.item.trade.debtor.id,
+                    page: page
+                })
+                    .then(resp => {
+                        this.debtor_completed_lots = resp.data.data;
+                        this.debtor_completed_lots_pagination = resp.data.pagination;
+                    }).catch(error => {
+
+                    }).finally(() => {
+                        this.debtor_completed_lots_loading = false;
+                    })
+            },
+            changeStatus(payload) {
+                Vue.set(this.item, payload.key, payload.value)
             }
         }
     }

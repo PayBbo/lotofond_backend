@@ -7,6 +7,13 @@
         margin: 52px 0;
         //font-size: 38px;
     }
+
+    &__subtitle {
+        text-align: center;
+        font-weight: 700;
+        margin-bottom: 25px;
+        font-size: 28px;
+    }
 }
 
 @media screen and (max-width: 768px) {
@@ -17,6 +24,13 @@
             font-weight: 700;
             font-size: 22px;
             margin: 35px 0;
+        }
+
+        &__subtitle {
+            text-align: center;
+            font-weight: 700;
+            margin-bottom: 17px;
+            font-size: 18px;
         }
     }
 }

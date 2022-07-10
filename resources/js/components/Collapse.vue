@@ -1,6 +1,6 @@
 <template>
     <div class="bkt-collapse" :class="main_class">
-        <div class="collapse bkt-collapse__body" :class="collapse_class" :id="id">
+        <div class="collapse bkt-collapse__body" :class="collapse_class" :id="id" v-if="!disabled">
             <slot name="collapse" v-if="!loading">
             </slot>
             <div v-if="loading" class="d-flex w-100 justify-content-center mb-5">
@@ -24,11 +24,13 @@
                     </slot>
                 </h3>
             </slot>
-            <button class="bkt-collapse__button bkt-button-icon" :class="collapse_button_class" data-bs-toggle="collapse"
-                    :data-bs-target="'#'+id" aria-expanded="false" :disabled="loading||count==0"
+            <button class="bkt-collapse__button bkt-button-icon"
+                    :class="[collapse_button_class, disabled ? 'bkt-button_disabled' :'']" data-bs-toggle="collapse"
+                    :data-bs-target="'#'+id" aria-expanded="false" :disabled="loading||count==0||disabled"
             >
                 <span v-if="loading" class="spinner-border spinner-border-sm" role="status"></span>
-                <bkt-icon v-else :name="'ArrowDown'" class="bkt-button__icon"></bkt-icon>
+                <bkt-icon v-else :name="'ArrowDown'" class="bkt-button__icon"
+                          :color="disabled ? 'neutral-dark' :'primary'"></bkt-icon>
             </button>
         </div>
     </div>
@@ -48,19 +50,23 @@
             },
             main_class: {
                 type: String,
-                default:'bkt-card bkt-card__body'
+                default: 'bkt-card bkt-card__body'
             },
             collapse_class: {
                 type: String
             },
             collapse_button_class: {
                 type: String,
-                default:'bkt-bg-body'
+                default: 'bkt-bg-body'
             },
             count: {
                 type: [String, Number]
             },
             loading: {
+                type: Boolean,
+                default: false
+            },
+            disabled: {
                 type: Boolean,
                 default: false
             }

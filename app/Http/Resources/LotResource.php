@@ -5,6 +5,7 @@ namespace App\Http\Resources;
 use App\Models\Category;
 use App\Models\User;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\URL;
 
 class LotResource extends JsonResource
@@ -17,7 +18,7 @@ class LotResource extends JsonResource
      */
     public function toArray($request)
     {
-        $user = User::find(auth()->id());
+        $user = auth()->guard('api')->user();
         $categories = [];
         $parents = [];
         foreach ($this->categories as $category) {
@@ -54,11 +55,11 @@ class LotResource extends JsonResource
             'description' => stripslashes(preg_replace('/[\x00-\x1F\x7F]/u', ' ', $this->description)),
             'state' => $this->status->code,
             'location' => $this->auction->debtor->region ? $this->auction->debtor->region->code : null,
-            'isWatched' => auth()->check() ? $user->seenLots->contains($this->id) : false,
-            'isPinned' => auth()->check() ? $user->fixedLots->contains($this->id) : false,
-            'inFavourite' => auth()->check() ? $this->inFavourite() : false,
-            'isHide' => auth()->check() ? $user->hiddenLots->contains($this->id) : false,
-            'inMonitoring' => auth()->check() ? $this->inMonitoring() : false,
+            'isWatched' => auth()->guard('api')->check() ? $user->seenLots->pluck('id')->contains($this->id) : false,
+            'isPinned' => auth()->guard('api')->check() ? $user->fixedLots->pluck('id')->contains($this->id) : false,
+            'inFavourite' => auth()->guard('api')->check() ? $this->inFavourite() : false,
+            'isHide' => auth()->guard('api')->check() ? $user->hiddenLots->pluck('id')->contains($this->id) : false,
+            'inMonitoring' => auth()->guard('api')->check() ? $this->inMonitoring() : false,
             'startPrice' =>  $this->start_price,
             $this->mergeWhen(!is_null($this->auction_step), [
                 'stepPrice' => [

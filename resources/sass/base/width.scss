@@ -1,0 +1,51 @@
+.bkt-w-100 {
+    width: 100% !important;
+}
+.bkt-w-initial {
+    width: initial !important;
+}
+
+@media (max-width: 576px) {
+    .bkt-w-sm-100 {
+        width: 100% !important;
+    }
+    .bkt-w-sm-initial {
+        width: initial !important;
+    }
+}
+
+@media (max-width: 768px) {
+    .bkt-w-md-100 {
+        width: 100% !important;
+    }
+    .bkt-w-md-initial {
+        width: initial !important;
+    }
+}
+
+@media (max-width: 992px) {
+    .bkt-w-lg-100 {
+        width: 100% !important;
+    }
+    .bkt-w-lg-initial {
+        width: initial !important;
+    }
+}
+
+@media (max-width: 1200px) {
+    .bkt-w-xl-100 {
+        width: 100% !important;
+    }
+    .bkt-w-xl-initial {
+        width: initial !important;
+    }
+}
+
+@media (max-width: 1400px) {
+    .bkt-w-xxl-100 {
+        width: 100% !important;
+    }
+    .bkt-w-xxl-initial {
+        width: initial !important;
+    }
+}

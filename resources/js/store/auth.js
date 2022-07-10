@@ -70,8 +70,8 @@ export default {
                 })
                 .catch(error => {
                     commit('clearStorage');
-                    dispatch('sendNotification',
-                        {self: payload.self, message: error.response.data.detail, type: 'error'})
+                    // dispatch('sendNotification',
+                    //     {self: payload.self, message: error.response.data.detail, type: 'error'})
                 });
         },
         async registration({dispatch, commit}, payload) {
@@ -83,8 +83,8 @@ export default {
                 })
                 .catch(error => {
                     commit('clearStorage');
-                    dispatch('sendNotification',
-                        {self: payload.self, message: error.response.data.detail, type: 'error'})
+                    // dispatch('sendNotification',
+                    //     {self: payload.self, message: error.response.data.detail, type: 'error'})
                 })
         },
         async registrationCode({dispatch, commit}, payload) {
@@ -98,8 +98,8 @@ export default {
                     commit('closeModal', '#codeModal');
                 })
                 .catch(error => {
-                    dispatch('sendNotification',
-                        {self: payload.self, message: error.response.data.detail, type: 'error'})
+                    // dispatch('sendNotification',
+                    //     {self: payload.self, message: error.response.data.detail, type: 'error'})
                 })
         },
         async logout({commit}) {

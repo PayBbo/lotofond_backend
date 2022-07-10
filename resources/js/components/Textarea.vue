@@ -1,6 +1,6 @@
 <template>
     <ValidationProvider :name="label" :rules="rules" v-slot="{ errors }" tag="div" class="bkt-input__wrapper" :vid="name">
-        <label :for="name" class="bkt-input__label" :class="label_class">{{ label }}</label>
+        <label :for="name" class="bkt-input__label" :class="label_class" v-if="label">{{ label }}</label>
         <div class="bkt-input__group">
             <textarea
                 class="bkt-input"
@@ -10,7 +10,7 @@
                 :placeholder="placeholder"
                 :disabled="disabled"
                 @input="saveValue"
-                rows="9"
+                :rows="rows"
             />
             <slot name="group-item">
                 <div class="bkt-input__group-item" :class="{'active': group_item_action&&!disabled}" @click="clickGroupItem">
@@ -42,6 +42,9 @@
             name: {
                 type: String,
                 required: true,
+            },
+            rows: {
+                default: '9',
             },
             label: {
                 type: String,

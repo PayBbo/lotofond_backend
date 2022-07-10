@@ -1,7 +1,14 @@
 {
     "/js/app.js": "/js/app.js",
+    "/js/main.js": "/js/main.js",
     "/js/registries.js": "/js/registries.js",
     "/js/profile.js": "/js/profile.js",
     "/js/agent.js": "/js/agent.js",
-    "/css/app.css": "/css/app.css"
+    "/js/contacts.js": "/js/contacts.js",
+    "/js/without-ecp.js": "/js/without-ecp.js",
+    "/js/lot-card.js": "/js/lot-card.js",
+    "/css/app.css": "/css/app.css",
+    "/js/favourites.js": "/js/favourites.js",
+    "/js/tariffs.js": "/js/tariffs.js",
+    "/js/auctions.js": "/js/auctions.js"
 }
