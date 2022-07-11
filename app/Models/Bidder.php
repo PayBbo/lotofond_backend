@@ -108,7 +108,7 @@ class Bidder extends Model
         return $this->hasMany(Auction::class, 'debtor_id')->whereHas('lots');
     }
 
-    public function arbitrManagerAuctionsWithLots()
+    public function arbitrationManagerAuctionsWithLots()
     {
         return $this->hasMany(Auction::class, 'arbitr_manager_id')->whereHas('lots');
     }

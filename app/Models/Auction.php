@@ -64,7 +64,7 @@ class Auction extends Model
         return $this->belongsTo(Bidder::class, 'debtor_id');
     }
 
-    public function arbitrManager()
+    public function arbitrationManager()
     {
         return $this->belongsTo(Bidder::class, 'arbitr_manager_id');
     }

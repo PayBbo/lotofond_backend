@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Facades\Route;
 
 class TradeResource extends JsonResource
 {
@@ -34,8 +35,16 @@ class TradeResource extends JsonResource
                 'publishDateEfir' => $this->date_publish_smi,
                 'priceOfferForm' => $this->price_form,
                 'organizer' => new BidderResource($this->companyTradeOrganizer),
-                'arbitrManager' => new BidderResource($this->arbitrManager),
+                'arbitrationManager' => new BidderResource($this->arbitrationManager),
                 'debtor' => new BidderResource($this->debtor),
+                'tradePlace' => [
+                    'name' => $this->tradePlace->name,
+                    'site' => $this->tradePlace->site
+                ]
+
+            ]),
+            $this->mergeWhen(Route::getCurrentRoute()->getName() === 'bidders-trades', [
+                'organizer' => new BidderResource($this->companyTradeOrganizer),
                 'tradePlace' => [
                     'name' => $this->tradePlace->name,
                     'site' => $this->tradePlace->site

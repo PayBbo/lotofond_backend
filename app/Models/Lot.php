@@ -43,7 +43,7 @@ class Lot extends Model
      */
     protected $casts = [
         'id' => 'integer',
-        'start_price' => 'float',
+        'start_price' => 'integer',
         'auction_id' => 'integer',
         'auction_step' => 'float',
         'deposit' => 'float',
@@ -154,9 +154,10 @@ class Lot extends Model
         return $this->hasMany(PriceReduction::class)->where('is_system', false);
     }
 
-    public function priceReductionsMin()
+    public function priceReductionMin()
     {
-        return $this->hasMany(PriceReduction::class)->orderBy("price", 'desc')->take(1);
+        return $this->hasMany(PriceReduction::class)
+            ->orderByRaw("CAST(price as UNSIGNED) ASC")->take(1);
     }
 
     public function currentPriceReduction()

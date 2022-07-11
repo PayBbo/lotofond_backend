@@ -3,9 +3,7 @@
 namespace App\Http\Resources;
 
 use App\Models\Category;
-use App\Models\User;
 use Illuminate\Http\Resources\Json\JsonResource;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\URL;
 
 class LotResource extends JsonResource
@@ -60,7 +58,7 @@ class LotResource extends JsonResource
             'inFavourite' => auth()->guard('api')->check() ? $this->inFavourite() : false,
             'isHide' => auth()->guard('api')->check() ? $user->hiddenLots->pluck('id')->contains($this->id) : false,
             'inMonitoring' => auth()->guard('api')->check() ? $this->inMonitoring() : false,
-            'startPrice' =>  $this->start_price,
+            'startPrice' =>  (float)$this->start_price,
             $this->mergeWhen(!is_null($this->auction_step), [
                 'stepPrice' => [
                     'type' => $this->is_step_rub ? 'rubles' : 'percent',

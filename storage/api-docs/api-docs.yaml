@@ -441,6 +441,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+      security:
+        - bearerAuth: [ ]
   /trades/filter:
     put:
       parameters:
@@ -478,6 +480,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+      security:
+        - bearerAuth: []
   /trades/{auctionId}:
     put:
       parameters:
@@ -530,6 +534,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+      security:
+        - bearerAuth: []
   /trades/filter/trade-places:
     get:
       tags:
@@ -619,9 +625,9 @@ paths:
           schema:
             type: string
             enum:
-              - debtor
-              - organizer
-              - arbitrManager
+              - debtors
+              - organizers
+              - arbitrationManagers
           required: true
           description: Роль участников торгов, которых нужно получить для фильтрации
       tags:
@@ -673,6 +679,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+      security:
+        - bearerAuth: []
   /trades/lot/action:
     put:
       tags:
@@ -950,25 +958,29 @@ paths:
                 $ref: '#/components/schemas/Error'
       security:
         - bearerAuth: []
-  /favourite/delete/{pathId}/lot/{lotId}:
+  /favourite/delete/lot:
     delete:
-      parameters:
-        - in: path
-          name: pathId
-          schema:
-            type: integer
-          required: true
-          description: Айдишник папки, из которой удаляем лот
-        - in: path
-          name: lotId
-          schema:
-            type: integer
-          required: true
-          description: Айдишник лота, который удаляем из избранного
       tags:
         - Favourite
       summary: Удаление лота из папки избранного
       operationId: deleteLotFromFavourite
+      requestBody:
+        description: данные для удаления лота из избранного
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: если нужно удалить лот из всех папок избранного - не передаем айдишник папки
+              required:
+                - lotId
+              properties:
+                pathId:
+                  type: integer
+                  description: айдишник папки избранного, если удаляем из конкретной папки
+                lotId:
+                  type: integer
+                  description: айдишник лота
       responses:
         "200":
           description: лот был успешно удален из избранного
@@ -1171,25 +1183,29 @@ paths:
                 $ref: '#/components/schemas/Error'
       security:
         - bearerAuth: [ ]
-  /monitoring/delete/{pathId}/lot/{lotId}:
+  /monitoring/delete/lot:
     delete:
-      parameters:
-        - in: path
-          name: pathId
-          schema:
-            type: integer
-          required: true
-          description: Айдишник папки, из которой удаляем лот
-        - in: path
-          name: lotId
-          schema:
-            type: integer
-          required: true
-          description: Айдишник лота, который удаляем из мониторинга
       tags:
         - Monitoring
       summary: Удаление лота из папки мониторинга
       operationId: deleteLotFromMonitoring
+      requestBody:
+        description: данные для удаления лота из мониторинга
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: если нужно удалить лот из всех папок мониторинга - не передаем айдишник папки
+              required:
+                - lotId
+              properties:
+                pathId:
+                  type: integer
+                  description: айдишник папки мониторинга, если удаляем из конкретной папки
+                lotId:
+                  type: integer
+                  description: айдишник лота
       responses:
         "200":
           description: лот был успешно удален из мониторинга
@@ -1403,36 +1419,11 @@ paths:
                 $ref: '#/components/schemas/Error'
       security:
         - bearerAuth: []
-  /bidders/{type}/{bidderType}/{bidderId}:
-    get:
+  /bidders/trades:
+    put:
       tags:
         - Bidders
       parameters:
-        - in: path
-          name: type
-          schema:
-            type: string
-            enum:
-              - active
-              - inactive
-          required: true
-          description: Какие торги получаем - активные/неактивные
-        - in: path
-          name: bidderType
-          schema:
-            type: string
-            enum:
-              - debtor
-              - organizer
-              - arbitrManager
-          required: true
-          description: Роль участников торгов, активные/неактивные торги которого получаем
-        - in: path
-          name: bidderId
-          schema:
-            type: integer
-          required: true
-          description: Айдишник участника торгов
         - in: query
           name: page
           schema:
@@ -1441,6 +1432,31 @@ paths:
           description: Номер страницы для серверной пагинации
       summary: Получение активных/неактивных торгов выбранного участника
       operationId: getTradesByBidder
+      requestBody:
+        description: данные получения активных/неактивных лотов участника торгов
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                bidderType:
+                  type: string
+                  enum:
+                    - debtor
+                    - organizer
+                    - arbitrationManager
+                type:
+                  type: string
+                  enum:
+                    - active
+                    - inactive
+                bidderId:
+                  type: integer
+                  description: айдишник участника торгов
+                exceptionLotId:
+                  type: integer
+                  description: айди лота, который нужно исключить из поиска
       responses:
         "200":
           description: список активных/неактивных торгов выбранного участника
@@ -1773,7 +1789,7 @@ components:
               description: дата и время окончания приема заявок
         organizer:
           $ref: "#/components/schemas/BidderInfo"
-        arbitrManager:
+        arbitrationManager:
           $ref: "#/components/schemas/BidderInfo"
         debtor:
           $ref: "#/components/schemas/BidderInfo"
@@ -2058,7 +2074,7 @@ components:
         court:
           type: string
           description: суд
-    ArbitrManager:
+    arbitrationManager:
       required:
         - name
         - inn
@@ -2224,7 +2240,7 @@ components:
             debtorCategories: [ 'SimplePerson', 'SimpleOrganization' ],
             debtors: [ 1, 2, 3 ],
             organizers: [ 1, 2, 3 ],
-            arbitrManagers: [ 1, 2, 3 ],
+            arbitrationManagers: [ 1, 2, 3 ],
             other: {"period":"periodAll", "hasPhotos": false, "isHidden": false, "iStopped": false, "isCompleted": false}
           }
           properties:
@@ -2248,7 +2264,7 @@ components:
               items:
                 type: integer
                 description: айдишники организаторов торгов
-            arbitrManagers:
+            arbitrationManagers:
               type: array
               default: null
               example: [ 1, 2, 3 ]
@@ -2355,7 +2371,7 @@ components:
         addDebtor:
           type: boolean
           default: false
-        addArbitrManager:
+        addArbitrationManager:
           type: boolean
           default: false
         addApplicationStart:

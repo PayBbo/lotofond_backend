@@ -5,13 +5,9 @@ namespace App\Http\Controllers;
 use App\Exceptions\CustomExceptions\BaseException;
 use App\Http\Resources\LotCollection;
 use App\Http\Resources\LotResource;
-use App\Http\Services\SortService;
-use App\Http\Services\TradeFilterService;
 use App\Models\Auction;
 use App\Models\Lot;
-use App\Models\PriceReduction;
 use App\Models\User;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class AuctionController extends Controller

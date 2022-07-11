@@ -16,6 +16,7 @@ class FilterController extends Controller
 {
     public function getBiddersForFilter($type)
     {
+        $type = substr_replace ($type, "", -1);
         $bidders = Bidder::has($type.'AuctionsWithLots')->whereHas('types', function ($query) use ($type) {
             $query->where('title', $type);
         })->paginate(20);

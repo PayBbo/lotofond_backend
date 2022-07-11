@@ -89,16 +89,29 @@ class FavouriteController extends Controller
         return response(FavouritePathResource::collection($favourites), 200);
     }
 
-    public function deleteLotFromFavourite($pathId, $lotId)
+    public function deleteLotFromFavourite(Request $request)
     {
-        $path = Favourite::find($pathId);
-        $lot = Lot::find($lotId);
-        if (!$path || !$lot || $path->user_id != auth()->id()) {
-            throw new BaseException("ERR_ACCESS_FORBIDDEN", 403, "The user does not have rights to edit the selected path");
+        $lot = Lot::find($request->lotId);
+        if (!$lot) {
+            throw new BaseException("ERR_FIND_LOT_FAILED", 404, "Lot with id= " . $request->lotId . ' does not exist');
         }
-        if ($path->lots->contains($lot)) {
-            $path->lots()->detach($lot);
+        if($request->has('pathId')) {
+            $path = Favourite::find($request->pathId);
+            if (!$path || $path->user_id != auth()->id()) {
+                throw new BaseException("ERR_ACCESS_FORBIDDEN", 403, "The user does not have rights to edit the selected path");
+            }
+            if ($path->lots->contains($lot)) {
+                $path->lots()->detach($lot);
+            }
+        }else{
+            $paths = Favourite::where('user_id', auth()->id())->get();
+            foreach($paths as $path){
+                if ($path->lots->contains($lot)) {
+                    $path->lots()->detach($lot);
+                }
+            }
         }
+
 
         return response(null, 200);
     }

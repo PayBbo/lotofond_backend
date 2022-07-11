@@ -28,37 +28,40 @@ use Illuminate\Support\Facades\Route;
 Route::group(['middleware' => ['json.response', 'localization']], function () {
 
 
-        Route::post('login', [LoginController::class, 'login'])->name('login');
+    Route::post('login', [LoginController::class, 'login'])->name('login');
 
-        Route::group(['prefix' => 'registration'], function () {
+    Route::group(['prefix' => 'registration'], function () {
 
-            Route::post('/', [RegisterController::class, 'register']);
+        Route::post('/', [RegisterController::class, 'register']);
 
-            Route::post('/code/verify', [RegisterController::class, 'verifyRegistrationCode']);
+        Route::post('/code/verify', [RegisterController::class, 'verifyRegistrationCode']);
 
-            Route::post('/code', [RegisterController::class, 'requestRegistrationCode']);
+        Route::post('/code', [RegisterController::class, 'requestRegistrationCode']);
 
-        });
+    });
 
-        Route::group(['prefix' => 'account'], function () {
+    Route::group(['prefix' => 'account'], function () {
 
-            Route::post('password/code', [ResetPasswordController::class, 'getResetPasswordCode']);
+        Route::post('password/code', [ResetPasswordController::class, 'getResetPasswordCode']);
 
-            Route::post('password/code/verify', [ResetPasswordController::class, 'verifyResetPasswordCode']);
+        Route::post('password/code/verify', [ResetPasswordController::class, 'verifyResetPasswordCode']);
 
-            Route::post('password/reset', [ResetPasswordController::class, 'resetPassword']);
+        Route::post('password/reset', [ResetPasswordController::class, 'resetPassword']);
 
-        });
-
+    });
     Route::group(['prefix' => 'trades'], function () {
 
-        Route::put('/', [AuctionController::class, 'getTrades']);
+        Route::group(['middleware' => ['custom.auth']], function () {
 
-        Route::put('/filter', [AuctionController::class, 'getFilteredTrades']);
+            Route::put('/', [AuctionController::class, 'getTrades']);
 
-        Route::put('/{auctionId}', [AuctionController::class, 'getLotsByAuction']);
+            Route::put('/filter', [AuctionController::class, 'getFilteredTrades']);
 
-        Route::get('/lot/{lotId}', [AuctionController::class, 'getLotInformation']);
+            Route::put('/{auctionId}', [AuctionController::class, 'getLotsByAuction']);
+
+            Route::get('/lot/{lotId}', [AuctionController::class, 'getLotInformation']);
+
+        });
 
         Route::group(['prefix' => 'filter'], function () {
 
@@ -78,7 +81,8 @@ Route::group(['middleware' => ['json.response', 'localization']], function () {
 
     Route::group(['prefix' => 'bidders'], function () {
 
-        Route::get('/{type}/{bidderType}/{bidderId}', [BidderController::class, 'getTradesByBidder']);
+        Route::put('/trades', [BidderController::class, 'getTradesByBidder'])
+        ->middleware('custom.auth')->name('bidders-trades');
 
         Route::get('/{bidderId}', [BidderController::class, 'getBidder']);
 
@@ -125,13 +129,13 @@ Route::group(['middleware' => ['json.response', 'localization']], function () {
 
             Route::get('/get/paths', [FavouriteController::class, 'getFavouritePaths']);
 
-            Route::delete('/delete/{pathId}/lot/{lotId}', [FavouriteController::class, 'deleteLotFromFavourite']);
+            Route::delete('/delete/lot', [FavouriteController::class, 'deleteLotFromFavourite']);
 
             Route::put('/move/lot', [FavouriteController::class, 'moveLotInFavourite']);
 
         });
 
-        Route::group(['prefix'=>'monitoring'], function(){
+        Route::group(['prefix' => 'monitoring'], function () {
 
             Route::post('/add/edit/path', [MonitoringController::class, 'addEditMonitoringPath']);
 
@@ -141,10 +145,10 @@ Route::group(['middleware' => ['json.response', 'localization']], function () {
 
             Route::get('/get/paths', [MonitoringController::class, 'getMonitoringPaths']);
 
-            Route::delete('/delete/{pathId}/lot/{lotId}', [MonitoringController::class, 'deleteLotFromMonitoring']);
+            Route::delete('/delete/lot', [MonitoringController::class, 'deleteLotFromMonitoring']);
 
         });
-        Route::group(['prefix'=>'mark'], function(){
+        Route::group(['prefix' => 'mark'], function () {
 
             Route::delete('/{markId}/lot/{lotId}', [MarkController::class, 'deleteMark']);
 
@@ -155,7 +159,7 @@ Route::group(['middleware' => ['json.response', 'localization']], function () {
         });
         Route::get('/marks', [MarkController::class, 'getMarks']);
 
-        Route::group(['prefix'=>'files'], function(){
+        Route::group(['prefix' => 'files'], function () {
 
             Route::post('/store', [FileController::class, 'storeFile']);
 
@@ -165,12 +169,11 @@ Route::group(['middleware' => ['json.response', 'localization']], function () {
 
         });
 
-        Route::group(['prefix'=>'notifications'], function(){
+        Route::group(['prefix' => 'notifications'], function () {
 
             Route::get('/{type}', [NotificationController::class, 'getNotifications']);
 
         });
-
 
 
         Route::resource('event', App\Http\Controllers\EventController::class);

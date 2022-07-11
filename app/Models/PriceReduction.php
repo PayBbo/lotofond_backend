@@ -20,7 +20,7 @@ class PriceReduction extends Model
     ];
     protected $casts = [
         'lot_id'=>'integer',
-        'price'=>'float',
+        'price'=>'integer',
         'start_time'=>'datetime',
         'end_time'=>'datetime',
         'deposit'=>'float',
