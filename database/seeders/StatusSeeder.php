@@ -19,11 +19,12 @@ class StatusSeeder extends Seeder
             ['code' => 'biddingDeclared', 'value' => 'Объявлены торги'],
             ['code' => 'applicationSessionStarted', 'value' => 'Начат прием заявок'],
             ['code' => 'applicationSessionEnd', 'value' => 'Приём заявок закончен'],
+            ['code' => 'biddingInProcess', 'value' => 'Идут торги'],
             ['code' => 'finished', 'value' => 'Торги завершены'],
             ['code' => 'biddingCanceled', 'value' => 'Отмена торгов'],
             ['code' => 'annul', 'value' => 'Аннулирование'],
             ['code' => 'biddingFail', 'value' => 'Торги не состоялись'],
-            ['code' => 'biddingPaused', 'value' => 'Торги приостановлены'],
+            ['code' => 'biddingPaused', 'value' => 'Торги приостановлены']
 
         ];
         foreach ($types as $type) {

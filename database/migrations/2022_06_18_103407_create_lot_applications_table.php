@@ -15,8 +15,8 @@ class CreateLotApplicationsTable extends Migration
     {
         Schema::create('lot_applications', function (Blueprint $table) {
             $table->id();
-            $table->integer('entry_count');
-            $table->integer('accept_count');
+            $table->integer('entry_count')->nullable();
+            $table->integer('accept_count')->nullable();
             $table->enum('result', ['Accepted', 'Refused'])->nullable();
             $table->longText('cause_of_refuse')->nullable();
             $table->unsignedBigInteger('trade_message_id');

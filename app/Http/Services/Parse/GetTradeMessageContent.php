@@ -4,7 +4,9 @@ namespace App\Http\Services\Parse;
 
 use App\Models\Auction;
 use App\Models\AuctionType;
+use App\Models\LotApplication;
 use App\Models\LotFile;
+use App\Models\PriceReduction;
 use App\Models\Status;
 use App\Models\TradeMessage;
 use Artisaninweb\SoapWrapper\SoapWrapper;
@@ -27,17 +29,17 @@ class GetTradeMessageContent
             $this->messageType = $type;
             $this->xml = $xml;
             $key = preg_grep('/:Body/', array_keys($xml));
-            if($type == 'BiddingProcess'){
-                $type .='Info';
+            if ($type == 'BiddingProcess') {
+                $type .= 'Info';
             }
             if (array_key_exists('ns1:Set' . $type, $xml[$key[0]])) {
-                $this->invitation = $xml[$key[0]]['ns1:Set' .$type]['ns1:' . $type];
+                $this->invitation = $xml[$key[0]]['ns1:Set' . $type]['ns1:' . $type];
                 $this->prefix = 'ns1:';
             } else {
                 $this->invitation = $xml[$key[0]]['Set' . $type][$type];
                 $this->prefix = '';
             }
-        }catch(\Exception $e){
+        } catch (\Exception $e) {
             logger($this->xml);
         }
     }
@@ -49,12 +51,12 @@ class GetTradeMessageContent
         }
         $this->messageId = $id;
         switch ($this->messageType) {
-            case 'BiddingInvitation':
-            {
-                $this->type = 'biddingDeclared';
-                $this->biddingInvitationResponse($tradePlace, $trade);
-                break;
-            }
+            /* case 'BiddingInvitation':
+             {
+                 $this->type = 'biddingDeclared';
+                 $this->biddingInvitationResponse($tradePlace, $trade);
+                 break;
+             }*/
             case 'BiddingProcessInfo':
             {
                 $this->biddingProcessInfo();
@@ -72,16 +74,20 @@ class GetTradeMessageContent
                 break;
             }
 
-            case 'BiddingEnd': {
+            case 'BiddingEnd':
+            {
                 $this->type = 'finished';
                 $this->applicationSession();
                 break;
             }
-            case 'BiddingStart': {
+            case 'BiddingStart':
+            {
+                $this->type = 'biddingInProcess';
                 $this->applicationSession();
                 break;
             }
-            case 'ApplicationSessionEnd':  {
+            case 'ApplicationSessionEnd':
+            {
                 $this->type = 'applicationSessionEnd';
                 $this->applicationSession();
                 break;
@@ -125,6 +131,11 @@ class GetTradeMessageContent
                 $this->biddingNewTerm();
                 break;
             }
+            case 'BiddingResult':
+            {
+                $this->biddingResult();
+                break;
+            }
         }
 
     }
@@ -132,8 +143,8 @@ class GetTradeMessageContent
     public function biddingInvitationResponse($tradePlace, $trade)
     {
         try {
-            $invitation =  $this->invitation;
-            $prefix =  $this->prefix;
+            $invitation = $this->invitation;
+            $prefix = $this->prefix;
 
             /*Парсим должника. Если его инн пустое - торги не сохраняются.*/
 
@@ -142,23 +153,23 @@ class GetTradeMessageContent
                 $debtor = $debtor[$prefix . 'DebtorPerson']['@attributes'];
                 $debtor_type = 'person';
                 $codeType = 'PersonInn';
-            } elseif(array_key_exists($prefix . 'DebtorCompany', $debtor)){
+            } elseif (array_key_exists($prefix . 'DebtorCompany', $debtor)) {
                 $debtor = $debtor[$prefix . 'DebtorCompany']['@attributes'];
                 $debtor_type = 'company';
                 $codeType = 'CompanyInn';
             }
-            if(array_key_exists('INN', $debtor) &&  $debtor['INN'] !== "" && !is_null( $debtor['INN'])){
+            if (array_key_exists('INN', $debtor) && $debtor['INN'] !== "" && !is_null($debtor['INN'])) {
                 $soapWrapper = new SoapWrapper();
                 $service = new SoapWrapperService($soapWrapper);
                 $debtor_data = get_object_vars($service->searchDebtorByCode($codeType, $debtor['INN']));
                 if (array_key_exists($prefix . 'DebtorPerson', $debtor_data)) {
                     $debtor = get_object_vars($debtor_data['DebtorPerson']);
-                } elseif(array_key_exists('DebtorCompany', $debtor_data)){
+                } elseif (array_key_exists('DebtorCompany', $debtor_data)) {
                     $debtor = get_object_vars($debtor_data['DebtorCompany']);
                 }
                 $bidderParse = new BidderService('debtor', $debtor['INN'], $debtor_type);
                 $debtor = $bidderParse->saveBidder($debtor);
-            }else{
+            } else {
                 return;
             }
 
@@ -172,7 +183,7 @@ class GetTradeMessageContent
                 $arbitr_manager = $invitation[$prefix . 'CompanyBankrCommis']['@attributes'];
                 $manager_type = 'company';
             }
-            if(array_key_exists('INN',$arbitr_manager)&&  $arbitr_manager['INN'] != "" && !is_null( $arbitr_manager['INN'])){
+            if (array_key_exists('INN', $arbitr_manager) && $arbitr_manager['INN'] != "" && !is_null($arbitr_manager['INN'])) {
                 $managerParse = new BidderService('arbitrManager', $arbitr_manager['INN'], $manager_type);
                 $arbitr_manager = $managerParse->saveBidder($arbitr_manager);
             }
@@ -189,7 +200,7 @@ class GetTradeMessageContent
                     $org = $organizer[$prefix . 'TradeOrganizerCompany']['@attributes'];
                     $org_type = 'company';
                 }
-                if(array_key_exists('INN',$org)&&  $org['INN'] != "" && !is_null($org['INN'])){
+                if (array_key_exists('INN', $org) && $org['INN'] != "" && !is_null($org['INN'])) {
                     $orgParse = new BidderService('organizer', $org['INN'], $org_type);
                     $trade_organizer = $orgParse->saveBidder($org);
                 }
@@ -216,8 +227,8 @@ class GetTradeMessageContent
             $auction->event_end_date = array_key_exists($prefix . 'OpenForm', $data) && array_key_exists('TimeEnd', $data[$prefix . 'OpenForm']) ? $data[$prefix . 'OpenForm']['TimeEnd'] : NULL;
             $auction->application_start_date = $data[$prefix . 'Application']['@attributes']['TimeBegin'];
             $auction->application_end_date = $data[$prefix . 'Application']['@attributes']['TimeEnd'];
-            $auction->date_publish_smi = array_key_exists($prefix. 'DatePublishSMI', $data) ? $data[$prefix. 'DatePublishSMI'] : NULL;
-            $auction->date_publish_efir = array_key_exists($prefix. 'DatePublishEFIR', $data) ? $data[$prefix. 'DatePublishEFIR'] : NULL;
+            $auction->date_publish_smi = array_key_exists($prefix . 'DatePublishSMI', $data) ? $data[$prefix . 'DatePublishSMI'] : NULL;
+            $auction->date_publish_efir = array_key_exists($prefix . 'DatePublishEFIR', $data) ? $data[$prefix . 'DatePublishEFIR'] : NULL;
             $auction->price_form = $data['@attributes']['FormPrice'] == 'OpenForm' ? 'open' : 'close';
             if (array_key_exists($prefix . 'LegalCase', $invitation)) {
                 $auction->case_number = $invitation[$prefix . 'LegalCase']['@attributes']['CaseNumber'];
@@ -228,10 +239,10 @@ class GetTradeMessageContent
             $images = null;
             if (array_key_exists($prefix . 'Attach', $data)) {
                 if (mb_stripos($data[$prefix . 'Attach'][$prefix . 'FileName'], 'фото') !== false) {
-                    $parseFiles= new FilesService();
+                    $parseFiles = new FilesService();
                     $images = $parseFiles->parseFiles($data, $auction, $prefix, true);
                 } else {
-                    $parseFiles= new FilesService();
+                    $parseFiles = new FilesService();
                     $files = $parseFiles->parseFiles($data, $auction, $prefix);
                 }
 
@@ -257,40 +268,10 @@ class GetTradeMessageContent
 
     }
 
-    public function applicationSessionStatistic()
-    {
-        $invitation =  $this->invitation;
-        $prefix =  $this->prefix;
-        try {
-            $auction = Auction::where('trade_id', $invitation['@attributes']['TradeId'])->first();
-            if ($auction && array_key_exists($prefix . 'Attach', $invitation)) {
-                $parseFiles = new FilesService();
-                $files = $parseFiles->parseFiles($invitation, $auction, $prefix);
-                $auction_lot = $auction->lots->where('number', $invitation[$prefix . 'LotList'][$prefix . 'LotStatistic']['@attributes']['LotNumber'])->first();
-                if ($auction_lot) {
-                    foreach($files as $file){
-                        if(!LotFile::where(['url'=>$file, 'lot_id'=>$auction_lot->id, 'type'=>'file'])->exists()){
-                            LotFile::create([
-                                'url'=>$file,
-                                'type'=>'file',
-                                'lot_id'=>$auction_lot->id
-                            ]);
-                        }
-                    }
-                }
-
-            }
-        } catch (\Exception $e) {
-            logger('applicationSessionStatistic: ' . $e);
-            logger($invitation);
-        }
-
-    }
-
     public function applicationSession()
     {
-        $invitation =  $this->invitation;
-        $prefix =  $this->prefix;
+        $invitation = $this->invitation;
+        $prefix = $this->prefix;
         try {
             $auction = Auction::where('trade_id', $invitation['@attributes']['TradeId'])->first();
             if ($auction) {
@@ -299,27 +280,28 @@ class GetTradeMessageContent
                         foreach ($invitation[$prefix . 'LotList'][$prefix . 'LotInfo'] as $lot) {
                             $auction_lot = $auction->lots->where('number', $lot['@attributes']['LotNumber'])->first();
                             if ($auction_lot) {
+                                $this->createNotification($auction_lot->id, $invitation['@attributes']['EventTime'], 'status_id', $auction_lot->status_id);
                                 $auction_lot->status_id = Status::where('code', $this->type)->first()['id'];
                                 $auction_lot->save();
-                                $this->createNotification($auction_lot->id, $invitation['@attributes']['EventTime']);
                             }
                         }
                     } else {
                         $auction_lot = $auction->lots->where('number', $invitation[$prefix . 'LotList'][$prefix . 'LotInfo']['@attributes']['LotNumber'])->first();
                         if ($auction_lot) {
+                            $this->createNotification($auction_lot->id, $invitation['@attributes']['EventTime'], 'status_id', $auction_lot->status_id);
                             $auction_lot->status_id = Status::where('code', $this->type)->first()['id'];
                             $auction_lot->save();
-                            $this->createNotification($auction_lot->id, $invitation['@attributes']['EventTime']);
                         }
                     }
                 } else {
                     foreach ($auction->lots as $lot) {
+                        $this->createNotification($lot->id, $invitation['@attributes']['EventTime'], 'status_id', $lot->status_id);
                         $lot->status_id = Status::where('code', $this->type)->first()['id'];
                         $lot->save();
-                        $this->createNotification($lot->id, $invitation['@attributes']['EventTime']);
                     }
                 }
             }
+            logger('applicationSession SUCCESS');
         } catch (\Exception $e) {
             logger('parseTradeStatusExc: ' . $e);
             logger($invitation);
@@ -327,10 +309,65 @@ class GetTradeMessageContent
 
     }
 
+    public function applicationSessionStatistic()
+    {
+        $invitation = $this->invitation;
+        $prefix = $this->prefix;
+        try {
+            $auction = Auction::where('trade_id', $invitation['@attributes']['TradeId'])->first();
+            if ($auction && array_key_exists($prefix . 'LotList', $invitation)) {
+                foreach ($invitation[$prefix . 'LotList'][$prefix . 'LotStatistic'] as $lot) {
+                    $auction_lot = $auction->lots->where('number', $lot['@attributes']['LotNumber'])->first();
+                    if ($auction_lot) {
+                        $tradeMessage = $this->createNotification($auction_lot->id, $invitation['@attributes']['EventTime']);
+                        if (array_key_exists($prefix . 'Attach', $invitation)) {
+                            $parseFiles = new FilesService();
+                            $files = $parseFiles->parseFiles($invitation, $auction, $prefix);
+                            $auction_lot = $auction->lots->where('number', $invitation[$prefix . 'LotList'][$prefix . 'LotStatistic']['@attributes']['LotNumber'])->first();
+                            if ($auction_lot) {
+                                foreach ($files as $file) {
+                                    if (!LotFile::where(['url' => $file, 'lot_id' => $auction_lot->id,
+                                        'trade_message_id'=>$tradeMessage->id, 'type' => 'file'])->exists()) {
+                                        LotFile::create([
+                                            'url' => $file,
+                                            'type' => 'file',
+                                            'lot_id' => $auction_lot->id,
+                                            'trade_message_id' => $tradeMessage->id
+                                        ]);
+                                    }
+                                }
+                            }
+                        }
+                        LotApplication::create([
+                            'entry_count' => $lot['@attributes']['EntryCount'],
+                            'accept_count' => $lot['@attributes']['AcceptCount'],
+                            'trade_message_id' => $tradeMessage->id
+                        ]);
+                        if (array_key_exists($prefix . 'ApplicationList', $lot)) {
+                            foreach ($lot[$prefix . 'ApplicationList']['ApplicationData'] as $application) {
+                                LotApplication::create([
+                                    'result' => $application['Result'],
+                                    'cause_of_refuse' => $application['CauseOfRefuse'],
+                                    'trade_message_id' => $tradeMessage->id
+                                ]);
+                            }
+                        }
+                    }
+                }
+            }
+            logger('applicationSessionStatistic SUCCESS');
+        } catch (\Exception $e) {
+            logger('applicationSessionStatistic: ' . $e);
+            logger($invitation);
+        }
+
+    }
+
+
     public function biddingProcessInfo()
     {
-        $invitation =  $this->invitation;
-        $prefix =  $this->prefix;
+        $invitation = $this->invitation;
+        $prefix = $this->prefix;
         try {
             $auction = Auction::where('trade_id', $invitation['@attributes']['TradeId'])->first();
             if ($auction) {
@@ -338,20 +375,15 @@ class GetTradeMessageContent
                 $auction_lot = $auction->lots->where('number', $invitation[$prefix . 'PriceInfo']['LotNumber'])->first();
                 if ($auction_lot) {
                     $price = $invitation[$prefix . 'PriceInfo']['NewPrice'];
-                    $value = 'Изменение цены';
-                    if ($auction_lot->price < $price) {
-                        $auction_lot->price_state = 'low';
-                        $value = 'Понижение цены';
-                    } elseif ($auction_lot->price > $price) {
-                        $auction_lot->price_state = 'up';
-                        $value = 'Повышение цены';
-                    }
-                    $auction_lot->price = $price;
+                    $this->createNotification($auction_lot->id, $invitation['@attributes']['EventTime'], 'start_price', $auction_lot->start_price);
+                    $auction_lot->start_price = $price;
                     $auction_lot->save();
-                    $this->createNotification($auction_lot->id, $invitation['@attributes']['EventTime'], $value);
+                    $priceReduction = PriceReduction::where(['lot_id'=>$auction_lot->id, 'is_system'=>true])->first();
+                    $priceReduction->price = $price;
+                    $priceReduction->save();
                 }
             }
-
+            logger('biddingProcessInfo SUCCESS');
         } catch (\Exception $e) {
             logger('biddingProcessInfo(Exc: ' . $e);
             logger($this->xml);
@@ -360,8 +392,8 @@ class GetTradeMessageContent
 
     public function annulmentMessage()
     {
-        $invitation =  $this->invitation;
-        $prefix =  $this->prefix;
+        $invitation = $this->invitation;
+        $prefix = $this->prefix;
         logger('ANNULMENT');
         logger($invitation);
         try {
@@ -374,43 +406,43 @@ class GetTradeMessageContent
 
     public function biddingStatusWithReason()
     {
-        $invitation =  $this->invitation;
-        $prefix =  $this->prefix;
+        $invitation = $this->invitation;
+        $prefix = $this->prefix;
         try {
-           /* $auction = Auction::where('trade_id', $invitation['@attributes']['TradeId'])->first();
-            if ($auction) {
-                $url = null;
-                if (array_key_exists($prefix . 'Attach', $invitation)) {
-                    $url = new FilesService($invitation, $auction, $prefix);
-                }
-                if (array_key_exists($prefix . 'LotList', $invitation)) {
-                    $auction_lot = $auction->lots->where('number', $invitation[$prefix . 'LotList'][$prefix . 'BiddingStateLotInfo']['@attributes']['LotNumber'])->first();
-                    if ($auction_lot) {
-                        $auction_lot->status_id = Status::where('code', $this->type)->first()['id'];
-                        if (!is_null($url)) {
-                            $files = $auction_lot->files;
-                            $files[] = $url;
-                            $auction_lot->files = $files;
-                        }
-                        $auction_lot->save();
-                        $this->createNotification($auction_lot->id, $invitation[$prefix . 'LotList']['@attributes']['EventTime'],
-                            $invitation[$prefix . 'LotList'][$prefix . 'BiddingStateLotInfo']['@attributes']['Reason']);
-                    }
+            /* $auction = Auction::where('trade_id', $invitation['@attributes']['TradeId'])->first();
+             if ($auction) {
+                 $url = null;
+                 if (array_key_exists($prefix . 'Attach', $invitation)) {
+                     $url = new FilesService($invitation, $auction, $prefix);
+                 }
+                 if (array_key_exists($prefix . 'LotList', $invitation)) {
+                     $auction_lot = $auction->lots->where('number', $invitation[$prefix . 'LotList'][$prefix . 'BiddingStateLotInfo']['@attributes']['LotNumber'])->first();
+                     if ($auction_lot) {
+                         $auction_lot->status_id = Status::where('code', $this->type)->first()['id'];
+                         if (!is_null($url)) {
+                             $files = $auction_lot->files;
+                             $files[] = $url;
+                             $auction_lot->files = $files;
+                         }
+                         $auction_lot->save();
+                         $this->createNotification($auction_lot->id, $invitation[$prefix . 'LotList']['@attributes']['EventTime'],
+                             $invitation[$prefix . 'LotList'][$prefix . 'BiddingStateLotInfo']['@attributes']['Reason']);
+                     }
 
-                } else {
-                    foreach ($auction->lots as $lot) {
-                        $lot->status_id = Status::where('code', $this->type)->first()['id'];
-                        if (!is_null($url)) {
-                            $files = $lot->files;
-                            $files[] = $url;
-                            $lot->files = $files;
-                        }
-                        $lot->save();
-                        $this->createNotification($auction_lot->id, $invitation[$prefix . 'LotList']['@attributes']['EventTime'],
-                            $invitation[$prefix . 'LotList'][$prefix . 'BiddingStateLotInfo']['@attributes']['Reason']);
-                    }
-                }
-            }*/
+                 } else {
+                     foreach ($auction->lots as $lot) {
+                         $lot->status_id = Status::where('code', $this->type)->first()['id'];
+                         if (!is_null($url)) {
+                             $files = $lot->files;
+                             $files[] = $url;
+                             $lot->files = $files;
+                         }
+                         $lot->save();
+                         $this->createNotification($auction_lot->id, $invitation[$prefix . 'LotList']['@attributes']['EventTime'],
+                             $invitation[$prefix . 'LotList'][$prefix . 'BiddingStateLotInfo']['@attributes']['Reason']);
+                     }
+                 }
+             }*/
         } catch (\Exception $e) {
             logger('biddingStatusWithReasonExc: ' . $e);
             logger($invitation);
@@ -419,8 +451,8 @@ class GetTradeMessageContent
 
     public function newTradeOrganizer()
     {
-        $invitation =  $this->invitation;
-        $prefix =  $this->prefix;
+        $invitation = $this->invitation;
+        $prefix = $this->prefix;
         logger('NEWTRADEORG');
         logger($invitation);
         try {
@@ -433,8 +465,8 @@ class GetTradeMessageContent
 
     public function biddingNewTerm()
     {
-        $invitation =  $this->invitation;
-        $prefix =  $this->prefix;
+        $invitation = $this->invitation;
+        $prefix = $this->prefix;
         logger($invitation);
         try {
 
@@ -444,17 +476,29 @@ class GetTradeMessageContent
         }
     }
 
-
-
-    public function createNotification($lot, $date, $value = null, $param=null, $param_type=null)
+    public function biddingResult()
     {
-        TradeMessage::create([
+        $invitation = $this->invitation;
+        $prefix = $this->prefix;
+        logger('biddingResult');
+        logger($invitation);
+        try {
+
+        } catch (\Exception $e) {
+            logger('biddingResultMessageExc: ' . $e);
+            logger($invitation);
+        }
+    }
+
+    public function createNotification($lot, $date, $param = null, $param_type = null, $value = null)
+    {
+        return TradeMessage::create([
             'lot_id' => $lot,
             'value' => is_null($value) ? Status::where('code', $this->type)->first()['value'] : $value,
             'number' => $this->messageId,
             'date' => $date,
-            'param'=>$param,
-            'param_type'=>$param_type
+            'param' => $param,
+            'param_type' => $param_type
         ]);
     }
 

@@ -48,9 +48,19 @@ class AuctionController extends Controller
 
     public function actionWithLot(Request $request)
     {
-        $lot = Lot::find($request->lot_id);
-        if (!$lot) {
-            throw new BaseException("ERR_FIND_LOT_FAILED", 404, "Lot with id= " . $request->lot_id . ' does not exist');
+        $lot = null;
+        if($request->has('lotId')) {
+            $lot = Lot::find($request->lotId);
+            if (!$lot) {
+                throw new BaseException("ERR_FIND_LOT_FAILED", 404, "Lot with id= " . $request->lotId . ' does not exist');
+            }
+        }
+        $auction = null;
+        if($request->has('auctionId')){
+            $auction = Auction::find($request->auctionId);
+            if (!$auction) {
+                throw new BaseException("ERR_FIND_AUCTION_FAILED", 404, "Auction with id= " . $request->auctionId . ' does not exist');
+            }
         }
         $user = User::find(auth()->id());
         switch ($request->type) {
@@ -73,10 +83,21 @@ class AuctionController extends Controller
             }
             case 'hidden':
             {
-                if ($user->hiddenLots->contains($lot)) {
-                    $user->hiddenLots()->detach($lot);
-                } else {
-                    $user->hiddenLots()->attach($lot);
+                if($lot) {
+                    if ($user->hiddenLots->contains($lot)) {
+                        $user->hiddenLots()->detach($lot);
+                    } else {
+                        $user->hiddenLots()->attach($lot);
+                    }
+                }
+                if($auction){
+                    foreach($auction->lots as $lot){
+                        if ($user->hiddenLots->contains($lot)) {
+                            $user->hiddenLots()->detach($lot);
+                        } else {
+                            $user->hiddenLots()->attach($lot);
+                        }
+                    }
                 }
             }
         }

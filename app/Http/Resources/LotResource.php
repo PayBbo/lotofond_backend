@@ -84,7 +84,7 @@ class LotResource extends JsonResource
             'link' => URL::to('/lot/' . $this->id),
             'efrsbLink' => 'https://fedresurs.ru/bidding/' . $this->auction->guid,
             'marks'=> $this->userMarks()->makeHidden(['pivot']),
-            'description_extracts'=>$params->makeHidden(['pivot'])
+            'descriptionExtracts'=>$params->makeHidden(['pivot'])
         ];
     }
 

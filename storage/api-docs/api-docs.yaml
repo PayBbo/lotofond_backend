@@ -697,20 +697,22 @@ paths:
               Add/delete to/from seen:
                 value:
                   type: seen
-                  lot_id: 1
+                  lotId: 1
               Add/delete to/from fixed:
                 value:
                   type: fixed
-                  lot_id: 1
+                  lotId: 1
               Add/delete to/from hidden:
+                description: если скрываем все лоты торга - не передавать lotId
                 value:
                   type: hidden
-                  lot_id: 1
+                  lotId: 1
+                  auctionId: 1
       responses:
         "200":
           description: Лот успешно добавлен/удален в/из "просмотрено", "скрыто", "закреплено"
         "404":
-          description: Лот по переданному айдишнику не найден
+          description: Лот/торг по переданному айдишнику не найден
           content:
             application/json:
               schema:
