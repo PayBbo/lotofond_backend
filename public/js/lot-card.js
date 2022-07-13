@@ -1493,12 +1493,18 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   type: 'active',
                   bidderType: 'debtor',
                   bidderId: _this4.item.trade.debtor.id,
+                  exceptionLotId: _this4.item.id,
                   page: page
                 }).then(function (resp) {
-                  _this4.debtor_active_lots = resp.data.data.filter(function (lot) {
-                    return lot.id != _this4.$route.params.id;
-                  });
-                  _this4.debtor_active_lots_pagination = resp.data.pagination;
+                  if (resp.data.data) {
+                    _this4.debtor_active_lots = resp.data.data;
+                  } else {
+                    _this4.debtor_active_lots = resp.data;
+                  }
+
+                  if (resp.data.pagination) {
+                    _this4.debtor_active_lots_pagination = resp.data.pagination;
+                  }
                 })["catch"](function (error) {})["finally"](function () {
                   _this4.debtor_active_lots_loading = false;
                 });
@@ -1528,10 +1534,18 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   type: 'inactive',
                   bidderType: 'debtor',
                   bidderId: _this5.item.trade.debtor.id,
+                  exceptionLotId: _this5.item.id,
                   page: page
                 }).then(function (resp) {
-                  _this5.debtor_completed_lots = resp.data.data;
-                  _this5.debtor_completed_lots_pagination = resp.data.pagination;
+                  if (resp.data.data) {
+                    _this5.debtor_completed_lots = resp.data.data;
+                  } else {
+                    _this5.debtor_completed_lots = resp.data;
+                  }
+
+                  if (resp.data.pagination) {
+                    _this5.debtor_completed_lots_pagination = resp.data.pagination;
+                  }
                 })["catch"](function (error) {})["finally"](function () {
                   _this5.debtor_completed_lots_loading = false;
                 });
@@ -2390,6 +2404,7 @@ var render = function () {
                 {
                   staticClass:
                     "bkt-card__header bkt-wrapper-between m-0 bkt-gap-large",
+                  staticStyle: { border: "none" },
                 },
                 [
                   _c("div", { staticClass: "bkt-card-periods" }, [
@@ -3182,23 +3197,25 @@ var render = function () {
                                         }
                                       ),
                                       _vm._v(" "),
-                                      _c(
-                                        "div",
-                                        { staticClass: "col-12 px-0" },
-                                        [
-                                          _c("bkt-pagination", {
-                                            attrs: {
-                                              limit: 1,
-                                              data: _vm.debtor_active_lots_pagination,
-                                            },
-                                            on: {
-                                              "change-page":
-                                                _vm.getDebtorActiveLots,
-                                            },
-                                          }),
-                                        ],
-                                        1
-                                      ),
+                                      _vm.debtor_active_lots_pagination
+                                        ? _c(
+                                            "div",
+                                            { staticClass: "col-12 px-0" },
+                                            [
+                                              _c("bkt-pagination", {
+                                                attrs: {
+                                                  limit: 1,
+                                                  data: _vm.debtor_active_lots_pagination,
+                                                },
+                                                on: {
+                                                  "change-page":
+                                                    _vm.getDebtorActiveLots,
+                                                },
+                                              }),
+                                            ],
+                                            1
+                                          )
+                                        : _vm._e(),
                                     ],
                                     2
                                   ),
@@ -3653,23 +3670,25 @@ var render = function () {
                                         }
                                       ),
                                       _vm._v(" "),
-                                      _c(
-                                        "div",
-                                        { staticClass: "col-12 px-0" },
-                                        [
-                                          _c("bkt-pagination", {
-                                            attrs: {
-                                              limit: 1,
-                                              data: _vm.debtor_completed_lots_pagination,
-                                            },
-                                            on: {
-                                              "change-page":
-                                                _vm.getDebtorCompletedLots,
-                                            },
-                                          }),
-                                        ],
-                                        1
-                                      ),
+                                      _vm.debtor_completed_lots_pagination
+                                        ? _c(
+                                            "div",
+                                            { staticClass: "col-12 px-0" },
+                                            [
+                                              _c("bkt-pagination", {
+                                                attrs: {
+                                                  limit: 1,
+                                                  data: _vm.debtor_completed_lots_pagination,
+                                                },
+                                                on: {
+                                                  "change-page":
+                                                    _vm.getDebtorCompletedLots,
+                                                },
+                                              }),
+                                            ],
+                                            1
+                                          )
+                                        : _vm._e(),
                                     ],
                                     2
                                   ),
@@ -3808,12 +3827,12 @@ var render = function () {
                     _vm._m(11),
                     _vm._v(" "),
                     _c("div", { staticClass: "bkt-contents__answer" }, [
-                      _vm.item.trade.arbitrManager.type == "person"
+                      _vm.item.trade.arbitrationManager.type == "person"
                         ? _c(
                             "span",
                             [
                               _vm._l(
-                                _vm.item.trade.arbitrManager.person,
+                                _vm.item.trade.arbitrationManager.person,
                                 function (value, key, index) {
                                   return [
                                     _vm._v(
@@ -3831,10 +3850,11 @@ var render = function () {
                             _vm._v(
                               "\n                                " +
                                 _vm._s(
-                                  _vm.item.trade.arbitrManager.company.shortName
-                                    ? _vm.item.trade.arbitrManager.company
+                                  _vm.item.trade.arbitrationManager.company
+                                    .shortName
+                                    ? _vm.item.trade.arbitrationManager.company
                                         .shortName
-                                    : _vm.item.trade.arbitrManager.company
+                                    : _vm.item.trade.arbitrationManager.company
                                         .fullName
                                 ) +
                                 "\n                            "
@@ -3843,19 +3863,21 @@ var render = function () {
                     ]),
                   ]),
                   _vm._v(" "),
-                  _vm.item.trade.arbitrManager.inn
+                  _vm.item.trade.arbitrationManager.inn
                     ? _c("li", [
                         _vm._m(12),
                         _vm._v(" "),
                         _c("div", { staticClass: "bkt-contents__answer" }, [
                           _c("span", [
-                            _vm._v(_vm._s(_vm.item.trade.arbitrManager.inn)),
+                            _vm._v(
+                              _vm._s(_vm.item.trade.arbitrationManager.inn)
+                            ),
                           ]),
                         ]),
                       ])
                     : _vm._e(),
                   _vm._v(" "),
-                  _vm.item.trade.arbitrManager.sroAU
+                  _vm.item.trade.arbitrationManager.sroAU
                     ? _c("li", [
                         _vm._m(13),
                         _vm._v(" "),
@@ -3871,7 +3893,7 @@ var render = function () {
                           [
                             _c("span", [
                               _vm._v(
-                                _vm._s(_vm.item.trade.arbitrManager.sroAU)
+                                _vm._s(_vm.item.trade.arbitrationManager.sroAU)
                               ),
                             ]),
                           ]

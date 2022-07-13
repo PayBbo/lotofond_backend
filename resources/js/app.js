@@ -11,7 +11,7 @@ axios.interceptors.response.use(
     },
     async function (error) {
         const originalRequest = error.config;
-        if (error.response && error.config && error.config.url !== '/api/refreshtoken') {
+        if (error.response && error.config && error.config.url !== '/api/account/refresh/token') {
             console.log('interceptors have error.response');
             if(error.response.data)
             {
@@ -41,27 +41,27 @@ axios.interceptors.response.use(
             if (error.response.status === 401 && !originalRequest._retry && !error.response.config.__isRetryRequest) {
                 console.log('interceptors have error.response.status === 401');
                 store.commit('clearStorage');
-                // if (localStorage.getItem('token')) {
-                //     console.log('interceptors have token in localStorage');
-                //     originalRequest._retry = true;
-                //     await store.dispatch('refresh')
-                //         .then(() => {
-                //             const access_token = localStorage.getItem('token');
-                //             if (access_token) {
-                //                 axios.defaults.headers.common['Authorization'] = 'Bearer ' + access_token;
-                //                 // originalRequest.headers['Authorization'] = 'Bearer ' + access_token;
-                //                 console.log('access_token', access_token);
-                //                 console.log('interceptors refresh token is successful');
-                //                 console.log('originalRequest', originalRequest);
-                //                 return axios(originalRequest);
-                //             } else {
-                //                 console.log('interceptors refresh token catch error');
-                //                 store.commit('clearStorage');
-                //                 location.reload();
-                //                 return Promise.reject(error);
-                //             }
-                //         })
-                // }
+                if (localStorage.getItem('token')) {
+                    console.log('interceptors have token in localStorage');
+                    originalRequest._retry = true;
+                    await store.dispatch('refresh')
+                        .then(() => {
+                            const access_token = localStorage.getItem('token');
+                            if (access_token) {
+                                axios.defaults.headers.common['Authorization'] = 'Bearer ' + access_token;
+                                // originalRequest.headers['Authorization'] = 'Bearer ' + access_token;
+                                console.log('access_token', access_token);
+                                console.log('interceptors refresh token is successful');
+                                console.log('originalRequest', originalRequest);
+                                return axios(originalRequest);
+                            } else {
+                                console.log('interceptors refresh token catch error');
+                                store.commit('clearStorage');
+                                store.commit('logout');
+                                return Promise.reject(error);
+                            }
+                        })
+                }
             }
         }
         console.log('interceptors end without return by token case');

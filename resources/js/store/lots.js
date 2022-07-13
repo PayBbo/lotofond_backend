@@ -70,7 +70,6 @@ export default {
         getLotsStatistic({commit}, payload) {
             return axios.get('/api/statistics/lots', payload)
                 .then(resp => {
-                    console.log('resp', resp)
                     commit('setLotsStatistic', resp.data)
                 });
         },

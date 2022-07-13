@@ -10,6 +10,7 @@ import organizers from './organizers';
 import arbitrManagers from './arbitrManagers';
 import tradePlaces from './tradePlaces';
 import categories from './categories';
+import regions from './regions';
 import marks from './marks';
 // import files from './files';
 import lots from "./lots";
@@ -20,7 +21,7 @@ export default new Vuex.Store({
     namespaced: false,
     modules: {
         shared, auth, trades, filters, debtors, organizers, arbitrManagers,
-        tradePlaces, categories, marks, lots, favourites,
+        tradePlaces, categories, regions, marks, lots, favourites,
     }
 })
 

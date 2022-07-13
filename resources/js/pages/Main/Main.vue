@@ -238,6 +238,7 @@
         created() {
             this.$store.dispatch('getLotsStatistic');
             this.getCategories();
+            this.getRegions();
         },
         mounted() {
             this.getData();
@@ -292,6 +293,12 @@
             },
             lots_statistic() {
                 return this.$store.getters.lots_statistic;
+            },
+            regions() {
+                return this.$store.getters.regions;
+            },
+            categories() {
+                return this.$store.getters.categories;
             }
         },
         methods: {
@@ -299,7 +306,10 @@
                 await this.$store.dispatch('getFilteredTrades', {page: page, filters: this.filters});
             },
             async getCategories() {
-                this.$store.dispatch('getCategories');
+                await this.$store.dispatch('getCategories');
+            },
+            async getRegions() {
+                await this.$store.dispatch('getRegions');
             },
             toggleDirection() {
                 if (this.filters_sort.direction == 'asc') {

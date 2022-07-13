@@ -48,7 +48,7 @@ export default {
         saveFavourite(state, payload) {
             let favourite = state.favourites.findIndex(item => item.id === payload.id);
             if (favourite >= 0) {
-                Vue.set(state.favourites, favourite, payload)
+                Vue.set(state.favourites, favourite, payload);
             }
         },
         removeFavourite(state, payload) {

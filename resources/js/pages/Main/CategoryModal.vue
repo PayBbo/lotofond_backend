@@ -11,49 +11,29 @@
                     >
                         <template #title>
                             <div class="text-left bkt-button d-flex justify-content-between p-2">
-                                <div class="bkt-check__wrapper" v-if="category.subcategories.length==0">
-                                    <div class="bkt-check">
-                                        <div class="bkt-check__input">
-                                            <input
-
-                                                type="checkbox"
-                                                v-model="result"
-                                                :value="category.key"
-                                                :name="'bkt-category-checkbox-'+index"
-                                                :id="'bkt-category-checkbox-'+index"
-                                            />
-                                            <div class="bkt-check__input-check"></div>
-                                        </div>
-                                        <label class="bkt-check__label">
-                                                {{category.label}}
-                                        </label>
-                                    </div>
-                                </div>
+                                <bkt-checkbox :label="category.label"  v-if="category.subcategories.length==0"
+                                              :name="'bkt-category-checkbox-'+index"
+                                              :id="'bkt-category-checkbox-'+index"
+                                              v-model="result"
+                                              :val="category.key"
+                                ></bkt-checkbox>
                                 <bkt-checkbox v-else :label="category.label"
                                               :name="'bkt-category-checkbox-'+index"
                                               :id="'bkt-category-checkbox-'+index"
                                               v-model="category.status"
                                               @input="selectAll(index)"
                                 ></bkt-checkbox>
+<!--                                :indeterminate.prop="allSubcategoriesChecked"-->
                             </div>
                         </template>
                         <template #collapse>
                             <div class="bkt-area__item text-left px-2 mb-2" v-for="(subcategory,index) in category.subcategories">
-                                <div class="bkt-check__wrapper">
-                                    <div class="bkt-check">
-                                        <div class="bkt-check__input">
-                                            <input
-                                                type="checkbox"
-                                                v-model="result"
-                                                :value="subcategory.key"
-                                            />
-                                            <div class="bkt-check__input-check"></div>
-                                        </div>
-                                        <label class="bkt-check__label">
-                                                {{subcategory.label}}
-                                        </label>
-                                    </div>
-                                </div>
+                                <bkt-checkbox :label="subcategory.label"
+                                              :name="'bkt-subcategory-checkbox-'+index"
+                                              :id="'bkt-subcategory-checkbox-'+index"
+                                              v-model="result"
+                                              :val="subcategory.key"
+                                ></bkt-checkbox>
                             </div>
                         </template>
                     </bkt-collapse>
@@ -84,7 +64,7 @@
             </div>
 
 
-<!--            <div class="bkt-categories__grid">-->
+            <div class="bkt-categories__grid">
 <!--                <template v-for="category in categories">-->
 <!--                    <div class="bkt-categories__grid-item">-->
 <!--                        <div class="bkt-category__card">-->
@@ -108,183 +88,183 @@
 <!--                        </div>-->
 <!--                    </div>-->
 <!--                </template>-->
-<!--&lt;!&ndash;                <div class="bkt-categories__grid-item bkt-categories__item-1">&ndash;&gt;-->
-<!--&lt;!&ndash;                    <div class="bkt-category__card">&ndash;&gt;-->
-<!--&lt;!&ndash;                        <div class="bkt-category__card-header">&ndash;&gt;-->
-<!--&lt;!&ndash;                            <div class="bkt-card__category bkt-bg-orange-lighter">&ndash;&gt;-->
-<!--&lt;!&ndash;                                <div class="bkt-card__category-icon">&ndash;&gt;-->
-<!--&lt;!&ndash;                                    <bkt-icon name="Car" color="orange"></bkt-icon>&ndash;&gt;-->
-<!--&lt;!&ndash;                                </div>&ndash;&gt;-->
-<!--&lt;!&ndash;                            </div>&ndash;&gt;-->
-<!--&lt;!&ndash;                            <h5 class="bkt-card__title">Транспорт и техника</h5>&ndash;&gt;-->
-<!--&lt;!&ndash;                        </div>&ndash;&gt;-->
-<!--&lt;!&ndash;                        <div class="bkt-category__card-body">&ndash;&gt;-->
-<!--&lt;!&ndash;                            <button class="bkt-category__card-item bkt-bg-body"&ndash;&gt;-->
-<!--&lt;!&ndash;                                    @click="toggleCategory('specialEquipment')"&ndash;&gt;-->
-<!--&lt;!&ndash;                                    :class="[include('specialEquipment') ? 'bkt-border-primary': 'bkt-border-body']">&ndash;&gt;-->
-<!--&lt;!&ndash;                                {{$t('categories.specialEquipment')}}&ndash;&gt;-->
-<!--&lt;!&ndash;                            </button>&ndash;&gt;-->
-<!--&lt;!&ndash;                            <button class="bkt-category__card-item bkt-bg-body"&ndash;&gt;-->
-<!--&lt;!&ndash;                                    @click="toggleCategory('passengerTransport')"&ndash;&gt;-->
-<!--&lt;!&ndash;                                    :class="[include('passengerTransport') ? 'bkt-border-primary': 'bkt-border-body']">&ndash;&gt;-->
-<!--&lt;!&ndash;                                {{$t('categories.passengerTransport')}}&ndash;&gt;-->
-<!--&lt;!&ndash;                            </button>&ndash;&gt;-->
-<!--&lt;!&ndash;                            <button class="bkt-category__card-item bkt-bg-body"&ndash;&gt;-->
-<!--&lt;!&ndash;                                    @click="toggleCategory('freightTransport')"&ndash;&gt;-->
-<!--&lt;!&ndash;                                    :class="[include('freightTransport') ? 'bkt-border-primary': 'bkt-border-body']">&ndash;&gt;-->
-<!--&lt;!&ndash;                                {{$t('categories.freightTransport')}}&ndash;&gt;-->
-<!--&lt;!&ndash;                            </button>&ndash;&gt;-->
-<!--&lt;!&ndash;                            <button class="bkt-category__card-item bkt-bg-body"&ndash;&gt;-->
-<!--&lt;!&ndash;                                    @click="toggleCategory('mototechnics')"&ndash;&gt;-->
-<!--&lt;!&ndash;                                    :class="[include('mototechnics') ? 'bkt-border-primary': 'bkt-border-body']">&ndash;&gt;-->
-<!--&lt;!&ndash;                                {{$t('categories.mototechnics')}}&ndash;&gt;-->
-<!--&lt;!&ndash;                            </button>&ndash;&gt;-->
-<!--&lt;!&ndash;                            <button class="bkt-category__card-item bkt-bg-body"&ndash;&gt;-->
-<!--&lt;!&ndash;                                    @click="toggleCategory('airTransport')"&ndash;&gt;-->
-<!--&lt;!&ndash;                                    :class="[include('airTransport') ? 'bkt-border-primary': 'bkt-border-body']">&ndash;&gt;-->
-<!--&lt;!&ndash;                                {{$t('categories.airTransport')}}&ndash;&gt;-->
-<!--&lt;!&ndash;                            </button>&ndash;&gt;-->
-<!--&lt;!&ndash;                            <button class="bkt-category__card-item bkt-bg-body"&ndash;&gt;-->
-<!--&lt;!&ndash;                                    @click="toggleCategory('waterTransport')"&ndash;&gt;-->
-<!--&lt;!&ndash;                                    :class="[include('waterTransport') ? 'bkt-border-primary': 'bkt-border-body']">&ndash;&gt;-->
-<!--&lt;!&ndash;                                {{$t('categories.waterTransport')}}&ndash;&gt;-->
-<!--&lt;!&ndash;                            </button>&ndash;&gt;-->
-<!--&lt;!&ndash;                            <button class="bkt-category__card-item bkt-bg-body"&ndash;&gt;-->
-<!--&lt;!&ndash;                                    @click="toggleCategory('commercialTransport')"&ndash;&gt;-->
-<!--&lt;!&ndash;                                    :class="[include('commercialTransport') ? 'bkt-border-primary': 'bkt-border-body']">&ndash;&gt;-->
-<!--&lt;!&ndash;                                {{$t('categories.commercialTransport')}}&ndash;&gt;-->
-<!--&lt;!&ndash;                            </button>&ndash;&gt;-->
-<!--&lt;!&ndash;                        </div>&ndash;&gt;-->
-<!--&lt;!&ndash;                    </div>&ndash;&gt;-->
-<!--&lt;!&ndash;                </div>&ndash;&gt;-->
-<!--&lt;!&ndash;                <div class="bkt-categories__grid-item bkt-categories__item-2">&ndash;&gt;-->
-<!--&lt;!&ndash;                    <div class="bkt-category__card">&ndash;&gt;-->
-<!--&lt;!&ndash;                        <div class="bkt-category__card-header">&ndash;&gt;-->
-<!--&lt;!&ndash;                            <div class="bkt-card__category bkt-bg-yellow-lighter">&ndash;&gt;-->
-<!--&lt;!&ndash;                                <div class="bkt-card__category-icon">&ndash;&gt;-->
-<!--&lt;!&ndash;                                    <bkt-icon name="Wrench" color="yellow"></bkt-icon>&ndash;&gt;-->
-<!--&lt;!&ndash;                                </div>&ndash;&gt;-->
-<!--&lt;!&ndash;                            </div>&ndash;&gt;-->
-<!--&lt;!&ndash;                            <h5 class="bkt-card__title">Товарно-материаль- ные ценности</h5>&ndash;&gt;-->
-<!--&lt;!&ndash;                        </div>&ndash;&gt;-->
-<!--&lt;!&ndash;                    </div>&ndash;&gt;-->
-<!--&lt;!&ndash;                </div>&ndash;&gt;-->
-<!--&lt;!&ndash;                <div class="bkt-categories__grid-item bkt-categories__item-3">&ndash;&gt;-->
-<!--&lt;!&ndash;                    <div class="bkt-category__card">&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;                        :class="{ allChecked()}"&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;                        <div class="bkt-category__card-header">&ndash;&gt;-->
-<!--&lt;!&ndash;                            <div class="bkt-card__category bkt-bg-green-lighter">&ndash;&gt;-->
-<!--&lt;!&ndash;                                <div class="bkt-card__category-icon">&ndash;&gt;-->
-<!--&lt;!&ndash;                                    <bkt-icon name="Home" color="green"></bkt-icon>&ndash;&gt;-->
-<!--&lt;!&ndash;                                </div>&ndash;&gt;-->
-<!--&lt;!&ndash;                            </div>&ndash;&gt;-->
-<!--&lt;!&ndash;                            <h5 class="bkt-card__title">Недвижимость</h5>&ndash;&gt;-->
-<!--&lt;!&ndash;                        </div>&ndash;&gt;-->
-<!--&lt;!&ndash;                        <div class="bkt-category__card-body">&ndash;&gt;-->
-<!--&lt;!&ndash;                           &ndash;&gt;-->
-<!--&lt;!&ndash;                            <button class="bkt-category__card-item bkt-bg-body"&ndash;&gt;-->
-<!--&lt;!&ndash;                                    @click="toggleCategory('residentialProperty')"&ndash;&gt;-->
-<!--&lt;!&ndash;                                    :class="[include('residentialProperty') ? 'bkt-border-primary': 'bkt-border-body']">&ndash;&gt;-->
-<!--&lt;!&ndash;                                {{$t('categories.residentialProperty')}}&ndash;&gt;-->
-<!--&lt;!&ndash;                            </button>&ndash;&gt;-->
-<!--&lt;!&ndash;                            <button class="bkt-category__card-item bkt-bg-body"&ndash;&gt;-->
-<!--&lt;!&ndash;                                    @click="toggleCategory('commercialRealEstate')"&ndash;&gt;-->
-<!--&lt;!&ndash;                                    :class="[include('commercialRealEstate') ? 'bkt-border-primary': 'bkt-border-body']">&ndash;&gt;-->
-<!--&lt;!&ndash;                                {{$t('categories.commercialRealEstate')}}&ndash;&gt;-->
-<!--&lt;!&ndash;                            </button>&ndash;&gt;-->
-<!--&lt;!&ndash;                            <button class="bkt-category__card-item bkt-bg-body"&ndash;&gt;-->
-<!--&lt;!&ndash;                                    @click="toggleCategory('land')"&ndash;&gt;-->
-<!--&lt;!&ndash;                                    :class="[include('land') ? 'bkt-border-primary': 'bkt-border-body']">&ndash;&gt;-->
-<!--&lt;!&ndash;                                {{$t('categories.land')}}&ndash;&gt;-->
-<!--&lt;!&ndash;                            </button>&ndash;&gt;-->
-<!--&lt;!&ndash;                        </div>&ndash;&gt;-->
-<!--&lt;!&ndash;                    </div>&ndash;&gt;-->
-<!--&lt;!&ndash;                </div>&ndash;&gt;-->
-<!--&lt;!&ndash;                <div class="bkt-categories__grid-item bkt-categories__item-4">&ndash;&gt;-->
-<!--&lt;!&ndash;                    <div class="bkt-category__card">&ndash;&gt;-->
-<!--&lt;!&ndash;                        <div class="bkt-category__card-header">&ndash;&gt;-->
-<!--&lt;!&ndash;                            <div class="bkt-card__category bkt-bg-primary-lighter">&ndash;&gt;-->
-<!--&lt;!&ndash;                                <div class="bkt-card__category-icon">&ndash;&gt;-->
-<!--&lt;!&ndash;                                    <bkt-icon name="Percentage" color="primary"></bkt-icon>&ndash;&gt;-->
-<!--&lt;!&ndash;                                </div>&ndash;&gt;-->
-<!--&lt;!&ndash;                            </div>&ndash;&gt;-->
-<!--&lt;!&ndash;                            <h5 class="bkt-card__title">Дебиторская задолженность</h5>&ndash;&gt;-->
-<!--&lt;!&ndash;                        </div>&ndash;&gt;-->
-<!--&lt;!&ndash;                    </div>&ndash;&gt;-->
-<!--&lt;!&ndash;                </div>&ndash;&gt;-->
-<!--&lt;!&ndash;                <div class="bkt-categories__grid-item bkt-categories__item-5">&ndash;&gt;-->
-<!--&lt;!&ndash;                    <div class="bkt-category__card">&ndash;&gt;-->
-<!--&lt;!&ndash;                        <div class="bkt-category__card-header">&ndash;&gt;-->
-<!--&lt;!&ndash;                            <div class="bkt-card__category bkt-bg-blue-lighter">&ndash;&gt;-->
-<!--&lt;!&ndash;                                <div class="bkt-card__category-icon">&ndash;&gt;-->
-<!--&lt;!&ndash;                                    <bkt-icon name="Cow" color="blue"></bkt-icon>&ndash;&gt;-->
-<!--&lt;!&ndash;                                </div>&ndash;&gt;-->
-<!--&lt;!&ndash;                            </div>&ndash;&gt;-->
-<!--&lt;!&ndash;                            <h5 class="bkt-card__title">Сельскохозяйствен-ное имущество</h5>&ndash;&gt;-->
-<!--&lt;!&ndash;                        </div>&ndash;&gt;-->
-<!--&lt;!&ndash;                    </div>&ndash;&gt;-->
-<!--&lt;!&ndash;                </div>&ndash;&gt;-->
-<!--&lt;!&ndash;                <div class="bkt-categories__grid-item bkt-categories__item-6">&ndash;&gt;-->
-<!--&lt;!&ndash;                    <div class="bkt-category__card">&ndash;&gt;-->
-<!--&lt;!&ndash;                        <div class="bkt-category__card-header">&ndash;&gt;-->
-<!--&lt;!&ndash;                            <div class="bkt-card__category bkt-bg-pink-lighter">&ndash;&gt;-->
-<!--&lt;!&ndash;                                <div class="bkt-card__category-icon">&ndash;&gt;-->
-<!--&lt;!&ndash;                                    <bkt-icon name="MechanicalArm" color="pink"></bkt-icon>&ndash;&gt;-->
-<!--&lt;!&ndash;                                </div>&ndash;&gt;-->
-<!--&lt;!&ndash;                            </div>&ndash;&gt;-->
-<!--&lt;!&ndash;                            <h5 class="bkt-card__title">Производственные линии</h5>&ndash;&gt;-->
-<!--&lt;!&ndash;                        </div>&ndash;&gt;-->
-<!--&lt;!&ndash;                    </div>&ndash;&gt;-->
-<!--&lt;!&ndash;                </div>&ndash;&gt;-->
-<!--&lt;!&ndash;                <div class="bkt-categories__grid-item bkt-categories__item-7">&ndash;&gt;-->
-<!--&lt;!&ndash;                    <div class="bkt-category__card">&ndash;&gt;-->
-<!--&lt;!&ndash;                        <div class="bkt-category__card-header">&ndash;&gt;-->
-<!--&lt;!&ndash;                            <div class="bkt-card__category bkt-bg-teal-lighter">&ndash;&gt;-->
-<!--&lt;!&ndash;                                <div class="bkt-card__category-icon">&ndash;&gt;-->
-<!--&lt;!&ndash;                                    <bkt-icon name="File" color="teal"></bkt-icon>&ndash;&gt;-->
-<!--&lt;!&ndash;                                </div>&ndash;&gt;-->
-<!--&lt;!&ndash;                            </div>&ndash;&gt;-->
-<!--&lt;!&ndash;                            <h5 class="bkt-card__title">Ценные бумаги</h5>&ndash;&gt;-->
-<!--&lt;!&ndash;                        </div>&ndash;&gt;-->
-<!--&lt;!&ndash;                    </div>&ndash;&gt;-->
-<!--&lt;!&ndash;                </div>&ndash;&gt;-->
-<!--&lt;!&ndash;                <div class="bkt-categories__grid-item bkt-categories__item-8">&ndash;&gt;-->
-<!--&lt;!&ndash;                    <div class="bkt-category__card">&ndash;&gt;-->
-<!--&lt;!&ndash;                        <div class="bkt-category__card-header">&ndash;&gt;-->
-<!--&lt;!&ndash;                            <div class="bkt-card__category bkt-bg-red-lighter">&ndash;&gt;-->
-<!--&lt;!&ndash;                                <div class="bkt-card__category-icon">&ndash;&gt;-->
-<!--&lt;!&ndash;                                    <bkt-icon name="Gear" color="red"></bkt-icon>&ndash;&gt;-->
-<!--&lt;!&ndash;                                </div>&ndash;&gt;-->
-<!--&lt;!&ndash;                            </div>&ndash;&gt;-->
-<!--&lt;!&ndash;                            <h5 class="bkt-card__title">Оборудование</h5>&ndash;&gt;-->
-<!--&lt;!&ndash;                        </div>&ndash;&gt;-->
-<!--&lt;!&ndash;                    </div>&ndash;&gt;-->
-<!--&lt;!&ndash;                </div>&ndash;&gt;-->
-<!--&lt;!&ndash;                <div class="bkt-categories__grid-item bkt-categories__item-9">&ndash;&gt;-->
-<!--&lt;!&ndash;                    <div class="bkt-category__card">&ndash;&gt;-->
-<!--&lt;!&ndash;                        <div class="bkt-category__card-header">&ndash;&gt;-->
-<!--&lt;!&ndash;                            <div class="bkt-card__category bkt-bg-purple-lighter">&ndash;&gt;-->
-<!--&lt;!&ndash;                                <div class="bkt-card__category-icon">&ndash;&gt;-->
-<!--&lt;!&ndash;                                    <bkt-icon name="Building" color="purple"></bkt-icon>&ndash;&gt;-->
-<!--&lt;!&ndash;                                </div>&ndash;&gt;-->
-<!--&lt;!&ndash;                            </div>&ndash;&gt;-->
-<!--&lt;!&ndash;                            <h5 class="bkt-card__title">Имущественный комплекс</h5>&ndash;&gt;-->
-<!--&lt;!&ndash;                        </div>&ndash;&gt;-->
-<!--&lt;!&ndash;                    </div>&ndash;&gt;-->
-<!--&lt;!&ndash;                </div>&ndash;&gt;-->
-<!--&lt;!&ndash;                <div class="bkt-categories__grid-item bkt-categories__item-10">&ndash;&gt;-->
-<!--&lt;!&ndash;                    <div class="bkt-category__card">&ndash;&gt;-->
-<!--&lt;!&ndash;                        <div class="bkt-category__card-header">&ndash;&gt;-->
-<!--&lt;!&ndash;                            <div class="bkt-card__category bkt-bg-neutral-light">&ndash;&gt;-->
-<!--&lt;!&ndash;                                <div class="bkt-card__category-icon">&ndash;&gt;-->
-<!--&lt;!&ndash;                                    <bkt-icon name="More" color="main" class="bkt-fill-neutral-light"></bkt-icon>&ndash;&gt;-->
-<!--&lt;!&ndash;                                </div>&ndash;&gt;-->
-<!--&lt;!&ndash;                            </div>&ndash;&gt;-->
-<!--&lt;!&ndash;                            <h5 class="bkt-card__title">Прочее</h5>&ndash;&gt;-->
-<!--&lt;!&ndash;                        </div>&ndash;&gt;-->
-<!--&lt;!&ndash;                    </div>&ndash;&gt;-->
-<!--&lt;!&ndash;                </div>&ndash;&gt;-->
-<!--            </div>-->
+<!--                <div class="bkt-categories__grid-item bkt-categories__item-1">-->
+<!--                    <div class="bkt-category__card">-->
+<!--                        <div class="bkt-category__card-header">-->
+<!--                            <div class="bkt-card__category bkt-bg-orange-lighter">-->
+<!--                                <div class="bkt-card__category-icon">-->
+<!--                                    <bkt-icon name="Car" color="orange"></bkt-icon>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                            <h5 class="bkt-card__title">Транспорт и техника</h5>-->
+<!--                        </div>-->
+<!--                        <div class="bkt-category__card-body">-->
+<!--                            <button class="bkt-category__card-item bkt-bg-body"-->
+<!--                                    @click="toggleCategory('specialEquipment')"-->
+<!--                                    :class="[include('specialEquipment') ? 'bkt-border-primary': 'bkt-border-body']">-->
+<!--                                {{$t('categories.specialEquipment')}}-->
+<!--                            </button>-->
+<!--                            <button class="bkt-category__card-item bkt-bg-body"-->
+<!--                                    @click="toggleCategory('passengerTransport')"-->
+<!--                                    :class="[include('passengerTransport') ? 'bkt-border-primary': 'bkt-border-body']">-->
+<!--                                {{$t('categories.passengerTransport')}}-->
+<!--                            </button>-->
+<!--                            <button class="bkt-category__card-item bkt-bg-body"-->
+<!--                                    @click="toggleCategory('freightTransport')"-->
+<!--                                    :class="[include('freightTransport') ? 'bkt-border-primary': 'bkt-border-body']">-->
+<!--                                {{$t('categories.freightTransport')}}-->
+<!--                            </button>-->
+<!--                            <button class="bkt-category__card-item bkt-bg-body"-->
+<!--                                    @click="toggleCategory('mototechnics')"-->
+<!--                                    :class="[include('mototechnics') ? 'bkt-border-primary': 'bkt-border-body']">-->
+<!--                                {{$t('categories.mototechnics')}}-->
+<!--                            </button>-->
+<!--                            <button class="bkt-category__card-item bkt-bg-body"-->
+<!--                                    @click="toggleCategory('airTransport')"-->
+<!--                                    :class="[include('airTransport') ? 'bkt-border-primary': 'bkt-border-body']">-->
+<!--                                {{$t('categories.airTransport')}}-->
+<!--                            </button>-->
+<!--                            <button class="bkt-category__card-item bkt-bg-body"-->
+<!--                                    @click="toggleCategory('waterTransport')"-->
+<!--                                    :class="[include('waterTransport') ? 'bkt-border-primary': 'bkt-border-body']">-->
+<!--                                {{$t('categories.waterTransport')}}-->
+<!--                            </button>-->
+<!--                            <button class="bkt-category__card-item bkt-bg-body"-->
+<!--                                    @click="toggleCategory('commercialTransport')"-->
+<!--                                    :class="[include('commercialTransport') ? 'bkt-border-primary': 'bkt-border-body']">-->
+<!--                                {{$t('categories.commercialTransport')}}-->
+<!--                            </button>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--                <div class="bkt-categories__grid-item bkt-categories__item-2">-->
+<!--                    <div class="bkt-category__card">-->
+<!--                        <div class="bkt-category__card-header">-->
+<!--                            <div class="bkt-card__category bkt-bg-yellow-lighter">-->
+<!--                                <div class="bkt-card__category-icon">-->
+<!--                                    <bkt-icon name="Wrench" color="yellow"></bkt-icon>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                            <h5 class="bkt-card__title">Товарно-материаль- ные ценности</h5>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--                <div class="bkt-categories__grid-item bkt-categories__item-3">-->
+<!--                    <div class="bkt-category__card">-->
+<!--&lt;!&ndash;                        :class="{ allChecked()}"&ndash;&gt;-->
+<!--                        <div class="bkt-category__card-header">-->
+<!--                            <div class="bkt-card__category bkt-bg-green-lighter">-->
+<!--                                <div class="bkt-card__category-icon">-->
+<!--                                    <bkt-icon name="Home" color="green"></bkt-icon>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                            <h5 class="bkt-card__title">Недвижимость</h5>-->
+<!--                        </div>-->
+<!--                        <div class="bkt-category__card-body">-->
+
+<!--                            <button class="bkt-category__card-item bkt-bg-body"-->
+<!--                                    @click="toggleCategory('residentialProperty')"-->
+<!--                                    :class="[include('residentialProperty') ? 'bkt-border-primary': 'bkt-border-body']">-->
+<!--                                {{$t('categories.residentialProperty')}}-->
+<!--                            </button>-->
+<!--                            <button class="bkt-category__card-item bkt-bg-body"-->
+<!--                                    @click="toggleCategory('commercialRealEstate')"-->
+<!--                                    :class="[include('commercialRealEstate') ? 'bkt-border-primary': 'bkt-border-body']">-->
+<!--                                {{$t('categories.commercialRealEstate')}}-->
+<!--                            </button>-->
+<!--                            <button class="bkt-category__card-item bkt-bg-body"-->
+<!--                                    @click="toggleCategory('land')"-->
+<!--                                    :class="[include('land') ? 'bkt-border-primary': 'bkt-border-body']">-->
+<!--                                {{$t('categories.land')}}-->
+<!--                            </button>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--                <div class="bkt-categories__grid-item bkt-categories__item-4">-->
+<!--                    <div class="bkt-category__card">-->
+<!--                        <div class="bkt-category__card-header">-->
+<!--                            <div class="bkt-card__category bkt-bg-primary-lighter">-->
+<!--                                <div class="bkt-card__category-icon">-->
+<!--                                    <bkt-icon name="Percentage" color="primary"></bkt-icon>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                            <h5 class="bkt-card__title">Дебиторская задолженность</h5>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--                <div class="bkt-categories__grid-item bkt-categories__item-5">-->
+<!--                    <div class="bkt-category__card">-->
+<!--                        <div class="bkt-category__card-header">-->
+<!--                            <div class="bkt-card__category bkt-bg-blue-lighter">-->
+<!--                                <div class="bkt-card__category-icon">-->
+<!--                                    <bkt-icon name="Cow" color="blue"></bkt-icon>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                            <h5 class="bkt-card__title">Сельскохозяйствен-ное имущество</h5>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--                <div class="bkt-categories__grid-item bkt-categories__item-6">-->
+<!--                    <div class="bkt-category__card">-->
+<!--                        <div class="bkt-category__card-header">-->
+<!--                            <div class="bkt-card__category bkt-bg-pink-lighter">-->
+<!--                                <div class="bkt-card__category-icon">-->
+<!--                                    <bkt-icon name="MechanicalArm" color="pink"></bkt-icon>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                            <h5 class="bkt-card__title">Производственные линии</h5>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--                <div class="bkt-categories__grid-item bkt-categories__item-7">-->
+<!--                    <div class="bkt-category__card">-->
+<!--                        <div class="bkt-category__card-header">-->
+<!--                            <div class="bkt-card__category bkt-bg-teal-lighter">-->
+<!--                                <div class="bkt-card__category-icon">-->
+<!--                                    <bkt-icon name="File" color="teal"></bkt-icon>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                            <h5 class="bkt-card__title">Ценные бумаги</h5>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--                <div class="bkt-categories__grid-item bkt-categories__item-8">-->
+<!--                    <div class="bkt-category__card">-->
+<!--                        <div class="bkt-category__card-header">-->
+<!--                            <div class="bkt-card__category bkt-bg-red-lighter">-->
+<!--                                <div class="bkt-card__category-icon">-->
+<!--                                    <bkt-icon name="Gear" color="red"></bkt-icon>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                            <h5 class="bkt-card__title">Оборудование</h5>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--                <div class="bkt-categories__grid-item bkt-categories__item-9">-->
+<!--                    <div class="bkt-category__card">-->
+<!--                        <div class="bkt-category__card-header">-->
+<!--                            <div class="bkt-card__category bkt-bg-purple-lighter">-->
+<!--                                <div class="bkt-card__category-icon">-->
+<!--                                    <bkt-icon name="Building" color="purple"></bkt-icon>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                            <h5 class="bkt-card__title">Имущественный комплекс</h5>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--                <div class="bkt-categories__grid-item bkt-categories__item-10">-->
+<!--                    <div class="bkt-category__card">-->
+<!--                        <div class="bkt-category__card-header">-->
+<!--                            <div class="bkt-card__category bkt-bg-neutral-light">-->
+<!--                                <div class="bkt-card__category-icon">-->
+<!--                                    <bkt-icon name="More" color="main" class="bkt-fill-neutral-light"></bkt-icon>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                            <h5 class="bkt-card__title">Прочее</h5>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+            </div>
         </template>
     </bkt-modal>
 </template>
@@ -332,7 +312,7 @@
         },
         methods: {
             include(category) {
-                return this.filter.indexOf(category) >= 0
+                return this.result.indexOf(category) >= 0
             },
             allChecked(arr, target) {
                 return target.every(v => arr.includes(v))

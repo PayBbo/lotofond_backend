@@ -185,17 +185,9 @@
 </template>
 
 <script>
-// import Icon from "../../components/Icon";
-// import Input from "../../components/Input";
-// import Checkbox from "../../components/Checkbox";
 
 export default {
   name: "UpcomingAuctions",
-  components: {
-    // 'bkt-icon': Icon,
-    // 'bkt-input': Input,
-    // 'bkt-checkbox': Checkbox
-  },
   data() {
     return {
       pricing: [{title: "начальная цена, ₽", minPrice: '', maxPrice: '', minActive: false, maxActive: false},

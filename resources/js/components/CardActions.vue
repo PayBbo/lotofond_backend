@@ -27,7 +27,7 @@
                         <bkt-icon name="FileArrowLeft" color="blue"></bkt-icon>
                     </div>
                 </div>
-                <div class="bkt-dropdown__menu-item bkt-wrapper-between" @click="removeFromFavourites">
+                <div class="bkt-dropdown__menu-item bkt-wrapper-between" style="cursor: pointer" @click="removeFromFavourites">
                     <div class="bkt-dropdown__menu-text">
                         Удалить
                     </div>
@@ -255,7 +255,7 @@
                 }
             },
             removeFromFavourites() {
-                if (this.item.inFavourite && this.current_path != 0) {
+                if (this.item.inFavourite) {
                     this.toggleProcess('Star');
                     this.$store.dispatch('removeFavourite', {lot_id: this.item.id, path_id: this.current_path})
                         .then(resp => {

@@ -1,7 +1,7 @@
 <template>
     <div class="bkt-wrapper-column">
         <div class="bkt-card bkt-notifications-card">
-            <div class="bkt-wrapper-between align-items-center">
+            <div class="bkt-wrapper-between align-items-center bkt-nowrap">
                 <div>
                     <div class="bkt-card__title">От организаторов</div>
                     <h5 class="bkt-card__subtitle">получение уведомлений об отчетах, задачах по лотам</h5>
@@ -11,7 +11,7 @@
             </div>
         </div>
         <div class="bkt-card bkt-notifications-card">
-            <div class="bkt-wrapper-between align-items-center">
+            <div class="bkt-wrapper-between align-items-center bkt-nowrap">
                 <div>
                     <div class="bkt-card__title">Мониторинг</div>
                     <h5 class="bkt-card__subtitle">изменение лотов подобранных  в разделе “Мониторинг”</h5>
@@ -21,7 +21,7 @@
             </div>
         </div>
         <div class="bkt-card bkt-notifications-card">
-            <div class="bkt-wrapper-between align-items-center">
+            <div class="bkt-wrapper-between align-items-center bkt-nowrap">
                 <div>
                     <div class="bkt-card__title">Этапы торгов</div>
                     <h5 class="bkt-card__subtitle">изменение цены, начало/окончание торгов</h5>
