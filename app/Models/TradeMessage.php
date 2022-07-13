@@ -13,6 +13,7 @@ class TradeMessage extends Model
         'number',
         'lot_id',
         'value',
+        'text',
         'date',
         'param',
         'param_type'
