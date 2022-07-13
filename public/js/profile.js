@@ -286,6 +286,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "AskQuestion"
 });
@@ -323,6 +326,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var _components_Collapse_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../components/Collapse.vue */ "./resources/js/components/Collapse.vue");
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -502,6 +513,29 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -557,13 +591,27 @@ __webpack_require__.r(__webpack_exports__);
         code: "About",
         label: "Об сайте",
         color: 'red'
-      }]
+      }],
+      edit_user: {
+        email: "",
+        middle_name: '',
+        name: "",
+        phone: '',
+        surname: ""
+      }
     };
   },
-  mounted: function mounted() {},
+  mounted: function mounted() {
+    if (this.isLoggedIn) {
+      this.edit_user = JSON.parse(JSON.stringify(this.user));
+    }
+  },
   computed: {
     user: function user() {
       return this.$store.getters.auth_user;
+    },
+    isLoggedIn: function isLoggedIn() {
+      return this.$store.getters.isLoggedIn;
     }
   },
   methods: {
@@ -707,6 +755,16 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "ProfileTab",
   data: function data() {
@@ -717,17 +775,23 @@ __webpack_require__.r(__webpack_exports__);
         old_password: ''
       },
       code_loading: false,
-      edit_user: null,
-      user: {
-        name: '',
-        lastname: '',
-        surname: '',
-        email: '',
-        phone: ''
+      // edit_user:null,
+      edit_user: {
+        email: "",
+        middle_name: '',
+        name: "",
+        phone: '',
+        surname: ""
       }
     };
   },
-  computed: {// user: {
+  mounted: function mounted() {
+    if (this.isLoggedIn) {
+      this.edit_user = JSON.parse(JSON.stringify(this.user));
+    }
+  },
+  computed: {
+    // user: {
     //     get() {
     //         return JSON.parse(JSON.stringify(this.$store.getters.auth_user));
     //     },
@@ -735,6 +799,12 @@ __webpack_require__.r(__webpack_exports__);
     //         this.edit_user = value;
     //     }
     // },
+    user: function user() {
+      return this.$store.getters.auth_user;
+    },
+    isLoggedIn: function isLoggedIn() {
+      return this.$store.getters.isLoggedIn;
+    }
   },
   methods: {
     sendCode: function sendCode() {}
@@ -1653,7 +1723,7 @@ var render = function () {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "bkt-card bkt-card__body" }, [
-    _c("div", { staticClass: "bkt-form", staticStyle: { gap: "10px 0" } }, [
+    _c("div", { staticClass: "bkt-form bkt-gap-down-sm-large" }, [
       _vm._m(0),
       _vm._v(" "),
       _c(
@@ -1668,6 +1738,7 @@ var render = function () {
               rules: "required|email",
               placeholder: "pochta@gmail.com",
               label_class: "d-md-none",
+              no_group_item: "",
             },
           }),
         ],
@@ -1688,6 +1759,7 @@ var render = function () {
               rules: "required",
               placeholder: "",
               label_class: "d-md-none",
+              no_group_item: "",
             },
           }),
         ],
@@ -1708,6 +1780,7 @@ var render = function () {
               rules: "required",
               placeholder: "",
               label_class: "d-md-none",
+              no_group_item: "",
             },
           }),
         ],
@@ -1844,9 +1917,11 @@ var render = function () {
             key: "collapse",
             fn: function () {
               return [
-                _vm._v(
-                  "\n            После завершения сделки можно будет оценить и покупателя, и продавца. Запрос на оценку придет\n            специальным сообщением в переписку о товаре между продавцом и покупателем. Оценку можно оставить, если\n            товар будет доставлен в населённый пункт покупателя и будет получен покупателем либо по товару будет\n            оформлен возврат.\n        "
-                ),
+                _c("p", { staticClass: "bkt-card__text" }, [
+                  _vm._v(
+                    "\n                После завершения сделки можно будет оценить и покупателя, и продавца. Запрос на оценку придет\n                специальным сообщением в переписку о товаре между продавцом и покупателем. Оценку можно оставить, если\n                товар будет доставлен в населённый пункт покупателя и будет получен покупателем либо по товару будет\n                оформлен возврат.\n            "
+                  ),
+                ]),
               ]
             },
             proxy: true,
@@ -1872,7 +1947,7 @@ var render = function () {
                     staticClass: "bkt-card__title",
                     attrs: {
                       "data-bs-toggle": "collapse",
-                      "data-bs-target": "#question1",
+                      "data-bs-target": "#question2",
                     },
                   },
                   [
@@ -1888,7 +1963,11 @@ var render = function () {
           {
             key: "collapse",
             fn: function () {
-              return [_vm._v("\n            Text\n        ")]
+              return [
+                _c("p", { staticClass: "bkt-card__text" }, [
+                  _vm._v("\n                Text\n            "),
+                ]),
+              ]
             },
             proxy: true,
           },
@@ -1913,7 +1992,7 @@ var render = function () {
                     staticClass: "bkt-card__title",
                     attrs: {
                       "data-bs-toggle": "collapse",
-                      "data-bs-target": "#question1",
+                      "data-bs-target": "#question3",
                     },
                   },
                   [
@@ -1929,7 +2008,11 @@ var render = function () {
           {
             key: "collapse",
             fn: function () {
-              return [_vm._v("\n            Text\n        ")]
+              return [
+                _c("p", { staticClass: "bkt-card__text" }, [
+                  _vm._v("\n                Text\n            "),
+                ]),
+              ]
             },
             proxy: true,
           },
@@ -1954,7 +2037,7 @@ var render = function () {
                     staticClass: "bkt-card__title",
                     attrs: {
                       "data-bs-toggle": "collapse",
-                      "data-bs-target": "#question1",
+                      "data-bs-target": "#question4",
                     },
                   },
                   [_vm._v("\n                Возврат товара?\n            ")]
@@ -1966,7 +2049,11 @@ var render = function () {
           {
             key: "collapse",
             fn: function () {
-              return [_vm._v("\n            Text\n        ")]
+              return [
+                _c("p", { staticClass: "bkt-card__text" }, [
+                  _vm._v("\n                Text\n            "),
+                ]),
+              ]
             },
             proxy: true,
           },
@@ -2002,7 +2089,7 @@ var render = function () {
     _c("div", { staticClass: "bkt-card bkt-notifications-card" }, [
       _c(
         "div",
-        { staticClass: "bkt-wrapper-between align-items-center" },
+        { staticClass: "bkt-wrapper-between align-items-center bkt-nowrap" },
         [_vm._m(0), _vm._v(" "), _c("bkt-switch")],
         1
       ),
@@ -2011,7 +2098,7 @@ var render = function () {
     _c("div", { staticClass: "bkt-card bkt-notifications-card" }, [
       _c(
         "div",
-        { staticClass: "bkt-wrapper-between align-items-center" },
+        { staticClass: "bkt-wrapper-between align-items-center bkt-nowrap" },
         [_vm._m(1), _vm._v(" "), _c("bkt-switch")],
         1
       ),
@@ -2020,7 +2107,7 @@ var render = function () {
     _c("div", { staticClass: "bkt-card bkt-notifications-card" }, [
       _c(
         "div",
-        { staticClass: "bkt-wrapper-between align-items-center" },
+        { staticClass: "bkt-wrapper-between align-items-center bkt-nowrap" },
         [_vm._m(2), _vm._v(" "), _c("bkt-switch")],
         1
       ),
@@ -2103,74 +2190,165 @@ var render = function () {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "container bkt-profile bkt-container" }, [
-    _c("div", { staticClass: "bkt-form wide" }, [
-      _c("div", { staticClass: "col-12 col-lg-3 bkt-form__offset-right" }, [
-        _c("div", { staticClass: "bkt-wrapper-column" }, [
-          _c("div", { staticClass: "bkt-card bkt-card__body bkt-sidebar" }, [
+  return _c(
+    "div",
+    { staticClass: "container bkt-page bkt-profile bkt-container" },
+    [
+      _c(
+        "h1",
+        { staticClass: "bkt-page__title d-md-none" },
+        [
+          _vm._v("\n        Профиль\n        "),
+          _vm.isLoggedIn
+            ? _c("bkt-icon", {
+                staticClass: "ms-1",
+                attrs: {
+                  name: "LogOut",
+                  color: "red",
+                  width: "16px",
+                  height: "16px",
+                },
+              })
+            : _vm._e(),
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _vm.isLoggedIn
+        ? _c("div", { staticClass: "bkt-form wide bkt-profile-gap" }, [
             _c(
-              "ul",
-              { staticClass: "bkt-sidebar__links" },
-              _vm._l(_vm.links, function (link) {
-                return _c(
-                  "li",
+              "div",
+              { staticClass: "col-12 col-lg-3 bkt-form__offset-right" },
+              [
+                _c(
+                  "div",
                   {
-                    staticClass: "bkt-sidebar__link",
-                    class: [
-                      _vm.tab == link.code
-                        ? "bkt-bg-" + link.color + "-lighter"
-                        : "",
-                    ],
-                    on: {
-                      click: function ($event) {
-                        _vm.tab = link.code
-                      },
-                    },
+                    staticClass:
+                      "bkt-wrapper-sm-column bkt-wrapper-column-reverse bkt-profile-gap",
                   },
                   [
                     _c(
                       "div",
-                      {
-                        staticClass: "bkt-sidebar__link-icon",
-                        class: [
-                          _vm.tab == link.code
-                            ? "bkt-bg-" + link.color
-                            : "bkt-bg-" + link.color + "-lighter",
-                        ],
-                      },
+                      { staticClass: "bkt-card bkt-card__body bkt-sidebar" },
                       [
-                        _c("bkt-icon", {
-                          attrs: {
-                            name: link.icon,
-                            color: _vm.tab == link.code ? "white" : link.color,
-                          },
-                        }),
-                      ],
-                      1
+                        _c(
+                          "ul",
+                          { staticClass: "bkt-sidebar__links" },
+                          _vm._l(_vm.links, function (link) {
+                            return _c(
+                              "li",
+                              {
+                                staticClass: "bkt-sidebar__link",
+                                class: [
+                                  _vm.tab == link.code
+                                    ? "bkt-bg-" + link.color + "-lighter"
+                                    : "",
+                                ],
+                                on: {
+                                  click: function ($event) {
+                                    _vm.tab = link.code
+                                  },
+                                },
+                              },
+                              [
+                                _c(
+                                  "div",
+                                  {
+                                    staticClass: "bkt-sidebar__link-icon",
+                                    class: [
+                                      _vm.tab == link.code
+                                        ? "bkt-bg-" + link.color
+                                        : "bkt-bg-" + link.color + "-lighter",
+                                    ],
+                                  },
+                                  [
+                                    _c("bkt-icon", {
+                                      attrs: {
+                                        name: link.icon,
+                                        color:
+                                          _vm.tab == link.code
+                                            ? "white"
+                                            : link.color,
+                                      },
+                                    }),
+                                  ],
+                                  1
+                                ),
+                                _vm._v(" "),
+                                _c(
+                                  "div",
+                                  { staticClass: "bkt-sidebar__link-label" },
+                                  [_vm._v(_vm._s(link.label))]
+                                ),
+                              ]
+                            )
+                          }),
+                          0
+                        ),
+                      ]
                     ),
                     _vm._v(" "),
-                    _c("div", { staticClass: "bkt-sidebar__link-label" }, [
-                      _vm._v(_vm._s(link.label)),
+                    _c("div", { staticClass: "bkt-profile-tariff-wrapper" }, [
+                      _c(
+                        "div",
+                        {
+                          staticClass:
+                            "bkt-card bkt-bg-primary bkt-profile-tariff",
+                        },
+                        [
+                          _c("h5", { staticClass: "d-sm-none me-auto" }, [
+                            _vm._v(
+                              _vm._s(
+                                _vm.user
+                                  ? _vm.user.name + " " + _vm.user.surname
+                                  : ""
+                              )
+                            ),
+                          ]),
+                          _vm._v(" "),
+                          _vm._m(0),
+                          _vm._v(" "),
+                          _c(
+                            "button",
+                            { staticClass: "bkt-button bkt-tariff-button" },
+                            [
+                              _vm._v(
+                                "\n                            Сменить тариф\n                        "
+                              ),
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _c("div", {
+                            staticClass:
+                              "bkt-card bkt-card__background-figure-1",
+                          }),
+                          _vm._v(" "),
+                          _c("div", {
+                            staticClass:
+                              "bkt-card bkt-card__background-figure-2 bkt-bg-primary",
+                          }),
+                        ]
+                      ),
                     ]),
                   ]
-                )
-              }),
-              0
+                ),
+              ]
             ),
-          ]),
-          _vm._v(" "),
-          _vm._m(0),
-        ]),
-      ]),
-      _vm._v(" "),
-      _c(
-        "div",
-        { staticClass: "p-0 col-12 col-lg-9" },
-        [_c(_vm.tab + "Tab", { tag: "component" })],
-        1
-      ),
-    ]),
-  ])
+            _vm._v(" "),
+            _c(
+              "div",
+              { staticClass: "p-0 col-12 col-lg-9" },
+              [_c(_vm.tab + "Tab", { tag: "component" })],
+              1
+            ),
+          ])
+        : _c(
+            "div",
+            { staticClass: "bkt-shadow-card bkt-shadow-card_primary" },
+            [_vm._m(1)]
+          ),
+    ]
+  )
 }
 var staticRenderFns = [
   function () {
@@ -2179,27 +2357,39 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c(
       "div",
-      { staticClass: "bkt-card bkt-bg-primary bkt-profile-tariff" },
+      { staticClass: "bkt-wrapper-between bkt-wrapper-sm-column" },
       [
         _c("h6", { staticClass: "bkt-card__subtitle" }, [
           _vm._v("тарифный план"),
         ]),
         _vm._v(" "),
         _c("h5", { staticClass: "bkt-card__title" }, [_vm._v("Базовый")]),
-        _vm._v(" "),
-        _c("button", { staticClass: "bkt-button bkt-tariff-button" }, [
-          _vm._v(
-            "\n                        Сменить тариф\n                    "
-          ),
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "bkt-card bkt-card__background-figure-1" }),
-        _vm._v(" "),
-        _c("div", {
-          staticClass: "bkt-card bkt-card__background-figure-2 bkt-bg-primary",
-        }),
       ]
     )
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "bkt-shadow-card__inner bkt-gap-large" }, [
+      _c("h5", { staticClass: "bkt-card__title bkt-text-white" }, [
+        _vm._v("Войдите или зарегистрируйтесь"),
+      ]),
+      _vm._v(" "),
+      _c(
+        "button",
+        {
+          staticClass: "bkt-button bkt-bg-white bkt-text-primary mx-auto",
+          staticStyle: { "max-width": "320px" },
+          attrs: { "data-bs-toggle": "modal", "data-bs-target": "#authModal" },
+        },
+        [_vm._v("\n                Вход и регистрация\n            ")]
+      ),
+      _vm._v(" "),
+      _c("div", { staticClass: "bkt-shadow-card__shadow-1" }),
+      _vm._v(" "),
+      _c("div", { staticClass: "bkt-shadow-card__shadow-2" }),
+    ])
   },
 ]
 render._withStripped = true
@@ -2223,17 +2413,17 @@ var render = function () {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "bkt-form wide" }, [
+  return _c("div", { staticClass: "bkt-form wide bkt-profile-gap" }, [
     _c("div", { staticClass: "col-12 col-lg-5 bkt-form__offset-right" }, [
       _c(
         "div",
-        { staticClass: "bkt-card bkt-card__body" },
+        { staticClass: "bkt-card bkt-card__body bkt-gap-down-sm-row-large" },
         [
           _c("h3", { staticClass: "bkt-card__title" }, [_vm._v("Ваши данные")]),
           _vm._v(" "),
           _c("bkt-input", {
             attrs: {
-              name: "lastname",
+              name: "surname",
               type: "text",
               rules: "required|alpha|min:2",
               label: "фамилия",
@@ -2242,11 +2432,11 @@ var render = function () {
               icon_color: "primary",
             },
             model: {
-              value: _vm.user.lastname,
+              value: _vm.user.surname,
               callback: function ($$v) {
-                _vm.$set(_vm.user, "lastname", $$v)
+                _vm.$set(_vm.user, "surname", $$v)
               },
-              expression: "user.lastname",
+              expression: "user.surname",
             },
           }),
           _vm._v(" "),
@@ -2280,11 +2470,11 @@ var render = function () {
               icon_color: "primary",
             },
             model: {
-              value: _vm.user.name,
+              value: _vm.user.middle_name,
               callback: function ($$v) {
-                _vm.$set(_vm.user, "name", $$v)
+                _vm.$set(_vm.user, "middle_name", $$v)
               },
-              expression: "user.name",
+              expression: "user.middle_name",
             },
           }),
         ],
@@ -2295,7 +2485,7 @@ var render = function () {
     _c("div", { staticClass: "p-0 col-12 col-lg-7" }, [
       _c(
         "div",
-        { staticClass: "bkt-card bkt-card__body" },
+        { staticClass: "bkt-card bkt-card__body bkt-gap-down-sm-row-large" },
         [
           _c("h3", { staticClass: "bkt-card__title" }, [
             _vm._v("Ваши контакты"),
@@ -2353,139 +2543,185 @@ var render = function () {
     ]),
     _vm._v(" "),
     _c("div", { staticClass: "p-0 col-12" }, [
-      _c("div", { staticClass: "bkt-card bkt-card__body" }, [
-        _c("h3", { staticClass: "bkt-card__title" }, [_vm._v("Смена пароля")]),
-        _vm._v(" "),
-        _c("div", { staticClass: "bkt-form" }, [
-          _c(
-            "div",
-            { staticClass: "col-12" },
-            [
-              _c("bkt-input", {
-                attrs: {
-                  name: "old_password",
-                  type: "text",
-                  label: "старый пароль",
-                  rules: "required|min:8",
-                },
-                model: {
-                  value: _vm.passwords.old_password,
-                  callback: function ($$v) {
-                    _vm.$set(_vm.passwords, "old_password", $$v)
-                  },
-                  expression: "passwords.old_password",
-                },
-              }),
-            ],
-            1
-          ),
+      _c(
+        "div",
+        { staticClass: "bkt-card bkt-card__body bkt-gap-down-sm-row-large" },
+        [
+          _c("h3", { staticClass: "bkt-card__title" }, [
+            _vm._v("Смена пароля"),
+          ]),
           _vm._v(" "),
-          _c(
-            "div",
-            { staticClass: "col-12 col-lg-6" },
-            [
-              _c("bkt-input", {
-                attrs: {
-                  name: "password",
-                  type: "text",
-                  label: "новый пароль",
-                  rules: "required|min:8",
-                },
-                model: {
-                  value: _vm.passwords.password,
-                  callback: function ($$v) {
-                    _vm.$set(_vm.passwords, "password", $$v)
-                  },
-                  expression: "passwords.password",
-                },
-              }),
-            ],
-            1
-          ),
-          _vm._v(" "),
-          _c(
-            "div",
-            { staticClass: "col-12 col-lg-6" },
-            [
-              _c("bkt-input", {
-                attrs: {
-                  name: "confirmation",
-                  type: "text",
-                  label: "повторите новый пароль",
-                  rules: "required|min:8|confirmed:password",
-                },
-                model: {
-                  value: _vm.passwords.confirm_password,
-                  callback: function ($$v) {
-                    _vm.$set(_vm.passwords, "confirm_password", $$v)
-                  },
-                  expression: "passwords.confirm_password",
-                },
-              }),
-            ],
-            1
-          ),
-          _vm._v(" "),
-          _c("div", { staticClass: "p-0 col-12" }, [
+          _c("div", { staticClass: "bkt-form bkt-gap-down-sm-large" }, [
             _c(
               "div",
-              { staticClass: "bkt-wrapper-between" },
+              { staticClass: "col-12" },
               [
                 _c("bkt-input", {
                   attrs: {
-                    name: "phone_code",
-                    type: "tel",
-                    rules: "required|phone",
-                    placeholder: "+7 495 000-00-00",
-                    mask: [
-                      "+# ### ### ####",
-                      "+## ### ### ####",
-                      "+## ### #### ####",
-                    ],
+                    name: "old_password",
+                    type: "text",
+                    label: "старый пароль",
+                    rules: "required|min:8",
+                    no_group_item: "",
                   },
-                  scopedSlots: _vm._u([
-                    {
-                      key: "group-item-inner",
-                      fn: function () {
-                        return [
-                          _c(
-                            "button",
-                            {
-                              staticClass: "bkt-button green",
-                              attrs: { disabled: _vm.code_loading },
-                              on: { click: _vm.sendCode },
-                            },
-                            [
-                              _vm.code_loading
-                                ? _c("span", {
-                                    staticClass:
-                                      "spinner-border spinner-border-sm",
-                                    attrs: { role: "status" },
-                                  })
-                                : _vm._e(),
-                              _vm._v(
-                                "\n                                    Выслать код\n                                "
-                              ),
-                            ]
-                          ),
-                        ]
-                      },
-                      proxy: true,
+                  model: {
+                    value: _vm.passwords.old_password,
+                    callback: function ($$v) {
+                      _vm.$set(_vm.passwords, "old_password", $$v)
                     },
-                  ]),
+                    expression: "passwords.old_password",
+                  },
                 }),
-                _vm._v(" "),
-                _c("button", { staticClass: "bkt-button primary" }, [
-                  _vm._v(
-                    "\n                            Сохранить\n                        "
-                  ),
-                ]),
               ],
               1
             ),
+            _vm._v(" "),
+            _c(
+              "div",
+              { staticClass: "col-12 col-lg-6" },
+              [
+                _c("bkt-input", {
+                  attrs: {
+                    name: "password",
+                    type: "text",
+                    label: "новый пароль",
+                    rules: "required|min:8",
+                    no_group_item: "",
+                  },
+                  model: {
+                    value: _vm.passwords.password,
+                    callback: function ($$v) {
+                      _vm.$set(_vm.passwords, "password", $$v)
+                    },
+                    expression: "passwords.password",
+                  },
+                }),
+              ],
+              1
+            ),
+            _vm._v(" "),
+            _c(
+              "div",
+              { staticClass: "col-12 col-lg-6" },
+              [
+                _c("bkt-input", {
+                  attrs: {
+                    name: "confirmation",
+                    type: "text",
+                    label: "повторите новый пароль",
+                    rules: "required|min:8|confirmed:password",
+                    no_group_item: "",
+                  },
+                  model: {
+                    value: _vm.passwords.confirm_password,
+                    callback: function ($$v) {
+                      _vm.$set(_vm.passwords, "confirm_password", $$v)
+                    },
+                    expression: "passwords.confirm_password",
+                  },
+                }),
+              ],
+              1
+            ),
+            _vm._v(" "),
+            _c("div", { staticClass: "p-0 col-12" }, [
+              _c(
+                "div",
+                {
+                  staticClass:
+                    "bkt-wrapper-between bkt-gap bkt-gap-down-sm-row-large",
+                },
+                [
+                  _c(
+                    "div",
+                    { staticClass: "bkt-wrapper-down-sm-column bkt-gap-small" },
+                    [
+                      _c("bkt-input", {
+                        attrs: {
+                          name: "phone_code",
+                          type: "tel",
+                          rules: "required|phone",
+                          placeholder: "+7 495 000-00-00",
+                          mask: [
+                            "+# ### ### ####",
+                            "+## ### ### ####",
+                            "+## ### #### ####",
+                          ],
+                        },
+                        scopedSlots: _vm._u([
+                          {
+                            key: "group-item-inner",
+                            fn: function () {
+                              return [
+                                _c(
+                                  "button",
+                                  {
+                                    staticClass:
+                                      "bkt-button green d-none d-sm-flex",
+                                    attrs: { disabled: _vm.code_loading },
+                                    on: { click: _vm.sendCode },
+                                  },
+                                  [
+                                    _vm.code_loading
+                                      ? _c("span", {
+                                          staticClass:
+                                            "spinner-border spinner-border-sm",
+                                          attrs: { role: "status" },
+                                        })
+                                      : _vm._e(),
+                                    _vm._v(
+                                      "\n                                        Выслать код\n                                    "
+                                    ),
+                                  ]
+                                ),
+                              ]
+                            },
+                            proxy: true,
+                          },
+                        ]),
+                      }),
+                      _vm._v(" "),
+                      _c(
+                        "button",
+                        {
+                          staticClass: "bkt-button green d-sm-none",
+                          attrs: { disabled: _vm.code_loading },
+                          on: { click: _vm.sendCode },
+                        },
+                        [
+                          _vm.code_loading
+                            ? _c("span", {
+                                staticClass: "spinner-border spinner-border-sm",
+                                attrs: { role: "status" },
+                              })
+                            : _vm._e(),
+                          _vm._v(
+                            "\n                                Выслать код\n                            "
+                          ),
+                        ]
+                      ),
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "button",
+                    {
+                      staticClass:
+                        "bkt-button primary bkt-w-sm-100 bkt-button_plump",
+                    },
+                    [
+                      _vm._v(
+                        "\n                            Сохранить\n                        "
+                      ),
+                    ]
+                  ),
+                ]
+              ),
+            ]),
           ]),
-        ]),
-      ]),
+        ]
+      ),
     ]),
   ])
 }

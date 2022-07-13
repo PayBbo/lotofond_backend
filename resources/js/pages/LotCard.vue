@@ -334,7 +334,7 @@
             </div>
             <div class="col-12 col-lg-12 order-3">
                 <div class="bkt-card bkt-lot-card-tasks">
-                    <div class="bkt-card__header bkt-wrapper-between m-0 bkt-gap-large">
+                    <div class="bkt-card__header bkt-wrapper-between m-0 bkt-gap-large" style="border: none;">
                         <div class="bkt-card-periods">
                             <div class="bkt-card-period bkt-wrapper" v-if="item.trade && item.trade.applicationTime
                                  && (item.trade.applicationTime.start ||item.trade.applicationTime.end)">
@@ -980,7 +980,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-12 px-0">
+                            <div class="col-12 px-0" v-if="debtor_active_lots_pagination">
                                 <bkt-pagination
                                     :limit="1"
                                     :data="debtor_active_lots_pagination"
@@ -1072,7 +1072,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-12 px-0">
+                            <div class="col-12 px-0" v-if="debtor_completed_lots_pagination">
                                 <bkt-pagination
                                     :limit="1"
                                     :data="debtor_completed_lots_pagination"
@@ -1165,29 +1165,29 @@
                                 <span class="bkt-contents__heading">арбитражный управляющий</span>
                             </div>
                             <div class="bkt-contents__answer">
-                                <span v-if="item.trade.arbitrManager.type =='person'">
-                                    <template v-for="(value, key, index) in item.trade.arbitrManager.person">
+                                <span v-if="item.trade.arbitrationManager.type =='person'">
+                                    <template v-for="(value, key, index) in item.trade.arbitrationManager.person">
                                          {{value ? value+' ' : ''}}
                                     </template>
                                 </span>
                                 <span v-else>
-                                    {{item.trade.arbitrManager.company.shortName ? item.trade.arbitrManager.company.shortName : item.trade.arbitrManager.company.fullName}}
+                                    {{item.trade.arbitrationManager.company.shortName ? item.trade.arbitrationManager.company.shortName : item.trade.arbitrationManager.company.fullName}}
                                 </span>
                             </div>
                         </li>
-                        <li v-if="item.trade.arbitrManager.inn">
+                        <li v-if="item.trade.arbitrationManager.inn">
                             <div class="bkt-contents__heading">
                                 <span class="bkt-contents__heading">ИНН</span>
                             </div>
-                            <div class="bkt-contents__answer"><span>{{item.trade.arbitrManager.inn}}</span>
+                            <div class="bkt-contents__answer"><span>{{item.trade.arbitrationManager.inn}}</span>
                             </div>
                         </li>
-                        <li v-if="item.trade.arbitrManager.sroAU">
+                        <li v-if="item.trade.arbitrationManager.sroAU">
                             <div class="bkt-contents__heading">
                                 <span class="bkt-contents__heading">СРО</span>
                             </div>
                             <div class="bkt-contents__answer" style="font-size: 12px; font-weight:600">
-                                <span>{{item.trade.arbitrManager.sroAU}}</span>
+                                <span>{{item.trade.arbitrationManager.sroAU}}</span>
                             </div>
                         </li>
                     </ul>
@@ -1330,11 +1330,19 @@
                     type: 'active',
                     bidderType: 'debtor',
                     bidderId: this.item.trade.debtor.id,
+                    exceptionLotId: this.item.id,
                     page: page
                 })
                     .then(resp => {
-                        this.debtor_active_lots = resp.data.data.filter(lot => lot.id != this.$route.params.id);
-                        this.debtor_active_lots_pagination = resp.data.pagination;
+                        if(resp.data.data) {
+                            this.debtor_active_lots = resp.data.data;
+                        }
+                        else {
+                            this.debtor_active_lots = resp.data;
+                        }
+                        if(resp.data.pagination) {
+                            this.debtor_active_lots_pagination = resp.data.pagination;
+                        }
                     }).catch(error => {
 
                     }).finally(() => {
@@ -1347,11 +1355,19 @@
                     type: 'inactive',
                     bidderType: 'debtor',
                     bidderId: this.item.trade.debtor.id,
+                    exceptionLotId:this.item.id,
                     page: page
                 })
                     .then(resp => {
-                        this.debtor_completed_lots = resp.data.data;
-                        this.debtor_completed_lots_pagination = resp.data.pagination;
+                        if(resp.data.data) {
+                            this.debtor_completed_lots = resp.data.data;
+                        }
+                        else {
+                            this.debtor_completed_lots = resp.data;
+                        }
+                        if(resp.data.pagination) {
+                            this.debtor_completed_lots_pagination = resp.data.pagination;
+                        }
                     }).catch(error => {
 
                     }).finally(() => {

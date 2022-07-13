@@ -54,11 +54,13 @@ export default {
 
             Account
             GET  /account/logout                Выход пользователя из аккаунта
+            POST /account/refresh/token         Обновление токена
             GET  /account/user                  Получение информации об аккаунте пользователя
             PUT  /account/user/update           Обновление информации об аккаунте
             POST /account/password/code         Запрос кода подтверждения для сброса пароля
             POST /account/password/code/verify  Отправка пользователем кода подтверждения для сброса пароля
             POST /account/password/reset        Сброс пароля пользователя
+
         */
 
         async login({dispatch, commit}, payload) {
@@ -102,6 +104,7 @@ export default {
                     //     {self: payload.self, message: error.response.data.detail, type: 'error'})
                 })
         },
+
         async logout({commit}) {
             await axios.get('/api/account/logout').then(resp => {
                 console.log(resp);
@@ -109,6 +112,14 @@ export default {
                 commit('logout');
             }).catch(error => {
                 console.log(error);
+                commit('clearStorage');
+                commit('logout');
+            });
+        },
+        async refresh({commit, state}) {
+            await axios.post('/api/account/refresh/token', {refreshToken: state.refreshToken}).then(resp => {
+                commit('auth_success', {token: resp.data.accessToken, refreshToken: resp.data.refreshToken});
+            }).catch(error => {
                 commit('clearStorage');
                 commit('logout');
             });

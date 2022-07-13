@@ -799,26 +799,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "Category",
@@ -861,7 +841,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     include: function include(category) {
-      return this.filter.indexOf(category) >= 0;
+      return this.result.indexOf(category) >= 0;
     },
     allChecked: function allChecked(arr, target) {
       return target.every(function (v) {
@@ -1358,6 +1338,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   created: function created() {
     this.$store.dispatch('getLotsStatistic');
     this.getCategories();
+    this.getRegions();
   },
   mounted: function mounted() {
     this.getData();
@@ -1437,6 +1418,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     },
     lots_statistic: function lots_statistic() {
       return this.$store.getters.lots_statistic;
+    },
+    regions: function regions() {
+      return this.$store.getters.regions;
+    },
+    categories: function categories() {
+      return this.$store.getters.categories;
     }
   },
   methods: {
@@ -1473,14 +1460,34 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
-                _this2.$store.dispatch('getCategories');
+                _context2.next = 2;
+                return _this2.$store.dispatch('getCategories');
 
-              case 1:
+              case 2:
               case "end":
                 return _context2.stop();
             }
           }
         }, _callee2);
+      }))();
+    },
+    getRegions: function getRegions() {
+      var _this3 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee3() {
+        return _regeneratorRuntime().wrap(function _callee3$(_context3) {
+          while (1) {
+            switch (_context3.prev = _context3.next) {
+              case 0:
+                _context3.next = 2;
+                return _this3.$store.dispatch('getRegions');
+
+              case 2:
+              case "end":
+                return _context3.stop();
+            }
+          }
+        }, _callee3);
       }))();
     },
     toggleDirection: function toggleDirection() {
@@ -3634,136 +3641,25 @@ var render = function () {
                                       },
                                       [
                                         category.subcategories.length == 0
-                                          ? _c(
-                                              "div",
-                                              {
-                                                staticClass:
-                                                  "bkt-check__wrapper",
+                                          ? _c("bkt-checkbox", {
+                                              attrs: {
+                                                label: category.label,
+                                                name:
+                                                  "bkt-category-checkbox-" +
+                                                  index,
+                                                id:
+                                                  "bkt-category-checkbox-" +
+                                                  index,
+                                                val: category.key,
                                               },
-                                              [
-                                                _c(
-                                                  "div",
-                                                  { staticClass: "bkt-check" },
-                                                  [
-                                                    _c(
-                                                      "div",
-                                                      {
-                                                        staticClass:
-                                                          "bkt-check__input",
-                                                      },
-                                                      [
-                                                        _c("input", {
-                                                          directives: [
-                                                            {
-                                                              name: "model",
-                                                              rawName:
-                                                                "v-model",
-                                                              value: _vm.result,
-                                                              expression:
-                                                                "result",
-                                                            },
-                                                          ],
-                                                          attrs: {
-                                                            type: "checkbox",
-                                                            name:
-                                                              "bkt-category-checkbox-" +
-                                                              index,
-                                                            id:
-                                                              "bkt-category-checkbox-" +
-                                                              index,
-                                                          },
-                                                          domProps: {
-                                                            value: category.key,
-                                                            checked:
-                                                              Array.isArray(
-                                                                _vm.result
-                                                              )
-                                                                ? _vm._i(
-                                                                    _vm.result,
-                                                                    category.key
-                                                                  ) > -1
-                                                                : _vm.result,
-                                                          },
-                                                          on: {
-                                                            change: function (
-                                                              $event
-                                                            ) {
-                                                              var $$a =
-                                                                  _vm.result,
-                                                                $$el =
-                                                                  $event.target,
-                                                                $$c =
-                                                                  $$el.checked
-                                                                    ? true
-                                                                    : false
-                                                              if (
-                                                                Array.isArray(
-                                                                  $$a
-                                                                )
-                                                              ) {
-                                                                var $$v =
-                                                                    category.key,
-                                                                  $$i = _vm._i(
-                                                                    $$a,
-                                                                    $$v
-                                                                  )
-                                                                if (
-                                                                  $$el.checked
-                                                                ) {
-                                                                  $$i < 0 &&
-                                                                    (_vm.result =
-                                                                      $$a.concat(
-                                                                        [$$v]
-                                                                      ))
-                                                                } else {
-                                                                  $$i > -1 &&
-                                                                    (_vm.result =
-                                                                      $$a
-                                                                        .slice(
-                                                                          0,
-                                                                          $$i
-                                                                        )
-                                                                        .concat(
-                                                                          $$a.slice(
-                                                                            $$i +
-                                                                              1
-                                                                          )
-                                                                        ))
-                                                                }
-                                                              } else {
-                                                                _vm.result = $$c
-                                                              }
-                                                            },
-                                                          },
-                                                        }),
-                                                        _vm._v(" "),
-                                                        _c("div", {
-                                                          staticClass:
-                                                            "bkt-check__input-check",
-                                                        }),
-                                                      ]
-                                                    ),
-                                                    _vm._v(" "),
-                                                    _c(
-                                                      "label",
-                                                      {
-                                                        staticClass:
-                                                          "bkt-check__label",
-                                                      },
-                                                      [
-                                                        _vm._v(
-                                                          "\n                                                " +
-                                                            _vm._s(
-                                                              category.label
-                                                            ) +
-                                                            "\n                                        "
-                                                        ),
-                                                      ]
-                                                    ),
-                                                  ]
-                                                ),
-                                              ]
-                                            )
+                                              model: {
+                                                value: _vm.result,
+                                                callback: function ($$v) {
+                                                  _vm.result = $$v
+                                                },
+                                                expression: "result",
+                                              },
+                                            })
                                           : _c("bkt-checkbox", {
                                               attrs: {
                                                 label: category.label,
@@ -3811,127 +3707,27 @@ var render = function () {
                                             "bkt-area__item text-left px-2 mb-2",
                                         },
                                         [
-                                          _c(
-                                            "div",
-                                            {
-                                              staticClass: "bkt-check__wrapper",
+                                          _c("bkt-checkbox", {
+                                            attrs: {
+                                              label: subcategory.label,
+                                              name:
+                                                "bkt-subcategory-checkbox-" +
+                                                index,
+                                              id:
+                                                "bkt-subcategory-checkbox-" +
+                                                index,
+                                              val: subcategory.key,
                                             },
-                                            [
-                                              _c(
-                                                "div",
-                                                { staticClass: "bkt-check" },
-                                                [
-                                                  _c(
-                                                    "div",
-                                                    {
-                                                      staticClass:
-                                                        "bkt-check__input",
-                                                    },
-                                                    [
-                                                      _c("input", {
-                                                        directives: [
-                                                          {
-                                                            name: "model",
-                                                            rawName: "v-model",
-                                                            value: _vm.result,
-                                                            expression:
-                                                              "result",
-                                                          },
-                                                        ],
-                                                        attrs: {
-                                                          type: "checkbox",
-                                                        },
-                                                        domProps: {
-                                                          value:
-                                                            subcategory.key,
-                                                          checked:
-                                                            Array.isArray(
-                                                              _vm.result
-                                                            )
-                                                              ? _vm._i(
-                                                                  _vm.result,
-                                                                  subcategory.key
-                                                                ) > -1
-                                                              : _vm.result,
-                                                        },
-                                                        on: {
-                                                          change: function (
-                                                            $event
-                                                          ) {
-                                                            var $$a =
-                                                                _vm.result,
-                                                              $$el =
-                                                                $event.target,
-                                                              $$c = $$el.checked
-                                                                ? true
-                                                                : false
-                                                            if (
-                                                              Array.isArray($$a)
-                                                            ) {
-                                                              var $$v =
-                                                                  subcategory.key,
-                                                                $$i = _vm._i(
-                                                                  $$a,
-                                                                  $$v
-                                                                )
-                                                              if (
-                                                                $$el.checked
-                                                              ) {
-                                                                $$i < 0 &&
-                                                                  (_vm.result =
-                                                                    $$a.concat([
-                                                                      $$v,
-                                                                    ]))
-                                                              } else {
-                                                                $$i > -1 &&
-                                                                  (_vm.result =
-                                                                    $$a
-                                                                      .slice(
-                                                                        0,
-                                                                        $$i
-                                                                      )
-                                                                      .concat(
-                                                                        $$a.slice(
-                                                                          $$i +
-                                                                            1
-                                                                        )
-                                                                      ))
-                                                              }
-                                                            } else {
-                                                              _vm.result = $$c
-                                                            }
-                                                          },
-                                                        },
-                                                      }),
-                                                      _vm._v(" "),
-                                                      _c("div", {
-                                                        staticClass:
-                                                          "bkt-check__input-check",
-                                                      }),
-                                                    ]
-                                                  ),
-                                                  _vm._v(" "),
-                                                  _c(
-                                                    "label",
-                                                    {
-                                                      staticClass:
-                                                        "bkt-check__label",
-                                                    },
-                                                    [
-                                                      _vm._v(
-                                                        "\n                                                " +
-                                                          _vm._s(
-                                                            subcategory.label
-                                                          ) +
-                                                          "\n                                        "
-                                                      ),
-                                                    ]
-                                                  ),
-                                                ]
-                                              ),
-                                            ]
-                                          ),
-                                        ]
+                                            model: {
+                                              value: _vm.result,
+                                              callback: function ($$v) {
+                                                _vm.result = $$v
+                                              },
+                                              expression: "result",
+                                            },
+                                          }),
+                                        ],
+                                        1
                                       )
                                     }
                                   )
@@ -4035,6 +3831,8 @@ var render = function () {
                     2
                   )
                 : _vm._e(),
+              _vm._v(" "),
+              _c("div", { staticClass: "bkt-categories__grid" }),
             ]
           },
           proxy: true,

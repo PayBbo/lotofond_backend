@@ -20,7 +20,7 @@
                 :disabled="disabled"
                 @input="saveValue"
             />
-            <slot name="group-item">
+            <slot name="group-item"  v-if="!no_group_item">
                 <div class="bkt-input__group-item"
                      :class="[{'active': group_item_action&&!disabled}, group_item_class]"
                      @click="clickGroupItem"
@@ -87,6 +87,10 @@
             icon_class: {
                 type: String,
                 default: "",
+            },
+            no_group_item: {
+                type: Boolean,
+                default: false,
             },
             group_item_action: {
                 type: Boolean,

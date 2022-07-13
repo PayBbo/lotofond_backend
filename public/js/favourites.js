@@ -556,7 +556,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "Favourites",
@@ -1053,7 +1052,7 @@ var render = function () {
   var _c = _vm._self._c || _h
   return _c(
     "div",
-    { staticClass: "container bkt-page bkt-favourites bkt-main bkt-container" },
+    { staticClass: "container bkt-page bkt-favourites bkt-container" },
     [
       _c("h1", { staticClass: "bkt-page__title" }, [_vm._v("Избранное")]),
       _vm._v(" "),
@@ -1319,8 +1318,7 @@ var render = function () {
                   return _c(
                     "button",
                     {
-                      staticClass:
-                        "bkt-button bkt-bg-primary bkt-button-menu bkt-button-all d-inline-flex align-items-center mr-2 pt-4 pb-4 active text-uppercase",
+                      staticClass: "bkt-button bkt-bg-primary bkt-button_plump",
                     },
                     [
                       _vm._v(
@@ -1332,7 +1330,7 @@ var render = function () {
                         "span",
                         {
                           staticClass:
-                            "bkt-text-primary bkt-bg-white p-1 rounded-pill ml-2",
+                            "bkt-text-primary bkt-bg-white bkt-badge",
                         },
                         [_vm._v(_vm._s(_vm.pagination_data.total))]
                       ),

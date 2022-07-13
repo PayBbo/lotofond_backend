@@ -15,14 +15,10 @@ export default {
     },
     mutations: {
         setCategories(state, payload) {
-           //  let tmp = payload
-           // tmp =
             payload.forEach(item => {
                 Vue.set(item, 'status', false)
                 state.categories.push(item)
             });
-            // state.categories = payload;
-
         },
         setCategoriesLoading(state, payload) {
             return (state.categories_loading = payload);
@@ -30,7 +26,7 @@ export default {
     },
     actions: {
         async getCategories({commit, state}, payload) {
-            try {
+            if (state.categories.length == 0) {
                 commit('setCategoriesLoading', true)
                 await axios({
                     method: 'get',
@@ -40,14 +36,11 @@ export default {
                     .then((response) => {
                         commit('setCategories', response.data)
                         commit('setCategoriesLoading', false)
+                    }).catch(error => {
+                        commit('setCategoriesLoading', false)
+
                     });
-            } catch (error) {
-                console.log(error);
-                commit('setCategoriesLoading', false)
-                // commit('setCategories', []);
-                throw error
             }
         },
-    },
-
+    }
 };

@@ -1,6 +1,6 @@
 <template>
     <div class="bkt-card bkt-card__body">
-        <div class="bkt-form" style="gap: 10px 0;">
+        <div class="bkt-form bkt-gap-down-sm-large">
             <div class="col-4 ps-md-0 d-none d-md-block">
                 <h5 class="bkt-form__label">ваш e-mail</h5>
             </div>
@@ -12,6 +12,7 @@
                     :rules="'required|email'"
                     placeholder="pochta@gmail.com"
                     :label_class="'d-md-none'"
+                    no_group_item
                 >
                 </bkt-input>
             </div>
@@ -26,6 +27,7 @@
                     :rules="'required'"
                     placeholder=""
                     :label_class="'d-md-none'"
+                    no_group_item
                 >
                 </bkt-input>
             </div>
@@ -40,6 +42,7 @@
                     :rules="'required'"
                     placeholder=""
                     :label_class="'d-md-none'"
+                    no_group_item
                 ></bkt-textarea>
             </div>
 

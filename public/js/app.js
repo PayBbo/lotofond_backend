@@ -6373,7 +6373,7 @@ __webpack_require__.r(__webpack_exports__);
     removeFromFavourites: function removeFromFavourites() {
       var _this4 = this;
 
-      if (this.item.inFavourite && this.current_path != 0) {
+      if (this.item.inFavourite) {
         this.toggleProcess('Star');
         this.$store.dispatch('removeFavourite', {
           lot_id: this.item.id,
@@ -6588,14 +6588,21 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: {
     value: {
-      type: Boolean,
+      type: null,
       "default": false
     },
-    // val: {
-    // },
+    val: {
+      type: null
+    },
     name: {
       type: String,
       required: true
@@ -6615,25 +6622,38 @@ __webpack_require__.r(__webpack_exports__);
     wrapper_class: {
       type: String,
       "default": ""
-    }
+    } // type: {
+    //     type: String,
+    //     default: "boolean",
+    // },
+
   },
-  model: {
-    prop: 'value',
-    event: 'input'
-  },
+  // model: {
+  //     prop: 'value',
+  //     event: 'change'
+  // },
   data: function data() {
     return {
-      model: null // tmp_val:null,
+      // model:null,
+      type: 'boolean' // tmp_val:null,
 
     };
   },
   mounted: function mounted() {
-    this.model = this.value; // if(!this.val) {
-    //     this.tmp_val = this.model
-    // }
-    // else {
-    //     this.tmp_val =this.val;
-    // }
+    // this.model = this.value;
+    if (typeof this.value != 'boolean') {
+      this.type = 'other';
+    }
+  },
+  computed: {
+    model: {
+      get: function get() {
+        return this.value;
+      },
+      set: function set(value) {
+        this.$emit("input", value);
+      }
+    }
   },
   methods: {
     saveValue: function saveValue() {
@@ -7377,6 +7397,10 @@ __webpack_require__.r(__webpack_exports__);
       type: String,
       "default": ""
     },
+    no_group_item: {
+      type: Boolean,
+      "default": false
+    },
     group_item_action: {
       type: Boolean,
       "default": false
@@ -7967,6 +7991,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: {
     type: {
@@ -8003,9 +8028,17 @@ __webpack_require__.r(__webpack_exports__);
       type: String,
       "default": ""
     },
+    no_group_item: {
+      type: Boolean,
+      "default": false
+    },
     group_item_action: {
       type: Boolean,
       "default": false
+    },
+    group_item_class: {
+      type: String,
+      "default": ""
     },
     disabled: {
       type: Boolean,
@@ -8105,59 +8138,72 @@ axios.interceptors.response.use(function (response) {
           case 0:
             originalRequest = error.config;
 
-            if (error.response && error.config && error.config.url !== '/api/refreshtoken') {
-              console.log('interceptors have error.response');
+            if (!(error.response && error.config && error.config.url !== '/api/account/refresh/token')) {
+              _context.next = 12;
+              break;
+            }
 
-              if (error.response.data) {
-                if (error.response.data.code == 401) {
+            console.log('interceptors have error.response');
+
+            if (error.response.data) {
+              if (error.response.data.code == 401) {
+                app.$notify({
+                  type: 'error',
+                  title: 'LotoFond',
+                  text: 'Необходима авторизация',
+                  duration: 5000
+                });
+              } else {
+                if (error.response.data.detail) {
                   app.$notify({
                     type: 'error',
                     title: 'LotoFond',
-                    text: 'Необходима авторизация',
+                    text: error.response.data.detail,
                     duration: 5000
                   });
-                } else {
-                  if (error.response.data.detail) {
-                    app.$notify({
-                      type: 'error',
-                      title: 'LotoFond',
-                      text: error.response.data.detail,
-                      duration: 5000
-                    });
-                  }
                 }
-              }
-
-              if (error.response.status === 401 && !originalRequest._retry && !error.response.config.__isRetryRequest) {
-                console.log('interceptors have error.response.status === 401');
-                _store_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].commit('clearStorage'); // if (localStorage.getItem('token')) {
-                //     console.log('interceptors have token in localStorage');
-                //     originalRequest._retry = true;
-                //     await store.dispatch('refresh')
-                //         .then(() => {
-                //             const access_token = localStorage.getItem('token');
-                //             if (access_token) {
-                //                 axios.defaults.headers.common['Authorization'] = 'Bearer ' + access_token;
-                //                 // originalRequest.headers['Authorization'] = 'Bearer ' + access_token;
-                //                 console.log('access_token', access_token);
-                //                 console.log('interceptors refresh token is successful');
-                //                 console.log('originalRequest', originalRequest);
-                //                 return axios(originalRequest);
-                //             } else {
-                //                 console.log('interceptors refresh token catch error');
-                //                 store.commit('clearStorage');
-                //                 location.reload();
-                //                 return Promise.reject(error);
-                //             }
-                //         })
-                // }
               }
             }
 
+            if (!(error.response.status === 401 && !originalRequest._retry && !error.response.config.__isRetryRequest)) {
+              _context.next = 12;
+              break;
+            }
+
+            console.log('interceptors have error.response.status === 401');
+            _store_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].commit('clearStorage');
+
+            if (!localStorage.getItem('token')) {
+              _context.next = 12;
+              break;
+            }
+
+            console.log('interceptors have token in localStorage');
+            originalRequest._retry = true;
+            _context.next = 12;
+            return _store_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].dispatch('refresh').then(function () {
+              var access_token = localStorage.getItem('token');
+
+              if (access_token) {
+                axios.defaults.headers.common['Authorization'] = 'Bearer ' + access_token; // originalRequest.headers['Authorization'] = 'Bearer ' + access_token;
+
+                console.log('access_token', access_token);
+                console.log('interceptors refresh token is successful');
+                console.log('originalRequest', originalRequest);
+                return axios(originalRequest);
+              } else {
+                console.log('interceptors refresh token catch error');
+                _store_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].commit('clearStorage');
+                _store_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].commit('logout');
+                return Promise.reject(error);
+              }
+            });
+
+          case 12:
             console.log('interceptors end without return by token case');
             return _context.abrupt("return", Promise.reject(error));
 
-          case 4:
+          case 14:
           case "end":
             return _context.stop();
         }
@@ -8539,7 +8585,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 _context.next = 4;
                 return axios({
                   method: 'get',
-                  url: '/api/trades/filter/bidders/arbitrManager?page=' + payload,
+                  url: '/api/trades/filter/bidders/arbitrationManagers?page=' + payload,
                   data: {}
                 }).then(function (response) {
                   commit('setArbitrManagers', response.data);
@@ -8760,12 +8806,13 @@ vue__WEBPACK_IMPORTED_MODULE_1__["default"].use(vuex__WEBPACK_IMPORTED_MODULE_2_
         POST http://localhost:8080/api/registrationCodeVerify
           Account
         GET  /account/logout                Выход пользователя из аккаунта
+        POST /account/refresh/token         Обновление токена
         GET  /account/user                  Получение информации об аккаунте пользователя
         PUT  /account/user/update           Обновление информации об аккаунте
         POST /account/password/code         Запрос кода подтверждения для сброса пароля
         POST /account/password/code/verify  Отправка пользователем кода подтверждения для сброса пароля
         POST /account/password/reset        Сброс пароля пользователя
-    */
+     */
     login: function login(_ref, payload) {
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
         var dispatch, commit;
@@ -8895,20 +8942,25 @@ vue__WEBPACK_IMPORTED_MODULE_1__["default"].use(vuex__WEBPACK_IMPORTED_MODULE_2_
         }, _callee5);
       }))();
     },
-    getAuthUser: function getAuthUser(_ref6) {
+    refresh: function refresh(_ref6) {
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee6() {
-        var commit;
+        var commit, state;
         return _regeneratorRuntime().wrap(function _callee6$(_context6) {
           while (1) {
             switch (_context6.prev = _context6.next) {
               case 0:
-                commit = _ref6.commit;
+                commit = _ref6.commit, state = _ref6.state;
                 _context6.next = 3;
-                return axios__WEBPACK_IMPORTED_MODULE_0___default().get('/api/account/user').then(function (resp) {
-                  console.log(resp);
-                  commit('setAuthUser', resp.data);
+                return axios__WEBPACK_IMPORTED_MODULE_0___default().post('/api/account/refresh/token', {
+                  refreshToken: state.refreshToken
+                }).then(function (resp) {
+                  commit('auth_success', {
+                    token: resp.data.accessToken,
+                    refreshToken: resp.data.refreshToken
+                  });
                 })["catch"](function (error) {
-                  console.log(error);
+                  commit('clearStorage');
+                  commit('logout');
                 });
 
               case 3:
@@ -8919,7 +8971,7 @@ vue__WEBPACK_IMPORTED_MODULE_1__["default"].use(vuex__WEBPACK_IMPORTED_MODULE_2_
         }, _callee6);
       }))();
     },
-    updateAuthUser: function updateAuthUser(_ref7, payload) {
+    getAuthUser: function getAuthUser(_ref7) {
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee7() {
         var commit;
         return _regeneratorRuntime().wrap(function _callee7$(_context7) {
@@ -8928,9 +8980,9 @@ vue__WEBPACK_IMPORTED_MODULE_1__["default"].use(vuex__WEBPACK_IMPORTED_MODULE_2_
               case 0:
                 commit = _ref7.commit;
                 _context7.next = 3;
-                return axios__WEBPACK_IMPORTED_MODULE_0___default().put('/api/account/user/update', payload).then(function (resp) {
+                return axios__WEBPACK_IMPORTED_MODULE_0___default().get('/api/account/user').then(function (resp) {
                   console.log(resp);
-                  commit('setAuthUser', payload);
+                  commit('setAuthUser', resp.data);
                 })["catch"](function (error) {
                   console.log(error);
                 });
@@ -8943,7 +8995,7 @@ vue__WEBPACK_IMPORTED_MODULE_1__["default"].use(vuex__WEBPACK_IMPORTED_MODULE_2_
         }, _callee7);
       }))();
     },
-    getPasswordCode: function getPasswordCode(_ref8, payload) {
+    updateAuthUser: function updateAuthUser(_ref8, payload) {
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee8() {
         var commit;
         return _regeneratorRuntime().wrap(function _callee8$(_context8) {
@@ -8952,8 +9004,9 @@ vue__WEBPACK_IMPORTED_MODULE_1__["default"].use(vuex__WEBPACK_IMPORTED_MODULE_2_
               case 0:
                 commit = _ref8.commit;
                 _context8.next = 3;
-                return axios__WEBPACK_IMPORTED_MODULE_0___default().post('/api/account/password/code', payload).then(function (resp) {
+                return axios__WEBPACK_IMPORTED_MODULE_0___default().put('/api/account/user/update', payload).then(function (resp) {
                   console.log(resp);
+                  commit('setAuthUser', payload);
                 })["catch"](function (error) {
                   console.log(error);
                 });
@@ -8966,7 +9019,7 @@ vue__WEBPACK_IMPORTED_MODULE_1__["default"].use(vuex__WEBPACK_IMPORTED_MODULE_2_
         }, _callee8);
       }))();
     },
-    verifyPasswordCode: function verifyPasswordCode(_ref9, payload) {
+    getPasswordCode: function getPasswordCode(_ref9, payload) {
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee9() {
         var commit;
         return _regeneratorRuntime().wrap(function _callee9$(_context9) {
@@ -8975,7 +9028,7 @@ vue__WEBPACK_IMPORTED_MODULE_1__["default"].use(vuex__WEBPACK_IMPORTED_MODULE_2_
               case 0:
                 commit = _ref9.commit;
                 _context9.next = 3;
-                return axios__WEBPACK_IMPORTED_MODULE_0___default().post('/api/account/password/code/verify', payload).then(function (resp) {
+                return axios__WEBPACK_IMPORTED_MODULE_0___default().post('/api/account/password/code', payload).then(function (resp) {
                   console.log(resp);
                 })["catch"](function (error) {
                   console.log(error);
@@ -8989,7 +9042,7 @@ vue__WEBPACK_IMPORTED_MODULE_1__["default"].use(vuex__WEBPACK_IMPORTED_MODULE_2_
         }, _callee9);
       }))();
     },
-    resetPassword: function resetPassword(_ref10, payload) {
+    verifyPasswordCode: function verifyPasswordCode(_ref10, payload) {
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee10() {
         var commit;
         return _regeneratorRuntime().wrap(function _callee10$(_context10) {
@@ -8998,7 +9051,7 @@ vue__WEBPACK_IMPORTED_MODULE_1__["default"].use(vuex__WEBPACK_IMPORTED_MODULE_2_
               case 0:
                 commit = _ref10.commit;
                 _context10.next = 3;
-                return axios__WEBPACK_IMPORTED_MODULE_0___default().post('/api/account/password/reset', payload).then(function (resp) {
+                return axios__WEBPACK_IMPORTED_MODULE_0___default().post('/api/account/password/code/verify', payload).then(function (resp) {
                   console.log(resp);
                 })["catch"](function (error) {
                   console.log(error);
@@ -9010,6 +9063,29 @@ vue__WEBPACK_IMPORTED_MODULE_1__["default"].use(vuex__WEBPACK_IMPORTED_MODULE_2_
             }
           }
         }, _callee10);
+      }))();
+    },
+    resetPassword: function resetPassword(_ref11, payload) {
+      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee11() {
+        var commit;
+        return _regeneratorRuntime().wrap(function _callee11$(_context11) {
+          while (1) {
+            switch (_context11.prev = _context11.next) {
+              case 0:
+                commit = _ref11.commit;
+                _context11.next = 3;
+                return axios__WEBPACK_IMPORTED_MODULE_0___default().post('/api/account/password/reset', payload).then(function (resp) {
+                  console.log(resp);
+                })["catch"](function (error) {
+                  console.log(error);
+                });
+
+              case 3:
+              case "end":
+                return _context11.stop();
+            }
+          }
+        }, _callee11);
       }))();
     }
   },
@@ -9059,12 +9135,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   },
   mutations: {
     setCategories: function setCategories(state, payload) {
-      //  let tmp = payload
-      // tmp =
       payload.forEach(function (item) {
         Vue.set(item, 'status', false);
         state.categories.push(item);
-      }); // state.categories = payload;
+      });
     },
     setCategoriesLoading: function setCategoriesLoading(state, payload) {
       return state.categories_loading = payload;
@@ -9079,7 +9153,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             switch (_context.prev = _context.next) {
               case 0:
                 commit = _ref.commit, state = _ref.state;
-                _context.prev = 1;
+
+                if (!(state.categories.length == 0)) {
+                  _context.next = 5;
+                  break;
+                }
+
                 commit('setCategoriesLoading', true);
                 _context.next = 5;
                 return axios({
@@ -9089,26 +9168,16 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 }).then(function (response) {
                   commit('setCategories', response.data);
                   commit('setCategoriesLoading', false);
+                })["catch"](function (error) {
+                  commit('setCategoriesLoading', false);
                 });
 
               case 5:
-                _context.next = 12;
-                break;
-
-              case 7:
-                _context.prev = 7;
-                _context.t0 = _context["catch"](1);
-                console.log(_context.t0);
-                commit('setCategoriesLoading', false); // commit('setCategories', []);
-
-                throw _context.t0;
-
-              case 12:
               case "end":
                 return _context.stop();
             }
           }
-        }, _callee, null, [[1, 7]]);
+        }, _callee);
       }))();
     }
   }
@@ -9229,7 +9298,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 _context.next = 4;
                 return axios({
                   method: 'get',
-                  url: '/api/trades/filter/bidders/debtor?page=' + payload,
+                  url: '/api/trades/filter/bidders/debtors?page=' + payload,
                   data: {}
                 }).then(function (response) {
                   commit('setDebtors', response.data);
@@ -9871,12 +9940,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _arbitrManagers__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./arbitrManagers */ "./resources/js/store/arbitrManagers.js");
 /* harmony import */ var _tradePlaces__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./tradePlaces */ "./resources/js/store/tradePlaces.js");
 /* harmony import */ var _categories__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./categories */ "./resources/js/store/categories.js");
-/* harmony import */ var _marks__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./marks */ "./resources/js/store/marks.js");
-/* harmony import */ var _lots__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./lots */ "./resources/js/store/lots.js");
-/* harmony import */ var _favourites__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./favourites */ "./resources/js/store/favourites.js");
+/* harmony import */ var _regions__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./regions */ "./resources/js/store/regions.js");
+/* harmony import */ var _marks__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./marks */ "./resources/js/store/marks.js");
+/* harmony import */ var _lots__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./lots */ "./resources/js/store/lots.js");
+/* harmony import */ var _favourites__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./favourites */ "./resources/js/store/favourites.js");
 
 
 vue__WEBPACK_IMPORTED_MODULE_0__["default"].use(vuex__WEBPACK_IMPORTED_MODULE_1__["default"]);
+
 
 
 
@@ -9902,9 +9973,10 @@ vue__WEBPACK_IMPORTED_MODULE_0__["default"].use(vuex__WEBPACK_IMPORTED_MODULE_1_
     arbitrManagers: _arbitrManagers__WEBPACK_IMPORTED_MODULE_8__["default"],
     tradePlaces: _tradePlaces__WEBPACK_IMPORTED_MODULE_9__["default"],
     categories: _categories__WEBPACK_IMPORTED_MODULE_10__["default"],
-    marks: _marks__WEBPACK_IMPORTED_MODULE_11__["default"],
-    lots: _lots__WEBPACK_IMPORTED_MODULE_12__["default"],
-    favourites: _favourites__WEBPACK_IMPORTED_MODULE_13__["default"]
+    regions: _regions__WEBPACK_IMPORTED_MODULE_11__["default"],
+    marks: _marks__WEBPACK_IMPORTED_MODULE_12__["default"],
+    lots: _lots__WEBPACK_IMPORTED_MODULE_13__["default"],
+    favourites: _favourites__WEBPACK_IMPORTED_MODULE_14__["default"]
   }
 }));
 
@@ -9999,7 +10071,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     getLotsStatistic: function getLotsStatistic(_ref2, payload) {
       var commit = _ref2.commit;
       return axios.get('/api/statistics/lots', payload).then(function (resp) {
-        console.log('resp', resp);
         commit('setLotsStatistic', resp.data);
       });
     },
@@ -10583,7 +10654,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 _context.next = 4;
                 return axios({
                   method: 'get',
-                  url: '/api/trades/filter/bidders/organizer?page=' + payload,
+                  url: '/api/trades/filter/bidders/organizers?page=' + payload,
                   data: {}
                 }).then(function (response) {
                   commit('setOrganizers', response.data);
@@ -10722,6 +10793,90 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             }
           }
         }, _callee5);
+      }))();
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./resources/js/store/regions.js":
+/*!***************************************!*\
+  !*** ./resources/js/store/regions.js ***!
+  \***************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
+
+function _regeneratorRuntime() { "use strict"; /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/facebook/regenerator/blob/main/LICENSE */ _regeneratorRuntime = function _regeneratorRuntime() { return exports; }; var exports = {}, Op = Object.prototype, hasOwn = Op.hasOwnProperty, $Symbol = "function" == typeof Symbol ? Symbol : {}, iteratorSymbol = $Symbol.iterator || "@@iterator", asyncIteratorSymbol = $Symbol.asyncIterator || "@@asyncIterator", toStringTagSymbol = $Symbol.toStringTag || "@@toStringTag"; function define(obj, key, value) { return Object.defineProperty(obj, key, { value: value, enumerable: !0, configurable: !0, writable: !0 }), obj[key]; } try { define({}, ""); } catch (err) { define = function define(obj, key, value) { return obj[key] = value; }; } function wrap(innerFn, outerFn, self, tryLocsList) { var protoGenerator = outerFn && outerFn.prototype instanceof Generator ? outerFn : Generator, generator = Object.create(protoGenerator.prototype), context = new Context(tryLocsList || []); return generator._invoke = function (innerFn, self, context) { var state = "suspendedStart"; return function (method, arg) { if ("executing" === state) throw new Error("Generator is already running"); if ("completed" === state) { if ("throw" === method) throw arg; return doneResult(); } for (context.method = method, context.arg = arg;;) { var delegate = context.delegate; if (delegate) { var delegateResult = maybeInvokeDelegate(delegate, context); if (delegateResult) { if (delegateResult === ContinueSentinel) continue; return delegateResult; } } if ("next" === context.method) context.sent = context._sent = context.arg;else if ("throw" === context.method) { if ("suspendedStart" === state) throw state = "completed", context.arg; context.dispatchException(context.arg); } else "return" === context.method && context.abrupt("return", context.arg); state = "executing"; var record = tryCatch(innerFn, self, context); if ("normal" === record.type) { if (state = context.done ? "completed" : "suspendedYield", record.arg === ContinueSentinel) continue; return { value: record.arg, done: context.done }; } "throw" === record.type && (state = "completed", context.method = "throw", context.arg = record.arg); } }; }(innerFn, self, context), generator; } function tryCatch(fn, obj, arg) { try { return { type: "normal", arg: fn.call(obj, arg) }; } catch (err) { return { type: "throw", arg: err }; } } exports.wrap = wrap; var ContinueSentinel = {}; function Generator() {} function GeneratorFunction() {} function GeneratorFunctionPrototype() {} var IteratorPrototype = {}; define(IteratorPrototype, iteratorSymbol, function () { return this; }); var getProto = Object.getPrototypeOf, NativeIteratorPrototype = getProto && getProto(getProto(values([]))); NativeIteratorPrototype && NativeIteratorPrototype !== Op && hasOwn.call(NativeIteratorPrototype, iteratorSymbol) && (IteratorPrototype = NativeIteratorPrototype); var Gp = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(IteratorPrototype); function defineIteratorMethods(prototype) { ["next", "throw", "return"].forEach(function (method) { define(prototype, method, function (arg) { return this._invoke(method, arg); }); }); } function AsyncIterator(generator, PromiseImpl) { function invoke(method, arg, resolve, reject) { var record = tryCatch(generator[method], generator, arg); if ("throw" !== record.type) { var result = record.arg, value = result.value; return value && "object" == _typeof(value) && hasOwn.call(value, "__await") ? PromiseImpl.resolve(value.__await).then(function (value) { invoke("next", value, resolve, reject); }, function (err) { invoke("throw", err, resolve, reject); }) : PromiseImpl.resolve(value).then(function (unwrapped) { result.value = unwrapped, resolve(result); }, function (error) { return invoke("throw", error, resolve, reject); }); } reject(record.arg); } var previousPromise; this._invoke = function (method, arg) { function callInvokeWithMethodAndArg() { return new PromiseImpl(function (resolve, reject) { invoke(method, arg, resolve, reject); }); } return previousPromise = previousPromise ? previousPromise.then(callInvokeWithMethodAndArg, callInvokeWithMethodAndArg) : callInvokeWithMethodAndArg(); }; } function maybeInvokeDelegate(delegate, context) { var method = delegate.iterator[context.method]; if (undefined === method) { if (context.delegate = null, "throw" === context.method) { if (delegate.iterator["return"] && (context.method = "return", context.arg = undefined, maybeInvokeDelegate(delegate, context), "throw" === context.method)) return ContinueSentinel; context.method = "throw", context.arg = new TypeError("The iterator does not provide a 'throw' method"); } return ContinueSentinel; } var record = tryCatch(method, delegate.iterator, context.arg); if ("throw" === record.type) return context.method = "throw", context.arg = record.arg, context.delegate = null, ContinueSentinel; var info = record.arg; return info ? info.done ? (context[delegate.resultName] = info.value, context.next = delegate.nextLoc, "return" !== context.method && (context.method = "next", context.arg = undefined), context.delegate = null, ContinueSentinel) : info : (context.method = "throw", context.arg = new TypeError("iterator result is not an object"), context.delegate = null, ContinueSentinel); } function pushTryEntry(locs) { var entry = { tryLoc: locs[0] }; 1 in locs && (entry.catchLoc = locs[1]), 2 in locs && (entry.finallyLoc = locs[2], entry.afterLoc = locs[3]), this.tryEntries.push(entry); } function resetTryEntry(entry) { var record = entry.completion || {}; record.type = "normal", delete record.arg, entry.completion = record; } function Context(tryLocsList) { this.tryEntries = [{ tryLoc: "root" }], tryLocsList.forEach(pushTryEntry, this), this.reset(!0); } function values(iterable) { if (iterable) { var iteratorMethod = iterable[iteratorSymbol]; if (iteratorMethod) return iteratorMethod.call(iterable); if ("function" == typeof iterable.next) return iterable; if (!isNaN(iterable.length)) { var i = -1, next = function next() { for (; ++i < iterable.length;) { if (hasOwn.call(iterable, i)) return next.value = iterable[i], next.done = !1, next; } return next.value = undefined, next.done = !0, next; }; return next.next = next; } } return { next: doneResult }; } function doneResult() { return { value: undefined, done: !0 }; } return GeneratorFunction.prototype = GeneratorFunctionPrototype, define(Gp, "constructor", GeneratorFunctionPrototype), define(GeneratorFunctionPrototype, "constructor", GeneratorFunction), GeneratorFunction.displayName = define(GeneratorFunctionPrototype, toStringTagSymbol, "GeneratorFunction"), exports.isGeneratorFunction = function (genFun) { var ctor = "function" == typeof genFun && genFun.constructor; return !!ctor && (ctor === GeneratorFunction || "GeneratorFunction" === (ctor.displayName || ctor.name)); }, exports.mark = function (genFun) { return Object.setPrototypeOf ? Object.setPrototypeOf(genFun, GeneratorFunctionPrototype) : (genFun.__proto__ = GeneratorFunctionPrototype, define(genFun, toStringTagSymbol, "GeneratorFunction")), genFun.prototype = Object.create(Gp), genFun; }, exports.awrap = function (arg) { return { __await: arg }; }, defineIteratorMethods(AsyncIterator.prototype), define(AsyncIterator.prototype, asyncIteratorSymbol, function () { return this; }), exports.AsyncIterator = AsyncIterator, exports.async = function (innerFn, outerFn, self, tryLocsList, PromiseImpl) { void 0 === PromiseImpl && (PromiseImpl = Promise); var iter = new AsyncIterator(wrap(innerFn, outerFn, self, tryLocsList), PromiseImpl); return exports.isGeneratorFunction(outerFn) ? iter : iter.next().then(function (result) { return result.done ? result.value : iter.next(); }); }, defineIteratorMethods(Gp), define(Gp, toStringTagSymbol, "Generator"), define(Gp, iteratorSymbol, function () { return this; }), define(Gp, "toString", function () { return "[object Generator]"; }), exports.keys = function (object) { var keys = []; for (var key in object) { keys.push(key); } return keys.reverse(), function next() { for (; keys.length;) { var key = keys.pop(); if (key in object) return next.value = key, next.done = !1, next; } return next.done = !0, next; }; }, exports.values = values, Context.prototype = { constructor: Context, reset: function reset(skipTempReset) { if (this.prev = 0, this.next = 0, this.sent = this._sent = undefined, this.done = !1, this.delegate = null, this.method = "next", this.arg = undefined, this.tryEntries.forEach(resetTryEntry), !skipTempReset) for (var name in this) { "t" === name.charAt(0) && hasOwn.call(this, name) && !isNaN(+name.slice(1)) && (this[name] = undefined); } }, stop: function stop() { this.done = !0; var rootRecord = this.tryEntries[0].completion; if ("throw" === rootRecord.type) throw rootRecord.arg; return this.rval; }, dispatchException: function dispatchException(exception) { if (this.done) throw exception; var context = this; function handle(loc, caught) { return record.type = "throw", record.arg = exception, context.next = loc, caught && (context.method = "next", context.arg = undefined), !!caught; } for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i], record = entry.completion; if ("root" === entry.tryLoc) return handle("end"); if (entry.tryLoc <= this.prev) { var hasCatch = hasOwn.call(entry, "catchLoc"), hasFinally = hasOwn.call(entry, "finallyLoc"); if (hasCatch && hasFinally) { if (this.prev < entry.catchLoc) return handle(entry.catchLoc, !0); if (this.prev < entry.finallyLoc) return handle(entry.finallyLoc); } else if (hasCatch) { if (this.prev < entry.catchLoc) return handle(entry.catchLoc, !0); } else { if (!hasFinally) throw new Error("try statement without catch or finally"); if (this.prev < entry.finallyLoc) return handle(entry.finallyLoc); } } } }, abrupt: function abrupt(type, arg) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.tryLoc <= this.prev && hasOwn.call(entry, "finallyLoc") && this.prev < entry.finallyLoc) { var finallyEntry = entry; break; } } finallyEntry && ("break" === type || "continue" === type) && finallyEntry.tryLoc <= arg && arg <= finallyEntry.finallyLoc && (finallyEntry = null); var record = finallyEntry ? finallyEntry.completion : {}; return record.type = type, record.arg = arg, finallyEntry ? (this.method = "next", this.next = finallyEntry.finallyLoc, ContinueSentinel) : this.complete(record); }, complete: function complete(record, afterLoc) { if ("throw" === record.type) throw record.arg; return "break" === record.type || "continue" === record.type ? this.next = record.arg : "return" === record.type ? (this.rval = this.arg = record.arg, this.method = "return", this.next = "end") : "normal" === record.type && afterLoc && (this.next = afterLoc), ContinueSentinel; }, finish: function finish(finallyLoc) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.finallyLoc === finallyLoc) return this.complete(entry.completion, entry.afterLoc), resetTryEntry(entry), ContinueSentinel; } }, "catch": function _catch(tryLoc) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.tryLoc === tryLoc) { var record = entry.completion; if ("throw" === record.type) { var thrown = record.arg; resetTryEntry(entry); } return thrown; } } throw new Error("illegal catch attempt"); }, delegateYield: function delegateYield(iterable, resultName, nextLoc) { return this.delegate = { iterator: values(iterable), resultName: resultName, nextLoc: nextLoc }, "next" === this.method && (this.arg = undefined), ContinueSentinel; } }, exports; }
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  state: {
+    regions: [],
+    regions_loading: false
+  },
+  getters: {
+    regions: function regions(state) {
+      return state.regions;
+    },
+    regions_loading: function regions_loading(state) {
+      return state.regions_loading;
+    }
+  },
+  mutations: {
+    setRegions: function setRegions(state, payload) {
+      payload.forEach(function (item) {
+        Vue.set(item, 'status', false);
+        state.regions.push(item);
+      });
+    },
+    setRegionsLoading: function setRegionsLoading(state, payload) {
+      return state.regions_loading = payload;
+    }
+  },
+  actions: {
+    getRegions: function getRegions(_ref) {
+      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
+        var commit, state;
+        return _regeneratorRuntime().wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                commit = _ref.commit, state = _ref.state;
+
+                if (!(state.regions.length == 0)) {
+                  _context.next = 5;
+                  break;
+                }
+
+                commit('setRegionsLoading', true);
+                _context.next = 5;
+                return axios({
+                  method: 'get',
+                  url: '/api/trades/filter/regions',
+                  data: {}
+                }).then(function (response) {
+                  commit('setRegions', response.data);
+                  commit('setRegionsLoading', false);
+                })["catch"](function (error) {
+                  commit('setRegionsLoading', false);
+                });
+
+              case 5:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee);
       }))();
     }
   }
@@ -66069,6 +66224,7 @@ var render = function () {
                     {
                       staticClass:
                         "bkt-dropdown__menu-item bkt-wrapper-between",
+                      staticStyle: { cursor: "pointer" },
                       on: { click: _vm.removeFromFavourites },
                     },
                     [
@@ -66274,46 +66430,82 @@ var render = function () {
             return [
               _c("div", { staticClass: "bkt-check" }, [
                 _c("div", { staticClass: "bkt-check__input" }, [
-                  _c("input", {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.model,
-                        expression: "model",
-                      },
-                    ],
-                    attrs: { type: "checkbox" },
-                    domProps: {
-                      checked: Array.isArray(_vm.model)
-                        ? _vm._i(_vm.model, null) > -1
-                        : _vm.model,
-                    },
-                    on: {
-                      change: [
-                        function ($event) {
-                          var $$a = _vm.model,
-                            $$el = $event.target,
-                            $$c = $$el.checked ? true : false
-                          if (Array.isArray($$a)) {
-                            var $$v = null,
-                              $$i = _vm._i($$a, $$v)
-                            if ($$el.checked) {
-                              $$i < 0 && (_vm.model = $$a.concat([$$v]))
-                            } else {
-                              $$i > -1 &&
-                                (_vm.model = $$a
-                                  .slice(0, $$i)
-                                  .concat($$a.slice($$i + 1)))
-                            }
-                          } else {
-                            _vm.model = $$c
-                          }
+                  _vm.type == "boolean"
+                    ? _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.model,
+                            expression: "model",
+                          },
+                        ],
+                        attrs: { type: "checkbox" },
+                        domProps: {
+                          checked: Array.isArray(_vm.model)
+                            ? _vm._i(_vm.model, null) > -1
+                            : _vm.model,
                         },
-                        _vm.saveValue,
-                      ],
-                    },
-                  }),
+                        on: {
+                          change: function ($event) {
+                            var $$a = _vm.model,
+                              $$el = $event.target,
+                              $$c = $$el.checked ? true : false
+                            if (Array.isArray($$a)) {
+                              var $$v = null,
+                                $$i = _vm._i($$a, $$v)
+                              if ($$el.checked) {
+                                $$i < 0 && (_vm.model = $$a.concat([$$v]))
+                              } else {
+                                $$i > -1 &&
+                                  (_vm.model = $$a
+                                    .slice(0, $$i)
+                                    .concat($$a.slice($$i + 1)))
+                              }
+                            } else {
+                              _vm.model = $$c
+                            }
+                          },
+                        },
+                      })
+                    : _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.model,
+                            expression: "model",
+                          },
+                        ],
+                        attrs: { type: "checkbox" },
+                        domProps: {
+                          value: _vm.val,
+                          checked: Array.isArray(_vm.model)
+                            ? _vm._i(_vm.model, _vm.val) > -1
+                            : _vm.model,
+                        },
+                        on: {
+                          change: function ($event) {
+                            var $$a = _vm.model,
+                              $$el = $event.target,
+                              $$c = $$el.checked ? true : false
+                            if (Array.isArray($$a)) {
+                              var $$v = _vm.val,
+                                $$i = _vm._i($$a, $$v)
+                              if ($$el.checked) {
+                                $$i < 0 && (_vm.model = $$a.concat([$$v]))
+                              } else {
+                                $$i > -1 &&
+                                  (_vm.model = $$a
+                                    .slice(0, $$i)
+                                    .concat($$a.slice($$i + 1)))
+                              }
+                            } else {
+                              _vm.model = $$c
+                            }
+                          },
+                        },
+                      }),
                   _vm._v(" "),
                   _c("div", { staticClass: "bkt-check__input-check" }),
                 ]),
@@ -67597,46 +67789,51 @@ var render = function () {
                     on: { input: _vm.saveValue },
                   }),
                   _vm._v(" "),
-                  _vm._t("group-item", function () {
-                    return [
-                      _c(
-                        "div",
-                        {
-                          staticClass: "bkt-input__group-item",
-                          class: [
-                            { active: _vm.group_item_action && !_vm.disabled },
-                            _vm.group_item_class,
-                          ],
-                          on: { click: _vm.clickGroupItem },
-                        },
-                        [
-                          _vm._t("group-item-inner", function () {
-                            return [
-                              _c(
-                                "div",
-                                { class: _vm.group_item_inner_class },
-                                [
-                                  _vm._t("icon", function () {
-                                    return [
-                                      _c("bkt-icon", {
-                                        class: _vm.icon_class,
-                                        attrs: {
-                                          name: _vm.icon_name,
-                                          color: _vm.icon_color,
-                                        },
+                  !_vm.no_group_item
+                    ? _vm._t("group-item", function () {
+                        return [
+                          _c(
+                            "div",
+                            {
+                              staticClass: "bkt-input__group-item",
+                              class: [
+                                {
+                                  active:
+                                    _vm.group_item_action && !_vm.disabled,
+                                },
+                                _vm.group_item_class,
+                              ],
+                              on: { click: _vm.clickGroupItem },
+                            },
+                            [
+                              _vm._t("group-item-inner", function () {
+                                return [
+                                  _c(
+                                    "div",
+                                    { class: _vm.group_item_inner_class },
+                                    [
+                                      _vm._t("icon", function () {
+                                        return [
+                                          _c("bkt-icon", {
+                                            class: _vm.icon_class,
+                                            attrs: {
+                                              name: _vm.icon_name,
+                                              color: _vm.icon_color,
+                                            },
+                                          }),
+                                        ]
                                       }),
-                                    ]
-                                  }),
-                                ],
-                                2
-                              ),
-                            ]
-                          }),
-                        ],
-                        2
-                      ),
-                    ]
-                  }),
+                                    ],
+                                    2
+                                  ),
+                                ]
+                              }),
+                            ],
+                            2
+                          ),
+                        ]
+                      })
+                    : _vm._e(),
                 ],
                 2
               ),
@@ -68206,41 +68403,47 @@ var render = function () {
                     on: { input: _vm.saveValue },
                   }),
                   _vm._v(" "),
-                  _vm._t("group-item", function () {
-                    return [
-                      _c(
-                        "div",
-                        {
-                          staticClass: "bkt-input__group-item",
-                          class: {
-                            active: _vm.group_item_action && !_vm.disabled,
-                          },
-                          on: { click: _vm.clickGroupItem },
-                        },
-                        [
-                          _vm._t("group-item-inner", function () {
-                            return [
-                              _c(
-                                "div",
-                                { staticClass: "bkt-input__icon" },
-                                [
-                                  _vm._t("icon", function () {
-                                    return [
-                                      _c("bkt-icon", {
-                                        attrs: { name: _vm.icon_name },
+                  !_vm.no_group_item
+                    ? _vm._t("group-item", function () {
+                        return [
+                          _c(
+                            "div",
+                            {
+                              staticClass: "bkt-input__group-item",
+                              class: [
+                                {
+                                  active:
+                                    _vm.group_item_action && !_vm.disabled,
+                                },
+                                _vm.group_item_class,
+                              ],
+                              on: { click: _vm.clickGroupItem },
+                            },
+                            [
+                              _vm._t("group-item-inner", function () {
+                                return [
+                                  _c(
+                                    "div",
+                                    { staticClass: "bkt-input__icon" },
+                                    [
+                                      _vm._t("icon", function () {
+                                        return [
+                                          _c("bkt-icon", {
+                                            attrs: { name: _vm.icon_name },
+                                          }),
+                                        ]
                                       }),
-                                    ]
-                                  }),
-                                ],
-                                2
-                              ),
-                            ]
-                          }),
-                        ],
-                        2
-                      ),
-                    ]
-                  }),
+                                    ],
+                                    2
+                                  ),
+                                ]
+                              }),
+                            ],
+                            2
+                          ),
+                        ]
+                      })
+                    : _vm._e(),
                 ],
                 2
               ),
@@ -95454,7 +95657,7 @@ module.exports = JSON.parse('{"_args":[["axios@0.21.4","E:\\\\OpenServer\\\\OSPa
 /***/ ((module) => {
 
 "use strict";
-module.exports = JSON.parse('{"en.regions":{"AltaiRegion":"Altai region","AltaiRepublic":"Altai Republic","AmurRegion":"Amur region","ArhangelskRegion":"Arhangelsk region","AstrakhanRegion":"Astrakhan region","BelgorodRegion":"Belgorod region","BryanskRegion":"Bryansk region","ChechenRepublic":"Chechen Republic","ChelyabinskRegion":"Chelyabinsk region","ChukotkaAutonomousOkrug":"Chukotka Autonomous Okrug","ChuvashRepublic":"Chuvash Republic","IrkutskRegion":"Irkutsk region","IvanovoRegion":"Ivanovo region","JewishAutonomousRegion":"Jewish Autonomous Region","KabardinoBalkarianRepublic":"Kabardino-Balkarian Republic","KaliningradRegion":"Kaliningrad region","KalugaRegion":"Kaluga region","KamchatkaKrai":"Kamchatka Krai","KemerovoRegion":"Kemerovo region","KhabarovskRegion":"Khabarovsk region","KhantyMansiAutonomousOkrugYugra":"Khanty-Mansi Autonomous Okrug - Yugra","KirovRegion":"Kirov region","KomiRepublic":"Komi Republic","KostromaRegion":"Kostroma region","KrasnodarRegion":"Krasnodar region","KrasnoyarskRegion":"Krasnoyarsk region","KurganRegion":"Kurgan region","KurskRegion":"Kursk region","LeningradRegion":"Leningrad region","LipetskRegion":"Lipetsk region","MagadanRegion":"Magadan region","MariElRepublic":"Mari El Republic","MoscowCity":"Moscow city","MoscowRegion":"Moscow region","MurmanskRegion":"Murmansk region","NenetsAutonomousOkrug":"German autonomous region","NizhnyNovgorodRegion":"Nizhny Novgorod Region","NovgorodRegion":"Novgorod region","NovosibirskRegion":"Novosibirsk region","OmskRegion":"Omsk region","OrenburgRegion":"Orenburg region","OryolRegion":"Oryol Region","PenzaRegion":"Penza region","PermRegion":"Perm region","PrimorskyKrai":"Primorsky Krai","PskovRegion":"Pskov region","RepublicOfAdygea":"Republic of Adygea","RepublicOfBashkortostan":"Republic of Bashkortostan","RepublicOfCrimea":"Republic of Crimea","RepublicOfKalmykia":"Republic of Kalmykia","RepublicOfKarachayCherkessia":"Republic of Karachay-Cherkessia","RepublicOfKarelia":"Republic of Karelia","RepublicOfNorthOssetiaAlania":"Republic of North Ossetia-Alania","RepublicOfTatarstan":"Republic of Tatarstan","RostovRegion":"Rostov region","RyazanOblast":"Ryazan Oblast","SakhalinRegion":"Sakhalin region","SamaraRegion":"Samara Region","SaratovRegion":"Saratov region","Sevastopol":"Sevastopol","SmolenskRegion":"Smolensk region","StPetersburg":"St. Petersburg","StavropolRegion":"Stavropol region","SverdlovskRegion":"Sverdlovsk region","TambovRegion":"Tambov Region","TheRepublicOfBuryatia":"The Republic of Buryatia","TheRepublicOfDagestan":"The Republic of Dagestan","TheRepublicOfIngushetia":"The Republic of Ingushetia","TheRepublicOfKhakassia":"The Republic of Khakassia","TheRepublicOfMordovia":"The Republic of Mordovia","TheRepublicOfSakha":"The Republic of Sakha","TomskRegion":"Tomsk region","TulaRegion":"Tula region","TverRegion":"Tver region","TyumenRegion":"Tyumen region","TyvaRepublic":"Tyva Republic","Udmurtrepublic":"Udmurt republic","UlyanovskRegion":"Ulyanovsk region","VladimirRegion":"Vladimir region","VolgogradRegion":"Volgograd region","VologodskayaOblast":"Vologodskaya Oblast","VoronezhRegion":"Voronezh region","YamaloNenetsAutonomousOkrug":"Yamalo-Nenets Autonomous Okrug","YaroslavlRegion":"Yaroslavl region","ZabaykalskyKrai":"Zabaykalsky Krai"},"ru.categories":{"PropertyComplex":"имущественный комплекс","accountsReceivable":"дебиторская задолженность","agriculturaProperty":"сельскохозяйственное имущество","agriculturalComplex":"с/х комплекс","agriculturalEquipment":"с/х техника","airTransport":"Авиатранспорт","animalsAndLivestock":"животные и скот","buildingsAndConstructions":"здания и сооружения","commercialRealEstate":"Коммерческая","commercialTransport":"Коммерческий","constructionEquipment":"строительное оборудование","debtLegalEntities":"задолженность юридических лиц","equipment":"оборудование","foodEquipment":"пищевое оборудование","freightTransport":"Грузовой","indebtednessIndividuals":"задолженность физических лиц","industrialEquipment":"промышленное оборудование","land":"Земельные участки","metalworkingEquipment":"металлообрабатывающее оборудование","mixedDebt":"смешанная задолженность","mototechnics":"Мототехника","obligations":"ценные бумаги","other":"прочее","otherEquipment":"другое оборудование","passengerTransport":"Легковой","productionLines":"производственные линии","realEstate":"Недвижимость","residentialProperty":"Жилая","shopEquipment":"торговое оборудование","specialEquipment":"Спецтехника","storageEquipment":"складское оборудование","tangibles":"товарно-материальные ценности","transportAndEquipment":"Транспорт и техника","waterTransport":"Водный транспорт","woodworkingEquipment":"деревообрабатывающее оборудование"},"ru.regions":{"AltaiRegion":"Алтайский край","AltaiRepublic":"Республика Алтай","AmurRegion":"Амурская область","ArhangelskRegion":"Архангельская область","AstrakhanRegion":"Астраханская область","BelgorodRegion":"Белгородская область","BryanskRegion":"Брянская область","ChechenRepublic":"Чеченская Республика","ChelyabinskRegion":"Челябинская область","ChukotkaAutonomousOkrug":"Чукотский автономный округ","ChuvashRepublic":"Чувашская Республика","IrkutskRegion":"Иркутская область","IvanovoRegion":"Ивановская область","JewishAutonomousRegion":"Еврейская автономная область","KabardinoBalkarianRepublic":"Кабардино-Балкарская Республика","KaliningradRegion":"Калининградская область","KalugaRegion":"Калужская область","KamchatkaKrai":"Камчатский край","KemerovoRegion":"Кемеровская область","KhabarovskRegion":"Хабаровский край","KhantyMansiAutonomousOkrugYugra":"Ханты-Мансийский автономный округ - Югра","KirovRegion":"Кировская область","KomiRepublic":"Республика Коми","KostromaRegion":"Костромская область","KrasnodarRegion":"Краснодарский край","KrasnoyarskRegion":"Красноярский край","KurganRegion":"Курганская область","KurskRegion":"Курская область","LeningradRegion":"Ленинградская область","LipetskRegion":"Липецкая область","MagadanRegion":"Магаданская область","MariElRepublic":"Республика Марий Эл","MoscowCity":"г. Москва","MoscowRegion":"Московская область","MurmanskRegion":"Мурманская область","NenetsAutonomousOkrug":"Немецкий автономный округ","NizhnyNovgorodRegion":"Нижегородская область","NovgorodRegion":"Новгородская область","NovosibirskRegion":"Новосибирская область","OmskRegion":"Омская область","OrenburgRegion":"Оренбургская область","OryolRegion":"Орловская область","PenzaRegion":"Пензенская область","PermRegion":"Пермский край","PrimorskyKrai":"Приморский край","PskovRegion":"Псковская область","RepublicOfAdygea":"Республика Адыгея","RepublicOfBashkortostan":"Республика Башкортостан","RepublicOfCrimea":"Республика Крым","RepublicOfKalmykia":"Республика Калмыкия","RepublicOfKarachayCherkessia":"Республика Карачаево-Черкесия","RepublicOfKarelia":"Республика Карелия","RepublicOfNorthOssetiaAlania":"Республика Северная Осетия-Алания","RepublicOfTatarstan":"Республика Татарстан","RostovRegion":"Ростовская область","RyazanOblast":"Рязанская область","SakhalinRegion":"Сахалинская область","SamaraRegion":"Самарская область","SaratovRegion":"Саратовская область","Sevastopol":"г.Севастополь","SmolenskRegion":"Смоленская область","StPetersburg":"г. Санкт-Петербург","StavropolRegion":"Ставропольский край","SverdlovskRegion":"Свердловская область","TambovRegion":"Тамбовская область","TheRepublicOfBuryatia":"Республика Бурятия","TheRepublicOfDagestan":"Республика Дагестан","TheRepublicOfIngushetia":"Республика Ингушетия","TheRepublicOfKhakassia":"Республика Хакасия","TheRepublicOfMordovia":"Республика Мордовия","TheRepublicOfSakha":"Республика Саха (Якутия)","TomskRegion":"Томская область","TulaRegion":"Тульская область","TverRegion":"Тверская область","TyumenRegion":"Тюменская область","TyvaRepublic":"Республика Тыва","Udmurtrepublic":"Удмуртская Республика","UlyanovskRegion":"Ульяновская область","VladimirRegion":"Владимирская область","VolgogradRegion":"Волгоградская область","VologodskayaOblast":"Вологодская область","VoronezhRegion":"Воронежская область","YamaloNenetsAutonomousOkrug":"Ямало-Ненецкий автономный округ","YaroslavlRegion":"Ярославская область","ZabaykalskyKrai":"Забайкальский край"},"zh_CN.regions":{"AltaiRegion":"阿尔泰地区","AltaiRepublic":"阿尔泰共和国","AmurRegion":"阿穆尔地区","ArhangelskRegion":"阿尔汉格尔斯克州","AstrakhanRegion":"阿斯特拉罕地区","BelgorodRegion":"别尔哥罗德地区","BryanskRegion":"布良斯克地区","ChechenRepublic":"车臣共和国","ChelyabinskRegion":"车里雅宾斯克州","ChukotkaAutonomousOkrug":"楚科奇自治区","ChuvashRepublic":"楚瓦什共和国","IrkutskRegion":"伊尔库茨克州","IvanovoRegion":"伊万诺沃地区","JewishAutonomousRegion":"犹太自治区","KabardinoBalkarianRepublic":"卡巴尔达-巴尔卡尔共和国","KaliningradRegion":"加里宁格勒地区","KalugaRegion":"卡卢加地区","KamchatkaKrai":"堪察加边疆区","KemerovoRegion":"克麦罗沃地区","KhabarovskRegion":"哈巴罗夫斯克州","KhantyMansiAutonomousOkrugYugra":"汉特-曼西自治州-尤格拉","KirovRegion":"基洛夫地区","KomiRepublic":"科米共和国","KostromaRegion":"科斯特罗马地区","KrasnodarRegion":"克拉斯诺达尔地区","KrasnoyarskRegion":"克拉斯诺亚尔斯克地区","KurganRegion":"库尔干地区","KurskRegion":"库尔斯克地区","LeningradRegion":"列宁格勒地区","LipetskRegion":"利佩茨克地区","MagadanRegion":"马加丹地区","MariElRepublic":"马里埃尔共和国","MoscowCity":"莫斯科市","MoscowRegion":"莫斯科地区","MurmanskRegion":"摩尔曼斯克州","NenetsAutonomousOkrug":"德国自治区","NizhnyNovgorodRegion":"下诺夫哥罗德州","NovgorodRegion":"诺夫哥罗德地区","NovosibirskRegion":"新西伯利亚州","OmskRegion":"鄂木斯克地区","OrenburgRegion":"奥伦堡地区","OryolRegion":"奥廖尔州","PenzaRegion":"奔萨地区","PermRegion":"烫发区","PrimorskyKrai":"滨海边疆区","PskovRegion":"普斯科夫地区","RepublicOfAdygea":"阿迪格共和国","RepublicOfBashkortostan":"巴什科尔托斯坦共和国","RepublicOfCrimea":"克里米亚共和国","RepublicOfKalmykia":"卡尔梅克共和国","RepublicOfKarachayCherkessia":"卡拉恰伊-切尔克斯共和国","RepublicOfKarelia":"卡累利阿共和国","RepublicOfNorthOssetiaAlania":"北奥塞梯-阿拉尼亚共和国","RepublicOfTatarstan":"鞑靼斯坦共和国","RostovRegion":"罗斯托夫地区","RyazanOblast":"梁赞州","SakhalinRegion":"萨哈林地区","SamaraRegion":"萨马拉地区","SaratovRegion":"萨拉托夫地区","Sevastopol":"塞瓦斯托波尔","SmolenskRegion":"斯摩棱斯克州","StPetersburg":"圣彼得堡","StavropolRegion":"斯塔夫罗波尔地区","SverdlovskRegion":"斯维尔德洛夫斯克州","TambovRegion":"坦波夫州","TheRepublicOfBuryatia":"布里亚特共和国","TheRepublicOfDagestan":"达吉斯坦共和国","TheRepublicOfIngushetia":"印古什共和国","TheRepublicOfKhakassia":"哈卡斯共和国","TheRepublicOfMordovia":"莫尔多瓦共和国","TheRepublicOfSakha":"萨哈共和国（雅库特）","TomskRegion":"托木斯克地区","TulaRegion":"图拉地区","TverRegion":"特维尔地区","TyumenRegion":"秋明地区","TyvaRepublic":"图瓦共和国","Udmurtrepublic":"乌德穆尔特共和国","UlyanovskRegion":"乌里扬诺夫斯克州","VladimirRegion":"弗拉基米尔地区","VolgogradRegion":"伏尔加格勒地区","VologodskayaOblast":"沃洛戈茨克州","VoronezhRegion":"沃罗涅日州","YamaloNenetsAutonomousOkrug":"亚马洛-涅涅茨自治区","YaroslavlRegion":"雅罗斯拉夫尔州","ZabaykalskyKrai":"外贝加尔边疆区"}}');
+module.exports = JSON.parse('{"en.region_groups":{"centralFO":"Central Federal District","farEastFO":"Far Eastern Federal District","northCaucasFO":"North Caucasian Federal District","northWestFO":"Northwestern Federal District","privolzhFO":"Privolzhsky Federal District","siberianFO":"Siberian Federal District","southFO":"Southern Federal District","uralFO":"Ural Federal District"},"en.regions":{"AltaiRegion":"Altai region","AltaiRepublic":"Altai Republic","AmurRegion":"Amur region","ArhangelskRegion":"Arhangelsk region","AstrakhanRegion":"Astrakhan region","BelgorodRegion":"Belgorod region","BryanskRegion":"Bryansk region","ChechenRepublic":"Chechen Republic","ChelyabinskRegion":"Chelyabinsk region","ChukotkaAutonomousOkrug":"Chukotka Autonomous Okrug","ChuvashRepublic":"Chuvash Republic","IrkutskRegion":"Irkutsk region","IvanovoRegion":"Ivanovo region","JewishAutonomousRegion":"Jewish Autonomous Region","KabardinoBalkarianRepublic":"Kabardino-Balkarian Republic","KaliningradRegion":"Kaliningrad region","KalugaRegion":"Kaluga region","KamchatkaKrai":"Kamchatka Krai","KemerovoRegion":"Kemerovo region","KhabarovskRegion":"Khabarovsk region","KhantyMansiAutonomousOkrugYugra":"Khanty-Mansi Autonomous Okrug - Yugra","KirovRegion":"Kirov region","KomiRepublic":"Komi Republic","KostromaRegion":"Kostroma region","KrasnodarRegion":"Krasnodar region","KrasnoyarskRegion":"Krasnoyarsk region","KurganRegion":"Kurgan region","KurskRegion":"Kursk region","LeningradRegion":"Leningrad region","LipetskRegion":"Lipetsk region","MagadanRegion":"Magadan region","MariElRepublic":"Mari El Republic","MoscowCity":"Moscow city","MoscowRegion":"Moscow region","MurmanskRegion":"Murmansk region","NenetsAutonomousOkrug":"German autonomous region","NizhnyNovgorodRegion":"Nizhny Novgorod Region","NovgorodRegion":"Novgorod region","NovosibirskRegion":"Novosibirsk region","OmskRegion":"Omsk region","OrenburgRegion":"Orenburg region","OryolRegion":"Oryol Region","PenzaRegion":"Penza region","PermRegion":"Perm region","PrimorskyKrai":"Primorsky Krai","PskovRegion":"Pskov region","RepublicOfAdygea":"Republic of Adygea","RepublicOfBashkortostan":"Republic of Bashkortostan","RepublicOfCrimea":"Republic of Crimea","RepublicOfKalmykia":"Republic of Kalmykia","RepublicOfKarachayCherkessia":"Republic of Karachay-Cherkessia","RepublicOfKarelia":"Republic of Karelia","RepublicOfNorthOssetiaAlania":"Republic of North Ossetia-Alania","RepublicOfTatarstan":"Republic of Tatarstan","RostovRegion":"Rostov region","RyazanOblast":"Ryazan Oblast","SakhalinRegion":"Sakhalin region","SamaraRegion":"Samara Region","SaratovRegion":"Saratov region","Sevastopol":"Sevastopol","SmolenskRegion":"Smolensk region","StPetersburg":"St. Petersburg","StavropolRegion":"Stavropol region","SverdlovskRegion":"Sverdlovsk region","TambovRegion":"Tambov Region","TheRepublicOfBuryatia":"The Republic of Buryatia","TheRepublicOfDagestan":"The Republic of Dagestan","TheRepublicOfIngushetia":"The Republic of Ingushetia","TheRepublicOfKhakassia":"The Republic of Khakassia","TheRepublicOfMordovia":"The Republic of Mordovia","TheRepublicOfSakha":"The Republic of Sakha","TomskRegion":"Tomsk region","TulaRegion":"Tula region","TverRegion":"Tver region","TyumenRegion":"Tyumen region","TyvaRepublic":"Tyva Republic","Udmurtrepublic":"Udmurt republic","UlyanovskRegion":"Ulyanovsk region","VladimirRegion":"Vladimir region","VolgogradRegion":"Volgograd region","VologodskayaOblast":"Vologodskaya Oblast","VoronezhRegion":"Voronezh region","YamaloNenetsAutonomousOkrug":"Yamalo-Nenets Autonomous Okrug","YaroslavlRegion":"Yaroslavl region","ZabaykalskyKrai":"Zabaykalsky Krai"},"ru.categories":{"PropertyComplex":"имущественный комплекс","accountsReceivable":"дебиторская задолженность","agriculturaProperty":"сельскохозяйственное имущество","agriculturalComplex":"с/х комплекс","agriculturalEquipment":"с/х техника","airTransport":"Авиатранспорт","animalsAndLivestock":"животные и скот","buildingsAndConstructions":"здания и сооружения","commercialRealEstate":"Коммерческая","commercialTransport":"Коммерческий","constructionEquipment":"строительное оборудование","debtLegalEntities":"задолженность юридических лиц","equipment":"оборудование","foodEquipment":"пищевое оборудование","freightTransport":"Грузовой","indebtednessIndividuals":"задолженность физических лиц","industrialEquipment":"промышленное оборудование","land":"Земельные участки","metalworkingEquipment":"металлообрабатывающее оборудование","mixedDebt":"смешанная задолженность","mototechnics":"Мототехника","obligations":"ценные бумаги","other":"прочее","otherEquipment":"другое оборудование","passengerTransport":"Легковой","productionLines":"производственные линии","realEstate":"Недвижимость","residentialProperty":"Жилая","shopEquipment":"торговое оборудование","specialEquipment":"Спецтехника","storageEquipment":"складское оборудование","tangibles":"товарно-материальные ценности","transportAndEquipment":"Транспорт и техника","waterTransport":"Водный транспорт","woodworkingEquipment":"деревообрабатывающее оборудование"},"ru.region_groups":{"centralFO":"Центральный ФО","farEastFO":"Дальневосточный ФО","northCaucasFO":"Северо-Кавказский ФО","northWestFO":"Северо-Западный ФО","privolzhFO":"Приволжский ФО","siberianFO":"Сибирский ФО","southFO":"Южный ФО","uralFO":"Уральский ФО"},"ru.regions":{"AltaiRegion":"Алтайский край","AltaiRepublic":"Республика Алтай","AmurRegion":"Амурская область","ArhangelskRegion":"Архангельская область","AstrakhanRegion":"Астраханская область","BelgorodRegion":"Белгородская область","BryanskRegion":"Брянская область","ChechenRepublic":"Чеченская Республика","ChelyabinskRegion":"Челябинская область","ChukotkaAutonomousOkrug":"Чукотский автономный округ","ChuvashRepublic":"Чувашская Республика","IrkutskRegion":"Иркутская область","IvanovoRegion":"Ивановская область","JewishAutonomousRegion":"Еврейская автономная область","KabardinoBalkarianRepublic":"Кабардино-Балкарская Республика","KaliningradRegion":"Калининградская область","KalugaRegion":"Калужская область","KamchatkaKrai":"Камчатский край","KemerovoRegion":"Кемеровская область","KhabarovskRegion":"Хабаровский край","KhantyMansiAutonomousOkrugYugra":"Ханты-Мансийский автономный округ - Югра","KirovRegion":"Кировская область","KomiRepublic":"Республика Коми","KostromaRegion":"Костромская область","KrasnodarRegion":"Краснодарский край","KrasnoyarskRegion":"Красноярский край","KurganRegion":"Курганская область","KurskRegion":"Курская область","LeningradRegion":"Ленинградская область","LipetskRegion":"Липецкая область","MagadanRegion":"Магаданская область","MariElRepublic":"Республика Марий Эл","MoscowCity":"г. Москва","MoscowRegion":"Московская область","MurmanskRegion":"Мурманская область","NenetsAutonomousOkrug":"Немецкий автономный округ","NizhnyNovgorodRegion":"Нижегородская область","NovgorodRegion":"Новгородская область","NovosibirskRegion":"Новосибирская область","OmskRegion":"Омская область","OrenburgRegion":"Оренбургская область","OryolRegion":"Орловская область","PenzaRegion":"Пензенская область","PermRegion":"Пермский край","PrimorskyKrai":"Приморский край","PskovRegion":"Псковская область","RepublicOfAdygea":"Республика Адыгея","RepublicOfBashkortostan":"Республика Башкортостан","RepublicOfCrimea":"Республика Крым","RepublicOfKalmykia":"Республика Калмыкия","RepublicOfKarachayCherkessia":"Республика Карачаево-Черкесия","RepublicOfKarelia":"Республика Карелия","RepublicOfNorthOssetiaAlania":"Республика Северная Осетия-Алания","RepublicOfTatarstan":"Республика Татарстан","RostovRegion":"Ростовская область","RyazanOblast":"Рязанская область","SakhalinRegion":"Сахалинская область","SamaraRegion":"Самарская область","SaratovRegion":"Саратовская область","Sevastopol":"г.Севастополь","SmolenskRegion":"Смоленская область","StPetersburg":"г. Санкт-Петербург","StavropolRegion":"Ставропольский край","SverdlovskRegion":"Свердловская область","TambovRegion":"Тамбовская область","TheRepublicOfBuryatia":"Республика Бурятия","TheRepublicOfDagestan":"Республика Дагестан","TheRepublicOfIngushetia":"Республика Ингушетия","TheRepublicOfKhakassia":"Республика Хакасия","TheRepublicOfMordovia":"Республика Мордовия","TheRepublicOfSakha":"Республика Саха (Якутия)","TomskRegion":"Томская область","TulaRegion":"Тульская область","TverRegion":"Тверская область","TyumenRegion":"Тюменская область","TyvaRepublic":"Республика Тыва","Udmurtrepublic":"Удмуртская Республика","UlyanovskRegion":"Ульяновская область","VladimirRegion":"Владимирская область","VolgogradRegion":"Волгоградская область","VologodskayaOblast":"Вологодская область","VoronezhRegion":"Воронежская область","YamaloNenetsAutonomousOkrug":"Ямало-Ненецкий автономный округ","YaroslavlRegion":"Ярославская область","ZabaykalskyKrai":"Забайкальский край"},"zh_CN.region_groups":{"centralFO":"中央联邦区","farEastFO":"远东联邦区","northCaucasFO":"北高加索联邦区","northWestFO":"西北联邦区","privolzhFO":"普里沃尔日联邦管区","siberianFO":"西伯利亚联邦区","southFO":"南部联邦区","uralFO":"乌拉尔联邦区"},"zh_CN.regions":{"AltaiRegion":"阿尔泰地区","AltaiRepublic":"阿尔泰共和国","AmurRegion":"阿穆尔地区","ArhangelskRegion":"阿尔汉格尔斯克州","AstrakhanRegion":"阿斯特拉罕地区","BelgorodRegion":"别尔哥罗德地区","BryanskRegion":"布良斯克地区","ChechenRepublic":"车臣共和国","ChelyabinskRegion":"车里雅宾斯克州","ChukotkaAutonomousOkrug":"楚科奇自治区","ChuvashRepublic":"楚瓦什共和国","IrkutskRegion":"伊尔库茨克州","IvanovoRegion":"伊万诺沃地区","JewishAutonomousRegion":"犹太自治区","KabardinoBalkarianRepublic":"卡巴尔达-巴尔卡尔共和国","KaliningradRegion":"加里宁格勒地区","KalugaRegion":"卡卢加地区","KamchatkaKrai":"堪察加边疆区","KemerovoRegion":"克麦罗沃地区","KhabarovskRegion":"哈巴罗夫斯克州","KhantyMansiAutonomousOkrugYugra":"汉特-曼西自治州-尤格拉","KirovRegion":"基洛夫地区","KomiRepublic":"科米共和国","KostromaRegion":"科斯特罗马地区","KrasnodarRegion":"克拉斯诺达尔地区","KrasnoyarskRegion":"克拉斯诺亚尔斯克地区","KurganRegion":"库尔干地区","KurskRegion":"库尔斯克地区","LeningradRegion":"列宁格勒地区","LipetskRegion":"利佩茨克地区","MagadanRegion":"马加丹地区","MariElRepublic":"马里埃尔共和国","MoscowCity":"莫斯科市","MoscowRegion":"莫斯科地区","MurmanskRegion":"摩尔曼斯克州","NenetsAutonomousOkrug":"德国自治区","NizhnyNovgorodRegion":"下诺夫哥罗德州","NovgorodRegion":"诺夫哥罗德地区","NovosibirskRegion":"新西伯利亚州","OmskRegion":"鄂木斯克地区","OrenburgRegion":"奥伦堡地区","OryolRegion":"奥廖尔州","PenzaRegion":"奔萨地区","PermRegion":"烫发区","PrimorskyKrai":"滨海边疆区","PskovRegion":"普斯科夫地区","RepublicOfAdygea":"阿迪格共和国","RepublicOfBashkortostan":"巴什科尔托斯坦共和国","RepublicOfCrimea":"克里米亚共和国","RepublicOfKalmykia":"卡尔梅克共和国","RepublicOfKarachayCherkessia":"卡拉恰伊-切尔克斯共和国","RepublicOfKarelia":"卡累利阿共和国","RepublicOfNorthOssetiaAlania":"北奥塞梯-阿拉尼亚共和国","RepublicOfTatarstan":"鞑靼斯坦共和国","RostovRegion":"罗斯托夫地区","RyazanOblast":"梁赞州","SakhalinRegion":"萨哈林地区","SamaraRegion":"萨马拉地区","SaratovRegion":"萨拉托夫地区","Sevastopol":"塞瓦斯托波尔","SmolenskRegion":"斯摩棱斯克州","StPetersburg":"圣彼得堡","StavropolRegion":"斯塔夫罗波尔地区","SverdlovskRegion":"斯维尔德洛夫斯克州","TambovRegion":"坦波夫州","TheRepublicOfBuryatia":"布里亚特共和国","TheRepublicOfDagestan":"达吉斯坦共和国","TheRepublicOfIngushetia":"印古什共和国","TheRepublicOfKhakassia":"哈卡斯共和国","TheRepublicOfMordovia":"莫尔多瓦共和国","TheRepublicOfSakha":"萨哈共和国（雅库特）","TomskRegion":"托木斯克地区","TulaRegion":"图拉地区","TverRegion":"特维尔地区","TyumenRegion":"秋明地区","TyvaRepublic":"图瓦共和国","Udmurtrepublic":"乌德穆尔特共和国","UlyanovskRegion":"乌里扬诺夫斯克州","VladimirRegion":"弗拉基米尔地区","VolgogradRegion":"伏尔加格勒地区","VologodskayaOblast":"沃洛戈茨克州","VoronezhRegion":"沃罗涅日州","YamaloNenetsAutonomousOkrug":"亚马洛-涅涅茨自治区","YaroslavlRegion":"雅罗斯拉夫尔州","ZabaykalskyKrai":"外贝加尔边疆区"}}');
 
 /***/ })
 

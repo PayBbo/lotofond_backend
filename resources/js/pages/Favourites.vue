@@ -1,5 +1,5 @@
 <template>
-    <div class="container bkt-page bkt-favourites bkt-main bkt-container">
+    <div class="container bkt-page bkt-favourites bkt-container">
         <h1 class="bkt-page__title">Избранное</h1>
         <div class="bkt-favourites__menu">
             <div class="bkt-menu__actions">
@@ -121,9 +121,9 @@
                 <div class="bkt-monitoring__menu d-flex justify-content-between">
                     <div class="bkt-monitoring__menu-buttons d-md-block d-none">
                         <button v-for="path in items_paths"
-                            class="bkt-button bkt-bg-primary bkt-button-menu bkt-button-all d-inline-flex align-items-center mr-2 pt-4 pb-4 active text-uppercase">
+                            class="bkt-button bkt-bg-primary bkt-button_plump">
                             {{path.name}}
-                            <span class="bkt-text-primary bkt-bg-white p-1 rounded-pill ml-2">{{pagination_data.total}}</span>
+                            <span class="bkt-text-primary bkt-bg-white bkt-badge">{{pagination_data.total}}</span>
                         </button>
 <!--                        <button class="bkt-button bkt-button-menu bkt-menu-button bkt-menu-button__monitoring bkt-card__text d-inline-flex-->
 <!--                        align-items-center position-relative mr-2">-->
@@ -140,7 +140,6 @@
 <!--                            </div>-->
 <!--                        </button>-->
                     </div>
-
                     <div class="d-flex d-md-none">
                         <div class="mr-2 w-100">
                             <button class="d-flex position-relative bkt-btn-folder w-100 bkt-button

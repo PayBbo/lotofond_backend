@@ -1,11 +1,11 @@
 <template>
-    <div class="bkt-form wide">
+    <div class="bkt-form wide bkt-profile-gap">
         <div class="col-12 col-lg-5 bkt-form__offset-right">
-            <div class="bkt-card bkt-card__body">
+            <div class="bkt-card bkt-card__body bkt-gap-down-sm-row-large">
                 <h3 class="bkt-card__title">Ваши данные</h3>
                 <bkt-input
-                    v-model="user.lastname"
-                    :name="'lastname'"
+                    v-model="user.surname"
+                    :name="'surname'"
                     type="text"
                     :rules="'required|alpha|min:2'"
                     label="фамилия"
@@ -22,7 +22,7 @@
                     icon_name="Pencil" icon_color="primary"
                 />
                 <bkt-input
-                    v-model="user.name"
+                    v-model="user.middle_name"
                     name="name"
                     type="text"
                     :rules="'alpha|min:2'"
@@ -33,7 +33,7 @@
             </div>
         </div>
         <div class="p-0 col-12 col-lg-7">
-            <div class="bkt-card bkt-card__body">
+            <div class="bkt-card bkt-card__body bkt-gap-down-sm-row-large">
                 <h3 class="bkt-card__title">Ваши контакты</h3>
                 <bkt-input
                     v-model="user.email"
@@ -62,9 +62,9 @@
             </div>
         </div>
         <div class="p-0 col-12">
-            <div class="bkt-card bkt-card__body">
+            <div class="bkt-card bkt-card__body bkt-gap-down-sm-row-large">
                 <h3 class="bkt-card__title">Смена пароля</h3>
-                <div class="bkt-form">
+                <div class="bkt-form bkt-gap-down-sm-large">
                     <div class="col-12">
                         <bkt-input
                             v-model="passwords.old_password"
@@ -72,6 +72,7 @@
                             type="text"
                             label="старый пароль"
                             :rules="'required|min:8'"
+                            no_group_item
                         >
                         </bkt-input>
                     </div>
@@ -82,6 +83,7 @@
                             type="text"
                             label="новый пароль"
                             :rules="'required|min:8'"
+                            no_group_item
                         >
                         </bkt-input>
                     </div>
@@ -92,26 +94,34 @@
                             type="text"
                             label="повторите новый пароль"
                             :rules="'required|min:8|confirmed:password'"
+                            no_group_item
                         >
                         </bkt-input>
                     </div>
                     <div class="p-0 col-12">
-                        <div class="bkt-wrapper-between">
-                            <bkt-input
-                                :name="'phone_code'"
-                                type="tel"
-                                :rules="'required|phone'"
-                                :placeholder="'+7 495 000-00-00'"
-                                :mask="['+# ### ### ####','+## ### ### ####', '+## ### #### ####',]"
-                            >
-                                <template #group-item-inner>
-                                    <button class="bkt-button green" @click="sendCode" :disabled="code_loading">
-                                        <span v-if="code_loading" class="spinner-border spinner-border-sm" role="status"></span>
-                                        Выслать код
-                                    </button>
-                                </template>
-                            </bkt-input>
-                            <button class="bkt-button primary">
+                        <div class="bkt-wrapper-between bkt-gap bkt-gap-down-sm-row-large">
+                            <div class="bkt-wrapper-down-sm-column bkt-gap-small">
+                                <bkt-input
+                                    :name="'phone_code'"
+                                    type="tel"
+                                    :rules="'required|phone'"
+                                    :placeholder="'+7 495 000-00-00'"
+                                    :mask="['+# ### ### ####','+## ### ### ####', '+## ### #### ####',]"
+                                >
+                                    <template #group-item-inner>
+                                        <button class="bkt-button green d-none d-sm-flex" @click="sendCode" :disabled="code_loading">
+                                            <span v-if="code_loading" class="spinner-border spinner-border-sm" role="status"></span>
+                                            Выслать код
+                                        </button>
+                                    </template>
+                                </bkt-input>
+                                <button class="bkt-button green d-sm-none" @click="sendCode" :disabled="code_loading">
+                                    <span v-if="code_loading" class="spinner-border spinner-border-sm" role="status"></span>
+                                    Выслать код
+                                </button>
+                            </div>
+
+                            <button class="bkt-button primary bkt-w-sm-100 bkt-button_plump">
                                 Сохранить
                             </button>
                         </div>
@@ -133,15 +143,19 @@
                     old_password: ''
                 },
                 code_loading: false,
-                edit_user:null,
-                user: {
-                    name:'',
-                    lastname:'',
-                    surname:'',
-                    email:'',
-                    phone:'',
-
+                // edit_user:null,
+                edit_user: {
+                    email: "",
+                    middle_name: '',
+                    name: "",
+                    phone: '',
+                    surname: "",
                 }
+            }
+        },
+        mounted() {
+            if(this.isLoggedIn) {
+                this.edit_user = JSON.parse(JSON.stringify(this.user));
             }
         },
         computed: {
@@ -153,6 +167,12 @@
             //         this.edit_user = value;
             //     }
             // },
+            user() {
+                return this.$store.getters.auth_user
+            },
+            isLoggedIn() {
+                return this.$store.getters.isLoggedIn
+            },
         },
         methods: {
             sendCode() {

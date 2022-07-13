@@ -1,8 +1,13 @@
 <template>
-    <div class="container bkt-profile bkt-container">
-        <div class="bkt-form wide">
+    <div class="container bkt-page bkt-profile bkt-container">
+        <h1 class="bkt-page__title d-md-none">
+            Профиль
+            <bkt-icon v-if="isLoggedIn" class="ms-1" name="LogOut" color="red" width="16px" height="16px"></bkt-icon>
+        </h1>
+
+        <div v-if="isLoggedIn" class="bkt-form wide bkt-profile-gap">
             <div class="col-12 col-lg-3 bkt-form__offset-right">
-                <div class="bkt-wrapper-column">
+                <div class="bkt-wrapper-sm-column bkt-wrapper-column-reverse bkt-profile-gap">
                     <div class="bkt-card bkt-card__body bkt-sidebar">
                         <ul class="bkt-sidebar__links">
                             <li class="bkt-sidebar__link" v-for="link in links"
@@ -18,22 +23,40 @@
                             </li>
                         </ul>
                     </div>
-                    <div class="bkt-card bkt-bg-primary bkt-profile-tariff">
-                        <h6 class="bkt-card__subtitle">тарифный план</h6>
-                        <h5 class="bkt-card__title">Базовый</h5>
-                        <button class="bkt-button bkt-tariff-button">
-                            Сменить тариф
-                        </button>
-                        <div class="bkt-card bkt-card__background-figure-1">
-                        </div>
-                        <div class="bkt-card bkt-card__background-figure-2 bkt-bg-primary">
+                    <div class="bkt-profile-tariff-wrapper">
+                        <div class="bkt-card bkt-bg-primary bkt-profile-tariff">
+                            <h5 class="d-sm-none me-auto">{{user ? user.name+' '+user.surname : ''}}</h5>
+                            <div class="bkt-wrapper-between bkt-wrapper-sm-column">
+                                <h6 class="bkt-card__subtitle">тарифный план</h6>
+                                <h5 class="bkt-card__title">Базовый</h5>
+                            </div>
+                            <button class="bkt-button bkt-tariff-button">
+                                Сменить тариф
+                            </button>
+                            <div class="bkt-card bkt-card__background-figure-1">
+                            </div>
+                            <div class="bkt-card bkt-card__background-figure-2 bkt-bg-primary">
+                            </div>
                         </div>
                     </div>
                 </div>
-
             </div>
             <div class="p-0 col-12 col-lg-9">
                 <component :is="tab+'Tab'"></component>
+            </div>
+        </div>
+        <div v-else class="bkt-shadow-card bkt-shadow-card_primary">
+            <div class="bkt-shadow-card__inner bkt-gap-large">
+                <h5 class="bkt-card__title bkt-text-white">Войдите или зарегистрируйтесь</h5>
+                <button class="bkt-button bkt-bg-white bkt-text-primary mx-auto" style="max-width: 320px"
+                        data-bs-toggle="modal" data-bs-target="#authModal"
+                >
+                    Вход и регистрация
+                </button>
+                <div class="bkt-shadow-card__shadow-1">
+                </div>
+                <div class="bkt-shadow-card__shadow-2">
+                </div>
             </div>
         </div>
     </div>
@@ -98,14 +121,26 @@
                         color: 'red'
                     },
                 ],
+                edit_user: {
+                    email: "",
+                    middle_name: '',
+                    name: "",
+                    phone: '',
+                    surname: "",
+                }
             }
         },
         mounted() {
-
+            if(this.isLoggedIn) {
+                this.edit_user = JSON.parse(JSON.stringify(this.user));
+            }
         },
         computed: {
             user() {
                 return this.$store.getters.auth_user
+            },
+            isLoggedIn() {
+                return this.$store.getters.isLoggedIn
             },
         },
         methods: {

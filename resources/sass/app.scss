@@ -17,6 +17,7 @@
 @import "./base/wrapper.scss";
 @import "./base/gap.scss";
 @import "./base/width.scss";
+@import './base/container';
 
 // Components
 @import "./components/navbar.scss";
@@ -25,7 +26,6 @@
 @import './components/select.scss';
 @import './components/modal.scss';
 @import './components/search.scss';
-@import './components/container.scss';
 @import './components/input.scss';
 @import './components/checkbox.scss';
 @import './components/pagination.scss';
@@ -43,6 +43,9 @@
 @import "./components/switch.scss";
 @import "./components/dropdown.scss";
 @import "./components/notification.scss";
+@import "./components/shadow-card.scss";
+@import "./components/trade-card.scss";
+@import "./components/badge.scss";
 
 // Custom styles
 @import "./customs/main.scss";

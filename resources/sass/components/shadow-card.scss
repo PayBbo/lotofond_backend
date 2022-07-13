@@ -1,0 +1,121 @@
+.bkt-shadow-card {
+    &__inner {
+        @extend .bkt-card;
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        padding: 25px;
+        text-align: center;
+        margin-bottom: 14px;
+        border-radius: 25px;
+
+        & .bkt-shadow-card__shadow-1 {
+            padding: 25px;
+            border-radius: 25px;
+            position: absolute;
+            margin: auto;
+            top: 7px;
+            width: 92%;
+            height: 100%;
+            z-index: -1;
+            left: 4.5%;
+            right: 4.5%;
+        }
+
+        & .bkt-shadow-card__shadow-2 {
+            padding: 25px;
+            border-radius: 25px;
+            position: absolute;
+            margin: auto;
+            top: 14px;
+            width: 81%;
+            height: 100%;
+            z-index: -2;
+            left: 10.2%;
+            right: 10.2%;
+        }
+    }
+}
+
+.bkt-shadow-card_primary {
+    & .bkt-shadow-card__inner {
+        background-color: $primary-default;
+
+        & .bkt-shadow-card__shadow-1 {
+            background-color: #b8c6fe;
+        }
+
+        & .bkt-shadow-card__shadow-2 {
+            background-color: #dce3fe;
+        }
+    }
+}
+.bkt-shadow-card_green {
+    & .bkt-shadow-card__inner {
+        background-color: $green-default;
+
+        & .bkt-shadow-card__shadow-1 {
+            background-color: #b8c6fe;
+        }
+
+        & .bkt-shadow-card__shadow-2 {
+            background-color: #dce3fe;
+        }
+    }
+}
+.bkt-shadow-card_red {
+    & .bkt-shadow-card__inner {
+        background-color: $red-default;
+
+        & .bkt-shadow-card__shadow-1 {
+            background-color: #f2bbb3;
+        }
+
+        & .bkt-shadow-card__shadow-2 {
+            background-color: #f3ddde;
+        }
+    }
+}
+.bkt-shadow-card_yellow {
+    & .bkt-shadow-card__inner {
+        background-color: $yellow-default;
+
+        & .bkt-shadow-card__shadow-1 {
+            background-color: #f8e8b8;
+        }
+
+        & .bkt-shadow-card__shadow-2 {
+            background-color: #f6efdb;
+        }
+    }
+}
+.bkt-shadow-card_blue {
+    & .bkt-shadow-card__inner {
+        background-color: $blue-default;
+
+        & .bkt-shadow-card__shadow-1 {
+            background-color: #aedffe;
+        }
+
+        & .bkt-shadow-card__shadow-2 {
+            background-color: #d6ecfe;
+        }
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .bkt-shadow-card {
+        &__inner {
+            border-radius: 18px;
+            padding: 25px;
+            & .bkt-shadow-card__shadow-1 {
+                border-radius: 18px;
+                padding: 25px;
+            }
+            & .bkt-shadow-card__shadow-2 {
+                border-radius: 18px;
+                padding: 25px;
+            }
+        }
+    }
+}

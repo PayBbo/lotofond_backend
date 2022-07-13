@@ -34,7 +34,7 @@ class BidderController extends Controller
                 function ($q) use ($bidderId) { $q->where('id', $bidderId);
                 })->paginate(20);
         }
-        return response(LotResource::collection($lots), 200);
+        return response(new LotCollection($lots), 200);
     }
 
     public function getBidder($bidderId){

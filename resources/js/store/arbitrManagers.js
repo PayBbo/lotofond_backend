@@ -73,7 +73,7 @@ export default {
             try {
                 await axios({
                     method: 'get',
-                    url: '/api/trades/filter/bidders/arbitrManager?page='+payload,
+                    url: '/api/trades/filter/bidders/arbitrationManagers?page='+payload,
                     data: {},
                 })
                     .then((response) => {

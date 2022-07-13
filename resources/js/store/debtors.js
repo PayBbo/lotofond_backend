@@ -74,7 +74,7 @@ export default {
             try {
                 await axios({
                     method: 'get',
-                    url: '/api/trades/filter/bidders/debtor?page='+payload,
+                    url: '/api/trades/filter/bidders/debtors?page='+payload,
                     data: {},
                 })
                     .then((response) => {

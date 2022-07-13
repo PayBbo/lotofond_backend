@@ -74,7 +74,7 @@ export default {
             try {
                 await axios({
                     method: 'get',
-                    url: '/api/trades/filter/bidders/organizer?page='+payload,
+                    url: '/api/trades/filter/bidders/organizers?page='+payload,
                     data: {},
                 })
                     .then((response) => {

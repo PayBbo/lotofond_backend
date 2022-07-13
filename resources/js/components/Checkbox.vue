@@ -3,9 +3,15 @@
         <div class="bkt-check">
             <div class="bkt-check__input">
                 <input
+                    v-if="type=='boolean'"
                     type="checkbox"
                     v-model="model"
-                    @change="saveValue"
+                />
+                <input
+                    v-else
+                    type="checkbox"
+                    v-model="model"
+                    :value="val"
                 />
                 <div class="bkt-check__input-check"></div>
             </div>
@@ -23,11 +29,12 @@
     export default {
         props: {
             value: {
-                type: Boolean,
+                type: null,
                 default: false,
             },
-            // val: {
-            // },
+            val: {
+                type: null,
+            },
             name: {
                 type: String,
                 required: true,
@@ -48,25 +55,38 @@
                 type: String,
                 default: "",
             },
+            // type: {
+            //     type: String,
+            //     default: "boolean",
+            // },
         },
-        model: {
-            prop: 'value',
-            event: 'input'
-        },
+        // model: {
+        //     prop: 'value',
+        //     event: 'change'
+        // },
         data: function() {
             return {
-                model:null,
+                // model:null,
+                type: 'boolean'
                 // tmp_val:null,
             };
         },
         mounted() {
-            this.model = this.value;
-            // if(!this.val) {
-            //     this.tmp_val = this.model
-            // }
-            // else {
-            //     this.tmp_val =this.val;
-            // }
+            // this.model = this.value;
+            if(typeof this.value != 'boolean')
+            {
+                this.type = 'other'
+            }
+        },
+        computed: {
+            model: {
+                get() {
+                    return this.value;
+                },
+                set(value) {
+                    this.$emit("input", value);
+                },
+            },
         },
         methods: {
             saveValue() {

@@ -12159,10 +12159,70 @@ textarea.form-control-lg {
   gap: 10px 0;
 }
 
+.bkt-wrapper-column-reverse {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column-reverse;
+  width: 100%;
+}
+
 .bkt-nowrap {
   flex-wrap: nowrap;
 }
 
+@media (min-width: 576px) {
+  .bkt-wrapper-sm {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    flex-flow: row wrap;
+    margin: auto;
+  }
+  .bkt-wrapper-sm-column {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    width: 100%;
+    gap: 10px 0;
+  }
+  .bkt-wrapper-sm-column-reverse {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column-reverse;
+    width: 100%;
+  }
+}
+@media (max-width: 576px) {
+  .bkt-wrapper-down-sm {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    flex-flow: row wrap;
+  }
+  .bkt-wrapper-down-sm-between {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-direction: row;
+    flex-flow: row wrap;
+  }
+  .bkt-wrapper-down-sm-column {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    width: 100%;
+    gap: 10px 0;
+  }
+  .bkt-wrapper-down-sm-column-reverse {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column-reverse;
+    width: 100%;
+  }
+  .bkt-wrapper-down-sm-nowrap {
+    flex-wrap: nowrap;
+  }
+}
 .bkt-gap {
   gap: 10px !important;
 }
@@ -12200,6 +12260,82 @@ textarea.form-control-lg {
   gap: 4px 0 !important;
 }
 
+@media (min-width: 576px) {
+  .bkt-gap-up-sm {
+    gap: 10px !important;
+  }
+  .bkt-gap-up-sm-large {
+    gap: 30px !important;
+  }
+  .bkt-gap-up-sm-small {
+    gap: 6px !important;
+  }
+  .bkt-gap-up-sm-mini {
+    gap: 4px !important;
+  }
+  .bkt-gap-up-sm-column {
+    gap: 0 10px !important;
+  }
+  .bkt-gap-up-sm-column-large {
+    gap: 0 30px !important;
+  }
+  .bkt-gap-up-sm-column-small {
+    gap: 0 6px !important;
+  }
+  .bkt-gap-up-sm-column-mini {
+    gap: 0 4px !important;
+  }
+  .bkt-gap-up-sm-row {
+    gap: 10px 0 !important;
+  }
+  .bkt-gap-up-sm-row-large {
+    gap: 30px 0 !important;
+  }
+  .bkt-gap-up-sm-row-small {
+    gap: 6px 0 !important;
+  }
+  .bkt-gap-up-sm-row-mini {
+    gap: 4px 0 !important;
+  }
+}
+@media (max-width: 576px) {
+  .bkt-gap-down-sm {
+    gap: 10px !important;
+  }
+  .bkt-gap-down-sm-large {
+    gap: 30px !important;
+  }
+  .bkt-gap-down-sm-small {
+    gap: 6px !important;
+  }
+  .bkt-gap-down-sm-mini {
+    gap: 4px !important;
+  }
+  .bkt-gap-down-sm-column {
+    gap: 0 10px !important;
+  }
+  .bkt-gap-down-sm-column-large {
+    gap: 0 30px !important;
+  }
+  .bkt-gap-down-sm-column-small {
+    gap: 0 6px !important;
+  }
+  .bkt-gap-down-sm-column-mini {
+    gap: 0 4px !important;
+  }
+  .bkt-gap-down-sm-row {
+    gap: 10px 0 !important;
+  }
+  .bkt-gap-down-sm-row-large {
+    gap: 30px 0 !important;
+  }
+  .bkt-gap-down-sm-row-small {
+    gap: 6px 0 !important;
+  }
+  .bkt-gap-down-sm-row-mini {
+    gap: 4px 0 !important;
+  }
+}
 .bkt-w-100 {
   width: 100% !important;
 }
@@ -12246,6 +12382,45 @@ textarea.form-control-lg {
   }
   .bkt-w-xxl-initial {
     width: initial !important;
+  }
+}
+.bkt-container {
+  width: 100%;
+  padding-right: 0;
+  padding-left: 0;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+@media (max-width: 576px) {
+  .bkt-container {
+    padding-right: 20px;
+    padding-left: 20px;
+  }
+}
+@media (min-width: 576px) {
+  .bkt-container {
+    max-width: 540px;
+  }
+}
+@media (min-width: 768px) {
+  .bkt-container {
+    max-width: 720px;
+  }
+}
+@media (min-width: 992px) {
+  .bkt-container {
+    max-width: 960px;
+  }
+}
+@media (min-width: 1200px) {
+  .bkt-container {
+    max-width: 1140px;
+  }
+}
+@media (min-width: 1400px) {
+  .bkt-container {
+    max-width: 1170px;
   }
 }
 .bkt-navbar {
@@ -12655,7 +12830,7 @@ textarea.form-control-lg {
     height: 34px;
   }
 }
-.bkt-card, .bkt-card__row {
+.bkt-card, .bkt-shadow-card__inner, .bkt-card__row {
   background: #ffffff;
   flex-grow: 1;
   position: relative;
@@ -12716,14 +12891,14 @@ textarea.form-control-lg {
   -o-object-fit: cover;
      object-fit: cover;
 }
-.bkt-card.outline, .outline.bkt-card__row {
+.bkt-card.outline, .outline.bkt-shadow-card__inner, .outline.bkt-card__row {
   border: 2px solid #efeff0;
   padding: 17px 30px;
   margin: 0;
   border-radius: 15px;
   flex-grow: 1;
 }
-.bkt-card.vertical, .vertical.bkt-card__row {
+.bkt-card.vertical, .vertical.bkt-shadow-card__inner, .vertical.bkt-card__row {
   padding: 16px;
   align-items: center;
   justify-content: space-between;
@@ -12755,7 +12930,7 @@ textarea.form-control-lg {
 .bkt-card__feature .bkt-card__text {
   margin: 0;
 }
-.bkt-card > hr, .bkt-card__row > hr {
+.bkt-card > hr, .bkt-shadow-card__inner > hr, .bkt-card__row > hr {
   margin-right: 0;
   margin-left: 0;
 }
@@ -12811,7 +12986,7 @@ textarea.form-control-lg {
     border-radius: 20px;
     padding: 25px;
   }
-  .bkt-card.outline, .bkt-card__row.outline {
+  .bkt-card.outline, .outline.bkt-shadow-card__inner, .bkt-card__row.outline {
     padding: 12px 20px;
   }
   .bkt-card__heading, .bkt-card__row__heading {
@@ -13468,45 +13643,6 @@ textarea.form-control-lg {
     width: 44px;
     height: 44px;
     padding: 14px;
-  }
-}
-.bkt-container {
-  width: 100%;
-  padding-right: 0;
-  padding-left: 0;
-  margin-right: auto;
-  margin-left: auto;
-}
-
-@media (max-width: 576px) {
-  .bkt-container {
-    padding-right: 20px;
-    padding-left: 20px;
-  }
-}
-@media (min-width: 576px) {
-  .bkt-container {
-    max-width: 540px;
-  }
-}
-@media (min-width: 768px) {
-  .bkt-container {
-    max-width: 720px;
-  }
-}
-@media (min-width: 992px) {
-  .bkt-container {
-    max-width: 960px;
-  }
-}
-@media (min-width: 1200px) {
-  .bkt-container {
-    max-width: 1140px;
-  }
-}
-@media (min-width: 1400px) {
-  .bkt-container {
-    max-width: 1170px;
   }
 }
 .bkt-input {
@@ -15073,6 +15209,391 @@ textarea.form-control-lg {
   background: #E54D42;
   border-left-color: #B82E24;
 }
+.bkt-shadow-card__inner {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding: 25px;
+  text-align: center;
+  margin-bottom: 14px;
+  border-radius: 25px;
+}
+.bkt-shadow-card__inner .bkt-shadow-card__shadow-1 {
+  padding: 25px;
+  border-radius: 25px;
+  position: absolute;
+  margin: auto;
+  top: 7px;
+  width: 92%;
+  height: 100%;
+  z-index: -1;
+  left: 4.5%;
+  right: 4.5%;
+}
+.bkt-shadow-card__inner .bkt-shadow-card__shadow-2 {
+  padding: 25px;
+  border-radius: 25px;
+  position: absolute;
+  margin: auto;
+  top: 14px;
+  width: 81%;
+  height: 100%;
+  z-index: -2;
+  left: 10.2%;
+  right: 10.2%;
+}
+
+.bkt-shadow-card_primary .bkt-shadow-card__inner {
+  background-color: #2953ff;
+}
+.bkt-shadow-card_primary .bkt-shadow-card__inner .bkt-shadow-card__shadow-1 {
+  background-color: #b8c6fe;
+}
+.bkt-shadow-card_primary .bkt-shadow-card__inner .bkt-shadow-card__shadow-2 {
+  background-color: #dce3fe;
+}
+
+.bkt-shadow-card_green .bkt-shadow-card__inner {
+  background-color: #2fbb40;
+}
+.bkt-shadow-card_green .bkt-shadow-card__inner .bkt-shadow-card__shadow-1 {
+  background-color: #b8c6fe;
+}
+.bkt-shadow-card_green .bkt-shadow-card__inner .bkt-shadow-card__shadow-2 {
+  background-color: #dce3fe;
+}
+
+.bkt-shadow-card_red .bkt-shadow-card__inner {
+  background-color: #ec4c27;
+}
+.bkt-shadow-card_red .bkt-shadow-card__inner .bkt-shadow-card__shadow-1 {
+  background-color: #f2bbb3;
+}
+.bkt-shadow-card_red .bkt-shadow-card__inner .bkt-shadow-card__shadow-2 {
+  background-color: #f3ddde;
+}
+
+.bkt-shadow-card_yellow .bkt-shadow-card__inner {
+  background-color: #ffc515;
+}
+.bkt-shadow-card_yellow .bkt-shadow-card__inner .bkt-shadow-card__shadow-1 {
+  background-color: #f8e8b8;
+}
+.bkt-shadow-card_yellow .bkt-shadow-card__inner .bkt-shadow-card__shadow-2 {
+  background-color: #f6efdb;
+}
+
+.bkt-shadow-card_blue .bkt-shadow-card__inner {
+  background-color: #29b1ff;
+}
+.bkt-shadow-card_blue .bkt-shadow-card__inner .bkt-shadow-card__shadow-1 {
+  background-color: #aedffe;
+}
+.bkt-shadow-card_blue .bkt-shadow-card__inner .bkt-shadow-card__shadow-2 {
+  background-color: #d6ecfe;
+}
+
+@media screen and (max-width: 768px) {
+  .bkt-shadow-card__inner {
+    border-radius: 18px;
+    padding: 25px;
+  }
+  .bkt-shadow-card__inner .bkt-shadow-card__shadow-1 {
+    border-radius: 18px;
+    padding: 25px;
+  }
+  .bkt-shadow-card__inner .bkt-shadow-card__shadow-2 {
+    border-radius: 18px;
+    padding: 25px;
+  }
+}
+.bkt-card-trade {
+  margin: 18px 0;
+}
+.bkt-card-trade .bkt-card__title {
+  font-size: 22px;
+}
+.bkt-card-trade .bkt-card.vertical, .bkt-card-trade .vertical.bkt-card__row, .bkt-card-trade .vertical.bkt-shadow-card__inner {
+  margin: 0;
+  width: 76px;
+}
+.bkt-card-trade .bkt-card.vertical .bkt-button-ellipse, .bkt-card-trade .vertical.bkt-card__row .bkt-button-ellipse, .bkt-card-trade .vertical.bkt-shadow-card__inner .bkt-button-ellipse {
+  margin: 3px;
+  width: 44px;
+  height: 44px;
+}
+.bkt-card-trade .bkt-card.vertical .bkt-button-ellipse:hover, .bkt-card-trade .vertical.bkt-card__row .bkt-button-ellipse:hover, .bkt-card-trade .vertical.bkt-shadow-card__inner .bkt-button-ellipse:hover {
+  background: #ffc515;
+}
+.bkt-card-trade .bkt-card.vertical .bkt-button-ellipse:last-child:hover, .bkt-card-trade .vertical.bkt-card__row .bkt-button-ellipse:last-child:hover, .bkt-card-trade .vertical.bkt-shadow-card__inner .bkt-button-ellipse:last-child:hover {
+  background: transparent;
+}
+.bkt-card-trade .bkt-card-infographics {
+  gap: 0 6px;
+}
+.bkt-card-trade .bkt-card-infographics .bkt-card, .bkt-card-trade .bkt-card-infographics .bkt-card__row, .bkt-card-trade .bkt-card-infographics .bkt-shadow-card__inner {
+  margin-bottom: 3px;
+  margin-top: 3px;
+}
+.bkt-card-trade .bkt-card-infographics .bkt-card .bkt-card__feature, .bkt-card-trade .bkt-card-infographics .bkt-card__row .bkt-card__feature, .bkt-card-trade .bkt-card-infographics .bkt-shadow-card__inner .bkt-card__feature {
+  margin: 0;
+}
+.bkt-card-trade .bkt-card-infographics .bkt-card .bkt-card__feature .bkt-card__subtitle, .bkt-card-trade .bkt-card-infographics .bkt-card__row .bkt-card__feature .bkt-card__subtitle, .bkt-card-trade .bkt-card-infographics .bkt-shadow-card__inner .bkt-card__feature .bkt-card__subtitle {
+  margin: 0;
+}
+.bkt-card-trade .bkt-card-period {
+  margin-bottom: 15px;
+  margin-top: 15px;
+  flex-wrap: nowrap;
+}
+.bkt-card-trade .bkt-card-period h6, .bkt-card-trade .bkt-card-period .h6 {
+  line-height: 18px;
+  margin: 0;
+}
+.bkt-card-trade .bkt-card-period .bkt-card__category {
+  height: 56px;
+  margin-right: 15px;
+  flex-shrink: 0;
+}
+.bkt-card-trade .bkt-card-period .bkt-card__category-icon {
+  max-width: 16px;
+  max-height: 16px;
+}
+.bkt-card-trade .bkt-card-price {
+  font-size: 30px;
+  font-family: "Gilroy";
+  font-weight: 700;
+  padding: 18px 46px;
+  position: relative;
+  border-radius: 15px;
+  width: 320px;
+  height: 60px;
+  color: rgb(255, 255, 255);
+  line-height: 1;
+  text-align: left;
+}
+.bkt-card-trade .bkt-card-price-icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  bottom: 10px;
+  border-radius: 10px;
+  width: 52px;
+  height: 40px;
+  text-align: center;
+  line-height: 1.2;
+  box-shadow: 0px 11px 15px 0px rgba(13, 85, 21, 0.15);
+}
+.bkt-card-trade .bkt-card-menu {
+  background-color: #2d3244;
+  width: 230px;
+  height: 386px;
+  border-radius: 13px 0 13px 13px;
+  padding: 25px;
+  top: 37px;
+}
+.bkt-card-trade .bkt-card-menu::before {
+  position: absolute;
+  top: -10px;
+  right: 0;
+  content: "\a";
+  border-style: solid;
+  border-width: 10px 8px 0 0;
+  border-color: transparent #2d3244 transparent transparent;
+}
+.bkt-card-trade .bkt-card-menu .bkt-card-menu-inner {
+  gap: 6px;
+  display: flex;
+  flex-direction: column;
+}
+.bkt-card-trade .bkt-card-menu .bkt-button, .bkt-card-trade .bkt-card-menu .bkt-button-link, .bkt-card-trade .bkt-card-menu .bkt-button-icon {
+  font-size: 12px;
+  padding: 15px;
+  width: 100%;
+  height: 44px;
+  border-radius: 13px;
+  text-align: left;
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+.bkt-card-trade .bkt-card-menu .bkt-button .info, .bkt-card-trade .bkt-card-menu .bkt-button-link .info, .bkt-card-trade .bkt-card-menu .bkt-button-icon .info {
+  position: absolute;
+  background: #2fbb40;
+  top: 18px;
+  right: 15px;
+  width: 7px;
+  height: 7px;
+  border-radius: 100%;
+}
+.bkt-card-trade .bkt-card-menu .bkt-button .bkt-button__icon, .bkt-card-trade .bkt-card-menu .bkt-button-link .bkt-button__icon, .bkt-card-trade .bkt-card-menu .bkt-button-icon .bkt-button__icon {
+  max-width: 18px;
+  max-height: 17px;
+  margin-right: 12px;
+}
+.bkt-card-trade .bkt-card-menu-button {
+  width: 44px;
+  height: 44px;
+  padding: 12px;
+  border-radius: 10px;
+}
+.bkt-card-trade .bkt-card-menu-button svg {
+  transform: rotate(90deg);
+}
+.bkt-card-trade .bkt-card__image-slider .hooper-prev, .bkt-card-trade .bkt-card__image-slider .hooper-next {
+  border-radius: 10px;
+  background-color: rgb(255, 255, 255);
+  width: 30px;
+  height: 30px;
+  display: flex;
+  padding: 7px;
+  align-items: center;
+  justify-content: center;
+}
+.bkt-card-trade .bkt-card__image-slider .hooper-prev svg, .bkt-card-trade .bkt-card__image-slider .hooper-next svg {
+  fill: #2953ff;
+}
+.bkt-card-trade .bkt-card__image-slider .hooper-next {
+  right: 10px;
+}
+.bkt-card-trade .bkt-card__image-slider .hooper-prev {
+  left: 10px;
+}
+.bkt-card-trade .bkt-card-image-wrapper {
+  gap: 25px;
+  display: flex;
+  flex-flow: column;
+}
+.bkt-card-trade .bkt-card-ecp-wrapper {
+  gap: 25px;
+  flex-wrap: nowrap;
+  margin-bottom: 25px;
+}
+
+@media screen and (max-width: 568px) {
+  .bkt-card-trade .bkt-card-ecp-wrapper {
+    width: 100%;
+  }
+  .bkt-card-trade .bkt-card-ecp-wrapper .bkt-card-ecp {
+    font-size: 10px;
+    font-family: "Gilroy";
+    color: rgb(255, 255, 255);
+    font-weight: 700;
+    line-height: 1.2;
+    padding: 9px 15px;
+    border-radius: 10px;
+  }
+  .bkt-card-trade .bkt-card__head {
+    flex-wrap: nowrap;
+  }
+  .bkt-card-trade .bkt-card__head .bkt-card__title {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    display: block;
+  }
+}
+@media screen and (max-width: 991px) {
+  .bkt-card-trade {
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    border-bottom-left-radius: 18px;
+    border-bottom-right-radius: 18px;
+    padding: 25px;
+  }
+  .bkt-card-trade .bkt-card__title {
+    font-size: 15px;
+  }
+  .bkt-card-trade.outline {
+    padding: 12px 20px;
+  }
+  .bkt-card-trade .bkt-card__heading {
+    border-top-left-radius: 18px;
+    border-top-right-radius: 18px;
+    background: #2953ff;
+    color: white;
+    padding: 11px 24px;
+    font-size: 8px;
+  }
+  .bkt-card-trade .bkt-card__heading h5, .bkt-card-trade .bkt-card__heading .h5 {
+    font-size: 10px;
+    margin: 0;
+  }
+  .bkt-card-trade .bkt-card-menu-button {
+    width: 32px !important;
+    height: 32px !important;
+    padding: 7px !important;
+  }
+}
+@media screen and (max-width: 1200px) {
+  .bkt-card-trade .bkt-card-price {
+    font-size: 18px;
+    font-family: "Gilroy", SansSerif;
+    font-weight: 700;
+    padding: 15px 40px;
+    position: relative;
+    border-radius: 13px;
+    width: 230px;
+    height: 44px;
+    color: rgb(255, 255, 255);
+    line-height: 1;
+    text-align: center;
+  }
+  .bkt-card-trade .bkt-card-price-icon {
+    position: absolute;
+    right: 6px;
+    top: 6px;
+    bottom: 6px;
+    border-radius: 10px;
+    width: 46px;
+    height: 32px;
+    text-align: center;
+    line-height: 1.2;
+    box-shadow: 0px 11px 15px 0px rgba(13, 85, 21, 0.15);
+  }
+  .bkt-card-trade .bkt-card.outline, .bkt-card-trade .outline.bkt-card__row, .bkt-card-trade .outline.bkt-shadow-card__inner {
+    padding: 12px 20px;
+  }
+}
+@media screen and (min-width: 1200px) {
+  .bkt-card-trade .bkt-card__image-slider .hooper-prev, .bkt-card-trade .bkt-card__image-slider .hooper-next {
+    border-radius: 10px;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    padding: 7px;
+    top: auto;
+    bottom: 15px;
+    transform: none;
+  }
+  .bkt-card-trade .bkt-card__image-slider .hooper-next {
+    right: 15px;
+  }
+  .bkt-card-trade .bkt-card__image-slider .hooper-prev {
+    right: 61px;
+    left: auto;
+  }
+}
+.bkt-badge {
+  max-height: 20px;
+  font-size: 12px;
+  font-family: "Gilroy", sans-serif;
+  font-weight: bold;
+  text-transform: uppercase;
+  line-height: 1;
+  border-radius: 10px;
+  display: inline-block;
+  padding: 4px 7px;
+  color: #fff;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: baseline;
+  margin-left: 9px;
+}
+
 .bkt-main .bkt-main-title {
   font-weight: 700;
   margin: 52px 0;
@@ -15109,7 +15630,7 @@ textarea.form-control-lg {
 .bkt-main .bkt-main-statistic {
   gap: 30px;
 }
-.bkt-main .bkt-main-statistic .bkt-card, .bkt-main .bkt-main-statistic .bkt-card__row {
+.bkt-main .bkt-main-statistic .bkt-card, .bkt-main .bkt-main-statistic .bkt-card__row, .bkt-main .bkt-main-statistic .bkt-shadow-card__inner {
   height: 100px;
   display: flex;
   flex-direction: row;
@@ -15122,16 +15643,16 @@ textarea.form-control-lg {
 .bkt-main .bkt-main-statistic .bkt-card__text {
   color: rgba(255, 255, 255, 0.5);
 }
-.bkt-main .bkt-main-statistic .bkt-card.bkt-bg-red-light .bkt-card__background-figure-1, .bkt-main .bkt-main-statistic .bkt-bg-red-light.bkt-card__row .bkt-card__background-figure-1 {
+.bkt-main .bkt-main-statistic .bkt-card.bkt-bg-red-light .bkt-card__background-figure-1, .bkt-main .bkt-main-statistic .bkt-bg-red-light.bkt-card__row .bkt-card__background-figure-1, .bkt-main .bkt-main-statistic .bkt-bg-red-light.bkt-shadow-card__inner .bkt-card__background-figure-1 {
   background: #f2bbb3;
 }
-.bkt-main .bkt-main-statistic .bkt-card.bkt-bg-yellow .bkt-card__background-figure-1, .bkt-main .bkt-main-statistic .bkt-bg-yellow.bkt-card__row .bkt-card__background-figure-1 {
+.bkt-main .bkt-main-statistic .bkt-card.bkt-bg-yellow .bkt-card__background-figure-1, .bkt-main .bkt-main-statistic .bkt-bg-yellow.bkt-card__row .bkt-card__background-figure-1, .bkt-main .bkt-main-statistic .bkt-bg-yellow.bkt-shadow-card__inner .bkt-card__background-figure-1 {
   background: #f8e8b8;
 }
-.bkt-main .bkt-main-statistic .bkt-card.bkt-bg-blue .bkt-card__background-figure-1, .bkt-main .bkt-main-statistic .bkt-bg-blue.bkt-card__row .bkt-card__background-figure-1 {
+.bkt-main .bkt-main-statistic .bkt-card.bkt-bg-blue .bkt-card__background-figure-1, .bkt-main .bkt-main-statistic .bkt-bg-blue.bkt-card__row .bkt-card__background-figure-1, .bkt-main .bkt-main-statistic .bkt-bg-blue.bkt-shadow-card__inner .bkt-card__background-figure-1 {
   background: #aedffe;
 }
-.bkt-main .bkt-main-statistic .bkt-card .bkt-card__background-figure-1, .bkt-main .bkt-main-statistic .bkt-card__row .bkt-card__background-figure-1 {
+.bkt-main .bkt-main-statistic .bkt-card .bkt-card__background-figure-1, .bkt-main .bkt-main-statistic .bkt-card__row .bkt-card__background-figure-1, .bkt-main .bkt-main-statistic .bkt-shadow-card__inner .bkt-card__background-figure-1 {
   position: absolute;
   margin: auto;
   top: 7px;
@@ -15141,7 +15662,7 @@ textarea.form-control-lg {
   left: 4.5%;
   right: 4.5%;
 }
-.bkt-main .bkt-main-statistic .bkt-card .bkt-card__background-figure-2, .bkt-main .bkt-main-statistic .bkt-card__row .bkt-card__background-figure-2 {
+.bkt-main .bkt-main-statistic .bkt-card .bkt-card__background-figure-2, .bkt-main .bkt-main-statistic .bkt-card__row .bkt-card__background-figure-2, .bkt-main .bkt-main-statistic .bkt-shadow-card__inner .bkt-card__background-figure-2 {
   position: absolute;
   margin: auto;
   top: 14px;
@@ -15195,59 +15716,59 @@ textarea.form-control-lg {
   line-height: 1.833;
   font-size: 12px;
 }
-.bkt-main .bkt-card-trade.bkt-card, .bkt-main .bkt-card-trade.bkt-card__row {
+.bkt-main .bkt-card-trade.bkt-card, .bkt-main .bkt-card-trade.bkt-card__row, .bkt-main .bkt-card-trade.bkt-shadow-card__inner {
   margin: 18px 0;
 }
-.bkt-main .bkt-card-trade.bkt-card .bkt-card__title, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card__title {
+.bkt-main .bkt-card-trade.bkt-card .bkt-card__title, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card__title, .bkt-main .bkt-card-trade.bkt-shadow-card__inner .bkt-card__title {
   font-size: 22px;
 }
-.bkt-main .bkt-card-trade.bkt-card .bkt-card.vertical, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card.vertical, .bkt-main .bkt-card-trade.bkt-card .vertical.bkt-card__row, .bkt-main .bkt-card-trade.bkt-card__row .vertical.bkt-card__row {
+.bkt-main .bkt-card-trade.bkt-card .bkt-card.vertical, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card.vertical, .bkt-main .bkt-card-trade.bkt-shadow-card__inner .bkt-card.vertical, .bkt-main .bkt-card-trade.bkt-card .vertical.bkt-card__row, .bkt-main .bkt-card-trade.bkt-card__row .vertical.bkt-card__row, .bkt-main .bkt-card-trade.bkt-shadow-card__inner .vertical.bkt-card__row, .bkt-main .bkt-card-trade.bkt-card .vertical.bkt-shadow-card__inner, .bkt-main .bkt-card-trade.bkt-card__row .vertical.bkt-shadow-card__inner, .bkt-main .bkt-card-trade.bkt-shadow-card__inner .vertical.bkt-shadow-card__inner {
   margin: 0;
   width: 76px;
 }
-.bkt-main .bkt-card-trade.bkt-card .bkt-card.vertical .bkt-button-ellipse, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card.vertical .bkt-button-ellipse, .bkt-main .bkt-card-trade.bkt-card .vertical.bkt-card__row .bkt-button-ellipse, .bkt-main .bkt-card-trade.bkt-card__row .vertical.bkt-card__row .bkt-button-ellipse {
+.bkt-main .bkt-card-trade.bkt-card .bkt-card.vertical .bkt-button-ellipse, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card.vertical .bkt-button-ellipse, .bkt-main .bkt-card-trade.bkt-shadow-card__inner .bkt-card.vertical .bkt-button-ellipse, .bkt-main .bkt-card-trade.bkt-card .vertical.bkt-card__row .bkt-button-ellipse, .bkt-main .bkt-card-trade.bkt-card__row .vertical.bkt-card__row .bkt-button-ellipse, .bkt-main .bkt-card-trade.bkt-shadow-card__inner .vertical.bkt-card__row .bkt-button-ellipse, .bkt-main .bkt-card-trade.bkt-card .vertical.bkt-shadow-card__inner .bkt-button-ellipse, .bkt-main .bkt-card-trade.bkt-card__row .vertical.bkt-shadow-card__inner .bkt-button-ellipse, .bkt-main .bkt-card-trade.bkt-shadow-card__inner .vertical.bkt-shadow-card__inner .bkt-button-ellipse {
   margin: 3px;
   width: 44px;
   height: 44px;
 }
-.bkt-main .bkt-card-trade.bkt-card .bkt-card.vertical .bkt-button-ellipse:hover, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card.vertical .bkt-button-ellipse:hover, .bkt-main .bkt-card-trade.bkt-card .vertical.bkt-card__row .bkt-button-ellipse:hover, .bkt-main .bkt-card-trade.bkt-card__row .vertical.bkt-card__row .bkt-button-ellipse:hover {
+.bkt-main .bkt-card-trade.bkt-card .bkt-card.vertical .bkt-button-ellipse:hover, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card.vertical .bkt-button-ellipse:hover, .bkt-main .bkt-card-trade.bkt-shadow-card__inner .bkt-card.vertical .bkt-button-ellipse:hover, .bkt-main .bkt-card-trade.bkt-card .vertical.bkt-card__row .bkt-button-ellipse:hover, .bkt-main .bkt-card-trade.bkt-card__row .vertical.bkt-card__row .bkt-button-ellipse:hover, .bkt-main .bkt-card-trade.bkt-shadow-card__inner .vertical.bkt-card__row .bkt-button-ellipse:hover, .bkt-main .bkt-card-trade.bkt-card .vertical.bkt-shadow-card__inner .bkt-button-ellipse:hover, .bkt-main .bkt-card-trade.bkt-card__row .vertical.bkt-shadow-card__inner .bkt-button-ellipse:hover, .bkt-main .bkt-card-trade.bkt-shadow-card__inner .vertical.bkt-shadow-card__inner .bkt-button-ellipse:hover {
   background: #ffc515;
 }
-.bkt-main .bkt-card-trade.bkt-card .bkt-card.vertical .bkt-button-ellipse:last-child:hover, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card.vertical .bkt-button-ellipse:last-child:hover, .bkt-main .bkt-card-trade.bkt-card .vertical.bkt-card__row .bkt-button-ellipse:last-child:hover, .bkt-main .bkt-card-trade.bkt-card__row .vertical.bkt-card__row .bkt-button-ellipse:last-child:hover {
+.bkt-main .bkt-card-trade.bkt-card .bkt-card.vertical .bkt-button-ellipse:last-child:hover, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card.vertical .bkt-button-ellipse:last-child:hover, .bkt-main .bkt-card-trade.bkt-shadow-card__inner .bkt-card.vertical .bkt-button-ellipse:last-child:hover, .bkt-main .bkt-card-trade.bkt-card .vertical.bkt-card__row .bkt-button-ellipse:last-child:hover, .bkt-main .bkt-card-trade.bkt-card__row .vertical.bkt-card__row .bkt-button-ellipse:last-child:hover, .bkt-main .bkt-card-trade.bkt-shadow-card__inner .vertical.bkt-card__row .bkt-button-ellipse:last-child:hover, .bkt-main .bkt-card-trade.bkt-card .vertical.bkt-shadow-card__inner .bkt-button-ellipse:last-child:hover, .bkt-main .bkt-card-trade.bkt-card__row .vertical.bkt-shadow-card__inner .bkt-button-ellipse:last-child:hover, .bkt-main .bkt-card-trade.bkt-shadow-card__inner .vertical.bkt-shadow-card__inner .bkt-button-ellipse:last-child:hover {
   background: transparent;
 }
-.bkt-main .bkt-card-trade.bkt-card .bkt-card-infographics, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card-infographics {
+.bkt-main .bkt-card-trade.bkt-card .bkt-card-infographics, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card-infographics, .bkt-main .bkt-card-trade.bkt-shadow-card__inner .bkt-card-infographics {
   gap: 0 6px;
 }
-.bkt-main .bkt-card-trade.bkt-card .bkt-card-infographics .bkt-card, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card-infographics .bkt-card, .bkt-main .bkt-card-trade.bkt-card .bkt-card-infographics .bkt-card__row, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card-infographics .bkt-card__row {
+.bkt-main .bkt-card-trade.bkt-card .bkt-card-infographics .bkt-card, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card-infographics .bkt-card, .bkt-main .bkt-card-trade.bkt-shadow-card__inner .bkt-card-infographics .bkt-card, .bkt-main .bkt-card-trade.bkt-card .bkt-card-infographics .bkt-card__row, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card-infographics .bkt-card__row, .bkt-main .bkt-card-trade.bkt-shadow-card__inner .bkt-card-infographics .bkt-card__row, .bkt-main .bkt-card-trade.bkt-card .bkt-card-infographics .bkt-shadow-card__inner, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card-infographics .bkt-shadow-card__inner, .bkt-main .bkt-card-trade.bkt-shadow-card__inner .bkt-card-infographics .bkt-shadow-card__inner {
   margin-bottom: 3px;
   margin-top: 3px;
 }
-.bkt-main .bkt-card-trade.bkt-card .bkt-card-infographics .bkt-card .bkt-card__feature, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card-infographics .bkt-card .bkt-card__feature, .bkt-main .bkt-card-trade.bkt-card .bkt-card-infographics .bkt-card__row .bkt-card__feature, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card-infographics .bkt-card__row .bkt-card__feature {
+.bkt-main .bkt-card-trade.bkt-card .bkt-card-infographics .bkt-card .bkt-card__feature, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card-infographics .bkt-card .bkt-card__feature, .bkt-main .bkt-card-trade.bkt-shadow-card__inner .bkt-card-infographics .bkt-card .bkt-card__feature, .bkt-main .bkt-card-trade.bkt-card .bkt-card-infographics .bkt-card__row .bkt-card__feature, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card-infographics .bkt-card__row .bkt-card__feature, .bkt-main .bkt-card-trade.bkt-shadow-card__inner .bkt-card-infographics .bkt-card__row .bkt-card__feature, .bkt-main .bkt-card-trade.bkt-card .bkt-card-infographics .bkt-shadow-card__inner .bkt-card__feature, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card-infographics .bkt-shadow-card__inner .bkt-card__feature, .bkt-main .bkt-card-trade.bkt-shadow-card__inner .bkt-card-infographics .bkt-shadow-card__inner .bkt-card__feature {
   margin: 0;
 }
-.bkt-main .bkt-card-trade.bkt-card .bkt-card-infographics .bkt-card .bkt-card__feature .bkt-card__subtitle, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card-infographics .bkt-card .bkt-card__feature .bkt-card__subtitle, .bkt-main .bkt-card-trade.bkt-card .bkt-card-infographics .bkt-card__row .bkt-card__feature .bkt-card__subtitle, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card-infographics .bkt-card__row .bkt-card__feature .bkt-card__subtitle {
+.bkt-main .bkt-card-trade.bkt-card .bkt-card-infographics .bkt-card .bkt-card__feature .bkt-card__subtitle, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card-infographics .bkt-card .bkt-card__feature .bkt-card__subtitle, .bkt-main .bkt-card-trade.bkt-shadow-card__inner .bkt-card-infographics .bkt-card .bkt-card__feature .bkt-card__subtitle, .bkt-main .bkt-card-trade.bkt-card .bkt-card-infographics .bkt-card__row .bkt-card__feature .bkt-card__subtitle, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card-infographics .bkt-card__row .bkt-card__feature .bkt-card__subtitle, .bkt-main .bkt-card-trade.bkt-shadow-card__inner .bkt-card-infographics .bkt-card__row .bkt-card__feature .bkt-card__subtitle, .bkt-main .bkt-card-trade.bkt-card .bkt-card-infographics .bkt-shadow-card__inner .bkt-card__feature .bkt-card__subtitle, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card-infographics .bkt-shadow-card__inner .bkt-card__feature .bkt-card__subtitle, .bkt-main .bkt-card-trade.bkt-shadow-card__inner .bkt-card-infographics .bkt-shadow-card__inner .bkt-card__feature .bkt-card__subtitle {
   margin: 0;
 }
-.bkt-main .bkt-card-trade.bkt-card .bkt-card-period, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card-period {
+.bkt-main .bkt-card-trade.bkt-card .bkt-card-period, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card-period, .bkt-main .bkt-card-trade.bkt-shadow-card__inner .bkt-card-period {
   margin-bottom: 15px;
   margin-top: 15px;
   flex-wrap: nowrap;
 }
-.bkt-main .bkt-card-trade.bkt-card .bkt-card-period h6, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card-period h6, .bkt-main .bkt-card-trade.bkt-card .bkt-card-period .h6, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card-period .h6 {
+.bkt-main .bkt-card-trade.bkt-card .bkt-card-period h6, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card-period h6, .bkt-main .bkt-card-trade.bkt-shadow-card__inner .bkt-card-period h6, .bkt-main .bkt-card-trade.bkt-card .bkt-card-period .h6, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card-period .h6, .bkt-main .bkt-card-trade.bkt-shadow-card__inner .bkt-card-period .h6 {
   line-height: 18px;
   margin: 0;
 }
-.bkt-main .bkt-card-trade.bkt-card .bkt-card-period .bkt-card__category, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card-period .bkt-card__category {
+.bkt-main .bkt-card-trade.bkt-card .bkt-card-period .bkt-card__category, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card-period .bkt-card__category, .bkt-main .bkt-card-trade.bkt-shadow-card__inner .bkt-card-period .bkt-card__category {
   height: 56px;
   margin-right: 15px;
   flex-shrink: 0;
 }
-.bkt-main .bkt-card-trade.bkt-card .bkt-card-period .bkt-card__category-icon, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card-period .bkt-card__category-icon {
+.bkt-main .bkt-card-trade.bkt-card .bkt-card-period .bkt-card__category-icon, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card-period .bkt-card__category-icon, .bkt-main .bkt-card-trade.bkt-shadow-card__inner .bkt-card-period .bkt-card__category-icon {
   max-width: 16px;
   max-height: 16px;
 }
-.bkt-main .bkt-card-trade.bkt-card .bkt-card-price, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card-price {
+.bkt-main .bkt-card-trade.bkt-card .bkt-card-price, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card-price, .bkt-main .bkt-card-trade.bkt-shadow-card__inner .bkt-card-price {
   font-size: 30px;
   font-family: "Gilroy";
   font-weight: 700;
@@ -15260,7 +15781,7 @@ textarea.form-control-lg {
   line-height: 1;
   text-align: left;
 }
-.bkt-main .bkt-card-trade.bkt-card .bkt-card-price-icon, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card-price-icon {
+.bkt-main .bkt-card-trade.bkt-card .bkt-card-price-icon, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card-price-icon, .bkt-main .bkt-card-trade.bkt-shadow-card__inner .bkt-card-price-icon {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -15275,7 +15796,7 @@ textarea.form-control-lg {
   line-height: 1.2;
   box-shadow: 0px 11px 15px 0px rgba(13, 85, 21, 0.15);
 }
-.bkt-main .bkt-card-trade.bkt-card .bkt-card-menu, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card-menu {
+.bkt-main .bkt-card-trade.bkt-card .bkt-card-menu, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card-menu, .bkt-main .bkt-card-trade.bkt-shadow-card__inner .bkt-card-menu {
   background-color: #2d3244;
   width: 230px;
   height: 386px;
@@ -15283,7 +15804,7 @@ textarea.form-control-lg {
   padding: 25px;
   top: 37px;
 }
-.bkt-main .bkt-card-trade.bkt-card .bkt-card-menu::before, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card-menu::before {
+.bkt-main .bkt-card-trade.bkt-card .bkt-card-menu::before, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card-menu::before, .bkt-main .bkt-card-trade.bkt-shadow-card__inner .bkt-card-menu::before {
   position: absolute;
   top: -10px;
   right: 0;
@@ -15292,12 +15813,12 @@ textarea.form-control-lg {
   border-width: 10px 8px 0 0;
   border-color: transparent #2d3244 transparent transparent;
 }
-.bkt-main .bkt-card-trade.bkt-card .bkt-card-menu .bkt-card-menu-inner, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card-menu .bkt-card-menu-inner {
+.bkt-main .bkt-card-trade.bkt-card .bkt-card-menu .bkt-card-menu-inner, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card-menu .bkt-card-menu-inner, .bkt-main .bkt-card-trade.bkt-shadow-card__inner .bkt-card-menu .bkt-card-menu-inner {
   gap: 6px;
   display: flex;
   flex-direction: column;
 }
-.bkt-main .bkt-card-trade.bkt-card .bkt-card-menu .bkt-button, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card-menu .bkt-button, .bkt-main .bkt-card-trade.bkt-card .bkt-card-menu .bkt-button-link, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card-menu .bkt-button-link, .bkt-main .bkt-card-trade.bkt-card .bkt-card-menu .bkt-button-icon, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card-menu .bkt-button-icon {
+.bkt-main .bkt-card-trade.bkt-card .bkt-card-menu .bkt-button, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card-menu .bkt-button, .bkt-main .bkt-card-trade.bkt-shadow-card__inner .bkt-card-menu .bkt-button, .bkt-main .bkt-card-trade.bkt-card .bkt-card-menu .bkt-button-link, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card-menu .bkt-button-link, .bkt-main .bkt-card-trade.bkt-shadow-card__inner .bkt-card-menu .bkt-button-link, .bkt-main .bkt-card-trade.bkt-card .bkt-card-menu .bkt-button-icon, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card-menu .bkt-button-icon, .bkt-main .bkt-card-trade.bkt-shadow-card__inner .bkt-card-menu .bkt-button-icon {
   font-size: 12px;
   padding: 15px;
   width: 100%;
@@ -15308,7 +15829,7 @@ textarea.form-control-lg {
   align-items: center;
   position: relative;
 }
-.bkt-main .bkt-card-trade.bkt-card .bkt-card-menu .bkt-button .info, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card-menu .bkt-button .info, .bkt-main .bkt-card-trade.bkt-card .bkt-card-menu .bkt-button-link .info, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card-menu .bkt-button-link .info, .bkt-main .bkt-card-trade.bkt-card .bkt-card-menu .bkt-button-icon .info, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card-menu .bkt-button-icon .info {
+.bkt-main .bkt-card-trade.bkt-card .bkt-card-menu .bkt-button .info, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card-menu .bkt-button .info, .bkt-main .bkt-card-trade.bkt-shadow-card__inner .bkt-card-menu .bkt-button .info, .bkt-main .bkt-card-trade.bkt-card .bkt-card-menu .bkt-button-link .info, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card-menu .bkt-button-link .info, .bkt-main .bkt-card-trade.bkt-shadow-card__inner .bkt-card-menu .bkt-button-link .info, .bkt-main .bkt-card-trade.bkt-card .bkt-card-menu .bkt-button-icon .info, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card-menu .bkt-button-icon .info, .bkt-main .bkt-card-trade.bkt-shadow-card__inner .bkt-card-menu .bkt-button-icon .info {
   position: absolute;
   background: #2fbb40;
   top: 18px;
@@ -15317,21 +15838,21 @@ textarea.form-control-lg {
   height: 7px;
   border-radius: 100%;
 }
-.bkt-main .bkt-card-trade.bkt-card .bkt-card-menu .bkt-button .bkt-button__icon, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card-menu .bkt-button .bkt-button__icon, .bkt-main .bkt-card-trade.bkt-card .bkt-card-menu .bkt-button-link .bkt-button__icon, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card-menu .bkt-button-link .bkt-button__icon, .bkt-main .bkt-card-trade.bkt-card .bkt-card-menu .bkt-button-icon .bkt-button__icon, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card-menu .bkt-button-icon .bkt-button__icon {
+.bkt-main .bkt-card-trade.bkt-card .bkt-card-menu .bkt-button .bkt-button__icon, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card-menu .bkt-button .bkt-button__icon, .bkt-main .bkt-card-trade.bkt-shadow-card__inner .bkt-card-menu .bkt-button .bkt-button__icon, .bkt-main .bkt-card-trade.bkt-card .bkt-card-menu .bkt-button-link .bkt-button__icon, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card-menu .bkt-button-link .bkt-button__icon, .bkt-main .bkt-card-trade.bkt-shadow-card__inner .bkt-card-menu .bkt-button-link .bkt-button__icon, .bkt-main .bkt-card-trade.bkt-card .bkt-card-menu .bkt-button-icon .bkt-button__icon, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card-menu .bkt-button-icon .bkt-button__icon, .bkt-main .bkt-card-trade.bkt-shadow-card__inner .bkt-card-menu .bkt-button-icon .bkt-button__icon {
   max-width: 18px;
   max-height: 17px;
   margin-right: 12px;
 }
-.bkt-main .bkt-card-trade.bkt-card .bkt-card-menu-button, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card-menu-button {
+.bkt-main .bkt-card-trade.bkt-card .bkt-card-menu-button, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card-menu-button, .bkt-main .bkt-card-trade.bkt-shadow-card__inner .bkt-card-menu-button {
   width: 44px;
   height: 44px;
   padding: 12px;
   border-radius: 10px;
 }
-.bkt-main .bkt-card-trade.bkt-card .bkt-card-menu-button svg, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card-menu-button svg {
+.bkt-main .bkt-card-trade.bkt-card .bkt-card-menu-button svg, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card-menu-button svg, .bkt-main .bkt-card-trade.bkt-shadow-card__inner .bkt-card-menu-button svg {
   transform: rotate(90deg);
 }
-.bkt-main .bkt-card-trade.bkt-card .bkt-card__image-slider .hooper-prev, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card__image-slider .hooper-prev, .bkt-main .bkt-card-trade.bkt-card .bkt-card__image-slider .hooper-next, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card__image-slider .hooper-next {
+.bkt-main .bkt-card-trade.bkt-card .bkt-card__image-slider .hooper-prev, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card__image-slider .hooper-prev, .bkt-main .bkt-card-trade.bkt-shadow-card__inner .bkt-card__image-slider .hooper-prev, .bkt-main .bkt-card-trade.bkt-card .bkt-card__image-slider .hooper-next, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card__image-slider .hooper-next, .bkt-main .bkt-card-trade.bkt-shadow-card__inner .bkt-card__image-slider .hooper-next {
   border-radius: 10px;
   background-color: rgb(255, 255, 255);
   width: 30px;
@@ -15341,30 +15862,30 @@ textarea.form-control-lg {
   align-items: center;
   justify-content: center;
 }
-.bkt-main .bkt-card-trade.bkt-card .bkt-card__image-slider .hooper-prev svg, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card__image-slider .hooper-prev svg, .bkt-main .bkt-card-trade.bkt-card .bkt-card__image-slider .hooper-next svg, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card__image-slider .hooper-next svg {
+.bkt-main .bkt-card-trade.bkt-card .bkt-card__image-slider .hooper-prev svg, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card__image-slider .hooper-prev svg, .bkt-main .bkt-card-trade.bkt-shadow-card__inner .bkt-card__image-slider .hooper-prev svg, .bkt-main .bkt-card-trade.bkt-card .bkt-card__image-slider .hooper-next svg, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card__image-slider .hooper-next svg, .bkt-main .bkt-card-trade.bkt-shadow-card__inner .bkt-card__image-slider .hooper-next svg {
   fill: #2953ff;
 }
-.bkt-main .bkt-card-trade.bkt-card .bkt-card__image-slider .hooper-next, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card__image-slider .hooper-next {
+.bkt-main .bkt-card-trade.bkt-card .bkt-card__image-slider .hooper-next, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card__image-slider .hooper-next, .bkt-main .bkt-card-trade.bkt-shadow-card__inner .bkt-card__image-slider .hooper-next {
   right: 10px;
 }
-.bkt-main .bkt-card-trade.bkt-card .bkt-card__image-slider .hooper-prev, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card__image-slider .hooper-prev {
+.bkt-main .bkt-card-trade.bkt-card .bkt-card__image-slider .hooper-prev, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card__image-slider .hooper-prev, .bkt-main .bkt-card-trade.bkt-shadow-card__inner .bkt-card__image-slider .hooper-prev {
   left: 10px;
 }
-.bkt-main .bkt-card-trade.bkt-card .bkt-card-image-wrapper, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card-image-wrapper {
+.bkt-main .bkt-card-trade.bkt-card .bkt-card-image-wrapper, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card-image-wrapper, .bkt-main .bkt-card-trade.bkt-shadow-card__inner .bkt-card-image-wrapper {
   gap: 25px;
   display: flex;
   flex-flow: column;
 }
-.bkt-main .bkt-card-trade.bkt-card .bkt-card-ecp-wrapper, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card-ecp-wrapper {
+.bkt-main .bkt-card-trade.bkt-card .bkt-card-ecp-wrapper, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card-ecp-wrapper, .bkt-main .bkt-card-trade.bkt-shadow-card__inner .bkt-card-ecp-wrapper {
   gap: 25px;
   flex-wrap: nowrap;
   margin-bottom: 25px;
 }
 @media screen and (max-width: 568px) {
-  .bkt-main .bkt-card-trade.bkt-card .bkt-card-ecp-wrapper, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card-ecp-wrapper {
+  .bkt-main .bkt-card-trade.bkt-card .bkt-card-ecp-wrapper, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card-ecp-wrapper, .bkt-main .bkt-card-trade.bkt-shadow-card__inner .bkt-card-ecp-wrapper {
     width: 100%;
   }
-  .bkt-main .bkt-card-trade.bkt-card .bkt-card-ecp-wrapper .bkt-card-ecp, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card-ecp-wrapper .bkt-card-ecp {
+  .bkt-main .bkt-card-trade.bkt-card .bkt-card-ecp-wrapper .bkt-card-ecp, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card-ecp-wrapper .bkt-card-ecp, .bkt-main .bkt-card-trade.bkt-shadow-card__inner .bkt-card-ecp-wrapper .bkt-card-ecp {
     font-size: 10px;
     font-family: "Gilroy";
     color: rgb(255, 255, 255);
@@ -15373,10 +15894,10 @@ textarea.form-control-lg {
     padding: 9px 15px;
     border-radius: 10px;
   }
-  .bkt-main .bkt-card-trade.bkt-card .bkt-card__head, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card__head {
+  .bkt-main .bkt-card-trade.bkt-card .bkt-card__head, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card__head, .bkt-main .bkt-card-trade.bkt-shadow-card__inner .bkt-card__head {
     flex-wrap: nowrap;
   }
-  .bkt-main .bkt-card-trade.bkt-card .bkt-card__head .bkt-card__title, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card__head .bkt-card__title {
+  .bkt-main .bkt-card-trade.bkt-card .bkt-card__head .bkt-card__title, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card__head .bkt-card__title, .bkt-main .bkt-card-trade.bkt-shadow-card__inner .bkt-card__head .bkt-card__title {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -15409,20 +15930,20 @@ textarea.form-control-lg {
     margin-left: 0;
     margin-right: 25px;
   }
-  .bkt-main .bkt-card-trade.bkt-card, .bkt-main .bkt-card-trade.bkt-card__row {
+  .bkt-main .bkt-card-trade.bkt-card, .bkt-main .bkt-card-trade.bkt-card__row, .bkt-main .bkt-card-trade.bkt-shadow-card__inner {
     border-top-left-radius: 0;
     border-top-right-radius: 0;
     border-bottom-left-radius: 18px;
     border-bottom-right-radius: 18px;
     padding: 25px;
   }
-  .bkt-main .bkt-card-trade.bkt-card .bkt-card__title, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card__title {
+  .bkt-main .bkt-card-trade.bkt-card .bkt-card__title, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card__title, .bkt-main .bkt-card-trade.bkt-shadow-card__inner .bkt-card__title {
     font-size: 15px;
   }
-  .bkt-main .bkt-card-trade.bkt-card.outline, .bkt-main .bkt-card-trade.outline.bkt-card__row {
+  .bkt-main .bkt-card-trade.bkt-card.outline, .bkt-main .bkt-card-trade.outline.bkt-card__row, .bkt-main .bkt-card-trade.outline.bkt-shadow-card__inner {
     padding: 12px 20px;
   }
-  .bkt-main .bkt-card-trade.bkt-card__heading {
+  .bkt-main .bkt-card-trade.bkt-card .bkt-card__heading, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card__heading, .bkt-main .bkt-card-trade.bkt-shadow-card__inner .bkt-card__heading {
     border-top-left-radius: 18px;
     border-top-right-radius: 18px;
     background: #2953ff;
@@ -15430,18 +15951,18 @@ textarea.form-control-lg {
     padding: 11px 24px;
     font-size: 8px;
   }
-  .bkt-main .bkt-card-trade.bkt-card__heading h5, .bkt-main .bkt-card-trade.bkt-card__heading .h5 {
+  .bkt-main .bkt-card-trade.bkt-card .bkt-card__heading h5, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card__heading h5, .bkt-main .bkt-card-trade.bkt-shadow-card__inner .bkt-card__heading h5, .bkt-main .bkt-card-trade.bkt-card .bkt-card__heading .h5, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card__heading .h5, .bkt-main .bkt-card-trade.bkt-shadow-card__inner .bkt-card__heading .h5 {
     font-size: 10px;
     margin: 0;
   }
-  .bkt-main .bkt-card-trade.bkt-card .bkt-card-menu-button, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card-menu-button {
+  .bkt-main .bkt-card-trade.bkt-card .bkt-card-menu-button, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card-menu-button, .bkt-main .bkt-card-trade.bkt-shadow-card__inner .bkt-card-menu-button {
     width: 32px !important;
     height: 32px !important;
     padding: 7px !important;
   }
 }
 @media screen and (max-width: 1200px) {
-  .bkt-main .bkt-card-trade.bkt-card .bkt-card-price, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card-price {
+  .bkt-main .bkt-card-trade.bkt-card .bkt-card-price, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card-price, .bkt-main .bkt-card-trade.bkt-shadow-card__inner .bkt-card-price {
     font-size: 18px;
     font-family: "Gilroy";
     font-weight: 700;
@@ -15454,7 +15975,7 @@ textarea.form-control-lg {
     line-height: 1;
     text-align: center;
   }
-  .bkt-main .bkt-card-trade.bkt-card .bkt-card-price-icon, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card-price-icon {
+  .bkt-main .bkt-card-trade.bkt-card .bkt-card-price-icon, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card-price-icon, .bkt-main .bkt-card-trade.bkt-shadow-card__inner .bkt-card-price-icon {
     position: absolute;
     right: 6px;
     top: 6px;
@@ -15466,12 +15987,12 @@ textarea.form-control-lg {
     line-height: 1.2;
     box-shadow: 0px 11px 15px 0px rgba(13, 85, 21, 0.15);
   }
-  .bkt-main .bkt-card-trade.bkt-card .bkt-card.outline, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card.outline, .bkt-main .bkt-card-trade.bkt-card .outline.bkt-card__row, .bkt-main .bkt-card-trade.bkt-card__row .outline.bkt-card__row {
+  .bkt-main .bkt-card-trade.bkt-card .bkt-card.outline, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card.outline, .bkt-main .bkt-card-trade.bkt-shadow-card__inner .bkt-card.outline, .bkt-main .bkt-card-trade.bkt-card .outline.bkt-card__row, .bkt-main .bkt-card-trade.bkt-card__row .outline.bkt-card__row, .bkt-main .bkt-card-trade.bkt-shadow-card__inner .outline.bkt-card__row, .bkt-main .bkt-card-trade.bkt-card .outline.bkt-shadow-card__inner, .bkt-main .bkt-card-trade.bkt-card__row .outline.bkt-shadow-card__inner, .bkt-main .bkt-card-trade.bkt-shadow-card__inner .outline.bkt-shadow-card__inner {
     padding: 12px 20px;
   }
 }
 @media screen and (min-width: 1200px) {
-  .bkt-main .bkt-card-trade.bkt-card .bkt-card__image-slider .hooper-prev, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card__image-slider .hooper-prev, .bkt-main .bkt-card-trade.bkt-card .bkt-card__image-slider .hooper-next, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card__image-slider .hooper-next {
+  .bkt-main .bkt-card-trade.bkt-card .bkt-card__image-slider .hooper-prev, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card__image-slider .hooper-prev, .bkt-main .bkt-card-trade.bkt-shadow-card__inner .bkt-card__image-slider .hooper-prev, .bkt-main .bkt-card-trade.bkt-card .bkt-card__image-slider .hooper-next, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card__image-slider .hooper-next, .bkt-main .bkt-card-trade.bkt-shadow-card__inner .bkt-card__image-slider .hooper-next {
     border-radius: 10px;
     width: 30px;
     height: 30px;
@@ -15481,10 +16002,10 @@ textarea.form-control-lg {
     bottom: 15px;
     transform: none;
   }
-  .bkt-main .bkt-card-trade.bkt-card .bkt-card__image-slider .hooper-next, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card__image-slider .hooper-next {
+  .bkt-main .bkt-card-trade.bkt-card .bkt-card__image-slider .hooper-next, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card__image-slider .hooper-next, .bkt-main .bkt-card-trade.bkt-shadow-card__inner .bkt-card__image-slider .hooper-next {
     right: 15px;
   }
-  .bkt-main .bkt-card-trade.bkt-card .bkt-card__image-slider .hooper-prev, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card__image-slider .hooper-prev {
+  .bkt-main .bkt-card-trade.bkt-card .bkt-card__image-slider .hooper-prev, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card__image-slider .hooper-prev, .bkt-main .bkt-card-trade.bkt-shadow-card__inner .bkt-card__image-slider .hooper-prev {
     right: 61px;
     left: auto;
   }
@@ -15947,7 +16468,7 @@ textarea.form-control-lg {
   position: -webkit-sticky;
   position: sticky;
 }
-.bkt-modal .bkt-code-modal .bkt-modal-content .bkt-code-modal-steps .bkt-card, .bkt-modal .bkt-code-modal .bkt-modal-content .bkt-code-modal-steps .bkt-card__row {
+.bkt-modal .bkt-code-modal .bkt-modal-content .bkt-code-modal-steps .bkt-card, .bkt-modal .bkt-code-modal .bkt-modal-content .bkt-code-modal-steps .bkt-card__row, .bkt-modal .bkt-code-modal .bkt-modal-content .bkt-code-modal-steps .bkt-shadow-card__inner {
   display: block;
   border-radius: 25px;
   padding: 22px 70px;
@@ -15970,10 +16491,10 @@ textarea.form-control-lg {
   line-height: 1.375;
   text-align: center;
 }
-.bkt-modal .bkt-code-modal .bkt-modal-content .bkt-code-modal-steps .bkt-card.bg-green, .bkt-modal .bkt-code-modal .bkt-modal-content .bkt-code-modal-steps .bg-green.bkt-card__row {
+.bkt-modal .bkt-code-modal .bkt-modal-content .bkt-code-modal-steps .bkt-card.bg-green, .bkt-modal .bkt-code-modal .bkt-modal-content .bkt-code-modal-steps .bg-green.bkt-card__row, .bkt-modal .bkt-code-modal .bkt-modal-content .bkt-code-modal-steps .bg-green.bkt-shadow-card__inner {
   background: linear-gradient(153deg, rgb(47, 187, 64) 62%, rgb(60, 191, 76) 83%, rgb(107, 207, 119) 100%);
 }
-.bkt-modal .bkt-code-modal .bkt-modal-content .bkt-code-modal-steps .bkt-card.bkt-card__background-figure-1, .bkt-modal .bkt-code-modal .bkt-modal-content .bkt-code-modal-steps .bkt-card__background-figure-1.bkt-card__row {
+.bkt-modal .bkt-code-modal .bkt-modal-content .bkt-code-modal-steps .bkt-card.bkt-card__background-figure-1, .bkt-modal .bkt-code-modal .bkt-modal-content .bkt-code-modal-steps .bkt-card__background-figure-1.bkt-card__row, .bkt-modal .bkt-code-modal .bkt-modal-content .bkt-code-modal-steps .bkt-card__background-figure-1.bkt-shadow-card__inner {
   position: absolute;
   margin: auto;
   background: #b6e7bc;
@@ -15983,7 +16504,7 @@ textarea.form-control-lg {
   left: 4.5%;
   right: 4.5%;
 }
-.bkt-modal .bkt-code-modal .bkt-modal-content .bkt-code-modal-steps .bkt-card.bkt-card__background-figure-2, .bkt-modal .bkt-code-modal .bkt-modal-content .bkt-code-modal-steps .bkt-card__background-figure-2.bkt-card__row {
+.bkt-modal .bkt-code-modal .bkt-modal-content .bkt-code-modal-steps .bkt-card.bkt-card__background-figure-2, .bkt-modal .bkt-code-modal .bkt-modal-content .bkt-code-modal-steps .bkt-card__background-figure-2.bkt-card__row, .bkt-modal .bkt-code-modal .bkt-modal-content .bkt-code-modal-steps .bkt-card__background-figure-2.bkt-shadow-card__inner {
   position: absolute;
   margin: auto;
   bottom: -14px;
@@ -16011,7 +16532,7 @@ textarea.form-control-lg {
     line-height: 1.4;
     text-align: left;
   }
-  .bkt-modal .bkt-code-modal .bkt-modal-content .bkt-code-modal-steps .bkt-card, .bkt-modal .bkt-code-modal .bkt-modal-content .bkt-code-modal-steps .bkt-card__row {
+  .bkt-modal .bkt-code-modal .bkt-modal-content .bkt-code-modal-steps .bkt-card, .bkt-modal .bkt-code-modal .bkt-modal-content .bkt-code-modal-steps .bkt-card__row, .bkt-modal .bkt-code-modal .bkt-modal-content .bkt-code-modal-steps .bkt-shadow-card__inner {
     padding: 13px 24px;
   }
   .bkt-modal .bkt-code-modal .bkt-modal-content .bkt-code-modal-steps .bkt-card__title {
@@ -16270,7 +16791,7 @@ ul.bkt-contents .bkt-contents__answer {
   max-width: 20px;
   max-height: 20px;
 }
-.bkt-main .bkt-lot-card-card.bkt-card, .bkt-main .bkt-lot-card-card.bkt-card__row {
+.bkt-main .bkt-lot-card-card.bkt-card, .bkt-main .bkt-lot-card-card.bkt-card__row, .bkt-main .bkt-lot-card-card.bkt-shadow-card__inner {
   margin: 0;
 }
 .bkt-lot-card-card .bkt-card__row {
@@ -16864,6 +17385,7 @@ ul.bkt-contents .bkt-contents__answer {
 .bkt-profile .bkt-profile-tariff {
   padding: 25px;
   text-align: center;
+  margin-bottom: 14px;
 }
 .bkt-profile .bkt-profile-tariff .bkt-card__subtitle {
   color: rgba(255, 255, 255, 0.6);
@@ -16913,6 +17435,75 @@ ul.bkt-contents .bkt-contents__answer {
   border-radius: 25px;
 }
 
+@media (max-width: 576px) {
+  .bkt-profile .bkt-profile-gap {
+    gap: 15px;
+  }
+  .bkt-profile .bkt-sidebar {
+    padding: 9px;
+  }
+  .bkt-profile .bkt-sidebar .bkt-sidebar__links {
+    columns: 2;
+    -webkit-columns: 2;
+    -moz-columns: 2;
+  }
+  .bkt-profile .bkt-sidebar .bkt-sidebar__links .bkt-sidebar__link {
+    padding: 6px;
+    border-radius: 13px;
+    gap: 11px;
+  }
+  .bkt-profile .bkt-sidebar .bkt-sidebar__links .bkt-sidebar__link .bkt-sidebar__link-icon {
+    width: 30px;
+    height: 30px;
+    padding: 8px;
+  }
+  .bkt-profile .bkt-sidebar .bkt-sidebar__links .bkt-sidebar__link .bkt-sidebar__link-label {
+    font-size: 12px;
+  }
+  .bkt-profile .bkt-profile-tariff {
+    background-color: transparent !important;
+    border: 2px solid #e5eafe;
+    margin-bottom: 0;
+  }
+  .bkt-profile .bkt-profile-tariff .bkt-card__subtitle {
+    color: #2d3244;
+    font-size: 10px;
+  }
+  .bkt-profile .bkt-profile-tariff .bkt-card__title {
+    font-size: 12px;
+    color: #2953ff;
+  }
+  .bkt-profile .bkt-profile-tariff .bkt-card__background-figure-1 {
+    display: none;
+  }
+  .bkt-profile .bkt-profile-tariff .bkt-card__background-figure-2 {
+    display: none;
+  }
+  .bkt-profile .bkt-tariff-button {
+    font-size: 12px;
+    border-radius: 13px;
+    min-height: 44px;
+    padding: 15px 35px;
+  }
+  .bkt-profile .bkt-card, .bkt-profile .bkt-card__row, .bkt-profile .bkt-shadow-card__inner {
+    border-radius: 18px;
+  }
+  .bkt-profile .bkt-notifications-card {
+    padding: 25px;
+    border-radius: 18px;
+  }
+  .bkt-profile .bkt-notifications-card .bkt-card__title {
+    font-size: 14px;
+  }
+  .bkt-profile .bkt-notifications-card .bkt-card__subtitle {
+    font-size: 10px;
+  }
+  .bkt-profile .bkt-notifications-card .bkt-button-icon {
+    width: 14px;
+    height: 14px;
+    padding: 0;
+  }
+}
 .bkt-promo {
   display: flex;
   flex-direction: column;

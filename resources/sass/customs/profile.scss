@@ -3,6 +3,7 @@
     & .bkt-profile-tariff {
         padding: 25px;
         text-align: center;
+        margin-bottom: 14px;
         & .bkt-card__subtitle
         {
             color: rgba(255, 255, 255, 0.6);
@@ -55,5 +56,83 @@
         background: $white;
         padding: 25px 40px;
         border-radius: 25px;
+    }
+}
+
+@media (max-width: 576px) {
+    .bkt-profile {
+        .bkt-profile-gap {
+            gap: 15px;
+        }
+        & .bkt-sidebar {
+            padding: 9px;
+            & .bkt-sidebar__links {
+                columns: 2;
+                -webkit-columns: 2;
+                -moz-columns: 2;
+
+                & .bkt-sidebar__link {
+                    padding: 6px;
+                    border-radius: 13px;
+                    gap: 11px;
+
+                    & .bkt-sidebar__link-icon {
+                        width: 30px;
+                        height: 30px;
+                        padding: 8px;
+                    }
+                    & .bkt-sidebar__link-label {
+                        font-size: 12px;
+                    }
+                }
+            }
+        }
+        & .bkt-profile-tariff {
+            background-color: transparent !important;
+            border: 2px solid #e5eafe;
+            margin-bottom: 0;
+            & .bkt-card__subtitle
+            {
+                color: $main-default;
+                font-size: 10px;
+            }
+            & .bkt-card__title
+            {
+                font-size: 12px;
+                color: $primary-default;
+            }
+            & .bkt-card__background-figure-1 {
+               display: none;
+            }
+
+            & .bkt-card__background-figure-2 {
+                display: none;
+            }
+        }
+        & .bkt-tariff-button {
+            font-size: 12px;
+            border-radius: 13px;
+            min-height: 44px;
+            padding: 15px 35px;
+        }
+        & .bkt-card {
+            border-radius: 18px;
+        }
+        & .bkt-notifications-card {
+            padding: 25px;
+            border-radius: 18px;
+            & .bkt-card__title {
+                font-size: 14px;
+            }
+            & .bkt-card__subtitle {
+                font-size: 10px;
+            }
+            & .bkt-button-icon {
+                width: 14px;
+                height: 14px;
+                padding: 0;
+            }
+        }
+
     }
 }

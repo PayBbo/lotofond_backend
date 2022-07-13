@@ -197,15 +197,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-// import Icon from "../../components/Icon";
-// import Input from "../../components/Input";
-// import Checkbox from "../../components/Checkbox";
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "UpcomingAuctions",
-  components: {// 'bkt-icon': Icon,
-    // 'bkt-input': Input,
-    // 'bkt-checkbox': Checkbox
-  },
   data: function data() {
     return {
       pricing: [{
