@@ -1,4 +1,4 @@
-.bkt-modal .bkt-region-modal {
+.bkt-region-modal {
     margin: 0;
     font-family: 'Gilroy', sans-serif;
     font-weight: 400;
@@ -22,27 +22,79 @@
     }
 
     & .bkt-regions-tabs {
-        &__nav-item {
-            border-radius: 15px 0 0 15px;
-            text-decoration: none !important;
-            cursor: pointer;
-            font-size: 16px;
-            font-family: "Gilroy";
-            color: rgb(45, 50, 68);
-            font-weight: bold;
-            line-height: 1.375;
-            text-align: left;
-            padding: 15px 25px;
-            &:hover {
-                background-color: rgb(224, 230, 254) !important;
+        &__nav {
+            height: 450px;
+            overflow-y: scroll;
+            scrollbar-width: thin;
+            scrollbar-color: $primary-default #e9f3fc;
+            direction: rtl;
+
+            &-item {
+                border-radius: 15px 0 0 15px;
+                text-decoration: none !important;
+                cursor: pointer;
+                font-size: 16px;
+                font-family: "Gilroy", SansSerif;
+                color: rgb(45, 50, 68);
+                font-weight: bold;
+                line-height: 1.375;
+                text-align: left;
+                padding: 15px 25px;
+
+                &:hover {
+                    background-color: rgb(224, 230, 254) !important;
+                }
+            }
+
+            &::-webkit-scrollbar {
+                width: 7px;
+            }
+
+            &::-webkit-scrollbar-track {
+                background: transparent;
+            }
+
+            &::-webkit-scrollbar-thumb {
+                background-color: $primary-default;
+                border-radius: 5px;
             }
         }
+
+        &__content {
+            padding: 30px;
+            border-radius: 15px;
+            display: flex;
+            justify-content: space-between;
+            flex-direction: column;
+            width: 100%;
+            height: 450px;
+            overflow-y: scroll;
+            scrollbar-width: thin;
+            scrollbar-color: $primary-default #e9f3fc;
+            gap: 4px;
+
+            &::-webkit-scrollbar {
+                width: 7px;
+            }
+
+            &::-webkit-scrollbar-track {
+                background: transparent;
+                padding: 25px;
+            }
+
+            &::-webkit-scrollbar-thumb {
+                background-color: $primary-default;
+                border-radius: 5px;
+            }
+        }
+
         &__mobile {
             display: flex;
             justify-content: space-between;
             flex-direction: column;
             width: 100%;
             gap: 6px;
+
             &-item {
                 border-radius: 13px;
                 border: 2px solid $primary-lighter;
@@ -54,15 +106,6 @@
         border-radius: 15px 0 0 15px;
     }
 
-    & .bkt-tabs-content {
-        padding: 30px;
-        border-radius: 15px;
-        display: flex;
-        justify-content: space-between;
-        flex-direction: column;
-        width: 100%;
-        gap: 4px
-    }
 
     & .bkt-rounded-left-top-none {
         border-top-left-radius: 0;
@@ -91,6 +134,14 @@
             background-color: rgb(47, 187, 64);
             color: white;
         }
+    }
+
+    & .bkt-region-selected__title {
+        font-size: 14px;
+        font-family: "Gilroy";
+        color: rgba(45, 50, 68, 0.4);
+        line-height: 1.2;
+        margin-bottom: 9px;
     }
 }
 
@@ -147,9 +198,22 @@
 
         & .bkt-regions-tabs {
             &__title {
-                font-size: 16px;
+                font-size: 12px;
                 font-weight: 600;
+                word-break: break-word;
             }
+
+            &__subtitle {
+                font-size: 10px;
+            }
+        }
+
+        & .bkt-region-selected__title {
+            font-size: 10px;
+            font-family: "Gilroy";
+            color: rgba(45, 50, 68, 0.4);
+            line-height: 1.2;
+            margin-bottom: 5px;
         }
     }
 }

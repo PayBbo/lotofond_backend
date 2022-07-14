@@ -60,6 +60,10 @@ __webpack_require__.r(__webpack_exports__);
     title: {
       type: String
     },
+    title_class: {
+      type: String,
+      "default": 'bkt-collapse__title'
+    },
     main_class: {
       type: String,
       "default": 'bkt-card bkt-card__body'
@@ -528,6 +532,22 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var _components_Collapse_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../components/Collapse.vue */ "./resources/js/components/Collapse.vue");
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
+
+function _regeneratorRuntime() { "use strict"; /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/facebook/regenerator/blob/main/LICENSE */ _regeneratorRuntime = function _regeneratorRuntime() { return exports; }; var exports = {}, Op = Object.prototype, hasOwn = Op.hasOwnProperty, $Symbol = "function" == typeof Symbol ? Symbol : {}, iteratorSymbol = $Symbol.iterator || "@@iterator", asyncIteratorSymbol = $Symbol.asyncIterator || "@@asyncIterator", toStringTagSymbol = $Symbol.toStringTag || "@@toStringTag"; function define(obj, key, value) { return Object.defineProperty(obj, key, { value: value, enumerable: !0, configurable: !0, writable: !0 }), obj[key]; } try { define({}, ""); } catch (err) { define = function define(obj, key, value) { return obj[key] = value; }; } function wrap(innerFn, outerFn, self, tryLocsList) { var protoGenerator = outerFn && outerFn.prototype instanceof Generator ? outerFn : Generator, generator = Object.create(protoGenerator.prototype), context = new Context(tryLocsList || []); return generator._invoke = function (innerFn, self, context) { var state = "suspendedStart"; return function (method, arg) { if ("executing" === state) throw new Error("Generator is already running"); if ("completed" === state) { if ("throw" === method) throw arg; return doneResult(); } for (context.method = method, context.arg = arg;;) { var delegate = context.delegate; if (delegate) { var delegateResult = maybeInvokeDelegate(delegate, context); if (delegateResult) { if (delegateResult === ContinueSentinel) continue; return delegateResult; } } if ("next" === context.method) context.sent = context._sent = context.arg;else if ("throw" === context.method) { if ("suspendedStart" === state) throw state = "completed", context.arg; context.dispatchException(context.arg); } else "return" === context.method && context.abrupt("return", context.arg); state = "executing"; var record = tryCatch(innerFn, self, context); if ("normal" === record.type) { if (state = context.done ? "completed" : "suspendedYield", record.arg === ContinueSentinel) continue; return { value: record.arg, done: context.done }; } "throw" === record.type && (state = "completed", context.method = "throw", context.arg = record.arg); } }; }(innerFn, self, context), generator; } function tryCatch(fn, obj, arg) { try { return { type: "normal", arg: fn.call(obj, arg) }; } catch (err) { return { type: "throw", arg: err }; } } exports.wrap = wrap; var ContinueSentinel = {}; function Generator() {} function GeneratorFunction() {} function GeneratorFunctionPrototype() {} var IteratorPrototype = {}; define(IteratorPrototype, iteratorSymbol, function () { return this; }); var getProto = Object.getPrototypeOf, NativeIteratorPrototype = getProto && getProto(getProto(values([]))); NativeIteratorPrototype && NativeIteratorPrototype !== Op && hasOwn.call(NativeIteratorPrototype, iteratorSymbol) && (IteratorPrototype = NativeIteratorPrototype); var Gp = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(IteratorPrototype); function defineIteratorMethods(prototype) { ["next", "throw", "return"].forEach(function (method) { define(prototype, method, function (arg) { return this._invoke(method, arg); }); }); } function AsyncIterator(generator, PromiseImpl) { function invoke(method, arg, resolve, reject) { var record = tryCatch(generator[method], generator, arg); if ("throw" !== record.type) { var result = record.arg, value = result.value; return value && "object" == _typeof(value) && hasOwn.call(value, "__await") ? PromiseImpl.resolve(value.__await).then(function (value) { invoke("next", value, resolve, reject); }, function (err) { invoke("throw", err, resolve, reject); }) : PromiseImpl.resolve(value).then(function (unwrapped) { result.value = unwrapped, resolve(result); }, function (error) { return invoke("throw", error, resolve, reject); }); } reject(record.arg); } var previousPromise; this._invoke = function (method, arg) { function callInvokeWithMethodAndArg() { return new PromiseImpl(function (resolve, reject) { invoke(method, arg, resolve, reject); }); } return previousPromise = previousPromise ? previousPromise.then(callInvokeWithMethodAndArg, callInvokeWithMethodAndArg) : callInvokeWithMethodAndArg(); }; } function maybeInvokeDelegate(delegate, context) { var method = delegate.iterator[context.method]; if (undefined === method) { if (context.delegate = null, "throw" === context.method) { if (delegate.iterator["return"] && (context.method = "return", context.arg = undefined, maybeInvokeDelegate(delegate, context), "throw" === context.method)) return ContinueSentinel; context.method = "throw", context.arg = new TypeError("The iterator does not provide a 'throw' method"); } return ContinueSentinel; } var record = tryCatch(method, delegate.iterator, context.arg); if ("throw" === record.type) return context.method = "throw", context.arg = record.arg, context.delegate = null, ContinueSentinel; var info = record.arg; return info ? info.done ? (context[delegate.resultName] = info.value, context.next = delegate.nextLoc, "return" !== context.method && (context.method = "next", context.arg = undefined), context.delegate = null, ContinueSentinel) : info : (context.method = "throw", context.arg = new TypeError("iterator result is not an object"), context.delegate = null, ContinueSentinel); } function pushTryEntry(locs) { var entry = { tryLoc: locs[0] }; 1 in locs && (entry.catchLoc = locs[1]), 2 in locs && (entry.finallyLoc = locs[2], entry.afterLoc = locs[3]), this.tryEntries.push(entry); } function resetTryEntry(entry) { var record = entry.completion || {}; record.type = "normal", delete record.arg, entry.completion = record; } function Context(tryLocsList) { this.tryEntries = [{ tryLoc: "root" }], tryLocsList.forEach(pushTryEntry, this), this.reset(!0); } function values(iterable) { if (iterable) { var iteratorMethod = iterable[iteratorSymbol]; if (iteratorMethod) return iteratorMethod.call(iterable); if ("function" == typeof iterable.next) return iterable; if (!isNaN(iterable.length)) { var i = -1, next = function next() { for (; ++i < iterable.length;) { if (hasOwn.call(iterable, i)) return next.value = iterable[i], next.done = !1, next; } return next.value = undefined, next.done = !0, next; }; return next.next = next; } } return { next: doneResult }; } function doneResult() { return { value: undefined, done: !0 }; } return GeneratorFunction.prototype = GeneratorFunctionPrototype, define(Gp, "constructor", GeneratorFunctionPrototype), define(GeneratorFunctionPrototype, "constructor", GeneratorFunction), GeneratorFunction.displayName = define(GeneratorFunctionPrototype, toStringTagSymbol, "GeneratorFunction"), exports.isGeneratorFunction = function (genFun) { var ctor = "function" == typeof genFun && genFun.constructor; return !!ctor && (ctor === GeneratorFunction || "GeneratorFunction" === (ctor.displayName || ctor.name)); }, exports.mark = function (genFun) { return Object.setPrototypeOf ? Object.setPrototypeOf(genFun, GeneratorFunctionPrototype) : (genFun.__proto__ = GeneratorFunctionPrototype, define(genFun, toStringTagSymbol, "GeneratorFunction")), genFun.prototype = Object.create(Gp), genFun; }, exports.awrap = function (arg) { return { __await: arg }; }, defineIteratorMethods(AsyncIterator.prototype), define(AsyncIterator.prototype, asyncIteratorSymbol, function () { return this; }), exports.AsyncIterator = AsyncIterator, exports.async = function (innerFn, outerFn, self, tryLocsList, PromiseImpl) { void 0 === PromiseImpl && (PromiseImpl = Promise); var iter = new AsyncIterator(wrap(innerFn, outerFn, self, tryLocsList), PromiseImpl); return exports.isGeneratorFunction(outerFn) ? iter : iter.next().then(function (result) { return result.done ? result.value : iter.next(); }); }, defineIteratorMethods(Gp), define(Gp, toStringTagSymbol, "Generator"), define(Gp, iteratorSymbol, function () { return this; }), define(Gp, "toString", function () { return "[object Generator]"; }), exports.keys = function (object) { var keys = []; for (var key in object) { keys.push(key); } return keys.reverse(), function next() { for (; keys.length;) { var key = keys.pop(); if (key in object) return next.value = key, next.done = !1, next; } return next.done = !0, next; }; }, exports.values = values, Context.prototype = { constructor: Context, reset: function reset(skipTempReset) { if (this.prev = 0, this.next = 0, this.sent = this._sent = undefined, this.done = !1, this.delegate = null, this.method = "next", this.arg = undefined, this.tryEntries.forEach(resetTryEntry), !skipTempReset) for (var name in this) { "t" === name.charAt(0) && hasOwn.call(this, name) && !isNaN(+name.slice(1)) && (this[name] = undefined); } }, stop: function stop() { this.done = !0; var rootRecord = this.tryEntries[0].completion; if ("throw" === rootRecord.type) throw rootRecord.arg; return this.rval; }, dispatchException: function dispatchException(exception) { if (this.done) throw exception; var context = this; function handle(loc, caught) { return record.type = "throw", record.arg = exception, context.next = loc, caught && (context.method = "next", context.arg = undefined), !!caught; } for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i], record = entry.completion; if ("root" === entry.tryLoc) return handle("end"); if (entry.tryLoc <= this.prev) { var hasCatch = hasOwn.call(entry, "catchLoc"), hasFinally = hasOwn.call(entry, "finallyLoc"); if (hasCatch && hasFinally) { if (this.prev < entry.catchLoc) return handle(entry.catchLoc, !0); if (this.prev < entry.finallyLoc) return handle(entry.finallyLoc); } else if (hasCatch) { if (this.prev < entry.catchLoc) return handle(entry.catchLoc, !0); } else { if (!hasFinally) throw new Error("try statement without catch or finally"); if (this.prev < entry.finallyLoc) return handle(entry.finallyLoc); } } } }, abrupt: function abrupt(type, arg) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.tryLoc <= this.prev && hasOwn.call(entry, "finallyLoc") && this.prev < entry.finallyLoc) { var finallyEntry = entry; break; } } finallyEntry && ("break" === type || "continue" === type) && finallyEntry.tryLoc <= arg && arg <= finallyEntry.finallyLoc && (finallyEntry = null); var record = finallyEntry ? finallyEntry.completion : {}; return record.type = type, record.arg = arg, finallyEntry ? (this.method = "next", this.next = finallyEntry.finallyLoc, ContinueSentinel) : this.complete(record); }, complete: function complete(record, afterLoc) { if ("throw" === record.type) throw record.arg; return "break" === record.type || "continue" === record.type ? this.next = record.arg : "return" === record.type ? (this.rval = this.arg = record.arg, this.method = "return", this.next = "end") : "normal" === record.type && afterLoc && (this.next = afterLoc), ContinueSentinel; }, finish: function finish(finallyLoc) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.finallyLoc === finallyLoc) return this.complete(entry.completion, entry.afterLoc), resetTryEntry(entry), ContinueSentinel; } }, "catch": function _catch(tryLoc) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.tryLoc === tryLoc) { var record = entry.completion; if ("throw" === record.type) { var thrown = record.arg; resetTryEntry(entry); } return thrown; } } throw new Error("illegal catch attempt"); }, delegateYield: function delegateYield(iterable, resultName, nextLoc) { return this.delegate = { iterator: values(iterable), resultName: resultName, nextLoc: nextLoc }, "next" === this.method && (this.arg = undefined), ContinueSentinel; } }, exports; }
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -808,16 +828,12 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       result: [],
-      selectedCategory: {
-        key: 'realEstate',
-        subcategories: []
-      }
+      items: []
     };
   },
-  mounted: function mounted() {
-    if (this.categories.length > 0) {
-      this.selectedCategory = this.categories[0];
-    }
+  created: function created() {
+    this.getCategories();
+    this.result = JSON.parse(JSON.stringify(this.$store.getters.filters_categories));
   },
   computed: {
     filters_categories: function filters_categories() {
@@ -827,13 +843,13 @@ __webpack_require__.r(__webpack_exports__);
       return this.$store.getters.filters;
     },
     categories: function categories() {
-      return this.$store.getters.categories; //     .sort(function (one, other) {
-      //     //a - b is
-      //     //   0 when elements are the same
-      //     //  >0 when a > b
-      //     //  <0 when a < b
-      //     return one.subcategories.length - other.subcategories.length;
-      // });
+      return this.$store.getters.categories.sort(function (one, other) {
+        //a - b is
+        //   0 when elements are the same
+        //  >0 when a > b
+        //  <0 when a < b
+        return other.subcategories.length - one.subcategories.length;
+      });
     },
     loading: function loading() {
       return this.$store.getters.categories_loading;
@@ -842,11 +858,6 @@ __webpack_require__.r(__webpack_exports__);
   methods: {
     include: function include(category) {
       return this.result.indexOf(category) >= 0;
-    },
-    allChecked: function allChecked(arr, target) {
-      return target.every(function (v) {
-        return arr.includes(v);
-      });
     },
     toggleCategory: function toggleCategory(subcategory) {
       var item_index = this.result.findIndex(function (el) {
@@ -858,17 +869,15 @@ __webpack_require__.r(__webpack_exports__);
       } else {
         this.result.splice(item_index, 1);
       }
-
-      console.log('filter', this.filter, this.result);
     },
     selectAll: function selectAll(index) {
       var _this = this;
 
-      var tmp = this.categories[index].subcategories.map(function (item) {
+      var tmp = this.items[index].subcategories.map(function (item) {
         return item.key;
       });
 
-      if (this.categories[index].status) {
+      if (this.items[index].status) {
         tmp.forEach(function (item) {
           var item_index = _this.result.findIndex(function (el) {
             return el == item;
@@ -889,6 +898,29 @@ __webpack_require__.r(__webpack_exports__);
           }
         });
       }
+    },
+    allChecked: function allChecked(arr, target) {
+      return target.every(function (v) {
+        return arr.includes(v);
+      });
+    },
+    isIndeterminate: function isIndeterminate(index) {
+      var _this2 = this;
+
+      var all_checked = this.allChecked(this.result, this.items[index].subcategories.map(function (item) {
+        return item.key;
+      }));
+      var some_checked = this.items[index].subcategories.some(function (v) {
+        return _this2.result.includes(v.key);
+      });
+
+      if (all_checked) {
+        this.items[index].status = true;
+      } else {
+        this.items[index].status = false;
+      }
+
+      return !all_checked && some_checked;
     },
     saveFilters: function saveFilters() {
       this.$store.commit('saveFiltersProperty', {
@@ -912,6 +944,27 @@ __webpack_require__.r(__webpack_exports__);
         page: 1,
         filters: this.filters
       });
+    },
+    getCategories: function getCategories() {
+      var _this3 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
+        return _regeneratorRuntime().wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                _context.next = 2;
+                return _this3.$store.dispatch('getCategories').then(function (resp) {
+                  _this3.items = JSON.parse(JSON.stringify(_this3.categories));
+                });
+
+              case 2:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee);
+      }))();
     }
   }
 });
@@ -1005,25 +1058,26 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       loading: false,
-      dates: null,
+      dates: '',
       template: {
         eventTimeStart: {
-          start: null,
-          end: null
+          start: "",
+          end: ""
         },
         eventTimeEnd: {
-          start: null,
-          end: null
+          start: "",
+          end: ""
         },
         applicationTimeStart: {
-          start: null,
-          end: null
+          start: "",
+          end: ""
         },
         applicationTimeEnd: {
-          start: null,
-          end: null
+          start: "",
+          end: ""
         }
-      }
+      },
+      time: ''
     };
   },
   computed: {
@@ -1314,7 +1368,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
 
 
 
@@ -1337,8 +1390,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   },
   created: function created() {
     this.$store.dispatch('getLotsStatistic');
-    this.getCategories();
-    this.getRegions();
   },
   mounted: function mounted() {
     this.getData();
@@ -1418,12 +1469,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     },
     lots_statistic: function lots_statistic() {
       return this.$store.getters.lots_statistic;
-    },
-    regions: function regions() {
-      return this.$store.getters.regions;
-    },
-    categories: function categories() {
-      return this.$store.getters.categories;
     }
   },
   methods: {
@@ -1450,44 +1495,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             }
           }
         }, _callee);
-      }))();
-    },
-    getCategories: function getCategories() {
-      var _this2 = this;
-
-      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2() {
-        return _regeneratorRuntime().wrap(function _callee2$(_context2) {
-          while (1) {
-            switch (_context2.prev = _context2.next) {
-              case 0:
-                _context2.next = 2;
-                return _this2.$store.dispatch('getCategories');
-
-              case 2:
-              case "end":
-                return _context2.stop();
-            }
-          }
-        }, _callee2);
-      }))();
-    },
-    getRegions: function getRegions() {
-      var _this3 = this;
-
-      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee3() {
-        return _regeneratorRuntime().wrap(function _callee3$(_context3) {
-          while (1) {
-            switch (_context3.prev = _context3.next) {
-              case 0:
-                _context3.next = 2;
-                return _this3.$store.dispatch('getRegions');
-
-              case 2:
-              case "end":
-                return _context3.stop();
-            }
-          }
-        }, _callee3);
       }))();
     },
     toggleDirection: function toggleDirection() {
@@ -2122,6 +2129,25 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var _components_Collapse_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../components/Collapse.vue */ "./resources/js/components/Collapse.vue");
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
+
+function _regeneratorRuntime() { "use strict"; /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/facebook/regenerator/blob/main/LICENSE */ _regeneratorRuntime = function _regeneratorRuntime() { return exports; }; var exports = {}, Op = Object.prototype, hasOwn = Op.hasOwnProperty, $Symbol = "function" == typeof Symbol ? Symbol : {}, iteratorSymbol = $Symbol.iterator || "@@iterator", asyncIteratorSymbol = $Symbol.asyncIterator || "@@asyncIterator", toStringTagSymbol = $Symbol.toStringTag || "@@toStringTag"; function define(obj, key, value) { return Object.defineProperty(obj, key, { value: value, enumerable: !0, configurable: !0, writable: !0 }), obj[key]; } try { define({}, ""); } catch (err) { define = function define(obj, key, value) { return obj[key] = value; }; } function wrap(innerFn, outerFn, self, tryLocsList) { var protoGenerator = outerFn && outerFn.prototype instanceof Generator ? outerFn : Generator, generator = Object.create(protoGenerator.prototype), context = new Context(tryLocsList || []); return generator._invoke = function (innerFn, self, context) { var state = "suspendedStart"; return function (method, arg) { if ("executing" === state) throw new Error("Generator is already running"); if ("completed" === state) { if ("throw" === method) throw arg; return doneResult(); } for (context.method = method, context.arg = arg;;) { var delegate = context.delegate; if (delegate) { var delegateResult = maybeInvokeDelegate(delegate, context); if (delegateResult) { if (delegateResult === ContinueSentinel) continue; return delegateResult; } } if ("next" === context.method) context.sent = context._sent = context.arg;else if ("throw" === context.method) { if ("suspendedStart" === state) throw state = "completed", context.arg; context.dispatchException(context.arg); } else "return" === context.method && context.abrupt("return", context.arg); state = "executing"; var record = tryCatch(innerFn, self, context); if ("normal" === record.type) { if (state = context.done ? "completed" : "suspendedYield", record.arg === ContinueSentinel) continue; return { value: record.arg, done: context.done }; } "throw" === record.type && (state = "completed", context.method = "throw", context.arg = record.arg); } }; }(innerFn, self, context), generator; } function tryCatch(fn, obj, arg) { try { return { type: "normal", arg: fn.call(obj, arg) }; } catch (err) { return { type: "throw", arg: err }; } } exports.wrap = wrap; var ContinueSentinel = {}; function Generator() {} function GeneratorFunction() {} function GeneratorFunctionPrototype() {} var IteratorPrototype = {}; define(IteratorPrototype, iteratorSymbol, function () { return this; }); var getProto = Object.getPrototypeOf, NativeIteratorPrototype = getProto && getProto(getProto(values([]))); NativeIteratorPrototype && NativeIteratorPrototype !== Op && hasOwn.call(NativeIteratorPrototype, iteratorSymbol) && (IteratorPrototype = NativeIteratorPrototype); var Gp = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(IteratorPrototype); function defineIteratorMethods(prototype) { ["next", "throw", "return"].forEach(function (method) { define(prototype, method, function (arg) { return this._invoke(method, arg); }); }); } function AsyncIterator(generator, PromiseImpl) { function invoke(method, arg, resolve, reject) { var record = tryCatch(generator[method], generator, arg); if ("throw" !== record.type) { var result = record.arg, value = result.value; return value && "object" == _typeof(value) && hasOwn.call(value, "__await") ? PromiseImpl.resolve(value.__await).then(function (value) { invoke("next", value, resolve, reject); }, function (err) { invoke("throw", err, resolve, reject); }) : PromiseImpl.resolve(value).then(function (unwrapped) { result.value = unwrapped, resolve(result); }, function (error) { return invoke("throw", error, resolve, reject); }); } reject(record.arg); } var previousPromise; this._invoke = function (method, arg) { function callInvokeWithMethodAndArg() { return new PromiseImpl(function (resolve, reject) { invoke(method, arg, resolve, reject); }); } return previousPromise = previousPromise ? previousPromise.then(callInvokeWithMethodAndArg, callInvokeWithMethodAndArg) : callInvokeWithMethodAndArg(); }; } function maybeInvokeDelegate(delegate, context) { var method = delegate.iterator[context.method]; if (undefined === method) { if (context.delegate = null, "throw" === context.method) { if (delegate.iterator["return"] && (context.method = "return", context.arg = undefined, maybeInvokeDelegate(delegate, context), "throw" === context.method)) return ContinueSentinel; context.method = "throw", context.arg = new TypeError("The iterator does not provide a 'throw' method"); } return ContinueSentinel; } var record = tryCatch(method, delegate.iterator, context.arg); if ("throw" === record.type) return context.method = "throw", context.arg = record.arg, context.delegate = null, ContinueSentinel; var info = record.arg; return info ? info.done ? (context[delegate.resultName] = info.value, context.next = delegate.nextLoc, "return" !== context.method && (context.method = "next", context.arg = undefined), context.delegate = null, ContinueSentinel) : info : (context.method = "throw", context.arg = new TypeError("iterator result is not an object"), context.delegate = null, ContinueSentinel); } function pushTryEntry(locs) { var entry = { tryLoc: locs[0] }; 1 in locs && (entry.catchLoc = locs[1]), 2 in locs && (entry.finallyLoc = locs[2], entry.afterLoc = locs[3]), this.tryEntries.push(entry); } function resetTryEntry(entry) { var record = entry.completion || {}; record.type = "normal", delete record.arg, entry.completion = record; } function Context(tryLocsList) { this.tryEntries = [{ tryLoc: "root" }], tryLocsList.forEach(pushTryEntry, this), this.reset(!0); } function values(iterable) { if (iterable) { var iteratorMethod = iterable[iteratorSymbol]; if (iteratorMethod) return iteratorMethod.call(iterable); if ("function" == typeof iterable.next) return iterable; if (!isNaN(iterable.length)) { var i = -1, next = function next() { for (; ++i < iterable.length;) { if (hasOwn.call(iterable, i)) return next.value = iterable[i], next.done = !1, next; } return next.value = undefined, next.done = !0, next; }; return next.next = next; } } return { next: doneResult }; } function doneResult() { return { value: undefined, done: !0 }; } return GeneratorFunction.prototype = GeneratorFunctionPrototype, define(Gp, "constructor", GeneratorFunctionPrototype), define(GeneratorFunctionPrototype, "constructor", GeneratorFunction), GeneratorFunction.displayName = define(GeneratorFunctionPrototype, toStringTagSymbol, "GeneratorFunction"), exports.isGeneratorFunction = function (genFun) { var ctor = "function" == typeof genFun && genFun.constructor; return !!ctor && (ctor === GeneratorFunction || "GeneratorFunction" === (ctor.displayName || ctor.name)); }, exports.mark = function (genFun) { return Object.setPrototypeOf ? Object.setPrototypeOf(genFun, GeneratorFunctionPrototype) : (genFun.__proto__ = GeneratorFunctionPrototype, define(genFun, toStringTagSymbol, "GeneratorFunction")), genFun.prototype = Object.create(Gp), genFun; }, exports.awrap = function (arg) { return { __await: arg }; }, defineIteratorMethods(AsyncIterator.prototype), define(AsyncIterator.prototype, asyncIteratorSymbol, function () { return this; }), exports.AsyncIterator = AsyncIterator, exports.async = function (innerFn, outerFn, self, tryLocsList, PromiseImpl) { void 0 === PromiseImpl && (PromiseImpl = Promise); var iter = new AsyncIterator(wrap(innerFn, outerFn, self, tryLocsList), PromiseImpl); return exports.isGeneratorFunction(outerFn) ? iter : iter.next().then(function (result) { return result.done ? result.value : iter.next(); }); }, defineIteratorMethods(Gp), define(Gp, toStringTagSymbol, "Generator"), define(Gp, iteratorSymbol, function () { return this; }), define(Gp, "toString", function () { return "[object Generator]"; }), exports.keys = function (object) { var keys = []; for (var key in object) { keys.push(key); } return keys.reverse(), function next() { for (; keys.length;) { var key = keys.pop(); if (key in object) return next.value = key, next.done = !1, next; } return next.done = !0, next; }; }, exports.values = values, Context.prototype = { constructor: Context, reset: function reset(skipTempReset) { if (this.prev = 0, this.next = 0, this.sent = this._sent = undefined, this.done = !1, this.delegate = null, this.method = "next", this.arg = undefined, this.tryEntries.forEach(resetTryEntry), !skipTempReset) for (var name in this) { "t" === name.charAt(0) && hasOwn.call(this, name) && !isNaN(+name.slice(1)) && (this[name] = undefined); } }, stop: function stop() { this.done = !0; var rootRecord = this.tryEntries[0].completion; if ("throw" === rootRecord.type) throw rootRecord.arg; return this.rval; }, dispatchException: function dispatchException(exception) { if (this.done) throw exception; var context = this; function handle(loc, caught) { return record.type = "throw", record.arg = exception, context.next = loc, caught && (context.method = "next", context.arg = undefined), !!caught; } for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i], record = entry.completion; if ("root" === entry.tryLoc) return handle("end"); if (entry.tryLoc <= this.prev) { var hasCatch = hasOwn.call(entry, "catchLoc"), hasFinally = hasOwn.call(entry, "finallyLoc"); if (hasCatch && hasFinally) { if (this.prev < entry.catchLoc) return handle(entry.catchLoc, !0); if (this.prev < entry.finallyLoc) return handle(entry.finallyLoc); } else if (hasCatch) { if (this.prev < entry.catchLoc) return handle(entry.catchLoc, !0); } else { if (!hasFinally) throw new Error("try statement without catch or finally"); if (this.prev < entry.finallyLoc) return handle(entry.finallyLoc); } } } }, abrupt: function abrupt(type, arg) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.tryLoc <= this.prev && hasOwn.call(entry, "finallyLoc") && this.prev < entry.finallyLoc) { var finallyEntry = entry; break; } } finallyEntry && ("break" === type || "continue" === type) && finallyEntry.tryLoc <= arg && arg <= finallyEntry.finallyLoc && (finallyEntry = null); var record = finallyEntry ? finallyEntry.completion : {}; return record.type = type, record.arg = arg, finallyEntry ? (this.method = "next", this.next = finallyEntry.finallyLoc, ContinueSentinel) : this.complete(record); }, complete: function complete(record, afterLoc) { if ("throw" === record.type) throw record.arg; return "break" === record.type || "continue" === record.type ? this.next = record.arg : "return" === record.type ? (this.rval = this.arg = record.arg, this.method = "return", this.next = "end") : "normal" === record.type && afterLoc && (this.next = afterLoc), ContinueSentinel; }, finish: function finish(finallyLoc) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.finallyLoc === finallyLoc) return this.complete(entry.completion, entry.afterLoc), resetTryEntry(entry), ContinueSentinel; } }, "catch": function _catch(tryLoc) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.tryLoc === tryLoc) { var record = entry.completion; if ("throw" === record.type) { var thrown = record.arg; resetTryEntry(entry); } return thrown; } } throw new Error("illegal catch attempt"); }, delegateYield: function delegateYield(iterable, resultName, nextLoc) { return this.delegate = { iterator: values(iterable), resultName: resultName, nextLoc: nextLoc }, "next" === this.method && (this.arg = undefined), ContinueSentinel; } }, exports; }
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -2238,92 +2264,14 @@ __webpack_require__.r(__webpack_exports__);
   },
   data: function data() {
     return {
-      loading: false,
-      regions: [{
-        id: 1,
-        label: "Дальневосточный ФО",
-        key: 'Дальневосточный ФО',
-        area: [{
-          id: 1,
-          label: "Амурская область",
-          key: 'AmurRegion'
-        }, {
-          id: 2,
-          label: "Бурятия",
-          key: 'TheRepublicOfBuryatia'
-        }, {
-          id: 3,
-          label: "Еврейская АО",
-          key: 'JewishAutonomousRegion'
-        }, {
-          id: 4,
-          label: "Камчатский край",
-          key: 'KamchatkaKrai'
-        }, {
-          id: 5,
-          label: "Магаданская область",
-          key: 'MagadanRegion'
-        }, {
-          id: 6,
-          label: "Приморский край",
-          key: 'PrimorskyKrai'
-        }, {
-          id: 7,
-          label: "Сахалинская область",
-          key: 'SakhalinRegion'
-        }, {
-          id: 8,
-          label: "Чукотский АО",
-          key: 'ChukotkaAutonomousOkrug'
-        }, {
-          id: 9,
-          label: "Якутия-Саха",
-          key: 'TheRepublicOfSakha'
-        }],
-        status: false
-      }, {
-        id: 2,
-        label: "Приволжский ФО",
-        key: '',
-        area: []
-      }, {
-        id: 3,
-        label: "Северо-Западный ФО",
-        key: '',
-        area: []
-      }, {
-        id: 4,
-        label: "Северо-Кавказский ФО",
-        key: '',
-        area: []
-      }, {
-        id: 5,
-        label: "Сибирский ФО",
-        key: '',
-        area: []
-      }, {
-        id: 6,
-        label: "Уральский ФО",
-        key: '',
-        area: []
-      }, {
-        id: 7,
-        label: "Центральный ФО",
-        key: '',
-        area: []
-      }, {
-        id: 8,
-        label: "Южный ФО",
-        key: '',
-        area: []
-      }],
-      selectedRegionId: 1,
+      regionGroups: [],
       selectedRegion: null,
       result: []
     };
   },
-  mounted: function mounted() {
-    this.selectedRegion = this.regions[0]; // this.result = JSON.parse(JSON.stringify(this.$store.getters.filters_regions));
+  created: function created() {
+    this.getRegions();
+    this.result = JSON.parse(JSON.stringify(this.$store.getters.filters_regions));
   },
   computed: {
     filters_regions: function filters_regions() {
@@ -2331,31 +2279,31 @@ __webpack_require__.r(__webpack_exports__);
     },
     filters: function filters() {
       return this.$store.getters.filters;
+    },
+    regions: function regions() {
+      return this.$store.getters.regions;
+    },
+    loading: function loading() {
+      return this.$store.getters.regions_loading;
     }
   },
   methods: {
-    toggleRegion: function toggleRegion(area) {
+    toggleRegion: function toggleRegion(region) {
       var item_index = this.result.findIndex(function (el) {
-        return el == area;
+        return el == region;
       });
 
       if (item_index < 0) {
-        this.result.push(area);
+        this.result.push(region);
       } else {
         this.result.splice(item_index, 1);
       }
-
-      console.log('filter', this.filter, this.result);
     },
     selectAll: function selectAll(index) {
       var _this = this;
 
-      var tmp = this.regions[index].area.map(function (item) {
-        return item.key;
-      });
-
-      if (this.regions[index].status) {
-        tmp.forEach(function (item) {
+      if (this.regionGroups[index].status) {
+        this.regionGroups[index].regions.forEach(function (item) {
           var item_index = _this.result.findIndex(function (el) {
             return el == item;
           });
@@ -2365,9 +2313,9 @@ __webpack_require__.r(__webpack_exports__);
           }
         });
       } else {
-        tmp.forEach(function (it) {
+        this.regionGroups[index].regions.forEach(function (item) {
           var item_index = _this.result.findIndex(function (el) {
-            return el == it;
+            return el == item;
           });
 
           if (item_index >= 0) {
@@ -2375,6 +2323,27 @@ __webpack_require__.r(__webpack_exports__);
           }
         });
       }
+    },
+    allChecked: function allChecked(arr, target) {
+      return target.every(function (v) {
+        return arr.includes(v);
+      });
+    },
+    isIndeterminate: function isIndeterminate(index) {
+      var _this2 = this;
+
+      var all_checked = this.allChecked(this.result, this.regionGroups[index].regions);
+      var some_checked = this.regionGroups[index].regions.some(function (v) {
+        return _this2.result.includes(v);
+      });
+
+      if (all_checked) {
+        this.regionGroups[index].status = true;
+      } else {
+        this.regionGroups[index].status = false;
+      }
+
+      return !all_checked && some_checked;
     },
     saveFilters: function saveFilters() {
       this.$store.commit('saveFiltersProperty', {
@@ -2398,6 +2367,28 @@ __webpack_require__.r(__webpack_exports__);
         page: 1,
         filters: this.filters
       });
+    },
+    getRegions: function getRegions() {
+      var _this3 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
+        return _regeneratorRuntime().wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                _context.next = 2;
+                return _this3.$store.dispatch('getRegions').then(function (resp) {
+                  _this3.regionGroups = JSON.parse(JSON.stringify(_this3.regions));
+                  _this3.selectedRegion = _this3.regionGroups[0];
+                });
+
+              case 2:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee);
+      }))();
     }
   }
 });
@@ -3204,6 +3195,7 @@ var render = function () {
                   "h3",
                   {
                     staticClass: "bkt-card__title",
+                    class: _vm.title_class,
                     attrs: {
                       "data-bs-toggle": "collapse",
                       "data-bs-target": "#" + _vm.id,
@@ -3612,16 +3604,16 @@ var render = function () {
           fn: function () {
             return [
               !_vm.loading
-                ? _c("div", { staticClass: "bkt-wrapper-column" }, [
+                ? _c("div", { staticClass: "bkt-form bkt-gap-large" }, [
                     _c(
                       "div",
-                      { staticClass: "bkt-wrapper-column" },
-                      _vm._l(_vm.categories, function (category, index) {
+                      { staticClass: "bkt-wrapper-column bkt-gap-small" },
+                      _vm._l(_vm.items, function (category, index) {
                         return _c("bkt-collapse", {
                           key: index,
                           attrs: {
                             id: "category-collapse-" + index,
-                            main_class: "bkt-regions-tabs__mobile-item",
+                            main_class: "bkt-collapse_check",
                             collapse_button_class:
                               category.subcategories.length > 0
                                 ? "bkt-bg-white"
@@ -3637,13 +3629,12 @@ var render = function () {
                                       "div",
                                       {
                                         staticClass:
-                                          "text-left bkt-button d-flex justify-content-between p-2",
+                                          "bkt-collapse__title-wrapper",
                                       },
                                       [
                                         category.subcategories.length == 0
                                           ? _c("bkt-checkbox", {
                                               attrs: {
-                                                label: category.label,
                                                 name:
                                                   "bkt-category-checkbox-" +
                                                   index,
@@ -3662,13 +3653,14 @@ var render = function () {
                                             })
                                           : _c("bkt-checkbox", {
                                               attrs: {
-                                                label: category.label,
                                                 name:
                                                   "bkt-category-checkbox-" +
                                                   index,
                                                 id:
                                                   "bkt-category-checkbox-" +
                                                   index,
+                                                indeterminate:
+                                                  _vm.isIndeterminate(index),
                                               },
                                               on: {
                                                 input: function ($event) {
@@ -3687,6 +3679,26 @@ var render = function () {
                                                 expression: "category.status",
                                               },
                                             }),
+                                        _vm._v(" "),
+                                        _c(
+                                          "h5",
+                                          {
+                                            staticClass:
+                                              "bkt-regions-tabs__title",
+                                            attrs: {
+                                              "data-bs-toggle": "collapse",
+                                              "data-bs-target":
+                                                "#category-collapse-" + index,
+                                            },
+                                          },
+                                          [
+                                            _vm._v(
+                                              "\n                                    " +
+                                                _vm._s(category.label) +
+                                                "\n                                "
+                                            ),
+                                          ]
+                                        ),
                                       ],
                                       1
                                     ),
@@ -3702,32 +3714,54 @@ var render = function () {
                                     function (subcategory, index) {
                                       return _c(
                                         "div",
-                                        {
-                                          staticClass:
-                                            "bkt-area__item text-left px-2 mb-2",
-                                        },
+                                        { staticClass: "bkt-gap-mini" },
                                         [
-                                          _c("bkt-checkbox", {
-                                            attrs: {
-                                              label: subcategory.label,
-                                              name:
-                                                "bkt-subcategory-checkbox-" +
-                                                index,
-                                              id:
-                                                "bkt-subcategory-checkbox-" +
-                                                index,
-                                              val: subcategory.key,
+                                          _c(
+                                            "div",
+                                            {
+                                              staticClass:
+                                                "bkt-collapse__title-wrapper",
                                             },
-                                            model: {
-                                              value: _vm.result,
-                                              callback: function ($$v) {
-                                                _vm.result = $$v
-                                              },
-                                              expression: "result",
-                                            },
-                                          }),
-                                        ],
-                                        1
+                                            [
+                                              _c("bkt-checkbox", {
+                                                attrs: {
+                                                  name:
+                                                    "bkt-subcategory-checkbox-" +
+                                                    index,
+                                                  id:
+                                                    "bkt-subcategory-checkbox-" +
+                                                    index,
+                                                  val: subcategory.key,
+                                                },
+                                                model: {
+                                                  value: _vm.result,
+                                                  callback: function ($$v) {
+                                                    _vm.result = $$v
+                                                  },
+                                                  expression: "result",
+                                                },
+                                              }),
+                                              _vm._v(" "),
+                                              _c(
+                                                "h6",
+                                                {
+                                                  staticClass:
+                                                    "bkt-regions-tabs__subtitle",
+                                                },
+                                                [
+                                                  _vm._v(
+                                                    "\n                                        " +
+                                                      _vm._s(
+                                                        subcategory.label
+                                                      ) +
+                                                      "\n                                    "
+                                                  ),
+                                                ]
+                                              ),
+                                            ],
+                                            1
+                                          ),
+                                        ]
                                       )
                                     }
                                   )
@@ -3746,15 +3780,12 @@ var render = function () {
                     _vm.result.length > 0
                       ? _c("div", { staticClass: "bkt-region-selected" }, [
                           _c(
-                            "div",
-                            {
-                              staticClass:
-                                "bkt-region-selected__title text-left mb-2",
-                            },
+                            "h5",
+                            { staticClass: "bkt-region-selected__title" },
                             [
-                              _c("span", { staticClass: "text-muted" }, [
-                                _vm._v("выбранные категории"),
-                              ]),
+                              _vm._v(
+                                "\n                        выбранные категории\n                    "
+                              ),
                             ]
                           ),
                           _vm._v(" "),
@@ -3831,8 +3862,6 @@ var render = function () {
                     2
                   )
                 : _vm._e(),
-              _vm._v(" "),
-              _c("div", { staticClass: "bkt-categories__grid" }),
             ]
           },
           proxy: true,
@@ -3892,8 +3921,8 @@ var render = function () {
                 [
                   _c("bkt-datepicker", {
                     attrs: {
-                      field_name: "'Начало приёма заявок'",
-                      name: "applicationTimeStart",
+                      field_name: "'Начало торгов от'",
+                      name: "eventTimeStart",
                     },
                     model: {
                       value: _vm.filter.eventTimeStart.start,
@@ -3913,8 +3942,8 @@ var render = function () {
                 [
                   _c("bkt-datepicker", {
                     attrs: {
-                      field_name: "'Начало приёма заявок'",
-                      name: "applicationTimeStart",
+                      field_name: "'Начало торгов до'",
+                      name: "eventTimeStartEnd",
                     },
                     model: {
                       value: _vm.filter.eventTimeStart.end,
@@ -3940,7 +3969,7 @@ var render = function () {
                 [
                   _c("bkt-datepicker", {
                     attrs: {
-                      field_name: "'Начало приёма заявок'",
+                      field_name: "'Начало приёма заявок от'",
                       name: "applicationTimeStart",
                     },
                     model: {
@@ -3961,8 +3990,8 @@ var render = function () {
                 [
                   _c("bkt-datepicker", {
                     attrs: {
-                      field_name: "'Начало приёма заявок'",
-                      name: "applicationTimeStart",
+                      field_name: "'Начало приёма заявок до'",
+                      name: "applicationTimeStartEnd",
                     },
                     model: {
                       value: _vm.filter.applicationTimeStart.end,
@@ -3988,8 +4017,8 @@ var render = function () {
                 [
                   _c("bkt-datepicker", {
                     attrs: {
-                      field_name: "'Начало приёма заявок'",
-                      name: "applicationTimeStart",
+                      field_name: "'Окончание приёма заявок от'",
+                      name: "applicationTimeEndStart",
                     },
                     model: {
                       value: _vm.filter.applicationTimeEnd.start,
@@ -4009,8 +4038,8 @@ var render = function () {
                 [
                   _c("bkt-datepicker", {
                     attrs: {
-                      field_name: "'Начало приёма заявок'",
-                      name: "applicationTimeStart",
+                      field_name: "'Окончание приёма заявок до'",
+                      name: "applicationTimeEnd",
                     },
                     model: {
                       value: _vm.filter.applicationTimeEnd.end,
@@ -4036,8 +4065,8 @@ var render = function () {
                 [
                   _c("bkt-datepicker", {
                     attrs: {
-                      field_name: "'Начало приёма заявок'",
-                      name: "applicationTimeStart",
+                      field_name: "'Окончание торгов от'",
+                      name: "eventTimeEndStart",
                     },
                     model: {
                       value: _vm.filter.eventTimeEnd.start,
@@ -4057,8 +4086,8 @@ var render = function () {
                 [
                   _c("bkt-datepicker", {
                     attrs: {
-                      field_name: "'Начало приёма заявок'",
-                      name: "applicationTimeStart",
+                      field_name: "'Окончание торгов до'",
+                      name: "eventTimeEnd",
                     },
                     model: {
                       value: _vm.filter.eventTimeEnd.end,
@@ -4273,7 +4302,10 @@ var render = function () {
         _c("div", { staticClass: "col-12 col-md-6 pe-1 col-lg-4" }, [
           _c(
             "div",
-            { staticClass: "d-flex w-100 mx-auto justify-content-around" },
+            {
+              staticClass:
+                "bkt-wrapper bkt-nowrap w-100 mx-auto justify-content-around dropdown bkt-dropdown",
+            },
             [
               _c("bkt-select", {
                 attrs: {
@@ -4314,173 +4346,162 @@ var render = function () {
                 1
               ),
               _vm._v(" "),
-              _c("div", { staticClass: "dropdown d-md-none" }, [
-                _c(
-                  "button",
-                  {
-                    staticClass: "bkt-button-ellipse main d-md-none",
+              _c(
+                "button",
+                {
+                  staticClass: "bkt-button-ellipse main d-md-none",
+                  attrs: {
+                    id: "filterDropdownMenu",
+                    "data-bs-toggle": "dropdown",
+                    "data-bs-auto-close": "outside",
+                    "data-bs-offset": "0, 10",
+                    "data-bs-reference": "parent",
+                  },
+                },
+                [
+                  _c("bkt-icon", {
+                    attrs: { name: "Funnel", width: "18px", height: "18px" },
+                  }),
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "div",
+                {
+                  staticClass:
+                    "d-md-none dropdown-menu bkt-dropdown__menu bkt-dropdown__menu_list bkt-dropdown__menu_main",
+                  attrs: { "aria-labelledby": "filterDropdownMenu" },
+                },
+                [
+                  _c("bkt-select", {
                     attrs: {
-                      id: "filterDropdownMenu",
-                      "data-bs-toggle": "dropdown",
-                      "data-bs-display": "static",
-                      "data-bs-auto-close": "outside",
+                      select_class: "form-floating main",
+                      name: "period",
+                      subtitle: "показывать за период",
+                      option_label: "title",
+                      options: _vm.periods,
+                      reduce: function (item) {
+                        return item.value
+                      },
+                      clearable: false,
                     },
-                  },
-                  [
-                    _c("bkt-icon", {
-                      attrs: { name: "Funnel", width: "18px", height: "18px" },
-                    }),
-                  ],
-                  1
-                ),
-                _vm._v(" "),
-                _c(
-                  "div",
-                  {
-                    staticClass:
-                      "bkt-card-menu m-0 dropdown-menu dropdown-menu-end position-absolute",
-                    attrs: { "aria-labelledby": "filterDropdownMenu" },
-                  },
-                  [
-                    _c("bkt-select", {
-                      attrs: {
-                        select_class: "form-floating main",
-                        name: "period",
-                        subtitle: "показывать за период",
-                        option_label: "title",
-                        options: _vm.periods,
-                        reduce: function (item) {
-                          return item.value
-                        },
-                        clearable: false,
+                    on: {
+                      input: function ($event) {
+                        return _vm.getData(1)
                       },
-                      on: {
-                        input: function ($event) {
-                          return _vm.getData(1)
-                        },
+                    },
+                    model: {
+                      value: _vm.filters_other.period,
+                      callback: function ($$v) {
+                        _vm.$set(_vm.filters_other, "period", $$v)
                       },
-                      model: {
-                        value: _vm.filters_other.period,
-                        callback: function ($$v) {
-                          _vm.$set(_vm.filters_other, "period", $$v)
-                        },
-                        expression: "filters_other.period",
-                      },
-                    }),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "d-flex" }, [
-                      _c(
-                        "div",
-                        { staticClass: "bkt-check__list" },
-                        [
-                          _c("bkt-checkbox", {
-                            attrs: {
-                              label: "только с фото",
-                              name: "hasPhotos",
+                      expression: "filters_other.period",
+                    },
+                  }),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "bkt-wrapper" }, [
+                    _c(
+                      "div",
+                      { staticClass: "bkt-check__list" },
+                      [
+                        _c("bkt-checkbox", {
+                          attrs: { label: "только с фото", name: "hasPhotos" },
+                          on: {
+                            input: function ($event) {
+                              return _vm.getData(1)
                             },
-                            on: {
-                              input: function ($event) {
-                                return _vm.getData(1)
-                              },
+                          },
+                          model: {
+                            value: _vm.filters_other.hasPhotos,
+                            callback: function ($$v) {
+                              _vm.$set(_vm.filters_other, "hasPhotos", $$v)
                             },
-                            model: {
-                              value: _vm.filters_other.hasPhotos,
-                              callback: function ($$v) {
-                                _vm.$set(_vm.filters_other, "hasPhotos", $$v)
-                              },
-                              expression: "filters_other.hasPhotos",
+                            expression: "filters_other.hasPhotos",
+                          },
+                        }),
+                        _vm._v(" "),
+                        _c("bkt-checkbox", {
+                          attrs: { label: "удалённые", name: "isHidden" },
+                          on: {
+                            input: function ($event) {
+                              return _vm.getData(1)
                             },
-                          }),
-                          _vm._v(" "),
-                          _c("bkt-checkbox", {
-                            attrs: { label: "удалённые", name: "isHidden" },
-                            on: {
-                              input: function ($event) {
-                                return _vm.getData(1)
-                              },
+                          },
+                          model: {
+                            value: _vm.filters_other.isHidden,
+                            callback: function ($$v) {
+                              _vm.$set(_vm.filters_other, "isHidden", $$v)
                             },
-                            model: {
-                              value: _vm.filters_other.isHidden,
-                              callback: function ($$v) {
-                                _vm.$set(_vm.filters_other, "isHidden", $$v)
-                              },
-                              expression: "filters_other.isHidden",
+                            expression: "filters_other.isHidden",
+                          },
+                        }),
+                        _vm._v(" "),
+                        _c("bkt-checkbox", {
+                          attrs: {
+                            label: "получен ответ организатора",
+                            name: "organizer",
+                          },
+                          on: {
+                            input: function ($event) {
+                              return _vm.getData(1)
                             },
-                          }),
-                        ],
-                        1
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "div",
-                        { staticClass: "bkt-check__list" },
-                        [
-                          _c("bkt-checkbox", {
-                            attrs: {
-                              label: "получен ответ организатора",
-                              name: "organizer",
+                          },
+                          model: {
+                            value: _vm.filters_other.organizer,
+                            callback: function ($$v) {
+                              _vm.$set(_vm.filters_other, "organizer", $$v)
                             },
-                            on: {
-                              input: function ($event) {
-                                return _vm.getData(1)
-                              },
+                            expression: "filters_other.organizer",
+                          },
+                        }),
+                        _vm._v(" "),
+                        _c("bkt-checkbox", {
+                          attrs: {
+                            label: "завершённые",
+                            name: "isCompleted",
+                            wrapper_class: "bkt-check__wrapper-inline",
+                          },
+                          on: {
+                            input: function ($event) {
+                              return _vm.getData(1)
                             },
-                            model: {
-                              value: _vm.filters_other.organizer,
-                              callback: function ($$v) {
-                                _vm.$set(_vm.filters_other, "organizer", $$v)
-                              },
-                              expression: "filters_other.organizer",
+                          },
+                          model: {
+                            value: _vm.filters_other.isCompleted,
+                            callback: function ($$v) {
+                              _vm.$set(_vm.filters_other, "isCompleted", $$v)
                             },
-                          }),
-                          _vm._v(" "),
-                          _c("bkt-checkbox", {
-                            attrs: {
-                              label: "завершённые",
-                              name: "isCompleted",
-                              wrapper_class: "bkt-check__wrapper-inline",
+                            expression: "filters_other.isCompleted",
+                          },
+                        }),
+                        _vm._v(" "),
+                        _c("bkt-checkbox", {
+                          attrs: {
+                            label: "приостановленные",
+                            name: "isStopped",
+                            wrapper_class: "bkt-check__wrapper-inline",
+                          },
+                          on: {
+                            input: function ($event) {
+                              return _vm.getData(1)
                             },
-                            on: {
-                              input: function ($event) {
-                                return _vm.getData(1)
-                              },
+                          },
+                          model: {
+                            value: _vm.filters_other.isStopped,
+                            callback: function ($$v) {
+                              _vm.$set(_vm.filters_other, "isStopped", $$v)
                             },
-                            model: {
-                              value: _vm.filters_other.isCompleted,
-                              callback: function ($$v) {
-                                _vm.$set(_vm.filters_other, "isCompleted", $$v)
-                              },
-                              expression: "filters_other.isCompleted",
-                            },
-                          }),
-                          _vm._v(" "),
-                          _c("bkt-checkbox", {
-                            attrs: {
-                              label: "приостановленные",
-                              name: "isStopped",
-                              wrapper_class: "bkt-check__wrapper-inline",
-                            },
-                            on: {
-                              input: function ($event) {
-                                return _vm.getData(1)
-                              },
-                            },
-                            model: {
-                              value: _vm.filters_other.isStopped,
-                              callback: function ($$v) {
-                                _vm.$set(_vm.filters_other, "isStopped", $$v)
-                              },
-                              expression: "filters_other.isStopped",
-                            },
-                          }),
-                        ],
-                        1
-                      ),
-                    ]),
-                  ],
-                  1
-                ),
-              ]),
+                            expression: "filters_other.isStopped",
+                          },
+                        }),
+                      ],
+                      1
+                    ),
+                  ]),
+                ],
+                1
+              ),
             ],
             1
           ),
@@ -5447,359 +5468,428 @@ var render = function () {
       loading: _vm.loading,
     },
     on: { left_action: _vm.clearFilters, right_action: _vm.saveFilters },
-    scopedSlots: _vm._u([
-      {
-        key: "body",
-        fn: function (ref) {
-          var invalid = ref.invalid
-          return [
-            _c("div", { staticClass: "bkt-regions-tabs d-lg-block d-none" }, [
-              _c("div", { staticClass: "bkt-form" }, [
-                _c("div", { staticClass: "col-5 p-0" }, [
-                  _c("div", { staticClass: "bkt-regions-tabs__nav" }, [
-                    _c(
+    scopedSlots: _vm._u(
+      [
+        {
+          key: "body",
+          fn: function (ref) {
+            var invalid = ref.invalid
+            return [
+              _c("div", { staticClass: "bkt-wrapper-column bkt-gap-large" }, [
+                !_vm.loading && _vm.selectedRegion
+                  ? _c(
                       "div",
-                      { staticClass: "nav flex-column text-center" },
-                      _vm._l(_vm.regions, function (region, index) {
-                        return _c(
-                          "div",
-                          {
-                            staticClass: "bkt-regions-tabs__nav-item",
-                            class: {
-                              "active bkt-bg-item-neutral":
-                                _vm.selectedRegion.id == region.id,
-                            },
-                            on: {
-                              click: function ($event) {
-                                _vm.selectedRegion = region
-                              },
-                            },
-                          },
-                          [
-                            _vm._v(
-                              "\n                                " +
-                                _vm._s(region.label) +
-                                "\n                            "
-                            ),
-                          ]
-                        )
-                      }),
-                      0
-                    ),
-                  ]),
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "col-7 p-0" }, [
-                  _c(
-                    "div",
-                    {
-                      staticClass: "bkt-tabs-content h-100 bkt-bg-body",
-                      class: {
-                        "bkt-rounded-left-top-none":
-                          _vm.regions[0].id == _vm.selectedRegion.id,
-                        "bkt-rounded-left-bottom-none":
-                          _vm.regions[_vm.regions.length - 1].id ==
-                          _vm.selectedRegion.id,
-                      },
-                    },
-                    _vm._l(_vm.selectedRegion.area, function (item, index) {
-                      return _c(
-                        "div",
-                        { key: index, staticClass: "bkt-tag__wrapper" },
-                        [
-                          _c(
-                            "div",
-                            {
-                              staticClass:
-                                "bkt-tag w-100 text-left bkt-bg-item-rounded",
-                              class: {
-                                "bkt-bg-green bkt-text-white":
-                                  _vm.result.findIndex(function (el) {
-                                    return el === item.key
-                                  }) >= 0,
-                              },
-                            },
-                            [
-                              _vm._v(
-                                "\n                                " +
-                                  _vm._s(item.label) +
-                                  "\n                            "
-                              ),
-                            ]
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "div",
-                            {
-                              staticClass: "bkt-tag__icon",
-                              on: {
-                                click: function ($event) {
-                                  return _vm.toggleRegion(item.key)
-                                },
-                              },
-                            },
-                            [
-                              _c("bkt-icon", {
-                                directives: [
-                                  {
-                                    name: "show",
-                                    rawName: "v-show",
-                                    value:
-                                      _vm.result.findIndex(function (data) {
-                                        return data === item.key
-                                      }) >= 0,
-                                    expression:
-                                      "result.findIndex(data => data === item.key)>=0",
-                                  },
-                                ],
-                                attrs: { name: "Cancel", color: "red" },
-                              }),
-                              _vm._v(" "),
-                              _c("bkt-icon", {
-                                directives: [
-                                  {
-                                    name: "show",
-                                    rawName: "v-show",
-                                    value:
-                                      _vm.result.findIndex(function (data) {
-                                        return data === item.key
-                                      }) < 0,
-                                    expression:
-                                      "result.findIndex(data => data === item.key)<0",
-                                  },
-                                ],
-                                attrs: { name: "Plus", color: "green" },
-                              }),
-                            ],
-                            1
-                          ),
-                        ]
-                      )
-                    }),
-                    0
-                  ),
-                ]),
-              ]),
-            ]),
-            _vm._v(" "),
-            _c(
-              "div",
-              { staticClass: "d-lg-none bkt-regions-tabs__mobile" },
-              _vm._l(_vm.regions, function (region, index) {
-                return _c("bkt-collapse", {
-                  key: index,
-                  attrs: {
-                    id: "region-collapse-" + index,
-                    main_class: "bkt-regions-tabs__mobile-item",
-                    collapse_button_class: "bkt-bg-white",
-                  },
-                  scopedSlots: _vm._u(
-                    [
-                      {
-                        key: "title",
-                        fn: function () {
-                          return [
+                      { staticClass: "bkt-regions-tabs d-lg-block d-none" },
+                      [
+                        _c("div", { staticClass: "bkt-form" }, [
+                          _c("div", { staticClass: "col-5 p-0" }, [
                             _c(
                               "div",
                               {
                                 staticClass:
-                                  "text-left bkt-button d-flex justify-content-between p-2",
+                                  "bkt-regions-tabs__nav text-center",
                               },
-                              [
-                                _c("bkt-checkbox", {
-                                  staticClass: "bkt-regions-tabs__title",
-                                  attrs: {
-                                    label: region.label,
-                                    name: "bkt-region-checkbox-" + index,
-                                    id: "bkt-region-checkbox-" + index,
-                                  },
-                                  on: {
-                                    input: function ($event) {
-                                      return _vm.selectAll(index)
+                              _vm._l(_vm.regionGroups, function (group, index) {
+                                return _c(
+                                  "div",
+                                  {
+                                    staticClass: "bkt-regions-tabs__nav-item",
+                                    class: {
+                                      "active bkt-bg-item-neutral":
+                                        _vm.selectedRegion.regionGroup ==
+                                        group.regionGroup,
+                                    },
+                                    on: {
+                                      click: function ($event) {
+                                        _vm.selectedRegion = group
+                                      },
                                     },
                                   },
-                                  model: {
-                                    value: region.status,
-                                    callback: function ($$v) {
-                                      _vm.$set(region, "status", $$v)
-                                    },
-                                    expression: "region.status",
-                                  },
-                                }),
-                              ],
-                              1
+                                  [
+                                    _vm._v(
+                                      "\n                                " +
+                                        _vm._s(
+                                          _vm.$t(
+                                            "region_groups." + group.regionGroup
+                                          )
+                                        ) +
+                                        "\n                            "
+                                    ),
+                                  ]
+                                )
+                              }),
+                              0
                             ),
-                          ]
-                        },
-                        proxy: true,
-                      },
-                      {
-                        key: "collapse",
-                        fn: function () {
-                          return _vm._l(region.area, function (area, index) {
-                            return _c(
+                          ]),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "col-7 p-0" }, [
+                            _c(
                               "div",
                               {
                                 staticClass:
-                                  "bkt-area__item text-left px-2 mb-2",
+                                  "bkt-regions-tabs__content bkt-bg-body",
+                                class: {
+                                  "bkt-rounded-left-top-none":
+                                    _vm.regionGroups[0].regionGroup ==
+                                    _vm.selectedRegion.regionGroup,
+                                  "bkt-rounded-left-bottom-none":
+                                    _vm.regionGroups[
+                                      _vm.regionGroups.length - 1
+                                    ].regionGroup ==
+                                    _vm.selectedRegion.regionGroup,
+                                },
                               },
-                              [
-                                _c(
-                                  "div",
-                                  { staticClass: "bkt-check__wrapper" },
-                                  [
-                                    _c("div", { staticClass: "bkt-check" }, [
+                              _vm._l(
+                                _vm.selectedRegion.regions,
+                                function (item, index) {
+                                  return _c(
+                                    "div",
+                                    {
+                                      key: index,
+                                      staticClass: "bkt-tag__wrapper",
+                                    },
+                                    [
                                       _c(
                                         "div",
-                                        { staticClass: "bkt-check__input" },
+                                        {
+                                          staticClass:
+                                            "bkt-tag w-100 text-left bkt-bg-item-rounded",
+                                          class: {
+                                            "bkt-bg-green bkt-text-white":
+                                              _vm.result.findIndex(function (
+                                                el
+                                              ) {
+                                                return el === item
+                                              }) >= 0,
+                                          },
+                                        },
                                         [
-                                          _c("input", {
-                                            directives: [
-                                              {
-                                                name: "model",
-                                                rawName: "v-model",
-                                                value: _vm.result,
-                                                expression: "result",
-                                              },
-                                            ],
-                                            attrs: { type: "checkbox" },
-                                            domProps: {
-                                              value: area.key,
-                                              checked: Array.isArray(_vm.result)
-                                                ? _vm._i(_vm.result, area.key) >
-                                                  -1
-                                                : _vm.result,
-                                            },
-                                            on: {
-                                              change: function ($event) {
-                                                var $$a = _vm.result,
-                                                  $$el = $event.target,
-                                                  $$c = $$el.checked
-                                                    ? true
-                                                    : false
-                                                if (Array.isArray($$a)) {
-                                                  var $$v = area.key,
-                                                    $$i = _vm._i($$a, $$v)
-                                                  if ($$el.checked) {
-                                                    $$i < 0 &&
-                                                      (_vm.result = $$a.concat([
-                                                        $$v,
-                                                      ]))
-                                                  } else {
-                                                    $$i > -1 &&
-                                                      (_vm.result = $$a
-                                                        .slice(0, $$i)
-                                                        .concat(
-                                                          $$a.slice($$i + 1)
-                                                        ))
-                                                  }
-                                                } else {
-                                                  _vm.result = $$c
-                                                }
-                                              },
-                                            },
-                                          }),
-                                          _vm._v(" "),
-                                          _c("div", {
-                                            staticClass:
-                                              "bkt-check__input-check",
-                                          }),
+                                          _vm._v(
+                                            "\n                                    " +
+                                              _vm._s(
+                                                _vm.$t("regions." + item)
+                                              ) +
+                                              "\n                                "
+                                          ),
                                         ]
                                       ),
                                       _vm._v(" "),
                                       _c(
-                                        "label",
-                                        { staticClass: "bkt-check__label" },
+                                        "div",
+                                        {
+                                          staticClass: "bkt-tag__icon",
+                                          on: {
+                                            click: function ($event) {
+                                              return _vm.toggleRegion(item)
+                                            },
+                                          },
+                                        },
                                         [
-                                          _vm._t("label", function () {
-                                            return [
-                                              _vm._v(
-                                                "\n                                        " +
-                                                  _vm._s(area.label) +
-                                                  "\n                                    "
-                                              ),
-                                            ]
+                                          _c("bkt-icon", {
+                                            directives: [
+                                              {
+                                                name: "show",
+                                                rawName: "v-show",
+                                                value:
+                                                  _vm.result.findIndex(
+                                                    function (data) {
+                                                      return data === item
+                                                    }
+                                                  ) >= 0,
+                                                expression:
+                                                  "result.findIndex(data => data === item)>=0",
+                                              },
+                                            ],
+                                            attrs: {
+                                              name: "Cancel",
+                                              color: "red",
+                                            },
+                                          }),
+                                          _vm._v(" "),
+                                          _c("bkt-icon", {
+                                            directives: [
+                                              {
+                                                name: "show",
+                                                rawName: "v-show",
+                                                value:
+                                                  _vm.result.findIndex(
+                                                    function (data) {
+                                                      return data === item
+                                                    }
+                                                  ) < 0,
+                                                expression:
+                                                  "result.findIndex(data => data === item)<0",
+                                              },
+                                            ],
+                                            attrs: {
+                                              name: "Plus",
+                                              color: "green",
+                                            },
                                           }),
                                         ],
-                                        2
+                                        1
                                       ),
-                                    ]),
-                                  ]
-                                ),
-                              ]
-                            )
-                          })
-                        },
-                        proxy: true,
+                                    ]
+                                  )
+                                }
+                              ),
+                              0
+                            ),
+                          ]),
+                        ]),
+                      ]
+                    )
+                  : _vm._e(),
+                _vm._v(" "),
+                !_vm.loading && _vm.selectedRegion
+                  ? _c(
+                      "div",
+                      {
+                        staticClass:
+                          "d-lg-none bkt-wrapper-column bkt-gap-small",
                       },
-                    ],
-                    null,
-                    true
-                  ),
-                })
-              }),
-              1
-            ),
-            _vm._v(" "),
-            _vm.result.length > 0
-              ? _c("div", { staticClass: "bkt-region-selected" }, [
-                  _c(
-                    "div",
-                    {
-                      staticClass: "bkt-region-selected__title text-left mb-2",
-                    },
-                    [
-                      _c("span", { staticClass: "text-muted" }, [
-                        _vm._v("выбранные регионы"),
-                      ]),
-                    ]
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "div",
-                    { staticClass: "bkt-tag__list" },
-                    _vm._l(_vm.result, function (item, index) {
-                      return _c(
-                        "div",
+                      _vm._l(_vm.regionGroups, function (group, index) {
+                        return _c("bkt-collapse", {
+                          key: index,
+                          attrs: {
+                            id: "region-collapse-" + index,
+                            main_class: "bkt-collapse_check",
+                            collapse_button_class: "bkt-bg-white",
+                          },
+                          scopedSlots: _vm._u(
+                            [
+                              {
+                                key: "title",
+                                fn: function () {
+                                  return [
+                                    _c(
+                                      "div",
+                                      {
+                                        staticClass:
+                                          "bkt-collapse__title-wrapper",
+                                      },
+                                      [
+                                        _c("bkt-checkbox", {
+                                          attrs: {
+                                            label: "",
+                                            name:
+                                              "bkt-region-group-checkbox-" +
+                                              index,
+                                            id:
+                                              "bkt-region-group-checkbox-" +
+                                              index,
+                                            indeterminate:
+                                              _vm.isIndeterminate(index),
+                                          },
+                                          on: {
+                                            input: function ($event) {
+                                              return _vm.selectAll(index)
+                                            },
+                                          },
+                                          model: {
+                                            value: group.status,
+                                            callback: function ($$v) {
+                                              _vm.$set(group, "status", $$v)
+                                            },
+                                            expression: "group.status",
+                                          },
+                                        }),
+                                        _vm._v(" "),
+                                        _c(
+                                          "h5",
+                                          {
+                                            staticClass:
+                                              "bkt-regions-tabs__title",
+                                            attrs: {
+                                              "data-bs-toggle": "collapse",
+                                              "data-bs-target":
+                                                "#region-collapse-" + index,
+                                            },
+                                          },
+                                          [
+                                            _vm._v(
+                                              "\n                                " +
+                                                _vm._s(
+                                                  _vm.$t(
+                                                    "region_groups." +
+                                                      group.regionGroup
+                                                  )
+                                                ) +
+                                                "\n                            "
+                                            ),
+                                          ]
+                                        ),
+                                      ],
+                                      1
+                                    ),
+                                  ]
+                                },
+                                proxy: true,
+                              },
+                              {
+                                key: "collapse",
+                                fn: function () {
+                                  return _vm._l(
+                                    group.regions,
+                                    function (region, index) {
+                                      return _c(
+                                        "div",
+                                        { staticClass: "bkt-gap-mini" },
+                                        [
+                                          _c(
+                                            "div",
+                                            {
+                                              staticClass:
+                                                "bkt-collapse__title-wrapper",
+                                            },
+                                            [
+                                              _c("bkt-checkbox", {
+                                                attrs: {
+                                                  label: "",
+                                                  name:
+                                                    "bkt-region-checkbox-" +
+                                                    index,
+                                                  id:
+                                                    "bkt-region-checkbox-" +
+                                                    index,
+                                                  val: region,
+                                                },
+                                                model: {
+                                                  value: _vm.result,
+                                                  callback: function ($$v) {
+                                                    _vm.result = $$v
+                                                  },
+                                                  expression: "result",
+                                                },
+                                              }),
+                                              _vm._v(" "),
+                                              _c(
+                                                "h6",
+                                                {
+                                                  staticClass:
+                                                    "bkt-regions-tabs__subtitle",
+                                                },
+                                                [
+                                                  _vm._v(
+                                                    "\n                                    " +
+                                                      _vm._s(
+                                                        _vm.$t(
+                                                          "regions." + region
+                                                        )
+                                                      ) +
+                                                      "\n                                "
+                                                  ),
+                                                ]
+                                              ),
+                                            ],
+                                            1
+                                          ),
+                                        ]
+                                      )
+                                    }
+                                  )
+                                },
+                                proxy: true,
+                              },
+                            ],
+                            null,
+                            true
+                          ),
+                        })
+                      }),
+                      1
+                    )
+                  : _vm._e(),
+                _vm._v(" "),
+                _vm.result.length > 0 && !_vm.loading
+                  ? _c("div", { staticClass: "bkt-region-selected" }, [
+                      _c(
+                        "h5",
                         {
                           staticClass:
-                            "bkt-region__item bkt-tag justify-content-between flex-fill",
+                            "bkt-region-selected__title text-left mb-2",
                         },
                         [
-                          _c(
-                            "span",
-                            { staticClass: "bkt-item-rounded__text mr-2" },
-                            [_vm._v(_vm._s(_vm.$t("regions." + item)))]
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "span",
+                          _c("span", { staticClass: "text-muted" }, [
+                            _vm._v("выбранные регионы"),
+                          ]),
+                        ]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "div",
+                        { staticClass: "bkt-tag__list" },
+                        _vm._l(_vm.result, function (item, index) {
+                          return _c(
+                            "div",
                             {
-                              staticClass: "bkt-tag__icon bkt-cursor-pointer",
-                              on: {
-                                click: function ($event) {
-                                  return _vm.toggleRegion(item)
-                                },
-                              },
+                              staticClass:
+                                "bkt-region__item bkt-tag justify-content-between flex-fill",
                             },
                             [
-                              _c("bkt-icon", {
-                                attrs: { name: "Cancel", color: "red" },
-                              }),
-                            ],
-                            1
-                          ),
-                        ]
-                      )
-                    }),
-                    0
-                  ),
-                ])
-              : _vm._e(),
-          ]
+                              _c(
+                                "span",
+                                { staticClass: "bkt-item-rounded__text mr-2" },
+                                [_vm._v(_vm._s(_vm.$t("regions." + item)))]
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "span",
+                                {
+                                  staticClass:
+                                    "bkt-tag__icon bkt-cursor-pointer",
+                                  on: {
+                                    click: function ($event) {
+                                      return _vm.toggleRegion(item)
+                                    },
+                                  },
+                                },
+                                [
+                                  _c("bkt-icon", {
+                                    attrs: { name: "Cancel", color: "red" },
+                                  }),
+                                ],
+                                1
+                              ),
+                            ]
+                          )
+                        }),
+                        0
+                      ),
+                    ])
+                  : _vm._e(),
+                _vm._v(" "),
+                _vm.loading
+                  ? _c(
+                      "div",
+                      {
+                        staticClass: "d-flex w-100 justify-content-center my-5",
+                      },
+                      [
+                        _vm._t("loading", function () {
+                          return [
+                            _c("div", {
+                              staticClass: "spinner-border",
+                              staticStyle: {
+                                color: "#2953ff",
+                                "border-width": "2px",
+                              },
+                              attrs: { role: "status" },
+                            }),
+                          ]
+                        }),
+                      ],
+                      2
+                    )
+                  : _vm._e(),
+              ]),
+            ]
+          },
         },
-      },
-    ]),
+      ],
+      null,
+      true
+    ),
   })
 }
 var staticRenderFns = []

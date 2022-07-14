@@ -11,7 +11,8 @@
                         </button>
                     </div>
                     <div class="bkt-actions-buttons">
-                        <button class="btn bkt-btn d-flex align-items-center" @click="selectedBtn = 2">
+                        <button class="btn bkt-btn d-flex align-items-center" data-bs-toggle="modal"
+                                data-bs-target="#addPathModal" @click="selectedBtn = 2">
                             <bkt-icon class="bkt-button__icon mr-2" :name="'FolderAdd'" :color="'green'"
                                       :width="'20px'" :height="'20px'"></bkt-icon>
                             <span class="d-none d-md-block">Создать папку</span>
@@ -121,24 +122,34 @@
                 <div class="bkt-monitoring__menu d-flex justify-content-between">
                     <div class="bkt-monitoring__menu-buttons d-md-block d-none">
                         <button v-for="path in items_paths"
-                            class="bkt-button bkt-bg-primary bkt-button_plump">
+                                class="bkt-button bkt-button_plump"
+                                :class="[current_path === path.id && path.color ? 'bkt-bg-'+path.color : '',
+                                { 'bkt-bg-primary':current_path === path.id && !path.color,
+                                'bkt-bg-white': current_path !== path.id}]"
+                        >
+                            <!--                            :class="[-->
+                            <!--                            current_path === path.id && path.color ? 'bkt-bg-'+path.color : '',-->
+                            <!--                            current_path === path.id && !path.color ? 'bkt-bg-primary': '',-->
+                            <!--                            current_path !== path.id ? 'bkt-bg-white' : ''-->
+                            <!--                            ]"-->
                             {{path.name}}
                             <span class="bkt-text-primary bkt-bg-white bkt-badge">{{pagination_data.total}}</span>
                         </button>
-<!--                        <button class="bkt-button bkt-button-menu bkt-menu-button bkt-menu-button__monitoring bkt-card__text d-inline-flex-->
-<!--                        align-items-center position-relative mr-2">-->
-<!--                            <span>АВТО</span>-->
-<!--                            <div class="bkt-count p-1 ml-2">-->
-<!--                                <span class="p-1">5</span>-->
-<!--                            </div>-->
-<!--                        </button>-->
-<!--                        <button class="bkt-button bkt-button-menu bkt-menu-button bkt-menu-button__flats bkt-bg-white bkt-card__text-->
-<!--                         position-relative d-inline-flex align-items-center mr-2">-->
-<!--                            <span>КВАРТИРЫ</span>-->
-<!--                            <div class="bkt-count p-1 ml-2">-->
-<!--                                <span class="">2</span>-->
-<!--                            </div>-->
-<!--                        </button>-->
+
+                        <!--                        <button class="bkt-button bkt-button-menu bkt-menu-button bkt-menu-button__monitoring bkt-card__text d-inline-flex-->
+                        <!--                        align-items-center position-relative mr-2">-->
+                        <!--                            <span>АВТО</span>-->
+                        <!--                            <div class="bkt-count p-1 ml-2">-->
+                        <!--                                <span class="p-1">5</span>-->
+                        <!--                            </div>-->
+                        <!--                        </button>-->
+                        <!--                        <button class="bkt-button bkt-button-menu bkt-menu-button bkt-menu-button__flats bkt-bg-white bkt-card__text-->
+                        <!--                         position-relative d-inline-flex align-items-center mr-2">-->
+                        <!--                            <span>КВАРТИРЫ</span>-->
+                        <!--                            <div class="bkt-count p-1 ml-2">-->
+                        <!--                                <span class="">2</span>-->
+                        <!--                            </div>-->
+                        <!--                        </button>-->
                     </div>
                     <div class="d-flex d-md-none">
                         <div class="mr-2 w-100">
@@ -155,26 +166,26 @@
                                 </div>
                             </button>
 
-<!--                            <div class="bkt-menu-monitoring bkt-bg-white d-none shadow">-->
-<!--                                <ul class="list-inline bkt-menu-monitoring-list">-->
-<!--                                    <li class="bkt-menu-monitoring-list__item">-->
-<!--                                        <div class="d-flex justify-content-center">-->
-<!--                                            <span class="d-flex align-items-center p-1 text-uppercase">Квартиры</span>-->
-<!--                                            <div class="bkt-bg-blue-lighter bkt-text-blue rounded-pill p-1">-->
-<!--                                                <span class="p-1">2</span>-->
-<!--                                            </div>-->
-<!--                                        </div>-->
-<!--                                    </li>-->
-<!--                                    <li class="bkt-menu-monitoring-list__item">-->
-<!--                                        <div class="d-flex justify-content-center">-->
-<!--                                            <span class="d-flex align-items-center p-1 text-uppercase">Квартиры</span>-->
-<!--                                            <div class="bkt-bg-red-lighter bkt-text-red rounded-pill p-1">-->
-<!--                                                <span class="p-1">2</span>-->
-<!--                                            </div>-->
-<!--                                        </div>-->
-<!--                                    </li>-->
-<!--                                </ul>-->
-<!--                            </div>-->
+                            <!--                            <div class="bkt-menu-monitoring bkt-bg-white d-none shadow">-->
+                            <!--                                <ul class="list-inline bkt-menu-monitoring-list">-->
+                            <!--                                    <li class="bkt-menu-monitoring-list__item">-->
+                            <!--                                        <div class="d-flex justify-content-center">-->
+                            <!--                                            <span class="d-flex align-items-center p-1 text-uppercase">Квартиры</span>-->
+                            <!--                                            <div class="bkt-bg-blue-lighter bkt-text-blue rounded-pill p-1">-->
+                            <!--                                                <span class="p-1">2</span>-->
+                            <!--                                            </div>-->
+                            <!--                                        </div>-->
+                            <!--                                    </li>-->
+                            <!--                                    <li class="bkt-menu-monitoring-list__item">-->
+                            <!--                                        <div class="d-flex justify-content-center">-->
+                            <!--                                            <span class="d-flex align-items-center p-1 text-uppercase">Квартиры</span>-->
+                            <!--                                            <div class="bkt-bg-red-lighter bkt-text-red rounded-pill p-1">-->
+                            <!--                                                <span class="p-1">2</span>-->
+                            <!--                                            </div>-->
+                            <!--                                        </div>-->
+                            <!--                                    </li>-->
+                            <!--                                </ul>-->
+                            <!--                            </div>-->
                         </div>
                     </div>
                 </div>
@@ -183,16 +194,19 @@
         <bkt-card-list :current_component="'BktCard'" :items="items" :loading="loading"
                        :pagination_data="pagination_data" @change-page="getData">
         </bkt-card-list>
+        <bkt-add-path-modal></bkt-add-path-modal>
     </div>
 </template>
 
 <script>
+    import AddPathModal from "./Favourites/AddPathModal";
     import Select from "../components/Select";
 
     export default {
         name: "Favourites",
         components: {
-            'bkt-select': Select
+            'bkt-select': Select,
+            'bkt-add-path-modal': AddPathModal
         },
         created() {
             this.getFavouritePaths();

@@ -15,7 +15,7 @@
         </div>
         <div class="bkt-collapse__header">
             <slot name="title">
-                <h3 class="bkt-card__title" v-if="title" data-bs-toggle="collapse" :data-bs-target="'#'+id">
+                <h3 class="bkt-card__title" :class="title_class" v-if="title" data-bs-toggle="collapse" :data-bs-target="'#'+id">
                     <slot name="title-inner">
                         {{title}}
                         <span v-if="count>=0" :class="[count>0 ? 'bkt-text-green' : 'bkt-text-neutral-dark']">
@@ -47,6 +47,10 @@
             },
             title: {
                 type: String
+            },
+            title_class: {
+                type: String,
+                default: 'bkt-collapse__title'
             },
             main_class: {
                 type: String,

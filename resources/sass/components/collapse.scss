@@ -25,6 +25,7 @@
             transition: transform 0.2s ease-in-out;
         }
     }
+
     & .bkt-collapse__body.collapsing + .bkt-collapse__header {
         & .bkt-collapse__button .bkt-button__icon {
             transform: rotate(-180deg);
@@ -34,5 +35,41 @@
         }
     }
 
+    &__title {
+        color: $main-default;
+        font-weight: 700;
+    }
+
+    &_check {
+        border-radius: 13px;
+        border: 2px solid $primary-lighter;
+        padding: 7px;
+        & .bkt-check__input {
+            width: 30px;
+            height: 30px;
+        }
+        //& .bkt-collapse__header {
+        //    padding: 7px 0 7px 7px;
+        //}
+        & .bkt-collapse__title-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 11px;
+        }
+        & .bkt-collapse__button {
+            padding: 0 8px;
+            width: 30px;
+            height: 30px;
+            flex-shrink: 0;
+        }
+    }
 }
 
+@media (max-width: 576px) {
+    .bkt-collapse {
+        &__title {
+            font-size: 12px;
+            font-weight: 600;
+        }
+    }
+}

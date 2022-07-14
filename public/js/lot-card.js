@@ -60,6 +60,10 @@ __webpack_require__.r(__webpack_exports__);
     title: {
       type: String
     },
+    title_class: {
+      type: String,
+      "default": 'bkt-collapse__title'
+    },
     main_class: {
       type: String,
       "default": 'bkt-card bkt-card__body'
@@ -1775,6 +1779,7 @@ var render = function () {
                   "h3",
                   {
                     staticClass: "bkt-card__title",
+                    class: _vm.title_class,
                     attrs: {
                       "data-bs-toggle": "collapse",
                       "data-bs-target": "#" + _vm.id,

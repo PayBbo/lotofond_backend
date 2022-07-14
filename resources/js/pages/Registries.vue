@@ -26,7 +26,7 @@
                         </div>
                         <hr>
                         <div class="bkt-table-debtors p-3 m-3 overflow-auto">
-                            <table class="table table-borderless bkt-table">
+                            <table class="table table-borderless bkt-simple-table">
                                 <tr>
                                     <th>№</th>
                                     <th>Должник</th>

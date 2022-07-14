@@ -6594,6 +6594,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: {
     value: {
@@ -6622,11 +6623,23 @@ __webpack_require__.r(__webpack_exports__);
     wrapper_class: {
       type: String,
       "default": ""
-    } // type: {
-    //     type: String,
-    //     default: "boolean",
-    // },
-
+    },
+    type: {
+      type: String,
+      "default": "checkbox"
+    },
+    border_color: {
+      type: String,
+      "default": ""
+    },
+    check_color: {
+      type: String,
+      "default": ""
+    },
+    indeterminate: {
+      type: Boolean,
+      "default": false
+    }
   },
   // model: {
   //     prop: 'value',
@@ -6635,14 +6648,13 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       // model:null,
-      type: 'boolean' // tmp_val:null,
-
+      val_type: 'boolean'
     };
   },
   mounted: function mounted() {
     // this.model = this.value;
     if (typeof this.value != 'boolean') {
-      this.type = 'other';
+      this.val_type = 'other';
     }
   },
   computed: {
@@ -6757,7 +6769,16 @@ __webpack_require__.r(__webpack_exports__);
       }
     }
   },
-  computed: {},
+  computed: {
+    model: {
+      get: function get() {
+        return this.value;
+      },
+      set: function set(value) {
+        this.$emit("input", value);
+      }
+    }
+  },
   methods: {
     saveValue: function saveValue(date) {
       this.$emit('input', date);
@@ -16638,6 +16659,106 @@ defineJQueryPlugin(Toast);
 
 /***/ }),
 
+/***/ "./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/hooper/dist/hooper.css":
+/*!*****************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/hooper/dist/hooper.css ***!
+  \*****************************************************************************************************************************************************************************************************/
+/***/ ((module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js");
+/* harmony import */ var _css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__);
+// Imports
+
+var ___CSS_LOADER_EXPORT___ = _css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
+// Module
+___CSS_LOADER_EXPORT___.push([module.id, ".hooper-slide {\n  flex-shrink: 0;\n  height: 100%;\n  margin: 0;\n  padding: 0;\n  list-style: none;\n}\n.hooper-progress {\n  position: absolute;\n  top: 0;\n  right: 0;\n  left: 0;\n  height: 4px;\n  background-color: #efefef;\n}\n.hooper-progress-inner {\n  height: 100%;\n  background-color: #4285f4;\n  transition: 300ms;\n}\n.hooper-pagination {\n  position: absolute;\n  bottom: 0;\n  right: 50%;\n  transform: translateX(50%);\n  display: flex;\n  padding: 5px 10px;\n}\n.hooper-indicators {\n  display: flex;\n  list-style: none;\n  margin: 0;\n  padding: 0;\n}\n.hooper-indicator:hover,\n.hooper-indicator.is-active {\n  background-color: #4285f4;\n}\n.hooper-indicator {\n  margin: 0 2px;\n  width: 12px;\n  height: 4px;\n  border-radius: 4px;\n  border: none;\n  padding: 0;\n  background-color: #fff;\n  cursor: pointer;\n}\n.hooper-pagination.is-vertical {\n  bottom: auto;\n  right: 0;\n  top: 50%;\n  transform: translateY(-50%);\n}\n.hooper-pagination.is-vertical .hooper-indicators {\n  flex-direction: column;\n}\n.hooper-pagination.is-vertical .hooper-indicator {\n  width: 6px;\n}\n.hooper-next,\n.hooper-prev {\n  background-color: transparent;\n  border: none;\n  padding: 1em;\n  position: absolute;\n  top: 50%;\n  transform: translateY(-50%);\n  cursor: pointer;\n}\n.hooper-next.is-disabled,\n.hooper-prev.is-disabled {\n  opacity: 0.3;\n  cursor: not-allowed;\n}\n.hooper-next {\n  right: 0;\n}\n.hooper-prev {\n  left: 0;\n}\n.hooper-navigation.is-vertical .hooper-next {\n  top: auto;\n  bottom: 0;\n  transform: initial;\n}\n.hooper-navigation.is-vertical .hooper-prev {\n  top: 0;\n  bottom: auto;\n  right: 0;\n  left: auto;\n  transform: initial;\n}\n.hooper-navigation.is-rtl .hooper-prev {\n  left: auto;\n  right: 0;\n}\n.hooper-navigation.is-rtl .hooper-next {\n  right: auto;\n  left: 0;\n}\n.hooper {\n  position: relative;\n  box-sizing: border-box;\n  width: 100%;\n  height: 200px;\n}\n.hooper * {\n  box-sizing: border-box;\n}\n.hooper-list {\n  overflow: hidden;\n  width: 100%;\n  height: 100%;\n}\n.hooper-track {\n  display: flex;\n  box-sizing: border-box;\n  width: 100%;\n  height: 100%;\n  padding: 0;\n  margin: 0;\n}\n.hooper.is-vertical .hooper-track {\n  flex-direction: column;\n  height: 200px;\n}\n\n.hooper.is-rtl {\n  direction: rtl;\n}\n\n.hooper-sr-only {\n  position: absolute;\n  width: 1px;\n  height: 1px;\n  padding: 0;\n  margin: -1px;\n  overflow: hidden;\n  clip: rect(0, 0, 0, 0);\n  border: 0;\n}", ""]);
+// Exports
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
+
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/dist/runtime/api.js":
+/*!*****************************************************!*\
+  !*** ./node_modules/css-loader/dist/runtime/api.js ***!
+  \*****************************************************/
+/***/ ((module) => {
+
+"use strict";
+
+
+/*
+  MIT License http://www.opensource.org/licenses/mit-license.php
+  Author Tobias Koppers @sokra
+*/
+// css base code, injected by the css-loader
+// eslint-disable-next-line func-names
+module.exports = function (cssWithMappingToString) {
+  var list = []; // return the list of modules as css string
+
+  list.toString = function toString() {
+    return this.map(function (item) {
+      var content = cssWithMappingToString(item);
+
+      if (item[2]) {
+        return "@media ".concat(item[2], " {").concat(content, "}");
+      }
+
+      return content;
+    }).join("");
+  }; // import a list of modules into the list
+  // eslint-disable-next-line func-names
+
+
+  list.i = function (modules, mediaQuery, dedupe) {
+    if (typeof modules === "string") {
+      // eslint-disable-next-line no-param-reassign
+      modules = [[null, modules, ""]];
+    }
+
+    var alreadyImportedModules = {};
+
+    if (dedupe) {
+      for (var i = 0; i < this.length; i++) {
+        // eslint-disable-next-line prefer-destructuring
+        var id = this[i][0];
+
+        if (id != null) {
+          alreadyImportedModules[id] = true;
+        }
+      }
+    }
+
+    for (var _i = 0; _i < modules.length; _i++) {
+      var item = [].concat(modules[_i]);
+
+      if (dedupe && alreadyImportedModules[item[0]]) {
+        // eslint-disable-next-line no-continue
+        continue;
+      }
+
+      if (mediaQuery) {
+        if (!item[2]) {
+          item[2] = mediaQuery;
+        } else {
+          item[2] = "".concat(mediaQuery, " and ").concat(item[2]);
+        }
+      }
+
+      list.push(item);
+    }
+  };
+
+  return list;
+};
+
+/***/ }),
+
 /***/ "./node_modules/date-format-parse/es/format.js":
 /*!*****************************************************!*\
   !*** ./node_modules/date-format-parse/es/format.js ***!
@@ -19239,106 +19360,6 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 
 }));
 
-
-/***/ }),
-
-/***/ "./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/hooper/dist/hooper.css":
-/*!******************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/hooper/dist/hooper.css ***!
-  \******************************************************************************************************************************************************************************************************************************/
-/***/ ((module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var _laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../laravel-mix/node_modules/css-loader/dist/runtime/api.js */ "./node_modules/laravel-mix/node_modules/css-loader/dist/runtime/api.js");
-/* harmony import */ var _laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__);
-// Imports
-
-var ___CSS_LOADER_EXPORT___ = _laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
-// Module
-___CSS_LOADER_EXPORT___.push([module.id, ".hooper-slide {\n  flex-shrink: 0;\n  height: 100%;\n  margin: 0;\n  padding: 0;\n  list-style: none;\n}\n.hooper-progress {\n  position: absolute;\n  top: 0;\n  right: 0;\n  left: 0;\n  height: 4px;\n  background-color: #efefef;\n}\n.hooper-progress-inner {\n  height: 100%;\n  background-color: #4285f4;\n  transition: 300ms;\n}\n.hooper-pagination {\n  position: absolute;\n  bottom: 0;\n  right: 50%;\n  transform: translateX(50%);\n  display: flex;\n  padding: 5px 10px;\n}\n.hooper-indicators {\n  display: flex;\n  list-style: none;\n  margin: 0;\n  padding: 0;\n}\n.hooper-indicator:hover,\n.hooper-indicator.is-active {\n  background-color: #4285f4;\n}\n.hooper-indicator {\n  margin: 0 2px;\n  width: 12px;\n  height: 4px;\n  border-radius: 4px;\n  border: none;\n  padding: 0;\n  background-color: #fff;\n  cursor: pointer;\n}\n.hooper-pagination.is-vertical {\n  bottom: auto;\n  right: 0;\n  top: 50%;\n  transform: translateY(-50%);\n}\n.hooper-pagination.is-vertical .hooper-indicators {\n  flex-direction: column;\n}\n.hooper-pagination.is-vertical .hooper-indicator {\n  width: 6px;\n}\n.hooper-next,\n.hooper-prev {\n  background-color: transparent;\n  border: none;\n  padding: 1em;\n  position: absolute;\n  top: 50%;\n  transform: translateY(-50%);\n  cursor: pointer;\n}\n.hooper-next.is-disabled,\n.hooper-prev.is-disabled {\n  opacity: 0.3;\n  cursor: not-allowed;\n}\n.hooper-next {\n  right: 0;\n}\n.hooper-prev {\n  left: 0;\n}\n.hooper-navigation.is-vertical .hooper-next {\n  top: auto;\n  bottom: 0;\n  transform: initial;\n}\n.hooper-navigation.is-vertical .hooper-prev {\n  top: 0;\n  bottom: auto;\n  right: 0;\n  left: auto;\n  transform: initial;\n}\n.hooper-navigation.is-rtl .hooper-prev {\n  left: auto;\n  right: 0;\n}\n.hooper-navigation.is-rtl .hooper-next {\n  right: auto;\n  left: 0;\n}\n.hooper {\n  position: relative;\n  box-sizing: border-box;\n  width: 100%;\n  height: 200px;\n}\n.hooper * {\n  box-sizing: border-box;\n}\n.hooper-list {\n  overflow: hidden;\n  width: 100%;\n  height: 100%;\n}\n.hooper-track {\n  display: flex;\n  box-sizing: border-box;\n  width: 100%;\n  height: 100%;\n  padding: 0;\n  margin: 0;\n}\n.hooper.is-vertical .hooper-track {\n  flex-direction: column;\n  height: 200px;\n}\n\n.hooper.is-rtl {\n  direction: rtl;\n}\n\n.hooper-sr-only {\n  position: absolute;\n  width: 1px;\n  height: 1px;\n  padding: 0;\n  margin: -1px;\n  overflow: hidden;\n  clip: rect(0, 0, 0, 0);\n  border: 0;\n}", ""]);
-// Exports
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
-
-
-/***/ }),
-
-/***/ "./node_modules/laravel-mix/node_modules/css-loader/dist/runtime/api.js":
-/*!******************************************************************************!*\
-  !*** ./node_modules/laravel-mix/node_modules/css-loader/dist/runtime/api.js ***!
-  \******************************************************************************/
-/***/ ((module) => {
-
-"use strict";
-
-
-/*
-  MIT License http://www.opensource.org/licenses/mit-license.php
-  Author Tobias Koppers @sokra
-*/
-// css base code, injected by the css-loader
-// eslint-disable-next-line func-names
-module.exports = function (cssWithMappingToString) {
-  var list = []; // return the list of modules as css string
-
-  list.toString = function toString() {
-    return this.map(function (item) {
-      var content = cssWithMappingToString(item);
-
-      if (item[2]) {
-        return "@media ".concat(item[2], " {").concat(content, "}");
-      }
-
-      return content;
-    }).join("");
-  }; // import a list of modules into the list
-  // eslint-disable-next-line func-names
-
-
-  list.i = function (modules, mediaQuery, dedupe) {
-    if (typeof modules === "string") {
-      // eslint-disable-next-line no-param-reassign
-      modules = [[null, modules, ""]];
-    }
-
-    var alreadyImportedModules = {};
-
-    if (dedupe) {
-      for (var i = 0; i < this.length; i++) {
-        // eslint-disable-next-line prefer-destructuring
-        var id = this[i][0];
-
-        if (id != null) {
-          alreadyImportedModules[id] = true;
-        }
-      }
-    }
-
-    for (var _i = 0; _i < modules.length; _i++) {
-      var item = [].concat(modules[_i]);
-
-      if (dedupe && alreadyImportedModules[item[0]]) {
-        // eslint-disable-next-line no-continue
-        continue;
-      }
-
-      if (mediaQuery) {
-        if (!item[2]) {
-          item[2] = mediaQuery;
-        } else {
-          item[2] = "".concat(mediaQuery, " and ").concat(item[2]);
-        }
-      }
-
-      list.push(item);
-    }
-  };
-
-  return list;
-};
 
 /***/ }),
 
@@ -52470,7 +52491,7 @@ webpackContext.id = "./node_modules/moment/locale sync recursive ^\\.\\/.*$";
 
 /* module decorator */ module = __webpack_require__.nmd(module);
 //! moment.js
-//! version : 2.29.3
+//! version : 2.29.4
 //! authors : Tim Wood, Iskren Chernev, Moment.js contributors
 //! license : MIT
 //! momentjs.com
@@ -54924,7 +54945,7 @@ webpackContext.id = "./node_modules/moment/locale sync recursive ^\\.\\/.*$";
     function preprocessRFC2822(s) {
         // Remove comments and folding whitespace and replace multiple-spaces with a single space
         return s
-            .replace(/\([^)]*\)|[\n\t]/g, ' ')
+            .replace(/\([^()]*\)|[\n\t]/g, ' ')
             .replace(/(\s\s+)/g, ' ')
             .replace(/^\s\s*/, '')
             .replace(/\s\s*$/, '');
@@ -58105,7 +58126,7 @@ webpackContext.id = "./node_modules/moment/locale sync recursive ^\\.\\/.*$";
 
     //! moment.js
 
-    hooks.version = '2.29.3';
+    hooks.version = '2.29.4';
 
     setHookCallback(createLocal);
 
@@ -58364,7 +58385,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
 /* harmony import */ var _style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_hooper_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !!../../laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!../../postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./hooper.css */ "./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/hooper/dist/hooper.css");
+/* harmony import */ var _css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_hooper_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !!../../css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!../../postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./hooper.css */ "./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/hooper/dist/hooper.css");
 
             
 
@@ -58373,11 +58394,11 @@ var options = {};
 options.insert = "head";
 options.singleton = false;
 
-var update = _style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_hooper_css__WEBPACK_IMPORTED_MODULE_1__["default"], options);
+var update = _style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_hooper_css__WEBPACK_IMPORTED_MODULE_1__["default"], options);
 
 
 
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_hooper_css__WEBPACK_IMPORTED_MODULE_1__["default"].locals || {});
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_hooper_css__WEBPACK_IMPORTED_MODULE_1__["default"].locals || {});
 
 /***/ }),
 
@@ -66429,103 +66450,207 @@ var render = function () {
             var errors = ref.errors
             return [
               _c("div", { staticClass: "bkt-check" }, [
-                _c("div", { staticClass: "bkt-check__input" }, [
-                  _vm.type == "boolean"
-                    ? _c("input", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.model,
-                            expression: "model",
-                          },
-                        ],
-                        attrs: { type: "checkbox" },
-                        domProps: {
-                          checked: Array.isArray(_vm.model)
-                            ? _vm._i(_vm.model, null) > -1
-                            : _vm.model,
-                        },
-                        on: {
-                          change: function ($event) {
-                            var $$a = _vm.model,
-                              $$el = $event.target,
-                              $$c = $$el.checked ? true : false
-                            if (Array.isArray($$a)) {
-                              var $$v = null,
-                                $$i = _vm._i($$a, $$v)
-                              if ($$el.checked) {
-                                $$i < 0 && (_vm.model = $$a.concat([$$v]))
-                              } else {
-                                $$i > -1 &&
-                                  (_vm.model = $$a
-                                    .slice(0, $$i)
-                                    .concat($$a.slice($$i + 1)))
-                              }
-                            } else {
-                              _vm.model = $$c
-                            }
-                          },
-                        },
-                      })
-                    : _c("input", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.model,
-                            expression: "model",
-                          },
-                        ],
-                        attrs: { type: "checkbox" },
-                        domProps: {
-                          value: _vm.val,
-                          checked: Array.isArray(_vm.model)
-                            ? _vm._i(_vm.model, _vm.val) > -1
-                            : _vm.model,
-                        },
-                        on: {
-                          change: function ($event) {
-                            var $$a = _vm.model,
-                              $$el = $event.target,
-                              $$c = $$el.checked ? true : false
-                            if (Array.isArray($$a)) {
-                              var $$v = _vm.val,
-                                $$i = _vm._i($$a, $$v)
-                              if ($$el.checked) {
-                                $$i < 0 && (_vm.model = $$a.concat([$$v]))
-                              } else {
-                                $$i > -1 &&
-                                  (_vm.model = $$a
-                                    .slice(0, $$i)
-                                    .concat($$a.slice($$i + 1)))
-                              }
-                            } else {
-                              _vm.model = $$c
-                            }
-                          },
-                        },
-                      }),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "bkt-check__input-check" }),
-                ]),
-                _vm._v(" "),
                 _c(
-                  "label",
-                  { staticClass: "bkt-check__label" },
+                  "div",
+                  {
+                    staticClass: "bkt-check__input",
+                    class: [
+                      _vm.border_color ? "bkt-border-" + _vm.border_color : "",
+                    ],
+                  },
                   [
-                    _vm._t("label", function () {
-                      return [
-                        _vm._v(
-                          "\n                " +
-                            _vm._s(_vm.label) +
-                            "\n            "
-                        ),
-                      ]
+                    _vm.type === "checkbox" && _vm.val_type == "boolean"
+                      ? _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.model,
+                              expression: "model",
+                            },
+                          ],
+                          attrs: { type: "checkbox" },
+                          domProps: {
+                            indeterminate: _vm.indeterminate,
+                            checked: Array.isArray(_vm.model)
+                              ? _vm._i(_vm.model, null) > -1
+                              : _vm.model,
+                          },
+                          on: {
+                            change: function ($event) {
+                              var $$a = _vm.model,
+                                $$el = $event.target,
+                                $$c = $$el.checked ? true : false
+                              if (Array.isArray($$a)) {
+                                var $$v = null,
+                                  $$i = _vm._i($$a, $$v)
+                                if ($$el.checked) {
+                                  $$i < 0 && (_vm.model = $$a.concat([$$v]))
+                                } else {
+                                  $$i > -1 &&
+                                    (_vm.model = $$a
+                                      .slice(0, $$i)
+                                      .concat($$a.slice($$i + 1)))
+                                }
+                              } else {
+                                _vm.model = $$c
+                              }
+                            },
+                          },
+                        })
+                      : _vm.type === "radio" && _vm.val_type == "boolean"
+                      ? _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.model,
+                              expression: "model",
+                            },
+                          ],
+                          attrs: { type: "radio" },
+                          domProps: {
+                            indeterminate: _vm.indeterminate,
+                            checked: _vm._q(_vm.model, null),
+                          },
+                          on: {
+                            change: function ($event) {
+                              _vm.model = null
+                            },
+                          },
+                        })
+                      : _vm.val_type == "boolean"
+                      ? _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.model,
+                              expression: "model",
+                            },
+                          ],
+                          attrs: { type: _vm.type },
+                          domProps: {
+                            indeterminate: _vm.indeterminate,
+                            value: _vm.model,
+                          },
+                          on: {
+                            input: function ($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.model = $event.target.value
+                            },
+                          },
+                        })
+                      : _vm.type === "checkbox"
+                      ? _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.model,
+                              expression: "model",
+                            },
+                          ],
+                          attrs: { type: "checkbox" },
+                          domProps: {
+                            value: _vm.val,
+                            checked: Array.isArray(_vm.model)
+                              ? _vm._i(_vm.model, _vm.val) > -1
+                              : _vm.model,
+                          },
+                          on: {
+                            change: function ($event) {
+                              var $$a = _vm.model,
+                                $$el = $event.target,
+                                $$c = $$el.checked ? true : false
+                              if (Array.isArray($$a)) {
+                                var $$v = _vm.val,
+                                  $$i = _vm._i($$a, $$v)
+                                if ($$el.checked) {
+                                  $$i < 0 && (_vm.model = $$a.concat([$$v]))
+                                } else {
+                                  $$i > -1 &&
+                                    (_vm.model = $$a
+                                      .slice(0, $$i)
+                                      .concat($$a.slice($$i + 1)))
+                                }
+                              } else {
+                                _vm.model = $$c
+                              }
+                            },
+                          },
+                        })
+                      : _vm.type === "radio"
+                      ? _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.model,
+                              expression: "model",
+                            },
+                          ],
+                          attrs: { type: "radio" },
+                          domProps: {
+                            value: _vm.val,
+                            checked: _vm._q(_vm.model, _vm.val),
+                          },
+                          on: {
+                            change: function ($event) {
+                              _vm.model = _vm.val
+                            },
+                          },
+                        })
+                      : _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.model,
+                              expression: "model",
+                            },
+                          ],
+                          attrs: { type: _vm.type },
+                          domProps: { value: _vm.val, value: _vm.model },
+                          on: {
+                            input: function ($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.model = $event.target.value
+                            },
+                          },
+                        }),
+                    _vm._v(" "),
+                    _c("div", {
+                      staticClass: "bkt-check__input-check",
+                      class: [
+                        _vm.check_color ? "bkt-bg-" + _vm.check_color : "",
+                      ],
                     }),
-                  ],
-                  2
+                  ]
                 ),
+                _vm._v(" "),
+                _vm.label
+                  ? _c(
+                      "label",
+                      { staticClass: "bkt-check__label" },
+                      [
+                        _vm._t("label", function () {
+                          return [
+                            _vm._v(
+                              "\n                " +
+                                _vm._s(_vm.label) +
+                                "\n            "
+                            ),
+                          ]
+                        }),
+                      ],
+                      2
+                    )
+                  : _vm._e(),
               ]),
               _vm._v(" "),
               errors
@@ -66594,14 +66719,12 @@ var render = function () {
             _c("date-picker", {
               attrs: {
                 type: _vm.type,
-                value: _vm.value,
                 "prefix-class": "bkt",
                 "value-type": "DD.MM.YYYY",
                 placeholder: _vm.placeholder,
                 format: "DD MMMM YYYY",
                 disabled: _vm.disabled,
               },
-              on: { input: _vm.saveValue },
               scopedSlots: _vm._u(
                 [
                   {
@@ -66648,6 +66771,13 @@ var render = function () {
                 null,
                 true
               ),
+              model: {
+                value: _vm.model,
+                callback: function ($$v) {
+                  _vm.model = $$v
+                },
+                expression: "model",
+              },
             }),
             _vm._v(" "),
             errors
