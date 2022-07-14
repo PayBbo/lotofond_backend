@@ -34,7 +34,7 @@ class ParseTrades implements ShouldQueue
      */
     public function handle()
     {
-        $startFrom = Carbon::now()->subDays(4)->format('Y-m-d\TH:i:s');
+        $startFrom = Carbon::now()->subDays(8)->format('Y-m-d\TH:i:s');
         $endTo = Carbon::now()->format('Y-m-d\TH:i:s');
         $soapWrapper = new SoapWrapper();
         $service = new SoapWrapperService($soapWrapper);
@@ -55,8 +55,7 @@ class ParseTrades implements ShouldQueue
                         foreach (get_object_vars($message->TradeList) as $val) {
                             foreach ($val as $trade) {
                                 if (gettype($trade) == 'string') {
-                                    $item = json_decode($item);
-                                    continue;
+                                    $trade = json_decode($trade);
                                 }
                                 if (!array_key_exists('MessageList', $trade)) {
                                     if (gettype($trade->TradeMessage) == 'object') {
@@ -70,36 +69,36 @@ class ParseTrades implements ShouldQueue
                                             $get_trade_message_content->switchMessageType($tradePlace->id, $trade, $message->ID);
                                         }
                                     }
-                                    continue;
-                                }
-                                foreach (get_object_vars($trade->MessageList) as $item) {
-                                    if (gettype($item) == 'string') {
-                                        $item = json_decode($item);
-                                    }
-                                    if (gettype($item) == 'object') {
-                                        $xml = $service->getTradeMessageContent($item->ID);
-                                        $get_trade_message_content = new GetTradeMessageContent($xml, $item->Type);
-                                        $get_trade_message_content->switchMessageType($tradePlace->id, $trade, $item->ID);
+                                } else {
+                                    foreach (get_object_vars($trade->MessageList) as $item) {
+                                        if (gettype($item) == 'string') {
+                                            $item = json_decode($item);
+                                        }
+                                        if (gettype($item) == 'object') {
+                                            $xml = $service->getTradeMessageContent($item->ID);
+                                            $get_trade_message_content = new GetTradeMessageContent($xml, $item->Type);
+                                            $get_trade_message_content->switchMessageType($tradePlace->id, $trade, $item->ID);
 
-                                    }
-                                    if (gettype($item) == 'array') {
-                                        foreach ($item as $i) {
-                                            $xml = $service->getTradeMessageContent($i->ID);
-                                            try {
-                                                $get_trade_message_content = new GetTradeMessageContent($xml, $i->Type);
-                                                $get_trade_message_content->switchMessageType($tradePlace->id, $trade, $i->ID);
-                                            } catch (\Exception $e) {
-                                                logger($i);
-                                                logger($xml);
+                                        }
+                                        if (gettype($item) == 'array') {
+                                            foreach ($item as $i) {
+                                                $xml = $service->getTradeMessageContent($i->ID);
+                                                try {
+                                                    $get_trade_message_content = new GetTradeMessageContent($xml, $i->Type);
+                                                    $get_trade_message_content->switchMessageType($tradePlace->id, $trade, $i->ID);
+                                                } catch (\Exception $e) {
+                                                    logger($i);
+                                                    logger($xml);
+                                                }
                                             }
                                         }
-                                    }
 
+                                    }
                                 }
                             }
                         }
                     }catch(\Exception $e){
-
+                        dispatch(new ParseTrades);
                     }
                 }
             }
