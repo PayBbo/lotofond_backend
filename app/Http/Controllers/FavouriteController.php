@@ -42,7 +42,7 @@ class FavouriteController extends Controller
         $path->title = $request->name;
         $path->color = $request->color;
         $path->save();
-        return response(null, 200);
+        return response(new FavouritePathResource($path), 200);
     }
 
     public function deleteFavouritePath($id)

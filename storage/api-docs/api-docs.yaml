@@ -756,6 +756,10 @@ paths:
       responses:
         "200":
           description: Папка избранного успешно создана/отредактирована
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PathFavourite'
         "403":
           description: Ошибка при редактировании папки "Общее"
         "422":
@@ -1616,6 +1620,11 @@ paths:
                 $ref: '#/components/schemas/Error'
   /note:
     post:
+      parameters:
+        - name: Content-Language
+          in: header
+          description: Заголовок для определения локали (ru, en, zh_CN)
+          required: true
       tags:
         - Notes
       summary: Добавление заметки к лоту/организатору торгов
@@ -1639,6 +1648,11 @@ paths:
       security:
         - bearerAuth: []
   /note/edit:
+    parameters:
+      - name: Content-Language
+        in: header
+        description: Заголовок для определения локали (ru, en, zh_CN)
+        required: true
     put:
       tags:
         - Notes
@@ -1668,6 +1682,11 @@ paths:
       security:
         - bearerAuth: []
   /note/delete:
+    parameters:
+      - name: Content-Language
+        in: header
+        description: Заголовок для определения локали (ru, en, zh_CN)
+        required: true
     delete:
       tags:
         - Notes
