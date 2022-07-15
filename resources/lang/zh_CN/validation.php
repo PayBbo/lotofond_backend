@@ -139,12 +139,16 @@ return [
     'image_err'=>'图片无法上传',
     'file_err'=>'文件无法上传',
     'export_err'=>'导出时出错，请稍后重试',
+    'exceeding_limit'=>'超出了可用文件夹数量的限制',
+    'one_note'=>'该说明已经存在',
+    'exists_note'               => '所选音符不存在。',
     'attributes' => [
         'phone' => '电话号码',
         'surname'=> '姓',
         'name'=>'姓名',
         'password' => '密码',
         'lastname' => '父名',
-        'code' => '验证码'
+        'code' => '验证码',
+        'itemId'=>'意义'
     ],
 ];

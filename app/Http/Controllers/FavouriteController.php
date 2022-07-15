@@ -13,6 +13,7 @@ use App\Http\Resources\FavouritePathResource;
 use App\Http\Resources\LotCollection;
 use App\Models\Favourite;
 use App\Models\Lot;
+use App\Models\User;
 use App\Rules\IsUserFavouritePath;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -23,13 +24,18 @@ class FavouriteController extends Controller
 {
     public function addEditFavouritePath(FavouritePathRequest $request)
     {
-        if ($request->has('pathId')) {
+        if ($request->has('pathId') && !is_null($request->pathId)) {
             $path = Favourite::find($request->pathId);
             if ($path->title == 'Общее') {
                 throw new BaseException("ERR_ACCESS_FORBIDDEN", 403, "The user does not have rights to edit the selected path");
             }
 
         } else {
+            $user = User::find(auth()->id());
+            $countFavouritePaths = $user->favourites->count();
+            if($countFavouritePaths == 100){
+                throw new BaseException("ERR_EXCEEDING_LIMIT", 422, __('validation.exceeding_limit'));
+            }
             $path = new Favourite();
         }
         $path->user_id = auth()->id();

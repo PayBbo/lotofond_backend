@@ -10,6 +10,7 @@ use App\Http\Controllers\FileController;
 use App\Http\Controllers\FilterController;
 use App\Http\Controllers\MarkController;
 use App\Http\Controllers\MonitoringController;
+use App\Http\Controllers\NoteController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\StatisticsController;
@@ -169,6 +170,16 @@ Route::group(['middleware' => ['json.response', 'localization']], function () {
 
         });
 
+        Route::group(['prefix' => 'note'], function () {
+
+            Route::delete('/delete', [NoteController::class, 'deleteNote']);
+
+            Route::put('/edit', [NoteController::class, 'editNote']);
+
+            Route::post('/', [NoteController::class, 'addNote']);
+
+        });
+
         Route::group(['prefix' => 'notifications'], function () {
 
             Route::get('/{type}', [NotificationController::class, 'getNotifications']);
@@ -177,8 +188,6 @@ Route::group(['middleware' => ['json.response', 'localization']], function () {
 
 
         Route::resource('event', App\Http\Controllers\EventController::class);
-
-        Route::resource('note', App\Http\Controllers\NoteController::class);
 
     });
 

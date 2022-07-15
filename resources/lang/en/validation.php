@@ -135,6 +135,9 @@ return [
     'image_err'=>'Image can not be uploaded',
     'file_err'=>'File can not be uploaded',
     'export_err'=>'An error occurred while exporting, try again later',
+    'exceeding_limit'=>'Exceeded the limit of the available number of folders',
+    'one_note'=>'The note already exists',
+    'exists_note'               => 'The selected note does not exist.',
 
     /*
     |--------------------------------------------------------------------------
@@ -164,6 +167,8 @@ return [
     |
     */
 
-    'attributes' => [],
+    'attributes' => [
+        'itemId'=>'value'
+    ],
 
 ];

@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use App\Models\Category;
+use App\Models\Note;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\URL;
 
@@ -90,7 +91,10 @@ class LotResource extends JsonResource
             'link' => URL::to('/lot/' . $this->id),
             'efrsbLink' => 'https://fedresurs.ru/bidding/' . $this->auction->guid,
             'marks'=> $this->userMarks()->makeHidden(['pivot']),
-            'descriptionExtracts'=>$params->makeHidden(['pivot'])
+            'descriptionExtracts'=>$params->makeHidden(['pivot']),
+            $this->mergeWhen(($this->isLotInfo && !is_null($this->getNote())), [
+                'note'=> $this->getNote()
+            ])
         ];
     }
 

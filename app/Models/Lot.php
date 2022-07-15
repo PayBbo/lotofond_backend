@@ -119,11 +119,6 @@ class Lot extends Model
         return $this->hasMany(TradeMessage::class);
     }
 
-    public function notes()
-    {
-        return $this->morphMany(Note::class, 'item');
-    }
-
     public function lotFiles()
     {
         return $this->hasMany(LotFile::class)->where('user_id', null);
@@ -290,5 +285,15 @@ class Lot extends Model
         }
         return false;
 
+    }
+
+    public function getNote(){
+        $note = null;
+        if(auth()->guard('api')->check() && Note::where(['user_id'=>auth()->guard('api')->id(),
+                'item_type'=>'lot', 'item_id'=>$this->id])->exists() ){
+            $note = Note::where(['user_id'=>auth()->guard('api')->id(),
+                'item_type'=>'lot', 'item_id'=>$this->id])->first()->only('id', 'title', 'date');
+        }
+        return $note;
     }
 }
