@@ -17,14 +17,12 @@ class CreateNotesTable extends Migration
         Schema::create('notes', function (Blueprint $table) {
             $table->id();
             $table->string('title', 255);
-            $table->string('description', 255)->nullable();
             $table->unsignedBigInteger('item_id')->nullable();
-            $table->enum('item_type', ["bidder","lot","auction"]);
+            $table->enum('item_type', ["debtor","organizer", "lot"]);
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')
                 ->on('users')->cascadeOnDelete();
-            $table->dateTime('reminder_date')->nullable();
-            $table->boolean('is_checked')->default(false);
+            $table->dateTime('date');
             $table->timestamps();
         });
         Schema::enableForeignKeyConstraints();

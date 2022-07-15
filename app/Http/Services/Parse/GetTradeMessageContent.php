@@ -26,7 +26,7 @@ class GetTradeMessageContent
             }
             $nextType = $type;
             if($type == 'ErrorMessage'){
-                $type = 'SetSystemInfo';
+                $type = 'SystemInfo';
             }
             if($type == 'Annulment'){
                 $nextType .='Message';

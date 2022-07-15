@@ -2,6 +2,8 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\IsExistsNoteItem;
+use App\Rules\IsOneNoteForItem;
 use Illuminate\Foundation\Http\FormRequest;
 
 class NoteStoreRequest extends FormRequest
@@ -25,9 +27,8 @@ class NoteStoreRequest extends FormRequest
     {
         return [
             'title' => ['required', 'string', 'max:255'],
-            'item_id' => ['required', 'integer', 'gt:0'],
-            'item_type' => ['required', 'in:bidder,lot,auction'],
-            'user_id' => ['required', 'integer', 'gt:0'],
+            'itemId' => ['required', 'integer', 'gt:0', new IsExistsNoteItem($this->request->get('itemType'))],
+            'itemType' => ['required', 'in:debtor,lot,organizer', new IsOneNoteForItem($this->request->get('itemId'))]
         ];
     }
 }

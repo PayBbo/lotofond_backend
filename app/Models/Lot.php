@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Http\Resources\FavouritePathResource;
 use App\Utilities\FilterBuilder;
 use App\Utilities\SortBuilder;
 use Carbon\Carbon;
@@ -43,7 +44,7 @@ class Lot extends Model
      */
     protected $casts = [
         'id' => 'integer',
-        'start_price' => 'integer',
+        'start_price' => 'float',
         'auction_id' => 'integer',
         'auction_step' => 'float',
         'deposit' => 'float',
@@ -117,11 +118,6 @@ class Lot extends Model
     public function tradeMessages()
     {
         return $this->hasMany(TradeMessage::class);
-    }
-
-    public function notes()
-    {
-        return $this->morphMany(Note::class, 'item');
     }
 
     public function lotFiles()
@@ -290,5 +286,25 @@ class Lot extends Model
         }
         return false;
 
+    }
+
+    public function getNote(){
+        $note = null;
+        if(auth()->guard('api')->check() && Note::where(['user_id'=>auth()->guard('api')->id(),
+                'item_type'=>'lot', 'item_id'=>$this->id])->exists() ){
+            $note = Note::where(['user_id'=>auth()->guard('api')->id(),
+                'item_type'=>'lot', 'item_id'=>$this->id])->first()->only('id', 'title', 'date');
+        }
+        return $note;
+    }
+
+    public function getLotFavouritePaths(){
+        if(auth()->guard('api')->check()) {
+            $user = auth()->guard('api')->user();
+                return FavouritePathResource::collection($user->favourites()->whereHas('lots', function ($query) {
+                    $query->where('lot_id', $this->id);
+                })->get());
+        }
+        return null;
     }
 }

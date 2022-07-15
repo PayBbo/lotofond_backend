@@ -618,7 +618,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
   /trades/filter/bidders/{type}:
-    get:
+    put:
       parameters:
         - in: path
           name: type
@@ -634,6 +634,16 @@ paths:
         - FiltersData
       summary: Получение информации о должниках/организаторах торгов/арбитражных управляющих для отображения в фильтрах
       operationId: getBiddersForFilter
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                searchString:
+                  type: string
+                  required: false
+                  description: Строка для поиска по имени/фамилии/отчеству/короткому имени
       responses:
         "200":
           description: Информация о должнике/организаторе торгов/арбитражном управляющем
@@ -746,10 +756,14 @@ paths:
       responses:
         "200":
           description: Папка избранного успешно создана/отредактирована
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PathFavourite'
         "403":
           description: Ошибка при редактировании папки "Общее"
         "422":
-          description: Ошибка валидации данных
+          description: Ошибка валидации данных либо ошибка превышения лимита количества папок в 100
           content:
             application/json:
               schema:
@@ -796,6 +810,11 @@ paths:
         - bearerAuth: [ ]
   /favourite/download/path:
     post:
+      parameters:
+        - name: Content-Language
+          in: header
+          description: Заголовок для определения локали (ru, en, zh_CN)
+          required: true
       tags:
         - Favourite
       summary: Скачивание в эксель файл папки в избранном
@@ -1066,7 +1085,7 @@ paths:
         "200":
           description: Папка в мониторинге успешно создана/отредактирована
         "422":
-          description: Ошибка валидации данных
+          description: Ошибка валидации данных либо ошибка превышения лимита количества папок в 100
           content:
             application/json:
               schema:
@@ -1599,6 +1618,101 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+  /note:
+    post:
+      parameters:
+        - name: Content-Language
+          in: header
+          description: Заголовок для определения локали (ru, en, zh_CN)
+          required: true
+      tags:
+        - Notes
+      summary: Добавление заметки к лоту/организатору торгов
+      operationId: addNote
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AddNote"
+      responses:
+        "200":
+          description: Добавление заметки прошло успешно
+        "422":
+          description: Ошибка валидации
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+        - bearerAuth: []
+  /note/edit:
+    parameters:
+      - name: Content-Language
+        in: header
+        description: Заголовок для определения локали (ru, en, zh_CN)
+        required: true
+    put:
+      tags:
+        - Notes
+      summary: Редактирование заметки к лоту/организатору торгов
+      operationId: editNote
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                noteId:
+                  type: integer
+      responses:
+        "200":
+          description: Редактирование заметки прошло успешно
+        "422":
+          description: Ошибка валидации
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+        - bearerAuth: []
+  /note/delete:
+    parameters:
+      - name: Content-Language
+        in: header
+        description: Заголовок для определения локали (ru, en, zh_CN)
+        required: true
+    delete:
+      tags:
+        - Notes
+      summary: Удаление заметки к лоту/организатору торгов
+      operationId: deleteNote
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                noteId:
+                  type: integer
+      responses:
+        "200":
+          description: Удаление заметки прошло успешно
+        "422":
+          description: Ошибка валидации
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+        - bearerAuth: []
 components:
   schemas:
     Register:
@@ -1871,6 +1985,10 @@ components:
         inFavourites:
           type: boolean
           description: в избранном/нет
+        favouritePaths:
+          type: array
+          items:
+            $ref: "#/components/schemas/PathFavourite"
         isHide:
           type: boolean
           description: скрыт/не скрыт
@@ -1948,6 +2066,10 @@ components:
         inFavourites:
           type: boolean
           description: в избранном/нет
+        favouritePaths:
+          type: array
+          items:
+            $ref: "#/components/schemas/PathFavourite"
         isHide:
           type: boolean
           description: скрыт/не скрыт
@@ -2026,6 +2148,8 @@ components:
           $ref: "#/components/schemas/Marks"
         descriptionExtracts:
           $ref: "#/components/schemas/DescriptionExtracts"
+        note:
+          $ref: "#/components/schemas/Note"
     Pagination:
       type: object
       properties:
@@ -2339,16 +2463,20 @@ components:
       type: object
       required:
         - name
+        - lotCount
       properties:
         name:
           type: string
           description: название папки
         pathId:
           type: integer
-          description: айдишник папки (если редактируем папку)
+          description: айдишник папки (если редактируем папку, если создаем - передаем null)
         color:
           type: string
           description: название цвета папки
+        lotCount:
+          type: integer
+          description: количество лотов в папке избранного
     ExcelParams:
       type: object
       properties:
@@ -2367,7 +2495,7 @@ components:
         addCurrentPrice:
           type: boolean
           default: false
-        addAuctionPrice:
+        addAuctionType:
           type: boolean
           default: false
         addDebtor:
@@ -2422,7 +2550,7 @@ components:
           description: название папки
         pathId:
           type: integer
-          description: айдишник папки (если редактируем папку)
+          description: айдишник папки (если редактируем папку, если создаем - передаем null)
         color:
           type: string
           description: название цвета папки
@@ -2697,6 +2825,30 @@ components:
             min:
               type: number
               description: минимальный процент снижения
+    AddNote:
+      type: object
+      properties:
+        itemType:
+          type: string
+          enum:
+            - lot
+            - debtor
+            - organizer
+        itemId:
+          type: integer
+          description: айдишник должника/лота/организатора торгов
+        title:
+          type: string
+          description: текст заметки
+    Note:
+      type: object
+      properties:
+        title:
+          type: string
+        date:
+          type: string
+          description: дата публикации/изменения заметки
+
   securitySchemes:
     bearerAuth:
       type: http

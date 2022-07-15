@@ -17,7 +17,8 @@ class FavouritePathResource extends JsonResource
         return [
             'pathId'=>$this->id,
             'name'=>$this->title,
-            'color'=>$this->color
+            'color'=>$this->color,
+            'lotCount'=>$this->lots->count()
         ];
     }
 }

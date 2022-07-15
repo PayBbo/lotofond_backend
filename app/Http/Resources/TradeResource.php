@@ -39,7 +39,7 @@ class TradeResource extends JsonResource
                 'debtor' => new BidderResource($this->debtor),
                 'tradePlace' => [
                     'name' => $this->tradePlace->name,
-                    'site' => $this->tradePlace->site
+                    'site' => str_starts_with($this->tradePlace->site, 'http') ? $this->tradePlace->site : 'http://'.$this->tradePlace->site
                 ]
 
             ]),

@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\IsUserNote;
 use Illuminate\Foundation\Http\FormRequest;
 
 class NoteUpdateRequest extends FormRequest
@@ -24,10 +25,8 @@ class NoteUpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'title' => ['required', 'string', 'max:255'],
-            'item_id' => ['required', 'integer', 'gt:0'],
-            'item_type' => ['required', 'in:bidder,lot,auction'],
-            'user_id' => ['required', 'integer', 'gt:0'],
+            'title' => ['sometimes', 'string', 'max:255'],
+            'noteId'=>['required', 'integer', 'gt:0', 'exists:notes,id', new IsUserNote()]
         ];
     }
 }
