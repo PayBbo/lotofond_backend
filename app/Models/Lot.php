@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Http\Resources\FavouritePathResource;
 use App\Utilities\FilterBuilder;
 use App\Utilities\SortBuilder;
 use Carbon\Carbon;
@@ -295,5 +296,15 @@ class Lot extends Model
                 'item_type'=>'lot', 'item_id'=>$this->id])->first()->only('id', 'title', 'date');
         }
         return $note;
+    }
+
+    public function getLotFavouritePaths(){
+        if(auth()->guard('api')->check()) {
+            $user = auth()->guard('api')->user();
+                return FavouritePathResource::collection($user->favourites()->whereHas('lots', function ($query) {
+                    $query->where('lot_id', $this->id);
+                })->get());
+        }
+        return null;
     }
 }

@@ -58,10 +58,8 @@ class LotResource extends JsonResource
             'isWatched' => auth()->guard('api')->check() ? $user->seenLots->pluck('id')->contains($this->id) : false,
             'isPinned' => auth()->guard('api')->check() ? $user->fixedLots->pluck('id')->contains($this->id) : false,
             'inFavourite' => $inFavourite,
-            $this->mergeWhen($inFavourite === true, [
-                'favouritePaths' => FavouritePathResource::collection($user->favourites()->whereHas('lots', function($query){
-                    $query->where('lot_id', $this->id);
-                })->get()),
+            $this->mergeWhen($inFavourite  && !is_null($this->getLotFavouritePaths()), [
+                'favouritePaths' => $this->getLotFavouritePaths(),
             ]),
             'isHide' => auth()->guard('api')->check() ? $user->hiddenLots->pluck('id')->contains($this->id) : false,
             'inMonitoring' => auth()->guard('api')->check() ? $this->inMonitoring() : false,
