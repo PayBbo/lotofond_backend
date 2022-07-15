@@ -117,4 +117,12 @@ class Bidder extends Model
     {
         return $this->hasMany(Auction::class, 'company_trade_organizer_id')->whereHas('lots');
     }
+
+    public function getNameForExport(){
+        $name = $this->name;
+        if(!is_null($this->last_name)){
+            $name = $this->last_name . ' ' . $this->name . ' ' . $this->middle_name;
+        }
+        return $name;
+    }
 }

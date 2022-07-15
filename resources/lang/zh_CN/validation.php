@@ -138,6 +138,7 @@ return [
     'verification_code'=>'确认码不正确。',
     'image_err'=>'图片无法上传',
     'file_err'=>'文件无法上传',
+    'export_err'=>'导出时出错，请稍后重试',
     'attributes' => [
         'phone' => '电话号码',
         'surname'=> '姓',

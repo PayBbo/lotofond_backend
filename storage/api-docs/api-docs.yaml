@@ -796,6 +796,11 @@ paths:
         - bearerAuth: [ ]
   /favourite/download/path:
     post:
+      parameters:
+        - name: Content-Language
+          in: header
+          description: Заголовок для определения локали (ru, en, zh_CN)
+          required: true
       tags:
         - Favourite
       summary: Скачивание в эксель файл папки в избранном
@@ -1871,6 +1876,10 @@ components:
         inFavourites:
           type: boolean
           description: в избранном/нет
+        favouritePaths:
+          type: array
+          items:
+            $ref: "#/components/schemas/PathFavourite"
         isHide:
           type: boolean
           description: скрыт/не скрыт
@@ -2339,6 +2348,7 @@ components:
       type: object
       required:
         - name
+        - lotCount
       properties:
         name:
           type: string
@@ -2349,6 +2359,9 @@ components:
         color:
           type: string
           description: название цвета папки
+        lotCount:
+          type: integer
+          description: количество лотов в папке избранного
     ExcelParams:
       type: object
       properties:
@@ -2367,7 +2380,7 @@ components:
         addCurrentPrice:
           type: boolean
           default: false
-        addAuctionPrice:
+        addAuctionType:
           type: boolean
           default: false
         addDebtor:

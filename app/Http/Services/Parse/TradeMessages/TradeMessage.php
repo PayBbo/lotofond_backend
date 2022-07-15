@@ -42,7 +42,7 @@ abstract class TradeMessage
 
     public function createNotification($lot, $date,  $param = null, $param_type = null, $value = null)
     {
-        $tradeMessage =  \App\Models\TradeMessage::create([
+        return \App\Models\TradeMessage::create([
             'lot_id' => $lot,
             'value' => $this->type,
             'number' => $this->messageId,
@@ -51,6 +51,5 @@ abstract class TradeMessage
             'param' => $param,
             'param_type' => $param_type
         ]);
-        return $tradeMessage;
     }
 }

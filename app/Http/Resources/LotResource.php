@@ -17,6 +17,7 @@ class LotResource extends JsonResource
     public function toArray($request)
     {
         $user = auth()->guard('api')->user();
+        $inFavourite = auth()->guard('api')->check() ? $this->inFavourite() : false;
         $categories = [];
         $parents = [];
         foreach ($this->categories as $category) {
@@ -55,7 +56,12 @@ class LotResource extends JsonResource
             'location' => $this->auction->debtor->region ? $this->auction->debtor->region->code : null,
             'isWatched' => auth()->guard('api')->check() ? $user->seenLots->pluck('id')->contains($this->id) : false,
             'isPinned' => auth()->guard('api')->check() ? $user->fixedLots->pluck('id')->contains($this->id) : false,
-            'inFavourite' => auth()->guard('api')->check() ? $this->inFavourite() : false,
+            'inFavourite' => $inFavourite,
+            $this->mergeWhen($inFavourite, [
+                'favouritePaths' => FavouritePathResource::collection($user->favourites()->whereHas('lots', function($query){
+                    $query->where('lot_id', $this->id);
+                })->get()),
+            ]),
             'isHide' => auth()->guard('api')->check() ? $user->hiddenLots->pluck('id')->contains($this->id) : false,
             'inMonitoring' => auth()->guard('api')->check() ? $this->inMonitoring() : false,
             'startPrice' =>  (float)$this->start_price,
