@@ -14,12 +14,20 @@ use Illuminate\Http\Request;
 
 class FilterController extends Controller
 {
-    public function getBiddersForFilter($type)
+    public function getBiddersForFilter($type, Request $request)
     {
+        $searchString = $request->searchString;
         $type = substr_replace ($type, "", -1);
         $bidders = Bidder::has($type.'AuctionsWithLots')->whereHas('types', function ($query) use ($type) {
             $query->where('title', $type);
-        })->paginate(20);
+        })
+            ->when(isset($searchString) && strlen($searchString) > 0, function($query) use ($searchString){
+                $query->where('name', 'LIKE', '%' . $searchString . '%')
+                    ->orWhere('short_name', 'LIKE', '%' . $searchString . '%')
+                    ->orWhere('last_name', 'LIKE', '%' . $searchString . '%')
+                    ->orWhere('middle_name', 'LIKE', '%' . $searchString . '%');
+            })
+            ->paginate(20);
         return response(new BidderCollection($bidders), 200);
     }
 

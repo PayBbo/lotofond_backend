@@ -65,7 +65,7 @@ Route::group(['middleware' => ['json.response', 'localization']], function () {
 
         Route::group(['prefix' => 'filter'], function () {
 
-            Route::get('/bidders/{type}', [FilterController::class, 'getBiddersForFilter']);
+            Route::put('/bidders/{type}', [FilterController::class, 'getBiddersForFilter']);
 
             Route::get('/trade-places', [FilterController::class, 'getTradePlacesForFilter']);
 

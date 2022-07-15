@@ -618,7 +618,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
   /trades/filter/bidders/{type}:
-    get:
+    put:
       parameters:
         - in: path
           name: type
@@ -634,6 +634,16 @@ paths:
         - FiltersData
       summary: Получение информации о должниках/организаторах торгов/арбитражных управляющих для отображения в фильтрах
       operationId: getBiddersForFilter
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                searchString:
+                  type: string
+                  required: false
+                  description: Строка для поиска по имени/фамилии/отчеству/короткому имени
       responses:
         "200":
           description: Информация о должнике/организаторе торгов/арбитражном управляющем
