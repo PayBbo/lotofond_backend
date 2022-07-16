@@ -151,6 +151,7 @@ import Header from "./components/Header.vue";
 import Footer from "./components/Footer.vue";
 import Datepicker from "./components/Datepicker.vue";
 import Dropdown from "./components/Dropdown.vue";
+import ColorFolder from "./components/ColorFolder.vue";
 
 import BktAuthModal from "./auth/AuthModal.vue";
 import BktCodeModal from "./auth/CodeModal.vue";
@@ -169,6 +170,7 @@ Vue.component('BktHeader', Header);
 Vue.component('BktFooter', Footer);
 Vue.component('BktDatepicker', Datepicker);
 Vue.component('BktDropdown', Dropdown);
+Vue.component('BktColorFolder', ColorFolder);
 
 
 Vue.filter('priceFormat', value => {

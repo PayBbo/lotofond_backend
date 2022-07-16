@@ -18,21 +18,21 @@
                         </router-link>
                     </li>
                     <li class="bkt-navbar__nav-item">
-                        <a class="bkt-navbar__nav-link" href="#">
+                        <router-link to="/monitoring" class="bkt-navbar__nav-link">
                     <span class="bkt-button-ellipse main">
                          <bkt-icon :name="'Target'" :color="'red'"/>
                     </span>
                             Мониторинг
-                        </a>
+                        </router-link>
                     </li>
                     <li class="bkt-navbar__nav-item">
-                        <a class="bkt-navbar__nav-link" href="#">
+                        <router-link to="/messages" class="bkt-navbar__nav-link">
                     <span class="bkt-button-ellipse main">
                         <span class="info"></span>
                         <bkt-icon :name="'Bell'" :color="'green'"/>
                     </span>
                             Сообщения
-                        </a>
+                        </router-link>
                     </li>
                 </ul>
                 <button class="bkt-button primary">
@@ -49,7 +49,7 @@
 
                         <div class="bkt-navbar__user text-truncate me-1">
                             <div class="bkt-navbar__user-name text-truncate">
-                                {{auth_user ? auth_user.name: ''}} {{auth_user ? auth_user.surname : ''}}
+                                {{ auth_user ? auth_user.name : '' }} {{ auth_user ? auth_user.surname : '' }}
                             </div>
                             <div class="bkt-navbar__user-tarif">
                                 тариф: <span class="bkt-navbar__user-tarif-name">Базовый</span>
@@ -90,9 +90,9 @@
             <div class="bkt-navbar__wrapper bkt-container">
                 <div class="bkt-navbar__wrapper d-none d-lg-flex">
                     <router-link custom to="/auctions">
-                    <button class="bkt-button primary-lighter">
-                        Торги
-                    </button>
+                        <button class="bkt-button primary-lighter">
+                            Торги
+                        </button>
                     </router-link>
                     <router-link custom to="/tariffs">
                         <button class="bkt-button blue-lighter">
@@ -173,7 +173,7 @@
                                     <bkt-icon :name="link.icon"
                                               :color="isExactActive ? 'white' : link.color"></bkt-icon>
                                 </div>
-                                <div class="bkt-sidebar__link-label">{{link.label}}</div>
+                                <div class="bkt-sidebar__link-label">{{ link.label }}</div>
                             </li>
                         </router-link>
                     </template>
@@ -185,7 +185,7 @@
                         <img src="" alt="">
                         <div class="bkt-navbar__user text-truncate me-1">
                             <div class="bkt-navbar__user-name text-truncate">
-                                {{auth_user ? auth_user.name: ''}} {{auth_user ? auth_user.surname : ''}}
+                                {{ auth_user ? auth_user.name : '' }} {{ auth_user ? auth_user.surname : '' }}
                             </div>
                             <div class="bkt-navbar__user-tarif">
                                 тариф: <span class="bkt-navbar__user-tarif-name">Базовый</span>
@@ -209,94 +209,94 @@
 </template>
 
 <script>
-    export default {
-        name: "Header",
-        data() {
-            return {
-                loading: false,
-                links: [
-                    {
-                        path: '/',
-                        icon: 'Home',
-                        code: "Main",
-                        label: "Главная",
-                        color: 'primary',
-                    },
-                    {
-                        path: '/agent',
-                        icon: 'Target',
-                        code: "Agent",
-                        label: "Купить через агента",
-                        color: 'red'
-                    },
-                    {
-                        path: '/registries',
-                        icon: 'Alignment',
-                        code: "Registries",
-                        label: "Реестры",
-                        color: 'green',
-                    },
-                    {
-                        path: '/top-wins',
-                        icon: 'Star',
-                        code: "TopWins",
-                        label: "Топ-побед",
-                        color: 'yellow',
-                    },
-                    {
-                        path: '/contacts',
-                        icon: 'Briefcase',
-                        code: "Contacts",
-                        label: "Контакты",
-                        color: 'blue',
-                    },
-                    {
-                        path: '/profile',
-                        icon: 'User',
-                        code: "Profile",
-                        label: "Профиль",
-                        color: 'primary',
-                        meta: 'auth'
-                    },
-                ],
-            }
+export default {
+    name: "Header",
+    data() {
+        return {
+            loading: false,
+            links: [
+                {
+                    path: '/',
+                    icon: 'Home',
+                    code: "Main",
+                    label: "Главная",
+                    color: 'primary',
+                },
+                {
+                    path: '/agent',
+                    icon: 'Target',
+                    code: "Agent",
+                    label: "Купить через агента",
+                    color: 'red'
+                },
+                {
+                    path: '/registries',
+                    icon: 'Alignment',
+                    code: "Registries",
+                    label: "Реестры",
+                    color: 'green',
+                },
+                {
+                    path: '/top-wins',
+                    icon: 'Star',
+                    code: "TopWins",
+                    label: "Топ-побед",
+                    color: 'yellow',
+                },
+                {
+                    path: '/contacts',
+                    icon: 'Briefcase',
+                    code: "Contacts",
+                    label: "Контакты",
+                    color: 'blue',
+                },
+                {
+                    path: '/profile',
+                    icon: 'User',
+                    code: "Profile",
+                    label: "Профиль",
+                    color: 'primary',
+                    meta: 'auth'
+                },
+            ],
+        }
+    },
+    computed: {
+        auth_user() {
+            return this.$store.getters.auth_user
         },
-        computed: {
-            auth_user() {
-                return this.$store.getters.auth_user
-            },
-            isLoggedIn() {
-                return this.$store.getters.isLoggedIn
-            },
+        isLoggedIn() {
+            return this.$store.getters.isLoggedIn
         },
-        created() {
-            this.getUser();
-        },
-        methods: {
-            async getUser() {
-                if (this.isLoggedIn) {
-                    this.loading = true;
-                    await this.$store.dispatch('getAuthUser').then(resp => {
-                        this.loading = false;
-                    }).catch(error => {
-                        this.loading = false;
-                    })
-                }
-            },
-            async logout() {
+    },
+    created() {
+        this.getUser();
+    },
+    methods: {
+        async getUser() {
+            if (this.isLoggedIn) {
                 this.loading = true;
-                await this.$store.dispatch('logout').then(resp => {
+                await this.$store.dispatch('getAuthUser').then(resp => {
                     this.loading = false;
                 }).catch(error => {
                     this.loading = false;
                 })
-            },
-            openModal() {
-                this.$store.commit('openModal', '#authModal');
             }
+        },
+        async logout() {
+            this.loading = true;
+            await this.$store.dispatch('logout').then(resp => {
+                this.loading = false;
+            }).catch(error => {
+                this.loading = false;
+            })
+        },
+        openModal() {
+            this.$store.commit('openModal', '#authModal');
         }
-
     }
+
+}
 </script>
 
 <style scoped>

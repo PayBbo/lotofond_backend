@@ -59,6 +59,22 @@ export default {
                     ),
 		},
         {
+			path: '/monitoring',
+            name:'Monitoring',
+            component: () =>
+                import(
+                    /* webpackChunkName: "monitoring" */ "./pages/Monitoring.vue"
+                    ),
+		},
+        {
+			path: '/messages',
+            name:'Messages',
+            component: () =>
+                import(
+                    /* webpackChunkName: "monitoring" */ "./pages/Messages.vue"
+                    ),
+		},
+        {
 			path: '/tariffs',
             name:'Tariffs',
             component: () =>
@@ -72,6 +88,14 @@ export default {
             component: () =>
                 import(
                     /* webpackChunkName: "auctions" */ "./pages/UpcomingAuctions.vue"
+                    ),
+		},
+        {
+			path: '/calendar',
+            name:'Calendar',
+            component: () =>
+                import(
+                    /* webpackChunkName: "auctions" */ "./pages/Calendar.vue"
                     ),
 		},
         {
