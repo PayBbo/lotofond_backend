@@ -1,76 +1,83 @@
 <template>
-    <div class="container bkt-page bkt-favourites bkt-container">
+    <div class="container bkt-page bkt-container">
         <h1 class="bkt-page__title">Избранное</h1>
-        <div class="bkt-favourites__menu">
-            <div class="bkt-menu__actions">
-                <div class="bkt-actions__title d-flex justify-content-between align-items-center">
-                    <div class="bkt-actions-search">
-                        <button class="btn bkt-btn" :class="{'active shadow': selectedBtn === 1}"
-                                @click="selectedBtn = 1">
-                            <bkt-icon class="bkt-button__icon" :name="'Search'" :color="'primary'"></bkt-icon>
+        <div class="bkt-favourites">
+            <div class="bkt-favourites__filters bkt-wrapper-column bkt-wrapper-down-md-column-reverse">
+                <div class="bkt-favourites__filters-inner bkt-nowrap bkt-wrapper-between bkt-wrapper-down-md bkt-gap">
+                    <div class="d-flex bkt-wrapper-down-md-between bkt-w-md-100 bkt-gap-small bkt-gap-down-sm-mini">
+                        <button class="bkt-button-icon bkt-favourites__filters-action d-none d-md-block"
+                                :class="search_mode ? 'bkt-bg-primary shadow': 'bkt-bg-white'"
+                                @click="search_mode = !search_mode">
+                            <bkt-icon class="bkt-button__icon" :name="'Search'"
+                                      :color="search_mode ? 'white': 'primary'"></bkt-icon>
                         </button>
-                    </div>
-                    <div class="bkt-actions-buttons">
-                        <button class="btn bkt-btn d-flex align-items-center" data-bs-toggle="modal"
-                                data-bs-target="#addPathModal" @click="selectedBtn = 2">
-                            <bkt-icon class="bkt-button__icon mr-2" :name="'FolderAdd'" :color="'green'"
-                                      :width="'20px'" :height="'20px'"></bkt-icon>
-                            <span class="d-none d-md-block">Создать папку</span>
-                        </button>
-                        <button class="btn bkt-btn d-flex align-items-center" @click="selectedBtn = 3">
-                            <bkt-icon class="bkt-button__icon mr-2" :name="'FileArrowLeft'" :color="'blue'"
-                                      :width="'16px'"></bkt-icon>
-                            <span class="d-none d-md-block">Переместить</span>
-                        </button>
-                        <button class="btn bkt-btn d-flex align-items-center" @click="selectedBtn = 4">
-                            <bkt-icon class="bkt-button__icon mr-2" :name="'Download'" :color="'yellow'"
-                                      :width="'16px'"></bkt-icon>
-                            <span class="d-none d-md-block">Скачать</span>
-                        </button>
-                        <button class="btn bkt-btn d-flex align-items-center" @click="selectedBtn = 5">
-                            <bkt-icon class="bkt-button__icon mr-2" :name="'Settings'" :color="'pink'"
-                                      :width="'16px'"></bkt-icon>
-                            <span class="d-none d-md-block">Редактировать</span>
-                        </button>
-                        <button class="btn bkt-btn d-flex align-items-center" @click="selectedBtn = 6">
-                            <bkt-icon class="bkt-button__icon mr-2" :name="'FolderDelete'" :color="'red'" width="20px"
-                                      height="20px"></bkt-icon>
-                            <span class="d-none d-md-block">Удалить</span>
-                        </button>
-                    </div>
-                    <!--                    <div class="bkt-favourites-group position-relative">-->
-                    <!--                        <bkt-icon class="bkt-group-arrow bkt-button__icon position-absolute" :name="'ArrowDown'" width="20px"-->
-                    <!--                                  height="20px"></bkt-icon>-->
-                    <!--                        <div class="bkt-select__wrapper">-->
-                    <!--                            <label class="bkt-select__subtitle position-absolute" for="sortSelect">сгруппировать</label>-->
-                    <!--                            <select class="form-select bkt-select form-floating main" id="sortSelect" aria-label="">-->
-                    <!--                                <option selected>по порядку добавления</option>-->
-                    <!--                                <option value="1">One</option>-->
-                    <!--                                <option value="2">Two</option>-->
-                    <!--                                <option value="3">Three</option>-->
-                    <!--                            </select>-->
-
-                    <!--                        </div>-->
-                    <!--                    </div>-->
-                    <div class="bkt-favourites-group position-relative">
-                        <bkt-select
-                            v-model="group"
-                            select_class="form-floating main"
-                            name="sort"
-                            subtitle="сгруппировать"
-                            :reduce="item => item.value"
-                            :option_label="'title'"
-                            :options="to_group"
-                            :clearable="false"
+                        <button
+                            class="bkt-button bkt-favourites__filters-action"
+                            data-bs-toggle="modal"
+                            data-bs-target="#addPathModal"
+                            :disabled="loading"
                         >
-                        </bkt-select>
+                            <span>
+                                 <bkt-icon :name="'FolderAdd'" :color="'green'"
+                                           width="16px" height="16px"></bkt-icon>
+                            </span>
+                            <span class="d-none d-xl-block">Создать папку</span>
+                        </button>
+                        <!--                        <button :disabled="loading"-->
+                        <!--                            class="bkt-button bkt-favourites__filters-action">-->
+                        <!--                             <span>-->
+                        <!--                            <bkt-icon :name="'FileArrowLeft'" :color="'blue'"-->
+                        <!--                                      width="16px" height="16px"></bkt-icon>-->
+                        <!--                             </span>-->
+                        <!--                            <span class="d-none d-xl-block">Переместить</span>-->
+                        <!--                        </button>-->
+                        <button :disabled="loading" data-bs-toggle="modal"
+                                data-bs-target="#fieldsToDocumentModal"
+                                class="bkt-button bkt-favourites__filters-action">
+                             <span>
+                            <bkt-icon :name="'Download'" :color="'yellow'"
+                                      width="16px" height="16px"></bkt-icon>
+                             </span>
+                            <span class="d-none d-xl-block">Скачать</span>
+                        </button>
+                        <button
+                            class="bkt-button bkt-favourites__filters-action"
+                            data-bs-toggle="modal" data-bs-target="#editPathModal"
+                            :disabled="loading"
+                        >
+                             <span>
+                            <bkt-icon :name="'Settings'" :color="'pink'"
+                                      width="16px" height="16px"></bkt-icon>
+                             </span>
+                            <span class="d-none d-xl-block">Редактировать</span>
+                        </button>
+                        <button
+                            class="bkt-button bkt-favourites__filters-action"
+                            @click="removeFavouritePath"
+                            :disabled="loading"
+                        >
+                             <span>
+                            <bkt-icon :name="'FolderDelete'" :color="'red'"
+                                      width="16px" height="16px"></bkt-icon>
+                             </span>
+                            <span class="d-none d-xl-block">Удалить</span>
+                        </button>
                     </div>
-
+                    <bkt-select
+                        v-model="group"
+                        select_class="form-floating main d-none d-md-block"
+                        name="sort"
+                        subtitle="сгруппировать"
+                        :reduce="item => item.value"
+                        :option_label="'title'"
+                        :options="to_group"
+                        :clearable="false"
+                    >
+                    </bkt-select>
                 </div>
-
-                <div class="bkt-sort-and-search" v-if="selectedBtn === 1">
+                <div class="bkt-favourites__filters-card bkt-wrapper-column bkt-gap-large" v-if="search_mode">
                     <div class="bkt-menu__search">
-                        <div class="bkt-search position-relative bg-white bkt-bg-item-neutral">
+                        <div class="bkt-search position-relative">
                             <input class="w-100 bkt-search__input d-md-block d-none" type="text"
                                    placeholder="Введите нужное слово или фразу">
                             <input class="w-100 bkt-search__input d-md-none d-block" type="text" placeholder="Поиск...">
@@ -80,9 +87,8 @@
                             </button>
                         </div>
                     </div>
-
                     <div class="bkt-menu__group-fields">
-                        <div class="row">
+                        <div class="bkt-form">
                             <div class="col-12 col-md-3">
                                 <div class="bkt-select__wrapper text-left">
                                     <label for="group" class="bkt-select__label">группа</label>
@@ -116,97 +122,140 @@
                         </div>
                     </div>
                 </div>
-            </div>
-
-            <div class="bkt-menu">
-                <div class="bkt-monitoring__menu d-flex justify-content-between">
-                    <div class="bkt-monitoring__menu-buttons d-md-block d-none">
-                        <button v-for="path in items_paths"
-                                class="bkt-button bkt-button_plump"
-                                :class="[current_path === path.id && path.color ? 'bkt-bg-'+path.color : '',
-                                { 'bkt-bg-primary':current_path === path.id && !path.color,
-                                'bkt-bg-white': current_path !== path.id}]"
-                        >
-                            <!--                            :class="[-->
-                            <!--                            current_path === path.id && path.color ? 'bkt-bg-'+path.color : '',-->
-                            <!--                            current_path === path.id && !path.color ? 'bkt-bg-primary': '',-->
-                            <!--                            current_path !== path.id ? 'bkt-bg-white' : ''-->
-                            <!--                            ]"-->
-                            {{path.name}}
-                            <span class="bkt-text-primary bkt-bg-white bkt-badge">{{pagination_data.total}}</span>
-                        </button>
-
-                        <!--                        <button class="bkt-button bkt-button-menu bkt-menu-button bkt-menu-button__monitoring bkt-card__text d-inline-flex-->
-                        <!--                        align-items-center position-relative mr-2">-->
-                        <!--                            <span>АВТО</span>-->
-                        <!--                            <div class="bkt-count p-1 ml-2">-->
-                        <!--                                <span class="p-1">5</span>-->
-                        <!--                            </div>-->
-                        <!--                        </button>-->
-                        <!--                        <button class="bkt-button bkt-button-menu bkt-menu-button bkt-menu-button__flats bkt-bg-white bkt-card__text-->
-                        <!--                         position-relative d-inline-flex align-items-center mr-2">-->
-                        <!--                            <span>КВАРТИРЫ</span>-->
-                        <!--                            <div class="bkt-count p-1 ml-2">-->
-                        <!--                                <span class="">2</span>-->
-                        <!--                            </div>-->
-                        <!--                        </button>-->
-                    </div>
-                    <div class="d-flex d-md-none">
-                        <div class="mr-2 w-100">
-                            <button class="d-flex position-relative bkt-btn-folder w-100 bkt-button
-                  p-4 align-items-center justify-content-center">
-                                <div class="d-flex justify-content-center">
-                                    <span class="d-flex align-items-center p-1 text-uppercase">Общая папка</span>
-                                    <div class="bkt-bg-white bkt-text-primary rounded-pill p-1">
-                                        <span class="p-1">{{pagination_data.total}}</span>
-                                    </div>
-                                </div>
-                                <div class="bkt-arrow bkt-bg-white rounded position-absolute">
-                                    <bkt-icon :name="'ArrowDown'" :color="'primary'"></bkt-icon>
-                                </div>
-                            </button>
-
-                            <!--                            <div class="bkt-menu-monitoring bkt-bg-white d-none shadow">-->
-                            <!--                                <ul class="list-inline bkt-menu-monitoring-list">-->
-                            <!--                                    <li class="bkt-menu-monitoring-list__item">-->
-                            <!--                                        <div class="d-flex justify-content-center">-->
-                            <!--                                            <span class="d-flex align-items-center p-1 text-uppercase">Квартиры</span>-->
-                            <!--                                            <div class="bkt-bg-blue-lighter bkt-text-blue rounded-pill p-1">-->
-                            <!--                                                <span class="p-1">2</span>-->
-                            <!--                                            </div>-->
-                            <!--                                        </div>-->
-                            <!--                                    </li>-->
-                            <!--                                    <li class="bkt-menu-monitoring-list__item">-->
-                            <!--                                        <div class="d-flex justify-content-center">-->
-                            <!--                                            <span class="d-flex align-items-center p-1 text-uppercase">Квартиры</span>-->
-                            <!--                                            <div class="bkt-bg-red-lighter bkt-text-red rounded-pill p-1">-->
-                            <!--                                                <span class="p-1">2</span>-->
-                            <!--                                            </div>-->
-                            <!--                                        </div>-->
-                            <!--                                    </li>-->
-                            <!--                                </ul>-->
-                            <!--                            </div>-->
-                        </div>
-                    </div>
+                <div class="bkt-wrapper-between bkt-nowrap d-md-none bkt-gap">
+                    <button class="bkt-button-icon" :class="search_mode ? 'bkt-bg-primary shadow': 'bkt-bg-white'"
+                            @click="search_mode = !search_mode">
+                        <bkt-icon class="bkt-button__icon" :name="'Search'"
+                                  :color="search_mode ? 'white': 'primary'"></bkt-icon>
+                    </button>
+                    <bkt-select
+                        v-model="group"
+                        select_class="form-floating main w-100"
+                        name="sort"
+                        subtitle="сгруппировать"
+                        :reduce="item => item.value"
+                        :option_label="'title'"
+                        :options="to_group"
+                        :clearable="false"
+                    >
+                    </bkt-select>
                 </div>
             </div>
+            <div class="bkt-favourites__paths-list">
+                <div class="d-md-block d-none">
+                    <slick v-bind="settings" v-if="items_paths.length>0">
+                        <div v-for="(path, index) in items_paths" :key="index">
+                            <button
+                                @click="setCurrentPath(path.pathId)"
+                                class="bkt-button bkt-favourites__path bkt-button_plump text-uppercase"
+                                :class="[current_path === path.pathId && path.color ? 'bkt-bg-'+path.color : '',
+                                {'bkt-bg-primary': current_path === path.pathId && !path.color,
+                                'bkt-bg-white bkt-text-main': current_path !== path.pathId}]"
+                            >
+                                {{path.name}}
+                                <span class="bkt-badge"
+                                      :class="[
+                                          path.color ? 'bkt-text-'+path.color : 'bkt-text-primary',
+                                          current_path !== path.pathId && path.color ? 'bkt-bg-'+path.color+'-lighter' : '',
+                                          {
+                                              'bkt-bg-white': current_path === path.pathId,
+                                              'bkt-bg-primary-lighter': current_path !== path.pathId && !path.color
+                                          }
+                                      ]"
+                                >
+                                    {{path.lotCount ? path.lotCount : '0'}}
+                                </span>
+                            </button>
+                        </div>
+                        <template #prevArrow="arrowOption">
+                            <svg
+                                width="8"
+                                height="12"
+                                viewBox="0 0 8 12"
+                                fill="#ffc515"
+                            >
+                                <path
+                                    d="M8 1.42L3.42 6L8 10.59L6.59 12L0.59 6L6.59 1.23266e-07L8 1.42Z"
+                                ></path>
+                            </svg>
+                        </template>
+                        <template #nextArrow="arrowOption">
+                            <svg
+                                fill="#ffc515"
+                                width="8"
+                                height="12"
+                                viewBox="0 0 8 12"
+                            >
+                                <path
+                                    d="M0 10.5801L4.58 6.00012L0 1.41012L1.41 0.00012207L7.41 6.00012L1.41 12.0001L0 10.5801Z"
+                                ></path>
+                            </svg>
+                        </template>
+                    </slick>
+                </div>
+                <div class="d-block d-md-none">
+                    <bkt-collapse id="collapsePaths" main_class="bkt-favourites__path-collapse"
+                                  :header_class="current_path_object.color ? 'bkt-bg-'+current_path_object.color : 'bkt-bg-primary'"
+                    >
+                        <template #title v-if="items_paths.length>0">
+                            <h6 class="mx-auto">
+                                {{current_path_object.name}}
+                                <span class="bkt-badge bkt-bg-white"
+                                      :class="current_path_object.color ? 'bkt-text-'+current_path_object.color : 'bkt-text-primary'"
+                                >
+                                    {{current_path_object.lotCount ? current_path_object.lotCount : '0'}}
+                                </span>
+                            </h6>
+                        </template>
+                        <template #collapse v-if="items_paths.length>0">
+                            <div class="bkt-wrapper-column bkt-gap">
+                                <button v-for="(path, index) in items_paths" :key="index"
+                                        @click="setCurrentPath(path.pathId)"
+                                        v-if="path.pathId !== current_path"
+                                        class="w-100 bkt-button bkt-button_plump text-uppercase bkt-bg-white bkt-text-main text-center"
+                                >
+                                    {{path.name}}
+                                    <span class="bkt-badge"
+                                          :class="path.color ? 'bkt-bg-'+path.color+'-lighter bkt-text-'+path.color
+                                      : 'bkt-text-primary bkt-bg-primary-lighter'"
+                                    >
+                                    {{path.lotCount ? path.lotCount : '0'}}
+                                </span>
+                                </button>
+                            </div>
+
+                        </template>
+                    </bkt-collapse>
+                </div>
+            </div>
+            <bkt-card-list :current_component="'BktCard'" :items="items" :loading="loading"
+                           :pagination_data="pagination_data" @change-page="getData">
+            </bkt-card-list>
         </div>
-        <bkt-card-list :current_component="'BktCard'" :items="items" :loading="loading"
-                       :pagination_data="pagination_data" @change-page="getData">
-        </bkt-card-list>
+
         <bkt-add-path-modal></bkt-add-path-modal>
+        <bkt-edit-path-modal></bkt-edit-path-modal>
+        <bkt-excel-modal></bkt-excel-modal>
     </div>
 </template>
 
 <script>
     import AddPathModal from "./Favourites/AddPathModal";
+    import EditPathModal from "./Favourites/EditPathModal";
+    import MoveFavouriteModal from "./Favourites/MoveFavouriteModal";
     import Select from "../components/Select";
+    import BktCollapse from "../components/Collapse";
+    import AddFieldsToDocument from "./Favourites/AddFieldsToDocument";
 
     export default {
         name: "Favourites",
         components: {
             'bkt-select': Select,
-            'bkt-add-path-modal': AddPathModal
+            'bkt-add-path-modal': AddPathModal,
+            'bkt-edit-path-modal': EditPathModal,
+            'bkt-move-favourite-modal': MoveFavouriteModal,
+            'bkt-excel-modal': AddFieldsToDocument,
+            BktCollapse
         },
         created() {
             this.getFavouritePaths();
@@ -214,42 +263,60 @@
         },
 
         mounted() {
-            // $(".bkt-arrow").click(function () {
-            //     $(this).toggleClass("bkt-rotate-180");
-            //     $(".bkt-btn-monitoring").toggleClass("bkt-border-bottom-rounded-none");
-            //     $(".bkt-menu-monitoring").toggleClass("d-none");
-            // });
-            // $(".bkt-button-menu").click(function () {
-            //     $(".bkt-button-menu").removeClass("active").removeClass("shadow");
-            //     $(this).addClass("active").addClass("shadow");
-            // });
         },
         data() {
             return {
                 loading: false,
+                search_mode: false,
                 selectedBtn: 0,
                 group: 'по порядку добавления',
                 to_group: [
                     {title: 'по порядку добавления', value: "publishDate"},
-                ]
+                    {title: 'по порядку добавления2', value: "publishDate1"},
+                    {title: 'по порядку добавления3s', value: "publishDate2"},
+                ],
+                settings: {
+                    "dots": false,
+                    "infinite": false,
+                    "centerMode": false,
+                    "centerPadding": "20px",
+                    "slidesToShow": 1,
+                    "slidesToScroll": 1,
+                    "variableWidth": true
+                }
             };
         },
         computed: {
             items() {
-                return this.$store.getters.favourites;
+                return this.$store.getters.current_favourites;
             },
             pagination_data() {
                 return this.$store.getters.favourites_pagination;
             },
-            favourites_loading() {
-                return this.$store.getters.favourites_loading;
-            },
+            // favourites_loading() {
+            //     return this.$store.getters.favourites_loading;
+            // },
             items_paths() {
                 return this.$store.getters.favourites_paths;
             },
             current_path() {
                 return this.$store.getters.current_path;
             },
+            current_path_object() {
+                let index = this.items_paths.findIndex(item => item.pathId == this.current_path)
+                if (index >= 0) {
+                    return this.items_paths[index];
+                }
+                return {}
+            },
+            // current_path: {
+            //     get() {
+            //         return this.$store.getters.current_path;
+            //     },
+            //     set(value) {
+            //         this.$store.dispatch('setCurrentPath', value);
+            //     }
+            // },
         },
         methods: {
             async getData(page = 1, pathId) {
@@ -270,6 +337,20 @@
                     this.loading = false;
                 });
             },
+            async setCurrentPath(value) {
+                this.loading = true;
+                await this.$store.dispatch('setCurrentPath', value)
+                    .finally(() => {
+                        this.loading = false;
+                    });
+            },
+            async removeFavouritePath() {
+                await this.$store.dispatch('removeFavouritePath', this.current_path)
+                    .then(resp => {
+                        this.setCurrentPath(this.items_paths[0].pathId)
+                    });
+            }
+
         }
     }
 </script>

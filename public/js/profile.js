@@ -68,6 +68,9 @@ __webpack_require__.r(__webpack_exports__);
       type: String,
       "default": 'bkt-card bkt-card__body'
     },
+    header_class: {
+      type: String
+    },
     collapse_class: {
       type: String
     },
@@ -1493,7 +1496,7 @@ var render = function () {
     _vm._v(" "),
     _c(
       "div",
-      { staticClass: "bkt-collapse__header" },
+      { staticClass: "bkt-collapse__header", class: _vm.header_class },
       [
         _vm._t("title", function () {
           return [

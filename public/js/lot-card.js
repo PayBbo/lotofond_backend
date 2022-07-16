@@ -68,6 +68,9 @@ __webpack_require__.r(__webpack_exports__);
       type: String,
       "default": 'bkt-card bkt-card__body'
     },
+    header_class: {
+      type: String
+    },
     collapse_class: {
       type: String
     },
@@ -116,6 +119,12 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -1770,7 +1779,7 @@ var render = function () {
     _vm._v(" "),
     _c(
       "div",
-      { staticClass: "bkt-collapse__header" },
+      { staticClass: "bkt-collapse__header", class: _vm.header_class },
       [
         _vm._t("title", function () {
           return [
@@ -2940,10 +2949,16 @@ var render = function () {
                                                           _vm._v(
                                                             "\n                                        № " +
                                                               _vm._s(
-                                                                active_lot.trade
-                                                                  .externalId
+                                                                active_lot.trade &&
+                                                                  active_lot
+                                                                    .trade
+                                                                    .externalId
+                                                                  ? active_lot
+                                                                      .trade
+                                                                      .externalId
+                                                                  : ""
                                                               ) +
-                                                              ", лот " +
+                                                              ",\n                                        лот " +
                                                               _vm._s(
                                                                 active_lot.lotNumber
                                                               ) +
@@ -3419,16 +3434,22 @@ var render = function () {
                                                         },
                                                         [
                                                           _vm._v(
-                                                            "№ " +
+                                                            "\n                                        № " +
                                                               _vm._s(
-                                                                complete_lot
-                                                                  .trade
-                                                                  .externalId
+                                                                complete_lot.trade &&
+                                                                  complete_lot
+                                                                    .trade
+                                                                    .externalId
+                                                                  ? complete_lot
+                                                                      .trade
+                                                                      .externalId
+                                                                  : ""
                                                               ) +
-                                                              ", лот\n                                        " +
+                                                              ",\n                                        лот " +
                                                               _vm._s(
                                                                 complete_lot.lotNumber
-                                                              )
+                                                              ) +
+                                                              "\n                                    "
                                                           ),
                                                         ]
                                                       ),
@@ -3469,13 +3490,15 @@ var render = function () {
                                                         },
                                                         [
                                                           _vm._v(
-                                                            _vm._s(
-                                                              _vm._f(
-                                                                "priceFormat"
-                                                              )(
-                                                                complete_lot.currentPrice
-                                                              )
-                                                            ) + " ₽"
+                                                            "\n                                        " +
+                                                              _vm._s(
+                                                                _vm._f(
+                                                                  "priceFormat"
+                                                                )(
+                                                                  complete_lot.currentPrice
+                                                                )
+                                                              ) +
+                                                              " ₽\n                                    "
                                                           ),
                                                         ]
                                                       ),
