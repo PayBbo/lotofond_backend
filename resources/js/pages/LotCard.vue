@@ -932,7 +932,8 @@
                                     </div>
                                     <div class="col-12 col-md-3">
                                         <h6 class="bkt-card__subtitle">
-                                            № {{active_lot.trade.externalId}}, лот {{active_lot.lotNumber}}
+                                            № {{active_lot.trade && active_lot.trade.externalId ? active_lot.trade.externalId : ''}},
+                                            лот {{active_lot.lotNumber}}
                                         </h6>
                                         <h5 class="bkt-text-truncate">
                                             {{active_lot.description}}
@@ -1027,21 +1028,26 @@
                                         <img v-lazy="'/images/card-image.jpg'" class="bkt-card__image"/>
                                     </div>
                                     <div class="col-12 col-md-3">
-                                        <h6 class="bkt-card__subtitle">№ {{complete_lot.trade.externalId}}, лот
-                                            {{complete_lot.lotNumber}}</h6>
+                                        <h6 class="bkt-card__subtitle">
+                                            № {{complete_lot.trade && complete_lot.trade.externalId ? complete_lot.trade.externalId : ''}},
+                                            лот {{complete_lot.lotNumber}}
+                                        </h6>
                                         <h5 class="">
                                             {{complete_lot.description}}
                                         </h5>
                                     </div>
                                     <div class="col-12 col-md-2">
                                         <h6 class="bkt-card__subtitle d-md-none">цена</h6>
-                                        <h4 class="bkt-card__title bkt-text-primary">{{complete_lot.currentPrice |
-                                            priceFormat}} ₽</h4>
+                                        <h4 class="bkt-card__title bkt-text-primary">
+                                            {{complete_lot.currentPrice |priceFormat}} ₽
+                                        </h4>
                                     </div>
                                     <div class="col-12 col-md-2">
                                         <h6 class="bkt-card__subtitle d-md-none">даты торгов</h6>
                                         <div
-                                            v-if="complete_lot.trade && complete_lot.trade.eventTime && (complete_lot.trade.eventTime.start ||complete_lot.trade.eventTime.end) ">
+                                            v-if="complete_lot.trade && complete_lot.trade.eventTime &&
+                                            (complete_lot.trade.eventTime.start ||complete_lot.trade.eventTime.end)"
+                                        >
                                             <h6 v-if="complete_lot.trade.eventTime.start">
                                                 с {{complete_lot.trade.eventTime.start | moment('DD MMMM YYYY HH:mm ')}}
                                             </h6>
