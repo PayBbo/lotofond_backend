@@ -39,6 +39,8 @@ class GetTradeMessageContent
                 $this->prefix = '';
             }
         } catch (\Exception $e) {
+            logger('GetTradeMessage');
+            logger($e);
             logger($xml);
         }
     }

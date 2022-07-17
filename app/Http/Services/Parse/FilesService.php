@@ -21,13 +21,13 @@ class FilesService
         } else {
             $name_file = str_replace(' ', '-', $filename . '.' . $invitation[$prefix . 'Attach'][$prefix . 'Type']);
         }
-
-        $path = 'auction-files/auction-' . $auction->id . '/' . Carbon::now()->format('d-m-Y-H-i');
+        $time = Carbon::now()->format('d-m-Y-H-i');
+        $path = 'auction-files/auction-' . $auction->id . '/' . $time;
         if (!Storage::disk('public')->exists($path . '/' . $name_file)) {
             Storage::disk('public')->put($path . '/' . $name_file,
                 base64_decode($invitation[$prefix . 'Attach'][$prefix . 'Blob']));
         }
-        $dest = 'app\public\auction-files\auction-' . $auction->id . '\\' . Carbon::now()->format('d-m-Y-H-i');
+        $dest = 'app/public/auction-files/auction-' . $auction->id . '/' . $time;
         $files = null;
         if ($isImages) {
             switch ($invitation[$prefix . 'Attach'][$prefix . 'Type']) {
@@ -59,8 +59,8 @@ class FilesService
     public function getImagesFromDocOrPdf($filename, $path, $s_path)
     {
         $imageAssets = array();
-        $document = \storage_path($s_path . '\\' . $filename);
-        $full_path = \storage_path($s_path . '\\');
+        $document = \storage_path($s_path . '/' . $filename);
+        $full_path = \storage_path($s_path . '/');
         logger('DOC и PDF');
         logger($path);
         try {
@@ -99,9 +99,9 @@ class FilesService
     public function getImagesFromDocx($filename, $path, $s_path)
     {
         $imageAssets = array();
-        $filename = \storage_path($s_path . '\\' . $filename);
-        $full_path = \storage_path($s_path . '\\');
-        logger('DOC и PDF');
+        $filename = \storage_path($s_path . '/' . $filename);
+        $full_path = \storage_path($s_path . '/');
+        logger('DOCX');
         logger($path);
         try {
             //exec(`unar -D ` . $filename . ` -o ` . $full_path);
@@ -142,8 +142,8 @@ class FilesService
 
     public function getImagesFromZipOrRar($filename, $path, $s_path)
     {
-        $filename = \storage_path($s_path . '\\' . $filename);
-        $destination = \storage_path($s_path . '\\');
+        $filename = \storage_path($s_path . '/' . $filename);
+        $destination = \storage_path($s_path . '/');
         $files = array();
         logger('ZIP И RAR');
         try {
