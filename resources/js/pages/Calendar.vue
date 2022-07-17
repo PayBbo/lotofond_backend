@@ -8,7 +8,11 @@
             <div class="row">
                 <div class="col-12 col-lg-3">
                     <div class="bkt-month-calendar mb-2">
-                        <v-calendar class="bkt-calendar-none-border m-1" :attributes='attr'></v-calendar>
+                        <v-calendar class="bkt-left-calendar bkt-calendar-none-border m-1" :attributes='attr'
+                                    :masks="masks">
+                            <template v-slot:header-left-button>
+                            </template>
+                        </v-calendar>
                     </div>
                     <div class="bkt-calendar-checkboxes d-flex flex-wrap flex-column pl-4 pt-4 pb-4">
                         <bkt-checkbox label="События" :name="'events'" value="true"
@@ -22,19 +26,21 @@
                 <div class="col-12 col-lg-9">
                     <div class="bkt-month-calendar">
                         <v-calendar class="bkt-calendar-none-border custom-calendar max-w-full" :masks="masks"
-                                    :attributes="attr"
-                                    disable-page-swipe is-expanded>
+                                    :attributes="attr" disable-page-swipe is-expanded>
                             <template v-slot:day-content="{ day, attributes }">
                                 <div class="flex flex-col h-full z-10 overflow-hidden">
                                     <span class="day-label text-sm text-gray-900">{{ day.day }}</span>
                                     <div class="flex-grow overflow-y-auto overflow-x-auto">
-                                        <p v-for="attr in attributes" :key="attr.key"
+                                        <p v-for="attr in attributes" :key="attr.key" v-if="attr.customData"
                                            class="text-xs leading-tight rounded-sm p-1 mt-0 mb-1"
                                            :class="attr.customData.class">
                                             {{ attr.customData.title }}
                                         </p>
                                     </div>
                                 </div>
+                            </template>
+                            <template #default="{ inputValue, inputEvents }">
+                                <input class="px-3 py-1 border rounded" :value="inputValue" v-on="inputEvents"/>
                             </template>
                         </v-calendar>
                     </div>
@@ -62,13 +68,9 @@ export default {
             attr: [
                 {
                     key: 'today',
-                    highlight: {color: 'blue', fillMode: 'outline'},
-                   /* customData: {
-                        title: 'Take Noah to basketball practice',
-                        class: 'bg-blue-500 text-white',
-                    },*/
+                    highlight: {color: 'blue', fillMode: 'none'},
                     dates: date,
-                    class: 'bkt-border-rounded'
+                    class: 'bkt-border-rounded',
                 },
                 {
                     key: 2,
@@ -94,9 +96,9 @@ export default {
                     key: 5,
                     highlight: {color: 'blue', fillMode: 'solid'},
                     dates: new Date(year, month, 28),
-                    contentStyle: {color: 'white'},
                 },
             ],
+
             masks: {
                 weekdays: 'WWW',
             },
