@@ -9,14 +9,14 @@
                 </div>
                 <div class="col-12 col-lg-5">
                     <bkt-datepicker v-model="filter.eventTimeStart.start"
-                                    field_name="'Начало приёма заявок'"
-                                    name="applicationTimeStart"
+                                    field_name="'Начало торгов от'"
+                                    name="eventTimeStart"
                     ></bkt-datepicker>
                 </div>
                 <div class="col-12 col-lg-5">
                     <bkt-datepicker v-model="filter.eventTimeStart.end"
-                                    field_name="'Начало приёма заявок'"
-                                    name="applicationTimeStart"
+                                    field_name="'Начало торгов до'"
+                                    name="eventTimeStartEnd"
                     ></bkt-datepicker>
                 </div>
                 <div class="col-12 col-lg-2">
@@ -24,14 +24,14 @@
                 </div>
                 <div class="col-12 col-lg-5">
                     <bkt-datepicker v-model="filter.applicationTimeStart.start"
-                                    field_name="'Начало приёма заявок'"
+                                    field_name="'Начало приёма заявок от'"
                                     name="applicationTimeStart"
                     ></bkt-datepicker>
                 </div>
                 <div class="col-12 col-lg-5">
                     <bkt-datepicker v-model="filter.applicationTimeStart.end"
-                                    field_name="'Начало приёма заявок'"
-                                    name="applicationTimeStart"
+                                    field_name="'Начало приёма заявок до'"
+                                    name="applicationTimeStartEnd"
                     ></bkt-datepicker>
                 </div>
                 <div class="col-12 col-lg-2">
@@ -39,14 +39,14 @@
                 </div>
                 <div class="col-12 col-lg-5">
                     <bkt-datepicker v-model="filter.applicationTimeEnd.start"
-                                    field_name="'Начало приёма заявок'"
-                                    name="applicationTimeStart"
+                                    field_name="'Окончание приёма заявок от'"
+                                    name="applicationTimeEndStart"
                     ></bkt-datepicker>
                 </div>
                 <div class="col-12 col-lg-5">
                     <bkt-datepicker v-model="filter.applicationTimeEnd.end"
-                                    field_name="'Начало приёма заявок'"
-                                    name="applicationTimeStart"
+                                    field_name="'Окончание приёма заявок до'"
+                                    name="applicationTimeEnd"
                     ></bkt-datepicker>
                 </div>
                 <div class="col-12 col-lg-2">
@@ -54,14 +54,14 @@
                 </div>
                 <div class="col-12 col-lg-5">
                     <bkt-datepicker v-model="filter.eventTimeEnd.start"
-                                    field_name="'Начало приёма заявок'"
-                                    name="applicationTimeStart"
+                                    field_name="'Окончание торгов от'"
+                                    name="eventTimeEndStart"
                     ></bkt-datepicker>
                 </div>
                 <div class="col-12 col-lg-5">
                     <bkt-datepicker v-model="filter.eventTimeEnd.end"
-                                    field_name="'Начало приёма заявок'"
-                                    name="applicationTimeStart"
+                                    field_name="'Окончание торгов до'"
+                                    name="eventTimeEnd"
                     ></bkt-datepicker>
                 </div>
             </div>
@@ -75,25 +75,26 @@
         data() {
             return {
                 loading: false,
-                dates: null,
+                dates: '',
                 template: {
                     eventTimeStart: {
-                        start: null,
-                        end: null
+                        start: "",
+                        end: ""
                     },
                     eventTimeEnd: {
-                        start: null,
-                        end: null
+                        start: "",
+                        end: ""
                     },
                     applicationTimeStart: {
-                        start: null,
-                        end: null
+                        start: "",
+                        end: ""
                     },
                     applicationTimeEnd: {
-                        start: null,
-                        end: null
+                        start: "",
+                        end: ""
                     }
                 },
+                time:''
             };
         },
         computed: {

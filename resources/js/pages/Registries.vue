@@ -26,7 +26,7 @@
                         </div>
                         <hr>
                         <div class="bkt-table-debtors p-3 m-3 overflow-auto">
-                            <table class="table table-borderless bkt-table">
+                            <table class="table table-borderless bkt-simple-table">
                                 <tr>
                                     <th>№</th>
                                     <th>Должник</th>
@@ -165,7 +165,7 @@
                         </div>
                         <hr>
                         <div class="bkt-table-debtors p-3 m-3 overflow-auto">
-                            <table class="table table-borderless bkt-table text-left">
+                            <table class="table table-borderless bkt-table bkt-simple-table text-left">
                                 <tr>
                                     <th>№</th>
                                     <th width="60%">Наименование</th>
@@ -294,7 +294,7 @@
                         </div>
                         <hr>
                         <div class="bkt-table-debtors p-3 m-3 overflow-auto">
-                            <table class="table table-borderless bkt-table text-left">
+                            <table class="table table-borderless bkt-table bkt-simple-table text-left">
                                 <tr>
                                     <th>№</th>
                                     <th>Наименование</th>
@@ -432,7 +432,7 @@
                         </div>
                         <hr>
                         <div class="bkt-table-debtors p-3 m-3 overflow-auto">
-                            <table class="table table-borderless bkt-table text-left">
+                            <table class="table table-borderless bkt-table bkt-simple-table text-left">
                                 <tr>
                                     <th>№</th>
                                     <th>Наименование</th>
@@ -674,7 +674,7 @@
                             </div>
                         </div>
                         <div class="bkt-table-debtors p-3 m-3 overflow-auto">
-                            <table class="table table-borderless bkt-table text-left">
+                            <table class="table table-borderless bkt-table bkt-simple-table text-left">
                                 <tr>
                                     <th>Дата</th>
                                     <th>Тип</th>

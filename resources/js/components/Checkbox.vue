@@ -1,21 +1,22 @@
 <template>
     <ValidationProvider :name="name" :rules="rules" v-slot="{ errors }" tag="div" class="bkt-check__wrapper" :class="wrapper_class">
         <div class="bkt-check">
-            <div class="bkt-check__input">
+            <div class="bkt-check__input" :class="[border_color ? 'bkt-border-'+border_color : '']">
                 <input
-                    v-if="type=='boolean'"
-                    type="checkbox"
+                    v-if="val_type=='boolean'"
+                    :type="type"
                     v-model="model"
+                    :indeterminate.prop="indeterminate"
                 />
                 <input
                     v-else
-                    type="checkbox"
+                    :type="type"
                     v-model="model"
                     :value="val"
                 />
-                <div class="bkt-check__input-check"></div>
+                <div class="bkt-check__input-check" :class="[check_color ? 'bkt-bg-'+check_color : '']"></div>
             </div>
-            <label class="bkt-check__label">
+            <label class="bkt-check__label" v-if="label">
                 <slot name="label">
                     {{label}}
                 </slot>
@@ -55,10 +56,22 @@
                 type: String,
                 default: "",
             },
-            // type: {
-            //     type: String,
-            //     default: "boolean",
-            // },
+            type: {
+                type: String,
+                default: "checkbox",
+            },
+            border_color: {
+                type: String,
+                default: "",
+            },
+            check_color: {
+                type: String,
+                default: "",
+            },
+            indeterminate: {
+                type: Boolean,
+                default: false
+            }
         },
         // model: {
         //     prop: 'value',
@@ -67,15 +80,14 @@
         data: function() {
             return {
                 // model:null,
-                type: 'boolean'
-                // tmp_val:null,
+                val_type: 'boolean'
             };
         },
         mounted() {
             // this.model = this.value;
             if(typeof this.value != 'boolean')
             {
-                this.type = 'other'
+                this.val_type = 'other'
             }
         },
         computed: {

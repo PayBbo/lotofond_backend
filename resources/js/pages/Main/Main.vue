@@ -77,7 +77,7 @@
         </div>
         <div class="bkt-main-filters bkt-row bkt-bg-main">
             <div class="col-12 col-md-6 pe-1 col-lg-4">
-                <div class="d-flex w-100 mx-auto justify-content-around">
+                <div class="bkt-wrapper bkt-nowrap w-100 mx-auto justify-content-around dropdown bkt-dropdown">
                     <bkt-select
                         v-model="filters_sort.type"
                         select_class="form-floating main"
@@ -95,64 +95,63 @@
                     >
                         <bkt-icon name="Bars"></bkt-icon>
                     </button>
-                    <div class="dropdown d-md-none">
-                        <button class="bkt-button-ellipse main d-md-none" id="filterDropdownMenu"
-                                data-bs-toggle="dropdown" data-bs-display="static" data-bs-auto-close="outside"
+                    <button class="bkt-button-ellipse main d-md-none" id="filterDropdownMenu"
+                            data-bs-toggle="dropdown"
+                            data-bs-auto-close="outside" data-bs-offset="0, 10" data-bs-reference="parent"
+                    >
+                        <bkt-icon name="Funnel" :width="'18px'" :height="'18px'"></bkt-icon>
+                    </button>
+
+                    <div
+                        class="d-md-none dropdown-menu bkt-dropdown__menu bkt-dropdown__menu_list bkt-dropdown__menu_main"
+                        aria-labelledby="filterDropdownMenu"
+                    >
+                        <bkt-select
+                            v-model="filters_other.period"
+                            select_class="form-floating main"
+                            name="period"
+                            subtitle="показывать за период"
+                            :option_label="'title'"
+                            :options="periods"
+                            :reduce="item => item.value"
+                            :clearable="false"
+                            @input="getData(1)"
                         >
-                            <bkt-icon name="Funnel" :width="'18px'" :height="'18px'"></bkt-icon>
-                        </button>
-                        <div class="bkt-card-menu m-0 dropdown-menu dropdown-menu-end position-absolute"
-                             aria-labelledby="filterDropdownMenu"
-                        >
-                            <bkt-select
-                                v-model="filters_other.period"
-                                select_class="form-floating main"
-                                name="period"
-                                subtitle="показывать за период"
-                                :option_label="'title'"
-                                :options="periods"
-                                :reduce="item => item.value"
-                                :clearable="false"
-                                @input="getData(1)"
-                            >
-                            </bkt-select>
-                            <div class="d-flex">
-                                <div class="bkt-check__list">
-                                    <bkt-checkbox v-model="filters_other.hasPhotos"
-                                                  label="только с фото"
-                                                  name="hasPhotos"
-                                                  @input="getData(1)"
-                                    >
-                                    </bkt-checkbox>
-                                    <bkt-checkbox v-model="filters_other.isHidden"
-                                                  label="удалённые"
-                                                  name="isHidden"
-                                                  @input="getData(1)"
-                                    >
-                                    </bkt-checkbox>
-                                </div>
-                                <div class="bkt-check__list">
-                                    <bkt-checkbox v-model="filters_other.organizer"
-                                                  label="получен ответ организатора"
-                                                  name="organizer"
-                                                  @input="getData(1)"
-                                    >
-                                    </bkt-checkbox>
-                                    <bkt-checkbox v-model="filters_other.isCompleted"
-                                                  label="завершённые"
-                                                  name="isCompleted"
-                                                  @input="getData(1)"
-                                                  wrapper_class="bkt-check__wrapper-inline"
-                                    >
-                                    </bkt-checkbox>
-                                    <bkt-checkbox v-model="filters_other.isStopped"
-                                                  label="приостановленные"
-                                                  name="isStopped"
-                                                  @input="getData(1)"
-                                                  wrapper_class="bkt-check__wrapper-inline"
-                                    >
-                                    </bkt-checkbox>
-                                </div>
+                        </bkt-select>
+                        <div class="bkt-wrapper">
+                            <div class="bkt-check__list">
+                                <bkt-checkbox v-model="filters_other.hasPhotos"
+                                              label="только с фото"
+                                              name="hasPhotos"
+                                              @input="getData(1)"
+                                >
+                                </bkt-checkbox>
+                                <bkt-checkbox v-model="filters_other.isHidden"
+                                              label="удалённые"
+                                              name="isHidden"
+                                              @input="getData(1)"
+                                >
+                                </bkt-checkbox>
+                                <bkt-checkbox v-model="filters_other.organizer"
+                                              label="получен ответ организатора"
+                                              name="organizer"
+                                              @input="getData(1)"
+                                >
+                                </bkt-checkbox>
+                                <bkt-checkbox v-model="filters_other.isCompleted"
+                                              label="завершённые"
+                                              name="isCompleted"
+                                              @input="getData(1)"
+                                              wrapper_class="bkt-check__wrapper-inline"
+                                >
+                                </bkt-checkbox>
+                                <bkt-checkbox v-model="filters_other.isStopped"
+                                              label="приостановленные"
+                                              name="isStopped"
+                                              @input="getData(1)"
+                                              wrapper_class="bkt-check__wrapper-inline"
+                                >
+                                </bkt-checkbox>
                             </div>
                         </div>
                     </div>
@@ -237,8 +236,6 @@
         },
         created() {
             this.$store.dispatch('getLotsStatistic');
-            this.getCategories();
-            this.getRegions();
         },
         mounted() {
             this.getData();
@@ -294,22 +291,10 @@
             lots_statistic() {
                 return this.$store.getters.lots_statistic;
             },
-            regions() {
-                return this.$store.getters.regions;
-            },
-            categories() {
-                return this.$store.getters.categories;
-            }
         },
         methods: {
             async getData(page = 1) {
                 await this.$store.dispatch('getFilteredTrades', {page: page, filters: this.filters});
-            },
-            async getCategories() {
-                await this.$store.dispatch('getCategories');
-            },
-            async getRegions() {
-                await this.$store.dispatch('getRegions');
             },
             toggleDirection() {
                 if (this.filters_sort.direction == 'asc') {

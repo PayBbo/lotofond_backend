@@ -60,9 +60,16 @@ __webpack_require__.r(__webpack_exports__);
     title: {
       type: String
     },
+    title_class: {
+      type: String,
+      "default": 'bkt-collapse__title'
+    },
     main_class: {
       type: String,
       "default": 'bkt-card bkt-card__body'
+    },
+    header_class: {
+      type: String
     },
     collapse_class: {
       type: String
@@ -1489,7 +1496,7 @@ var render = function () {
     _vm._v(" "),
     _c(
       "div",
-      { staticClass: "bkt-collapse__header" },
+      { staticClass: "bkt-collapse__header", class: _vm.header_class },
       [
         _vm._t("title", function () {
           return [
@@ -1498,6 +1505,7 @@ var render = function () {
                   "h3",
                   {
                     staticClass: "bkt-card__title",
+                    class: _vm.title_class,
                     attrs: {
                       "data-bs-toggle": "collapse",
                       "data-bs-target": "#" + _vm.id,

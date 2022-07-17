@@ -9,21 +9,29 @@
                     incidunt dolorem voluptatem amet, nihil quo unde quidem nam deleniti laudantium ex, quibusdam
                     dolores voluptas possimus alias? Lorem ipsum dolor, sit amet consectetur adipisicing elit.</p>
                 <div class="footer_buttons">
-                    <button class="bkt-button primary">Торги</button>
-                    <button class="bkt-button blue">Тарифы</button>
+                    <router-link to="/auctions" class="bkt-button primary">Торги</router-link>
+                    <router-link to="/tariffs" class="bkt-button blue">Тарифы</router-link>
                 </div>
             </div>
             <div class="footer_block" style="margin-right: 0;">
                 <div>
                     <ul>
                         <li>Календарь</li>
-                        <li>Купить через агента</li>
+                        <li>
+                            <router-link to="/agent">Купить через агента</router-link>
+                        </li>
                         <li>Горящие торги
                             <bkt-icon name="Fire"></bkt-icon>
                         </li>
-                        <li>Топ-побед</li>
-                        <li>Реестры</li>
-                        <li>Контакты</li>
+                        <li>
+                            <router-link to="/wins">Топ-побед</router-link>
+                        </li>
+                        <li>
+                            <router-link to="/registries">Реестры</router-link>
+                        </li>
+                        <li>
+                            <router-link to="/contacts">Контакты</router-link>
+                        </li>
                     </ul>
                 </div>
                 <div>
@@ -33,7 +41,8 @@
                             <strong style="color:rgb(65, 125, 255); margin-left: 5px;">&#10095;</strong>
                         </li>
                         <li>Изменения в законах <strong
-                            style="color:rgb(216, 43, 30); margin-left: 5px;">&#10095;</strong></li>
+                            style="color:rgb(216, 43, 30); margin-left: 5px;">&#10095;</strong>
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -46,9 +55,15 @@
                     <a class="bkt-button-icon bkt-bg-main-light" style="margin-left: 0;" href="#">
                         <bkt-icon name="Vk" width="16px" height="16px"></bkt-icon>
                     </a>
-                    <a class="bkt-button-icon bkt-bg-main-light" href="#"><bkt-icon name="Instagram" width="16px" height="16px"></bkt-icon></a>
-                    <a class="bkt-button-icon bkt-bg-main-light" href="#"><bkt-icon name="Telegram" width="16px" height="16px"></bkt-icon></a>
-                    <a class="bkt-button-icon bkt-bg-main-light" href="#"><bkt-icon name="Youtube" width="16px" height="16px"></bkt-icon></a>
+                    <a class="bkt-button-icon bkt-bg-main-light" href="/">
+                        <bkt-icon name="Instagram" width="16px" height="16px"></bkt-icon>
+                    </a>
+                    <a class="bkt-button-icon bkt-bg-main-light" href="/">
+                        <bkt-icon name="Telegram" width="16px" height="16px"></bkt-icon>
+                    </a>
+                    <a class="bkt-button-icon bkt-bg-main-light" href="/">
+                        <bkt-icon name="Youtube" width="16px" height="16px"></bkt-icon>
+                    </a>
                 </div>
             </div>
         </div>

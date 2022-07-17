@@ -1,0 +1,123 @@
+.bkt-monitoring-modal {
+    & .modal-dialog {
+        min-width: 65%;
+
+        .bkt-modal-wrapper {
+            width: 100%;
+        }
+    }
+
+    & .bkt-monitoring-field {
+        &__input {
+            height: 70px;
+        }
+    }
+
+    & .bkt-monitoring__items {
+        .bkt {
+            margin-right: 0.5rem;
+            padding: 0.5rem 1.5rem !important;
+        }
+    }
+
+    & .bkt-btn-price-done.active {
+        background-color: #2fbb40 !important;
+
+        & svg {
+            fill: white !important;
+        }
+    }
+
+    & .bkt-monitoring-price {
+        .bkt-input-price {
+            &__min {
+                & .bkt-input__group {
+                    padding-left: 1.5rem !important;
+
+                    & .bkt-input {
+                        text-align: center;
+                    }
+
+                    &:before {
+                        content: 'от';
+                    }
+                }
+            }
+
+            &__max {
+                & .bkt-input__group {
+                    padding-left: 1.5rem !important;
+
+                    & .bkt-input {
+                        text-align: center;
+                    }
+
+                    &:before {
+                        content: 'до';
+                    }
+                }
+            }
+        }
+    }
+}
+
+@media (max-width: 576px) {
+    * {
+        font-size: 12px;
+    }
+    .bkt-monitoring-modal {
+        & .bkt-monitoring__items {
+            flex-wrap: wrap;
+            margin-top: 25px;
+            margin-bottom: 25px !important;
+
+            div {
+                margin-bottom: 0.5rem;
+            }
+        }
+
+        & .bkt-monitoring-field {
+            &__text {
+                font-size: 12px;
+                font-weight: 600;
+            }
+
+            &__input {
+                height: 55px;
+            }
+
+            &__filter {
+                height: auto;
+                //margin-bottom: 25px !important;
+
+                & button {
+                    width: inherit;
+                }
+            }
+        }
+
+        & .bkt-monitoring-date {
+            &__input, &__label {
+                margin-bottom: 0.5rem !important;
+            }
+
+            &__label {
+                font-weight: 600;
+            }
+        }
+
+        & .bkt-monitoring-price {
+            &__input, &__label {
+                margin-bottom: 0.5rem !important;
+            }
+
+            &__label {
+                font-weight: 600;
+            }
+        }
+    }
+}
+
+.bkt-border-rounded {
+    border-radius: 15px;
+}

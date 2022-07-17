@@ -1,0 +1,41 @@
+.bkt-color-folder {
+    & .bkt-color {
+        &__block {
+            width: 44px;
+            height: 44px;
+            margin-bottom: 0.5rem;
+            margin-right: 0.5rem;
+            cursor: pointer;
+        }
+
+        &__bg {
+            display: block;
+            width: 23px;
+            height: 23px;
+            border-radius: 50%;
+        }
+    }
+
+    label {
+        font-weight: 700;
+    }
+
+    @media (max-width: 576px) {
+        * {
+            font-size: 12px;
+        }
+        & .bkt-folder-color__block {
+            flex-wrap: wrap;
+
+            & .bkt-color {
+                &__block {
+                    flex-wrap: wrap;
+                }
+
+                &__bg {
+                    margin: 0.25rem;
+                }
+            }
+        }
+    }
+}

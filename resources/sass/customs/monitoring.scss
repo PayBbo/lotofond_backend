@@ -1,0 +1,147 @@
+.bkt-monitoring {
+    min-height: 50vh;
+
+    &__title {
+        margin-bottom: 50px;
+        margin-top: 50px;
+
+        & span {
+            font-weight: 800;
+            font-size: 30px;
+        }
+    }
+
+    .bkt-bg-light-green {
+        background-color: rgb(229, 255, 234);
+    }
+
+    &__menu {
+        margin: 38px 0;
+    }
+
+    &__menu-buttons {
+        & button {
+            height: 60px;
+        }
+
+        & .bkt-button-menu:not(:last-child) {
+            margin-right: 0.3rem;
+        }
+
+        & .bkt-button-all {
+            background: white;
+
+            & span {
+                background: #eef9ff;
+                margin-left: 0.5rem;
+            }
+        }
+
+        & .bkt-button-all.active {
+            color: white;
+
+            & span {
+                background: white;
+            }
+        }
+
+        & .bkt-menu-button {
+            background-color: white;
+
+            & .bkt-count {
+                border-radius: 50rem;
+                background-color: #e5ffea;
+                color: #2fbb40;
+                height: 30px;
+                width: 30px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                margin-left: 0.5rem;
+                margin-right: 2.5rem
+            }
+
+            & .bkt-btn-icon {
+                background: #dfe5ff;
+            }
+        }
+
+        & .bkt-menu-button.active {
+            background: #2fbb40 !important;
+            color: white;
+
+            & .bkt-count {
+                border-radius: 50%;
+                background-color: white;
+            }
+
+            .bkt-btn-icon {
+                background: #42c052;;
+            }
+
+            .bkt-icon {
+                fill: #fff !important;
+            }
+        }
+    }
+}
+
+@media (max-width: 576px) {
+    .bkt-monitoring {
+        &__menu {
+            flex-flow: column-reverse;
+
+            & .bkt-button__new-monitoring {
+                margin-bottom: 2rem;
+                height: 54px;
+                align-items: center;
+                display: flex;
+                justify-content: center;
+            }
+        }
+
+        & .bkt-border-rounded {
+            border-radius: 15px;
+        }
+
+        & .bkt-border-bottom-rounded-none {
+            border-bottom-left-radius: 0;
+            border-bottom-right-radius: 0;
+        }
+
+        & .bkt-btn-monitoring {
+            height: 44px;
+
+            & .bkt-arrow {
+                right: 10px;
+                height: 34px;
+                width: 34px;
+                align-items: center;
+                display: flex;
+                justify-content: center;
+            }
+        }
+
+        & .bkt-menu-monitoring {
+            border-radius: 0 0 15px 15px;
+
+            & .bkt-arrow {
+                height: 34px;
+                width: 34px;
+                align-items: center;
+                display: flex;
+                justify-content: center;
+            }
+
+            & .bkt-menu-monitoring-list {
+                &__item {
+                    height: 50px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    font-weight: 600;
+                }
+            }
+        }
+    }
+}

@@ -15,6 +15,7 @@ export default {
                 "activeLotsCount": 90
             }
         },
+        selected_lot: null
     },
 
     getters: {
@@ -24,6 +25,9 @@ export default {
         categories_statistic(state) {
             return state.categories_statistic;
         },
+        selected_lot(state) {
+            return state.selected_lot;
+        },
     },
     mutations: {
         setLotsStatistic(state, payload) {
@@ -31,6 +35,9 @@ export default {
         },
         setCategoriesStatistic(state, payload) {
             return (state.categories_statistic = payload);
+        },
+        setSelectedLot(state, payload) {
+            return (state.selected_lot = payload);
         },
     },
 

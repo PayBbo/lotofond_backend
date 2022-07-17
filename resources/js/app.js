@@ -132,6 +132,10 @@ Vue.use(VueLang, {
     locale: 'ru', // Set locale
     fallback: 'ru' // Set fallback locale
 });
+import VueSlickCarousel from 'vue-slick-carousel'
+import 'vue-slick-carousel/dist/vue-slick-carousel.css'
+import 'vue-slick-carousel/dist/vue-slick-carousel-theme.css'
+Vue.component('slick',  VueSlickCarousel);
 
 import VueRouter from 'vue-router';
 import routes from './routes';

@@ -3,10 +3,10 @@
                         tag="div" class="bkt-input__wrapper" :vid="name"
     >
         <label :for="name" class="bkt-input__label" v-if="label" :class="label_class">{{ label }}</label>
-        <date-picker :type="type" :value="value" prefix-class="bkt" value-type="DD.MM.YYYY"
+        <date-picker :type="type" prefix-class="bkt" value-type="DD.MM.YYYY"
                      :placeholder="placeholder" format="DD MMMM YYYY"
-                     :disabled="disabled" @input="saveValue"
-        >
+                     :disabled="disabled" v-model="model"
+            >
             <template #icon-clear>
                 <div class="bkt-datepicker-group">
                     <span class="bkt-datepicker-group-icon">
@@ -82,6 +82,14 @@
             }
         },
         computed: {
+            model: {
+                get() {
+                    return this.value;
+                },
+                set(value) {
+                    this.$emit("input", value);
+                },
+            },
         },
         methods: {
             saveValue(date) {

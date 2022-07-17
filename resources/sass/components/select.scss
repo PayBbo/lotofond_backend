@@ -40,6 +40,7 @@
             background: $main-light;
             color: $primary-default;
         }
+
         & .bkt-select {
             background: $main-light;
             color: $white;
@@ -53,6 +54,7 @@
                 font-size: 12px;
             }
         }
+
         & .bkt-v-select {
             & .vs__dropdown-menu {
                 background-color: $main-light;
@@ -63,27 +65,33 @@
                 color: $white;
                 border-radius: 15px;
             }
+
             & + .bkt-select__subtitle {
                 color: rgb(255, 255, 255, 0.4);
                 font-size: 12px;
                 top: -10px;
             }
+
             & .vs__dropdown-option--highlight {
                 background-color: $main-light !important;
                 color: white !important;
             }
+
             & .vs__dropdown-option--selected {
                 background-color: $main-light !important;
                 color: white !important;
             }
+
             & .vs__dropdown-option {
                 background-color: $main-light !important;
                 color: white !important;
             }
+
             & .vs__dropdown-option {
                 color: white !important;
             }
         }
+
         & .vs--single .vs__selected {
             padding-left: 0;
         }
@@ -101,8 +109,8 @@
         --vs-search-input-placeholder-color: inherit;
 
         /* Font */
-        --vs-font-size: 1rem;
-        --vs-line-height: 1.4;
+        --vs-font-size: 12px;
+        --vs-line-height: 1.2;
 
         /* Disabled State */
         --vs-state-disabled-bg: rgb(248, 248, 248);
@@ -155,14 +163,16 @@
         /* Transitions */
         --vs-transition-timing-function: cubic-bezier(1, -0.115, 0.975, 0.855);
         --vs-transition-duration: 150ms;
-        &.vs--unsearchable .vs__search
-        {
+
+        &.vs--unsearchable .vs__search {
             position: absolute;
         }
-        &.vs--unsearchable.vs--single.vs--loading .vs__selected,  &.vs--unsearchable.vs--single.vs--open .vs__selected {
+
+        &.vs--unsearchable.vs--single.vs--loading .vs__selected, &.vs--unsearchable.vs--single.vs--open .vs__selected {
             opacity: .4;
             position: initial;
         }
+
         & .vs__search {
             &:focus {
                 outline: 0 !important;
@@ -239,7 +249,7 @@
         & .vs__selected {
             //background: white;
             border: none;
-            font-size: 16px;
+            font-size: 12px;
             border-radius: 15px;
             padding: 13px 25px;
             align-items: center;
@@ -556,5 +566,158 @@
     }
 }
 
+.bkt-v-select_material {
+    &.vs--open ~ .bkt-v-select__label-material {
+        color: $neutral-dark;
+        top: 15px;
+        transition: 0.2s ease all;
+        font-size: 12px;
+    }
 
+    &.vs--selected ~ .bkt-v-select__label-material {
+        color: $neutral-dark;
+        top: 15px;
+        transition: 0.2s ease all;
+        font-size: 12px;
+    }
 
+    &.vs--searching ~ .bkt-v-select__label-material {
+        color: $neutral-dark;
+        top: 15px;
+        transition: 0.2s ease all;
+        font-size: 12px;
+    }
+
+    & ~ .bkt-v-select__label-material {
+        top: 30px;
+    }
+
+    & .vs__search {
+        &:focus {
+            outline: 0 !important;
+            border-color: transparent !important;
+            box-shadow: none !important;
+        }
+    }
+
+    & ul {
+        overflow-y: auto;
+    }
+
+    & .vs__dropdown-menu {
+        background-color: $white;
+        color: $main-default;
+        //box-shadow: 0px 10px 26px rgba(16, 30, 115, 0.06);
+        box-shadow: 0px 10px 24px 0px #101E7321;
+        border-radius: 20px;
+        padding: 24px;
+        border: none;
+        scrollbar-width: thin; /* "auto" or "thin" */
+        scrollbar-color: #56a0e8 #e9f3fc;
+        overflow-y: auto;
+
+        &::-webkit-scrollbar {
+            width: 7px;
+        }
+
+        &::-webkit-scrollbar {
+            width: 7px;
+        }
+
+        &::-webkit-scrollbar-track {
+            background: #e9f3fc;
+        }
+
+        &::-webkit-scrollbar-thumb {
+            background-color: #56a0e8;
+            border-radius: 5px;
+        }
+
+        & .vs__dropdown-option--highlight {
+            background: white !important;
+            color: black;
+        }
+    }
+
+    & .vs__dropdown-toggle {
+        font-family: 'Gilroy';
+        color: $main-default;
+        position: relative;
+        width: 100%;
+        min-height: 60px;
+        border-radius: 10px;
+        //padding: 8px 8px;
+        border: 1px solid $neutral-dark;
+        background-color: transparent;
+        outline: 0;
+        padding: 18px 12px 8px 8px;
+        font-size: 14px;
+    }
+
+    &.error .vs__dropdown-toggle {
+        border: 1px solid $red-default;
+    }
+
+    &.vs--disabled .vs__dropdown-toggle {
+        background: #F2F2F2;
+        color: #A0A4A8;
+        border-color: #F2F2F2;
+    }
+
+    & .vs__actions {
+        padding: 0px 6px 0 3px;
+    }
+
+    & .vs__selected {
+        background: #F5F5F5;
+        border: none;
+        font-size: 12px;
+    }
+
+    &.no-background .vs__selected {
+        background: #FFFFFF !important;
+    }
+
+    &.vs--disabled .vs__clear, &.vs--disabled .vs__search, &.vs--disabled .vs__selected,
+    &.vs--disabled .vs__open-indicator, &.vs--disabled .vs__selected {
+        background-color: #F2F2F2 !important;
+        background: #F2F2F2 !important;
+        color: $main-default;
+    }
+
+    & .vs__open-indicator {
+        height: 14px;
+    }
+
+    & .vs__clear svg {
+        height: 14px !important;
+        width: 14px !important;
+    }
+}
+
+.bkt-v-select__label-material {
+    color: $neutral-dark;
+    font-size: 14px;
+    font-weight: 400;
+    position: absolute;
+    pointer-events: none;
+    left: 12px;
+    top: 20px;
+    transition: 0.4s ease all;
+    z-index: 1;
+}
+
+.bkt-v-select__wrapper-material {
+    font-family: 'Gilroy';
+    position: relative;
+    width: 100%;
+    height: 60px;
+    border-radius: 10px;
+    padding: 8px 8px;
+    border: 1px solid $neutral-dark;
+    //margin-top: 12px;
+    //margin-bottom: 12px;
+    & > div:not( .v-select) {
+        overflow: hidden;
+    }
+}

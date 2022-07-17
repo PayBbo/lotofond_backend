@@ -1,4 +1,4 @@
-.bkt-table {
+.bkt-simple-table {
     border-radius: 20px;
     border-width: 1px;
     border-style: solid;
@@ -6,7 +6,7 @@
     border-spacing: 0;
     border-collapse: separate;
     width: 100%;
-    & tr th:first-child, 
+    & tr th:first-child,
     & tr td:first-child {
         text-align: center;
     }
@@ -87,7 +87,7 @@
 }
 
 @media (max-width: 576px) {
-    .bkt-table * {
+    .bkt-simple-table * {
         font-size: 8px;
     }
 }
