@@ -106,6 +106,14 @@ export default {
                     /* webpackChunkName: "lot-card" */ "./pages/LotCard.vue"
                     ),
 		},
+        {
+			path: '/week-winners',
+            name:'WeekWinners',
+            component: () =>
+                import(
+                    /* webpackChunkName: "week-winners" */ "./pages/WeekWinners.vue"
+                    ),
+		},
 		// { path: '/:pathMatch(.*)*', component: EmptyView }
 	]
 };

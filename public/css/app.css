@@ -12489,6 +12489,7 @@ textarea.form-control-lg {
 .bkt-navbar__logo {
   font-weight: 700;
   color: #cdced2;
+  max-width: 100px;
 }
 .bkt-navbar__nav {
   display: flex;
@@ -12526,7 +12527,8 @@ textarea.form-control-lg {
   text-align: center;
 }
 .bkt-navbar__nav-icon {
-  margin-right: 9px;
+  display: flex;
+  margin-right: 8px;
 }
 .bkt-navbar__nav-link {
   display: flex;
@@ -12635,6 +12637,9 @@ textarea.form-control-lg {
     min-height: 51px;
     padding: 10px 20px;
   }
+  .bkt-navbar__logo {
+    max-width: 50px;
+  }
   .bkt-navbar__wrapper {
     gap: 6px;
   }
@@ -12645,6 +12650,14 @@ textarea.form-control-lg {
   }
   .bkt-navbar.white .bkt-navbar__nav-link {
     font-size: 11px;
+  }
+  .bkt-navbar__nav-icon {
+    margin-right: 7px;
+    display: flex;
+  }
+  .bkt-navbar__nav-icon svg {
+    width: 12px;
+    height: 12px;
   }
   .bkt-navbar .bkt-button, .bkt-navbar .bkt-button-icon, .bkt-navbar .bkt-button-link {
     margin: 0;
@@ -15546,59 +15559,59 @@ textarea.form-control-lg {
     padding: 25px;
   }
 }
-.bkt-card-trade {
+.bkt-card-trade, .bkt-card-win {
   margin: 18px 0;
 }
-.bkt-card-trade .bkt-card__title {
+.bkt-card-trade .bkt-card__title, .bkt-card-win .bkt-card__title {
   font-size: 22px;
 }
-.bkt-card-trade .bkt-card.vertical, .bkt-card-trade .vertical.bkt-card__row, .bkt-card-trade .vertical.bkt-shadow-card__inner {
+.bkt-card-trade .bkt-card.vertical, .bkt-card-win .bkt-card.vertical, .bkt-card-trade .vertical.bkt-card__row, .bkt-card-win .vertical.bkt-card__row, .bkt-card-trade .vertical.bkt-shadow-card__inner, .bkt-card-win .vertical.bkt-shadow-card__inner {
   margin: 0;
   width: 76px;
 }
-.bkt-card-trade .bkt-card.vertical .bkt-button-ellipse, .bkt-card-trade .vertical.bkt-card__row .bkt-button-ellipse, .bkt-card-trade .vertical.bkt-shadow-card__inner .bkt-button-ellipse {
+.bkt-card-trade .bkt-card.vertical .bkt-button-ellipse, .bkt-card-win .bkt-card.vertical .bkt-button-ellipse, .bkt-card-trade .vertical.bkt-card__row .bkt-button-ellipse, .bkt-card-win .vertical.bkt-card__row .bkt-button-ellipse, .bkt-card-trade .vertical.bkt-shadow-card__inner .bkt-button-ellipse, .bkt-card-win .vertical.bkt-shadow-card__inner .bkt-button-ellipse {
   margin: 3px;
   width: 44px;
   height: 44px;
 }
-.bkt-card-trade .bkt-card.vertical .bkt-button-ellipse:hover, .bkt-card-trade .vertical.bkt-card__row .bkt-button-ellipse:hover, .bkt-card-trade .vertical.bkt-shadow-card__inner .bkt-button-ellipse:hover {
+.bkt-card-trade .bkt-card.vertical .bkt-button-ellipse:hover, .bkt-card-win .bkt-card.vertical .bkt-button-ellipse:hover, .bkt-card-trade .vertical.bkt-card__row .bkt-button-ellipse:hover, .bkt-card-win .vertical.bkt-card__row .bkt-button-ellipse:hover, .bkt-card-trade .vertical.bkt-shadow-card__inner .bkt-button-ellipse:hover, .bkt-card-win .vertical.bkt-shadow-card__inner .bkt-button-ellipse:hover {
   background: #ffc515;
 }
-.bkt-card-trade .bkt-card.vertical .bkt-button-ellipse:last-child:hover, .bkt-card-trade .vertical.bkt-card__row .bkt-button-ellipse:last-child:hover, .bkt-card-trade .vertical.bkt-shadow-card__inner .bkt-button-ellipse:last-child:hover {
+.bkt-card-trade .bkt-card.vertical .bkt-button-ellipse:last-child:hover, .bkt-card-win .bkt-card.vertical .bkt-button-ellipse:last-child:hover, .bkt-card-trade .vertical.bkt-card__row .bkt-button-ellipse:last-child:hover, .bkt-card-win .vertical.bkt-card__row .bkt-button-ellipse:last-child:hover, .bkt-card-trade .vertical.bkt-shadow-card__inner .bkt-button-ellipse:last-child:hover, .bkt-card-win .vertical.bkt-shadow-card__inner .bkt-button-ellipse:last-child:hover {
   background: transparent;
 }
-.bkt-card-trade .bkt-card-infographics {
+.bkt-card-trade .bkt-card-infographics, .bkt-card-win .bkt-card-infographics {
   gap: 0 6px;
 }
-.bkt-card-trade .bkt-card-infographics .bkt-card, .bkt-card-trade .bkt-card-infographics .bkt-card__row, .bkt-card-trade .bkt-card-infographics .bkt-shadow-card__inner {
+.bkt-card-trade .bkt-card-infographics .bkt-card, .bkt-card-win .bkt-card-infographics .bkt-card, .bkt-card-trade .bkt-card-infographics .bkt-card__row, .bkt-card-win .bkt-card-infographics .bkt-card__row, .bkt-card-trade .bkt-card-infographics .bkt-shadow-card__inner, .bkt-card-win .bkt-card-infographics .bkt-shadow-card__inner {
   margin-bottom: 3px;
   margin-top: 3px;
 }
-.bkt-card-trade .bkt-card-infographics .bkt-card .bkt-card__feature, .bkt-card-trade .bkt-card-infographics .bkt-card__row .bkt-card__feature, .bkt-card-trade .bkt-card-infographics .bkt-shadow-card__inner .bkt-card__feature {
+.bkt-card-trade .bkt-card-infographics .bkt-card .bkt-card__feature, .bkt-card-win .bkt-card-infographics .bkt-card .bkt-card__feature, .bkt-card-trade .bkt-card-infographics .bkt-card__row .bkt-card__feature, .bkt-card-win .bkt-card-infographics .bkt-card__row .bkt-card__feature, .bkt-card-trade .bkt-card-infographics .bkt-shadow-card__inner .bkt-card__feature, .bkt-card-win .bkt-card-infographics .bkt-shadow-card__inner .bkt-card__feature {
   margin: 0;
 }
-.bkt-card-trade .bkt-card-infographics .bkt-card .bkt-card__feature .bkt-card__subtitle, .bkt-card-trade .bkt-card-infographics .bkt-card__row .bkt-card__feature .bkt-card__subtitle, .bkt-card-trade .bkt-card-infographics .bkt-shadow-card__inner .bkt-card__feature .bkt-card__subtitle {
+.bkt-card-trade .bkt-card-infographics .bkt-card .bkt-card__feature .bkt-card__subtitle, .bkt-card-win .bkt-card-infographics .bkt-card .bkt-card__feature .bkt-card__subtitle, .bkt-card-trade .bkt-card-infographics .bkt-card__row .bkt-card__feature .bkt-card__subtitle, .bkt-card-win .bkt-card-infographics .bkt-card__row .bkt-card__feature .bkt-card__subtitle, .bkt-card-trade .bkt-card-infographics .bkt-shadow-card__inner .bkt-card__feature .bkt-card__subtitle, .bkt-card-win .bkt-card-infographics .bkt-shadow-card__inner .bkt-card__feature .bkt-card__subtitle {
   margin: 0;
 }
-.bkt-card-trade .bkt-card-period {
+.bkt-card-trade .bkt-card-period, .bkt-card-win .bkt-card-period {
   margin-bottom: 15px;
   margin-top: 15px;
   flex-wrap: nowrap;
 }
-.bkt-card-trade .bkt-card-period h6, .bkt-card-trade .bkt-card-period .h6 {
+.bkt-card-trade .bkt-card-period h6, .bkt-card-win .bkt-card-period h6, .bkt-card-trade .bkt-card-period .h6, .bkt-card-win .bkt-card-period .h6 {
   line-height: 18px;
   margin: 0;
 }
-.bkt-card-trade .bkt-card-period .bkt-card__category {
+.bkt-card-trade .bkt-card-period .bkt-card__category, .bkt-card-win .bkt-card-period .bkt-card__category {
   height: 56px;
   margin-right: 15px;
   flex-shrink: 0;
 }
-.bkt-card-trade .bkt-card-period .bkt-card__category-icon {
+.bkt-card-trade .bkt-card-period .bkt-card__category-icon, .bkt-card-win .bkt-card-period .bkt-card__category-icon {
   max-width: 16px;
   max-height: 16px;
 }
-.bkt-card-trade .bkt-card-price {
+.bkt-card-trade .bkt-card-price, .bkt-card-win .bkt-card-price {
   font-size: 30px;
   font-family: "Gilroy";
   font-weight: 700;
@@ -15611,7 +15624,7 @@ textarea.form-control-lg {
   line-height: 1;
   text-align: left;
 }
-.bkt-card-trade .bkt-card-price-icon {
+.bkt-card-trade .bkt-card-price-icon, .bkt-card-win .bkt-card-price-icon {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -15626,7 +15639,7 @@ textarea.form-control-lg {
   line-height: 1.2;
   box-shadow: 0px 11px 15px 0px rgba(13, 85, 21, 0.15);
 }
-.bkt-card-trade .bkt-card-menu {
+.bkt-card-trade .bkt-card-menu, .bkt-card-win .bkt-card-menu {
   background-color: #2d3244;
   width: 230px;
   height: 386px;
@@ -15634,7 +15647,7 @@ textarea.form-control-lg {
   padding: 25px;
   top: 37px;
 }
-.bkt-card-trade .bkt-card-menu::before {
+.bkt-card-trade .bkt-card-menu::before, .bkt-card-win .bkt-card-menu::before {
   position: absolute;
   top: -10px;
   right: 0;
@@ -15643,12 +15656,12 @@ textarea.form-control-lg {
   border-width: 10px 8px 0 0;
   border-color: transparent #2d3244 transparent transparent;
 }
-.bkt-card-trade .bkt-card-menu .bkt-card-menu-inner {
+.bkt-card-trade .bkt-card-menu .bkt-card-menu-inner, .bkt-card-win .bkt-card-menu .bkt-card-menu-inner {
   gap: 6px;
   display: flex;
   flex-direction: column;
 }
-.bkt-card-trade .bkt-card-menu .bkt-button, .bkt-card-trade .bkt-card-menu .bkt-button-link, .bkt-card-trade .bkt-card-menu .bkt-button-icon {
+.bkt-card-trade .bkt-card-menu .bkt-button, .bkt-card-win .bkt-card-menu .bkt-button, .bkt-card-trade .bkt-card-menu .bkt-button-link, .bkt-card-win .bkt-card-menu .bkt-button-link, .bkt-card-trade .bkt-card-menu .bkt-button-icon, .bkt-card-win .bkt-card-menu .bkt-button-icon {
   font-size: 12px;
   padding: 15px;
   width: 100%;
@@ -15659,7 +15672,7 @@ textarea.form-control-lg {
   align-items: center;
   position: relative;
 }
-.bkt-card-trade .bkt-card-menu .bkt-button .info, .bkt-card-trade .bkt-card-menu .bkt-button-link .info, .bkt-card-trade .bkt-card-menu .bkt-button-icon .info {
+.bkt-card-trade .bkt-card-menu .bkt-button .info, .bkt-card-win .bkt-card-menu .bkt-button .info, .bkt-card-trade .bkt-card-menu .bkt-button-link .info, .bkt-card-win .bkt-card-menu .bkt-button-link .info, .bkt-card-trade .bkt-card-menu .bkt-button-icon .info, .bkt-card-win .bkt-card-menu .bkt-button-icon .info {
   position: absolute;
   background: #2fbb40;
   top: 18px;
@@ -15668,21 +15681,21 @@ textarea.form-control-lg {
   height: 7px;
   border-radius: 100%;
 }
-.bkt-card-trade .bkt-card-menu .bkt-button .bkt-button__icon, .bkt-card-trade .bkt-card-menu .bkt-button-link .bkt-button__icon, .bkt-card-trade .bkt-card-menu .bkt-button-icon .bkt-button__icon {
+.bkt-card-trade .bkt-card-menu .bkt-button .bkt-button__icon, .bkt-card-win .bkt-card-menu .bkt-button .bkt-button__icon, .bkt-card-trade .bkt-card-menu .bkt-button-link .bkt-button__icon, .bkt-card-win .bkt-card-menu .bkt-button-link .bkt-button__icon, .bkt-card-trade .bkt-card-menu .bkt-button-icon .bkt-button__icon, .bkt-card-win .bkt-card-menu .bkt-button-icon .bkt-button__icon {
   max-width: 18px;
   max-height: 17px;
   margin-right: 12px;
 }
-.bkt-card-trade .bkt-card-menu-button {
+.bkt-card-trade .bkt-card-menu-button, .bkt-card-win .bkt-card-menu-button {
   width: 44px;
   height: 44px;
   padding: 12px;
   border-radius: 10px;
 }
-.bkt-card-trade .bkt-card-menu-button svg {
+.bkt-card-trade .bkt-card-menu-button svg, .bkt-card-win .bkt-card-menu-button svg {
   transform: rotate(90deg);
 }
-.bkt-card-trade .bkt-card__image-slider .hooper-prev, .bkt-card-trade .bkt-card__image-slider .hooper-next {
+.bkt-card-trade .bkt-card__image-slider .hooper-prev, .bkt-card-win .bkt-card__image-slider .hooper-prev, .bkt-card-trade .bkt-card__image-slider .hooper-next, .bkt-card-win .bkt-card__image-slider .hooper-next {
   border-radius: 10px;
   background-color: rgb(255, 255, 255);
   width: 30px;
@@ -15692,31 +15705,97 @@ textarea.form-control-lg {
   align-items: center;
   justify-content: center;
 }
-.bkt-card-trade .bkt-card__image-slider .hooper-prev svg, .bkt-card-trade .bkt-card__image-slider .hooper-next svg {
+.bkt-card-trade .bkt-card__image-slider .hooper-prev svg, .bkt-card-win .bkt-card__image-slider .hooper-prev svg, .bkt-card-trade .bkt-card__image-slider .hooper-next svg, .bkt-card-win .bkt-card__image-slider .hooper-next svg {
   fill: #2953ff;
 }
-.bkt-card-trade .bkt-card__image-slider .hooper-next {
+.bkt-card-trade .bkt-card__image-slider .hooper-next, .bkt-card-win .bkt-card__image-slider .hooper-next {
   right: 10px;
 }
-.bkt-card-trade .bkt-card__image-slider .hooper-prev {
+.bkt-card-trade .bkt-card__image-slider .hooper-prev, .bkt-card-win .bkt-card__image-slider .hooper-prev {
   left: 10px;
 }
-.bkt-card-trade .bkt-card-image-wrapper {
+.bkt-card-trade .bkt-card-image-wrapper, .bkt-card-win .bkt-card-image-wrapper {
   gap: 25px;
   display: flex;
   flex-flow: column;
 }
-.bkt-card-trade .bkt-card-ecp-wrapper {
+.bkt-card-trade .bkt-card-ecp-wrapper, .bkt-card-win .bkt-card-ecp-wrapper {
   gap: 25px;
   flex-wrap: nowrap;
   margin-bottom: 25px;
 }
 
+.bkt-card-win {
+  margin: 0 auto;
+}
+.bkt-card-win .bkt-card__image-slider {
+  max-height: 325px;
+}
+.bkt-card-win .bkt-card__title {
+  font-size: 22px;
+  font-family: "Gilroy";
+  font-weight: bold;
+  line-height: 1.182;
+}
+.bkt-card-win .bkt-card-price-wrapper {
+  text-align: right;
+}
+.bkt-card-win .bkt-card-price-wrapper .bkt-card-price__title {
+  font-size: 30px;
+  font-family: "Gilroy";
+  color: rgb(47, 187, 64);
+  font-weight: bold;
+  line-height: 1.2;
+}
+.bkt-card-win .bkt-card-price-wrapper .bkt-card-price__subtitle {
+  font-size: 12px;
+  color: #2d3244;
+  font-weight: 600;
+  margin: 0;
+  line-height: 1.2;
+}
+.bkt-card-win .bkt-card-infographics {
+  gap: 6px 0;
+}
+.bkt-card-win .bkt-card-infographics > * {
+  padding-right: 3px;
+  padding-left: 3px;
+}
+.bkt-card-win .bkt-card-infographics .bkt-card__row {
+  padding: 18px 20px 18px 30px;
+  border-color: #eef2ff;
+}
+.bkt-card-win .bkt-card-infographics .bkt-card__row .bkt-card__feature .bkt-card__title {
+  font-size: 18px;
+  font-weight: 400;
+}
+.bkt-card-win .bkt-card-infographics .bkt-card__row .bkt-card__feature .bkt-card__subtitle {
+  font-size: 12px;
+  color: #2953ff;
+  font-weight: 600;
+  margin: 0;
+}
+.bkt-card-win .bkt-card-winner {
+  font-size: 16px;
+}
+.bkt-card-win .bkt-card-winner {
+  gap: 9px;
+}
+.bkt-card-win .bkt-card-winner__title {
+  font-size: 16px;
+  font-weight: 600;
+}
+.bkt-card-win .bkt-card-winner__subtitle {
+  font-size: 12px;
+  font-weight: 400;
+  color: rgba(45, 50, 68, 0.4);
+}
+
 @media screen and (max-width: 568px) {
-  .bkt-card-trade .bkt-card-ecp-wrapper {
+  .bkt-card-trade .bkt-card-ecp-wrapper, .bkt-card-win .bkt-card-ecp-wrapper {
     width: 100%;
   }
-  .bkt-card-trade .bkt-card-ecp-wrapper .bkt-card-ecp {
+  .bkt-card-trade .bkt-card-ecp-wrapper .bkt-card-ecp, .bkt-card-win .bkt-card-ecp-wrapper .bkt-card-ecp {
     font-size: 10px;
     font-family: "Gilroy";
     color: rgb(255, 255, 255);
@@ -15725,31 +15804,64 @@ textarea.form-control-lg {
     padding: 9px 15px;
     border-radius: 10px;
   }
-  .bkt-card-trade .bkt-card__head {
+  .bkt-card-trade .bkt-card__head, .bkt-card-win .bkt-card__head {
     flex-wrap: nowrap;
   }
-  .bkt-card-trade .bkt-card__head .bkt-card__title {
+  .bkt-card-trade .bkt-card__head .bkt-card__title, .bkt-card-win .bkt-card__head .bkt-card__title {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
     display: block;
   }
+  .bkt-card-win .bkt-card-infographics {
+    gap: 0 6px;
+  }
+  .bkt-card-win .bkt-card-infographics > * {
+    padding-right: 0px;
+    padding-left: 0px;
+  }
+  .bkt-card-win .bkt-card-infographics .bkt-card__row {
+    padding: 15px 18px 14px 20px;
+  }
+  .bkt-card-win .bkt-card-infographics .bkt-card__row .bkt-card__feature .bkt-card__title {
+    font-size: 14px;
+  }
+  .bkt-card-win .bkt-card-infographics .bkt-card__row .bkt-card__feature .bkt-card__subtitle {
+    font-size: 10px;
+  }
+  .bkt-card-win .bkt-card-price-wrapper {
+    text-align: left;
+  }
+  .bkt-card-win .bkt-card-winner {
+    gap: 12px;
+  }
+  .bkt-card-win .bkt-card-winner__title {
+    font-size: 12px;
+  }
+  .bkt-card-win .bkt-card-winner__subtitle {
+    font-size: 10px;
+  }
+}
+@media screen and (max-width: 768px) {
+  .bkt-card-win .bkt-card-price-wrapper {
+    text-align: left;
+  }
 }
 @media screen and (max-width: 991px) {
-  .bkt-card-trade {
+  .bkt-card-trade, .bkt-card-win {
     border-top-left-radius: 0;
     border-top-right-radius: 0;
     border-bottom-left-radius: 18px;
     border-bottom-right-radius: 18px;
     padding: 25px;
   }
-  .bkt-card-trade .bkt-card__title {
+  .bkt-card-trade .bkt-card__title, .bkt-card-win .bkt-card__title {
     font-size: 15px;
   }
-  .bkt-card-trade.outline {
+  .bkt-card-trade.outline, .outline.bkt-card-win {
     padding: 12px 20px;
   }
-  .bkt-card-trade .bkt-card__heading {
+  .bkt-card-trade .bkt-card__heading, .bkt-card-win .bkt-card__heading {
     border-top-left-radius: 18px;
     border-top-right-radius: 18px;
     background: #2953ff;
@@ -15757,18 +15869,18 @@ textarea.form-control-lg {
     padding: 11px 24px;
     font-size: 8px;
   }
-  .bkt-card-trade .bkt-card__heading h5, .bkt-card-trade .bkt-card__heading .h5 {
+  .bkt-card-trade .bkt-card__heading h5, .bkt-card-win .bkt-card__heading h5, .bkt-card-trade .bkt-card__heading .h5, .bkt-card-win .bkt-card__heading .h5 {
     font-size: 10px;
     margin: 0;
   }
-  .bkt-card-trade .bkt-card-menu-button {
+  .bkt-card-trade .bkt-card-menu-button, .bkt-card-win .bkt-card-menu-button {
     width: 32px !important;
     height: 32px !important;
     padding: 7px !important;
   }
 }
 @media screen and (max-width: 1200px) {
-  .bkt-card-trade .bkt-card-price {
+  .bkt-card-trade .bkt-card-price, .bkt-card-win .bkt-card-price {
     font-size: 18px;
     font-family: "Gilroy", SansSerif;
     font-weight: 700;
@@ -15781,7 +15893,7 @@ textarea.form-control-lg {
     line-height: 1;
     text-align: center;
   }
-  .bkt-card-trade .bkt-card-price-icon {
+  .bkt-card-trade .bkt-card-price-icon, .bkt-card-win .bkt-card-price-icon {
     position: absolute;
     right: 6px;
     top: 6px;
@@ -15793,12 +15905,12 @@ textarea.form-control-lg {
     line-height: 1.2;
     box-shadow: 0px 11px 15px 0px rgba(13, 85, 21, 0.15);
   }
-  .bkt-card-trade .bkt-card.outline, .bkt-card-trade .outline.bkt-card__row, .bkt-card-trade .outline.bkt-shadow-card__inner {
+  .bkt-card-trade .bkt-card.outline, .bkt-card-win .bkt-card.outline, .bkt-card-trade .outline.bkt-card__row, .bkt-card-win .outline.bkt-card__row, .bkt-card-trade .outline.bkt-shadow-card__inner, .bkt-card-win .outline.bkt-shadow-card__inner {
     padding: 12px 20px;
   }
 }
 @media screen and (min-width: 1200px) {
-  .bkt-card-trade .bkt-card__image-slider .hooper-prev, .bkt-card-trade .bkt-card__image-slider .hooper-next {
+  .bkt-card-trade .bkt-card__image-slider .hooper-prev, .bkt-card-win .bkt-card__image-slider .hooper-prev, .bkt-card-trade .bkt-card__image-slider .hooper-next, .bkt-card-win .bkt-card__image-slider .hooper-next {
     border-radius: 10px;
     width: 30px;
     height: 30px;
@@ -15808,10 +15920,10 @@ textarea.form-control-lg {
     bottom: 15px;
     transform: none;
   }
-  .bkt-card-trade .bkt-card__image-slider .hooper-next {
+  .bkt-card-trade .bkt-card__image-slider .hooper-next, .bkt-card-win .bkt-card__image-slider .hooper-next {
     right: 15px;
   }
-  .bkt-card-trade .bkt-card__image-slider .hooper-prev {
+  .bkt-card-trade .bkt-card__image-slider .hooper-prev, .bkt-card-win .bkt-card__image-slider .hooper-prev {
     right: 61px;
     left: auto;
   }
@@ -15955,59 +16067,59 @@ textarea.form-control-lg {
   line-height: 1.833;
   font-size: 12px;
 }
-.bkt-main .bkt-card-trade.bkt-card, .bkt-main .bkt-card-trade.bkt-card__row, .bkt-main .bkt-card-trade.bkt-shadow-card__inner {
+.bkt-main .bkt-card-trade.bkt-card, .bkt-main .bkt-card.bkt-card-win, .bkt-main .bkt-card-trade.bkt-card__row, .bkt-main .bkt-card-win.bkt-card__row, .bkt-main .bkt-card-trade.bkt-shadow-card__inner, .bkt-main .bkt-card-win.bkt-shadow-card__inner {
   margin: 18px 0;
 }
-.bkt-main .bkt-card-trade.bkt-card .bkt-card__title, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card__title, .bkt-main .bkt-card-trade.bkt-shadow-card__inner .bkt-card__title {
+.bkt-main .bkt-card-trade.bkt-card .bkt-card__title, .bkt-main .bkt-card.bkt-card-win .bkt-card__title, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card__title, .bkt-main .bkt-card-win.bkt-card__row .bkt-card__title, .bkt-main .bkt-card-trade.bkt-shadow-card__inner .bkt-card__title, .bkt-main .bkt-card-win.bkt-shadow-card__inner .bkt-card__title {
   font-size: 22px;
 }
-.bkt-main .bkt-card-trade.bkt-card .bkt-card.vertical, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card.vertical, .bkt-main .bkt-card-trade.bkt-shadow-card__inner .bkt-card.vertical, .bkt-main .bkt-card-trade.bkt-card .vertical.bkt-card__row, .bkt-main .bkt-card-trade.bkt-card__row .vertical.bkt-card__row, .bkt-main .bkt-card-trade.bkt-shadow-card__inner .vertical.bkt-card__row, .bkt-main .bkt-card-trade.bkt-card .vertical.bkt-shadow-card__inner, .bkt-main .bkt-card-trade.bkt-card__row .vertical.bkt-shadow-card__inner, .bkt-main .bkt-card-trade.bkt-shadow-card__inner .vertical.bkt-shadow-card__inner {
+.bkt-main .bkt-card-trade.bkt-card .bkt-card.vertical, .bkt-main .bkt-card.bkt-card-win .bkt-card.vertical, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card.vertical, .bkt-main .bkt-card-win.bkt-card__row .bkt-card.vertical, .bkt-main .bkt-card-trade.bkt-shadow-card__inner .bkt-card.vertical, .bkt-main .bkt-card-win.bkt-shadow-card__inner .bkt-card.vertical, .bkt-main .bkt-card-trade.bkt-card .vertical.bkt-card__row, .bkt-main .bkt-card.bkt-card-win .vertical.bkt-card__row, .bkt-main .bkt-card-trade.bkt-card__row .vertical.bkt-card__row, .bkt-main .bkt-card-win.bkt-card__row .vertical.bkt-card__row, .bkt-main .bkt-card-trade.bkt-shadow-card__inner .vertical.bkt-card__row, .bkt-main .bkt-card-win.bkt-shadow-card__inner .vertical.bkt-card__row, .bkt-main .bkt-card-trade.bkt-card .vertical.bkt-shadow-card__inner, .bkt-main .bkt-card.bkt-card-win .vertical.bkt-shadow-card__inner, .bkt-main .bkt-card-trade.bkt-card__row .vertical.bkt-shadow-card__inner, .bkt-main .bkt-card-win.bkt-card__row .vertical.bkt-shadow-card__inner, .bkt-main .bkt-card-trade.bkt-shadow-card__inner .vertical.bkt-shadow-card__inner, .bkt-main .bkt-card-win.bkt-shadow-card__inner .vertical.bkt-shadow-card__inner {
   margin: 0;
   width: 76px;
 }
-.bkt-main .bkt-card-trade.bkt-card .bkt-card.vertical .bkt-button-ellipse, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card.vertical .bkt-button-ellipse, .bkt-main .bkt-card-trade.bkt-shadow-card__inner .bkt-card.vertical .bkt-button-ellipse, .bkt-main .bkt-card-trade.bkt-card .vertical.bkt-card__row .bkt-button-ellipse, .bkt-main .bkt-card-trade.bkt-card__row .vertical.bkt-card__row .bkt-button-ellipse, .bkt-main .bkt-card-trade.bkt-shadow-card__inner .vertical.bkt-card__row .bkt-button-ellipse, .bkt-main .bkt-card-trade.bkt-card .vertical.bkt-shadow-card__inner .bkt-button-ellipse, .bkt-main .bkt-card-trade.bkt-card__row .vertical.bkt-shadow-card__inner .bkt-button-ellipse, .bkt-main .bkt-card-trade.bkt-shadow-card__inner .vertical.bkt-shadow-card__inner .bkt-button-ellipse {
+.bkt-main .bkt-card-trade.bkt-card .bkt-card.vertical .bkt-button-ellipse, .bkt-main .bkt-card.bkt-card-win .bkt-card.vertical .bkt-button-ellipse, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card.vertical .bkt-button-ellipse, .bkt-main .bkt-card-win.bkt-card__row .bkt-card.vertical .bkt-button-ellipse, .bkt-main .bkt-card-trade.bkt-shadow-card__inner .bkt-card.vertical .bkt-button-ellipse, .bkt-main .bkt-card-win.bkt-shadow-card__inner .bkt-card.vertical .bkt-button-ellipse, .bkt-main .bkt-card-trade.bkt-card .vertical.bkt-card__row .bkt-button-ellipse, .bkt-main .bkt-card.bkt-card-win .vertical.bkt-card__row .bkt-button-ellipse, .bkt-main .bkt-card-trade.bkt-card__row .vertical.bkt-card__row .bkt-button-ellipse, .bkt-main .bkt-card-win.bkt-card__row .vertical.bkt-card__row .bkt-button-ellipse, .bkt-main .bkt-card-trade.bkt-shadow-card__inner .vertical.bkt-card__row .bkt-button-ellipse, .bkt-main .bkt-card-win.bkt-shadow-card__inner .vertical.bkt-card__row .bkt-button-ellipse, .bkt-main .bkt-card-trade.bkt-card .vertical.bkt-shadow-card__inner .bkt-button-ellipse, .bkt-main .bkt-card.bkt-card-win .vertical.bkt-shadow-card__inner .bkt-button-ellipse, .bkt-main .bkt-card-trade.bkt-card__row .vertical.bkt-shadow-card__inner .bkt-button-ellipse, .bkt-main .bkt-card-win.bkt-card__row .vertical.bkt-shadow-card__inner .bkt-button-ellipse, .bkt-main .bkt-card-trade.bkt-shadow-card__inner .vertical.bkt-shadow-card__inner .bkt-button-ellipse, .bkt-main .bkt-card-win.bkt-shadow-card__inner .vertical.bkt-shadow-card__inner .bkt-button-ellipse {
   margin: 3px;
   width: 44px;
   height: 44px;
 }
-.bkt-main .bkt-card-trade.bkt-card .bkt-card.vertical .bkt-button-ellipse:hover, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card.vertical .bkt-button-ellipse:hover, .bkt-main .bkt-card-trade.bkt-shadow-card__inner .bkt-card.vertical .bkt-button-ellipse:hover, .bkt-main .bkt-card-trade.bkt-card .vertical.bkt-card__row .bkt-button-ellipse:hover, .bkt-main .bkt-card-trade.bkt-card__row .vertical.bkt-card__row .bkt-button-ellipse:hover, .bkt-main .bkt-card-trade.bkt-shadow-card__inner .vertical.bkt-card__row .bkt-button-ellipse:hover, .bkt-main .bkt-card-trade.bkt-card .vertical.bkt-shadow-card__inner .bkt-button-ellipse:hover, .bkt-main .bkt-card-trade.bkt-card__row .vertical.bkt-shadow-card__inner .bkt-button-ellipse:hover, .bkt-main .bkt-card-trade.bkt-shadow-card__inner .vertical.bkt-shadow-card__inner .bkt-button-ellipse:hover {
+.bkt-main .bkt-card-trade.bkt-card .bkt-card.vertical .bkt-button-ellipse:hover, .bkt-main .bkt-card.bkt-card-win .bkt-card.vertical .bkt-button-ellipse:hover, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card.vertical .bkt-button-ellipse:hover, .bkt-main .bkt-card-win.bkt-card__row .bkt-card.vertical .bkt-button-ellipse:hover, .bkt-main .bkt-card-trade.bkt-shadow-card__inner .bkt-card.vertical .bkt-button-ellipse:hover, .bkt-main .bkt-card-win.bkt-shadow-card__inner .bkt-card.vertical .bkt-button-ellipse:hover, .bkt-main .bkt-card-trade.bkt-card .vertical.bkt-card__row .bkt-button-ellipse:hover, .bkt-main .bkt-card.bkt-card-win .vertical.bkt-card__row .bkt-button-ellipse:hover, .bkt-main .bkt-card-trade.bkt-card__row .vertical.bkt-card__row .bkt-button-ellipse:hover, .bkt-main .bkt-card-win.bkt-card__row .vertical.bkt-card__row .bkt-button-ellipse:hover, .bkt-main .bkt-card-trade.bkt-shadow-card__inner .vertical.bkt-card__row .bkt-button-ellipse:hover, .bkt-main .bkt-card-win.bkt-shadow-card__inner .vertical.bkt-card__row .bkt-button-ellipse:hover, .bkt-main .bkt-card-trade.bkt-card .vertical.bkt-shadow-card__inner .bkt-button-ellipse:hover, .bkt-main .bkt-card.bkt-card-win .vertical.bkt-shadow-card__inner .bkt-button-ellipse:hover, .bkt-main .bkt-card-trade.bkt-card__row .vertical.bkt-shadow-card__inner .bkt-button-ellipse:hover, .bkt-main .bkt-card-win.bkt-card__row .vertical.bkt-shadow-card__inner .bkt-button-ellipse:hover, .bkt-main .bkt-card-trade.bkt-shadow-card__inner .vertical.bkt-shadow-card__inner .bkt-button-ellipse:hover, .bkt-main .bkt-card-win.bkt-shadow-card__inner .vertical.bkt-shadow-card__inner .bkt-button-ellipse:hover {
   background: #ffc515;
 }
-.bkt-main .bkt-card-trade.bkt-card .bkt-card.vertical .bkt-button-ellipse:last-child:hover, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card.vertical .bkt-button-ellipse:last-child:hover, .bkt-main .bkt-card-trade.bkt-shadow-card__inner .bkt-card.vertical .bkt-button-ellipse:last-child:hover, .bkt-main .bkt-card-trade.bkt-card .vertical.bkt-card__row .bkt-button-ellipse:last-child:hover, .bkt-main .bkt-card-trade.bkt-card__row .vertical.bkt-card__row .bkt-button-ellipse:last-child:hover, .bkt-main .bkt-card-trade.bkt-shadow-card__inner .vertical.bkt-card__row .bkt-button-ellipse:last-child:hover, .bkt-main .bkt-card-trade.bkt-card .vertical.bkt-shadow-card__inner .bkt-button-ellipse:last-child:hover, .bkt-main .bkt-card-trade.bkt-card__row .vertical.bkt-shadow-card__inner .bkt-button-ellipse:last-child:hover, .bkt-main .bkt-card-trade.bkt-shadow-card__inner .vertical.bkt-shadow-card__inner .bkt-button-ellipse:last-child:hover {
+.bkt-main .bkt-card-trade.bkt-card .bkt-card.vertical .bkt-button-ellipse:last-child:hover, .bkt-main .bkt-card.bkt-card-win .bkt-card.vertical .bkt-button-ellipse:last-child:hover, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card.vertical .bkt-button-ellipse:last-child:hover, .bkt-main .bkt-card-win.bkt-card__row .bkt-card.vertical .bkt-button-ellipse:last-child:hover, .bkt-main .bkt-card-trade.bkt-shadow-card__inner .bkt-card.vertical .bkt-button-ellipse:last-child:hover, .bkt-main .bkt-card-win.bkt-shadow-card__inner .bkt-card.vertical .bkt-button-ellipse:last-child:hover, .bkt-main .bkt-card-trade.bkt-card .vertical.bkt-card__row .bkt-button-ellipse:last-child:hover, .bkt-main .bkt-card.bkt-card-win .vertical.bkt-card__row .bkt-button-ellipse:last-child:hover, .bkt-main .bkt-card-trade.bkt-card__row .vertical.bkt-card__row .bkt-button-ellipse:last-child:hover, .bkt-main .bkt-card-win.bkt-card__row .vertical.bkt-card__row .bkt-button-ellipse:last-child:hover, .bkt-main .bkt-card-trade.bkt-shadow-card__inner .vertical.bkt-card__row .bkt-button-ellipse:last-child:hover, .bkt-main .bkt-card-win.bkt-shadow-card__inner .vertical.bkt-card__row .bkt-button-ellipse:last-child:hover, .bkt-main .bkt-card-trade.bkt-card .vertical.bkt-shadow-card__inner .bkt-button-ellipse:last-child:hover, .bkt-main .bkt-card.bkt-card-win .vertical.bkt-shadow-card__inner .bkt-button-ellipse:last-child:hover, .bkt-main .bkt-card-trade.bkt-card__row .vertical.bkt-shadow-card__inner .bkt-button-ellipse:last-child:hover, .bkt-main .bkt-card-win.bkt-card__row .vertical.bkt-shadow-card__inner .bkt-button-ellipse:last-child:hover, .bkt-main .bkt-card-trade.bkt-shadow-card__inner .vertical.bkt-shadow-card__inner .bkt-button-ellipse:last-child:hover, .bkt-main .bkt-card-win.bkt-shadow-card__inner .vertical.bkt-shadow-card__inner .bkt-button-ellipse:last-child:hover {
   background: transparent;
 }
-.bkt-main .bkt-card-trade.bkt-card .bkt-card-infographics, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card-infographics, .bkt-main .bkt-card-trade.bkt-shadow-card__inner .bkt-card-infographics {
+.bkt-main .bkt-card-trade.bkt-card .bkt-card-infographics, .bkt-main .bkt-card.bkt-card-win .bkt-card-infographics, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card-infographics, .bkt-main .bkt-card-win.bkt-card__row .bkt-card-infographics, .bkt-main .bkt-card-trade.bkt-shadow-card__inner .bkt-card-infographics, .bkt-main .bkt-card-win.bkt-shadow-card__inner .bkt-card-infographics {
   gap: 0 6px;
 }
-.bkt-main .bkt-card-trade.bkt-card .bkt-card-infographics .bkt-card, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card-infographics .bkt-card, .bkt-main .bkt-card-trade.bkt-shadow-card__inner .bkt-card-infographics .bkt-card, .bkt-main .bkt-card-trade.bkt-card .bkt-card-infographics .bkt-card__row, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card-infographics .bkt-card__row, .bkt-main .bkt-card-trade.bkt-shadow-card__inner .bkt-card-infographics .bkt-card__row, .bkt-main .bkt-card-trade.bkt-card .bkt-card-infographics .bkt-shadow-card__inner, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card-infographics .bkt-shadow-card__inner, .bkt-main .bkt-card-trade.bkt-shadow-card__inner .bkt-card-infographics .bkt-shadow-card__inner {
+.bkt-main .bkt-card-trade.bkt-card .bkt-card-infographics .bkt-card, .bkt-main .bkt-card.bkt-card-win .bkt-card-infographics .bkt-card, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card-infographics .bkt-card, .bkt-main .bkt-card-win.bkt-card__row .bkt-card-infographics .bkt-card, .bkt-main .bkt-card-trade.bkt-shadow-card__inner .bkt-card-infographics .bkt-card, .bkt-main .bkt-card-win.bkt-shadow-card__inner .bkt-card-infographics .bkt-card, .bkt-main .bkt-card-trade.bkt-card .bkt-card-infographics .bkt-card__row, .bkt-main .bkt-card.bkt-card-win .bkt-card-infographics .bkt-card__row, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card-infographics .bkt-card__row, .bkt-main .bkt-card-win.bkt-card__row .bkt-card-infographics .bkt-card__row, .bkt-main .bkt-card-trade.bkt-shadow-card__inner .bkt-card-infographics .bkt-card__row, .bkt-main .bkt-card-win.bkt-shadow-card__inner .bkt-card-infographics .bkt-card__row, .bkt-main .bkt-card-trade.bkt-card .bkt-card-infographics .bkt-shadow-card__inner, .bkt-main .bkt-card.bkt-card-win .bkt-card-infographics .bkt-shadow-card__inner, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card-infographics .bkt-shadow-card__inner, .bkt-main .bkt-card-win.bkt-card__row .bkt-card-infographics .bkt-shadow-card__inner, .bkt-main .bkt-card-trade.bkt-shadow-card__inner .bkt-card-infographics .bkt-shadow-card__inner, .bkt-main .bkt-card-win.bkt-shadow-card__inner .bkt-card-infographics .bkt-shadow-card__inner {
   margin-bottom: 3px;
   margin-top: 3px;
 }
-.bkt-main .bkt-card-trade.bkt-card .bkt-card-infographics .bkt-card .bkt-card__feature, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card-infographics .bkt-card .bkt-card__feature, .bkt-main .bkt-card-trade.bkt-shadow-card__inner .bkt-card-infographics .bkt-card .bkt-card__feature, .bkt-main .bkt-card-trade.bkt-card .bkt-card-infographics .bkt-card__row .bkt-card__feature, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card-infographics .bkt-card__row .bkt-card__feature, .bkt-main .bkt-card-trade.bkt-shadow-card__inner .bkt-card-infographics .bkt-card__row .bkt-card__feature, .bkt-main .bkt-card-trade.bkt-card .bkt-card-infographics .bkt-shadow-card__inner .bkt-card__feature, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card-infographics .bkt-shadow-card__inner .bkt-card__feature, .bkt-main .bkt-card-trade.bkt-shadow-card__inner .bkt-card-infographics .bkt-shadow-card__inner .bkt-card__feature {
+.bkt-main .bkt-card-trade.bkt-card .bkt-card-infographics .bkt-card .bkt-card__feature, .bkt-main .bkt-card.bkt-card-win .bkt-card-infographics .bkt-card .bkt-card__feature, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card-infographics .bkt-card .bkt-card__feature, .bkt-main .bkt-card-win.bkt-card__row .bkt-card-infographics .bkt-card .bkt-card__feature, .bkt-main .bkt-card-trade.bkt-shadow-card__inner .bkt-card-infographics .bkt-card .bkt-card__feature, .bkt-main .bkt-card-win.bkt-shadow-card__inner .bkt-card-infographics .bkt-card .bkt-card__feature, .bkt-main .bkt-card-trade.bkt-card .bkt-card-infographics .bkt-card__row .bkt-card__feature, .bkt-main .bkt-card.bkt-card-win .bkt-card-infographics .bkt-card__row .bkt-card__feature, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card-infographics .bkt-card__row .bkt-card__feature, .bkt-main .bkt-card-win.bkt-card__row .bkt-card-infographics .bkt-card__row .bkt-card__feature, .bkt-main .bkt-card-trade.bkt-shadow-card__inner .bkt-card-infographics .bkt-card__row .bkt-card__feature, .bkt-main .bkt-card-win.bkt-shadow-card__inner .bkt-card-infographics .bkt-card__row .bkt-card__feature, .bkt-main .bkt-card-trade.bkt-card .bkt-card-infographics .bkt-shadow-card__inner .bkt-card__feature, .bkt-main .bkt-card.bkt-card-win .bkt-card-infographics .bkt-shadow-card__inner .bkt-card__feature, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card-infographics .bkt-shadow-card__inner .bkt-card__feature, .bkt-main .bkt-card-win.bkt-card__row .bkt-card-infographics .bkt-shadow-card__inner .bkt-card__feature, .bkt-main .bkt-card-trade.bkt-shadow-card__inner .bkt-card-infographics .bkt-shadow-card__inner .bkt-card__feature, .bkt-main .bkt-card-win.bkt-shadow-card__inner .bkt-card-infographics .bkt-shadow-card__inner .bkt-card__feature {
   margin: 0;
 }
-.bkt-main .bkt-card-trade.bkt-card .bkt-card-infographics .bkt-card .bkt-card__feature .bkt-card__subtitle, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card-infographics .bkt-card .bkt-card__feature .bkt-card__subtitle, .bkt-main .bkt-card-trade.bkt-shadow-card__inner .bkt-card-infographics .bkt-card .bkt-card__feature .bkt-card__subtitle, .bkt-main .bkt-card-trade.bkt-card .bkt-card-infographics .bkt-card__row .bkt-card__feature .bkt-card__subtitle, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card-infographics .bkt-card__row .bkt-card__feature .bkt-card__subtitle, .bkt-main .bkt-card-trade.bkt-shadow-card__inner .bkt-card-infographics .bkt-card__row .bkt-card__feature .bkt-card__subtitle, .bkt-main .bkt-card-trade.bkt-card .bkt-card-infographics .bkt-shadow-card__inner .bkt-card__feature .bkt-card__subtitle, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card-infographics .bkt-shadow-card__inner .bkt-card__feature .bkt-card__subtitle, .bkt-main .bkt-card-trade.bkt-shadow-card__inner .bkt-card-infographics .bkt-shadow-card__inner .bkt-card__feature .bkt-card__subtitle {
+.bkt-main .bkt-card-trade.bkt-card .bkt-card-infographics .bkt-card .bkt-card__feature .bkt-card__subtitle, .bkt-main .bkt-card.bkt-card-win .bkt-card-infographics .bkt-card .bkt-card__feature .bkt-card__subtitle, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card-infographics .bkt-card .bkt-card__feature .bkt-card__subtitle, .bkt-main .bkt-card-win.bkt-card__row .bkt-card-infographics .bkt-card .bkt-card__feature .bkt-card__subtitle, .bkt-main .bkt-card-trade.bkt-shadow-card__inner .bkt-card-infographics .bkt-card .bkt-card__feature .bkt-card__subtitle, .bkt-main .bkt-card-win.bkt-shadow-card__inner .bkt-card-infographics .bkt-card .bkt-card__feature .bkt-card__subtitle, .bkt-main .bkt-card-trade.bkt-card .bkt-card-infographics .bkt-card__row .bkt-card__feature .bkt-card__subtitle, .bkt-main .bkt-card.bkt-card-win .bkt-card-infographics .bkt-card__row .bkt-card__feature .bkt-card__subtitle, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card-infographics .bkt-card__row .bkt-card__feature .bkt-card__subtitle, .bkt-main .bkt-card-win.bkt-card__row .bkt-card-infographics .bkt-card__row .bkt-card__feature .bkt-card__subtitle, .bkt-main .bkt-card-trade.bkt-shadow-card__inner .bkt-card-infographics .bkt-card__row .bkt-card__feature .bkt-card__subtitle, .bkt-main .bkt-card-win.bkt-shadow-card__inner .bkt-card-infographics .bkt-card__row .bkt-card__feature .bkt-card__subtitle, .bkt-main .bkt-card-trade.bkt-card .bkt-card-infographics .bkt-shadow-card__inner .bkt-card__feature .bkt-card__subtitle, .bkt-main .bkt-card.bkt-card-win .bkt-card-infographics .bkt-shadow-card__inner .bkt-card__feature .bkt-card__subtitle, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card-infographics .bkt-shadow-card__inner .bkt-card__feature .bkt-card__subtitle, .bkt-main .bkt-card-win.bkt-card__row .bkt-card-infographics .bkt-shadow-card__inner .bkt-card__feature .bkt-card__subtitle, .bkt-main .bkt-card-trade.bkt-shadow-card__inner .bkt-card-infographics .bkt-shadow-card__inner .bkt-card__feature .bkt-card__subtitle, .bkt-main .bkt-card-win.bkt-shadow-card__inner .bkt-card-infographics .bkt-shadow-card__inner .bkt-card__feature .bkt-card__subtitle {
   margin: 0;
 }
-.bkt-main .bkt-card-trade.bkt-card .bkt-card-period, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card-period, .bkt-main .bkt-card-trade.bkt-shadow-card__inner .bkt-card-period {
+.bkt-main .bkt-card-trade.bkt-card .bkt-card-period, .bkt-main .bkt-card.bkt-card-win .bkt-card-period, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card-period, .bkt-main .bkt-card-win.bkt-card__row .bkt-card-period, .bkt-main .bkt-card-trade.bkt-shadow-card__inner .bkt-card-period, .bkt-main .bkt-card-win.bkt-shadow-card__inner .bkt-card-period {
   margin-bottom: 15px;
   margin-top: 15px;
   flex-wrap: nowrap;
 }
-.bkt-main .bkt-card-trade.bkt-card .bkt-card-period h6, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card-period h6, .bkt-main .bkt-card-trade.bkt-shadow-card__inner .bkt-card-period h6, .bkt-main .bkt-card-trade.bkt-card .bkt-card-period .h6, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card-period .h6, .bkt-main .bkt-card-trade.bkt-shadow-card__inner .bkt-card-period .h6 {
+.bkt-main .bkt-card-trade.bkt-card .bkt-card-period h6, .bkt-main .bkt-card.bkt-card-win .bkt-card-period h6, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card-period h6, .bkt-main .bkt-card-win.bkt-card__row .bkt-card-period h6, .bkt-main .bkt-card-trade.bkt-shadow-card__inner .bkt-card-period h6, .bkt-main .bkt-card-win.bkt-shadow-card__inner .bkt-card-period h6, .bkt-main .bkt-card-trade.bkt-card .bkt-card-period .h6, .bkt-main .bkt-card.bkt-card-win .bkt-card-period .h6, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card-period .h6, .bkt-main .bkt-card-win.bkt-card__row .bkt-card-period .h6, .bkt-main .bkt-card-trade.bkt-shadow-card__inner .bkt-card-period .h6, .bkt-main .bkt-card-win.bkt-shadow-card__inner .bkt-card-period .h6 {
   line-height: 18px;
   margin: 0;
 }
-.bkt-main .bkt-card-trade.bkt-card .bkt-card-period .bkt-card__category, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card-period .bkt-card__category, .bkt-main .bkt-card-trade.bkt-shadow-card__inner .bkt-card-period .bkt-card__category {
+.bkt-main .bkt-card-trade.bkt-card .bkt-card-period .bkt-card__category, .bkt-main .bkt-card.bkt-card-win .bkt-card-period .bkt-card__category, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card-period .bkt-card__category, .bkt-main .bkt-card-win.bkt-card__row .bkt-card-period .bkt-card__category, .bkt-main .bkt-card-trade.bkt-shadow-card__inner .bkt-card-period .bkt-card__category, .bkt-main .bkt-card-win.bkt-shadow-card__inner .bkt-card-period .bkt-card__category {
   height: 56px;
   margin-right: 15px;
   flex-shrink: 0;
 }
-.bkt-main .bkt-card-trade.bkt-card .bkt-card-period .bkt-card__category-icon, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card-period .bkt-card__category-icon, .bkt-main .bkt-card-trade.bkt-shadow-card__inner .bkt-card-period .bkt-card__category-icon {
+.bkt-main .bkt-card-trade.bkt-card .bkt-card-period .bkt-card__category-icon, .bkt-main .bkt-card.bkt-card-win .bkt-card-period .bkt-card__category-icon, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card-period .bkt-card__category-icon, .bkt-main .bkt-card-win.bkt-card__row .bkt-card-period .bkt-card__category-icon, .bkt-main .bkt-card-trade.bkt-shadow-card__inner .bkt-card-period .bkt-card__category-icon, .bkt-main .bkt-card-win.bkt-shadow-card__inner .bkt-card-period .bkt-card__category-icon {
   max-width: 16px;
   max-height: 16px;
 }
-.bkt-main .bkt-card-trade.bkt-card .bkt-card-price, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card-price, .bkt-main .bkt-card-trade.bkt-shadow-card__inner .bkt-card-price {
+.bkt-main .bkt-card-trade.bkt-card .bkt-card-price, .bkt-main .bkt-card.bkt-card-win .bkt-card-price, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card-price, .bkt-main .bkt-card-win.bkt-card__row .bkt-card-price, .bkt-main .bkt-card-trade.bkt-shadow-card__inner .bkt-card-price, .bkt-main .bkt-card-win.bkt-shadow-card__inner .bkt-card-price {
   font-size: 30px;
   font-family: "Gilroy";
   font-weight: 700;
@@ -16020,7 +16132,7 @@ textarea.form-control-lg {
   line-height: 1;
   text-align: left;
 }
-.bkt-main .bkt-card-trade.bkt-card .bkt-card-price-icon, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card-price-icon, .bkt-main .bkt-card-trade.bkt-shadow-card__inner .bkt-card-price-icon {
+.bkt-main .bkt-card-trade.bkt-card .bkt-card-price-icon, .bkt-main .bkt-card.bkt-card-win .bkt-card-price-icon, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card-price-icon, .bkt-main .bkt-card-win.bkt-card__row .bkt-card-price-icon, .bkt-main .bkt-card-trade.bkt-shadow-card__inner .bkt-card-price-icon, .bkt-main .bkt-card-win.bkt-shadow-card__inner .bkt-card-price-icon {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -16035,7 +16147,7 @@ textarea.form-control-lg {
   line-height: 1.2;
   box-shadow: 0px 11px 15px 0px rgba(13, 85, 21, 0.15);
 }
-.bkt-main .bkt-card-trade.bkt-card .bkt-card-menu, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card-menu, .bkt-main .bkt-card-trade.bkt-shadow-card__inner .bkt-card-menu {
+.bkt-main .bkt-card-trade.bkt-card .bkt-card-menu, .bkt-main .bkt-card.bkt-card-win .bkt-card-menu, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card-menu, .bkt-main .bkt-card-win.bkt-card__row .bkt-card-menu, .bkt-main .bkt-card-trade.bkt-shadow-card__inner .bkt-card-menu, .bkt-main .bkt-card-win.bkt-shadow-card__inner .bkt-card-menu {
   background-color: #2d3244;
   width: 230px;
   height: 386px;
@@ -16043,7 +16155,7 @@ textarea.form-control-lg {
   padding: 25px;
   top: 37px;
 }
-.bkt-main .bkt-card-trade.bkt-card .bkt-card-menu::before, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card-menu::before, .bkt-main .bkt-card-trade.bkt-shadow-card__inner .bkt-card-menu::before {
+.bkt-main .bkt-card-trade.bkt-card .bkt-card-menu::before, .bkt-main .bkt-card.bkt-card-win .bkt-card-menu::before, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card-menu::before, .bkt-main .bkt-card-win.bkt-card__row .bkt-card-menu::before, .bkt-main .bkt-card-trade.bkt-shadow-card__inner .bkt-card-menu::before, .bkt-main .bkt-card-win.bkt-shadow-card__inner .bkt-card-menu::before {
   position: absolute;
   top: -10px;
   right: 0;
@@ -16052,12 +16164,12 @@ textarea.form-control-lg {
   border-width: 10px 8px 0 0;
   border-color: transparent #2d3244 transparent transparent;
 }
-.bkt-main .bkt-card-trade.bkt-card .bkt-card-menu .bkt-card-menu-inner, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card-menu .bkt-card-menu-inner, .bkt-main .bkt-card-trade.bkt-shadow-card__inner .bkt-card-menu .bkt-card-menu-inner {
+.bkt-main .bkt-card-trade.bkt-card .bkt-card-menu .bkt-card-menu-inner, .bkt-main .bkt-card.bkt-card-win .bkt-card-menu .bkt-card-menu-inner, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card-menu .bkt-card-menu-inner, .bkt-main .bkt-card-win.bkt-card__row .bkt-card-menu .bkt-card-menu-inner, .bkt-main .bkt-card-trade.bkt-shadow-card__inner .bkt-card-menu .bkt-card-menu-inner, .bkt-main .bkt-card-win.bkt-shadow-card__inner .bkt-card-menu .bkt-card-menu-inner {
   gap: 6px;
   display: flex;
   flex-direction: column;
 }
-.bkt-main .bkt-card-trade.bkt-card .bkt-card-menu .bkt-button, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card-menu .bkt-button, .bkt-main .bkt-card-trade.bkt-shadow-card__inner .bkt-card-menu .bkt-button, .bkt-main .bkt-card-trade.bkt-card .bkt-card-menu .bkt-button-link, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card-menu .bkt-button-link, .bkt-main .bkt-card-trade.bkt-shadow-card__inner .bkt-card-menu .bkt-button-link, .bkt-main .bkt-card-trade.bkt-card .bkt-card-menu .bkt-button-icon, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card-menu .bkt-button-icon, .bkt-main .bkt-card-trade.bkt-shadow-card__inner .bkt-card-menu .bkt-button-icon {
+.bkt-main .bkt-card-trade.bkt-card .bkt-card-menu .bkt-button, .bkt-main .bkt-card.bkt-card-win .bkt-card-menu .bkt-button, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card-menu .bkt-button, .bkt-main .bkt-card-win.bkt-card__row .bkt-card-menu .bkt-button, .bkt-main .bkt-card-trade.bkt-shadow-card__inner .bkt-card-menu .bkt-button, .bkt-main .bkt-card-win.bkt-shadow-card__inner .bkt-card-menu .bkt-button, .bkt-main .bkt-card-trade.bkt-card .bkt-card-menu .bkt-button-link, .bkt-main .bkt-card.bkt-card-win .bkt-card-menu .bkt-button-link, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card-menu .bkt-button-link, .bkt-main .bkt-card-win.bkt-card__row .bkt-card-menu .bkt-button-link, .bkt-main .bkt-card-trade.bkt-shadow-card__inner .bkt-card-menu .bkt-button-link, .bkt-main .bkt-card-win.bkt-shadow-card__inner .bkt-card-menu .bkt-button-link, .bkt-main .bkt-card-trade.bkt-card .bkt-card-menu .bkt-button-icon, .bkt-main .bkt-card.bkt-card-win .bkt-card-menu .bkt-button-icon, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card-menu .bkt-button-icon, .bkt-main .bkt-card-win.bkt-card__row .bkt-card-menu .bkt-button-icon, .bkt-main .bkt-card-trade.bkt-shadow-card__inner .bkt-card-menu .bkt-button-icon, .bkt-main .bkt-card-win.bkt-shadow-card__inner .bkt-card-menu .bkt-button-icon {
   font-size: 12px;
   padding: 15px;
   width: 100%;
@@ -16068,7 +16180,7 @@ textarea.form-control-lg {
   align-items: center;
   position: relative;
 }
-.bkt-main .bkt-card-trade.bkt-card .bkt-card-menu .bkt-button .info, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card-menu .bkt-button .info, .bkt-main .bkt-card-trade.bkt-shadow-card__inner .bkt-card-menu .bkt-button .info, .bkt-main .bkt-card-trade.bkt-card .bkt-card-menu .bkt-button-link .info, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card-menu .bkt-button-link .info, .bkt-main .bkt-card-trade.bkt-shadow-card__inner .bkt-card-menu .bkt-button-link .info, .bkt-main .bkt-card-trade.bkt-card .bkt-card-menu .bkt-button-icon .info, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card-menu .bkt-button-icon .info, .bkt-main .bkt-card-trade.bkt-shadow-card__inner .bkt-card-menu .bkt-button-icon .info {
+.bkt-main .bkt-card-trade.bkt-card .bkt-card-menu .bkt-button .info, .bkt-main .bkt-card.bkt-card-win .bkt-card-menu .bkt-button .info, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card-menu .bkt-button .info, .bkt-main .bkt-card-win.bkt-card__row .bkt-card-menu .bkt-button .info, .bkt-main .bkt-card-trade.bkt-shadow-card__inner .bkt-card-menu .bkt-button .info, .bkt-main .bkt-card-win.bkt-shadow-card__inner .bkt-card-menu .bkt-button .info, .bkt-main .bkt-card-trade.bkt-card .bkt-card-menu .bkt-button-link .info, .bkt-main .bkt-card.bkt-card-win .bkt-card-menu .bkt-button-link .info, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card-menu .bkt-button-link .info, .bkt-main .bkt-card-win.bkt-card__row .bkt-card-menu .bkt-button-link .info, .bkt-main .bkt-card-trade.bkt-shadow-card__inner .bkt-card-menu .bkt-button-link .info, .bkt-main .bkt-card-win.bkt-shadow-card__inner .bkt-card-menu .bkt-button-link .info, .bkt-main .bkt-card-trade.bkt-card .bkt-card-menu .bkt-button-icon .info, .bkt-main .bkt-card.bkt-card-win .bkt-card-menu .bkt-button-icon .info, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card-menu .bkt-button-icon .info, .bkt-main .bkt-card-win.bkt-card__row .bkt-card-menu .bkt-button-icon .info, .bkt-main .bkt-card-trade.bkt-shadow-card__inner .bkt-card-menu .bkt-button-icon .info, .bkt-main .bkt-card-win.bkt-shadow-card__inner .bkt-card-menu .bkt-button-icon .info {
   position: absolute;
   background: #2fbb40;
   top: 18px;
@@ -16077,21 +16189,21 @@ textarea.form-control-lg {
   height: 7px;
   border-radius: 100%;
 }
-.bkt-main .bkt-card-trade.bkt-card .bkt-card-menu .bkt-button .bkt-button__icon, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card-menu .bkt-button .bkt-button__icon, .bkt-main .bkt-card-trade.bkt-shadow-card__inner .bkt-card-menu .bkt-button .bkt-button__icon, .bkt-main .bkt-card-trade.bkt-card .bkt-card-menu .bkt-button-link .bkt-button__icon, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card-menu .bkt-button-link .bkt-button__icon, .bkt-main .bkt-card-trade.bkt-shadow-card__inner .bkt-card-menu .bkt-button-link .bkt-button__icon, .bkt-main .bkt-card-trade.bkt-card .bkt-card-menu .bkt-button-icon .bkt-button__icon, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card-menu .bkt-button-icon .bkt-button__icon, .bkt-main .bkt-card-trade.bkt-shadow-card__inner .bkt-card-menu .bkt-button-icon .bkt-button__icon {
+.bkt-main .bkt-card-trade.bkt-card .bkt-card-menu .bkt-button .bkt-button__icon, .bkt-main .bkt-card.bkt-card-win .bkt-card-menu .bkt-button .bkt-button__icon, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card-menu .bkt-button .bkt-button__icon, .bkt-main .bkt-card-win.bkt-card__row .bkt-card-menu .bkt-button .bkt-button__icon, .bkt-main .bkt-card-trade.bkt-shadow-card__inner .bkt-card-menu .bkt-button .bkt-button__icon, .bkt-main .bkt-card-win.bkt-shadow-card__inner .bkt-card-menu .bkt-button .bkt-button__icon, .bkt-main .bkt-card-trade.bkt-card .bkt-card-menu .bkt-button-link .bkt-button__icon, .bkt-main .bkt-card.bkt-card-win .bkt-card-menu .bkt-button-link .bkt-button__icon, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card-menu .bkt-button-link .bkt-button__icon, .bkt-main .bkt-card-win.bkt-card__row .bkt-card-menu .bkt-button-link .bkt-button__icon, .bkt-main .bkt-card-trade.bkt-shadow-card__inner .bkt-card-menu .bkt-button-link .bkt-button__icon, .bkt-main .bkt-card-win.bkt-shadow-card__inner .bkt-card-menu .bkt-button-link .bkt-button__icon, .bkt-main .bkt-card-trade.bkt-card .bkt-card-menu .bkt-button-icon .bkt-button__icon, .bkt-main .bkt-card.bkt-card-win .bkt-card-menu .bkt-button-icon .bkt-button__icon, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card-menu .bkt-button-icon .bkt-button__icon, .bkt-main .bkt-card-win.bkt-card__row .bkt-card-menu .bkt-button-icon .bkt-button__icon, .bkt-main .bkt-card-trade.bkt-shadow-card__inner .bkt-card-menu .bkt-button-icon .bkt-button__icon, .bkt-main .bkt-card-win.bkt-shadow-card__inner .bkt-card-menu .bkt-button-icon .bkt-button__icon {
   max-width: 18px;
   max-height: 17px;
   margin-right: 12px;
 }
-.bkt-main .bkt-card-trade.bkt-card .bkt-card-menu-button, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card-menu-button, .bkt-main .bkt-card-trade.bkt-shadow-card__inner .bkt-card-menu-button {
+.bkt-main .bkt-card-trade.bkt-card .bkt-card-menu-button, .bkt-main .bkt-card.bkt-card-win .bkt-card-menu-button, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card-menu-button, .bkt-main .bkt-card-win.bkt-card__row .bkt-card-menu-button, .bkt-main .bkt-card-trade.bkt-shadow-card__inner .bkt-card-menu-button, .bkt-main .bkt-card-win.bkt-shadow-card__inner .bkt-card-menu-button {
   width: 44px;
   height: 44px;
   padding: 12px;
   border-radius: 10px;
 }
-.bkt-main .bkt-card-trade.bkt-card .bkt-card-menu-button svg, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card-menu-button svg, .bkt-main .bkt-card-trade.bkt-shadow-card__inner .bkt-card-menu-button svg {
+.bkt-main .bkt-card-trade.bkt-card .bkt-card-menu-button svg, .bkt-main .bkt-card.bkt-card-win .bkt-card-menu-button svg, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card-menu-button svg, .bkt-main .bkt-card-win.bkt-card__row .bkt-card-menu-button svg, .bkt-main .bkt-card-trade.bkt-shadow-card__inner .bkt-card-menu-button svg, .bkt-main .bkt-card-win.bkt-shadow-card__inner .bkt-card-menu-button svg {
   transform: rotate(90deg);
 }
-.bkt-main .bkt-card-trade.bkt-card .bkt-card__image-slider .hooper-prev, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card__image-slider .hooper-prev, .bkt-main .bkt-card-trade.bkt-shadow-card__inner .bkt-card__image-slider .hooper-prev, .bkt-main .bkt-card-trade.bkt-card .bkt-card__image-slider .hooper-next, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card__image-slider .hooper-next, .bkt-main .bkt-card-trade.bkt-shadow-card__inner .bkt-card__image-slider .hooper-next {
+.bkt-main .bkt-card-trade.bkt-card .bkt-card__image-slider .hooper-prev, .bkt-main .bkt-card.bkt-card-win .bkt-card__image-slider .hooper-prev, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card__image-slider .hooper-prev, .bkt-main .bkt-card-win.bkt-card__row .bkt-card__image-slider .hooper-prev, .bkt-main .bkt-card-trade.bkt-shadow-card__inner .bkt-card__image-slider .hooper-prev, .bkt-main .bkt-card-win.bkt-shadow-card__inner .bkt-card__image-slider .hooper-prev, .bkt-main .bkt-card-trade.bkt-card .bkt-card__image-slider .hooper-next, .bkt-main .bkt-card.bkt-card-win .bkt-card__image-slider .hooper-next, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card__image-slider .hooper-next, .bkt-main .bkt-card-win.bkt-card__row .bkt-card__image-slider .hooper-next, .bkt-main .bkt-card-trade.bkt-shadow-card__inner .bkt-card__image-slider .hooper-next, .bkt-main .bkt-card-win.bkt-shadow-card__inner .bkt-card__image-slider .hooper-next {
   border-radius: 10px;
   background-color: rgb(255, 255, 255);
   width: 30px;
@@ -16101,30 +16213,30 @@ textarea.form-control-lg {
   align-items: center;
   justify-content: center;
 }
-.bkt-main .bkt-card-trade.bkt-card .bkt-card__image-slider .hooper-prev svg, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card__image-slider .hooper-prev svg, .bkt-main .bkt-card-trade.bkt-shadow-card__inner .bkt-card__image-slider .hooper-prev svg, .bkt-main .bkt-card-trade.bkt-card .bkt-card__image-slider .hooper-next svg, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card__image-slider .hooper-next svg, .bkt-main .bkt-card-trade.bkt-shadow-card__inner .bkt-card__image-slider .hooper-next svg {
+.bkt-main .bkt-card-trade.bkt-card .bkt-card__image-slider .hooper-prev svg, .bkt-main .bkt-card.bkt-card-win .bkt-card__image-slider .hooper-prev svg, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card__image-slider .hooper-prev svg, .bkt-main .bkt-card-win.bkt-card__row .bkt-card__image-slider .hooper-prev svg, .bkt-main .bkt-card-trade.bkt-shadow-card__inner .bkt-card__image-slider .hooper-prev svg, .bkt-main .bkt-card-win.bkt-shadow-card__inner .bkt-card__image-slider .hooper-prev svg, .bkt-main .bkt-card-trade.bkt-card .bkt-card__image-slider .hooper-next svg, .bkt-main .bkt-card.bkt-card-win .bkt-card__image-slider .hooper-next svg, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card__image-slider .hooper-next svg, .bkt-main .bkt-card-win.bkt-card__row .bkt-card__image-slider .hooper-next svg, .bkt-main .bkt-card-trade.bkt-shadow-card__inner .bkt-card__image-slider .hooper-next svg, .bkt-main .bkt-card-win.bkt-shadow-card__inner .bkt-card__image-slider .hooper-next svg {
   fill: #2953ff;
 }
-.bkt-main .bkt-card-trade.bkt-card .bkt-card__image-slider .hooper-next, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card__image-slider .hooper-next, .bkt-main .bkt-card-trade.bkt-shadow-card__inner .bkt-card__image-slider .hooper-next {
+.bkt-main .bkt-card-trade.bkt-card .bkt-card__image-slider .hooper-next, .bkt-main .bkt-card.bkt-card-win .bkt-card__image-slider .hooper-next, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card__image-slider .hooper-next, .bkt-main .bkt-card-win.bkt-card__row .bkt-card__image-slider .hooper-next, .bkt-main .bkt-card-trade.bkt-shadow-card__inner .bkt-card__image-slider .hooper-next, .bkt-main .bkt-card-win.bkt-shadow-card__inner .bkt-card__image-slider .hooper-next {
   right: 10px;
 }
-.bkt-main .bkt-card-trade.bkt-card .bkt-card__image-slider .hooper-prev, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card__image-slider .hooper-prev, .bkt-main .bkt-card-trade.bkt-shadow-card__inner .bkt-card__image-slider .hooper-prev {
+.bkt-main .bkt-card-trade.bkt-card .bkt-card__image-slider .hooper-prev, .bkt-main .bkt-card.bkt-card-win .bkt-card__image-slider .hooper-prev, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card__image-slider .hooper-prev, .bkt-main .bkt-card-win.bkt-card__row .bkt-card__image-slider .hooper-prev, .bkt-main .bkt-card-trade.bkt-shadow-card__inner .bkt-card__image-slider .hooper-prev, .bkt-main .bkt-card-win.bkt-shadow-card__inner .bkt-card__image-slider .hooper-prev {
   left: 10px;
 }
-.bkt-main .bkt-card-trade.bkt-card .bkt-card-image-wrapper, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card-image-wrapper, .bkt-main .bkt-card-trade.bkt-shadow-card__inner .bkt-card-image-wrapper {
+.bkt-main .bkt-card-trade.bkt-card .bkt-card-image-wrapper, .bkt-main .bkt-card.bkt-card-win .bkt-card-image-wrapper, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card-image-wrapper, .bkt-main .bkt-card-win.bkt-card__row .bkt-card-image-wrapper, .bkt-main .bkt-card-trade.bkt-shadow-card__inner .bkt-card-image-wrapper, .bkt-main .bkt-card-win.bkt-shadow-card__inner .bkt-card-image-wrapper {
   gap: 25px;
   display: flex;
   flex-flow: column;
 }
-.bkt-main .bkt-card-trade.bkt-card .bkt-card-ecp-wrapper, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card-ecp-wrapper, .bkt-main .bkt-card-trade.bkt-shadow-card__inner .bkt-card-ecp-wrapper {
+.bkt-main .bkt-card-trade.bkt-card .bkt-card-ecp-wrapper, .bkt-main .bkt-card.bkt-card-win .bkt-card-ecp-wrapper, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card-ecp-wrapper, .bkt-main .bkt-card-win.bkt-card__row .bkt-card-ecp-wrapper, .bkt-main .bkt-card-trade.bkt-shadow-card__inner .bkt-card-ecp-wrapper, .bkt-main .bkt-card-win.bkt-shadow-card__inner .bkt-card-ecp-wrapper {
   gap: 25px;
   flex-wrap: nowrap;
   margin-bottom: 25px;
 }
 @media screen and (max-width: 568px) {
-  .bkt-main .bkt-card-trade.bkt-card .bkt-card-ecp-wrapper, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card-ecp-wrapper, .bkt-main .bkt-card-trade.bkt-shadow-card__inner .bkt-card-ecp-wrapper {
+  .bkt-main .bkt-card-trade.bkt-card .bkt-card-ecp-wrapper, .bkt-main .bkt-card.bkt-card-win .bkt-card-ecp-wrapper, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card-ecp-wrapper, .bkt-main .bkt-card-win.bkt-card__row .bkt-card-ecp-wrapper, .bkt-main .bkt-card-trade.bkt-shadow-card__inner .bkt-card-ecp-wrapper, .bkt-main .bkt-card-win.bkt-shadow-card__inner .bkt-card-ecp-wrapper {
     width: 100%;
   }
-  .bkt-main .bkt-card-trade.bkt-card .bkt-card-ecp-wrapper .bkt-card-ecp, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card-ecp-wrapper .bkt-card-ecp, .bkt-main .bkt-card-trade.bkt-shadow-card__inner .bkt-card-ecp-wrapper .bkt-card-ecp {
+  .bkt-main .bkt-card-trade.bkt-card .bkt-card-ecp-wrapper .bkt-card-ecp, .bkt-main .bkt-card.bkt-card-win .bkt-card-ecp-wrapper .bkt-card-ecp, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card-ecp-wrapper .bkt-card-ecp, .bkt-main .bkt-card-win.bkt-card__row .bkt-card-ecp-wrapper .bkt-card-ecp, .bkt-main .bkt-card-trade.bkt-shadow-card__inner .bkt-card-ecp-wrapper .bkt-card-ecp, .bkt-main .bkt-card-win.bkt-shadow-card__inner .bkt-card-ecp-wrapper .bkt-card-ecp {
     font-size: 10px;
     font-family: "Gilroy";
     color: rgb(255, 255, 255);
@@ -16133,10 +16245,10 @@ textarea.form-control-lg {
     padding: 9px 15px;
     border-radius: 10px;
   }
-  .bkt-main .bkt-card-trade.bkt-card .bkt-card__head, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card__head, .bkt-main .bkt-card-trade.bkt-shadow-card__inner .bkt-card__head {
+  .bkt-main .bkt-card-trade.bkt-card .bkt-card__head, .bkt-main .bkt-card.bkt-card-win .bkt-card__head, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card__head, .bkt-main .bkt-card-win.bkt-card__row .bkt-card__head, .bkt-main .bkt-card-trade.bkt-shadow-card__inner .bkt-card__head, .bkt-main .bkt-card-win.bkt-shadow-card__inner .bkt-card__head {
     flex-wrap: nowrap;
   }
-  .bkt-main .bkt-card-trade.bkt-card .bkt-card__head .bkt-card__title, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card__head .bkt-card__title, .bkt-main .bkt-card-trade.bkt-shadow-card__inner .bkt-card__head .bkt-card__title {
+  .bkt-main .bkt-card-trade.bkt-card .bkt-card__head .bkt-card__title, .bkt-main .bkt-card.bkt-card-win .bkt-card__head .bkt-card__title, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card__head .bkt-card__title, .bkt-main .bkt-card-win.bkt-card__row .bkt-card__head .bkt-card__title, .bkt-main .bkt-card-trade.bkt-shadow-card__inner .bkt-card__head .bkt-card__title, .bkt-main .bkt-card-win.bkt-shadow-card__inner .bkt-card__head .bkt-card__title {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -16169,20 +16281,20 @@ textarea.form-control-lg {
     margin-left: 0;
     margin-right: 25px;
   }
-  .bkt-main .bkt-card-trade.bkt-card, .bkt-main .bkt-card-trade.bkt-card__row, .bkt-main .bkt-card-trade.bkt-shadow-card__inner {
+  .bkt-main .bkt-card-trade.bkt-card, .bkt-main .bkt-card.bkt-card-win, .bkt-main .bkt-card-trade.bkt-card__row, .bkt-main .bkt-card-win.bkt-card__row, .bkt-main .bkt-card-trade.bkt-shadow-card__inner, .bkt-main .bkt-card-win.bkt-shadow-card__inner {
     border-top-left-radius: 0;
     border-top-right-radius: 0;
     border-bottom-left-radius: 18px;
     border-bottom-right-radius: 18px;
     padding: 25px;
   }
-  .bkt-main .bkt-card-trade.bkt-card .bkt-card__title, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card__title, .bkt-main .bkt-card-trade.bkt-shadow-card__inner .bkt-card__title {
+  .bkt-main .bkt-card-trade.bkt-card .bkt-card__title, .bkt-main .bkt-card.bkt-card-win .bkt-card__title, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card__title, .bkt-main .bkt-card-win.bkt-card__row .bkt-card__title, .bkt-main .bkt-card-trade.bkt-shadow-card__inner .bkt-card__title, .bkt-main .bkt-card-win.bkt-shadow-card__inner .bkt-card__title {
     font-size: 15px;
   }
-  .bkt-main .bkt-card-trade.bkt-card.outline, .bkt-main .bkt-card-trade.outline.bkt-card__row, .bkt-main .bkt-card-trade.outline.bkt-shadow-card__inner {
+  .bkt-main .bkt-card-trade.bkt-card.outline, .bkt-main .bkt-card.outline.bkt-card-win, .bkt-main .bkt-card-trade.outline.bkt-card__row, .bkt-main .outline.bkt-card-win.bkt-card__row, .bkt-main .bkt-card-trade.outline.bkt-shadow-card__inner, .bkt-main .outline.bkt-card-win.bkt-shadow-card__inner {
     padding: 12px 20px;
   }
-  .bkt-main .bkt-card-trade.bkt-card .bkt-card__heading, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card__heading, .bkt-main .bkt-card-trade.bkt-shadow-card__inner .bkt-card__heading {
+  .bkt-main .bkt-card-trade.bkt-card .bkt-card__heading, .bkt-main .bkt-card.bkt-card-win .bkt-card__heading, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card__heading, .bkt-main .bkt-card-win.bkt-card__row .bkt-card__heading, .bkt-main .bkt-card-trade.bkt-shadow-card__inner .bkt-card__heading, .bkt-main .bkt-card-win.bkt-shadow-card__inner .bkt-card__heading {
     border-top-left-radius: 18px;
     border-top-right-radius: 18px;
     background: #2953ff;
@@ -16190,18 +16302,18 @@ textarea.form-control-lg {
     padding: 11px 24px;
     font-size: 8px;
   }
-  .bkt-main .bkt-card-trade.bkt-card .bkt-card__heading h5, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card__heading h5, .bkt-main .bkt-card-trade.bkt-shadow-card__inner .bkt-card__heading h5, .bkt-main .bkt-card-trade.bkt-card .bkt-card__heading .h5, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card__heading .h5, .bkt-main .bkt-card-trade.bkt-shadow-card__inner .bkt-card__heading .h5 {
+  .bkt-main .bkt-card-trade.bkt-card .bkt-card__heading h5, .bkt-main .bkt-card.bkt-card-win .bkt-card__heading h5, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card__heading h5, .bkt-main .bkt-card-win.bkt-card__row .bkt-card__heading h5, .bkt-main .bkt-card-trade.bkt-shadow-card__inner .bkt-card__heading h5, .bkt-main .bkt-card-win.bkt-shadow-card__inner .bkt-card__heading h5, .bkt-main .bkt-card-trade.bkt-card .bkt-card__heading .h5, .bkt-main .bkt-card.bkt-card-win .bkt-card__heading .h5, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card__heading .h5, .bkt-main .bkt-card-win.bkt-card__row .bkt-card__heading .h5, .bkt-main .bkt-card-trade.bkt-shadow-card__inner .bkt-card__heading .h5, .bkt-main .bkt-card-win.bkt-shadow-card__inner .bkt-card__heading .h5 {
     font-size: 10px;
     margin: 0;
   }
-  .bkt-main .bkt-card-trade.bkt-card .bkt-card-menu-button, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card-menu-button, .bkt-main .bkt-card-trade.bkt-shadow-card__inner .bkt-card-menu-button {
+  .bkt-main .bkt-card-trade.bkt-card .bkt-card-menu-button, .bkt-main .bkt-card.bkt-card-win .bkt-card-menu-button, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card-menu-button, .bkt-main .bkt-card-win.bkt-card__row .bkt-card-menu-button, .bkt-main .bkt-card-trade.bkt-shadow-card__inner .bkt-card-menu-button, .bkt-main .bkt-card-win.bkt-shadow-card__inner .bkt-card-menu-button {
     width: 32px !important;
     height: 32px !important;
     padding: 7px !important;
   }
 }
 @media screen and (max-width: 1200px) {
-  .bkt-main .bkt-card-trade.bkt-card .bkt-card-price, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card-price, .bkt-main .bkt-card-trade.bkt-shadow-card__inner .bkt-card-price {
+  .bkt-main .bkt-card-trade.bkt-card .bkt-card-price, .bkt-main .bkt-card.bkt-card-win .bkt-card-price, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card-price, .bkt-main .bkt-card-win.bkt-card__row .bkt-card-price, .bkt-main .bkt-card-trade.bkt-shadow-card__inner .bkt-card-price, .bkt-main .bkt-card-win.bkt-shadow-card__inner .bkt-card-price {
     font-size: 18px;
     font-family: "Gilroy";
     font-weight: 700;
@@ -16214,7 +16326,7 @@ textarea.form-control-lg {
     line-height: 1;
     text-align: center;
   }
-  .bkt-main .bkt-card-trade.bkt-card .bkt-card-price-icon, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card-price-icon, .bkt-main .bkt-card-trade.bkt-shadow-card__inner .bkt-card-price-icon {
+  .bkt-main .bkt-card-trade.bkt-card .bkt-card-price-icon, .bkt-main .bkt-card.bkt-card-win .bkt-card-price-icon, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card-price-icon, .bkt-main .bkt-card-win.bkt-card__row .bkt-card-price-icon, .bkt-main .bkt-card-trade.bkt-shadow-card__inner .bkt-card-price-icon, .bkt-main .bkt-card-win.bkt-shadow-card__inner .bkt-card-price-icon {
     position: absolute;
     right: 6px;
     top: 6px;
@@ -16226,12 +16338,12 @@ textarea.form-control-lg {
     line-height: 1.2;
     box-shadow: 0px 11px 15px 0px rgba(13, 85, 21, 0.15);
   }
-  .bkt-main .bkt-card-trade.bkt-card .bkt-card.outline, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card.outline, .bkt-main .bkt-card-trade.bkt-shadow-card__inner .bkt-card.outline, .bkt-main .bkt-card-trade.bkt-card .outline.bkt-card__row, .bkt-main .bkt-card-trade.bkt-card__row .outline.bkt-card__row, .bkt-main .bkt-card-trade.bkt-shadow-card__inner .outline.bkt-card__row, .bkt-main .bkt-card-trade.bkt-card .outline.bkt-shadow-card__inner, .bkt-main .bkt-card-trade.bkt-card__row .outline.bkt-shadow-card__inner, .bkt-main .bkt-card-trade.bkt-shadow-card__inner .outline.bkt-shadow-card__inner {
+  .bkt-main .bkt-card-trade.bkt-card .bkt-card.outline, .bkt-main .bkt-card.bkt-card-win .bkt-card.outline, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card.outline, .bkt-main .bkt-card-win.bkt-card__row .bkt-card.outline, .bkt-main .bkt-card-trade.bkt-shadow-card__inner .bkt-card.outline, .bkt-main .bkt-card-win.bkt-shadow-card__inner .bkt-card.outline, .bkt-main .bkt-card-trade.bkt-card .outline.bkt-card__row, .bkt-main .bkt-card.bkt-card-win .outline.bkt-card__row, .bkt-main .bkt-card-trade.bkt-card__row .outline.bkt-card__row, .bkt-main .bkt-card-win.bkt-card__row .outline.bkt-card__row, .bkt-main .bkt-card-trade.bkt-shadow-card__inner .outline.bkt-card__row, .bkt-main .bkt-card-win.bkt-shadow-card__inner .outline.bkt-card__row, .bkt-main .bkt-card-trade.bkt-card .outline.bkt-shadow-card__inner, .bkt-main .bkt-card.bkt-card-win .outline.bkt-shadow-card__inner, .bkt-main .bkt-card-trade.bkt-card__row .outline.bkt-shadow-card__inner, .bkt-main .bkt-card-win.bkt-card__row .outline.bkt-shadow-card__inner, .bkt-main .bkt-card-trade.bkt-shadow-card__inner .outline.bkt-shadow-card__inner, .bkt-main .bkt-card-win.bkt-shadow-card__inner .outline.bkt-shadow-card__inner {
     padding: 12px 20px;
   }
 }
 @media screen and (min-width: 1200px) {
-  .bkt-main .bkt-card-trade.bkt-card .bkt-card__image-slider .hooper-prev, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card__image-slider .hooper-prev, .bkt-main .bkt-card-trade.bkt-shadow-card__inner .bkt-card__image-slider .hooper-prev, .bkt-main .bkt-card-trade.bkt-card .bkt-card__image-slider .hooper-next, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card__image-slider .hooper-next, .bkt-main .bkt-card-trade.bkt-shadow-card__inner .bkt-card__image-slider .hooper-next {
+  .bkt-main .bkt-card-trade.bkt-card .bkt-card__image-slider .hooper-prev, .bkt-main .bkt-card.bkt-card-win .bkt-card__image-slider .hooper-prev, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card__image-slider .hooper-prev, .bkt-main .bkt-card-win.bkt-card__row .bkt-card__image-slider .hooper-prev, .bkt-main .bkt-card-trade.bkt-shadow-card__inner .bkt-card__image-slider .hooper-prev, .bkt-main .bkt-card-win.bkt-shadow-card__inner .bkt-card__image-slider .hooper-prev, .bkt-main .bkt-card-trade.bkt-card .bkt-card__image-slider .hooper-next, .bkt-main .bkt-card.bkt-card-win .bkt-card__image-slider .hooper-next, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card__image-slider .hooper-next, .bkt-main .bkt-card-win.bkt-card__row .bkt-card__image-slider .hooper-next, .bkt-main .bkt-card-trade.bkt-shadow-card__inner .bkt-card__image-slider .hooper-next, .bkt-main .bkt-card-win.bkt-shadow-card__inner .bkt-card__image-slider .hooper-next {
     border-radius: 10px;
     width: 30px;
     height: 30px;
@@ -16241,10 +16353,10 @@ textarea.form-control-lg {
     bottom: 15px;
     transform: none;
   }
-  .bkt-main .bkt-card-trade.bkt-card .bkt-card__image-slider .hooper-next, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card__image-slider .hooper-next, .bkt-main .bkt-card-trade.bkt-shadow-card__inner .bkt-card__image-slider .hooper-next {
+  .bkt-main .bkt-card-trade.bkt-card .bkt-card__image-slider .hooper-next, .bkt-main .bkt-card.bkt-card-win .bkt-card__image-slider .hooper-next, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card__image-slider .hooper-next, .bkt-main .bkt-card-win.bkt-card__row .bkt-card__image-slider .hooper-next, .bkt-main .bkt-card-trade.bkt-shadow-card__inner .bkt-card__image-slider .hooper-next, .bkt-main .bkt-card-win.bkt-shadow-card__inner .bkt-card__image-slider .hooper-next {
     right: 15px;
   }
-  .bkt-main .bkt-card-trade.bkt-card .bkt-card__image-slider .hooper-prev, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card__image-slider .hooper-prev, .bkt-main .bkt-card-trade.bkt-shadow-card__inner .bkt-card__image-slider .hooper-prev {
+  .bkt-main .bkt-card-trade.bkt-card .bkt-card__image-slider .hooper-prev, .bkt-main .bkt-card.bkt-card-win .bkt-card__image-slider .hooper-prev, .bkt-main .bkt-card-trade.bkt-card__row .bkt-card__image-slider .hooper-prev, .bkt-main .bkt-card-win.bkt-card__row .bkt-card__image-slider .hooper-prev, .bkt-main .bkt-card-trade.bkt-shadow-card__inner .bkt-card__image-slider .hooper-prev, .bkt-main .bkt-card-win.bkt-shadow-card__inner .bkt-card__image-slider .hooper-prev {
     right: 61px;
     left: auto;
   }
@@ -18101,6 +18213,7 @@ ul.bkt-contents .bkt-contents__answer {
   background-image: url("/images/buy_sample.png");
   background-repeat: no-repeat;
   background-size: contain;
+  background-position: top center;
   border-radius: 20px;
 }
 .bkt-promo__form {

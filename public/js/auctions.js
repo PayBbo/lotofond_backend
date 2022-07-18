@@ -502,6 +502,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -519,13 +525,8 @@ __webpack_require__.r(__webpack_exports__);
         key: 'today',
         highlight: {
           color: 'blue',
-          fillMode: 'outline'
+          fillMode: 'none'
         },
-
-        /* customData: {
-             title: 'Take Noah to basketball practice',
-             class: 'bg-blue-500 text-white',
-         },*/
         dates: date,
         "class": 'bkt-border-rounded'
       }, {
@@ -562,10 +563,7 @@ __webpack_require__.r(__webpack_exports__);
           color: 'blue',
           fillMode: 'solid'
         },
-        dates: new Date(year, month, 28),
-        contentStyle: {
-          color: 'white'
-        }
+        dates: new Date(year, month, 28)
       }],
       masks: {
         weekdays: 'WWW'
@@ -2867,6 +2865,8 @@ component.options.__file = "resources/js/pages/Calendar.vue"
 
 
 
+
+
 /*::-webkit-scrollbar {
     width: 0px;
 }
@@ -3886,8 +3886,17 @@ var render = function () {
             { staticClass: "bkt-month-calendar mb-2" },
             [
               _c("v-calendar", {
-                staticClass: "bkt-calendar-none-border m-1",
-                attrs: { attributes: _vm.attr },
+                staticClass: "bkt-left-calendar bkt-calendar-none-border m-1",
+                attrs: { attributes: _vm.attr, masks: _vm.masks },
+                scopedSlots: _vm._u([
+                  {
+                    key: "header-left-button",
+                    fn: function () {
+                      return undefined
+                    },
+                    proxy: true,
+                  },
+                ]),
               }),
             ],
             1
@@ -3977,26 +3986,47 @@ var render = function () {
                                   "flex-grow overflow-y-auto overflow-x-auto",
                               },
                               _vm._l(attributes, function (attr) {
-                                return _c(
-                                  "p",
-                                  {
-                                    key: attr.key,
-                                    staticClass:
-                                      "text-xs leading-tight rounded-sm p-1 mt-0 mb-1",
-                                    class: attr.customData.class,
-                                  },
-                                  [
-                                    _vm._v(
-                                      "\n                                        " +
-                                        _vm._s(attr.customData.title) +
-                                        "\n                                    "
-                                    ),
-                                  ]
-                                )
+                                return attr.customData
+                                  ? _c(
+                                      "p",
+                                      {
+                                        key: attr.key,
+                                        staticClass:
+                                          "text-xs leading-tight rounded-sm p-1 mt-0 mb-1",
+                                        class: attr.customData.class,
+                                      },
+                                      [
+                                        _vm._v(
+                                          "\n                                        " +
+                                            _vm._s(attr.customData.title) +
+                                            "\n                                    "
+                                        ),
+                                      ]
+                                    )
+                                  : _vm._e()
                               }),
                               0
                             ),
                           ]
+                        ),
+                      ]
+                    },
+                  },
+                  {
+                    key: "default",
+                    fn: function (ref) {
+                      var inputValue = ref.inputValue
+                      var inputEvents = ref.inputEvents
+                      return [
+                        _c(
+                          "input",
+                          _vm._g(
+                            {
+                              staticClass: "px-3 py-1 border rounded",
+                              domProps: { value: inputValue },
+                            },
+                            inputEvents
+                          )
                         ),
                       ]
                     },

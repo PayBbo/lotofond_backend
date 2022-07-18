@@ -2,10 +2,8 @@
     <header class="">
         <nav class="bkt-navbar">
             <div class="bkt-container bkt-navbar__wrapper">
-                <router-link :to="'/without-ecp'">
-                    <button class="bkt-button blue">
-                        Покупка без ЭЦП
-                    </button>
+                <router-link tag="button" :to="'/without-ecp'" class="bkt-button blue">
+                    Покупка без ЭЦП
                 </router-link>
 
                 <ul class="bkt-navbar__nav d-none d-lg-flex">
@@ -102,31 +100,41 @@
 
                 </div>
                 <div class="bkt-navbar__logo d-flex d-lg-none">
-                    LOGO
+                    <img class="bkt-navbar__logo" src="/images/logo.png" alt="logo">
                 </div>
                 <ul class="bkt-navbar__nav">
                     <li class="bkt-navbar__nav-item d-none d-lg-flex">
-                        <a class="bkt-navbar__nav-link" href="/agent">Купить через агента</a>
+                        <router-link to="/agent" class="bkt-navbar__nav-link">
+                            Купить через агента
+                        </router-link>
                     </li>
                     <li class="bkt-navbar__nav-item">
                         <a class="bkt-navbar__nav-link" href="#">
                     <span class="bkt-navbar__nav-icon">
-                         <bkt-icon :name="'Fire'" :width="'22px'" :height="'22px'"/>
+                         <bkt-icon :name="'Fire'"/>
                     </span>
                             Горящие торги
                         </a>
                     </li>
                     <li class="bkt-navbar__nav-item d-none d-md-flex">
-                        <a class="bkt-navbar__nav-link" href="/top-wins">Топ-побед</a>
+                        <router-link to="/week-winners" class="bkt-navbar__nav-link">
+                            Топ-побед
+                        </router-link>
                     </li>
                     <li class="bkt-navbar__nav-item d-none d-md-flex">
-                        <a class="bkt-navbar__nav-link" href="/registries">Реестры</a>
+                        <router-link to="/registries" class="bkt-navbar__nav-link">
+                            Реестры
+                        </router-link>
                     </li>
                     <li class="bkt-navbar__nav-item d-none d-lg-flex">
-                        <a class="bkt-navbar__nav-link" href="/contacts">Контакты</a>
+                        <router-link to="/contacts" class="bkt-navbar__nav-link">
+                            Контакты
+                        </router-link>
                     </li>
                     <li class="bkt-navbar__nav-item d-flex d-lg-none">
-                        <a class="bkt-navbar__nav-link" href="/tariffs">Тарифы</a>
+                        <router-link to="/tariffs" class="bkt-navbar__nav-link">
+                            Тарифы
+                        </router-link>
                     </li>
                 </ul>
                 <div class="bkt-navbar__wrapper">
@@ -209,94 +217,94 @@
 </template>
 
 <script>
-export default {
-    name: "Header",
-    data() {
-        return {
-            loading: false,
-            links: [
-                {
-                    path: '/',
-                    icon: 'Home',
-                    code: "Main",
-                    label: "Главная",
-                    color: 'primary',
-                },
-                {
-                    path: '/agent',
-                    icon: 'Target',
-                    code: "Agent",
-                    label: "Купить через агента",
-                    color: 'red'
-                },
-                {
-                    path: '/registries',
-                    icon: 'Alignment',
-                    code: "Registries",
-                    label: "Реестры",
-                    color: 'green',
-                },
-                {
-                    path: '/top-wins',
-                    icon: 'Star',
-                    code: "TopWins",
-                    label: "Топ-побед",
-                    color: 'yellow',
-                },
-                {
-                    path: '/contacts',
-                    icon: 'Briefcase',
-                    code: "Contacts",
-                    label: "Контакты",
-                    color: 'blue',
-                },
-                {
-                    path: '/profile',
-                    icon: 'User',
-                    code: "Profile",
-                    label: "Профиль",
-                    color: 'primary',
-                    meta: 'auth'
-                },
-            ],
-        }
-    },
-    computed: {
-        auth_user() {
-            return this.$store.getters.auth_user
+    export default {
+        name: "Header",
+        data() {
+            return {
+                loading: false,
+                links: [
+                    {
+                        path: '/',
+                        icon: 'Home',
+                        code: "Main",
+                        label: "Главная",
+                        color: 'primary',
+                    },
+                    {
+                        path: '/agent',
+                        icon: 'Target',
+                        code: "Agent",
+                        label: "Купить через агента",
+                        color: 'red'
+                    },
+                    {
+                        path: '/registries',
+                        icon: 'Alignment',
+                        code: "Registries",
+                        label: "Реестры",
+                        color: 'green',
+                    },
+                    {
+                        path: '/top-wins',
+                        icon: 'Star',
+                        code: "TopWins",
+                        label: "Топ-побед",
+                        color: 'yellow',
+                    },
+                    {
+                        path: '/contacts',
+                        icon: 'Briefcase',
+                        code: "Contacts",
+                        label: "Контакты",
+                        color: 'blue',
+                    },
+                    {
+                        path: '/profile',
+                        icon: 'User',
+                        code: "Profile",
+                        label: "Профиль",
+                        color: 'primary',
+                        meta: 'auth'
+                    },
+                ],
+            }
         },
-        isLoggedIn() {
-            return this.$store.getters.isLoggedIn
+        computed: {
+            auth_user() {
+                return this.$store.getters.auth_user
+            },
+            isLoggedIn() {
+                return this.$store.getters.isLoggedIn
+            },
         },
-    },
-    created() {
-        this.getUser();
-    },
-    methods: {
-        async getUser() {
-            if (this.isLoggedIn) {
+        created() {
+            this.getUser();
+        },
+        methods: {
+            async getUser() {
+                if (this.isLoggedIn) {
+                    this.loading = true;
+                    await this.$store.dispatch('getAuthUser').then(resp => {
+                        this.loading = false;
+                    }).catch(error => {
+                        this.loading = false;
+                    })
+                }
+            },
+            async logout() {
                 this.loading = true;
-                await this.$store.dispatch('getAuthUser').then(resp => {
+                await this.$store.dispatch('logout').then(resp => {
                     this.loading = false;
                 }).catch(error => {
                     this.loading = false;
                 })
+            },
+            openModal() {
+                this.$store.commit('openModal', '#authModal');
             }
-        },
-        async logout() {
-            this.loading = true;
-            await this.$store.dispatch('logout').then(resp => {
-                this.loading = false;
-            }).catch(error => {
-                this.loading = false;
-            })
-        },
-        openModal() {
-            this.$store.commit('openModal', '#authModal');
         }
-    }
 
-}
+    }
 </script>
 
 <style scoped>
