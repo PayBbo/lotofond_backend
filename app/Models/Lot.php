@@ -107,7 +107,7 @@ class Lot extends Model
 
     public function params()
     {
-        return $this->belongsToMany(Param::class, 'lot_params')->withPivot('value');
+        return $this->belongsToMany(Param::class, 'lot_params')->withPivot('value', 'parent_id');
     }
 
     public function notifications()

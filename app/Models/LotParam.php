@@ -18,6 +18,7 @@ class LotParam extends Model
         'param_id',
         'lot_id',
         'value',
+        'parent_id'
     ];
 
     /**
@@ -29,6 +30,9 @@ class LotParam extends Model
         'id' => 'integer',
         'param_id' => 'integer',
         'lot_id' => 'integer',
+        'parent_id' => 'integer',
     ];
+
+
 
 }

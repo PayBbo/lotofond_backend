@@ -18,7 +18,7 @@ class CreatePriceReductionsTable extends Migration
             $table->unsignedBigInteger('lot_id');
             $table->foreign('lot_id')->references('id')
                 ->on('lots')->cascadeOnDelete();
-            $table->dateTime('start_time');
+            $table->dateTime('start_time')->nullable();
             $table->dateTime('end_time')->nullable();
             $table->decimal('price', 15,2)->default(0.00);
             $table->decimal('deposit', 15,2)->default(0.00);

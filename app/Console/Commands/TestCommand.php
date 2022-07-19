@@ -7,6 +7,7 @@ use App\Http\Services\Parse\SoapWrapperService;
 use App\Http\Services\Parse\TradeService;
 use App\Jobs\ParseArbitrManager;
 use App\Jobs\ParseCompanyTradeOrganizer;
+use App\Jobs\ParseDataFromRosreestr;
 use App\Jobs\ParseDebtor;
 use App\Jobs\ParseSRORegister;
 use App\Jobs\ParseTrades;
@@ -59,7 +60,7 @@ class TestCommand extends Command
         $gener->getImagesFromDocx($filename, $path, $s_path);
         $gener->getImagesFromZipOrRar($filename, $path, $s_path);
         **/
-        dispatch(new ParseTrades);
-
+        //dispatch(new ParseTrades);
+       dispatch(new ParseDataFromRosreestr('40:26:000142:86'));
     }
 }

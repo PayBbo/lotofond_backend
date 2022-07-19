@@ -23,6 +23,7 @@ class CreateLotParamsTable extends Migration
                 ->on('params')->cascadeOnDelete();
             $table->foreign('lot_id')->references('id')
                 ->on('lots')->cascadeOnDelete();
+            $table->bigInteger('parent_id')->nullable();
             $table->timestamps();
         });
         Schema::enableForeignKeyConstraints();

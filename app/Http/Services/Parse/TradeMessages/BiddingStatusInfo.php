@@ -50,9 +50,9 @@ class BiddingStatusInfo extends TradeMessage implements TradeMessageContract
 
                 } else {
                     foreach ($auction->lots as $lot) {
-                        $tradeMessage = $this->createNotification($lot->id, $invitation[$prefix . 'LotList']['@attributes']['EventTime'],
+                        $tradeMessage = $this->createNotification($lot->id, $invitation['@attributes']['EventTime'],
                            $lot->status_id, 'status_id',
-                            $invitation[$prefix . 'LotList'][$prefix . 'BiddingStateLotInfo']['@attributes']['Reason']);
+                            $invitation[$prefix . 'BiddingStateLotInfo']['@attributes']['Reason']);
                         $this->parseFile($prefix, $invitation, $auction, $lot, $tradeMessage);
                         if(!is_null($type)) {
                             $lot->status_id = Status::where('code', $type)->first()['id'];
