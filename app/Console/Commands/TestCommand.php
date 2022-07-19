@@ -5,6 +5,8 @@ namespace App\Console\Commands;
 use App\Http\Services\Parse\FilesService;
 use App\Http\Services\Parse\SoapWrapperService;
 use App\Http\Services\Parse\TradeService;
+use App\Jobs\FavouriteJob;
+use App\Jobs\MonitoringJob;
 use App\Jobs\ParseArbitrManager;
 use App\Jobs\ParseCompanyTradeOrganizer;
 use App\Jobs\ParseDataFromRosreestr;
@@ -60,7 +62,6 @@ class TestCommand extends Command
         $gener->getImagesFromDocx($filename, $path, $s_path);
         $gener->getImagesFromZipOrRar($filename, $path, $s_path);
         **/
-        //dispatch(new ParseTrades);
-       dispatch(new ParseDataFromRosreestr('40:26:000142:86'));
+        dispatch(new FavouriteJob);
     }
 }

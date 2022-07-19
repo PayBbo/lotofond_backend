@@ -25,6 +25,6 @@ class LotCollection extends ResourceCollection
         return [
             'data' => $this->collection,
             'pagination' => new PaginationResource($this)
-        ];
+         ];
     }
 }

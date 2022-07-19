@@ -620,6 +620,12 @@ paths:
   /trades/filter/bidders/{type}:
     put:
       parameters:
+        - in: query
+          name: page
+          schema:
+            type: integer
+          required: true
+          description: Номер страницы для серверной пагинации
         - in: path
           name: type
           schema:
@@ -632,7 +638,8 @@ paths:
           description: Роль участников торгов, которых нужно получить для фильтрации
       tags:
         - FiltersData
-      summary: Получение информации о должниках/организаторах торгов/арбитражных управляющих для отображения в фильтрах
+        - Bidders
+      summary: Получение информации о должниках/организаторах торгов/арбитражных управляющих
       operationId: getBiddersForFilter
       requestBody:
         content:
@@ -1247,6 +1254,10 @@ paths:
   /notifications/{type}:
     get:
       parameters:
+        - name: Content-Language
+          in: header
+          description: Заголовок для определения локали (ru, en, zh_CN)
+          required: true
         - in: query
           name: page
           schema:
@@ -1261,7 +1272,6 @@ paths:
               - favourite
               - monitoring
               - platform
-              - organizers
               - all
           required: true
           description: Номер страницы для серверной пагинации
@@ -1276,6 +1286,35 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Notifications"
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+        - bearerAuth: []
+  /notifications/seen:
+    post:
+      tags:
+        - Notifications
+      summary: отметка уведомлений прочитанными
+      operationId: makeNotificationsSeen
+      requestBody:
+        description: массив айдишников прочитанных уведомлений
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                notificationIds:
+                  type: array
+                  items:
+                    type: integer
+      responses:
+        "200":
+          description: уведомления отмечены прочитанными
         default:
           description: unexpected error
           content:
@@ -2007,8 +2046,7 @@ components:
         photos:
           $ref: "#/components/schemas/Images"
         location:
-          type: string
-          description: геометка (адрес у нас будет именно для лота, а не для торга)
+          $ref: "#/components/schemas/Location"
         startPrice:
           type: number
           example: 0.00
@@ -2088,8 +2126,7 @@ components:
         photos:
           $ref: "#/components/schemas/Images"
         location:
-          type: string
-          description: геометка (адрес у нас будет именно для лота, а не для торга)
+          $ref: "#/components/schemas/Location"
         startPrice:
           type: number
           example: 0.00
@@ -2150,6 +2187,21 @@ components:
           $ref: "#/components/schemas/DescriptionExtracts"
         note:
           $ref: "#/components/schemas/Note"
+        requirementsForParticipants:
+          type: string
+          description: требования к участникам
+        paymentInfo:
+          type: string
+          description: информация об оплате
+        saleAgreement:
+          type: string
+          description: порядок заключения договора купли-продажи
+        biddingInfo:
+          type: string
+          description: условия проведения торгов
+        applicationRules:
+          type: string
+          description: правила подачи заявок
     Pagination:
       type: object
       properties:
@@ -2592,8 +2644,16 @@ components:
       required:
         - value
         - date
+        - isSeen
+        - id
       type: object
       properties:
+        id:
+          type: integer
+          description: айдшник уведомления
+        isSeen:
+          type: boolean
+          description: флаг, бало ли сообщение прочитано ранее
         value:
           type: string
           description: текст уведомления
@@ -2607,8 +2667,6 @@ components:
               $ref: "#/components/schemas/Images"
             description:
               type: string
-        organizer:
-          $ref: "#/components/schemas/BidderInfo"
     Notifications:
       type: object
       properties:
@@ -2625,9 +2683,6 @@ components:
         monitoringNotificationsCount:
           type: integer
           description: количество уведомлений мониторинга
-        organizersNotificationsCount:
-          type: integer
-          description: количество уведомлений от организаторов
     Marks:
       type: array
       items:
@@ -2729,6 +2784,69 @@ components:
           content:
             type: string
             example: 46:02:020301:169
+      example:
+        [
+          {
+          "tradeSubject": "Участок по адресу г Владимир, ул Безыменского, д. 22, 33",
+          "extracts": [
+            {
+              "title": "Кадастровая стоимость",
+              "type": "cadastralDataPrice",
+              "value": "2031838.84"
+            },
+            {
+              "title": "Кадастровые данные о площади",
+              "type": "cadastralDataArea",
+              "value": "53.7"
+            },
+            {
+              "title": "Количество этажей",
+              "type": "other",
+              "value": null
+            },
+            {
+              "title": "Год постройки",
+              "type": "other",
+              "value": null
+            }
+          ]
+        },
+          {
+          "tradeSubject": "Участок по адресу г Ростов-на-Дону, сад Садовод-Любитель, д. 10-78",
+          "extracts": [
+            {
+              "title": "Кадастровый номер",
+              "type": "other",
+              "value": "61:44:0071802:1786"
+            },
+            {
+              "title": "Кадастровая стоимость",
+              "type": "cadastralDataPrice",
+              "value": "1383765.25"
+            },
+            {
+              "title": "Кадастровые данные о площади",
+              "type": "cadastralDataArea",
+              "value": "665"
+            },
+            {
+              "title": "Количество этажей",
+              "type": "other",
+              "value": null
+            },
+            {
+              "title": "Год постройки",
+              "type": "other",
+              "value": null
+            }
+          ]
+        },
+          {
+          "title": "Государственный номер автомобиля",
+          "type": "other",
+          "value": "В381УР161"
+        }
+        ]
     Sort:
       type: object
       properties:
@@ -2848,6 +2966,28 @@ components:
         date:
           type: string
           description: дата публикации/изменения заметки
+    Location:
+      type: array
+      items:
+        type: object
+        properties:
+          code:
+            type: string
+            description: название региона
+          isDebtorRegion:
+            type: integer
+            description: 0 = false, 1 = true
+        example:
+          [
+            {
+              "code": "KalugaRegion",
+              "isDebtorRegion": 1
+            },
+            {
+              "code": "RostovRegion",
+              "isDebtorRegion": 0
+            }
+          ]
 
   securitySchemes:
     bearerAuth:

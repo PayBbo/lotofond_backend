@@ -1,0 +1,94 @@
+<?php
+
+namespace App\Jobs;
+
+use App\Models\Favourite;
+use App\Models\Notification;
+use App\Models\PriceReduction;
+use Carbon\Carbon;
+use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldBeUnique;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Foundation\Bus\Dispatchable;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Queue\SerializesModels;
+
+class FavouriteJob implements ShouldQueue
+{
+    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+
+    /**
+     * Create a new job instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        //
+    }
+
+    /**
+     * Execute the job.
+     *
+     * @return void
+     */
+    public function handle()
+    {
+        $favourites = Favourite::all();
+        $date = Carbon::now()->setTimezone('Europe/Moscow');
+        foreach ($favourites as $favourite){
+            $lots = $favourite->lots;
+            foreach($lots as $lot){
+                $eventStart = $lot->auction->event_start_date;
+                $eventEnd = $lot->auction->event_end_date;
+                $applicationStart = $lot->auction->application_start_date;
+                $applicationEnd = $lot->auction->application_end_date;
+                $resultDate = $lot->auction->result_date;
+                $changePriceDate = null;
+                $currentPriceReduction = $lot->currentPriceReduction->first();
+                if($currentPriceReduction){
+                    $nextPrice = PriceReduction::where(['lot_id'=>$lot->id, 'start_time'=>$currentPriceReduction->end_time])->first();
+                    if($nextPrice){
+                        $changePriceDate = $nextPrice->start_time;
+                    }
+                }
+                $data = [
+                    'favouriteEventStart' => $eventStart,
+                    'favouriteEventEnd' => $eventEnd,
+                    'favouriteApplicationStart' => $applicationStart,
+                    'favouriteApplicationEnd' => $applicationEnd,
+                    'favouriteResult' => $resultDate,
+                    'favouritePriceReduction' => $changePriceDate
+                ];
+                foreach($data as $key=>$value){
+                    if(!is_null($value)) {
+                        $value = Carbon::parse($value);
+                        if($value > $date) {
+                            $diff = Carbon::parse($value)->diffInDays($date);
+                            if($diff <=7) {
+                                if ($diff > 4) {
+                                    $this->saveNotification($lot->id, $favourite->user_id, $key . 'InSevenDays', $diff);
+                                } elseif ($diff > 1) {
+                                    $this->saveNotification($lot->id, $favourite->user_id, $key . 'InFourDays', $diff);
+                                } else {
+                                    $this->saveNotification($lot->id, $favourite->user_id, $key, $value->format('d.m.y H:i'));
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    public function saveNotification($lot_id, $user_id, $message, $value){
+        Notification::create([
+            'user_id' => $user_id,
+            'lot_id' => $lot_id,
+            'date' => Carbon::now()->setTimezone('Europe/Moscow'),
+            'type_id' => 2,
+            'value' => $value,
+            'message' => $message
+        ]);
+    }
+}

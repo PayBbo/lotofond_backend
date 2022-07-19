@@ -2,11 +2,32 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\NotificationCollection;
+use App\Models\Notification;
 use Illuminate\Http\Request;
 
 class NotificationController extends Controller
 {
     public function getNotifications($type){
+        if($type == 'all'){
+            $notifications = Notification::where('user_id', auth()->id())->orderBy('date', 'desc')->paginate(20);
+        }else{
+            $notifications = Notification::where('user_id', auth()->id())
+                ->whereHas('type', function ($q) use ($type) {
+                $q->where('title', $type);
+                })
+                ->orderBy('date', 'desc')->paginate(20);
+        }
+        return response(new NotificationCollection($notifications), 200);
+    }
 
+    public function makeNotificationsSeen(Request $request){
+
+        $notifications = Notification::whereIn('id', $request->notificationIds)->where('user_id',auth()->id())->get();
+        foreach($notifications as $notification){
+            $notification->is_seen = true;
+            $notification->save();
+        }
+        return response(null, 200);
     }
 }

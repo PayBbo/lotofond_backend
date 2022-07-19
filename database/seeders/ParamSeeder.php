@@ -19,14 +19,22 @@ class ParamSeeder extends Seeder
                 'title'=>'Кадастровая стоимость'],
             ['type' => 'cadastralDataArea',
                 'title'=>'Кадастровые данные о площади'],
-            ['type' => 'cadastralDataObjectAddress',
-                'title'=>'Кадастровые данные об адресе'],
+            ['type' => 'cadastralDataFractionalOwnership',
+                'title'=>'Кадастровые данные о частичном владении'],
             ['type' => 'other',
                 'title'=>'Кадастровый номер'],
             ['type' => 'other',
                 'title'=>'Государственный номер автомобиля'],
             ['type' => 'other',
-            'title'=>'VIN автомобиля']
+            'title'=>'VIN автомобиля'],
+            ['type' => 'other',
+                'title'=>'Адрес'],
+            ['type' => 'other',
+                'title'=>'Количество этажей'],
+            ['type' => 'other',
+                'title'=>'Год постройки'],
+            ['type' => 'other',
+                'title'=>'Тип постройки']
         ];
         foreach($params as $param){
             Param::create([

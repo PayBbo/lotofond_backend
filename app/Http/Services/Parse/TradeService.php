@@ -8,6 +8,7 @@ use App\Models\Lot;
 use App\Models\LotFile;
 use App\Models\Param;
 use App\Models\PriceReduction;
+use Carbon\Carbon;
 use Exception;
 
 class TradeService
@@ -29,7 +30,7 @@ class TradeService
         '(([CcСс])([АВЕКМНОРСТУХавекмнорстухABEKMHOPCTYXaeopcyx]{2}[ ]?\d{3}(?<!000)))',//Спорт
         '(?:(?:((\d{3})(?<!000)[ ]?((?:[cCсС]{2})|(?:[cCсС][dD]))[ ]?(\d)))|(?:((\d{3})(?<!000)[ ]?([Dd]|[TtТт])[ ]?(\d{3})))|(?:(([Dd]|[TtТт])[ ]?(\d{3})(?<!000)[ ]?(\d{2}))))' //Дипломаты
     ];
-    protected $regexStart = '(?:(?:(?:(?:[Рр][Ее][Гг][Ии][Сс][Тт][Рр][Аа][Цц][Ии][Оо][Нн][Нн][Ыы][Йй] [Зз][Нн][Аа][Кк])|(?:[Гг][\/\\\\. ]?[ ]?[Нн][.]?)|(?:[Рр][Ее][Гг][.]? [Зз][Нн][Аа][Кк][.]?)|(?:[Гг][Оо][Сс][.]?(?:[Уу][Дд][Аа][Рр][Сс][Тт][Вв][Ее][Нн][Нн][Ыы][Йй])? [Нн][.]?(?:[Оо][Мм])?[.]?(?:[Ее][Рр])?)|(?:[Гг][.]?[ ]?[Рр][.]?[ ]?[Зз][.]?)|(?:№))[:]?[ ]?)|(?:№)|(?<year>(?:19|20)\d\d )|(?<parenthesis>\()|(?<comma>,[ ]?))';
+    protected $regexStart = '(?:(?:(?:(?:[Рр][Ее][Гг][Ии][Сс][Тт][Рр][Аа][Цц][Ии][Оо][Нн][Нн][Ыы][Йй][ ]?[Зз][Нн][Аа][Кк])|(?:[Гг][\/\\. ]?[ ]?[Нн][.]?)|(?:[Рр][Ее][Гг][.]?[ ]?[Зз][Нн][Аа][Кк][.]?)|(?:[Гг][Оо][Сс][.]?(?:[Уу][Дд][Аа][Рр][Сс][Тт][Вв][Ее][Нн][Нн][Ыы][Йй])?[ ]?[Нн][.]?(?:[Оо][Мм])?[.]?(?:[Ее][Рр])?)|(?:[Гг][.]?[ ]?[Рр][.]?[ ]?[Зз][.]?)|(?:№))[ ]?[:]?[ ]?)|(?:№)|(?<year>(?:19|20)\d\d )|(?<parenthesis>\()|(?<comma>,[ ]?))';
     protected $regexEnd = '(?(parenthesis)(?(maybe_size)(*FAIL))\))(?(comma)(?(maybe_size)(*FAIL))(?:,|\.|\n|\z))(?(year)(?(maybe_size)(*FAIL))(?:,|\.| |\n|\z))';
 
     public function __construct($auction, $value, $prefix, $files = null, $images = null)
@@ -75,7 +76,9 @@ class TradeService
                 $lot->payment_info = $value[$prefix . 'Participants'][$prefix . 'PaymentInfo'];
                 $lot->sale_agreement = $value[$prefix . 'Participants'][$prefix . 'SaleAgreement'];
             } else {
-                //$lot->participants = $value[$prefix . 'Participants'];
+                if (array_key_exists($prefix . 'Participants', $value)) {
+                    $lot->participants = $value[$prefix . 'Participants'];
+                }
                 if (array_key_exists($prefix . 'SaleAgreement', $value)) {
                     $lot->sale_agreement = $value[$prefix . 'SaleAgreement'];
                 }
@@ -83,10 +86,16 @@ class TradeService
                     $lot->payment_info = $value[$prefix . 'PaymentInfo'];
                 }
             }
-
         }
-
+        if (array_key_exists($prefix . 'Concours', $value)) {
+            $lot->payment_info = $value[$prefix . 'Concours'];
+        }
+        $lot->created_at = Carbon::now()->setTimezone('Europe/Moscow');
         $lot->save();
+        $region = $lot->auction->debtor->region;
+        if ($region && !$lot->regions->contains($region)) {
+            $lot->regions()->attach($region, ['is_debtor_region' => true]);
+        }
 
         if (array_key_exists($prefix . 'TradeObjectHtml', $value)) {
             $lot->description = $value[$prefix . 'TradeObjectHtml'];
@@ -95,7 +104,7 @@ class TradeService
             if (count($matches[0]) > 0) {
                 foreach (array_unique($matches[0]) as $match) {
                     $lot->params()->attach(Param::find(4), ['value' => $match, 'parent_id'=>null]);
-                    //dispatch(new ParseDataFromRosreestr($match));
+                    dispatch(new ParseDataFromRosreestr($match));
                 }
             }
             $avto_number = '/' . $this->getAvtoNumberRegex() . '/um';

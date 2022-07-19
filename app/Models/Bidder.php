@@ -82,11 +82,6 @@ class Bidder extends Model
         return $this->hasMany(Auction::class, 'company_trade_organizer_id');
     }
 
-    public function notifications()
-    {
-        return $this->hasMany(Notification::class);
-    }
-
     public function registryNotifications()
     {
         return $this->hasMany(RegistryNotification::class);

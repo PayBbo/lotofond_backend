@@ -184,6 +184,8 @@ Route::group(['middleware' => ['json.response', 'localization']], function () {
 
             Route::get('/{type}', [NotificationController::class, 'getNotifications']);
 
+            Route::post('/seen', [NotificationController::class, 'makeNotificationsSeen']);
+
         });
 
 

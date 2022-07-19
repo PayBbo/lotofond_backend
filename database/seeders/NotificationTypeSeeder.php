@@ -15,10 +15,9 @@ class NotificationTypeSeeder extends Seeder
     public function run()
     {
         $types = [
-            'Платформа',
-            'Избранное',
-            'Мониторинг',
-            'Организаторы'
+            'platform',
+            'favourite',
+            'monitoring'
         ];
         foreach($types as $type){
             NotificationType::create([

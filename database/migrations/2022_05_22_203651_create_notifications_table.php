@@ -19,17 +19,16 @@ class CreateNotificationsTable extends Migration
             $table->unsignedBigInteger('user_id')->nullable();
             $table->unsignedBigInteger('type_id');
             $table->unsignedBigInteger('lot_id')->nullable();
-            $table->unsignedBigInteger('organizer_id')->nullable();
             $table->string('value', 255);
             $table->foreign('user_id')->references('id')
                 ->on('users')->cascadeOnDelete();
             $table->foreign('lot_id')->references('id')
-                ->on('lots')->nullOnDelete();
+                ->on('lots')->cascadeOnDelete();
             $table->foreign('type_id')->references('id')
                 ->on('notification_types')->cascadeOnDelete();
-            $table->foreign('organizer_id')->references('id')
-                ->on('bidders')->nullOnDelete();
             $table->dateTime('date')->nullable();
+            $table->boolean('is_seen')->default(false);
+            $table->string('message', 255);
             $table->timestamps();
         });
         Schema::enableForeignKeyConstraints();

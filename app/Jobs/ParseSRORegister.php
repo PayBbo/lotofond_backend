@@ -35,7 +35,7 @@ class ParseSRORegister implements ShouldQueue
      */
     public function handle()
     {
-        $startFrom = Carbon::now()->subHour()->format('Y-m-d\TH:i:s');
+        $startFrom = Carbon::now()->setTimezone('Europe/Moscow')->subHour()->format('Y-m-d\TH:i:s');
         $soapWrapper = new SoapWrapper();
         $service = new SoapWrapperService($soapWrapper);
         $sros = get_object_vars($service->getSroRegister($startFrom));

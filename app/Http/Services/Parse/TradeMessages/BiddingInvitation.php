@@ -99,6 +99,7 @@ class BiddingInvitation extends TradeMessage
             $auction->event_end_date = array_key_exists($prefix . 'OpenForm', $data) && array_key_exists('TimeEnd', $data[$prefix . 'OpenForm']) ? $data[$prefix . 'OpenForm']['TimeEnd'] : NULL;
             $auction->application_start_date = $data[$prefix . 'Application']['@attributes']['TimeBegin'];
             $auction->application_end_date = $data[$prefix . 'Application']['@attributes']['TimeEnd'];
+            $auction->application_rules = $data[$prefix . 'Application'][$prefix.'Rules'];
             $auction->date_publish_smi = array_key_exists($prefix . 'DatePublishSMI', $data) ? $data[$prefix . 'DatePublishSMI'] : NULL;
             $auction->date_publish_efir = array_key_exists($prefix . 'DatePublishEFIR', $data) ? $data[$prefix . 'DatePublishEFIR'] : NULL;
             $auction->price_form = $data['@attributes']['FormPrice'] == 'OpenForm' ? 'open' : 'close';

@@ -21,6 +21,7 @@ class CreateRegionsTable extends Migration
             $table->unsignedBigInteger('region_group_id')->nullable();
             $table->foreign('region_group_id')->references('id')
             ->on('region_groups')->nullOnDelete();
+            $table->string('numbers');
             $table->timestamps();
         });
         Schema::enableForeignKeyConstraints();

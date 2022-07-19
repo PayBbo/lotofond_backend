@@ -15,7 +15,7 @@ class Lot extends Model
 
     protected $table = 'lots';
 
-    protected $appends = ['current_price', 'min_price', 'current_price_state', 'photos'];
+    protected $appends = ['current_price', 'min_price', 'current_price_state', 'photos', 'description_extracts'];
     /**
      * The attributes that are mass assignable.
      *
@@ -33,7 +33,8 @@ class Lot extends Model
         'participants',
         'payment_info',
         'sale_agreement',
-        'is_parse_ecp'
+        'concours',
+        'created_at'
 
     ];
 
@@ -108,6 +109,11 @@ class Lot extends Model
     public function params()
     {
         return $this->belongsToMany(Param::class, 'lot_params')->withPivot('value', 'parent_id');
+    }
+
+    public function regions()
+    {
+        return $this->belongsToMany(Region::class, 'lot_regions')->withPivot('is_debtor_region');
     }
 
     public function notifications()
@@ -306,5 +312,24 @@ class Lot extends Model
                 })->get());
         }
         return null;
+    }
+
+    public function getDescriptionExtractsAttribute(){
+        $result = [];
+        $params = $this->params()->where('lot_params.parent_id', null)
+            ->select('lot_params.id as lot_param_id','title', 'type', 'lot_params.value as value')->get();
+        foreach($params as $param){
+            $subParams = $this->params()->where('lot_params.parent_id', $param->lot_param_id)->select('title', 'type', 'lot_params.value as value')->get();
+            if($subParams->count()>0){
+                $result[] = [
+                    'tradeSubject'=>$param->value,
+                    'extracts'=>$subParams->makeHidden(['pivot'])
+                ];
+
+            }else{
+                $result[] = $param->makeHidden(['pivot']);
+            }
+        }
+        return $result;
     }
 }

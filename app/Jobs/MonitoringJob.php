@@ -4,6 +4,7 @@ namespace App\Jobs;
 
 use App\Models\Lot;
 use App\Models\Monitoring;
+use App\Models\Notification;
 use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -40,7 +41,15 @@ class MonitoringJob implements ShouldQueue
             if ($lots->count() > 0) {
                 foreach ($lots as $lot) {
                     if (!$monitoring->lots->contains($lot)) {
-                        $monitoring->lots()->attach($lot, ['created_at'=>$maxDate]);
+                        $monitoring->lots()->attach($lot, ['created_at' => $maxDate]);
+                        Notification::create([
+                            'user_id' => $monitoring->user_id,
+                            'lot_id' => $lot->id,
+                            'date' => $maxDate,
+                            'type_id' => 3,
+                            'value' => $monitoring->title,
+                            'message' => 'monitoring'
+                        ]);
                     }
                 }
             }
