@@ -40,7 +40,6 @@
                 }
             }
         }
-
     }
 
     & .bkt-card-period {
@@ -196,7 +195,90 @@
         flex-wrap: nowrap;
         margin-bottom: 25px;
     }
+}
 
+.bkt-card-win {
+    margin: 0 auto;
+    @extend .bkt-card-trade;
+
+    & .bkt-card__image-slider {
+        max-height: 325px;
+    }
+
+    & .bkt-card__title {
+        font-size: 22px;
+        font-family: "Gilroy";
+        font-weight: bold;
+        line-height: 1.182;
+    }
+
+    & .bkt-card-price-wrapper {
+        text-align: right;
+
+        & .bkt-card-price__title {
+            font-size: 30px;
+            font-family: "Gilroy";
+            color: rgb(47, 187, 64);
+            font-weight: bold;
+            line-height: 1.2;
+            //text-align: right;
+        }
+
+        & .bkt-card-price__subtitle {
+            font-size: 12px;
+            color: $main-default;
+            font-weight: 600;
+            margin: 0;
+            line-height: 1.2;
+        }
+    }
+
+    & .bkt-card-infographics {
+        & > * {
+            padding-right: 3px;
+            padding-left: 3px;
+        }
+
+        gap: 6px 0;
+
+        & .bkt-card__row {
+            padding: 18px 20px 18px 30px;
+            border-color: #eef2ff;
+
+            & .bkt-card__feature {
+                & .bkt-card__title {
+                    font-size: 18px;
+                    font-weight: 400;
+                }
+
+                & .bkt-card__subtitle {
+                    font-size: 12px;
+                    color: $primary-default;
+                    font-weight: 600;
+                    margin: 0;
+                }
+            }
+        }
+
+    }
+
+    & .bkt-card-winner {
+        font-size: 16px;
+    }
+    & .bkt-card-winner {
+        gap: 9px;
+        &__title {
+            font-size: 16px;
+            font-weight: 600;
+            //line-height: 2.167;
+        }
+        &__subtitle {
+            font-size: 12px;
+            font-weight: 400;
+            color: rgba(45, 50, 68, 0.4);
+            //line-height: 2.6;
+        }
+    }
 }
 
 @media screen and (max-width: 568px) {
@@ -227,14 +309,58 @@
             }
         }
     }
+
+    .bkt-card-win {
+        & .bkt-card-infographics {
+            gap: 0 6px;
+
+            & > * {
+                padding-right: 0px;
+                padding-left: 0px;
+            }
+
+            & .bkt-card__row {
+                padding: 15px 18px 14px 20px;
+
+                & .bkt-card__feature {
+                    & .bkt-card__title {
+                        font-size: 14px;
+                    }
+
+                    & .bkt-card__subtitle {
+                        font-size: 10px;
+                    }
+                }
+            }
+
+        }
+
+        & .bkt-card-price-wrapper {
+            text-align: left;
+        }
+
+        & .bkt-card-winner {
+            gap: 12px;
+            &__title {
+                font-size: 12px;
+            }
+            &__subtitle {
+                font-size: 10px;
+            }
+        }
+    }
 }
 
 @media screen and (max-width: 768px) {
-
+    .bkt-card-win {
+        & .bkt-card-price-wrapper {
+            text-align: left;
+        }
+    }
 }
 
 @media screen and (max-width: 991px) {
-    .bkt-card-trade{
+    .bkt-card-trade {
         border-top-left-radius: 0;
         border-top-right-radius: 0;
         border-bottom-left-radius: 18px;

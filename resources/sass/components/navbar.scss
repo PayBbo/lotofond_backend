@@ -41,6 +41,7 @@
     &__logo {
         font-weight: 700;
         color: $neutral-default;
+        max-width: 100px;
     }
 
     &__nav {
@@ -87,7 +88,8 @@
         }
 
         &-icon {
-            margin-right: 9px;
+            display: flex;
+            margin-right: 8px;
         }
 
         &-link {
@@ -217,6 +219,10 @@
         min-height: 51px;
         padding: 10px 20px;
 
+        &__logo {
+            max-width: 50px;
+        }
+
         &__wrapper {
             gap: 6px;
         }
@@ -228,6 +234,17 @@
 
             & .bkt-navbar__nav-link {
                 font-size: 11px;
+            }
+        }
+
+        &__nav {
+            &-icon {
+                margin-right: 7px;
+                display: flex;
+                & svg {
+                    width: 12px;
+                    height: 12px;
+                }
             }
         }
 

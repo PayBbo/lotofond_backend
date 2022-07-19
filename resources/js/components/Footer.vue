@@ -24,7 +24,7 @@
                             <bkt-icon name="Fire"></bkt-icon>
                         </li>
                         <li>
-                            <router-link to="/wins">Топ-побед</router-link>
+                            <router-link to="/week-winners">Топ-побед</router-link>
                         </li>
                         <li>
                             <router-link to="/registries">Реестры</router-link>
