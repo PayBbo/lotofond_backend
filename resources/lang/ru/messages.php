@@ -20,6 +20,8 @@ return [
     'favouriteResult'=>'Объявление результатов :value!',
     'favouritePriceReductionInFourDays'=>'Изменение цены лота через :value дня!',
     'favouritePriceReductionInSevenDays'=>'Изменение цены лота через :value дней!',
-    'favouritePriceReduction'=>'Изменение цены лота :value!'
+    'favouritePriceReduction'=>'Изменение цены лота :value!',
+    'welcome'=>'Добро пожаловать!',
+    'gladToSeeYou'=>'Мы рады вас видеть в BankrotMP'
 
 ];

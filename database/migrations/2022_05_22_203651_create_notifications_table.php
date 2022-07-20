@@ -19,7 +19,9 @@ class CreateNotificationsTable extends Migration
             $table->unsignedBigInteger('user_id')->nullable();
             $table->unsignedBigInteger('type_id');
             $table->unsignedBigInteger('lot_id')->nullable();
-            $table->string('value', 255);
+            $table->string('value', 255)->nullable();
+            $table->string('label', 255)->nullable();
+            $table->enum('platform_action', ['info', 'goToWebsite', 'renewSubscription'])->nullable();
             $table->foreign('user_id')->references('id')
                 ->on('users')->cascadeOnDelete();
             $table->foreign('lot_id')->references('id')

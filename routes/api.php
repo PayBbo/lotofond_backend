@@ -53,7 +53,7 @@ Route::group(['middleware' => ['json.response', 'localization']], function () {
     });
     Route::group(['prefix' => 'trades'], function () {
 
-        Route::group(['middleware' => ['custom.auth']], function () {
+        Route::group(['middleware' => ['auth:api']], function () {
 
             Route::put('/', [AuctionController::class, 'getTrades']);
 
@@ -101,7 +101,7 @@ Route::group(['middleware' => ['json.response', 'localization']], function () {
         Route::get('/lots', [StatisticsController::class, 'getStatisticsByLots']);
     });
 
-    Route::middleware("auth:api")->group(function () {
+    Route::middleware("auth.deny:api")->group(function () {
 
         Route::group(['prefix' => 'account'], function () {
 

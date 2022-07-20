@@ -2986,6 +2986,16 @@ components:
               $ref: "#/components/schemas/Images"
             description:
               type: string
+        label:
+          type: string
+          description: заголовок для уведомлений платформы
+        actionType:
+          type: string
+          enum:
+            - info
+            - goToWebsite
+            - renewSubscription
+          description: тип действия для уведомлений платформы
     Notifications:
       type: object
       properties:

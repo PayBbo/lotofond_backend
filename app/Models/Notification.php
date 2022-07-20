@@ -22,7 +22,9 @@ class Notification extends Model
         'value',
         'date',
         'is_seen',
-        'message'
+        'message',
+        'label',
+        'platform_action'
     ];
 
     /**

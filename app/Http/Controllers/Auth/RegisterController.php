@@ -11,6 +11,7 @@ use App\Http\Resources\AccessTokenResource;
 use App\Http\Services\GenerateAccessTokenService;
 use App\Http\Services\SendCodeService;
 use App\Models\Favourite;
+use App\Models\Notification;
 use App\Models\User;
 use App\Models\VerifyAccount;
 use Carbon\Carbon;
@@ -101,6 +102,14 @@ class RegisterController extends Controller
         Favourite::create([
             'user_id'=>$user->id,
             'title'=>'Общее'
+        ]);
+        Notification::create([
+            'user_id' => $user->id,
+            'date' => Carbon::now()->setTimezone('Europe/Moscow'),
+            'type_id' => 1,
+            'message' => 'gladToSeeYou',
+            'label'=> 'welcome',
+            'platform_action'=>'info'
         ]);
         $generateToken = new GenerateAccessTokenService();
         $token = $generateToken->generateToken($request, $username, $password);

@@ -65,6 +65,6 @@ class Kernel extends HttpKernel
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'json.response' => \App\Http\Middleware\ForceJsonResponse::class,
         'localization' => \App\Http\Middleware\Localization::class,
-        'custom.auth' => \App\Http\Middleware\CustomAuthenticate::class,
+        'auth.deny' => \App\Http\Middleware\DenyIfNotAuthenticate::class,
     ];
 }
