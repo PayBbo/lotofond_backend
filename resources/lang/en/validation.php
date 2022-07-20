@@ -138,7 +138,8 @@ return [
     'exceeding_limit'=>'Exceeded the limit of the available number of folders',
     'one_note'=>'The note already exists',
     'exists_note'               => 'The selected note does not exist.',
-
+    'exists_event'=> 'The selected event does not exist.',
+    'credentials_submitted'=> 'You need to confirm the action from a valid email',
     /*
     |--------------------------------------------------------------------------
     | Custom Validation Language Lines

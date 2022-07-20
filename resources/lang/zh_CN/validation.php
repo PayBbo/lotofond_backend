@@ -142,6 +142,8 @@ return [
     'exceeding_limit'=>'超出了可用文件夹数量的限制',
     'one_note'=>'该说明已经存在',
     'exists_note'               => '所选音符不存在。',
+    'exists_event'=> '所选事件不存在。',
+    'credentials_submitted'=> '您需要从有效的电子邮件确认操作',
     'attributes' => [
         'phone' => '电话号码',
         'surname'=> '姓',

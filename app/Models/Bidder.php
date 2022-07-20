@@ -98,6 +98,12 @@ class Bidder extends Model
 
     }
 
+    public function biddingVictories(){
+
+        return $this->hasMany(BiddingParticipant::class)->where('is_winner', true);
+
+    }
+
     public function debtorAuctionsWithLots()
     {
         return $this->hasMany(Auction::class, 'debtor_id')->whereHas('lots');

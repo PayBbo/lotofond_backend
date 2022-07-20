@@ -4,74 +4,56 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\EventStoreRequest;
 use App\Http\Requests\EventUpdateRequest;
+use App\Http\Resources\EventCollection;
 use App\Models\Event;
+use App\Rules\IsUserEvent;
 use Illuminate\Http\Request;
 
 class EventController extends Controller
 {
-    /**
-     * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
-     */
-    public function index(Request $request)
-    {
-        $events = Event::all();
-
+    public function getEvents(Request $request){
+        if($request->type == 'all'){
+            $events = Event::where('user_id', auth()->id())
+                ->whereMonth('date', $request->month)
+                ->whereYear('date', $request->year)
+                ->get();
+        }else{
+            $events = Event::where(['user_id'=> auth()->id(), 'event_type'=>$request->type])
+                ->whereMonth('date', $request->month)
+                ->whereYear('date', $request->year)
+                ->get();
+        }
+        return response(new EventCollection($events), 200);
     }
 
-    /**
-     * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
-     */
-    public function create(Request $request)
-    {
+    public function addEvent(EventStoreRequest $request){
+        Event::create([
+            'date'=>$request->date,
+            'time'=>$request->time,
+            'title'=>$request->title,
+            'event_type'=>$request->type,
+            'user_id'=>auth()->id()
+        ]);
+
+        return response(null, 200);
     }
 
-    /**
-     * @param \App\Http\Requests\EventStoreRequest $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(EventStoreRequest $request)
-    {
-        $event = Event::create($request->validated());
-
+    public function editEvent(EventUpdateRequest $request){
+        $event = Event::find($request->id);
+        $event->date = $request->date;
+        $event->time = $request->time;
+        $event->title = $request->title;
+        $event->event_type = $request->type;
+        $event->save();
+        return response(null, 200);
     }
 
-    /**
-     * @param \Illuminate\Http\Request $request
-     * @param \App\Models\Event $event
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Request $request, Event $event)
-    {
-    }
-
-    /**
-     * @param \Illuminate\Http\Request $request
-     * @param \App\Models\Event $event
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Request $request, Event $event)
-    {
-    }
-
-    /**
-     * @param \App\Http\Requests\EventUpdateRequest $request
-     * @param \App\Models\Event $event
-     * @return \Illuminate\Http\Response
-     */
-    public function update(EventUpdateRequest $request, Event $event)
-    {
-        $event->update($request->validated());
-    }
-
-    /**
-     * @param \Illuminate\Http\Request $request
-     * @param \App\Models\Event $event
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Request $request, Event $event)
-    {
+    public function deleteEvent(Request $request){
+        $request->validate([
+            'id' => ['required', 'integer', 'exists:events,id', new IsUserEvent()]
+        ]);
+        $event = Event::find($request->id);
         $event->delete();
+        return response(null, 200);
     }
 }

@@ -482,6 +482,84 @@ paths:
                 $ref: '#/components/schemas/Error'
       security:
         - bearerAuth: []
+  /trades/nearest:
+    put:
+      parameters:
+        - name: Content-Language
+          in: header
+          description: Заголовок для определения локали (ru, en, zh_CN)
+          required: true
+        - in: query
+          name: page
+          schema:
+            type: integer
+          required: true
+          description: Номер страницы для серверной пагинации
+      tags:
+        - Trades
+      summary: Получение информации о ближайших торгах в соответствии с фильтрами
+      operationId: getNearestTrades
+      requestBody:
+        description: Данные о выбранных фильтрах
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Filters'
+        required: true
+      responses:
+        "200":
+          description: Информация о 20 ближайших торгах
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TradeInfo'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+        - bearerAuth: []
+  /trades/victories:
+    get:
+      parameters:
+        - name: Content-Language
+          in: header
+          description: Заголовок для определения локали (ru, en, zh_CN)
+          required: true
+        - in: query
+          name: page
+          schema:
+            type: integer
+          required: true
+          description: Номер страницы для серверной пагинации
+      tags:
+        - Trades
+      summary: Получение информации о ближайших торгах в соответствии с фильтрами
+      operationId: getVictories
+      responses:
+        "200":
+          description: Информация о 20 победах недели
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Victory'
+                  pagination:
+                    $ref: '#/components/schemas/Pagination'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+        - bearerAuth: []
   /trades/{auctionId}:
     put:
       parameters:
@@ -651,6 +729,11 @@ paths:
                   type: string
                   required: false
                   description: Строка для поиска по имени/фамилии/отчеству/короткому имени
+                sortDirection:
+                  type: string
+                  enum:
+                    - asc
+                    - desc
       responses:
         "200":
           description: Информация о должнике/организаторе торгов/арбитражном управляющем
@@ -1752,6 +1835,251 @@ paths:
                 $ref: '#/components/schemas/Error'
       security:
         - bearerAuth: []
+  /event:
+    post:
+      parameters:
+        - name: Content-Language
+          in: header
+          description: Заголовок для определения локали (ru, en, zh_CN)
+          required: true
+      tags:
+        - Events
+      summary: Добавление события в календаре
+      operationId: addEvent
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Event"
+      responses:
+        "200":
+          description: Добавление события прошло успешно
+        "422":
+          description: Ошибка валидации
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+        - bearerAuth: []
+  /event/edit:
+    parameters:
+      - name: Content-Language
+        in: header
+        description: Заголовок для определения локали (ru, en, zh_CN)
+        required: true
+    put:
+      tags:
+        - Events
+      summary: Редактирование события в календаре
+      operationId: editEvent
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Event"
+      responses:
+        "200":
+          description: Редактирование события прошло успешно
+        "422":
+          description: Ошибка валидации
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+        - bearerAuth: []
+  /event/delete:
+    parameters:
+      - name: Content-Language
+        in: header
+        description: Заголовок для определения локали (ru, en, zh_CN)
+        required: true
+    delete:
+      tags:
+        - Events
+      summary: Удаление события в календаре
+      operationId: deleteEvent
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: integer
+      responses:
+        "200":
+          description: Удаление события прошло успешно
+        "422":
+          description: Ошибка валидации
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+        - bearerAuth: [ ]
+  /events:
+    post:
+      tags:
+        - Events
+      summary: Получение событий по выбранному типу и месяцу
+      operationId: getEvents
+      requestBody:
+        description: данные для получения событий календаря
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                type:
+                  type: string
+                  enum:
+                    - task
+                    - event
+                    - reminder
+                    - all
+                month:
+                  type: string
+                  enum:
+                    - 01
+                    - 02
+                    - 03
+                    - 04
+                    - 05
+                    - 06
+                    - 07
+                    - 08
+                    - 09
+                    - 10
+                    - 11
+                    - 12
+                year:
+                  type: integer
+                  description: год для поиска
+      responses:
+        "200":
+          description: список событий выбранного месяца
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Event"
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+        - bearerAuth: [ ]
+
+  /account/credentials/code:
+    parameters:
+      - name: Content-Language
+        in: header
+        description: Заголовок для определения локали (ru, en, zh_CN)
+        required: true
+    post:
+      tags:
+        - Account
+      summary: Запрос кода подтверждения для смены почты/телефона
+      operationId: getChangeCredentialsCode
+      requestBody:
+        description: Почта или номер телефона пользователя.
+          1.haveAccessToOldCredentials= true, isOldCredentials = true - ввод для подтверждения действия с предыдущей почты
+          2.haveAccessToOldCredentials= true, isOldCredentials = false - ввод новой почты, после подтверждения уже существующей почты
+          3.haveAccessToOldCredentials= false, isOldCredentials = false - ввод новой почты, без доступа к предыдущей почте
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ResetPasswordCodeRequest'
+            examples:
+              email:
+                value:
+                  grantType: email
+                  email: test@gmail.com
+                  haveAccessToOldCredentials: true
+                  isOldCredentials: false
+              phone:
+                value:
+                  grantType: phone
+                  phone: '74951239999'
+                  haveAccessToOldCredentials: true
+                  isOldCredentials: false
+        required: true
+      responses:
+        "422":
+          description: 'Wrong credentials response'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "200":
+          description: 'Successful response, code sent to user '
+        "550":
+          description: 'Message can''t be sent to user'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+        - bearerAuth: [ ]
+  /account/credentials/code/verify:
+    parameters:
+      - name: Content-Language
+        in: header
+        description: Заголовок для определения локали (ru, en, zh_CN)
+        required: true
+    post:
+      tags:
+        - Account
+      summary: Отправка пользователем кода подтверждения для подтвержденыя изменения почты/телефона
+      operationId: verifyChangeCredentialsCode
+      requestBody:
+        description: Код подтверждения.
+          1.haveAccessToOldCredentials= true, isOldCredentials = true - ввод для подтверждения действия с предыдущей почты
+          2.haveAccessToOldCredentials= true, isOldCredentials = false - ввод новой почты, после подтверждения уже существующей почты
+          3.haveAccessToOldCredentials= false, isOldCredentials = false - ввод новой почты, без доступа к предыдущей почте
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CodeRequest'
+            examples:
+              email:
+                value:
+                  grantType: email
+                  email: test@gmail.com
+                  code: '123451'
+                  haveAccessToOldCredentials: true
+                  isOldCredentials: false
+              phone:
+                value:
+                  grantType: phone
+                  phone: '74951239999'
+                  code: '123451'
+                  haveAccessToOldCredentials: true
+                  isOldCredentials: false
+        required: true
+      responses:
+        "422":
+          description: 'Wrong credentials response'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "200":
+          description: 'Successful response'
+      security:
+        - bearerAuth: [ ]
 components:
   schemas:
     Register:
@@ -1870,9 +2198,7 @@ components:
     User:
       required:
         - name
-        - surname
-        - email
-        - phone
+        - lastName
       type: object
       properties:
         name:
@@ -1881,16 +2207,9 @@ components:
         middleName:
           type: string
           example: Ivanovich
-        surname:
+        lastName:
           type: string
           example: Ivanov
-        email:
-          type: string
-          format: email
-          example: user1@mail.com
-        phone:
-          type: string
-          example: '79225551234'
     Trade:
       type: object
       properties:
@@ -2988,7 +3307,68 @@ components:
               "isDebtorRegion": 0
             }
           ]
-
+    Event:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: отправлять только при редактировании; приходит в списке событий
+        title:
+          type: string
+        date:
+          type: string
+          example: 20.07.2022
+        time:
+          type: string
+          example: 00:00
+        type:
+          type: string
+          enum:
+            - task
+            - event
+            - reminder
+            - all
+    Victory:
+        type: object
+        properties:
+          tradeId:
+            type: string
+            description: номер торгов
+          description:
+            type: string
+          photos:
+            $ref: "#/components/schemas/Images"
+          startPrice:
+            type: integer
+          endPrice:
+            type: integer
+          percentageReduction:
+            type: integer
+          date:
+            type: string
+          participantsCount:
+            type: integer
+          winner:
+            type: object
+            properties:
+              person:
+                type: object
+                properties:
+                  firstName:
+                    type: string
+                  middleName:
+                    type: string
+                  lastName:
+                    type: string
+              company:
+                type: object
+                properties:
+                  shortName:
+                    type: string
+                  fullName:
+                    type: string
+              victoriesCount:
+                type: integer
   securitySchemes:
     bearerAuth:
       type: http

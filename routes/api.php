@@ -5,6 +5,7 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\BidderController;
+use App\Http\Controllers\EventController;
 use App\Http\Controllers\FavouriteController;
 use App\Http\Controllers\FileController;
 use App\Http\Controllers\FilterController;
@@ -56,11 +57,15 @@ Route::group(['middleware' => ['json.response', 'localization']], function () {
 
             Route::put('/', [AuctionController::class, 'getTrades']);
 
+            Route::put('/nearest', [AuctionController::class, 'getNearestTrades']);
+
             Route::put('/filter', [AuctionController::class, 'getFilteredTrades']);
 
             Route::put('/{auctionId}', [AuctionController::class, 'getLotsByAuction']);
 
             Route::get('/lot/{lotId}', [AuctionController::class, 'getLotInformation']);
+
+            Route::get('/victories', [AuctionController::class, 'getVictories']);
 
         });
 
@@ -107,6 +112,10 @@ Route::group(['middleware' => ['json.response', 'localization']], function () {
             Route::get('logout', [LoginController::class, 'logout']);
 
             Route::post('refresh/token', [LoginController::class, 'refreshToken']);
+
+            Route::post('credentials/code', [ProfileController::class, 'getCredentialsCode']);
+
+            Route::post('credentials/code/verify', [ProfileController::class, 'verifyCredentialsCode']);
 
         });
 
@@ -188,8 +197,17 @@ Route::group(['middleware' => ['json.response', 'localization']], function () {
 
         });
 
+        Route::group(['prefix' => 'event'], function () {
 
-        Route::resource('event', App\Http\Controllers\EventController::class);
+            Route::delete('/delete', [EventController::class, 'deleteEvent']);
+
+            Route::put('/edit', [EventController::class, 'editEvent']);
+
+            Route::post('/', [EventController::class, 'addEvent']);
+
+        });
+        Route::post('/events', [EventController::class, 'getEvents']);
+
 
     });
 
