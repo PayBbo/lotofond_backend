@@ -43,7 +43,7 @@ class ParseDataFromRosreestr implements ShouldQueue
             $lotParam = LotParam::where('value', $this->cadastralNumber)->first();
             if ($lotParam) {
                 $lot = Lot::find($lotParam->lot_id);
-                $objectAddress = $data['objectData']['objectAddress']['mergedAddress'];
+                $objectAddress = $data['objectData']['addressNote'];
                 $mainLotParam = LotParam::where(['param_id' => 7, 'value' => 'Участок по адресу ' . $objectAddress, 'lot_id' => $lot->id])->first();
                 if (!$mainLotParam) {
                     $mainLotParam = LotParam::create([

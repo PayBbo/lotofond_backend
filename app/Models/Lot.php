@@ -329,7 +329,7 @@ class Lot extends Model
             }else{
                 $result[] = [
                     'tradeSubject'=>null,
-                    'extracts'=>$param->makeHidden(['pivot', 'lot_param_id'])
+                    'extracts'=>[$param->makeHidden(['pivot', 'lot_param_id'])]
                 ];
             }
         }
