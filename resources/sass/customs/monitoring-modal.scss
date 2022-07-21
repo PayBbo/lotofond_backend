@@ -62,10 +62,10 @@
 }
 
 @media (max-width: 576px) {
-    * {
-        font-size: 12px;
-    }
     .bkt-monitoring-modal {
+        * {
+            font-size: 12px;
+        }
         & .bkt-monitoring__items {
             flex-wrap: wrap;
             margin-top: 25px;

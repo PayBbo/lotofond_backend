@@ -171,6 +171,7 @@ import Dropdown from "./components/Dropdown.vue";
 import WinCard from "./components/WinCard";
 import Search from "./components/Search";
 import Select from "./components/Select";
+import Collapse from "./components/Collapse";
 
 import BktAuthModal from "./auth/AuthModal.vue";
 import BktCodeModal from "./auth/CodeModal.vue";
@@ -192,6 +193,7 @@ Vue.component('BktDropdown', Dropdown);
 Vue.component('BktWinCard', WinCard);
 Vue.component('BktSearch', Search);
 Vue.component('BktSelect', Select);
+Vue.component('BktCollapse', Collapse);
 
 
 Vue.filter('priceFormat', value => {

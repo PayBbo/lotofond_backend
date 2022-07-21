@@ -18,6 +18,14 @@ export default {
                     /* webpackChunkName: "registries" */ "./pages/Registries.vue"
                     ),
 		},
+        {
+            path: '/registries/:type/:id',
+            name:'Registry',
+            component: () =>
+                import(
+                    /* webpackChunkName: "registry" */ "./pages/Registry.vue"
+                    ),
+        },
 		{
 			path: '/profile',
             name:'Profile',
