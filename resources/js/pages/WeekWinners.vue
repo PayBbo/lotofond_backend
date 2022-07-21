@@ -12,7 +12,7 @@
         name: "WeekWinners",
         data() {
             return {
-                loading: false,
+                // loading: false,
                 search_mode: false,
                 selectedBtn: 0,
                 group: 'по порядку добавления',
@@ -30,61 +30,37 @@
                     "slidesToScroll": 1,
                     "variableWidth": true
                 },
-                items: [
-                    {
-                        id: '',
-                        description: '',
-                        trade: {externalId: '1'}
-                    }
-                ],
-                pagination_data: {}
+                // items: [
+                //     {
+                //         id: '',
+                //         description: '',
+                //         trade: {externalId: '1'}
+                //     }
+                // ],
+                // pagination_data: {}
             };
         },
         created() {
 
         },
         mounted() {
+            this.getData();
         },
         computed: {
-            // items() {
-            //     return this.$store.getters.current_favourites;
-            // },
-            // pagination_data() {
-            //     return this.$store.getters.favourites_pagination;
-            // },
+            items() {
+                return this.$store.getters.wins;
+            },
+            pagination_data() {
+                return this.$store.getters.wins_pagination;
+            },
+            loading() {
+                return this.$store.getters.wins_loading;
+            },
         },
         methods: {
-            async getData(page = 1, pathId) {
-                await this.$store.dispatch('getFavourites', {page: page, pathId: pathId});
+            async getData(page = 1) {
+                await this.$store.dispatch('getWins', {page: page});
             },
-            async getFavouritePaths() {
-                this.loading = true;
-                await this.$store.dispatch('getFavouritePaths').then(response => {
-                    // this.$store.commit('setFavouritePaths', response.data)
-                    // this.$store.commit('setCurrentPath', response.data[0].pathId)
-                    // this.getData(1, this.current_path)
-                    this.$store.dispatch('getFavourites', {page: 1, pathId: this.current_path})
-                        .finally(() => {
-                            this.loading = false;
-                        });
-
-                }).catch(err => {
-                    this.loading = false;
-                });
-            },
-            async setCurrentPath(value) {
-                this.loading = true;
-                await this.$store.dispatch('setCurrentPath', value)
-                    .finally(() => {
-                        this.loading = false;
-                    });
-            },
-            async removeFavouritePath() {
-                await this.$store.dispatch('removeFavouritePath', this.current_path)
-                    .then(resp => {
-                        this.setCurrentPath(this.items_paths[0].pathId)
-                    });
-            }
 
         }
     }

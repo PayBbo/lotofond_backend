@@ -1,37 +1,40 @@
 .bkt-simple-table {
     border-radius: 20px;
-    border-width: 1px;
+    border-width: 2px;
     border-style: solid;
-    border-color: lightgray;
+    border-color: rgb(238, 242, 255);
     border-spacing: 0;
     border-collapse: separate;
     width: 100%;
+
     & tr th:first-child,
     & tr td:first-child {
         text-align: center;
     }
     & tr td,
     & tr th {
-        border-right-width: 1px;
+        border-right-width: 2px;
         border-right-style: solid;
-        border-right-color: lightgray;
-        border-bottom-width: 1px;
+        border-right-color: rgb(238, 242, 255);
+        border-bottom-width: 2px;
         border-bottom-style: solid;
-        border-bottom-color: lightgray;
+        border-bottom-color: rgb(238, 242, 255);
+        font-size: 14px;
+        padding: 19px;
     }
 
     & tr th:last-child,
     & tr td:last-child {
-        border-right-width: 1px;
+        border-right-width: 2px;
         border-right-style: none;
-        border-right-color: lightgray;
+        border-right-color: rgb(238, 242, 255);
     }
 
     & tr:last-child td,
     & tr:last-child th {
-        border-bottom-width: 1px;
+        border-bottom-width: 2px;
         border-bottom-style: none;
-        border-bottom-color: lightgray;
+        border-bottom-color: rgb(238, 242, 255);
     }
 
     & :not(tfoot) tr:first-child th:first-child,
@@ -64,8 +67,8 @@
     & thead tr:last-child th,
     & thead tr:last-child td {
         border-bottom-style: solid;
-        border-bottom-width: 1px;
-        border-bottom-color: lightgray;
+        border-bottom-width: 2px;
+        border-bottom-color: rgb(238, 242, 255);
     }
 
     & tfoot tr:last-child th,
@@ -76,8 +79,8 @@
     & tfoot tr:first-child th,
     & tfoot tr:first-child td {
         border-top-style: solid;
-        border-top-width: 1px;
-        border-top-color: lightgray;
+        border-top-width: 2px;
+        border-top-color: rgb(238, 242, 255);
     }
 
     & tr:first-child th,
@@ -87,7 +90,11 @@
 }
 
 @media (max-width: 576px) {
-    .bkt-simple-table * {
-        font-size: 8px;
+    .bkt-simple-table {
+        & tr td,
+        & tr th {
+            font-size: 9px;
+            padding: 12px;
+        }
     }
 }

@@ -32,7 +32,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   name: "WeekWinners",
   data: function data() {
     return {
-      loading: false,
+      // loading: false,
       search_mode: false,
       selectedBtn: 0,
       group: 'по порядку добавления',
@@ -54,25 +54,31 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         "slidesToShow": 1,
         "slidesToScroll": 1,
         "variableWidth": true
-      },
-      items: [{
-        id: '',
-        description: '',
-        trade: {
-          externalId: '1'
-        }
-      }],
-      pagination_data: {}
+      } // items: [
+      //     {
+      //         id: '',
+      //         description: '',
+      //         trade: {externalId: '1'}
+      //     }
+      // ],
+      // pagination_data: {}
+
     };
   },
   created: function created() {},
-  mounted: function mounted() {},
-  computed: {// items() {
-    //     return this.$store.getters.current_favourites;
-    // },
-    // pagination_data() {
-    //     return this.$store.getters.favourites_pagination;
-    // },
+  mounted: function mounted() {
+    this.getData();
+  },
+  computed: {
+    items: function items() {
+      return this.$store.getters.wins;
+    },
+    pagination_data: function pagination_data() {
+      return this.$store.getters.wins_pagination;
+    },
+    loading: function loading() {
+      return this.$store.getters.wins_loading;
+    }
   },
   methods: {
     getData: function getData() {
@@ -80,100 +86,23 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           _this = this;
 
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
-        var page, pathId;
+        var page;
         return _regeneratorRuntime().wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
                 page = _arguments.length > 0 && _arguments[0] !== undefined ? _arguments[0] : 1;
-                pathId = _arguments.length > 1 ? _arguments[1] : undefined;
-                _context.next = 4;
-                return _this.$store.dispatch('getFavourites', {
-                  page: page,
-                  pathId: pathId
+                _context.next = 3;
+                return _this.$store.dispatch('getWins', {
+                  page: page
                 });
 
-              case 4:
+              case 3:
               case "end":
                 return _context.stop();
             }
           }
         }, _callee);
-      }))();
-    },
-    getFavouritePaths: function getFavouritePaths() {
-      var _this2 = this;
-
-      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2() {
-        return _regeneratorRuntime().wrap(function _callee2$(_context2) {
-          while (1) {
-            switch (_context2.prev = _context2.next) {
-              case 0:
-                _this2.loading = true;
-                _context2.next = 3;
-                return _this2.$store.dispatch('getFavouritePaths').then(function (response) {
-                  // this.$store.commit('setFavouritePaths', response.data)
-                  // this.$store.commit('setCurrentPath', response.data[0].pathId)
-                  // this.getData(1, this.current_path)
-                  _this2.$store.dispatch('getFavourites', {
-                    page: 1,
-                    pathId: _this2.current_path
-                  })["finally"](function () {
-                    _this2.loading = false;
-                  });
-                })["catch"](function (err) {
-                  _this2.loading = false;
-                });
-
-              case 3:
-              case "end":
-                return _context2.stop();
-            }
-          }
-        }, _callee2);
-      }))();
-    },
-    setCurrentPath: function setCurrentPath(value) {
-      var _this3 = this;
-
-      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee3() {
-        return _regeneratorRuntime().wrap(function _callee3$(_context3) {
-          while (1) {
-            switch (_context3.prev = _context3.next) {
-              case 0:
-                _this3.loading = true;
-                _context3.next = 3;
-                return _this3.$store.dispatch('setCurrentPath', value)["finally"](function () {
-                  _this3.loading = false;
-                });
-
-              case 3:
-              case "end":
-                return _context3.stop();
-            }
-          }
-        }, _callee3);
-      }))();
-    },
-    removeFavouritePath: function removeFavouritePath() {
-      var _this4 = this;
-
-      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee4() {
-        return _regeneratorRuntime().wrap(function _callee4$(_context4) {
-          while (1) {
-            switch (_context4.prev = _context4.next) {
-              case 0:
-                _context4.next = 2;
-                return _this4.$store.dispatch('removeFavouritePath', _this4.current_path).then(function (resp) {
-                  _this4.setCurrentPath(_this4.items_paths[0].pathId);
-                });
-
-              case 2:
-              case "end":
-                return _context4.stop();
-            }
-          }
-        }, _callee4);
       }))();
     }
   }

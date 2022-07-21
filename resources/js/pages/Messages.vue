@@ -1,8 +1,8 @@
 <template>
-    <div class="container bkt-messages bkt-container">
-        <div class="bkt-main-title bkt-auctions__title">
-            <span>Сообщения</span>
-        </div>
+    <div class="container bkt-messages bkt-page bkt-container">
+        <h1 class="bkt-page__title bkt-auctions__title">
+            Сообщения
+        </h1>
 
         <div class="bkt-content">
             <div class="row">

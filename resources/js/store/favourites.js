@@ -36,17 +36,18 @@ export default {
     },
     mutations: {
         setFavourites(state, payload) {
-            state.favourites[payload.pathId] = payload.data
-            state.current_favourites = state.favourites[payload.pathId].data
-            state.favourites_pagination = state.favourites[payload.pathId].pagination
+            // state.favourites[payload.pathId] = payload.data;
+            payload.data.data.forEach(item => {
+                let favourite = state.favourites[payload.pathId].data.findIndex(el => el.id === item.id);
+                if (favourite < 0) {
+                    state.favourites[payload.pathId].data.push(item)
+                }
+            });
+            state.favourites[payload.pathId].pagination = payload.data.pagination;
+            state.current_favourites = state.favourites[payload.pathId].data;
+            state.favourites_pagination = state.favourites[payload.pathId].pagination;
             // state.favourites = payload.data.data;
             // state.favourites_pagination = payload.data.pagination;
-            // payload.data.forEach(item => {
-            //     let favourite = state.favourites.findIndex(el => el.id === item.id);
-            //     if (favourite < 0) {
-            //         state.favourites.push(item)
-            //     }
-            // });
         },
         setFavouritePaths(state, payload) {
             state.favourites_paths = payload;
@@ -271,20 +272,6 @@ export default {
                     // dispatch('getFavourites', {page: 1, pathId: response.data[0].pathId});
                     commit('setFavouritePaths', response.data)
                     commit('setCurrentPath', response.data[0].pathId)
-                });
-        },
-        async updateFavourite({commit}, payload) {
-            await axios.post('/api/favourites/' + payload.id, payload.formData,
-                {
-                    headers: {
-                        'Content-Type': 'multipart/form-data',
-                    }
-                })
-                .then((response) => {
-                    commit('saveFavourite', response.data);
-                }).catch(error => {
-                    console.log(error);
-                    throw error
                 });
         },
         async removeFavourite({dispatch, commit}, payload) {

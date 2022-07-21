@@ -3,6 +3,8 @@ export default {
         arbitr_managers: [],
         arbitr_managers_pagination: {},
         arbitr_managers_loading: false,
+        filters_arbitration_managers: [],
+        filters_arbitration_managers_pagination: {}
     },
 
     getters: {
@@ -15,26 +17,30 @@ export default {
         arbitr_managers_loading(state) {
             return state.arbitr_managers_loading;
         },
+        filters_arbitration_managers(state) {
+            return state.filters_arbitration_managers;
+        },
+        filters_arbitration_managers_pagination(state) {
+            return state.filters_arbitration_managers_pagination;
+        },
     },
     mutations: {
         setArbitrManagers(state, payload) {
-            // state.arbitr_managers = payload.data;
+            state.arbitr_managers = [];
             payload.data.forEach(item => {
                 let trade = state.arbitr_managers.findIndex(el => el.id === item.id);
                 if (trade < 0) {
                     let tmp_item = item;
-                    if(item.type === 'person')
-                    {
+                    if (item.type === 'person') {
                         tmp_item.fullName = Object.values(tmp_item.person).reduce((prev, cur) => {
-                            if(cur){
-                                prev+= cur+' '
+                            if (cur) {
+                                prev += cur + ' '
                             }
                             return prev;
                         }, '').trim();
-                        tmp_item.shortName = item.person.firstName+' '+item.person.lastName;
+                        tmp_item.shortName = item.person.firstName + ' ' + item.person.lastName;
 
-                    }
-                    else {
+                    } else {
                         tmp_item.fullName = item.company.fullName;
                         tmp_item.shortName = item.company.shortName;
                     }
@@ -42,6 +48,30 @@ export default {
                 }
             });
             state.arbitr_managers_pagination = payload.pagination;
+        },
+        setFiltersArbitrManagers(state, payload) {
+            // state.arbitr_managers = payload.data;
+            payload.data.forEach(item => {
+                let trade = state.filters_arbitration_managers.findIndex(el => el.id === item.id);
+                if (trade < 0) {
+                    let tmp_item = item;
+                    if (item.type === 'person') {
+                        tmp_item.fullName = Object.values(tmp_item.person).reduce((prev, cur) => {
+                            if (cur) {
+                                prev += cur + ' '
+                            }
+                            return prev;
+                        }, '').trim();
+                        tmp_item.shortName = item.person.firstName + ' ' + item.person.lastName;
+
+                    } else {
+                        tmp_item.fullName = item.company.fullName;
+                        tmp_item.shortName = item.company.shortName;
+                    }
+                    state.filters_arbitration_managers.push(tmp_item)
+                }
+            });
+            state.filters_arbitration_managers_pagination = payload.pagination;
         },
         addArbitrManager(state, payload) {
             state.arbitr_managers.push(payload)
@@ -69,19 +99,27 @@ export default {
         },
     },
     actions: {
-        async getArbitrManagers({commit, state}, payload) {
+        async getArbitrationManagers({commit, state}, payload) {
+            commit('setArbitrManagersLoading', true);
             try {
                 await axios({
-                    method: 'get',
-                    url: '/api/trades/filter/bidders/arbitrationManagers?page='+payload,
-                    data: {},
+                    method: 'put',
+                    url: '/api/trades/filter/bidders/arbitrationManagers?page=' + payload.page,
+                    data: payload,
                 })
                     .then((response) => {
-                        commit('setArbitrManagers', response.data)
+                        if(payload.type=='filters') {
+                            commit('setFiltersArbitrManagers', response.data)
+                        }
+                        else {
+                            commit('setArbitrManagers', response.data)
+                        }
+                        commit('setArbitrManagersLoading', false);
                     });
             } catch (error) {
                 console.log(error);
                 // commit('setArbitrManagers', []);
+                commit('setArbitrManagersLoading', false);
                 throw error
             }
         },

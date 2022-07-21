@@ -93,57 +93,95 @@
 
 <script>
 
-import AddNewMonitoring from "./Monitoring/AddNewMonitoring";
+    import AddNewMonitoring from "./Monitoring/AddNewMonitoring";
 
-export default {
-    name: "Monitoring",
-    components: {AddNewMonitoring},
-    data() {
-        return {
-            selBtn: 1, showMonitoring: false
-        }
-    },
-    methods: {
-        async getData(page = 1) {
-            await this.$store.dispatch('getFilteredTrades', {page: page, filters: this.filters});
+    export default {
+        name: "Monitoring",
+        components: {AddNewMonitoring},
+        data() {
+            return {
+                selBtn: 1, showMonitoring: false,
+                loading: false,
+                settings: {
+                    "dots": false,
+                    "infinite": false,
+                    "centerMode": false,
+                    "centerPadding": "20px",
+                    "slidesToShow": 1,
+                    "slidesToScroll": 1,
+                    "variableWidth": true
+                }
+            }
         },
+        created() {
+            this.getMonitoringPaths();
+        },
+        mounted() {
+            this.getData();
+        },
+        computed: {
+            filters() {
+                return this.$store.getters.filters;
+            },
+            items() {
+                return this.$store.getters.current_monitorings;
+            },
+            pagination_data() {
+                return this.$store.getters.monitorings_pagination;
+            },
+            items_paths() {
+                return this.$store.getters.monitorings_paths;
+            },
+            current_path() {
+                return this.$store.getters.monitoring_current_path;
+            },
+            current_path_object() {
+                let index = this.items_paths.findIndex(item => item.pathId == this.current_path)
+                if (index >= 0) {
+                    return this.items_paths[index];
+                }
+                return {}
+            },
+        },
+        methods: {
+            async getData(page = 1, pathId = 0) {
+                await this.$store.dispatch('getMonitorings', {page: page, pathId: pathId})
+            },
 
-        openModal() {
-            this.$store.commit('openModal', '#monitoringEditModal');
-        }
-    },
-    computed: {
-        filters() {
-            return this.$store.getters.filters;
+            openModal() {
+                this.$store.commit('openModal', '#monitoringEditModal');
+            },
+            async getMonitoringPaths() {
+                this.loading = true;
+                await this.$store.dispatch('getMonitoringPaths').then(response => {
+                    // this.$store.commit('setMonitoringPaths', response.data)
+                    // this.$store.commit('setCurrentPath', response.data[0].pathId)
+                    // this.getData(1, this.current_path)
+                    this.$store.dispatch('getMonitorings', {page: 1, pathId: this.current_path})
+                        .finally(() => {
+                            this.loading = false;
+                        });
+
+                }).catch(err => {
+                    this.loading = false;
+                });
+            },
+            async setCurrentPath(value) {
+                this.loading = true;
+                await this.$store.dispatch('setCurrentPath', value)
+                    .finally(() => {
+                        this.loading = false;
+                    });
+            },
+            async removeMonitoringPath() {
+                await this.$store.dispatch('removeMonitoringPath', this.current_path)
+                    .then(resp => {
+                        this.setCurrentPath(this.items_paths[0].pathId)
+                    });
+            }
+
         },
-        items() {
-            return this.$store.getters.trades;
-        },
-        pagination_data() {
-            return this.$store.getters.trades_pagination;
-        },
-        loading() {
-            return this.$store.getters.trades_loading;
-        },
-    },
-    created() {
-        this.$store.dispatch('getLotsStatistic');
-    },
-    mounted() {
-         this.getData();
-    },
-    // mounted() {
-    /*$(".bkt-arrow").click(function () {
-      $(this).toggleClass("bkt-rotate-180");
-      $(".bkt-btn-monitoring").toggleClass("bkt-border-bottom-rounded-none");
-      $(".bkt-menu-monitoring").toggleClass("d-none");
-    });
-    $(".bkt-button-menu").click(function () {
-      $(".bkt-button-menu").removeClass("active").removeClass("shadow");
-      $(this).addClass("active").addClass("shadow");
-    });*/
-    // }
-}
+    }
 </script>
 
 <style scoped>

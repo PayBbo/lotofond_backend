@@ -3,6 +3,8 @@ export default {
         trade_places: [],
         trade_places_pagination: {},
         trade_places_loading: false,
+        filters_trade_places: [],
+        filters_trade_places_pagination: {},
     },
 
     getters: {
@@ -15,18 +17,26 @@ export default {
         trade_places_loading(state) {
             return state.trade_places_loading;
         },
-
+        filters_trade_places(state) {
+            return state.filters_trade_places;
+        },
+        filters_trade_places_pagination(state) {
+            return state.filters_trade_places_pagination;
+        },
     },
     mutations: {
         setTradePlaces(state, payload) {
-            // state.trade_places = payload.data;
+            state.trade_places = payload.data;
+            state.trade_places_pagination = payload.pagination;
+        },
+        setFiltersTradePlaces(state, payload) {
             payload.forEach(item => {
-                let trade = state.trade_places.findIndex(el => el.id === item.id);
+                let trade = state.filters_trade_places.findIndex(el => el.id === item.id);
                 if (trade < 0) {
-                    state.trade_places.push(item)
+                    state.filters_trade_places.push(item)
                 }
             });
-            state.trade_places_pagination = null;
+            state.filters_trade_places_pagination = payload.pagination;
         },
         addTradePlace(state, payload) {
             state.trade_places.push(payload)
@@ -55,18 +65,26 @@ export default {
     },
     actions: {
         async getTradePlaces({commit, state}, payload) {
+            commit('setTradePlacesLoading', true);
             try {
                 await axios({
                     method: 'get',
-                    url: '/api/trades/filter/trade-places?page='+payload,
-                    data: {},
+                    url: '/api/trades/filter/trade-places?page=' + payload.page,
+                    data: payload,
                 })
                     .then((response) => {
-                        commit('setTradePlaces', response.data)
+                        if(payload.type=='filters') {
+                            commit('setFiltersTradePlaces', response.data)
+                        }
+                        else {
+                            commit('setTradePlaces', response.data)
+                        }
+                        commit('setTradePlacesLoading', false);
                     });
             } catch (error) {
                 console.log(error);
                 // commit('setTradePlaces', []);
+                commit('setTradePlacesLoading', false);
                 throw error
             }
         },

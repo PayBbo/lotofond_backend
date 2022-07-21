@@ -15,7 +15,7 @@
             v-if="total > perPage"
         >
             <li class="page-item page-item-control d-none d-sm-block" :class="{'disabled': !prevPageUrl}"
-                v-if="prevPageUrl || showDisabled">
+                v-if="(prevPageUrl || showDisabled) && extraControls">
                 <div class="page-link" aria-label="Previous" :tabindex="!prevPageUrl && -1"
                    @click.prevent=changePage(1)>
                     <svg fill="#ffc515" width="14" height="12" viewBox="0 0 14 12">
@@ -71,7 +71,7 @@
                 </div>
             </li>
             <li class="page-item page-item-control d-none d-sm-block" :class="{'disabled': !nextPageUrl}"
-                v-if="nextPageUrl || showDisabled">
+                v-if="(nextPageUrl || showDisabled) && extraControls">
                 <div class="page-link" aria-label="Next" :tabindex="!nextPageUrl && -1"
                    @click.prevent=changePage(lastPage)>
                     <svg
@@ -125,6 +125,10 @@
                 type: String,
                 default: '',
             },
+            extraControls: {
+                type: Boolean,
+                default: true
+            }
         },
         data() {
             return {
