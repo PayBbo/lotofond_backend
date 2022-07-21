@@ -18,6 +18,7 @@ class Notification extends Model
     protected $fillable = [
         'user_id',
         'lot_id',
+        'monitoring_id',
         'type_id',
         'value',
         'date',
@@ -38,13 +39,14 @@ class Notification extends Model
         'type_id' => 'integer',
         'lot_id' => 'integer',
         'date'=>'datetime',
-        'is_seen'=>'boolean'
+        'is_seen'=>'boolean',
+        'monitoring_id'=>'integer'
 
     ];
 
     public function lot()
     {
-        return $this->belongsTo(Lot::class);
+        return $this->belongsTo(FavouriteLot::class);
     }
 
     public function user()
@@ -56,4 +58,10 @@ class Notification extends Model
     {
         return $this->belongsTo(NotificationType::class);
     }
+
+    public function monitoring()
+    {
+        return $this->belongsTo(Monitoring::class);
+    }
+
 }

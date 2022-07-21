@@ -44,14 +44,11 @@ class ParseDataFromRosreestr implements ShouldQueue
             if ($lotParam) {
                 $lot = Lot::find($lotParam->lot_id);
                 $objectAddress = $data['objectData']['addressNote'];
-                $mainLotParam = LotParam::where(['param_id' => 7, 'value' => 'Участок по адресу ' . $objectAddress, 'lot_id' => $lot->id])->first();
-                if (!$mainLotParam) {
-                    $mainLotParam = LotParam::create([
-                        'param_id' => 7,
-                        'value' => 'Участок по адресу ' . $objectAddress,
-                        'lot_id' => $lot->id
-                    ]);
-                }
+                $mainLotParam = LotParam::create([
+                    'param_id' => 7,
+                    'value' => 'Участок по адресу ' . $objectAddress,
+                    'lot_id' => $lot->id
+                ]);
                 $lotParam->parent_id = $mainLotParam->id;
                 $lotParam->save();
                 $objectRegion = $data['objectData']['objectAddress']['region'];

@@ -18,18 +18,35 @@ class NotificationResource extends JsonResource
             __('messages.' . $this->message);
         return [
             'id' => $this->id,
-            'value' => $value,
-            'date' => $this->date,
-            $this->mergeWhen(!is_null($this->lot_id), [
-                'lot' => [
-                    'photos' => is_null($this->lot_id) ? null : $this->lot->photos,
-                    'description' => is_null($this->lot_id) ? null : stripslashes(preg_replace('/[\x00-\x1F\x7F]/u', ' ', $this->lot->description))
-                ],
-            ]),
             'isSeen' => $this->is_seen,
+            'type' => $this->type->title,
+            'date' => $this->date,
             $this->mergeWhen($this->type_id == 1, [
-                'label' => __('messages.' . $this->label),
-                'actionType' => $this->platform_action
+                'dataPlatform' => [
+                    'label' => __('messages.' . $this->label),
+                    'value' => $value,
+                    'action' => $this->platform_action
+                ]
+            ]),
+            $this->mergeWhen($this->type_id == 2, [
+                'dataFavourite' => [
+                    'photos' => is_null($this->lot_id) ? null : $this->lot->lot->photos,
+                    'description' => is_null($this->lot_id) ? null : stripslashes(preg_replace('/[\x00-\x1F\x7F]/u', ' ', $this->lot->lot->description)),
+                    'detail' => $value,
+                    'favouritePaths' => is_null($this->lot_id) ? null : $this->lot->lot->getLotFavouritePaths()
+                ]
+            ]),
+            $this->mergeWhen($this->type_id  == 3, [
+                'dataMonitoring' => [
+                    'folderInfo' =>
+                        [
+                            'name' =>  is_null($this->monitoring_id) ? null : $this->monitoring->title,
+                            'pathId' =>  is_null($this->monitoring_id) ? null : $this->monitoring_id,
+                            'color' =>  is_null($this->monitoring_id) ? null : $this->monitoring->color
+                        ],
+                    'newLotCount' => (integer)$this->value
+                ]
+
             ])
         ];
     }

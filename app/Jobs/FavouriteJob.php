@@ -3,6 +3,7 @@
 namespace App\Jobs;
 
 use App\Models\Favourite;
+use App\Models\FavouriteLot;
 use App\Models\Notification;
 use App\Models\PriceReduction;
 use Carbon\Carbon;
@@ -66,12 +67,13 @@ class FavouriteJob implements ShouldQueue
                         if($value > $date) {
                             $diff = Carbon::parse($value)->diffInDays($date);
                             if($diff <=7) {
+                                $lot_id = FavouriteLot::where(['lot_id'=>$lot->id, 'favourite_id'=>$favourite->id])->first()['id'];
                                 if ($diff > 4) {
-                                    $this->saveNotification($lot->id, $favourite->user_id, $key . 'InSevenDays', $diff);
+                                    $this->saveNotification($lot_id, $favourite->user_id, $key . 'InSevenDays', $diff);
                                 } elseif ($diff > 1) {
-                                    $this->saveNotification($lot->id, $favourite->user_id, $key . 'InFourDays', $diff);
+                                    $this->saveNotification($lot_id, $favourite->user_id, $key . 'InFourDays', $diff);
                                 } else {
-                                    $this->saveNotification($lot->id, $favourite->user_id, $key, $value->format('d.m.y H:i'));
+                                    $this->saveNotification($lot_id, $favourite->user_id, $key, $value->format('d.m.y H:i'));
                                 }
                             }
                         }
@@ -81,14 +83,17 @@ class FavouriteJob implements ShouldQueue
         }
     }
 
-    public function saveNotification($lot_id, $user_id, $message, $value){
-        Notification::create([
-            'user_id' => $user_id,
-            'lot_id' => $lot_id,
-            'date' => Carbon::now()->setTimezone('Europe/Moscow'),
-            'type_id' => 2,
-            'value' => $value,
-            'message' => $message
-        ]);
+    public function saveNotification($lot_id, $user_id, $message, $value)
+    {
+        if(!Notification::where(['lot_id'=>$lot_id, 'user_id'=>$user_id, 'message'=>$message, 'value'=>$value])->exists()) {
+            Notification::create([
+                'user_id' => $user_id,
+                'lot_id' => $lot_id,
+                'date' => Carbon::now()->setTimezone('Europe/Moscow'),
+                'type_id' => 2,
+                'value' => $value,
+                'message' => $message
+            ]);
+        }
     }
 }

@@ -117,6 +117,8 @@ Route::group(['middleware' => ['json.response', 'localization']], function () {
 
             Route::post('credentials/code/verify', [ProfileController::class, 'verifyCredentialsCode']);
 
+            Route::post('notifications/settings', [ProfileController::class, 'updateNotificationsSettings']);
+
         });
 
         Route::group(['prefix' => 'trades'], function () {
