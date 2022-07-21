@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Exceptions\CustomExceptions\BaseException;
 use App\Http\Requests\GetCredentialsCodeRequest;
 use App\Http\Requests\UpdateAccountRequest;
+use App\Http\Requests\UpdateNotificationsRequest;
 use App\Http\Requests\VerifyCredentialsCodeRequest;
 use App\Http\Resources\ProfileResource;
 use App\Http\Services\SendCodeService;
@@ -31,6 +32,18 @@ class ProfileController extends Controller
         $user->middle_name = $request->middleName;
         $user->save();
         return response(new ProfileResource(User::find($user_id)), 200);
+    }
+
+    public function updateNotificationsSettings(UpdateNotificationsRequest $request){
+        $user_id = auth()->user()->getAuthIdentifier();
+        $user = User::find($user_id);
+        $user->not_from_favourite = $request->notificationsFromFavourite;
+        $user->not_from_monitoring = $request->notificationsFromMonitoring;
+        $user->not_settings = $request->notificationsSettings;
+        $user->save();
+
+        return response(null, 200);
+
     }
 
     public function getCredentialsCode(GetCredentialsCodeRequest $request)

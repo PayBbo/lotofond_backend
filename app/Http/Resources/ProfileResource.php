@@ -19,7 +19,10 @@ class ProfileResource extends JsonResource
             'phone'=>$this->phone,
             'name'=>$this->name,
             'middleName'=>$this->middle_name,
-            'lastName'=>$this->surname
+            'lastName'=>$this->surname,
+            'notificationsFromFavourite'=>$this->not_from_favourite,
+            'notificationsFromMonitoring'=>$this->not_from_monitoring,
+            'notificationsSettings'=>$this->not_settings
         ];
     }
 }

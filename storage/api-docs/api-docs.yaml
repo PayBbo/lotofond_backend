@@ -318,7 +318,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/User'
+              $ref: '#/components/schemas/UpdateUser'
         required: true
       responses:
         "422":
@@ -400,7 +400,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
       security:
-        - bearerAuth: []
+        - bearerAuth: [ ]
   /trades:
     put:
       parameters:
@@ -481,7 +481,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
       security:
-        - bearerAuth: []
+        - bearerAuth: [ ]
   /trades/nearest:
     put:
       parameters:
@@ -520,7 +520,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
       security:
-        - bearerAuth: []
+        - bearerAuth: [ ]
   /trades/victories:
     get:
       parameters:
@@ -559,7 +559,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
       security:
-        - bearerAuth: []
+        - bearerAuth: [ ]
   /trades/{auctionId}:
     put:
       parameters:
@@ -613,7 +613,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
       security:
-        - bearerAuth: []
+        - bearerAuth: [ ]
   /trades/filter/trade-places:
     get:
       tags:
@@ -780,7 +780,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
       security:
-        - bearerAuth: []
+        - bearerAuth: [ ]
   /trades/lot/action:
     put:
       tags:
@@ -940,7 +940,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
       security:
-        - bearerAuth: []
+        - bearerAuth: [ ]
   /favourite:
     put:
       parameters:
@@ -1029,7 +1029,7 @@ paths:
                   description: название папки, если создаем ее
                 lots:
                   type: array
-                  example: [1, 2, 3]
+                  example: [ 1, 2, 3 ]
                   description: массив с айдишниками лотов для добавления в папку
       responses:
         "200":
@@ -1047,7 +1047,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
       security:
-        - bearerAuth: []
+        - bearerAuth: [ ]
   /favourite/get/paths:
     get:
       tags:
@@ -1068,7 +1068,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
       security:
-        - bearerAuth: []
+        - bearerAuth: [ ]
   /favourite/delete/lot:
     delete:
       tags:
@@ -1108,7 +1108,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
       security:
-        - bearerAuth: []
+        - bearerAuth: [ ]
   /favourite/move/lot:
     put:
       parameters:
@@ -1157,7 +1157,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
       security:
-        - bearerAuth: []
+        - bearerAuth: [ ]
   /monitoring/add/edit/path:
     post:
       tags:
@@ -1187,7 +1187,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
       security:
-        - bearerAuth: []
+        - bearerAuth: [ ]
   /monitoring/delete/path/{id}:
     delete:
       parameters:
@@ -1217,7 +1217,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
       security:
-        - bearerAuth: []
+        - bearerAuth: [ ]
   /monitoring:
     put:
       parameters:
@@ -1249,7 +1249,7 @@ paths:
                 marks:
                   type: array
                   description: айдишники меток пользователя для поиска
-                  example: [1, 2, 3]
+                  example: [ 1, 2, 3 ]
                 sort:
                   $ref: '#/components/schemas/Sort'
       responses:
@@ -1272,7 +1272,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
       security:
-        - bearerAuth: []
+        - bearerAuth: [ ]
   /monitoring/get/paths:
     get:
       tags:
@@ -1333,7 +1333,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
       security:
-        - bearerAuth: []
+        - bearerAuth: [ ]
   /notifications/{type}:
     get:
       parameters:
@@ -1376,7 +1376,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
       security:
-        - bearerAuth: []
+        - bearerAuth: [ ]
   /notifications/seen:
     post:
       tags:
@@ -1405,7 +1405,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
       security:
-        - bearerAuth: []
+        - bearerAuth: [ ]
   /mark:
     post:
       tags:
@@ -1442,7 +1442,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
       security:
-        - bearerAuth: []
+        - bearerAuth: [ ]
   /mark/{markId}/lot/{lotId}:
     delete:
       parameters:
@@ -1478,7 +1478,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
       security:
-        - bearerAuth: []
+        - bearerAuth: [ ]
   /mark/lot/{lotId}:
     get:
       parameters:
@@ -1512,7 +1512,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
       security:
-        - bearerAuth: []
+        - bearerAuth: [ ]
   /marks:
     get:
       tags:
@@ -1533,7 +1533,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
       security:
-        - bearerAuth: []
+        - bearerAuth: [ ]
   /files/{lotId}:
     get:
       parameters:
@@ -1561,7 +1561,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
       security:
-        - bearerAuth: []
+        - bearerAuth: [ ]
   /bidders/trades:
     put:
       tags:
@@ -1664,7 +1664,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
       security:
-        - bearerAuth: []
+        - bearerAuth: [ ]
   /files/{id}:
     delete:
       parameters:
@@ -1694,7 +1694,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
       security:
-        - bearerAuth: []
+        - bearerAuth: [ ]
   /statistics/categories:
     get:
       tags:
@@ -1710,8 +1710,8 @@ paths:
                 type: object
                 example:
                   {
-                    'realEstate': {'allLotsCount': 100, 'activeLotsCount': 90},
-                   'commercialRealEstate': {'allLotsCount': 100, 'activeLotsCount': 90}
+                    'realEstate': { 'allLotsCount': 100, 'activeLotsCount': 90 },
+                    'commercialRealEstate': { 'allLotsCount': 100, 'activeLotsCount': 90 }
                   }
         default:
           description: unexpected error
@@ -1733,7 +1733,7 @@ paths:
               schema:
                 type: object
                 example:
-                  {'activeLotsCount': 100, 'nonactiveLotsCount': 200, 'allLotsCount': 300}
+                  { 'activeLotsCount': 100, 'nonactiveLotsCount': 200, 'allLotsCount': 300 }
         default:
           description: unexpected error
           content:
@@ -1768,7 +1768,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
       security:
-        - bearerAuth: []
+        - bearerAuth: [ ]
   /note/edit:
     parameters:
       - name: Content-Language
@@ -1802,7 +1802,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
       security:
-        - bearerAuth: []
+        - bearerAuth: [ ]
   /note/delete:
     parameters:
       - name: Content-Language
@@ -1834,7 +1834,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
       security:
-        - bearerAuth: []
+        - bearerAuth: [ ]
   /event:
     post:
       parameters:
@@ -1863,7 +1863,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
       security:
-        - bearerAuth: []
+        - bearerAuth: [ ]
   /event/edit:
     parameters:
       - name: Content-Language
@@ -1892,7 +1892,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
       security:
-        - bearerAuth: []
+        - bearerAuth: [ ]
   /event/delete:
     parameters:
       - name: Content-Language
@@ -2080,6 +2080,39 @@ paths:
           description: 'Successful response'
       security:
         - bearerAuth: [ ]
+  /account/notifications/settings:
+    post:
+      tags:
+        - Account
+      summary: изменение настроек уведомлений в профиле пользователя
+      operationId: updateNotificationSettings
+      requestBody:
+        description: настройки уведомлений
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                notificationsFromFavourite:
+                  type: boolean
+                  description: флаг - включены ли уведомления избранного
+                notificationsFromMonitoring:
+                  type: boolean
+                  description: флаг - включены ли уведомления от мониторинга
+                notificationsSettings:
+                  $ref: "#/components/schemas/NotificationsSettings"
+        required: true
+      responses:
+        "200":
+          description: Настройки уведомлений сохранены успешно
+        "422":
+          description: Ошибка валидации
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+        - bearerAuth: [ ]
 components:
   schemas:
     Register:
@@ -2196,6 +2229,67 @@ components:
         refreshToken:
           type: string
     User:
+      required:
+        - name
+        - lastName
+        - email
+        - phone
+        - notificationsFromMonitoring
+        - notificationsFromFavourite
+        - notificationsSettings
+      type: object
+      properties:
+        name:
+          type: string
+          example: Ivan
+        middleName:
+          type: string
+          example: Ivanovich
+        lastName:
+          type: string
+          example: Ivanov
+        email:
+          type: string
+        phone:
+          type: string
+        notificationsFromFavourite:
+          type: boolean
+          description: флаг - включены ли уведомления избранного
+        notificationsFromMonitoring:
+          type: boolean
+          description: флаг - включены ли уведомления от мониторинга
+        notificationsSettings:
+          $ref: "#/components/schemas/NotificationsSettings"
+    NotificationsSettings:
+      type: object
+      properties:
+        favouriteEventStart:
+          type: integer
+          description: за какое кол-во дней высылать уведомление - 1, 2, 4, 7
+        favouriteEventEnd:
+          type: integer
+          description: за какое кол-во дней высылать уведомление - 1, 2, 4, 7
+        favouriteApplicationStart:
+          type: integer
+          description: за какое кол-во дней высылать уведомление - 1, 2, 4, 7
+        favouriteApplicationEnd:
+          type: integer
+          description: за какое кол-во дней высылать уведомление - 1, 2, 4, 7
+        favouriteResult:
+          type: integer
+          description: за какое кол-во дней высылать уведомление - 1, 2, 4, 7
+        favouritePriceReduction:
+          type: integer
+          description: за какое кол-во дней высылать уведомление - 1, 2, 4, 7
+      example: {
+        'favouriteEventStart': 1,
+        'favouriteEventEnd': 1,
+        'favouriteApplicationStart': 1,
+        'favouriteApplicationEnd': 1,
+        'favouriteResult': 1,
+        'favouritePriceReduction': 1
+      }
+    UpdateUser:
       required:
         - name
         - lastName
@@ -2738,7 +2832,7 @@ components:
             debtors: [ 1, 2, 3 ],
             organizers: [ 1, 2, 3 ],
             arbitrationManagers: [ 1, 2, 3 ],
-            other: {"period":"periodAll", "hasPhotos": false, "isHidden": false, "iStopped": false, "isCompleted": false}
+            other: { "period": "periodAll", "hasPhotos": false, "isHidden": false, "iStopped": false, "isCompleted": false }
           }
           properties:
             debtorCategories:
@@ -2961,10 +3055,10 @@ components:
 
     Notification:
       required:
-        - value
         - date
         - isSeen
         - id
+        - type
       type: object
       properties:
         id:
@@ -2973,29 +3067,63 @@ components:
         isSeen:
           type: boolean
           description: флаг, бало ли сообщение прочитано ранее
-        value:
+        type:
           type: string
-          description: текст уведомления
+          description: тип уведомления
+          enum:
+            - platform
+            - favourite
+            - monitoring
         date:
           type: string
           description: дата уведомления
-        lot:
+        dataPlatform:
+          type: object
+          properties:
+            label:
+              type: string
+              description: заголовок для уведомлений платформы
+            value:
+              type: string
+              description: текст уведомления
+            action:
+              type: string
+              enum:
+                - info
+                - goToWebsite
+                - renewSubscription
+              description: тип действия для уведомлений платформы
+        dataFavourite:
           type: object
           properties:
             photos:
               $ref: "#/components/schemas/Images"
             description:
               type: string
-        label:
-          type: string
-          description: заголовок для уведомлений платформы
-        actionType:
-          type: string
-          enum:
-            - info
-            - goToWebsite
-            - renewSubscription
-          description: тип действия для уведомлений платформы
+            detail:
+              type: string
+              description: текст уведомления
+            favouritePaths:
+              type: array
+              items:
+                $ref: "#/components/schemas/PathFavourite"
+        dataMonitoring:
+          type: object
+          properties:
+            folderInfo:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: название папки мониторинга
+                pathId:
+                  type: integer
+                color:
+                  type: string
+            newLotCount:
+              type: integer
+              description: количество добавленных лотов
+
     Notifications:
       type: object
       properties:
@@ -3116,65 +3244,65 @@ components:
       example:
         [
           {
-          "tradeSubject": "Участок по адресу г Владимир, ул Безыменского, д. 22, 33",
-          "extracts": [
-            {
-              "title": "Кадастровая стоимость",
-              "type": "cadastralDataPrice",
-              "value": "2031838.84"
-            },
-            {
-              "title": "Кадастровые данные о площади",
-              "type": "cadastralDataArea",
-              "value": "53.7"
-            },
-            {
-              "title": "Количество этажей",
-              "type": "other",
-              "value": null
-            },
-            {
-              "title": "Год постройки",
-              "type": "other",
-              "value": null
-            }
-          ]
-        },
+            "tradeSubject": "Участок по адресу г Владимир, ул Безыменского, д. 22, 33",
+            "extracts": [
+              {
+                "title": "Кадастровая стоимость",
+                "type": "cadastralDataPrice",
+                "value": "2031838.84"
+              },
+              {
+                "title": "Кадастровые данные о площади",
+                "type": "cadastralDataArea",
+                "value": "53.7"
+              },
+              {
+                "title": "Количество этажей",
+                "type": "other",
+                "value": null
+              },
+              {
+                "title": "Год постройки",
+                "type": "other",
+                "value": null
+              }
+            ]
+          },
           {
-          "tradeSubject": "Участок по адресу г Ростов-на-Дону, сад Садовод-Любитель, д. 10-78",
-          "extracts": [
-            {
-              "title": "Кадастровый номер",
-              "type": "other",
-              "value": "61:44:0071802:1786"
-            },
-            {
-              "title": "Кадастровая стоимость",
-              "type": "cadastralDataPrice",
-              "value": "1383765.25"
-            },
-            {
-              "title": "Кадастровые данные о площади",
-              "type": "cadastralDataArea",
-              "value": "665"
-            },
-            {
-              "title": "Количество этажей",
-              "type": "other",
-              "value": null
-            },
-            {
-              "title": "Год постройки",
-              "type": "other",
-              "value": null
-            }
-          ]
-        },
+            "tradeSubject": "Участок по адресу г Ростов-на-Дону, сад Садовод-Любитель, д. 10-78",
+            "extracts": [
+              {
+                "title": "Кадастровый номер",
+                "type": "other",
+                "value": "61:44:0071802:1786"
+              },
+              {
+                "title": "Кадастровая стоимость",
+                "type": "cadastralDataPrice",
+                "value": "1383765.25"
+              },
+              {
+                "title": "Кадастровые данные о площади",
+                "type": "cadastralDataArea",
+                "value": "665"
+              },
+              {
+                "title": "Количество этажей",
+                "type": "other",
+                "value": null
+              },
+              {
+                "title": "Год постройки",
+                "type": "other",
+                "value": null
+              }
+            ]
+          },
           {
-          "title": "Государственный номер автомобиля",
-          "type": "other",
-          "value": "В381УР161"
-        }
+            "title": "Государственный номер автомобиля",
+            "type": "other",
+            "value": "В381УР161"
+          }
         ]
     Sort:
       type: object
@@ -3339,46 +3467,46 @@ components:
             - reminder
             - all
     Victory:
-        type: object
-        properties:
-          tradeId:
-            type: string
-            description: номер торгов
-          description:
-            type: string
-          photos:
-            $ref: "#/components/schemas/Images"
-          startPrice:
-            type: integer
-          endPrice:
-            type: integer
-          percentageReduction:
-            type: integer
-          date:
-            type: string
-          participantsCount:
-            type: integer
-          winner:
-            type: object
-            properties:
-              person:
-                type: object
-                properties:
-                  firstName:
-                    type: string
-                  middleName:
-                    type: string
-                  lastName:
-                    type: string
-              company:
-                type: object
-                properties:
-                  shortName:
-                    type: string
-                  fullName:
-                    type: string
-              victoriesCount:
-                type: integer
+      type: object
+      properties:
+        tradeId:
+          type: string
+          description: номер торгов
+        description:
+          type: string
+        photos:
+          $ref: "#/components/schemas/Images"
+        startPrice:
+          type: integer
+        endPrice:
+          type: integer
+        percentageReduction:
+          type: integer
+        date:
+          type: string
+        participantsCount:
+          type: integer
+        winner:
+          type: object
+          properties:
+            person:
+              type: object
+              properties:
+                firstName:
+                  type: string
+                middleName:
+                  type: string
+                lastName:
+                  type: string
+            company:
+              type: object
+              properties:
+                shortName:
+                  type: string
+                fullName:
+                  type: string
+            victoriesCount:
+              type: integer
   securitySchemes:
     bearerAuth:
       type: http

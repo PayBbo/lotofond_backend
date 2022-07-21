@@ -89,14 +89,22 @@ class RegisterController extends Controller
         if (!Hash::check($request->code, $verifyAccount->token) || $verifyAccount->created_at < $currentDate) {
             throw new BaseException("ERR_VALIDATION_FAILED_CODE", 422, __('validation.verification_code'));
         }
-        $password = $verifyAccount->code;
+        $password = '11111111';
         $user = User::create([
             'surname' => $verifyAccount->surname,
             'name' => $verifyAccount->name,
             'email' => $verifyAccount->value,
             'phone' => $verifyAccount->phone,
             'password' => Hash::make($password),
-            'email_verified_at' => Carbon::now()
+            'email_verified_at' => Carbon::now(),
+            'not_settings'=>[
+                'favouriteEventStart' => 1,
+                'favouriteEventEnd' => 1,
+                'favouriteApplicationStart' => 1,
+                'favouriteApplicationEnd' => 1,
+                'favouriteResult' => 1,
+                'favouritePriceReduction' => 1
+            ]
         ]);
         $verifyAccount->delete();
         Favourite::create([
