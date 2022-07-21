@@ -8,23 +8,25 @@
                     facere qui optio,
                     incidunt dolorem voluptatem amet, nihil quo unde quidem nam deleniti laudantium ex, quibusdam
                     dolores voluptas possimus alias? Lorem ipsum dolor, sit amet consectetur adipisicing elit.</p>
-                <div class="footer_buttons">
-                    <router-link to="/auctions" class="bkt-button primary">Торги</router-link>
+                <div class="footer_buttons bkt-gap-small">
+                    <router-link to="/" class="bkt-button primary">Торги</router-link>
                     <router-link to="/tariffs" class="bkt-button blue">Тарифы</router-link>
                 </div>
             </div>
             <div class="footer_block" style="margin-right: 0;">
                 <div>
                     <ul>
-                        <li>Календарь</li>
+                        <li><router-link to="/calendar">Календарь</router-link></li>
                         <li>
                             <router-link to="/agent">Купить через агента</router-link>
                         </li>
-                        <li>Горящие торги
-                            <bkt-icon name="Fire"></bkt-icon>
+                        <li>
+                            <router-link to="/auctions">Горящие торги
+                                <bkt-icon name="Fire"></bkt-icon>
+                            </router-link>
                         </li>
                         <li>
-                            <router-link to="/week-winners">Топ-побед</router-link>
+                            <router-link to="/week-winners">Победы недели</router-link>
                         </li>
                         <li>
                             <router-link to="/registries">Реестры</router-link>

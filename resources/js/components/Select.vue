@@ -1,66 +1,66 @@
 <template>
-    <ValidationProvider :name="field_label" :rules="rules" v-slot="{ errors }" tag="div" class="bkt-select__wrapper"
-                        :class="select_class" :vid="name"
-    >
+    <ValidationProvider :name="field_label" :rules="rules" v-slot="{ errors }" tag="div" :vid="name">
         <label class="bkt-select__label" v-if="label" :class="label_class">{{label}}</label>
-        <v-select
-            :multiple="multiple"
-            class="bkt-v-select order-2"
-            :class="[selected_class ?'vs--selected' : '', errors && errors.length>0 ? 'error':'', additional_class]"
-            :placeholder="placeholder"
-            :value="value"
-            :label="option_label"
-            :reduce="reduce"
-            :options="options"
-            :clearable="clearable"
-            :searchable="searchable"
-            :disabled="disabled"
-            :loading="loading"
-            @input="saveValue"
-        >
-<!--       @open="open"    :filter="fuseSearch"-->
-            <template v-slot:option="option" v-if="with_option">
-                <slot name="option" v-bind:option="option">
-                </slot>
-            </template>
-            <template #selected-option="option" v-if="with_selected_option">
-                <slot name="selected-option" v-bind:option="option">
-                </slot>
-            </template>
-            <template #no-options="{ search, searching, loading }">
-                <div v-if="method_name">
-                    <infinite-loading
-                        @infinite="infiniteHandler"
-                        :ref="method_name"
-                        :distance="15"
-                        spinner="waveDots"
-                        force-use-infinite-wrapper=".vs__dropdown-menu"
-                    >
-                        <span slot="no-results"></span>
-                        <span slot="no-more"></span>
-                    </infinite-loading>
-                </div>
-                <div v-if="!method_name || $refs[method_name] && $refs[method_name].status!==1">Элементы не найдены</div>
-            </template>
+        <div class="bkt-select__wrapper" :class="select_class">
+            <v-select
+                :multiple="multiple"
+                class="bkt-v-select order-2"
+                :class="[value ?'vs--selected' : '', errors && errors.length>0 ? 'error':'', additional_class]"
+                :placeholder="placeholder"
+                :value="value"
+                :label="option_label"
+                :reduce="reduce"
+                :options="options"
+                :clearable="clearable"
+                :searchable="searchable"
+                :disabled="disabled"
+                :loading="loading"
+                @input="saveValue"
+            >
+                <!--       @open="open"    :filter="fuseSearch"-->
+                <template v-slot:option="option" v-if="with_option">
+                    <slot name="option" v-bind:option="option">
+                    </slot>
+                </template>
+                <template #selected-option="option" v-if="with_selected_option">
+                    <slot name="selected-option" v-bind:option="option">
+                    </slot>
+                </template>
+                <template #no-options="{ search, searching, loading }">
+                    <div v-if="method_name">
+                        <infinite-loading
+                            @infinite="infiniteHandler"
+                            :ref="method_name"
+                            :distance="15"
+                            spinner="waveDots"
+                            force-use-infinite-wrapper=".vs__dropdown-menu"
+                        >
+                            <span slot="no-results"></span>
+                            <span slot="no-more"></span>
+                        </infinite-loading>
+                    </div>
+                    <div v-if="!method_name || $refs[method_name] && $refs[method_name].status!==1">Элементы не найдены</div>
+                </template>
 
-            <template #list-footer="{ filteredOptions }" v-if="method_name && pagination">
-                <li v-if="pagination && pagination.nextPageUrl !==null && filteredOptions.length>0">
-                    <infinite-loading
-                        @infinite="infiniteHandler"
-                        :ref="method_name"
-                        :distance="15"
-                        spinner="waveDots"
-                        force-use-infinite-wrapper=".vs__dropdown-menu"
-                    >
-                        <span slot="no-results"></span>
-                        <span slot="no-more"></span>
-                    </infinite-loading>
-                </li>
-            </template>
-        </v-select>
-        <slot name="subtitle" v-if="subtitle">
-            <label class="bkt-select__subtitle">{{subtitle}}</label>
-        </slot>
+                <template #list-footer="{ filteredOptions }" v-if="method_name && pagination">
+                    <li v-if="pagination && pagination.nextPageUrl !==null && filteredOptions.length>0">
+                        <infinite-loading
+                            @infinite="infiniteHandler"
+                            :ref="method_name"
+                            :distance="15"
+                            spinner="waveDots"
+                            force-use-infinite-wrapper=".vs__dropdown-menu"
+                        >
+                            <span slot="no-results"></span>
+                            <span slot="no-more"></span>
+                        </infinite-loading>
+                    </li>
+                </template>
+            </v-select>
+            <slot name="subtitle" v-if="subtitle">
+                <label class="bkt-select__subtitle">{{subtitle}}</label>
+            </slot>
+        </div>
     </ValidationProvider>
 </template>
 
@@ -111,6 +111,8 @@
             method_name: {
                 type: String,
                 default: ''
+            },
+            method_params: {
             },
             selected_class: {
                 type: Boolean,
@@ -219,7 +221,13 @@
                     page = this.pagination.currentPage;
                     if (this.pagination.nextPageUrl !== null) {
                         this.infinite_loading = true;
-                        await this.$store.dispatch(this.method_name, page + 1).then(resp => {
+                        let payload = page+1;
+                        if(this.method_params)
+                        {
+                            payload = this.method_params;
+                            payload.page = page+1;
+                        }
+                        await this.$store.dispatch(this.method_name, payload).then(resp => {
                             if (this.pagination.nextPageUrl !== null) {
                                 $state.loaded();
                             } else {
@@ -236,7 +244,13 @@
                 else {
                     if(this.method_name)
                     {
-                        await this.$store.dispatch(this.method_name, page + 1).then(resp => {
+                        let payload = page+1;
+                        if(this.method_params)
+                        {
+                            payload = this.method_params;
+                            payload.page = page+1;
+                        }
+                        await this.$store.dispatch(this.method_name, payload).then(resp => {
                             if (this.pagination.nextPageUrl !== null) {
                                 $state.loaded();
                             } else {

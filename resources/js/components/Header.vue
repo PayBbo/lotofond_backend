@@ -6,13 +6,13 @@
                     Покупка без ЭЦП
                 </router-link>
 
-                <ul class="bkt-navbar__nav d-none d-lg-flex">
+                <ul v-if="isLoggedIn" class="bkt-navbar__nav d-none d-lg-flex">
                     <li class="bkt-navbar__nav-item">
                         <router-link to="/favourites" class="bkt-navbar__nav-link">
                             <span class="bkt-button-ellipse main">
                                 <bkt-icon :name="'Star'" :color="'yellow'"/>
                             </span>
-                            Топ-Избранное
+                            Избранное
                         </router-link>
                     </li>
                     <li class="bkt-navbar__nav-item">
@@ -87,7 +87,7 @@
         <nav class="bkt-navbar white">
             <div class="bkt-navbar__wrapper bkt-container">
                 <div class="bkt-navbar__wrapper d-none d-lg-flex">
-                    <router-link custom to="/auctions">
+                    <router-link custom to="/">
                         <button class="bkt-button primary-lighter">
                             Торги
                         </button>
@@ -109,16 +109,16 @@
                         </router-link>
                     </li>
                     <li class="bkt-navbar__nav-item">
-                        <a class="bkt-navbar__nav-link" href="#">
-                    <span class="bkt-navbar__nav-icon">
-                         <bkt-icon :name="'Fire'"/>
-                    </span>
+                        <router-link to="/auctions" class="bkt-navbar__nav-link">
+                            <span class="bkt-navbar__nav-icon">
+                                 <bkt-icon :name="'Fire'"/>
+                            </span>
                             Горящие торги
-                        </a>
+                        </router-link>
                     </li>
                     <li class="bkt-navbar__nav-item d-none d-md-flex">
                         <router-link to="/week-winners" class="bkt-navbar__nav-link">
-                            Топ-побед
+                            Победы недели
                         </router-link>
                     </li>
                     <li class="bkt-navbar__nav-item d-none d-md-flex">
@@ -157,7 +157,9 @@
         <div class="offcanvas offcanvas-start bkt-sidebar" tabindex="-1" id="offcanvasExample"
              aria-labelledby="offcanvasExampleLabel">
             <div class="offcanvas-header bkt-sidebar__header">
-                <h4 class="offcanvas-title bkt-sidebar__title" id="offcanvasExampleLabel">LotoFond</h4>
+                    <img class="logo" src="/images/logo.png" alt="logo">
+<!--                <h4 class="offcanvas-title bkt-sidebar__title" id="offcanvasExampleLabel">LotoFond</h4>-->
+
                 <button type="button" class="bkt-button bkt-sidebar__button" data-bs-dismiss="offcanvas"
                         aria-label="Close">
                     <bkt-icon :name="'Cancel'" :width="'13px'" :height="'13px'" color="white"></bkt-icon>

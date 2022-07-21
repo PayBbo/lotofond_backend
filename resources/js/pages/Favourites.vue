@@ -229,7 +229,8 @@
                 </div>
             </div>
             <bkt-card-list :current_component="'BktCard'" :items="items" :loading="loading"
-                           :pagination_data="pagination_data" @change-page="getData">
+                           :pagination_data="pagination_data" @change-page="getData"
+                           infinite method_name="getFavourites" :method_params="method_params">
             </bkt-card-list>
         </div>
 
@@ -317,6 +318,11 @@
             //         this.$store.dispatch('setCurrentPath', value);
             //     }
             // },
+            method_params() {
+                return {
+                    pathId:this.current_path
+                }
+            }
         },
         methods: {
             async getData(page = 1, pathId) {

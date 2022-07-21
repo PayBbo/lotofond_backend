@@ -3,6 +3,8 @@ export default {
         organizers: [],
         organizers_pagination: {},
         organizers_loading: false,
+        filters_organizers:[],
+        filters_organizers_pagination: {},
     },
 
     getters: {
@@ -15,11 +17,16 @@ export default {
         organizers_loading(state) {
             return state.organizers_loading;
         },
-
+        filters_organizers(state) {
+            return state.filters_organizers;
+        },
+        filters_organizers_pagination(state) {
+            return state.filters_organizers_pagination;
+        },
     },
     mutations: {
         setOrganizers(state, payload) {
-            // state.organizers = payload.data;
+            state.organizers = [];
             payload.data.forEach(item => {
                 let trade = state.organizers.findIndex(el => el.id === item.id);
                 if (trade < 0) {
@@ -43,6 +50,31 @@ export default {
                 }
             });
             state.organizers_pagination = payload.pagination;
+        },
+        setFiltersOrganizers(state, payload) {
+            payload.data.forEach(item => {
+                let trade = state.filters_organizers.findIndex(el => el.id === item.id);
+                if (trade < 0) {
+                    let tmp_item = item;
+                    if(item.type === 'person')
+                    {
+                        tmp_item.fullName = Object.values(tmp_item.person).reduce((prev, cur) => {
+                            if(cur){
+                                prev+= cur+' '
+                            }
+                            return prev;
+                        }, '').trim();
+                        tmp_item.shortName = item.person.firstName+' '+item.person.lastName;
+
+                    }
+                    else {
+                        tmp_item.fullName = item.company.fullName;
+                        tmp_item.shortName = item.company.shortName;
+                    }
+                    state.filters_organizers.push(tmp_item)
+                }
+            });
+            state.filters_organizers_pagination = payload.pagination;
         },
         addOrganizer(state, payload) {
             state.organizers.push(payload)
@@ -71,18 +103,26 @@ export default {
     },
     actions: {
         async getOrganizers({commit, state}, payload) {
+            commit('setOrganizersLoading', true);
             try {
                 await axios({
-                    method: 'get',
-                    url: '/api/trades/filter/bidders/organizers?page='+payload,
-                    data: {},
+                    method: 'put',
+                    url: '/api/trades/filter/bidders/organizers?page='+payload.page,
+                    data: payload,
                 })
                     .then((response) => {
-                        commit('setOrganizers', response.data)
+                        if(payload.type=='filters') {
+                            commit('setFiltersOrganizers', response.data)
+                        }
+                        else {
+                            commit('setOrganizers', response.data)
+                        }
+                        commit('setOrganizersLoading', false);
                     });
             } catch (error) {
                 console.log(error);
                 // commit('setOrganizers', []);
+                commit('setOrganizersLoading', false);
                 throw error
             }
         },

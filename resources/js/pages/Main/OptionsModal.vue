@@ -29,6 +29,7 @@
                         :options="debtors"
                         :reduce="item => item.id"
                         :method_name="'getDebtors'"
+                        :method_params="method_params"
                         :pagination="debtors_pagination"
                     ></bkt-select>
                 </div>
@@ -43,7 +44,8 @@
                         :option_label="'shortName'"
                         :options="arbitr_managers"
                         :reduce="item => item.id"
-                        :method_name="'getArbitrManagers'"
+                        :method_name="'getArbitrationManagers'"
+                        :method_params="method_params"
                         :pagination="arbitr_managers_pagination"
                     ></bkt-select>
                 </div>
@@ -59,6 +61,7 @@
                         :options="organizers"
                         :reduce="item => item.id"
                         :method_name="'getOrganizers'"
+                        :method_params="method_params"
                         :pagination="organizers_pagination"
                     ></bkt-select>
                 </div>
@@ -88,7 +91,10 @@
                 debtorCategories: [
                     { title:'Физ.лицо', value:"SimplePerson"},
                     { title:'Организация', value:"SimpleOrganization"}
-                ]
+                ],
+                method_params: {
+                    type:'filters'
+                }
             };
         },
         computed: {
@@ -104,22 +110,43 @@
                 }
             },
             debtors() {
-                return this.$store.getters.debtors
+                return this.$store.getters.filters_debtors
             },
             organizers() {
-                return this.$store.getters.organizers
+                return this.$store.getters.filters_organizers
             },
             arbitr_managers() {
-                return this.$store.getters.arbitr_managers
+                return this.$store.getters.filters_arbitration_managers
             },
             debtors_pagination() {
-                return this.$store.getters.debtors_pagination
+                // return {
+                //     pagination: this.$store.getters.filters_debtors_pagination,
+                //     method_name: 'getDebtors',
+                //     method_params:{
+                //         type:'filters'
+                //     }
+                // }
+                return this.$store.getters.filters_debtors_pagination
             },
             organizers_pagination() {
-                return this.$store.getters.organizers_pagination
+                // return {
+                //     pagination: this.$store.getters.filters_organizers_pagination,
+                //     method_name: 'getOrganizers',
+                //     method_params:{
+                //         type:'filters'
+                //     }
+                // }
+                return this.$store.getters.filters_organizers_pagination
             },
             arbitr_managers_pagination() {
-                return this.$store.getters.arbitr_managers_pagination
+                // return {
+                //     pagination: this.$store.getters.filters_arbitration_managers_pagination,
+                //     method_name: 'getArbitrManagers',
+                //     method_params:{
+                //         type:'filters'
+                //     }
+                // }
+                return this.$store.getters.filters_arbitration_managers_pagination
             },
         },
         methods: {

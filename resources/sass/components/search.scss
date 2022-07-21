@@ -16,6 +16,10 @@
     & .bkt-search__button {
         font-size: $font-size-14;
     }
+
+    &_body {
+        background: $body-bg;
+    }
 }
 
 @media screen and (max-width: 768px) {
