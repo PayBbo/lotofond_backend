@@ -88,9 +88,21 @@ Route::group(['middleware' => ['json.response', 'localization']], function () {
     Route::group(['prefix' => 'bidders'], function () {
 
         Route::put('/trades', [BidderController::class, 'getTradesByBidder'])
-        ->middleware('custom.auth')->name('bidders-trades');
+        ->middleware('auth:api')->name('bidders-trades');
 
-        Route::get('/{bidderId}', [BidderController::class, 'getBidder']);
+        Route::get('/{bidderId}/{type}', [BidderController::class, 'getBidder'])->middleware('auth:api');
+
+        Route::put('/get/{type}', [BidderController::class, 'getBidders']);
+
+        Route::get('/{tradePlaceId}', [BidderController::class, 'getTradePlace']);
+
+        Route::put('/trade-places', [BidderController::class, 'getTradePlaces'])
+            ->middleware('auth:api')->name('trade-places');
+
+        Route::post('/estimate', [BidderController::class, 'estimateBidder'])
+            ->middleware('auth.deny:api');
+
+        Route::post('/debtor/messages', [BidderController::class, 'getDebtorMessages']);
 
     });
 

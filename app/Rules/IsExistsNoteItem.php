@@ -4,6 +4,7 @@ namespace App\Rules;
 
 use App\Models\Bidder;
 use App\Models\Lot;
+use App\Models\TradePlace;
 use Illuminate\Contracts\Validation\Rule;
 
 class IsExistsNoteItem implements Rule
@@ -30,7 +31,10 @@ class IsExistsNoteItem implements Rule
     {
         if($this->type == 'lot'){
             $isExists = Lot::where('id', $value)->exists();
-        }else{
+        }elseif($this->type == 'tradePlace'){
+            $isExists = TradePlace::where('id', $value)->exists();
+        }
+        else{
             $isExists = Bidder::where('id', $value)->whereHas('types', function ($query) {
                 $query->where('title', $this->type);
             })->exits();

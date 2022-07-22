@@ -2,11 +2,9 @@
 
 namespace App\Http\Requests;
 
-use App\Rules\IsExistsNoteItem;
-use App\Rules\IsOneNoteForItem;
 use Illuminate\Foundation\Http\FormRequest;
 
-class NoteStoreRequest extends FormRequest
+class EstimateBidderRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -26,9 +24,10 @@ class NoteStoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'title' => ['required', 'string', 'max:255'],
-            'itemId' => ['required', 'integer', 'gt:0', new IsExistsNoteItem($this->request->get('itemType'))],
-            'itemType' => ['required', 'in:debtor,lot,organizer,tradePlace', new IsOneNoteForItem($this->request->get('itemId'))]
+            'estimate'=>['required', 'integer', 'min:1', 'max:5'],
+            'comment'=>['nullable', 'string'],
+            'bidderId'=>['required', 'integer', 'exists:bidders,id'],
+            'type'=>['required', 'string', 'in:organizer,arbitrationManager']
         ];
     }
 }

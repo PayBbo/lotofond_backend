@@ -716,7 +716,6 @@ paths:
           description: Роль участников торгов, которых нужно получить для фильтрации
       tags:
         - FiltersData
-        - Bidders
       summary: Получение информации о должниках/организаторах торгов/арбитражных управляющих
       operationId: getBiddersForFilter
       requestBody:
@@ -729,11 +728,6 @@ paths:
                   type: string
                   required: false
                   description: Строка для поиска по имени/фамилии/отчеству/короткому имени
-                sortDirection:
-                  type: string
-                  enum:
-                    - asc
-                    - desc
       responses:
         "200":
           description: Информация о должнике/организаторе торгов/арбитражном управляющем
@@ -1613,7 +1607,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
-  /bidders/{bidderId}:
+  /bidders/{bidderId}/{type}:
     get:
       tags:
         - Bidders
@@ -1624,6 +1618,15 @@ paths:
             type: integer
           required: true
           description: Айдишник участника торгов
+        - in: path
+          name: type
+          required: true
+          schema:
+            type: string
+            enum:
+              - debtor
+              - organizer
+              - arbitrationManager
       summary: Получение данных об арбитражном управляющем/организаторе/должнике
       operationId: getBidder
       responses:
@@ -1632,7 +1635,277 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/BidderInfo'
+                $ref: '#/components/schemas/SingleBidderInfo'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+        - bearerAuth: [ ]
+  /bidders/{tradePlaceId}:
+    get:
+      tags:
+        - Bidders
+      parameters:
+        - in: path
+          name: tradePlaceId
+          schema:
+            type: integer
+          required: true
+          description: Айдишник торговой площадки
+      summary: Получение данных о торговой площадке
+      operationId: getTradePlace
+      responses:
+        "200":
+          description: данные о торговой площадке
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TradePlace'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+        - bearerAuth: [ ]
+  /bidders/get/{type}:
+    put:
+      parameters:
+        - in: query
+          name: page
+          schema:
+            type: integer
+          required: true
+          description: Номер страницы для серверной пагинации
+        - in: path
+          name: type
+          schema:
+            type: string
+            enum:
+              - debtors
+              - organizers
+              - arbitrationManagers
+          required: true
+          description: Роль участников торгов, которых нужно получить для отображения в реестрах
+      tags:
+        - Bidders
+      summary: Получение информации о должниках/организаторах торгов/арбитражных управляющих
+      operationId: getBidders
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                searchString:
+                  type: string
+                  required: false
+                  description: Строка для поиска по имени/фамилии/отчеству/короткому имени/инн
+                sort:
+                  type: object
+                  properties:
+                    direction:
+                      type: string
+                      enum:
+                        - asc
+                        - desc
+                    type:
+                      type: string
+                      enum:
+                        - id
+                        - name
+                        - inn
+                        - region
+                        - address
+                perPage:
+                  type: integer
+                  description: количество отображаемых записей
+      responses:
+        "200":
+          description: Информация о должнике/организаторе торгов/арбитражном управляющем
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/Bidder'
+                  pagination:
+                    $ref: '#/components/schemas/Pagination'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /bidders/trade-places:
+    put:
+      parameters:
+        - in: query
+          name: page
+          schema:
+            type: integer
+          required: true
+          description: Номер страницы для серверной пагинации
+      tags:
+        - Bidders
+      summary: Получение информации о торговых площадках для отображения в реестрах
+      operationId: getTradePlaces
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                searchString:
+                  type: string
+                  required: false
+                  description: Строка для поиска по имени/фамилии/отчеству/короткому имени/инн
+                sort:
+                  type: object
+                  properties:
+                    direction:
+                      type: string
+                      enum:
+                        - asc
+                        - desc
+                    type:
+                      type: string
+                      enum:
+                        - id
+                        - name
+                        - site
+                perPage:
+                  type: integer
+                  description: количество отображаемых записей
+      responses:
+        "200":
+          description: Информация о торговых площадках
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/TradePlaces'
+                  pagination:
+                    $ref: '#/components/schemas/Pagination'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+        - bearerAuth: [ ]
+  /bidders/estimate:
+    post:
+      tags:
+        - Bidders
+      summary: Оценка организатора/арбитражного управляющего
+      operationId: estimateBidder
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                estimate:
+                  type: integer
+                comment:
+                  type: string
+                bidderId:
+                  type: integer
+                type:
+                  type: string
+                  enum:
+                    - organizer
+                    - arbitrationManager
+      responses:
+        "200":
+          description: Оценка сохранена успешно
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Rating"
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+        - bearerAuth: [ ]
+  /bidders/debtor/messages:
+    post:
+      tags:
+        - Bidders
+      summary: Сообщения о должнике
+      operationId: getDebtorMessages
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                searchString:
+                  type: string
+                  required: false
+                  description: Строка для поиска по сообщению
+                sort:
+                  type: object
+                  properties:
+                    direction:
+                      type: string
+                      enum:
+                        - asc
+                        - desc
+                    sortType:
+                      type: string
+                      enum:
+                        - date
+                        - type
+                        - debtor
+                perPage:
+                  type: integer
+                  description: количество отображаемых записей
+                types:
+                  type: array
+                  items:
+                    type: string
+                  description: массив тем сообщений для фильтрации
+                regions:
+                  type: array
+                  items:
+                    type: string
+                  description: массив регионов должника для фильтрации
+                publishDate:
+                  type: object
+                  properties:
+                    start:
+                      type: string
+                    end:
+                      type: string
+                messageHasFiles:
+                  type: boolean
+      responses:
+        "200":
+          description: данные о сообщениях
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/BidderMessage"
+                  pagination:
+                    $ref: "#/components/schemas/Pagination"
         default:
           description: unexpected error
           content:
@@ -2642,48 +2915,88 @@ components:
         prevPageUrl:
           type: string
           description: ссылка на предыдущую страницу
-    Debtor:
-      required:
-        - name
-        - address
-        - region
+    SingleBidderInfo:
       type: object
       properties:
-        name:
+        type:
           type: string
-          description: ФИО должника (физ.лица) или короткое название организации (юр. лица)
+          enum:
+            - person
+            - company
+        id:
+          type: integer
         inn:
           type: string
-          description: ИНН (может быть нулевым)
-        region:
-          type: string
-        address:
-          type: string
-        caseNumber:
-          type: string
-          description: номер судебного дела
-        court:
-          type: string
-          description: суд
-    arbitrationManager:
-      required:
-        - name
-        - inn
+        person:
+          type: object
+          properties:
+            firstName:
+              type: string
+            middleName:
+              type: string
+            lastName:
+              type: string
+        company:
+          type: object
+          properties:
+            shortName:
+              type: string
+            fullName:
+              type: string
+        arbitrationManager:
+          type: object
+          properties:
+            sro:
+              type: string
+              description: название СРО
+            regDate:
+              type: string
+              description: ИНН СРО
+            regNum:
+              type: string
+              description: регистрационный номер СРО
+            rating:
+              $ref: "#/components/schemas/Rating"
+        organizer:
+          type: object
+          properties:
+            region:
+              type: string
+            address:
+              type: string
+            ogrn:
+              type: string
+            rating:
+              $ref: "#/components/schemas/Rating"
+        debtor:
+          type: object
+          properties:
+            region:
+              type: string
+            address:
+              type: string
+            caseNumber:
+              type: string
+              description: номер судебного дела
+            court:
+              type: string
+              description: суд
+            ogrn:
+              type: string
+            category:
+              type: string
+              description: категория должника
+    Rating:
       type: object
       properties:
-        name:
+        rating:
+          type: integer
+          description: рейтинг от 0 до 5
+        estimate:
+          type: integer
+          desription: оценка авторизованного пользователя
+        comment:
           type: string
-        inn:
-          type: string
-        sro:
-          type: string
-          description: название СРО
-        sroINN:
-          type: string
-          description: ИНН СРО
-        sroRegNum:
-          type: string
-          description: регистрационный номер СРО
     Error:
       required:
         - code
@@ -2748,7 +3061,41 @@ components:
               type: string
             fullName:
               type: string
-
+    Bidder:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+            - person
+            - company
+        id:
+          type: integer
+        inn:
+          type: string
+        sroAU:
+          type: string
+          description: название объединения арбитражных управляющих
+        region:
+          type: string
+        address:
+          type: string
+        person:
+          type: object
+          properties:
+            firstName:
+              type: string
+            middleName:
+              type: string
+            lastName:
+              type: string
+        company:
+          type: object
+          properties:
+            shortName:
+              type: string
+            fullName:
+              type: string
     Filters:
       type: object
       properties:
@@ -2915,11 +3262,22 @@ components:
               description: вид торгов
     TradePlace:
       type: object
+      required:
+        - name
+        - id
       properties:
         name:
           type: string
         id:
           type: integer
+        site:
+          type: string
+        note:
+          $ref: "#/components/schemas/Note"
+        ownerName:
+          type: string
+        inn:
+          type: string
     TradePlaces:
       type: array
       items:
@@ -3297,11 +3655,6 @@ components:
                 "value": null
               }
             ]
-          },
-          {
-            "title": "Государственный номер автомобиля",
-            "type": "other",
-            "value": "В381УР161"
           }
         ]
     Sort:
@@ -3409,9 +3762,10 @@ components:
             - lot
             - debtor
             - organizer
+            - tradePlace
         itemId:
           type: integer
-          description: айдишник должника/лота/организатора торгов
+          description: айдишник должника/лота/организатора/торговой площадки
         title:
           type: string
           description: текст заметки
@@ -3507,6 +3861,16 @@ components:
                   type: string
             victoriesCount:
               type: integer
+    BidderMessage:
+      type: object
+      properties:
+        date:
+          type: string
+        type:
+          type: string
+          description: ключ для перевода текста
+        debtor:
+          $ref: "#/components/schemas/BidderInfo"
   securitySchemes:
     bearerAuth:
       type: http

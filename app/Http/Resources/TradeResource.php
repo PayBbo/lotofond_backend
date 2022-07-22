@@ -47,7 +47,7 @@ class TradeResource extends JsonResource
                 'organizer' => new BidderResource($this->companyTradeOrganizer),
                 'tradePlace' => [
                     'name' => $this->tradePlace->name,
-                    'site' => $this->tradePlace->site
+                    'site' => str_starts_with($this->tradePlace->site, 'http') ? $this->tradePlace->site : 'http://'.$this->tradePlace->site
                 ]
 
             ]),

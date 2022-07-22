@@ -136,4 +136,9 @@ class User extends Authenticatable
         return $this->hasMany(LotFile::class);
     }
 
+    public function estimates()
+    {
+        return $this->hasMany(BidderEstimate::class);
+    }
+
 }

@@ -62,6 +62,6 @@ class TestCommand extends Command
         $gener->getImagesFromDocx($filename, $path, $s_path);
         $gener->getImagesFromZipOrRar($filename, $path, $s_path);
         **/
-        dispatch(new FavouriteJob);
+        dispatch(new MonitoringJob);
     }
 }

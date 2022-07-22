@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateNotesTable extends Migration
+class CreateBidderEstimatesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,15 +14,17 @@ class CreateNotesTable extends Migration
     public function up()
     {
         Schema::disableForeignKeyConstraints();
-        Schema::create('notes', function (Blueprint $table) {
+        Schema::create('bidder_estimates', function (Blueprint $table) {
             $table->id();
-            $table->string('title', 255);
-            $table->unsignedBigInteger('item_id')->nullable();
-            $table->enum('item_type', ["debtor","organizer", "lot", "tradePlace"]);
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')
                 ->on('users')->cascadeOnDelete();
-            $table->dateTime('date');
+            $table->unsignedBigInteger('bidder_id');
+            $table->foreign('bidder_id')->references('id')
+                ->on('bidders')->cascadeOnDelete();
+            $table->string('comment')->nullable();
+            $table->integer('estimate')->default(0);
+            $table->enum('type', ['organizer', 'arbitrationManager']);
             $table->timestamps();
         });
         Schema::enableForeignKeyConstraints();
@@ -35,6 +37,6 @@ class CreateNotesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('notes');
+        Schema::dropIfExists('bidder_estimates');
     }
 }

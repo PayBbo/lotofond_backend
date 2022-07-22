@@ -35,7 +35,9 @@ class FavouriteJob implements ShouldQueue
      */
     public function handle()
     {
-        $favourites = Favourite::all();
+        $favourites = Favourite::whereHas('user', function ($query){
+            $query->where('not_from_favourite', true);
+        })->get();
         $date = Carbon::now()->setTimezone('Europe/Moscow');
         foreach ($favourites as $favourite){
             $lots = $favourite->lots;
@@ -66,7 +68,7 @@ class FavouriteJob implements ShouldQueue
                         $value = Carbon::parse($value);
                         if($value > $date) {
                             $diff = Carbon::parse($value)->diffInDays($date);
-                            if($diff <=7) {
+                            if($diff <=7 && $favourite->user->not_settings[$key] == $diff) {
                                 $lot_id = FavouriteLot::where(['lot_id'=>$lot->id, 'favourite_id'=>$favourite->id])->first()['id'];
                                 if ($diff > 4) {
                                     $this->saveNotification($lot_id, $favourite->user_id, $key . 'InSevenDays', $diff);
