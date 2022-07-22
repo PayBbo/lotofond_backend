@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ApplicationController;
 use App\Http\Controllers\AuctionController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
@@ -68,6 +69,8 @@ Route::group(['middleware' => ['json.response', 'localization']], function () {
             Route::get('/victories', [AuctionController::class, 'getVictories']);
 
         });
+        Route::get('/notifications/{lotId}', [AuctionController::class, 'getLotNotifications'])
+            ->middleware('auth.deny:api');
 
         Route::group(['prefix' => 'filter'], function () {
 
@@ -114,6 +117,8 @@ Route::group(['middleware' => ['json.response', 'localization']], function () {
     });
 
     Route::middleware("auth.deny:api")->group(function () {
+
+        Route::post('send/application', [ApplicationController::class, 'sendApplication']);
 
         Route::group(['prefix' => 'account'], function () {
 

@@ -22,6 +22,26 @@ return [
     'favouritePriceReductionInSevenDays'=>'Изменение цены лота через :value дней!',
     'favouritePriceReduction'=>'Изменение цены лота :value!',
     'welcome'=>'Добро пожаловать!',
-    'gladToSeeYou'=>'Мы рады вас видеть в BankrotMP'
+    'gladToSeeYou'=>'Мы рады вас видеть в BankrotMP',
+
+
+    'Annulment'=>'Сообщение об аннулировании',
+    'biddingDeclared'=>'Сообщение о продаже',
+    'ApplicationSessionStart'=>'Сообщение о начале приема заявок',
+    'BiddingPause'=>'Сообщение о приостановке торгов',
+    'BiddingCancel'=>'Сообщение об отмене торгов',
+    'BiddingResult'=>'Сообщение о результатах торгов',
+    'BiddingFail'=>'Сообщение о не состоявшихся торгах',
+    'ApplicationSessionStatistic'=>'Сообщение о сведениях хода проведения торгов',
+    'ApplicationSessionEnd'=>'Сообщение об окончании приема заявок',
+    'ContractSale'=>'Сообщение о заключении договора купли-продажи',
+    'BiddingResume'=>'Сообщение о возобновлении торгов',
+    'ErrorMessage'=>'Сообщение о возникновении технического сбоя',
+    'BiddingNewTerm'=>'Сообщение об установлении новых сроков',
+    'NewTradeOrganizer'=>'Сообщение о смене организатора торгов',
+    'BiddingProcess'=>'Предложение о цене',
+    'BiddingEnd'=>'Сообщение о завершении торгов',
+    'BiddingEndBankruptcyCreditor'=>'Сообщение о завершении торгов вследствие оставления конкурсным кредитором предмета залога за собой'
+
 
 ];

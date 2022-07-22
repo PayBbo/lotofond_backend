@@ -18,6 +18,7 @@ class TradeService
     protected $files;
     protected $images;
     protected $lot;
+    protected $tradeMessageId;
     protected $regexs = [
         '([АВЕКМНОРСТУХавекмнорстухABEKMHOPCTYXaeopcyx][ ]?\d{3}(?<!000)[ ]?[АВЕКМНОРСТУХавекмнорстухABEKMHOPCTYXaeopcyx]{2})', //Обычные
         '(?:(?:([АВЕКМНОРСТУХавекмнорстухABEKMHOPCTYXaeopcyx]{2}[ ]?\d{4}(?<!0000)))|(?:(\d{4}[ ]?(?<!0000)[АВЕКМНОРСТУХавекмнорстухABEKMHOPCTYXaeopcyx]{2})))', //Прицеп/мотоциклы/внедорожные мототранспортные средства
@@ -30,10 +31,10 @@ class TradeService
         '(([CcСс])([АВЕКМНОРСТУХавекмнорстухABEKMHOPCTYXaeopcyx]{2}[ ]?\d{3}(?<!000)))',//Спорт
         '(?:(?:((\d{3})(?<!000)[ ]?((?:[cCсС]{2})|(?:[cCсС][dD]))[ ]?(\d)))|(?:((\d{3})(?<!000)[ ]?([Dd]|[TtТт])[ ]?(\d{3})))|(?:(([Dd]|[TtТт])[ ]?(\d{3})(?<!000)[ ]?(\d{2}))))' //Дипломаты
     ];
-    protected $regexStart = '(?:(?:(?:(?:[Рр][Ее][Гг][Ии][Сс][Тт][Рр][Аа][Цц][Ии][Оо][Нн][Нн][Ыы][Йй][ ]?[Зз][Нн][Аа][Кк])|(?:[Гг][\/\\. ]?[ ]?[Нн][.]?)|(?:[Рр][Ее][Гг][.]?[ ]?[Зз][Нн][Аа][Кк][.]?)|(?:[Гг][Оо][Сс][.]?(?:[Уу][Дд][Аа][Рр][Сс][Тт][Вв][Ее][Нн][Нн][Ыы][Йй])?[ ]?[Нн][.]?(?:[Оо][Мм])?[.]?(?:[Ее][Рр])?)|(?:[Гг][.]?[ ]?[Рр][.]?[ ]?[Зз][.]?)|(?:№))[ ]?[:]?[ ]?)|(?:№)|(?<year>(?:19|20)\d\d )|(?<parenthesis>\()|(?<comma>,[ ]?))';
+    protected $regexStart = '(?:(?:(?:(?:[Рр][Ее][Гг][Ии][Сс][Тт][Рр][Аа][Цц][Ии][Оо][Нн][Нн][Ыы][Йй][ ]?[Зз][Нн][Аа][Кк])|(?:[Гг][\/\\. ]?[ ]?[Нн][.]?)|(?:[Рр][Ее][Гг][.]?[ ]?[Зз][Нн][Аа][Кк][.]?)|(?:[Гг][Оо][Сс][.]?(?:[Уу][Дд][Аа][Рр][Сс][Тт][Вв][Ее][Нн][Нн][Ыы][Йй])?[ ]?[Нн][.]?(?:[Оо][Мм])?[.]?(?:[Ее][Рр])?)|(?:[Гг][.]?[ ]?[Рр][.]?[ ]?[Зз][.]?)|(?:№))[ ]?[:\-–]?[ ]?)|(?:№)|(?<year>(?:19|20)\d\d )|(?<parenthesis>\()|(?<comma>,[ ]?))';
     protected $regexEnd = '(?(parenthesis)(?(maybe_size)(*FAIL))\))(?(comma)(?(maybe_size)(*FAIL))(?:,|\.|\n|\z))(?(year)(?(maybe_size)(*FAIL))(?:,|\.| |\n|\z))';
 
-    public function __construct($auction, $value, $prefix, $files = null, $images = null)
+    public function __construct($auction, $value, $prefix, $tradeMessageId, $files = null, $images = null)
     {
         if ($auction->lots->where('number', $value['@attributes']['LotNumber'])->count() == 0) {
             $lot = new Lot();
@@ -46,6 +47,7 @@ class TradeService
         $this->prefix = $prefix;
         $this->files = $files;
         $this->images = $images;
+        $this->tradeMessageId = $tradeMessageId;
     }
 
 
@@ -75,18 +77,18 @@ class TradeService
             if (gettype($value[$prefix . 'Participants']) == 'array' && count($value[$prefix . 'Participants']) > 0) {
                 $lot->payment_info = $value[$prefix . 'Participants'][$prefix . 'PaymentInfo'];
                 $lot->sale_agreement = $value[$prefix . 'Participants'][$prefix . 'SaleAgreement'];
-            } else {
-                if (array_key_exists($prefix . 'Participants', $value)) {
-                    $lot->participants = $value[$prefix . 'Participants'];
-                }
-                if (array_key_exists($prefix . 'SaleAgreement', $value)) {
-                    $lot->sale_agreement = $value[$prefix . 'SaleAgreement'];
-                }
-                if (array_key_exists($prefix . 'PaymentInfo', $value)) {
-                    $lot->payment_info = $value[$prefix . 'PaymentInfo'];
-                }
             }
         }
+        if (array_key_exists($prefix . 'Participants', $value) && gettype($value[$prefix . 'Participants']) == 'string') {
+            $lot->participants = $value[$prefix . 'Participants'];
+        }
+        if (array_key_exists($prefix . 'SaleAgreement', $value)) {
+            $lot->sale_agreement = $value[$prefix . 'SaleAgreement'];
+        }
+        if (array_key_exists($prefix . 'PaymentInfo', $value)) {
+            $lot->payment_info = $value[$prefix . 'PaymentInfo'];
+        }
+
         if (array_key_exists($prefix . 'Concours', $value)) {
             $lot->payment_info = $value[$prefix . 'Concours'];
         }
@@ -103,7 +105,7 @@ class TradeService
             preg_match_all($cadastr_number, $value[$prefix . 'TradeObjectHtml'], $matches);
             if (count($matches[0]) > 0) {
                 foreach (array_unique($matches[0]) as $match) {
-                    $lot->params()->attach(Param::find(4), ['value' => $match, 'parent_id'=>null]);
+                    $lot->params()->attach(Param::find(4), ['value' => $match, 'parent_id' => null]);
                     dispatch(new ParseDataFromRosreestr($match));
                 }
             }
@@ -111,15 +113,15 @@ class TradeService
             preg_match_all($avto_number, $value[$prefix . 'TradeObjectHtml'], $matches);
             if (count($matches['licence_plate']) > 0) {
                 foreach (array_unique($matches['licence_plate']) as $match) {
-                    $res = str_replace('RUS', '', mb_strtoupper(str_replace(' ','', $match)));
-                    $lot->params()->attach(Param::find(5), ['value' => $res, 'parent_id'=>null]);
+                    $res = str_replace('RUS', '', mb_strtoupper(str_replace(' ', '', $match)));
+                    $lot->params()->attach(Param::find(5), ['value' => $res, 'parent_id' => null]);
                 }
             }
             $avto_vin = '/[A-HJ-NPR-Z0-9]{17}/ui';
             preg_match_all($avto_vin, $value[$prefix . 'TradeObjectHtml'], $matches);
             if (count($matches[0]) > 0) {
                 foreach (array_unique($matches[0]) as $match) {
-                    $lot->params()->attach(Param::find(6), ['value' => $match, 'parent_id'=>null]);
+                    $lot->params()->attach(Param::find(6), ['value' => $match, 'parent_id' => null]);
                 }
             }
         }
@@ -188,7 +190,8 @@ class TradeService
             LotFile::create([
                 'url' => $file,
                 'type' => $type,
-                'lot_id' => $lot->id
+                'lot_id' => $lot->id,
+                'trade_message_id' => $this->tradeMessageId
             ]);
         }
     }
@@ -217,8 +220,8 @@ class TradeService
                                 substr($items[0][5], 4, strlen($items[0][5]) - 9)
                             )), 2, '.', '') : null;
                         if ($i > 1) {
-                            preg_match_all($new_pattern, $matches[0][$i-1], $prev_item);
-                            $prev_price =  array_key_exists('6', $prev_item[0]) ? (float)preg_replace("/[^,.0-9]/", '',
+                            preg_match_all($new_pattern, $matches[0][$i - 1], $prev_item);
+                            $prev_price = array_key_exists('6', $prev_item[0]) ? (float)preg_replace("/[^,.0-9]/", '',
                                 str_replace(',', '.',
                                     substr($prev_item[0][6], 4, strlen($prev_item[0][6]) - 9)
                                 )) : 0;
@@ -252,11 +255,11 @@ class TradeService
                                 substr($items[0][2], 4, strlen($items[0][2]) - 9)
                             )), 2, '.', '');
                         if ($i > 1) {
-                            preg_match_all($new_pattern, $matches[0][$i-1], $prev_item);
+                            preg_match_all($new_pattern, $matches[0][$i - 1], $prev_item);
                             $prev_price = (float)preg_replace("/[^,.0-9]/", '',
                                 str_replace(',', '.',
                                     substr($prev_item[0][1], 4, strlen($prev_item[0][1]) - 9))
-                                );
+                            );
                         } else {
                             $prev_price = $lot->start_price;
                         }
@@ -275,7 +278,7 @@ class TradeService
                     if (count($items) > 1) {
                         $price = (float)$items[1];
                         if (date('Y-m-d H:i:s', strtotime($items[0]) == $items[0]) && $price != 0) {
-                            if ($i < count($values)-1) {
+                            if ($i < count($values) - 1) {
                                 $next_item = explode(': ', $values[$i + 1]);
                                 $time_end = $next_item[0];
                             } else {

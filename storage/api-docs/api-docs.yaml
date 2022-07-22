@@ -775,6 +775,44 @@ paths:
                 $ref: '#/components/schemas/Error'
       security:
         - bearerAuth: [ ]
+  /trades/notifications/{lotId}:
+    get:
+      parameters:
+        - in: path
+          name: lotId
+          schema:
+            type: integer
+          required: true
+          description: Айдишник лота, сообщения о котором нужно получить
+        - name: Content-Language
+          in: header
+          description: Заголовок для определения локали (ru, en, zh_CN)
+          required: true
+      tags:
+        - Trades
+      summary: Получение уведомлений о лоте
+      operationId: getLotNotifications
+      responses:
+        "200":
+          description: Информация об уведомлениях
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Notification'
+        "404":
+          description: Лот по переданному айдишнику не найден
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+        - bearerAuth: [ ]
   /trades/lot/action:
     put:
       tags:
@@ -2386,6 +2424,60 @@ paths:
                 $ref: '#/components/schemas/Error'
       security:
         - bearerAuth: [ ]
+  /send/application:
+    post:
+      parameters:
+        - name: Content-Language
+          in: header
+          description: Заголовок для определения локали (ru, en, zh_CN)
+          required: true
+      tags:
+        - Applications
+      summary: Отправка заявки на покупку без ЕЦП на почту менеджеру
+      operationId: sendApplication
+      requestBody:
+        description: данные для отправления заявки
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - email
+                - phone
+                - lotId
+              properties:
+                email:
+                  type: string
+                lotId:
+                  type: integer
+                phone:
+                  type: string
+                socialsForAnswer:
+                  type: array
+                  items:
+                    type: string
+                    enum:
+                      - Vk
+                      - Viber
+                      - WhatsApp
+      responses:
+        "200":
+          description: заявка успешно отправлена
+        "422":
+          description: Ошибка валидации данных
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+        - bearerAuth: []
 components:
   schemas:
     Register:
@@ -3037,48 +3129,6 @@ components:
         id:
           type: integer
         inn:
-          type: string
-        sroAU:
-          type: string
-          description: название объединения арбитражных управляющих
-        phone:
-          type: string
-        email:
-          type: string
-        person:
-          type: object
-          properties:
-            firstName:
-              type: string
-            middleName:
-              type: string
-            lastName:
-              type: string
-        company:
-          type: object
-          properties:
-            shortName:
-              type: string
-            fullName:
-              type: string
-    Bidder:
-      type: object
-      properties:
-        type:
-          type: string
-          enum:
-            - person
-            - company
-        id:
-          type: integer
-        inn:
-          type: string
-        sroAU:
-          type: string
-          description: название объединения арбитражных управляющих
-        region:
-          type: string
-        address:
           type: string
         person:
           type: object
@@ -3871,6 +3921,20 @@ components:
           description: ключ для перевода текста
         debtor:
           $ref: "#/components/schemas/BidderInfo"
+    LotMessages:
+      type: array
+      items:
+        type: object
+        properties:
+          date:
+            type: string
+          type:
+            type: string
+            description: локализованный тип сообщения
+          files:
+            type: string
+            description: ссылка на файл (при наличии)
+            format: uri
   securitySchemes:
     bearerAuth:
       type: http
