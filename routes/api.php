@@ -126,7 +126,7 @@ Route::group(['middleware' => ['json.response', 'localization']], function () {
 
             Route::put('user/update', [ProfileController::class, 'updateUser']);
 
-            Route::get('logout', [LoginController::class, 'logout']);
+            Route::post('logout', [LoginController::class, 'logout']);
 
             Route::post('refresh/token', [LoginController::class, 'refreshToken']);
 

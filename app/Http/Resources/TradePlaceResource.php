@@ -22,7 +22,7 @@ class TradePlaceResource extends JsonResource
                 'site' => str_starts_with($this->site, 'http') ? $this->site : 'http://' . $this->site,
                 'ownerName' => $this->owner_name,
                 'inn' => $this->inn,
-               // 'note' => $this->getNote()
+                'note' => $this->getNote()
             ])
         ];
     }

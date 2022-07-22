@@ -118,11 +118,13 @@ paths:
                   grantType: email
                   email: test@gmail.com
                   code: 111111
+                  deviceToken: '1234695'
               phone:
                 value:
                   grantType: phone
                   phone: '74951239999'
                   code: 111111
+                  deviceToken: '1234695'
       responses:
         "200":
           description: Данные аккаунта
@@ -159,11 +161,13 @@ paths:
                   grantType: email
                   email: test@gmail.com
                   password: ne6Jo$zi
+                  deviceToken: '1234695'
               phone:
                 value:
                   grantType: phone
                   phone: '74951239999'
                   password: LRn&z!4Y
+                  deviceToken: '1234695'
         required: true
       responses:
         "200":
@@ -353,11 +357,20 @@ paths:
       security:
         - bearerAuth: [ ]
   /account/logout:
-    get:
+    post:
       tags:
         - Account
       summary: Выход пользователя из аккаунта
       operationId: logout
+      requestBody:
+        description: данные токена для удаления
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                deviceToken:
+                  type: string
       responses:
         "200":
           description: Выход прошел успешно
@@ -2531,6 +2544,9 @@ components:
         password:
           type: string
           description: Пароль пользователя
+        deviceToken:
+          type: string
+          description: токен устройства пользователя
     ResetPasswordCodeRequest:
       required:
         - grantType
@@ -2561,6 +2577,8 @@ components:
         phone:
           type: string
         code:
+          type: string
+        deviceToke:
           type: string
     ResetPasswordRequest:
       required:

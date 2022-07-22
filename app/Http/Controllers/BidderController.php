@@ -92,7 +92,6 @@ class BidderController extends Controller
     {
         $searchString = $request->searchString;
         $perPage = 20;
-        logger('yee');
         if(isset($request->perPage) && strlen($request->perPage) > 0){
             $perPage = $request->perPage;
         }
@@ -112,7 +111,6 @@ class BidderController extends Controller
             })
             ->orderBy($sortType, $sortDirection)
             ->paginate($perPage);
-        logger($tradePlaces);
         return response(new TradePlaceCollection($tradePlaces), 200);
     }
 

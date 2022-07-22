@@ -8,6 +8,7 @@ use App\Http\Requests\RegisterRequest;
 use App\Http\Requests\ResendRegistrationCodeRequest;
 use App\Http\Requests\VerifyRegistrationCodeRequest;
 use App\Http\Resources\AccessTokenResource;
+use App\Http\Services\DeviceTokenService;
 use App\Http\Services\GenerateAccessTokenService;
 use App\Http\Services\SendCodeService;
 use App\Models\Favourite;
@@ -119,6 +120,10 @@ class RegisterController extends Controller
             'label'=> 'welcome',
             'platform_action'=>'info'
         ]);
+        if(isset($request->deviceToken)){
+            $deviceTokenService = new DeviceTokenService($user, $request->deviceToken);
+            $deviceTokenService->saveDeviceToken();
+        }
         $generateToken = new GenerateAccessTokenService();
         $token = $generateToken->generateToken($request, $username, $password);
         return response($token, 200);
