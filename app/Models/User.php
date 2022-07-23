@@ -26,6 +26,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'device_tokens'
     ];
 
     /**
@@ -45,7 +46,8 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
-        'not_settings'=>'json'
+        'not_settings'=>'json',
+        'device_tokens'=>'array'
     ];
 
     public function applications()
@@ -134,6 +136,11 @@ class User extends Authenticatable
     public function lotFiles()
     {
         return $this->hasMany(LotFile::class);
+    }
+
+    public function estimates()
+    {
+        return $this->hasMany(BidderEstimate::class);
     }
 
 }

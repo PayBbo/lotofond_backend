@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Exceptions\CustomExceptions\BaseException;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\LoginRequest;
+use App\Http\Services\DeviceTokenService;
 use App\Http\Services\GenerateAccessTokenService;
 use App\Models\User;
 use Exception;
@@ -39,6 +40,10 @@ class LoginController extends Controller
         }
         $generateToken = new GenerateAccessTokenService();
         $token =  $generateToken->generateToken($request, $username, $request->password);
+        if(isset($request->deviceToken)){
+            $deviceTokenService = new DeviceTokenService($user, $request->deviceToken);
+            $deviceTokenService->saveDeviceToken();
+        }
         return response($token, 200);
     }
 
@@ -75,8 +80,13 @@ class LoginController extends Controller
         }
     }
 
-    public function logout(){
+    public function logout(Request $request){
         try {
+            $user = User::find(auth()->id());
+            if(isset($request->deviceToken)){
+                $deviceTokenService = new DeviceTokenService($user, $request->deviceToken);
+                $deviceTokenService->deleteDeviceToken();
+            }
             $accessToken = auth()->user()->token();
             $refreshToken = DB::table('oauth_refresh_tokens')
                 ->where('access_token_id', $accessToken->id)

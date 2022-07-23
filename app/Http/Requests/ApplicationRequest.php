@@ -2,11 +2,10 @@
 
 namespace App\Http\Requests;
 
-use App\Rules\IsExistsNoteItem;
-use App\Rules\IsOneNoteForItem;
+use App\Rules\Phone;
 use Illuminate\Foundation\Http\FormRequest;
 
-class NoteStoreRequest extends FormRequest
+class ApplicationRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -26,9 +25,11 @@ class NoteStoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'title' => ['required', 'string', 'max:255'],
-            'itemId' => ['required', 'integer', 'gt:0', new IsExistsNoteItem($this->request->get('itemType'))],
-            'itemType' => ['required', 'in:debtor,lot,organizer,tradePlace', new IsOneNoteForItem($this->request->get('itemId'))]
+            'email'=>['required', 'email'],
+            'phone'=>['required', new Phone],
+            'lotId'=>['required', 'integer', 'exists:lots,id'],
+            'socialsForAnswer'=>['required', 'array'],
+            'socialsForAnswer.*'=>['required', 'string'],
         ];
     }
 }

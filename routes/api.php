@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ApplicationController;
 use App\Http\Controllers\AuctionController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
@@ -68,6 +69,8 @@ Route::group(['middleware' => ['json.response', 'localization']], function () {
             Route::get('/victories', [AuctionController::class, 'getVictories']);
 
         });
+        Route::get('/notifications/{lotId}', [AuctionController::class, 'getLotNotifications'])
+            ->middleware('auth.deny:api');
 
         Route::group(['prefix' => 'filter'], function () {
 
@@ -88,9 +91,21 @@ Route::group(['middleware' => ['json.response', 'localization']], function () {
     Route::group(['prefix' => 'bidders'], function () {
 
         Route::put('/trades', [BidderController::class, 'getTradesByBidder'])
-        ->middleware('custom.auth')->name('bidders-trades');
+        ->middleware('auth:api')->name('bidders-trades');
 
-        Route::get('/{bidderId}', [BidderController::class, 'getBidder']);
+        Route::get('/{bidderId}/{type}', [BidderController::class, 'getBidder'])->middleware('auth:api');
+
+        Route::put('/get/{type}', [BidderController::class, 'getBidders']);
+
+        Route::get('/{tradePlaceId}', [BidderController::class, 'getTradePlace']);
+
+        Route::put('/trade-places', [BidderController::class, 'getTradePlaces'])
+            ->middleware('auth:api')->name('trade-places');
+
+        Route::post('/estimate', [BidderController::class, 'estimateBidder'])
+            ->middleware('auth.deny:api');
+
+        Route::post('/debtor/messages', [BidderController::class, 'getDebtorMessages']);
 
     });
 
@@ -103,13 +118,15 @@ Route::group(['middleware' => ['json.response', 'localization']], function () {
 
     Route::middleware("auth.deny:api")->group(function () {
 
+        Route::post('send/application', [ApplicationController::class, 'sendApplication']);
+
         Route::group(['prefix' => 'account'], function () {
 
             Route::get('user', [ProfileController::class, 'getUser']);
 
             Route::put('user/update', [ProfileController::class, 'updateUser']);
 
-            Route::get('logout', [LoginController::class, 'logout']);
+            Route::post('logout', [LoginController::class, 'logout']);
 
             Route::post('refresh/token', [LoginController::class, 'refreshToken']);
 

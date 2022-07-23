@@ -14,7 +14,7 @@ class NotificationResource extends JsonResource
      */
     public function toArray($request)
     {
-        $value = is_null($this->value) ? __('messages.' . $this->message, ['value' => $this->value]) :
+        $value = !is_null($this->value) ? __('messages.' . $this->message, ['value' => $this->value]) :
             __('messages.' . $this->message);
         return [
             'id' => $this->id,

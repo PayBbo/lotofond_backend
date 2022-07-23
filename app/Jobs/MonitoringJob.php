@@ -35,7 +35,9 @@ class MonitoringJob implements ShouldQueue
     {
         $minDate = Carbon::now()->setTimezone('Europe/Moscow')->subWeek();
         $maxDate = Carbon::now()->setTimezone('Europe/Moscow');
-        $monitorings = Monitoring::all();
+        $monitorings = Monitoring::whereHas('user', function ($query){
+            $query->where('not_from_monitoring', true);
+        })->get();
         foreach ($monitorings as $monitoring) {
             $newLotsCount = 0;
             $lots = Lot::filterBy($monitoring->filters)->whereBetween('created_at', [$minDate, $maxDate])->get();

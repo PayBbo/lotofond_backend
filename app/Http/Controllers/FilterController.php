@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\BidderCollection;
-use App\Http\Resources\TradePlaceCollection;
+use App\Http\Resources\TradePlaceResource;
 use App\Models\Bidder;
 use App\Models\Category;
 use App\Models\Lot;
@@ -18,10 +18,6 @@ class FilterController extends Controller
     {
         $searchString = $request->searchString;
         $type = substr_replace ($type, "", -1);
-        $direction = 'asc';
-        if(isset($request->sortDirection) && strlen($request->sortDirection) > 0){
-            $direction = $request->sortDirection;
-        }
         $bidders = Bidder::has($type.'AuctionsWithLots')->whereHas('types', function ($query) use ($type) {
             $query->where('title', $type);
         })
@@ -31,8 +27,6 @@ class FilterController extends Controller
                     ->orWhere('last_name', 'LIKE', '%' . $searchString . '%')
                     ->orWhere('middle_name', 'LIKE', '%' . $searchString . '%');
             })
-            ->orderBy('last_name', $direction)
-            ->orderBy('name', $direction)
             ->paginate(20);
         return response(new BidderCollection($bidders), 200);
     }
@@ -40,7 +34,7 @@ class FilterController extends Controller
     public function getTradePlacesForFilter(){
 
         $tradePlaces = TradePlace::has('auctionsWithLots')->get();
-        return response(new TradePlaceCollection($tradePlaces), 200);
+        return response(TradePlaceResource::collection($tradePlaces), 200);
 
     }
 

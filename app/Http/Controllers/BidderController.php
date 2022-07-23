@@ -3,46 +3,139 @@
 namespace App\Http\Controllers;
 
 use App\Exceptions\CustomExceptions\BaseException;
-use App\Http\Resources\BidderResource;
+use App\Http\Requests\EstimateBidderRequest;
+use App\Http\Resources\BidderCollection;
 use App\Http\Resources\LotCollection;
-use App\Http\Resources\LotResource;
+use App\Http\Resources\RatingResource;
+use App\Http\Resources\ReestrBidderResource;
+use App\Http\Resources\TradePlaceCollection;
+use App\Http\Resources\TradePlaceResource;
 use App\Models\Bidder;
+use App\Models\BidderEstimate;
 use App\Models\Lot;
+use App\Models\TradePlace;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Route;
 
 
 class BidderController extends Controller
 {
-    public function getTradesByBidder(Request $request){
-        $active_statuses = [1,2];
+    public function getTradesByBidder(Request $request)
+    {
+        $active_statuses = [1, 2];
         $bidderType = $request->bidderType;
-        if($request->bidderType == 'organizer'){
+        if ($request->bidderType == 'organizer') {
             $bidderType = 'companyTradeOrganizer';
         }
         $bidderId = $request->bidderId;
         $exceptionLots = [];
-        if($request->has('exceptionLotId')){
+        if ($request->has('exceptionLotId')) {
             $exceptionLots[] = $request->exceptionLotId;
         }
-        if($request->type == 'active'){
-            $lots = Lot::whereNotIn('id', $exceptionLots)->whereIn('status_id', $active_statuses)->whereHas('auction.'.$bidderType,
-                function ($q) use ($bidderId) { $q->where('id', $bidderId);
-            })->paginate(20);
-        }else{
-            $lots = Lot::whereNotIn('id', $exceptionLots)->whereNotIn('status_id', $active_statuses)->whereHas('auction.'.$bidderType,
-                function ($q) use ($bidderId) { $q->where('id', $bidderId);
+        if ($request->type == 'active') {
+            $lots = Lot::whereNotIn('id', $exceptionLots)->whereIn('status_id', $active_statuses)->whereHas('auction.' . $bidderType,
+                function ($q) use ($bidderId) {
+                    $q->where('id', $bidderId);
+                })->paginate(20);
+        } else {
+            $lots = Lot::whereNotIn('id', $exceptionLots)->whereNotIn('status_id', $active_statuses)->whereHas('auction.' . $bidderType,
+                function ($q) use ($bidderId) {
+                    $q->where('id', $bidderId);
                 })->paginate(20);
         }
         return response(new LotCollection($lots), 200);
     }
 
-    public function getBidder($bidderId){
-        $bidder = Bidder::find($bidderId);
-        if(!$bidder){
+    public function getBidder($bidderId, $type)
+    {
+        $bidder = Bidder::where('id', $bidderId)->first();
+        if (!$bidder) {
             throw new BaseException("ERR_FIND_BIDDER_FAILED", 404, "Bidder with id= " . $bidderId . ' does not exist');
         }
-        return response(new BidderResource($bidder), 200);
+        $bidder->role = $type;
+        return response(new ReestrBidderResource($bidder), 200);
+    }
+
+    public function getBidders($type, Request $request)
+    {
+        $searchString = $request->searchString;
+        $type = substr_replace($type, "", -1);
+        $perPage = 20;
+        if(isset($request->perPage) && strlen($request->perPage) > 0){
+            $perPage = $request->perPage;
+        }
+        $bidders = Bidder::customSortBy($request)
+            ->whereHas('types', function ($query) use ($type) {
+                $query->where('title', $type);
+            })
+            ->when(isset($searchString) && strlen($searchString) > 0, function ($query) use ($searchString) {
+                $query->where('name', 'LIKE', '%' . $searchString . '%')
+                    ->orWhere('short_name', 'LIKE', '%' . $searchString . '%')
+                    ->orWhere('last_name', 'LIKE', '%' . $searchString . '%')
+                    ->orWhere('middle_name', 'LIKE', '%' . $searchString . '%')
+                    ->orWhere('inn', 'LIKE', '%' . $searchString . '%');
+            })
+            ->paginate($perPage);
+        return response(new BidderCollection($bidders), 200);
+    }
+
+    public function getTradePlace($tradePlaceId)
+    {
+        $tradePlace = TradePlace::where('id', $tradePlaceId)->first();
+        if (!$tradePlace) {
+            throw new BaseException("ERR_FIND_TRADE_PLACE_FAILED", 404, "TradePlace with id= " . $tradePlaceId . ' does not exist');
+        }
+        $tradePlace->isReestr = true;
+        return response(new TradePlaceResource($tradePlace), 200);
+    }
+
+    public function getTradePlaces(Request $request)
+    {
+        $searchString = $request->searchString;
+        $perPage = 20;
+        if(isset($request->perPage) && strlen($request->perPage) > 0){
+            $perPage = $request->perPage;
+        }
+        $sortType = 'id';
+        $sortDirection = 'asc';
+        if(isset($request->sort) && count($request->sort) > 0){
+          if(isset($request->sort->type) && strlen($request->sort->type)>0){
+              $sortType = $request->sort->type;
+          }
+            if(isset($request->sort->direction) && strlen($request->sort->direction)>0){
+                $sortDirection = $request->sort->direction;
+            }
+        }
+        $tradePlaces = TradePlace::when(isset($searchString) && strlen($searchString) > 0, function ($query) use ($searchString) {
+                $query->where('name', 'LIKE', '%' . $searchString . '%')
+                    ->orWhere('site', 'LIKE', '%' . $searchString . '%');
+            })
+            ->orderBy($sortType, $sortDirection)
+            ->paginate($perPage);
+        return response(new TradePlaceCollection($tradePlaces), 200);
+    }
+
+    public function estimateBidder(EstimateBidderRequest $request)
+    {
+        $estimate = BidderEstimate::where(['user_id' => auth()->id(), 'bidder_id' => $request->bidderId, 'type' => $request->type])->first();
+        if (!$estimate) {
+            $estimate = new BidderEstimate();
+        }
+        $estimate->estimate = $request->estimate;
+        $estimate->comment = $request->comment;
+        $estimate->user_id = auth()->id();
+        $estimate->bidder_id = $request->bidderId;
+        $estimate->type = $request->type;
+        $estimate->save();
+        $bidder = Bidder::find($request->bidderId);
+        $bidder->role = $request->type;
+
+        return response(new RatingResource($bidder), 200);
+
+    }
+
+    public function getDebtorMessages()
+    {
+
     }
 
 }

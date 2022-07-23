@@ -123,14 +123,14 @@ class BiddingInvitation extends TradeMessage
             foreach ($data[$prefix . 'LotList'] as $lot) {
                 if (array_key_exists('0', $lot) || array_key_exists('Lot', $lot)) {
                     foreach ($lot as $value) {
-                        $tradeService = new TradeService($auction, $value, $prefix, $files, $images);
+                        $tradeMessage = $this->createNotification($lot->id, $invitation['@attributes']['EventTime']);
+                        $tradeService = new TradeService($auction, $value, $prefix, $tradeMessage->id, $files, $images);
                         $lot = $tradeService->saveLot();
-                        $this->createNotification($lot->id, $invitation['@attributes']['EventTime']);
                     }
                 } else {
-                    $tradeService = new TradeService($auction, $lot, $prefix, $files, $images);
+                    $tradeMessage = $this->createNotification($lot->id, $invitation['@attributes']['EventTime']);
+                    $tradeService = new TradeService($auction, $lot, $prefix, $tradeMessage->id, $files, $images);
                     $lot = $tradeService->saveLot();
-                    $this->createNotification($lot->id, $invitation['@attributes']['EventTime']);
                 }
             }
 

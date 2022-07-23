@@ -39,4 +39,14 @@ class TradePlace extends Model
     {
         return $this->hasMany(Auction::class)->whereHas('lots');
     }
+
+    public function getNote(){
+        $note = null;
+        if(auth()->guard('api')->check() && Note::where(['user_id'=>auth()->guard('api')->id(),
+                'item_type'=>'tradePlace', 'item_id'=>$this->id])->exists() ){
+            $note = Note::where(['user_id'=>auth()->guard('api')->id(),
+                'item_type'=>'tradePlace', 'item_id'=>$this->id])->first()->only('id', 'title', 'date');
+        }
+        return $note;
+    }
 }

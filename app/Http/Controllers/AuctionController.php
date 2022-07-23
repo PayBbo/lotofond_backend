@@ -5,10 +5,13 @@ namespace App\Http\Controllers;
 use App\Exceptions\CustomExceptions\BaseException;
 use App\Http\Resources\LotCollection;
 use App\Http\Resources\LotResource;
+use App\Http\Resources\NotificationCollection;
 use App\Http\Resources\VictoryCollection;
 use App\Models\Auction;
 use App\Models\BiddingResult;
+use App\Models\FavouriteLot;
 use App\Models\Lot;
+use App\Models\Notification;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -65,6 +68,19 @@ class AuctionController extends Controller
         }
         $lot->isLotInfo = true;
         return response(new LotResource($lot), 200);
+    }
+
+    public function getLotNotifications($lotId){
+        $lot = Lot::find($lotId);
+        if (!$lot) {
+            throw new BaseException("ERR_FIND_LOT_FAILED", 404, "Lot with id= " . $lotId . ' does not exist');
+        }
+        $user = User::find(auth()->id());
+        $favouriteLotIds = FavouriteLot::whereIn('favourite_id', $user->favourites->pluck('id'))->where('lot_id', $lotId)->get()->pluck('id');
+        $notifications = Notification::whereIn('lot_id', $favouriteLotIds)
+            ->where('user_id',auth()->id())->orderBy('date', 'DESC')->paginate(20);
+        return response(new NotificationCollection($notifications), 200);
+
     }
 
     public function actionWithLot(Request $request)
