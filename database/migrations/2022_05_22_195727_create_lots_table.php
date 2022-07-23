@@ -27,6 +27,7 @@ class CreateLotsTable extends Migration
             $table->longText('participants')->nullable();
             $table->longText('payment_info')->nullable();
             $table->longText('sale_agreement')->nullable();
+            $table->longText('concours')->nullable();
             $table->unsignedBigInteger('status_id');
             $table->foreign('status_id')->references('id')
                 ->on('statuses')->cascadeOnDelete();

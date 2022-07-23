@@ -4,6 +4,7 @@ namespace App\Jobs;
 
 use App\Models\Lot;
 use App\Models\Monitoring;
+use App\Models\Notification;
 use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -32,19 +33,31 @@ class MonitoringJob implements ShouldQueue
      */
     public function handle()
     {
-        $minDate = Carbon::now()->setTimezone('Europe/Moscow')->subHour();
+        $minDate = Carbon::now()->setTimezone('Europe/Moscow')->subWeek();
         $maxDate = Carbon::now()->setTimezone('Europe/Moscow');
-        $monitorings = Monitoring::all();
+        $monitorings = Monitoring::whereHas('user', function ($query){
+            $query->where('not_from_monitoring', true);
+        })->get();
         foreach ($monitorings as $monitoring) {
+            $newLotsCount = 0;
             $lots = Lot::filterBy($monitoring->filters)->whereBetween('created_at', [$minDate, $maxDate])->get();
             if ($lots->count() > 0) {
                 foreach ($lots as $lot) {
                     if (!$monitoring->lots->contains($lot)) {
-                        $monitoring->lots()->attach($lot, ['created_at'=>$maxDate]);
+                        $monitoring->lots()->attach($lot, ['created_at' => $maxDate]);
+                        $newLotsCount+=1;
                     }
                 }
             }
-
+            if($newLotsCount>0) {
+                Notification::create([
+                    'user_id' => $monitoring->user_id,
+                    'date' => $maxDate,
+                    'type_id' => 3,
+                    'value' => $newLotsCount,
+                    'monitoring_id' => $monitoring->id
+                ]);
+            }
         }
     }
 }

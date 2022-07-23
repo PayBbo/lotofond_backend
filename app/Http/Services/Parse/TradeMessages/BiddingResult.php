@@ -17,47 +17,56 @@ class BiddingResult extends TradeMessage implements TradeMessageContract
         try {
             $auction = Auction::where('trade_id', $invitation['@attributes']['TradeId'])->first();
             if ($auction) {
-                foreach ($invitation[$prefix . 'LotList'][$prefix . 'LotTradeResult'] as $item) {
-                    $lot = $auction->lots->where('number', $item['@attributes']['LotNumber'])->first();
-                    if ($lot) {
-                        if (array_key_exists('FailureTradeResult', $item) || array_key_exists('SuccessTradeResult', $item)) {
-                            $tradeMessage = $this->createNotification($lot->id, $invitation['@attributes']['EventTime'],
-                                $lot->status_id, 'status_id');
-                            $lot->status_id = Status::where('code', 'finished')->first()['id'];
-                            $lot->save();
-                            $this->parseFile($prefix, $item, $auction, $lot, $tradeMessage);
-                        }
-                        $biddingResult = null;
-                        if (array_key_exists('FailureTradeResult', $item)) {
-                            $item = $item['FailureTradeResult'];
-                            $biddingResult = \App\Models\BiddingResult::create([
-                                'trade_message_id' => $tradeMessage->id,
-                                'substantiation' => array_key_exists('Substantiation', $item) ? $item['Substantiation'] : null,
-                                'end_price' => array_key_exists('@attributes', $item) ? $item['@attributes']['Price'] : null,
-                            ]);
-                            $this->parseParticipants($item, $biddingResult, 'Buyer');
-                        }
-                        if (array_key_exists('SuccessTradeResult', $item)) {
-                            $item = $item['SuccessTradeResult'];
-                            $biddingResult = \App\Models\BiddingResult::create([
-                                'trade_message_id' => $tradeMessage->id,
-                                'end_price' => array_key_exists('@attributes', $item) ? $item['@attributes']['Price'] : null,
-                            ]);
-                            $this->parseParticipants($item, $biddingResult, 'Winner');
-                        }
-                        if (array_key_exists('Participants', $item) && !is_null($biddingResult)
-                            && array_key_exists('Participant', $item['Participants'])) {
-                            foreach ($item['Participants']['Participant'] as $participant) {
-                                $this->parseParticipants($participant, $biddingResult, 'Participant');
-                            }
-
-                        }
+              /*  if(count($invitation[$prefix . 'LotList'][$prefix . 'LotTradeResult']) > 1) {
+                    foreach ($invitation[$prefix . 'LotList'][$prefix . 'LotTradeResult'] as $item) {
+                        $this->getBiddingResult($item, $auction, $invitation, $prefix);
                     }
-                }
+                }else{*/
+                    $item = $invitation[$prefix . 'LotList'][$prefix . 'LotTradeResult'];
+                    $this->getBiddingResult($item, $auction, $invitation, $prefix);
+                //}
             }
         } catch (\Exception $e) {
             logger('biddingResultMessageExc: ' . $e);
             logger($invitation);
+        }
+    }
+
+    public function getBiddingResult($item, $auction, $invitation, $prefix){
+        $lot = $auction->lots->where('number', $item['@attributes']['LotNumber'])->first();
+        if ($lot) {
+            if (array_key_exists('FailureTradeResult', $item) || array_key_exists('SuccessTradeResult', $item)) {
+                $tradeMessage = $this->createNotification($lot->id, $invitation['@attributes']['EventTime'],
+                    $lot->status_id, 'status_id');
+                $lot->status_id = Status::where('code', 'finished')->first()['id'];
+                $lot->save();
+                $this->parseFile($prefix, $item, $auction, $lot, $tradeMessage);
+            }
+            $biddingResult = null;
+            if (array_key_exists('FailureTradeResult', $item)) {
+                $item = $item['FailureTradeResult'];
+                $biddingResult = \App\Models\BiddingResult::create([
+                    'trade_message_id' => $tradeMessage->id,
+                    'substantiation' => array_key_exists('Substantiation', $item) ? $item['Substantiation'] : null,
+                    'end_price' => array_key_exists('@attributes', $item) ? $item['@attributes']['Price'] : null,
+                ]);
+                $this->parseParticipants($item, $biddingResult, 'Buyer');
+            }
+            if (array_key_exists('SuccessTradeResult', $item)) {
+                $item = $item['SuccessTradeResult'];
+                $biddingResult = \App\Models\BiddingResult::create([
+                    'trade_message_id' => $tradeMessage->id,
+                    'end_price' => array_key_exists('@attributes', $item) ? $item['@attributes']['Price'] : null,
+                ]);
+                $this->parseParticipants($item, $biddingResult, 'Winner');
+            }
+            if (array_key_exists('Participants', $item) && !is_null($biddingResult)
+                && array_key_exists('Participant', $item['Participants'])) {
+                foreach ($item['Participants']['Participant'] as $participant) {
+                    $this->parseParticipants($participant, $biddingResult, 'Participant');
+                }
+
+            }
         }
     }
 

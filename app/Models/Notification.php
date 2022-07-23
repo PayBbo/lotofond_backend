@@ -17,11 +17,15 @@ class Notification extends Model
      */
     protected $fillable = [
         'user_id',
-        'organizer_id',
         'lot_id',
+        'monitoring_id',
         'type_id',
         'value',
-        'date'
+        'date',
+        'is_seen',
+        'message',
+        'label',
+        'platform_action'
     ];
 
     /**
@@ -32,16 +36,17 @@ class Notification extends Model
     protected $casts = [
         'id' => 'integer',
         'user_id' => 'integer',
-        'organizer_id' => 'integer',
         'type_id' => 'integer',
         'lot_id' => 'integer',
-        'date'=>'datetime'
+        'date'=>'datetime',
+        'is_seen'=>'boolean',
+        'monitoring_id'=>'integer'
 
     ];
 
     public function lot()
     {
-        return $this->belongsTo(Lot::class);
+        return $this->belongsTo(FavouriteLot::class);
     }
 
     public function user()
@@ -54,8 +59,9 @@ class Notification extends Model
         return $this->belongsTo(NotificationType::class);
     }
 
-    public function organizer()
+    public function monitoring()
     {
-        return $this->belongsTo(Bidder::class, 'organizer_id');
+        return $this->belongsTo(Monitoring::class);
     }
+
 }

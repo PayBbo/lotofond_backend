@@ -35,4 +35,11 @@ class BiddingResult extends Model
         return $this->hasMany(BiddingParticipant::class);
 
     }
+
+    public function winner(){
+
+        return $this->hasMany(BiddingParticipant::class)
+                ->where('is_winner', true)->latest()->take(1);
+
+    }
 }

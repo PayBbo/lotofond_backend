@@ -24,9 +24,17 @@ class ParamSeeder extends Seeder
             ['type' => 'other',
                 'title'=>'Кадастровый номер'],
             ['type' => 'other',
-                'title'=>'Государственный номер автомобиля'],
+                'title'=>'Государственный номер транспорта'],
             ['type' => 'other',
-            'title'=>'VIN автомобиля']
+            'title'=>'VIN транспорта'],
+            ['type' => 'other',
+                'title'=>'Адрес'],
+            ['type' => 'other',
+                'title'=>'Количество этажей'],
+            ['type' => 'other',
+                'title'=>'Год постройки'],
+            ['type' => 'other',
+                'title'=>'Тип постройки']
         ];
         foreach($params as $param){
             Param::create([

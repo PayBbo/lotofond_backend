@@ -2,20 +2,12 @@
 
 namespace App\Console\Commands;
 
-use App\Http\Services\Parse\FilesService;
-use App\Http\Services\Parse\SoapWrapperService;
-use App\Http\Services\Parse\TradeService;
-use App\Jobs\ParseArbitrManager;
-use App\Jobs\ParseCompanyTradeOrganizer;
-use App\Jobs\ParseDebtor;
-use App\Jobs\ParseSRORegister;
-use App\Jobs\ParseTrades;
-use App\Models\Lot;
-use Artisaninweb\SoapWrapper\SoapWrapper;
+
+use App\Models\User;
+use App\Notifications\PushNotification;
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Storage;
-use Intervention\Image\Facades\Image;
+use Illuminate\Support\Facades\Notification;
+
 
 class TestCommand extends Command
 {
@@ -59,7 +51,13 @@ class TestCommand extends Command
         $gener->getImagesFromDocx($filename, $path, $s_path);
         $gener->getImagesFromZipOrRar($filename, $path, $s_path);
         **/
-        dispatch(new ParseTrades);
-
+        $user = User::find(1);
+        if(!is_null($user->device_tokens)) {
+            try {
+                Notification::send(null, new PushNotification('Hello', 'New Message', $user->device_tokens));
+            }catch(\Exception $e){
+                logger($e);
+            }
+        }
     }
 }

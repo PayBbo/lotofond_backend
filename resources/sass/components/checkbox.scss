@@ -120,6 +120,14 @@
             width: 24px;
         }
 
+        & input:indeterminate ~ .bkt-check__input-check {
+            height: 24px;
+            width: 24px;
+            background: $primary-default;
+            box-shadow: none;
+            border-radius: 100%;
+        }
+
         & input:checked ~ .bkt-check__input-check {
             background: $primary-default;
             box-shadow: none;

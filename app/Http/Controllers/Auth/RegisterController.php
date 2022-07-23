@@ -8,9 +8,11 @@ use App\Http\Requests\RegisterRequest;
 use App\Http\Requests\ResendRegistrationCodeRequest;
 use App\Http\Requests\VerifyRegistrationCodeRequest;
 use App\Http\Resources\AccessTokenResource;
+use App\Http\Services\DeviceTokenService;
 use App\Http\Services\GenerateAccessTokenService;
 use App\Http\Services\SendCodeService;
 use App\Models\Favourite;
+use App\Models\Notification;
 use App\Models\User;
 use App\Models\VerifyAccount;
 use Carbon\Carbon;
@@ -88,20 +90,40 @@ class RegisterController extends Controller
         if (!Hash::check($request->code, $verifyAccount->token) || $verifyAccount->created_at < $currentDate) {
             throw new BaseException("ERR_VALIDATION_FAILED_CODE", 422, __('validation.verification_code'));
         }
-        $password = $verifyAccount->code;
+        $password = '11111111';
         $user = User::create([
             'surname' => $verifyAccount->surname,
             'name' => $verifyAccount->name,
             'email' => $verifyAccount->value,
             'phone' => $verifyAccount->phone,
             'password' => Hash::make($password),
-            'email_verified_at' => Carbon::now()
+            'email_verified_at' => Carbon::now(),
+            'not_settings'=>[
+                'favouriteEventStart' => 1,
+                'favouriteEventEnd' => 1,
+                'favouriteApplicationStart' => 1,
+                'favouriteApplicationEnd' => 1,
+                'favouriteResult' => 1,
+                'favouritePriceReduction' => 1
+            ]
         ]);
         $verifyAccount->delete();
         Favourite::create([
             'user_id'=>$user->id,
             'title'=>'Общее'
         ]);
+        Notification::create([
+            'user_id' => $user->id,
+            'date' => Carbon::now()->setTimezone('Europe/Moscow'),
+            'type_id' => 1,
+            'message' => 'gladToSeeYou',
+            'label'=> 'welcome',
+            'platform_action'=>'info'
+        ]);
+        if(isset($request->deviceToken)){
+            $deviceTokenService = new DeviceTokenService($user, $request->deviceToken);
+            $deviceTokenService->saveDeviceToken();
+        }
         $generateToken = new GenerateAccessTokenService();
         $token = $generateToken->generateToken($request, $username, $password);
         return response($token, 200);

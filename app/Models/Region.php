@@ -18,6 +18,7 @@ class Region extends Model
         'title',
         'code',
         'region_group_id',
+        'numbers'
     ];
 
     /**
@@ -38,5 +39,10 @@ class Region extends Model
     public function debtors()
     {
         return $this->hasMany(Bidder::class);
+    }
+
+    public function lots()
+    {
+        return $this->belongsToMany(Lot::class, 'lot_regions')->withPivot(['is_debtor_region']);
     }
 }

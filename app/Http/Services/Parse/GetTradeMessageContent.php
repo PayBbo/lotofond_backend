@@ -26,7 +26,7 @@ class GetTradeMessageContent
             }
             $nextType = $type;
             if($type == 'ErrorMessage'){
-                $type = 'SetSystemInfo';
+                $type = 'SystemInfo';
             }
             if($type == 'Annulment'){
                 $nextType .='Message';
@@ -39,6 +39,8 @@ class GetTradeMessageContent
                 $this->prefix = '';
             }
         } catch (\Exception $e) {
+            logger('GetTradeMessage');
+            logger($e);
             logger($xml);
         }
     }
@@ -47,8 +49,8 @@ class GetTradeMessageContent
     {
         if (!TradeMessage::where('number', $id)->exists()) {
             if ($this->messageType == 'BiddingInvitation') {
-                //$biddingInvitation = new BiddingInvitation($this->invitation, $this->prefix, 'biddingDeclared', $id);
-               // $biddingInvitation->response($tradePlace, $trade);
+                $biddingInvitation = new BiddingInvitation($this->invitation, $this->prefix, 'biddingDeclared', $id);
+                $biddingInvitation->response($tradePlace, $trade);
 
             } elseif($this->messageType == 'BiddingEnd' || $this->messageType == 'BiddingStart' ||
                 $this->messageType == 'ApplicationSessionEnd' || $this->messageType == 'ApplicationSessionStart') {

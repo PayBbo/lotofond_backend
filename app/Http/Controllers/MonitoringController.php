@@ -8,15 +8,21 @@ use App\Http\Resources\LotCollection;
 use App\Http\Resources\MonitoringPathResource;
 use App\Models\Lot;
 use App\Models\Monitoring;
+use App\Models\User;
 use App\Rules\IsUserMonitoringPath;
 use Illuminate\Http\Request;
 
 class MonitoringController extends Controller
 {
    public function addEditMonitoringPath(MonitoringPathRequest $request){
-       if ($request->has('pathId')) {
+       if ($request->has('pathId') && !is_null($request->pathId)) {
            $path = Monitoring::find($request->pathId);
        } else {
+           $user = User::find(auth()->id());
+           $countMonitoringPaths = $user->monitorings->count();
+           if($countMonitoringPaths == 100){
+               throw new BaseException("ERR_EXCEEDING_LIMIT", 422, __('validation.exceeding_limit'));
+           }
            $path = new Monitoring();
        }
        $path->user_id = auth()->id();

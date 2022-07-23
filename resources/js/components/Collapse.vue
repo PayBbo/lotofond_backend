@@ -13,7 +13,7 @@
                 </slot>
             </div>
         </div>
-        <div class="bkt-collapse__header">
+        <div class="bkt-collapse__header" :class="header_class">
             <slot name="title">
                 <h3 class="bkt-card__title" :class="title_class" v-if="title" data-bs-toggle="collapse" :data-bs-target="'#'+id">
                     <slot name="title-inner">
@@ -55,6 +55,9 @@
             main_class: {
                 type: String,
                 default: 'bkt-card bkt-card__body'
+            },
+            header_class: {
+                type: String
             },
             collapse_class: {
                 type: String

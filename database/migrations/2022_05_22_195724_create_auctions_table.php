@@ -46,6 +46,7 @@ class CreateAuctionsTable extends Migration
             $table->string('court')->nullable();
             $table->dateTime('date_publish_smi')->nullable();
             $table->dateTime('date_publish_efir')->nullable();
+            $table->longText('application_rules')->nullable();
             $table->timestamps();
         });
         Schema::enableForeignKeyConstraints();

@@ -27,7 +27,7 @@ class FavouritePathRequest extends FormRequest
     {
         return [
             'name'=>['required', 'string', 'max:255', new IsUniqueFavouritePath($this->request->get('pathId'))],
-            'pathId'=>['sometimes', 'numeric', 'exists:favourites,id', new IsUserFavouritePath()],
+            'pathId'=>['sometimes', 'nullable', 'numeric', 'exists:favourites,id', new IsUserFavouritePath()],
             'color'=>['sometimes', 'string', 'nullable']
         ];
     }

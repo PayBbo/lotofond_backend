@@ -118,11 +118,13 @@ paths:
                   grantType: email
                   email: test@gmail.com
                   code: 111111
+                  deviceToken: '1234695'
               phone:
                 value:
                   grantType: phone
                   phone: '74951239999'
                   code: 111111
+                  deviceToken: '1234695'
       responses:
         "200":
           description: Данные аккаунта
@@ -159,11 +161,13 @@ paths:
                   grantType: email
                   email: test@gmail.com
                   password: ne6Jo$zi
+                  deviceToken: '1234695'
               phone:
                 value:
                   grantType: phone
                   phone: '74951239999'
                   password: LRn&z!4Y
+                  deviceToken: '1234695'
         required: true
       responses:
         "200":
@@ -318,7 +322,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/User'
+              $ref: '#/components/schemas/UpdateUser'
         required: true
       responses:
         "422":
@@ -353,11 +357,20 @@ paths:
       security:
         - bearerAuth: [ ]
   /account/logout:
-    get:
+    post:
       tags:
         - Account
       summary: Выход пользователя из аккаунта
       operationId: logout
+      requestBody:
+        description: данные токена для удаления
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                deviceToken:
+                  type: string
       responses:
         "200":
           description: Выход прошел успешно
@@ -400,7 +413,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
       security:
-        - bearerAuth: []
+        - bearerAuth: [ ]
   /trades:
     put:
       parameters:
@@ -481,7 +494,85 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
       security:
-        - bearerAuth: []
+        - bearerAuth: [ ]
+  /trades/nearest:
+    put:
+      parameters:
+        - name: Content-Language
+          in: header
+          description: Заголовок для определения локали (ru, en, zh_CN)
+          required: true
+        - in: query
+          name: page
+          schema:
+            type: integer
+          required: true
+          description: Номер страницы для серверной пагинации
+      tags:
+        - Trades
+      summary: Получение информации о ближайших торгах в соответствии с фильтрами
+      operationId: getNearestTrades
+      requestBody:
+        description: Данные о выбранных фильтрах
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Filters'
+        required: true
+      responses:
+        "200":
+          description: Информация о 20 ближайших торгах
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TradeInfo'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+        - bearerAuth: [ ]
+  /trades/victories:
+    get:
+      parameters:
+        - name: Content-Language
+          in: header
+          description: Заголовок для определения локали (ru, en, zh_CN)
+          required: true
+        - in: query
+          name: page
+          schema:
+            type: integer
+          required: true
+          description: Номер страницы для серверной пагинации
+      tags:
+        - Trades
+      summary: Получение информации о ближайших торгах в соответствии с фильтрами
+      operationId: getVictories
+      responses:
+        "200":
+          description: Информация о 20 победах недели
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Victory'
+                  pagination:
+                    $ref: '#/components/schemas/Pagination'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+        - bearerAuth: [ ]
   /trades/{auctionId}:
     put:
       parameters:
@@ -535,7 +626,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
       security:
-        - bearerAuth: []
+        - bearerAuth: [ ]
   /trades/filter/trade-places:
     get:
       tags:
@@ -618,8 +709,14 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
   /trades/filter/bidders/{type}:
-    get:
+    put:
       parameters:
+        - in: query
+          name: page
+          schema:
+            type: integer
+          required: true
+          description: Номер страницы для серверной пагинации
         - in: path
           name: type
           schema:
@@ -632,8 +729,18 @@ paths:
           description: Роль участников торгов, которых нужно получить для фильтрации
       tags:
         - FiltersData
-      summary: Получение информации о должниках/организаторах торгов/арбитражных управляющих для отображения в фильтрах
+      summary: Получение информации о должниках/организаторах торгов/арбитражных управляющих
       operationId: getBiddersForFilter
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                searchString:
+                  type: string
+                  required: false
+                  description: Строка для поиска по имени/фамилии/отчеству/короткому имени
       responses:
         "200":
           description: Информация о должнике/организаторе торгов/арбитражном управляющем
@@ -680,7 +787,45 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
       security:
-        - bearerAuth: []
+        - bearerAuth: [ ]
+  /trades/notifications/{lotId}:
+    get:
+      parameters:
+        - in: path
+          name: lotId
+          schema:
+            type: integer
+          required: true
+          description: Айдишник лота, сообщения о котором нужно получить
+        - name: Content-Language
+          in: header
+          description: Заголовок для определения локали (ru, en, zh_CN)
+          required: true
+      tags:
+        - Trades
+      summary: Получение уведомлений о лоте
+      operationId: getLotNotifications
+      responses:
+        "200":
+          description: Информация об уведомлениях
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Notification'
+        "404":
+          description: Лот по переданному айдишнику не найден
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+        - bearerAuth: [ ]
   /trades/lot/action:
     put:
       tags:
@@ -746,10 +891,14 @@ paths:
       responses:
         "200":
           description: Папка избранного успешно создана/отредактирована
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PathFavourite'
         "403":
           description: Ошибка при редактировании папки "Общее"
         "422":
-          description: Ошибка валидации данных
+          description: Ошибка валидации данных либо ошибка превышения лимита количества папок в 100
           content:
             application/json:
               schema:
@@ -796,6 +945,11 @@ paths:
         - bearerAuth: [ ]
   /favourite/download/path:
     post:
+      parameters:
+        - name: Content-Language
+          in: header
+          description: Заголовок для определения локали (ru, en, zh_CN)
+          required: true
       tags:
         - Favourite
       summary: Скачивание в эксель файл папки в избранном
@@ -831,7 +985,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
       security:
-        - bearerAuth: []
+        - bearerAuth: [ ]
   /favourite:
     put:
       parameters:
@@ -920,7 +1074,7 @@ paths:
                   description: название папки, если создаем ее
                 lots:
                   type: array
-                  example: [1, 2, 3]
+                  example: [ 1, 2, 3 ]
                   description: массив с айдишниками лотов для добавления в папку
       responses:
         "200":
@@ -938,7 +1092,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
       security:
-        - bearerAuth: []
+        - bearerAuth: [ ]
   /favourite/get/paths:
     get:
       tags:
@@ -959,7 +1113,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
       security:
-        - bearerAuth: []
+        - bearerAuth: [ ]
   /favourite/delete/lot:
     delete:
       tags:
@@ -999,7 +1153,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
       security:
-        - bearerAuth: []
+        - bearerAuth: [ ]
   /favourite/move/lot:
     put:
       parameters:
@@ -1048,7 +1202,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
       security:
-        - bearerAuth: []
+        - bearerAuth: [ ]
   /monitoring/add/edit/path:
     post:
       tags:
@@ -1066,7 +1220,7 @@ paths:
         "200":
           description: Папка в мониторинге успешно создана/отредактирована
         "422":
-          description: Ошибка валидации данных
+          description: Ошибка валидации данных либо ошибка превышения лимита количества папок в 100
           content:
             application/json:
               schema:
@@ -1078,7 +1232,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
       security:
-        - bearerAuth: []
+        - bearerAuth: [ ]
   /monitoring/delete/path/{id}:
     delete:
       parameters:
@@ -1108,7 +1262,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
       security:
-        - bearerAuth: []
+        - bearerAuth: [ ]
   /monitoring:
     put:
       parameters:
@@ -1140,7 +1294,7 @@ paths:
                 marks:
                   type: array
                   description: айдишники меток пользователя для поиска
-                  example: [1, 2, 3]
+                  example: [ 1, 2, 3 ]
                 sort:
                   $ref: '#/components/schemas/Sort'
       responses:
@@ -1163,7 +1317,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
       security:
-        - bearerAuth: []
+        - bearerAuth: [ ]
   /monitoring/get/paths:
     get:
       tags:
@@ -1224,10 +1378,14 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
       security:
-        - bearerAuth: []
+        - bearerAuth: [ ]
   /notifications/{type}:
     get:
       parameters:
+        - name: Content-Language
+          in: header
+          description: Заголовок для определения локали (ru, en, zh_CN)
+          required: true
         - in: query
           name: page
           schema:
@@ -1242,7 +1400,6 @@ paths:
               - favourite
               - monitoring
               - platform
-              - organizers
               - all
           required: true
           description: Номер страницы для серверной пагинации
@@ -1264,7 +1421,36 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
       security:
-        - bearerAuth: []
+        - bearerAuth: [ ]
+  /notifications/seen:
+    post:
+      tags:
+        - Notifications
+      summary: отметка уведомлений прочитанными
+      operationId: makeNotificationsSeen
+      requestBody:
+        description: массив айдишников прочитанных уведомлений
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                notificationIds:
+                  type: array
+                  items:
+                    type: integer
+      responses:
+        "200":
+          description: уведомления отмечены прочитанными
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+        - bearerAuth: [ ]
   /mark:
     post:
       tags:
@@ -1301,7 +1487,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
       security:
-        - bearerAuth: []
+        - bearerAuth: [ ]
   /mark/{markId}/lot/{lotId}:
     delete:
       parameters:
@@ -1337,7 +1523,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
       security:
-        - bearerAuth: []
+        - bearerAuth: [ ]
   /mark/lot/{lotId}:
     get:
       parameters:
@@ -1371,7 +1557,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
       security:
-        - bearerAuth: []
+        - bearerAuth: [ ]
   /marks:
     get:
       tags:
@@ -1392,7 +1578,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
       security:
-        - bearerAuth: []
+        - bearerAuth: [ ]
   /files/{lotId}:
     get:
       parameters:
@@ -1420,7 +1606,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
       security:
-        - bearerAuth: []
+        - bearerAuth: [ ]
   /bidders/trades:
     put:
       tags:
@@ -1472,7 +1658,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
-  /bidders/{bidderId}:
+  /bidders/{bidderId}/{type}:
     get:
       tags:
         - Bidders
@@ -1483,6 +1669,15 @@ paths:
             type: integer
           required: true
           description: Айдишник участника торгов
+        - in: path
+          name: type
+          required: true
+          schema:
+            type: string
+            enum:
+              - debtor
+              - organizer
+              - arbitrationManager
       summary: Получение данных об арбитражном управляющем/организаторе/должнике
       operationId: getBidder
       responses:
@@ -1491,7 +1686,277 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/BidderInfo'
+                $ref: '#/components/schemas/SingleBidderInfo'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+        - bearerAuth: [ ]
+  /bidders/{tradePlaceId}:
+    get:
+      tags:
+        - Bidders
+      parameters:
+        - in: path
+          name: tradePlaceId
+          schema:
+            type: integer
+          required: true
+          description: Айдишник торговой площадки
+      summary: Получение данных о торговой площадке
+      operationId: getTradePlace
+      responses:
+        "200":
+          description: данные о торговой площадке
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TradePlace'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+        - bearerAuth: [ ]
+  /bidders/get/{type}:
+    put:
+      parameters:
+        - in: query
+          name: page
+          schema:
+            type: integer
+          required: true
+          description: Номер страницы для серверной пагинации
+        - in: path
+          name: type
+          schema:
+            type: string
+            enum:
+              - debtors
+              - organizers
+              - arbitrationManagers
+          required: true
+          description: Роль участников торгов, которых нужно получить для отображения в реестрах
+      tags:
+        - Bidders
+      summary: Получение информации о должниках/организаторах торгов/арбитражных управляющих
+      operationId: getBidders
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                searchString:
+                  type: string
+                  required: false
+                  description: Строка для поиска по имени/фамилии/отчеству/короткому имени/инн
+                sort:
+                  type: object
+                  properties:
+                    direction:
+                      type: string
+                      enum:
+                        - asc
+                        - desc
+                    type:
+                      type: string
+                      enum:
+                        - id
+                        - name
+                        - inn
+                        - region
+                        - address
+                perPage:
+                  type: integer
+                  description: количество отображаемых записей
+      responses:
+        "200":
+          description: Информация о должнике/организаторе торгов/арбитражном управляющем
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/Bidder'
+                  pagination:
+                    $ref: '#/components/schemas/Pagination'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /bidders/trade-places:
+    put:
+      parameters:
+        - in: query
+          name: page
+          schema:
+            type: integer
+          required: true
+          description: Номер страницы для серверной пагинации
+      tags:
+        - Bidders
+      summary: Получение информации о торговых площадках для отображения в реестрах
+      operationId: getTradePlaces
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                searchString:
+                  type: string
+                  required: false
+                  description: Строка для поиска по имени/фамилии/отчеству/короткому имени/инн
+                sort:
+                  type: object
+                  properties:
+                    direction:
+                      type: string
+                      enum:
+                        - asc
+                        - desc
+                    type:
+                      type: string
+                      enum:
+                        - id
+                        - name
+                        - site
+                perPage:
+                  type: integer
+                  description: количество отображаемых записей
+      responses:
+        "200":
+          description: Информация о торговых площадках
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/TradePlaces'
+                  pagination:
+                    $ref: '#/components/schemas/Pagination'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+        - bearerAuth: [ ]
+  /bidders/estimate:
+    post:
+      tags:
+        - Bidders
+      summary: Оценка организатора/арбитражного управляющего
+      operationId: estimateBidder
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                estimate:
+                  type: integer
+                comment:
+                  type: string
+                bidderId:
+                  type: integer
+                type:
+                  type: string
+                  enum:
+                    - organizer
+                    - arbitrationManager
+      responses:
+        "200":
+          description: Оценка сохранена успешно
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Rating"
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+        - bearerAuth: [ ]
+  /bidders/debtor/messages:
+    post:
+      tags:
+        - Bidders
+      summary: Сообщения о должнике
+      operationId: getDebtorMessages
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                searchString:
+                  type: string
+                  required: false
+                  description: Строка для поиска по сообщению
+                sort:
+                  type: object
+                  properties:
+                    direction:
+                      type: string
+                      enum:
+                        - asc
+                        - desc
+                    sortType:
+                      type: string
+                      enum:
+                        - date
+                        - type
+                        - debtor
+                perPage:
+                  type: integer
+                  description: количество отображаемых записей
+                types:
+                  type: array
+                  items:
+                    type: string
+                  description: массив тем сообщений для фильтрации
+                regions:
+                  type: array
+                  items:
+                    type: string
+                  description: массив регионов должника для фильтрации
+                publishDate:
+                  type: object
+                  properties:
+                    start:
+                      type: string
+                    end:
+                      type: string
+                messageHasFiles:
+                  type: boolean
+      responses:
+        "200":
+          description: данные о сообщениях
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/BidderMessage"
+                  pagination:
+                    $ref: "#/components/schemas/Pagination"
         default:
           description: unexpected error
           content:
@@ -1523,7 +1988,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
       security:
-        - bearerAuth: []
+        - bearerAuth: [ ]
   /files/{id}:
     delete:
       parameters:
@@ -1553,7 +2018,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
       security:
-        - bearerAuth: []
+        - bearerAuth: [ ]
   /statistics/categories:
     get:
       tags:
@@ -1569,8 +2034,8 @@ paths:
                 type: object
                 example:
                   {
-                    'realEstate': {'allLotsCount': 100, 'activeLotsCount': 90},
-                   'commercialRealEstate': {'allLotsCount': 100, 'activeLotsCount': 90}
+                    'realEstate': { 'allLotsCount': 100, 'activeLotsCount': 90 },
+                    'commercialRealEstate': { 'allLotsCount': 100, 'activeLotsCount': 90 }
                   }
         default:
           description: unexpected error
@@ -1592,13 +2057,440 @@ paths:
               schema:
                 type: object
                 example:
-                  {'activeLotsCount': 100, 'nonactiveLotsCount': 200, 'allLotsCount': 300}
+                  { 'activeLotsCount': 100, 'nonactiveLotsCount': 200, 'allLotsCount': 300 }
         default:
           description: unexpected error
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+  /note:
+    post:
+      parameters:
+        - name: Content-Language
+          in: header
+          description: Заголовок для определения локали (ru, en, zh_CN)
+          required: true
+      tags:
+        - Notes
+      summary: Добавление заметки к лоту/организатору торгов
+      operationId: addNote
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AddNote"
+      responses:
+        "200":
+          description: Добавление заметки прошло успешно
+        "422":
+          description: Ошибка валидации
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+        - bearerAuth: [ ]
+  /note/edit:
+    parameters:
+      - name: Content-Language
+        in: header
+        description: Заголовок для определения локали (ru, en, zh_CN)
+        required: true
+    put:
+      tags:
+        - Notes
+      summary: Редактирование заметки к лоту/организатору торгов
+      operationId: editNote
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                noteId:
+                  type: integer
+      responses:
+        "200":
+          description: Редактирование заметки прошло успешно
+        "422":
+          description: Ошибка валидации
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+        - bearerAuth: [ ]
+  /note/delete:
+    parameters:
+      - name: Content-Language
+        in: header
+        description: Заголовок для определения локали (ru, en, zh_CN)
+        required: true
+    delete:
+      tags:
+        - Notes
+      summary: Удаление заметки к лоту/организатору торгов
+      operationId: deleteNote
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                noteId:
+                  type: integer
+      responses:
+        "200":
+          description: Удаление заметки прошло успешно
+        "422":
+          description: Ошибка валидации
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+        - bearerAuth: [ ]
+  /event:
+    post:
+      parameters:
+        - name: Content-Language
+          in: header
+          description: Заголовок для определения локали (ru, en, zh_CN)
+          required: true
+      tags:
+        - Events
+      summary: Добавление события в календаре
+      operationId: addEvent
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Event"
+      responses:
+        "200":
+          description: Добавление события прошло успешно
+        "422":
+          description: Ошибка валидации
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+        - bearerAuth: [ ]
+  /event/edit:
+    parameters:
+      - name: Content-Language
+        in: header
+        description: Заголовок для определения локали (ru, en, zh_CN)
+        required: true
+    put:
+      tags:
+        - Events
+      summary: Редактирование события в календаре
+      operationId: editEvent
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Event"
+      responses:
+        "200":
+          description: Редактирование события прошло успешно
+        "422":
+          description: Ошибка валидации
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+        - bearerAuth: [ ]
+  /event/delete:
+    parameters:
+      - name: Content-Language
+        in: header
+        description: Заголовок для определения локали (ru, en, zh_CN)
+        required: true
+    delete:
+      tags:
+        - Events
+      summary: Удаление события в календаре
+      operationId: deleteEvent
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: integer
+      responses:
+        "200":
+          description: Удаление события прошло успешно
+        "422":
+          description: Ошибка валидации
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+        - bearerAuth: [ ]
+  /events:
+    post:
+      tags:
+        - Events
+      summary: Получение событий по выбранному типу и месяцу
+      operationId: getEvents
+      requestBody:
+        description: данные для получения событий календаря
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                type:
+                  type: string
+                  enum:
+                    - task
+                    - event
+                    - reminder
+                    - all
+                month:
+                  type: string
+                  enum:
+                    - 01
+                    - 02
+                    - 03
+                    - 04
+                    - 05
+                    - 06
+                    - 07
+                    - 08
+                    - 09
+                    - 10
+                    - 11
+                    - 12
+                year:
+                  type: integer
+                  description: год для поиска
+      responses:
+        "200":
+          description: список событий выбранного месяца
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Event"
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+        - bearerAuth: [ ]
+
+  /account/credentials/code:
+    parameters:
+      - name: Content-Language
+        in: header
+        description: Заголовок для определения локали (ru, en, zh_CN)
+        required: true
+    post:
+      tags:
+        - Account
+      summary: Запрос кода подтверждения для смены почты/телефона
+      operationId: getChangeCredentialsCode
+      requestBody:
+        description: Почта или номер телефона пользователя.
+          1.haveAccessToOldCredentials= true, isOldCredentials = true - ввод для подтверждения действия с предыдущей почты
+          2.haveAccessToOldCredentials= true, isOldCredentials = false - ввод новой почты, после подтверждения уже существующей почты
+          3.haveAccessToOldCredentials= false, isOldCredentials = false - ввод новой почты, без доступа к предыдущей почте
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ResetPasswordCodeRequest'
+            examples:
+              email:
+                value:
+                  grantType: email
+                  email: test@gmail.com
+                  haveAccessToOldCredentials: true
+                  isOldCredentials: false
+              phone:
+                value:
+                  grantType: phone
+                  phone: '74951239999'
+                  haveAccessToOldCredentials: true
+                  isOldCredentials: false
+        required: true
+      responses:
+        "422":
+          description: 'Wrong credentials response'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "200":
+          description: 'Successful response, code sent to user '
+        "550":
+          description: 'Message can''t be sent to user'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+        - bearerAuth: [ ]
+  /account/credentials/code/verify:
+    parameters:
+      - name: Content-Language
+        in: header
+        description: Заголовок для определения локали (ru, en, zh_CN)
+        required: true
+    post:
+      tags:
+        - Account
+      summary: Отправка пользователем кода подтверждения для подтвержденыя изменения почты/телефона
+      operationId: verifyChangeCredentialsCode
+      requestBody:
+        description: Код подтверждения.
+          1.haveAccessToOldCredentials= true, isOldCredentials = true - ввод для подтверждения действия с предыдущей почты
+          2.haveAccessToOldCredentials= true, isOldCredentials = false - ввод новой почты, после подтверждения уже существующей почты
+          3.haveAccessToOldCredentials= false, isOldCredentials = false - ввод новой почты, без доступа к предыдущей почте
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CodeRequest'
+            examples:
+              email:
+                value:
+                  grantType: email
+                  email: test@gmail.com
+                  code: '123451'
+                  haveAccessToOldCredentials: true
+                  isOldCredentials: false
+              phone:
+                value:
+                  grantType: phone
+                  phone: '74951239999'
+                  code: '123451'
+                  haveAccessToOldCredentials: true
+                  isOldCredentials: false
+        required: true
+      responses:
+        "422":
+          description: 'Wrong credentials response'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "200":
+          description: 'Successful response'
+      security:
+        - bearerAuth: [ ]
+  /account/notifications/settings:
+    post:
+      tags:
+        - Account
+      summary: изменение настроек уведомлений в профиле пользователя
+      operationId: updateNotificationSettings
+      requestBody:
+        description: настройки уведомлений
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                notificationsFromFavourite:
+                  type: boolean
+                  description: флаг - включены ли уведомления избранного
+                notificationsFromMonitoring:
+                  type: boolean
+                  description: флаг - включены ли уведомления от мониторинга
+                notificationsSettings:
+                  $ref: "#/components/schemas/NotificationsSettings"
+        required: true
+      responses:
+        "200":
+          description: Настройки уведомлений сохранены успешно
+        "422":
+          description: Ошибка валидации
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+        - bearerAuth: [ ]
+  /send/application:
+    post:
+      parameters:
+        - name: Content-Language
+          in: header
+          description: Заголовок для определения локали (ru, en, zh_CN)
+          required: true
+      tags:
+        - Applications
+      summary: Отправка заявки на покупку без ЕЦП на почту менеджеру
+      operationId: sendApplication
+      requestBody:
+        description: данные для отправления заявки
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - email
+                - phone
+                - lotId
+              properties:
+                email:
+                  type: string
+                lotId:
+                  type: integer
+                phone:
+                  type: string
+                socialsForAnswer:
+                  type: array
+                  items:
+                    type: string
+                    enum:
+                      - Vk
+                      - Viber
+                      - WhatsApp
+      responses:
+        "200":
+          description: заявка успешно отправлена
+        "422":
+          description: Ошибка валидации данных
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+        - bearerAuth: []
 components:
   schemas:
     Register:
@@ -1652,6 +2544,9 @@ components:
         password:
           type: string
           description: Пароль пользователя
+        deviceToken:
+          type: string
+          description: токен устройства пользователя
     ResetPasswordCodeRequest:
       required:
         - grantType
@@ -1682,6 +2577,8 @@ components:
         phone:
           type: string
         code:
+          type: string
+        deviceToke:
           type: string
     ResetPasswordRequest:
       required:
@@ -1717,9 +2614,12 @@ components:
     User:
       required:
         - name
-        - surname
+        - lastName
         - email
         - phone
+        - notificationsFromMonitoring
+        - notificationsFromFavourite
+        - notificationsSettings
       type: object
       properties:
         name:
@@ -1728,16 +2628,65 @@ components:
         middleName:
           type: string
           example: Ivanovich
-        surname:
+        lastName:
           type: string
           example: Ivanov
         email:
           type: string
-          format: email
-          example: user1@mail.com
         phone:
           type: string
-          example: '79225551234'
+        notificationsFromFavourite:
+          type: boolean
+          description: флаг - включены ли уведомления избранного
+        notificationsFromMonitoring:
+          type: boolean
+          description: флаг - включены ли уведомления от мониторинга
+        notificationsSettings:
+          $ref: "#/components/schemas/NotificationsSettings"
+    NotificationsSettings:
+      type: object
+      properties:
+        favouriteEventStart:
+          type: integer
+          description: за какое кол-во дней высылать уведомление - 1, 2, 4, 7
+        favouriteEventEnd:
+          type: integer
+          description: за какое кол-во дней высылать уведомление - 1, 2, 4, 7
+        favouriteApplicationStart:
+          type: integer
+          description: за какое кол-во дней высылать уведомление - 1, 2, 4, 7
+        favouriteApplicationEnd:
+          type: integer
+          description: за какое кол-во дней высылать уведомление - 1, 2, 4, 7
+        favouriteResult:
+          type: integer
+          description: за какое кол-во дней высылать уведомление - 1, 2, 4, 7
+        favouritePriceReduction:
+          type: integer
+          description: за какое кол-во дней высылать уведомление - 1, 2, 4, 7
+      example: {
+        'favouriteEventStart': 1,
+        'favouriteEventEnd': 1,
+        'favouriteApplicationStart': 1,
+        'favouriteApplicationEnd': 1,
+        'favouriteResult': 1,
+        'favouritePriceReduction': 1
+      }
+    UpdateUser:
+      required:
+        - name
+        - lastName
+      type: object
+      properties:
+        name:
+          type: string
+          example: Ivan
+        middleName:
+          type: string
+          example: Ivanovich
+        lastName:
+          type: string
+          example: Ivanov
     Trade:
       type: object
       properties:
@@ -1871,6 +2820,10 @@ components:
         inFavourites:
           type: boolean
           description: в избранном/нет
+        favouritePaths:
+          type: array
+          items:
+            $ref: "#/components/schemas/PathFavourite"
         isHide:
           type: boolean
           description: скрыт/не скрыт
@@ -1889,8 +2842,7 @@ components:
         photos:
           $ref: "#/components/schemas/Images"
         location:
-          type: string
-          description: геометка (адрес у нас будет именно для лота, а не для торга)
+          $ref: "#/components/schemas/Location"
         startPrice:
           type: number
           example: 0.00
@@ -1948,6 +2900,10 @@ components:
         inFavourites:
           type: boolean
           description: в избранном/нет
+        favouritePaths:
+          type: array
+          items:
+            $ref: "#/components/schemas/PathFavourite"
         isHide:
           type: boolean
           description: скрыт/не скрыт
@@ -1966,8 +2922,7 @@ components:
         photos:
           $ref: "#/components/schemas/Images"
         location:
-          type: string
-          description: геометка (адрес у нас будет именно для лота, а не для торга)
+          $ref: "#/components/schemas/Location"
         startPrice:
           type: number
           example: 0.00
@@ -2026,6 +2981,23 @@ components:
           $ref: "#/components/schemas/Marks"
         descriptionExtracts:
           $ref: "#/components/schemas/DescriptionExtracts"
+        note:
+          $ref: "#/components/schemas/Note"
+        requirementsForParticipants:
+          type: string
+          description: требования к участникам
+        paymentInfo:
+          type: string
+          description: информация об оплате
+        saleAgreement:
+          type: string
+          description: порядок заключения договора купли-продажи
+        biddingInfo:
+          type: string
+          description: условия проведения торгов
+        applicationRules:
+          type: string
+          description: правила подачи заявок
     Pagination:
       type: object
       properties:
@@ -2053,48 +3025,88 @@ components:
         prevPageUrl:
           type: string
           description: ссылка на предыдущую страницу
-    Debtor:
-      required:
-        - name
-        - address
-        - region
+    SingleBidderInfo:
       type: object
       properties:
-        name:
+        type:
           type: string
-          description: ФИО должника (физ.лица) или короткое название организации (юр. лица)
+          enum:
+            - person
+            - company
+        id:
+          type: integer
         inn:
           type: string
-          description: ИНН (может быть нулевым)
-        region:
-          type: string
-        address:
-          type: string
-        caseNumber:
-          type: string
-          description: номер судебного дела
-        court:
-          type: string
-          description: суд
-    arbitrationManager:
-      required:
-        - name
-        - inn
+        person:
+          type: object
+          properties:
+            firstName:
+              type: string
+            middleName:
+              type: string
+            lastName:
+              type: string
+        company:
+          type: object
+          properties:
+            shortName:
+              type: string
+            fullName:
+              type: string
+        arbitrationManager:
+          type: object
+          properties:
+            sro:
+              type: string
+              description: название СРО
+            regDate:
+              type: string
+              description: ИНН СРО
+            regNum:
+              type: string
+              description: регистрационный номер СРО
+            rating:
+              $ref: "#/components/schemas/Rating"
+        organizer:
+          type: object
+          properties:
+            region:
+              type: string
+            address:
+              type: string
+            ogrn:
+              type: string
+            rating:
+              $ref: "#/components/schemas/Rating"
+        debtor:
+          type: object
+          properties:
+            region:
+              type: string
+            address:
+              type: string
+            caseNumber:
+              type: string
+              description: номер судебного дела
+            court:
+              type: string
+              description: суд
+            ogrn:
+              type: string
+            category:
+              type: string
+              description: категория должника
+    Rating:
       type: object
       properties:
-        name:
+        rating:
+          type: integer
+          description: рейтинг от 0 до 5
+        estimate:
+          type: integer
+          desription: оценка авторизованного пользователя
+        comment:
           type: string
-        inn:
-          type: string
-        sro:
-          type: string
-          description: название СРО
-        sroINN:
-          type: string
-          description: ИНН СРО
-        sroRegNum:
-          type: string
-          description: регистрационный номер СРО
     Error:
       required:
         - code
@@ -2136,13 +3148,6 @@ components:
           type: integer
         inn:
           type: string
-        sroAU:
-          type: string
-          description: название объединения арбитражных управляющих
-        phone:
-          type: string
-        email:
-          type: string
         person:
           type: object
           properties:
@@ -2159,7 +3164,6 @@ components:
               type: string
             fullName:
               type: string
-
     Filters:
       type: object
       properties:
@@ -2243,7 +3247,7 @@ components:
             debtors: [ 1, 2, 3 ],
             organizers: [ 1, 2, 3 ],
             arbitrationManagers: [ 1, 2, 3 ],
-            other: {"period":"periodAll", "hasPhotos": false, "isHidden": false, "iStopped": false, "isCompleted": false}
+            other: { "period": "periodAll", "hasPhotos": false, "isHidden": false, "iStopped": false, "isCompleted": false }
           }
           properties:
             debtorCategories:
@@ -2326,11 +3330,22 @@ components:
               description: вид торгов
     TradePlace:
       type: object
+      required:
+        - name
+        - id
       properties:
         name:
           type: string
         id:
           type: integer
+        site:
+          type: string
+        note:
+          $ref: "#/components/schemas/Note"
+        ownerName:
+          type: string
+        inn:
+          type: string
     TradePlaces:
       type: array
       items:
@@ -2339,16 +3354,20 @@ components:
       type: object
       required:
         - name
+        - lotCount
       properties:
         name:
           type: string
           description: название папки
         pathId:
           type: integer
-          description: айдишник папки (если редактируем папку)
+          description: айдишник папки (если редактируем папку, если создаем - передаем null)
         color:
           type: string
           description: название цвета папки
+        lotCount:
+          type: integer
+          description: количество лотов в папке избранного
     ExcelParams:
       type: object
       properties:
@@ -2367,7 +3386,7 @@ components:
         addCurrentPrice:
           type: boolean
           default: false
-        addAuctionPrice:
+        addAuctionType:
           type: boolean
           default: false
         addDebtor:
@@ -2422,7 +3441,7 @@ components:
           description: название папки
         pathId:
           type: integer
-          description: айдишник папки (если редактируем папку)
+          description: айдишник папки (если редактируем папку, если создаем - передаем null)
         color:
           type: string
           description: название цвета папки
@@ -2462,25 +3481,75 @@ components:
 
     Notification:
       required:
-        - value
         - date
+        - isSeen
+        - id
+        - type
       type: object
       properties:
-        value:
+        id:
+          type: integer
+          description: айдшник уведомления
+        isSeen:
+          type: boolean
+          description: флаг, бало ли сообщение прочитано ранее
+        type:
           type: string
-          description: текст уведомления
+          description: тип уведомления
+          enum:
+            - platform
+            - favourite
+            - monitoring
         date:
           type: string
           description: дата уведомления
-        lot:
+        dataPlatform:
+          type: object
+          properties:
+            label:
+              type: string
+              description: заголовок для уведомлений платформы
+            value:
+              type: string
+              description: текст уведомления
+            action:
+              type: string
+              enum:
+                - info
+                - goToWebsite
+                - renewSubscription
+              description: тип действия для уведомлений платформы
+        dataFavourite:
           type: object
           properties:
             photos:
               $ref: "#/components/schemas/Images"
             description:
               type: string
-        organizer:
-          $ref: "#/components/schemas/BidderInfo"
+            detail:
+              type: string
+              description: текст уведомления
+            favouritePaths:
+              type: array
+              items:
+                $ref: "#/components/schemas/PathFavourite"
+        dataMonitoring:
+          type: object
+          properties:
+            folderInfo:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: название папки мониторинга
+                pathId:
+                  type: integer
+                color:
+                  type: string
+            newLotCount:
+              type: integer
+              description: количество добавленных лотов
+
     Notifications:
       type: object
       properties:
@@ -2497,9 +3566,6 @@ components:
         monitoringNotificationsCount:
           type: integer
           description: количество уведомлений мониторинга
-        organizersNotificationsCount:
-          type: integer
-          description: количество уведомлений от организаторов
     Marks:
       type: array
       items:
@@ -2601,6 +3667,64 @@ components:
           content:
             type: string
             example: 46:02:020301:169
+      example:
+        [
+          {
+            "tradeSubject": "Участок по адресу г Владимир, ул Безыменского, д. 22, 33",
+            "extracts": [
+              {
+                "title": "Кадастровая стоимость",
+                "type": "cadastralDataPrice",
+                "value": "2031838.84"
+              },
+              {
+                "title": "Кадастровые данные о площади",
+                "type": "cadastralDataArea",
+                "value": "53.7"
+              },
+              {
+                "title": "Количество этажей",
+                "type": "other",
+                "value": null
+              },
+              {
+                "title": "Год постройки",
+                "type": "other",
+                "value": null
+              }
+            ]
+          },
+          {
+            "tradeSubject": "Участок по адресу г Ростов-на-Дону, сад Садовод-Любитель, д. 10-78",
+            "extracts": [
+              {
+                "title": "Кадастровый номер",
+                "type": "other",
+                "value": "61:44:0071802:1786"
+              },
+              {
+                "title": "Кадастровая стоимость",
+                "type": "cadastralDataPrice",
+                "value": "1383765.25"
+              },
+              {
+                "title": "Кадастровые данные о площади",
+                "type": "cadastralDataArea",
+                "value": "665"
+              },
+              {
+                "title": "Количество этажей",
+                "type": "other",
+                "value": null
+              },
+              {
+                "title": "Год постройки",
+                "type": "other",
+                "value": null
+              }
+            ]
+          }
+        ]
     Sort:
       type: object
       properties:
@@ -2697,6 +3821,138 @@ components:
             min:
               type: number
               description: минимальный процент снижения
+    AddNote:
+      type: object
+      properties:
+        itemType:
+          type: string
+          enum:
+            - lot
+            - debtor
+            - organizer
+            - tradePlace
+        itemId:
+          type: integer
+          description: айдишник должника/лота/организатора/торговой площадки
+        title:
+          type: string
+          description: текст заметки
+    Note:
+      type: object
+      properties:
+        title:
+          type: string
+        date:
+          type: string
+          description: дата публикации/изменения заметки
+    Location:
+      type: array
+      items:
+        type: object
+        properties:
+          code:
+            type: string
+            description: название региона
+          isDebtorRegion:
+            type: integer
+            description: 0 = false, 1 = true
+        example:
+          [
+            {
+              "code": "KalugaRegion",
+              "isDebtorRegion": 1
+            },
+            {
+              "code": "RostovRegion",
+              "isDebtorRegion": 0
+            }
+          ]
+    Event:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: отправлять только при редактировании; приходит в списке событий
+        title:
+          type: string
+        date:
+          type: string
+          example: 20.07.2022
+        time:
+          type: string
+          example: 00:00
+        type:
+          type: string
+          enum:
+            - task
+            - event
+            - reminder
+            - all
+    Victory:
+      type: object
+      properties:
+        tradeId:
+          type: string
+          description: номер торгов
+        description:
+          type: string
+        photos:
+          $ref: "#/components/schemas/Images"
+        startPrice:
+          type: integer
+        endPrice:
+          type: integer
+        percentageReduction:
+          type: integer
+        date:
+          type: string
+        participantsCount:
+          type: integer
+        winner:
+          type: object
+          properties:
+            person:
+              type: object
+              properties:
+                firstName:
+                  type: string
+                middleName:
+                  type: string
+                lastName:
+                  type: string
+            company:
+              type: object
+              properties:
+                shortName:
+                  type: string
+                fullName:
+                  type: string
+            victoriesCount:
+              type: integer
+    BidderMessage:
+      type: object
+      properties:
+        date:
+          type: string
+        type:
+          type: string
+          description: ключ для перевода текста
+        debtor:
+          $ref: "#/components/schemas/BidderInfo"
+    LotMessages:
+      type: array
+      items:
+        type: object
+        properties:
+          date:
+            type: string
+          type:
+            type: string
+            description: локализованный тип сообщения
+          files:
+            type: string
+            description: ссылка на файл (при наличии)
+            format: uri
   securitySchemes:
     bearerAuth:
       type: http

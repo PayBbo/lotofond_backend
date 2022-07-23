@@ -15,13 +15,14 @@ import marks from './marks';
 // import files from './files';
 import lots from "./lots";
 import favourites from "./favourites";
+import monitoring from "./monitoring";
 
 
 export default new Vuex.Store({
     namespaced: false,
     modules: {
         shared, auth, trades, filters, debtors, organizers, arbitrManagers,
-        tradePlaces, categories, regions, marks, lots, favourites,
+        tradePlaces, categories, regions, marks, lots, favourites, monitoring
     }
 })
 

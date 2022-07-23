@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Utilities\SortBuilder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -82,11 +83,6 @@ class Bidder extends Model
         return $this->hasMany(Auction::class, 'company_trade_organizer_id');
     }
 
-    public function notifications()
-    {
-        return $this->hasMany(Notification::class);
-    }
-
     public function registryNotifications()
     {
         return $this->hasMany(RegistryNotification::class);
@@ -103,6 +99,12 @@ class Bidder extends Model
 
     }
 
+    public function biddingVictories(){
+
+        return $this->hasMany(BiddingParticipant::class)->where('is_winner', true);
+
+    }
+
     public function debtorAuctionsWithLots()
     {
         return $this->hasMany(Auction::class, 'debtor_id')->whereHas('lots');
@@ -116,5 +118,46 @@ class Bidder extends Model
     public function organizerAuctionsWithLots()
     {
         return $this->hasMany(Auction::class, 'company_trade_organizer_id')->whereHas('lots');
+    }
+
+    public function getNameForExport(){
+        $name = $this->name;
+        if(!is_null($this->last_name)){
+            $name = $this->last_name . ' ' . $this->name . ' ' . $this->middle_name;
+        }
+        return $name;
+    }
+
+    public function estimates()
+    {
+        return $this->hasMany(BidderEstimate::class);
+    }
+
+    public function rating($type){
+        $count = $this->estimates->where('type', $type)->count();
+        if($count > 0){
+            $sum = $this->estimates->where('type', $type)->sum('estimate');
+            return round($sum/$count, 1);
+        }
+        return 0.0;
+    }
+
+    public function getUserEstimate($type){
+        if(auth()->guard('api')->check()) {
+            return $this->estimates()->where(['user_id'=> auth()->id(), 'type'=>$type])->first();
+        }
+        return null;
+    }
+
+    public function scopeCustomSortBy($query, $request)
+    {
+        if (isset($request->sort) && isset($request->sort['direction']) && strlen((string)$request->sort['direction']) > 0
+            && isset($request->sort['type']) && strlen((string)$request->sort['type']) > 0) {
+            $namespace = 'App\Utilities\BidderSorts';
+            $sort = new SortBuilder($query, $request->sort, $namespace);
+
+            return $sort->apply();
+        }
+        return $query;
     }
 }

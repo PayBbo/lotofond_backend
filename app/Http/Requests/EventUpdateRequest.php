@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\IsUserEvent;
 use Illuminate\Foundation\Http\FormRequest;
 
 class EventUpdateRequest extends FormRequest
@@ -24,11 +25,11 @@ class EventUpdateRequest extends FormRequest
     public function rules()
     {
         return [
+            'id'=>['required', 'integer', 'exists:events,id', new IsUserEvent()],
             'date' => ['required', 'date'],
             'time' => ['required'],
             'title' => ['required', 'string', 'max:255'],
-            'event_type_id' => ['required', 'integer', 'gt:0'],
-            'user_id' => ['required', 'integer', 'gt:0'],
+            'type' => ['required', 'in:task,event,reminder']
         ];
     }
 }

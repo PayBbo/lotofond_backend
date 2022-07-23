@@ -27,8 +27,7 @@ class EventStoreRequest extends FormRequest
             'date' => ['required', 'date'],
             'time' => ['required'],
             'title' => ['required', 'string', 'max:255'],
-            'event_type_id' => ['required', 'integer', 'gt:0'],
-            'user_id' => ['required', 'integer', 'gt:0'],
+            'type' => ['required', 'in:task,event,reminder']
         ];
     }
 }

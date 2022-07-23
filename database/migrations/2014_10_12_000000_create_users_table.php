@@ -23,9 +23,10 @@ class CreateUsersTable extends Migration
             $table->string('phone')->unique()->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->boolean('not_from_organizers')->default(true);
+            $table->boolean('not_from_favourite')->default(true);
             $table->boolean('not_from_monitoring')->default(true);
-            $table->integer('frequency_of_auction_nots')->default(1);
+            $table->json('not_settings');
+            $table->json('device_tokens')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

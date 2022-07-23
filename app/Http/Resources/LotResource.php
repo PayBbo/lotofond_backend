@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use App\Models\Category;
+use App\Models\Note;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\URL;
 
@@ -17,6 +18,7 @@ class LotResource extends JsonResource
     public function toArray($request)
     {
         $user = auth()->guard('api')->user();
+        $inFavourite = auth()->guard('api')->check() ? $this->inFavourite() : false;
         $categories = [];
         $parents = [];
         foreach ($this->categories as $category) {
@@ -43,7 +45,7 @@ class LotResource extends JsonResource
             $categories[] = ['label'=>$category->label, 'key'=>$category->title, 'subcategories'=>$subcategories];
         }
         $this->auction->isLotInfo = $this->isLotInfo;
-        $params = $this->params()->select('title', 'type', 'lot_params.value')->get();
+        $regions = $this->regions()->select('code', 'lot_regions.is_debtor_region as isDebtorRegion')->get();
         return [
             'id' => $this->id,
             'trade' => new TradeResource($this->auction),
@@ -52,10 +54,13 @@ class LotResource extends JsonResource
             'categories' => $categories,
             'description' => stripslashes(preg_replace('/[\x00-\x1F\x7F]/u', ' ', $this->description)),
             'state' => $this->status->code,
-            'location' => $this->auction->debtor->region ? $this->auction->debtor->region->code : null,
+            'location' => $regions->makeHidden(['pivot']),
             'isWatched' => auth()->guard('api')->check() ? $user->seenLots->pluck('id')->contains($this->id) : false,
             'isPinned' => auth()->guard('api')->check() ? $user->fixedLots->pluck('id')->contains($this->id) : false,
-            'inFavourite' => auth()->guard('api')->check() ? $this->inFavourite() : false,
+            'inFavourite' => $inFavourite,
+            $this->mergeWhen($inFavourite  && !is_null($this->getLotFavouritePaths()), [
+                'favouritePaths' => $this->getLotFavouritePaths(),
+            ]),
             'isHide' => auth()->guard('api')->check() ? $user->hiddenLots->pluck('id')->contains($this->id) : false,
             'inMonitoring' => auth()->guard('api')->check() ? $this->inMonitoring() : false,
             'startPrice' =>  (float)$this->start_price,
@@ -84,7 +89,17 @@ class LotResource extends JsonResource
             'link' => URL::to('/lot/' . $this->id),
             'efrsbLink' => 'https://fedresurs.ru/bidding/' . $this->auction->guid,
             'marks'=> $this->userMarks()->makeHidden(['pivot']),
-            'descriptionExtracts'=>$params->makeHidden(['pivot'])
+            'descriptionExtracts'=>$this->description_extracts,
+            $this->mergeWhen(($this->isLotInfo && !is_null($this->getNote())), [
+                'note'=> $this->getNote()
+            ]),
+            $this->mergeWhen(($this->isLotInfo ), [
+                'requirementsForParticipants'=>$this->participants,
+                'paymentInfo'=>$this->payment_info,
+                'saleAgreement'=>$this->sale_agreement,
+                'biddingInfo' => $this->concours,
+                'applicationRules'=>$this->auction->application_rules
+            ])
         ];
     }
 

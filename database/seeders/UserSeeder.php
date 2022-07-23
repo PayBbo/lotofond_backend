@@ -22,7 +22,7 @@ class UserSeeder extends Seeder
             $user = User::create([
                 'name'=>'Name'.$i,
                 'surname'=>'Surname'.$i,
-                'lastname'=>'Lastname'.$i,
+                'middle_name'=>'Lastname'.$i,
                 'email'=>'user@user.user'.$i,
                 'phone'=>'7902111111'.$i,
                 'password'=>Hash::make('11111111')

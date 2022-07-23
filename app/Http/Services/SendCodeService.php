@@ -26,6 +26,23 @@ class SendCodeService
         }
     }
 
+    public function sendEmailWarning($toEmail, $newEmail)
+    {
+        try {
+            $html = "Здравствуйте, уведомляем Вас, что ваша электронная почта в аккаунте  BankrotMP через 14 дней будет изменена на
+            <strong> $newEmail</strong>
+            <p>Если Вы не запрашивали выполнение данной операции в BankrotMP, отмените запрос на смену почты в личном кабинете.</p>";
+            Mail::send([], [], function ($message) use ($toEmail, $html) {
+                $message->from('bankr0t.t@yandex.ru', 'BankrotMP');
+                $message->to($toEmail);
+                $message->subject('Уведомление о смене электронной почты');
+                $message->setBody($html, 'text/html');
+            });
+        } catch (Exception $e) {
+            throw new BaseException("ERR_SEND_MESSAGE_FAILED", 550, "Message can't be sent to ".$toEmail);
+        }
+    }
+
     public function sendPhoneCode($toPhone, $code){
         $isSent = SmsRu::send($toPhone, 'Ваш код подтверждения в BankrotMP: '.$code.' Если Вы не запрашивали код подтверждения, проигнорируйте данное сообщение.');
         if(!$isSent){

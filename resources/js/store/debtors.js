@@ -3,6 +3,8 @@ export default {
         debtors: [],
         debtors_pagination: {},
         debtors_loading: false,
+        filters_debtors: [],
+        filters_debtors_pagination: {}
     },
 
     getters: {
@@ -15,34 +17,57 @@ export default {
         debtors_loading(state) {
             return state.debtors_loading;
         },
-
+        filters_debtors(state) {
+            return state.filters_debtors;
+        },
+        filters_debtors_pagination(state) {
+            return state.filters_debtors_pagination;
+        },
     },
     mutations: {
         setDebtors(state, payload) {
+            state.debtors = [];
+            payload.data.forEach(item => {
+                if (item.type === 'person') {
+                    item.fullName = Object.values(item.person).reduce((prev, cur) => {
+                        if (cur) {
+                            prev += cur + ' '
+                        }
+                        return prev;
+                    }, '').trim();
+                    item.shortName = item.person.firstName + ' ' + item.person.lastName;
+
+                } else {
+                    item.fullName = item.company.fullName;
+                    item.shortName = item.company.shortName;
+                }
+                state.debtors.push(item)
+            });
+            state.debtors_pagination = payload.pagination;
+        },
+        setFiltersDebtors(state, payload) {
             // state.debtors = payload.data;
             payload.data.forEach(item => {
-                let debtor = state.debtors.findIndex(el => el.id === item.id);
+                let debtor = state.filters_debtors.findIndex(el => el.id === item.id);
                 if (debtor < 0) {
                     let tmp_item = item;
-                    if(item.type === 'person')
-                    {
+                    if (item.type === 'person') {
                         tmp_item.fullName = Object.values(tmp_item.person).reduce((prev, cur) => {
-                            if(cur){
-                                prev+= cur+' '
+                            if (cur) {
+                                prev += cur + ' '
                             }
                             return prev;
                         }, '').trim();
-                        tmp_item.shortName = item.person.firstName+' '+item.person.lastName;
+                        tmp_item.shortName = item.person.firstName + ' ' + item.person.lastName;
 
-                    }
-                    else {
+                    } else {
                         tmp_item.fullName = item.company.fullName;
                         tmp_item.shortName = item.company.shortName;
                     }
-                    state.debtors.push(tmp_item)
+                    state.filters_debtors.push(tmp_item)
                 }
             });
-            state.debtors_pagination = payload.pagination;
+            state.filters_debtors_pagination = payload.pagination;
         },
         addDebtor(state, payload) {
             state.debtors.push(payload)
@@ -71,18 +96,26 @@ export default {
     },
     actions: {
         async getDebtors({commit, state}, payload) {
+            commit('setDebtorsLoading', true);
             try {
                 await axios({
-                    method: 'get',
-                    url: '/api/trades/filter/bidders/debtors?page='+payload,
-                    data: {},
+                    method: 'put',
+                    url: '/api/trades/filter/bidders/debtors?page=' + payload.page,
+                    data: payload
                 })
                     .then((response) => {
-                        commit('setDebtors', response.data)
+                        if(payload.type==='filters') {
+                            commit('setFiltersDebtors', response.data)
+                        }
+                        else {
+                            commit('setDebtors', response.data)
+                        }
+                        commit('setDebtorsLoading', false);
                     });
             } catch (error) {
                 console.log(error);
                 // commit('setDebtors', []);
+                commit('setDebtorsLoading', false);
                 throw error
             }
         },

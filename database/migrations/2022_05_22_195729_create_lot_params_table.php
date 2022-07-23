@@ -18,11 +18,12 @@ class CreateLotParamsTable extends Migration
             $table->id();
             $table->unsignedBigInteger('param_id');
             $table->unsignedBigInteger('lot_id');
-            $table->string('value', 255);
+            $table->string('value', 255)->nullable();
             $table->foreign('param_id')->references('id')
                 ->on('params')->cascadeOnDelete();
             $table->foreign('lot_id')->references('id')
                 ->on('lots')->cascadeOnDelete();
+            $table->bigInteger('parent_id')->nullable();
             $table->timestamps();
         });
         Schema::enableForeignKeyConstraints();

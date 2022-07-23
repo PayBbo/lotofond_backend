@@ -27,7 +27,7 @@ class MonitoringPathRequest extends FormRequest
     {
         return [
             'name'=>['required', 'string', 'max:255', new IsUniqueMonitoringPath($this->request->get('pathId'))],
-            'pathId'=>['sometimes', 'numeric', 'exists:monitorings,id', new IsUserMonitoringPath()],
+            'pathId'=>['sometimes', 'nullable', 'numeric', 'exists:monitorings,id', new IsUserMonitoringPath()],
             'color'=>['sometimes', 'string', 'nullable'],
             'notificationTime'=>['sometimes', 'string']
         ];

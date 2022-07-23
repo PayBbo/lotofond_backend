@@ -1,15 +1,18 @@
 <?php
 
+use App\Http\Controllers\ApplicationController;
 use App\Http\Controllers\AuctionController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\BidderController;
+use App\Http\Controllers\EventController;
 use App\Http\Controllers\FavouriteController;
 use App\Http\Controllers\FileController;
 use App\Http\Controllers\FilterController;
 use App\Http\Controllers\MarkController;
 use App\Http\Controllers\MonitoringController;
+use App\Http\Controllers\NoteController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\StatisticsController;
@@ -51,9 +54,11 @@ Route::group(['middleware' => ['json.response', 'localization']], function () {
     });
     Route::group(['prefix' => 'trades'], function () {
 
-        Route::group(['middleware' => ['custom.auth']], function () {
+        Route::group(['middleware' => ['auth:api']], function () {
 
             Route::put('/', [AuctionController::class, 'getTrades']);
+
+            Route::put('/nearest', [AuctionController::class, 'getNearestTrades']);
 
             Route::put('/filter', [AuctionController::class, 'getFilteredTrades']);
 
@@ -61,11 +66,15 @@ Route::group(['middleware' => ['json.response', 'localization']], function () {
 
             Route::get('/lot/{lotId}', [AuctionController::class, 'getLotInformation']);
 
+            Route::get('/victories', [AuctionController::class, 'getVictories']);
+
         });
+        Route::get('/notifications/{lotId}', [AuctionController::class, 'getLotNotifications'])
+            ->middleware('auth.deny:api');
 
         Route::group(['prefix' => 'filter'], function () {
 
-            Route::get('/bidders/{type}', [FilterController::class, 'getBiddersForFilter']);
+            Route::put('/bidders/{type}', [FilterController::class, 'getBiddersForFilter']);
 
             Route::get('/trade-places', [FilterController::class, 'getTradePlacesForFilter']);
 
@@ -82,9 +91,21 @@ Route::group(['middleware' => ['json.response', 'localization']], function () {
     Route::group(['prefix' => 'bidders'], function () {
 
         Route::put('/trades', [BidderController::class, 'getTradesByBidder'])
-        ->middleware('custom.auth')->name('bidders-trades');
+        ->middleware('auth:api')->name('bidders-trades');
 
-        Route::get('/{bidderId}', [BidderController::class, 'getBidder']);
+        Route::get('/{bidderId}/{type}', [BidderController::class, 'getBidder'])->middleware('auth:api');
+
+        Route::put('/get/{type}', [BidderController::class, 'getBidders']);
+
+        Route::get('/{tradePlaceId}', [BidderController::class, 'getTradePlace']);
+
+        Route::put('/trade-places', [BidderController::class, 'getTradePlaces'])
+            ->middleware('auth:api')->name('trade-places');
+
+        Route::post('/estimate', [BidderController::class, 'estimateBidder'])
+            ->middleware('auth.deny:api');
+
+        Route::post('/debtor/messages', [BidderController::class, 'getDebtorMessages']);
 
     });
 
@@ -95,7 +116,9 @@ Route::group(['middleware' => ['json.response', 'localization']], function () {
         Route::get('/lots', [StatisticsController::class, 'getStatisticsByLots']);
     });
 
-    Route::middleware("auth:api")->group(function () {
+    Route::middleware("auth.deny:api")->group(function () {
+
+        Route::post('send/application', [ApplicationController::class, 'sendApplication']);
 
         Route::group(['prefix' => 'account'], function () {
 
@@ -103,9 +126,15 @@ Route::group(['middleware' => ['json.response', 'localization']], function () {
 
             Route::put('user/update', [ProfileController::class, 'updateUser']);
 
-            Route::get('logout', [LoginController::class, 'logout']);
+            Route::post('logout', [LoginController::class, 'logout']);
 
             Route::post('refresh/token', [LoginController::class, 'refreshToken']);
+
+            Route::post('credentials/code', [ProfileController::class, 'getCredentialsCode']);
+
+            Route::post('credentials/code/verify', [ProfileController::class, 'verifyCredentialsCode']);
+
+            Route::post('notifications/settings', [ProfileController::class, 'updateNotificationsSettings']);
 
         });
 
@@ -169,16 +198,35 @@ Route::group(['middleware' => ['json.response', 'localization']], function () {
 
         });
 
+        Route::group(['prefix' => 'note'], function () {
+
+            Route::delete('/delete', [NoteController::class, 'deleteNote']);
+
+            Route::put('/edit', [NoteController::class, 'editNote']);
+
+            Route::post('/', [NoteController::class, 'addNote']);
+
+        });
+
         Route::group(['prefix' => 'notifications'], function () {
 
             Route::get('/{type}', [NotificationController::class, 'getNotifications']);
 
+            Route::post('/seen', [NotificationController::class, 'makeNotificationsSeen']);
+
         });
 
+        Route::group(['prefix' => 'event'], function () {
 
-        Route::resource('event', App\Http\Controllers\EventController::class);
+            Route::delete('/delete', [EventController::class, 'deleteEvent']);
 
-        Route::resource('note', App\Http\Controllers\NoteController::class);
+            Route::put('/edit', [EventController::class, 'editEvent']);
+
+            Route::post('/', [EventController::class, 'addEvent']);
+
+        });
+        Route::post('/events', [EventController::class, 'getEvents']);
+
 
     });
 

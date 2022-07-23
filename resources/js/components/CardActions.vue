@@ -12,14 +12,15 @@
                 <span v-show="in_process.indexOf(action.icon)>=0" class="spinner-border spinner-border-sm"
                       role="status"></span>
                 <bkt-icon v-show="in_process.indexOf(action.icon)<0" class="bkt-button__icon" :name="action.icon"
-                          :color="type=='menu' ? action.color : 'white'"></bkt-icon>
+                          :color="type=='menu' && !item[action.status] ? action.color : 'white'"></bkt-icon>
                 <span v-if="type=='menu'">{{action.label}}</span>
             </button>
             <div v-if="action.dropdown_id && item[action.status]"
                  class="dropdown-menu dropdown-menu-end dropdown-menu-right bkt-dropdown__menu bkt-dropdown__menu_pointed bkt-dropdown__menu_neutral"
                  aria-labelledby="dropdownMenuClickableOutside"
             >
-                <div class="bkt-dropdown__menu-item bkt-wrapper-between">
+                <div class="bkt-dropdown__menu-item bkt-wrapper-between" style="cursor: pointer"
+                     v-if="favourites_paths.length>1" @click="moveFavourite">
                     <div class="bkt-dropdown__menu-text">
                         Переместить
                     </div>
@@ -27,7 +28,8 @@
                         <bkt-icon name="FileArrowLeft" color="blue"></bkt-icon>
                     </div>
                 </div>
-                <div class="bkt-dropdown__menu-item bkt-wrapper-between" style="cursor: pointer" @click="removeFromFavourites">
+                <div class="bkt-dropdown__menu-item bkt-wrapper-between" style="cursor: pointer"
+                     @click="removeFromFavourites">
                     <div class="bkt-dropdown__menu-text">
                         Удалить
                     </div>
@@ -41,8 +43,8 @@
             <button :class="['bkt-hover-red bkt-button'+button_type, item.isHide ? 'bkt-bg-red' : '']"
                     @click="changeStatus({icon:'Trash', type:'hidden',  status:'isHide'})">
                 <span v-show="in_process.indexOf('Trash')>=0"
-                       class="spinner-border spinner-border-sm"
-                       role="status"></span>
+                      class="spinner-border spinner-border-sm"
+                      role="status"></span>
                 <bkt-icon v-show="in_process.indexOf('Trash')<0" class="bkt-button__icon mx-auto" :name="'Trash'"
                           :color="item.isHide ? 'white' : 'red'"></bkt-icon>
             </button>
@@ -203,9 +205,12 @@
             current_path() {
                 return this.$store.getters.current_path;
             },
+            favourites_paths() {
+                return this.$store.getters.favourites_paths;
+            },
         },
         watch: {
-            item: function(newVal, oldVal) { // watch it
+            item: function (newVal, oldVal) { // watch it
                 console.log('Prop changed: ', newVal, ' | was: ', oldVal)
             }
             // item: {
@@ -257,7 +262,10 @@
             removeFromFavourites() {
                 if (this.item.inFavourite) {
                     this.toggleProcess('Star');
-                    this.$store.dispatch('removeFavourite', {lot_id: this.item.id, path_id: this.current_path})
+                    this.$store.dispatch('removeFavourite', {
+                        lotId: this.item.id,
+                        pathId: this.item.favouritePaths[0].pathId
+                    })
                         .then(resp => {
                             this.$store.commit('saveTradeProperty', {
                                 id: this.item.id,
@@ -270,6 +278,11 @@
                             this.toggleProcess('Star')
                         })
                 }
+            },
+            moveFavourite() {
+
+                this.$store.commit('setSelectedLot', this.item);
+                this.$store.commit('openModal', '#moveFavouriteModal')
             },
             addToMonitoring() {
 

@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\BidderCollection;
-use App\Http\Resources\TradePlaceCollection;
+use App\Http\Resources\TradePlaceResource;
 use App\Models\Bidder;
 use App\Models\Category;
 use App\Models\Lot;
@@ -14,19 +14,27 @@ use Illuminate\Http\Request;
 
 class FilterController extends Controller
 {
-    public function getBiddersForFilter($type)
+    public function getBiddersForFilter($type, Request $request)
     {
+        $searchString = $request->searchString;
         $type = substr_replace ($type, "", -1);
         $bidders = Bidder::has($type.'AuctionsWithLots')->whereHas('types', function ($query) use ($type) {
             $query->where('title', $type);
-        })->paginate(20);
+        })
+            ->when(isset($searchString) && strlen($searchString) > 0, function($query) use ($searchString){
+                $query->where('name', 'LIKE', '%' . $searchString . '%')
+                    ->orWhere('short_name', 'LIKE', '%' . $searchString . '%')
+                    ->orWhere('last_name', 'LIKE', '%' . $searchString . '%')
+                    ->orWhere('middle_name', 'LIKE', '%' . $searchString . '%');
+            })
+            ->paginate(20);
         return response(new BidderCollection($bidders), 200);
     }
 
     public function getTradePlacesForFilter(){
 
         $tradePlaces = TradePlace::has('auctionsWithLots')->get();
-        return response(new TradePlaceCollection($tradePlaces), 200);
+        return response(TradePlaceResource::collection($tradePlaces), 200);
 
     }
 

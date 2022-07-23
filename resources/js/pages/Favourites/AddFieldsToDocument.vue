@@ -1,89 +1,119 @@
 <template>
-  <bkt-modal :id="'fieldsToDocumentModal'" ref="fieldsToDocumentModal" :modal_class="'bkt-fields-document-modal'"
-             :title="'Какие поля добавить в документ? (Excel)'" :loading="loading"
-             :right_button="'Скачать'">
-    <template v-slot:left_button>
-      <span></span>
-    </template>
-    <template #body="{ invalid }">
-      <div class="text-left">
-        <div class="bkt-fields-action">
-          <span class="text-uppercase bkt-text-red mr-2 bkt-cursor-pointer"
-                @click="removeAllFields">Выключить все</span>
-          <span class="text-uppercase bkt-text-green bkt-cursor-pointer" @click="selectAllFields">Включить все</span>
-        </div>
-
-        <div class="row">
-          <div class="col-12 col-md-6">
-            <div class="bkt-action-checkboxes__left">
-              <div class="bkt-field-checkbox mb-2" v-for="(field, index) in fields_left">
-                <bkt-checkbox :value="field.active" :label="field.title" :name="'field-'+index"
-                              wrapper_class="bkt-check__wrapper-inline">
-                </bkt-checkbox>
-              </div>
+    <bkt-modal :id="'fieldsToDocumentModal'" ref="fieldsToDocumentModal" :modal_class="'bkt-fields-document-modal'"
+               :title="'Какие поля добавить в документ? (Excel)'" :loading="loading"
+               :right_button="'Скачать'" :right_action="download"
+               right_button_class="bkt-button bkt-bg-primary bkt-modal-save bkt-button_plump"
+    >
+        <template v-slot:left_button>
+            <span></span>
+        </template>
+        <template #body="{ invalid }">
+            <div class="text-left">
+                <div class="bkt-fields-actions">
+                    <span class="bkt-fields-action bkt-text-red me-2" @click="removeAllFields">Выключить все</span>
+                    <span class="bkt-fields-action bkt-text-green"
+                          @click="selectAllFields">Включить все</span>
+                </div>
+                <div class="row">
+                    <div class="col-12 col-md-6" v-for="(field, index)  in fields">
+                        <bkt-checkbox v-model="doc[field.code]" :label="field.title" :name="'field-'+index">
+                        </bkt-checkbox>
+                    </div>
+                </div>
             </div>
-          </div>
-
-          <div class="col-12 col-md-6">
-            <div class="bkt-action-checkboxes__right">
-              <div class="bkt-field-checkbox mb-2" v-for="(field, index) in fields_right">
-                <bkt-checkbox v-model="field.active"
-                              :label="field.title" :name="'field-'+index"
-                              wrapper_class="bkt-check__wrapper-inline">
-                </bkt-checkbox>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </template>
-  </bkt-modal>
+        </template>
+    </bkt-modal>
 </template>
 
 <script>
-import Modal from "../../components/Modal";
-import Checkbox from "../../components/Checkbox";
-import Icon from "../../components/Icon";
 
-export default {
-  name: "AddFieldsToDocument",
-  components: {
-    'bkt-modal': Modal,
-    'bkt-checkbox': Checkbox,
-    'bkt-icon': Icon
-  },
-  data() {
-    return {
-      loading: false,
-      fields_left: [{"title": "Номер торгов", active: false}, {"title": "Ссылка ЕФРС", active: false},
-        {"title": "Наименование лота", active: false}, {"title": "Текущая цена", active: false},
-        {"title": "Тип торгов", active: false}, {"title": "Должник", active: false},
-        {"title": "Арбитражный управляющий", active: false}, {"title": "Начало подачи заявок", active: false},
-        {"title": "Окончание подачи заявок", active: false}, {"title": "Победитель торгов", active: false}],
-      fields_right: [{"title": "Номер лота", active: false}, {"title": "Ссылка и название ЭТП", active: false},
-        {"title": "Начальная цена", active: false}, {"title": "Минимальная цена", active: false},
-        {"title": "Регион", active: false}, {"title": "Организатор", active: false},
-        {"title": "Начало торгов", active: false}, {"title": "Окончание торгов", active: false},
-        {"title": "Заметка по лоту", active: false}]
+    export default {
+        name: "AddFieldsToDocument",
+        data() {
+            return {
+                loading: false,
+                fields: [
+                    {"title": "Номер торгов", code: 'addTradeNumber'},
+                    {"title": "Ссылка ЕФРС", code: 'addEfrsbLink'},
+                    {"title": "Наименование лота", code: 'addDescription'},
+                    {"title": "Текущая цена", code: 'addCurrentPrice'},
+                    {"title": "Тип торгов", code: 'addAuctionType'},
+                    {"title": "Должник", code: 'addDebtor'},
+                    {"title": "Арбитражный управляющий", code: 'addArbitrationManager'},
+                    {"title": "Начало подачи заявок", code: 'addApplicationStart'},
+                    {"title": "Окончание подачи заявок", code: 'addApplicationEnd'},
+                    {"title": "Победитель торгов", code: 'addWinner'},
+                    {"title": "Номер лота", code: 'addLotNumber'},
+                    {"title": "Ссылка и название ЭТП", code: 'addTradePlace'},
+                    {"title": "Начальная цена", code: 'addStartPrice'},
+                    {"title": "Минимальная цена", code: 'addMinPrice'},
+                    {"title": "Регион", code: 'addRegion'},
+                    {"title": "Организатор", code: 'addOrganizer'},
+                    {"title": "Начало торгов", code: 'addEventStart'},
+                    {"title": "Окончание торгов", code: 'addEventEnd'},
+                    {"title": "Заметка по лоту", code: 'addNote'}
+                ],
+                doc: {
+                    "addTradeNumber": false,
+                    "addEfrsbLink": false,
+                    "addDescription": false,
+                    "addCurrentPrice": false,
+                    "addAuctionType": false,
+                    "addDebtor": false,
+                    "addArbitrationManager": false,
+                    "addApplicationStart": false,
+                    "addApplicationEnd": false,
+                    "addWinner": false,
+                    "addLotNumber": false,
+                    "addTradePlace": false,
+                    "addStartPrice": false,
+                    "addMinPrice": false,
+                    "addRegion": false,
+                    "addOrganizer": false,
+                    "addEventStart": false,
+                    "addEventEnd": false,
+                    "addNote": false
+                }
+
+            }
+        },
+        computed: {
+            current_path() {
+                return this.$store.getters.current_path;
+            },
+        },
+        methods: {
+            selectAllFields() {
+                this.fields.forEach(item => {
+                    this.doc[item.code] = true;
+                })
+            },
+            removeAllFields() {
+                this.fields.forEach(item => {
+                    this.doc[item.code] = false;
+                })
+            },
+            download() {
+                this.loading=true;
+                this.doc.pathId = this.current_path;
+                this.$store.dispatch('downloadFavouritePath', this.doc)
+                    .then( resp => {
+                        var fileURL = window.URL.createObjectURL(resp.data.url);
+                        var fileLink = document.createElement("a");
+
+                        fileLink.href = resp.data.url;
+                        fileLink.setAttribute("download", "summary.xlsx");
+                        document.body.appendChild(fileLink);
+
+                        fileLink.click();
+                        this.$store.commit('closeModal', '#fieldsToDocumentModal')
+                    })
+                    .finally(()=> {
+                    this.loading=false;
+                })
+            }
+        }
     }
-  },
-  methods: {
-    selectAllFields() {
-      for (let i = 0; i < this.fields_left.length; i++)
-        this.fields_left[i].active = true;
-
-      for (let i = 0; i < this.fields_right.length; i++)
-        this.fields_right[i].active = true;
-    },
-    removeAllFields() {
-      for (let i = 0; i < this.fields_left.length; i++)
-        this.fields_left[i].active = false;
-
-      for (let i = 0; i < this.fields_right.length; i++)
-        this.fields_right[i].active = false;
-    }
-  }
-}
 </script>
 
 <style scoped>

@@ -1,5 +1,5 @@
 <template>
-    <div class="container bkt-page bkt-auctions bkt-container">
+    <div class="bkt-page bkt-auctions bkt-container">
         <bkt-category-modal/>
         <bkt-region-modal/>
         <bkt-params-modal/>
@@ -275,27 +275,29 @@
         </div>
 
         <div class="bkt-auctions__find text-center p-3">
-            <span>НАЙДЕНО 745 ЛОТОВ</span>
+            <span>НАЙДЕНО {{pagination_data ? pagination_data.total : '0'}} ЛОТОВ</span>
             <bkt-icon name="ArrowDown" color="primary"></bkt-icon>
         </div>
+        <bkt-card-list :current_component="'BktCard'" :items="items" :loading="loading"
+                       :pagination_data="pagination_data" @change-page="getData">
+        </bkt-card-list>
     </div>
 </template>
 
 <script>
-
-import Select from "../components/Select";
 import BktDateModal from "./Main/DateModal";
 import BktPriceModal from "./Main/PriceModal";
 import BktOptionsModal from "./Main/OptionsModal";
 import BktParamsModal from "./Main/ParamsModal";
 import BktRegionModal from "./Main/RegionModal";
 import BktCategoryModal from "./Main/CategoryModal";
+import BktCardList from "../components/CardList";
 
 export default {
     name: "UpcomingAuctions",
     components: {
-        'bkt-select': Select, BktDateModal, BktPriceModal, BktOptionsModal,
-        BktParamsModal, BktRegionModal, BktCategoryModal
+        BktDateModal, BktPriceModal, BktOptionsModal,
+        BktParamsModal, BktRegionModal, BktCategoryModal, BktCardList
     },
     data() {
         return {
@@ -303,17 +305,52 @@ export default {
                 {title: "текущая цена, ₽", minPrice: '', maxPrice: ''},
                 {title: "минимальная цена, ₽", minPrice: '', maxPrice: ''},
                 {title: "процент снижения, %", minPrice: '', maxPrice: ''}],
-        }
+        };
+    },
+    mounted() {
+        this.getData();
     },
     computed: {
-        regions() {
-            return this.$store.getters.regions
+        filters() {
+            return this.$store.getters.filters;
         },
-        regions_pagination() {
-            //return this.$store.getters.regions_pagination;
+        filters_other: {
+            get() {
+                return this.$store.getters.filters_other;
+            },
+            set(value) {
+                this.$store.commit('saveFilterProperty', {filter: 'extraOptions', key: 'other', value: value});
+            }
+        },
+        filters_sort: {
+            get() {
+                return this.$store.getters.filters_sort;
+            },
+            set(value) {
+                this.$store.commit('saveFiltersProperty', {key: 'sort', value: value});
+            }
+        },
+        items() {
+            return this.$store.getters.nearest_trades;
+        },
+        pagination_data() {
+            return this.$store.getters.nearest_trades_pagination;
+        },
+        loading() {
+            return this.$store.getters.nearest_trades_loading;
         },
     },
     methods: {
+        async getData(page = 1) {
+            await this.$store.dispatch('getNearestTrades', {page: page, filters: this.filters});
+        },
+        toggleDirection() {
+            if (this.filters_sort.direction == 'asc') {
+                this.filters_sort.direction = 'desc';
+            } else {
+                this.filters_sort.direction = 'asc';
+            }
+        },
         openCategoryModal() {
             this.$store.commit('openModal', '#categoryModal');
         },
@@ -333,12 +370,6 @@ export default {
             this.$store.commit('openModal', '#optionsModal');
         },
     },
-    mounted() {
-        // $(".bkt-monitoring-field__input .bkt-button").click(function () {
-        //   $(".bkt-monitoring-field__input .bkt-button").addClass("bkt-text-main").removeClass("shadow green");
-        //   $(this).removeClass("bkt-text-main").addClass("shadow green");
-        // });
-    }
 }
 </script>
 

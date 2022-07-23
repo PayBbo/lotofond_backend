@@ -15,17 +15,17 @@ axios.interceptors.response.use(
             console.log('interceptors have error.response');
             if(error.response.data)
             {
-                if(error.response.data.code == 401)
-                {
-                    app.$notify({
-                        type: 'error',
-                        title:'LotoFond',
-                        text: 'Необходима авторизация',
-                        duration: 5000
-                    });
-                }
-                else {
-                    if( error.response.data.detail)
+                // if(error.response.data.code == 401)
+                // {
+                //     app.$notify({
+                //         type: 'error',
+                //         title:'LotoFond',
+                //         text: 'Необходима авторизация',
+                //         duration: 5000
+                //     });
+                // }
+                // else {
+                    if(error.response.data.code != 401 && error.response.data.detail)
                     {
                         app.$notify({
                             type: 'error',
@@ -34,12 +34,12 @@ axios.interceptors.response.use(
                             duration: 5000
                         });
                     }
-                }
+                // }
 
             }
 
             if (error.response.status === 401 && !originalRequest._retry && !error.response.config.__isRetryRequest) {
-                console.log('interceptors have error.response.status === 401');
+                console.log('interceptors have error.response.status === 403');
                 store.commit('clearStorage');
                 if (localStorage.getItem('token')) {
                     console.log('interceptors have token in localStorage');
@@ -132,6 +132,23 @@ Vue.use(VueLang, {
     locale: 'ru', // Set locale
     fallback: 'ru' // Set fallback locale
 });
+import VueSlickCarousel from 'vue-slick-carousel'
+import 'vue-slick-carousel/dist/vue-slick-carousel.css'
+import 'vue-slick-carousel/dist/vue-slick-carousel-theme.css'
+Vue.component('slick',  VueSlickCarousel);
+
+import Fuse from 'fuse.js'
+Vue.prototype.$search = function (term, list, options) {
+    return new Promise(function (resolve, reject) {
+        var run = new Fuse(list, options);
+        var results = run.search(term);
+        let arr = [];
+        results.forEach(item => {
+            arr.push(item.item)
+        });
+        resolve(arr)
+    })
+};
 
 import VueRouter from 'vue-router';
 import routes from './routes';
@@ -151,7 +168,9 @@ import Header from "./components/Header.vue";
 import Footer from "./components/Footer.vue";
 import Datepicker from "./components/Datepicker.vue";
 import Dropdown from "./components/Dropdown.vue";
-import ColorFolder from "./components/ColorFolder.vue";
+import WinCard from "./components/WinCard";
+import Search from "./components/Search";
+import Select from "./components/Select";
 
 import BktAuthModal from "./auth/AuthModal.vue";
 import BktCodeModal from "./auth/CodeModal.vue";
@@ -170,7 +189,9 @@ Vue.component('BktHeader', Header);
 Vue.component('BktFooter', Footer);
 Vue.component('BktDatepicker', Datepicker);
 Vue.component('BktDropdown', Dropdown);
-Vue.component('BktColorFolder', ColorFolder);
+Vue.component('BktWinCard', WinCard);
+Vue.component('BktSearch', Search);
+Vue.component('BktSelect', Select);
 
 
 Vue.filter('priceFormat', value => {

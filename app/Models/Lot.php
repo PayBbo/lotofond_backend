@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Http\Resources\FavouritePathResource;
 use App\Utilities\FilterBuilder;
 use App\Utilities\SortBuilder;
 use Carbon\Carbon;
@@ -14,7 +15,7 @@ class Lot extends Model
 
     protected $table = 'lots';
 
-    protected $appends = ['current_price', 'min_price', 'current_price_state', 'photos'];
+    protected $appends = ['current_price', 'min_price', 'current_price_state', 'photos', 'description_extracts'];
     /**
      * The attributes that are mass assignable.
      *
@@ -32,7 +33,8 @@ class Lot extends Model
         'participants',
         'payment_info',
         'sale_agreement',
-        'is_parse_ecp'
+        'concours',
+        'created_at'
 
     ];
 
@@ -43,7 +45,7 @@ class Lot extends Model
      */
     protected $casts = [
         'id' => 'integer',
-        'start_price' => 'integer',
+        'start_price' => 'float',
         'auction_id' => 'integer',
         'auction_step' => 'float',
         'deposit' => 'float',
@@ -106,7 +108,12 @@ class Lot extends Model
 
     public function params()
     {
-        return $this->belongsToMany(Param::class, 'lot_params')->withPivot('value');
+        return $this->belongsToMany(Param::class, 'lot_params')->withPivot('value', 'parent_id');
+    }
+
+    public function regions()
+    {
+        return $this->belongsToMany(Region::class, 'lot_regions')->withPivot('is_debtor_region');
     }
 
     public function notifications()
@@ -117,11 +124,6 @@ class Lot extends Model
     public function tradeMessages()
     {
         return $this->hasMany(TradeMessage::class);
-    }
-
-    public function notes()
-    {
-        return $this->morphMany(Note::class, 'item');
     }
 
     public function lotFiles()
@@ -290,5 +292,47 @@ class Lot extends Model
         }
         return false;
 
+    }
+
+    public function getNote(){
+        $note = null;
+        if(auth()->guard('api')->check() && Note::where(['user_id'=>auth()->guard('api')->id(),
+                'item_type'=>'lot', 'item_id'=>$this->id])->exists() ){
+            $note = Note::where(['user_id'=>auth()->guard('api')->id(),
+                'item_type'=>'lot', 'item_id'=>$this->id])->first()->only('id', 'title', 'date');
+        }
+        return $note;
+    }
+
+    public function getLotFavouritePaths(){
+        if(auth()->guard('api')->check()) {
+            $user = auth()->guard('api')->user();
+                return FavouritePathResource::collection($user->favourites()->whereHas('lots', function ($query) {
+                    $query->where('lot_id', $this->id);
+                })->get());
+        }
+        return null;
+    }
+
+    public function getDescriptionExtractsAttribute(){
+        $result = [];
+        $params = $this->params()->where('lot_params.parent_id', null)
+            ->select('lot_params.id as lot_param_id','title', 'type', 'lot_params.value as value')->get();
+        foreach($params as $param){
+            $subParams = $this->params()->where('lot_params.parent_id', $param->lot_param_id)->select('title', 'type', 'lot_params.value as value')->get();
+            if($subParams->count()>0){
+                $result[] = [
+                    'tradeSubject'=>$param->value,
+                    'extracts'=>$subParams->makeHidden(['pivot'])
+                ];
+
+            }else{
+                $result[] = [
+                    'tradeSubject'=>null,
+                    'extracts'=>[$param->makeHidden(['pivot', 'lot_param_id'])]
+                ];
+            }
+        }
+        return $result;
     }
 }

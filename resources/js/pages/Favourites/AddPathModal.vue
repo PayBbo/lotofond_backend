@@ -2,7 +2,7 @@
     <bkt-modal :id="'addPathModal'" ref="addPathModal" :modal_class="'bkt-folder-modal'"
                :title="'Создать папку'" :loading="loading"  @left_action="cancel" @right_action="save">
         <template #body="{ invalid }">
-            <div>
+            <div class="bkt-wrapper-column bkt-gap-large">
                 <bkt-input v-model="path.name"
                            rules="required"
                            name="name_folder"
@@ -17,7 +17,7 @@
 <!--                    </div>-->
 <!--                </div>-->
 
-                <div class="bkt-wrapper">
+                <div class="bkt-wrapper mx-0">
                     <bkt-checkbox v-model="path.color" val="yellow" name="yellow" type="radio"
                                   class="bkt-check_color" check_color="yellow"
                                   :border_color="path.color === 'yellow' ? 'yellow' : ''"
@@ -61,14 +61,14 @@
 
 <script>
     export default {
-        name: "CreatePathModal",
+        name: "AddPathModal",
         data() {
             return {
                 loading: false,
                 path: {
                     name: '',
-                    pathId: 0,
-                    color: 'yellow'
+                    color: 'yellow',
+                    lotCount: 0
                 },
             };
         },
@@ -77,12 +77,15 @@
                 this.$store.commit('closeModal', '#addPathModal');
                 this.path = {
                     name: '',
-                    pathId: 0,
                     color: 'yellow'
                 };
             },
             save() {
-                this.$store.commit('closeModal', '#addPathModal');
+                this.$store.dispatch('saveFavouritePath', this.path)
+                    .then(resp => {
+                        this.$store.commit('closeModal', '#addPathModal');
+                });
+
             }
         }
     }

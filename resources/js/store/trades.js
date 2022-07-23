@@ -3,6 +3,12 @@ export default {
         trades: [],
         trades_pagination: {},
         trades_loading: false,
+        nearest_trades: [],
+        nearest_trades_pagination: {},
+        nearest_trades_loading: false,
+        wins: [],
+        wins_pagination: {},
+        wins_loading: false,
     },
 
     getters: {
@@ -14,6 +20,24 @@ export default {
         },
         trades_loading(state) {
             return state.trades_loading;
+        },
+        nearest_trades(state) {
+            return state.nearest_trades;
+        },
+        nearest_trades_pagination(state) {
+            return state.nearest_trades_pagination;
+        },
+        nearest_trades_loading(state) {
+            return state.nearest_trades_loading;
+        },
+        wins(state) {
+            return state.wins;
+        },
+        wins_pagination(state) {
+            return state.wins_pagination;
+        },
+        wins_loading(state) {
+            return state.wins_loading;
         },
 
     },
@@ -51,6 +75,39 @@ export default {
             if (trade >= 0 && state.trades[trade].hasOwnProperty(payload.key)) {
                 Vue.set(state.trades[trade], payload.key, payload.value)
             }
+        },
+        setNearestTrades(state, payload) {
+            state.nearest_trades = payload.data;
+            state.nearest_trades_pagination = payload.pagination;
+        },
+        setNearestLoading(state, payload) {
+            return (state.nearest_loading = payload);
+        },
+        setWins(state, payload) {
+            state.wins = [];
+            payload.data.forEach(item => {
+                if (item.winner) {
+                    if (item.winner.person !== null) {
+                        item.winner.fullName = Object.values(item.winner.person).reduce((prev, cur) => {
+                            if (cur) {
+                                prev += cur + ' '
+                            }
+                            return prev;
+                        }, '').trim();
+                        item.winner.shortName = item.winner.person.firstName + ' ' + item.person.lastName;
+
+                    } else {
+                        item.winner.fullName = item.winner.company.fullName;
+                        item.winner.shortName = item.winner.company.shortName;
+                    }
+                }
+
+                state.wins.push(item)
+            });
+            state.wins_pagination = payload.pagination;
+        },
+        setWinsLoading(state, payload) {
+            return (state.wins_loading = payload);
         },
     },
     actions: {
@@ -214,6 +271,34 @@ export default {
                     console.log(error);
                     throw error
                 });
+        },
+        async getNearestTrades({commit, state}, payload) {
+            commit('setNearestTradesLoading', true);
+            // let filters = JSON.parse(JSON.stringify(payload.filters));
+            await axios.put('/api/trades/nearest?page=' + payload.page, payload.filters)
+                .then((response) => {
+                    commit('setNearestTrades', response.data);
+                }).catch((error) => {
+                    console.log(error);
+                    commit('setNearestTrades', {data: [], pagination: {}});
+                }).finally(()=>{
+                    commit('setNearestTradesLoading', false);
+                })
+
+        },
+        async getWins({commit, state}, payload) {
+            commit('setWinsLoading', true);
+            // let filters = JSON.parse(JSON.stringify(payload.filters));
+            await axios.get('/api/trades/victories?page=' + payload.page)
+                .then((response) => {
+                    commit('setWins', response.data);
+                }).catch((error) => {
+                    console.log(error);
+                    commit('setWins', {data: [], pagination: {}});
+                }).finally(()=>{
+                    commit('setWinsLoading', false);
+                })
+
         },
     },
 
