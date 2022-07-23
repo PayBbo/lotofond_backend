@@ -1,98 +1,119 @@
 <template>
-    <div class="container bkt-monitoring bkt-container">
+    <div class="bkt-page bkt-monitoring bkt-container">
         <add-new-monitoring/>
-        <div class="bkt-monitoring__title">
-            <h1 class="bkt-page__title">Мониторинг лотов</h1>
-        </div>
-        <div class="bkt-monitoring__menu d-flex justify-content-between">
-            <div class="bkt-monitoring__menu-buttons d-md-block d-none">
-                <button :class="{'active bkt-bg-primary shadow': selBtn == 1}" @click="selBtn = 1"
-                        class="bkt-button bkt-button-menu bkt-button-all bkt-card__text d-inline-flex align-items-center mr-2 pt-4 pb-4">
-                    ВСЕ
-                    <span class="bkt-count bkt-text-primary p-1 rounded-pill">32</span>
-                </button>
-                <button :class="{'active shadow': selBtn == 2}" @click="selBtn = 2"
-                        class="bkt-button bkt-button-menu bkt-menu-button bkt-menu-button__monitoring bkt-card__text d-inline-flex
-                        align-items-center position-relative mr-2 pr-5">
-                    <span>МОНИТОРИНГ №1</span>
-                    <div class="bkt-count p-1 ml-2 mr-4">
-                        <span class="p-1">1</span>
-                    </div>
-                    <button class="btn bkt-btn-icon position-absolute" style="height: 42px; right: 8px">
-                        <bkt-icon :name="'Settings'" :color="'primary'" class="bkt-icon"></bkt-icon>
-                    </button>
-                </button>
-                <button :class="{'active shadow': selBtn == 3}" @click="selBtn = 3"
-                        class="bkt-button bkt-button-menu bkt-menu-button bkt-menu-button__flats bkt-bg-white bkt-card__text
-                         position-relative d-inline-flex align-items-center mr-2 pr-5">
-                    <span>КВАРТИРЫ</span>
-                    <div class="bkt-count p-1 ml-2 mr-4">
-                        <span class="">32</span>
-                    </div>
-                    <button class="btn bkt-btn-icon position-absolute" style="height: 42px; right: 8px">
-                        <bkt-icon :name="'Settings'" :color="'primary'" class="bkt-icon"></bkt-icon>
-                    </button>
-                </button>
-            </div>
-
-            <div class="d-flex d-md-none">
-                <div class="mr-2 w-100" style="margin-right: 0.5rem">
-                    <button class="d-flex position-relative bkt-btn-monitoring w-100 bkt-button green
-                  p-4 align-items-center justify-content-between"
-                            :class="{'bkt-border-bottom-rounded-none': showMonitoring}">
-                        <div class="d-flex justify-content-center">
-                            <span class="d-flex align-items-center p-1">МОНИТОРИНГ №1</span>
-                            <div class="bkt-bg-white bkt-text-green rounded-pill p-1">
-                                <span class="p-1" style="padding-right: 0.5rem !important;">1</span>
+        <h1 class="bkt-page__title">Мониторинг лотов</h1>
+        <div class="row w-100 mx-auto">
+            <div class="col-12 col-md-9 col-lg-10 d-md-block d-none">
+                <div class="bkt-monitoring__paths-list">
+                    <slick v-bind="settings">
+                        <div v-for="(path, index) in items_paths" :key="index">
+                            <div
+                                @click="setCurrentPath(path.pathId)"
+                                class="bkt-monitoring__path"
+                                :class="[current_path === path.pathId && path.color ? 'bkt-bg-'+path.color : '',
+                            {'bkt-bg-primary': current_path === path.pathId && !path.color,
+                            'bkt-bg-white bkt-text-main': current_path !== path.pathId}]"
+                            >
+                                <div class="d-flex bkt-gap align-items-center">
+                                    <span>{{path.name}}</span>
+                                    <span class="bkt-badge"
+                                          :class="[
+                                          path.color ? 'bkt-text-'+path.color : 'bkt-text-primary',
+                                          current_path !== path.pathId && path.color ? 'bkt-bg-'+path.color+'-lighter' : '',
+                                          {
+                                              'bkt-bg-white': current_path === path.pathId,
+                                              'bkt-bg-primary-lighter': current_path !== path.pathId && !path.color
+                                          }
+                                      ]"
+                                    >
+                                    {{path.lotCount ? path.lotCount : '0'}}
+                                </span>
+                                </div>
+                                <div class="bkt-icon-frame-small bkt-bg-primary-lighter">
+                                    <bkt-icon :name="'Settings'" :color="'primary'" class="bkt-icon"></bkt-icon>
+                                </div>
                             </div>
                         </div>
-                        <div class="bkt-arrow bkt-bg-white rounded position-absolute"
-                             :class="{'bkt-rotate-180': showMonitoring}" @click="showMonitoring = !showMonitoring">
-                            <bkt-icon :name="'ArrowDown'" :color="'primary'" class=""></bkt-icon>
-                        </div>
-                    </button>
-
-                    <div class="bkt-menu-monitoring bkt-bg-white shadow" :class="{'d-none': !showMonitoring}">
-                        <ul class="list-inline bkt-menu-monitoring-list">
-                            <li class="bkt-menu-monitoring-list__item">
-                                <div class="d-flex justify-content-center">
-                                    <span class="d-flex align-items-center p-1 text-uppercase">Квартиры</span>
-                                    <div class="bkt-bg-blue-lighter bkt-text-blue rounded-pill p-1">
-                                        <span class="p-1">2</span>
-                                    </div>
-                                </div>
-                            </li>
-                            <li class="bkt-menu-monitoring-list__item">
-                                <div class="d-flex justify-content-center">
-                                    <span class="d-flex align-items-center p-1 text-uppercase">Долги</span>
-                                    <div class="bkt-bg-red-lighter bkt-text-red rounded-pill p-1">
-                                        <span class="p-1">2</span>
-                                    </div>
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                <div>
-                    <button class="bkt-button bkt-bg-main-lighter"
-                            style="width: 44px; height: 44px; justify-content: center; display: grid;">
-                        <bkt-icon :name="'Settings'" :color="'primary'" class=""></bkt-icon>
-                    </button>
+                        <template #prevArrow="arrowOption">
+                            <svg
+                                width="8"
+                                height="12"
+                                viewBox="0 0 8 12"
+                                fill="#ffc515"
+                            >
+                                <path
+                                    d="M8 1.42L3.42 6L8 10.59L6.59 12L0.59 6L6.59 1.23266e-07L8 1.42Z"
+                                ></path>
+                            </svg>
+                        </template>
+                        <template #nextArrow="arrowOption">
+                            <svg
+                                fill="#ffc515"
+                                width="8"
+                                height="12"
+                                viewBox="0 0 8 12"
+                            >
+                                <path
+                                    d="M0 10.5801L4.58 6.00012L0 1.41012L1.41 0.00012207L7.41 6.00012L1.41 12.0001L0 10.5801Z"
+                                ></path>
+                            </svg>
+                        </template>
+                    </slick>
                 </div>
             </div>
-            <button class="bkt-button__new-monitoring bkt-button primary pt-4 pb-4" @click="openModal">
-                Новый мониторинг
+            <div class="col px-0">
+                <button class="bkt-button__new-monitoring bkt-button primary bkt-w-md-100"
+                        @click="openModal"
+                >
+                    Новый мониторинг
+                </button>
+            </div>
+        </div>
+        <div class="bkt-wrapper align-items-start bkt-nowrap d-flex d-md-none w-100" v-if="items_paths.length>0">
+            <bkt-collapse id="collapsePaths" main_class="bkt-monitoring__paths-collapse"
+                          :header_class="current_path_object.color ? 'bkt-bg-'+current_path_object.color : 'bkt-bg-primary'"
+                          :collapse_button_class="paths.length>1 ? 'bkt-bg-white' : 'd-none'"
+            >
+                <template #title v-if="paths.length>0">
+                    <h6 class="mx-auto">
+                        {{current_path_object.name}}
+                        <span class="bkt-badge bkt-bg-white"
+                              :class="current_path_object.color ? 'bkt-text-'+current_path_object.color : 'bkt-text-primary'"
+                        >
+                                    {{current_path_object.lotCount ? current_path_object.lotCount : '0'}}
+                                </span>
+                    </h6>
+                </template>
+                <template #collapse v-if="items_paths.length>0">
+                    <div class="bkt-wrapper-column bkt-gap">
+                        <button v-for="(path, index) in items_paths" :key="index"
+                                @click="setCurrentPath(path.pathId)"
+                                v-if="path.pathId !== current_path"
+                                class="w-100 bkt-button bkt-button_plump text-uppercase bkt-bg-white bkt-text-main text-center"
+                        >
+                            {{path.name}}
+                            <span class="bkt-badge"
+                                  :class="path.color ? 'bkt-bg-'+path.color+'-lighter bkt-text-'+path.color
+                                      : 'bkt-text-primary bkt-bg-primary-lighter'"
+                            >
+                                    {{path.lotCount ? path.lotCount : '0'}}
+                                </span>
+                        </button>
+                    </div>
+                </template>
+            </bkt-collapse>
+            <button class="bkt-button-icon bkt-bg-primary-lighter">
+                <bkt-icon :name="'Settings'" :color="'primary'" class=""></bkt-icon>
             </button>
         </div>
-
         <bkt-card-list :current_component="'BktCard'" :items="items" :loading="loading"
-                       :pagination_data="pagination_data" @change-page="getData">
+                       :pagination_data="pagination_data" @change-page="getData"
+                       :infinite="items_paths.length>0" method_name="getMonitorings" :method_params="method_params">
         </bkt-card-list>
     </div>
 </template>
 
 <script>
-
     import AddNewMonitoring from "./Monitoring/AddNewMonitoring";
 
     export default {
@@ -110,14 +131,33 @@
                     "slidesToShow": 1,
                     "slidesToScroll": 1,
                     "variableWidth": true
-                }
+                },
+                path_object: {pathId: 0, name: 'All', color: 'primary'},
+                paths: [
+                    {pathId: 0, name: 'All', color: 'primary'},
+                    {pathId: 1, name: 'МОНИТОРИНГ №1', color: 'yellow'},
+                    {pathId: 2, name: 'КВАРТИРЫ', color: 'yellow'},
+                    {pathId: 3, name: 'TEst3', color: 'yellow'},
+                    {pathId: 4, name: 'TEst4', color: 'yellow'},
+                    {pathId: 5, name: 'TEst5', color: 'yellow'},
+                    {pathId: 6, name: 'TEst6', color: 'yellow'},
+                    {pathId: 7, name: 'TEst7', color: 'yellow'},
+                    {pathId: 1, name: 'TEst', color: 'yellow'},
+                    {pathId: 1, name: 'TEst', color: 'yellow'},
+                    {pathId: 1, name: 'TEst', color: 'yellow'},
+                    {pathId: 1, name: 'TEst', color: 'yellow'},
+                    {pathId: 1, name: 'TEst', color: 'yellow'},
+                    {pathId: 1, name: 'TEst', color: 'yellow'},
+                    {pathId: 1, name: 'TEst', color: 'yellow'},
+                    {pathId: 1, name: 'TEst', color: 'yellow'},
+                ]
             }
         },
         created() {
             this.getMonitoringPaths();
         },
         mounted() {
-            this.getData();
+            // this.getData();
         },
         computed: {
             filters() {
@@ -142,6 +182,11 @@
                 }
                 return {}
             },
+            method_params() {
+                return {
+                    pathId: this.current_path
+                }
+            }
         },
         methods: {
             async getData(page = 1, pathId = 0) {
@@ -157,11 +202,12 @@
                     // this.$store.commit('setMonitoringPaths', response.data)
                     // this.$store.commit('setCurrentPath', response.data[0].pathId)
                     // this.getData(1, this.current_path)
-                    this.$store.dispatch('getMonitorings', {page: 1, pathId: this.current_path})
-                        .finally(() => {
-                            this.loading = false;
-                        });
-
+                    if (this.items_paths.length > 0) {
+                        this.$store.dispatch('getMonitorings', {page: 1, pathId: this.current_path})
+                            .finally(() => {
+                                this.loading = false;
+                            });
+                    }
                 }).catch(err => {
                     this.loading = false;
                 });

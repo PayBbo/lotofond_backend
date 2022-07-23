@@ -277,14 +277,11 @@
                         </div>
                         <div class="bkt-card-image-wrapper">
                             <hooper :itemsToShow="1" :centerMode="true" class="bkt-card__image-slider">
-                                <slide>
-                                    <img v-lazy="'/images/card-image.jpg'" class="bkt-card__image"/>
+                                <slide v-if="!item.photos || item.photos.length==0">
+                                    <img v-lazy="'/images/card-image1.png'" class="bkt-card__image"/>
                                 </slide>
-                                <slide>
-                                    <img v-lazy="'/images/card-image.jpg'" class="bkt-card__image"/>
-                                </slide>
-                                <slide>
-                                    <img v-lazy="'/images/card-image.jpg'" class="bkt-card__image"/>
+                                <slide v-for="photo in item.photos" :key="photo.id">
+                                    <img v-lazy="photo.main" class="bkt-card__image"/>
                                 </slide>
                                 <hooper-navigation slot="hooper-addons"></hooper-navigation>
                             </hooper>

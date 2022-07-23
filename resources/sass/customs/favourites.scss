@@ -37,13 +37,14 @@
 
         & .bkt-favourites__path-collapse {
             background-color: transparent;
-
+            gap: 10px;
             & .bkt-collapse__header {
                 text-transform: uppercase;
                 color: white;
                 text-align: center;
                 padding: 5px;
                 border-radius: 13px;
+                min-height: 44px;
             }
 
             & .bkt-collapse__body {

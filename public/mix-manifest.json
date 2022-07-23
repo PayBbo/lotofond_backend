@@ -2,6 +2,7 @@
     "/js/app.js": "/js/app.js",
     "/js/main.js": "/js/main.js",
     "/js/registries.js": "/js/registries.js",
+    "/js/registry.js": "/js/registry.js",
     "/js/profile.js": "/js/profile.js",
     "/js/agent.js": "/js/agent.js",
     "/js/contacts.js": "/js/contacts.js",

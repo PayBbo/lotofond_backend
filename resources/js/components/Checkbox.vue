@@ -16,7 +16,7 @@
                 />
                 <div class="bkt-check__input-check" :class="[check_color ? 'bkt-bg-'+check_color : '']"></div>
             </div>
-            <label class="bkt-check__label" v-if="label">
+            <label class="bkt-check__label">
                 <slot name="label">
                     {{label}}
                 </slot>

@@ -80,6 +80,7 @@
                 <div class="bkt-wrapper bkt-nowrap w-100 mx-auto justify-content-around dropdown bkt-dropdown">
                     <bkt-select
                         v-model="filters_sort.type"
+                        class="w-100"
                         select_class="form-floating main"
                         name="sort"
                         subtitle="сортировать по"

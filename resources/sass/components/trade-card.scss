@@ -191,9 +191,12 @@
     }
 
     & .bkt-card-ecp-wrapper {
-        gap: 25px;
+        gap: 10px;
         flex-wrap: nowrap;
         margin-bottom: 25px;
+        & .bkt-card-ecp {
+            flex-grow: 1;
+        }
     }
 }
 

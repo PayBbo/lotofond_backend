@@ -247,10 +247,10 @@
                         color: 'green',
                     },
                     {
-                        path: '/top-wins',
+                        path: '/week-winners',
                         icon: 'Star',
-                        code: "TopWins",
-                        label: "Топ-побед",
+                        code: "WeekWinners",
+                        label: "Победы недели",
                         color: 'yellow',
                     },
                     {

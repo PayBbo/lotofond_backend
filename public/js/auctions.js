@@ -1,99 +1,5 @@
 (self["webpackChunk"] = self["webpackChunk"] || []).push([["auctions"],{
 
-/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Collapse.vue?vue&type=script&lang=js&":
-/*!***************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Collapse.vue?vue&type=script&lang=js& ***!
-  \***************************************************************************************************************************************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  name: "Collapse",
-  props: {
-    id: {
-      type: String,
-      "default": 'bkt-collapse',
-      required: true
-    },
-    title: {
-      type: String
-    },
-    title_class: {
-      type: String,
-      "default": 'bkt-collapse__title'
-    },
-    main_class: {
-      type: String,
-      "default": 'bkt-card bkt-card__body'
-    },
-    header_class: {
-      type: String
-    },
-    collapse_class: {
-      type: String
-    },
-    collapse_button_class: {
-      type: String,
-      "default": 'bkt-bg-body'
-    },
-    count: {
-      type: [String, Number]
-    },
-    loading: {
-      type: Boolean,
-      "default": false
-    },
-    disabled: {
-      type: Boolean,
-      "default": false
-    }
-  }
-});
-
-/***/ }),
-
 /***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/pages/Calendar.vue?vue&type=script&lang=js&":
 /*!**********************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/pages/Calendar.vue?vue&type=script&lang=js& ***!
@@ -2292,45 +2198,6 @@ var r="undefined"!==typeof window&&"undefined"!==typeof document&&"undefined"!==
 
 /***/ }),
 
-/***/ "./resources/js/components/Collapse.vue":
-/*!**********************************************!*\
-  !*** ./resources/js/components/Collapse.vue ***!
-  \**********************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var _Collapse_vue_vue_type_template_id_ec32cad0_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Collapse.vue?vue&type=template&id=ec32cad0&scoped=true& */ "./resources/js/components/Collapse.vue?vue&type=template&id=ec32cad0&scoped=true&");
-/* harmony import */ var _Collapse_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Collapse.vue?vue&type=script&lang=js& */ "./resources/js/components/Collapse.vue?vue&type=script&lang=js&");
-/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
-
-
-
-
-
-/* normalize component */
-;
-var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
-  _Collapse_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
-  _Collapse_vue_vue_type_template_id_ec32cad0_scoped_true___WEBPACK_IMPORTED_MODULE_0__.render,
-  _Collapse_vue_vue_type_template_id_ec32cad0_scoped_true___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
-  false,
-  null,
-  "ec32cad0",
-  null
-  
-)
-
-/* hot reload */
-if (false) { var api; }
-component.options.__file = "resources/js/components/Collapse.vue"
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (component.exports);
-
-/***/ }),
-
 /***/ "./resources/js/pages/Calendar.vue":
 /*!*****************************************!*\
   !*** ./resources/js/pages/Calendar.vue ***!
@@ -2847,22 +2714,6 @@ component.options.__file = "resources/js/pages/UpcomingAuctions.vue"
 
 /***/ }),
 
-/***/ "./resources/js/components/Collapse.vue?vue&type=script&lang=js&":
-/*!***********************************************************************!*\
-  !*** ./resources/js/components/Collapse.vue?vue&type=script&lang=js& ***!
-  \***********************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Collapse_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./Collapse.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Collapse.vue?vue&type=script&lang=js&");
- /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Collapse_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
-
-/***/ }),
-
 /***/ "./resources/js/pages/Calendar.vue?vue&type=script&lang=js&":
 /*!******************************************************************!*\
   !*** ./resources/js/pages/Calendar.vue?vue&type=script&lang=js& ***!
@@ -2988,23 +2839,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_UpcomingAuctions_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./UpcomingAuctions.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/pages/UpcomingAuctions.vue?vue&type=script&lang=js&");
  /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_UpcomingAuctions_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
-
-/***/ }),
-
-/***/ "./resources/js/components/Collapse.vue?vue&type=template&id=ec32cad0&scoped=true&":
-/*!*****************************************************************************************!*\
-  !*** ./resources/js/components/Collapse.vue?vue&type=template&id=ec32cad0&scoped=true& ***!
-  \*****************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "render": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Collapse_vue_vue_type_template_id_ec32cad0_scoped_true___WEBPACK_IMPORTED_MODULE_0__.render),
-/* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Collapse_vue_vue_type_template_id_ec32cad0_scoped_true___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
-/* harmony export */ });
-/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Collapse_vue_vue_type_template_id_ec32cad0_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./Collapse.vue?vue&type=template&id=ec32cad0&scoped=true& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Collapse.vue?vue&type=template&id=ec32cad0&scoped=true&");
-
 
 /***/ }),
 
@@ -3160,156 +2994,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_UpcomingAuctions_vue_vue_type_template_id_3255bf55_scoped_true___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
 /* harmony export */ });
 /* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_UpcomingAuctions_vue_vue_type_template_id_3255bf55_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./UpcomingAuctions.vue?vue&type=template&id=3255bf55&scoped=true& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/pages/UpcomingAuctions.vue?vue&type=template&id=3255bf55&scoped=true&");
-
-
-/***/ }),
-
-/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Collapse.vue?vue&type=template&id=ec32cad0&scoped=true&":
-/*!********************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Collapse.vue?vue&type=template&id=ec32cad0&scoped=true& ***!
-  \********************************************************************************************************************************************************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "render": () => (/* binding */ render),
-/* harmony export */   "staticRenderFns": () => (/* binding */ staticRenderFns)
-/* harmony export */ });
-var render = function () {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "bkt-collapse", class: _vm.main_class }, [
-    !_vm.disabled
-      ? _c(
-          "div",
-          {
-            staticClass: "collapse bkt-collapse__body",
-            class: _vm.collapse_class,
-            attrs: { id: _vm.id },
-          },
-          [
-            !_vm.loading ? _vm._t("collapse") : _vm._e(),
-            _vm._v(" "),
-            _vm.loading
-              ? _c(
-                  "div",
-                  { staticClass: "d-flex w-100 justify-content-center mb-5" },
-                  [
-                    _vm._t("loading", function () {
-                      return [
-                        _c("div", {
-                          staticClass: "spinner-border",
-                          staticStyle: {
-                            color: "#2953ff",
-                            "border-width": "2px",
-                          },
-                          attrs: { role: "status" },
-                        }),
-                      ]
-                    }),
-                  ],
-                  2
-                )
-              : _vm._e(),
-          ],
-          2
-        )
-      : _vm._e(),
-    _vm._v(" "),
-    _c(
-      "div",
-      { staticClass: "bkt-collapse__header", class: _vm.header_class },
-      [
-        _vm._t("title", function () {
-          return [
-            _vm.title
-              ? _c(
-                  "h3",
-                  {
-                    staticClass: "bkt-card__title",
-                    class: _vm.title_class,
-                    attrs: {
-                      "data-bs-toggle": "collapse",
-                      "data-bs-target": "#" + _vm.id,
-                    },
-                  },
-                  [
-                    _vm._t("title-inner", function () {
-                      return [
-                        _vm._v(
-                          "\n                    " +
-                            _vm._s(_vm.title) +
-                            "\n                    "
-                        ),
-                        _vm.count >= 0
-                          ? _c(
-                              "span",
-                              {
-                                class: [
-                                  _vm.count > 0
-                                    ? "bkt-text-green"
-                                    : "bkt-text-neutral-dark",
-                                ],
-                              },
-                              [
-                                _vm._v(
-                                  "\n                        (" +
-                                    _vm._s(_vm.count) +
-                                    ")\n                    "
-                                ),
-                              ]
-                            )
-                          : _vm._e(),
-                      ]
-                    }),
-                  ],
-                  2
-                )
-              : _vm._e(),
-          ]
-        }),
-        _vm._v(" "),
-        _c(
-          "button",
-          {
-            staticClass: "bkt-collapse__button bkt-button-icon",
-            class: [
-              _vm.collapse_button_class,
-              _vm.disabled ? "bkt-button_disabled" : "",
-            ],
-            attrs: {
-              "data-bs-toggle": "collapse",
-              "data-bs-target": "#" + _vm.id,
-              "aria-expanded": "false",
-              disabled: _vm.loading || _vm.count == 0 || _vm.disabled,
-            },
-          },
-          [
-            _vm.loading
-              ? _c("span", {
-                  staticClass: "spinner-border spinner-border-sm",
-                  attrs: { role: "status" },
-                })
-              : _c("bkt-icon", {
-                  staticClass: "bkt-button__icon",
-                  attrs: {
-                    name: "ArrowDown",
-                    color: _vm.disabled ? "neutral-dark" : "primary",
-                  },
-                }),
-          ],
-          1
-        ),
-      ],
-      2
-    ),
-  ])
-}
-var staticRenderFns = []
-render._withStripped = true
-
 
 
 /***/ }),
@@ -3543,134 +3227,47 @@ var render = function () {
           fn: function () {
             return [
               !_vm.loading
-                ? _c("div", { staticClass: "bkt-form bkt-gap-large" }, [
-                    _c(
-                      "div",
-                      { staticClass: "bkt-wrapper-column bkt-gap-small" },
-                      _vm._l(_vm.items, function (category, index) {
-                        return _c("bkt-collapse", {
-                          key: index,
-                          attrs: {
-                            id: "category-collapse-" + index,
-                            main_class: "bkt-collapse_check",
-                            collapse_button_class:
-                              category.subcategories.length > 0
-                                ? "bkt-bg-white"
-                                : "d-none",
-                          },
-                          scopedSlots: _vm._u(
-                            [
-                              {
-                                key: "title",
-                                fn: function () {
-                                  return [
-                                    _c(
-                                      "div",
-                                      {
-                                        staticClass:
-                                          "bkt-collapse__title-wrapper",
-                                      },
-                                      [
-                                        category.subcategories.length == 0
-                                          ? _c("bkt-checkbox", {
-                                              attrs: {
-                                                name:
-                                                  "bkt-category-checkbox-" +
-                                                  index,
-                                                id:
-                                                  "bkt-category-checkbox-" +
-                                                  index,
-                                                val: category.key,
-                                              },
-                                              model: {
-                                                value: _vm.result,
-                                                callback: function ($$v) {
-                                                  _vm.result = $$v
-                                                },
-                                                expression: "result",
-                                              },
-                                            })
-                                          : _c("bkt-checkbox", {
-                                              attrs: {
-                                                name:
-                                                  "bkt-category-checkbox-" +
-                                                  index,
-                                                id:
-                                                  "bkt-category-checkbox-" +
-                                                  index,
-                                                indeterminate:
-                                                  _vm.isIndeterminate(index),
-                                              },
-                                              on: {
-                                                input: function ($event) {
-                                                  return _vm.selectAll(index)
-                                                },
-                                              },
-                                              model: {
-                                                value: category.status,
-                                                callback: function ($$v) {
-                                                  _vm.$set(
-                                                    category,
-                                                    "status",
-                                                    $$v
-                                                  )
-                                                },
-                                                expression: "category.status",
-                                              },
-                                            }),
-                                        _vm._v(" "),
-                                        _c(
-                                          "h5",
-                                          {
-                                            staticClass:
-                                              "bkt-regions-tabs__title",
-                                            attrs: {
-                                              "data-bs-toggle": "collapse",
-                                              "data-bs-target":
-                                                "#category-collapse-" + index,
-                                            },
-                                          },
-                                          [
-                                            _vm._v(
-                                              "\n                                    " +
-                                                _vm._s(category.label) +
-                                                "\n                                "
-                                            ),
-                                          ]
-                                        ),
-                                      ],
-                                      1
-                                    ),
-                                  ]
-                                },
-                                proxy: true,
-                              },
-                              {
-                                key: "collapse",
-                                fn: function () {
-                                  return _vm._l(
-                                    category.subcategories,
-                                    function (subcategory, index) {
-                                      return _c(
+                ? _c(
+                    "div",
+                    { staticClass: "bkt-wrapper-column bkt-gap-large" },
+                    [
+                      _c(
+                        "div",
+                        { staticClass: "bkt-wrapper-column bkt-gap-small" },
+                        _vm._l(_vm.items, function (category, index) {
+                          return _c("bkt-collapse", {
+                            key: index,
+                            attrs: {
+                              id: "category-collapse-" + index,
+                              main_class: "bkt-collapse_check",
+                              collapse_button_class:
+                                category.subcategories.length > 0
+                                  ? "bkt-bg-white"
+                                  : "d-none",
+                            },
+                            scopedSlots: _vm._u(
+                              [
+                                {
+                                  key: "title",
+                                  fn: function () {
+                                    return [
+                                      _c(
                                         "div",
-                                        { staticClass: "bkt-gap-mini" },
+                                        {
+                                          staticClass:
+                                            "bkt-collapse__title-wrapper",
+                                        },
                                         [
-                                          _c(
-                                            "div",
-                                            {
-                                              staticClass:
-                                                "bkt-collapse__title-wrapper",
-                                            },
-                                            [
-                                              _c("bkt-checkbox", {
+                                          category.subcategories.length == 0
+                                            ? _c("bkt-checkbox", {
                                                 attrs: {
                                                   name:
-                                                    "bkt-subcategory-checkbox-" +
+                                                    "bkt-category-checkbox-" +
                                                     index,
                                                   id:
-                                                    "bkt-subcategory-checkbox-" +
+                                                    "bkt-category-checkbox-" +
                                                     index,
-                                                  val: subcategory.key,
+                                                  val: category.key,
                                                 },
                                                 model: {
                                                   value: _vm.result,
@@ -3679,105 +3276,199 @@ var render = function () {
                                                   },
                                                   expression: "result",
                                                 },
-                                              }),
-                                              _vm._v(" "),
-                                              _c(
-                                                "h6",
-                                                {
-                                                  staticClass:
-                                                    "bkt-regions-tabs__subtitle",
+                                              })
+                                            : _c("bkt-checkbox", {
+                                                attrs: {
+                                                  name:
+                                                    "bkt-category-checkbox-" +
+                                                    index,
+                                                  id:
+                                                    "bkt-category-checkbox-" +
+                                                    index,
+                                                  indeterminate:
+                                                    _vm.isIndeterminate(index),
                                                 },
-                                                [
-                                                  _vm._v(
-                                                    "\n                                        " +
-                                                      _vm._s(
-                                                        subcategory.label
-                                                      ) +
-                                                      "\n                                    "
-                                                  ),
-                                                ]
+                                                on: {
+                                                  input: function ($event) {
+                                                    return _vm.selectAll(index)
+                                                  },
+                                                },
+                                                model: {
+                                                  value: category.status,
+                                                  callback: function ($$v) {
+                                                    _vm.$set(
+                                                      category,
+                                                      "status",
+                                                      $$v
+                                                    )
+                                                  },
+                                                  expression: "category.status",
+                                                },
+                                              }),
+                                          _vm._v(" "),
+                                          _c(
+                                            "h5",
+                                            {
+                                              staticClass:
+                                                "bkt-regions-tabs__title",
+                                              attrs: {
+                                                "data-bs-toggle": "collapse",
+                                                "data-bs-target":
+                                                  "#category-collapse-" + index,
+                                              },
+                                            },
+                                            [
+                                              _vm._v(
+                                                "\n                                    " +
+                                                  _vm._s(category.label) +
+                                                  "\n                                "
                                               ),
-                                            ],
-                                            1
+                                            ]
                                           ),
-                                        ]
-                                      )
-                                    }
-                                  )
-                                },
-                                proxy: true,
-                              },
-                            ],
-                            null,
-                            true
-                          ),
-                        })
-                      }),
-                      1
-                    ),
-                    _vm._v(" "),
-                    _vm.result.length > 0
-                      ? _c("div", { staticClass: "bkt-region-selected" }, [
-                          _c(
-                            "h5",
-                            { staticClass: "bkt-region-selected__title" },
-                            [
-                              _vm._v(
-                                "\n                        выбранные категории\n                    "
-                              ),
-                            ]
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "div",
-                            { staticClass: "bkt-tag__list" },
-                            _vm._l(_vm.result, function (item, index) {
-                              return _c(
-                                "div",
-                                {
-                                  staticClass:
-                                    "bkt-region__item bkt-tag justify-content-between flex-fill",
-                                },
-                                [
-                                  _c(
-                                    "span",
-                                    {
-                                      staticClass:
-                                        "bkt-item-rounded__text mr-2",
-                                    },
-                                    [
-                                      _vm._v(
-                                        _vm._s(_vm.$t("categories." + item))
+                                        ],
+                                        1
                                       ),
                                     ]
-                                  ),
-                                  _vm._v(" "),
-                                  _c(
-                                    "span",
-                                    {
-                                      staticClass:
-                                        "bkt-tag__icon bkt-cursor-pointer",
-                                      on: {
-                                        click: function ($event) {
-                                          return _vm.toggleCategory(item)
+                                  },
+                                  proxy: true,
+                                },
+                                {
+                                  key: "collapse",
+                                  fn: function () {
+                                    return _vm._l(
+                                      category.subcategories,
+                                      function (subcategory, index) {
+                                        return _c(
+                                          "div",
+                                          { staticClass: "bkt-gap-mini" },
+                                          [
+                                            _c(
+                                              "div",
+                                              {
+                                                staticClass:
+                                                  "bkt-collapse__title-wrapper",
+                                              },
+                                              [
+                                                _c("bkt-checkbox", {
+                                                  attrs: {
+                                                    name:
+                                                      "bkt-subcategory-checkbox-" +
+                                                      index,
+                                                    id:
+                                                      "bkt-subcategory-checkbox-" +
+                                                      index,
+                                                    val: subcategory.key,
+                                                  },
+                                                  model: {
+                                                    value: _vm.result,
+                                                    callback: function ($$v) {
+                                                      _vm.result = $$v
+                                                    },
+                                                    expression: "result",
+                                                  },
+                                                }),
+                                                _vm._v(" "),
+                                                _c(
+                                                  "h6",
+                                                  {
+                                                    staticClass:
+                                                      "bkt-regions-tabs__subtitle",
+                                                  },
+                                                  [
+                                                    _vm._v(
+                                                      "\n                                        " +
+                                                        _vm._s(
+                                                          subcategory.label
+                                                        ) +
+                                                        "\n                                    "
+                                                    ),
+                                                  ]
+                                                ),
+                                              ],
+                                              1
+                                            ),
+                                          ]
+                                        )
+                                      }
+                                    )
+                                  },
+                                  proxy: true,
+                                },
+                              ],
+                              null,
+                              true
+                            ),
+                          })
+                        }),
+                        1
+                      ),
+                      _vm._v(" "),
+                      _vm.result.length > 0
+                        ? _c("div", { staticClass: "bkt-region-selected" }, [
+                            _c(
+                              "h5",
+                              { staticClass: "bkt-region-selected__title" },
+                              [
+                                _vm._v(
+                                  "\n                        выбранные категории\n                    "
+                                ),
+                              ]
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "div",
+                              { staticClass: "bkt-tag__list" },
+                              _vm._l(_vm.result, function (item, index) {
+                                return _c(
+                                  "div",
+                                  {
+                                    staticClass:
+                                      "bkt-region__item bkt-tag justify-content-between flex-fill",
+                                  },
+                                  [
+                                    _c(
+                                      "span",
+                                      {
+                                        staticClass:
+                                          "bkt-item-rounded__text mr-2",
+                                      },
+                                      [
+                                        _vm._v(
+                                          _vm._s(_vm.$t("categories." + item))
+                                        ),
+                                      ]
+                                    ),
+                                    _vm._v(" "),
+                                    _c(
+                                      "span",
+                                      {
+                                        staticClass:
+                                          "bkt-tag__icon bkt-cursor-pointer",
+                                        on: {
+                                          click: function ($event) {
+                                            return _vm.toggleCategory(item)
+                                          },
                                         },
                                       },
-                                    },
-                                    [
-                                      _c("bkt-icon", {
-                                        attrs: { name: "Cancel", color: "red" },
-                                      }),
-                                    ],
-                                    1
-                                  ),
-                                ]
-                              )
-                            }),
-                            0
-                          ),
-                        ])
-                      : _vm._e(),
-                  ])
+                                      [
+                                        _c("bkt-icon", {
+                                          attrs: {
+                                            name: "Cancel",
+                                            color: "red",
+                                          },
+                                        }),
+                                      ],
+                                      1
+                                    ),
+                                  ]
+                                )
+                              }),
+                              0
+                            ),
+                          ])
+                        : _vm._e(),
+                    ]
+                  )
                 : _vm._e(),
               _vm._v(" "),
               _vm.loading

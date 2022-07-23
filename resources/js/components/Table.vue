@@ -16,17 +16,17 @@
 <!--            </template>-->
 <!--            <template #card_list>-->
                 <div class="overflow-auto">
-                    <table class="table table-borderless bkt-simple-table">
+                    <table class="table table-borderless bkt-simple-table" :class="main_class">
                         <thead>
                             <slot name="thead">
+                                <tr>
+                                    <slot name="tr">
 
+                                    </slot>
+                                </tr>
                             </slot>
                         </thead>
-                        <tr>
-                            <slot name="tr">
 
-                            </slot>
-                        </tr>
                         <tbody>
                         <slot name="tbody">
                             <tr v-for="item in items">
@@ -102,6 +102,10 @@
             loading: {
                 type: Boolean,
                 default: false
+            },
+            main_class: {
+                type: String,
+                default: ''
             },
         },
         data() {

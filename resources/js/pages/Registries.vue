@@ -25,7 +25,7 @@
                     </template>
                     <template #tbody_tr="{item}">
                         <td>{{item.id}}</td>
-                        <td>{{item.fullName}}</td>
+                        <td><router-link custom :to="'/registries/debtor/'+item.id">{{item.fullName}}</router-link></td>
                         <td>{{item.inn ? item.inn : ''}}</td>
                         <td>{{item.region ? item.region : ''}}</td>
                         <td>{{item.address ? item.address : ''}}</td>
@@ -56,7 +56,7 @@
                     </template>
                     <template #tbody_tr="{item}">
                         <td>{{item.id}}</td>
-                        <td>{{item.fullName}}</td>
+                        <td><router-link custom :to="'/registries/organizer/'+item.id">{{item.fullName}}</router-link></td>
                         <td>{{item.inn ? item.inn : ''}}</td>
                         <td>{{item.region ? item.region : ''}}</td>
                     </template>
@@ -87,7 +87,7 @@
                     </template>
                     <template #tbody_tr="{item}">
                         <td>{{item.id}}</td>
-                        <td>{{item.fullName}}</td>
+                        <td><router-link custom :to="'/registries/arbitrationManager/'+item.id">{{item.fullName}}</router-link></td>
                         <td>{{item.inn ? item.inn : ''}}</td>
                         <td>{{item.region ? item.region : ''}}</td>
                         <td>{{item.sroAU ? item.sroAU : ''}}</td>
@@ -119,7 +119,7 @@
                     </template>
                     <template #tbody_tr="{item}">
                         <td>{{item.id ? item.id : ''}}</td>
-                        <td>{{item.name ? item.name : ''}}</td>
+                        <td><router-link custom :to="'/registries/trade-place/'+item.id">{{item.name ? item.name : ''}}</router-link></td>
                         <td>{{item.address ? item.address : ''}}</td>
                         <td>{{item.note ? item.note : ''}}</td>
                     </template>

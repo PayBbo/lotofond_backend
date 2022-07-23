@@ -101,8 +101,8 @@ Vue.use(VueTheMask);
 import VueLazyload from 'vue-lazyload'
 Vue.use(VueLazyload, {
     preLoad: 1.3,
-    error: "/images/card-image.jpg",
-    loading: "/images/card-image.jpg",
+    error: "/images/card-image1.jpg",
+    loading: "/images/card-image1.jpg",
     attempt: 1
 });
 
@@ -150,6 +150,9 @@ Vue.prototype.$search = function (term, list, options) {
     })
 };
 
+import InfiniteLoading from 'vue-infinite-loading';
+Vue.component('infinite-loading', InfiniteLoading);
+
 import VueRouter from 'vue-router';
 import routes from './routes';
 Vue.use(VueRouter);
@@ -171,6 +174,7 @@ import Dropdown from "./components/Dropdown.vue";
 import WinCard from "./components/WinCard";
 import Search from "./components/Search";
 import Select from "./components/Select";
+import Collapse from "./components/Collapse";
 
 import BktAuthModal from "./auth/AuthModal.vue";
 import BktCodeModal from "./auth/CodeModal.vue";
@@ -192,6 +196,7 @@ Vue.component('BktDropdown', Dropdown);
 Vue.component('BktWinCard', WinCard);
 Vue.component('BktSearch', Search);
 Vue.component('BktSelect', Select);
+Vue.component('BktCollapse', Collapse);
 
 
 Vue.filter('priceFormat', value => {

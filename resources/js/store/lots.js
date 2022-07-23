@@ -89,11 +89,9 @@ export default {
         },
         async getBidderLots({commit, state}, payload) {
             return await axios({
-                method: 'get',
-                url: `/api/bidders/${payload.type}/${payload.bidderType}/${payload.bidderId}`,
-                data: {
-                    page: payload.page,
-                },
+                method: 'put',
+                url: `/api/bidders/trades?page=`+payload.page,
+                data: payload,
             })
         },
         async getLotFiles({commit, state}, payload) {

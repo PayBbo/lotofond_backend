@@ -1,8 +1,13 @@
 .bkt-breadcrumb {
+    gap: 20px;
     &__item {
         color: $neutral-dark;
         font-size: 12px;
         text-decoration: none;
+        padding-right: 0.5rem;
+        & a {
+            color: $neutral-dark;
+        }
         &.active {
             color: $main-default;
         }
@@ -13,5 +18,33 @@
         color: #6c757d;
         --bs-breadcrumb-divider: url("data:image/svg+xml, %3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 -6 24 24' width='12px' fill='%23abadb4' stroke='%23abadb4' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' class='feather feather-more-horizontal'%3E%3Ccircle cx='12' cy='12' r='1'%3E%3C/circle%3E%3Ccircle cx='19' cy='12' r='1'%3E%3C/circle%3E%3Ccircle cx='5' cy='12' r='1'%3E%3C/circle%3E%3C/svg%3E");
         content: var(--bs-breadcrumb-divider, '/');
+    }
+    &__item + &__item {
+        padding-left: 0;
+    }
+    & .bkt-button-icon {
+        flex-shrink: 0;
+    }
+}
+@media (max-width: 576px) {
+    .bkt-breadcrumb {
+        gap:12px;
+        &__item {
+            color: $neutral-dark;
+            font-size: 8px;
+            text-decoration: none;
+            padding-right: 6px;
+            &.active {
+                color: $main-default;
+            }
+        }
+        &__item + &__item::before {
+            padding-right: 6px;
+            color: #6c757d;
+            --bs-breadcrumb-divider: url("data:image/svg+xml, %3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 -3 24 24' width='6px' fill='%23abadb4' stroke='%23abadb4' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' class='feather feather-more-horizontal'%3E%3Ccircle cx='12' cy='12' r='1'%3E%3C/circle%3E%3Ccircle cx='19' cy='12' r='1'%3E%3C/circle%3E%3Ccircle cx='5' cy='12' r='1'%3E%3C/circle%3E%3C/svg%3E");
+        }
+        &__item + &__item {
+            padding-left: 0;
+        }
     }
 }
