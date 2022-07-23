@@ -72,7 +72,7 @@ class FavouriteController extends Controller
             $conditions[$key] = $param;
         }
         $collection = ExportLotResource::customCollection($path->lots, $conditions);
-        $name = '/users/excel/user-' . auth()->id() .'/'. $path->title.'.xlsx';
+        $name = '/users/excel/user-' . auth()->id() .'/favourite.xlsx';
         $isSuccess = Excel::store(new FavouritePathExport($headings, $collection, $path->title), $name);
         if($isSuccess){
             return response(['url'=>Storage::url($name)], 200);
