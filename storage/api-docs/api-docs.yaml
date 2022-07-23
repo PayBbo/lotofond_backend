@@ -534,6 +534,50 @@ paths:
                 $ref: '#/components/schemas/Error'
       security:
         - bearerAuth: [ ]
+  /trades/short/lots:
+    put:
+      parameters:
+        - in: query
+          name: page
+          schema:
+            type: integer
+          required: true
+          description: Номер страницы для серверной пагинации
+      tags:
+        - Trades
+      summary: Получение сокращенной информации о торгах по поиску
+      requestBody:
+        description: данные для поиска лотов
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                searchString:
+                  type: string
+                  example: лот№1
+      operationId: getShortTrades
+      responses:
+        "200":
+          description: Информация о 5 торгах по поиску
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/TradeShortInfo'
+                  pagination:
+                    $ref: '#/components/schemas/Pagination'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
   /trades/victories:
     get:
       parameters:
@@ -2091,7 +2135,7 @@ paths:
               schema:
                 type: object
                 example:
-                  { 'activeLotsCount': 100, 'nonactiveLotsCount': 200, 'allLotsCount': 300 }
+                  { 'activeLotsCount': 100, 'nonactiveLotsCount': 200, 'allLotsCount': 300, 'newLotsCount': 10 }
         default:
           description: unexpected error
           content:
@@ -3994,6 +4038,11 @@ components:
           description: ссылка на сообщение на федресурсе
         debtor:
           $ref: "#/components/schemas/BidderInfo"
+        files:
+          type: array
+          items:
+            type: string
+            format: uri
     LotMessages:
       type: array
       items:
@@ -4008,6 +4057,43 @@ components:
             type: string
             description: ссылка на файл (при наличии)
             format: uri
+    TradeShortInfo:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: айди лота
+        description:
+          type: string
+          description: описание лота
+        lotNumber:
+          type: string
+          description: номер лота
+        photos:
+          $ref: "#/components/schemas/Images"
+        currentPrice:
+          type: number
+        externalId:
+          type: string
+          description: номер торгов
+        eventTime:
+          type: object
+          properties:
+            start:
+              type: string
+              description: дата и время начала торгов (null, если priceOfferForm = close)
+            end:
+              type: string
+              description: дата и время окончания торгов (null, если priceOfferForm = close)
+            result:
+              type: string
+              description: Дата и время объявления результатов торгов (null, если priceOfferForm = open)
+        organizer:
+          $ref: "#/components/schemas/BidderInfo"
+        tradePlaceSite:
+          type: string
+          description: сайт ЭТП
+
   securitySchemes:
     bearerAuth:
       type: http

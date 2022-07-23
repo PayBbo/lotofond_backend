@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Exceptions\CustomExceptions\BaseException;
 use App\Http\Resources\LotCollection;
 use App\Http\Resources\LotResource;
+use App\Http\Resources\LotShortCollection;
 use App\Http\Resources\NotificationCollection;
 use App\Http\Resources\VictoryCollection;
 use App\Models\Auction;
@@ -41,11 +42,24 @@ class AuctionController extends Controller
         return response(new LotCollection($lots), 200);
     }
 
-    public function getVictories(){
+    public function getVictories()
+    {
         $start = Carbon::now()->setTimezone('Europe/Moscow')->subWeek();
         $end = Carbon::now()->setTimezone('Europe/Moscow');
         $victories = BiddingResult::has('winner')->whereBetween('created_at', [$start, $end])->paginate(20);
         return response(new VictoryCollection($victories), 200);
+    }
+
+    public function getShortTrades(Request $request)
+    {
+        $searchString = $request->searchString;
+        $lots = Lot::when(isset($searchString) && strlen((string)$searchString) > 0, function ($query) use ($searchString) {
+            $query->whereHas('auction', function ($q) use ($searchString) {
+                $q->where('trade_id', 'like', '%' . $searchString . '%');
+            })
+                ->orWhere('description', 'like', '%' . $searchString . '%');
+        })->paginate(5);
+        return response(new LotShortCollection($lots), 200);
     }
 
 
@@ -70,7 +84,8 @@ class AuctionController extends Controller
         return response(new LotResource($lot), 200);
     }
 
-    public function getLotNotifications($lotId){
+    public function getLotNotifications($lotId)
+    {
         $lot = Lot::find($lotId);
         if (!$lot) {
             throw new BaseException("ERR_FIND_LOT_FAILED", 404, "Lot with id= " . $lotId . ' does not exist');
@@ -78,7 +93,7 @@ class AuctionController extends Controller
         $user = User::find(auth()->id());
         $favouriteLotIds = FavouriteLot::whereIn('favourite_id', $user->favourites->pluck('id'))->where('lot_id', $lotId)->get()->pluck('id');
         $notifications = Notification::whereIn('lot_id', $favouriteLotIds)
-            ->where('user_id',auth()->id())->orderBy('date', 'DESC')->paginate(20);
+            ->where('user_id', auth()->id())->orderBy('date', 'DESC')->paginate(20);
         return response(new NotificationCollection($notifications), 200);
 
     }

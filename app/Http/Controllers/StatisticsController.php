@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use App\Models\Lot;
+use Carbon\Carbon;
 
 class StatisticsController extends Controller
 {
@@ -30,10 +31,12 @@ class StatisticsController extends Controller
 
     public function getStatisticsByLots(){
         $active_statuses = [1, 2];
+        $date = Carbon::now()->setTimezone('Europe/Moscow');
         $data = [
             'activeLotsCount'=>Lot::whereIn('status_id', $active_statuses)->count(),
             'nonactiveLotsCount'=>Lot::whereNotIn('status_id', $active_statuses)->count(),
-            'allLotsCount'=>Lot::count()
+            'allLotsCount'=>Lot::count(),
+            'newLotsCount'=>Lot::whereDate('created_at',$date)->count()
         ];
         return response($data, 200);
 
