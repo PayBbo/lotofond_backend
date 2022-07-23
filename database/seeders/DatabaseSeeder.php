@@ -17,7 +17,7 @@ class DatabaseSeeder extends Seeder
         $this->call([
             AuctionTypeSeeder::class,
             DebtorCategorySeeder::class,
-            NotificationTypeGroupSeeder::class,
+            RegistryNotificationGroupSeeder::class,
             NotificationTypeSeeder::class,
             RegistryNotificationTypeSeeder::class,
             StatusSeeder::class,

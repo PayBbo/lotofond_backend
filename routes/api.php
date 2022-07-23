@@ -88,6 +88,8 @@ Route::group(['middleware' => ['json.response', 'localization']], function () {
 
     });
 
+    Route::get('/messages/filter/types', [FilterController::class, 'getRegistryTypesForFilter']);
+
     Route::group(['prefix' => 'bidders'], function () {
 
         Route::put('/trades', [BidderController::class, 'getTradesByBidder'])
@@ -105,7 +107,7 @@ Route::group(['middleware' => ['json.response', 'localization']], function () {
         Route::post('/estimate', [BidderController::class, 'estimateBidder'])
             ->middleware('auth.deny:api');
 
-        Route::post('/debtor/messages', [BidderController::class, 'getDebtorMessages']);
+        Route::put('/debtor/messages', [BidderController::class, 'getDebtorMessages']);
 
     });
 

@@ -26,7 +26,7 @@ class AuctionController extends Controller
 
     public function getFilteredTrades(Request $request)
     {
-        $lots = Lot::customSortBy($request->request)->filterBy($request->request)->paginate(20);
+        $lots = Lot::customSortBy($request)->filterBy($request->request)->paginate(20);
         return response(new LotCollection($lots), 200);
     }
 
@@ -34,7 +34,7 @@ class AuctionController extends Controller
     {
         $start = Carbon::now()->setTimezone('Europe/Moscow');
         $end = Carbon::now()->setTimezone('Europe/Moscow')->addWeek();
-        $lots = Lot::customSortBy($request->request)->filterBy($request->request)
+        $lots = Lot::customSortBy($request)->filterBy($request->request)
             ->whereHas('auction', function ($q) use ($start, $end) {
                 $q->whereBetween('application_start_date', [$start, $end]);
             })->paginate(20);

@@ -4,7 +4,7 @@ namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
-use App\Models\NotificationTypeGroup;
+use App\Models\RegistryNotificationGroup;
 
 class NotificationTypeGroupFactory extends Factory
 {
@@ -13,7 +13,7 @@ class NotificationTypeGroupFactory extends Factory
      *
      * @var string
      */
-    protected $model = NotificationTypeGroup::class;
+    protected $model = RegistryNotificationGroup::class;
 
     /**
      * Define the model's default state.

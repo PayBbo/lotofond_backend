@@ -7,6 +7,7 @@ use App\Jobs\MonitoringJob;
 use App\Jobs\ParseArbitrManager;
 use App\Jobs\ParseCompanyTradeOrganizer;
 use App\Jobs\ParseDebtor;
+use App\Jobs\ParseDebtorMessages;
 use App\Jobs\ParseSRORegister;
 use App\Jobs\ParseTrades;
 use App\Models\Favourite;
@@ -30,6 +31,7 @@ class Kernel extends ConsoleKernel
         $schedule->job(new ParseCompanyTradeOrganizer)->hourly();
         $schedule->job(new ParseSRORegister)->hourly();
         $schedule->job(new ParseDebtor)->hourly();
+        $schedule->job(new ParseDebtorMessages)->hourly();
     }
 
     /**

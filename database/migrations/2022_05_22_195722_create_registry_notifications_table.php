@@ -16,14 +16,16 @@ class CreateRegistryNotificationsTable extends Migration
         Schema::disableForeignKeyConstraints();
         Schema::create('registry_notifications', function (Blueprint $table) {
             $table->id();
-            $table->string('description', 255);
+            $table->string('message_id');
+            $table->string('guid');
             $table->json('files')->nullable();
-            $table->unsignedBigInteger('debitor_id')->nullable();
+            $table->unsignedBigInteger('debtor_id');
             $table->unsignedBigInteger('type_id');
-            $table->foreign('debitor_id')->references('id')
+            $table->foreign('debtor_id')->references('id')
                 ->on('bidders')->cascadeOnDelete();
             $table->foreign('type_id')->references('id')
                 ->on('registry_notification_types')->cascadeOnDelete();
+            $table->dateTime('publish_date');
             $table->timestamps();
         });
         Schema::enableForeignKeyConstraints();

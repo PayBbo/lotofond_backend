@@ -70,6 +70,7 @@ class BidderService
         $this->bidder->snils = array_key_exists('SNILS', $person) ? $person['SNILS'] : NULL;
         $this->bidder->short_name = array_key_exists('ShortName', $person) ? $person['ShortName'] : NULL;
         $this->bidder->ogrn = array_key_exists('OGRN', $person) ? $person['OGRN'] : NULL;
+        $this->bidder->bankrupt_id = array_key_exists('BankruptId', $person) ? $person['BankruptId'] : NULL;
         $this->bidder->address = $address;
         $this->bidder->region_id = $region;
         $this->bidder->debtor_category_id = $category;

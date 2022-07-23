@@ -15,7 +15,10 @@ class ReestrDebtorMessageResource extends JsonResource
     public function toArray($request)
     {
         return [
-
+            'date'=>$this->publish_date,
+            'type'=>__('registry_notifications.'.$this->registryNotificationType->title),
+            'debtor'=>new BidderResource($this->debtor),
+            'messageUrl'=>'https://old.bankrot.fedresurs.ru/MessageWindow.aspx?ID='.$this->guid
         ];
     }
 }

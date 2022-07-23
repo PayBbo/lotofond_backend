@@ -111,7 +111,7 @@ class ProfileController extends Controller
             $user->save();
             ChangeCredentials::where('user_id', $user->id)->delete();
         }elseif(!$request->haveAccessToOldCredentials && !$request->isOldCredentials){
-            dispatch(new ChangeEmail($changeCredentials->id))->delay(now()->setTimezone('Europe/Moscow')->addMinutes(2));
+            dispatch(new ChangeEmail($changeCredentials->id))->delay(now()->setTimezone('Europe/Moscow')->addWeeks(2));
         }else{
             throw new BaseException("ERR_VALIDATION_FAILED_CODE", 422, __('validation.credentials_submitted'));
         }

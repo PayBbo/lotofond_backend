@@ -9,6 +9,7 @@ use App\Models\Category;
 use App\Models\Lot;
 use App\Models\PriceReduction;
 use App\Models\RegionGroup;
+use App\Models\RegistryNotificationGroup;
 use App\Models\TradePlace;
 use Illuminate\Http\Request;
 
@@ -91,5 +92,21 @@ class FilterController extends Controller
             ]
         ];
         return response($data, 200);
+    }
+
+    public function getRegistryTypesForFilter(){
+        $groups = RegistryNotificationGroup::all();
+        $messagesTypes = [];
+        foreach($groups as $group){
+            $types = [];
+            foreach ($group->registryNotificationTypes as $type){
+                $types[] = ['code'=>$type->title, 'title'=>__('registry_notifications.'.$type->title)];
+            }
+            $messagesTypes[] = [
+                'messagesGroup'=>__('registry_notifications.'.$group->title),
+                'types'=>$types
+            ];
+        }
+        return response($messagesTypes, 200);
     }
 }

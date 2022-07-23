@@ -8,11 +8,13 @@ use App\Http\Resources\BidderCollection;
 use App\Http\Resources\LotCollection;
 use App\Http\Resources\RatingResource;
 use App\Http\Resources\ReestrBidderResource;
+use App\Http\Resources\ReestrDebtorMessageCollection;
 use App\Http\Resources\TradePlaceCollection;
 use App\Http\Resources\TradePlaceResource;
 use App\Models\Bidder;
 use App\Models\BidderEstimate;
 use App\Models\Lot;
+use App\Models\RegistryNotification;
 use App\Models\TradePlace;
 use Illuminate\Http\Request;
 
@@ -133,9 +135,14 @@ class BidderController extends Controller
 
     }
 
-    public function getDebtorMessages()
+    public function getDebtorMessages(Request $request)
     {
-
+        $perPage = 20;
+        if(isset($request->perPage) && strlen($request->perPage) > 0){
+            $perPage = $request->perPage;
+        }
+        $messages = RegistryNotification::customSortBy($request)->filterBy($request->request)->paginate($perPage);
+        return response(new ReestrDebtorMessageCollection($messages), 200);
     }
 
 }

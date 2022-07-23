@@ -18,6 +18,7 @@ class CreateBiddersTable extends Migration
             $table->id();
             /*common fields*/
             $table->longText('name');
+            $table->string('bankrupt_id')->unique();
             $table->string('inn', 12)->unique();
             $table->string('snils', 11)->nullable();
             $table->enum('type', ['person', 'company'])->default('person');

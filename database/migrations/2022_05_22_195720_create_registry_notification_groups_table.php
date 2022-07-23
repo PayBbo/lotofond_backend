@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateNotificationTypeGroupsTable extends Migration
+class CreateRegistryNotificationGroupsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,7 +14,7 @@ class CreateNotificationTypeGroupsTable extends Migration
     public function up()
     {
         Schema::disableForeignKeyConstraints();
-        Schema::create('notification_type_groups', function (Blueprint $table) {
+        Schema::create('registry_notification_groups', function (Blueprint $table) {
             $table->id();
             $table->string('title', 255);
             $table->timestamps();
@@ -29,6 +29,6 @@ class CreateNotificationTypeGroupsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('notification_type_groups');
+        Schema::dropIfExists('registry_notification_groups');
     }
 }

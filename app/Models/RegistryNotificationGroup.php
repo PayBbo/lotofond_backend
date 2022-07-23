@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class NotificationTypeGroup extends Model
+class RegistryNotificationGroup extends Model
 {
     use HasFactory;
 
@@ -29,6 +29,6 @@ class NotificationTypeGroup extends Model
 
     public function registryNotificationTypes()
     {
-        return $this->hasMany(RegistryNotificationType::class);
+        return $this->hasMany(RegistryNotificationType::class, 'notification_group_id');
     }
 }

@@ -549,7 +549,7 @@ paths:
           description: Номер страницы для серверной пагинации
       tags:
         - Trades
-      summary: Получение информации о ближайших торгах в соответствии с фильтрами
+      summary: Получение информации о победах недели
       operationId: getVictories
       responses:
         "200":
@@ -683,6 +683,30 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Regions'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /messages/filter/types:
+    get:
+      parameters:
+        - name: Content-Language
+          in: header
+          description: Заголовок для определения локали (ru, en, zh_CN)
+          required: true
+      tags:
+        - FiltersData
+      summary: Получение информации о типах сообщений о должниках
+      operationId: getRegistryTypesForFilter
+      responses:
+        "200":
+          description: Информация о типах сообщений о должниках
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RegistryMessagesTypes'
         default:
           description: unexpected error
           content:
@@ -1892,7 +1916,18 @@ paths:
       security:
         - bearerAuth: [ ]
   /bidders/debtor/messages:
-    post:
+    put:
+      parameters:
+        - in: query
+          name: page
+          schema:
+            type: integer
+          required: true
+          description: Номер страницы для серверной пагинации
+        - name: Content-Language
+          in: header
+          description: Заголовок для определения локали (ru, en, zh_CN)
+          required: true
       tags:
         - Bidders
       summary: Сообщения о должнике
@@ -1915,11 +1950,10 @@ paths:
                       enum:
                         - asc
                         - desc
-                    sortType:
+                    type:
                       type: string
                       enum:
                         - date
-                        - type
                         - debtor
                 perPage:
                   type: integer
@@ -3755,6 +3789,23 @@ components:
             items:
               type: string
               description: enum регионов
+    RegistryMessagesTypes:
+      type: array
+      items:
+        type: object
+        properties:
+          messagesGroup:
+            type: string
+            description: группа сообщений
+          types:
+            type: array
+            items:
+              type: object
+              properties:
+                code:
+                  type: string
+                title:
+                  type: string
     Prices:
       type: object
       example: {
@@ -3936,7 +3987,11 @@ components:
           type: string
         type:
           type: string
-          description: ключ для перевода текста
+          description: название сообщения
+        messageUrl:
+          type: string
+          format: uri
+          description: ссылка на сообщение на федресурсе
         debtor:
           $ref: "#/components/schemas/BidderInfo"
     LotMessages:

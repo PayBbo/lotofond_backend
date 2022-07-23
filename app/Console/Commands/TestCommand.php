@@ -3,8 +3,12 @@
 namespace App\Console\Commands;
 
 
+use App\Http\Services\Parse\SoapWrapperService;
+use App\Jobs\ParseDebtor;
+use App\Jobs\ParseDebtorMessages;
 use App\Models\User;
 use App\Notifications\PushNotification;
+use Artisaninweb\SoapWrapper\SoapWrapper;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Notification;
 

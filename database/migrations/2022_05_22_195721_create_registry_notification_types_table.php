@@ -16,11 +16,10 @@ class CreateRegistryNotificationTypesTable extends Migration
         Schema::disableForeignKeyConstraints();
         Schema::create('registry_notification_types', function (Blueprint $table) {
             $table->id();
-            $table->longText('title')->nullable();
-            $table->string('code');
-            $table->unsignedBigInteger('notification_type_group_id')->nullable();
-            $table->foreign('notification_type_group_id')->references('id')
-                ->on('notification_type_groups')->cascadeOnDelete();
+            $table->string('title');
+            $table->unsignedBigInteger('notification_group_id')->nullable();
+            $table->foreign('notification_group_id')->references('id')
+                ->on('registry_notification_groups')->cascadeOnDelete();
             $table->timestamps();
         });
         Schema::enableForeignKeyConstraints();

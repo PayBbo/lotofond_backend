@@ -16,8 +16,7 @@ class RegistryNotificationType extends Model
      */
     protected $fillable = [
         'title',
-        'code',
-        'notification_type_group_id',
+        'notification_group_id',
     ];
 
     /**
@@ -27,11 +26,11 @@ class RegistryNotificationType extends Model
      */
     protected $casts = [
         'id' => 'integer',
-        'notification_type_group_id' => 'integer',
+        'notification_group_id' => 'integer',
     ];
 
     public function notificationTypeGroup()
     {
-        return $this->belongsTo(NotificationTypeGroup::class);
+        return $this->belongsTo(RegistryNotificationGroup::class, 'notification_group_id');
     }
 }

@@ -32,7 +32,8 @@ class Bidder extends Model
         'reg_num',
         'sro_reg_num',
         'sro_au_id',
-        'reg_date'
+        'reg_date',
+        'bankrupt_id'
     ];
 
     /**

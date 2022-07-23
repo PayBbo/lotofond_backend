@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Utilities\FilterBuilder;
+use App\Utilities\SortBuilder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -15,10 +17,12 @@ class RegistryNotification extends Model
      * @var array
      */
     protected $fillable = [
-        'description',
+        'message_id',
         'files',
         'debtor_id',
         'type_id',
+        'publish_date',
+        'guid'
     ];
 
     /**
@@ -31,6 +35,7 @@ class RegistryNotification extends Model
         'files' => 'array',
         'debtor_id' => 'integer',
         'type_id' => 'integer',
+        'publish_date'=>'datetime'
     ];
 
     public function debtor()
@@ -41,5 +46,25 @@ class RegistryNotification extends Model
     public function registryNotificationType()
     {
         return $this->belongsTo(RegistryNotificationType::class, 'type_id');
+    }
+
+    public function scopeCustomSortBy($query, $request)
+    {
+        if (isset($request->sort) && isset($request->sort['direction']) && strlen((string)$request->sort['direction']) > 0
+            && isset($request->sort['type']) && strlen((string)$request->sort['type']) > 0) {
+            $namespace = 'App\Utilities\RegistryNotificationsSort';
+            $sort = new SortBuilder($query, $request->sort, $namespace);
+
+            return $sort->apply();
+        }
+        return $query;
+    }
+
+    public function scopeFilterBy($query, $request)
+    {
+        $namespace = 'App\Utilities\RegistryNotificationsFilters';
+        $filters = new FilterBuilder($query, $request, $namespace);
+        return $filters->apply();
+
     }
 }
