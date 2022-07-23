@@ -1,5 +1,5 @@
 <template>
-    <div :class="main_class">
+    <div ref="cardList" :class="main_class">
         <slot name="header">
         </slot>
         <slot name="filters">
@@ -33,11 +33,13 @@
                                 :data="pagination_data"
                                 @change-page="changePage"
                 ></bkt-pagination>
-                <div ref="infiniteLoad" v-else>
+            </slot>
+            <slot name="infinite" v-if="!no_pagination && infinite && !loading">
+                <div ref="infiniteLoad" class="mx-auto">
                     <infinite-loading
                         @infinite="infiniteHandler"
-                        ref="infiniteLoading" distance="10"
-                        style="height:10px;" spinner="waveDots"
+                        ref="infiniteLoading" :distance="10"
+                        style="min-height:10px;" spinner="waveDots"
                         :force-use-infinite-wrapper="'.'+ main_class"
                     >
                         <span slot="no-results"></span>
@@ -125,13 +127,14 @@
             }
         },
         mounted() {
-            if (this.infinite) {
-                this.observer = new IntersectionObserver(entries => {
-                    this.handleIntersect(entries[0]);
-                    // document.querySelector('.card-list__wrapper')
-                }, {root: null, threshold: 0.9});
-                this.observer.observe(this.$refs.infiniteLoad);
-            }
+            // if (this.infinite) {
+            //     console.log(this.$refs)
+            //     this.observer = new IntersectionObserver(entries => {
+            //         this.handleIntersect(entries[0]);
+            //         // document.querySelector('.card-list__wrapper')
+            //     }, {root: null, threshold: 0.9});
+            //     this.observer.observe(this.$refs.infiniteLoad);
+            // }
             // this.runSearch();
         },
         computed: {
@@ -165,7 +168,6 @@
             }, 600),
             runSearch() {
                 if (this.params.search && this.params.search.trim() !== '') {
-
                     if (this.infinite) {
                         if (this.$refs.infiniteLoading.status !== 1) {
                             this.$refs.infiniteLoading.status = 1;

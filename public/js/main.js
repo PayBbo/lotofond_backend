@@ -926,6 +926,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
 
 
 
@@ -2642,134 +2643,47 @@ var render = function () {
           fn: function () {
             return [
               !_vm.loading
-                ? _c("div", { staticClass: "bkt-form bkt-gap-large" }, [
-                    _c(
-                      "div",
-                      { staticClass: "bkt-wrapper-column bkt-gap-small" },
-                      _vm._l(_vm.items, function (category, index) {
-                        return _c("bkt-collapse", {
-                          key: index,
-                          attrs: {
-                            id: "category-collapse-" + index,
-                            main_class: "bkt-collapse_check",
-                            collapse_button_class:
-                              category.subcategories.length > 0
-                                ? "bkt-bg-white"
-                                : "d-none",
-                          },
-                          scopedSlots: _vm._u(
-                            [
-                              {
-                                key: "title",
-                                fn: function () {
-                                  return [
-                                    _c(
-                                      "div",
-                                      {
-                                        staticClass:
-                                          "bkt-collapse__title-wrapper",
-                                      },
-                                      [
-                                        category.subcategories.length == 0
-                                          ? _c("bkt-checkbox", {
-                                              attrs: {
-                                                name:
-                                                  "bkt-category-checkbox-" +
-                                                  index,
-                                                id:
-                                                  "bkt-category-checkbox-" +
-                                                  index,
-                                                val: category.key,
-                                              },
-                                              model: {
-                                                value: _vm.result,
-                                                callback: function ($$v) {
-                                                  _vm.result = $$v
-                                                },
-                                                expression: "result",
-                                              },
-                                            })
-                                          : _c("bkt-checkbox", {
-                                              attrs: {
-                                                name:
-                                                  "bkt-category-checkbox-" +
-                                                  index,
-                                                id:
-                                                  "bkt-category-checkbox-" +
-                                                  index,
-                                                indeterminate:
-                                                  _vm.isIndeterminate(index),
-                                              },
-                                              on: {
-                                                input: function ($event) {
-                                                  return _vm.selectAll(index)
-                                                },
-                                              },
-                                              model: {
-                                                value: category.status,
-                                                callback: function ($$v) {
-                                                  _vm.$set(
-                                                    category,
-                                                    "status",
-                                                    $$v
-                                                  )
-                                                },
-                                                expression: "category.status",
-                                              },
-                                            }),
-                                        _vm._v(" "),
-                                        _c(
-                                          "h5",
-                                          {
-                                            staticClass:
-                                              "bkt-regions-tabs__title",
-                                            attrs: {
-                                              "data-bs-toggle": "collapse",
-                                              "data-bs-target":
-                                                "#category-collapse-" + index,
-                                            },
-                                          },
-                                          [
-                                            _vm._v(
-                                              "\n                                    " +
-                                                _vm._s(category.label) +
-                                                "\n                                "
-                                            ),
-                                          ]
-                                        ),
-                                      ],
-                                      1
-                                    ),
-                                  ]
-                                },
-                                proxy: true,
-                              },
-                              {
-                                key: "collapse",
-                                fn: function () {
-                                  return _vm._l(
-                                    category.subcategories,
-                                    function (subcategory, index) {
-                                      return _c(
+                ? _c(
+                    "div",
+                    { staticClass: "bkt-wrapper-column bkt-gap-large" },
+                    [
+                      _c(
+                        "div",
+                        { staticClass: "bkt-wrapper-column bkt-gap-small" },
+                        _vm._l(_vm.items, function (category, index) {
+                          return _c("bkt-collapse", {
+                            key: index,
+                            attrs: {
+                              id: "category-collapse-" + index,
+                              main_class: "bkt-collapse_check",
+                              collapse_button_class:
+                                category.subcategories.length > 0
+                                  ? "bkt-bg-white"
+                                  : "d-none",
+                            },
+                            scopedSlots: _vm._u(
+                              [
+                                {
+                                  key: "title",
+                                  fn: function () {
+                                    return [
+                                      _c(
                                         "div",
-                                        { staticClass: "bkt-gap-mini" },
+                                        {
+                                          staticClass:
+                                            "bkt-collapse__title-wrapper",
+                                        },
                                         [
-                                          _c(
-                                            "div",
-                                            {
-                                              staticClass:
-                                                "bkt-collapse__title-wrapper",
-                                            },
-                                            [
-                                              _c("bkt-checkbox", {
+                                          category.subcategories.length == 0
+                                            ? _c("bkt-checkbox", {
                                                 attrs: {
                                                   name:
-                                                    "bkt-subcategory-checkbox-" +
+                                                    "bkt-category-checkbox-" +
                                                     index,
                                                   id:
-                                                    "bkt-subcategory-checkbox-" +
+                                                    "bkt-category-checkbox-" +
                                                     index,
-                                                  val: subcategory.key,
+                                                  val: category.key,
                                                 },
                                                 model: {
                                                   value: _vm.result,
@@ -2778,105 +2692,199 @@ var render = function () {
                                                   },
                                                   expression: "result",
                                                 },
-                                              }),
-                                              _vm._v(" "),
-                                              _c(
-                                                "h6",
-                                                {
-                                                  staticClass:
-                                                    "bkt-regions-tabs__subtitle",
+                                              })
+                                            : _c("bkt-checkbox", {
+                                                attrs: {
+                                                  name:
+                                                    "bkt-category-checkbox-" +
+                                                    index,
+                                                  id:
+                                                    "bkt-category-checkbox-" +
+                                                    index,
+                                                  indeterminate:
+                                                    _vm.isIndeterminate(index),
                                                 },
-                                                [
-                                                  _vm._v(
-                                                    "\n                                        " +
-                                                      _vm._s(
-                                                        subcategory.label
-                                                      ) +
-                                                      "\n                                    "
-                                                  ),
-                                                ]
+                                                on: {
+                                                  input: function ($event) {
+                                                    return _vm.selectAll(index)
+                                                  },
+                                                },
+                                                model: {
+                                                  value: category.status,
+                                                  callback: function ($$v) {
+                                                    _vm.$set(
+                                                      category,
+                                                      "status",
+                                                      $$v
+                                                    )
+                                                  },
+                                                  expression: "category.status",
+                                                },
+                                              }),
+                                          _vm._v(" "),
+                                          _c(
+                                            "h5",
+                                            {
+                                              staticClass:
+                                                "bkt-regions-tabs__title",
+                                              attrs: {
+                                                "data-bs-toggle": "collapse",
+                                                "data-bs-target":
+                                                  "#category-collapse-" + index,
+                                              },
+                                            },
+                                            [
+                                              _vm._v(
+                                                "\n                                    " +
+                                                  _vm._s(category.label) +
+                                                  "\n                                "
                                               ),
-                                            ],
-                                            1
+                                            ]
                                           ),
-                                        ]
-                                      )
-                                    }
-                                  )
-                                },
-                                proxy: true,
-                              },
-                            ],
-                            null,
-                            true
-                          ),
-                        })
-                      }),
-                      1
-                    ),
-                    _vm._v(" "),
-                    _vm.result.length > 0
-                      ? _c("div", { staticClass: "bkt-region-selected" }, [
-                          _c(
-                            "h5",
-                            { staticClass: "bkt-region-selected__title" },
-                            [
-                              _vm._v(
-                                "\n                        выбранные категории\n                    "
-                              ),
-                            ]
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "div",
-                            { staticClass: "bkt-tag__list" },
-                            _vm._l(_vm.result, function (item, index) {
-                              return _c(
-                                "div",
-                                {
-                                  staticClass:
-                                    "bkt-region__item bkt-tag justify-content-between flex-fill",
-                                },
-                                [
-                                  _c(
-                                    "span",
-                                    {
-                                      staticClass:
-                                        "bkt-item-rounded__text mr-2",
-                                    },
-                                    [
-                                      _vm._v(
-                                        _vm._s(_vm.$t("categories." + item))
+                                        ],
+                                        1
                                       ),
                                     ]
-                                  ),
-                                  _vm._v(" "),
-                                  _c(
-                                    "span",
-                                    {
-                                      staticClass:
-                                        "bkt-tag__icon bkt-cursor-pointer",
-                                      on: {
-                                        click: function ($event) {
-                                          return _vm.toggleCategory(item)
+                                  },
+                                  proxy: true,
+                                },
+                                {
+                                  key: "collapse",
+                                  fn: function () {
+                                    return _vm._l(
+                                      category.subcategories,
+                                      function (subcategory, index) {
+                                        return _c(
+                                          "div",
+                                          { staticClass: "bkt-gap-mini" },
+                                          [
+                                            _c(
+                                              "div",
+                                              {
+                                                staticClass:
+                                                  "bkt-collapse__title-wrapper",
+                                              },
+                                              [
+                                                _c("bkt-checkbox", {
+                                                  attrs: {
+                                                    name:
+                                                      "bkt-subcategory-checkbox-" +
+                                                      index,
+                                                    id:
+                                                      "bkt-subcategory-checkbox-" +
+                                                      index,
+                                                    val: subcategory.key,
+                                                  },
+                                                  model: {
+                                                    value: _vm.result,
+                                                    callback: function ($$v) {
+                                                      _vm.result = $$v
+                                                    },
+                                                    expression: "result",
+                                                  },
+                                                }),
+                                                _vm._v(" "),
+                                                _c(
+                                                  "h6",
+                                                  {
+                                                    staticClass:
+                                                      "bkt-regions-tabs__subtitle",
+                                                  },
+                                                  [
+                                                    _vm._v(
+                                                      "\n                                        " +
+                                                        _vm._s(
+                                                          subcategory.label
+                                                        ) +
+                                                        "\n                                    "
+                                                    ),
+                                                  ]
+                                                ),
+                                              ],
+                                              1
+                                            ),
+                                          ]
+                                        )
+                                      }
+                                    )
+                                  },
+                                  proxy: true,
+                                },
+                              ],
+                              null,
+                              true
+                            ),
+                          })
+                        }),
+                        1
+                      ),
+                      _vm._v(" "),
+                      _vm.result.length > 0
+                        ? _c("div", { staticClass: "bkt-region-selected" }, [
+                            _c(
+                              "h5",
+                              { staticClass: "bkt-region-selected__title" },
+                              [
+                                _vm._v(
+                                  "\n                        выбранные категории\n                    "
+                                ),
+                              ]
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "div",
+                              { staticClass: "bkt-tag__list" },
+                              _vm._l(_vm.result, function (item, index) {
+                                return _c(
+                                  "div",
+                                  {
+                                    staticClass:
+                                      "bkt-region__item bkt-tag justify-content-between flex-fill",
+                                  },
+                                  [
+                                    _c(
+                                      "span",
+                                      {
+                                        staticClass:
+                                          "bkt-item-rounded__text mr-2",
+                                      },
+                                      [
+                                        _vm._v(
+                                          _vm._s(_vm.$t("categories." + item))
+                                        ),
+                                      ]
+                                    ),
+                                    _vm._v(" "),
+                                    _c(
+                                      "span",
+                                      {
+                                        staticClass:
+                                          "bkt-tag__icon bkt-cursor-pointer",
+                                        on: {
+                                          click: function ($event) {
+                                            return _vm.toggleCategory(item)
+                                          },
                                         },
                                       },
-                                    },
-                                    [
-                                      _c("bkt-icon", {
-                                        attrs: { name: "Cancel", color: "red" },
-                                      }),
-                                    ],
-                                    1
-                                  ),
-                                ]
-                              )
-                            }),
-                            0
-                          ),
-                        ])
-                      : _vm._e(),
-                  ])
+                                      [
+                                        _c("bkt-icon", {
+                                          attrs: {
+                                            name: "Cancel",
+                                            color: "red",
+                                          },
+                                        }),
+                                      ],
+                                      1
+                                    ),
+                                  ]
+                                )
+                              }),
+                              0
+                            ),
+                          ])
+                        : _vm._e(),
+                    ]
+                  )
                 : _vm._e(),
               _vm._v(" "),
               _vm.loading
@@ -3344,6 +3352,7 @@ var render = function () {
             },
             [
               _c("bkt-select", {
+                staticClass: "w-100",
                 attrs: {
                   select_class: "form-floating main",
                   name: "sort",

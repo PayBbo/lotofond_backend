@@ -37,6 +37,13 @@ export default {
     mutations: {
         setFavourites(state, payload) {
             // state.favourites[payload.pathId] = payload.data;
+            if(!state.favourites[payload.pathId])
+            {
+                state.favourites[payload.pathId]={
+                    data:[],
+                    pagination:{}
+                }
+            }
             payload.data.data.forEach(item => {
                 let favourite = state.favourites[payload.pathId].data.findIndex(el => el.id === item.id);
                 if (favourite < 0) {

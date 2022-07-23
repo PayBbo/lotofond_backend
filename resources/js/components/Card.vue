@@ -20,32 +20,25 @@
                 <div class="col p-0 p-sm-2 order-2 order-lg-1">
                     <div class="bkt-card-image-wrapper">
                         <hooper :itemsToShow="1" :centerMode="true" class="bkt-card__image-slider">
-                            <slide>
-                                <img v-lazy="'/images/card-image.jpg'" class="bkt-card__image"/>
+                            <slide v-if="!item.photos || item.photos.length==0">
+                                <img v-lazy="'/images/card-image1.png'" class="bkt-card__image"/>
                             </slide>
-                            <slide>
-                                <img v-lazy="'/images/card-image.jpg'" class="bkt-card__image"/>
-                            </slide>
-                            <slide>
-                                <img v-lazy="'/images/card-image.jpg'" class="bkt-card__image"/>
+                            <slide v-for="photo in item.photos" :key="photo.id">
+                                <img v-lazy="photo.main" class="bkt-card__image"/>
                             </slide>
                             <hooper-navigation slot="hooper-addons"></hooper-navigation>
                         </hooper>
                         <div class="bkt-wrapper-between bkt-card-ecp-wrapper">
-                            <button class="bkt-button primary bkt-card-ecp">
-                                Купить без ЭЦП
-                            </button>
-                            <div class="bkt-check__wrapper">
-                                <div class="bkt-check">
-                                    <div class="bkt-check__input">
-                                        <input class="" type="checkbox">
-                                        <div class="bkt-check__input-check"></div>
-                                    </div>
-                                    <label  class="bkt-check__label">
-                                        Есть ЭЦП
-                                    </label>
-                                </div>
-                            </div>
+                            <router-link custom v-slot="{ navigate }" to="/without-ecp">
+                                <button @click="navigate" class="bkt-button primary bkt-card-ecp w-100">
+                                    Купить без <br>ЭЦП
+                                </button>
+                            </router-link>
+                            <router-link custom v-slot="{ navigate }" to="/agent">
+                                <button @click="navigate" class="bkt-button primary bkt-card-ecp w-100">
+                                    Купить через <br>агента
+                                </button>
+                            </router-link>
                         </div>
                     </div>
                 </div>

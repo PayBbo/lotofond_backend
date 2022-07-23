@@ -1257,9 +1257,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
-//
-//
 
 
 
@@ -1930,54 +1927,44 @@ var render = function () {
                         attrs: { itemsToShow: 1, centerMode: true },
                       },
                       [
-                        _c("slide", [
-                          _c("img", {
-                            directives: [
-                              {
-                                name: "lazy",
-                                rawName: "v-lazy",
-                                value: "/images/card-image.jpg",
-                                expression: "'/images/card-image.jpg'",
-                              },
-                            ],
-                            staticClass: "bkt-card__image",
-                          }),
-                        ]),
+                        !_vm.item.photos || _vm.item.photos.length == 0
+                          ? _c("slide", [
+                              _c("img", {
+                                directives: [
+                                  {
+                                    name: "lazy",
+                                    rawName: "v-lazy",
+                                    value: "/images/card-image1.png",
+                                    expression: "'/images/card-image1.png'",
+                                  },
+                                ],
+                                staticClass: "bkt-card__image",
+                              }),
+                            ])
+                          : _vm._e(),
                         _vm._v(" "),
-                        _c("slide", [
-                          _c("img", {
-                            directives: [
-                              {
-                                name: "lazy",
-                                rawName: "v-lazy",
-                                value: "/images/card-image.jpg",
-                                expression: "'/images/card-image.jpg'",
-                              },
-                            ],
-                            staticClass: "bkt-card__image",
-                          }),
-                        ]),
-                        _vm._v(" "),
-                        _c("slide", [
-                          _c("img", {
-                            directives: [
-                              {
-                                name: "lazy",
-                                rawName: "v-lazy",
-                                value: "/images/card-image.jpg",
-                                expression: "'/images/card-image.jpg'",
-                              },
-                            ],
-                            staticClass: "bkt-card__image",
-                          }),
-                        ]),
+                        _vm._l(_vm.item.photos, function (photo) {
+                          return _c("slide", { key: photo.id }, [
+                            _c("img", {
+                              directives: [
+                                {
+                                  name: "lazy",
+                                  rawName: "v-lazy",
+                                  value: photo.main,
+                                  expression: "photo.main",
+                                },
+                              ],
+                              staticClass: "bkt-card__image",
+                            }),
+                          ])
+                        }),
                         _vm._v(" "),
                         _c("hooper-navigation", {
                           attrs: { slot: "hooper-addons" },
                           slot: "hooper-addons",
                         }),
                       ],
-                      1
+                      2
                     ),
                     _vm._v(" "),
                     _vm._m(6),

@@ -98,14 +98,58 @@
                 this.doc.pathId = this.current_path;
                 this.$store.dispatch('downloadFavouritePath', this.doc)
                     .then( resp => {
-                        var fileURL = window.URL.createObjectURL(resp.data.url);
-                        var fileLink = document.createElement("a");
 
-                        fileLink.href = resp.data.url;
-                        fileLink.setAttribute("download", "summary.xlsx");
-                        document.body.appendChild(fileLink);
+                        let url = '/storage/app'+resp.data.url.slice(9)
+                        // axios({
+                        //     url: url,
+                        //     method: 'GET',
+                        //     responseType: 'arraybuffer',
+                        // }).then((response) => {
+                        //     console.log('response', response.data)
+                        //     var fileURL = window.URL.createObjectURL(new Blob([response.data], {type: 'application/excel'}));
+                        //     var fileLink = document.createElement('a');
+                        //
+                        //     fileLink.href = fileURL;
+                        //     fileLink.setAttribute('download', 'favourites.xlsx');
+                        //     document.body.appendChild(fileLink);
+                        //
+                        //     fileLink.click();
+                        // });
 
-                        fileLink.click();
+                        // var fileURL = window.URL.createObjectURL(resp.data.url);
+                        // var fileLink = document.createElement("a");
+                        //
+                        // fileLink.href = resp.data.url;
+                        // fileLink.target = "_blank";
+                        // fileLink.setAttribute("download", "favourites.xlsx");
+                        // document.body.appendChild(fileLink);
+                        //
+                        // fileLink.click();
+                        // fileLink.remove();
+
+                        // // It is necessary to create a new blob object with mime-type explicitly set
+                        // // otherwise only Chrome works like it should
+                        // // var newBlob = new Blob([resp.body], {type: 'application/pdf'});
+                        // var newBlob = new Blob([resp.body]);
+                        //
+                        // // IE doesn't allow using a blob object directly as link href
+                        // // instead it is necessary to use msSaveOrOpenBlob
+                        // if (window.navigator && window.navigator.msSaveOrOpenBlob) {
+                        //     window.navigator.msSaveOrOpenBlob(newBlob);
+                        //     return
+                        // }
+                        //
+                        // // For other browsers:
+                        // // Create a link pointing to the ObjectURL containing the blob.
+                        // const data = window.URL.createObjectURL(newBlob);
+                        // var link = document.createElement('a');
+                        // link.href = data;
+                        // link.download = 'favourites.xlsx';
+                        // link.click();
+                        // setTimeout(function () {
+                        //     // For Firefox it is necessary to delay revoking the ObjectURL
+                        //     window.URL.revokeObjectURL(data)
+                        // }, 100);
                         this.$store.commit('closeModal', '#fieldsToDocumentModal')
                     })
                     .finally(()=> {

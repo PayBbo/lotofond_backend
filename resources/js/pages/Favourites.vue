@@ -65,7 +65,8 @@
                     </div>
                     <bkt-select
                         v-model="group"
-                        select_class="form-floating main d-none d-md-block"
+                        class="d-none d-md-block"
+                        select_class="bkt-v-select_material w-100 main"
                         name="sort"
                         subtitle="сгруппировать"
                         :reduce="item => item.value"
@@ -130,7 +131,8 @@
                     </button>
                     <bkt-select
                         v-model="group"
-                        select_class="form-floating main w-100"
+                        class="w-100"
+                        select_class="bkt-v-select_material w-100 main"
                         name="sort"
                         subtitle="сгруппировать"
                         :reduce="item => item.value"
@@ -196,6 +198,7 @@
                 <div class="d-block d-md-none">
                     <bkt-collapse id="collapsePaths" main_class="bkt-favourites__path-collapse"
                                   :header_class="current_path_object.color ? 'bkt-bg-'+current_path_object.color : 'bkt-bg-primary'"
+                                  :collapse_button_class="items_paths.length>1 ? 'bkt-bg-white' : 'd-none'"
                     >
                         <template #title v-if="items_paths.length>0">
                             <h6 class="mx-auto">
@@ -230,7 +233,8 @@
             </div>
             <bkt-card-list :current_component="'BktCard'" :items="items" :loading="loading"
                            :pagination_data="pagination_data" @change-page="getData"
-                           infinite method_name="getFavourites" :method_params="method_params">
+                           infinite method_name="getFavourites" :method_params="method_params"
+            >
             </bkt-card-list>
         </div>
 

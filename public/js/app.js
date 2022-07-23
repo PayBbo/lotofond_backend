@@ -6051,13 +6051,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
 
 
 
@@ -6541,6 +6534,8 @@ function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" =
 //
 //
 //
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "CardList",
@@ -6612,20 +6607,15 @@ function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" =
 
     };
   },
-  mounted: function mounted() {
-    var _this = this;
-
-    if (this.infinite) {
-      this.observer = new IntersectionObserver(function (entries) {
-        _this.handleIntersect(entries[0]); // document.querySelector('.card-list__wrapper')
-
-      }, {
-        root: null,
-        threshold: 0.9
-      });
-      this.observer.observe(this.$refs.infiniteLoad);
-    } // this.runSearch();
-
+  mounted: function mounted() {// if (this.infinite) {
+    //     console.log(this.$refs)
+    //     this.observer = new IntersectionObserver(entries => {
+    //         this.handleIntersect(entries[0]);
+    //         // document.querySelector('.card-list__wrapper')
+    //     }, {root: null, threshold: 0.9});
+    //     this.observer.observe(this.$refs.infiniteLoad);
+    // }
+    // this.runSearch();
   },
   computed: {
     search: {
@@ -6657,7 +6647,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" =
       this.runSearch();
     }, 600),
     runSearch: function runSearch() {
-      var _this2 = this;
+      var _this = this;
 
       if (this.params.search && this.params.search.trim() !== '') {
         if (this.infinite) {
@@ -6668,7 +6658,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" =
         }
 
         this.$search(this.params.search, this.items, this.params.searchOptions).then(function (response) {
-          _this2.results = response;
+          _this.results = response;
         });
       }
     },
@@ -6704,7 +6694,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" =
       }
     },
     infiniteHandler: function infiniteHandler($state) {
-      var _this3 = this;
+      var _this2 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
         var page, payload, _payload;
@@ -6715,28 +6705,28 @@ function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" =
               case 0:
                 page = 0;
 
-                if (!_this3.pagination_data) {
+                if (!_this2.pagination_data) {
                   _context.next = 13;
                   break;
                 }
 
-                page = _this3.pagination_data.currentPage;
+                page = _this2.pagination_data.currentPage;
 
-                if (!(_this3.pagination_data.nextPageUrl !== null)) {
+                if (!(_this2.pagination_data.nextPageUrl !== null)) {
                   _context.next = 10;
                   break;
                 }
 
                 payload = page + 1;
 
-                if (_this3.method_params) {
-                  payload = _this3.method_params;
+                if (_this2.method_params) {
+                  payload = _this2.method_params;
                   payload.page = page + 1;
                 }
 
                 _context.next = 8;
-                return _this3.$store.dispatch(_this3.method_name, payload).then(function (resp) {
-                  if (_this3.pagination_data.nextPageUrl !== null) {
+                return _this2.$store.dispatch(_this2.method_name, payload).then(function (resp) {
+                  if (_this2.pagination_data.nextPageUrl !== null) {
                     $state.loaded();
                   } else {
                     $state.complete();
@@ -6757,14 +6747,14 @@ function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" =
               case 13:
                 _payload = page + 1;
 
-                if (_this3.method_params) {
-                  _payload = _this3.method_params;
+                if (_this2.method_params) {
+                  _payload = _this2.method_params;
                   _payload.page = page + 1;
                 }
 
                 _context.next = 17;
-                return _this3.$store.dispatch(_this3.method_name, _payload).then(function (resp) {
-                  if (_this3.pagination_data.nextPageUrl !== null) {
+                return _this2.$store.dispatch(_this2.method_name, _payload).then(function (resp) {
+                  if (_this2.pagination_data.nextPageUrl !== null) {
                     $state.loaded();
                   } else {
                     $state.complete();
@@ -7538,10 +7528,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         label: "Реестры",
         color: 'green'
       }, {
-        path: '/top-wins',
+        path: '/week-winners',
         icon: 'Star',
-        code: "TopWins",
-        label: "Топ-побед",
+        code: "WeekWinners",
+        label: "Победы недели",
         color: 'yellow'
       }, {
         path: '/contacts',
@@ -9219,9 +9209,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -9439,27 +9426,29 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue_slick_carousel_dist_vue_slick_carousel_css__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! vue-slick-carousel/dist/vue-slick-carousel.css */ "./node_modules/vue-slick-carousel/dist/vue-slick-carousel.css");
 /* harmony import */ var vue_slick_carousel_dist_vue_slick_carousel_theme_css__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! vue-slick-carousel/dist/vue-slick-carousel-theme.css */ "./node_modules/vue-slick-carousel/dist/vue-slick-carousel-theme.css");
 /* harmony import */ var fuse_js__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! fuse.js */ "./node_modules/fuse.js/dist/fuse.esm.js");
-/* harmony import */ var vue_router__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! vue-router */ "./node_modules/vue-router/dist/vue-router.esm.js");
-/* harmony import */ var _routes__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./routes */ "./resources/js/routes.js");
+/* harmony import */ var vue_infinite_loading__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! vue-infinite-loading */ "./node_modules/vue-infinite-loading/dist/vue-infinite-loading.js");
+/* harmony import */ var vue_infinite_loading__WEBPACK_IMPORTED_MODULE_17___default = /*#__PURE__*/__webpack_require__.n(vue_infinite_loading__WEBPACK_IMPORTED_MODULE_17__);
+/* harmony import */ var vue_router__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! vue-router */ "./node_modules/vue-router/dist/vue-router.esm.js");
+/* harmony import */ var _routes__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ./routes */ "./resources/js/routes.js");
 /* harmony import */ var _store_index_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./store/index.js */ "./resources/js/store/index.js");
-/* harmony import */ var _components_Card_vue__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ./components/Card.vue */ "./resources/js/components/Card.vue");
-/* harmony import */ var _components_Icon_vue__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ./components/Icon.vue */ "./resources/js/components/Icon.vue");
-/* harmony import */ var _components_Modal_vue__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! ./components/Modal.vue */ "./resources/js/components/Modal.vue");
-/* harmony import */ var _components_Pagination_vue__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! ./components/Pagination.vue */ "./resources/js/components/Pagination.vue");
-/* harmony import */ var _components_Input_vue__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! ./components/Input.vue */ "./resources/js/components/Input.vue");
-/* harmony import */ var _components_Textarea_vue__WEBPACK_IMPORTED_MODULE_24__ = __webpack_require__(/*! ./components/Textarea.vue */ "./resources/js/components/Textarea.vue");
-/* harmony import */ var _components_Checkbox_vue__WEBPACK_IMPORTED_MODULE_25__ = __webpack_require__(/*! ./components/Checkbox.vue */ "./resources/js/components/Checkbox.vue");
-/* harmony import */ var _components_CardList_vue__WEBPACK_IMPORTED_MODULE_26__ = __webpack_require__(/*! ./components/CardList.vue */ "./resources/js/components/CardList.vue");
-/* harmony import */ var _components_Header_vue__WEBPACK_IMPORTED_MODULE_27__ = __webpack_require__(/*! ./components/Header.vue */ "./resources/js/components/Header.vue");
-/* harmony import */ var _components_Footer_vue__WEBPACK_IMPORTED_MODULE_28__ = __webpack_require__(/*! ./components/Footer.vue */ "./resources/js/components/Footer.vue");
-/* harmony import */ var _components_Datepicker_vue__WEBPACK_IMPORTED_MODULE_29__ = __webpack_require__(/*! ./components/Datepicker.vue */ "./resources/js/components/Datepicker.vue");
-/* harmony import */ var _components_Dropdown_vue__WEBPACK_IMPORTED_MODULE_30__ = __webpack_require__(/*! ./components/Dropdown.vue */ "./resources/js/components/Dropdown.vue");
-/* harmony import */ var _components_WinCard__WEBPACK_IMPORTED_MODULE_31__ = __webpack_require__(/*! ./components/WinCard */ "./resources/js/components/WinCard.vue");
-/* harmony import */ var _components_Search__WEBPACK_IMPORTED_MODULE_32__ = __webpack_require__(/*! ./components/Search */ "./resources/js/components/Search.vue");
-/* harmony import */ var _components_Select__WEBPACK_IMPORTED_MODULE_33__ = __webpack_require__(/*! ./components/Select */ "./resources/js/components/Select.vue");
-/* harmony import */ var _components_Collapse__WEBPACK_IMPORTED_MODULE_34__ = __webpack_require__(/*! ./components/Collapse */ "./resources/js/components/Collapse.vue");
-/* harmony import */ var _auth_AuthModal_vue__WEBPACK_IMPORTED_MODULE_35__ = __webpack_require__(/*! ./auth/AuthModal.vue */ "./resources/js/auth/AuthModal.vue");
-/* harmony import */ var _auth_CodeModal_vue__WEBPACK_IMPORTED_MODULE_36__ = __webpack_require__(/*! ./auth/CodeModal.vue */ "./resources/js/auth/CodeModal.vue");
+/* harmony import */ var _components_Card_vue__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ./components/Card.vue */ "./resources/js/components/Card.vue");
+/* harmony import */ var _components_Icon_vue__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! ./components/Icon.vue */ "./resources/js/components/Icon.vue");
+/* harmony import */ var _components_Modal_vue__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! ./components/Modal.vue */ "./resources/js/components/Modal.vue");
+/* harmony import */ var _components_Pagination_vue__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! ./components/Pagination.vue */ "./resources/js/components/Pagination.vue");
+/* harmony import */ var _components_Input_vue__WEBPACK_IMPORTED_MODULE_24__ = __webpack_require__(/*! ./components/Input.vue */ "./resources/js/components/Input.vue");
+/* harmony import */ var _components_Textarea_vue__WEBPACK_IMPORTED_MODULE_25__ = __webpack_require__(/*! ./components/Textarea.vue */ "./resources/js/components/Textarea.vue");
+/* harmony import */ var _components_Checkbox_vue__WEBPACK_IMPORTED_MODULE_26__ = __webpack_require__(/*! ./components/Checkbox.vue */ "./resources/js/components/Checkbox.vue");
+/* harmony import */ var _components_CardList_vue__WEBPACK_IMPORTED_MODULE_27__ = __webpack_require__(/*! ./components/CardList.vue */ "./resources/js/components/CardList.vue");
+/* harmony import */ var _components_Header_vue__WEBPACK_IMPORTED_MODULE_28__ = __webpack_require__(/*! ./components/Header.vue */ "./resources/js/components/Header.vue");
+/* harmony import */ var _components_Footer_vue__WEBPACK_IMPORTED_MODULE_29__ = __webpack_require__(/*! ./components/Footer.vue */ "./resources/js/components/Footer.vue");
+/* harmony import */ var _components_Datepicker_vue__WEBPACK_IMPORTED_MODULE_30__ = __webpack_require__(/*! ./components/Datepicker.vue */ "./resources/js/components/Datepicker.vue");
+/* harmony import */ var _components_Dropdown_vue__WEBPACK_IMPORTED_MODULE_31__ = __webpack_require__(/*! ./components/Dropdown.vue */ "./resources/js/components/Dropdown.vue");
+/* harmony import */ var _components_WinCard__WEBPACK_IMPORTED_MODULE_32__ = __webpack_require__(/*! ./components/WinCard */ "./resources/js/components/WinCard.vue");
+/* harmony import */ var _components_Search__WEBPACK_IMPORTED_MODULE_33__ = __webpack_require__(/*! ./components/Search */ "./resources/js/components/Search.vue");
+/* harmony import */ var _components_Select__WEBPACK_IMPORTED_MODULE_34__ = __webpack_require__(/*! ./components/Select */ "./resources/js/components/Select.vue");
+/* harmony import */ var _components_Collapse__WEBPACK_IMPORTED_MODULE_35__ = __webpack_require__(/*! ./components/Collapse */ "./resources/js/components/Collapse.vue");
+/* harmony import */ var _auth_AuthModal_vue__WEBPACK_IMPORTED_MODULE_36__ = __webpack_require__(/*! ./auth/AuthModal.vue */ "./resources/js/auth/AuthModal.vue");
+/* harmony import */ var _auth_CodeModal_vue__WEBPACK_IMPORTED_MODULE_37__ = __webpack_require__(/*! ./auth/CodeModal.vue */ "./resources/js/auth/CodeModal.vue");
 function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 
 function _regeneratorRuntime() { "use strict"; /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/facebook/regenerator/blob/main/LICENSE */ _regeneratorRuntime = function _regeneratorRuntime() { return exports; }; var exports = {}, Op = Object.prototype, hasOwn = Op.hasOwnProperty, $Symbol = "function" == typeof Symbol ? Symbol : {}, iteratorSymbol = $Symbol.iterator || "@@iterator", asyncIteratorSymbol = $Symbol.asyncIterator || "@@asyncIterator", toStringTagSymbol = $Symbol.toStringTag || "@@toStringTag"; function define(obj, key, value) { return Object.defineProperty(obj, key, { value: value, enumerable: !0, configurable: !0, writable: !0 }), obj[key]; } try { define({}, ""); } catch (err) { define = function define(obj, key, value) { return obj[key] = value; }; } function wrap(innerFn, outerFn, self, tryLocsList) { var protoGenerator = outerFn && outerFn.prototype instanceof Generator ? outerFn : Generator, generator = Object.create(protoGenerator.prototype), context = new Context(tryLocsList || []); return generator._invoke = function (innerFn, self, context) { var state = "suspendedStart"; return function (method, arg) { if ("executing" === state) throw new Error("Generator is already running"); if ("completed" === state) { if ("throw" === method) throw arg; return doneResult(); } for (context.method = method, context.arg = arg;;) { var delegate = context.delegate; if (delegate) { var delegateResult = maybeInvokeDelegate(delegate, context); if (delegateResult) { if (delegateResult === ContinueSentinel) continue; return delegateResult; } } if ("next" === context.method) context.sent = context._sent = context.arg;else if ("throw" === context.method) { if ("suspendedStart" === state) throw state = "completed", context.arg; context.dispatchException(context.arg); } else "return" === context.method && context.abrupt("return", context.arg); state = "executing"; var record = tryCatch(innerFn, self, context); if ("normal" === record.type) { if (state = context.done ? "completed" : "suspendedYield", record.arg === ContinueSentinel) continue; return { value: record.arg, done: context.done }; } "throw" === record.type && (state = "completed", context.method = "throw", context.arg = record.arg); } }; }(innerFn, self, context), generator; } function tryCatch(fn, obj, arg) { try { return { type: "normal", arg: fn.call(obj, arg) }; } catch (err) { return { type: "throw", arg: err }; } } exports.wrap = wrap; var ContinueSentinel = {}; function Generator() {} function GeneratorFunction() {} function GeneratorFunctionPrototype() {} var IteratorPrototype = {}; define(IteratorPrototype, iteratorSymbol, function () { return this; }); var getProto = Object.getPrototypeOf, NativeIteratorPrototype = getProto && getProto(getProto(values([]))); NativeIteratorPrototype && NativeIteratorPrototype !== Op && hasOwn.call(NativeIteratorPrototype, iteratorSymbol) && (IteratorPrototype = NativeIteratorPrototype); var Gp = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(IteratorPrototype); function defineIteratorMethods(prototype) { ["next", "throw", "return"].forEach(function (method) { define(prototype, method, function (arg) { return this._invoke(method, arg); }); }); } function AsyncIterator(generator, PromiseImpl) { function invoke(method, arg, resolve, reject) { var record = tryCatch(generator[method], generator, arg); if ("throw" !== record.type) { var result = record.arg, value = result.value; return value && "object" == _typeof(value) && hasOwn.call(value, "__await") ? PromiseImpl.resolve(value.__await).then(function (value) { invoke("next", value, resolve, reject); }, function (err) { invoke("throw", err, resolve, reject); }) : PromiseImpl.resolve(value).then(function (unwrapped) { result.value = unwrapped, resolve(result); }, function (error) { return invoke("throw", error, resolve, reject); }); } reject(record.arg); } var previousPromise; this._invoke = function (method, arg) { function callInvokeWithMethodAndArg() { return new PromiseImpl(function (resolve, reject) { invoke(method, arg, resolve, reject); }); } return previousPromise = previousPromise ? previousPromise.then(callInvokeWithMethodAndArg, callInvokeWithMethodAndArg) : callInvokeWithMethodAndArg(); }; } function maybeInvokeDelegate(delegate, context) { var method = delegate.iterator[context.method]; if (undefined === method) { if (context.delegate = null, "throw" === context.method) { if (delegate.iterator["return"] && (context.method = "return", context.arg = undefined, maybeInvokeDelegate(delegate, context), "throw" === context.method)) return ContinueSentinel; context.method = "throw", context.arg = new TypeError("The iterator does not provide a 'throw' method"); } return ContinueSentinel; } var record = tryCatch(method, delegate.iterator, context.arg); if ("throw" === record.type) return context.method = "throw", context.arg = record.arg, context.delegate = null, ContinueSentinel; var info = record.arg; return info ? info.done ? (context[delegate.resultName] = info.value, context.next = delegate.nextLoc, "return" !== context.method && (context.method = "next", context.arg = undefined), context.delegate = null, ContinueSentinel) : info : (context.method = "throw", context.arg = new TypeError("iterator result is not an object"), context.delegate = null, ContinueSentinel); } function pushTryEntry(locs) { var entry = { tryLoc: locs[0] }; 1 in locs && (entry.catchLoc = locs[1]), 2 in locs && (entry.finallyLoc = locs[2], entry.afterLoc = locs[3]), this.tryEntries.push(entry); } function resetTryEntry(entry) { var record = entry.completion || {}; record.type = "normal", delete record.arg, entry.completion = record; } function Context(tryLocsList) { this.tryEntries = [{ tryLoc: "root" }], tryLocsList.forEach(pushTryEntry, this), this.reset(!0); } function values(iterable) { if (iterable) { var iteratorMethod = iterable[iteratorSymbol]; if (iteratorMethod) return iteratorMethod.call(iterable); if ("function" == typeof iterable.next) return iterable; if (!isNaN(iterable.length)) { var i = -1, next = function next() { for (; ++i < iterable.length;) { if (hasOwn.call(iterable, i)) return next.value = iterable[i], next.done = !1, next; } return next.value = undefined, next.done = !0, next; }; return next.next = next; } } return { next: doneResult }; } function doneResult() { return { value: undefined, done: !0 }; } return GeneratorFunction.prototype = GeneratorFunctionPrototype, define(Gp, "constructor", GeneratorFunctionPrototype), define(GeneratorFunctionPrototype, "constructor", GeneratorFunction), GeneratorFunction.displayName = define(GeneratorFunctionPrototype, toStringTagSymbol, "GeneratorFunction"), exports.isGeneratorFunction = function (genFun) { var ctor = "function" == typeof genFun && genFun.constructor; return !!ctor && (ctor === GeneratorFunction || "GeneratorFunction" === (ctor.displayName || ctor.name)); }, exports.mark = function (genFun) { return Object.setPrototypeOf ? Object.setPrototypeOf(genFun, GeneratorFunctionPrototype) : (genFun.__proto__ = GeneratorFunctionPrototype, define(genFun, toStringTagSymbol, "GeneratorFunction")), genFun.prototype = Object.create(Gp), genFun; }, exports.awrap = function (arg) { return { __await: arg }; }, defineIteratorMethods(AsyncIterator.prototype), define(AsyncIterator.prototype, asyncIteratorSymbol, function () { return this; }), exports.AsyncIterator = AsyncIterator, exports.async = function (innerFn, outerFn, self, tryLocsList, PromiseImpl) { void 0 === PromiseImpl && (PromiseImpl = Promise); var iter = new AsyncIterator(wrap(innerFn, outerFn, self, tryLocsList), PromiseImpl); return exports.isGeneratorFunction(outerFn) ? iter : iter.next().then(function (result) { return result.done ? result.value : iter.next(); }); }, defineIteratorMethods(Gp), define(Gp, toStringTagSymbol, "Generator"), define(Gp, iteratorSymbol, function () { return this; }), define(Gp, "toString", function () { return "[object Generator]"; }), exports.keys = function (object) { var keys = []; for (var key in object) { keys.push(key); } return keys.reverse(), function next() { for (; keys.length;) { var key = keys.pop(); if (key in object) return next.value = key, next.done = !1, next; } return next.done = !0, next; }; }, exports.values = values, Context.prototype = { constructor: Context, reset: function reset(skipTempReset) { if (this.prev = 0, this.next = 0, this.sent = this._sent = undefined, this.done = !1, this.delegate = null, this.method = "next", this.arg = undefined, this.tryEntries.forEach(resetTryEntry), !skipTempReset) for (var name in this) { "t" === name.charAt(0) && hasOwn.call(this, name) && !isNaN(+name.slice(1)) && (this[name] = undefined); } }, stop: function stop() { this.done = !0; var rootRecord = this.tryEntries[0].completion; if ("throw" === rootRecord.type) throw rootRecord.arg; return this.rval; }, dispatchException: function dispatchException(exception) { if (this.done) throw exception; var context = this; function handle(loc, caught) { return record.type = "throw", record.arg = exception, context.next = loc, caught && (context.method = "next", context.arg = undefined), !!caught; } for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i], record = entry.completion; if ("root" === entry.tryLoc) return handle("end"); if (entry.tryLoc <= this.prev) { var hasCatch = hasOwn.call(entry, "catchLoc"), hasFinally = hasOwn.call(entry, "finallyLoc"); if (hasCatch && hasFinally) { if (this.prev < entry.catchLoc) return handle(entry.catchLoc, !0); if (this.prev < entry.finallyLoc) return handle(entry.finallyLoc); } else if (hasCatch) { if (this.prev < entry.catchLoc) return handle(entry.catchLoc, !0); } else { if (!hasFinally) throw new Error("try statement without catch or finally"); if (this.prev < entry.finallyLoc) return handle(entry.finallyLoc); } } } }, abrupt: function abrupt(type, arg) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.tryLoc <= this.prev && hasOwn.call(entry, "finallyLoc") && this.prev < entry.finallyLoc) { var finallyEntry = entry; break; } } finallyEntry && ("break" === type || "continue" === type) && finallyEntry.tryLoc <= arg && arg <= finallyEntry.finallyLoc && (finallyEntry = null); var record = finallyEntry ? finallyEntry.completion : {}; return record.type = type, record.arg = arg, finallyEntry ? (this.method = "next", this.next = finallyEntry.finallyLoc, ContinueSentinel) : this.complete(record); }, complete: function complete(record, afterLoc) { if ("throw" === record.type) throw record.arg; return "break" === record.type || "continue" === record.type ? this.next = record.arg : "return" === record.type ? (this.rval = this.arg = record.arg, this.method = "return", this.next = "end") : "normal" === record.type && afterLoc && (this.next = afterLoc), ContinueSentinel; }, finish: function finish(finallyLoc) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.finallyLoc === finallyLoc) return this.complete(entry.completion, entry.afterLoc), resetTryEntry(entry), ContinueSentinel; } }, "catch": function _catch(tryLoc) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.tryLoc === tryLoc) { var record = entry.completion; if ("throw" === record.type) { var thrown = record.arg; resetTryEntry(entry); } return thrown; } } throw new Error("illegal catch attempt"); }, delegateYield: function delegateYield(iterable, resultName, nextLoc) { return this.delegate = { iterator: values(iterable), resultName: resultName, nextLoc: nextLoc }, "next" === this.method && (this.arg = undefined), ContinueSentinel; } }, exports; }
@@ -9601,8 +9590,8 @@ Vue.use((vue_the_mask__WEBPACK_IMPORTED_MODULE_4___default()));
 
 Vue.use(vue_lazyload__WEBPACK_IMPORTED_MODULE_5__["default"], {
   preLoad: 1.3,
-  error: "/images/card-image.jpg",
-  loading: "/images/card-image.jpg",
+  error: "/images/card-image1.jpg",
+  loading: "/images/card-image1.jpg",
   attempt: 1
 });
 
@@ -9654,8 +9643,10 @@ Vue.prototype.$search = function (term, list, options) {
 };
 
 
+Vue.component('infinite-loading', (vue_infinite_loading__WEBPACK_IMPORTED_MODULE_17___default()));
 
-Vue.use(vue_router__WEBPACK_IMPORTED_MODULE_18__["default"]);
+
+Vue.use(vue_router__WEBPACK_IMPORTED_MODULE_19__["default"]);
 
 Vue.component("App", (__webpack_require__(/*! ./App.vue */ "./resources/js/App.vue")["default"]));
 
@@ -9676,24 +9667,24 @@ Vue.component("App", (__webpack_require__(/*! ./App.vue */ "./resources/js/App.v
 
 
 
-Vue.component('BktIcon', _components_Icon_vue__WEBPACK_IMPORTED_MODULE_20__["default"]);
-Vue.component('BktModal', _components_Modal_vue__WEBPACK_IMPORTED_MODULE_21__["default"]);
-Vue.component('BktInput', _components_Input_vue__WEBPACK_IMPORTED_MODULE_23__["default"]);
-Vue.component('BktTextarea', _components_Textarea_vue__WEBPACK_IMPORTED_MODULE_24__["default"]);
-Vue.component('BktCheckbox', _components_Checkbox_vue__WEBPACK_IMPORTED_MODULE_25__["default"]);
-Vue.component('BktCard', _components_Card_vue__WEBPACK_IMPORTED_MODULE_19__["default"]);
-Vue.component('BktAuthModal', _auth_AuthModal_vue__WEBPACK_IMPORTED_MODULE_35__["default"]);
-Vue.component('BktCodeModal', _auth_CodeModal_vue__WEBPACK_IMPORTED_MODULE_36__["default"]);
-Vue.component('BktPagination', _components_Pagination_vue__WEBPACK_IMPORTED_MODULE_22__["default"]);
-Vue.component('BktCardList', _components_CardList_vue__WEBPACK_IMPORTED_MODULE_26__["default"]);
-Vue.component('BktHeader', _components_Header_vue__WEBPACK_IMPORTED_MODULE_27__["default"]);
-Vue.component('BktFooter', _components_Footer_vue__WEBPACK_IMPORTED_MODULE_28__["default"]);
-Vue.component('BktDatepicker', _components_Datepicker_vue__WEBPACK_IMPORTED_MODULE_29__["default"]);
-Vue.component('BktDropdown', _components_Dropdown_vue__WEBPACK_IMPORTED_MODULE_30__["default"]);
-Vue.component('BktWinCard', _components_WinCard__WEBPACK_IMPORTED_MODULE_31__["default"]);
-Vue.component('BktSearch', _components_Search__WEBPACK_IMPORTED_MODULE_32__["default"]);
-Vue.component('BktSelect', _components_Select__WEBPACK_IMPORTED_MODULE_33__["default"]);
-Vue.component('BktCollapse', _components_Collapse__WEBPACK_IMPORTED_MODULE_34__["default"]);
+Vue.component('BktIcon', _components_Icon_vue__WEBPACK_IMPORTED_MODULE_21__["default"]);
+Vue.component('BktModal', _components_Modal_vue__WEBPACK_IMPORTED_MODULE_22__["default"]);
+Vue.component('BktInput', _components_Input_vue__WEBPACK_IMPORTED_MODULE_24__["default"]);
+Vue.component('BktTextarea', _components_Textarea_vue__WEBPACK_IMPORTED_MODULE_25__["default"]);
+Vue.component('BktCheckbox', _components_Checkbox_vue__WEBPACK_IMPORTED_MODULE_26__["default"]);
+Vue.component('BktCard', _components_Card_vue__WEBPACK_IMPORTED_MODULE_20__["default"]);
+Vue.component('BktAuthModal', _auth_AuthModal_vue__WEBPACK_IMPORTED_MODULE_36__["default"]);
+Vue.component('BktCodeModal', _auth_CodeModal_vue__WEBPACK_IMPORTED_MODULE_37__["default"]);
+Vue.component('BktPagination', _components_Pagination_vue__WEBPACK_IMPORTED_MODULE_23__["default"]);
+Vue.component('BktCardList', _components_CardList_vue__WEBPACK_IMPORTED_MODULE_27__["default"]);
+Vue.component('BktHeader', _components_Header_vue__WEBPACK_IMPORTED_MODULE_28__["default"]);
+Vue.component('BktFooter', _components_Footer_vue__WEBPACK_IMPORTED_MODULE_29__["default"]);
+Vue.component('BktDatepicker', _components_Datepicker_vue__WEBPACK_IMPORTED_MODULE_30__["default"]);
+Vue.component('BktDropdown', _components_Dropdown_vue__WEBPACK_IMPORTED_MODULE_31__["default"]);
+Vue.component('BktWinCard', _components_WinCard__WEBPACK_IMPORTED_MODULE_32__["default"]);
+Vue.component('BktSearch', _components_Search__WEBPACK_IMPORTED_MODULE_33__["default"]);
+Vue.component('BktSelect', _components_Select__WEBPACK_IMPORTED_MODULE_34__["default"]);
+Vue.component('BktCollapse', _components_Collapse__WEBPACK_IMPORTED_MODULE_35__["default"]);
 Vue.filter('priceFormat', function (value) {
   if (value) {
     return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
@@ -9708,7 +9699,7 @@ Vue.filter('daysToDate', function (value) {
 });
 var app = new Vue({
   el: "#app",
-  router: new vue_router__WEBPACK_IMPORTED_MODULE_18__["default"](_routes__WEBPACK_IMPORTED_MODULE_17__["default"]),
+  router: new vue_router__WEBPACK_IMPORTED_MODULE_19__["default"](_routes__WEBPACK_IMPORTED_MODULE_18__["default"]),
   store: _store_index_js__WEBPACK_IMPORTED_MODULE_0__["default"]
 });
 
@@ -10999,6 +10990,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   mutations: {
     setFavourites: function setFavourites(state, payload) {
       // state.favourites[payload.pathId] = payload.data;
+      if (!state.favourites[payload.pathId]) {
+        state.favourites[payload.pathId] = {
+          data: [],
+          pagination: {}
+        };
+      }
+
       payload.data.data.forEach(function (item) {
         var favourite = state.favourites[payload.pathId].data.findIndex(function (el) {
           return el.id === item.id;
@@ -70045,57 +70043,114 @@ var render = function () {
                       attrs: { itemsToShow: 1, centerMode: true },
                     },
                     [
-                      _c("slide", [
-                        _c("img", {
-                          directives: [
-                            {
-                              name: "lazy",
-                              rawName: "v-lazy",
-                              value: "/images/card-image.jpg",
-                              expression: "'/images/card-image.jpg'",
-                            },
-                          ],
-                          staticClass: "bkt-card__image",
-                        }),
-                      ]),
+                      !_vm.item.photos || _vm.item.photos.length == 0
+                        ? _c("slide", [
+                            _c("img", {
+                              directives: [
+                                {
+                                  name: "lazy",
+                                  rawName: "v-lazy",
+                                  value: "/images/card-image1.png",
+                                  expression: "'/images/card-image1.png'",
+                                },
+                              ],
+                              staticClass: "bkt-card__image",
+                            }),
+                          ])
+                        : _vm._e(),
                       _vm._v(" "),
-                      _c("slide", [
-                        _c("img", {
-                          directives: [
-                            {
-                              name: "lazy",
-                              rawName: "v-lazy",
-                              value: "/images/card-image.jpg",
-                              expression: "'/images/card-image.jpg'",
-                            },
-                          ],
-                          staticClass: "bkt-card__image",
-                        }),
-                      ]),
-                      _vm._v(" "),
-                      _c("slide", [
-                        _c("img", {
-                          directives: [
-                            {
-                              name: "lazy",
-                              rawName: "v-lazy",
-                              value: "/images/card-image.jpg",
-                              expression: "'/images/card-image.jpg'",
-                            },
-                          ],
-                          staticClass: "bkt-card__image",
-                        }),
-                      ]),
+                      _vm._l(_vm.item.photos, function (photo) {
+                        return _c("slide", { key: photo.id }, [
+                          _c("img", {
+                            directives: [
+                              {
+                                name: "lazy",
+                                rawName: "v-lazy",
+                                value: photo.main,
+                                expression: "photo.main",
+                              },
+                            ],
+                            staticClass: "bkt-card__image",
+                          }),
+                        ])
+                      }),
                       _vm._v(" "),
                       _c("hooper-navigation", {
                         attrs: { slot: "hooper-addons" },
                         slot: "hooper-addons",
                       }),
                     ],
-                    1
+                    2
                   ),
                   _vm._v(" "),
-                  _vm._m(0),
+                  _c(
+                    "div",
+                    { staticClass: "bkt-wrapper-between bkt-card-ecp-wrapper" },
+                    [
+                      _c("router-link", {
+                        attrs: { custom: "", to: "/without-ecp" },
+                        scopedSlots: _vm._u([
+                          {
+                            key: "default",
+                            fn: function (ref) {
+                              var navigate = ref.navigate
+                              return [
+                                _c(
+                                  "button",
+                                  {
+                                    staticClass:
+                                      "bkt-button primary bkt-card-ecp w-100",
+                                    on: { click: navigate },
+                                  },
+                                  [
+                                    _vm._v(
+                                      "\n                                    Купить без "
+                                    ),
+                                    _c("br"),
+                                    _vm._v(
+                                      "ЭЦП\n                                "
+                                    ),
+                                  ]
+                                ),
+                              ]
+                            },
+                          },
+                        ]),
+                      }),
+                      _vm._v(" "),
+                      _c("router-link", {
+                        attrs: { custom: "", to: "/agent" },
+                        scopedSlots: _vm._u([
+                          {
+                            key: "default",
+                            fn: function (ref) {
+                              var navigate = ref.navigate
+                              return [
+                                _c(
+                                  "button",
+                                  {
+                                    staticClass:
+                                      "bkt-button primary bkt-card-ecp w-100",
+                                    on: { click: navigate },
+                                  },
+                                  [
+                                    _vm._v(
+                                      "\n                                    Купить через "
+                                    ),
+                                    _c("br"),
+                                    _vm._v(
+                                      "агента\n                                "
+                                    ),
+                                  ]
+                                ),
+                              ]
+                            },
+                          },
+                        ]),
+                      }),
+                    ],
+                    1
+                  ),
                 ],
                 1
               ),
@@ -70177,11 +70232,11 @@ var render = function () {
                 ),
                 _vm._v(" "),
                 _c("div", { staticClass: "d-none d-lg-block" }, [
+                  _vm._m(0),
+                  _vm._v(" "),
                   _vm._m(1),
                   _vm._v(" "),
                   _vm._m(2),
-                  _vm._v(" "),
-                  _vm._m(3),
                   _vm._v(" "),
                   _c(
                     "div",
@@ -70508,7 +70563,7 @@ var render = function () {
                             staticClass: "bkt-card outline bkt-wrapper-between",
                           },
                           [
-                            _vm._m(4),
+                            _vm._m(3),
                             _vm._v(" "),
                             _c(
                               "span",
@@ -70525,7 +70580,7 @@ var render = function () {
                             staticClass: "bkt-card outline bkt-wrapper-between",
                           },
                           [
-                            _vm._m(5),
+                            _vm._m(4),
                             _vm._v(" "),
                             _c(
                               "span",
@@ -70542,7 +70597,7 @@ var render = function () {
                             staticClass: "bkt-card outline bkt-wrapper-between",
                           },
                           [
-                            _vm._m(6),
+                            _vm._m(5),
                             _vm._v(" "),
                             _c(
                               "span",
@@ -70576,38 +70631,6 @@ var render = function () {
   )
 }
 var staticRenderFns = [
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "div",
-      { staticClass: "bkt-wrapper-between bkt-card-ecp-wrapper" },
-      [
-        _c("button", { staticClass: "bkt-button primary bkt-card-ecp" }, [
-          _vm._v(
-            "\n                                Купить без ЭЦП\n                            "
-          ),
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "bkt-check__wrapper" }, [
-          _c("div", { staticClass: "bkt-check" }, [
-            _c("div", { staticClass: "bkt-check__input" }, [
-              _c("input", { attrs: { type: "checkbox" } }),
-              _vm._v(" "),
-              _c("div", { staticClass: "bkt-check__input-check" }),
-            ]),
-            _vm._v(" "),
-            _c("label", { staticClass: "bkt-check__label" }, [
-              _vm._v(
-                "\n                                        Есть ЭЦП\n                                    "
-              ),
-            ]),
-          ]),
-        ]),
-      ]
-    )
-  },
   function () {
     var _vm = this
     var _h = _vm.$createElement
@@ -70936,7 +70959,7 @@ var render = function () {
   var _c = _vm._self._c || _h
   return _c(
     "div",
-    { class: _vm.main_class },
+    { ref: "cardList", class: _vm.main_class },
     [
       _vm._t("header"),
       _vm._v(" "),
@@ -70997,38 +71020,45 @@ var render = function () {
                         attrs: { limit: 1, data: _vm.pagination_data },
                         on: { "change-page": _vm.changePage },
                       })
-                    : _c(
-                        "div",
-                        { ref: "infiniteLoad" },
+                    : _vm._e(),
+                ]
+              })
+            : _vm._e(),
+          _vm._v(" "),
+          !_vm.no_pagination && _vm.infinite && !_vm.loading
+            ? _vm._t("infinite", function () {
+                return [
+                  _c(
+                    "div",
+                    { ref: "infiniteLoad", staticClass: "mx-auto" },
+                    [
+                      _c(
+                        "infinite-loading",
+                        {
+                          ref: "infiniteLoading",
+                          staticStyle: { "min-height": "10px" },
+                          attrs: {
+                            distance: 10,
+                            spinner: "waveDots",
+                            "force-use-infinite-wrapper": "." + _vm.main_class,
+                          },
+                          on: { infinite: _vm.infiniteHandler },
+                        },
                         [
-                          _c(
-                            "infinite-loading",
-                            {
-                              ref: "infiniteLoading",
-                              staticStyle: { height: "10px" },
-                              attrs: {
-                                distance: "10",
-                                spinner: "waveDots",
-                                "force-use-infinite-wrapper":
-                                  "." + _vm.main_class,
-                              },
-                              on: { infinite: _vm.infiniteHandler },
-                            },
-                            [
-                              _c("span", {
-                                attrs: { slot: "no-results" },
-                                slot: "no-results",
-                              }),
-                              _vm._v(" "),
-                              _c("span", {
-                                attrs: { slot: "no-more" },
-                                slot: "no-more",
-                              }),
-                            ]
-                          ),
-                        ],
-                        1
+                          _c("span", {
+                            attrs: { slot: "no-results" },
+                            slot: "no-results",
+                          }),
+                          _vm._v(" "),
+                          _c("span", {
+                            attrs: { slot: "no-more" },
+                            slot: "no-more",
+                          }),
+                        ]
                       ),
+                    ],
+                    1
+                  ),
                 ]
               })
             : _vm._e(),
@@ -71256,24 +71286,22 @@ var render = function () {
                   ]
                 ),
                 _vm._v(" "),
-                _vm.label
-                  ? _c(
-                      "label",
-                      { staticClass: "bkt-check__label" },
-                      [
-                        _vm._t("label", function () {
-                          return [
-                            _vm._v(
-                              "\n                " +
-                                _vm._s(_vm.label) +
-                                "\n            "
-                            ),
-                          ]
-                        }),
-                      ],
-                      2
-                    )
-                  : _vm._e(),
+                _c(
+                  "label",
+                  { staticClass: "bkt-check__label" },
+                  [
+                    _vm._t("label", function () {
+                      return [
+                        _vm._v(
+                          "\n                " +
+                            _vm._s(_vm.label) +
+                            "\n            "
+                        ),
+                      ]
+                    }),
+                  ],
+                  2
+                ),
               ]),
               _vm._v(" "),
               errors
@@ -73969,54 +73997,44 @@ var render = function () {
                     attrs: { itemsToShow: 1, centerMode: true },
                   },
                   [
-                    _c("slide", [
-                      _c("img", {
-                        directives: [
-                          {
-                            name: "lazy",
-                            rawName: "v-lazy",
-                            value: "/images/card-image.jpg",
-                            expression: "'/images/card-image.jpg'",
-                          },
-                        ],
-                        staticClass: "bkt-card__image",
-                      }),
-                    ]),
+                    !_vm.item.photos || _vm.item.photos.length == 0
+                      ? _c("slide", [
+                          _c("img", {
+                            directives: [
+                              {
+                                name: "lazy",
+                                rawName: "v-lazy",
+                                value: "/images/card-image1.png",
+                                expression: "'/images/card-image1.png'",
+                              },
+                            ],
+                            staticClass: "bkt-card__image",
+                          }),
+                        ])
+                      : _vm._e(),
                     _vm._v(" "),
-                    _c("slide", [
-                      _c("img", {
-                        directives: [
-                          {
-                            name: "lazy",
-                            rawName: "v-lazy",
-                            value: "/images/card-image.jpg",
-                            expression: "'/images/card-image.jpg'",
-                          },
-                        ],
-                        staticClass: "bkt-card__image",
-                      }),
-                    ]),
-                    _vm._v(" "),
-                    _c("slide", [
-                      _c("img", {
-                        directives: [
-                          {
-                            name: "lazy",
-                            rawName: "v-lazy",
-                            value: "/images/card-image.jpg",
-                            expression: "'/images/card-image.jpg'",
-                          },
-                        ],
-                        staticClass: "bkt-card__image",
-                      }),
-                    ]),
+                    _vm._l(_vm.item.photos, function (photo) {
+                      return _c("slide", { key: photo.id }, [
+                        _c("img", {
+                          directives: [
+                            {
+                              name: "lazy",
+                              rawName: "v-lazy",
+                              value: photo.main,
+                              expression: "photo.main",
+                            },
+                          ],
+                          staticClass: "bkt-card__image",
+                        }),
+                      ])
+                    }),
                     _vm._v(" "),
                     _c("hooper-navigation", {
                       attrs: { slot: "hooper-addons" },
                       slot: "hooper-addons",
                     }),
                   ],
-                  1
+                  2
                 ),
               ],
               1

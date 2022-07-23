@@ -101,8 +101,8 @@ Vue.use(VueTheMask);
 import VueLazyload from 'vue-lazyload'
 Vue.use(VueLazyload, {
     preLoad: 1.3,
-    error: "/images/card-image.jpg",
-    loading: "/images/card-image.jpg",
+    error: "/images/card-image1.jpg",
+    loading: "/images/card-image1.jpg",
     attempt: 1
 });
 
@@ -149,6 +149,9 @@ Vue.prototype.$search = function (term, list, options) {
         resolve(arr)
     })
 };
+
+import InfiniteLoading from 'vue-infinite-loading';
+Vue.component('infinite-loading', InfiniteLoading);
 
 import VueRouter from 'vue-router';
 import routes from './routes';

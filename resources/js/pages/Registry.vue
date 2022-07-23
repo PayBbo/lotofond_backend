@@ -34,8 +34,7 @@
                     <template #tbody>
                         <tr>
                             <td>
-                                Полное
-                                наименование/ФИО
+                                Полное наименование/ФИО
                             </td>
                             <td>
                                 <span v-if="item.type=='person'">

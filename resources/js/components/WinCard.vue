@@ -12,17 +12,14 @@
                 </div>
                 <div class="col-12 col-md-12 col-lg-4 p-0 pe-sm-2">
                     <hooper :itemsToShow="1" :centerMode="true" class="bkt-card__image-slider h-100 w-100">
-                            <slide>
-                                <img v-lazy="'/images/card-image.jpg'" class="bkt-card__image"/>
-                            </slide>
-                            <slide>
-                                <img v-lazy="'/images/card-image.jpg'" class="bkt-card__image"/>
-                            </slide>
-                            <slide>
-                                <img v-lazy="'/images/card-image.jpg'" class="bkt-card__image"/>
-                            </slide>
-                            <hooper-navigation slot="hooper-addons"></hooper-navigation>
-                        </hooper>
+                        <slide v-if="!item.photos || item.photos.length==0">
+                            <img v-lazy="'/images/card-image1.png'" class="bkt-card__image"/>
+                        </slide>
+                        <slide v-for="photo in item.photos" :key="photo.id">
+                            <img v-lazy="photo.main" class="bkt-card__image"/>
+                        </slide>
+                        <hooper-navigation slot="hooper-addons"></hooper-navigation>
+                    </hooper>
                 </div>
                 <div class="col-12 col-md-12 col-lg-8 p-0 ps-sm-2">
                     <div class="bkt-form bkt-form_wide w-100">

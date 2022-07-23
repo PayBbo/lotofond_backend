@@ -3,7 +3,7 @@
                modal_class="bkt-category-modal bkt-region-modal" @left_action="clearFilters" @right_action="saveFilters"
     >
         <template #body>
-            <div class="bkt-form bkt-gap-large"v-if="!loading">
+            <div class="bkt-wrapper-column bkt-gap-large" v-if="!loading">
                 <div class="bkt-wrapper-column bkt-gap-small">
                     <bkt-collapse :id="'category-collapse-'+index" v-for="(category, index) in items" :key="index"
                                   main_class="bkt-collapse_check"

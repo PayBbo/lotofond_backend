@@ -655,6 +655,28 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "Monitoring",
@@ -674,14 +696,83 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         "slidesToShow": 1,
         "slidesToScroll": 1,
         "variableWidth": true
-      }
+      },
+      path_object: {
+        pathId: 0,
+        name: 'All',
+        color: 'primary'
+      },
+      paths: [{
+        pathId: 0,
+        name: 'All',
+        color: 'primary'
+      }, {
+        pathId: 1,
+        name: 'МОНИТОРИНГ №1',
+        color: 'yellow'
+      }, {
+        pathId: 2,
+        name: 'КВАРТИРЫ',
+        color: 'yellow'
+      }, {
+        pathId: 3,
+        name: 'TEst3',
+        color: 'yellow'
+      }, {
+        pathId: 4,
+        name: 'TEst4',
+        color: 'yellow'
+      }, {
+        pathId: 5,
+        name: 'TEst5',
+        color: 'yellow'
+      }, {
+        pathId: 6,
+        name: 'TEst6',
+        color: 'yellow'
+      }, {
+        pathId: 7,
+        name: 'TEst7',
+        color: 'yellow'
+      }, {
+        pathId: 1,
+        name: 'TEst',
+        color: 'yellow'
+      }, {
+        pathId: 1,
+        name: 'TEst',
+        color: 'yellow'
+      }, {
+        pathId: 1,
+        name: 'TEst',
+        color: 'yellow'
+      }, {
+        pathId: 1,
+        name: 'TEst',
+        color: 'yellow'
+      }, {
+        pathId: 1,
+        name: 'TEst',
+        color: 'yellow'
+      }, {
+        pathId: 1,
+        name: 'TEst',
+        color: 'yellow'
+      }, {
+        pathId: 1,
+        name: 'TEst',
+        color: 'yellow'
+      }, {
+        pathId: 1,
+        name: 'TEst',
+        color: 'yellow'
+      }]
     };
   },
   created: function created() {
     this.getMonitoringPaths();
   },
-  mounted: function mounted() {
-    this.getData();
+  mounted: function mounted() {// this.getData();
   },
   computed: {
     filters: function filters() {
@@ -711,6 +802,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }
 
       return {};
+    },
+    method_params: function method_params() {
+      return {
+        pathId: this.current_path
+      };
     }
   },
   methods: {
@@ -757,12 +853,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   // this.$store.commit('setMonitoringPaths', response.data)
                   // this.$store.commit('setCurrentPath', response.data[0].pathId)
                   // this.getData(1, this.current_path)
-                  _this3.$store.dispatch('getMonitorings', {
-                    page: 1,
-                    pathId: _this3.current_path
-                  })["finally"](function () {
-                    _this3.loading = false;
-                  });
+                  if (_this3.items_paths.length > 0) {
+                    _this3.$store.dispatch('getMonitorings', {
+                      page: 1,
+                      pathId: _this3.current_path
+                    })["finally"](function () {
+                      _this3.loading = false;
+                    });
+                  }
                 })["catch"](function (err) {
                   _this3.loading = false;
                 });
@@ -2671,180 +2769,320 @@ var render = function () {
   var _c = _vm._self._c || _h
   return _c(
     "div",
-    { staticClass: "container bkt-monitoring bkt-container" },
+    { staticClass: "bkt-page bkt-monitoring bkt-container" },
     [
       _c("add-new-monitoring"),
       _vm._v(" "),
-      _vm._m(0),
+      _c("h1", { staticClass: "bkt-page__title" }, [
+        _vm._v("Мониторинг лотов"),
+      ]),
       _vm._v(" "),
-      _c(
-        "div",
-        { staticClass: "bkt-monitoring__menu d-flex justify-content-between" },
-        [
-          _c(
-            "div",
-            { staticClass: "bkt-monitoring__menu-buttons d-md-block d-none" },
-            [
-              _c(
-                "button",
-                {
-                  staticClass:
-                    "bkt-button bkt-button-menu bkt-button-all bkt-card__text d-inline-flex align-items-center mr-2 pt-4 pb-4",
-                  class: { "active bkt-bg-primary shadow": _vm.selBtn == 1 },
-                  on: {
-                    click: function ($event) {
-                      _vm.selBtn = 1
-                    },
-                  },
-                },
-                [
-                  _vm._v("\n                ВСЕ\n                "),
-                  _c(
-                    "span",
-                    {
-                      staticClass:
-                        "bkt-count bkt-text-primary p-1 rounded-pill",
-                    },
-                    [_vm._v("32")]
-                  ),
-                ]
-              ),
-              _vm._v(" "),
-              _c(
-                "button",
-                {
-                  staticClass:
-                    "bkt-button bkt-button-menu bkt-menu-button bkt-menu-button__monitoring bkt-card__text d-inline-flex\n                    align-items-center position-relative mr-2 pr-5",
-                  class: { "active shadow": _vm.selBtn == 2 },
-                  on: {
-                    click: function ($event) {
-                      _vm.selBtn = 2
-                    },
-                  },
-                },
-                [
-                  _c("span", [_vm._v("МОНИТОРИНГ №1")]),
-                  _vm._v(" "),
-                  _vm._m(1),
-                  _vm._v(" "),
-                  _c(
-                    "button",
-                    {
-                      staticClass: "btn bkt-btn-icon position-absolute",
-                      staticStyle: { height: "42px", right: "8px" },
-                    },
-                    [
-                      _c("bkt-icon", {
-                        staticClass: "bkt-icon",
-                        attrs: { name: "Settings", color: "primary" },
-                      }),
-                    ],
-                    1
-                  ),
-                ]
-              ),
-              _vm._v(" "),
-              _c(
-                "button",
-                {
-                  staticClass:
-                    "bkt-button bkt-button-menu bkt-menu-button bkt-menu-button__flats bkt-bg-white bkt-card__text\n                     position-relative d-inline-flex align-items-center mr-2 pr-5",
-                  class: { "active shadow": _vm.selBtn == 3 },
-                  on: {
-                    click: function ($event) {
-                      _vm.selBtn = 3
-                    },
-                  },
-                },
-                [
-                  _c("span", [_vm._v("КВАРТИРЫ")]),
-                  _vm._v(" "),
-                  _vm._m(2),
-                  _vm._v(" "),
-                  _c(
-                    "button",
-                    {
-                      staticClass: "btn bkt-btn-icon position-absolute",
-                      staticStyle: { height: "42px", right: "8px" },
-                    },
-                    [
-                      _c("bkt-icon", {
-                        staticClass: "bkt-icon",
-                        attrs: { name: "Settings", color: "primary" },
-                      }),
-                    ],
-                    1
-                  ),
-                ]
-              ),
-            ]
-          ),
-          _vm._v(" "),
-          _c("div", { staticClass: "d-flex d-md-none" }, [
+      _c("div", { staticClass: "row w-100 mx-auto" }, [
+        _c(
+          "div",
+          { staticClass: "col-12 col-md-9 col-lg-10 d-md-block d-none" },
+          [
             _c(
               "div",
-              {
-                staticClass: "mr-2 w-100",
-                staticStyle: { "margin-right": "0.5rem" },
-              },
+              { staticClass: "bkt-monitoring__paths-list" },
               [
                 _c(
-                  "button",
-                  {
-                    staticClass:
-                      "d-flex position-relative bkt-btn-monitoring w-100 bkt-button green\n              p-4 align-items-center justify-content-between",
-                    class: {
-                      "bkt-border-bottom-rounded-none": _vm.showMonitoring,
-                    },
-                  },
-                  [
-                    _vm._m(3),
-                    _vm._v(" "),
-                    _c(
-                      "div",
-                      {
-                        staticClass:
-                          "bkt-arrow bkt-bg-white rounded position-absolute",
-                        class: { "bkt-rotate-180": _vm.showMonitoring },
-                        on: {
-                          click: function ($event) {
-                            _vm.showMonitoring = !_vm.showMonitoring
+                  "slick",
+                  _vm._b(
+                    {
+                      scopedSlots: _vm._u([
+                        {
+                          key: "prevArrow",
+                          fn: function (arrowOption) {
+                            return [
+                              _c(
+                                "svg",
+                                {
+                                  attrs: {
+                                    width: "8",
+                                    height: "12",
+                                    viewBox: "0 0 8 12",
+                                    fill: "#ffc515",
+                                  },
+                                },
+                                [
+                                  _c("path", {
+                                    attrs: {
+                                      d: "M8 1.42L3.42 6L8 10.59L6.59 12L0.59 6L6.59 1.23266e-07L8 1.42Z",
+                                    },
+                                  }),
+                                ]
+                              ),
+                            ]
                           },
                         },
-                      },
-                      [
-                        _c("bkt-icon", {
-                          attrs: { name: "ArrowDown", color: "primary" },
-                        }),
-                      ],
-                      1
-                    ),
-                  ]
+                        {
+                          key: "nextArrow",
+                          fn: function (arrowOption) {
+                            return [
+                              _c(
+                                "svg",
+                                {
+                                  attrs: {
+                                    fill: "#ffc515",
+                                    width: "8",
+                                    height: "12",
+                                    viewBox: "0 0 8 12",
+                                  },
+                                },
+                                [
+                                  _c("path", {
+                                    attrs: {
+                                      d: "M0 10.5801L4.58 6.00012L0 1.41012L1.41 0.00012207L7.41 6.00012L1.41 12.0001L0 10.5801Z",
+                                    },
+                                  }),
+                                ]
+                              ),
+                            ]
+                          },
+                        },
+                      ]),
+                    },
+                    "slick",
+                    _vm.settings,
+                    false
+                  ),
+                  _vm._l(_vm.items_paths, function (path, index) {
+                    return _c("div", { key: index }, [
+                      _c(
+                        "div",
+                        {
+                          staticClass: "bkt-monitoring__path",
+                          class: [
+                            _vm.current_path === path.pathId && path.color
+                              ? "bkt-bg-" + path.color
+                              : "",
+                            {
+                              "bkt-bg-primary":
+                                _vm.current_path === path.pathId && !path.color,
+                              "bkt-bg-white bkt-text-main":
+                                _vm.current_path !== path.pathId,
+                            },
+                          ],
+                          on: {
+                            click: function ($event) {
+                              return _vm.setCurrentPath(path.pathId)
+                            },
+                          },
+                        },
+                        [
+                          _c(
+                            "div",
+                            {
+                              staticClass: "d-flex bkt-gap align-items-center",
+                            },
+                            [
+                              _c("span", [_vm._v(_vm._s(path.name))]),
+                              _vm._v(" "),
+                              _c(
+                                "span",
+                                {
+                                  staticClass: "bkt-badge",
+                                  class: [
+                                    path.color
+                                      ? "bkt-text-" + path.color
+                                      : "bkt-text-primary",
+                                    _vm.current_path !== path.pathId &&
+                                    path.color
+                                      ? "bkt-bg-" + path.color + "-lighter"
+                                      : "",
+                                    {
+                                      "bkt-bg-white":
+                                        _vm.current_path === path.pathId,
+                                      "bkt-bg-primary-lighter":
+                                        _vm.current_path !== path.pathId &&
+                                        !path.color,
+                                    },
+                                  ],
+                                },
+                                [
+                                  _vm._v(
+                                    "\n                                " +
+                                      _vm._s(
+                                        path.lotCount ? path.lotCount : "0"
+                                      ) +
+                                      "\n                            "
+                                  ),
+                                ]
+                              ),
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "div",
+                            {
+                              staticClass:
+                                "bkt-icon-frame-small bkt-bg-primary-lighter",
+                            },
+                            [
+                              _c("bkt-icon", {
+                                staticClass: "bkt-icon",
+                                attrs: { name: "Settings", color: "primary" },
+                              }),
+                            ],
+                            1
+                          ),
+                        ]
+                      ),
+                    ])
+                  }),
+                  0
                 ),
-                _vm._v(" "),
-                _c(
-                  "div",
-                  {
-                    staticClass: "bkt-menu-monitoring bkt-bg-white shadow",
-                    class: { "d-none": !_vm.showMonitoring },
-                  },
-                  [_vm._m(4)]
-                ),
-              ]
+              ],
+              1
             ),
-            _vm._v(" "),
-            _c("div", [
+          ]
+        ),
+        _vm._v(" "),
+        _c("div", { staticClass: "col px-0" }, [
+          _c(
+            "button",
+            {
+              staticClass:
+                "bkt-button__new-monitoring bkt-button primary bkt-w-md-100",
+              on: { click: _vm.openModal },
+            },
+            [_vm._v("\n                Новый мониторинг\n            ")]
+          ),
+        ]),
+      ]),
+      _vm._v(" "),
+      _vm.items_paths.length > 0
+        ? _c(
+            "div",
+            {
+              staticClass:
+                "bkt-wrapper align-items-start bkt-nowrap d-flex d-md-none w-100",
+            },
+            [
+              _c("bkt-collapse", {
+                attrs: {
+                  id: "collapsePaths",
+                  main_class: "bkt-monitoring__paths-collapse",
+                  header_class: _vm.current_path_object.color
+                    ? "bkt-bg-" + _vm.current_path_object.color
+                    : "bkt-bg-primary",
+                  collapse_button_class:
+                    _vm.paths.length > 1 ? "bkt-bg-white" : "d-none",
+                },
+                scopedSlots: _vm._u(
+                  [
+                    _vm.paths.length > 0
+                      ? {
+                          key: "title",
+                          fn: function () {
+                            return [
+                              _c("h6", { staticClass: "mx-auto" }, [
+                                _vm._v(
+                                  "\n                    " +
+                                    _vm._s(_vm.current_path_object.name) +
+                                    "\n                    "
+                                ),
+                                _c(
+                                  "span",
+                                  {
+                                    staticClass: "bkt-badge bkt-bg-white",
+                                    class: _vm.current_path_object.color
+                                      ? "bkt-text-" +
+                                        _vm.current_path_object.color
+                                      : "bkt-text-primary",
+                                  },
+                                  [
+                                    _vm._v(
+                                      "\n                                " +
+                                        _vm._s(
+                                          _vm.current_path_object.lotCount
+                                            ? _vm.current_path_object.lotCount
+                                            : "0"
+                                        ) +
+                                        "\n                            "
+                                    ),
+                                  ]
+                                ),
+                              ]),
+                            ]
+                          },
+                          proxy: true,
+                        }
+                      : null,
+                    _vm.items_paths.length > 0
+                      ? {
+                          key: "collapse",
+                          fn: function () {
+                            return [
+                              _c(
+                                "div",
+                                { staticClass: "bkt-wrapper-column bkt-gap" },
+                                _vm._l(_vm.items_paths, function (path, index) {
+                                  return path.pathId !== _vm.current_path
+                                    ? _c(
+                                        "button",
+                                        {
+                                          key: index,
+                                          staticClass:
+                                            "w-100 bkt-button bkt-button_plump text-uppercase bkt-bg-white bkt-text-main text-center",
+                                          on: {
+                                            click: function ($event) {
+                                              return _vm.setCurrentPath(
+                                                path.pathId
+                                              )
+                                            },
+                                          },
+                                        },
+                                        [
+                                          _vm._v(
+                                            "\n                        " +
+                                              _vm._s(path.name) +
+                                              "\n                        "
+                                          ),
+                                          _c(
+                                            "span",
+                                            {
+                                              staticClass: "bkt-badge",
+                                              class: path.color
+                                                ? "bkt-bg-" +
+                                                  path.color +
+                                                  "-lighter bkt-text-" +
+                                                  path.color
+                                                : "bkt-text-primary bkt-bg-primary-lighter",
+                                            },
+                                            [
+                                              _vm._v(
+                                                "\n                                " +
+                                                  _vm._s(
+                                                    path.lotCount
+                                                      ? path.lotCount
+                                                      : "0"
+                                                  ) +
+                                                  "\n                            "
+                                              ),
+                                            ]
+                                          ),
+                                        ]
+                                      )
+                                    : _vm._e()
+                                }),
+                                0
+                              ),
+                            ]
+                          },
+                          proxy: true,
+                        }
+                      : null,
+                  ],
+                  null,
+                  true
+                ),
+              }),
+              _vm._v(" "),
               _c(
                 "button",
-                {
-                  staticClass: "bkt-button bkt-bg-main-lighter",
-                  staticStyle: {
-                    width: "44px",
-                    height: "44px",
-                    "justify-content": "center",
-                    display: "grid",
-                  },
-                },
+                { staticClass: "bkt-button-icon bkt-bg-primary-lighter" },
                 [
                   _c("bkt-icon", {
                     attrs: { name: "Settings", color: "primary" },
@@ -2852,20 +3090,10 @@ var render = function () {
                 ],
                 1
               ),
-            ]),
-          ]),
-          _vm._v(" "),
-          _c(
-            "button",
-            {
-              staticClass:
-                "bkt-button__new-monitoring bkt-button primary pt-4 pb-4",
-              on: { click: _vm.openModal },
-            },
-            [_vm._v("\n            Новый мониторинг\n        ")]
-          ),
-        ]
-      ),
+            ],
+            1
+          )
+        : _vm._e(),
       _vm._v(" "),
       _c("bkt-card-list", {
         attrs: {
@@ -2873,6 +3101,9 @@ var render = function () {
           items: _vm.items,
           loading: _vm.loading,
           pagination_data: _vm.pagination_data,
+          infinite: _vm.items_paths.length > 0,
+          method_name: "getMonitorings",
+          method_params: _vm.method_params,
         },
         on: { "change-page": _vm.getData },
       }),
@@ -2880,99 +3111,7 @@ var render = function () {
     1
   )
 }
-var staticRenderFns = [
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "bkt-monitoring__title" }, [
-      _c("h1", { staticClass: "bkt-page__title" }, [
-        _vm._v("Мониторинг лотов"),
-      ]),
-    ])
-  },
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "bkt-count p-1 ml-2 mr-4" }, [
-      _c("span", { staticClass: "p-1" }, [_vm._v("1")]),
-    ])
-  },
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "bkt-count p-1 ml-2 mr-4" }, [
-      _c("span", {}, [_vm._v("32")]),
-    ])
-  },
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "d-flex justify-content-center" }, [
-      _c("span", { staticClass: "d-flex align-items-center p-1" }, [
-        _vm._v("МОНИТОРИНГ №1"),
-      ]),
-      _vm._v(" "),
-      _c(
-        "div",
-        { staticClass: "bkt-bg-white bkt-text-green rounded-pill p-1" },
-        [
-          _c(
-            "span",
-            {
-              staticClass: "p-1",
-              staticStyle: { "padding-right": "0.5rem !important" },
-            },
-            [_vm._v("1")]
-          ),
-        ]
-      ),
-    ])
-  },
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("ul", { staticClass: "list-inline bkt-menu-monitoring-list" }, [
-      _c("li", { staticClass: "bkt-menu-monitoring-list__item" }, [
-        _c("div", { staticClass: "d-flex justify-content-center" }, [
-          _c(
-            "span",
-            { staticClass: "d-flex align-items-center p-1 text-uppercase" },
-            [_vm._v("Квартиры")]
-          ),
-          _vm._v(" "),
-          _c(
-            "div",
-            {
-              staticClass: "bkt-bg-blue-lighter bkt-text-blue rounded-pill p-1",
-            },
-            [_c("span", { staticClass: "p-1" }, [_vm._v("2")])]
-          ),
-        ]),
-      ]),
-      _vm._v(" "),
-      _c("li", { staticClass: "bkt-menu-monitoring-list__item" }, [
-        _c("div", { staticClass: "d-flex justify-content-center" }, [
-          _c(
-            "span",
-            { staticClass: "d-flex align-items-center p-1 text-uppercase" },
-            [_vm._v("Долги")]
-          ),
-          _vm._v(" "),
-          _c(
-            "div",
-            { staticClass: "bkt-bg-red-lighter bkt-text-red rounded-pill p-1" },
-            [_c("span", { staticClass: "p-1" }, [_vm._v("2")])]
-          ),
-        ]),
-      ]),
-    ])
-  },
-]
+var staticRenderFns = []
 render._withStripped = true
 
 

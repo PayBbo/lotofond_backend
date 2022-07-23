@@ -624,7 +624,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -1119,7 +1118,7 @@ var render = function () {
                       _c("tr", [
                         _c("td", [
                           _vm._v(
-                            "\n                            Полное\n                            наименование/ФИО\n                        "
+                            "\n                            Полное наименование/ФИО\n                        "
                           ),
                         ]),
                         _vm._v(" "),

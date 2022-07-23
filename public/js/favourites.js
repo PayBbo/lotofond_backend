@@ -267,6 +267,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
 
 
 
@@ -613,12 +617,54 @@ __webpack_require__.r(__webpack_exports__);
       this.loading = true;
       this.doc.pathId = this.current_path;
       this.$store.dispatch('downloadFavouritePath', this.doc).then(function (resp) {
-        var fileURL = window.URL.createObjectURL(resp.data.url);
-        var fileLink = document.createElement("a");
-        fileLink.href = resp.data.url;
-        fileLink.setAttribute("download", "summary.xlsx");
-        document.body.appendChild(fileLink);
-        fileLink.click();
+        var url = '/storage/app' + resp.data.url.slice(9); // axios({
+        //     url: url,
+        //     method: 'GET',
+        //     responseType: 'arraybuffer',
+        // }).then((response) => {
+        //     console.log('response', response.data)
+        //     var fileURL = window.URL.createObjectURL(new Blob([response.data], {type: 'application/excel'}));
+        //     var fileLink = document.createElement('a');
+        //
+        //     fileLink.href = fileURL;
+        //     fileLink.setAttribute('download', 'favourites.xlsx');
+        //     document.body.appendChild(fileLink);
+        //
+        //     fileLink.click();
+        // });
+        // var fileURL = window.URL.createObjectURL(resp.data.url);
+        // var fileLink = document.createElement("a");
+        //
+        // fileLink.href = resp.data.url;
+        // fileLink.target = "_blank";
+        // fileLink.setAttribute("download", "favourites.xlsx");
+        // document.body.appendChild(fileLink);
+        //
+        // fileLink.click();
+        // fileLink.remove();
+        // // It is necessary to create a new blob object with mime-type explicitly set
+        // // otherwise only Chrome works like it should
+        // // var newBlob = new Blob([resp.body], {type: 'application/pdf'});
+        // var newBlob = new Blob([resp.body]);
+        //
+        // // IE doesn't allow using a blob object directly as link href
+        // // instead it is necessary to use msSaveOrOpenBlob
+        // if (window.navigator && window.navigator.msSaveOrOpenBlob) {
+        //     window.navigator.msSaveOrOpenBlob(newBlob);
+        //     return
+        // }
+        //
+        // // For other browsers:
+        // // Create a link pointing to the ObjectURL containing the blob.
+        // const data = window.URL.createObjectURL(newBlob);
+        // var link = document.createElement('a');
+        // link.href = data;
+        // link.download = 'favourites.xlsx';
+        // link.click();
+        // setTimeout(function () {
+        //     // For Firefox it is necessary to delay revoking the ObjectURL
+        //     window.URL.revokeObjectURL(data)
+        // }, 100);
 
         _this3.$store.commit('closeModal', '#fieldsToDocumentModal');
       })["finally"](function () {
@@ -1339,8 +1385,9 @@ var render = function () {
                   ),
                   _vm._v(" "),
                   _c("bkt-select", {
+                    staticClass: "d-none d-md-block",
                     attrs: {
-                      select_class: "form-floating main d-none d-md-block",
+                      select_class: "bkt-v-select_material w-100 main",
                       name: "sort",
                       subtitle: "сгруппировать",
                       reduce: function (item) {
@@ -1452,8 +1499,9 @@ var render = function () {
                   ),
                   _vm._v(" "),
                   _c("bkt-select", {
+                    staticClass: "w-100",
                     attrs: {
-                      select_class: "form-floating main w-100",
+                      select_class: "bkt-v-select_material w-100 main",
                       name: "sort",
                       subtitle: "сгруппировать",
                       reduce: function (item) {
@@ -1633,6 +1681,8 @@ var render = function () {
                     header_class: _vm.current_path_object.color
                       ? "bkt-bg-" + _vm.current_path_object.color
                       : "bkt-bg-primary",
+                    collapse_button_class:
+                      _vm.items_paths.length > 1 ? "bkt-bg-white" : "d-none",
                   },
                   scopedSlots: _vm._u(
                     [
