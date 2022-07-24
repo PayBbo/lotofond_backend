@@ -1,11 +1,11 @@
 <template>
     <div class="container bkt-main bkt-lot-card bkt-container">
         <div class="bkt-wrapper" style="margin: 30px 0;">
-            <nav class="bkt-wrapper bkt-nowrap m-0" aria-label="breadcrumb">
+            <nav class="bkt-wrapper bkt-nowrap m-0 bkt-breadcrumb" aria-label="breadcrumb">
                 <button class="bkt-button-icon bg-white" style="margin-right:20px" @click="goBack">
                     <bkt-icon :name="'ArrowDown'" class="bkt-button__icon bkt-rotate-90"></bkt-icon>
                 </button>
-                <ol class="breadcrumb bkt-breadcrumb m-0">
+                <ol class="breadcrumb m-0">
                     <li class="breadcrumb-item bkt-breadcrumb__item">
                         <router-link to="/" class="bkt-text-neutral-dark">главная</router-link>
                     </li>
@@ -25,7 +25,7 @@
                               @changeStatus="changeStatus"
             ></bkt-card-actions>
         </div>
-        <div class="row p-0" style="gap: 30px 0; margin:30px auto;">
+        <div class="row bkt-lot-card__cards p-0" style="">
             <div class="col-12 col-lg-7 order-2 order-lg-1">
                 <div class="bkt-card">
                     <div class="bkt-card__body">
@@ -104,21 +104,34 @@
                                     </div>
                                 </li>
                             </template>
-                            <li v-if="item.location">
-                                <div class="bkt-contents__heading">
-                                    <span class="bkt-contents__heading">регион объекта</span>
-                                </div>
-                                <div class="bkt-contents__answer">
-                                    <span>{{$t('regions.'+item.location)}}</span>
-                                </div>
-                            </li>
-                            <li v-for="extract in item.description_extracts">
-                                <div class="bkt-contents__heading">
-                                    <span class="bkt-contents__heading text-lowercase">{{extract.title}}</span>
-                                </div>
-                                <div class="bkt-contents__answer"><span>{{extract.value}}</span>
-                                </div>
-                            </li>
+                            <template v-if="item.location">
+                                <li v-for="location in item.location">
+                                    <div class="bkt-contents__heading">
+                                        <span class="bkt-contents__heading">регион {{location.isDebtorRegion ? 'должника' : 'объекта'}}</span>
+                                    </div>
+                                    <div class="bkt-contents__answer">
+                                        <span>{{$t('regions.'+location.code)}}</span>
+                                    </div>
+                                </li>
+                            </template>
+                            <template v-for="(subject, index) in item.descriptionExtracts">
+                                <li>
+                                    <div class="bkt-contents__heading">
+                                        <span class="bkt-contents__heading text-lowercase">
+                                            объект {{item.descriptionExtracts.length>1 ? index+1 : ''}}
+                                        </span>
+                                    </div>
+                                    <div class="bkt-contents__answer"><span>{{subject.tradeSubject}}</span>
+                                    </div>
+                                </li>
+                                <li v-for="extract in subject.extracts">
+                                    <div class="bkt-contents__heading">
+                                        <span class="bkt-contents__heading text-lowercase">{{extract.title}}</span>
+                                    </div>
+                                    <div class="bkt-contents__answer"><span>{{extract.value}}</span>
+                                    </div>
+                                </li>
+                            </template>
                             <!--                            <li>-->
                             <!--                                <div class="bkt-contents__heading">-->
                             <!--                                    <span class="bkt-contents__heading">категория объекта</span>-->
@@ -286,20 +299,16 @@
                                 <hooper-navigation slot="hooper-addons"></hooper-navigation>
                             </hooper>
                             <div class="bkt-wrapper-between bkt-card-ecp-wrapper">
-                                <button class="bkt-button primary bkt-card-ecp">
-                                    Купить без ЭЦП
-                                </button>
-                                <div class="bkt-check__wrapper">
-                                    <div class="bkt-check">
-                                        <div class="bkt-check__input">
-                                            <input class="" type="checkbox" disabled>
-                                            <div class="bkt-check__input-check"></div>
-                                        </div>
-                                        <label class="bkt-check__label">
-                                            Есть ЭЦП
-                                        </label>
-                                    </div>
-                                </div>
+                                <router-link custom v-slot="{ navigate }" to="/without-ecp">
+                                    <button @click="navigate" class="bkt-button primary bkt-card-ecp w-100">
+                                        Купить без <br>ЭЦП
+                                    </button>
+                                </router-link>
+                                <router-link custom v-slot="{ navigate }" to="/agent">
+                                    <button @click="navigate" class="bkt-button primary bkt-card-ecp w-100">
+                                        Купить через <br>агента
+                                    </button>
+                                </router-link>
                             </div>
                         </div>
                         <div class="bkt-card-price bkt-button green w-100">
@@ -850,7 +859,6 @@
                         <h3 class="bkt-card__title">Информация по должнику</h3>
                         <a href="" class="bkt-button next ps-sm-2 py-md-0" style="line-height: 1;">
                             Сообщения по должнику
-                            Сообщения по должнику
                             <span class="bkt-text-neutral-dark">(0)</span>
                             <bkt-icon name="ArrowDown"></bkt-icon>
                         </a>
@@ -923,60 +931,7 @@
                                 </div>
                             </div>
                             <div class="col-12 px-0" v-for="active_lot in debtor_active_lots">
-                                <div class="row w-100 mx-auto bkt-row outline">
-                                    <div class="col-12 col-md-2 ps-0">
-                                        <img v-lazy="'/images/card-image.jpg'" class="bkt-card__image"/>
-                                    </div>
-                                    <div class="col-12 col-md-3">
-                                        <h6 class="bkt-card__subtitle">
-                                            № {{active_lot.trade && active_lot.trade.externalId ? active_lot.trade.externalId : ''}},
-                                            лот {{active_lot.lotNumber}}
-                                        </h6>
-                                        <h5 class="bkt-text-truncate">
-                                            {{active_lot.description}}
-                                        </h5>
-                                    </div>
-                                    <div class="col-12 col-md-2">
-                                        <h6 class="bkt-card__subtitle d-md-none">цена</h6>
-                                        <h4 class="bkt-card__title bkt-text-primary">
-                                            {{active_lot.currentPrice | priceFormat}} ₽</h4>
-                                    </div>
-                                    <div class="col-12 col-md-2">
-                                        <h6 class="bkt-card__subtitle d-md-none">даты торгов</h6>
-                                        <div
-                                            v-if="active_lot.trade && active_lot.trade.eventTime &&
-                                            (active_lot.trade.eventTime.start || active_lot.trade.eventTime.end)">
-                                            <h6 v-if="active_lot.trade.eventTime.start">
-                                                с {{active_lot.trade.eventTime.start | moment('DD MMMM YYYY HH:mm ')}}
-                                            </h6>
-                                            <h6 v-if="active_lot.trade.eventTime.end">до
-                                                {{active_lot.trade.eventTime.end | moment('DD MMMM YYYY HH:mm')}}
-                                            </h6>
-                                        </div>
-                                        <h6 v-else>не указано</h6>
-                                    </div>
-                                    <div class="col-12 col-md-3">
-                                        <h6 class="bkt-card__subtitle d-md-none">ЭТП и организатор</h6>
-                                        <h6 class="bkt-card__title bkt-text-main text-uppercase">
-                                            {{active_lot.trade && active_lot.trade.tradePlace
-                                            && active_lot.trade.tradePlace.name ?
-                                            active_lot.trade.tradePlace.name : ''}}
-                                        </h6>
-                                        <h5 class="" v-if="active_lot.trade.organizer">
-                                            <span v-if="active_lot.trade.organizer.type=='person'">
-                                                <template
-                                                    v-for="(value, key, index) in active_lot.trade.organizer.person">
-                                                     {{value ? value+' ' : ''}}
-                                                </template>
-                                            </span>
-                                            <span v-else>
-                                                {{active_lot.trade.organizer.company.shortName ?
-                                                active_lot.trade.organizer.company.shortName :
-                                                active_lot.trade.organizer.company.fullName}}
-                                            </span>
-                                        </h5>
-                                    </div>
-                                </div>
+                                <mini-trade-card :item="active_lot"></mini-trade-card>
                             </div>
                             <div class="col-12 px-0" v-if="debtor_active_lots_pagination">
                                 <bkt-pagination
@@ -992,7 +947,7 @@
             <div v-if="item.trade && item.trade.debtor" class="col-12 col-lg-12 order-3">
                 <bkt-collapse title="Завершённые лоты должника " :count="debtor_completed_lots_pagination.total"
                               id="collapseCompletedLots" :loading="debtor_completed_lots_loading"
-                              :disabled="debtor_completed_lots.length==0&&!debtor_active_lots_loading"
+                              :disabled="debtor_completed_lots.length==0&&!debtor_completed_lots_loading"
                               class="bkt-lot-card-completed-lots"
                 >
                     <template #collapse v-if="debtor_completed_lots.length>0">
@@ -1020,60 +975,7 @@
                                 </div>
                             </div>
                             <div class="col-12 px-0" v-for="complete_lot in debtor_completed_lots">
-                                <div class="row w-100 mx-auto bkt-row outline">
-                                    <div class="col-12 col-md-2 ps-0">
-                                        <img v-lazy="'/images/card-image.jpg'" class="bkt-card__image"/>
-                                    </div>
-                                    <div class="col-12 col-md-3">
-                                        <h6 class="bkt-card__subtitle">
-                                            № {{complete_lot.trade && complete_lot.trade.externalId ? complete_lot.trade.externalId : ''}},
-                                            лот {{complete_lot.lotNumber}}
-                                        </h6>
-                                        <h5 class="">
-                                            {{complete_lot.description}}
-                                        </h5>
-                                    </div>
-                                    <div class="col-12 col-md-2">
-                                        <h6 class="bkt-card__subtitle d-md-none">цена</h6>
-                                        <h4 class="bkt-card__title bkt-text-primary">
-                                            {{complete_lot.currentPrice |priceFormat}} ₽
-                                        </h4>
-                                    </div>
-                                    <div class="col-12 col-md-2">
-                                        <h6 class="bkt-card__subtitle d-md-none">даты торгов</h6>
-                                        <div
-                                            v-if="complete_lot.trade && complete_lot.trade.eventTime &&
-                                            (complete_lot.trade.eventTime.start ||complete_lot.trade.eventTime.end)"
-                                        >
-                                            <h6 v-if="complete_lot.trade.eventTime.start">
-                                                с {{complete_lot.trade.eventTime.start | moment('DD MMMM YYYY HH:mm ')}}
-                                            </h6>
-                                            <h6 v-if="complete_lot.trade.eventTime.end">до
-                                                {{complete_lot.trade.eventTime.end | moment('DD MMMM YYYY HH:mm')}}
-                                            </h6>
-                                        </div>
-                                        <h6 v-else>не указано</h6>
-                                    </div>
-                                    <div class="col-12 col-md-3">
-                                        <h6 class="bkt-card__subtitle d-md-none">ЭТП и организатор</h6>
-                                        <h6 class="bkt-card__title bkt-text-main text-uppercase">
-                                            {{complete_lot.trade && complete_lot.trade.tradePlace
-                                            && complete_lot.trade.tradePlace.name ?
-                                            complete_lot.trade.tradePlace.name : 'не указано'}}
-                                        </h6>
-                                        <h5 class="" v-if="complete_lot.trade.organizer">
-                                            <span v-if="complete_lot.trade.organizer.type=='person'">
-                                                <template
-                                                    v-for="(value, key, index) in complete_lot.trade.organizer.person">
-                                                     {{value ? value+' ' : ''}}
-                                                </template>
-                                            </span>
-                                            <span v-else>
-                                                {{complete_lot.trade.organizer.company.shortName ? complete_lot.trade.organizer.company.shortName : complete_lot.trade.organizer.company.fullName}}
-                                            </span>
-                                        </h5>
-                                    </div>
-                                </div>
+                                <mini-trade-card :item="complete_lot"></mini-trade-card>
                             </div>
                             <div class="col-12 px-0" v-if="debtor_completed_lots_pagination">
                                 <bkt-pagination
@@ -1090,10 +992,14 @@
                 <div class="bkt-card bkt-card__body">
                     <div class="bkt-card__header pb-0">
                         <h3 class="bkt-card__title">Информация по организатору</h3>
-                        <button class="bkt-button next">
-                            Подробнее об организаторе
-                            <bkt-icon name="ArrowDown" color="primary"></bkt-icon>
-                        </button>
+                        <router-link custom v-slot="{navigate}" :to="'/registries/organizer/'+item.trade.organizer.id"
+                                     v-if="item.trade && item.trade.organizer"
+                        >
+                            <button class="bkt-button next" @click="navigate">
+                                Подробнее об организаторе
+                                <bkt-icon name="ArrowDown" color="primary"></bkt-icon>
+                            </button>
+                        </router-link>
                     </div>
 
                     <ul class="bkt-contents">
@@ -1157,10 +1063,15 @@
                 <div class=" bkt-card bkt-card__body bkt-lot-card-arbitration-manager">
                     <div class="bkt-card__header pb-0">
                         <h3 class="bkt-card__title">Информация по арбитражному управляющему</h3>
-                        <button class="bkt-button next">
+                        <router-link custom v-slot="{navigate}"
+                                     :to="'/registries/arbitrationManager/'+item.trade.arbitrationManager.id"
+                                     v-if="item.trade && item.trade.arbitrationManager"
+                        >
+                        <button class="bkt-button next" @click="navigate">
                             Подробнее об управляющем
                             <bkt-icon name="ArrowDown" color="primary"></bkt-icon>
                         </button>
+                        </router-link>
                     </div>
                     <ul class="bkt-contents">
                         <li>
@@ -1240,10 +1151,12 @@
     import StarRating from 'vue-star-rating'
     import BktCollapse from '../components/Collapse.vue'
     import BktCardActions from '../components/CardActions.vue'
+    import MiniTradeCard from "../components/MiniTradeCard";
 
     export default {
         name: "LotCard",
         components: {
+            MiniTradeCard,
             Hooper,
             Slide,
             HooperNavigation,

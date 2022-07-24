@@ -1,7 +1,7 @@
 <template>
     <div class="container bkt-promo bkt-page bkt-container">
         <section>
-            <h1 class="bkt-page__title">Покупка через агента</h1>
+            <h1 class="bkt-page__title">Покупка без ЭЦП</h1>
             <div class="bkt-promo__block-wrapper">
                 <div class="bkt-promo__block bkt-promo__block_ecp">
                     <div class="bkt-promo__block-body">

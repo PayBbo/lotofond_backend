@@ -927,6 +927,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
 
 
 
@@ -3339,7 +3340,29 @@ var render = function () {
           ]
         ),
         _vm._v(" "),
-        _vm._m(0),
+        _c(
+          "div",
+          { staticClass: "bkt-card__row bkt-bg-blue position-relative" },
+          [
+            _c("h5", { staticClass: "bkt-card__text" }, [
+              _vm._v("Добавлено сегодня"),
+            ]),
+            _vm._v(" "),
+            _c("h1", { staticClass: "bkt-card__title" }, [
+              _vm._v(
+                _vm._s(_vm._f("priceFormat")(_vm.lots_statistic.newLotsCount))
+              ),
+            ]),
+            _vm._v(" "),
+            _c("div", {
+              staticClass: "bkt-card bkt-card__background-figure-1",
+            }),
+            _vm._v(" "),
+            _c("div", {
+              staticClass: "bkt-card bkt-card__background-figure-2 bkt-bg-blue",
+            }),
+          ]
+        ),
       ]),
       _vm._v(" "),
       _c("div", { staticClass: "bkt-main-filters bkt-row bkt-bg-main" }, [
@@ -3708,30 +3731,7 @@ var render = function () {
     1
   )
 }
-var staticRenderFns = [
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "div",
-      { staticClass: "bkt-card__row bkt-bg-blue position-relative" },
-      [
-        _c("h5", { staticClass: "bkt-card__text" }, [
-          _vm._v("Добавлено сегодня"),
-        ]),
-        _vm._v(" "),
-        _c("h1", { staticClass: "bkt-card__title" }, [_vm._v("64")]),
-        _vm._v(" "),
-        _c("div", { staticClass: "bkt-card bkt-card__background-figure-1" }),
-        _vm._v(" "),
-        _c("div", {
-          staticClass: "bkt-card bkt-card__background-figure-2 bkt-bg-blue",
-        }),
-      ]
-    )
-  },
-]
+var staticRenderFns = []
 render._withStripped = true
 
 
@@ -3814,8 +3814,8 @@ var render = function () {
                       reduce: function (item) {
                         return item.id
                       },
-                      method_name: "getDebtors",
-                      method_params: _vm.method_params,
+                      method_name: "getFiltersBidders",
+                      method_params: { type: "debtors" },
                       pagination: _vm.debtors_pagination,
                     },
                     model: {
@@ -3849,8 +3849,8 @@ var render = function () {
                       reduce: function (item) {
                         return item.id
                       },
-                      method_name: "getArbitrationManagers",
-                      method_params: _vm.method_params,
+                      method_name: "getFiltersBidders",
+                      method_params: { type: "arbitrationManagers" },
                       pagination: _vm.arbitr_managers_pagination,
                     },
                     model: {
@@ -3884,8 +3884,8 @@ var render = function () {
                       reduce: function (item) {
                         return item.id
                       },
-                      method_name: "getOrganizers",
-                      method_params: _vm.method_params,
+                      method_name: "getFiltersBidders",
+                      method_params: { type: "organizers" },
                       pagination: _vm.organizers_pagination,
                     },
                     model: {

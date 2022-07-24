@@ -32,7 +32,7 @@
             <div class="bkt-register-filters bkt-wrapper bkt-gap-row">
                 <div class="col-12 col-md-6 col-lg-4 order-1">
                     <div class="d-flex w-100 mx-auto bkt-nowrap">
-                        <bkt-select v-model="method_params.sortType" @input="callMethod(1)"
+                        <bkt-select v-model="current_params.sort.type" @input="callMethod(1)"
                                     name="sort"
                                     subtitle="сортировать по"
                                     :option_label="'title'"
@@ -43,7 +43,7 @@
                                     class="w-100"
                         ></bkt-select>
                         <button class="bkt-button-ellipse"
-                                :class="{'bkt-mirror-vertical' : method_params.sortDirection =='desc'}"
+                                :class="{'bkt-mirror-vertical' : current_params.sort.direction =='desc'}"
                                 @click="toggleDirection"
                         >
                             <bkt-icon name="Bars"></bkt-icon>
@@ -61,7 +61,7 @@
                     ></bkt-pagination>
                 </div>
                 <div class="col-12 col-md-6 col-lg-2 order-3">
-                    <bkt-select v-model="method_params.perPage" @input="callMethod(1)"
+                    <bkt-select v-model="current_params.perPage" @input="callMethod(1)"
                                 name="perPage" :options="perPages" :clearable="false"
                                 subtitle="выводить по" select_class="bkt-v-select_material w-100"
                                 class="w-100"
@@ -74,6 +74,7 @@
 
 <script>
     import BktTable from "../../components/Table";
+
     export default {
         name: "Registry",
         props: {
@@ -95,7 +96,7 @@
             pagination_data: {
                 type: Object,
                 required: true,
-                default:  function () {
+                default: function () {
                     return {};
                 }
             },
@@ -103,9 +104,14 @@
                 type: String,
                 default: ''
             },
-            // method_params: {
-            //
-            // }
+            method_params: {},
+            sort: {
+                type: Array,
+                required: false,
+                default: function () {
+                    return [{title: 'идентификатору', value: 'id'}];
+                }
+            },
         },
         components: {
             BktTable
@@ -114,19 +120,15 @@
             return {
                 currentLoading: false,
                 search: '',
-                // sort: {
-                //     direction: "asc",
-                //     type: "alphabet"
-                // },
-                sort: [{title:'алфавиту', value:'alphabet'}],
                 perPages: ['20', '30', '50', '100'],
-                method_params: {
-                    type: 'table',
+                current_params: {
                     page: 1,
                     searchString: "",
-                    sortDirection: "",
+                    sort: {
+                        direction: "asc",
+                        type: "id"
+                    },
                     perPage: '20',
-                    sortType: "alphabet"
                 },
             }
         },
@@ -138,7 +140,7 @@
             //         type:'table'
             //     }
             // }
-            if(this.method_name) {
+            if (this.method_name) {
                 this.callMethod(1);
             }
         },
@@ -155,28 +157,31 @@
         methods: {
             changePage(page) {
                 this.$emit('change-page', page);
-                if(this.method_name) {
+                if (this.method_name) {
                     this.callMethod(page);
                 }
             },
             runSearch(search) {
                 this.$emit('runSearch', search)
-                if(this.method_name) {
+                if (this.method_name) {
                     this.callMethod(1);
                 }
             },
-            async callMethod(page=1) {
+            async callMethod(page = 1) {
                 // this.tableLoading = true;
-                this.method_params.page = page;
-                this.method_params.searchString = this.search;
-
-                // let payload = page;
-                // if (this.method_params) {
-                //     payload = this.method_params;
-                //     payload.page = page;
-                //     payload.searchString = this.search;
-                // }
-                await this.$store.dispatch(this.method_name, this.method_params)
+                this.current_params.searchString = this.search;
+                let payload = this.current_params;
+                if (this.method_params) {
+                    payload = {
+                        ...this.current_params,
+                        ...this.method_params
+                    };
+                    //     payload = this.method_params;
+                    //     payload.page = page;
+                    //     payload.searchString = this.search;
+                }
+                payload.page = page;
+                await this.$store.dispatch(this.method_name, payload)
                     .then(resp => {
                         // this.tableLoading = false;
                     }).catch(error => {
@@ -184,13 +189,13 @@
                     });
             },
             toggleDirection() {
-                if (this.method_params.sortDirection == 'asc') {
-                    this.method_params.sortDirection = 'desc';
+                if (this.current_params.sort.direction == 'asc') {
+                    this.current_params.sort.direction = 'desc';
                 } else {
-                    this.method_params.sortDirection = 'asc';
+                    this.current_params.sort.direction = 'asc';
                 }
-                this.$emit('toggleDirection', this.method_params.sortDirection);
-                if(this.method_name) {
+                this.$emit('toggleDirection', this.current_params.sort.direction);
+                if (this.method_name) {
                     this.callMethod(1);
                 }
             }

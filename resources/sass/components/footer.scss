@@ -6,191 +6,281 @@
     width: 100%;
     min-height: 100px;
     background-color: rgb(27, 27, 44);
-    color: $white  !important;
+    color: $white !important;
 
-    .row_div {
-        width: 100%;
+    &__main {
+        padding: 60px 0;
+    }
+
+    &__block {
+        gap: 100px;
+        align-items: flex-start;
+        justify-content: center;
+    }
+
+    &__logo {
+        max-width: 160px;
+        min-width: 120px;
+        display: block;
+        width: 10vw;
+        background: none;
+        margin-bottom: 40px;
+    }
+
+    &__description {
+        color: rgba(255, 255, 255, 0.4);
+        font-family: "Gilroy";
+        font-size: 12px;
+        line-height: 1.667;
+        text-align: left;
+        margin-bottom: 40px;
+    }
+
+    &__buttons {
         display: flex;
         flex-direction: row;
-        flex-wrap: wrap;
+        flex-wrap: nowrap;
+        gap: 10px;
 
-        .footer_block {
-            margin: 80px auto 80px 0;
-            max-width: 300px;
-
-            p {
-                margin: 0 0 20px 0;
-            }
-
-            &:nth-child(1) p {
-                @media (max-width: 1200px) {
-                    max-width: 350px;
-                }
-
-                @media (max-width: 992px) {
-                    max-width: 250px;
-                }
-
-                @media (max-width: 768px) {
-                    max-width: 200px;
-                }
-
-                @media (max-width: 576px) {
-                    max-width: 150px;
-                }
-            }
-
-            &:nth-child(2) {
-                display: flex;
-                flex-direction: row;
-                flex-wrap: wrap;
-                max-width: 600px;
-                min-width: 600px;
-
-                @media (max-width: 1400px) {
-                    min-width: 450px;
-                    max-width: 450px;
-                }
-
-                @media (max-width: 1200px) {
-                    min-width: 350px;
-                    max-width: 350px;
-                }
-
-                @media (max-width: 992px) {
-                    min-width: 250px;
-                    max-width: 250px;
-                }
-
-                @media (max-width: 768px) {
-                    min-width: 200px;
-                    max-width: 200px;
-                }
-
-                @media (max-width: 576px) {
-                    min-width: 150px;
-                    max-width: 150px;
-                }
-
-                a {
-                    color: $white  !important;
-                }
-
-                ul {
-                    list-style: none;
-                    padding: 0;
-
-                    li {
-                        margin-bottom: 15px;
-                    }
-                }
-
-                div:nth-child(2) {
-                    @media (min-width: 992px) {
-                        margin-left: auto;
-                    }
-                }
-            }
-        }
-
-        .logo {
-            max-width: 160px;
-            min-width: 120px;
-            display: block;
-            width: 10vw;
-            background: none;
-            margin-bottom: 40px;
-        }
-
-        .footer_buttons {
+        & .bkt-button {
+            height: 40px;
             max-width: inherit;
-            display: flex;
-            flex-direction: column;
-            flex-wrap: wrap;
-
-            @media (min-width: 992px) {
-                flex-direction: row;
-            }
-
-            button {
-                height: 45px;
-                max-width: inherit;
-
-                &:nth-of-type(1) {
-                    width: 140px;
-                    max-width: 140px;
-                    min-width: 80px;
-                    padding: 0;
-                    margin: 0 0 10px 0;
-
-                    @media (min-width: 992px) {
-                        width: 120px;
-                        margin: 0 15px 0 0;
-                    }
-                }
-
-                &:nth-of-type(2) {
-                    width: 140px;
-                    max-width: 140px;
-                    min-width: 100px;
-                    padding: 0;
-                }
-            }
-        }
-
-        .socials {
-            max-width: inherit;
-            text-align: center;
-            justify-items: center;
-            margin-left: auto;
-
-            @media (max-width: 992px) {
-                margin-left: auto;
-                margin-right: auto;
-                width: 100%;
-            }
-
-            a {
-                margin-left: 10px;
-
-                img {
-                    width: 35px;
-                    height: auto;
-                    max-width: 45px;
-                    min-width: 25px;
-                }
-            }
+            flex-grow: 1;
+            font-size: 14px;
+            line-height: 14px;
+            border-radius: 10px;
+            padding: 12px 30px;
+            //&:nth-of-type(1) {
+            //    width: 140px;
+            //    max-width: 140px;
+            //    min-width: 80px;
+            //    padding: 0;
+            //    margin: 0 0 10px 0;
+            //
+            //    @media (min-width: 992px) {
+            //        width: 120px;
+            //        margin: 0 15px 0 0;
+            //    }
+            //}
+            //
+            //&:nth-of-type(2) {
+            //    width: 140px;
+            //    max-width: 140px;
+            //    min-width: 100px;
+            //    padding: 0;
+            //}
         }
     }
 
-    .politics {
-        width: 100%;
-        min-height: 60px;
-        background-color: rgb(49, 49, 75);
-        align-items: center;
-        text-align: start;
+    &__links {
+        list-style: none;
+        padding: 0;
+        margin-bottom: 0;
 
-        p {
-            margin: 0;
+        & a {
+            color: $white !important;
         }
 
-        .row_div.politics {
-            div {
-                display: flex;
-                flex-direction: row;
+        & .bkt-footer__link {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            margin-bottom: 15px;
+            font-size: 14px;
+            font-weight: 600;
+            color: white;
+        }
 
-                p:nth-of-type(2) {
-                    margin-left: 20px;
-                }
+    }
 
-                @media (min-width: 992px) {
-                    margin-left: auto;
-                }
+    &__socials {
+        display: flex;
+        flex-direction: column;
+        text-align: end;
+        justify-items: center;
+        margin-left: auto;
+        gap: 20px;
 
-                @media (min-width: 576px) {
-                    p:nth-of-type(1) {
-                        margin-left: 0;
-                    }
+        &-phone {
+            font-size: 22px;
+            font-family: "Gilroy";
+            color: rgb(255, 197, 21);
+            font-weight: 600;
+            line-height: 0.909;
+        }
+
+        &-email {
+            font-size: 14px;
+            font-family: "Gilroy";
+            color: rgba(255, 255, 255, 0.4);
+            line-height: 1.571;
+        }
+
+        &-address {
+            font-size: 14px;
+            font-family: "Gilroy";
+            color: rgb(255, 255, 255);
+            line-height: 1.571;
+        }
+
+        &-links {
+            margin-top: 20px;
+            margin-left: auto;
+            justify-items: center;
+            align-items: center;
+        }
+    }
+
+    &__politics {
+        width: 100%;
+        min-height: 70px;
+        padding: 25px 0;
+        background-color: rgb(49, 49, 75);
+        align-items: center;
+
+        &-copyright {
+            font-size: 12px;
+            font-family: "Gilroy";
+            color: rgba(255, 255, 255, 0.4);
+            line-height: 1.833;
+            text-align: left;
+            margin-bottom: 0;
+        }
+
+        &-links {
+            display: flex;
+            flex-wrap: nowrap;
+            gap: 25px;
+
+            & .bkt-footer__politics-link {
+                font-size: 12px;
+                font-family: "Gilroy";
+                color: rgb(255, 255, 255);
+                text-decoration: underline;
+                line-height: 1.833;
+
+            }
+        }
+    }
+}
+
+
+@media (max-width: 992px) {
+    .bkt-footer {
+        &__block {
+            gap: 35px;
+            margin-left: 20px;
+            justify-content: flex-start;
+        }
+
+        &__socials {
+            text-align: center;
+            margin-left: auto;
+            margin-right: auto;
+            width: 100%;
+            gap: 15px;
+
+            &-links {
+                margin-top: 0;
+                margin-left: auto;
+                margin-right: auto;
+                width: 100%;
+                gap: 10px;
+            }
+        }
+    }
+}
+
+
+@media (max-width: 576px) {
+    .bkt-footer {
+        &__main {
+            padding: 40px 0;
+        }
+
+        &__logo {
+            min-width: 60px;
+            max-width: 80px;
+            width: 100%;
+            margin-bottom: 15px;
+        }
+
+        &__description {
+            font-size: 8px;
+            line-height: 1.5;
+            margin-bottom: 50px;
+        }
+
+        &__buttons {
+            flex-direction: column;
+            gap: 6px;
+            margin-top: 50px;
+
+            & .bkt-button {
+                height: 30px;
+                width: 90px;
+                font-size: 10px;
+                padding: 9px 25px;
+            }
+        }
+
+        &__block {
+            gap: 35px 0;
+            margin-left: 0px;
+        }
+
+        &__links {
+            & .bkt-footer__link {
+                margin-bottom: 12px;
+                font-size: 12px;
+                line-height: 12px;
+            }
+        }
+
+        &__socials {
+            &-phone {
+                font-size: 18px;
+                line-height: 1.111;
+                text-align: center;
+            }
+
+            &-email {
+                font-size: 12px;
+                line-height: 1.833;
+                text-align: center;
+            }
+
+            &-address {
+                font-size: 12px;
+                line-height: 1.833;
+                text-align: center;
+            }
+
+            &-links {
+                text-align: center;
+                justify-items: center;
+                margin-left: auto;
+                gap: 6px;
+            }
+        }
+
+        &__politics {
+            padding: 20px 0;
+            gap: 10px;
+
+            &-copyright {
+                font-size: 10px;
+                line-height: 2.2;
+                margin-right: auto;
+            }
+
+            &-links {
+                gap: 15px;
+                margin-right: auto;
+
+                & .bkt-footer__politics-link {
+                    font-size: 10px;
+                    line-height: 2.2;
                 }
             }
         }

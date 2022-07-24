@@ -136,7 +136,7 @@ var render = function () {
   return _c(
     "svg",
     {
-      class: "bkt-fill-" + _vm.color,
+      class: "bkt-fill bkt-fill-" + _vm.color,
       attrs: {
         width: _vm.width,
         height: _vm.height,

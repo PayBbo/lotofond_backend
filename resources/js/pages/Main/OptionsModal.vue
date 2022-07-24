@@ -28,8 +28,8 @@
                         :option_label="'shortName'"
                         :options="debtors"
                         :reduce="item => item.id"
-                        :method_name="'getDebtors'"
-                        :method_params="method_params"
+                        :method_name="'getFiltersBidders'"
+                        :method_params="{type: 'debtors'}"
                         :pagination="debtors_pagination"
                     ></bkt-select>
                 </div>
@@ -44,8 +44,8 @@
                         :option_label="'shortName'"
                         :options="arbitr_managers"
                         :reduce="item => item.id"
-                        :method_name="'getArbitrationManagers'"
-                        :method_params="method_params"
+                        :method_name="'getFiltersBidders'"
+                        :method_params="{type: 'arbitrationManagers'}"
                         :pagination="arbitr_managers_pagination"
                     ></bkt-select>
                 </div>
@@ -60,8 +60,8 @@
                         :option_label="'shortName'"
                         :options="organizers"
                         :reduce="item => item.id"
-                        :method_name="'getOrganizers'"
-                        :method_params="method_params"
+                        :method_name="'getFiltersBidders'"
+                        :method_params="{type: 'organizers'}"
                         :pagination="organizers_pagination"
                     ></bkt-select>
                 </div>

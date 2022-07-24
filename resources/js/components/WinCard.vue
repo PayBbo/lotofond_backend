@@ -24,9 +24,9 @@
                 <div class="col-12 col-md-12 col-lg-8 p-0 ps-sm-2">
                     <div class="bkt-form bkt-form_wide w-100">
                         <div class="col-12 col-md-8 d-none d-md-block p-0">
-                                <h3 class="bkt-card__title bkt-text-truncate">
-                                    {{item && item.description ? item.description:'Некоторое название победы'}}
-                                </h3>
+                            <h3 class="bkt-card__title bkt-text-truncate">
+                                {{item && item.description ? item.description:'Некоторое название победы'}}
+                            </h3>
                         </div>
                         <div class="col-12 col-md-4 p-0">
                             <div class="bkt-card-price-wrapper">
@@ -52,7 +52,8 @@
                                 <div class="bkt-card__row outline bkt-wrapper-between align-items-center">
                                     <div class="bkt-card__feature">
                                         <h6 class="bkt-card__subtitle">процент падения</h6>
-                                        <h4 class="bkt-card__title">{{item.percentageReduction ? item.percentageReduction : ''}}%</h4>
+                                        <h4 class="bkt-card__title">{{item.percentageReduction ?
+                                            item.percentageReduction : ''}}%</h4>
                                     </div>
                                     <span class="bkt-card__icon">
                                     <bkt-icon :name="'ArrowDownCircle'" color="primary"></bkt-icon>
@@ -88,7 +89,8 @@
                                     <bkt-icon name="Trophy" class="bkt-button__icon"></bkt-icon>
                                 </div>
                                 <div class="bkt-wrapper-between bkt-gap-small mx-0 w-100">
-                                    <h5 class="bkt-card-winner__title">{{item.winner.fullName ? item.winner.fullName : ''}}</h5>
+                                    <h5 class="bkt-card-winner__title">{{item.winner.fullName ? item.winner.fullName :
+                                        ''}}</h5>
                                     <h6 class="bkt-card-winner__subtitle bkt-card__subtitle">
                                         кол-во побед:
                                         <strong class="bkt-text-blue">
@@ -131,13 +133,9 @@
             HooperNavigation,
         },
         data() {
-            return {
-
-            }
+            return {}
         },
-        methods: {
-
-        }
+        methods: {}
     };
 </script>
 

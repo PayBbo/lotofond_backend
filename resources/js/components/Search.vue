@@ -188,7 +188,6 @@
 
             }, 700),
             async runSearch() {
-                console.log('search runSearch method')
                 if (!this.simple) {
                     if (this.searchFilter.trim() !== '') {
                         this.searchLoading = true;
@@ -198,6 +197,9 @@
                             payload = this.method_params;
                             if (this.search_field) {
                                 payload[this.search_field] = this.searchFilter;
+                            }
+                            if (!this.method_params.page) {
+                                this.method_params.page = 1;
                             }
                         }
                         await this.$store.dispatch(this.method_name, payload)
@@ -213,7 +215,6 @@
                             });
                     }
                 } else {
-                    console.log('search runSearch')
                     this.$emit("runSearch", this.searchFilter);
                 }
             }

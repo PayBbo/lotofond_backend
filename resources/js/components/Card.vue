@@ -16,8 +16,8 @@
             </h5>
         </div>
         <div class="col-12 col-lg-11 p-0">
-            <div class="row h-100 w-100 mx-auto row-cols-1 row-cols-md-2 row-cols-lg-3">
-                <div class="col p-0 p-sm-2 order-2 order-lg-1">
+            <div class="row h-100 w-100 mx-auto row-cols-1 row-cols-md-2 row-cols-lg-3 bkt-card-trade__wrapper">
+                <div class="col p-0 px-sm-2 order-2 order-lg-1">
                     <div class="bkt-card-image-wrapper">
                         <hooper :itemsToShow="1" :centerMode="true" class="bkt-card__image-slider">
                             <slide v-if="!item.photos || item.photos.length==0">
@@ -42,7 +42,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-12 col-md-12 col-lg-4 p-0 p-sm-2 order-1 order-lg-2">
+                <div class="col-12 col-md-12 col-lg-4 p-0 px-sm-2 order-1 order-lg-2">
                     <div class="bkt-wrapper-between bkt-card__head bkt-nowrap">
                         <router-link :to="'/lot/'+item.id" class="bkt-card__title bkt-text-truncate">
                             {{item && item.description ? item.description:'Некоторое название торгов'}}
@@ -82,75 +82,89 @@
                         </div>
                     </div>
                 </div>
-                <div class="col order-3 p-0 p-sm-2">
-                    <div class="bkt-card-price bkt-button green w-100">{{item && item.currentPrice ? item.currentPrice : '0' | priceFormat}} ₽
-                        <div class="bkt-card-price-icon bkt-bg-green-light">
-                            <bkt-icon :name="'ArrowTriple'" :width="'22px'" :height="'22px'"
-                                      :class="{'bkt-rotate-180': item.currentPriceState=='down', 'bkt-rotate-90': item.currentPriceState=='hold'}"
+                <div class="col order-3 p-0 px-sm-2">
+                    <div class="bkt-card-trade__wrapper bkt-wrapper-column">
+                        <div class="bkt-wrapper-column bkt-gap-small">
+                            <div class="bkt-card-trade__price-wrapper bkt-button green w-100">
+                                <h2 class="bkt-card-trade__price text-truncate">
+                                    {{item && item.currentPrice ? item.currentPrice : '0' | priceFormat}} ₽
+                                </h2>
+
+                                <div class="bkt-card-trade__price-icon bkt-bg-green-light">
+                                    <bkt-icon :name="'ArrowTriple'" :width="'22px'" :height="'22px'"
+                                              :class="{'bkt-rotate-180': item.currentPriceState=='down',
+                                              'bkt-rotate-90': item.currentPriceState=='hold'}"
+                                    >
+                                    </bkt-icon>
+                                </div>
+                            </div>
+                            <div class="bkt-card-infographics bkt-wrapper-between bkt-nowrap">
+                                <div class="bkt-card outline">
+                                    <div class="bkt-card__feature text-center w-100 mt-0">
+                                        <h5 class="bkt-card__subtitle">шаг аукциона</h5>
+                                        <h4 class="bkt-card__title bkt-text-primary">
+                                            {{item.stepPrice && item.stepPrice.value ? item.stepPrice.value : '0' | priceFormat}}
+                                            {{item.stepPrice && item.stepPrice.type=='rubles' ? '₽' : '%'}}
+                                        </h4>
+                                    </div>
+                                </div>
+                                <div class="bkt-card outline">
+                                    <div class="bkt-card__feature text-center w-100 mt-0">
+                                        <h5 class="bkt-card__subtitle">задаток</h5>
+                                        <h4 class="bkt-card__title bkt-text-red">
+                                            {{item.deposit && item.deposit.value ? item.deposit.value : '0' | priceFormat}}
+                                            {{item.deposit && item.deposit.type=='rubles' ? '₽' : '%'}}
+                                        </h4>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bkt-card-trade__periods">
+                            <div class="bkt-card-period" v-if="item.trade && item.trade.applicationTime
+                                 && (item.trade.applicationTime.start || item.trade.applicationTime.end)"
                             >
-                            </bkt-icon>
-                        </div>
-                    </div>
-                    <div class="bkt-card-infographics bkt-wrapper-between bkt-nowrap">
-                        <div class="bkt-card outline">
-                            <div class="bkt-card__feature text-center w-100 mt-0">
-                                <h5 class="bkt-card__subtitle">шаг аукциона</h5>
-                                <h4 class="bkt-card__title bkt-text-primary">
-                                    {{item.stepPrice && item.stepPrice.value ? item.stepPrice.value : '0' | priceFormat}}
-                                    {{item.stepPrice && item.stepPrice.type=='rubles' ? '₽' : '%'}}
-                                </h4>
+                                <div class="bkt-card__category bkt-bg-primary-lighter">
+                                    <bkt-icon :name="'Date'" :color="'primary'" :width="'16px'" :height="'16px'"></bkt-icon>
+                                </div>
+                                <div class="bkt-card_feature">
+                                    <h6><strong>прием заявок</strong></h6>
+                                    <h6 v-if="item.trade.applicationTime.start"> с {{item.trade.applicationTime.start | moment('DD MMMM YYYY')}}
+                                        <span class="bkt-text-blue">{{item.trade.applicationTime.start| moment('HH:mm')}}</span></h6>
+                                    <h6 v-if="item.trade.applicationTime.end">до {{item.trade.applicationTime.end | moment('DD MMMM YYYY')}}
+                                        <span class="bkt-text-blue">{{item.trade.applicationTime.end | moment('HH:mm')}}</span></h6>
+                                </div>
                             </div>
-                        </div>
-                        <div class="bkt-card outline">
-                            <div class="bkt-card__feature text-center w-100 mt-0">
-                                <h5 class="bkt-card__subtitle">задаток</h5>
-                                <h4 class="bkt-card__title bkt-text-red">
-                                    {{item.deposit && item.deposit.value ? item.deposit.value : '0' | priceFormat}}
-                                    {{item.deposit && item.deposit.type=='rubles' ? '₽' : '%'}}
-                                </h4>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="bkt-card-period bkt-wrapper" v-if="item.trade && item.trade.applicationTime
-                    && (item.trade.applicationTime.start || item.trade.applicationTime.end)">
-                        <div class="bkt-card__category bkt-bg-primary-lighter">
-                            <bkt-icon :name="'Date'" :color="'primary'" :width="'16px'" :height="'16px'"></bkt-icon>
-                        </div>
-                        <div class="bkt-card_feature">
-                            <h6>прием заявок</h6>
-                            <div>
-                                <h6 v-if="item.trade.applicationTime.start"> с {{item.trade.applicationTime.start | moment('DD MMMM YYYY')}}
-                                    <span class="bkt-text-blue">{{item.trade.applicationTime.start| moment('HH:mm')}}</span></h6>
-                                <h6 v-if="item.trade.applicationTime.end">до {{item.trade.applicationTime.end | moment('DD MMMM YYYY')}}
-                                <span class="bkt-text-blue">{{item.trade.applicationTime.end | moment('HH:mm')}}</span></h6>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="bkt-card-period bkt-wrapper" v-if="item.trade && item.trade.eventTime && (item.trade.eventTime.start ||item.trade.eventTime.end) ">
-                        <div class="bkt-icon-frame bkt-bg-primary-lighter">
-                            <bkt-icon :name="'Alarm'" :color="'primary'" :width="'16px'" :height="'16px'"></bkt-icon>
-                        </div>
-                        <div class="bkt-card_feature">
-                            <h6>проведение торгов</h6>
-                            <div>
-                                <h6 v-if="item.trade.eventTime.start">
-                                    с {{item.trade.eventTime.start | moment('DD MMMM YYYY')}}
-                                <span class="bkt-text-yellow">
+                            <div class="bkt-card-period"
+                                 v-if="item.trade && item.trade.eventTime && (item.trade.eventTime.start ||item.trade.eventTime.end)"
+                            >
+                                <div class="bkt-card__category bkt-bg-primary-lighter">
+                                    <bkt-icon :name="'Alarm'" :color="'primary'" :width="'16px'" :height="'16px'"></bkt-icon>
+                                </div>
+                                <div class="bkt-card_feature">
+                                    <h6><strong>проведение торгов</strong></h6>
+                                    <div>
+                                        <h6 v-if="item.trade.eventTime.start">
+                                            с {{item.trade.eventTime.start | moment('DD MMMM YYYY')}}
+                                            <span class="bkt-text-yellow">
                                     {{item.trade.eventTime.start | moment('HH:mm')}}
                                 </span>
-                                </h6>
-                                <h6 v-if="item.trade.eventTime.end">до
-                                    {{item.trade.eventTime.end | moment('DD MMMM YYYY')}}
-                                <span class="bkt-text-yellow">
+                                        </h6>
+                                        <h6 v-if="item.trade.eventTime.end">до
+                                            {{item.trade.eventTime.end | moment('DD MMMM YYYY')}}
+                                            <span class="bkt-text-yellow">
                                     {{item.trade.eventTime.end | moment('HH:mm')}}
                                 </span>
-                                </h6>
+                                        </h6>
+                                    </div>
+                                </div>
                             </div>
                         </div>
+
                     </div>
+
                 </div>
-                <div class="col-12 col-md-12 col-lg-12 p-0 p-sm-2 order-4" v-if="item.cadastralData" style="align-self: end;">
-                    <div class="bkt-wrapper-between bkt-card-infographics">
+                <div class="col-12 col-md-12 col-lg-12 p-0 px-sm-2 order-4" v-if="item.cadastralData" style="align-self: end;">
+                    <div class="bkt-wrapper-between bkt-card-trade__cadastral-info">
                         <div class="bkt-card outline bkt-wrapper-between">
                             <div class="bkt-card__feature">
                                 <h4 class="bkt-card__title">600 кв.м.</h4>

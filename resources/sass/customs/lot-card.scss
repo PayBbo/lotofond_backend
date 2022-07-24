@@ -34,6 +34,11 @@
 
     }
 
+    &__cards {
+        gap: 30px 0;
+        margin: 30px auto;
+    }
+
     &-card {
         .bkt-main &.bkt-card {
             margin: 0;
@@ -474,6 +479,9 @@
             justify-content: center;
         }
 
+        & .bkt-collapse__header {
+            gap: 10px;
+        }
         //& .bkt-card__image {
         //    max-height: 90px;
         //    max-width: 138px;
@@ -481,7 +489,9 @@
     }
 
     &-active-lots {
-
+        & .bkt-collapse__header {
+            gap: 10px;
+        }
     }
 
     &-organizer {
@@ -497,8 +507,11 @@
     }
 
     @media screen and (max-width: 568px) {
-        .bkt-card-ecp-wrapper {
-            //gap: 20px;
+        &__cards  > * {
+           padding: 0;
+        }
+        & .bkt-card-ecp-wrapper {
+            gap: 4px;
             width: 100%;
 
             & .bkt-card-ecp {
@@ -552,6 +565,7 @@
             }
         }
     }
+
     @media screen and (min-width: 1200px) {
 
 

@@ -1,5 +1,5 @@
 <template>
-    <svg :class="'bkt-fill-'+color" :width="width" :height="height" viewBox="0 0 20 20" version="1.1"
+    <svg :class="'bkt-fill bkt-fill-'+color" :width="width" :height="height" viewBox="0 0 20 20" version="1.1"
          xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
     >
         <g stroke="none" stroke-width="1" fill-rule="evenodd">

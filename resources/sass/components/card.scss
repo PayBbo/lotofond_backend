@@ -218,8 +218,13 @@
     }
 
 }
-
-
+@media screen and (max-width: 568px) {
+    .bkt-card {
+        &__header {
+            padding: 25px;
+        }
+    }
+}
 .bkt-card__row {
     @extend .bkt-card;
     padding: 40px;

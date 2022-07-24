@@ -64,14 +64,16 @@
                                 Адрес сайта
                             </td>
                             <td>
-                                https://torgi.gov.ru/
+                                {{item.site}}
                             </td>
                         </tr>
                         <tr v-if="item_type == 'trade-place'">
                             <td>
                                 Собственник
                             </td>
-                            <td>-</td>
+                            <td>
+                                {{item.ownerName}}
+                            </td>
                         </tr>
                         <tr v-if="item_type == 'organizer'">
                             <td>
@@ -217,59 +219,7 @@
                         </div>
                     </div>
                     <div class="col-12 px-0" v-for="active_lot in active_lots">
-                        <div class="row w-100 mx-auto bkt-row outline">
-                            <div class="col-12 col-md-2 ps-0">
-                                <img v-lazy="'/images/card-image.jpg'" class="bkt-card__image"/>
-                            </div>
-                            <div class="col-12 col-md-3">
-                                <h6 class="bkt-card__subtitle">
-                                    № {{active_lot.trade.externalId}}, лот {{active_lot.lotNumber}}
-                                </h6>
-                                <h5 class="bkt-text-truncate">
-                                    {{active_lot.description}}
-                                </h5>
-                            </div>
-                            <div class="col-12 col-md-2">
-                                <h6 class="bkt-card__subtitle d-md-none">цена</h6>
-                                <h4 class="bkt-card__title bkt-text-primary">
-                                    {{active_lot.currentPrice | priceFormat}} ₽</h4>
-                            </div>
-                            <div class="col-12 col-md-2">
-                                <h6 class="bkt-card__subtitle d-md-none">даты торгов</h6>
-                                <div
-                                    v-if="active_lot.trade && active_lot.trade.eventTime &&
-                                        (active_lot.trade.eventTime.start || active_lot.trade.eventTime.end)">
-                                    <h6 v-if="active_lot.trade.eventTime.start">
-                                        с {{active_lot.trade.eventTime.start | moment('DD MMMM YYYY HH:mm')}}
-                                    </h6>
-                                    <h6 v-if="active_lot.trade.eventTime.end">до
-                                        {{active_lot.trade.eventTime.end | moment('DD MMMM YYYY HH:mm')}}
-                                    </h6>
-                                </div>
-                                <h6 v-else>не указано</h6>
-                            </div>
-                            <div class="col-12 col-md-3">
-                                <h6 class="bkt-card__subtitle d-md-none">ЭТП и организатор</h6>
-                                <h6 class="bkt-card__title bkt-text-main text-uppercase">
-                                    {{active_lot.trade && active_lot.trade.tradePlace
-                                    && active_lot.trade.tradePlace.name ?
-                                    active_lot.trade.tradePlace.name : ''}}
-                                </h6>
-                                <h5 class="" v-if="active_lot.trade.organizer">
-                                        <span v-if="active_lot.trade.organizer.type=='person'">
-                                            <template
-                                                v-for="(value, key, index) in active_lot.trade.organizer.person">
-                                                 {{value ? value+' ' : ''}}
-                                            </template>
-                                        </span>
-                                    <span v-else>
-                                            {{active_lot.trade.organizer.company.shortName ?
-                                            active_lot.trade.organizer.company.shortName :
-                                            active_lot.trade.organizer.company.fullName}}
-                                        </span>
-                                </h5>
-                            </div>
-                        </div>
+                        <mini-trade-card :item="active_lot"></mini-trade-card>
                     </div>
                     <div class="col-12 px-0">
                         <bkt-pagination
@@ -311,55 +261,7 @@
                         </div>
                     </div>
                     <div class="col-12 px-0" v-for="complete_lot in completed_lots">
-                        <div class="row w-100 mx-auto bkt-row outline">
-                            <div class="col-12 col-md-2 ps-0">
-                                <img v-lazy="'/images/card-image.jpg'" class="bkt-card__image"/>
-                            </div>
-                            <div class="col-12 col-md-3">
-                                <h6 class="bkt-card__subtitle">№ {{complete_lot.trade.externalId}}, лот
-                                    {{complete_lot.lotNumber}}</h6>
-                                <h5 class="">
-                                    {{complete_lot.description}}
-                                </h5>
-                            </div>
-                            <div class="col-12 col-md-2">
-                                <h6 class="bkt-card__subtitle d-md-none">цена</h6>
-                                <h4 class="bkt-card__title bkt-text-primary">{{complete_lot.currentPrice |
-                                    priceFormat}} ₽</h4>
-                            </div>
-                            <div class="col-12 col-md-2">
-                                <h6 class="bkt-card__subtitle d-md-none">даты торгов</h6>
-                                <div
-                                    v-if="complete_lot.trade && complete_lot.trade.eventTime && (complete_lot.trade.eventTime.start ||complete_lot.trade.eventTime.end) ">
-                                    <h6 v-if="complete_lot.trade.eventTime.start">
-                                        с {{complete_lot.trade.eventTime.start | moment('DD MMMM YYYY HH:mm')}}
-                                    </h6>
-                                    <h6 v-if="complete_lot.trade.eventTime.end">до
-                                        {{complete_lot.trade.eventTime.end | moment('DD MMMM YYYY HH:mm')}}
-                                    </h6>
-                                </div>
-                                <h6 v-else>не указано</h6>
-                            </div>
-                            <div class="col-12 col-md-3">
-                                <h6 class="bkt-card__subtitle d-md-none">ЭТП и организатор</h6>
-                                <h6 class="bkt-card__title bkt-text-main text-uppercase">
-                                    {{complete_lot.trade && complete_lot.trade.tradePlace
-                                    && complete_lot.trade.tradePlace.name ?
-                                    complete_lot.trade.tradePlace.name : 'не указано'}}
-                                </h6>
-                                <h5 class="" v-if="complete_lot.trade.organizer">
-                                        <span v-if="complete_lot.trade.organizer.type=='person'">
-                                            <template
-                                                v-for="(value, key, index) in complete_lot.trade.organizer.person">
-                                                 {{value ? value+' ' : ''}}
-                                            </template>
-                                        </span>
-                                    <span v-else>
-                                            {{complete_lot.trade.organizer.company.shortName ? complete_lot.trade.organizer.company.shortName : complete_lot.trade.organizer.company.fullName}}
-                                        </span>
-                                </h5>
-                            </div>
-                        </div>
+                        <mini-trade-card :item="complete_lot"></mini-trade-card>
                     </div>
                     <div class="col-12 px-0">
                         <bkt-pagination
@@ -397,12 +299,23 @@
 <script>
     import BktTable from "../components/Table";
     import StarRating from "vue-star-rating";
+    import {
+        Hooper,
+        Slide,
+        Navigation as HooperNavigation
+    } from 'hooper';
+    import 'hooper/dist/hooper.css';
+    import MiniTradeCard from "../components/MiniTradeCard";
 
     export default {
         name: "Registry",
         components: {
             BktTable,
-            StarRating
+            StarRating,
+            Hooper,
+            Slide,
+            HooperNavigation,
+            MiniTradeCard
         },
         data() {
             return {
@@ -427,7 +340,13 @@
         },
         async mounted() {
             this.item_type = this.$route.params.type;
-            this.getBidder();
+            if(this.item_type !='trade-place') {
+                this.getBidder();
+            }
+            else {
+                this.getTradePlace();
+            }
+
         },
         methods: {
             goBack() {
@@ -435,16 +354,12 @@
             },
             async getBidder() {
                 this.loading = true;
-                await this.$store.dispatch('getBidder', this.$route.params.id)
+                await this.$store.dispatch('getBidder', {id: this.$route.params.id, type: this.$route.params.type})
                     .then(resp => {
                         this.item = resp.data;
                         this.loading = false;
-                        if(this.item_type !== 'trade-place')
-                        {
-                            this.getBidderActiveLots();
-                            this.getBidderCompletedLots();
-                        }
-
+                        this.getBidderActiveLots();
+                        this.getBidderCompletedLots();
                     })
                     .catch(error => {
                         this.loading = false;
@@ -460,7 +375,7 @@
                     page: page
                 })
                     .then(resp => {
-                        this.active_lots = resp.data;
+                        this.active_lots = resp.data.data;
                         this.active_lots_pagination = resp.data.pagination;
                     }).catch(error => {
 
@@ -484,6 +399,17 @@
                     }).finally(() => {
                         this.completed_lots_loading = false;
                     })
+            },
+            async getTradePlace() {
+                this.loading = true;
+                await this.$store.dispatch('getBidder', this.$route.params.id)
+                    .then(resp => {
+                        this.item = resp.data;
+                        this.loading = false;
+                    })
+                    .catch(error => {
+                        this.loading = false;
+                    });
             },
             changeStatus(payload) {
                 Vue.set(this.item, payload.key, payload.value)

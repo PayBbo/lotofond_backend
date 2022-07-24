@@ -2,7 +2,7 @@
     <div>
         <notifications position="top right" classes="bkt-notification"/>
         <bkt-header></bkt-header>
-        <main>
+        <main class="wrapper">
             <router-view></router-view>
         </main>
         <bkt-footer></bkt-footer>

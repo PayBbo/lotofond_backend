@@ -52,14 +52,6 @@ export default {
         * Получение информации о количестве активных/неактивных лотов
         *
         * GET
-        * /bidders/{type}/{bidderType}/{bidderId}
-        * Получение активных/неактивных торгов выбранного участника
-        *
-        * GET
-        * /bidders/{bidderId}
-        * Получение данных об арбитражном управляющем/организаторе/должнике
-        *
-        * GET
         * /files/{lotId}
         * Получение списка файлов для лота
         *
@@ -79,20 +71,6 @@ export default {
                 .then(resp => {
                     commit('setLotsStatistic', resp.data)
                 });
-        },
-        async getBidder({commit, state}, payload) {
-            return await axios({
-                method: 'get',
-                url: '/api/bidders/' + payload,
-                data: {},
-            })
-        },
-        async getBidderLots({commit, state}, payload) {
-            return await axios({
-                method: 'put',
-                url: `/api/bidders/trades?page=`+payload.page,
-                data: payload,
-            })
         },
         async getLotFiles({commit, state}, payload) {
 

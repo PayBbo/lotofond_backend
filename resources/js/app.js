@@ -101,8 +101,8 @@ Vue.use(VueTheMask);
 import VueLazyload from 'vue-lazyload'
 Vue.use(VueLazyload, {
     preLoad: 1.3,
-    error: "/images/card-image1.jpg",
-    loading: "/images/card-image1.jpg",
+    error: "/images/card-image1.png",
+    loading: "/images/card-image1.png",
     attempt: 1
 });
 
@@ -132,6 +132,13 @@ Vue.use(VueLang, {
     locale: 'ru', // Set locale
     fallback: 'ru' // Set fallback locale
 });
+import {
+    Hooper,
+    Slide,
+    Navigation as HooperNavigation
+} from 'hooper';
+import 'hooper/dist/hooper.css';
+
 import VueSlickCarousel from 'vue-slick-carousel'
 import 'vue-slick-carousel/dist/vue-slick-carousel.css'
 import 'vue-slick-carousel/dist/vue-slick-carousel-theme.css'

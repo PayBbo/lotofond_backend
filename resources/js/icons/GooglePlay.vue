@@ -1,0 +1,40 @@
+<template>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 339.3 384"
+         :class="'bkt-fill bkt-fill-'+color" :width="width" :height="height"
+    >
+        <path
+            d="M259.5,593l-9.1-3q86.4-86.8,171.7-172.6l56.5,56.1c-1.2.8-2.3,1.6-3.4,2.2q-94.9,55.4-189.9,110.6c-4.8,2.8-10.2,4.5-15.3,6.7Z"
+            transform="translate(-230.9 -209)"/>
+        <path
+            d="M406.6,401.1,233.9,574.7c-1.1-4.8-2.1-8.7-2.8-12.6a31.1,31.1,0,0,1-.1-5.3q0-155.5,0-311.1c.1-5.6,1.4-11.2,2.1-17.1Z"
+            transform="translate(-230.9 -209)"/>
+        <path d="M250,212.4c11.5-5.1,22-4.4,32.2,1.6l88.6,51.5L475,326.2l3.6,2.3-56.2,55.2Z"
+              transform="translate(-230.9 -209)"/>
+        <path d="M499.6,461.5l-60.7-60.3,60.7-59.9-.6-1,4.5,2.5q24.3,14.1,48.5,28.3c24.2,14.2,24.2,45.6,0,59.8Z"
+              transform="translate(-230.9 -209)"/>
+    </svg>
+</template>
+
+<script>
+    export default {
+        name: "GooglePlay",
+        props: {
+            color: {
+                type: String,
+                default: 'white'
+            },
+            width: {
+                type: String,
+                default: '100%'
+            },
+            height: {
+                type: String,
+                default: '100%'
+            },
+        }
+    }
+</script>
+
+<style scoped>
+
+</style>

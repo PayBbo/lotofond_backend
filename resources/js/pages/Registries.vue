@@ -12,9 +12,9 @@
                 </div>
             </template>
             <template #collapse>
-                <bkt-registry method_name="getDebtors"
+                <bkt-registry method_name="getBidders" :method_params="{type:'debtors'}"
                               :loading="debtors_loading" :pagination_data="debtors_pagination"
-                              :items="debtors"
+                              :items="debtors" :sort="debtors_sort"
                 >
                     <template #tr>
                         <th width="84px">№</th>
@@ -27,7 +27,7 @@
                         <td>{{item.id}}</td>
                         <td><router-link custom :to="'/registries/debtor/'+item.id">{{item.fullName}}</router-link></td>
                         <td>{{item.inn ? item.inn : ''}}</td>
-                        <td>{{item.region ? item.region : ''}}</td>
+                        <td>{{item.region ? $t('regions.'+item.region) : ''}}</td>
                         <td>{{item.address ? item.address : ''}}</td>
                     </template>
                 </bkt-registry>
@@ -44,9 +44,9 @@
                 </div>
             </template>
             <template #collapse>
-                <bkt-registry method_name="getOrganizers"
+                <bkt-registry method_name="getBidders" :method_params="{type:'organizers'}"
                               :loading="organizers_loading" :pagination_data="organizers_pagination"
-                              :items="organizers"
+                              :items="organizers" :sort="organizers_sort"
                 >
                     <template #tr>
                         <th>№</th>
@@ -58,7 +58,7 @@
                         <td>{{item.id}}</td>
                         <td><router-link custom :to="'/registries/organizer/'+item.id">{{item.fullName}}</router-link></td>
                         <td>{{item.inn ? item.inn : ''}}</td>
-                        <td>{{item.region ? item.region : ''}}</td>
+                        <td>{{item.region ? $t('regions.'+item.region) : ''}}</td>
                     </template>
                 </bkt-registry>
             </template>
@@ -74,9 +74,9 @@
                 </div>
             </template>
             <template #collapse>
-                <bkt-registry method_name="getArbitrationManagers"
-                              :loading="arbitr_managers_loading" :pagination_data="arbitr_managers_pagination"
-                              :items="arbitr_managers"
+                <bkt-registry method_name="getBidders" :method_params="{type:'arbitrationManagers'}"
+                              :loading="arbitration_managers_loading" :pagination_data="arbitration_managers_pagination"
+                              :items="arbitration_managers" :sort="arbitration_managers_sort"
                 >
                     <template #tr>
                         <th>№</th>
@@ -89,7 +89,7 @@
                         <td>{{item.id}}</td>
                         <td><router-link custom :to="'/registries/arbitrationManager/'+item.id">{{item.fullName}}</router-link></td>
                         <td>{{item.inn ? item.inn : ''}}</td>
-                        <td>{{item.region ? item.region : ''}}</td>
+                        <td>{{item.region ? $t('regions.'+item.region) : ''}}</td>
                         <td>{{item.sroAU ? item.sroAU : ''}}</td>
                     </template>
                 </bkt-registry>
@@ -108,7 +108,7 @@
             <template #collapse>
                 <bkt-registry method_name="getTradePlaces"
                               :loading="trade_places_loading" :pagination_data="trade_places_pagination"
-                              :items="trade_places"
+                              :items="trade_places" :sort="trade_places_sort"
                 >
                     <template #tr>
                         <th>№</th>
@@ -120,7 +120,8 @@
                     <template #tbody_tr="{item}">
                         <td>{{item.id ? item.id : ''}}</td>
                         <td><router-link custom :to="'/registries/trade-place/'+item.id">{{item.name ? item.name : ''}}</router-link></td>
-                        <td>{{item.address ? item.address : ''}}</td>
+                        <td>{{item.site ? item.site : ''}}</td>
+                        <td></td>
                         <td>{{item.note ? item.note : ''}}</td>
                     </template>
                 </bkt-registry>
@@ -137,9 +138,9 @@
 <!--                </div>-->
 <!--            </template>-->
 <!--            <template #collapse>-->
-<!--                <bkt-registry method_name="getTradePlaces"-->
+<!--                <bkt-registry method_name="getDebtorMessages" :method_params="messages_params"-->
 <!--                              :loading="messages_loading" :pagination_data="messages_pagination"-->
-<!--                              :items="messages"-->
+<!--                              :items="messages" :sort="messages_sort"-->
 <!--                >-->
 <!--                    <template #filters>-->
 <!--                        <div class="bkt-register-filters p-3 m-3">-->
@@ -148,13 +149,18 @@
 <!--                                    <span>поиск по тексту</span>-->
 <!--                                </div>-->
 <!--                                <div class="col-12 col-lg-10">-->
-<!--                                    <div class="w-100 bkt-search position-relative bkt-bg-neutral-light pt-0 pb-0 p-2">-->
-<!--                                        <input class="w-100 bkt-search__input" type="text">-->
-<!--                                        <button class="bkt-button green bkt-search__button">-->
-<!--                                            <span class="d-none d-md-block">Найти</span>-->
-<!--                                            <bkt-icon class="d-block d-md-none" :name="'Search'"></bkt-icon>-->
-<!--                                        </button>-->
-<!--                                    </div>-->
+<!--                                    <bkt-search v-model="messages_params.searchString"-->
+<!--                                                method_name="getDebtorMessages" :method_params="messages_params"-->
+<!--                                                :loading="messages_loading" search_field="searchString" no_dropdown-->
+<!--                                    >-->
+<!--                                    </bkt-search>-->
+<!--&lt;!&ndash;                                    <div class="w-100 bkt-search position-relative bkt-bg-neutral-light pt-0 pb-0 p-2">&ndash;&gt;-->
+<!--&lt;!&ndash;                                        <input class="w-100 bkt-search__input" type="text">&ndash;&gt;-->
+<!--&lt;!&ndash;                                        <button class="bkt-button green bkt-search__button">&ndash;&gt;-->
+<!--&lt;!&ndash;                                            <span class="d-none d-md-block">Найти</span>&ndash;&gt;-->
+<!--&lt;!&ndash;                                            <bkt-icon class="d-block d-md-none" :name="'Search'"></bkt-icon>&ndash;&gt;-->
+<!--&lt;!&ndash;                                        </button>&ndash;&gt;-->
+<!--&lt;!&ndash;                                    </div>&ndash;&gt;-->
 <!--                                </div>-->
 <!--                            </div>-->
 
@@ -163,13 +169,18 @@
 <!--                                    <span>должник</span>-->
 <!--                                </div>-->
 <!--                                <div class="col-12 col-lg-10">-->
-<!--                                    <div class="w-100 bkt-search position-relative bkt-bg-neutral-light pt-0 pb-0 p-2">-->
-<!--                                        <input class="w-100 bkt-search__input" type="text">-->
-<!--                                        <button class="bkt-button green bkt-search__button">-->
-<!--                                            <span class="d-none d-md-block">Найти</span>-->
-<!--                                            <bkt-icon class="d-block d-md-none" :name="'Search'"></bkt-icon>-->
-<!--                                        </button>-->
-<!--                                    </div>-->
+<!--                                    <bkt-search v-model="messages_params.debtor"-->
+<!--                                                method_name="getDebtorMessages" :method_params="messages_params"-->
+<!--                                                :loading="messages_loading" search_field="searchString" no_dropdown-->
+<!--                                    >-->
+<!--                                    </bkt-search>-->
+<!--&lt;!&ndash;                                    <div class="w-100 bkt-search position-relative bkt-bg-neutral-light pt-0 pb-0 p-2">&ndash;&gt;-->
+<!--&lt;!&ndash;                                        <input class="w-100 bkt-search__input" type="text">&ndash;&gt;-->
+<!--&lt;!&ndash;                                        <button class="bkt-button green bkt-search__button">&ndash;&gt;-->
+<!--&lt;!&ndash;                                            <span class="d-none d-md-block">Найти</span>&ndash;&gt;-->
+<!--&lt;!&ndash;                                            <bkt-icon class="d-block d-md-none" :name="'Search'"></bkt-icon>&ndash;&gt;-->
+<!--&lt;!&ndash;                                        </button>&ndash;&gt;-->
+<!--&lt;!&ndash;                                    </div>&ndash;&gt;-->
 <!--                                </div>-->
 <!--                            </div>-->
 
@@ -260,11 +271,43 @@
         },
         data() {
             return {
-                currentLoading: false,
-                method_params: {
-                    type: 'table',
-                    page: 1
+                messages_params: {
+                    searchString:'',
+                    debtor: '',
+                    types: [],
+                    regions: [],
+                    publishDate: {
+                        start: '',
+                        end: ''
+                    },
+                    messageHasFiles: true
                 },
+                debtors_sort: [
+                    {title: 'идентификатору', value: 'id'},
+                    {title: 'ИНН', value: 'inn'},
+                    {title: 'имени', value: 'name'},
+                    {title: 'региону', value: 'region'},
+                    {title: 'адресу', value: 'address'},
+                ],
+                organizers_sort: [
+                    {title: 'идентификатору', value: 'id'},
+                    {title: 'ИНН', value: 'inn'},
+                    {title: 'наименованию', value: 'name'},
+                    {title: 'региону', value: 'region'},
+                ],
+                arbitration_managers_sort: [
+                    {title: 'идентификатору', value: 'id'},
+                    {title: 'ИНН', value: 'inn'},
+                    {title: 'наименованию', value: 'name'},
+                    {title: 'региону', value: 'region'},
+                ],
+                trade_places_sort: [
+                    {title: 'идентификатору', value: 'id'},
+                    // {title: 'наименованию', value: 'name'},
+                ],
+                messages_sort: [
+                    {title: 'идентификатору', value: 'id'},
+                ],
             }
         },
         computed: {
@@ -300,10 +343,10 @@
             organizers_loading() {
                 return this.$store.getters.organizers_loading;
             },
-            arbitr_managers() {
-                return this.$store.getters.arbitr_managers;
+            arbitration_managers() {
+                return this.$store.getters.arbitration_managers;
             },
-            arbitr_managers_pagination() {
+            arbitration_managers_pagination() {
                 // return {
                 //     pagination: this.$store.getters.arbitration_managers_pagination,
                 //     method_name: 'getArbitrManagers',
@@ -311,10 +354,10 @@
                 //         type:'filters'
                 //     }
                 // }
-                return this.$store.getters.arbitr_managers_pagination;
+                return this.$store.getters.arbitration_managers_pagination;
             },
-            arbitr_managers_loading() {
-                return this.$store.getters.arbitr_managers_loading;
+            arbitration_managers_loading() {
+                return this.$store.getters.arbitration_managers_loading;
             },
             trade_places() {
                 return this.$store.getters.trade_places;
@@ -324,6 +367,15 @@
             },
             trade_places_loading() {
                 return this.$store.getters.trade_places_loading;
+            },
+            messages() {
+                return this.$store.getters.messages;
+            },
+            messages_pagination() {
+                return this.$store.getters.messages_pagination;
+            },
+            messages_loading() {
+                return this.$store.getters.messages_loading;
             },
         }
     }

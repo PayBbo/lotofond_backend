@@ -86,23 +86,24 @@ export default {
         setWins(state, payload) {
             state.wins = [];
             payload.data.forEach(item => {
+                let tmp_item = item;
                 if (item.winner) {
                     if (item.winner.person !== null) {
-                        item.winner.fullName = Object.values(item.winner.person).reduce((prev, cur) => {
+                        tmp_item.winner.fullName = Object.values(item.winner.person).reduce((prev, cur) => {
                             if (cur) {
                                 prev += cur + ' '
                             }
                             return prev;
                         }, '').trim();
-                        item.winner.shortName = item.winner.person.firstName + ' ' + item.person.lastName;
+                        tmp_item.winner.shortName = item.winner.person.firstName + ' ' + item.winner.person.lastName;
 
                     } else {
-                        item.winner.fullName = item.winner.company.fullName;
-                        item.winner.shortName = item.winner.company.shortName;
+                        tmp_item.winner.fullName = item.winner.company.fullName;
+                        tmp_item.winner.shortName = item.winner.company.shortName;
                     }
                 }
 
-                state.wins.push(item)
+                state.wins.push(tmp_item)
             });
             state.wins_pagination = payload.pagination;
         },

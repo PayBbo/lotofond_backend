@@ -440,9 +440,7 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("section", [
-      _c("h1", { staticClass: "bkt-page__title" }, [
-        _vm._v("Покупка через агента"),
-      ]),
+      _c("h1", { staticClass: "bkt-page__title" }, [_vm._v("Покупка без ЭЦП")]),
       _vm._v(" "),
       _c("div", { staticClass: "bkt-promo__block-wrapper" }, [
         _c("div", { staticClass: "bkt-promo__block bkt-promo__block_ecp" }, [

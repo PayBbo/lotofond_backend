@@ -16,8 +16,9 @@
                 :disabled="disabled"
                 :loading="loading"
                 @input="saveValue"
+                :filter="fuseSearch"
             >
-                <!--       @open="open"    :filter="fuseSearch"-->
+                <!--       @open="open"    -->
                 <template v-slot:option="option" v-if="with_option">
                     <slot name="option" v-bind:option="option">
                     </slot>
@@ -187,7 +188,7 @@
                     this.field_label = this.name;
                 }
             }
-            // this.makeSearchOptions();
+            this.makeSearchOptions();
             // this.select_value = this.value;
         },
         // watch:{

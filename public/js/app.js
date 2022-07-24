@@ -6051,6 +6051,20 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -7259,6 +7273,16 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "Footer"
 });
@@ -7284,6 +7308,13 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -8549,15 +8580,13 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                console.log('search runSearch method');
-
                 if (_this.simple) {
-                  _context.next = 11;
+                  _context.next = 10;
                   break;
                 }
 
                 if (!(_this.searchFilter.trim() !== '')) {
-                  _context.next = 9;
+                  _context.next = 8;
                   break;
                 }
 
@@ -8571,9 +8600,13 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
                   if (_this.search_field) {
                     payload[_this.search_field] = _this.searchFilter;
                   }
+
+                  if (!_this.method_params.page) {
+                    _this.method_params.page = 1;
+                  }
                 }
 
-                _context.next = 9;
+                _context.next = 8;
                 return _this.$store.dispatch(_this.method_name, payload).then(function (resp) {
                   if (!_this.no_dropdown) {
                     _this.showOptions();
@@ -8587,16 +8620,14 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
                   _this.searchLoading = false;
                 });
 
-              case 9:
-                _context.next = 13;
+              case 8:
+                _context.next = 11;
                 break;
 
-              case 11:
-                console.log('search runSearch');
-
+              case 10:
                 _this.$emit("runSearch", _this.searchFilter);
 
-              case 13:
+              case 11:
               case "end":
                 return _context.stop();
             }
@@ -8642,6 +8673,7 @@ function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Sy
 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
+//
 //
 //
 //
@@ -8827,9 +8859,9 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
       if (!this.label) {
         this.field_label = this.name;
       }
-    } // this.makeSearchOptions();
-    // this.select_value = this.value;
+    }
 
+    this.makeSearchOptions(); // this.select_value = this.value;
   },
   // watch:{
   //     options: function(){
@@ -9209,6 +9241,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -9421,34 +9455,36 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _eli5_vue_lang_js__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! @eli5/vue-lang-js */ "./node_modules/@eli5/vue-lang-js/dist/vue-lang-js.common.js");
 /* harmony import */ var _eli5_vue_lang_js__WEBPACK_IMPORTED_MODULE_11___default = /*#__PURE__*/__webpack_require__.n(_eli5_vue_lang_js__WEBPACK_IMPORTED_MODULE_11__);
 /* harmony import */ var _vue_translations_json__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./vue-translations.json */ "./resources/js/vue-translations.json");
-/* harmony import */ var vue_slick_carousel__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! vue-slick-carousel */ "./node_modules/vue-slick-carousel/dist/vue-slick-carousel.umd.js");
-/* harmony import */ var vue_slick_carousel__WEBPACK_IMPORTED_MODULE_13___default = /*#__PURE__*/__webpack_require__.n(vue_slick_carousel__WEBPACK_IMPORTED_MODULE_13__);
-/* harmony import */ var vue_slick_carousel_dist_vue_slick_carousel_css__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! vue-slick-carousel/dist/vue-slick-carousel.css */ "./node_modules/vue-slick-carousel/dist/vue-slick-carousel.css");
-/* harmony import */ var vue_slick_carousel_dist_vue_slick_carousel_theme_css__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! vue-slick-carousel/dist/vue-slick-carousel-theme.css */ "./node_modules/vue-slick-carousel/dist/vue-slick-carousel-theme.css");
-/* harmony import */ var fuse_js__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! fuse.js */ "./node_modules/fuse.js/dist/fuse.esm.js");
-/* harmony import */ var vue_infinite_loading__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! vue-infinite-loading */ "./node_modules/vue-infinite-loading/dist/vue-infinite-loading.js");
-/* harmony import */ var vue_infinite_loading__WEBPACK_IMPORTED_MODULE_17___default = /*#__PURE__*/__webpack_require__.n(vue_infinite_loading__WEBPACK_IMPORTED_MODULE_17__);
-/* harmony import */ var vue_router__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! vue-router */ "./node_modules/vue-router/dist/vue-router.esm.js");
-/* harmony import */ var _routes__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ./routes */ "./resources/js/routes.js");
+/* harmony import */ var hooper__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! hooper */ "./node_modules/hooper/dist/hooper.esm.js");
+/* harmony import */ var hooper_dist_hooper_css__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! hooper/dist/hooper.css */ "./node_modules/hooper/dist/hooper.css");
+/* harmony import */ var vue_slick_carousel__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! vue-slick-carousel */ "./node_modules/vue-slick-carousel/dist/vue-slick-carousel.umd.js");
+/* harmony import */ var vue_slick_carousel__WEBPACK_IMPORTED_MODULE_15___default = /*#__PURE__*/__webpack_require__.n(vue_slick_carousel__WEBPACK_IMPORTED_MODULE_15__);
+/* harmony import */ var vue_slick_carousel_dist_vue_slick_carousel_css__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! vue-slick-carousel/dist/vue-slick-carousel.css */ "./node_modules/vue-slick-carousel/dist/vue-slick-carousel.css");
+/* harmony import */ var vue_slick_carousel_dist_vue_slick_carousel_theme_css__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! vue-slick-carousel/dist/vue-slick-carousel-theme.css */ "./node_modules/vue-slick-carousel/dist/vue-slick-carousel-theme.css");
+/* harmony import */ var fuse_js__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! fuse.js */ "./node_modules/fuse.js/dist/fuse.esm.js");
+/* harmony import */ var vue_infinite_loading__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! vue-infinite-loading */ "./node_modules/vue-infinite-loading/dist/vue-infinite-loading.js");
+/* harmony import */ var vue_infinite_loading__WEBPACK_IMPORTED_MODULE_19___default = /*#__PURE__*/__webpack_require__.n(vue_infinite_loading__WEBPACK_IMPORTED_MODULE_19__);
+/* harmony import */ var vue_router__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! vue-router */ "./node_modules/vue-router/dist/vue-router.esm.js");
+/* harmony import */ var _routes__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ./routes */ "./resources/js/routes.js");
 /* harmony import */ var _store_index_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./store/index.js */ "./resources/js/store/index.js");
-/* harmony import */ var _components_Card_vue__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ./components/Card.vue */ "./resources/js/components/Card.vue");
-/* harmony import */ var _components_Icon_vue__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! ./components/Icon.vue */ "./resources/js/components/Icon.vue");
-/* harmony import */ var _components_Modal_vue__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! ./components/Modal.vue */ "./resources/js/components/Modal.vue");
-/* harmony import */ var _components_Pagination_vue__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! ./components/Pagination.vue */ "./resources/js/components/Pagination.vue");
-/* harmony import */ var _components_Input_vue__WEBPACK_IMPORTED_MODULE_24__ = __webpack_require__(/*! ./components/Input.vue */ "./resources/js/components/Input.vue");
-/* harmony import */ var _components_Textarea_vue__WEBPACK_IMPORTED_MODULE_25__ = __webpack_require__(/*! ./components/Textarea.vue */ "./resources/js/components/Textarea.vue");
-/* harmony import */ var _components_Checkbox_vue__WEBPACK_IMPORTED_MODULE_26__ = __webpack_require__(/*! ./components/Checkbox.vue */ "./resources/js/components/Checkbox.vue");
-/* harmony import */ var _components_CardList_vue__WEBPACK_IMPORTED_MODULE_27__ = __webpack_require__(/*! ./components/CardList.vue */ "./resources/js/components/CardList.vue");
-/* harmony import */ var _components_Header_vue__WEBPACK_IMPORTED_MODULE_28__ = __webpack_require__(/*! ./components/Header.vue */ "./resources/js/components/Header.vue");
-/* harmony import */ var _components_Footer_vue__WEBPACK_IMPORTED_MODULE_29__ = __webpack_require__(/*! ./components/Footer.vue */ "./resources/js/components/Footer.vue");
-/* harmony import */ var _components_Datepicker_vue__WEBPACK_IMPORTED_MODULE_30__ = __webpack_require__(/*! ./components/Datepicker.vue */ "./resources/js/components/Datepicker.vue");
-/* harmony import */ var _components_Dropdown_vue__WEBPACK_IMPORTED_MODULE_31__ = __webpack_require__(/*! ./components/Dropdown.vue */ "./resources/js/components/Dropdown.vue");
-/* harmony import */ var _components_WinCard__WEBPACK_IMPORTED_MODULE_32__ = __webpack_require__(/*! ./components/WinCard */ "./resources/js/components/WinCard.vue");
-/* harmony import */ var _components_Search__WEBPACK_IMPORTED_MODULE_33__ = __webpack_require__(/*! ./components/Search */ "./resources/js/components/Search.vue");
-/* harmony import */ var _components_Select__WEBPACK_IMPORTED_MODULE_34__ = __webpack_require__(/*! ./components/Select */ "./resources/js/components/Select.vue");
-/* harmony import */ var _components_Collapse__WEBPACK_IMPORTED_MODULE_35__ = __webpack_require__(/*! ./components/Collapse */ "./resources/js/components/Collapse.vue");
-/* harmony import */ var _auth_AuthModal_vue__WEBPACK_IMPORTED_MODULE_36__ = __webpack_require__(/*! ./auth/AuthModal.vue */ "./resources/js/auth/AuthModal.vue");
-/* harmony import */ var _auth_CodeModal_vue__WEBPACK_IMPORTED_MODULE_37__ = __webpack_require__(/*! ./auth/CodeModal.vue */ "./resources/js/auth/CodeModal.vue");
+/* harmony import */ var _components_Card_vue__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! ./components/Card.vue */ "./resources/js/components/Card.vue");
+/* harmony import */ var _components_Icon_vue__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! ./components/Icon.vue */ "./resources/js/components/Icon.vue");
+/* harmony import */ var _components_Modal_vue__WEBPACK_IMPORTED_MODULE_24__ = __webpack_require__(/*! ./components/Modal.vue */ "./resources/js/components/Modal.vue");
+/* harmony import */ var _components_Pagination_vue__WEBPACK_IMPORTED_MODULE_25__ = __webpack_require__(/*! ./components/Pagination.vue */ "./resources/js/components/Pagination.vue");
+/* harmony import */ var _components_Input_vue__WEBPACK_IMPORTED_MODULE_26__ = __webpack_require__(/*! ./components/Input.vue */ "./resources/js/components/Input.vue");
+/* harmony import */ var _components_Textarea_vue__WEBPACK_IMPORTED_MODULE_27__ = __webpack_require__(/*! ./components/Textarea.vue */ "./resources/js/components/Textarea.vue");
+/* harmony import */ var _components_Checkbox_vue__WEBPACK_IMPORTED_MODULE_28__ = __webpack_require__(/*! ./components/Checkbox.vue */ "./resources/js/components/Checkbox.vue");
+/* harmony import */ var _components_CardList_vue__WEBPACK_IMPORTED_MODULE_29__ = __webpack_require__(/*! ./components/CardList.vue */ "./resources/js/components/CardList.vue");
+/* harmony import */ var _components_Header_vue__WEBPACK_IMPORTED_MODULE_30__ = __webpack_require__(/*! ./components/Header.vue */ "./resources/js/components/Header.vue");
+/* harmony import */ var _components_Footer_vue__WEBPACK_IMPORTED_MODULE_31__ = __webpack_require__(/*! ./components/Footer.vue */ "./resources/js/components/Footer.vue");
+/* harmony import */ var _components_Datepicker_vue__WEBPACK_IMPORTED_MODULE_32__ = __webpack_require__(/*! ./components/Datepicker.vue */ "./resources/js/components/Datepicker.vue");
+/* harmony import */ var _components_Dropdown_vue__WEBPACK_IMPORTED_MODULE_33__ = __webpack_require__(/*! ./components/Dropdown.vue */ "./resources/js/components/Dropdown.vue");
+/* harmony import */ var _components_WinCard__WEBPACK_IMPORTED_MODULE_34__ = __webpack_require__(/*! ./components/WinCard */ "./resources/js/components/WinCard.vue");
+/* harmony import */ var _components_Search__WEBPACK_IMPORTED_MODULE_35__ = __webpack_require__(/*! ./components/Search */ "./resources/js/components/Search.vue");
+/* harmony import */ var _components_Select__WEBPACK_IMPORTED_MODULE_36__ = __webpack_require__(/*! ./components/Select */ "./resources/js/components/Select.vue");
+/* harmony import */ var _components_Collapse__WEBPACK_IMPORTED_MODULE_37__ = __webpack_require__(/*! ./components/Collapse */ "./resources/js/components/Collapse.vue");
+/* harmony import */ var _auth_AuthModal_vue__WEBPACK_IMPORTED_MODULE_38__ = __webpack_require__(/*! ./auth/AuthModal.vue */ "./resources/js/auth/AuthModal.vue");
+/* harmony import */ var _auth_CodeModal_vue__WEBPACK_IMPORTED_MODULE_39__ = __webpack_require__(/*! ./auth/CodeModal.vue */ "./resources/js/auth/CodeModal.vue");
 function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 
 function _regeneratorRuntime() { "use strict"; /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/facebook/regenerator/blob/main/LICENSE */ _regeneratorRuntime = function _regeneratorRuntime() { return exports; }; var exports = {}, Op = Object.prototype, hasOwn = Op.hasOwnProperty, $Symbol = "function" == typeof Symbol ? Symbol : {}, iteratorSymbol = $Symbol.iterator || "@@iterator", asyncIteratorSymbol = $Symbol.asyncIterator || "@@asyncIterator", toStringTagSymbol = $Symbol.toStringTag || "@@toStringTag"; function define(obj, key, value) { return Object.defineProperty(obj, key, { value: value, enumerable: !0, configurable: !0, writable: !0 }), obj[key]; } try { define({}, ""); } catch (err) { define = function define(obj, key, value) { return obj[key] = value; }; } function wrap(innerFn, outerFn, self, tryLocsList) { var protoGenerator = outerFn && outerFn.prototype instanceof Generator ? outerFn : Generator, generator = Object.create(protoGenerator.prototype), context = new Context(tryLocsList || []); return generator._invoke = function (innerFn, self, context) { var state = "suspendedStart"; return function (method, arg) { if ("executing" === state) throw new Error("Generator is already running"); if ("completed" === state) { if ("throw" === method) throw arg; return doneResult(); } for (context.method = method, context.arg = arg;;) { var delegate = context.delegate; if (delegate) { var delegateResult = maybeInvokeDelegate(delegate, context); if (delegateResult) { if (delegateResult === ContinueSentinel) continue; return delegateResult; } } if ("next" === context.method) context.sent = context._sent = context.arg;else if ("throw" === context.method) { if ("suspendedStart" === state) throw state = "completed", context.arg; context.dispatchException(context.arg); } else "return" === context.method && context.abrupt("return", context.arg); state = "executing"; var record = tryCatch(innerFn, self, context); if ("normal" === record.type) { if (state = context.done ? "completed" : "suspendedYield", record.arg === ContinueSentinel) continue; return { value: record.arg, done: context.done }; } "throw" === record.type && (state = "completed", context.method = "throw", context.arg = record.arg); } }; }(innerFn, self, context), generator; } function tryCatch(fn, obj, arg) { try { return { type: "normal", arg: fn.call(obj, arg) }; } catch (err) { return { type: "throw", arg: err }; } } exports.wrap = wrap; var ContinueSentinel = {}; function Generator() {} function GeneratorFunction() {} function GeneratorFunctionPrototype() {} var IteratorPrototype = {}; define(IteratorPrototype, iteratorSymbol, function () { return this; }); var getProto = Object.getPrototypeOf, NativeIteratorPrototype = getProto && getProto(getProto(values([]))); NativeIteratorPrototype && NativeIteratorPrototype !== Op && hasOwn.call(NativeIteratorPrototype, iteratorSymbol) && (IteratorPrototype = NativeIteratorPrototype); var Gp = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(IteratorPrototype); function defineIteratorMethods(prototype) { ["next", "throw", "return"].forEach(function (method) { define(prototype, method, function (arg) { return this._invoke(method, arg); }); }); } function AsyncIterator(generator, PromiseImpl) { function invoke(method, arg, resolve, reject) { var record = tryCatch(generator[method], generator, arg); if ("throw" !== record.type) { var result = record.arg, value = result.value; return value && "object" == _typeof(value) && hasOwn.call(value, "__await") ? PromiseImpl.resolve(value.__await).then(function (value) { invoke("next", value, resolve, reject); }, function (err) { invoke("throw", err, resolve, reject); }) : PromiseImpl.resolve(value).then(function (unwrapped) { result.value = unwrapped, resolve(result); }, function (error) { return invoke("throw", error, resolve, reject); }); } reject(record.arg); } var previousPromise; this._invoke = function (method, arg) { function callInvokeWithMethodAndArg() { return new PromiseImpl(function (resolve, reject) { invoke(method, arg, resolve, reject); }); } return previousPromise = previousPromise ? previousPromise.then(callInvokeWithMethodAndArg, callInvokeWithMethodAndArg) : callInvokeWithMethodAndArg(); }; } function maybeInvokeDelegate(delegate, context) { var method = delegate.iterator[context.method]; if (undefined === method) { if (context.delegate = null, "throw" === context.method) { if (delegate.iterator["return"] && (context.method = "return", context.arg = undefined, maybeInvokeDelegate(delegate, context), "throw" === context.method)) return ContinueSentinel; context.method = "throw", context.arg = new TypeError("The iterator does not provide a 'throw' method"); } return ContinueSentinel; } var record = tryCatch(method, delegate.iterator, context.arg); if ("throw" === record.type) return context.method = "throw", context.arg = record.arg, context.delegate = null, ContinueSentinel; var info = record.arg; return info ? info.done ? (context[delegate.resultName] = info.value, context.next = delegate.nextLoc, "return" !== context.method && (context.method = "next", context.arg = undefined), context.delegate = null, ContinueSentinel) : info : (context.method = "throw", context.arg = new TypeError("iterator result is not an object"), context.delegate = null, ContinueSentinel); } function pushTryEntry(locs) { var entry = { tryLoc: locs[0] }; 1 in locs && (entry.catchLoc = locs[1]), 2 in locs && (entry.finallyLoc = locs[2], entry.afterLoc = locs[3]), this.tryEntries.push(entry); } function resetTryEntry(entry) { var record = entry.completion || {}; record.type = "normal", delete record.arg, entry.completion = record; } function Context(tryLocsList) { this.tryEntries = [{ tryLoc: "root" }], tryLocsList.forEach(pushTryEntry, this), this.reset(!0); } function values(iterable) { if (iterable) { var iteratorMethod = iterable[iteratorSymbol]; if (iteratorMethod) return iteratorMethod.call(iterable); if ("function" == typeof iterable.next) return iterable; if (!isNaN(iterable.length)) { var i = -1, next = function next() { for (; ++i < iterable.length;) { if (hasOwn.call(iterable, i)) return next.value = iterable[i], next.done = !1, next; } return next.value = undefined, next.done = !0, next; }; return next.next = next; } } return { next: doneResult }; } function doneResult() { return { value: undefined, done: !0 }; } return GeneratorFunction.prototype = GeneratorFunctionPrototype, define(Gp, "constructor", GeneratorFunctionPrototype), define(GeneratorFunctionPrototype, "constructor", GeneratorFunction), GeneratorFunction.displayName = define(GeneratorFunctionPrototype, toStringTagSymbol, "GeneratorFunction"), exports.isGeneratorFunction = function (genFun) { var ctor = "function" == typeof genFun && genFun.constructor; return !!ctor && (ctor === GeneratorFunction || "GeneratorFunction" === (ctor.displayName || ctor.name)); }, exports.mark = function (genFun) { return Object.setPrototypeOf ? Object.setPrototypeOf(genFun, GeneratorFunctionPrototype) : (genFun.__proto__ = GeneratorFunctionPrototype, define(genFun, toStringTagSymbol, "GeneratorFunction")), genFun.prototype = Object.create(Gp), genFun; }, exports.awrap = function (arg) { return { __await: arg }; }, defineIteratorMethods(AsyncIterator.prototype), define(AsyncIterator.prototype, asyncIteratorSymbol, function () { return this; }), exports.AsyncIterator = AsyncIterator, exports.async = function (innerFn, outerFn, self, tryLocsList, PromiseImpl) { void 0 === PromiseImpl && (PromiseImpl = Promise); var iter = new AsyncIterator(wrap(innerFn, outerFn, self, tryLocsList), PromiseImpl); return exports.isGeneratorFunction(outerFn) ? iter : iter.next().then(function (result) { return result.done ? result.value : iter.next(); }); }, defineIteratorMethods(Gp), define(Gp, toStringTagSymbol, "Generator"), define(Gp, iteratorSymbol, function () { return this; }), define(Gp, "toString", function () { return "[object Generator]"; }), exports.keys = function (object) { var keys = []; for (var key in object) { keys.push(key); } return keys.reverse(), function next() { for (; keys.length;) { var key = keys.pop(); if (key in object) return next.value = key, next.done = !1, next; } return next.done = !0, next; }; }, exports.values = values, Context.prototype = { constructor: Context, reset: function reset(skipTempReset) { if (this.prev = 0, this.next = 0, this.sent = this._sent = undefined, this.done = !1, this.delegate = null, this.method = "next", this.arg = undefined, this.tryEntries.forEach(resetTryEntry), !skipTempReset) for (var name in this) { "t" === name.charAt(0) && hasOwn.call(this, name) && !isNaN(+name.slice(1)) && (this[name] = undefined); } }, stop: function stop() { this.done = !0; var rootRecord = this.tryEntries[0].completion; if ("throw" === rootRecord.type) throw rootRecord.arg; return this.rval; }, dispatchException: function dispatchException(exception) { if (this.done) throw exception; var context = this; function handle(loc, caught) { return record.type = "throw", record.arg = exception, context.next = loc, caught && (context.method = "next", context.arg = undefined), !!caught; } for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i], record = entry.completion; if ("root" === entry.tryLoc) return handle("end"); if (entry.tryLoc <= this.prev) { var hasCatch = hasOwn.call(entry, "catchLoc"), hasFinally = hasOwn.call(entry, "finallyLoc"); if (hasCatch && hasFinally) { if (this.prev < entry.catchLoc) return handle(entry.catchLoc, !0); if (this.prev < entry.finallyLoc) return handle(entry.finallyLoc); } else if (hasCatch) { if (this.prev < entry.catchLoc) return handle(entry.catchLoc, !0); } else { if (!hasFinally) throw new Error("try statement without catch or finally"); if (this.prev < entry.finallyLoc) return handle(entry.finallyLoc); } } } }, abrupt: function abrupt(type, arg) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.tryLoc <= this.prev && hasOwn.call(entry, "finallyLoc") && this.prev < entry.finallyLoc) { var finallyEntry = entry; break; } } finallyEntry && ("break" === type || "continue" === type) && finallyEntry.tryLoc <= arg && arg <= finallyEntry.finallyLoc && (finallyEntry = null); var record = finallyEntry ? finallyEntry.completion : {}; return record.type = type, record.arg = arg, finallyEntry ? (this.method = "next", this.next = finallyEntry.finallyLoc, ContinueSentinel) : this.complete(record); }, complete: function complete(record, afterLoc) { if ("throw" === record.type) throw record.arg; return "break" === record.type || "continue" === record.type ? this.next = record.arg : "return" === record.type ? (this.rval = this.arg = record.arg, this.method = "return", this.next = "end") : "normal" === record.type && afterLoc && (this.next = afterLoc), ContinueSentinel; }, finish: function finish(finallyLoc) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.finallyLoc === finallyLoc) return this.complete(entry.completion, entry.afterLoc), resetTryEntry(entry), ContinueSentinel; } }, "catch": function _catch(tryLoc) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.tryLoc === tryLoc) { var record = entry.completion; if ("throw" === record.type) { var thrown = record.arg; resetTryEntry(entry); } return thrown; } } throw new Error("illegal catch attempt"); }, delegateYield: function delegateYield(iterable, resultName, nextLoc) { return this.delegate = { iterator: values(iterable), resultName: resultName, nextLoc: nextLoc }, "next" === this.method && (this.arg = undefined), ContinueSentinel; } }, exports; }
@@ -9590,8 +9626,8 @@ Vue.use((vue_the_mask__WEBPACK_IMPORTED_MODULE_4___default()));
 
 Vue.use(vue_lazyload__WEBPACK_IMPORTED_MODULE_5__["default"], {
   preLoad: 1.3,
-  error: "/images/card-image1.jpg",
-  loading: "/images/card-image1.jpg",
+  error: "/images/card-image1.png",
+  loading: "/images/card-image1.png",
   attempt: 1
 });
 
@@ -9627,12 +9663,14 @@ Vue.use((_eli5_vue_lang_js__WEBPACK_IMPORTED_MODULE_11___default()), {
 
 
 
-Vue.component('slick', (vue_slick_carousel__WEBPACK_IMPORTED_MODULE_13___default()));
+
+
+Vue.component('slick', (vue_slick_carousel__WEBPACK_IMPORTED_MODULE_15___default()));
 
 
 Vue.prototype.$search = function (term, list, options) {
   return new Promise(function (resolve, reject) {
-    var run = new fuse_js__WEBPACK_IMPORTED_MODULE_16__["default"](list, options);
+    var run = new fuse_js__WEBPACK_IMPORTED_MODULE_18__["default"](list, options);
     var results = run.search(term);
     var arr = [];
     results.forEach(function (item) {
@@ -9643,10 +9681,10 @@ Vue.prototype.$search = function (term, list, options) {
 };
 
 
-Vue.component('infinite-loading', (vue_infinite_loading__WEBPACK_IMPORTED_MODULE_17___default()));
+Vue.component('infinite-loading', (vue_infinite_loading__WEBPACK_IMPORTED_MODULE_19___default()));
 
 
-Vue.use(vue_router__WEBPACK_IMPORTED_MODULE_19__["default"]);
+Vue.use(vue_router__WEBPACK_IMPORTED_MODULE_21__["default"]);
 
 Vue.component("App", (__webpack_require__(/*! ./App.vue */ "./resources/js/App.vue")["default"]));
 
@@ -9667,24 +9705,24 @@ Vue.component("App", (__webpack_require__(/*! ./App.vue */ "./resources/js/App.v
 
 
 
-Vue.component('BktIcon', _components_Icon_vue__WEBPACK_IMPORTED_MODULE_21__["default"]);
-Vue.component('BktModal', _components_Modal_vue__WEBPACK_IMPORTED_MODULE_22__["default"]);
-Vue.component('BktInput', _components_Input_vue__WEBPACK_IMPORTED_MODULE_24__["default"]);
-Vue.component('BktTextarea', _components_Textarea_vue__WEBPACK_IMPORTED_MODULE_25__["default"]);
-Vue.component('BktCheckbox', _components_Checkbox_vue__WEBPACK_IMPORTED_MODULE_26__["default"]);
-Vue.component('BktCard', _components_Card_vue__WEBPACK_IMPORTED_MODULE_20__["default"]);
-Vue.component('BktAuthModal', _auth_AuthModal_vue__WEBPACK_IMPORTED_MODULE_36__["default"]);
-Vue.component('BktCodeModal', _auth_CodeModal_vue__WEBPACK_IMPORTED_MODULE_37__["default"]);
-Vue.component('BktPagination', _components_Pagination_vue__WEBPACK_IMPORTED_MODULE_23__["default"]);
-Vue.component('BktCardList', _components_CardList_vue__WEBPACK_IMPORTED_MODULE_27__["default"]);
-Vue.component('BktHeader', _components_Header_vue__WEBPACK_IMPORTED_MODULE_28__["default"]);
-Vue.component('BktFooter', _components_Footer_vue__WEBPACK_IMPORTED_MODULE_29__["default"]);
-Vue.component('BktDatepicker', _components_Datepicker_vue__WEBPACK_IMPORTED_MODULE_30__["default"]);
-Vue.component('BktDropdown', _components_Dropdown_vue__WEBPACK_IMPORTED_MODULE_31__["default"]);
-Vue.component('BktWinCard', _components_WinCard__WEBPACK_IMPORTED_MODULE_32__["default"]);
-Vue.component('BktSearch', _components_Search__WEBPACK_IMPORTED_MODULE_33__["default"]);
-Vue.component('BktSelect', _components_Select__WEBPACK_IMPORTED_MODULE_34__["default"]);
-Vue.component('BktCollapse', _components_Collapse__WEBPACK_IMPORTED_MODULE_35__["default"]);
+Vue.component('BktIcon', _components_Icon_vue__WEBPACK_IMPORTED_MODULE_23__["default"]);
+Vue.component('BktModal', _components_Modal_vue__WEBPACK_IMPORTED_MODULE_24__["default"]);
+Vue.component('BktInput', _components_Input_vue__WEBPACK_IMPORTED_MODULE_26__["default"]);
+Vue.component('BktTextarea', _components_Textarea_vue__WEBPACK_IMPORTED_MODULE_27__["default"]);
+Vue.component('BktCheckbox', _components_Checkbox_vue__WEBPACK_IMPORTED_MODULE_28__["default"]);
+Vue.component('BktCard', _components_Card_vue__WEBPACK_IMPORTED_MODULE_22__["default"]);
+Vue.component('BktAuthModal', _auth_AuthModal_vue__WEBPACK_IMPORTED_MODULE_38__["default"]);
+Vue.component('BktCodeModal', _auth_CodeModal_vue__WEBPACK_IMPORTED_MODULE_39__["default"]);
+Vue.component('BktPagination', _components_Pagination_vue__WEBPACK_IMPORTED_MODULE_25__["default"]);
+Vue.component('BktCardList', _components_CardList_vue__WEBPACK_IMPORTED_MODULE_29__["default"]);
+Vue.component('BktHeader', _components_Header_vue__WEBPACK_IMPORTED_MODULE_30__["default"]);
+Vue.component('BktFooter', _components_Footer_vue__WEBPACK_IMPORTED_MODULE_31__["default"]);
+Vue.component('BktDatepicker', _components_Datepicker_vue__WEBPACK_IMPORTED_MODULE_32__["default"]);
+Vue.component('BktDropdown', _components_Dropdown_vue__WEBPACK_IMPORTED_MODULE_33__["default"]);
+Vue.component('BktWinCard', _components_WinCard__WEBPACK_IMPORTED_MODULE_34__["default"]);
+Vue.component('BktSearch', _components_Search__WEBPACK_IMPORTED_MODULE_35__["default"]);
+Vue.component('BktSelect', _components_Select__WEBPACK_IMPORTED_MODULE_36__["default"]);
+Vue.component('BktCollapse', _components_Collapse__WEBPACK_IMPORTED_MODULE_37__["default"]);
 Vue.filter('priceFormat', function (value) {
   if (value) {
     return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
@@ -9699,7 +9737,7 @@ Vue.filter('daysToDate', function (value) {
 });
 var app = new Vue({
   el: "#app",
-  router: new vue_router__WEBPACK_IMPORTED_MODULE_19__["default"](_routes__WEBPACK_IMPORTED_MODULE_18__["default"]),
+  router: new vue_router__WEBPACK_IMPORTED_MODULE_21__["default"](_routes__WEBPACK_IMPORTED_MODULE_20__["default"]),
   store: _store_index_js__WEBPACK_IMPORTED_MODULE_0__["default"]
 });
 
@@ -9875,310 +9913,6 @@ __webpack_require__.r(__webpack_exports__);
         x: 0,
         y: 0
       };
-    }
-  }
-});
-
-/***/ }),
-
-/***/ "./resources/js/store/arbitrManagers.js":
-/*!**********************************************!*\
-  !*** ./resources/js/store/arbitrManagers.js ***!
-  \**********************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
-
-function _regeneratorRuntime() { "use strict"; /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/facebook/regenerator/blob/main/LICENSE */ _regeneratorRuntime = function _regeneratorRuntime() { return exports; }; var exports = {}, Op = Object.prototype, hasOwn = Op.hasOwnProperty, $Symbol = "function" == typeof Symbol ? Symbol : {}, iteratorSymbol = $Symbol.iterator || "@@iterator", asyncIteratorSymbol = $Symbol.asyncIterator || "@@asyncIterator", toStringTagSymbol = $Symbol.toStringTag || "@@toStringTag"; function define(obj, key, value) { return Object.defineProperty(obj, key, { value: value, enumerable: !0, configurable: !0, writable: !0 }), obj[key]; } try { define({}, ""); } catch (err) { define = function define(obj, key, value) { return obj[key] = value; }; } function wrap(innerFn, outerFn, self, tryLocsList) { var protoGenerator = outerFn && outerFn.prototype instanceof Generator ? outerFn : Generator, generator = Object.create(protoGenerator.prototype), context = new Context(tryLocsList || []); return generator._invoke = function (innerFn, self, context) { var state = "suspendedStart"; return function (method, arg) { if ("executing" === state) throw new Error("Generator is already running"); if ("completed" === state) { if ("throw" === method) throw arg; return doneResult(); } for (context.method = method, context.arg = arg;;) { var delegate = context.delegate; if (delegate) { var delegateResult = maybeInvokeDelegate(delegate, context); if (delegateResult) { if (delegateResult === ContinueSentinel) continue; return delegateResult; } } if ("next" === context.method) context.sent = context._sent = context.arg;else if ("throw" === context.method) { if ("suspendedStart" === state) throw state = "completed", context.arg; context.dispatchException(context.arg); } else "return" === context.method && context.abrupt("return", context.arg); state = "executing"; var record = tryCatch(innerFn, self, context); if ("normal" === record.type) { if (state = context.done ? "completed" : "suspendedYield", record.arg === ContinueSentinel) continue; return { value: record.arg, done: context.done }; } "throw" === record.type && (state = "completed", context.method = "throw", context.arg = record.arg); } }; }(innerFn, self, context), generator; } function tryCatch(fn, obj, arg) { try { return { type: "normal", arg: fn.call(obj, arg) }; } catch (err) { return { type: "throw", arg: err }; } } exports.wrap = wrap; var ContinueSentinel = {}; function Generator() {} function GeneratorFunction() {} function GeneratorFunctionPrototype() {} var IteratorPrototype = {}; define(IteratorPrototype, iteratorSymbol, function () { return this; }); var getProto = Object.getPrototypeOf, NativeIteratorPrototype = getProto && getProto(getProto(values([]))); NativeIteratorPrototype && NativeIteratorPrototype !== Op && hasOwn.call(NativeIteratorPrototype, iteratorSymbol) && (IteratorPrototype = NativeIteratorPrototype); var Gp = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(IteratorPrototype); function defineIteratorMethods(prototype) { ["next", "throw", "return"].forEach(function (method) { define(prototype, method, function (arg) { return this._invoke(method, arg); }); }); } function AsyncIterator(generator, PromiseImpl) { function invoke(method, arg, resolve, reject) { var record = tryCatch(generator[method], generator, arg); if ("throw" !== record.type) { var result = record.arg, value = result.value; return value && "object" == _typeof(value) && hasOwn.call(value, "__await") ? PromiseImpl.resolve(value.__await).then(function (value) { invoke("next", value, resolve, reject); }, function (err) { invoke("throw", err, resolve, reject); }) : PromiseImpl.resolve(value).then(function (unwrapped) { result.value = unwrapped, resolve(result); }, function (error) { return invoke("throw", error, resolve, reject); }); } reject(record.arg); } var previousPromise; this._invoke = function (method, arg) { function callInvokeWithMethodAndArg() { return new PromiseImpl(function (resolve, reject) { invoke(method, arg, resolve, reject); }); } return previousPromise = previousPromise ? previousPromise.then(callInvokeWithMethodAndArg, callInvokeWithMethodAndArg) : callInvokeWithMethodAndArg(); }; } function maybeInvokeDelegate(delegate, context) { var method = delegate.iterator[context.method]; if (undefined === method) { if (context.delegate = null, "throw" === context.method) { if (delegate.iterator["return"] && (context.method = "return", context.arg = undefined, maybeInvokeDelegate(delegate, context), "throw" === context.method)) return ContinueSentinel; context.method = "throw", context.arg = new TypeError("The iterator does not provide a 'throw' method"); } return ContinueSentinel; } var record = tryCatch(method, delegate.iterator, context.arg); if ("throw" === record.type) return context.method = "throw", context.arg = record.arg, context.delegate = null, ContinueSentinel; var info = record.arg; return info ? info.done ? (context[delegate.resultName] = info.value, context.next = delegate.nextLoc, "return" !== context.method && (context.method = "next", context.arg = undefined), context.delegate = null, ContinueSentinel) : info : (context.method = "throw", context.arg = new TypeError("iterator result is not an object"), context.delegate = null, ContinueSentinel); } function pushTryEntry(locs) { var entry = { tryLoc: locs[0] }; 1 in locs && (entry.catchLoc = locs[1]), 2 in locs && (entry.finallyLoc = locs[2], entry.afterLoc = locs[3]), this.tryEntries.push(entry); } function resetTryEntry(entry) { var record = entry.completion || {}; record.type = "normal", delete record.arg, entry.completion = record; } function Context(tryLocsList) { this.tryEntries = [{ tryLoc: "root" }], tryLocsList.forEach(pushTryEntry, this), this.reset(!0); } function values(iterable) { if (iterable) { var iteratorMethod = iterable[iteratorSymbol]; if (iteratorMethod) return iteratorMethod.call(iterable); if ("function" == typeof iterable.next) return iterable; if (!isNaN(iterable.length)) { var i = -1, next = function next() { for (; ++i < iterable.length;) { if (hasOwn.call(iterable, i)) return next.value = iterable[i], next.done = !1, next; } return next.value = undefined, next.done = !0, next; }; return next.next = next; } } return { next: doneResult }; } function doneResult() { return { value: undefined, done: !0 }; } return GeneratorFunction.prototype = GeneratorFunctionPrototype, define(Gp, "constructor", GeneratorFunctionPrototype), define(GeneratorFunctionPrototype, "constructor", GeneratorFunction), GeneratorFunction.displayName = define(GeneratorFunctionPrototype, toStringTagSymbol, "GeneratorFunction"), exports.isGeneratorFunction = function (genFun) { var ctor = "function" == typeof genFun && genFun.constructor; return !!ctor && (ctor === GeneratorFunction || "GeneratorFunction" === (ctor.displayName || ctor.name)); }, exports.mark = function (genFun) { return Object.setPrototypeOf ? Object.setPrototypeOf(genFun, GeneratorFunctionPrototype) : (genFun.__proto__ = GeneratorFunctionPrototype, define(genFun, toStringTagSymbol, "GeneratorFunction")), genFun.prototype = Object.create(Gp), genFun; }, exports.awrap = function (arg) { return { __await: arg }; }, defineIteratorMethods(AsyncIterator.prototype), define(AsyncIterator.prototype, asyncIteratorSymbol, function () { return this; }), exports.AsyncIterator = AsyncIterator, exports.async = function (innerFn, outerFn, self, tryLocsList, PromiseImpl) { void 0 === PromiseImpl && (PromiseImpl = Promise); var iter = new AsyncIterator(wrap(innerFn, outerFn, self, tryLocsList), PromiseImpl); return exports.isGeneratorFunction(outerFn) ? iter : iter.next().then(function (result) { return result.done ? result.value : iter.next(); }); }, defineIteratorMethods(Gp), define(Gp, toStringTagSymbol, "Generator"), define(Gp, iteratorSymbol, function () { return this; }), define(Gp, "toString", function () { return "[object Generator]"; }), exports.keys = function (object) { var keys = []; for (var key in object) { keys.push(key); } return keys.reverse(), function next() { for (; keys.length;) { var key = keys.pop(); if (key in object) return next.value = key, next.done = !1, next; } return next.done = !0, next; }; }, exports.values = values, Context.prototype = { constructor: Context, reset: function reset(skipTempReset) { if (this.prev = 0, this.next = 0, this.sent = this._sent = undefined, this.done = !1, this.delegate = null, this.method = "next", this.arg = undefined, this.tryEntries.forEach(resetTryEntry), !skipTempReset) for (var name in this) { "t" === name.charAt(0) && hasOwn.call(this, name) && !isNaN(+name.slice(1)) && (this[name] = undefined); } }, stop: function stop() { this.done = !0; var rootRecord = this.tryEntries[0].completion; if ("throw" === rootRecord.type) throw rootRecord.arg; return this.rval; }, dispatchException: function dispatchException(exception) { if (this.done) throw exception; var context = this; function handle(loc, caught) { return record.type = "throw", record.arg = exception, context.next = loc, caught && (context.method = "next", context.arg = undefined), !!caught; } for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i], record = entry.completion; if ("root" === entry.tryLoc) return handle("end"); if (entry.tryLoc <= this.prev) { var hasCatch = hasOwn.call(entry, "catchLoc"), hasFinally = hasOwn.call(entry, "finallyLoc"); if (hasCatch && hasFinally) { if (this.prev < entry.catchLoc) return handle(entry.catchLoc, !0); if (this.prev < entry.finallyLoc) return handle(entry.finallyLoc); } else if (hasCatch) { if (this.prev < entry.catchLoc) return handle(entry.catchLoc, !0); } else { if (!hasFinally) throw new Error("try statement without catch or finally"); if (this.prev < entry.finallyLoc) return handle(entry.finallyLoc); } } } }, abrupt: function abrupt(type, arg) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.tryLoc <= this.prev && hasOwn.call(entry, "finallyLoc") && this.prev < entry.finallyLoc) { var finallyEntry = entry; break; } } finallyEntry && ("break" === type || "continue" === type) && finallyEntry.tryLoc <= arg && arg <= finallyEntry.finallyLoc && (finallyEntry = null); var record = finallyEntry ? finallyEntry.completion : {}; return record.type = type, record.arg = arg, finallyEntry ? (this.method = "next", this.next = finallyEntry.finallyLoc, ContinueSentinel) : this.complete(record); }, complete: function complete(record, afterLoc) { if ("throw" === record.type) throw record.arg; return "break" === record.type || "continue" === record.type ? this.next = record.arg : "return" === record.type ? (this.rval = this.arg = record.arg, this.method = "return", this.next = "end") : "normal" === record.type && afterLoc && (this.next = afterLoc), ContinueSentinel; }, finish: function finish(finallyLoc) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.finallyLoc === finallyLoc) return this.complete(entry.completion, entry.afterLoc), resetTryEntry(entry), ContinueSentinel; } }, "catch": function _catch(tryLoc) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.tryLoc === tryLoc) { var record = entry.completion; if ("throw" === record.type) { var thrown = record.arg; resetTryEntry(entry); } return thrown; } } throw new Error("illegal catch attempt"); }, delegateYield: function delegateYield(iterable, resultName, nextLoc) { return this.delegate = { iterator: values(iterable), resultName: resultName, nextLoc: nextLoc }, "next" === this.method && (this.arg = undefined), ContinueSentinel; } }, exports; }
-
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
-
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  state: {
-    arbitr_managers: [],
-    arbitr_managers_pagination: {},
-    arbitr_managers_loading: false,
-    filters_arbitration_managers: [],
-    filters_arbitration_managers_pagination: {}
-  },
-  getters: {
-    arbitr_managers: function arbitr_managers(state) {
-      return state.arbitr_managers;
-    },
-    arbitr_managers_pagination: function arbitr_managers_pagination(state) {
-      return state.arbitr_managers_pagination;
-    },
-    arbitr_managers_loading: function arbitr_managers_loading(state) {
-      return state.arbitr_managers_loading;
-    },
-    filters_arbitration_managers: function filters_arbitration_managers(state) {
-      return state.filters_arbitration_managers;
-    },
-    filters_arbitration_managers_pagination: function filters_arbitration_managers_pagination(state) {
-      return state.filters_arbitration_managers_pagination;
-    }
-  },
-  mutations: {
-    setArbitrManagers: function setArbitrManagers(state, payload) {
-      state.arbitr_managers = [];
-      payload.data.forEach(function (item) {
-        var trade = state.arbitr_managers.findIndex(function (el) {
-          return el.id === item.id;
-        });
-
-        if (trade < 0) {
-          var tmp_item = item;
-
-          if (item.type === 'person') {
-            tmp_item.fullName = Object.values(tmp_item.person).reduce(function (prev, cur) {
-              if (cur) {
-                prev += cur + ' ';
-              }
-
-              return prev;
-            }, '').trim();
-            tmp_item.shortName = item.person.firstName + ' ' + item.person.lastName;
-          } else {
-            tmp_item.fullName = item.company.fullName;
-            tmp_item.shortName = item.company.shortName;
-          }
-
-          state.arbitr_managers.push(tmp_item);
-        }
-      });
-      state.arbitr_managers_pagination = payload.pagination;
-    },
-    setFiltersArbitrManagers: function setFiltersArbitrManagers(state, payload) {
-      // state.arbitr_managers = payload.data;
-      payload.data.forEach(function (item) {
-        var trade = state.filters_arbitration_managers.findIndex(function (el) {
-          return el.id === item.id;
-        });
-
-        if (trade < 0) {
-          var tmp_item = item;
-
-          if (item.type === 'person') {
-            tmp_item.fullName = Object.values(tmp_item.person).reduce(function (prev, cur) {
-              if (cur) {
-                prev += cur + ' ';
-              }
-
-              return prev;
-            }, '').trim();
-            tmp_item.shortName = item.person.firstName + ' ' + item.person.lastName;
-          } else {
-            tmp_item.fullName = item.company.fullName;
-            tmp_item.shortName = item.company.shortName;
-          }
-
-          state.filters_arbitration_managers.push(tmp_item);
-        }
-      });
-      state.filters_arbitration_managers_pagination = payload.pagination;
-    },
-    addArbitrManager: function addArbitrManager(state, payload) {
-      state.arbitr_managers.push(payload);
-    },
-    saveArbitrManager: function saveArbitrManager(state, payload) {
-      var trade = state.arbitr_managers.findIndex(function (item) {
-        return item.id === payload.id;
-      });
-
-      if (trade >= 0) {
-        Vue.set(state.arbitr_managers, trade, payload);
-      }
-    },
-    removeArbitrManager: function removeArbitrManager(state, payload) {
-      var trade = state.arbitr_managers.findIndex(function (item) {
-        return item.id === payload;
-      });
-
-      if (trade >= 0) {
-        state.arbitr_managers.splice(trade, 1);
-      }
-    },
-    setArbitrManagersLoading: function setArbitrManagersLoading(state, payload) {
-      return state.arbitr_managers_loading = payload;
-    },
-    saveArbitrManagerProperty: function saveArbitrManagerProperty(state, payload) {
-      var trade = state.arbitr_managers.findIndex(function (item) {
-        return item.id === payload.id;
-      });
-
-      if (trade >= 0 && state.arbitr_managers[trade].hasOwnProperty(payload.key)) {
-        Vue.set(state.arbitr_managers[trade], payload.key, payload.value);
-      }
-    }
-  },
-  actions: {
-    getArbitrationManagers: function getArbitrationManagers(_ref, payload) {
-      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
-        var commit, state;
-        return _regeneratorRuntime().wrap(function _callee$(_context) {
-          while (1) {
-            switch (_context.prev = _context.next) {
-              case 0:
-                commit = _ref.commit, state = _ref.state;
-                commit('setArbitrManagersLoading', true);
-                _context.prev = 2;
-                _context.next = 5;
-                return axios({
-                  method: 'put',
-                  url: '/api/trades/filter/bidders/arbitrationManagers?page=' + payload.page,
-                  data: payload
-                }).then(function (response) {
-                  if (payload.type == 'filters') {
-                    commit('setFiltersArbitrManagers', response.data);
-                  } else {
-                    commit('setArbitrManagers', response.data);
-                  }
-
-                  commit('setArbitrManagersLoading', false);
-                });
-
-              case 5:
-                _context.next = 12;
-                break;
-
-              case 7:
-                _context.prev = 7;
-                _context.t0 = _context["catch"](2);
-                console.log(_context.t0); // commit('setArbitrManagers', []);
-
-                commit('setArbitrManagersLoading', false);
-                throw _context.t0;
-
-              case 12:
-              case "end":
-                return _context.stop();
-            }
-          }
-        }, _callee, null, [[2, 7]]);
-      }))();
-    },
-    addArbitrManager: function addArbitrManager(_ref2, payload) {
-      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2() {
-        var commit;
-        return _regeneratorRuntime().wrap(function _callee2$(_context2) {
-          while (1) {
-            switch (_context2.prev = _context2.next) {
-              case 0:
-                commit = _ref2.commit;
-                _context2.next = 3;
-                return axios.post('/api/arbitrManagers', payload, {
-                  headers: {
-                    'Content-Type': 'multipart/form-data'
-                  }
-                }).then(function (response) {
-                  commit('addArbitrManager', response.data);
-                })["catch"](function (error) {
-                  console.log(error);
-                  throw error;
-                });
-
-              case 3:
-              case "end":
-                return _context2.stop();
-            }
-          }
-        }, _callee2);
-      }))();
-    },
-    updateArbitrManager: function updateArbitrManager(_ref3, payload) {
-      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee3() {
-        var commit;
-        return _regeneratorRuntime().wrap(function _callee3$(_context3) {
-          while (1) {
-            switch (_context3.prev = _context3.next) {
-              case 0:
-                commit = _ref3.commit;
-                _context3.next = 3;
-                return axios.post('/api/arbitrManagers/' + payload.id, payload.formData, {
-                  headers: {
-                    'Content-Type': 'multipart/form-data'
-                  }
-                }).then(function (response) {
-                  commit('saveArbitrManager', response.data);
-                })["catch"](function (error) {
-                  console.log(error);
-                  throw error;
-                });
-
-              case 3:
-              case "end":
-                return _context3.stop();
-            }
-          }
-        }, _callee3);
-      }))();
-    },
-    removeArbitrManager: function removeArbitrManager(_ref4, payload) {
-      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee4() {
-        var dispatch, commit;
-        return _regeneratorRuntime().wrap(function _callee4$(_context4) {
-          while (1) {
-            switch (_context4.prev = _context4.next) {
-              case 0:
-                dispatch = _ref4.dispatch, commit = _ref4.commit;
-                _context4.next = 3;
-                return axios["delete"]("/api/arbitrManagers/".concat(payload.id)).then(function (response) {
-                  commit('removeArbitrManager', payload.id);
-                  dispatch('sendNotification', {
-                    self: payload.self,
-                    title: 'Должники',
-                    message: 'Должник успешно удален'
-                  });
-                })["catch"](function (error) {
-                  dispatch('sendNotification', {
-                    self: payload.self,
-                    title: 'Должники',
-                    type: 'error',
-                    message: 'Произошла ошибка'
-                  });
-                });
-
-              case 3:
-              case "end":
-                return _context4.stop();
-            }
-          }
-        }, _callee4);
-      }))();
-    },
-    saveArbitrManager: function saveArbitrManager(_ref5, payload) {
-      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee5() {
-        var commit;
-        return _regeneratorRuntime().wrap(function _callee5$(_context5) {
-          while (1) {
-            switch (_context5.prev = _context5.next) {
-              case 0:
-                commit = _ref5.commit;
-                _context5.next = 3;
-                return axios.post("/api/arbitrManagers/save/".concat(payload.id), {
-                  key: payload.key,
-                  value: payload.value
-                }).then(function (response) {
-                  commit('saveArbitrManager', response.data.trade);
-                })["catch"](function (error) {
-                  console.log(error);
-                  throw error;
-                });
-
-              case 3:
-              case "end":
-                return _context5.stop();
-            }
-          }
-        }, _callee5);
-      }))();
     }
   }
 });
@@ -10555,93 +10289,9 @@ vue__WEBPACK_IMPORTED_MODULE_1__["default"].use(vuex__WEBPACK_IMPORTED_MODULE_2_
 
 /***/ }),
 
-/***/ "./resources/js/store/categories.js":
-/*!******************************************!*\
-  !*** ./resources/js/store/categories.js ***!
-  \******************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
-
-function _regeneratorRuntime() { "use strict"; /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/facebook/regenerator/blob/main/LICENSE */ _regeneratorRuntime = function _regeneratorRuntime() { return exports; }; var exports = {}, Op = Object.prototype, hasOwn = Op.hasOwnProperty, $Symbol = "function" == typeof Symbol ? Symbol : {}, iteratorSymbol = $Symbol.iterator || "@@iterator", asyncIteratorSymbol = $Symbol.asyncIterator || "@@asyncIterator", toStringTagSymbol = $Symbol.toStringTag || "@@toStringTag"; function define(obj, key, value) { return Object.defineProperty(obj, key, { value: value, enumerable: !0, configurable: !0, writable: !0 }), obj[key]; } try { define({}, ""); } catch (err) { define = function define(obj, key, value) { return obj[key] = value; }; } function wrap(innerFn, outerFn, self, tryLocsList) { var protoGenerator = outerFn && outerFn.prototype instanceof Generator ? outerFn : Generator, generator = Object.create(protoGenerator.prototype), context = new Context(tryLocsList || []); return generator._invoke = function (innerFn, self, context) { var state = "suspendedStart"; return function (method, arg) { if ("executing" === state) throw new Error("Generator is already running"); if ("completed" === state) { if ("throw" === method) throw arg; return doneResult(); } for (context.method = method, context.arg = arg;;) { var delegate = context.delegate; if (delegate) { var delegateResult = maybeInvokeDelegate(delegate, context); if (delegateResult) { if (delegateResult === ContinueSentinel) continue; return delegateResult; } } if ("next" === context.method) context.sent = context._sent = context.arg;else if ("throw" === context.method) { if ("suspendedStart" === state) throw state = "completed", context.arg; context.dispatchException(context.arg); } else "return" === context.method && context.abrupt("return", context.arg); state = "executing"; var record = tryCatch(innerFn, self, context); if ("normal" === record.type) { if (state = context.done ? "completed" : "suspendedYield", record.arg === ContinueSentinel) continue; return { value: record.arg, done: context.done }; } "throw" === record.type && (state = "completed", context.method = "throw", context.arg = record.arg); } }; }(innerFn, self, context), generator; } function tryCatch(fn, obj, arg) { try { return { type: "normal", arg: fn.call(obj, arg) }; } catch (err) { return { type: "throw", arg: err }; } } exports.wrap = wrap; var ContinueSentinel = {}; function Generator() {} function GeneratorFunction() {} function GeneratorFunctionPrototype() {} var IteratorPrototype = {}; define(IteratorPrototype, iteratorSymbol, function () { return this; }); var getProto = Object.getPrototypeOf, NativeIteratorPrototype = getProto && getProto(getProto(values([]))); NativeIteratorPrototype && NativeIteratorPrototype !== Op && hasOwn.call(NativeIteratorPrototype, iteratorSymbol) && (IteratorPrototype = NativeIteratorPrototype); var Gp = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(IteratorPrototype); function defineIteratorMethods(prototype) { ["next", "throw", "return"].forEach(function (method) { define(prototype, method, function (arg) { return this._invoke(method, arg); }); }); } function AsyncIterator(generator, PromiseImpl) { function invoke(method, arg, resolve, reject) { var record = tryCatch(generator[method], generator, arg); if ("throw" !== record.type) { var result = record.arg, value = result.value; return value && "object" == _typeof(value) && hasOwn.call(value, "__await") ? PromiseImpl.resolve(value.__await).then(function (value) { invoke("next", value, resolve, reject); }, function (err) { invoke("throw", err, resolve, reject); }) : PromiseImpl.resolve(value).then(function (unwrapped) { result.value = unwrapped, resolve(result); }, function (error) { return invoke("throw", error, resolve, reject); }); } reject(record.arg); } var previousPromise; this._invoke = function (method, arg) { function callInvokeWithMethodAndArg() { return new PromiseImpl(function (resolve, reject) { invoke(method, arg, resolve, reject); }); } return previousPromise = previousPromise ? previousPromise.then(callInvokeWithMethodAndArg, callInvokeWithMethodAndArg) : callInvokeWithMethodAndArg(); }; } function maybeInvokeDelegate(delegate, context) { var method = delegate.iterator[context.method]; if (undefined === method) { if (context.delegate = null, "throw" === context.method) { if (delegate.iterator["return"] && (context.method = "return", context.arg = undefined, maybeInvokeDelegate(delegate, context), "throw" === context.method)) return ContinueSentinel; context.method = "throw", context.arg = new TypeError("The iterator does not provide a 'throw' method"); } return ContinueSentinel; } var record = tryCatch(method, delegate.iterator, context.arg); if ("throw" === record.type) return context.method = "throw", context.arg = record.arg, context.delegate = null, ContinueSentinel; var info = record.arg; return info ? info.done ? (context[delegate.resultName] = info.value, context.next = delegate.nextLoc, "return" !== context.method && (context.method = "next", context.arg = undefined), context.delegate = null, ContinueSentinel) : info : (context.method = "throw", context.arg = new TypeError("iterator result is not an object"), context.delegate = null, ContinueSentinel); } function pushTryEntry(locs) { var entry = { tryLoc: locs[0] }; 1 in locs && (entry.catchLoc = locs[1]), 2 in locs && (entry.finallyLoc = locs[2], entry.afterLoc = locs[3]), this.tryEntries.push(entry); } function resetTryEntry(entry) { var record = entry.completion || {}; record.type = "normal", delete record.arg, entry.completion = record; } function Context(tryLocsList) { this.tryEntries = [{ tryLoc: "root" }], tryLocsList.forEach(pushTryEntry, this), this.reset(!0); } function values(iterable) { if (iterable) { var iteratorMethod = iterable[iteratorSymbol]; if (iteratorMethod) return iteratorMethod.call(iterable); if ("function" == typeof iterable.next) return iterable; if (!isNaN(iterable.length)) { var i = -1, next = function next() { for (; ++i < iterable.length;) { if (hasOwn.call(iterable, i)) return next.value = iterable[i], next.done = !1, next; } return next.value = undefined, next.done = !0, next; }; return next.next = next; } } return { next: doneResult }; } function doneResult() { return { value: undefined, done: !0 }; } return GeneratorFunction.prototype = GeneratorFunctionPrototype, define(Gp, "constructor", GeneratorFunctionPrototype), define(GeneratorFunctionPrototype, "constructor", GeneratorFunction), GeneratorFunction.displayName = define(GeneratorFunctionPrototype, toStringTagSymbol, "GeneratorFunction"), exports.isGeneratorFunction = function (genFun) { var ctor = "function" == typeof genFun && genFun.constructor; return !!ctor && (ctor === GeneratorFunction || "GeneratorFunction" === (ctor.displayName || ctor.name)); }, exports.mark = function (genFun) { return Object.setPrototypeOf ? Object.setPrototypeOf(genFun, GeneratorFunctionPrototype) : (genFun.__proto__ = GeneratorFunctionPrototype, define(genFun, toStringTagSymbol, "GeneratorFunction")), genFun.prototype = Object.create(Gp), genFun; }, exports.awrap = function (arg) { return { __await: arg }; }, defineIteratorMethods(AsyncIterator.prototype), define(AsyncIterator.prototype, asyncIteratorSymbol, function () { return this; }), exports.AsyncIterator = AsyncIterator, exports.async = function (innerFn, outerFn, self, tryLocsList, PromiseImpl) { void 0 === PromiseImpl && (PromiseImpl = Promise); var iter = new AsyncIterator(wrap(innerFn, outerFn, self, tryLocsList), PromiseImpl); return exports.isGeneratorFunction(outerFn) ? iter : iter.next().then(function (result) { return result.done ? result.value : iter.next(); }); }, defineIteratorMethods(Gp), define(Gp, toStringTagSymbol, "Generator"), define(Gp, iteratorSymbol, function () { return this; }), define(Gp, "toString", function () { return "[object Generator]"; }), exports.keys = function (object) { var keys = []; for (var key in object) { keys.push(key); } return keys.reverse(), function next() { for (; keys.length;) { var key = keys.pop(); if (key in object) return next.value = key, next.done = !1, next; } return next.done = !0, next; }; }, exports.values = values, Context.prototype = { constructor: Context, reset: function reset(skipTempReset) { if (this.prev = 0, this.next = 0, this.sent = this._sent = undefined, this.done = !1, this.delegate = null, this.method = "next", this.arg = undefined, this.tryEntries.forEach(resetTryEntry), !skipTempReset) for (var name in this) { "t" === name.charAt(0) && hasOwn.call(this, name) && !isNaN(+name.slice(1)) && (this[name] = undefined); } }, stop: function stop() { this.done = !0; var rootRecord = this.tryEntries[0].completion; if ("throw" === rootRecord.type) throw rootRecord.arg; return this.rval; }, dispatchException: function dispatchException(exception) { if (this.done) throw exception; var context = this; function handle(loc, caught) { return record.type = "throw", record.arg = exception, context.next = loc, caught && (context.method = "next", context.arg = undefined), !!caught; } for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i], record = entry.completion; if ("root" === entry.tryLoc) return handle("end"); if (entry.tryLoc <= this.prev) { var hasCatch = hasOwn.call(entry, "catchLoc"), hasFinally = hasOwn.call(entry, "finallyLoc"); if (hasCatch && hasFinally) { if (this.prev < entry.catchLoc) return handle(entry.catchLoc, !0); if (this.prev < entry.finallyLoc) return handle(entry.finallyLoc); } else if (hasCatch) { if (this.prev < entry.catchLoc) return handle(entry.catchLoc, !0); } else { if (!hasFinally) throw new Error("try statement without catch or finally"); if (this.prev < entry.finallyLoc) return handle(entry.finallyLoc); } } } }, abrupt: function abrupt(type, arg) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.tryLoc <= this.prev && hasOwn.call(entry, "finallyLoc") && this.prev < entry.finallyLoc) { var finallyEntry = entry; break; } } finallyEntry && ("break" === type || "continue" === type) && finallyEntry.tryLoc <= arg && arg <= finallyEntry.finallyLoc && (finallyEntry = null); var record = finallyEntry ? finallyEntry.completion : {}; return record.type = type, record.arg = arg, finallyEntry ? (this.method = "next", this.next = finallyEntry.finallyLoc, ContinueSentinel) : this.complete(record); }, complete: function complete(record, afterLoc) { if ("throw" === record.type) throw record.arg; return "break" === record.type || "continue" === record.type ? this.next = record.arg : "return" === record.type ? (this.rval = this.arg = record.arg, this.method = "return", this.next = "end") : "normal" === record.type && afterLoc && (this.next = afterLoc), ContinueSentinel; }, finish: function finish(finallyLoc) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.finallyLoc === finallyLoc) return this.complete(entry.completion, entry.afterLoc), resetTryEntry(entry), ContinueSentinel; } }, "catch": function _catch(tryLoc) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.tryLoc === tryLoc) { var record = entry.completion; if ("throw" === record.type) { var thrown = record.arg; resetTryEntry(entry); } return thrown; } } throw new Error("illegal catch attempt"); }, delegateYield: function delegateYield(iterable, resultName, nextLoc) { return this.delegate = { iterator: values(iterable), resultName: resultName, nextLoc: nextLoc }, "next" === this.method && (this.arg = undefined), ContinueSentinel; } }, exports; }
-
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
-
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  state: {
-    categories: [],
-    categories_loading: false
-  },
-  getters: {
-    categories: function categories(state) {
-      return state.categories;
-    },
-    categories_loading: function categories_loading(state) {
-      return state.categories_loading;
-    }
-  },
-  mutations: {
-    setCategories: function setCategories(state, payload) {
-      payload.forEach(function (item) {
-        Vue.set(item, 'status', false);
-        state.categories.push(item);
-      });
-    },
-    setCategoriesLoading: function setCategoriesLoading(state, payload) {
-      return state.categories_loading = payload;
-    }
-  },
-  actions: {
-    getCategories: function getCategories(_ref, payload) {
-      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
-        var commit, state;
-        return _regeneratorRuntime().wrap(function _callee$(_context) {
-          while (1) {
-            switch (_context.prev = _context.next) {
-              case 0:
-                commit = _ref.commit, state = _ref.state;
-
-                if (!(state.categories.length == 0)) {
-                  _context.next = 5;
-                  break;
-                }
-
-                commit('setCategoriesLoading', true);
-                _context.next = 5;
-                return axios({
-                  method: 'get',
-                  url: '/api/trades/filter/categories',
-                  data: {}
-                }).then(function (response) {
-                  commit('setCategories', response.data);
-                  commit('setCategoriesLoading', false);
-                })["catch"](function (error) {
-                  commit('setCategoriesLoading', false);
-                });
-
-              case 5:
-              case "end":
-                return _context.stop();
-            }
-          }
-        }, _callee);
-      }))();
-    }
-  }
-});
-
-/***/ }),
-
-/***/ "./resources/js/store/debtors.js":
+/***/ "./resources/js/store/bidders.js":
 /*!***************************************!*\
-  !*** ./resources/js/store/debtors.js ***!
+  !*** ./resources/js/store/bidders.js ***!
   \***************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
@@ -10660,59 +10310,90 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   state: {
-    debtors: [],
-    debtors_pagination: {},
-    debtors_loading: false,
-    filters_debtors: [],
-    filters_debtors_pagination: {}
+    bidders: {
+      debtors: {
+        data: [],
+        pagination: {},
+        loading: false
+      },
+      organizers: {
+        data: [],
+        pagination: {},
+        loading: false
+      },
+      arbitrationManagers: {
+        data: [],
+        pagination: {},
+        loading: false
+      }
+    },
+    tradePlaces: {
+      data: [],
+      pagination: {},
+      loading: false
+    },
+    messages: {
+      data: [],
+      pagination: {},
+      loading: false
+    }
   },
   getters: {
     debtors: function debtors(state) {
-      return state.debtors;
+      return state.bidders.debtors.data;
     },
     debtors_pagination: function debtors_pagination(state) {
-      return state.debtors_pagination;
+      return state.bidders.debtors.pagination;
     },
     debtors_loading: function debtors_loading(state) {
-      return state.debtors_loading;
+      return state.bidders.debtors.loading;
     },
-    filters_debtors: function filters_debtors(state) {
-      return state.filters_debtors;
+    arbitration_managers: function arbitration_managers(state) {
+      return state.bidders.arbitrationManagers.data;
     },
-    filters_debtors_pagination: function filters_debtors_pagination(state) {
-      return state.filters_debtors_pagination;
+    arbitration_managers_pagination: function arbitration_managers_pagination(state) {
+      return state.bidders.arbitrationManagers.pagination;
+    },
+    arbitration_managers_loading: function arbitration_managers_loading(state) {
+      return state.bidders.arbitrationManagers.loading;
+    },
+    organizers: function organizers(state) {
+      return state.bidders.organizers.data;
+    },
+    organizers_pagination: function organizers_pagination(state) {
+      return state.bidders.organizers.pagination;
+    },
+    organizers_loading: function organizers_loading(state) {
+      return state.bidders.organizers.loading;
+    },
+    trade_places: function trade_places(state) {
+      return state.tradePlaces.data;
+    },
+    trade_places_pagination: function trade_places_pagination(state) {
+      return state.tradePlaces.pagination;
+    },
+    trade_places_loading: function trade_places_loading(state) {
+      return state.tradePlaces.loading;
+    },
+    messages: function messages(state) {
+      return state.messages.data;
+    },
+    messages_pagination: function messages_pagination(state) {
+      return state.messages.pagination;
+    },
+    messages_loading: function messages_loading(state) {
+      return state.messages.loading;
     }
   },
   mutations: {
-    setDebtors: function setDebtors(state, payload) {
-      state.debtors = [];
+    setBidders: function setBidders(state, payload) {
+      state.bidders[payload.type].data = [];
       payload.data.forEach(function (item) {
-        if (item.type === 'person') {
-          item.fullName = Object.values(item.person).reduce(function (prev, cur) {
-            if (cur) {
-              prev += cur + ' ';
-            }
-
-            return prev;
-          }, '').trim();
-          item.shortName = item.person.firstName + ' ' + item.person.lastName;
-        } else {
-          item.fullName = item.company.fullName;
-          item.shortName = item.company.shortName;
-        }
-
-        state.debtors.push(item);
-      });
-      state.debtors_pagination = payload.pagination;
-    },
-    setFiltersDebtors: function setFiltersDebtors(state, payload) {
-      // state.debtors = payload.data;
-      payload.data.forEach(function (item) {
-        var debtor = state.filters_debtors.findIndex(function (el) {
+        var trade = state.bidders[payload.type].data.findIndex(function (el) {
           return el.id === item.id;
         });
 
-        if (debtor < 0) {
+        if (trade < 0) {
           var tmp_item = item;
 
           if (item.type === 'person') {
@@ -10729,47 +10410,38 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             tmp_item.shortName = item.company.shortName;
           }
 
-          state.filters_debtors.push(tmp_item);
+          state.bidders[payload.type].data.push(tmp_item);
         }
       });
-      state.filters_debtors_pagination = payload.pagination;
-    },
-    addDebtor: function addDebtor(state, payload) {
-      state.debtors.push(payload);
-    },
-    saveDebtor: function saveDebtor(state, payload) {
-      var debtor = state.debtors.findIndex(function (item) {
-        return item.id === payload.id;
-      });
-
-      if (debtor >= 0) {
-        Vue.set(state.debtors, debtor, payload);
-      }
-    },
-    removeDebtor: function removeDebtor(state, payload) {
-      var debtor = state.debtors.findIndex(function (item) {
-        return item.id === payload;
-      });
-
-      if (debtor >= 0) {
-        state.debtors.splice(debtor, 1);
-      }
-    },
-    setDebtorsLoading: function setDebtorsLoading(state, payload) {
-      return state.debtors_loading = payload;
-    },
-    saveDebtorProperty: function saveDebtorProperty(state, payload) {
-      var debtor = state.debtors.findIndex(function (item) {
-        return item.id === payload.id;
-      });
-
-      if (debtor >= 0 && state.debtors[debtor].hasOwnProperty(payload.key)) {
-        Vue.set(state.debtors[debtor], payload.key, payload.value);
-      }
+      state.bidders[payload.type].pagination = payload.pagination;
     }
   },
   actions: {
-    getDebtors: function getDebtors(_ref, payload) {
+    /*
+    * PUT
+    * /bidders/trades
+    * Получение активных/неактивных торгов выбранного участника
+     * GET
+    * /bidders/{bidderId}/{type}
+    * Получение данных об арбитражном управляющем/организаторе/должнике
+     * PUT
+    * /bidders/get/{type}
+    * Получение информации о должниках/организаторах торгов/арбитражных управляющих
+     * PUT
+    * /bidders/trade-places
+    * Получение информации о торговых площадках для отображения в реестрах
+     * GET
+    * /bidders/{tradePlaceId}
+    * Получение данных о торговой площадке
+     * POST
+    * /bidders/estimate
+    * Оценка организатора/арбитражного управляющего
+     * POST
+    * /bidders/debtor/messages
+    * Сообщения о должнике
+    *
+    */
+    getBidderLots: function getBidderLots(_ref, payload) {
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
         var commit, state;
         return _regeneratorRuntime().wrap(function _callee$(_context) {
@@ -10777,92 +10449,106 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             switch (_context.prev = _context.next) {
               case 0:
                 commit = _ref.commit, state = _ref.state;
-                commit('setDebtorsLoading', true);
-                _context.prev = 2;
-                _context.next = 5;
+                _context.next = 3;
                 return axios({
                   method: 'put',
-                  url: '/api/trades/filter/bidders/debtors?page=' + payload.page,
+                  url: "/api/bidders/trades?page=" + payload.page,
                   data: payload
-                }).then(function (response) {
-                  if (payload.type === 'filters') {
-                    commit('setFiltersDebtors', response.data);
-                  } else {
-                    commit('setDebtors', response.data);
-                  }
-
-                  commit('setDebtorsLoading', false);
                 });
 
-              case 5:
-                _context.next = 12;
-                break;
+              case 3:
+                return _context.abrupt("return", _context.sent);
 
-              case 7:
-                _context.prev = 7;
-                _context.t0 = _context["catch"](2);
-                console.log(_context.t0); // commit('setDebtors', []);
-
-                commit('setDebtorsLoading', false);
-                throw _context.t0;
-
-              case 12:
+              case 4:
               case "end":
                 return _context.stop();
             }
           }
-        }, _callee, null, [[2, 7]]);
+        }, _callee);
       }))();
     },
-    addDebtor: function addDebtor(_ref2, payload) {
+    getBidders: function getBidders(_ref2, payload) {
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2() {
-        var commit;
+        var dispatch, commit, state;
         return _regeneratorRuntime().wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
-                commit = _ref2.commit;
-                _context2.next = 3;
-                return axios.post('/api/debtors', payload, {
-                  headers: {
-                    'Content-Type': 'multipart/form-data'
-                  }
+                dispatch = _ref2.dispatch, commit = _ref2.commit, state = _ref2.state;
+                dispatch('saveDataProperty', {
+                  module_key: 'bidders',
+                  state_key: 'bidders',
+                  key: payload.type + '.loading',
+                  value: true
+                }, {
+                  root: true
+                });
+                _context2.prev = 2;
+                _context2.next = 5;
+                return axios({
+                  method: 'put',
+                  url: '/api/bidders/get/' + payload.type + '?page=' + payload.page,
+                  data: payload
                 }).then(function (response) {
-                  commit('addDebtor', response.data);
-                })["catch"](function (error) {
-                  console.log(error);
-                  throw error;
+                  commit('setBidders', {
+                    type: payload.type,
+                    data: response.data.data,
+                    pagination: response.data.pagination
+                  });
+                  dispatch('saveDataProperty', {
+                    module_key: 'bidders',
+                    state_key: 'bidders',
+                    key: payload.type + '.loading',
+                    value: false
+                  }, {
+                    root: true
+                  });
                 });
 
-              case 3:
+              case 5:
+                _context2.next = 11;
+                break;
+
+              case 7:
+                _context2.prev = 7;
+                _context2.t0 = _context2["catch"](2);
+                dispatch('saveDataProperty', {
+                  module_key: 'bidders',
+                  state_key: 'bidders',
+                  key: payload.type + '.loading',
+                  value: false
+                }, {
+                  root: true
+                });
+                throw _context2.t0;
+
+              case 11:
               case "end":
                 return _context2.stop();
             }
           }
-        }, _callee2);
+        }, _callee2, null, [[2, 7]]);
       }))();
     },
-    updateDebtor: function updateDebtor(_ref3, payload) {
+    getBidder: function getBidder(_ref3, payload) {
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee3() {
-        var commit;
+        var commit, state;
         return _regeneratorRuntime().wrap(function _callee3$(_context3) {
           while (1) {
             switch (_context3.prev = _context3.next) {
               case 0:
-                commit = _ref3.commit;
+                commit = _ref3.commit, state = _ref3.state;
                 _context3.next = 3;
-                return axios.post('/api/debtors/' + payload.id, payload.formData, {
-                  headers: {
-                    'Content-Type': 'multipart/form-data'
-                  }
-                }).then(function (response) {
-                  commit('saveDebtor', response.data);
-                })["catch"](function (error) {
-                  console.log(error);
-                  throw error;
+                return axios({
+                  method: 'get',
+                  url: '/api/bidders/' + payload.id + '/' + payload.type,
+                  data: payload
                 });
 
               case 3:
+                return _context3.abrupt("return", _context3.sent);
+
+              case 4:
               case "end":
                 return _context3.stop();
             }
@@ -10870,64 +10556,204 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, _callee3);
       }))();
     },
-    removeDebtor: function removeDebtor(_ref4, payload) {
+    getTradePlaces: function getTradePlaces(_ref4, payload) {
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee4() {
-        var dispatch, commit;
+        var dispatch, commit, state;
         return _regeneratorRuntime().wrap(function _callee4$(_context4) {
           while (1) {
             switch (_context4.prev = _context4.next) {
               case 0:
-                dispatch = _ref4.dispatch, commit = _ref4.commit;
-                _context4.next = 3;
-                return axios["delete"]("/api/debtors/".concat(payload.id)).then(function (response) {
-                  commit('removeDebtor', payload.id);
-                  dispatch('sendNotification', {
-                    self: payload.self,
-                    title: 'Должники',
-                    message: 'Должник успешно удален'
+                dispatch = _ref4.dispatch, commit = _ref4.commit, state = _ref4.state;
+                dispatch('saveDataProperty', {
+                  module_key: 'bidders',
+                  state_key: 'tradePlaces',
+                  key: 'loading',
+                  value: true
+                }, {
+                  root: true
+                });
+                _context4.prev = 2;
+                _context4.next = 5;
+                return axios({
+                  method: 'put',
+                  url: '/api/bidders/trade-places?page=' + payload.page,
+                  data: payload
+                }).then(function (response) {
+                  dispatch('saveDataProperty', {
+                    module_key: 'bidders',
+                    state_key: 'tradePlaces',
+                    key: 'data',
+                    value: response.data.data
+                  }, {
+                    root: true
                   });
-                })["catch"](function (error) {
-                  dispatch('sendNotification', {
-                    self: payload.self,
-                    title: 'Должники',
-                    type: 'error',
-                    message: 'Произошла ошибка'
+                  dispatch('saveDataProperty', {
+                    module_key: 'bidders',
+                    state_key: 'tradePlaces',
+                    key: 'pagination',
+                    value: response.data.pagination
+                  }, {
+                    root: true
+                  });
+                  dispatch('saveDataProperty', {
+                    module_key: 'bidders',
+                    state_key: 'tradePlaces',
+                    key: 'loading',
+                    value: false
+                  }, {
+                    root: true
                   });
                 });
 
-              case 3:
+              case 5:
+                _context4.next = 11;
+                break;
+
+              case 7:
+                _context4.prev = 7;
+                _context4.t0 = _context4["catch"](2);
+                dispatch('saveDataProperty', {
+                  module_key: 'bidders',
+                  state_key: 'tradePlaces',
+                  key: 'loading',
+                  value: false
+                }, {
+                  root: true
+                });
+                throw _context4.t0;
+
+              case 11:
               case "end":
                 return _context4.stop();
             }
           }
-        }, _callee4);
+        }, _callee4, null, [[2, 7]]);
       }))();
     },
-    saveDebtor: function saveDebtor(_ref5, payload) {
+    getTradePlace: function getTradePlace(_ref5, payload) {
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee5() {
-        var commit;
+        var commit, state;
         return _regeneratorRuntime().wrap(function _callee5$(_context5) {
           while (1) {
             switch (_context5.prev = _context5.next) {
               case 0:
-                commit = _ref5.commit;
+                commit = _ref5.commit, state = _ref5.state;
                 _context5.next = 3;
-                return axios.post("/api/debtors/save/".concat(payload.id), {
-                  key: payload.key,
-                  value: payload.value
-                }).then(function (response) {
-                  commit('saveDebtor', response.data.debtor);
-                })["catch"](function (error) {
-                  console.log(error);
-                  throw error;
+                return axios({
+                  method: 'GET',
+                  url: '/api/bidders/' + payload,
+                  data: payload
                 });
 
               case 3:
+                return _context5.abrupt("return", _context5.sent);
+
+              case 4:
               case "end":
                 return _context5.stop();
             }
           }
         }, _callee5);
+      }))();
+    },
+    estimateBidder: function estimateBidder(_ref6, payload) {
+      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee6() {
+        var commit, state;
+        return _regeneratorRuntime().wrap(function _callee6$(_context6) {
+          while (1) {
+            switch (_context6.prev = _context6.next) {
+              case 0:
+                commit = _ref6.commit, state = _ref6.state;
+                _context6.next = 3;
+                return axios({
+                  method: 'post',
+                  url: '/api/bidders/estimate',
+                  data: payload
+                });
+
+              case 3:
+                return _context6.abrupt("return", _context6.sent);
+
+              case 4:
+              case "end":
+                return _context6.stop();
+            }
+          }
+        }, _callee6);
+      }))();
+    },
+    getDebtorMessages: function getDebtorMessages(_ref7, payload) {
+      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee7() {
+        var dispatch, commit, state;
+        return _regeneratorRuntime().wrap(function _callee7$(_context7) {
+          while (1) {
+            switch (_context7.prev = _context7.next) {
+              case 0:
+                dispatch = _ref7.dispatch, commit = _ref7.commit, state = _ref7.state;
+                dispatch('saveDataProperty', {
+                  module_key: 'bidders',
+                  state_key: 'messages',
+                  key: 'loading',
+                  value: true
+                }, {
+                  root: true
+                });
+                _context7.prev = 2;
+                _context7.next = 5;
+                return axios({
+                  method: 'post',
+                  url: '/api/bidders/debtor/messages?page=' + payload.page,
+                  data: payload
+                }).then(function (response) {
+                  dispatch('saveDataProperty', {
+                    module_key: 'bidders',
+                    state_key: 'messages',
+                    key: 'data',
+                    value: response.data.data
+                  }, {
+                    root: true
+                  });
+                  dispatch('saveDataProperty', {
+                    module_key: 'bidders',
+                    state_key: 'messages',
+                    key: 'pagination',
+                    value: response.data.pagination
+                  }, {
+                    root: true
+                  });
+                  dispatch('saveDataProperty', {
+                    module_key: 'bidders',
+                    state_key: 'messages',
+                    key: 'loading',
+                    value: false
+                  }, {
+                    root: true
+                  });
+                });
+
+              case 5:
+                _context7.next = 11;
+                break;
+
+              case 7:
+                _context7.prev = 7;
+                _context7.t0 = _context7["catch"](2);
+                dispatch('saveDataProperty', {
+                  module_key: 'bidders',
+                  state_key: 'messages',
+                  key: 'loading',
+                  value: false
+                }, {
+                  root: true
+                });
+                throw _context7.t0;
+
+              case 11:
+              case "end":
+                return _context7.stop();
+            }
+          }
+        }, _callee7, null, [[2, 7]]);
       }))();
     }
   }
@@ -11588,6 +11414,404 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/store/filtersData.js":
+/*!*******************************************!*\
+  !*** ./resources/js/store/filtersData.js ***!
+  \*******************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
+
+function _regeneratorRuntime() { "use strict"; /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/facebook/regenerator/blob/main/LICENSE */ _regeneratorRuntime = function _regeneratorRuntime() { return exports; }; var exports = {}, Op = Object.prototype, hasOwn = Op.hasOwnProperty, $Symbol = "function" == typeof Symbol ? Symbol : {}, iteratorSymbol = $Symbol.iterator || "@@iterator", asyncIteratorSymbol = $Symbol.asyncIterator || "@@asyncIterator", toStringTagSymbol = $Symbol.toStringTag || "@@toStringTag"; function define(obj, key, value) { return Object.defineProperty(obj, key, { value: value, enumerable: !0, configurable: !0, writable: !0 }), obj[key]; } try { define({}, ""); } catch (err) { define = function define(obj, key, value) { return obj[key] = value; }; } function wrap(innerFn, outerFn, self, tryLocsList) { var protoGenerator = outerFn && outerFn.prototype instanceof Generator ? outerFn : Generator, generator = Object.create(protoGenerator.prototype), context = new Context(tryLocsList || []); return generator._invoke = function (innerFn, self, context) { var state = "suspendedStart"; return function (method, arg) { if ("executing" === state) throw new Error("Generator is already running"); if ("completed" === state) { if ("throw" === method) throw arg; return doneResult(); } for (context.method = method, context.arg = arg;;) { var delegate = context.delegate; if (delegate) { var delegateResult = maybeInvokeDelegate(delegate, context); if (delegateResult) { if (delegateResult === ContinueSentinel) continue; return delegateResult; } } if ("next" === context.method) context.sent = context._sent = context.arg;else if ("throw" === context.method) { if ("suspendedStart" === state) throw state = "completed", context.arg; context.dispatchException(context.arg); } else "return" === context.method && context.abrupt("return", context.arg); state = "executing"; var record = tryCatch(innerFn, self, context); if ("normal" === record.type) { if (state = context.done ? "completed" : "suspendedYield", record.arg === ContinueSentinel) continue; return { value: record.arg, done: context.done }; } "throw" === record.type && (state = "completed", context.method = "throw", context.arg = record.arg); } }; }(innerFn, self, context), generator; } function tryCatch(fn, obj, arg) { try { return { type: "normal", arg: fn.call(obj, arg) }; } catch (err) { return { type: "throw", arg: err }; } } exports.wrap = wrap; var ContinueSentinel = {}; function Generator() {} function GeneratorFunction() {} function GeneratorFunctionPrototype() {} var IteratorPrototype = {}; define(IteratorPrototype, iteratorSymbol, function () { return this; }); var getProto = Object.getPrototypeOf, NativeIteratorPrototype = getProto && getProto(getProto(values([]))); NativeIteratorPrototype && NativeIteratorPrototype !== Op && hasOwn.call(NativeIteratorPrototype, iteratorSymbol) && (IteratorPrototype = NativeIteratorPrototype); var Gp = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(IteratorPrototype); function defineIteratorMethods(prototype) { ["next", "throw", "return"].forEach(function (method) { define(prototype, method, function (arg) { return this._invoke(method, arg); }); }); } function AsyncIterator(generator, PromiseImpl) { function invoke(method, arg, resolve, reject) { var record = tryCatch(generator[method], generator, arg); if ("throw" !== record.type) { var result = record.arg, value = result.value; return value && "object" == _typeof(value) && hasOwn.call(value, "__await") ? PromiseImpl.resolve(value.__await).then(function (value) { invoke("next", value, resolve, reject); }, function (err) { invoke("throw", err, resolve, reject); }) : PromiseImpl.resolve(value).then(function (unwrapped) { result.value = unwrapped, resolve(result); }, function (error) { return invoke("throw", error, resolve, reject); }); } reject(record.arg); } var previousPromise; this._invoke = function (method, arg) { function callInvokeWithMethodAndArg() { return new PromiseImpl(function (resolve, reject) { invoke(method, arg, resolve, reject); }); } return previousPromise = previousPromise ? previousPromise.then(callInvokeWithMethodAndArg, callInvokeWithMethodAndArg) : callInvokeWithMethodAndArg(); }; } function maybeInvokeDelegate(delegate, context) { var method = delegate.iterator[context.method]; if (undefined === method) { if (context.delegate = null, "throw" === context.method) { if (delegate.iterator["return"] && (context.method = "return", context.arg = undefined, maybeInvokeDelegate(delegate, context), "throw" === context.method)) return ContinueSentinel; context.method = "throw", context.arg = new TypeError("The iterator does not provide a 'throw' method"); } return ContinueSentinel; } var record = tryCatch(method, delegate.iterator, context.arg); if ("throw" === record.type) return context.method = "throw", context.arg = record.arg, context.delegate = null, ContinueSentinel; var info = record.arg; return info ? info.done ? (context[delegate.resultName] = info.value, context.next = delegate.nextLoc, "return" !== context.method && (context.method = "next", context.arg = undefined), context.delegate = null, ContinueSentinel) : info : (context.method = "throw", context.arg = new TypeError("iterator result is not an object"), context.delegate = null, ContinueSentinel); } function pushTryEntry(locs) { var entry = { tryLoc: locs[0] }; 1 in locs && (entry.catchLoc = locs[1]), 2 in locs && (entry.finallyLoc = locs[2], entry.afterLoc = locs[3]), this.tryEntries.push(entry); } function resetTryEntry(entry) { var record = entry.completion || {}; record.type = "normal", delete record.arg, entry.completion = record; } function Context(tryLocsList) { this.tryEntries = [{ tryLoc: "root" }], tryLocsList.forEach(pushTryEntry, this), this.reset(!0); } function values(iterable) { if (iterable) { var iteratorMethod = iterable[iteratorSymbol]; if (iteratorMethod) return iteratorMethod.call(iterable); if ("function" == typeof iterable.next) return iterable; if (!isNaN(iterable.length)) { var i = -1, next = function next() { for (; ++i < iterable.length;) { if (hasOwn.call(iterable, i)) return next.value = iterable[i], next.done = !1, next; } return next.value = undefined, next.done = !0, next; }; return next.next = next; } } return { next: doneResult }; } function doneResult() { return { value: undefined, done: !0 }; } return GeneratorFunction.prototype = GeneratorFunctionPrototype, define(Gp, "constructor", GeneratorFunctionPrototype), define(GeneratorFunctionPrototype, "constructor", GeneratorFunction), GeneratorFunction.displayName = define(GeneratorFunctionPrototype, toStringTagSymbol, "GeneratorFunction"), exports.isGeneratorFunction = function (genFun) { var ctor = "function" == typeof genFun && genFun.constructor; return !!ctor && (ctor === GeneratorFunction || "GeneratorFunction" === (ctor.displayName || ctor.name)); }, exports.mark = function (genFun) { return Object.setPrototypeOf ? Object.setPrototypeOf(genFun, GeneratorFunctionPrototype) : (genFun.__proto__ = GeneratorFunctionPrototype, define(genFun, toStringTagSymbol, "GeneratorFunction")), genFun.prototype = Object.create(Gp), genFun; }, exports.awrap = function (arg) { return { __await: arg }; }, defineIteratorMethods(AsyncIterator.prototype), define(AsyncIterator.prototype, asyncIteratorSymbol, function () { return this; }), exports.AsyncIterator = AsyncIterator, exports.async = function (innerFn, outerFn, self, tryLocsList, PromiseImpl) { void 0 === PromiseImpl && (PromiseImpl = Promise); var iter = new AsyncIterator(wrap(innerFn, outerFn, self, tryLocsList), PromiseImpl); return exports.isGeneratorFunction(outerFn) ? iter : iter.next().then(function (result) { return result.done ? result.value : iter.next(); }); }, defineIteratorMethods(Gp), define(Gp, toStringTagSymbol, "Generator"), define(Gp, iteratorSymbol, function () { return this; }), define(Gp, "toString", function () { return "[object Generator]"; }), exports.keys = function (object) { var keys = []; for (var key in object) { keys.push(key); } return keys.reverse(), function next() { for (; keys.length;) { var key = keys.pop(); if (key in object) return next.value = key, next.done = !1, next; } return next.done = !0, next; }; }, exports.values = values, Context.prototype = { constructor: Context, reset: function reset(skipTempReset) { if (this.prev = 0, this.next = 0, this.sent = this._sent = undefined, this.done = !1, this.delegate = null, this.method = "next", this.arg = undefined, this.tryEntries.forEach(resetTryEntry), !skipTempReset) for (var name in this) { "t" === name.charAt(0) && hasOwn.call(this, name) && !isNaN(+name.slice(1)) && (this[name] = undefined); } }, stop: function stop() { this.done = !0; var rootRecord = this.tryEntries[0].completion; if ("throw" === rootRecord.type) throw rootRecord.arg; return this.rval; }, dispatchException: function dispatchException(exception) { if (this.done) throw exception; var context = this; function handle(loc, caught) { return record.type = "throw", record.arg = exception, context.next = loc, caught && (context.method = "next", context.arg = undefined), !!caught; } for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i], record = entry.completion; if ("root" === entry.tryLoc) return handle("end"); if (entry.tryLoc <= this.prev) { var hasCatch = hasOwn.call(entry, "catchLoc"), hasFinally = hasOwn.call(entry, "finallyLoc"); if (hasCatch && hasFinally) { if (this.prev < entry.catchLoc) return handle(entry.catchLoc, !0); if (this.prev < entry.finallyLoc) return handle(entry.finallyLoc); } else if (hasCatch) { if (this.prev < entry.catchLoc) return handle(entry.catchLoc, !0); } else { if (!hasFinally) throw new Error("try statement without catch or finally"); if (this.prev < entry.finallyLoc) return handle(entry.finallyLoc); } } } }, abrupt: function abrupt(type, arg) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.tryLoc <= this.prev && hasOwn.call(entry, "finallyLoc") && this.prev < entry.finallyLoc) { var finallyEntry = entry; break; } } finallyEntry && ("break" === type || "continue" === type) && finallyEntry.tryLoc <= arg && arg <= finallyEntry.finallyLoc && (finallyEntry = null); var record = finallyEntry ? finallyEntry.completion : {}; return record.type = type, record.arg = arg, finallyEntry ? (this.method = "next", this.next = finallyEntry.finallyLoc, ContinueSentinel) : this.complete(record); }, complete: function complete(record, afterLoc) { if ("throw" === record.type) throw record.arg; return "break" === record.type || "continue" === record.type ? this.next = record.arg : "return" === record.type ? (this.rval = this.arg = record.arg, this.method = "return", this.next = "end") : "normal" === record.type && afterLoc && (this.next = afterLoc), ContinueSentinel; }, finish: function finish(finallyLoc) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.finallyLoc === finallyLoc) return this.complete(entry.completion, entry.afterLoc), resetTryEntry(entry), ContinueSentinel; } }, "catch": function _catch(tryLoc) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.tryLoc === tryLoc) { var record = entry.completion; if ("throw" === record.type) { var thrown = record.arg; resetTryEntry(entry); } return thrown; } } throw new Error("illegal catch attempt"); }, delegateYield: function delegateYield(iterable, resultName, nextLoc) { return this.delegate = { iterator: values(iterable), resultName: resultName, nextLoc: nextLoc }, "next" === this.method && (this.arg = undefined), ContinueSentinel; } }, exports; }
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  state: {
+    filters_data: {
+      categories: {
+        data: [],
+        loading: false
+      },
+      regions: {
+        data: [],
+        loading: false
+      },
+      bidders: {
+        debtors: {
+          data: [],
+          pagination: {},
+          loading: false
+        },
+        organizers: {
+          data: [],
+          pagination: {},
+          loading: false
+        },
+        arbitrationManagers: {
+          data: [],
+          pagination: {},
+          loading: false
+        },
+        tradePlaces: {
+          data: [],
+          pagination: {},
+          loading: false
+        }
+      },
+      tradePlaces: {
+        data: [],
+        pagination: {},
+        loading: false
+      },
+      prices: {}
+    }
+  },
+  getters: {
+    categories: function categories(state) {
+      return state.filters_data.categories.data;
+    },
+    categories_loading: function categories_loading(state) {
+      return state.filters_data.categories.loading;
+    },
+    regions: function regions(state) {
+      return state.filters_data.regions.data;
+    },
+    regions_loading: function regions_loading(state) {
+      return state.filters_data.regions.loading;
+    },
+    filters_debtors: function filters_debtors(state) {
+      return state.filters_data.bidders.debtors.data;
+    },
+    filters_debtors_pagination: function filters_debtors_pagination(state) {
+      return state.filters_data.bidders.debtors.pagination;
+    },
+    filters_debtors_loading: function filters_debtors_loading(state) {
+      return state.filters_data.bidders.debtors.loading;
+    },
+    filters_organizers: function filters_organizers(state) {
+      return state.filters_data.bidders.organizers.data;
+    },
+    filters_organizers_pagination: function filters_organizers_pagination(state) {
+      return state.filters_data.bidders.organizers.pagination;
+    },
+    filters_organizers_loading: function filters_organizers_loading(state) {
+      return state.filters_data.bidders.organizers.loading;
+    },
+    filters_arbitration_managers: function filters_arbitration_managers(state) {
+      return state.filters_data.bidders.arbitrationManagers.data;
+    },
+    filters_arbitration_managers_pagination: function filters_arbitration_managers_pagination(state) {
+      return state.filters_data.bidders.arbitrationManagers.pagination;
+    },
+    filters_arbitration_managers_loading: function filters_arbitration_managers_loading(state) {
+      return state.filters_data.bidders.arbitrationManagers.loading;
+    }
+  },
+  mutations: {
+    setCategories: function setCategories(state, payload) {
+      payload.forEach(function (item) {
+        Vue.set(item, 'status', false);
+        state.categories.push(item);
+      });
+    },
+    setRegions: function setRegions(state, payload) {
+      payload.forEach(function (item) {
+        Vue.set(item, 'status', false);
+        state.regions.push(item);
+      });
+    },
+    setFiltersBidders: function setFiltersBidders(state, payload) {
+      payload.data.forEach(function (item) {
+        var trade = state.filters_data.bidders[payload.type].findIndex(function (el) {
+          return el.id === item.id;
+        });
+
+        if (trade < 0) {
+          var tmp_item = item;
+
+          if (item.type === 'person') {
+            tmp_item.fullName = Object.values(tmp_item.person).reduce(function (prev, cur) {
+              if (cur) {
+                prev += cur + ' ';
+              }
+
+              return prev;
+            }, '').trim();
+            tmp_item.shortName = item.person.firstName + ' ' + item.person.lastName;
+          } else {
+            tmp_item.fullName = item.company.fullName;
+            tmp_item.shortName = item.company.shortName;
+          }
+
+          state.filters_data.bidders[payload.type].data.push(tmp_item);
+        }
+      });
+      state.filters_data.bidders[payload.type].pagination = payload.pagination;
+    },
+    saveFiltersDataProperty: function saveFiltersDataProperty(state, payload) {
+      Vue.set(state.filters_data, payload.key, payload.value);
+      localStorage.setItem(payload.key, JSON.stringify(payload.value));
+    },
+    saveFilterDataProperty: function saveFilterDataProperty(state, payload) {
+      var schema = state.filters_data[payload.filter]; // a moving reference to internal objects within obj
+
+      var pList = payload.key.split('.');
+      var len = pList.length;
+
+      for (var i = 0; i < len - 1; i++) {
+        var elem = pList[i];
+        if (!schema[elem]) schema[elem] = {};
+        schema = schema[elem];
+      } // schema[pList[len-1]] = payload.value;
+
+
+      Vue.set(schema, pList[len - 1], payload.value);
+    }
+  },
+  actions: {
+    getCategories: function getCategories(_ref, payload) {
+      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
+        var commit, state;
+        return _regeneratorRuntime().wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                commit = _ref.commit, state = _ref.state;
+
+                if (!(state.filters_data.categories.length == 0)) {
+                  _context.next = 5;
+                  break;
+                }
+
+                commit('saveFilterDataProperty', {
+                  filter: 'categories',
+                  key: 'loading',
+                  value: true
+                });
+                _context.next = 5;
+                return axios({
+                  method: 'get',
+                  url: '/api/trades/filter/categories',
+                  data: {}
+                }).then(function (response) {
+                  commit('setCategories', response.data);
+                  commit('saveFilterDataProperty', {
+                    filter: 'categories',
+                    key: 'loading',
+                    value: false
+                  });
+                })["catch"](function (error) {
+                  commit('saveFilterDataProperty', {
+                    filter: 'categories',
+                    key: 'loading',
+                    value: false
+                  });
+                });
+
+              case 5:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee);
+      }))();
+    },
+    getRegions: function getRegions(_ref2) {
+      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2() {
+        var commit, state;
+        return _regeneratorRuntime().wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                commit = _ref2.commit, state = _ref2.state;
+
+                if (!(state.filters_data.regions.length == 0)) {
+                  _context2.next = 5;
+                  break;
+                }
+
+                commit('saveFilterDataProperty', {
+                  filter: 'regions',
+                  key: 'loading',
+                  value: true
+                });
+                _context2.next = 5;
+                return axios({
+                  method: 'get',
+                  url: '/api/trades/filter/regions',
+                  data: {}
+                }).then(function (response) {
+                  commit('setRegions', response.data);
+                  commit('saveFilterDataProperty', {
+                    filter: 'regions',
+                    key: 'loading',
+                    value: false
+                  });
+                })["catch"](function (error) {
+                  commit('saveFilterDataProperty', {
+                    filter: 'regions',
+                    key: 'loading',
+                    value: false
+                  });
+                });
+
+              case 5:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2);
+      }))();
+    },
+    getFiltersBidders: function getFiltersBidders(_ref3, payload) {
+      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee3() {
+        var commit, state;
+        return _regeneratorRuntime().wrap(function _callee3$(_context3) {
+          while (1) {
+            switch (_context3.prev = _context3.next) {
+              case 0:
+                commit = _ref3.commit, state = _ref3.state;
+                commit('saveFilterDataProperty', {
+                  filter: 'bidders',
+                  key: payload.type + '.loading',
+                  value: true
+                });
+                _context3.prev = 2;
+                _context3.next = 5;
+                return axios({
+                  method: 'put',
+                  url: '/api/trades/filter/bidders/' + payload.type + '?page=' + payload.page,
+                  data: payload
+                }).then(function (response) {
+                  commit('setFiltersBidders', response.data);
+                  commit('saveFilterDataProperty', {
+                    filter: 'bidders',
+                    key: payload.type + '.loading',
+                    value: false
+                  });
+                });
+
+              case 5:
+                _context3.next = 12;
+                break;
+
+              case 7:
+                _context3.prev = 7;
+                _context3.t0 = _context3["catch"](2);
+                console.log(_context3.t0);
+                commit('saveFilterDataProperty', {
+                  filter: 'bidders',
+                  key: payload.type + '.loading',
+                  value: false
+                });
+                throw _context3.t0;
+
+              case 12:
+              case "end":
+                return _context3.stop();
+            }
+          }
+        }, _callee3, null, [[2, 7]]);
+      }))();
+    },
+    getFiltersTradePlaces: function getFiltersTradePlaces(_ref4) {
+      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee4() {
+        var commit, state;
+        return _regeneratorRuntime().wrap(function _callee4$(_context4) {
+          while (1) {
+            switch (_context4.prev = _context4.next) {
+              case 0:
+                commit = _ref4.commit, state = _ref4.state;
+
+                if (!(state.filters_data.tradePlaces.length == 0)) {
+                  _context4.next = 5;
+                  break;
+                }
+
+                commit('saveFilterDataProperty', {
+                  filter: 'tradePlaces',
+                  key: 'loading',
+                  value: true
+                });
+                _context4.next = 5;
+                return axios({
+                  method: 'get',
+                  url: '/api/trades/filter/trade-places',
+                  data: {}
+                }).then(function (response) {
+                  commit('saveFilterDataProperty', {
+                    filter: 'tradePlaces',
+                    key: 'data',
+                    value: response.data
+                  });
+                  commit('saveFilterDataProperty', {
+                    filter: 'tradePlaces',
+                    key: 'loading',
+                    value: false
+                  });
+                })["catch"](function (error) {
+                  commit('saveFilterDataProperty', {
+                    filter: 'tradePlaces',
+                    key: 'loading',
+                    value: false
+                  });
+                });
+
+              case 5:
+              case "end":
+                return _context4.stop();
+            }
+          }
+        }, _callee4);
+      }))();
+    },
+    getFiltersPrices: function getFiltersPrices(_ref5) {
+      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee5() {
+        var commit, state;
+        return _regeneratorRuntime().wrap(function _callee5$(_context5) {
+          while (1) {
+            switch (_context5.prev = _context5.next) {
+              case 0:
+                commit = _ref5.commit, state = _ref5.state;
+
+                if (!(state.filters_data.prices.length === 0)) {
+                  _context5.next = 4;
+                  break;
+                }
+
+                _context5.next = 4;
+                return axios({
+                  method: 'get',
+                  url: '/api/trades/filter/prices',
+                  data: {}
+                }).then(function (response) {
+                  commit('saveFiltersDataProperty', {
+                    key: 'prices',
+                    value: response.data
+                  });
+                })["catch"](function (error) {});
+
+              case 4:
+              case "end":
+                return _context5.stop();
+            }
+          }
+        }, _callee5);
+      }))();
+    }
+  }
+});
+
+/***/ }),
+
 /***/ "./resources/js/store/index.js":
 /*!*************************************!*\
   !*** ./resources/js/store/index.js ***!
@@ -11605,16 +11829,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _trades__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./trades */ "./resources/js/store/trades.js");
 /* harmony import */ var _auth__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./auth */ "./resources/js/store/auth.js");
 /* harmony import */ var _filters__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./filters */ "./resources/js/store/filters.js");
-/* harmony import */ var _debtors__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./debtors */ "./resources/js/store/debtors.js");
-/* harmony import */ var _organizers__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./organizers */ "./resources/js/store/organizers.js");
-/* harmony import */ var _arbitrManagers__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./arbitrManagers */ "./resources/js/store/arbitrManagers.js");
-/* harmony import */ var _tradePlaces__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./tradePlaces */ "./resources/js/store/tradePlaces.js");
-/* harmony import */ var _categories__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./categories */ "./resources/js/store/categories.js");
-/* harmony import */ var _regions__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./regions */ "./resources/js/store/regions.js");
-/* harmony import */ var _marks__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./marks */ "./resources/js/store/marks.js");
-/* harmony import */ var _lots__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./lots */ "./resources/js/store/lots.js");
-/* harmony import */ var _favourites__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./favourites */ "./resources/js/store/favourites.js");
-/* harmony import */ var _monitoring__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./monitoring */ "./resources/js/store/monitoring.js");
+/* harmony import */ var _marks__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./marks */ "./resources/js/store/marks.js");
+/* harmony import */ var _lots__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./lots */ "./resources/js/store/lots.js");
+/* harmony import */ var _favourites__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./favourites */ "./resources/js/store/favourites.js");
+/* harmony import */ var _monitoring__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./monitoring */ "./resources/js/store/monitoring.js");
+/* harmony import */ var _bidders__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./bidders */ "./resources/js/store/bidders.js");
+/* harmony import */ var _filtersData__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./filtersData */ "./resources/js/store/filtersData.js");
 
 
 vue__WEBPACK_IMPORTED_MODULE_0__["default"].use(vuex__WEBPACK_IMPORTED_MODULE_1__["default"]);
@@ -11622,13 +11842,9 @@ vue__WEBPACK_IMPORTED_MODULE_0__["default"].use(vuex__WEBPACK_IMPORTED_MODULE_1_
 
 
 
-
-
-
-
-
-
  // import files from './files';
+
+
 
 
 
@@ -11640,16 +11856,12 @@ vue__WEBPACK_IMPORTED_MODULE_0__["default"].use(vuex__WEBPACK_IMPORTED_MODULE_1_
     auth: _auth__WEBPACK_IMPORTED_MODULE_4__["default"],
     trades: _trades__WEBPACK_IMPORTED_MODULE_3__["default"],
     filters: _filters__WEBPACK_IMPORTED_MODULE_5__["default"],
-    debtors: _debtors__WEBPACK_IMPORTED_MODULE_6__["default"],
-    organizers: _organizers__WEBPACK_IMPORTED_MODULE_7__["default"],
-    arbitrManagers: _arbitrManagers__WEBPACK_IMPORTED_MODULE_8__["default"],
-    tradePlaces: _tradePlaces__WEBPACK_IMPORTED_MODULE_9__["default"],
-    categories: _categories__WEBPACK_IMPORTED_MODULE_10__["default"],
-    regions: _regions__WEBPACK_IMPORTED_MODULE_11__["default"],
-    marks: _marks__WEBPACK_IMPORTED_MODULE_12__["default"],
-    lots: _lots__WEBPACK_IMPORTED_MODULE_13__["default"],
-    favourites: _favourites__WEBPACK_IMPORTED_MODULE_14__["default"],
-    monitoring: _monitoring__WEBPACK_IMPORTED_MODULE_15__["default"]
+    marks: _marks__WEBPACK_IMPORTED_MODULE_6__["default"],
+    lots: _lots__WEBPACK_IMPORTED_MODULE_7__["default"],
+    favourites: _favourites__WEBPACK_IMPORTED_MODULE_8__["default"],
+    monitoring: _monitoring__WEBPACK_IMPORTED_MODULE_9__["default"],
+    bidders: _bidders__WEBPACK_IMPORTED_MODULE_10__["default"],
+    filtersData: _filtersData__WEBPACK_IMPORTED_MODULE_11__["default"]
   }
 }));
 
@@ -11725,14 +11937,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     * Получение информации о количестве активных/неактивных лотов
     *
     * GET
-    * /bidders/{type}/{bidderType}/{bidderId}
-    * Получение активных/неактивных торгов выбранного участника
-    *
-    * GET
-    * /bidders/{bidderId}
-    * Получение данных об арбитражном управляющем/организаторе/должнике
-    *
-    * GET
     * /files/{lotId}
     * Получение списка файлов для лота
     *
@@ -11754,7 +11958,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         commit('setLotsStatistic', resp.data);
       });
     },
-    getBidder: function getBidder(_ref3, payload) {
+    getLotFiles: function getLotFiles(_ref3, payload) {
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
         var commit, state;
         return _regeneratorRuntime().wrap(function _callee$(_context) {
@@ -11765,7 +11969,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 _context.next = 3;
                 return axios({
                   method: 'get',
-                  url: '/api/bidders/' + payload,
+                  url: "/api/files/".concat(payload),
                   data: {}
                 });
 
@@ -11780,19 +11984,19 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, _callee);
       }))();
     },
-    getBidderLots: function getBidderLots(_ref4, payload) {
+    addLotFile: function addLotFile(_ref4, payload) {
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2() {
-        var commit, state;
+        var commit;
         return _regeneratorRuntime().wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
-                commit = _ref4.commit, state = _ref4.state;
+                commit = _ref4.commit;
                 _context2.next = 3;
-                return axios({
-                  method: 'put',
-                  url: "/api/bidders/trades?page=" + payload.page,
-                  data: payload
+                return axios.post('/api/files/store', payload, {
+                  headers: {
+                    'Content-Type': 'multipart/form-data'
+                  }
                 });
 
               case 3:
@@ -11806,20 +12010,16 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, _callee2);
       }))();
     },
-    getLotFiles: function getLotFiles(_ref5, payload) {
+    removeLotFile: function removeLotFile(_ref5, payload) {
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee3() {
-        var commit, state;
+        var dispatch, commit;
         return _regeneratorRuntime().wrap(function _callee3$(_context3) {
           while (1) {
             switch (_context3.prev = _context3.next) {
               case 0:
-                commit = _ref5.commit, state = _ref5.state;
+                dispatch = _ref5.dispatch, commit = _ref5.commit;
                 _context3.next = 3;
-                return axios({
-                  method: 'get',
-                  url: "/api/files/".concat(payload),
-                  data: {}
-                });
+                return axios["delete"]("/api/files/".concat(payload.id));
 
               case 3:
                 return _context3.abrupt("return", _context3.sent);
@@ -11830,54 +12030,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             }
           }
         }, _callee3);
-      }))();
-    },
-    addLotFile: function addLotFile(_ref6, payload) {
-      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee4() {
-        var commit;
-        return _regeneratorRuntime().wrap(function _callee4$(_context4) {
-          while (1) {
-            switch (_context4.prev = _context4.next) {
-              case 0:
-                commit = _ref6.commit;
-                _context4.next = 3;
-                return axios.post('/api/files/store', payload, {
-                  headers: {
-                    'Content-Type': 'multipart/form-data'
-                  }
-                });
-
-              case 3:
-                return _context4.abrupt("return", _context4.sent);
-
-              case 4:
-              case "end":
-                return _context4.stop();
-            }
-          }
-        }, _callee4);
-      }))();
-    },
-    removeLotFile: function removeLotFile(_ref7, payload) {
-      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee5() {
-        var dispatch, commit;
-        return _regeneratorRuntime().wrap(function _callee5$(_context5) {
-          while (1) {
-            switch (_context5.prev = _context5.next) {
-              case 0:
-                dispatch = _ref7.dispatch, commit = _ref7.commit;
-                _context5.next = 3;
-                return axios["delete"]("/api/files/".concat(payload.id));
-
-              case 3:
-                return _context5.abrupt("return", _context5.sent);
-
-              case 4:
-              case "end":
-                return _context5.stop();
-            }
-          }
-        }, _callee5);
       }))();
     }
   }
@@ -12670,393 +12822,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 /***/ }),
 
-/***/ "./resources/js/store/organizers.js":
-/*!******************************************!*\
-  !*** ./resources/js/store/organizers.js ***!
-  \******************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
-
-function _regeneratorRuntime() { "use strict"; /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/facebook/regenerator/blob/main/LICENSE */ _regeneratorRuntime = function _regeneratorRuntime() { return exports; }; var exports = {}, Op = Object.prototype, hasOwn = Op.hasOwnProperty, $Symbol = "function" == typeof Symbol ? Symbol : {}, iteratorSymbol = $Symbol.iterator || "@@iterator", asyncIteratorSymbol = $Symbol.asyncIterator || "@@asyncIterator", toStringTagSymbol = $Symbol.toStringTag || "@@toStringTag"; function define(obj, key, value) { return Object.defineProperty(obj, key, { value: value, enumerable: !0, configurable: !0, writable: !0 }), obj[key]; } try { define({}, ""); } catch (err) { define = function define(obj, key, value) { return obj[key] = value; }; } function wrap(innerFn, outerFn, self, tryLocsList) { var protoGenerator = outerFn && outerFn.prototype instanceof Generator ? outerFn : Generator, generator = Object.create(protoGenerator.prototype), context = new Context(tryLocsList || []); return generator._invoke = function (innerFn, self, context) { var state = "suspendedStart"; return function (method, arg) { if ("executing" === state) throw new Error("Generator is already running"); if ("completed" === state) { if ("throw" === method) throw arg; return doneResult(); } for (context.method = method, context.arg = arg;;) { var delegate = context.delegate; if (delegate) { var delegateResult = maybeInvokeDelegate(delegate, context); if (delegateResult) { if (delegateResult === ContinueSentinel) continue; return delegateResult; } } if ("next" === context.method) context.sent = context._sent = context.arg;else if ("throw" === context.method) { if ("suspendedStart" === state) throw state = "completed", context.arg; context.dispatchException(context.arg); } else "return" === context.method && context.abrupt("return", context.arg); state = "executing"; var record = tryCatch(innerFn, self, context); if ("normal" === record.type) { if (state = context.done ? "completed" : "suspendedYield", record.arg === ContinueSentinel) continue; return { value: record.arg, done: context.done }; } "throw" === record.type && (state = "completed", context.method = "throw", context.arg = record.arg); } }; }(innerFn, self, context), generator; } function tryCatch(fn, obj, arg) { try { return { type: "normal", arg: fn.call(obj, arg) }; } catch (err) { return { type: "throw", arg: err }; } } exports.wrap = wrap; var ContinueSentinel = {}; function Generator() {} function GeneratorFunction() {} function GeneratorFunctionPrototype() {} var IteratorPrototype = {}; define(IteratorPrototype, iteratorSymbol, function () { return this; }); var getProto = Object.getPrototypeOf, NativeIteratorPrototype = getProto && getProto(getProto(values([]))); NativeIteratorPrototype && NativeIteratorPrototype !== Op && hasOwn.call(NativeIteratorPrototype, iteratorSymbol) && (IteratorPrototype = NativeIteratorPrototype); var Gp = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(IteratorPrototype); function defineIteratorMethods(prototype) { ["next", "throw", "return"].forEach(function (method) { define(prototype, method, function (arg) { return this._invoke(method, arg); }); }); } function AsyncIterator(generator, PromiseImpl) { function invoke(method, arg, resolve, reject) { var record = tryCatch(generator[method], generator, arg); if ("throw" !== record.type) { var result = record.arg, value = result.value; return value && "object" == _typeof(value) && hasOwn.call(value, "__await") ? PromiseImpl.resolve(value.__await).then(function (value) { invoke("next", value, resolve, reject); }, function (err) { invoke("throw", err, resolve, reject); }) : PromiseImpl.resolve(value).then(function (unwrapped) { result.value = unwrapped, resolve(result); }, function (error) { return invoke("throw", error, resolve, reject); }); } reject(record.arg); } var previousPromise; this._invoke = function (method, arg) { function callInvokeWithMethodAndArg() { return new PromiseImpl(function (resolve, reject) { invoke(method, arg, resolve, reject); }); } return previousPromise = previousPromise ? previousPromise.then(callInvokeWithMethodAndArg, callInvokeWithMethodAndArg) : callInvokeWithMethodAndArg(); }; } function maybeInvokeDelegate(delegate, context) { var method = delegate.iterator[context.method]; if (undefined === method) { if (context.delegate = null, "throw" === context.method) { if (delegate.iterator["return"] && (context.method = "return", context.arg = undefined, maybeInvokeDelegate(delegate, context), "throw" === context.method)) return ContinueSentinel; context.method = "throw", context.arg = new TypeError("The iterator does not provide a 'throw' method"); } return ContinueSentinel; } var record = tryCatch(method, delegate.iterator, context.arg); if ("throw" === record.type) return context.method = "throw", context.arg = record.arg, context.delegate = null, ContinueSentinel; var info = record.arg; return info ? info.done ? (context[delegate.resultName] = info.value, context.next = delegate.nextLoc, "return" !== context.method && (context.method = "next", context.arg = undefined), context.delegate = null, ContinueSentinel) : info : (context.method = "throw", context.arg = new TypeError("iterator result is not an object"), context.delegate = null, ContinueSentinel); } function pushTryEntry(locs) { var entry = { tryLoc: locs[0] }; 1 in locs && (entry.catchLoc = locs[1]), 2 in locs && (entry.finallyLoc = locs[2], entry.afterLoc = locs[3]), this.tryEntries.push(entry); } function resetTryEntry(entry) { var record = entry.completion || {}; record.type = "normal", delete record.arg, entry.completion = record; } function Context(tryLocsList) { this.tryEntries = [{ tryLoc: "root" }], tryLocsList.forEach(pushTryEntry, this), this.reset(!0); } function values(iterable) { if (iterable) { var iteratorMethod = iterable[iteratorSymbol]; if (iteratorMethod) return iteratorMethod.call(iterable); if ("function" == typeof iterable.next) return iterable; if (!isNaN(iterable.length)) { var i = -1, next = function next() { for (; ++i < iterable.length;) { if (hasOwn.call(iterable, i)) return next.value = iterable[i], next.done = !1, next; } return next.value = undefined, next.done = !0, next; }; return next.next = next; } } return { next: doneResult }; } function doneResult() { return { value: undefined, done: !0 }; } return GeneratorFunction.prototype = GeneratorFunctionPrototype, define(Gp, "constructor", GeneratorFunctionPrototype), define(GeneratorFunctionPrototype, "constructor", GeneratorFunction), GeneratorFunction.displayName = define(GeneratorFunctionPrototype, toStringTagSymbol, "GeneratorFunction"), exports.isGeneratorFunction = function (genFun) { var ctor = "function" == typeof genFun && genFun.constructor; return !!ctor && (ctor === GeneratorFunction || "GeneratorFunction" === (ctor.displayName || ctor.name)); }, exports.mark = function (genFun) { return Object.setPrototypeOf ? Object.setPrototypeOf(genFun, GeneratorFunctionPrototype) : (genFun.__proto__ = GeneratorFunctionPrototype, define(genFun, toStringTagSymbol, "GeneratorFunction")), genFun.prototype = Object.create(Gp), genFun; }, exports.awrap = function (arg) { return { __await: arg }; }, defineIteratorMethods(AsyncIterator.prototype), define(AsyncIterator.prototype, asyncIteratorSymbol, function () { return this; }), exports.AsyncIterator = AsyncIterator, exports.async = function (innerFn, outerFn, self, tryLocsList, PromiseImpl) { void 0 === PromiseImpl && (PromiseImpl = Promise); var iter = new AsyncIterator(wrap(innerFn, outerFn, self, tryLocsList), PromiseImpl); return exports.isGeneratorFunction(outerFn) ? iter : iter.next().then(function (result) { return result.done ? result.value : iter.next(); }); }, defineIteratorMethods(Gp), define(Gp, toStringTagSymbol, "Generator"), define(Gp, iteratorSymbol, function () { return this; }), define(Gp, "toString", function () { return "[object Generator]"; }), exports.keys = function (object) { var keys = []; for (var key in object) { keys.push(key); } return keys.reverse(), function next() { for (; keys.length;) { var key = keys.pop(); if (key in object) return next.value = key, next.done = !1, next; } return next.done = !0, next; }; }, exports.values = values, Context.prototype = { constructor: Context, reset: function reset(skipTempReset) { if (this.prev = 0, this.next = 0, this.sent = this._sent = undefined, this.done = !1, this.delegate = null, this.method = "next", this.arg = undefined, this.tryEntries.forEach(resetTryEntry), !skipTempReset) for (var name in this) { "t" === name.charAt(0) && hasOwn.call(this, name) && !isNaN(+name.slice(1)) && (this[name] = undefined); } }, stop: function stop() { this.done = !0; var rootRecord = this.tryEntries[0].completion; if ("throw" === rootRecord.type) throw rootRecord.arg; return this.rval; }, dispatchException: function dispatchException(exception) { if (this.done) throw exception; var context = this; function handle(loc, caught) { return record.type = "throw", record.arg = exception, context.next = loc, caught && (context.method = "next", context.arg = undefined), !!caught; } for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i], record = entry.completion; if ("root" === entry.tryLoc) return handle("end"); if (entry.tryLoc <= this.prev) { var hasCatch = hasOwn.call(entry, "catchLoc"), hasFinally = hasOwn.call(entry, "finallyLoc"); if (hasCatch && hasFinally) { if (this.prev < entry.catchLoc) return handle(entry.catchLoc, !0); if (this.prev < entry.finallyLoc) return handle(entry.finallyLoc); } else if (hasCatch) { if (this.prev < entry.catchLoc) return handle(entry.catchLoc, !0); } else { if (!hasFinally) throw new Error("try statement without catch or finally"); if (this.prev < entry.finallyLoc) return handle(entry.finallyLoc); } } } }, abrupt: function abrupt(type, arg) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.tryLoc <= this.prev && hasOwn.call(entry, "finallyLoc") && this.prev < entry.finallyLoc) { var finallyEntry = entry; break; } } finallyEntry && ("break" === type || "continue" === type) && finallyEntry.tryLoc <= arg && arg <= finallyEntry.finallyLoc && (finallyEntry = null); var record = finallyEntry ? finallyEntry.completion : {}; return record.type = type, record.arg = arg, finallyEntry ? (this.method = "next", this.next = finallyEntry.finallyLoc, ContinueSentinel) : this.complete(record); }, complete: function complete(record, afterLoc) { if ("throw" === record.type) throw record.arg; return "break" === record.type || "continue" === record.type ? this.next = record.arg : "return" === record.type ? (this.rval = this.arg = record.arg, this.method = "return", this.next = "end") : "normal" === record.type && afterLoc && (this.next = afterLoc), ContinueSentinel; }, finish: function finish(finallyLoc) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.finallyLoc === finallyLoc) return this.complete(entry.completion, entry.afterLoc), resetTryEntry(entry), ContinueSentinel; } }, "catch": function _catch(tryLoc) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.tryLoc === tryLoc) { var record = entry.completion; if ("throw" === record.type) { var thrown = record.arg; resetTryEntry(entry); } return thrown; } } throw new Error("illegal catch attempt"); }, delegateYield: function delegateYield(iterable, resultName, nextLoc) { return this.delegate = { iterator: values(iterable), resultName: resultName, nextLoc: nextLoc }, "next" === this.method && (this.arg = undefined), ContinueSentinel; } }, exports; }
-
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
-
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  state: {
-    organizers: [],
-    organizers_pagination: {},
-    organizers_loading: false,
-    filters_organizers: [],
-    filters_organizers_pagination: {}
-  },
-  getters: {
-    organizers: function organizers(state) {
-      return state.organizers;
-    },
-    organizers_pagination: function organizers_pagination(state) {
-      return state.organizers_pagination;
-    },
-    organizers_loading: function organizers_loading(state) {
-      return state.organizers_loading;
-    },
-    filters_organizers: function filters_organizers(state) {
-      return state.filters_organizers;
-    },
-    filters_organizers_pagination: function filters_organizers_pagination(state) {
-      return state.filters_organizers_pagination;
-    }
-  },
-  mutations: {
-    setOrganizers: function setOrganizers(state, payload) {
-      state.organizers = [];
-      payload.data.forEach(function (item) {
-        var trade = state.organizers.findIndex(function (el) {
-          return el.id === item.id;
-        });
-
-        if (trade < 0) {
-          var tmp_item = item;
-
-          if (item.type === 'person') {
-            tmp_item.fullName = Object.values(tmp_item.person).reduce(function (prev, cur) {
-              if (cur) {
-                prev += cur + ' ';
-              }
-
-              return prev;
-            }, '').trim();
-            tmp_item.shortName = item.person.firstName + ' ' + item.person.lastName;
-          } else {
-            tmp_item.fullName = item.company.fullName;
-            tmp_item.shortName = item.company.shortName;
-          }
-
-          state.organizers.push(tmp_item);
-        }
-      });
-      state.organizers_pagination = payload.pagination;
-    },
-    setFiltersOrganizers: function setFiltersOrganizers(state, payload) {
-      payload.data.forEach(function (item) {
-        var trade = state.filters_organizers.findIndex(function (el) {
-          return el.id === item.id;
-        });
-
-        if (trade < 0) {
-          var tmp_item = item;
-
-          if (item.type === 'person') {
-            tmp_item.fullName = Object.values(tmp_item.person).reduce(function (prev, cur) {
-              if (cur) {
-                prev += cur + ' ';
-              }
-
-              return prev;
-            }, '').trim();
-            tmp_item.shortName = item.person.firstName + ' ' + item.person.lastName;
-          } else {
-            tmp_item.fullName = item.company.fullName;
-            tmp_item.shortName = item.company.shortName;
-          }
-
-          state.filters_organizers.push(tmp_item);
-        }
-      });
-      state.filters_organizers_pagination = payload.pagination;
-    },
-    addOrganizer: function addOrganizer(state, payload) {
-      state.organizers.push(payload);
-    },
-    saveOrganizer: function saveOrganizer(state, payload) {
-      var trade = state.organizers.findIndex(function (item) {
-        return item.id === payload.id;
-      });
-
-      if (trade >= 0) {
-        Vue.set(state.organizers, trade, payload);
-      }
-    },
-    removeOrganizer: function removeOrganizer(state, payload) {
-      var trade = state.organizers.findIndex(function (item) {
-        return item.id === payload;
-      });
-
-      if (trade >= 0) {
-        state.organizers.splice(trade, 1);
-      }
-    },
-    setOrganizersLoading: function setOrganizersLoading(state, payload) {
-      return state.organizers_loading = payload;
-    },
-    saveOrganizerProperty: function saveOrganizerProperty(state, payload) {
-      var trade = state.organizers.findIndex(function (item) {
-        return item.id === payload.id;
-      });
-
-      if (trade >= 0 && state.organizers[trade].hasOwnProperty(payload.key)) {
-        Vue.set(state.organizers[trade], payload.key, payload.value);
-      }
-    }
-  },
-  actions: {
-    getOrganizers: function getOrganizers(_ref, payload) {
-      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
-        var commit, state;
-        return _regeneratorRuntime().wrap(function _callee$(_context) {
-          while (1) {
-            switch (_context.prev = _context.next) {
-              case 0:
-                commit = _ref.commit, state = _ref.state;
-                commit('setOrganizersLoading', true);
-                _context.prev = 2;
-                _context.next = 5;
-                return axios({
-                  method: 'put',
-                  url: '/api/trades/filter/bidders/organizers?page=' + payload.page,
-                  data: payload
-                }).then(function (response) {
-                  if (payload.type == 'filters') {
-                    commit('setFiltersOrganizers', response.data);
-                  } else {
-                    commit('setOrganizers', response.data);
-                  }
-
-                  commit('setOrganizersLoading', false);
-                });
-
-              case 5:
-                _context.next = 12;
-                break;
-
-              case 7:
-                _context.prev = 7;
-                _context.t0 = _context["catch"](2);
-                console.log(_context.t0); // commit('setOrganizers', []);
-
-                commit('setOrganizersLoading', false);
-                throw _context.t0;
-
-              case 12:
-              case "end":
-                return _context.stop();
-            }
-          }
-        }, _callee, null, [[2, 7]]);
-      }))();
-    },
-    addOrganizer: function addOrganizer(_ref2, payload) {
-      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2() {
-        var commit;
-        return _regeneratorRuntime().wrap(function _callee2$(_context2) {
-          while (1) {
-            switch (_context2.prev = _context2.next) {
-              case 0:
-                commit = _ref2.commit;
-                _context2.next = 3;
-                return axios.post('/api/organizers', payload, {
-                  headers: {
-                    'Content-Type': 'multipart/form-data'
-                  }
-                }).then(function (response) {
-                  commit('addOrganizer', response.data);
-                })["catch"](function (error) {
-                  console.log(error);
-                  throw error;
-                });
-
-              case 3:
-              case "end":
-                return _context2.stop();
-            }
-          }
-        }, _callee2);
-      }))();
-    },
-    updateOrganizer: function updateOrganizer(_ref3, payload) {
-      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee3() {
-        var commit;
-        return _regeneratorRuntime().wrap(function _callee3$(_context3) {
-          while (1) {
-            switch (_context3.prev = _context3.next) {
-              case 0:
-                commit = _ref3.commit;
-                _context3.next = 3;
-                return axios.post('/api/organizers/' + payload.id, payload.formData, {
-                  headers: {
-                    'Content-Type': 'multipart/form-data'
-                  }
-                }).then(function (response) {
-                  commit('saveOrganizer', response.data);
-                })["catch"](function (error) {
-                  console.log(error);
-                  throw error;
-                });
-
-              case 3:
-              case "end":
-                return _context3.stop();
-            }
-          }
-        }, _callee3);
-      }))();
-    },
-    removeOrganizer: function removeOrganizer(_ref4, payload) {
-      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee4() {
-        var dispatch, commit;
-        return _regeneratorRuntime().wrap(function _callee4$(_context4) {
-          while (1) {
-            switch (_context4.prev = _context4.next) {
-              case 0:
-                dispatch = _ref4.dispatch, commit = _ref4.commit;
-                _context4.next = 3;
-                return axios["delete"]("/api/organizers/".concat(payload.id)).then(function (response) {
-                  commit('removeOrganizer', payload.id);
-                  dispatch('sendNotification', {
-                    self: payload.self,
-                    title: 'Должники',
-                    message: 'Должник успешно удален'
-                  });
-                })["catch"](function (error) {
-                  dispatch('sendNotification', {
-                    self: payload.self,
-                    title: 'Должники',
-                    type: 'error',
-                    message: 'Произошла ошибка'
-                  });
-                });
-
-              case 3:
-              case "end":
-                return _context4.stop();
-            }
-          }
-        }, _callee4);
-      }))();
-    },
-    saveOrganizer: function saveOrganizer(_ref5, payload) {
-      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee5() {
-        var commit;
-        return _regeneratorRuntime().wrap(function _callee5$(_context5) {
-          while (1) {
-            switch (_context5.prev = _context5.next) {
-              case 0:
-                commit = _ref5.commit;
-                _context5.next = 3;
-                return axios.post("/api/organizers/save/".concat(payload.id), {
-                  key: payload.key,
-                  value: payload.value
-                }).then(function (response) {
-                  commit('saveOrganizer', response.data.trade);
-                })["catch"](function (error) {
-                  console.log(error);
-                  throw error;
-                });
-
-              case 3:
-              case "end":
-                return _context5.stop();
-            }
-          }
-        }, _callee5);
-      }))();
-    }
-  }
-});
-
-/***/ }),
-
-/***/ "./resources/js/store/regions.js":
-/*!***************************************!*\
-  !*** ./resources/js/store/regions.js ***!
-  \***************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
-
-function _regeneratorRuntime() { "use strict"; /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/facebook/regenerator/blob/main/LICENSE */ _regeneratorRuntime = function _regeneratorRuntime() { return exports; }; var exports = {}, Op = Object.prototype, hasOwn = Op.hasOwnProperty, $Symbol = "function" == typeof Symbol ? Symbol : {}, iteratorSymbol = $Symbol.iterator || "@@iterator", asyncIteratorSymbol = $Symbol.asyncIterator || "@@asyncIterator", toStringTagSymbol = $Symbol.toStringTag || "@@toStringTag"; function define(obj, key, value) { return Object.defineProperty(obj, key, { value: value, enumerable: !0, configurable: !0, writable: !0 }), obj[key]; } try { define({}, ""); } catch (err) { define = function define(obj, key, value) { return obj[key] = value; }; } function wrap(innerFn, outerFn, self, tryLocsList) { var protoGenerator = outerFn && outerFn.prototype instanceof Generator ? outerFn : Generator, generator = Object.create(protoGenerator.prototype), context = new Context(tryLocsList || []); return generator._invoke = function (innerFn, self, context) { var state = "suspendedStart"; return function (method, arg) { if ("executing" === state) throw new Error("Generator is already running"); if ("completed" === state) { if ("throw" === method) throw arg; return doneResult(); } for (context.method = method, context.arg = arg;;) { var delegate = context.delegate; if (delegate) { var delegateResult = maybeInvokeDelegate(delegate, context); if (delegateResult) { if (delegateResult === ContinueSentinel) continue; return delegateResult; } } if ("next" === context.method) context.sent = context._sent = context.arg;else if ("throw" === context.method) { if ("suspendedStart" === state) throw state = "completed", context.arg; context.dispatchException(context.arg); } else "return" === context.method && context.abrupt("return", context.arg); state = "executing"; var record = tryCatch(innerFn, self, context); if ("normal" === record.type) { if (state = context.done ? "completed" : "suspendedYield", record.arg === ContinueSentinel) continue; return { value: record.arg, done: context.done }; } "throw" === record.type && (state = "completed", context.method = "throw", context.arg = record.arg); } }; }(innerFn, self, context), generator; } function tryCatch(fn, obj, arg) { try { return { type: "normal", arg: fn.call(obj, arg) }; } catch (err) { return { type: "throw", arg: err }; } } exports.wrap = wrap; var ContinueSentinel = {}; function Generator() {} function GeneratorFunction() {} function GeneratorFunctionPrototype() {} var IteratorPrototype = {}; define(IteratorPrototype, iteratorSymbol, function () { return this; }); var getProto = Object.getPrototypeOf, NativeIteratorPrototype = getProto && getProto(getProto(values([]))); NativeIteratorPrototype && NativeIteratorPrototype !== Op && hasOwn.call(NativeIteratorPrototype, iteratorSymbol) && (IteratorPrototype = NativeIteratorPrototype); var Gp = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(IteratorPrototype); function defineIteratorMethods(prototype) { ["next", "throw", "return"].forEach(function (method) { define(prototype, method, function (arg) { return this._invoke(method, arg); }); }); } function AsyncIterator(generator, PromiseImpl) { function invoke(method, arg, resolve, reject) { var record = tryCatch(generator[method], generator, arg); if ("throw" !== record.type) { var result = record.arg, value = result.value; return value && "object" == _typeof(value) && hasOwn.call(value, "__await") ? PromiseImpl.resolve(value.__await).then(function (value) { invoke("next", value, resolve, reject); }, function (err) { invoke("throw", err, resolve, reject); }) : PromiseImpl.resolve(value).then(function (unwrapped) { result.value = unwrapped, resolve(result); }, function (error) { return invoke("throw", error, resolve, reject); }); } reject(record.arg); } var previousPromise; this._invoke = function (method, arg) { function callInvokeWithMethodAndArg() { return new PromiseImpl(function (resolve, reject) { invoke(method, arg, resolve, reject); }); } return previousPromise = previousPromise ? previousPromise.then(callInvokeWithMethodAndArg, callInvokeWithMethodAndArg) : callInvokeWithMethodAndArg(); }; } function maybeInvokeDelegate(delegate, context) { var method = delegate.iterator[context.method]; if (undefined === method) { if (context.delegate = null, "throw" === context.method) { if (delegate.iterator["return"] && (context.method = "return", context.arg = undefined, maybeInvokeDelegate(delegate, context), "throw" === context.method)) return ContinueSentinel; context.method = "throw", context.arg = new TypeError("The iterator does not provide a 'throw' method"); } return ContinueSentinel; } var record = tryCatch(method, delegate.iterator, context.arg); if ("throw" === record.type) return context.method = "throw", context.arg = record.arg, context.delegate = null, ContinueSentinel; var info = record.arg; return info ? info.done ? (context[delegate.resultName] = info.value, context.next = delegate.nextLoc, "return" !== context.method && (context.method = "next", context.arg = undefined), context.delegate = null, ContinueSentinel) : info : (context.method = "throw", context.arg = new TypeError("iterator result is not an object"), context.delegate = null, ContinueSentinel); } function pushTryEntry(locs) { var entry = { tryLoc: locs[0] }; 1 in locs && (entry.catchLoc = locs[1]), 2 in locs && (entry.finallyLoc = locs[2], entry.afterLoc = locs[3]), this.tryEntries.push(entry); } function resetTryEntry(entry) { var record = entry.completion || {}; record.type = "normal", delete record.arg, entry.completion = record; } function Context(tryLocsList) { this.tryEntries = [{ tryLoc: "root" }], tryLocsList.forEach(pushTryEntry, this), this.reset(!0); } function values(iterable) { if (iterable) { var iteratorMethod = iterable[iteratorSymbol]; if (iteratorMethod) return iteratorMethod.call(iterable); if ("function" == typeof iterable.next) return iterable; if (!isNaN(iterable.length)) { var i = -1, next = function next() { for (; ++i < iterable.length;) { if (hasOwn.call(iterable, i)) return next.value = iterable[i], next.done = !1, next; } return next.value = undefined, next.done = !0, next; }; return next.next = next; } } return { next: doneResult }; } function doneResult() { return { value: undefined, done: !0 }; } return GeneratorFunction.prototype = GeneratorFunctionPrototype, define(Gp, "constructor", GeneratorFunctionPrototype), define(GeneratorFunctionPrototype, "constructor", GeneratorFunction), GeneratorFunction.displayName = define(GeneratorFunctionPrototype, toStringTagSymbol, "GeneratorFunction"), exports.isGeneratorFunction = function (genFun) { var ctor = "function" == typeof genFun && genFun.constructor; return !!ctor && (ctor === GeneratorFunction || "GeneratorFunction" === (ctor.displayName || ctor.name)); }, exports.mark = function (genFun) { return Object.setPrototypeOf ? Object.setPrototypeOf(genFun, GeneratorFunctionPrototype) : (genFun.__proto__ = GeneratorFunctionPrototype, define(genFun, toStringTagSymbol, "GeneratorFunction")), genFun.prototype = Object.create(Gp), genFun; }, exports.awrap = function (arg) { return { __await: arg }; }, defineIteratorMethods(AsyncIterator.prototype), define(AsyncIterator.prototype, asyncIteratorSymbol, function () { return this; }), exports.AsyncIterator = AsyncIterator, exports.async = function (innerFn, outerFn, self, tryLocsList, PromiseImpl) { void 0 === PromiseImpl && (PromiseImpl = Promise); var iter = new AsyncIterator(wrap(innerFn, outerFn, self, tryLocsList), PromiseImpl); return exports.isGeneratorFunction(outerFn) ? iter : iter.next().then(function (result) { return result.done ? result.value : iter.next(); }); }, defineIteratorMethods(Gp), define(Gp, toStringTagSymbol, "Generator"), define(Gp, iteratorSymbol, function () { return this; }), define(Gp, "toString", function () { return "[object Generator]"; }), exports.keys = function (object) { var keys = []; for (var key in object) { keys.push(key); } return keys.reverse(), function next() { for (; keys.length;) { var key = keys.pop(); if (key in object) return next.value = key, next.done = !1, next; } return next.done = !0, next; }; }, exports.values = values, Context.prototype = { constructor: Context, reset: function reset(skipTempReset) { if (this.prev = 0, this.next = 0, this.sent = this._sent = undefined, this.done = !1, this.delegate = null, this.method = "next", this.arg = undefined, this.tryEntries.forEach(resetTryEntry), !skipTempReset) for (var name in this) { "t" === name.charAt(0) && hasOwn.call(this, name) && !isNaN(+name.slice(1)) && (this[name] = undefined); } }, stop: function stop() { this.done = !0; var rootRecord = this.tryEntries[0].completion; if ("throw" === rootRecord.type) throw rootRecord.arg; return this.rval; }, dispatchException: function dispatchException(exception) { if (this.done) throw exception; var context = this; function handle(loc, caught) { return record.type = "throw", record.arg = exception, context.next = loc, caught && (context.method = "next", context.arg = undefined), !!caught; } for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i], record = entry.completion; if ("root" === entry.tryLoc) return handle("end"); if (entry.tryLoc <= this.prev) { var hasCatch = hasOwn.call(entry, "catchLoc"), hasFinally = hasOwn.call(entry, "finallyLoc"); if (hasCatch && hasFinally) { if (this.prev < entry.catchLoc) return handle(entry.catchLoc, !0); if (this.prev < entry.finallyLoc) return handle(entry.finallyLoc); } else if (hasCatch) { if (this.prev < entry.catchLoc) return handle(entry.catchLoc, !0); } else { if (!hasFinally) throw new Error("try statement without catch or finally"); if (this.prev < entry.finallyLoc) return handle(entry.finallyLoc); } } } }, abrupt: function abrupt(type, arg) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.tryLoc <= this.prev && hasOwn.call(entry, "finallyLoc") && this.prev < entry.finallyLoc) { var finallyEntry = entry; break; } } finallyEntry && ("break" === type || "continue" === type) && finallyEntry.tryLoc <= arg && arg <= finallyEntry.finallyLoc && (finallyEntry = null); var record = finallyEntry ? finallyEntry.completion : {}; return record.type = type, record.arg = arg, finallyEntry ? (this.method = "next", this.next = finallyEntry.finallyLoc, ContinueSentinel) : this.complete(record); }, complete: function complete(record, afterLoc) { if ("throw" === record.type) throw record.arg; return "break" === record.type || "continue" === record.type ? this.next = record.arg : "return" === record.type ? (this.rval = this.arg = record.arg, this.method = "return", this.next = "end") : "normal" === record.type && afterLoc && (this.next = afterLoc), ContinueSentinel; }, finish: function finish(finallyLoc) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.finallyLoc === finallyLoc) return this.complete(entry.completion, entry.afterLoc), resetTryEntry(entry), ContinueSentinel; } }, "catch": function _catch(tryLoc) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.tryLoc === tryLoc) { var record = entry.completion; if ("throw" === record.type) { var thrown = record.arg; resetTryEntry(entry); } return thrown; } } throw new Error("illegal catch attempt"); }, delegateYield: function delegateYield(iterable, resultName, nextLoc) { return this.delegate = { iterator: values(iterable), resultName: resultName, nextLoc: nextLoc }, "next" === this.method && (this.arg = undefined), ContinueSentinel; } }, exports; }
-
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
-
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  state: {
-    regions: [],
-    regions_loading: false
-  },
-  getters: {
-    regions: function regions(state) {
-      return state.regions;
-    },
-    regions_loading: function regions_loading(state) {
-      return state.regions_loading;
-    }
-  },
-  mutations: {
-    setRegions: function setRegions(state, payload) {
-      payload.forEach(function (item) {
-        Vue.set(item, 'status', false);
-        state.regions.push(item);
-      });
-    },
-    setRegionsLoading: function setRegionsLoading(state, payload) {
-      return state.regions_loading = payload;
-    }
-  },
-  actions: {
-    getRegions: function getRegions(_ref) {
-      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
-        var commit, state;
-        return _regeneratorRuntime().wrap(function _callee$(_context) {
-          while (1) {
-            switch (_context.prev = _context.next) {
-              case 0:
-                commit = _ref.commit, state = _ref.state;
-
-                if (!(state.regions.length == 0)) {
-                  _context.next = 5;
-                  break;
-                }
-
-                commit('setRegionsLoading', true);
-                _context.next = 5;
-                return axios({
-                  method: 'get',
-                  url: '/api/trades/filter/regions',
-                  data: {}
-                }).then(function (response) {
-                  commit('setRegions', response.data);
-                  commit('setRegionsLoading', false);
-                })["catch"](function (error) {
-                  commit('setRegionsLoading', false);
-                });
-
-              case 5:
-              case "end":
-                return _context.stop();
-            }
-          }
-        }, _callee);
-      }))();
-    }
-  }
-});
-
-/***/ }),
-
 /***/ "./resources/js/store/shared.js":
 /*!**************************************!*\
   !*** ./resources/js/store/shared.js ***!
@@ -13119,9 +12884,21 @@ __webpack_require__.r(__webpack_exports__);
         duration: payload.duration | 5000
       });
     },
-    runGlobalSearch: function runGlobalSearch(_ref2, payload) {
-      var commit = _ref2.commit;
-      return axios.post('/api/global-search', payload);
+    saveDataProperty: function saveDataProperty(_ref2, payload) {
+      var commit = _ref2.commit,
+          rootState = _ref2.rootState;
+      var schema = rootState[payload.module_key][payload.state_key];
+      var pList = payload.key.split('.');
+      var len = pList.length;
+
+      for (var i = 0; i < len - 1; i++) {
+        var elem = pList[i];
+        if (!schema[elem]) schema[elem] = {};
+        schema = schema[elem];
+      } // schema[pList[len-1]] = payload.value;
+
+
+      Vue.set(schema, pList[len - 1], payload.value);
     }
   },
   mutations: {
@@ -13155,268 +12932,6 @@ __webpack_require__.r(__webpack_exports__);
       vue2_datepicker__WEBPACK_IMPORTED_MODULE_0__["default"].locale(payload);
       (0,vee_validate__WEBPACK_IMPORTED_MODULE_1__.localize)(payload);
       (0,vee_validate__WEBPACK_IMPORTED_MODULE_1__.localeChanged)();
-    }
-  }
-});
-
-/***/ }),
-
-/***/ "./resources/js/store/tradePlaces.js":
-/*!*******************************************!*\
-  !*** ./resources/js/store/tradePlaces.js ***!
-  \*******************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
-
-function _regeneratorRuntime() { "use strict"; /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/facebook/regenerator/blob/main/LICENSE */ _regeneratorRuntime = function _regeneratorRuntime() { return exports; }; var exports = {}, Op = Object.prototype, hasOwn = Op.hasOwnProperty, $Symbol = "function" == typeof Symbol ? Symbol : {}, iteratorSymbol = $Symbol.iterator || "@@iterator", asyncIteratorSymbol = $Symbol.asyncIterator || "@@asyncIterator", toStringTagSymbol = $Symbol.toStringTag || "@@toStringTag"; function define(obj, key, value) { return Object.defineProperty(obj, key, { value: value, enumerable: !0, configurable: !0, writable: !0 }), obj[key]; } try { define({}, ""); } catch (err) { define = function define(obj, key, value) { return obj[key] = value; }; } function wrap(innerFn, outerFn, self, tryLocsList) { var protoGenerator = outerFn && outerFn.prototype instanceof Generator ? outerFn : Generator, generator = Object.create(protoGenerator.prototype), context = new Context(tryLocsList || []); return generator._invoke = function (innerFn, self, context) { var state = "suspendedStart"; return function (method, arg) { if ("executing" === state) throw new Error("Generator is already running"); if ("completed" === state) { if ("throw" === method) throw arg; return doneResult(); } for (context.method = method, context.arg = arg;;) { var delegate = context.delegate; if (delegate) { var delegateResult = maybeInvokeDelegate(delegate, context); if (delegateResult) { if (delegateResult === ContinueSentinel) continue; return delegateResult; } } if ("next" === context.method) context.sent = context._sent = context.arg;else if ("throw" === context.method) { if ("suspendedStart" === state) throw state = "completed", context.arg; context.dispatchException(context.arg); } else "return" === context.method && context.abrupt("return", context.arg); state = "executing"; var record = tryCatch(innerFn, self, context); if ("normal" === record.type) { if (state = context.done ? "completed" : "suspendedYield", record.arg === ContinueSentinel) continue; return { value: record.arg, done: context.done }; } "throw" === record.type && (state = "completed", context.method = "throw", context.arg = record.arg); } }; }(innerFn, self, context), generator; } function tryCatch(fn, obj, arg) { try { return { type: "normal", arg: fn.call(obj, arg) }; } catch (err) { return { type: "throw", arg: err }; } } exports.wrap = wrap; var ContinueSentinel = {}; function Generator() {} function GeneratorFunction() {} function GeneratorFunctionPrototype() {} var IteratorPrototype = {}; define(IteratorPrototype, iteratorSymbol, function () { return this; }); var getProto = Object.getPrototypeOf, NativeIteratorPrototype = getProto && getProto(getProto(values([]))); NativeIteratorPrototype && NativeIteratorPrototype !== Op && hasOwn.call(NativeIteratorPrototype, iteratorSymbol) && (IteratorPrototype = NativeIteratorPrototype); var Gp = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(IteratorPrototype); function defineIteratorMethods(prototype) { ["next", "throw", "return"].forEach(function (method) { define(prototype, method, function (arg) { return this._invoke(method, arg); }); }); } function AsyncIterator(generator, PromiseImpl) { function invoke(method, arg, resolve, reject) { var record = tryCatch(generator[method], generator, arg); if ("throw" !== record.type) { var result = record.arg, value = result.value; return value && "object" == _typeof(value) && hasOwn.call(value, "__await") ? PromiseImpl.resolve(value.__await).then(function (value) { invoke("next", value, resolve, reject); }, function (err) { invoke("throw", err, resolve, reject); }) : PromiseImpl.resolve(value).then(function (unwrapped) { result.value = unwrapped, resolve(result); }, function (error) { return invoke("throw", error, resolve, reject); }); } reject(record.arg); } var previousPromise; this._invoke = function (method, arg) { function callInvokeWithMethodAndArg() { return new PromiseImpl(function (resolve, reject) { invoke(method, arg, resolve, reject); }); } return previousPromise = previousPromise ? previousPromise.then(callInvokeWithMethodAndArg, callInvokeWithMethodAndArg) : callInvokeWithMethodAndArg(); }; } function maybeInvokeDelegate(delegate, context) { var method = delegate.iterator[context.method]; if (undefined === method) { if (context.delegate = null, "throw" === context.method) { if (delegate.iterator["return"] && (context.method = "return", context.arg = undefined, maybeInvokeDelegate(delegate, context), "throw" === context.method)) return ContinueSentinel; context.method = "throw", context.arg = new TypeError("The iterator does not provide a 'throw' method"); } return ContinueSentinel; } var record = tryCatch(method, delegate.iterator, context.arg); if ("throw" === record.type) return context.method = "throw", context.arg = record.arg, context.delegate = null, ContinueSentinel; var info = record.arg; return info ? info.done ? (context[delegate.resultName] = info.value, context.next = delegate.nextLoc, "return" !== context.method && (context.method = "next", context.arg = undefined), context.delegate = null, ContinueSentinel) : info : (context.method = "throw", context.arg = new TypeError("iterator result is not an object"), context.delegate = null, ContinueSentinel); } function pushTryEntry(locs) { var entry = { tryLoc: locs[0] }; 1 in locs && (entry.catchLoc = locs[1]), 2 in locs && (entry.finallyLoc = locs[2], entry.afterLoc = locs[3]), this.tryEntries.push(entry); } function resetTryEntry(entry) { var record = entry.completion || {}; record.type = "normal", delete record.arg, entry.completion = record; } function Context(tryLocsList) { this.tryEntries = [{ tryLoc: "root" }], tryLocsList.forEach(pushTryEntry, this), this.reset(!0); } function values(iterable) { if (iterable) { var iteratorMethod = iterable[iteratorSymbol]; if (iteratorMethod) return iteratorMethod.call(iterable); if ("function" == typeof iterable.next) return iterable; if (!isNaN(iterable.length)) { var i = -1, next = function next() { for (; ++i < iterable.length;) { if (hasOwn.call(iterable, i)) return next.value = iterable[i], next.done = !1, next; } return next.value = undefined, next.done = !0, next; }; return next.next = next; } } return { next: doneResult }; } function doneResult() { return { value: undefined, done: !0 }; } return GeneratorFunction.prototype = GeneratorFunctionPrototype, define(Gp, "constructor", GeneratorFunctionPrototype), define(GeneratorFunctionPrototype, "constructor", GeneratorFunction), GeneratorFunction.displayName = define(GeneratorFunctionPrototype, toStringTagSymbol, "GeneratorFunction"), exports.isGeneratorFunction = function (genFun) { var ctor = "function" == typeof genFun && genFun.constructor; return !!ctor && (ctor === GeneratorFunction || "GeneratorFunction" === (ctor.displayName || ctor.name)); }, exports.mark = function (genFun) { return Object.setPrototypeOf ? Object.setPrototypeOf(genFun, GeneratorFunctionPrototype) : (genFun.__proto__ = GeneratorFunctionPrototype, define(genFun, toStringTagSymbol, "GeneratorFunction")), genFun.prototype = Object.create(Gp), genFun; }, exports.awrap = function (arg) { return { __await: arg }; }, defineIteratorMethods(AsyncIterator.prototype), define(AsyncIterator.prototype, asyncIteratorSymbol, function () { return this; }), exports.AsyncIterator = AsyncIterator, exports.async = function (innerFn, outerFn, self, tryLocsList, PromiseImpl) { void 0 === PromiseImpl && (PromiseImpl = Promise); var iter = new AsyncIterator(wrap(innerFn, outerFn, self, tryLocsList), PromiseImpl); return exports.isGeneratorFunction(outerFn) ? iter : iter.next().then(function (result) { return result.done ? result.value : iter.next(); }); }, defineIteratorMethods(Gp), define(Gp, toStringTagSymbol, "Generator"), define(Gp, iteratorSymbol, function () { return this; }), define(Gp, "toString", function () { return "[object Generator]"; }), exports.keys = function (object) { var keys = []; for (var key in object) { keys.push(key); } return keys.reverse(), function next() { for (; keys.length;) { var key = keys.pop(); if (key in object) return next.value = key, next.done = !1, next; } return next.done = !0, next; }; }, exports.values = values, Context.prototype = { constructor: Context, reset: function reset(skipTempReset) { if (this.prev = 0, this.next = 0, this.sent = this._sent = undefined, this.done = !1, this.delegate = null, this.method = "next", this.arg = undefined, this.tryEntries.forEach(resetTryEntry), !skipTempReset) for (var name in this) { "t" === name.charAt(0) && hasOwn.call(this, name) && !isNaN(+name.slice(1)) && (this[name] = undefined); } }, stop: function stop() { this.done = !0; var rootRecord = this.tryEntries[0].completion; if ("throw" === rootRecord.type) throw rootRecord.arg; return this.rval; }, dispatchException: function dispatchException(exception) { if (this.done) throw exception; var context = this; function handle(loc, caught) { return record.type = "throw", record.arg = exception, context.next = loc, caught && (context.method = "next", context.arg = undefined), !!caught; } for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i], record = entry.completion; if ("root" === entry.tryLoc) return handle("end"); if (entry.tryLoc <= this.prev) { var hasCatch = hasOwn.call(entry, "catchLoc"), hasFinally = hasOwn.call(entry, "finallyLoc"); if (hasCatch && hasFinally) { if (this.prev < entry.catchLoc) return handle(entry.catchLoc, !0); if (this.prev < entry.finallyLoc) return handle(entry.finallyLoc); } else if (hasCatch) { if (this.prev < entry.catchLoc) return handle(entry.catchLoc, !0); } else { if (!hasFinally) throw new Error("try statement without catch or finally"); if (this.prev < entry.finallyLoc) return handle(entry.finallyLoc); } } } }, abrupt: function abrupt(type, arg) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.tryLoc <= this.prev && hasOwn.call(entry, "finallyLoc") && this.prev < entry.finallyLoc) { var finallyEntry = entry; break; } } finallyEntry && ("break" === type || "continue" === type) && finallyEntry.tryLoc <= arg && arg <= finallyEntry.finallyLoc && (finallyEntry = null); var record = finallyEntry ? finallyEntry.completion : {}; return record.type = type, record.arg = arg, finallyEntry ? (this.method = "next", this.next = finallyEntry.finallyLoc, ContinueSentinel) : this.complete(record); }, complete: function complete(record, afterLoc) { if ("throw" === record.type) throw record.arg; return "break" === record.type || "continue" === record.type ? this.next = record.arg : "return" === record.type ? (this.rval = this.arg = record.arg, this.method = "return", this.next = "end") : "normal" === record.type && afterLoc && (this.next = afterLoc), ContinueSentinel; }, finish: function finish(finallyLoc) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.finallyLoc === finallyLoc) return this.complete(entry.completion, entry.afterLoc), resetTryEntry(entry), ContinueSentinel; } }, "catch": function _catch(tryLoc) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.tryLoc === tryLoc) { var record = entry.completion; if ("throw" === record.type) { var thrown = record.arg; resetTryEntry(entry); } return thrown; } } throw new Error("illegal catch attempt"); }, delegateYield: function delegateYield(iterable, resultName, nextLoc) { return this.delegate = { iterator: values(iterable), resultName: resultName, nextLoc: nextLoc }, "next" === this.method && (this.arg = undefined), ContinueSentinel; } }, exports; }
-
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
-
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  state: {
-    trade_places: [],
-    trade_places_pagination: {},
-    trade_places_loading: false,
-    filters_trade_places: [],
-    filters_trade_places_pagination: {}
-  },
-  getters: {
-    trade_places: function trade_places(state) {
-      return state.trade_places;
-    },
-    trade_places_pagination: function trade_places_pagination(state) {
-      return state.trade_places_pagination;
-    },
-    trade_places_loading: function trade_places_loading(state) {
-      return state.trade_places_loading;
-    },
-    filters_trade_places: function filters_trade_places(state) {
-      return state.filters_trade_places;
-    },
-    filters_trade_places_pagination: function filters_trade_places_pagination(state) {
-      return state.filters_trade_places_pagination;
-    }
-  },
-  mutations: {
-    setTradePlaces: function setTradePlaces(state, payload) {
-      state.trade_places = payload.data;
-      state.trade_places_pagination = payload.pagination;
-    },
-    setFiltersTradePlaces: function setFiltersTradePlaces(state, payload) {
-      payload.forEach(function (item) {
-        var trade = state.filters_trade_places.findIndex(function (el) {
-          return el.id === item.id;
-        });
-
-        if (trade < 0) {
-          state.filters_trade_places.push(item);
-        }
-      });
-      state.filters_trade_places_pagination = payload.pagination;
-    },
-    addTradePlace: function addTradePlace(state, payload) {
-      state.trade_places.push(payload);
-    },
-    saveTradePlace: function saveTradePlace(state, payload) {
-      var trade = state.trade_places.findIndex(function (item) {
-        return item.id === payload.id;
-      });
-
-      if (trade >= 0) {
-        Vue.set(state.trade_places, trade, payload);
-      }
-    },
-    removeTradePlace: function removeTradePlace(state, payload) {
-      var trade = state.trade_places.findIndex(function (item) {
-        return item.id === payload;
-      });
-
-      if (trade >= 0) {
-        state.trade_places.splice(trade, 1);
-      }
-    },
-    setTradePlacesLoading: function setTradePlacesLoading(state, payload) {
-      return state.trade_places_loading = payload;
-    },
-    saveTradePlaceProperty: function saveTradePlaceProperty(state, payload) {
-      var trade = state.trade_places.findIndex(function (item) {
-        return item.id === payload.id;
-      });
-
-      if (trade >= 0 && state.trade_places[trade].hasOwnProperty(payload.key)) {
-        Vue.set(state.trade_places[trade], payload.key, payload.value);
-      }
-    }
-  },
-  actions: {
-    getTradePlaces: function getTradePlaces(_ref, payload) {
-      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
-        var commit, state;
-        return _regeneratorRuntime().wrap(function _callee$(_context) {
-          while (1) {
-            switch (_context.prev = _context.next) {
-              case 0:
-                commit = _ref.commit, state = _ref.state;
-                commit('setTradePlacesLoading', true);
-                _context.prev = 2;
-                _context.next = 5;
-                return axios({
-                  method: 'get',
-                  url: '/api/trades/filter/trade-places?page=' + payload.page,
-                  data: payload
-                }).then(function (response) {
-                  if (payload.type == 'filters') {
-                    commit('setFiltersTradePlaces', response.data);
-                  } else {
-                    commit('setTradePlaces', response.data);
-                  }
-
-                  commit('setTradePlacesLoading', false);
-                });
-
-              case 5:
-                _context.next = 12;
-                break;
-
-              case 7:
-                _context.prev = 7;
-                _context.t0 = _context["catch"](2);
-                console.log(_context.t0); // commit('setTradePlaces', []);
-
-                commit('setTradePlacesLoading', false);
-                throw _context.t0;
-
-              case 12:
-              case "end":
-                return _context.stop();
-            }
-          }
-        }, _callee, null, [[2, 7]]);
-      }))();
-    },
-    addTradePlace: function addTradePlace(_ref2, payload) {
-      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2() {
-        var commit;
-        return _regeneratorRuntime().wrap(function _callee2$(_context2) {
-          while (1) {
-            switch (_context2.prev = _context2.next) {
-              case 0:
-                commit = _ref2.commit;
-                _context2.next = 3;
-                return axios.post('/api/trade-places', payload, {
-                  headers: {
-                    'Content-Type': 'multipart/form-data'
-                  }
-                }).then(function (response) {
-                  commit('addTradePlace', response.data);
-                })["catch"](function (error) {
-                  console.log(error);
-                  throw error;
-                });
-
-              case 3:
-              case "end":
-                return _context2.stop();
-            }
-          }
-        }, _callee2);
-      }))();
-    },
-    updateTradePlace: function updateTradePlace(_ref3, payload) {
-      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee3() {
-        var commit;
-        return _regeneratorRuntime().wrap(function _callee3$(_context3) {
-          while (1) {
-            switch (_context3.prev = _context3.next) {
-              case 0:
-                commit = _ref3.commit;
-                _context3.next = 3;
-                return axios.post('/api/trade-places/' + payload.id, payload.formData, {
-                  headers: {
-                    'Content-Type': 'multipart/form-data'
-                  }
-                }).then(function (response) {
-                  commit('saveTradePlace', response.data);
-                })["catch"](function (error) {
-                  console.log(error);
-                  throw error;
-                });
-
-              case 3:
-              case "end":
-                return _context3.stop();
-            }
-          }
-        }, _callee3);
-      }))();
-    },
-    removeTradePlace: function removeTradePlace(_ref4, payload) {
-      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee4() {
-        var dispatch, commit;
-        return _regeneratorRuntime().wrap(function _callee4$(_context4) {
-          while (1) {
-            switch (_context4.prev = _context4.next) {
-              case 0:
-                dispatch = _ref4.dispatch, commit = _ref4.commit;
-                _context4.next = 3;
-                return axios["delete"]("/api/trade-places/".concat(payload.id)).then(function (response) {
-                  commit('removeTradePlace', payload.id);
-                  dispatch('sendNotification', {
-                    self: payload.self,
-                    title: 'Должники',
-                    message: 'Должник успешно удален'
-                  });
-                })["catch"](function (error) {
-                  dispatch('sendNotification', {
-                    self: payload.self,
-                    title: 'Должники',
-                    type: 'error',
-                    message: 'Произошла ошибка'
-                  });
-                });
-
-              case 3:
-              case "end":
-                return _context4.stop();
-            }
-          }
-        }, _callee4);
-      }))();
-    },
-    saveTradePlace: function saveTradePlace(_ref5, payload) {
-      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee5() {
-        var commit;
-        return _regeneratorRuntime().wrap(function _callee5$(_context5) {
-          while (1) {
-            switch (_context5.prev = _context5.next) {
-              case 0:
-                commit = _ref5.commit;
-                _context5.next = 3;
-                return axios.post("/api/trade-places/save/".concat(payload.id), {
-                  key: payload.key,
-                  value: payload.value
-                }).then(function (response) {
-                  commit('saveTradePlace', response.data.trade);
-                })["catch"](function (error) {
-                  console.log(error);
-                  throw error;
-                });
-
-              case 3:
-              case "end":
-                return _context5.stop();
-            }
-          }
-        }, _callee5);
-      }))();
     }
   }
 });
@@ -13537,23 +13052,25 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     setWins: function setWins(state, payload) {
       state.wins = [];
       payload.data.forEach(function (item) {
+        var tmp_item = item;
+
         if (item.winner) {
           if (item.winner.person !== null) {
-            item.winner.fullName = Object.values(item.winner.person).reduce(function (prev, cur) {
+            tmp_item.winner.fullName = Object.values(item.winner.person).reduce(function (prev, cur) {
               if (cur) {
                 prev += cur + ' ';
               }
 
               return prev;
             }, '').trim();
-            item.winner.shortName = item.winner.person.firstName + ' ' + item.person.lastName;
+            tmp_item.winner.shortName = item.winner.person.firstName + ' ' + item.winner.person.lastName;
           } else {
-            item.winner.fullName = item.winner.company.fullName;
-            item.winner.shortName = item.winner.company.shortName;
+            tmp_item.winner.fullName = item.winner.company.fullName;
+            tmp_item.winner.shortName = item.winner.company.shortName;
           }
         }
 
-        state.wins.push(item);
+        state.wins.push(tmp_item);
       });
       state.wins_pagination = payload.pagination;
     },
@@ -69156,7 +68673,7 @@ var render = function () {
       _vm._v(" "),
       _c("bkt-header"),
       _vm._v(" "),
-      _c("main", [_c("router-view")], 1),
+      _c("main", { staticClass: "wrapper" }, [_c("router-view")], 1),
       _vm._v(" "),
       _c("bkt-footer"),
       _vm._v(" "),
@@ -70028,10 +69545,10 @@ var render = function () {
           "div",
           {
             staticClass:
-              "row h-100 w-100 mx-auto row-cols-1 row-cols-md-2 row-cols-lg-3",
+              "row h-100 w-100 mx-auto row-cols-1 row-cols-md-2 row-cols-lg-3 bkt-card-trade__wrapper",
           },
           [
-            _c("div", { staticClass: "col p-0 p-sm-2 order-2 order-lg-1" }, [
+            _c("div", { staticClass: "col p-0 px-sm-2 order-2 order-lg-1" }, [
               _c(
                 "div",
                 { staticClass: "bkt-card-image-wrapper" },
@@ -70160,7 +69677,7 @@ var render = function () {
               "div",
               {
                 staticClass:
-                  "col-12 col-md-12 col-lg-4 p-0 p-sm-2 order-1 order-lg-2",
+                  "col-12 col-md-12 col-lg-4 p-0 px-sm-2 order-1 order-lg-2",
               },
               [
                 _c(
@@ -70252,293 +69769,348 @@ var render = function () {
               ]
             ),
             _vm._v(" "),
-            _c("div", { staticClass: "col order-3 p-0 p-sm-2" }, [
+            _c("div", { staticClass: "col order-3 p-0 px-sm-2" }, [
               _c(
                 "div",
-                { staticClass: "bkt-card-price bkt-button green w-100" },
+                { staticClass: "bkt-card-trade__wrapper bkt-wrapper-column" },
                 [
-                  _vm._v(
-                    _vm._s(
-                      _vm._f("priceFormat")(
-                        _vm.item && _vm.item.currentPrice
-                          ? _vm.item.currentPrice
-                          : "0"
-                      )
-                    ) + " ₽\n                        "
-                  ),
                   _c(
                     "div",
-                    { staticClass: "bkt-card-price-icon bkt-bg-green-light" },
+                    { staticClass: "bkt-wrapper-column bkt-gap-small" },
                     [
-                      _c("bkt-icon", {
-                        class: {
-                          "bkt-rotate-180":
-                            _vm.item.currentPriceState == "down",
-                          "bkt-rotate-90": _vm.item.currentPriceState == "hold",
+                      _c(
+                        "div",
+                        {
+                          staticClass:
+                            "bkt-card-trade__price-wrapper bkt-button green w-100",
                         },
-                        attrs: {
-                          name: "ArrowTriple",
-                          width: "22px",
-                          height: "22px",
+                        [
+                          _c(
+                            "h2",
+                            {
+                              staticClass:
+                                "bkt-card-trade__price text-truncate",
+                            },
+                            [
+                              _vm._v(
+                                "\n                                    " +
+                                  _vm._s(
+                                    _vm._f("priceFormat")(
+                                      _vm.item && _vm.item.currentPrice
+                                        ? _vm.item.currentPrice
+                                        : "0"
+                                    )
+                                  ) +
+                                  " ₽\n                                "
+                              ),
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "div",
+                            {
+                              staticClass:
+                                "bkt-card-trade__price-icon bkt-bg-green-light",
+                            },
+                            [
+                              _c("bkt-icon", {
+                                class: {
+                                  "bkt-rotate-180":
+                                    _vm.item.currentPriceState == "down",
+                                  "bkt-rotate-90":
+                                    _vm.item.currentPriceState == "hold",
+                                },
+                                attrs: {
+                                  name: "ArrowTriple",
+                                  width: "22px",
+                                  height: "22px",
+                                },
+                              }),
+                            ],
+                            1
+                          ),
+                        ]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "div",
+                        {
+                          staticClass:
+                            "bkt-card-infographics bkt-wrapper-between bkt-nowrap",
                         },
-                      }),
-                    ],
-                    1
+                        [
+                          _c("div", { staticClass: "bkt-card outline" }, [
+                            _c(
+                              "div",
+                              {
+                                staticClass:
+                                  "bkt-card__feature text-center w-100 mt-0",
+                              },
+                              [
+                                _c(
+                                  "h5",
+                                  { staticClass: "bkt-card__subtitle" },
+                                  [_vm._v("шаг аукциона")]
+                                ),
+                                _vm._v(" "),
+                                _c(
+                                  "h4",
+                                  {
+                                    staticClass:
+                                      "bkt-card__title bkt-text-primary",
+                                  },
+                                  [
+                                    _vm._v(
+                                      "\n                                            " +
+                                        _vm._s(
+                                          _vm._f("priceFormat")(
+                                            _vm.item.stepPrice &&
+                                              _vm.item.stepPrice.value
+                                              ? _vm.item.stepPrice.value
+                                              : "0"
+                                          )
+                                        ) +
+                                        "\n                                            " +
+                                        _vm._s(
+                                          _vm.item.stepPrice &&
+                                            _vm.item.stepPrice.type == "rubles"
+                                            ? "₽"
+                                            : "%"
+                                        ) +
+                                        "\n                                        "
+                                    ),
+                                  ]
+                                ),
+                              ]
+                            ),
+                          ]),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "bkt-card outline" }, [
+                            _c(
+                              "div",
+                              {
+                                staticClass:
+                                  "bkt-card__feature text-center w-100 mt-0",
+                              },
+                              [
+                                _c(
+                                  "h5",
+                                  { staticClass: "bkt-card__subtitle" },
+                                  [_vm._v("задаток")]
+                                ),
+                                _vm._v(" "),
+                                _c(
+                                  "h4",
+                                  {
+                                    staticClass: "bkt-card__title bkt-text-red",
+                                  },
+                                  [
+                                    _vm._v(
+                                      "\n                                            " +
+                                        _vm._s(
+                                          _vm._f("priceFormat")(
+                                            _vm.item.deposit &&
+                                              _vm.item.deposit.value
+                                              ? _vm.item.deposit.value
+                                              : "0"
+                                          )
+                                        ) +
+                                        "\n                                            " +
+                                        _vm._s(
+                                          _vm.item.deposit &&
+                                            _vm.item.deposit.type == "rubles"
+                                            ? "₽"
+                                            : "%"
+                                        ) +
+                                        "\n                                        "
+                                    ),
+                                  ]
+                                ),
+                              ]
+                            ),
+                          ]),
+                        ]
+                      ),
+                    ]
                   ),
-                ]
-              ),
-              _vm._v(" "),
-              _c(
-                "div",
-                {
-                  staticClass:
-                    "bkt-card-infographics bkt-wrapper-between bkt-nowrap",
-                },
-                [
-                  _c("div", { staticClass: "bkt-card outline" }, [
-                    _c(
-                      "div",
-                      {
-                        staticClass: "bkt-card__feature text-center w-100 mt-0",
-                      },
-                      [
-                        _c("h5", { staticClass: "bkt-card__subtitle" }, [
-                          _vm._v("шаг аукциона"),
-                        ]),
-                        _vm._v(" "),
-                        _c(
-                          "h4",
-                          { staticClass: "bkt-card__title bkt-text-primary" },
-                          [
-                            _vm._v(
-                              "\n                                    " +
-                                _vm._s(
-                                  _vm._f("priceFormat")(
-                                    _vm.item.stepPrice &&
-                                      _vm.item.stepPrice.value
-                                      ? _vm.item.stepPrice.value
-                                      : "0"
-                                  )
-                                ) +
-                                "\n                                    " +
-                                _vm._s(
-                                  _vm.item.stepPrice &&
-                                    _vm.item.stepPrice.type == "rubles"
-                                    ? "₽"
-                                    : "%"
-                                ) +
-                                "\n                                "
-                            ),
-                          ]
-                        ),
-                      ]
-                    ),
-                  ]),
                   _vm._v(" "),
-                  _c("div", { staticClass: "bkt-card outline" }, [
-                    _c(
-                      "div",
-                      {
-                        staticClass: "bkt-card__feature text-center w-100 mt-0",
-                      },
-                      [
-                        _c("h5", { staticClass: "bkt-card__subtitle" }, [
-                          _vm._v("задаток"),
-                        ]),
-                        _vm._v(" "),
-                        _c(
-                          "h4",
-                          { staticClass: "bkt-card__title bkt-text-red" },
-                          [
-                            _vm._v(
-                              "\n                                    " +
-                                _vm._s(
-                                  _vm._f("priceFormat")(
-                                    _vm.item.deposit && _vm.item.deposit.value
-                                      ? _vm.item.deposit.value
-                                      : "0"
-                                  )
-                                ) +
-                                "\n                                    " +
-                                _vm._s(
-                                  _vm.item.deposit &&
-                                    _vm.item.deposit.type == "rubles"
-                                    ? "₽"
-                                    : "%"
-                                ) +
-                                "\n                                "
-                            ),
-                          ]
-                        ),
-                      ]
-                    ),
+                  _c("div", { staticClass: "bkt-card-trade__periods" }, [
+                    _vm.item.trade &&
+                    _vm.item.trade.applicationTime &&
+                    (_vm.item.trade.applicationTime.start ||
+                      _vm.item.trade.applicationTime.end)
+                      ? _c("div", { staticClass: "bkt-card-period" }, [
+                          _c(
+                            "div",
+                            {
+                              staticClass:
+                                "bkt-card__category bkt-bg-primary-lighter",
+                            },
+                            [
+                              _c("bkt-icon", {
+                                attrs: {
+                                  name: "Date",
+                                  color: "primary",
+                                  width: "16px",
+                                  height: "16px",
+                                },
+                              }),
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "bkt-card_feature" }, [
+                            _vm._m(3),
+                            _vm._v(" "),
+                            _vm.item.trade.applicationTime.start
+                              ? _c("h6", [
+                                  _vm._v(
+                                    " с " +
+                                      _vm._s(
+                                        _vm._f("moment")(
+                                          _vm.item.trade.applicationTime.start,
+                                          "DD MMMM YYYY"
+                                        )
+                                      ) +
+                                      "\n                                        "
+                                  ),
+                                  _c("span", { staticClass: "bkt-text-blue" }, [
+                                    _vm._v(
+                                      _vm._s(
+                                        _vm._f("moment")(
+                                          _vm.item.trade.applicationTime.start,
+                                          "HH:mm"
+                                        )
+                                      )
+                                    ),
+                                  ]),
+                                ])
+                              : _vm._e(),
+                            _vm._v(" "),
+                            _vm.item.trade.applicationTime.end
+                              ? _c("h6", [
+                                  _vm._v(
+                                    "до " +
+                                      _vm._s(
+                                        _vm._f("moment")(
+                                          _vm.item.trade.applicationTime.end,
+                                          "DD MMMM YYYY"
+                                        )
+                                      ) +
+                                      "\n                                        "
+                                  ),
+                                  _c("span", { staticClass: "bkt-text-blue" }, [
+                                    _vm._v(
+                                      _vm._s(
+                                        _vm._f("moment")(
+                                          _vm.item.trade.applicationTime.end,
+                                          "HH:mm"
+                                        )
+                                      )
+                                    ),
+                                  ]),
+                                ])
+                              : _vm._e(),
+                          ]),
+                        ])
+                      : _vm._e(),
+                    _vm._v(" "),
+                    _vm.item.trade &&
+                    _vm.item.trade.eventTime &&
+                    (_vm.item.trade.eventTime.start ||
+                      _vm.item.trade.eventTime.end)
+                      ? _c("div", { staticClass: "bkt-card-period" }, [
+                          _c(
+                            "div",
+                            {
+                              staticClass:
+                                "bkt-card__category bkt-bg-primary-lighter",
+                            },
+                            [
+                              _c("bkt-icon", {
+                                attrs: {
+                                  name: "Alarm",
+                                  color: "primary",
+                                  width: "16px",
+                                  height: "16px",
+                                },
+                              }),
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "bkt-card_feature" }, [
+                            _vm._m(4),
+                            _vm._v(" "),
+                            _c("div", [
+                              _vm.item.trade.eventTime.start
+                                ? _c("h6", [
+                                    _vm._v(
+                                      "\n                                            с " +
+                                        _vm._s(
+                                          _vm._f("moment")(
+                                            _vm.item.trade.eventTime.start,
+                                            "DD MMMM YYYY"
+                                          )
+                                        ) +
+                                        "\n                                            "
+                                    ),
+                                    _c(
+                                      "span",
+                                      { staticClass: "bkt-text-yellow" },
+                                      [
+                                        _vm._v(
+                                          "\n                                    " +
+                                            _vm._s(
+                                              _vm._f("moment")(
+                                                _vm.item.trade.eventTime.start,
+                                                "HH:mm"
+                                              )
+                                            ) +
+                                            "\n                                "
+                                        ),
+                                      ]
+                                    ),
+                                  ])
+                                : _vm._e(),
+                              _vm._v(" "),
+                              _vm.item.trade.eventTime.end
+                                ? _c("h6", [
+                                    _vm._v(
+                                      "до\n                                            " +
+                                        _vm._s(
+                                          _vm._f("moment")(
+                                            _vm.item.trade.eventTime.end,
+                                            "DD MMMM YYYY"
+                                          )
+                                        ) +
+                                        "\n                                            "
+                                    ),
+                                    _c(
+                                      "span",
+                                      { staticClass: "bkt-text-yellow" },
+                                      [
+                                        _vm._v(
+                                          "\n                                    " +
+                                            _vm._s(
+                                              _vm._f("moment")(
+                                                _vm.item.trade.eventTime.end,
+                                                "HH:mm"
+                                              )
+                                            ) +
+                                            "\n                                "
+                                        ),
+                                      ]
+                                    ),
+                                  ])
+                                : _vm._e(),
+                            ]),
+                          ]),
+                        ])
+                      : _vm._e(),
                   ]),
                 ]
               ),
-              _vm._v(" "),
-              _vm.item.trade &&
-              _vm.item.trade.applicationTime &&
-              (_vm.item.trade.applicationTime.start ||
-                _vm.item.trade.applicationTime.end)
-                ? _c("div", { staticClass: "bkt-card-period bkt-wrapper" }, [
-                    _c(
-                      "div",
-                      {
-                        staticClass:
-                          "bkt-card__category bkt-bg-primary-lighter",
-                      },
-                      [
-                        _c("bkt-icon", {
-                          attrs: {
-                            name: "Date",
-                            color: "primary",
-                            width: "16px",
-                            height: "16px",
-                          },
-                        }),
-                      ],
-                      1
-                    ),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "bkt-card_feature" }, [
-                      _c("h6", [_vm._v("прием заявок")]),
-                      _vm._v(" "),
-                      _c("div", [
-                        _vm.item.trade.applicationTime.start
-                          ? _c("h6", [
-                              _vm._v(
-                                " с " +
-                                  _vm._s(
-                                    _vm._f("moment")(
-                                      _vm.item.trade.applicationTime.start,
-                                      "DD MMMM YYYY"
-                                    )
-                                  ) +
-                                  "\n                                    "
-                              ),
-                              _c("span", { staticClass: "bkt-text-blue" }, [
-                                _vm._v(
-                                  _vm._s(
-                                    _vm._f("moment")(
-                                      _vm.item.trade.applicationTime.start,
-                                      "HH:mm"
-                                    )
-                                  )
-                                ),
-                              ]),
-                            ])
-                          : _vm._e(),
-                        _vm._v(" "),
-                        _vm.item.trade.applicationTime.end
-                          ? _c("h6", [
-                              _vm._v(
-                                "до " +
-                                  _vm._s(
-                                    _vm._f("moment")(
-                                      _vm.item.trade.applicationTime.end,
-                                      "DD MMMM YYYY"
-                                    )
-                                  ) +
-                                  "\n                                "
-                              ),
-                              _c("span", { staticClass: "bkt-text-blue" }, [
-                                _vm._v(
-                                  _vm._s(
-                                    _vm._f("moment")(
-                                      _vm.item.trade.applicationTime.end,
-                                      "HH:mm"
-                                    )
-                                  )
-                                ),
-                              ]),
-                            ])
-                          : _vm._e(),
-                      ]),
-                    ]),
-                  ])
-                : _vm._e(),
-              _vm._v(" "),
-              _vm.item.trade &&
-              _vm.item.trade.eventTime &&
-              (_vm.item.trade.eventTime.start || _vm.item.trade.eventTime.end)
-                ? _c("div", { staticClass: "bkt-card-period bkt-wrapper" }, [
-                    _c(
-                      "div",
-                      { staticClass: "bkt-icon-frame bkt-bg-primary-lighter" },
-                      [
-                        _c("bkt-icon", {
-                          attrs: {
-                            name: "Alarm",
-                            color: "primary",
-                            width: "16px",
-                            height: "16px",
-                          },
-                        }),
-                      ],
-                      1
-                    ),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "bkt-card_feature" }, [
-                      _c("h6", [_vm._v("проведение торгов")]),
-                      _vm._v(" "),
-                      _c("div", [
-                        _vm.item.trade.eventTime.start
-                          ? _c("h6", [
-                              _vm._v(
-                                "\n                                    с " +
-                                  _vm._s(
-                                    _vm._f("moment")(
-                                      _vm.item.trade.eventTime.start,
-                                      "DD MMMM YYYY"
-                                    )
-                                  ) +
-                                  "\n                                "
-                              ),
-                              _c("span", { staticClass: "bkt-text-yellow" }, [
-                                _vm._v(
-                                  "\n                                    " +
-                                    _vm._s(
-                                      _vm._f("moment")(
-                                        _vm.item.trade.eventTime.start,
-                                        "HH:mm"
-                                      )
-                                    ) +
-                                    "\n                                "
-                                ),
-                              ]),
-                            ])
-                          : _vm._e(),
-                        _vm._v(" "),
-                        _vm.item.trade.eventTime.end
-                          ? _c("h6", [
-                              _vm._v(
-                                "до\n                                    " +
-                                  _vm._s(
-                                    _vm._f("moment")(
-                                      _vm.item.trade.eventTime.end,
-                                      "DD MMMM YYYY"
-                                    )
-                                  ) +
-                                  "\n                                "
-                              ),
-                              _c("span", { staticClass: "bkt-text-yellow" }, [
-                                _vm._v(
-                                  "\n                                    " +
-                                    _vm._s(
-                                      _vm._f("moment")(
-                                        _vm.item.trade.eventTime.end,
-                                        "HH:mm"
-                                      )
-                                    ) +
-                                    "\n                                "
-                                ),
-                              ]),
-                            ])
-                          : _vm._e(),
-                      ]),
-                    ]),
-                  ])
-                : _vm._e(),
             ]),
             _vm._v(" "),
             _vm.item.cadastralData
@@ -70546,7 +70118,7 @@ var render = function () {
                   "div",
                   {
                     staticClass:
-                      "col-12 col-md-12 col-lg-12 p-0 p-sm-2 order-4",
+                      "col-12 col-md-12 col-lg-12 p-0 px-sm-2 order-4",
                     staticStyle: { "align-self": "end" },
                   },
                   [
@@ -70554,7 +70126,7 @@ var render = function () {
                       "div",
                       {
                         staticClass:
-                          "bkt-wrapper-between bkt-card-infographics",
+                          "bkt-wrapper-between bkt-card-trade__cadastral-info",
                       },
                       [
                         _c(
@@ -70563,7 +70135,7 @@ var render = function () {
                             staticClass: "bkt-card outline bkt-wrapper-between",
                           },
                           [
-                            _vm._m(3),
+                            _vm._m(5),
                             _vm._v(" "),
                             _c(
                               "span",
@@ -70580,7 +70152,7 @@ var render = function () {
                             staticClass: "bkt-card outline bkt-wrapper-between",
                           },
                           [
-                            _vm._m(4),
+                            _vm._m(6),
                             _vm._v(" "),
                             _c(
                               "span",
@@ -70597,7 +70169,7 @@ var render = function () {
                             staticClass: "bkt-card outline bkt-wrapper-between",
                           },
                           [
-                            _vm._m(5),
+                            _vm._m(7),
                             _vm._v(" "),
                             _c(
                               "span",
@@ -70670,6 +70242,18 @@ var staticRenderFns = [
       _vm._v(" "),
       _c("h5", { staticClass: "bkt-card__text" }, [_vm._v("для садоводства")]),
     ])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("h6", [_c("strong", [_vm._v("прием заявок")])])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("h6", [_c("strong", [_vm._v("проведение торгов")])])
   },
   function () {
     var _vm = this
@@ -71708,209 +71292,213 @@ var render = function () {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("footer", { staticClass: "bkt-footer" }, [
-    _c("div", { staticClass: "container bkt-main bkt-container row_div" }, [
-      _c("div", { staticClass: "footer_block" }, [
-        _c("img", {
-          staticClass: "logo",
-          attrs: { src: "/images/logo.png", alt: "logo" },
-        }),
-        _vm._v(" "),
-        _c("p", { staticStyle: { color: "gray", "margin-bottom": "40px" } }, [
-          _vm._v(
-            "Lorem ipsum dolor sit amet consectetur adipisicing elit.\n                Delectus necessitatibus\n                facere qui optio,\n                incidunt dolorem voluptatem amet, nihil quo unde quidem nam deleniti laudantium ex, quibusdam\n                dolores voluptas possimus alias? Lorem ipsum dolor, sit amet consectetur adipisicing elit."
-          ),
-        ]),
-        _vm._v(" "),
-        _c(
-          "div",
-          { staticClass: "footer_buttons bkt-gap-small" },
-          [
-            _c(
-              "router-link",
-              { staticClass: "bkt-button primary", attrs: { to: "/" } },
-              [_vm._v("Торги")]
-            ),
+    _c("div", { staticClass: "bkt-footer__main" }, [
+      _c("div", { staticClass: "bkt-container" }, [
+        _c("div", { staticClass: "row w-100 mx-auto bkt-gap-row-large" }, [
+          _c("div", { staticClass: "col-6 col-lg-3" }, [
+            _c("img", {
+              staticClass: "bkt-footer__logo",
+              attrs: { src: "/images/logo.png", alt: "logo" },
+            }),
+            _vm._v(" "),
+            _c("p", { staticClass: "bkt-footer__description" }, [
+              _vm._v(
+                "Нашей деятельности позволяет выполнять важные\n                        задания по разработке модели развития. Таким образом дальнейшее развитие различных форм\n                        деятельности способствует подготовки."
+              ),
+            ]),
             _vm._v(" "),
             _c(
-              "router-link",
-              { staticClass: "bkt-button blue", attrs: { to: "/tariffs" } },
-              [_vm._v("Тарифы")]
+              "div",
+              { staticClass: "bkt-footer__buttons bkt-gap-small" },
+              [
+                _c(
+                  "router-link",
+                  { staticClass: "bkt-button primary", attrs: { to: "/" } },
+                  [_vm._v("Торги")]
+                ),
+                _vm._v(" "),
+                _c(
+                  "router-link",
+                  { staticClass: "bkt-button blue", attrs: { to: "/tariffs" } },
+                  [_vm._v("Тарифы")]
+                ),
+              ],
+              1
             ),
-          ],
-          1
-        ),
-      ]),
-      _vm._v(" "),
-      _c(
-        "div",
-        { staticClass: "footer_block", staticStyle: { "margin-right": "0" } },
-        [
-          _c("div", [
-            _c("ul", [
-              _c(
-                "li",
-                [
-                  _c("router-link", { attrs: { to: "/calendar" } }, [
-                    _vm._v("Календарь"),
-                  ]),
-                ],
-                1
-              ),
-              _vm._v(" "),
-              _c(
-                "li",
-                [
-                  _c("router-link", { attrs: { to: "/agent" } }, [
-                    _vm._v("Купить через агента"),
-                  ]),
-                ],
-                1
-              ),
-              _vm._v(" "),
-              _c(
-                "li",
-                [
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "col-6" }, [
+            _c(
+              "div",
+              {
+                staticClass:
+                  "bkt-footer__block bkt-wrapper bkt-wrapper-down-lg-column",
+              },
+              [
+                _c("ul", { staticClass: "bkt-footer__links" }, [
                   _c(
-                    "router-link",
-                    { attrs: { to: "/auctions" } },
+                    "li",
+                    { staticClass: "bkt-footer__link" },
                     [
-                      _vm._v("Горящие торги\n                            "),
-                      _c("bkt-icon", { attrs: { name: "Fire" } }),
+                      _c("router-link", { attrs: { to: "/calendar" } }, [
+                        _vm._v("Календарь"),
+                      ]),
                     ],
                     1
                   ),
-                ],
-                1
-              ),
+                  _vm._v(" "),
+                  _c(
+                    "li",
+                    { staticClass: "bkt-footer__link" },
+                    [
+                      _c("router-link", { attrs: { to: "/agent" } }, [
+                        _vm._v("Купить через агента"),
+                      ]),
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "li",
+                    { staticClass: "bkt-footer__link" },
+                    [
+                      _c(
+                        "router-link",
+                        { attrs: { to: "/auctions" } },
+                        [
+                          _vm._v(
+                            "Горящие торги\n                                    "
+                          ),
+                          _c("bkt-icon", { attrs: { name: "Fire" } }),
+                        ],
+                        1
+                      ),
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "li",
+                    { staticClass: "bkt-footer__link" },
+                    [
+                      _c("router-link", { attrs: { to: "/week-winners" } }, [
+                        _vm._v("Победы недели"),
+                      ]),
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "li",
+                    { staticClass: "bkt-footer__link" },
+                    [
+                      _c("router-link", { attrs: { to: "/registries" } }, [
+                        _vm._v("Реестры"),
+                      ]),
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "li",
+                    { staticClass: "bkt-footer__link" },
+                    [
+                      _c("router-link", { attrs: { to: "/contacts" } }, [
+                        _vm._v("Контакты"),
+                      ]),
+                    ],
+                    1
+                  ),
+                ]),
+                _vm._v(" "),
+                _vm._m(0),
+              ]
+            ),
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "col-12 col-lg-3" }, [
+            _c("div", { staticClass: "bkt-footer__socials" }, [
+              _c("h3", { staticClass: "bkt-footer__socials-phone" }, [
+                _vm._v("8 (800) 560-88-55"),
+              ]),
               _vm._v(" "),
-              _c(
-                "li",
-                [
-                  _c("router-link", { attrs: { to: "/week-winners" } }, [
-                    _vm._v("Победы недели"),
-                  ]),
-                ],
-                1
-              ),
+              _c("h5", { staticClass: "bkt-footer__socials-email" }, [
+                _vm._v("nazvanieemaila@gmail.com"),
+              ]),
               _vm._v(" "),
-              _c(
-                "li",
-                [
-                  _c("router-link", { attrs: { to: "/registries" } }, [
-                    _vm._v("Реестры"),
-                  ]),
-                ],
-                1
-              ),
+              _c("p", { staticClass: "bkt-footer__socials-address" }, [
+                _vm._v("г. Название, ул. Ленина, 74"),
+              ]),
               _vm._v(" "),
-              _c(
-                "li",
-                [
-                  _c("router-link", { attrs: { to: "/contacts" } }, [
-                    _vm._v("Контакты"),
-                  ]),
-                ],
-                1
-              ),
+              _c("div", { staticClass: "bkt-footer__socials-links" }, [
+                _c(
+                  "a",
+                  {
+                    staticClass: "bkt-button-icon bkt-bg-main-light",
+                    attrs: { href: "/" },
+                  },
+                  [
+                    _c("bkt-icon", {
+                      attrs: { name: "Vk", width: "16px", height: "16px" },
+                    }),
+                  ],
+                  1
+                ),
+                _vm._v(" "),
+                _c(
+                  "a",
+                  {
+                    staticClass: "bkt-button-icon bkt-bg-main-light",
+                    attrs: { href: "/" },
+                  },
+                  [
+                    _c("bkt-icon", {
+                      attrs: {
+                        name: "Instagram",
+                        width: "16px",
+                        height: "16px",
+                      },
+                    }),
+                  ],
+                  1
+                ),
+                _vm._v(" "),
+                _c(
+                  "a",
+                  {
+                    staticClass: "bkt-button-icon bkt-bg-main-light",
+                    attrs: { href: "/" },
+                  },
+                  [
+                    _c("bkt-icon", {
+                      attrs: {
+                        name: "Telegram",
+                        width: "16px",
+                        height: "16px",
+                      },
+                    }),
+                  ],
+                  1
+                ),
+                _vm._v(" "),
+                _c(
+                  "a",
+                  {
+                    staticClass: "bkt-button-icon bkt-bg-main-light",
+                    attrs: { href: "/" },
+                  },
+                  [
+                    _c("bkt-icon", {
+                      attrs: { name: "Youtube", width: "16px", height: "16px" },
+                    }),
+                  ],
+                  1
+                ),
+              ]),
             ]),
           ]),
-          _vm._v(" "),
-          _vm._m(0),
-        ]
-      ),
-      _vm._v(" "),
-      _c(
-        "div",
-        {
-          staticClass: "footer_block socials",
-          staticStyle: { "margin-right": "0" },
-        },
-        [
-          _c(
-            "p",
-            {
-              staticStyle: {
-                color: "rgb(255, 196, 0)",
-                "font-weight": "bold",
-                "font-size": "25px",
-              },
-            },
-            [_vm._v("8 (800) 560-88-55")]
-          ),
-          _vm._v(" "),
-          _c("p", { staticStyle: { color: "gray" } }, [
-            _vm._v("nazvanieemaila@gmail.com"),
-          ]),
-          _vm._v(" "),
-          _c("p", [_vm._v("г. Название, ул. Ленина, 74")]),
-          _vm._v(" "),
-          _c(
-            "div",
-            {
-              staticClass: "socials",
-              staticStyle: { "margin-right": "0", "margin-bottom": "80px" },
-            },
-            [
-              _c(
-                "a",
-                {
-                  staticClass: "bkt-button-icon bkt-bg-main-light",
-                  staticStyle: { "margin-left": "0" },
-                  attrs: { href: "#" },
-                },
-                [
-                  _c("bkt-icon", {
-                    attrs: { name: "Vk", width: "16px", height: "16px" },
-                  }),
-                ],
-                1
-              ),
-              _vm._v(" "),
-              _c(
-                "a",
-                {
-                  staticClass: "bkt-button-icon bkt-bg-main-light",
-                  attrs: { href: "/" },
-                },
-                [
-                  _c("bkt-icon", {
-                    attrs: { name: "Instagram", width: "16px", height: "16px" },
-                  }),
-                ],
-                1
-              ),
-              _vm._v(" "),
-              _c(
-                "a",
-                {
-                  staticClass: "bkt-button-icon bkt-bg-main-light",
-                  attrs: { href: "/" },
-                },
-                [
-                  _c("bkt-icon", {
-                    attrs: { name: "Telegram", width: "16px", height: "16px" },
-                  }),
-                ],
-                1
-              ),
-              _vm._v(" "),
-              _c(
-                "a",
-                {
-                  staticClass: "bkt-button-icon bkt-bg-main-light",
-                  attrs: { href: "/" },
-                },
-                [
-                  _c("bkt-icon", {
-                    attrs: { name: "Youtube", width: "16px", height: "16px" },
-                  }),
-                ],
-                1
-              ),
-            ]
-          ),
-        ]
-      ),
+        ]),
+      ]),
     ]),
     _vm._v(" "),
     _vm._m(1),
@@ -71921,50 +71509,41 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", [
-      _c("ul", [
-        _c("li", [
-          _vm._v("Приложение "),
-          _c(
-            "strong",
-            { staticStyle: { color: "blue", "margin-left": "5px" } },
-            [_vm._v("❯")]
-          ),
+    return _c("ul", { staticClass: "bkt-footer__links" }, [
+      _c("li", { staticClass: "bkt-footer__link" }, [
+        _vm._v("Приложение "),
+        _c("strong", { staticStyle: { color: "blue", "margin-left": "5px" } }, [
+          _vm._v("❯"),
         ]),
-        _vm._v(" "),
-        _c(
-          "li",
-          {
-            attrs: {
-              "data-bs-toggle": "modal",
-              "data-bs-target": "#authModal",
-            },
-          },
-          [
-            _vm._v("Вход и регистрация\n                        "),
-            _c(
-              "strong",
-              {
-                staticStyle: {
-                  color: "rgb(65, 125, 255)",
-                  "margin-left": "5px",
-                },
-              },
-              [_vm._v("❯")]
-            ),
-          ]
-        ),
-        _vm._v(" "),
-        _c("li", [
-          _vm._v("Изменения в законах "),
+      ]),
+      _vm._v(" "),
+      _c(
+        "li",
+        {
+          staticClass: "bkt-footer__link",
+          attrs: { "data-bs-toggle": "modal", "data-bs-target": "#authModal" },
+        },
+        [
+          _vm._v(
+            "Вход и\n                                регистрация\n                                "
+          ),
           _c(
             "strong",
             {
-              staticStyle: { color: "rgb(216, 43, 30)", "margin-left": "5px" },
+              staticStyle: { color: "rgb(65, 125, 255)", "margin-left": "5px" },
             },
             [_vm._v("❯")]
           ),
-        ]),
+        ]
+      ),
+      _vm._v(" "),
+      _c("li", { staticClass: "bkt-footer__link text-truncate" }, [
+        _vm._v("Изменения в законах "),
+        _c(
+          "strong",
+          { staticStyle: { color: "rgb(216, 43, 30)", "margin-left": "5px" } },
+          [_vm._v("❯")]
+        ),
       ]),
     ])
   },
@@ -71972,26 +71551,38 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "politics" }, [
-      _c(
-        "div",
-        { staticClass: "container bkt-main bkt-container row_div politics" },
-        [
-          _c("p", { staticStyle: { color: "gray" } }, [
-            _vm._v("Все права защищены © Название, 2022"),
-          ]),
-          _vm._v(" "),
-          _c("div", [
-            _c("p", { staticStyle: { "text-decoration": "underline" } }, [
-              _vm._v("Политика конфиденциальности"),
+    return _c("div", { staticClass: "bkt-footer__politics" }, [
+      _c("div", { staticClass: "bkt-container" }, [
+        _c(
+          "div",
+          { staticClass: "bkt-wrapper-between bkt-wrapper-down-sm-column" },
+          [
+            _c("p", { staticClass: "bkt-footer__politics-copyright" }, [
+              _vm._v("Все права защищены © LotoFond, 2022"),
             ]),
             _vm._v(" "),
-            _c("p", { staticStyle: { "text-decoration": "underline" } }, [
-              _vm._v("Публичная оферта"),
+            _c("div", { staticClass: "bkt-footer__politics-links" }, [
+              _c(
+                "a",
+                {
+                  staticClass: "bkt-footer__politics-link",
+                  attrs: { href: "/" },
+                },
+                [_vm._v("Политика конфиденциальности")]
+              ),
+              _vm._v(" "),
+              _c(
+                "a",
+                {
+                  staticClass: "bkt-footer__politics-link",
+                  attrs: { href: "/" },
+                },
+                [_vm._v("Публичная оферта")]
+              ),
             ]),
-          ]),
-        ]
-      ),
+          ]
+        ),
+      ]),
     ])
   },
 ]
@@ -72032,11 +71623,7 @@ var render = function () {
                 staticClass: "bkt-button blue",
                 attrs: { tag: "button", to: "/without-ecp" },
               },
-              [
-                _vm._v(
-                  "\n                    Покупка без ЭЦП\n                "
-                ),
-              ]
+              [_vm._v("\n                Покупка без ЭЦП\n            ")]
             ),
             _vm._v(" "),
             _vm.isLoggedIn
@@ -72063,7 +71650,7 @@ var render = function () {
                             1
                           ),
                           _vm._v(
-                            "\n                            Избранное\n                        "
+                            "\n                        Избранное\n                    "
                           ),
                         ]
                       ),
@@ -72093,7 +71680,7 @@ var render = function () {
                             1
                           ),
                           _vm._v(
-                            "\n                            Мониторинг\n                        "
+                            "\n                        Мониторинг\n                    "
                           ),
                         ]
                       ),
@@ -72125,7 +71712,7 @@ var render = function () {
                             1
                           ),
                           _vm._v(
-                            "\n                            Сообщения\n                        "
+                            "\n                        Сообщения\n                    "
                           ),
                         ]
                       ),
@@ -72135,8 +71722,20 @@ var render = function () {
                 ])
               : _vm._e(),
             _vm._v(" "),
-            _c("button", { staticClass: "bkt-button primary" }, [
-              _vm._v("\n                    Приложение\n                "),
+            _c("div", { staticClass: "bkt-wrapper bkt-nowrap" }, [
+              _c(
+                "button",
+                { staticClass: "bkt-button-icon" },
+                [_c("bkt-icon", { attrs: { name: "AppleStore" } })],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "button",
+                { staticClass: "bkt-button-icon" },
+                [_c("bkt-icon", { attrs: { name: "GooglePlay" } })],
+                1
+              ),
             ]),
             _vm._v(" "),
             _vm.isLoggedIn
@@ -72166,7 +71765,7 @@ var render = function () {
                             },
                             [
                               _vm._v(
-                                "\n                                " +
+                                "\n                            " +
                                   _vm._s(
                                     _vm.auth_user ? _vm.auth_user.name : ""
                                   ) +
@@ -72174,7 +71773,7 @@ var render = function () {
                                   _vm._s(
                                     _vm.auth_user ? _vm.auth_user.surname : ""
                                   ) +
-                                  "\n                            "
+                                  "\n                        "
                               ),
                             ]
                           ),
@@ -72282,11 +71881,7 @@ var render = function () {
                       "data-bs-target": "#authModal",
                     },
                   },
-                  [
-                    _vm._v(
-                      "\n                    Вход и регистрация\n                "
-                    ),
-                  ]
+                  [_vm._v("\n                Вход и регистрация\n            ")]
                 ),
           ],
           1
@@ -72302,7 +71897,7 @@ var render = function () {
               _c("router-link", { attrs: { custom: "", to: "/" } }, [
                 _c("button", { staticClass: "bkt-button primary-lighter" }, [
                   _vm._v(
-                    "\n                            Торги\n                        "
+                    "\n                        Торги\n                    "
                   ),
                 ]),
               ]),
@@ -72310,7 +71905,7 @@ var render = function () {
               _c("router-link", { attrs: { custom: "", to: "/tariffs" } }, [
                 _c("button", { staticClass: "bkt-button blue-lighter" }, [
                   _vm._v(
-                    "\n                            Тарифы\n                        "
+                    "\n                        Тарифы\n                    "
                   ),
                 ]),
               ]),
@@ -72318,7 +71913,19 @@ var render = function () {
             1
           ),
           _vm._v(" "),
-          _vm._m(1),
+          _c(
+            "div",
+            { staticClass: "bkt-navbar__logo d-flex d-lg-none" },
+            [
+              _c("router-link", { attrs: { custom: "", to: "/" } }, [
+                _c("img", {
+                  staticClass: "bkt-navbar__logo",
+                  attrs: { src: "/images/logo.png", alt: "logo" },
+                }),
+              ]),
+            ],
+            1
+          ),
           _vm._v(" "),
           _c("ul", { staticClass: "bkt-navbar__nav" }, [
             _c(
@@ -72333,7 +71940,7 @@ var render = function () {
                   },
                   [
                     _vm._v(
-                      "\n                            Купить через агента\n                        "
+                      "\n                        Купить через агента\n                    "
                     ),
                   ]
                 ),
@@ -72359,7 +71966,7 @@ var render = function () {
                       1
                     ),
                     _vm._v(
-                      "\n                            Горящие торги\n                        "
+                      "\n                        Горящие торги\n                    "
                     ),
                   ]
                 ),
@@ -72379,7 +71986,7 @@ var render = function () {
                   },
                   [
                     _vm._v(
-                      "\n                            Победы недели\n                        "
+                      "\n                        Победы недели\n                    "
                     ),
                   ]
                 ),
@@ -72399,7 +72006,7 @@ var render = function () {
                   },
                   [
                     _vm._v(
-                      "\n                            Реестры\n                        "
+                      "\n                        Реестры\n                    "
                     ),
                   ]
                 ),
@@ -72419,7 +72026,7 @@ var render = function () {
                   },
                   [
                     _vm._v(
-                      "\n                            Контакты\n                        "
+                      "\n                        Контакты\n                    "
                     ),
                   ]
                 ),
@@ -72439,7 +72046,7 @@ var render = function () {
                   },
                   [
                     _vm._v(
-                      "\n                            Тарифы\n                        "
+                      "\n                        Тарифы\n                    "
                     ),
                   ]
                 ),
@@ -72464,7 +72071,7 @@ var render = function () {
                   1
                 ),
                 _vm._v(
-                  "\n                        Изменения в законах\n                    "
+                  "\n                    Изменения в законах\n                "
                 ),
               ]
             ),
@@ -72631,7 +72238,7 @@ var render = function () {
                           },
                           [
                             _vm._v(
-                              "\n                                " +
+                              "\n                            " +
                                 _vm._s(
                                   _vm.auth_user ? _vm.auth_user.name : ""
                                 ) +
@@ -72639,12 +72246,12 @@ var render = function () {
                                 _vm._s(
                                   _vm.auth_user ? _vm.auth_user.surname : ""
                                 ) +
-                                "\n                            "
+                                "\n                        "
                             ),
                           ]
                         ),
                         _vm._v(" "),
-                        _vm._m(2),
+                        _vm._m(1),
                       ]
                     ),
                   ]),
@@ -72671,11 +72278,7 @@ var render = function () {
                     attrs: { type: "button", "data-bs-dismiss": "offcanvas" },
                     on: { click: _vm.openModal },
                   },
-                  [
-                    _vm._v(
-                      "\n                    Вход и регистрация\n                "
-                    ),
-                  ]
+                  [_vm._v("\n                Вход и регистрация\n            ")]
                 ),
           ]),
         ]
@@ -72694,7 +72297,7 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "bkt-navbar__user-tarif" }, [
-      _vm._v("\n                                тариф: "),
+      _vm._v("\n                            тариф: "),
       _c("span", { staticClass: "bkt-navbar__user-tarif-name" }, [
         _vm._v("Базовый"),
       ]),
@@ -72704,19 +72307,8 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "bkt-navbar__logo d-flex d-lg-none" }, [
-      _c("img", {
-        staticClass: "bkt-navbar__logo",
-        attrs: { src: "/images/logo.png", alt: "logo" },
-      }),
-    ])
-  },
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
     return _c("div", { staticClass: "bkt-navbar__user-tarif" }, [
-      _vm._v("\n                                тариф: "),
+      _vm._v("\n                            тариф: "),
       _c("span", { staticClass: "bkt-navbar__user-tarif-name" }, [
         _vm._v("Базовый"),
       ]),
@@ -73653,6 +73245,7 @@ var render = function () {
                       searchable: _vm.searchable,
                       disabled: _vm.disabled,
                       loading: _vm.loading,
+                      filter: _vm.fuseSearch,
                     },
                     on: { input: _vm.saveValue },
                     scopedSlots: _vm._u(
@@ -74054,13 +73647,13 @@ var render = function () {
                         { staticClass: "bkt-card__title bkt-text-truncate" },
                         [
                           _vm._v(
-                            "\n                                " +
+                            "\n                            " +
                               _vm._s(
                                 _vm.item && _vm.item.description
                                   ? _vm.item.description
                                   : "Некоторое название победы"
                               ) +
-                              "\n                            "
+                              "\n                        "
                           ),
                         ]
                       ),
@@ -74444,13 +74037,7 @@ var render = function () {
                 attrs: { disabled: _vm.loading || !_vm.newPathId },
                 on: { click: _vm.move },
               },
-              [
-                _vm._v(
-                  "\n            Переместить " +
-                    _vm._s(_vm.newPathId) +
-                    "\n        "
-                ),
-              ]
+              [_vm._v("\n            Переместить\n        ")]
             ),
           ]
         },
@@ -112386,6 +111973,10 @@ var map = {
 		"./resources/js/icons/Alignment.vue",
 		"resources_js_icons_Alignment_vue"
 	],
+	"./AppleStore.vue": [
+		"./resources/js/icons/AppleStore.vue",
+		"resources_js_icons_AppleStore_vue"
+	],
 	"./ArrowDown.vue": [
 		"./resources/js/icons/ArrowDown.vue",
 		"resources_js_icons_ArrowDown_vue"
@@ -112525,6 +112116,10 @@ var map = {
 	"./Gear.vue": [
 		"./resources/js/icons/Gear.vue",
 		"resources_js_icons_Gear_vue"
+	],
+	"./GooglePlay.vue": [
+		"./resources/js/icons/GooglePlay.vue",
+		"resources_js_icons_GooglePlay_vue"
 	],
 	"./Help.vue": [
 		"./resources/js/icons/Help.vue",
@@ -112850,7 +112445,7 @@ module.exports = JSON.parse('{"en.region_groups":{"centralFO":"Central Federal D
 /******/ 		// This function allow to reference async chunks
 /******/ 		__webpack_require__.u = (chunkId) => {
 /******/ 			// return url for filenames not based on template
-/******/ 			if ({"node_modules_vee-validate_dist_locale_ar_json":1,"node_modules_vee-validate_dist_locale_az_json":1,"node_modules_vee-validate_dist_locale_bd_json":1,"node_modules_vee-validate_dist_locale_bg_json":1,"node_modules_vee-validate_dist_locale_ca_json":1,"node_modules_vee-validate_dist_locale_ckb_json":1,"node_modules_vee-validate_dist_locale_cs_json":1,"node_modules_vee-validate_dist_locale_da_json":1,"node_modules_vee-validate_dist_locale_de_json":1,"node_modules_vee-validate_dist_locale_el_json":1,"node_modules_vee-validate_dist_locale_en_json":1,"node_modules_vee-validate_dist_locale_es_json":1,"node_modules_vee-validate_dist_locale_et_json":1,"node_modules_vee-validate_dist_locale_eu_json":1,"node_modules_vee-validate_dist_locale_fa_json":1,"node_modules_vee-validate_dist_locale_fi_json":1,"node_modules_vee-validate_dist_locale_fr_json":1,"node_modules_vee-validate_dist_locale_he_json":1,"node_modules_vee-validate_dist_locale_hr_json":1,"node_modules_vee-validate_dist_locale_hu_json":1,"node_modules_vee-validate_dist_locale_id_json":1,"node_modules_vee-validate_dist_locale_it_json":1,"node_modules_vee-validate_dist_locale_ja_json":1,"node_modules_vee-validate_dist_locale_ka_json":1,"node_modules_vee-validate_dist_locale_ko_json":1,"node_modules_vee-validate_dist_locale_lt_json":1,"node_modules_vee-validate_dist_locale_lv_json":1,"node_modules_vee-validate_dist_locale_mn_json":1,"node_modules_vee-validate_dist_locale_ms_MY_json":1,"node_modules_vee-validate_dist_locale_nb_NO_json":1,"node_modules_vee-validate_dist_locale_ne_json":1,"node_modules_vee-validate_dist_locale_nl_json":1,"node_modules_vee-validate_dist_locale_nn_NO_json":1,"node_modules_vee-validate_dist_locale_pl_json":1,"node_modules_vee-validate_dist_locale_pt_BR_json":1,"node_modules_vee-validate_dist_locale_pt_PT_json":1,"node_modules_vee-validate_dist_locale_ro_json":1,"node_modules_vee-validate_dist_locale_ru_json":1,"node_modules_vee-validate_dist_locale_sk_json":1,"node_modules_vee-validate_dist_locale_sl_json":1,"node_modules_vee-validate_dist_locale_sq_json":1,"node_modules_vee-validate_dist_locale_sr_json":1,"node_modules_vee-validate_dist_locale_sr_Latin_json":1,"node_modules_vee-validate_dist_locale_sv_json":1,"node_modules_vee-validate_dist_locale_th_json":1,"node_modules_vee-validate_dist_locale_tr_json":1,"node_modules_vee-validate_dist_locale_uk_json":1,"node_modules_vee-validate_dist_locale_vi_json":1,"node_modules_vee-validate_dist_locale_zh_CN_json":1,"node_modules_vee-validate_dist_locale_zh_TW_json":1,"registries":1,"registry":1,"profile":1,"agent":1,"contacts":1,"without-ecp":1,"favourites":1,"monitoring":1,"tariffs":1,"auctions":1,"lot-card":1,"week-winners":1,"resources_js_icons_Activity_vue":1,"resources_js_icons_Alarm_vue":1,"resources_js_icons_Alignment_vue":1,"resources_js_icons_ArrowDown_vue":1,"resources_js_icons_ArrowDownCircle_vue":1,"resources_js_icons_ArrowTriple_vue":1,"resources_js_icons_Bars_vue":1,"resources_js_icons_Bell_vue":1,"resources_js_icons_Bookmark_vue":1,"resources_js_icons_Briefcase_vue":1,"resources_js_icons_Building_vue":1,"resources_js_icons_CalendarEvent_vue":1,"resources_js_icons_Cancel_vue":1,"resources_js_icons_CancelCircle_vue":1,"resources_js_icons_Car_vue":1,"resources_js_icons_Category_vue":1,"resources_js_icons_Chat_vue":1,"resources_js_icons_Check_vue":1,"resources_js_icons_Clip_vue":1,"resources_js_icons_Clipboard_vue":1,"resources_js_icons_ClipboardList_vue":1,"resources_js_icons_Clock_vue":1,"resources_js_icons_Clone_vue":1,"resources_js_icons_Cow_vue":1,"resources_js_icons_Cross_vue":1,"resources_js_icons_Date_vue":1,"resources_js_icons_Devices_vue":1,"resources_js_icons_DotsCircle_vue":1,"resources_js_icons_Download_vue":1,"resources_js_icons_Email_vue":1,"resources_js_icons_Eye_vue":1,"resources_js_icons_File_vue":1,"resources_js_icons_FileArrowLeft_vue":1,"resources_js_icons_Fire_vue":1,"resources_js_icons_FolderAdd_vue":1,"resources_js_icons_FolderDelete_vue":1,"resources_js_icons_Funnel_vue":1,"resources_js_icons_Gear_vue":1,"resources_js_icons_Help_vue":1,"resources_js_icons_Home_vue":1,"resources_js_icons_Information_vue":1,"resources_js_icons_Instagram_vue":1,"resources_js_icons_Law_vue":1,"resources_js_icons_LightBulb_vue":1,"resources_js_icons_Like_vue":1,"resources_js_icons_Location_vue":1,"resources_js_icons_LogOut_vue":1,"resources_js_icons_MechanicalArm_vue":1,"resources_js_icons_Menu_vue":1,"resources_js_icons_MenuOutline_vue":1,"resources_js_icons_More_vue":1,"resources_js_icons_Note_vue":1,"resources_js_icons_Options_vue":1,"resources_js_icons_Pencil_vue":1,"resources_js_icons_Percentage_vue":1,"resources_js_icons_Pie_vue":1,"resources_js_icons_Plus_vue":1,"resources_js_icons_Scale_vue":1,"resources_js_icons_Search_vue":1,"resources_js_icons_Settings_vue":1,"resources_js_icons_Smartphone_vue":1,"resources_js_icons_Star_vue":1,"resources_js_icons_Target_vue":1,"resources_js_icons_Telegram_vue":1,"resources_js_icons_Trash_vue":1,"resources_js_icons_Tree_vue":1,"resources_js_icons_Trophy_vue":1,"resources_js_icons_User_vue":1,"resources_js_icons_Viber_vue":1,"resources_js_icons_Vk_vue":1,"resources_js_icons_Wallet_vue":1,"resources_js_icons_WhatsApp_vue":1,"resources_js_icons_Wrench_vue":1,"resources_js_icons_Youtube_vue":1}[chunkId]) return "js/" + chunkId + ".js";
+/******/ 			if ({"node_modules_vee-validate_dist_locale_ar_json":1,"node_modules_vee-validate_dist_locale_az_json":1,"node_modules_vee-validate_dist_locale_bd_json":1,"node_modules_vee-validate_dist_locale_bg_json":1,"node_modules_vee-validate_dist_locale_ca_json":1,"node_modules_vee-validate_dist_locale_ckb_json":1,"node_modules_vee-validate_dist_locale_cs_json":1,"node_modules_vee-validate_dist_locale_da_json":1,"node_modules_vee-validate_dist_locale_de_json":1,"node_modules_vee-validate_dist_locale_el_json":1,"node_modules_vee-validate_dist_locale_en_json":1,"node_modules_vee-validate_dist_locale_es_json":1,"node_modules_vee-validate_dist_locale_et_json":1,"node_modules_vee-validate_dist_locale_eu_json":1,"node_modules_vee-validate_dist_locale_fa_json":1,"node_modules_vee-validate_dist_locale_fi_json":1,"node_modules_vee-validate_dist_locale_fr_json":1,"node_modules_vee-validate_dist_locale_he_json":1,"node_modules_vee-validate_dist_locale_hr_json":1,"node_modules_vee-validate_dist_locale_hu_json":1,"node_modules_vee-validate_dist_locale_id_json":1,"node_modules_vee-validate_dist_locale_it_json":1,"node_modules_vee-validate_dist_locale_ja_json":1,"node_modules_vee-validate_dist_locale_ka_json":1,"node_modules_vee-validate_dist_locale_ko_json":1,"node_modules_vee-validate_dist_locale_lt_json":1,"node_modules_vee-validate_dist_locale_lv_json":1,"node_modules_vee-validate_dist_locale_mn_json":1,"node_modules_vee-validate_dist_locale_ms_MY_json":1,"node_modules_vee-validate_dist_locale_nb_NO_json":1,"node_modules_vee-validate_dist_locale_ne_json":1,"node_modules_vee-validate_dist_locale_nl_json":1,"node_modules_vee-validate_dist_locale_nn_NO_json":1,"node_modules_vee-validate_dist_locale_pl_json":1,"node_modules_vee-validate_dist_locale_pt_BR_json":1,"node_modules_vee-validate_dist_locale_pt_PT_json":1,"node_modules_vee-validate_dist_locale_ro_json":1,"node_modules_vee-validate_dist_locale_ru_json":1,"node_modules_vee-validate_dist_locale_sk_json":1,"node_modules_vee-validate_dist_locale_sl_json":1,"node_modules_vee-validate_dist_locale_sq_json":1,"node_modules_vee-validate_dist_locale_sr_json":1,"node_modules_vee-validate_dist_locale_sr_Latin_json":1,"node_modules_vee-validate_dist_locale_sv_json":1,"node_modules_vee-validate_dist_locale_th_json":1,"node_modules_vee-validate_dist_locale_tr_json":1,"node_modules_vee-validate_dist_locale_uk_json":1,"node_modules_vee-validate_dist_locale_vi_json":1,"node_modules_vee-validate_dist_locale_zh_CN_json":1,"node_modules_vee-validate_dist_locale_zh_TW_json":1,"registries":1,"registry":1,"profile":1,"agent":1,"contacts":1,"without-ecp":1,"favourites":1,"monitoring":1,"tariffs":1,"auctions":1,"lot-card":1,"week-winners":1,"resources_js_icons_Activity_vue":1,"resources_js_icons_Alarm_vue":1,"resources_js_icons_Alignment_vue":1,"resources_js_icons_AppleStore_vue":1,"resources_js_icons_ArrowDown_vue":1,"resources_js_icons_ArrowDownCircle_vue":1,"resources_js_icons_ArrowTriple_vue":1,"resources_js_icons_Bars_vue":1,"resources_js_icons_Bell_vue":1,"resources_js_icons_Bookmark_vue":1,"resources_js_icons_Briefcase_vue":1,"resources_js_icons_Building_vue":1,"resources_js_icons_CalendarEvent_vue":1,"resources_js_icons_Cancel_vue":1,"resources_js_icons_CancelCircle_vue":1,"resources_js_icons_Car_vue":1,"resources_js_icons_Category_vue":1,"resources_js_icons_Chat_vue":1,"resources_js_icons_Check_vue":1,"resources_js_icons_Clip_vue":1,"resources_js_icons_Clipboard_vue":1,"resources_js_icons_ClipboardList_vue":1,"resources_js_icons_Clock_vue":1,"resources_js_icons_Clone_vue":1,"resources_js_icons_Cow_vue":1,"resources_js_icons_Cross_vue":1,"resources_js_icons_Date_vue":1,"resources_js_icons_Devices_vue":1,"resources_js_icons_DotsCircle_vue":1,"resources_js_icons_Download_vue":1,"resources_js_icons_Email_vue":1,"resources_js_icons_Eye_vue":1,"resources_js_icons_File_vue":1,"resources_js_icons_FileArrowLeft_vue":1,"resources_js_icons_Fire_vue":1,"resources_js_icons_FolderAdd_vue":1,"resources_js_icons_FolderDelete_vue":1,"resources_js_icons_Funnel_vue":1,"resources_js_icons_Gear_vue":1,"resources_js_icons_GooglePlay_vue":1,"resources_js_icons_Help_vue":1,"resources_js_icons_Home_vue":1,"resources_js_icons_Information_vue":1,"resources_js_icons_Instagram_vue":1,"resources_js_icons_Law_vue":1,"resources_js_icons_LightBulb_vue":1,"resources_js_icons_Like_vue":1,"resources_js_icons_Location_vue":1,"resources_js_icons_LogOut_vue":1,"resources_js_icons_MechanicalArm_vue":1,"resources_js_icons_Menu_vue":1,"resources_js_icons_MenuOutline_vue":1,"resources_js_icons_More_vue":1,"resources_js_icons_Note_vue":1,"resources_js_icons_Options_vue":1,"resources_js_icons_Pencil_vue":1,"resources_js_icons_Percentage_vue":1,"resources_js_icons_Pie_vue":1,"resources_js_icons_Plus_vue":1,"resources_js_icons_Scale_vue":1,"resources_js_icons_Search_vue":1,"resources_js_icons_Settings_vue":1,"resources_js_icons_Smartphone_vue":1,"resources_js_icons_Star_vue":1,"resources_js_icons_Target_vue":1,"resources_js_icons_Telegram_vue":1,"resources_js_icons_Trash_vue":1,"resources_js_icons_Tree_vue":1,"resources_js_icons_Trophy_vue":1,"resources_js_icons_User_vue":1,"resources_js_icons_Viber_vue":1,"resources_js_icons_Vk_vue":1,"resources_js_icons_Wallet_vue":1,"resources_js_icons_WhatsApp_vue":1,"resources_js_icons_Wrench_vue":1,"resources_js_icons_Youtube_vue":1}[chunkId]) return "js/" + chunkId + ".js";
 /******/ 			if (chunkId === "main") return "js/main.js";
 /******/ 			// return url for filenames based on template
 /******/ 			return undefined;

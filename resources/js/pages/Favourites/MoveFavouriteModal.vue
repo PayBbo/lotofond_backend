@@ -29,7 +29,7 @@
         </template>
         <template #footer="{ invalid }">
             <button class="w-100 bkt-button primary bkt-button_plump" @click="move" :disabled="loading || !newPathId">
-                Переместить {{newPathId}}
+                Переместить
             </button>
         </template>
     </bkt-modal>

@@ -68,7 +68,7 @@
             </div>
             <div class="bkt-card__row bkt-bg-blue position-relative">
                 <h5 class="bkt-card__text">Добавлено сегодня</h5>
-                <h1 class="bkt-card__title">64</h1>
+                <h1 class="bkt-card__title">{{lots_statistic.newLotsCount | priceFormat}}</h1>
                 <div class="bkt-card bkt-card__background-figure-1">
                 </div>
                 <div class="bkt-card bkt-card__background-figure-2 bkt-bg-blue">
@@ -92,7 +92,8 @@
                     >
                     </bkt-select>
                     <button class="bkt-button-ellipse main d-none d-md-block"
-                            :class="{'bkt-mirror-vertical' : filters_sort.direction =='desc'}" @click="toggleDirection"
+                            :class="{'bkt-mirror-vertical' : filters_sort.direction =='desc'}"
+                            @click="toggleDirection"
                     >
                         <bkt-icon name="Bars"></bkt-icon>
                     </button>

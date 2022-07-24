@@ -33,9 +33,14 @@
                         </router-link>
                     </li>
                 </ul>
-                <button class="bkt-button primary">
-                    Приложение
-                </button>
+                <div class="bkt-wrapper bkt-nowrap">
+                    <button class="bkt-button-icon">
+                        <bkt-icon name="AppleStore"></bkt-icon>
+                    </button>
+                    <button class="bkt-button-icon">
+                        <bkt-icon name="GooglePlay"></bkt-icon>
+                    </button>
+                </div>
 
                 <div v-if="isLoggedIn" class="btn-group d-none d-md-block">
                     <div class="bkt-navbar__user-wrapper"
@@ -100,7 +105,9 @@
 
                 </div>
                 <div class="bkt-navbar__logo d-flex d-lg-none">
-                    <img class="bkt-navbar__logo" src="/images/logo.png" alt="logo">
+                    <router-link custom to="/">
+                        <img class="bkt-navbar__logo" src="/images/logo.png" alt="logo">
+                    </router-link>
                 </div>
                 <ul class="bkt-navbar__nav">
                     <li class="bkt-navbar__nav-item d-none d-lg-flex">
@@ -157,8 +164,8 @@
         <div class="offcanvas offcanvas-start bkt-sidebar" tabindex="-1" id="offcanvasExample"
              aria-labelledby="offcanvasExampleLabel">
             <div class="offcanvas-header bkt-sidebar__header">
-                    <img class="logo" src="/images/logo.png" alt="logo">
-<!--                <h4 class="offcanvas-title bkt-sidebar__title" id="offcanvasExampleLabel">LotoFond</h4>-->
+                <img class="logo" src="/images/logo.png" alt="logo">
+                <!--                <h4 class="offcanvas-title bkt-sidebar__title" id="offcanvasExampleLabel">LotoFond</h4>-->
 
                 <button type="button" class="bkt-button bkt-sidebar__button" data-bs-dismiss="offcanvas"
                         aria-label="Close">

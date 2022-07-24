@@ -3822,8 +3822,8 @@ var render = function () {
                       reduce: function (item) {
                         return item.id
                       },
-                      method_name: "getDebtors",
-                      method_params: _vm.method_params,
+                      method_name: "getFiltersBidders",
+                      method_params: { type: "debtors" },
                       pagination: _vm.debtors_pagination,
                     },
                     model: {
@@ -3857,8 +3857,8 @@ var render = function () {
                       reduce: function (item) {
                         return item.id
                       },
-                      method_name: "getArbitrationManagers",
-                      method_params: _vm.method_params,
+                      method_name: "getFiltersBidders",
+                      method_params: { type: "arbitrationManagers" },
                       pagination: _vm.arbitr_managers_pagination,
                     },
                     model: {
@@ -3892,8 +3892,8 @@ var render = function () {
                       reduce: function (item) {
                         return item.id
                       },
-                      method_name: "getOrganizers",
-                      method_params: _vm.method_params,
+                      method_name: "getFiltersBidders",
+                      method_params: { type: "organizers" },
                       pagination: _vm.organizers_pagination,
                     },
                     model: {
