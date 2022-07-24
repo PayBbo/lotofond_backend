@@ -1,6 +1,6 @@
 <template>
     <div class="container bkt-calendar bkt-container">
-        <add-task-modal />
+        <add-task-modal :date="sel_date"/>
         <div class="bkt-main-title bkt-auctions__title">
             <h1 class="bkt-page__title">Календарь</h1>
         </div>
@@ -27,17 +27,73 @@
                 <div class="col-12 col-lg-9">
                     <div class="bkt-month-calendar">
                         <v-calendar class="bkt-calendar-none-border custom-calendar max-w-full" :masks="masks"
-                                    :attributes="attr" disable-page-swipe is-expanded>
-
-                            <template slot='day-popover-header' slot-scope='{ day }' class='popover-header'>
-                                day
+                                    :attributes="attr" is-expanded>
+                            <template #header>
+                                <div class="vc-grid-container vc-weeks d-grid"
+                                     style="grid-template-columns: repeat(7,1fr); gap: 0px;">
+                                    <div :class="[new Date().getDay() == 1 ? 'is-today' : '']"
+                                         class="vc-grid-cell vc-grid-cell-row vc-grid-cell-row--7 vc-grid-cell-col-1 vc-grid-cell-col--7"
+                                         style="grid-area: 1 / 1 / auto / auto;">
+                                        <div class="vc-weekday vc-text-sm vc-font-bold vc-text-gray-500">пн
+                                        </div>
+                                    </div>
+                                    <div :class="[new Date().getDay() == 2 ? 'is-today' : '']"
+                                         class="vc-grid-cell vc-grid-cell-row vc-grid-cell-row--7 vc-grid-cell-col-2 vc-grid-cell-col--6"
+                                         style="grid-area: 1 / 2 / auto / auto;">
+                                        <div class="vc-weekday vc-text-sm vc-font-bold vc-text-gray-500">вт
+                                        </div>
+                                    </div>
+                                    <div :class="[new Date().getDay() == 3 ? 'is-today' : '']"
+                                         class="vc-grid-cell vc-grid-cell-row vc-grid-cell-row--7 vc-grid-cell-col-3 vc-grid-cell-col--5"
+                                         style="grid-area: 1 / 3 / auto / auto;">
+                                        <div class="vc-weekday vc-text-sm vc-font-bold vc-text-gray-500">ср
+                                        </div>
+                                    </div>
+                                    <div :class="[new Date().getDay() == 4 ? 'is-today' : '']"
+                                         class="vc-grid-cell vc-grid-cell-row vc-grid-cell-row--7 vc-grid-cell-col-4 vc-grid-cell-col--4"
+                                         style="grid-area: 1 / 4 / auto / auto;">
+                                        <div class="vc-weekday vc-text-sm vc-font-bold vc-text-gray-500">чт
+                                        </div>
+                                    </div>
+                                    <div :class="[new Date().getDay() == 5 ? 'is-today' : '']"
+                                         class="vc-grid-cell vc-grid-cell-row vc-grid-cell-row--7 vc-grid-cell-col-5 vc-grid-cell-col--3"
+                                         style="grid-area: 1 / 5 / auto / auto;">
+                                        <div class="vc-weekday vc-text-sm vc-font-bold vc-text-gray-500">пт
+                                        </div>
+                                    </div>
+                                    <div :class="[new Date().getDay() == 6 ? 'is-today' : '']"
+                                         class="vc-grid-cell vc-grid-cell-row vc-grid-cell-row--7 vc-grid-cell-col-6 vc-grid-cell-col--2"
+                                         style="grid-area: 1 / 6 / auto / auto;">
+                                        <div class="vc-weekday vc-text-sm vc-font-bold vc-text-gray-500">сб
+                                        </div>
+                                    </div>
+                                    <div :class="[new Date().getDay() == 0 ? 'is-today' : '']"
+                                         class="vc-grid-cell vc-grid-cell-row vc-grid-cell-row--7 vc-grid-cell-col-7 vc-grid-cell-col--1"
+                                         style="grid-area: 1 / 7 / auto / auto;">
+                                        <div class="vc-weekday vc-text-sm vc-font-bold vc-text-gray-500">вс
+                                        </div>
+                                    </div>
+                                </div>
                             </template>
-                            <template slot='show-notification' slot-scope='{ day }' class='show-notification'>
-                                <p>dddddddddddd</p>
+
+                            <template v-slot:day-popover="{ day, attributes }">
+                                <div class="bkt-popover" v-for="attr_date in attributes">
+                                    <div class="bkt-status">
+                                        <span class="text-white bkt-border-rounded"
+                                              :class="'bkt-bg-' + attr_date.popover.color">
+                                            {{ attr_date.popover.title }}
+                                        </span>
+                                    </div>
+                                    <div class="bkt-text-popover">
+                                        <span>{{ attr_date.popover.description }} до {{
+                                                attr_date.popover.date
+                                            }}</span>
+                                    </div>
+                                </div>
                             </template>
 
                             <template v-slot:day-content="{ day, attributes }">
-                                <div class="flex flex-col h-full z-10 overflow-hidden" @click="openModal">
+                                <div class="flex flex-col h-full z-10 overflow-hidden" @click="openModal(day.id)">
                                     <span class="day-label text-sm text-gray-900">{{
                                             day.id | moment("D MMM")
                                         }}</span>
@@ -72,7 +128,7 @@ export default {
     components: {
         AddTaskModal,
         'bkt-checkbox': Checkbox,
-        Calendar
+        Calendar,
     },
     data() {
         const date = new Date();
@@ -94,63 +150,38 @@ export default {
                         class: 'bkt-bg-red text-white vc-task',
                     },
                     popover: {
-                        label: 'Lunch with mom.',
                         visibility: 'hover',
-                        hideIndicator: true,
-                        slot: 'show-notification',
-                        isInteractive: true
+                        title: 'окончание приема заявок',
+                        description: 'Прием заявок по лоту "Рено Кангу"',
+                        color: 'red',
+                        date: '15.04.2022 15:00',
                     }
                 },
-                {
-                    key: 3,
-                    highlight: {class: 'bkt-bg-green', fillMode: 'solid'},
-                    dates: new Date(year, month, 14),
-                    customData: {
-                        title: 'Take Noah to basketball practice',
-                        class: 'bkt-bg-green text-white vc-task',
-                    },
-                },
-                {
-                    key: 4,
-                    highlight: {class: 'bkt-bg-green', fillMode: 'solid'},
-                    dates: new Date(year, month, 15),
-                    customData: {
-                        title: 'Take Noah to basketball practice',
-                        class: 'bkt-bg-green text-white vc-task',
-                    },
-                },
-                {
-                    key: 5,
-                    highlight: {class: 'bkt-bg-red', fillMode: 'solid'},
-                    dates: new Date(year, month, 15),
-                    customData: {
-                        title: 'Какой-то длинный текст',
-                        class: 'bkt-bg-red text-white vc-task',
-                    },
-                },
-                {
-                    key: 5,
-                    highlight: {class: 'bkt-bg-blue'},
-                    dates: new Date(year, month, 28),
-                    /*customData: {
-                        title: 'Take Noah to basketball practice',
-                        class: 'bkt-bg-blue text-white vc-task w-75',
-                    },*/
-                },
-            ],
-
+            ], sel_date: null,
             masks: {
                 weekdays: 'WWW',
-            },
+            }, event: null,
+        }
+    },
+    computed: {
+        items(){
+          return this.$store.getters.events;
+        },
+        events_loading() {
+            return this.$store.getters.events_loading;
         }
     },
     methods: {
-        getDayMonth(date) {
-            return date | moment("MMMM");
+        async getData(month = 1, year = 2022, type = 'all') {
+            await this.$store.dispatch('getEvents', {month: month, year: year, type: type});
         },
-        openModal() {
+        openModal(date) {
+            this.sel_date = date;
             this.$store.commit('openModal', '#addTaskModal');
-        }
+        },
+    },
+    created() {
+        this.getData();
     }
 }
 </script>
