@@ -1,5 +1,6 @@
 <template>
     <div class="container bkt-calendar bkt-container">
+        <add-task-modal />
         <div class="bkt-main-title bkt-auctions__title">
             <h1 class="bkt-page__title">Календарь</h1>
         </div>
@@ -27,14 +28,25 @@
                     <div class="bkt-month-calendar">
                         <v-calendar class="bkt-calendar-none-border custom-calendar max-w-full" :masks="masks"
                                     :attributes="attr" disable-page-swipe is-expanded>
+
+                            <template slot='day-popover-header' slot-scope='{ day }' class='popover-header'>
+                                day
+                            </template>
+                            <template slot='show-notification' slot-scope='{ day }' class='show-notification'>
+                                <p>dddddddddddd</p>
+                            </template>
+
                             <template v-slot:day-content="{ day, attributes }">
-                                <div class="flex flex-col h-full z-10 overflow-hidden">
-                                    <span class="day-label text-sm text-gray-900">{{ day.day }}</span>
-                                    <div class="flex-grow overflow-y-auto overflow-x-auto">
-                                        <p v-for="attr in attributes" :key="attr.key" v-if="attr.customData"
+                                <div class="flex flex-col h-full z-10 overflow-hidden" @click="openModal">
+                                    <span class="day-label text-sm text-gray-900">{{
+                                            day.id | moment("D MMM")
+                                        }}</span>
+                                    <div class="flex-grow overflow-y-auto overflow-x-auto" style="margin-bottom: 35px"
+                                         v-for="attr_date in attributes" :key="attr_date.key">
+                                        <p v-if="attr_date.customData"
                                            class="text-xs leading-tight rounded-sm p-1 mt-0 mb-1"
-                                           :class="attr.customData.class">
-                                            {{ attr.customData.title }}
+                                           :class="attr_date.customData.class">
+                                            {{ attr_date.customData.title }}
                                         </p>
                                     </div>
                                 </div>
@@ -53,10 +65,12 @@
 <script>
 import Checkbox from "../components/Checkbox";
 import Calendar from "v-calendar";
+import AddTaskModal from "./Calendar/AddTaskModal";
 
 export default {
     name: "Calendar",
     components: {
+        AddTaskModal,
         'bkt-checkbox': Checkbox,
         Calendar
     },
@@ -68,114 +82,74 @@ export default {
             attr: [
                 {
                     key: 'today',
-                    highlight: {color: 'blue', fillMode: 'none'},
+                    highlight: {fillMode: 'none'},
                     dates: date,
-                    class: 'bkt-border-rounded',
                 },
                 {
                     key: 2,
-                    highlight: {color: 'red', fillMode: 'solid'},
+                    highlight: {class: 'bkt-bg-red', fillMode: 'solid'},
                     dates: new Date(year, month, 5),
+                    customData: {
+                        title: 'окончание приема заявок',
+                        class: 'bkt-bg-red text-white vc-task',
+                    },
+                    popover: {
+                        label: 'Lunch with mom.',
+                        visibility: 'hover',
+                        hideIndicator: true,
+                        slot: 'show-notification',
+                        isInteractive: true
+                    }
                 },
                 {
                     key: 3,
-                    highlight: {color: 'green', fillMode: 'solid'},
+                    highlight: {class: 'bkt-bg-green', fillMode: 'solid'},
                     dates: new Date(year, month, 14),
+                    customData: {
+                        title: 'Take Noah to basketball practice',
+                        class: 'bkt-bg-green text-white vc-task',
+                    },
                 },
                 {
                     key: 4,
-                    highlight: {color: 'green', fillMode: 'solid'},
+                    highlight: {class: 'bkt-bg-green', fillMode: 'solid'},
                     dates: new Date(year, month, 15),
+                    customData: {
+                        title: 'Take Noah to basketball practice',
+                        class: 'bkt-bg-green text-white vc-task',
+                    },
                 },
                 {
                     key: 5,
-                    highlight: {color: 'red', fillMode: 'solid'},
+                    highlight: {class: 'bkt-bg-red', fillMode: 'solid'},
                     dates: new Date(year, month, 15),
+                    customData: {
+                        title: 'Какой-то длинный текст',
+                        class: 'bkt-bg-red text-white vc-task',
+                    },
                 },
                 {
                     key: 5,
-                    highlight: {color: 'blue', fillMode: 'solid'},
+                    highlight: {class: 'bkt-bg-blue'},
                     dates: new Date(year, month, 28),
+                    /*customData: {
+                        title: 'Take Noah to basketball practice',
+                        class: 'bkt-bg-blue text-white vc-task w-75',
+                    },*/
                 },
             ],
 
             masks: {
                 weekdays: 'WWW',
             },
-            attributes: [
-                {
-                    key: 1,
-                    customData: {
-                        title: 'Lunch with mom.',
-                        class: 'bg-red-600 text-white',
-                    },
-                    dates: new Date(year, month, 1),
-                },
-                {
-                    key: 2,
-                    customData: {
-                        title: 'Take Noah to basketball practice',
-                        class: 'bg-blue-500 text-white',
-                    },
-                    dates: new Date(year, month, 2),
-                },
-                {
-                    key: 3,
-                    customData: {
-                        title: "Noah's basketball game.",
-                        class: 'bg-blue-500 text-white',
-                    },
-                    dates: new Date(year, month, 5),
-                },
-                {
-                    key: 4,
-                    customData: {
-                        title: 'Take car to the shop',
-                        class: 'bg-indigo-500 text-white',
-                    },
-                    dates: new Date(year, month, 5),
-                },
-                {
-                    key: 4,
-                    customData: {
-                        title: 'Meeting with new client.',
-                        class: 'bg-teal-500 text-white',
-                    },
-                    dates: new Date(year, month, 7),
-                },
-                {
-                    key: 5,
-                    customData: {
-                        title: "Mia's gymnastics practice.",
-                        class: 'bg-pink-500 text-white',
-                    },
-                    dates: new Date(year, month, 11),
-                },
-                {
-                    key: 6,
-                    customData: {
-                        title: 'Cookout with friends.',
-                        class: 'bg-orange-500 text-white',
-                    },
-                    dates: {months: 5, ordinalWeekdays: {2: 1}},
-                },
-                {
-                    key: 7,
-                    customData: {
-                        title: "Mia's gymnastics recital.",
-                        class: 'bg-pink-500 text-white',
-                    },
-                    dates: new Date(year, month, 22),
-                },
-                {
-                    key: 8,
-                    customData: {
-                        title: 'Visit great grandma.',
-                        class: 'bg-red-600 text-white',
-                    },
-                    dates: new Date(year, month, 25),
-                },
-            ],
+        }
+    },
+    methods: {
+        getDayMonth(date) {
+            return date | moment("MMMM");
+        },
+        openModal() {
+            this.$store.commit('openModal', '#addTaskModal');
         }
     }
 }

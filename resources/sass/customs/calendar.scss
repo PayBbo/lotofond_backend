@@ -21,7 +21,7 @@
     }
 
     .custom-calendar.vc-container {
-        --day-border: 1px solid #b8c2cc;
+        --day-border: 2px solid #d7d7d7;
         --day-border-highlight: 1px solid #b8c2cc;
         --day-width: 90px;
         --day-height: 90px;
@@ -66,10 +66,26 @@
         & .vc-day-layer {
             display: none;
         }
+
+        & .vc-task {
+            border-radius: 15px;
+            padding-left: 10px !important;
+            padding-right: 10px !important;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            position: absolute;
+            width: 90%;
+            font-size: 13px;
+        }
     }
 
     & .bkt-calendar-checkboxes {
         padding-left: 20px;
+
+        & .bkt-check__wrapper {
+            margin-bottom: 10px;
+        }
     }
 
     .custom-calendar.vc-container {
