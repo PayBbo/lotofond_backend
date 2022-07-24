@@ -1,8 +1,11 @@
 <template>
-    <div class="dropdown bkt-search__wrapper">
-        <div class="bkt-search" :class="search_class">
+    <div class="bkt-dropdown bkt-search__wrapper"  @focusout="optionsShown = false">
+        <div class="bkt-search" :class="[search_class, {'open': optionsShown}]">
             <input class="w-100 bkt-search__input" type="text" :placeholder="placeholder"
                    @keyup="keyMonitor"
+                   @focus="showOptions"
+                   @blur="optionsShown = false"
+                   @focusout="optionsShown = false"
                    v-model="searchFilter"
                    :disabled="disabled"
             >
@@ -14,13 +17,19 @@
                 <bkt-icon v-show="!searchLoading" class="d-block d-md-none" :name="'Search'"></bkt-icon>
             </button>
         </div>
-        <div class="dropdown-content w-100 p-3" :class="dropdown_class" v-show="optionsShown&&!simple&&!no_dropdown">
+        <div class="bkt-dropdown__menu w-100" :class="dropdown_class" v-show="optionsShown&&!simple&&!no_dropdown">
             <div class="dropdown-block" v-if="options">
-                <div class="dropdown-item" v-for="(item, index) in options" @click="selectOption(item)">
-                    <slot name="dropdown-item" v-bind:item="item">
-                        {{item}}
+                <slot name="dropdown-block" :options="options">
+                    <slot name="dropdown-block-header">
+
                     </slot>
-                </div>
+                    <div class="dropdown-item" v-for="(item, index) in options" @click="selectOption(item)">
+                        <slot name="dropdown-item" v-bind:item="item">
+                            {{item}}
+                        </slot>
+                    </div>
+                </slot>
+
             </div>
             <div class="text-center p-2" v-if="!options || options.length ===0">
                 <svg width="35" height="35" viewBox="0 0 35 35" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -32,7 +41,6 @@
             </div>
         </div>
     </div>
-
 </template>
 
 <script>
@@ -131,7 +139,7 @@
                 const filtered = [];
                 const regOption = new RegExp(this.searchFilter, 'ig');
                 for (const option of this.options) {
-                    if (this.searchFilter.length < 1 || option.name.match(regOption) || option.email.match(regOption)) {
+                    if (this.searchFilter.length < 1 || option.id.match(regOption)) {
                         if (filtered.length < this.maxItem) filtered.push(option);
                     }
                 }
@@ -140,10 +148,13 @@
         },
         methods: {
             handleBlur(value) {
-                this.$emit('blur', value);
-                if (this.searchFilter == '') {
-                    this.optionsShown = false;
+                if (!this.no_dropdown) {
+                    this.$emit('blur', value);
+                    // if (this.searchFilter == '') {
+                        this.optionsShown = false;
+                    // }
                 }
+
                 // this.exit();
             },
             selectOption(option) {
@@ -157,9 +168,12 @@
                 //     this.searchFilter = '';
                 //     this.optionsShown = true;
                 // }
-                this.searchFilter = '';
-                this.options = [];
-                this.optionsShown = true;
+                if (!this.no_dropdown) {
+
+                    this.searchFilter = '';
+                    this.options = [];
+                    this.optionsShown = true;
+                }
             },
             exit() {
                 if (!this.selected.id) {
@@ -206,7 +220,12 @@
                             .then(resp => {
                                 if (!this.no_dropdown) {
                                     this.showOptions();
-                                    this.options = resp.data;
+                                    if (resp.data.data) {
+                                        this.options = resp.data.data;
+                                    } else {
+                                        this.options = resp.data;
+                                    }
+
                                 }
                                 this.searchLoading = false;
                             }).catch(error => {

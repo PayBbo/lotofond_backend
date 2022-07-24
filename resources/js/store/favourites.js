@@ -136,21 +136,6 @@ export default {
                     state.favourites[payload.currentPathId].data.splice(favourite, 1);
                 }
             }
-            let lot = state.trades.findIndex(item => item.id === payload.lotId);
-            if (lot >= 0) {
-                if(state.trades[lot].favouritePaths) {
-                    let lot_path = state.trades[lot].favouritePaths.findIndex(item => item.pathId === payload.currentPathId);
-                    if (lot_path >= 0) {
-                        state.trades[lot].favouritePaths.splice(lot_path, 1);
-                    }
-                    lot_path = state.trades[lot].favouritePaths.findIndex(item => item.pathId === payload.newPathId);
-                    if (lot_path < 0) {
-                        if (new_path >= 0) {
-                            state.trades[lot].favouritePaths.push(state.favourites_paths[new_path]);
-                        }
-                    }
-                }
-            }
         },
         removeFavouritePath(state, payload) {
             let path = state.favourites_paths.findIndex(item => item.pathId === payload);
@@ -296,7 +281,8 @@ export default {
             await axios
                 .put(`/api/favourite/move/lot`, payload
                 ).then((response) => {
-                    commit('moveFavourite', payload)
+                    commit('moveFavourite', payload);
+                    commit('changeTradeFavouritePaths', payload);
                 }).catch(error => {
                     console.log(error);
                 });

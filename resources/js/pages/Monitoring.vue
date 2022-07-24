@@ -6,15 +6,25 @@
             <div class="col-12 col-md-9 col-lg-10 d-md-block d-none">
                 <div class="bkt-monitoring__paths-list">
                     <slick v-bind="settings">
+<!--                        <div>-->
+<!--                            <div-->
+<!--                                @click="setCurrentMonitoringPath(0)"-->
+<!--                                class="bkt-monitoring__path"-->
+<!--                                :class="current_path === 0 ? 'bkt-bg-primary bkt-text-white' : 'bkt-bg-white bkt-text-main'"-->
+<!--                            >-->
+<!--                                Все-->
+<!--                            </div>-->
+<!--                        </div>-->
                         <div v-for="(path, index) in items_paths" :key="index">
                             <div
-                                @click="setCurrentPath(path.pathId)"
+                                @click="setCurrentMonitoringPath(path.pathId)"
                                 class="bkt-monitoring__path"
                                 :class="[current_path === path.pathId && path.color ? 'bkt-bg-'+path.color : '',
                             {'bkt-bg-primary': current_path === path.pathId && !path.color,
                             'bkt-bg-white bkt-text-main': current_path !== path.pathId}]"
                             >
-                                <div class="d-flex bkt-gap align-items-center">
+                                <span v-if="path.pathId === 0">{{path.name}}</span>
+                                <div class="d-flex bkt-gap align-items-center" v-if="path.pathId !== 0">
                                     <span>{{path.name}}</span>
                                     <span class="bkt-badge"
                                           :class="[
@@ -29,7 +39,7 @@
                                     {{path.lotCount ? path.lotCount : '0'}}
                                 </span>
                                 </div>
-                                <div class="bkt-icon-frame-small bkt-bg-primary-lighter">
+                                <div class="bkt-icon-frame-small bkt-bg-primary-lighter" v-if="path.pathId !== 0">
                                     <bkt-icon :name="'Settings'" :color="'primary'" class="bkt-icon"></bkt-icon>
                                 </div>
                             </div>
@@ -70,24 +80,24 @@
             </div>
         </div>
         <div class="bkt-wrapper align-items-start bkt-nowrap d-flex d-md-none w-100" v-if="items_paths.length>0">
-            <bkt-collapse id="collapsePaths" main_class="bkt-monitoring__paths-collapse"
+            <bkt-collapse id="collapseMonitoringPaths" main_class="bkt-monitoring__paths-collapse"
                           :header_class="current_path_object.color ? 'bkt-bg-'+current_path_object.color : 'bkt-bg-primary'"
                           :collapse_button_class="paths.length>1 ? 'bkt-bg-white' : 'd-none'"
             >
-                <template #title v-if="paths.length>0">
+                <template #title v-if="items_paths.length>0">
                     <h6 class="mx-auto">
                         {{current_path_object.name}}
                         <span class="bkt-badge bkt-bg-white"
                               :class="current_path_object.color ? 'bkt-text-'+current_path_object.color : 'bkt-text-primary'"
                         >
-                                    {{current_path_object.lotCount ? current_path_object.lotCount : '0'}}
-                                </span>
+                            {{current_path_object.lotCount ? current_path_object.lotCount : '0'}}
+                        </span>
                     </h6>
                 </template>
                 <template #collapse v-if="items_paths.length>0">
                     <div class="bkt-wrapper-column bkt-gap">
                         <button v-for="(path, index) in items_paths" :key="index"
-                                @click="setCurrentPath(path.pathId)"
+                                @click="setCurrentMonitoringPath(path.pathId)"
                                 v-if="path.pathId !== current_path"
                                 class="w-100 bkt-button bkt-button_plump text-uppercase bkt-bg-white bkt-text-main text-center"
                         >
@@ -108,7 +118,7 @@
         </div>
         <bkt-card-list :current_component="'BktCard'" :items="items" :loading="loading"
                        :pagination_data="pagination_data" @change-page="getData"
-                       :infinite="items_paths.length>0" method_name="getMonitorings" :method_params="method_params">
+                       :infinite="items_paths.length>1" method_name="getMonitorings" :method_params="method_params">
         </bkt-card-list>
     </div>
 </template>
@@ -170,7 +180,9 @@
                 return this.$store.getters.monitorings_pagination;
             },
             items_paths() {
-                return this.$store.getters.monitorings_paths;
+                let monitorings_paths =  this.$store.getters.monitorings_paths;
+                monitorings_paths.unshift({pathId: 0, name:'Все', color: 'primary'});
+                return monitorings_paths
             },
             current_path() {
                 return this.$store.getters.monitoring_current_path;
@@ -212,9 +224,9 @@
                     this.loading = false;
                 });
             },
-            async setCurrentPath(value) {
+            async setCurrentMonitoringPath(value) {
                 this.loading = true;
-                await this.$store.dispatch('setCurrentPath', value)
+                await this.$store.dispatch('setCurrentMonitoringPath', value)
                     .finally(() => {
                         this.loading = false;
                     });
@@ -222,7 +234,7 @@
             async removeMonitoringPath() {
                 await this.$store.dispatch('removeMonitoringPath', this.current_path)
                     .then(resp => {
-                        this.setCurrentPath(this.items_paths[0].pathId)
+                        this.setCurrentMonitoringPath(this.items_paths[0].pathId)
                     });
             }
 

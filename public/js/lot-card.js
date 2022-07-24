@@ -11,6 +11,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+/* harmony import */ var hooper__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! hooper */ "./node_modules/hooper/dist/hooper.esm.js");
 //
 //
 //
@@ -77,14 +78,28 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "MiniTradeCard",
   props: ['item'],
   components: {
-    MiniTradeCard: MiniTradeCard,
-    Hooper: Hooper,
-    Slide: Slide,
-    HooperNavigation: HooperNavigation
+    Hooper: hooper__WEBPACK_IMPORTED_MODULE_0__.Hooper,
+    Slide: hooper__WEBPACK_IMPORTED_MODULE_0__.Slide,
+    HooperNavigation: hooper__WEBPACK_IMPORTED_MODULE_0__.Navigation
   }
 });
 
@@ -1652,7 +1667,7 @@ var render = function () {
     [
       _c(
         "div",
-        { staticClass: "col-12 col-md-2 ps-0" },
+        { staticClass: "col-12 col-md-2 ps-0 bkt-card-trade-mini__image" },
         [
           _c(
             "hooper",
@@ -1705,34 +1720,38 @@ var render = function () {
         1
       ),
       _vm._v(" "),
-      _c("div", { staticClass: "col-12 col-md-3" }, [
-        _c("h6", { staticClass: "bkt-card__subtitle" }, [
-          _vm._v(
-            "\n            № " +
-              _vm._s(_vm.item.trade.externalId) +
-              ", лот " +
-              _vm._s(_vm.item.lotNumber) +
-              "\n        "
+      _c(
+        "div",
+        { staticClass: "col-12 col-md-3 bkt-card-trade-mini__description" },
+        [
+          _c("h6", { staticClass: "bkt-card__subtitle" }, [
+            _vm._v(
+              "\n            № " +
+                _vm._s(_vm.item.trade.externalId) +
+                ", лот " +
+                _vm._s(_vm.item.lotNumber) +
+                "\n        "
+            ),
+          ]),
+          _vm._v(" "),
+          _c(
+            "h5",
+            { staticClass: "bkt-text-truncate" },
+            [
+              _c("router-link", { attrs: { to: "/lot/" + _vm.item.id } }, [
+                _vm._v(
+                  "\n            " +
+                    _vm._s(_vm.item.description) +
+                    "\n            "
+                ),
+              ]),
+            ],
+            1
           ),
-        ]),
-        _vm._v(" "),
-        _c(
-          "h5",
-          { staticClass: "bkt-text-truncate" },
-          [
-            _c("router-link", { attrs: { to: "/lot/" + _vm.item.id } }, [
-              _vm._v(
-                "\n            " +
-                  _vm._s(_vm.item.description) +
-                  "\n            "
-              ),
-            ]),
-          ],
-          1
-        ),
-      ]),
+        ]
+      ),
       _vm._v(" "),
-      _c("div", { staticClass: "col-12 col-md-2" }, [
+      _c("div", { staticClass: "col-12 col-md-2 bkt-card-trade-mini__price" }, [
         _c("h6", { staticClass: "bkt-card__subtitle d-md-none" }, [
           _vm._v("цена"),
         ]),
@@ -1746,7 +1765,7 @@ var render = function () {
         ]),
       ]),
       _vm._v(" "),
-      _c("div", { staticClass: "col-12 col-md-2" }, [
+      _c("div", { staticClass: "col-12 col-md-2 bkt-card-trade-mini__dates" }, [
         _c("h6", { staticClass: "bkt-card__subtitle d-md-none" }, [
           _vm._v("даты торгов"),
         ]),
@@ -1788,64 +1807,105 @@ var render = function () {
           : _c("h6", [_vm._v("не указано")]),
       ]),
       _vm._v(" "),
-      _c("div", { staticClass: "col-12 col-md-3" }, [
-        _c("h6", { staticClass: "bkt-card__subtitle d-md-none" }, [
-          _vm._v("ЭТП и организатор"),
-        ]),
-        _vm._v(" "),
-        _c(
-          "h6",
-          { staticClass: "bkt-card__title bkt-text-main text-uppercase" },
-          [
-            _vm._v(
-              "\n            " +
-                _vm._s(
-                  _vm.item.trade &&
-                    _vm.item.trade.tradePlace &&
-                    _vm.item.trade.tradePlace.name
-                    ? _vm.item.trade.tradePlace.name
-                    : ""
-                ) +
-                "\n        "
-            ),
-          ]
-        ),
-        _vm._v(" "),
-        _vm.item.trade.organizer
-          ? _c("h5", {}, [
-              _vm.item.trade.organizer.type == "person"
-                ? _c(
-                    "span",
-                    [
-                      _vm._l(
-                        _vm.item.trade.organizer.person,
-                        function (value, key, index) {
-                          return [
-                            _vm._v(
-                              "\n                     " +
-                                _vm._s(value ? value + " " : "") +
-                                "\n                "
-                            ),
-                          ]
-                        }
+      _c(
+        "div",
+        { staticClass: "col-12 col-md-3 bkt-card-trade-mini__organizer" },
+        [
+          _c("h6", { staticClass: "bkt-card__subtitle d-md-none" }, [
+            _vm._v("ЭТП и организатор"),
+          ]),
+          _vm._v(" "),
+          _vm.item.trade && _vm.item.trade.tradePlace
+            ? _c(
+                "h6",
+                { staticClass: "bkt-card__title bkt-text-main text-uppercase" },
+                [
+                  _vm._v(
+                    "\n            " +
+                      _vm._s(
+                        _vm.item.trade &&
+                          _vm.item.trade.tradePlace &&
+                          _vm.item.trade.tradePlace.name
+                          ? _vm.item.trade.tradePlace.name
+                          : ""
+                      ) +
+                      "\n        "
+                  ),
+                ]
+              )
+            : _vm.item.tradePlaceSite
+            ? _c("h6", [_vm._v(_vm._s(_vm.item.tradePlaceSite))])
+            : _vm._e(),
+          _vm._v(" "),
+          _vm.item.trade.organizer
+            ? _c("h5", {}, [
+                _vm.item.trade.organizer.type == "person"
+                  ? _c(
+                      "span",
+                      [
+                        _vm._l(
+                          _vm.item.trade.organizer.person,
+                          function (value, key, index) {
+                            return [
+                              _vm._v(
+                                "\n                     " +
+                                  _vm._s(value ? value + " " : "") +
+                                  "\n                "
+                              ),
+                            ]
+                          }
+                        ),
+                      ],
+                      2
+                    )
+                  : _c("span", [
+                      _vm._v(
+                        "\n                " +
+                          _vm._s(
+                            _vm.item.trade.organizer.company.shortName
+                              ? _vm.item.trade.organizer.company.shortName
+                              : _vm.item.trade.organizer.company.fullName
+                          ) +
+                          "\n            "
                       ),
-                    ],
-                    2
-                  )
-                : _c("span", [
-                    _vm._v(
-                      "\n                " +
-                        _vm._s(
-                          _vm.item.trade.organizer.company.shortName
-                            ? _vm.item.trade.organizer.company.shortName
-                            : _vm.item.trade.organizer.company.fullName
-                        ) +
-                        "\n            "
-                    ),
-                  ]),
-            ])
-          : _vm._e(),
-      ]),
+                    ]),
+              ])
+            : _vm.item.organizer
+            ? _c("h5", [
+                _vm.item.organizer.type == "person"
+                  ? _c(
+                      "span",
+                      [
+                        _vm._l(
+                          _vm.item.organizer.person,
+                          function (value, key, index) {
+                            return [
+                              _vm._v(
+                                "\n                     " +
+                                  _vm._s(value ? value + " " : "") +
+                                  "\n                "
+                              ),
+                            ]
+                          }
+                        ),
+                      ],
+                      2
+                    )
+                  : _c("span", [
+                      _vm._v(
+                        "\n                " +
+                          _vm._s(
+                            _vm.item.organizer.company.shortName
+                              ? _vm.item.organizer.company.shortName
+                              : _vm.item.organizer.company.fullName
+                          ) +
+                          "\n            "
+                      ),
+                    ]),
+              ])
+            : _vm._e(),
+        ]
+      ),
     ]
   )
 }

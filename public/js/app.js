@@ -8409,6 +8409,14 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "Search",
@@ -8510,7 +8518,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
         for (_iterator.s(); !(_step = _iterator.n()).done;) {
           var option = _step.value;
 
-          if (this.searchFilter.length < 1 || option.name.match(regOption) || option.email.match(regOption)) {
+          if (this.searchFilter.length < 1 || option.id.match(regOption)) {
             if (filtered.length < this.maxItem) filtered.push(option);
           }
         }
@@ -8525,10 +8533,10 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
   },
   methods: {
     handleBlur: function handleBlur(value) {
-      this.$emit('blur', value);
+      if (!this.no_dropdown) {
+        this.$emit('blur', value); // if (this.searchFilter == '') {
 
-      if (this.searchFilter == '') {
-        this.optionsShown = false;
+        this.optionsShown = false; // }
       } // this.exit();
 
     },
@@ -8543,9 +8551,11 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       //     this.searchFilter = '';
       //     this.optionsShown = true;
       // }
-      this.searchFilter = '';
-      this.options = [];
-      this.optionsShown = true;
+      if (!this.no_dropdown) {
+        this.searchFilter = '';
+        this.options = [];
+        this.optionsShown = true;
+      }
     },
     exit: function exit() {
       if (!this.selected.id) {
@@ -8611,7 +8621,11 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
                   if (!_this.no_dropdown) {
                     _this.showOptions();
 
-                    _this.options = resp.data;
+                    if (resp.data.data) {
+                      _this.options = resp.data.data;
+                    } else {
+                      _this.options = resp.data;
+                    }
                   }
 
                   _this.searchLoading = false;
@@ -10953,32 +10967,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           state.favourites[payload.currentPathId].data.splice(favourite, 1);
         }
       }
-
-      var lot = state.trades.findIndex(function (item) {
-        return item.id === payload.lotId;
-      });
-
-      if (lot >= 0) {
-        if (state.trades[lot].favouritePaths) {
-          var lot_path = state.trades[lot].favouritePaths.findIndex(function (item) {
-            return item.pathId === payload.currentPathId;
-          });
-
-          if (lot_path >= 0) {
-            state.trades[lot].favouritePaths.splice(lot_path, 1);
-          }
-
-          lot_path = state.trades[lot].favouritePaths.findIndex(function (item) {
-            return item.pathId === payload.newPathId;
-          });
-
-          if (lot_path < 0) {
-            if (new_path >= 0) {
-              state.trades[lot].favouritePaths.push(state.favourites_paths[new_path]);
-            }
-          }
-        }
-      }
     },
     removeFavouritePath: function removeFavouritePath(state, payload) {
       var path = state.favourites_paths.findIndex(function (item) {
@@ -11230,6 +11218,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 _context8.next = 3;
                 return axios.put("/api/favourite/move/lot", payload).then(function (response) {
                   commit('moveFavourite', payload);
+                  commit('changeTradeFavouritePaths', payload);
                 })["catch"](function (error) {
                   console.log(error);
                 });
@@ -11365,6 +11354,77 @@ __webpack_require__.r(__webpack_exports__);
         direction: "asc",
         type: "publishDate"
       }
+    },
+    nearest_filters: {
+      categories: JSON.parse(localStorage.getItem('nearest_categories')) || [],
+      regions: JSON.parse(localStorage.getItem('nearest_regions')) || [],
+      prices: JSON.parse(localStorage.getItem('nearest_prices')) || {
+        currentPrice: {
+          min: '',
+          max: ''
+        },
+        startPrice: {
+          min: '',
+          max: ''
+        },
+        minPrice: {
+          min: '',
+          max: ''
+        },
+        percentageReduction: {
+          min: '',
+          max: ''
+        }
+      },
+      dates: JSON.parse(localStorage.getItem('nearest_dates')) || {
+        eventTimeStart: {
+          start: "",
+          end: ""
+        },
+        eventTimeEnd: {
+          start: "",
+          end: ""
+        },
+        applicationTimeStart: {
+          start: "",
+          end: ""
+        },
+        applicationTimeEnd: {
+          start: "",
+          end: ""
+        }
+      },
+      extraOptions: JSON.parse(localStorage.getItem('nearest_extraOptions')) || {
+        debtorCategories: [],
+        debtors: [],
+        organizers: [],
+        arbitrManagers: [],
+        other: {
+          period: 'periodAll',
+          hasPhotos: false,
+          isStopped: false,
+          isCompleted: false,
+          isHidden: false,
+          organizer: false
+        }
+      },
+      mainParams: {
+        excludedWords: '',
+        includedWords: '',
+        tradePlaces: [],
+        tradeType: ''
+      },
+      // other: {
+      //     period: 'all',
+      //     hasPhotos: false,
+      //     isStopped: false,
+      //     isCompleted: false,
+      //     isHidden: false
+      // },
+      sort: {
+        direction: "asc",
+        type: "publishDate"
+      }
     }
   },
   getters: {
@@ -11394,6 +11454,9 @@ __webpack_require__.r(__webpack_exports__);
     },
     filters_sort: function filters_sort(state) {
       return state.filters.sort;
+    },
+    nearest_filters: function nearest_filters(state) {
+      return state.nearest_filters;
     }
   },
   actions: {},
@@ -11519,13 +11582,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     setCategories: function setCategories(state, payload) {
       payload.forEach(function (item) {
         Vue.set(item, 'status', false);
-        state.categories.push(item);
+        state.filters_data.categories.data.push(item);
       });
     },
     setRegions: function setRegions(state, payload) {
       payload.forEach(function (item) {
         Vue.set(item, 'status', false);
-        state.regions.push(item);
+        state.filters_data.regions.data.push(item);
       });
     },
     setFiltersBidders: function setFiltersBidders(state, payload) {
@@ -11586,7 +11649,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               case 0:
                 commit = _ref.commit, state = _ref.state;
 
-                if (!(state.filters_data.categories.length == 0)) {
+                if (!(state.filters_data.categories.data.length == 0)) {
                   _context.next = 5;
                   break;
                 }
@@ -11633,7 +11696,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               case 0:
                 commit = _ref2.commit, state = _ref2.state;
 
-                if (!(state.filters_data.regions.length == 0)) {
+                if (!(state.filters_data.regions.data.length == 0)) {
                   _context2.next = 5;
                   break;
                 }
@@ -13076,6 +13139,33 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     },
     setWinsLoading: function setWinsLoading(state, payload) {
       return state.wins_loading = payload;
+    },
+    changeTradeFavouritePaths: function changeTradeFavouritePaths(state, payload) {
+      var lot = state.trades.findIndex(function (item) {
+        return item.id === payload.lotId;
+      });
+
+      if (lot >= 0) {
+        if (state.trades[lot].favouritePaths) {
+          var lot_path = state.trades[lot].favouritePaths.findIndex(function (item) {
+            return item.pathId === payload.currentPathId;
+          });
+
+          if (lot_path >= 0) {
+            state.trades[lot].favouritePaths.splice(lot_path, 1);
+          }
+
+          lot_path = state.trades[lot].favouritePaths.findIndex(function (item) {
+            return item.pathId === payload.newPathId;
+          });
+
+          if (lot_path < 0) {
+            if (new_path >= 0) {
+              state.trades[lot].favouritePaths.push(state.favourites_paths[new_path]);
+            }
+          }
+        }
+      }
     }
   },
   actions: {
@@ -13256,133 +13346,17 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, _callee5);
       }))();
     },
-    addTrade: function addTrade(_ref6, payload) {
+    getNearestTrades: function getNearestTrades(_ref6, payload) {
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee6() {
-        var commit;
+        var commit, state;
         return _regeneratorRuntime().wrap(function _callee6$(_context6) {
           while (1) {
             switch (_context6.prev = _context6.next) {
               case 0:
-                commit = _ref6.commit;
-                _context6.next = 3;
-                return axios.post('/api/trades', payload, {
-                  headers: {
-                    'Content-Type': 'multipart/form-data'
-                  }
-                }).then(function (response) {
-                  commit('addTrade', response.data);
-                })["catch"](function (error) {
-                  console.log(error);
-                  throw error;
-                });
+                commit = _ref6.commit, state = _ref6.state;
+                commit('setNearestLoading', true); // let filters = JSON.parse(JSON.stringify(payload.filters));
 
-              case 3:
-              case "end":
-                return _context6.stop();
-            }
-          }
-        }, _callee6);
-      }))();
-    },
-    updateTrade: function updateTrade(_ref7, payload) {
-      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee7() {
-        var commit;
-        return _regeneratorRuntime().wrap(function _callee7$(_context7) {
-          while (1) {
-            switch (_context7.prev = _context7.next) {
-              case 0:
-                commit = _ref7.commit;
-                _context7.next = 3;
-                return axios.post('/api/trades/' + payload.id, payload.formData, {
-                  headers: {
-                    'Content-Type': 'multipart/form-data'
-                  }
-                }).then(function (response) {
-                  commit('saveTrade', response.data);
-                })["catch"](function (error) {
-                  console.log(error);
-                  throw error;
-                });
-
-              case 3:
-              case "end":
-                return _context7.stop();
-            }
-          }
-        }, _callee7);
-      }))();
-    },
-    removeTrade: function removeTrade(_ref8, payload) {
-      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee8() {
-        var dispatch, commit;
-        return _regeneratorRuntime().wrap(function _callee8$(_context8) {
-          while (1) {
-            switch (_context8.prev = _context8.next) {
-              case 0:
-                dispatch = _ref8.dispatch, commit = _ref8.commit;
-                _context8.next = 3;
-                return axios["delete"]("/api/trades/".concat(payload.id)).then(function (response) {
-                  commit('removeTrade', payload.id);
-                  dispatch('sendNotification', {
-                    self: payload.self,
-                    title: 'Торги',
-                    message: 'Торги успешно удалены'
-                  });
-                })["catch"](function (error) {
-                  dispatch('sendNotification', {
-                    self: payload.self,
-                    title: 'Торги',
-                    type: 'error',
-                    message: 'Произошла ошибка'
-                  });
-                });
-
-              case 3:
-              case "end":
-                return _context8.stop();
-            }
-          }
-        }, _callee8);
-      }))();
-    },
-    saveTrade: function saveTrade(_ref9, payload) {
-      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee9() {
-        var commit;
-        return _regeneratorRuntime().wrap(function _callee9$(_context9) {
-          while (1) {
-            switch (_context9.prev = _context9.next) {
-              case 0:
-                commit = _ref9.commit;
-                _context9.next = 3;
-                return axios.post("/api/trades/save/".concat(payload.id), {
-                  key: payload.key,
-                  value: payload.value
-                }).then(function (response) {
-                  commit('saveTrade', response.data.trade);
-                })["catch"](function (error) {
-                  console.log(error);
-                  throw error;
-                });
-
-              case 3:
-              case "end":
-                return _context9.stop();
-            }
-          }
-        }, _callee9);
-      }))();
-    },
-    getNearestTrades: function getNearestTrades(_ref10, payload) {
-      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee10() {
-        var commit, state;
-        return _regeneratorRuntime().wrap(function _callee10$(_context10) {
-          while (1) {
-            switch (_context10.prev = _context10.next) {
-              case 0:
-                commit = _ref10.commit, state = _ref10.state;
-                commit('setNearestTradesLoading', true); // let filters = JSON.parse(JSON.stringify(payload.filters));
-
-                _context10.next = 4;
+                _context6.next = 4;
                 return axios.put('/api/trades/nearest?page=' + payload.page, payload.filters).then(function (response) {
                   commit('setNearestTrades', response.data);
                 })["catch"](function (error) {
@@ -13392,28 +13366,28 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                     pagination: {}
                   });
                 })["finally"](function () {
-                  commit('setNearestTradesLoading', false);
+                  commit('setNearestLoading', false);
                 });
 
               case 4:
               case "end":
-                return _context10.stop();
+                return _context6.stop();
             }
           }
-        }, _callee10);
+        }, _callee6);
       }))();
     },
-    getWins: function getWins(_ref11, payload) {
-      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee11() {
+    getWins: function getWins(_ref7, payload) {
+      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee7() {
         var commit, state;
-        return _regeneratorRuntime().wrap(function _callee11$(_context11) {
+        return _regeneratorRuntime().wrap(function _callee7$(_context7) {
           while (1) {
-            switch (_context11.prev = _context11.next) {
+            switch (_context7.prev = _context7.next) {
               case 0:
-                commit = _ref11.commit, state = _ref11.state;
+                commit = _ref7.commit, state = _ref7.state;
                 commit('setWinsLoading', true); // let filters = JSON.parse(JSON.stringify(payload.filters));
 
-                _context11.next = 4;
+                _context7.next = 4;
                 return axios.get('/api/trades/victories?page=' + payload.page).then(function (response) {
                   commit('setWins', response.data);
                 })["catch"](function (error) {
@@ -13428,10 +13402,36 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
               case 4:
               case "end":
-                return _context11.stop();
+                return _context7.stop();
             }
           }
-        }, _callee11);
+        }, _callee7);
+      }))();
+    },
+    searchTrades: function searchTrades(_ref8, payload) {
+      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee8() {
+        var commit, state;
+        return _regeneratorRuntime().wrap(function _callee8$(_context8) {
+          while (1) {
+            switch (_context8.prev = _context8.next) {
+              case 0:
+                commit = _ref8.commit, state = _ref8.state;
+                _context8.next = 3;
+                return axios({
+                  method: 'put',
+                  url: '/api/trades/short/lots?page=' + payload.page,
+                  data: payload
+                });
+
+              case 3:
+                return _context8.abrupt("return", _context8.sent);
+
+              case 4:
+              case "end":
+                return _context8.stop();
+            }
+          }
+        }, _callee8);
       }))();
     }
   }
@@ -73018,162 +73018,199 @@ var render = function () {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "dropdown bkt-search__wrapper" }, [
-    _c("div", { staticClass: "bkt-search", class: _vm.search_class }, [
-      _c("input", {
-        directives: [
-          {
-            name: "model",
-            rawName: "v-model",
-            value: _vm.searchFilter,
-            expression: "searchFilter",
-          },
-        ],
-        staticClass: "w-100 bkt-search__input",
-        attrs: {
-          type: "text",
-          placeholder: _vm.placeholder,
-          disabled: _vm.disabled,
+  return _c(
+    "div",
+    {
+      staticClass: "bkt-dropdown bkt-search__wrapper",
+      on: {
+        focusout: function ($event) {
+          _vm.optionsShown = false
         },
-        domProps: { value: _vm.searchFilter },
-        on: {
-          keyup: _vm.keyMonitor,
-          input: function ($event) {
-            if ($event.target.composing) {
-              return
-            }
-            _vm.searchFilter = $event.target.value
-          },
-        },
-      }),
-      _vm._v(" "),
+      },
+    },
+    [
       _c(
-        "button",
+        "div",
         {
-          staticClass: "bkt-button green bkt-search__button",
-          attrs: { disabled: _vm.disabled || _vm.searchLoading },
-          on: { click: _vm.runSearch },
+          staticClass: "bkt-search",
+          class: [_vm.search_class, { open: _vm.optionsShown }],
         },
         [
-          _c("span", {
+          _c("input", {
             directives: [
               {
-                name: "show",
-                rawName: "v-show",
-                value: _vm.searchLoading,
-                expression: "searchLoading",
+                name: "model",
+                rawName: "v-model",
+                value: _vm.searchFilter,
+                expression: "searchFilter",
               },
             ],
-            staticClass: "spinner-border spinner-border-sm",
-            attrs: { role: "status" },
+            staticClass: "w-100 bkt-search__input",
+            attrs: {
+              type: "text",
+              placeholder: _vm.placeholder,
+              disabled: _vm.disabled,
+            },
+            domProps: { value: _vm.searchFilter },
+            on: {
+              keyup: _vm.keyMonitor,
+              focus: _vm.showOptions,
+              blur: function ($event) {
+                _vm.optionsShown = false
+              },
+              focusout: function ($event) {
+                _vm.optionsShown = false
+              },
+              input: function ($event) {
+                if ($event.target.composing) {
+                  return
+                }
+                _vm.searchFilter = $event.target.value
+              },
+            },
           }),
           _vm._v(" "),
-          !_vm.searchLoading
-            ? _c("span", { staticClass: "d-none d-md-block" }, [
-                _vm._v("Найти"),
-              ])
+          _c(
+            "button",
+            {
+              staticClass: "bkt-button green bkt-search__button",
+              attrs: { disabled: _vm.disabled || _vm.searchLoading },
+              on: { click: _vm.runSearch },
+            },
+            [
+              _c("span", {
+                directives: [
+                  {
+                    name: "show",
+                    rawName: "v-show",
+                    value: _vm.searchLoading,
+                    expression: "searchLoading",
+                  },
+                ],
+                staticClass: "spinner-border spinner-border-sm",
+                attrs: { role: "status" },
+              }),
+              _vm._v(" "),
+              !_vm.searchLoading
+                ? _c("span", { staticClass: "d-none d-md-block" }, [
+                    _vm._v("Найти"),
+                  ])
+                : _vm._e(),
+              _vm._v(" "),
+              _c("bkt-icon", {
+                directives: [
+                  {
+                    name: "show",
+                    rawName: "v-show",
+                    value: !_vm.searchLoading,
+                    expression: "!searchLoading",
+                  },
+                ],
+                staticClass: "d-block d-md-none",
+                attrs: { name: "Search" },
+              }),
+            ],
+            1
+          ),
+        ]
+      ),
+      _vm._v(" "),
+      _c(
+        "div",
+        {
+          directives: [
+            {
+              name: "show",
+              rawName: "v-show",
+              value: _vm.optionsShown && !_vm.simple && !_vm.no_dropdown,
+              expression: "optionsShown&&!simple&&!no_dropdown",
+            },
+          ],
+          staticClass: "bkt-dropdown__menu w-100",
+          class: _vm.dropdown_class,
+        },
+        [
+          _vm.options
+            ? _c(
+                "div",
+                { staticClass: "dropdown-block" },
+                [
+                  _vm._t(
+                    "dropdown-block",
+                    function () {
+                      return [
+                        _vm._t("dropdown-block-header"),
+                        _vm._v(" "),
+                        _vm._l(_vm.options, function (item, index) {
+                          return _c(
+                            "div",
+                            {
+                              staticClass: "dropdown-item",
+                              on: {
+                                click: function ($event) {
+                                  return _vm.selectOption(item)
+                                },
+                              },
+                            },
+                            [
+                              _vm._t(
+                                "dropdown-item",
+                                function () {
+                                  return [
+                                    _vm._v(
+                                      "\n                        " +
+                                        _vm._s(item) +
+                                        "\n                    "
+                                    ),
+                                  ]
+                                },
+                                { item: item }
+                              ),
+                            ],
+                            2
+                          )
+                        }),
+                      ]
+                    },
+                    { options: _vm.options }
+                  ),
+                ],
+                2
+              )
             : _vm._e(),
           _vm._v(" "),
-          _c("bkt-icon", {
-            directives: [
-              {
-                name: "show",
-                rawName: "v-show",
-                value: !_vm.searchLoading,
-                expression: "!searchLoading",
-              },
-            ],
-            staticClass: "d-block d-md-none",
-            attrs: { name: "Search" },
-          }),
-        ],
-        1
-      ),
-    ]),
-    _vm._v(" "),
-    _c(
-      "div",
-      {
-        directives: [
-          {
-            name: "show",
-            rawName: "v-show",
-            value: _vm.optionsShown && !_vm.simple && !_vm.no_dropdown,
-            expression: "optionsShown&&!simple&&!no_dropdown",
-          },
-        ],
-        staticClass: "dropdown-content w-100 p-3",
-        class: _vm.dropdown_class,
-      },
-      [
-        _vm.options
-          ? _c(
-              "div",
-              { staticClass: "dropdown-block" },
-              _vm._l(_vm.options, function (item, index) {
-                return _c(
-                  "div",
+          !_vm.options || _vm.options.length === 0
+            ? _c("div", { staticClass: "text-center p-2" }, [
+                _c(
+                  "svg",
                   {
-                    staticClass: "dropdown-item",
-                    on: {
-                      click: function ($event) {
-                        return _vm.selectOption(item)
-                      },
+                    attrs: {
+                      width: "35",
+                      height: "35",
+                      viewBox: "0 0 35 35",
+                      fill: "none",
+                      xmlns: "http://www.w3.org/2000/svg",
                     },
                   },
                   [
-                    _vm._t(
-                      "dropdown-item",
-                      function () {
-                        return [
-                          _vm._v(
-                            "\n                    " +
-                              _vm._s(item) +
-                              "\n                "
-                          ),
-                        ]
+                    _c("path", {
+                      attrs: {
+                        d: "M24.8964 21.8028L34.0468 30.9532C34.9011 31.8075 34.9011 33.1925 34.0468 34.0468C33.1925 34.9011 31.8075 34.9011 30.9532 34.0468L21.8028 24.8964C19.5394 26.5344 16.7575 27.5 13.75 27.5C6.15608 27.5 0 21.3439 0 13.75C0 6.15608 6.15608 0 13.75 0C21.3439 0 27.5 6.15608 27.5 13.75C27.5 16.7575 26.5344 19.5394 24.8964 21.8028ZM13.75 23.125C18.9277 23.125 23.125 18.9277 23.125 13.75C23.125 8.57233 18.9277 4.375 13.75 4.375C8.57233 4.375 4.375 8.57233 4.375 13.75C4.375 18.9277 8.57233 23.125 13.75 23.125Z",
+                        fill: "#A0A4A8",
                       },
-                      { item: item }
-                    ),
-                  ],
-                  2
-                )
-              }),
-              0
-            )
-          : _vm._e(),
-        _vm._v(" "),
-        !_vm.options || _vm.options.length === 0
-          ? _c("div", { staticClass: "text-center p-2" }, [
-              _c(
-                "svg",
-                {
-                  attrs: {
-                    width: "35",
-                    height: "35",
-                    viewBox: "0 0 35 35",
-                    fill: "none",
-                    xmlns: "http://www.w3.org/2000/svg",
-                  },
-                },
-                [
-                  _c("path", {
-                    attrs: {
-                      d: "M24.8964 21.8028L34.0468 30.9532C34.9011 31.8075 34.9011 33.1925 34.0468 34.0468C33.1925 34.9011 31.8075 34.9011 30.9532 34.0468L21.8028 24.8964C19.5394 26.5344 16.7575 27.5 13.75 27.5C6.15608 27.5 0 21.3439 0 13.75C0 6.15608 6.15608 0 13.75 0C21.3439 0 27.5 6.15608 27.5 13.75C27.5 16.7575 26.5344 19.5394 24.8964 21.8028ZM13.75 23.125C18.9277 23.125 23.125 18.9277 23.125 13.75C23.125 8.57233 18.9277 4.375 13.75 4.375C8.57233 4.375 4.375 8.57233 4.375 13.75C4.375 18.9277 8.57233 23.125 13.75 23.125Z",
-                      fill: "#A0A4A8",
-                    },
-                  }),
-                ]
-              ),
-              _vm._v(" "),
-              _c("p", { staticClass: "dropdown-text" }, [
-                _vm._v("Ничего не нашлось"),
-              ]),
-            ])
-          : _vm._e(),
-      ]
-    ),
-  ])
+                    }),
+                  ]
+                ),
+                _vm._v(" "),
+                _c("p", { staticClass: "dropdown-text" }, [
+                  _vm._v("Ничего не нашлось"),
+                ]),
+              ])
+            : _vm._e(),
+        ]
+      ),
+    ]
+  )
 }
 var staticRenderFns = []
 render._withStripped = true

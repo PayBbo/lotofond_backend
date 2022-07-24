@@ -4,49 +4,7 @@
     >
         <template #body>
             <div class="bkt-wrapper-column bkt-gap-large" v-if="!loading">
-                <div class="bkt-wrapper-column bkt-gap-small">
-                    <bkt-collapse :id="'category-collapse-'+index" v-for="(category, index) in items" :key="index"
-                                  main_class="bkt-collapse_check"
-                                  :collapse_button_class="category.subcategories.length>0 ? 'bkt-bg-white': 'd-none'"
-                    >
-                        <template #title>
-                            <div class="bkt-collapse__title-wrapper">
-                                <bkt-checkbox v-if="category.subcategories.length==0"
-                                              :name="'bkt-category-checkbox-'+index"
-                                              :id="'bkt-category-checkbox-'+index"
-                                              v-model="result"
-                                              :val="category.key"
-                                ></bkt-checkbox>
-                                <bkt-checkbox v-else
-                                              :name="'bkt-category-checkbox-'+index"
-                                              :id="'bkt-category-checkbox-'+index"
-                                              v-model="category.status"
-                                              @input="selectAll(index)"
-                                              :indeterminate="isIndeterminate(index)"
-                                ></bkt-checkbox>
-                                <h5 class="bkt-regions-tabs__title" data-bs-toggle="collapse"
-                                    :data-bs-target="'#category-collapse-'+index">
-                                    {{category.label}}
-                                </h5>
-                            </div>
-                        </template>
-                        <template #collapse>
-                            <div class="bkt-gap-mini" v-for="(subcategory,index) in category.subcategories">
-                                <div class="bkt-collapse__title-wrapper">
-                                    <bkt-checkbox
-                                        :name="'bkt-subcategory-checkbox-'+index"
-                                        :id="'bkt-subcategory-checkbox-'+index"
-                                        v-model="result"
-                                        :val="subcategory.key"
-                                    ></bkt-checkbox>
-                                    <h6 class="bkt-regions-tabs__subtitle">
-                                        {{subcategory.label}}
-                                    </h6>
-                                </div>
-                            </div>
-                        </template>
-                    </bkt-collapse>
-                </div>
+                <bkt-categories-control v-model="result"></bkt-categories-control>
                 <div class="bkt-region-selected" v-if="result.length>0">
                     <h5 class="bkt-region-selected__title">
                         выбранные категории
@@ -279,11 +237,22 @@
 
 <script>
     import BktCollapse from '../../components/Collapse.vue';
-
+    import BktCategoriesControl from "../../components/CategoriesControl";
     export default {
         name: "Category",
         components: {
-            BktCollapse
+            BktCollapse,
+            BktCategoriesControl
+        },
+        props: {
+            filter: {
+                type: String,
+                default: 'filters'
+            },
+            method_name: {
+                type: String,
+                default: 'getFilteredTrades'
+            }
         },
         data() {
             return {
@@ -293,14 +262,14 @@
         },
         created() {
             this.getCategories();
-            this.result = JSON.parse(JSON.stringify(this.$store.getters.filters_categories))
+            this.result = JSON.parse(JSON.stringify(this.filters_categories))
         },
         computed: {
             filters_categories() {
-                return this.$store.getters.filters_categories
+                return this.$store.getters[this.filter].categories
             },
             filters() {
-                return this.$store.getters.filters
+                return this.$store.getters[this.filter]
             },
             categories() {
                 return this.$store.getters.categories
@@ -360,15 +329,25 @@
                 return !all_checked && some_checked;
             },
             saveFilters() {
-                this.$store.commit('saveFiltersProperty', {key: 'categories', value: this.result});
+                this.$store.dispatch('saveDataProperty', {
+                    module_key: 'filters', state_key: this.filter,
+                    key: 'categories',
+                    value: this.result
+                }, {root: true});
+                // this.$store.commit('saveFiltersProperty', {key: 'categories', value: this.result});
                 this.$store.commit('closeModal', '#categoryModal');
-                this.$store.dispatch('getFilteredTrades', {page: 1, filters: this.filters});
+                this.$store.dispatch(this.method_name, {page: 1, filters: this.filters});
             },
             clearFilters() {
                 this.result = [];
-                this.$store.commit('saveFiltersProperty', {key: 'categories', value: []});
+                this.$store.dispatch('saveDataProperty', {
+                    module_key: 'filters', state_key: this.filter,
+                    key: 'categories',
+                    value: []
+                }, {root: true});
+                // this.$store.commit('saveFiltersProperty', {key: 'categories', value: []});
                 this.$store.commit('closeModal', '#categoryModal');
-                this.$store.dispatch('getFilteredTrades', {page: 1, filters: this.filters});
+                this.$store.dispatch(this.method_name, {page: 1, filters: this.filters});
             },
             async getCategories() {
                 await this.$store.dispatch('getCategories').then(resp => {

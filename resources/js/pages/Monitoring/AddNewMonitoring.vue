@@ -2,55 +2,65 @@
     <bkt-modal :id="'monitoringEditModal'" ref="monitoringEditModal" :modal_class="'bkt-monitoring-modal'"
                :title="'Новый мониторинг'" :loading="loading">
         <template #body="{ invalid }">
-            <div>
-                <div class="bkt-monitoring-field text-left mb-5">
-                    <label class="bkt-monitoring-field__text" for="name_monitoring">название мониторинга</label>
-                    <input class="bkt-monitoring-field__input bkt-input pl-4 pr-4" type="text" id="name_monitoring"
-                           name="name_monitoring" placeholder="Введите название мониторинга">
-                </div>
-
-                <div class="bkt-monitoring-field__input bkt-monitoring-field__filter text-left mb-3 bkt-input">
-                    <button @click="selectedFilter = 1" class="bkt-button"
-                            :class="[selectedFilter == 1 ? 'shadow green' : 'bkt-text-main']">По категории
-                    </button>
-                    <button @click="selectedFilter = 2" class="bkt-button"
-                            :class="[selectedFilter == 2 ? 'shadow green' : 'bkt-text-main']">По дате торгов
-                    </button>
-                    <button @click="selectedFilter = 3" class="bkt-button"
-                            :class="[selectedFilter == 3 ? 'shadow green' : 'bkt-text-main']">По региону
-                    </button>
-                    <button @click="selectedFilter = 4" class="bkt-button"
-                            :class="[selectedFilter == 4 ? 'shadow green' : 'bkt-text-main']">По должнику
-                    </button>
-                    <button @click="selectedFilter = 5" class="bkt-button"
-                            :class="[selectedFilter == 5 ? 'shadow green' : 'bkt-text-main']">По цене
-                    </button>
-                </div>
+            <bkt-input v-model="monitoring.name"
+                       rules="required" name="monitoring_name" no_group_item
+                       label="название мониторинга" placeholder="Введите название мониторинга"
+            ></bkt-input>
+            <div class="bkt-monitoring-field__input bkt-monitoring-field__filter text-left mb-3 bkt-input">
+                <button @click="selectedFilter = 1" class="bkt-button"
+                        :class="[selectedFilter == 1 ? 'shadow green' : 'bkt-text-main']">По категории
+                </button>
+                <button @click="selectedFilter = 2" class="bkt-button"
+                        :class="[selectedFilter == 2 ? 'shadow green' : 'bkt-text-main']">По дате торгов
+                </button>
+                <button @click="selectedFilter = 3" class="bkt-button"
+                        :class="[selectedFilter == 3 ? 'shadow green' : 'bkt-text-main']">По региону
+                </button>
+                <button @click="selectedFilter = 4" class="bkt-button"
+                        :class="[selectedFilter == 4 ? 'shadow green' : 'bkt-text-main']">По должнику
+                </button>
+                <button @click="selectedFilter = 5" class="bkt-button"
+                        :class="[selectedFilter == 5 ? 'shadow green' : 'bkt-text-main']">По цене
+                </button>
             </div>
 
             <div v-if="selectedFilter === 1" class="bkt-monitoring-category">
-                {{ selectedCategory }}
-                <div class="bkt-monitoring-field text-left mb-2">
-                    <bkt-select name="monitoringCategory" :option_label="'label'"
-                                :reduce="item => item.id" :options="items_categories"
-                    ></bkt-select>
+                <bkt-categories-control v-model="monitoring.filters.categories"></bkt-categories-control>
+                <div class="bkt-region-selected" v-if="result.length>0 && !loading">
+                    <h5 class="bkt-region-selected__title text-left mb-2">
+                        <span class="text-muted">выбранные категории</span>
+                    </h5>
+                    <div class="bkt-tag__list">
+                        <div class="bkt-region__item bkt-tag justify-content-between flex-fill"
+                             v-for="(item, index) in monitoring.filters.categories">
+                            <span class="bkt-item-rounded__text mr-2">{{ $t('categories.' + item) }}</span>
+                            <span class="bkt-tag__icon bkt-cursor-pointer" @click="toggleRegion(item)">
+                                    <bkt-icon name="Cancel" color="red"></bkt-icon>
+                                </span>
+                        </div>
+                    </div>
                 </div>
-                <div class="bkt-monitoring-field text-left mb-4">
-                    <bkt-select multiple name="monitoringSubcategory" :option_label="'name'" :options="[]"
-                    ></bkt-select>
-                </div>
+<!--                <div class="bkt-monitoring-field text-left mb-2">-->
+<!--                    <bkt-select v-model="selectedCategory" name="monitoringCategory" :option_label="'label'"-->
+<!--                                :reduce="item => item.id" :options="items_categories" placeholder="Категория"-->
+<!--                    ></bkt-select>-->
+<!--                </div>-->
+<!--                <div class="bkt-monitoring-field text-left mb-4">-->
+<!--                    <bkt-select name="monitoringSubcategory" :option_label="'name'" :options="[]" placeholder="Подкатегория"-->
+<!--                    ></bkt-select>-->
+<!--                </div>-->
 
-                <div class="bkt-monitoring-field bkt-monitoring__items text-left d-flex">
-                    <div class="bkt bkt-border-primary-dark bkt-border-rounded p-2 pl-4 pr-4 mr-2"><span>BMW</span>
-                    </div>
-                    <div class="bkt bkt-border-primary-dark bkt-border-rounded p-2 pl-4 pr-4 mr-2"><span>Ford</span>
-                    </div>
-                    <div class="bkt bkt-border-primary-dark bkt-border-rounded p-2 pl-4 pr-4 mr-2"><span>Toyota</span>
-                    </div>
-                    <div class="bkt bkt-border-primary-dark bkt-border-rounded p-2 pl-4 pr-4 mr-2"><span>Audi</span>
-                    </div>
-                    <div class="bkt bkt-border-primary-dark bkt-border-rounded p-2 pl-4 pr-4"><span>Lexus</span></div>
-                </div>
+<!--                <div class="bkt-monitoring-field bkt-monitoring__items text-left d-flex">-->
+<!--                    <div class="bkt bkt-border-primary-dark bkt-border-rounded p-2 pl-4 pr-4 mr-2"><span>BMW</span>-->
+<!--                    </div>-->
+<!--                    <div class="bkt bkt-border-primary-dark bkt-border-rounded p-2 pl-4 pr-4 mr-2"><span>Ford</span>-->
+<!--                    </div>-->
+<!--                    <div class="bkt bkt-border-primary-dark bkt-border-rounded p-2 pl-4 pr-4 mr-2"><span>Toyota</span>-->
+<!--                    </div>-->
+<!--                    <div class="bkt bkt-border-primary-dark bkt-border-rounded p-2 pl-4 pr-4 mr-2"><span>Audi</span>-->
+<!--                    </div>-->
+<!--                    <div class="bkt bkt-border-primary-dark bkt-border-rounded p-2 pl-4 pr-4"><span>Lexus</span></div>-->
+<!--                </div>-->
             </div>
 
             <div v-if="selectedFilter === 2" class="bkt-monitoring-date text-left">
@@ -69,90 +79,7 @@
             </div>
 
             <div v-if="selectedFilter === 3" class="bkt-monitoring-region bkt-region-modal">
-                <div class="bkt-search position-relative bg-white bkt-bg-item-neutral">
-                    <input class="w-100 bkt-search__input" type="text" :placeholder="'Введите нужное слово или фразу'">
-                    <button class="bkt-button green bkt-search__button">
-                        <span class="d-none d-md-block">Найти</span>
-                        <bkt-icon class="d-block d-md-none" :name="'Search'"></bkt-icon>
-                    </button>
-                </div>
-                <div class="bkt-regions-tabs d-lg-block d-none" v-if="!loading && selectedRegion">
-                    <div class="bkt-form">
-                        <div class="col-5 p-0">
-                            <div class="bkt-regions-tabs__nav text-center">
-                                <div v-for="(group, index) in regionGroups" @click="selectedRegion = group"
-                                     :class="{'active bkt-bg-item-neutral': selectedRegion.regionGroup == group.regionGroup}"
-                                     class="bkt-regions-tabs__nav-item"
-                                >
-                                    {{ $t('region_groups.' + group.regionGroup) }}
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-7 p-0">
-                            <div class="bkt-regions-tabs__content bkt-bg-body"
-                                 :class="{
-                                        'bkt-rounded-left-top-none': regionGroups[0].regionGroup == selectedRegion.regionGroup,
-                                        'bkt-rounded-left-bottom-none': regionGroups[regionGroups.length-1].regionGroup == selectedRegion.regionGroup
-                                     }"
-                            >
-                                <div class="bkt-tag__wrapper" v-for="(item, index) in selectedRegion.regions"
-                                     :key="index">
-                                    <div class="bkt-tag w-100 text-left bkt-bg-item-rounded"
-                                         :class="{'bkt-bg-green bkt-text-white': result.findIndex(el => el === item)>=0}"
-                                    >
-                                        {{ $t('regions.' + item) }}
-                                    </div>
-                                    <div class="bkt-tag__icon" @click="toggleRegion(item)">
-                                        <bkt-icon name="Cancel" color="red"
-                                                  v-show="result.findIndex(data => data === item)>=0"
-                                        ></bkt-icon>
-                                        <bkt-icon name="Plus" color="green"
-                                                  v-show="result.findIndex(data => data === item)<0"
-                                        ></bkt-icon>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="d-lg-none bkt-wrapper-column bkt-gap-small" v-if="!loading  && selectedRegion">
-                    <bkt-collapse :id="'region-collapse-'+index" v-for="(group, index) in regionGroups" :key="index"
-                                  main_class="bkt-collapse_check"
-                                  collapse_button_class="bkt-bg-white"
-                    >
-                        <template #title>
-                            <div class="bkt-collapse__title-wrapper">
-                                <bkt-checkbox
-                                    :label="''"
-                                    :name="'bkt-region-group-checkbox-'+index"
-                                    :id="'bkt-region-group-checkbox-'+index"
-                                    v-model="group.status"
-                                    @input="selectAll(index)"
-                                    :indeterminate="isIndeterminate(index)"
-                                ></bkt-checkbox>
-                                <h5 class="bkt-regions-tabs__title" data-bs-toggle="collapse"
-                                    :data-bs-target="'#region-collapse-'+index">
-                                    {{ $t('region_groups.' + group.regionGroup) }}
-                                </h5>
-                            </div>
-                        </template>
-                        <template #collapse>
-                            <div class="bkt-gap-mini" v-for="(region,index) in group.regions">
-                                <div class="bkt-collapse__title-wrapper">
-                                    <bkt-checkbox :label="''"
-                                                  :name="'bkt-region-checkbox-'+index"
-                                                  :id="'bkt-region-checkbox-'+index"
-                                                  v-model="result"
-                                                  :val="region"
-                                    ></bkt-checkbox>
-                                    <h6 class="bkt-regions-tabs__subtitle">
-                                        {{ $t('regions.' + region) }}
-                                    </h6>
-                                </div>
-                            </div>
-                        </template>
-                    </bkt-collapse>
-                </div>
+                <bkt-regions-control v-model="result"></bkt-regions-control>
                 <div class="bkt-region-selected" v-if="result.length>0 && !loading">
                     <h5 class="bkt-region-selected__title text-left mb-2">
                         <span class="text-muted">выбранные регионы</span>
@@ -163,18 +90,16 @@
                             <span class="bkt-item-rounded__text mr-2">{{ $t('regions.' + item) }}</span>
                             <span class="bkt-tag__icon bkt-cursor-pointer" @click="toggleRegion(item)">
                                     <bkt-icon name="Cancel" color="red"></bkt-icon>
-                                </span>
+                            </span>
                         </div>
                     </div>
                 </div>
                 <div v-if="loading" class="d-flex w-100 justify-content-center my-5">
-                    <slot name="loading">
                         <div
                             style="color: #2953ff;border-width: 2px;"
                             class="spinner-border"
                             role="status"
                         ></div>
-                    </slot>
                 </div>
             </div>
 
@@ -344,26 +269,19 @@
                     </div>
                 </div>
             </div>
-
-            <bkt-color-folder/>
+            <bkt-color-pallet v-model="monitoring.color"></bkt-color-pallet>
         </template>
     </bkt-modal>
 </template>
 
 <script>
-//import ColorFolder from "../../components/ColorFolder";
-
-import Select from "../../components/Select";
-import RegionModal from "../Main/RegionModal";
-import BktCollapse from '../../components/Collapse.vue';
-
+import BktRegionsControl from "../../components/RegionsControl";
+import BktColorPallet from "../../components/ColorPallet";
 export default {
     name: "AddNewMonitoring",
     components: {
-        RegionModal,
-        'bkt-select': Select,
-        'bkt-collapse': BktCollapse
-        //  'bkt-color-folder': ColorFolder
+        BktRegionsControl,
+        BktColorPallet
     },
     data() {
         return {
@@ -379,6 +297,13 @@ export default {
             selectedFilter: 1,
             regionGroups: [], selectedRegion: null, result: [], result_categories: [], items_categories: [],
             selectedCategory: '',
+            monitoring: {
+                name: '',
+                // pathId: 0,
+                color:'yellow',
+                notificationTime: "hourly",
+                filters: {}
+            }
         }
     },
     created() {

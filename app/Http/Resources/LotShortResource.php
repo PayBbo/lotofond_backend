@@ -14,8 +14,10 @@ class LotShortResource extends JsonResource
      */
     public function toArray($request)
     {
+
         return [
             'id' => $this->id,
+            'trade' => new TradeResource($this->auction),
             'lotNumber' => $this->number,
             'photos' => $this->photos,
             'description' => stripslashes(preg_replace('/[\x00-\x1F\x7F]/u', ' ', $this->description)),

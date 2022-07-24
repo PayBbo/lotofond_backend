@@ -1,5 +1,205 @@
 (self["webpackChunk"] = self["webpackChunk"] || []).push([["auctions"],{
 
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/CategoriesControl.vue?vue&type=script&lang=js&":
+/*!************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/CategoriesControl.vue?vue&type=script&lang=js& ***!
+  \************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
+
+function _regeneratorRuntime() { "use strict"; /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/facebook/regenerator/blob/main/LICENSE */ _regeneratorRuntime = function _regeneratorRuntime() { return exports; }; var exports = {}, Op = Object.prototype, hasOwn = Op.hasOwnProperty, $Symbol = "function" == typeof Symbol ? Symbol : {}, iteratorSymbol = $Symbol.iterator || "@@iterator", asyncIteratorSymbol = $Symbol.asyncIterator || "@@asyncIterator", toStringTagSymbol = $Symbol.toStringTag || "@@toStringTag"; function define(obj, key, value) { return Object.defineProperty(obj, key, { value: value, enumerable: !0, configurable: !0, writable: !0 }), obj[key]; } try { define({}, ""); } catch (err) { define = function define(obj, key, value) { return obj[key] = value; }; } function wrap(innerFn, outerFn, self, tryLocsList) { var protoGenerator = outerFn && outerFn.prototype instanceof Generator ? outerFn : Generator, generator = Object.create(protoGenerator.prototype), context = new Context(tryLocsList || []); return generator._invoke = function (innerFn, self, context) { var state = "suspendedStart"; return function (method, arg) { if ("executing" === state) throw new Error("Generator is already running"); if ("completed" === state) { if ("throw" === method) throw arg; return doneResult(); } for (context.method = method, context.arg = arg;;) { var delegate = context.delegate; if (delegate) { var delegateResult = maybeInvokeDelegate(delegate, context); if (delegateResult) { if (delegateResult === ContinueSentinel) continue; return delegateResult; } } if ("next" === context.method) context.sent = context._sent = context.arg;else if ("throw" === context.method) { if ("suspendedStart" === state) throw state = "completed", context.arg; context.dispatchException(context.arg); } else "return" === context.method && context.abrupt("return", context.arg); state = "executing"; var record = tryCatch(innerFn, self, context); if ("normal" === record.type) { if (state = context.done ? "completed" : "suspendedYield", record.arg === ContinueSentinel) continue; return { value: record.arg, done: context.done }; } "throw" === record.type && (state = "completed", context.method = "throw", context.arg = record.arg); } }; }(innerFn, self, context), generator; } function tryCatch(fn, obj, arg) { try { return { type: "normal", arg: fn.call(obj, arg) }; } catch (err) { return { type: "throw", arg: err }; } } exports.wrap = wrap; var ContinueSentinel = {}; function Generator() {} function GeneratorFunction() {} function GeneratorFunctionPrototype() {} var IteratorPrototype = {}; define(IteratorPrototype, iteratorSymbol, function () { return this; }); var getProto = Object.getPrototypeOf, NativeIteratorPrototype = getProto && getProto(getProto(values([]))); NativeIteratorPrototype && NativeIteratorPrototype !== Op && hasOwn.call(NativeIteratorPrototype, iteratorSymbol) && (IteratorPrototype = NativeIteratorPrototype); var Gp = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(IteratorPrototype); function defineIteratorMethods(prototype) { ["next", "throw", "return"].forEach(function (method) { define(prototype, method, function (arg) { return this._invoke(method, arg); }); }); } function AsyncIterator(generator, PromiseImpl) { function invoke(method, arg, resolve, reject) { var record = tryCatch(generator[method], generator, arg); if ("throw" !== record.type) { var result = record.arg, value = result.value; return value && "object" == _typeof(value) && hasOwn.call(value, "__await") ? PromiseImpl.resolve(value.__await).then(function (value) { invoke("next", value, resolve, reject); }, function (err) { invoke("throw", err, resolve, reject); }) : PromiseImpl.resolve(value).then(function (unwrapped) { result.value = unwrapped, resolve(result); }, function (error) { return invoke("throw", error, resolve, reject); }); } reject(record.arg); } var previousPromise; this._invoke = function (method, arg) { function callInvokeWithMethodAndArg() { return new PromiseImpl(function (resolve, reject) { invoke(method, arg, resolve, reject); }); } return previousPromise = previousPromise ? previousPromise.then(callInvokeWithMethodAndArg, callInvokeWithMethodAndArg) : callInvokeWithMethodAndArg(); }; } function maybeInvokeDelegate(delegate, context) { var method = delegate.iterator[context.method]; if (undefined === method) { if (context.delegate = null, "throw" === context.method) { if (delegate.iterator["return"] && (context.method = "return", context.arg = undefined, maybeInvokeDelegate(delegate, context), "throw" === context.method)) return ContinueSentinel; context.method = "throw", context.arg = new TypeError("The iterator does not provide a 'throw' method"); } return ContinueSentinel; } var record = tryCatch(method, delegate.iterator, context.arg); if ("throw" === record.type) return context.method = "throw", context.arg = record.arg, context.delegate = null, ContinueSentinel; var info = record.arg; return info ? info.done ? (context[delegate.resultName] = info.value, context.next = delegate.nextLoc, "return" !== context.method && (context.method = "next", context.arg = undefined), context.delegate = null, ContinueSentinel) : info : (context.method = "throw", context.arg = new TypeError("iterator result is not an object"), context.delegate = null, ContinueSentinel); } function pushTryEntry(locs) { var entry = { tryLoc: locs[0] }; 1 in locs && (entry.catchLoc = locs[1]), 2 in locs && (entry.finallyLoc = locs[2], entry.afterLoc = locs[3]), this.tryEntries.push(entry); } function resetTryEntry(entry) { var record = entry.completion || {}; record.type = "normal", delete record.arg, entry.completion = record; } function Context(tryLocsList) { this.tryEntries = [{ tryLoc: "root" }], tryLocsList.forEach(pushTryEntry, this), this.reset(!0); } function values(iterable) { if (iterable) { var iteratorMethod = iterable[iteratorSymbol]; if (iteratorMethod) return iteratorMethod.call(iterable); if ("function" == typeof iterable.next) return iterable; if (!isNaN(iterable.length)) { var i = -1, next = function next() { for (; ++i < iterable.length;) { if (hasOwn.call(iterable, i)) return next.value = iterable[i], next.done = !1, next; } return next.value = undefined, next.done = !0, next; }; return next.next = next; } } return { next: doneResult }; } function doneResult() { return { value: undefined, done: !0 }; } return GeneratorFunction.prototype = GeneratorFunctionPrototype, define(Gp, "constructor", GeneratorFunctionPrototype), define(GeneratorFunctionPrototype, "constructor", GeneratorFunction), GeneratorFunction.displayName = define(GeneratorFunctionPrototype, toStringTagSymbol, "GeneratorFunction"), exports.isGeneratorFunction = function (genFun) { var ctor = "function" == typeof genFun && genFun.constructor; return !!ctor && (ctor === GeneratorFunction || "GeneratorFunction" === (ctor.displayName || ctor.name)); }, exports.mark = function (genFun) { return Object.setPrototypeOf ? Object.setPrototypeOf(genFun, GeneratorFunctionPrototype) : (genFun.__proto__ = GeneratorFunctionPrototype, define(genFun, toStringTagSymbol, "GeneratorFunction")), genFun.prototype = Object.create(Gp), genFun; }, exports.awrap = function (arg) { return { __await: arg }; }, defineIteratorMethods(AsyncIterator.prototype), define(AsyncIterator.prototype, asyncIteratorSymbol, function () { return this; }), exports.AsyncIterator = AsyncIterator, exports.async = function (innerFn, outerFn, self, tryLocsList, PromiseImpl) { void 0 === PromiseImpl && (PromiseImpl = Promise); var iter = new AsyncIterator(wrap(innerFn, outerFn, self, tryLocsList), PromiseImpl); return exports.isGeneratorFunction(outerFn) ? iter : iter.next().then(function (result) { return result.done ? result.value : iter.next(); }); }, defineIteratorMethods(Gp), define(Gp, toStringTagSymbol, "Generator"), define(Gp, iteratorSymbol, function () { return this; }), define(Gp, "toString", function () { return "[object Generator]"; }), exports.keys = function (object) { var keys = []; for (var key in object) { keys.push(key); } return keys.reverse(), function next() { for (; keys.length;) { var key = keys.pop(); if (key in object) return next.value = key, next.done = !1, next; } return next.done = !0, next; }; }, exports.values = values, Context.prototype = { constructor: Context, reset: function reset(skipTempReset) { if (this.prev = 0, this.next = 0, this.sent = this._sent = undefined, this.done = !1, this.delegate = null, this.method = "next", this.arg = undefined, this.tryEntries.forEach(resetTryEntry), !skipTempReset) for (var name in this) { "t" === name.charAt(0) && hasOwn.call(this, name) && !isNaN(+name.slice(1)) && (this[name] = undefined); } }, stop: function stop() { this.done = !0; var rootRecord = this.tryEntries[0].completion; if ("throw" === rootRecord.type) throw rootRecord.arg; return this.rval; }, dispatchException: function dispatchException(exception) { if (this.done) throw exception; var context = this; function handle(loc, caught) { return record.type = "throw", record.arg = exception, context.next = loc, caught && (context.method = "next", context.arg = undefined), !!caught; } for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i], record = entry.completion; if ("root" === entry.tryLoc) return handle("end"); if (entry.tryLoc <= this.prev) { var hasCatch = hasOwn.call(entry, "catchLoc"), hasFinally = hasOwn.call(entry, "finallyLoc"); if (hasCatch && hasFinally) { if (this.prev < entry.catchLoc) return handle(entry.catchLoc, !0); if (this.prev < entry.finallyLoc) return handle(entry.finallyLoc); } else if (hasCatch) { if (this.prev < entry.catchLoc) return handle(entry.catchLoc, !0); } else { if (!hasFinally) throw new Error("try statement without catch or finally"); if (this.prev < entry.finallyLoc) return handle(entry.finallyLoc); } } } }, abrupt: function abrupt(type, arg) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.tryLoc <= this.prev && hasOwn.call(entry, "finallyLoc") && this.prev < entry.finallyLoc) { var finallyEntry = entry; break; } } finallyEntry && ("break" === type || "continue" === type) && finallyEntry.tryLoc <= arg && arg <= finallyEntry.finallyLoc && (finallyEntry = null); var record = finallyEntry ? finallyEntry.completion : {}; return record.type = type, record.arg = arg, finallyEntry ? (this.method = "next", this.next = finallyEntry.finallyLoc, ContinueSentinel) : this.complete(record); }, complete: function complete(record, afterLoc) { if ("throw" === record.type) throw record.arg; return "break" === record.type || "continue" === record.type ? this.next = record.arg : "return" === record.type ? (this.rval = this.arg = record.arg, this.method = "return", this.next = "end") : "normal" === record.type && afterLoc && (this.next = afterLoc), ContinueSentinel; }, finish: function finish(finallyLoc) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.finallyLoc === finallyLoc) return this.complete(entry.completion, entry.afterLoc), resetTryEntry(entry), ContinueSentinel; } }, "catch": function _catch(tryLoc) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.tryLoc === tryLoc) { var record = entry.completion; if ("throw" === record.type) { var thrown = record.arg; resetTryEntry(entry); } return thrown; } } throw new Error("illegal catch attempt"); }, delegateYield: function delegateYield(iterable, resultName, nextLoc) { return this.delegate = { iterator: values(iterable), resultName: resultName, nextLoc: nextLoc }, "next" === this.method && (this.arg = undefined), ContinueSentinel; } }, exports; }
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  name: "CategoriesControl",
+  props: {
+    value: {
+      type: null,
+      "default": false
+    }
+  },
+  data: function data() {
+    return {
+      items: []
+    };
+  },
+  created: function created() {
+    this.getCategories();
+  },
+  computed: {
+    model: {
+      get: function get() {
+        return this.value;
+      },
+      set: function set(value) {
+        this.$emit("input", value);
+      }
+    },
+    categories: function categories() {
+      return this.$store.getters.categories.sort(function (one, other) {
+        return other.subcategories.length - one.subcategories.length;
+      });
+    },
+    loading: function loading() {
+      return this.$store.getters.categories_loading;
+    }
+  },
+  methods: {
+    include: function include(category) {
+      return this.model.indexOf(category) >= 0;
+    },
+    toggleCategory: function toggleCategory(subcategory) {
+      var item_index = this.model.findIndex(function (el) {
+        return el == subcategory;
+      });
+
+      if (item_index < 0) {
+        this.model.push(subcategory);
+      } else {
+        this.model.splice(item_index, 1);
+      }
+    },
+    selectAll: function selectAll(index) {
+      var _this = this;
+
+      var tmp = this.items[index].subcategories.map(function (item) {
+        return item.key;
+      });
+
+      if (this.items[index].status) {
+        tmp.forEach(function (item) {
+          var item_index = _this.model.findIndex(function (el) {
+            return el == item;
+          });
+
+          if (item_index < 0) {
+            _this.model.push(item);
+          }
+        });
+      } else {
+        tmp.forEach(function (it) {
+          var item_index = _this.model.findIndex(function (el) {
+            return el == it;
+          });
+
+          if (item_index >= 0) {
+            _this.model.splice(item_index, 1);
+          }
+        });
+      }
+    },
+    allChecked: function allChecked(arr, target) {
+      return target.every(function (v) {
+        return arr.includes(v);
+      });
+    },
+    isIndeterminate: function isIndeterminate(index) {
+      var _this2 = this;
+
+      var all_checked = this.allChecked(this.model, this.items[index].subcategories.map(function (item) {
+        return item.key;
+      }));
+      var some_checked = this.items[index].subcategories.some(function (v) {
+        return _this2.model.includes(v.key);
+      });
+      this.items[index].status = !!all_checked;
+      return !all_checked && some_checked;
+    },
+    getCategories: function getCategories() {
+      var _this3 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
+        return _regeneratorRuntime().wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                if (!(_this3.categories.length === 0)) {
+                  _context.next = 5;
+                  break;
+                }
+
+                _context.next = 3;
+                return _this3.$store.dispatch('getCategories').then(function (resp) {
+                  _this3.items = JSON.parse(JSON.stringify(_this3.categories));
+                });
+
+              case 3:
+                _context.next = 6;
+                break;
+
+              case 5:
+                _this3.items = JSON.parse(JSON.stringify(_this3.categories));
+
+              case 6:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee);
+      }))();
+    }
+  }
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/pages/Calendar.vue?vue&type=script&lang=js&":
 /*!**********************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/pages/Calendar.vue?vue&type=script&lang=js& ***!
@@ -14,6 +214,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_Checkbox__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../components/Checkbox */ "./resources/js/components/Checkbox.vue");
 /* harmony import */ var v_calendar__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! v-calendar */ "./node_modules/v-calendar/lib/v-calendar.umd.min.js");
 /* harmony import */ var v_calendar__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(v_calendar__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _Calendar_AddTaskModal__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Calendar/AddTaskModal */ "./resources/js/pages/Calendar/AddTaskModal.vue");
 //
 //
 //
@@ -66,11 +267,25 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "Calendar",
   components: {
+    AddTaskModal: _Calendar_AddTaskModal__WEBPACK_IMPORTED_MODULE_2__["default"],
     'bkt-checkbox': _components_Checkbox__WEBPACK_IMPORTED_MODULE_0__["default"],
     Calendar: (v_calendar__WEBPACK_IMPORTED_MODULE_1___default())
   },
@@ -82,119 +297,148 @@ __webpack_require__.r(__webpack_exports__);
       attr: [{
         key: 'today',
         highlight: {
-          color: 'blue',
           fillMode: 'none'
         },
-        dates: date,
-        "class": 'bkt-border-rounded'
+        dates: date
       }, {
         key: 2,
         highlight: {
-          color: 'red',
+          "class": 'bkt-bg-red',
           fillMode: 'solid'
         },
-        dates: new Date(year, month, 5)
+        dates: new Date(year, month, 5),
+        customData: {
+          title: 'окончание приема заявок',
+          "class": 'bkt-bg-red text-white vc-task'
+        },
+        popover: {
+          label: 'Lunch with mom.',
+          visibility: 'hover',
+          hideIndicator: true,
+          slot: 'show-notification',
+          isInteractive: true
+        }
       }, {
         key: 3,
         highlight: {
-          color: 'green',
+          "class": 'bkt-bg-green',
           fillMode: 'solid'
         },
-        dates: new Date(year, month, 14)
+        dates: new Date(year, month, 14),
+        customData: {
+          title: 'Take Noah to basketball practice',
+          "class": 'bkt-bg-green text-white vc-task'
+        }
       }, {
         key: 4,
         highlight: {
-          color: 'green',
+          "class": 'bkt-bg-green',
           fillMode: 'solid'
         },
-        dates: new Date(year, month, 15)
+        dates: new Date(year, month, 15),
+        customData: {
+          title: 'Take Noah to basketball practice',
+          "class": 'bkt-bg-green text-white vc-task'
+        }
       }, {
         key: 5,
         highlight: {
-          color: 'red',
+          "class": 'bkt-bg-red',
           fillMode: 'solid'
         },
-        dates: new Date(year, month, 15)
+        dates: new Date(year, month, 15),
+        customData: {
+          title: 'Какой-то длинный текст',
+          "class": 'bkt-bg-red text-white vc-task'
+        }
       }, {
         key: 5,
         highlight: {
-          color: 'blue',
-          fillMode: 'solid'
+          "class": 'bkt-bg-blue'
         },
         dates: new Date(year, month, 28)
+        /*customData: {
+            title: 'Take Noah to basketball practice',
+            class: 'bkt-bg-blue text-white vc-task w-75',
+        },*/
+
       }],
       masks: {
         weekdays: 'WWW'
-      },
-      attributes: [{
-        key: 1,
-        customData: {
-          title: 'Lunch with mom.',
-          "class": 'bg-red-600 text-white'
-        },
-        dates: new Date(year, month, 1)
-      }, {
-        key: 2,
-        customData: {
-          title: 'Take Noah to basketball practice',
-          "class": 'bg-blue-500 text-white'
-        },
-        dates: new Date(year, month, 2)
-      }, {
-        key: 3,
-        customData: {
-          title: "Noah's basketball game.",
-          "class": 'bg-blue-500 text-white'
-        },
-        dates: new Date(year, month, 5)
-      }, {
-        key: 4,
-        customData: {
-          title: 'Take car to the shop',
-          "class": 'bg-indigo-500 text-white'
-        },
-        dates: new Date(year, month, 5)
-      }, {
-        key: 4,
-        customData: {
-          title: 'Meeting with new client.',
-          "class": 'bg-teal-500 text-white'
-        },
-        dates: new Date(year, month, 7)
-      }, {
-        key: 5,
-        customData: {
-          title: "Mia's gymnastics practice.",
-          "class": 'bg-pink-500 text-white'
-        },
-        dates: new Date(year, month, 11)
-      }, {
-        key: 6,
-        customData: {
-          title: 'Cookout with friends.',
-          "class": 'bg-orange-500 text-white'
-        },
-        dates: {
-          months: 5,
-          ordinalWeekdays: {
-            2: 1
-          }
-        }
-      }, {
-        key: 7,
-        customData: {
-          title: "Mia's gymnastics recital.",
-          "class": 'bg-pink-500 text-white'
-        },
-        dates: new Date(year, month, 22)
-      }, {
-        key: 8,
-        customData: {
-          title: 'Visit great grandma.',
-          "class": 'bg-red-600 text-white'
-        },
-        dates: new Date(year, month, 25)
-      }]
+      }
+    };
+  },
+  methods: {
+    getDayMonth: function getDayMonth(date) {
+      return date | moment("MMMM");
+    },
+    openModal: function openModal() {
+      this.$store.commit('openModal', '#addTaskModal');
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/pages/Calendar/AddTaskModal.vue?vue&type=script&lang=js&":
+/*!***********************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/pages/Calendar/AddTaskModal.vue?vue&type=script&lang=js& ***!
+  \***********************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  name: "AddTaskModal",
+  data: function data() {
+    return {
+      selBtn: 1
     };
   }
 });
@@ -213,6 +457,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var _components_Collapse_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../components/Collapse.vue */ "./resources/js/components/Collapse.vue");
+/* harmony import */ var _components_CategoriesControl__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../components/CategoriesControl */ "./resources/js/components/CategoriesControl.vue");
 function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 
 function _regeneratorRuntime() { "use strict"; /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/facebook/regenerator/blob/main/LICENSE */ _regeneratorRuntime = function _regeneratorRuntime() { return exports; }; var exports = {}, Op = Object.prototype, hasOwn = Op.hasOwnProperty, $Symbol = "function" == typeof Symbol ? Symbol : {}, iteratorSymbol = $Symbol.iterator || "@@iterator", asyncIteratorSymbol = $Symbol.asyncIterator || "@@asyncIterator", toStringTagSymbol = $Symbol.toStringTag || "@@toStringTag"; function define(obj, key, value) { return Object.defineProperty(obj, key, { value: value, enumerable: !0, configurable: !0, writable: !0 }), obj[key]; } try { define({}, ""); } catch (err) { define = function define(obj, key, value) { return obj[key] = value; }; } function wrap(innerFn, outerFn, self, tryLocsList) { var protoGenerator = outerFn && outerFn.prototype instanceof Generator ? outerFn : Generator, generator = Object.create(protoGenerator.prototype), context = new Context(tryLocsList || []); return generator._invoke = function (innerFn, self, context) { var state = "suspendedStart"; return function (method, arg) { if ("executing" === state) throw new Error("Generator is already running"); if ("completed" === state) { if ("throw" === method) throw arg; return doneResult(); } for (context.method = method, context.arg = arg;;) { var delegate = context.delegate; if (delegate) { var delegateResult = maybeInvokeDelegate(delegate, context); if (delegateResult) { if (delegateResult === ContinueSentinel) continue; return delegateResult; } } if ("next" === context.method) context.sent = context._sent = context.arg;else if ("throw" === context.method) { if ("suspendedStart" === state) throw state = "completed", context.arg; context.dispatchException(context.arg); } else "return" === context.method && context.abrupt("return", context.arg); state = "executing"; var record = tryCatch(innerFn, self, context); if ("normal" === record.type) { if (state = context.done ? "completed" : "suspendedYield", record.arg === ContinueSentinel) continue; return { value: record.arg, done: context.done }; } "throw" === record.type && (state = "completed", context.method = "throw", context.arg = record.arg); } }; }(innerFn, self, context), generator; } function tryCatch(fn, obj, arg) { try { return { type: "normal", arg: fn.call(obj, arg) }; } catch (err) { return { type: "throw", arg: err }; } } exports.wrap = wrap; var ContinueSentinel = {}; function Generator() {} function GeneratorFunction() {} function GeneratorFunctionPrototype() {} var IteratorPrototype = {}; define(IteratorPrototype, iteratorSymbol, function () { return this; }); var getProto = Object.getPrototypeOf, NativeIteratorPrototype = getProto && getProto(getProto(values([]))); NativeIteratorPrototype && NativeIteratorPrototype !== Op && hasOwn.call(NativeIteratorPrototype, iteratorSymbol) && (IteratorPrototype = NativeIteratorPrototype); var Gp = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(IteratorPrototype); function defineIteratorMethods(prototype) { ["next", "throw", "return"].forEach(function (method) { define(prototype, method, function (arg) { return this._invoke(method, arg); }); }); } function AsyncIterator(generator, PromiseImpl) { function invoke(method, arg, resolve, reject) { var record = tryCatch(generator[method], generator, arg); if ("throw" !== record.type) { var result = record.arg, value = result.value; return value && "object" == _typeof(value) && hasOwn.call(value, "__await") ? PromiseImpl.resolve(value.__await).then(function (value) { invoke("next", value, resolve, reject); }, function (err) { invoke("throw", err, resolve, reject); }) : PromiseImpl.resolve(value).then(function (unwrapped) { result.value = unwrapped, resolve(result); }, function (error) { return invoke("throw", error, resolve, reject); }); } reject(record.arg); } var previousPromise; this._invoke = function (method, arg) { function callInvokeWithMethodAndArg() { return new PromiseImpl(function (resolve, reject) { invoke(method, arg, resolve, reject); }); } return previousPromise = previousPromise ? previousPromise.then(callInvokeWithMethodAndArg, callInvokeWithMethodAndArg) : callInvokeWithMethodAndArg(); }; } function maybeInvokeDelegate(delegate, context) { var method = delegate.iterator[context.method]; if (undefined === method) { if (context.delegate = null, "throw" === context.method) { if (delegate.iterator["return"] && (context.method = "return", context.arg = undefined, maybeInvokeDelegate(delegate, context), "throw" === context.method)) return ContinueSentinel; context.method = "throw", context.arg = new TypeError("The iterator does not provide a 'throw' method"); } return ContinueSentinel; } var record = tryCatch(method, delegate.iterator, context.arg); if ("throw" === record.type) return context.method = "throw", context.arg = record.arg, context.delegate = null, ContinueSentinel; var info = record.arg; return info ? info.done ? (context[delegate.resultName] = info.value, context.next = delegate.nextLoc, "return" !== context.method && (context.method = "next", context.arg = undefined), context.delegate = null, ContinueSentinel) : info : (context.method = "throw", context.arg = new TypeError("iterator result is not an object"), context.delegate = null, ContinueSentinel); } function pushTryEntry(locs) { var entry = { tryLoc: locs[0] }; 1 in locs && (entry.catchLoc = locs[1]), 2 in locs && (entry.finallyLoc = locs[2], entry.afterLoc = locs[3]), this.tryEntries.push(entry); } function resetTryEntry(entry) { var record = entry.completion || {}; record.type = "normal", delete record.arg, entry.completion = record; } function Context(tryLocsList) { this.tryEntries = [{ tryLoc: "root" }], tryLocsList.forEach(pushTryEntry, this), this.reset(!0); } function values(iterable) { if (iterable) { var iteratorMethod = iterable[iteratorSymbol]; if (iteratorMethod) return iteratorMethod.call(iterable); if ("function" == typeof iterable.next) return iterable; if (!isNaN(iterable.length)) { var i = -1, next = function next() { for (; ++i < iterable.length;) { if (hasOwn.call(iterable, i)) return next.value = iterable[i], next.done = !1, next; } return next.value = undefined, next.done = !0, next; }; return next.next = next; } } return { next: doneResult }; } function doneResult() { return { value: undefined, done: !0 }; } return GeneratorFunction.prototype = GeneratorFunctionPrototype, define(Gp, "constructor", GeneratorFunctionPrototype), define(GeneratorFunctionPrototype, "constructor", GeneratorFunction), GeneratorFunction.displayName = define(GeneratorFunctionPrototype, toStringTagSymbol, "GeneratorFunction"), exports.isGeneratorFunction = function (genFun) { var ctor = "function" == typeof genFun && genFun.constructor; return !!ctor && (ctor === GeneratorFunction || "GeneratorFunction" === (ctor.displayName || ctor.name)); }, exports.mark = function (genFun) { return Object.setPrototypeOf ? Object.setPrototypeOf(genFun, GeneratorFunctionPrototype) : (genFun.__proto__ = GeneratorFunctionPrototype, define(genFun, toStringTagSymbol, "GeneratorFunction")), genFun.prototype = Object.create(Gp), genFun; }, exports.awrap = function (arg) { return { __await: arg }; }, defineIteratorMethods(AsyncIterator.prototype), define(AsyncIterator.prototype, asyncIteratorSymbol, function () { return this; }), exports.AsyncIterator = AsyncIterator, exports.async = function (innerFn, outerFn, self, tryLocsList, PromiseImpl) { void 0 === PromiseImpl && (PromiseImpl = Promise); var iter = new AsyncIterator(wrap(innerFn, outerFn, self, tryLocsList), PromiseImpl); return exports.isGeneratorFunction(outerFn) ? iter : iter.next().then(function (result) { return result.done ? result.value : iter.next(); }); }, defineIteratorMethods(Gp), define(Gp, toStringTagSymbol, "Generator"), define(Gp, iteratorSymbol, function () { return this; }), define(Gp, "toString", function () { return "[object Generator]"; }), exports.keys = function (object) { var keys = []; for (var key in object) { keys.push(key); } return keys.reverse(), function next() { for (; keys.length;) { var key = keys.pop(); if (key in object) return next.value = key, next.done = !1, next; } return next.done = !0, next; }; }, exports.values = values, Context.prototype = { constructor: Context, reset: function reset(skipTempReset) { if (this.prev = 0, this.next = 0, this.sent = this._sent = undefined, this.done = !1, this.delegate = null, this.method = "next", this.arg = undefined, this.tryEntries.forEach(resetTryEntry), !skipTempReset) for (var name in this) { "t" === name.charAt(0) && hasOwn.call(this, name) && !isNaN(+name.slice(1)) && (this[name] = undefined); } }, stop: function stop() { this.done = !0; var rootRecord = this.tryEntries[0].completion; if ("throw" === rootRecord.type) throw rootRecord.arg; return this.rval; }, dispatchException: function dispatchException(exception) { if (this.done) throw exception; var context = this; function handle(loc, caught) { return record.type = "throw", record.arg = exception, context.next = loc, caught && (context.method = "next", context.arg = undefined), !!caught; } for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i], record = entry.completion; if ("root" === entry.tryLoc) return handle("end"); if (entry.tryLoc <= this.prev) { var hasCatch = hasOwn.call(entry, "catchLoc"), hasFinally = hasOwn.call(entry, "finallyLoc"); if (hasCatch && hasFinally) { if (this.prev < entry.catchLoc) return handle(entry.catchLoc, !0); if (this.prev < entry.finallyLoc) return handle(entry.finallyLoc); } else if (hasCatch) { if (this.prev < entry.catchLoc) return handle(entry.catchLoc, !0); } else { if (!hasFinally) throw new Error("try statement without catch or finally"); if (this.prev < entry.finallyLoc) return handle(entry.finallyLoc); } } } }, abrupt: function abrupt(type, arg) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.tryLoc <= this.prev && hasOwn.call(entry, "finallyLoc") && this.prev < entry.finallyLoc) { var finallyEntry = entry; break; } } finallyEntry && ("break" === type || "continue" === type) && finallyEntry.tryLoc <= arg && arg <= finallyEntry.finallyLoc && (finallyEntry = null); var record = finallyEntry ? finallyEntry.completion : {}; return record.type = type, record.arg = arg, finallyEntry ? (this.method = "next", this.next = finallyEntry.finallyLoc, ContinueSentinel) : this.complete(record); }, complete: function complete(record, afterLoc) { if ("throw" === record.type) throw record.arg; return "break" === record.type || "continue" === record.type ? this.next = record.arg : "return" === record.type ? (this.rval = this.arg = record.arg, this.method = "return", this.next = "end") : "normal" === record.type && afterLoc && (this.next = afterLoc), ContinueSentinel; }, finish: function finish(finallyLoc) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.finallyLoc === finallyLoc) return this.complete(entry.completion, entry.afterLoc), resetTryEntry(entry), ContinueSentinel; } }, "catch": function _catch(tryLoc) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.tryLoc === tryLoc) { var record = entry.completion; if ("throw" === record.type) { var thrown = record.arg; resetTryEntry(entry); } return thrown; } } throw new Error("illegal catch attempt"); }, delegateYield: function delegateYield(iterable, resultName, nextLoc) { return this.delegate = { iterator: values(iterable), resultName: resultName, nextLoc: nextLoc }, "next" === this.method && (this.arg = undefined), ContinueSentinel; } }, exports; }
@@ -458,53 +703,23 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
+
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "Category",
   components: {
-    BktCollapse: _components_Collapse_vue__WEBPACK_IMPORTED_MODULE_0__["default"]
+    BktCollapse: _components_Collapse_vue__WEBPACK_IMPORTED_MODULE_0__["default"],
+    BktCategoriesControl: _components_CategoriesControl__WEBPACK_IMPORTED_MODULE_1__["default"]
+  },
+  props: {
+    filter: {
+      type: String,
+      "default": 'filters'
+    },
+    method_name: {
+      type: String,
+      "default": 'getFilteredTrades'
+    }
   },
   data: function data() {
     return {
@@ -514,14 +729,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   },
   created: function created() {
     this.getCategories();
-    this.result = JSON.parse(JSON.stringify(this.$store.getters.filters_categories));
+    this.result = JSON.parse(JSON.stringify(this.filters_categories));
   },
   computed: {
     filters_categories: function filters_categories() {
-      return this.$store.getters.filters_categories;
+      return this.$store.getters[this.filter].categories;
     },
     filters: function filters() {
-      return this.$store.getters.filters;
+      return this.$store.getters[this.filter];
     },
     categories: function categories() {
       return this.$store.getters.categories.sort(function (one, other) {
@@ -604,24 +819,34 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       return !all_checked && some_checked;
     },
     saveFilters: function saveFilters() {
-      this.$store.commit('saveFiltersProperty', {
+      this.$store.dispatch('saveDataProperty', {
+        module_key: 'filters',
+        state_key: this.filter,
         key: 'categories',
         value: this.result
-      });
+      }, {
+        root: true
+      }); // this.$store.commit('saveFiltersProperty', {key: 'categories', value: this.result});
+
       this.$store.commit('closeModal', '#categoryModal');
-      this.$store.dispatch('getFilteredTrades', {
+      this.$store.dispatch(this.method_name, {
         page: 1,
         filters: this.filters
       });
     },
     clearFilters: function clearFilters() {
       this.result = [];
-      this.$store.commit('saveFiltersProperty', {
+      this.$store.dispatch('saveDataProperty', {
+        module_key: 'filters',
+        state_key: this.filter,
         key: 'categories',
         value: []
-      });
+      }, {
+        root: true
+      }); // this.$store.commit('saveFiltersProperty', {key: 'categories', value: []});
+
       this.$store.commit('closeModal', '#categoryModal');
-      this.$store.dispatch('getFilteredTrades', {
+      this.$store.dispatch(this.method_name, {
         page: 1,
         filters: this.filters
       });
@@ -2027,6 +2252,17 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -2063,38 +2299,17 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         title: "процент снижения, %",
         minPrice: '',
         maxPrice: ''
-      }]
+      }],
+      selected_regions: []
     };
   },
   mounted: function mounted() {
     this.getData();
+    this.getRegions();
   },
   computed: {
     filters: function filters() {
-      return this.$store.getters.filters;
-    },
-    filters_other: {
-      get: function get() {
-        return this.$store.getters.filters_other;
-      },
-      set: function set(value) {
-        this.$store.commit('saveFilterProperty', {
-          filter: 'extraOptions',
-          key: 'other',
-          value: value
-        });
-      }
-    },
-    filters_sort: {
-      get: function get() {
-        return this.$store.getters.filters_sort;
-      },
-      set: function set(value) {
-        this.$store.commit('saveFiltersProperty', {
-          key: 'sort',
-          value: value
-        });
-      }
+      return this.$store.getters.nearest_filters;
     },
     items: function items() {
       return this.$store.getters.nearest_trades;
@@ -2104,6 +2319,22 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     },
     loading: function loading() {
       return this.$store.getters.nearest_trades_loading;
+    },
+    current_region: {
+      get: function get() {
+        return null;
+      },
+      set: function set(newValue) {
+        this.selected_regions.push(newValue);
+      }
+    },
+    region_options: function region_options() {
+      return [].concat.apply([], this.$store.getters.regions.map(function (item) {
+        return item.regions;
+      }));
+    },
+    regions: function regions() {
+      return this.$store.getters.regions;
     }
   },
   methods: {
@@ -2132,13 +2363,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, _callee);
       }))();
     },
-    toggleDirection: function toggleDirection() {
-      if (this.filters_sort.direction == 'asc') {
-        this.filters_sort.direction = 'desc';
-      } else {
-        this.filters_sort.direction = 'asc';
-      }
-    },
     openCategoryModal: function openCategoryModal() {
       this.$store.commit('openModal', '#categoryModal');
     },
@@ -2156,6 +2380,35 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     },
     openOptionsModal: function openOptionsModal() {
       this.$store.commit('openModal', '#optionsModal');
+    },
+    getRegions: function getRegions() {
+      var _this2 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2() {
+        return _regeneratorRuntime().wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                console.log('getRegions', _this2.regions.length);
+
+                if (!(_this2.regions.length === 0)) {
+                  _context2.next = 5;
+                  break;
+                }
+
+                console.log('getRegions1', _this2.regions.length);
+                _context2.next = 5;
+                return _this2.$store.dispatch('getRegions').then(function (resp) {
+                  console.log('getRegions2', _this2.regions.length);
+                });
+
+              case 5:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2);
+      }))();
     }
   }
 });
@@ -2195,6 +2448,45 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
  */
 var r="undefined"!==typeof window&&"undefined"!==typeof document&&"undefined"!==typeof navigator,o=function(){for(var e=["Edge","Trident","Firefox"],t=0;t<e.length;t+=1)if(r&&navigator.userAgent.indexOf(e[t])>=0)return 1;return 0}();function n(e){var t=!1;return function(){t||(t=!0,window.Promise.resolve().then((function(){t=!1,e()})))}}function c(e){var t=!1;return function(){t||(t=!0,setTimeout((function(){t=!1,e()}),o))}}var i=r&&window.Promise,a=i?n:c;function s(e){var t={};return e&&"[object Function]"===t.toString.call(e)}function d(e,t){if(1!==e.nodeType)return[];var r=e.ownerDocument.defaultView,o=r.getComputedStyle(e,null);return t?o[t]:o}function u(e){return"HTML"===e.nodeName?e:e.parentNode||e.host}function l(e){if(!e)return document.body;switch(e.nodeName){case"HTML":case"BODY":return e.ownerDocument.body;case"#document":return e.body}var t=d(e),r=t.overflow,o=t.overflowX,n=t.overflowY;return/(auto|scroll|overlay)/.test(r+n+o)?e:l(u(e))}function f(e){return e&&e.referenceNode?e.referenceNode:e}var v=r&&!(!window.MSInputMethodContext||!document.documentMode),b=r&&/MSIE 10/.test(navigator.userAgent);function h(e){return 11===e?v:10===e?b:v||b}function p(e){if(!e)return document.documentElement;var t=h(10)?document.body:null,r=e.offsetParent||null;while(r===t&&e.nextElementSibling)r=(e=e.nextElementSibling).offsetParent;var o=r&&r.nodeName;return o&&"BODY"!==o&&"HTML"!==o?-1!==["TH","TD","TABLE"].indexOf(r.nodeName)&&"static"===d(r,"position")?p(r):r:e?e.ownerDocument.documentElement:document.documentElement}function g(e){var t=e.nodeName;return"BODY"!==t&&("HTML"===t||p(e.firstElementChild)===e)}function m(e){return null!==e.parentNode?m(e.parentNode):e}function y(e,t){if(!e||!e.nodeType||!t||!t.nodeType)return document.documentElement;var r=e.compareDocumentPosition(t)&Node.DOCUMENT_POSITION_FOLLOWING,o=r?e:t,n=r?t:e,c=document.createRange();c.setStart(o,0),c.setEnd(n,0);var i=c.commonAncestorContainer;if(e!==i&&t!==i||o.contains(n))return g(i)?i:p(i);var a=m(e);return a.host?y(a.host,t):y(e,m(t).host)}function x(e){var t=arguments.length>1&&void 0!==arguments[1]?arguments[1]:"top",r="top"===t?"scrollTop":"scrollLeft",o=e.nodeName;if("BODY"===o||"HTML"===o){var n=e.ownerDocument.documentElement,c=e.ownerDocument.scrollingElement||n;return c[r]}return e[r]}function w(e,t){var r=arguments.length>2&&void 0!==arguments[2]&&arguments[2],o=x(t,"top"),n=x(t,"left"),c=r?-1:1;return e.top+=o*c,e.bottom+=o*c,e.left+=n*c,e.right+=n*c,e}function k(e,t){var r="x"===t?"Left":"Top",o="Left"===r?"Right":"Bottom";return parseFloat(e["border"+r+"Width"])+parseFloat(e["border"+o+"Width"])}function O(e,t,r,o){return Math.max(t["offset"+e],t["scroll"+e],r["client"+e],r["offset"+e],r["scroll"+e],h(10)?parseInt(r["offset"+e])+parseInt(o["margin"+("Height"===e?"Top":"Left")])+parseInt(o["margin"+("Height"===e?"Bottom":"Right")]):0)}function j(e){var t=e.body,r=e.documentElement,o=h(10)&&getComputedStyle(r);return{height:O("Height",t,r,o),width:O("Width",t,r,o)}}var D=function(e,t){if(!(e instanceof t))throw new TypeError("Cannot call a class as a function")},P=function(){function e(e,t){for(var r=0;r<t.length;r++){var o=t[r];o.enumerable=o.enumerable||!1,o.configurable=!0,"value"in o&&(o.writable=!0),Object.defineProperty(e,o.key,o)}}return function(t,r,o){return r&&e(t.prototype,r),o&&e(t,o),t}}(),M=function(e,t,r){return t in e?Object.defineProperty(e,t,{value:r,enumerable:!0,configurable:!0,writable:!0}):e[t]=r,e},S=Object.assign||function(e){for(var t=1;t<arguments.length;t++){var r=arguments[t];for(var o in r)Object.prototype.hasOwnProperty.call(r,o)&&(e[o]=r[o])}return e};function E(e){return S({},e,{right:e.left+e.width,bottom:e.top+e.height})}function _(e){var t={};try{if(h(10)){t=e.getBoundingClientRect();var r=x(e,"top"),o=x(e,"left");t.top+=r,t.left+=o,t.bottom+=r,t.right+=o}else t=e.getBoundingClientRect()}catch(f){}var n={left:t.left,top:t.top,width:t.right-t.left,height:t.bottom-t.top},c="HTML"===e.nodeName?j(e.ownerDocument):{},i=c.width||e.clientWidth||n.width,a=c.height||e.clientHeight||n.height,s=e.offsetWidth-i,u=e.offsetHeight-a;if(s||u){var l=d(e);s-=k(l,"x"),u-=k(l,"y"),n.width-=s,n.height-=u}return E(n)}function Y(e,t){var r=arguments.length>2&&void 0!==arguments[2]&&arguments[2],o=h(10),n="HTML"===t.nodeName,c=_(e),i=_(t),a=l(e),s=d(t),u=parseFloat(s.borderTopWidth),f=parseFloat(s.borderLeftWidth);r&&n&&(i.top=Math.max(i.top,0),i.left=Math.max(i.left,0));var v=E({top:c.top-i.top-u,left:c.left-i.left-f,width:c.width,height:c.height});if(v.marginTop=0,v.marginLeft=0,!o&&n){var b=parseFloat(s.marginTop),p=parseFloat(s.marginLeft);v.top-=u-b,v.bottom-=u-b,v.left-=f-p,v.right-=f-p,v.marginTop=b,v.marginLeft=p}return(o&&!r?t.contains(a):t===a&&"BODY"!==a.nodeName)&&(v=w(v,t)),v}function C(e){var t=arguments.length>1&&void 0!==arguments[1]&&arguments[1],r=e.ownerDocument.documentElement,o=Y(e,r),n=Math.max(r.clientWidth,window.innerWidth||0),c=Math.max(r.clientHeight,window.innerHeight||0),i=t?0:x(r),a=t?0:x(r,"left"),s={top:i-o.top+o.marginTop,left:a-o.left+o.marginLeft,width:n,height:c};return E(s)}function I(e){var t=e.nodeName;if("BODY"===t||"HTML"===t)return!1;if("fixed"===d(e,"position"))return!0;var r=u(e);return!!r&&I(r)}function $(e){if(!e||!e.parentElement||h())return document.documentElement;var t=e.parentElement;while(t&&"none"===d(t,"transform"))t=t.parentElement;return t||document.documentElement}function A(e,t,r,o){var n=arguments.length>4&&void 0!==arguments[4]&&arguments[4],c={top:0,left:0},i=n?$(e):y(e,f(t));if("viewport"===o)c=C(i,n);else{var a=void 0;"scrollParent"===o?(a=l(u(t)),"BODY"===a.nodeName&&(a=e.ownerDocument.documentElement)):a="window"===o?e.ownerDocument.documentElement:o;var s=Y(a,i,n);if("HTML"!==a.nodeName||I(i))c=s;else{var d=j(e.ownerDocument),v=d.height,b=d.width;c.top+=s.top-s.marginTop,c.bottom=v+s.top,c.left+=s.left-s.marginLeft,c.right=b+s.left}}r=r||0;var h="number"===typeof r;return c.left+=h?r:r.left||0,c.top+=h?r:r.top||0,c.right-=h?r:r.right||0,c.bottom-=h?r:r.bottom||0,c}function T(e){var t=e.width,r=e.height;return t*r}function L(e,t,r,o,n){var c=arguments.length>5&&void 0!==arguments[5]?arguments[5]:0;if(-1===e.indexOf("auto"))return e;var i=A(r,o,c,n),a={top:{width:i.width,height:t.top-i.top},right:{width:i.right-t.right,height:i.height},bottom:{width:i.width,height:i.bottom-t.bottom},left:{width:t.left-i.left,height:i.height}},s=Object.keys(a).map((function(e){return S({key:e},a[e],{area:T(a[e])})})).sort((function(e,t){return t.area-e.area})),d=s.filter((function(e){var t=e.width,o=e.height;return t>=r.clientWidth&&o>=r.clientHeight})),u=d.length>0?d[0].key:s[0].key,l=e.split("-")[1];return u+(l?"-"+l:"")}function F(e,t,r){var o=arguments.length>3&&void 0!==arguments[3]?arguments[3]:null,n=o?$(t):y(t,f(r));return Y(r,n,o)}function N(e){var t=e.ownerDocument.defaultView,r=t.getComputedStyle(e),o=parseFloat(r.marginTop||0)+parseFloat(r.marginBottom||0),n=parseFloat(r.marginLeft||0)+parseFloat(r.marginRight||0),c={width:e.offsetWidth+n,height:e.offsetHeight+o};return c}function z(e){var t={left:"right",right:"left",bottom:"top",top:"bottom"};return e.replace(/left|right|bottom|top/g,(function(e){return t[e]}))}function R(e,t,r){r=r.split("-")[0];var o=N(e),n={width:o.width,height:o.height},c=-1!==["right","left"].indexOf(r),i=c?"top":"left",a=c?"left":"top",s=c?"height":"width",d=c?"width":"height";return n[i]=t[i]+t[s]/2-o[s]/2,n[a]=r===a?t[a]-o[d]:t[z(a)],n}function V(e,t){return Array.prototype.find?e.find(t):e.filter(t)[0]}function H(e,t,r){if(Array.prototype.findIndex)return e.findIndex((function(e){return e[t]===r}));var o=V(e,(function(e){return e[t]===r}));return e.indexOf(o)}function W(e,t,r){var o=void 0===r?e:e.slice(0,H(e,"name",r));return o.forEach((function(e){e["function"]&&console.warn("`modifier.function` is deprecated, use `modifier.fn`!");var r=e["function"]||e.fn;e.enabled&&s(r)&&(t.offsets.popper=E(t.offsets.popper),t.offsets.reference=E(t.offsets.reference),t=r(t,e))})),t}function B(){if(!this.state.isDestroyed){var e={instance:this,styles:{},arrowStyles:{},attributes:{},flipped:!1,offsets:{}};e.offsets.reference=F(this.state,this.popper,this.reference,this.options.positionFixed),e.placement=L(this.options.placement,e.offsets.reference,this.popper,this.reference,this.options.modifiers.flip.boundariesElement,this.options.modifiers.flip.padding),e.originalPlacement=e.placement,e.positionFixed=this.options.positionFixed,e.offsets.popper=R(this.popper,e.offsets.reference,e.placement),e.offsets.popper.position=this.options.positionFixed?"fixed":"absolute",e=W(this.modifiers,e),this.state.isCreated?this.options.onUpdate(e):(this.state.isCreated=!0,this.options.onCreate(e))}}function U(e,t){return e.some((function(e){var r=e.name,o=e.enabled;return o&&r===t}))}function G(e){for(var t=[!1,"ms","Webkit","Moz","O"],r=e.charAt(0).toUpperCase()+e.slice(1),o=0;o<t.length;o++){var n=t[o],c=n?""+n+r:e;if("undefined"!==typeof document.body.style[c])return c}return null}function q(){return this.state.isDestroyed=!0,U(this.modifiers,"applyStyle")&&(this.popper.removeAttribute("x-placement"),this.popper.style.position="",this.popper.style.top="",this.popper.style.left="",this.popper.style.right="",this.popper.style.bottom="",this.popper.style.willChange="",this.popper.style[G("transform")]=""),this.disableEventListeners(),this.options.removeOnDestroy&&this.popper.parentNode.removeChild(this.popper),this}function K(e){var t=e.ownerDocument;return t?t.defaultView:window}function Z(e,t,r,o){var n="BODY"===e.nodeName,c=n?e.ownerDocument.defaultView:e;c.addEventListener(t,r,{passive:!0}),n||Z(l(c.parentNode),t,r,o),o.push(c)}function X(e,t,r,o){r.updateBound=o,K(e).addEventListener("resize",r.updateBound,{passive:!0});var n=l(e);return Z(n,"scroll",r.updateBound,r.scrollParents),r.scrollElement=n,r.eventsEnabled=!0,r}function J(){this.state.eventsEnabled||(this.state=X(this.reference,this.options,this.state,this.scheduleUpdate))}function Q(e,t){return K(e).removeEventListener("resize",t.updateBound),t.scrollParents.forEach((function(e){e.removeEventListener("scroll",t.updateBound)})),t.updateBound=null,t.scrollParents=[],t.scrollElement=null,t.eventsEnabled=!1,t}function ee(){this.state.eventsEnabled&&(cancelAnimationFrame(this.scheduleUpdate),this.state=Q(this.reference,this.state))}function te(e){return""!==e&&!isNaN(parseFloat(e))&&isFinite(e)}function re(e,t){Object.keys(t).forEach((function(r){var o="";-1!==["width","height","top","right","bottom","left"].indexOf(r)&&te(t[r])&&(o="px"),e.style[r]=t[r]+o}))}function oe(e,t){Object.keys(t).forEach((function(r){var o=t[r];!1!==o?e.setAttribute(r,t[r]):e.removeAttribute(r)}))}function ne(e){return re(e.instance.popper,e.styles),oe(e.instance.popper,e.attributes),e.arrowElement&&Object.keys(e.arrowStyles).length&&re(e.arrowElement,e.arrowStyles),e}function ce(e,t,r,o,n){var c=F(n,t,e,r.positionFixed),i=L(r.placement,c,t,e,r.modifiers.flip.boundariesElement,r.modifiers.flip.padding);return t.setAttribute("x-placement",i),re(t,{position:r.positionFixed?"fixed":"absolute"}),r}function ie(e,t){var r=e.offsets,o=r.popper,n=r.reference,c=Math.round,i=Math.floor,a=function(e){return e},s=c(n.width),d=c(o.width),u=-1!==["left","right"].indexOf(e.placement),l=-1!==e.placement.indexOf("-"),f=s%2===d%2,v=s%2===1&&d%2===1,b=t?u||l||f?c:i:a,h=t?c:a;return{left:b(v&&!l&&t?o.left-1:o.left),top:h(o.top),bottom:h(o.bottom),right:b(o.right)}}var ae=r&&/Firefox/i.test(navigator.userAgent);function se(e,t){var r=t.x,o=t.y,n=e.offsets.popper,c=V(e.instance.modifiers,(function(e){return"applyStyle"===e.name})).gpuAcceleration;void 0!==c&&console.warn("WARNING: `gpuAcceleration` option moved to `computeStyle` modifier and will not be supported in future versions of Popper.js!");var i=void 0!==c?c:t.gpuAcceleration,a=p(e.instance.popper),s=_(a),d={position:n.position},u=ie(e,window.devicePixelRatio<2||!ae),l="bottom"===r?"top":"bottom",f="right"===o?"left":"right",v=G("transform"),b=void 0,h=void 0;if(h="bottom"===l?"HTML"===a.nodeName?-a.clientHeight+u.bottom:-s.height+u.bottom:u.top,b="right"===f?"HTML"===a.nodeName?-a.clientWidth+u.right:-s.width+u.right:u.left,i&&v)d[v]="translate3d("+b+"px, "+h+"px, 0)",d[l]=0,d[f]=0,d.willChange="transform";else{var g="bottom"===l?-1:1,m="right"===f?-1:1;d[l]=h*g,d[f]=b*m,d.willChange=l+", "+f}var y={"x-placement":e.placement};return e.attributes=S({},y,e.attributes),e.styles=S({},d,e.styles),e.arrowStyles=S({},e.offsets.arrow,e.arrowStyles),e}function de(e,t,r){var o=V(e,(function(e){var r=e.name;return r===t})),n=!!o&&e.some((function(e){return e.name===r&&e.enabled&&e.order<o.order}));if(!n){var c="`"+t+"`",i="`"+r+"`";console.warn(i+" modifier is required by "+c+" modifier in order to work, be sure to include it before "+c+"!")}return n}function ue(e,t){var r;if(!de(e.instance.modifiers,"arrow","keepTogether"))return e;var o=t.element;if("string"===typeof o){if(o=e.instance.popper.querySelector(o),!o)return e}else if(!e.instance.popper.contains(o))return console.warn("WARNING: `arrow.element` must be child of its popper element!"),e;var n=e.placement.split("-")[0],c=e.offsets,i=c.popper,a=c.reference,s=-1!==["left","right"].indexOf(n),u=s?"height":"width",l=s?"Top":"Left",f=l.toLowerCase(),v=s?"left":"top",b=s?"bottom":"right",h=N(o)[u];a[b]-h<i[f]&&(e.offsets.popper[f]-=i[f]-(a[b]-h)),a[f]+h>i[b]&&(e.offsets.popper[f]+=a[f]+h-i[b]),e.offsets.popper=E(e.offsets.popper);var p=a[f]+a[u]/2-h/2,g=d(e.instance.popper),m=parseFloat(g["margin"+l]),y=parseFloat(g["border"+l+"Width"]),x=p-e.offsets.popper[f]-m-y;return x=Math.max(Math.min(i[u]-h,x),0),e.arrowElement=o,e.offsets.arrow=(r={},M(r,f,Math.round(x)),M(r,v,""),r),e}function le(e){return"end"===e?"start":"start"===e?"end":e}var fe=["auto-start","auto","auto-end","top-start","top","top-end","right-start","right","right-end","bottom-end","bottom","bottom-start","left-end","left","left-start"],ve=fe.slice(3);function be(e){var t=arguments.length>1&&void 0!==arguments[1]&&arguments[1],r=ve.indexOf(e),o=ve.slice(r+1).concat(ve.slice(0,r));return t?o.reverse():o}var he={FLIP:"flip",CLOCKWISE:"clockwise",COUNTERCLOCKWISE:"counterclockwise"};function pe(e,t){if(U(e.instance.modifiers,"inner"))return e;if(e.flipped&&e.placement===e.originalPlacement)return e;var r=A(e.instance.popper,e.instance.reference,t.padding,t.boundariesElement,e.positionFixed),o=e.placement.split("-")[0],n=z(o),c=e.placement.split("-")[1]||"",i=[];switch(t.behavior){case he.FLIP:i=[o,n];break;case he.CLOCKWISE:i=be(o);break;case he.COUNTERCLOCKWISE:i=be(o,!0);break;default:i=t.behavior}return i.forEach((function(a,s){if(o!==a||i.length===s+1)return e;o=e.placement.split("-")[0],n=z(o);var d=e.offsets.popper,u=e.offsets.reference,l=Math.floor,f="left"===o&&l(d.right)>l(u.left)||"right"===o&&l(d.left)<l(u.right)||"top"===o&&l(d.bottom)>l(u.top)||"bottom"===o&&l(d.top)<l(u.bottom),v=l(d.left)<l(r.left),b=l(d.right)>l(r.right),h=l(d.top)<l(r.top),p=l(d.bottom)>l(r.bottom),g="left"===o&&v||"right"===o&&b||"top"===o&&h||"bottom"===o&&p,m=-1!==["top","bottom"].indexOf(o),y=!!t.flipVariations&&(m&&"start"===c&&v||m&&"end"===c&&b||!m&&"start"===c&&h||!m&&"end"===c&&p),x=!!t.flipVariationsByContent&&(m&&"start"===c&&b||m&&"end"===c&&v||!m&&"start"===c&&p||!m&&"end"===c&&h),w=y||x;(f||g||w)&&(e.flipped=!0,(f||g)&&(o=i[s+1]),w&&(c=le(c)),e.placement=o+(c?"-"+c:""),e.offsets.popper=S({},e.offsets.popper,R(e.instance.popper,e.offsets.reference,e.placement)),e=W(e.instance.modifiers,e,"flip"))})),e}function ge(e){var t=e.offsets,r=t.popper,o=t.reference,n=e.placement.split("-")[0],c=Math.floor,i=-1!==["top","bottom"].indexOf(n),a=i?"right":"bottom",s=i?"left":"top",d=i?"width":"height";return r[a]<c(o[s])&&(e.offsets.popper[s]=c(o[s])-r[d]),r[s]>c(o[a])&&(e.offsets.popper[s]=c(o[a])),e}function me(e,t,r,o){var n=e.match(/((?:\-|\+)?\d*\.?\d*)(.*)/),c=+n[1],i=n[2];if(!c)return e;if(0===i.indexOf("%")){var a=void 0;switch(i){case"%p":a=r;break;case"%":case"%r":default:a=o}var s=E(a);return s[t]/100*c}if("vh"===i||"vw"===i){var d=void 0;return d="vh"===i?Math.max(document.documentElement.clientHeight,window.innerHeight||0):Math.max(document.documentElement.clientWidth,window.innerWidth||0),d/100*c}return c}function ye(e,t,r,o){var n=[0,0],c=-1!==["right","left"].indexOf(o),i=e.split(/(\+|\-)/).map((function(e){return e.trim()})),a=i.indexOf(V(i,(function(e){return-1!==e.search(/,|\s/)})));i[a]&&-1===i[a].indexOf(",")&&console.warn("Offsets separated by white space(s) are deprecated, use a comma (,) instead.");var s=/\s*,\s*|\s+/,d=-1!==a?[i.slice(0,a).concat([i[a].split(s)[0]]),[i[a].split(s)[1]].concat(i.slice(a+1))]:[i];return d=d.map((function(e,o){var n=(1===o?!c:c)?"height":"width",i=!1;return e.reduce((function(e,t){return""===e[e.length-1]&&-1!==["+","-"].indexOf(t)?(e[e.length-1]=t,i=!0,e):i?(e[e.length-1]+=t,i=!1,e):e.concat(t)}),[]).map((function(e){return me(e,n,t,r)}))})),d.forEach((function(e,t){e.forEach((function(r,o){te(r)&&(n[t]+=r*("-"===e[o-1]?-1:1))}))})),n}function xe(e,t){var r=t.offset,o=e.placement,n=e.offsets,c=n.popper,i=n.reference,a=o.split("-")[0],s=void 0;return s=te(+r)?[+r,0]:ye(r,c,i,a),"left"===a?(c.top+=s[0],c.left-=s[1]):"right"===a?(c.top+=s[0],c.left+=s[1]):"top"===a?(c.left+=s[0],c.top-=s[1]):"bottom"===a&&(c.left+=s[0],c.top+=s[1]),e.popper=c,e}function we(e,t){var r=t.boundariesElement||p(e.instance.popper);e.instance.reference===r&&(r=p(r));var o=G("transform"),n=e.instance.popper.style,c=n.top,i=n.left,a=n[o];n.top="",n.left="",n[o]="";var s=A(e.instance.popper,e.instance.reference,t.padding,r,e.positionFixed);n.top=c,n.left=i,n[o]=a,t.boundaries=s;var d=t.priority,u=e.offsets.popper,l={primary:function(e){var r=u[e];return u[e]<s[e]&&!t.escapeWithReference&&(r=Math.max(u[e],s[e])),M({},e,r)},secondary:function(e){var r="right"===e?"left":"top",o=u[r];return u[e]>s[e]&&!t.escapeWithReference&&(o=Math.min(u[r],s[e]-("right"===e?u.width:u.height))),M({},r,o)}};return d.forEach((function(e){var t=-1!==["left","top"].indexOf(e)?"primary":"secondary";u=S({},u,l[t](e))})),e.offsets.popper=u,e}function ke(e){var t=e.placement,r=t.split("-")[0],o=t.split("-")[1];if(o){var n=e.offsets,c=n.reference,i=n.popper,a=-1!==["bottom","top"].indexOf(r),s=a?"left":"top",d=a?"width":"height",u={start:M({},s,c[s]),end:M({},s,c[s]+c[d]-i[d])};e.offsets.popper=S({},i,u[o])}return e}function Oe(e){if(!de(e.instance.modifiers,"hide","preventOverflow"))return e;var t=e.offsets.reference,r=V(e.instance.modifiers,(function(e){return"preventOverflow"===e.name})).boundaries;if(t.bottom<r.top||t.left>r.right||t.top>r.bottom||t.right<r.left){if(!0===e.hide)return e;e.hide=!0,e.attributes["x-out-of-boundaries"]=""}else{if(!1===e.hide)return e;e.hide=!1,e.attributes["x-out-of-boundaries"]=!1}return e}function je(e){var t=e.placement,r=t.split("-")[0],o=e.offsets,n=o.popper,c=o.reference,i=-1!==["left","right"].indexOf(r),a=-1===["top","left"].indexOf(r);return n[i?"left":"top"]=c[r]-(a?n[i?"width":"height"]:0),e.placement=z(t),e.offsets.popper=E(n),e}var De={shift:{order:100,enabled:!0,fn:ke},offset:{order:200,enabled:!0,fn:xe,offset:0},preventOverflow:{order:300,enabled:!0,fn:we,priority:["left","right","top","bottom"],padding:5,boundariesElement:"scrollParent"},keepTogether:{order:400,enabled:!0,fn:ge},arrow:{order:500,enabled:!0,fn:ue,element:"[x-arrow]"},flip:{order:600,enabled:!0,fn:pe,behavior:"flip",padding:5,boundariesElement:"viewport",flipVariations:!1,flipVariationsByContent:!1},inner:{order:700,enabled:!1,fn:je},hide:{order:800,enabled:!0,fn:Oe},computeStyle:{order:850,enabled:!0,fn:se,gpuAcceleration:!0,x:"bottom",y:"right"},applyStyle:{order:900,enabled:!0,fn:ne,onLoad:ce,gpuAcceleration:void 0}},Pe={placement:"bottom",positionFixed:!1,eventsEnabled:!0,removeOnDestroy:!1,onCreate:function(){},onUpdate:function(){},modifiers:De},Me=function(){function e(t,r){var o=this,n=arguments.length>2&&void 0!==arguments[2]?arguments[2]:{};D(this,e),this.scheduleUpdate=function(){return requestAnimationFrame(o.update)},this.update=a(this.update.bind(this)),this.options=S({},e.Defaults,n),this.state={isDestroyed:!1,isCreated:!1,scrollParents:[]},this.reference=t&&t.jquery?t[0]:t,this.popper=r&&r.jquery?r[0]:r,this.options.modifiers={},Object.keys(S({},e.Defaults.modifiers,n.modifiers)).forEach((function(t){o.options.modifiers[t]=S({},e.Defaults.modifiers[t]||{},n.modifiers?n.modifiers[t]:{})})),this.modifiers=Object.keys(this.options.modifiers).map((function(e){return S({name:e},o.options.modifiers[e])})).sort((function(e,t){return e.order-t.order})),this.modifiers.forEach((function(e){e.enabled&&s(e.onLoad)&&e.onLoad(o.reference,o.popper,o.options,e,o.state)})),this.update();var c=this.options.eventsEnabled;c&&this.enableEventListeners(),this.state.eventsEnabled=c}return P(e,[{key:"update",value:function(){return B.call(this)}},{key:"destroy",value:function(){return q.call(this)}},{key:"enableEventListeners",value:function(){return J.call(this)}},{key:"disableEventListeners",value:function(){return ee.call(this)}}]),e}();Me.Utils=("undefined"!==typeof window?window:e).PopperUtils,Me.placements=fe,Me.Defaults=Pe,t["a"]=Me}).call(this,r("c8ba"))},f15d:function(e,t,r){"use strict";r("ac6a");var o=r("9404");const n={ar:{dow:7,L:"D/‏M/‏YYYY"},bg:{dow:2,L:"D.MM.YYYY"},ca:{dow:2,L:"DD/MM/YYYY"},"zh-CN":{dow:2,L:"YYYY/MM/DD"},"zh-TW":{dow:1,L:"YYYY/MM/DD"},hr:{dow:2,L:"DD.MM.YYYY"},cs:{dow:2,L:"DD.MM.YYYY"},da:{dow:2,L:"DD.MM.YYYY"},nl:{dow:2,L:"DD-MM-YYYY"},"en-US":{dow:1,L:"MM/DD/YYYY"},"en-AU":{dow:2,L:"DD/MM/YYYY"},"en-CA":{dow:1,L:"YYYY-MM-DD"},"en-GB":{dow:2,L:"DD/MM/YYYY"},"en-IE":{dow:2,L:"DD-MM-YYYY"},"en-NZ":{dow:2,L:"DD/MM/YYYY"},"en-ZA":{dow:1,L:"YYYY/MM/DD"},eo:{dow:2,L:"YYYY-MM-DD"},et:{dow:2,L:"DD.MM.YYYY"},fi:{dow:2,L:"DD.MM.YYYY"},fr:{dow:2,L:"DD/MM/YYYY"},"fr-CA":{dow:1,L:"YYYY-MM-DD"},"fr-CH":{dow:2,L:"DD.MM.YYYY"},de:{dow:2,L:"DD.MM.YYYY"},he:{dow:1,L:"DD.MM.YYYY"},id:{dow:2,L:"DD/MM/YYYY"},it:{dow:2,L:"DD/MM/YYYY"},ja:{dow:1,L:"YYYY年M月D日"},ko:{dow:1,L:"YYYY.MM.DD"},lv:{dow:2,L:"DD.MM.YYYY"},lt:{dow:2,L:"DD.MM.YYYY"},mk:{dow:2,L:"D.MM.YYYY"},nb:{dow:2,L:"D. MMMM YYYY"},nn:{dow:2,L:"D. MMMM YYYY"},pl:{dow:2,L:"DD.MM.YYYY"},pt:{dow:2,L:"DD/MM/YYYY"},ro:{dow:2,L:"DD.MM.YYYY"},ru:{dow:2,L:"DD.MM.YYYY"},sk:{dow:2,L:"DD.MM.YYYY"},"es-ES":{dow:2,L:"DD/MM/YYYY"},"es-MX":{dow:2,L:"DD/MM/YYYY"},sv:{dow:2,L:"YYYY-MM-DD"},th:{dow:1,L:"DD/MM/YYYY"},tr:{dow:2,L:"DD.MM.YYYY"},uk:{dow:2,L:"DD.MM.YYYY"},vi:{dow:2,L:"DD/MM/YYYY"}};n.en=n["en-US"],n.es=n["es-ES"],n.no=n.nb,n.zh=n["zh-CN"],Object(o["u"])(n).forEach((function([e,{dow:t,L:r}]){n[e]={id:e,firstDayOfWeek:t,masks:{L:r}}})),t["a"]=n},f3c1:function(e,t){var r=800,o=16,n=Date.now;function c(e){var t=0,c=0;return function(){var i=n(),a=o-(i-c);if(c=i,a>0){if(++t>=r)return arguments[0]}else t=0;return e.apply(void 0,arguments)}}e.exports=c},f498:function(e,t,r){t=e.exports=r("2350")(!1),t.push([e.i,".vc-reset,.vc-reset *{line-height:1.5;box-sizing:border-box}.vc-reset:focus,.vc-reset :focus{outline:none}.vc-reset [role=button],.vc-reset button{cursor:pointer}.vc-border,.vc-border-2,.vc-border-3{border-style:solid}.vc-appearance-none{-webkit-appearance:none;-moz-appearance:none;appearance:none}.vc-bg-fixed{background-attachment:fixed}.vc-bg-local{background-attachment:local}.vc-bg-scroll{background-attachment:scroll}.vc-bg-transparent{background-color:initial}.vc-bg-black{background-color:#000}.vc-bg-white{background-color:#fff}.vc-bg-gray-100{background-color:#f7fafc}.vc-bg-gray-200{background-color:#edf2f7}.vc-bg-gray-300{background-color:#e2e8f0}.vc-bg-gray-400{background-color:#cbd5e0}.vc-bg-gray-500{background-color:#a0aec0}.vc-bg-gray-600{background-color:#718096}.vc-bg-gray-700{background-color:#4a5568}.vc-bg-gray-800{background-color:#2d3748}.vc-bg-gray-900{background-color:#1a202c}.vc-bg-red-100{background-color:#fff5f5}.vc-bg-red-200{background-color:#fed7d7}.vc-bg-red-300{background-color:#feb2b2}.vc-bg-red-400{background-color:#fc8181}.vc-bg-red-500{background-color:#f56565}.vc-bg-red-600{background-color:#e53e3e}.vc-bg-red-700{background-color:#c53030}.vc-bg-red-800{background-color:#9b2c2c}.vc-bg-red-900{background-color:#742a2a}.vc-bg-orange-100{background-color:#fffaf0}.vc-bg-orange-200{background-color:#feebc8}.vc-bg-orange-300{background-color:#fbd38d}.vc-bg-orange-400{background-color:#f6ad55}.vc-bg-orange-500{background-color:#ed8936}.vc-bg-orange-600{background-color:#dd6b20}.vc-bg-orange-700{background-color:#c05621}.vc-bg-orange-800{background-color:#9c4221}.vc-bg-orange-900{background-color:#7b341e}.vc-bg-yellow-100{background-color:ivory}.vc-bg-yellow-200{background-color:#fefcbf}.vc-bg-yellow-300{background-color:#faf089}.vc-bg-yellow-400{background-color:#f6e05e}.vc-bg-yellow-500{background-color:#ecc94b}.vc-bg-yellow-600{background-color:#d69e2e}.vc-bg-yellow-700{background-color:#b7791f}.vc-bg-yellow-800{background-color:#975a16}.vc-bg-yellow-900{background-color:#744210}.vc-bg-green-100{background-color:#f0fff4}.vc-bg-green-200{background-color:#c6f6d5}.vc-bg-green-300{background-color:#9ae6b4}.vc-bg-green-400{background-color:#68d391}.vc-bg-green-500{background-color:#48bb78}.vc-bg-green-600{background-color:#38a169}.vc-bg-green-700{background-color:#2f855a}.vc-bg-green-800{background-color:#276749}.vc-bg-green-900{background-color:#22543d}.vc-bg-teal-100{background-color:#e6fffa}.vc-bg-teal-200{background-color:#b2f5ea}.vc-bg-teal-300{background-color:#81e6d9}.vc-bg-teal-400{background-color:#4fd1c5}.vc-bg-teal-500{background-color:#38b2ac}.vc-bg-teal-600{background-color:#319795}.vc-bg-teal-700{background-color:#2c7a7b}.vc-bg-teal-800{background-color:#285e61}.vc-bg-teal-900{background-color:#234e52}.vc-bg-blue-100{background-color:#ebf8ff}.vc-bg-blue-200{background-color:#bee3f8}.vc-bg-blue-300{background-color:#90cdf4}.vc-bg-blue-400{background-color:#63b3ed}.vc-bg-blue-500{background-color:#4299e1}.vc-bg-blue-600{background-color:#3182ce}.vc-bg-blue-700{background-color:#2b6cb0}.vc-bg-blue-800{background-color:#2c5282}.vc-bg-blue-900{background-color:#2a4365}.vc-bg-indigo-100{background-color:#ebf4ff}.vc-bg-indigo-200{background-color:#c3dafe}.vc-bg-indigo-300{background-color:#a3bffa}.vc-bg-indigo-400{background-color:#7f9cf5}.vc-bg-indigo-500{background-color:#667eea}.vc-bg-indigo-600{background-color:#5a67d8}.vc-bg-indigo-700{background-color:#4c51bf}.vc-bg-indigo-800{background-color:#434190}.vc-bg-indigo-900{background-color:#3c366b}.vc-bg-purple-100{background-color:#faf5ff}.vc-bg-purple-200{background-color:#e9d8fd}.vc-bg-purple-300{background-color:#d6bcfa}.vc-bg-purple-400{background-color:#b794f4}.vc-bg-purple-500{background-color:#9f7aea}.vc-bg-purple-600{background-color:#805ad5}.vc-bg-purple-700{background-color:#6b46c1}.vc-bg-purple-800{background-color:#553c9a}.vc-bg-purple-900{background-color:#44337a}.vc-bg-pink-100{background-color:#fff5f7}.vc-bg-pink-200{background-color:#fed7e2}.vc-bg-pink-300{background-color:#fbb6ce}.vc-bg-pink-400{background-color:#f687b3}.vc-bg-pink-500{background-color:#ed64a6}.vc-bg-pink-600{background-color:#d53f8c}.vc-bg-pink-700{background-color:#b83280}.vc-bg-pink-800{background-color:#97266d}.vc-bg-pink-900{background-color:#702459}.hover\\:vc-bg-transparent:hover{background-color:initial}.hover\\:vc-bg-black:hover{background-color:#000}.hover\\:vc-bg-white:hover{background-color:#fff}.hover\\:vc-bg-gray-100:hover{background-color:#f7fafc}.hover\\:vc-bg-gray-200:hover{background-color:#edf2f7}.hover\\:vc-bg-gray-300:hover{background-color:#e2e8f0}.hover\\:vc-bg-gray-400:hover{background-color:#cbd5e0}.hover\\:vc-bg-gray-500:hover{background-color:#a0aec0}.hover\\:vc-bg-gray-600:hover{background-color:#718096}.hover\\:vc-bg-gray-700:hover{background-color:#4a5568}.hover\\:vc-bg-gray-800:hover{background-color:#2d3748}.hover\\:vc-bg-gray-900:hover{background-color:#1a202c}.hover\\:vc-bg-red-100:hover{background-color:#fff5f5}.hover\\:vc-bg-red-200:hover{background-color:#fed7d7}.hover\\:vc-bg-red-300:hover{background-color:#feb2b2}.hover\\:vc-bg-red-400:hover{background-color:#fc8181}.hover\\:vc-bg-red-500:hover{background-color:#f56565}.hover\\:vc-bg-red-600:hover{background-color:#e53e3e}.hover\\:vc-bg-red-700:hover{background-color:#c53030}.hover\\:vc-bg-red-800:hover{background-color:#9b2c2c}.hover\\:vc-bg-red-900:hover{background-color:#742a2a}.hover\\:vc-bg-orange-100:hover{background-color:#fffaf0}.hover\\:vc-bg-orange-200:hover{background-color:#feebc8}.hover\\:vc-bg-orange-300:hover{background-color:#fbd38d}.hover\\:vc-bg-orange-400:hover{background-color:#f6ad55}.hover\\:vc-bg-orange-500:hover{background-color:#ed8936}.hover\\:vc-bg-orange-600:hover{background-color:#dd6b20}.hover\\:vc-bg-orange-700:hover{background-color:#c05621}.hover\\:vc-bg-orange-800:hover{background-color:#9c4221}.hover\\:vc-bg-orange-900:hover{background-color:#7b341e}.hover\\:vc-bg-yellow-100:hover{background-color:ivory}.hover\\:vc-bg-yellow-200:hover{background-color:#fefcbf}.hover\\:vc-bg-yellow-300:hover{background-color:#faf089}.hover\\:vc-bg-yellow-400:hover{background-color:#f6e05e}.hover\\:vc-bg-yellow-500:hover{background-color:#ecc94b}.hover\\:vc-bg-yellow-600:hover{background-color:#d69e2e}.hover\\:vc-bg-yellow-700:hover{background-color:#b7791f}.hover\\:vc-bg-yellow-800:hover{background-color:#975a16}.hover\\:vc-bg-yellow-900:hover{background-color:#744210}.hover\\:vc-bg-green-100:hover{background-color:#f0fff4}.hover\\:vc-bg-green-200:hover{background-color:#c6f6d5}.hover\\:vc-bg-green-300:hover{background-color:#9ae6b4}.hover\\:vc-bg-green-400:hover{background-color:#68d391}.hover\\:vc-bg-green-500:hover{background-color:#48bb78}.hover\\:vc-bg-green-600:hover{background-color:#38a169}.hover\\:vc-bg-green-700:hover{background-color:#2f855a}.hover\\:vc-bg-green-800:hover{background-color:#276749}.hover\\:vc-bg-green-900:hover{background-color:#22543d}.hover\\:vc-bg-teal-100:hover{background-color:#e6fffa}.hover\\:vc-bg-teal-200:hover{background-color:#b2f5ea}.hover\\:vc-bg-teal-300:hover{background-color:#81e6d9}.hover\\:vc-bg-teal-400:hover{background-color:#4fd1c5}.hover\\:vc-bg-teal-500:hover{background-color:#38b2ac}.hover\\:vc-bg-teal-600:hover{background-color:#319795}.hover\\:vc-bg-teal-700:hover{background-color:#2c7a7b}.hover\\:vc-bg-teal-800:hover{background-color:#285e61}.hover\\:vc-bg-teal-900:hover{background-color:#234e52}.hover\\:vc-bg-blue-100:hover{background-color:#ebf8ff}.hover\\:vc-bg-blue-200:hover{background-color:#bee3f8}.hover\\:vc-bg-blue-300:hover{background-color:#90cdf4}.hover\\:vc-bg-blue-400:hover{background-color:#63b3ed}.hover\\:vc-bg-blue-500:hover{background-color:#4299e1}.hover\\:vc-bg-blue-600:hover{background-color:#3182ce}.hover\\:vc-bg-blue-700:hover{background-color:#2b6cb0}.hover\\:vc-bg-blue-800:hover{background-color:#2c5282}.hover\\:vc-bg-blue-900:hover{background-color:#2a4365}.hover\\:vc-bg-indigo-100:hover{background-color:#ebf4ff}.hover\\:vc-bg-indigo-200:hover{background-color:#c3dafe}.hover\\:vc-bg-indigo-300:hover{background-color:#a3bffa}.hover\\:vc-bg-indigo-400:hover{background-color:#7f9cf5}.hover\\:vc-bg-indigo-500:hover{background-color:#667eea}.hover\\:vc-bg-indigo-600:hover{background-color:#5a67d8}.hover\\:vc-bg-indigo-700:hover{background-color:#4c51bf}.hover\\:vc-bg-indigo-800:hover{background-color:#434190}.hover\\:vc-bg-indigo-900:hover{background-color:#3c366b}.hover\\:vc-bg-purple-100:hover{background-color:#faf5ff}.hover\\:vc-bg-purple-200:hover{background-color:#e9d8fd}.hover\\:vc-bg-purple-300:hover{background-color:#d6bcfa}.hover\\:vc-bg-purple-400:hover{background-color:#b794f4}.hover\\:vc-bg-purple-500:hover{background-color:#9f7aea}.hover\\:vc-bg-purple-600:hover{background-color:#805ad5}.hover\\:vc-bg-purple-700:hover{background-color:#6b46c1}.hover\\:vc-bg-purple-800:hover{background-color:#553c9a}.hover\\:vc-bg-purple-900:hover{background-color:#44337a}.hover\\:vc-bg-pink-100:hover{background-color:#fff5f7}.hover\\:vc-bg-pink-200:hover{background-color:#fed7e2}.hover\\:vc-bg-pink-300:hover{background-color:#fbb6ce}.hover\\:vc-bg-pink-400:hover{background-color:#f687b3}.hover\\:vc-bg-pink-500:hover{background-color:#ed64a6}.hover\\:vc-bg-pink-600:hover{background-color:#d53f8c}.hover\\:vc-bg-pink-700:hover{background-color:#b83280}.hover\\:vc-bg-pink-800:hover{background-color:#97266d}.hover\\:vc-bg-pink-900:hover{background-color:#702459}.vc-bg-bottom{background-position:bottom}.vc-bg-center{background-position:50%}.vc-bg-left{background-position:0}.vc-bg-left-bottom{background-position:0 100%}.vc-bg-left-top{background-position:0 0}.vc-bg-right{background-position:100%}.vc-bg-right-bottom{background-position:100% 100%}.vc-bg-right-top{background-position:100% 0}.vc-bg-top{background-position:top}.vc-bg-repeat{background-repeat:repeat}.vc-bg-no-repeat{background-repeat:no-repeat}.vc-bg-repeat-x{background-repeat:repeat-x}.vc-bg-repeat-y{background-repeat:repeat-y}.vc-bg-repeat-round{background-repeat:round}.vc-bg-repeat-space{background-repeat:space}.vc-bg-auto{background-size:auto}.vc-bg-cover{background-size:cover}.vc-bg-contain{background-size:contain}.vc-border-collapse{border-collapse:collapse}.vc-border-separate{border-collapse:initial}.vc-border-transparent{border-color:transparent}.vc-border-black{border-color:#000}.vc-border-white{border-color:#fff}.vc-border-gray-100{border-color:#f7fafc}.vc-border-gray-200{border-color:#edf2f7}.vc-border-gray-300{border-color:#e2e8f0}.vc-border-gray-400{border-color:#cbd5e0}.vc-border-gray-500{border-color:#a0aec0}.vc-border-gray-600{border-color:#718096}.vc-border-gray-700{border-color:#4a5568}.vc-border-gray-800{border-color:#2d3748}.vc-border-gray-900{border-color:#1a202c}.vc-border-red-100{border-color:#fff5f5}.vc-border-red-200{border-color:#fed7d7}.vc-border-red-300{border-color:#feb2b2}.vc-border-red-400{border-color:#fc8181}.vc-border-red-500{border-color:#f56565}.vc-border-red-600{border-color:#e53e3e}.vc-border-red-700{border-color:#c53030}.vc-border-red-800{border-color:#9b2c2c}.vc-border-red-900{border-color:#742a2a}.vc-border-orange-100{border-color:#fffaf0}.vc-border-orange-200{border-color:#feebc8}.vc-border-orange-300{border-color:#fbd38d}.vc-border-orange-400{border-color:#f6ad55}.vc-border-orange-500{border-color:#ed8936}.vc-border-orange-600{border-color:#dd6b20}.vc-border-orange-700{border-color:#c05621}.vc-border-orange-800{border-color:#9c4221}.vc-border-orange-900{border-color:#7b341e}.vc-border-yellow-100{border-color:ivory}.vc-border-yellow-200{border-color:#fefcbf}.vc-border-yellow-300{border-color:#faf089}.vc-border-yellow-400{border-color:#f6e05e}.vc-border-yellow-500{border-color:#ecc94b}.vc-border-yellow-600{border-color:#d69e2e}.vc-border-yellow-700{border-color:#b7791f}.vc-border-yellow-800{border-color:#975a16}.vc-border-yellow-900{border-color:#744210}.vc-border-green-100{border-color:#f0fff4}.vc-border-green-200{border-color:#c6f6d5}.vc-border-green-300{border-color:#9ae6b4}.vc-border-green-400{border-color:#68d391}.vc-border-green-500{border-color:#48bb78}.vc-border-green-600{border-color:#38a169}.vc-border-green-700{border-color:#2f855a}.vc-border-green-800{border-color:#276749}.vc-border-green-900{border-color:#22543d}.vc-border-teal-100{border-color:#e6fffa}.vc-border-teal-200{border-color:#b2f5ea}.vc-border-teal-300{border-color:#81e6d9}.vc-border-teal-400{border-color:#4fd1c5}.vc-border-teal-500{border-color:#38b2ac}.vc-border-teal-600{border-color:#319795}.vc-border-teal-700{border-color:#2c7a7b}.vc-border-teal-800{border-color:#285e61}.vc-border-teal-900{border-color:#234e52}.vc-border-blue-100{border-color:#ebf8ff}.vc-border-blue-200{border-color:#bee3f8}.vc-border-blue-300{border-color:#90cdf4}.vc-border-blue-400{border-color:#63b3ed}.vc-border-blue-500{border-color:#4299e1}.vc-border-blue-600{border-color:#3182ce}.vc-border-blue-700{border-color:#2b6cb0}.vc-border-blue-800{border-color:#2c5282}.vc-border-blue-900{border-color:#2a4365}.vc-border-indigo-100{border-color:#ebf4ff}.vc-border-indigo-200{border-color:#c3dafe}.vc-border-indigo-300{border-color:#a3bffa}.vc-border-indigo-400{border-color:#7f9cf5}.vc-border-indigo-500{border-color:#667eea}.vc-border-indigo-600{border-color:#5a67d8}.vc-border-indigo-700{border-color:#4c51bf}.vc-border-indigo-800{border-color:#434190}.vc-border-indigo-900{border-color:#3c366b}.vc-border-purple-100{border-color:#faf5ff}.vc-border-purple-200{border-color:#e9d8fd}.vc-border-purple-300{border-color:#d6bcfa}.vc-border-purple-400{border-color:#b794f4}.vc-border-purple-500{border-color:#9f7aea}.vc-border-purple-600{border-color:#805ad5}.vc-border-purple-700{border-color:#6b46c1}.vc-border-purple-800{border-color:#553c9a}.vc-border-purple-900{border-color:#44337a}.vc-border-pink-100{border-color:#fff5f7}.vc-border-pink-200{border-color:#fed7e2}.vc-border-pink-300{border-color:#fbb6ce}.vc-border-pink-400{border-color:#f687b3}.vc-border-pink-500{border-color:#ed64a6}.vc-border-pink-600{border-color:#d53f8c}.vc-border-pink-700{border-color:#b83280}.vc-border-pink-800{border-color:#97266d}.vc-border-pink-900{border-color:#702459}.hover\\:vc-border-transparent:hover{border-color:transparent}.hover\\:vc-border-black:hover{border-color:#000}.hover\\:vc-border-white:hover{border-color:#fff}.hover\\:vc-border-gray-100:hover{border-color:#f7fafc}.hover\\:vc-border-gray-200:hover{border-color:#edf2f7}.hover\\:vc-border-gray-300:hover{border-color:#e2e8f0}.hover\\:vc-border-gray-400:hover{border-color:#cbd5e0}.hover\\:vc-border-gray-500:hover{border-color:#a0aec0}.hover\\:vc-border-gray-600:hover{border-color:#718096}.hover\\:vc-border-gray-700:hover{border-color:#4a5568}.hover\\:vc-border-gray-800:hover{border-color:#2d3748}.hover\\:vc-border-gray-900:hover{border-color:#1a202c}.hover\\:vc-border-red-100:hover{border-color:#fff5f5}.hover\\:vc-border-red-200:hover{border-color:#fed7d7}.hover\\:vc-border-red-300:hover{border-color:#feb2b2}.hover\\:vc-border-red-400:hover{border-color:#fc8181}.hover\\:vc-border-red-500:hover{border-color:#f56565}.hover\\:vc-border-red-600:hover{border-color:#e53e3e}.hover\\:vc-border-red-700:hover{border-color:#c53030}.hover\\:vc-border-red-800:hover{border-color:#9b2c2c}.hover\\:vc-border-red-900:hover{border-color:#742a2a}.hover\\:vc-border-orange-100:hover{border-color:#fffaf0}.hover\\:vc-border-orange-200:hover{border-color:#feebc8}.hover\\:vc-border-orange-300:hover{border-color:#fbd38d}.hover\\:vc-border-orange-400:hover{border-color:#f6ad55}.hover\\:vc-border-orange-500:hover{border-color:#ed8936}.hover\\:vc-border-orange-600:hover{border-color:#dd6b20}.hover\\:vc-border-orange-700:hover{border-color:#c05621}.hover\\:vc-border-orange-800:hover{border-color:#9c4221}.hover\\:vc-border-orange-900:hover{border-color:#7b341e}.hover\\:vc-border-yellow-100:hover{border-color:ivory}.hover\\:vc-border-yellow-200:hover{border-color:#fefcbf}.hover\\:vc-border-yellow-300:hover{border-color:#faf089}.hover\\:vc-border-yellow-400:hover{border-color:#f6e05e}.hover\\:vc-border-yellow-500:hover{border-color:#ecc94b}.hover\\:vc-border-yellow-600:hover{border-color:#d69e2e}.hover\\:vc-border-yellow-700:hover{border-color:#b7791f}.hover\\:vc-border-yellow-800:hover{border-color:#975a16}.hover\\:vc-border-yellow-900:hover{border-color:#744210}.hover\\:vc-border-green-100:hover{border-color:#f0fff4}.hover\\:vc-border-green-200:hover{border-color:#c6f6d5}.hover\\:vc-border-green-300:hover{border-color:#9ae6b4}.hover\\:vc-border-green-400:hover{border-color:#68d391}.hover\\:vc-border-green-500:hover{border-color:#48bb78}.hover\\:vc-border-green-600:hover{border-color:#38a169}.hover\\:vc-border-green-700:hover{border-color:#2f855a}.hover\\:vc-border-green-800:hover{border-color:#276749}.hover\\:vc-border-green-900:hover{border-color:#22543d}.hover\\:vc-border-teal-100:hover{border-color:#e6fffa}.hover\\:vc-border-teal-200:hover{border-color:#b2f5ea}.hover\\:vc-border-teal-300:hover{border-color:#81e6d9}.hover\\:vc-border-teal-400:hover{border-color:#4fd1c5}.hover\\:vc-border-teal-500:hover{border-color:#38b2ac}.hover\\:vc-border-teal-600:hover{border-color:#319795}.hover\\:vc-border-teal-700:hover{border-color:#2c7a7b}.hover\\:vc-border-teal-800:hover{border-color:#285e61}.hover\\:vc-border-teal-900:hover{border-color:#234e52}.hover\\:vc-border-blue-100:hover{border-color:#ebf8ff}.hover\\:vc-border-blue-200:hover{border-color:#bee3f8}.hover\\:vc-border-blue-300:hover{border-color:#90cdf4}.hover\\:vc-border-blue-400:hover{border-color:#63b3ed}.hover\\:vc-border-blue-500:hover{border-color:#4299e1}.hover\\:vc-border-blue-600:hover{border-color:#3182ce}.hover\\:vc-border-blue-700:hover{border-color:#2b6cb0}.hover\\:vc-border-blue-800:hover{border-color:#2c5282}.hover\\:vc-border-blue-900:hover{border-color:#2a4365}.hover\\:vc-border-indigo-100:hover{border-color:#ebf4ff}.hover\\:vc-border-indigo-200:hover{border-color:#c3dafe}.hover\\:vc-border-indigo-300:hover{border-color:#a3bffa}.hover\\:vc-border-indigo-400:hover{border-color:#7f9cf5}.hover\\:vc-border-indigo-500:hover{border-color:#667eea}.hover\\:vc-border-indigo-600:hover{border-color:#5a67d8}.hover\\:vc-border-indigo-700:hover{border-color:#4c51bf}.hover\\:vc-border-indigo-800:hover{border-color:#434190}.hover\\:vc-border-indigo-900:hover{border-color:#3c366b}.hover\\:vc-border-purple-100:hover{border-color:#faf5ff}.hover\\:vc-border-purple-200:hover{border-color:#e9d8fd}.hover\\:vc-border-purple-300:hover{border-color:#d6bcfa}.hover\\:vc-border-purple-400:hover{border-color:#b794f4}.hover\\:vc-border-purple-500:hover{border-color:#9f7aea}.hover\\:vc-border-purple-600:hover{border-color:#805ad5}.hover\\:vc-border-purple-700:hover{border-color:#6b46c1}.hover\\:vc-border-purple-800:hover{border-color:#553c9a}.hover\\:vc-border-purple-900:hover{border-color:#44337a}.hover\\:vc-border-pink-100:hover{border-color:#fff5f7}.hover\\:vc-border-pink-200:hover{border-color:#fed7e2}.hover\\:vc-border-pink-300:hover{border-color:#fbb6ce}.hover\\:vc-border-pink-400:hover{border-color:#f687b3}.hover\\:vc-border-pink-500:hover{border-color:#ed64a6}.hover\\:vc-border-pink-600:hover{border-color:#d53f8c}.hover\\:vc-border-pink-700:hover{border-color:#b83280}.hover\\:vc-border-pink-800:hover{border-color:#97266d}.hover\\:vc-border-pink-900:hover{border-color:#702459}.focus\\:vc-border-transparent:focus{border-color:transparent}.focus\\:vc-border-black:focus{border-color:#000}.focus\\:vc-border-white:focus{border-color:#fff}.focus\\:vc-border-gray-100:focus{border-color:#f7fafc}.focus\\:vc-border-gray-200:focus{border-color:#edf2f7}.focus\\:vc-border-gray-300:focus{border-color:#e2e8f0}.focus\\:vc-border-gray-400:focus{border-color:#cbd5e0}.focus\\:vc-border-gray-500:focus{border-color:#a0aec0}.focus\\:vc-border-gray-600:focus{border-color:#718096}.focus\\:vc-border-gray-700:focus{border-color:#4a5568}.focus\\:vc-border-gray-800:focus{border-color:#2d3748}.focus\\:vc-border-gray-900:focus{border-color:#1a202c}.focus\\:vc-border-red-100:focus{border-color:#fff5f5}.focus\\:vc-border-red-200:focus{border-color:#fed7d7}.focus\\:vc-border-red-300:focus{border-color:#feb2b2}.focus\\:vc-border-red-400:focus{border-color:#fc8181}.focus\\:vc-border-red-500:focus{border-color:#f56565}.focus\\:vc-border-red-600:focus{border-color:#e53e3e}.focus\\:vc-border-red-700:focus{border-color:#c53030}.focus\\:vc-border-red-800:focus{border-color:#9b2c2c}.focus\\:vc-border-red-900:focus{border-color:#742a2a}.focus\\:vc-border-orange-100:focus{border-color:#fffaf0}.focus\\:vc-border-orange-200:focus{border-color:#feebc8}.focus\\:vc-border-orange-300:focus{border-color:#fbd38d}.focus\\:vc-border-orange-400:focus{border-color:#f6ad55}.focus\\:vc-border-orange-500:focus{border-color:#ed8936}.focus\\:vc-border-orange-600:focus{border-color:#dd6b20}.focus\\:vc-border-orange-700:focus{border-color:#c05621}.focus\\:vc-border-orange-800:focus{border-color:#9c4221}.focus\\:vc-border-orange-900:focus{border-color:#7b341e}.focus\\:vc-border-yellow-100:focus{border-color:ivory}.focus\\:vc-border-yellow-200:focus{border-color:#fefcbf}.focus\\:vc-border-yellow-300:focus{border-color:#faf089}.focus\\:vc-border-yellow-400:focus{border-color:#f6e05e}.focus\\:vc-border-yellow-500:focus{border-color:#ecc94b}.focus\\:vc-border-yellow-600:focus{border-color:#d69e2e}.focus\\:vc-border-yellow-700:focus{border-color:#b7791f}.focus\\:vc-border-yellow-800:focus{border-color:#975a16}.focus\\:vc-border-yellow-900:focus{border-color:#744210}.focus\\:vc-border-green-100:focus{border-color:#f0fff4}.focus\\:vc-border-green-200:focus{border-color:#c6f6d5}.focus\\:vc-border-green-300:focus{border-color:#9ae6b4}.focus\\:vc-border-green-400:focus{border-color:#68d391}.focus\\:vc-border-green-500:focus{border-color:#48bb78}.focus\\:vc-border-green-600:focus{border-color:#38a169}.focus\\:vc-border-green-700:focus{border-color:#2f855a}.focus\\:vc-border-green-800:focus{border-color:#276749}.focus\\:vc-border-green-900:focus{border-color:#22543d}.focus\\:vc-border-teal-100:focus{border-color:#e6fffa}.focus\\:vc-border-teal-200:focus{border-color:#b2f5ea}.focus\\:vc-border-teal-300:focus{border-color:#81e6d9}.focus\\:vc-border-teal-400:focus{border-color:#4fd1c5}.focus\\:vc-border-teal-500:focus{border-color:#38b2ac}.focus\\:vc-border-teal-600:focus{border-color:#319795}.focus\\:vc-border-teal-700:focus{border-color:#2c7a7b}.focus\\:vc-border-teal-800:focus{border-color:#285e61}.focus\\:vc-border-teal-900:focus{border-color:#234e52}.focus\\:vc-border-blue-100:focus{border-color:#ebf8ff}.focus\\:vc-border-blue-200:focus{border-color:#bee3f8}.focus\\:vc-border-blue-300:focus{border-color:#90cdf4}.focus\\:vc-border-blue-400:focus{border-color:#63b3ed}.focus\\:vc-border-blue-500:focus{border-color:#4299e1}.focus\\:vc-border-blue-600:focus{border-color:#3182ce}.focus\\:vc-border-blue-700:focus{border-color:#2b6cb0}.focus\\:vc-border-blue-800:focus{border-color:#2c5282}.focus\\:vc-border-blue-900:focus{border-color:#2a4365}.focus\\:vc-border-indigo-100:focus{border-color:#ebf4ff}.focus\\:vc-border-indigo-200:focus{border-color:#c3dafe}.focus\\:vc-border-indigo-300:focus{border-color:#a3bffa}.focus\\:vc-border-indigo-400:focus{border-color:#7f9cf5}.focus\\:vc-border-indigo-500:focus{border-color:#667eea}.focus\\:vc-border-indigo-600:focus{border-color:#5a67d8}.focus\\:vc-border-indigo-700:focus{border-color:#4c51bf}.focus\\:vc-border-indigo-800:focus{border-color:#434190}.focus\\:vc-border-indigo-900:focus{border-color:#3c366b}.focus\\:vc-border-purple-100:focus{border-color:#faf5ff}.focus\\:vc-border-purple-200:focus{border-color:#e9d8fd}.focus\\:vc-border-purple-300:focus{border-color:#d6bcfa}.focus\\:vc-border-purple-400:focus{border-color:#b794f4}.focus\\:vc-border-purple-500:focus{border-color:#9f7aea}.focus\\:vc-border-purple-600:focus{border-color:#805ad5}.focus\\:vc-border-purple-700:focus{border-color:#6b46c1}.focus\\:vc-border-purple-800:focus{border-color:#553c9a}.focus\\:vc-border-purple-900:focus{border-color:#44337a}.focus\\:vc-border-pink-100:focus{border-color:#fff5f7}.focus\\:vc-border-pink-200:focus{border-color:#fed7e2}.focus\\:vc-border-pink-300:focus{border-color:#fbb6ce}.focus\\:vc-border-pink-400:focus{border-color:#f687b3}.focus\\:vc-border-pink-500:focus{border-color:#ed64a6}.focus\\:vc-border-pink-600:focus{border-color:#d53f8c}.focus\\:vc-border-pink-700:focus{border-color:#b83280}.focus\\:vc-border-pink-800:focus{border-color:#97266d}.focus\\:vc-border-pink-900:focus{border-color:#702459}.vc-rounded-none{border-radius:0}.vc-rounded-sm{border-radius:18px}.vc-rounded{border-radius:4px}.vc-rounded-lg{border-radius:8px}.vc-rounded-full{border-radius:9999px}.vc-rounded-t-none{border-top-left-radius:0;border-top-right-radius:0}.vc-rounded-r-none{border-top-right-radius:0;border-bottom-right-radius:0}.vc-rounded-b-none{border-bottom-right-radius:0;border-bottom-left-radius:0}.vc-rounded-l-none{border-top-left-radius:0;border-bottom-left-radius:0}.vc-rounded-t-sm{border-top-left-radius:18px;border-top-right-radius:18px}.vc-rounded-r-sm{border-top-right-radius:18px;border-bottom-right-radius:18px}.vc-rounded-b-sm{border-bottom-right-radius:18px;border-bottom-left-radius:18px}.vc-rounded-l-sm{border-top-left-radius:18px;border-bottom-left-radius:18px}.vc-rounded-t{border-top-left-radius:4px;border-top-right-radius:4px}.vc-rounded-r{border-top-right-radius:4px}.vc-rounded-b,.vc-rounded-r{border-bottom-right-radius:4px}.vc-rounded-b,.vc-rounded-l{border-bottom-left-radius:4px}.vc-rounded-l{border-top-left-radius:4px}.vc-rounded-t-lg{border-top-left-radius:8px;border-top-right-radius:8px}.vc-rounded-r-lg{border-top-right-radius:8px;border-bottom-right-radius:8px}.vc-rounded-b-lg{border-bottom-right-radius:8px;border-bottom-left-radius:8px}.vc-rounded-l-lg{border-top-left-radius:8px;border-bottom-left-radius:8px}.vc-rounded-t-full{border-top-left-radius:9999px;border-top-right-radius:9999px}.vc-rounded-r-full{border-top-right-radius:9999px;border-bottom-right-radius:9999px}.vc-rounded-b-full{border-bottom-right-radius:9999px;border-bottom-left-radius:9999px}.vc-rounded-l-full{border-top-left-radius:9999px;border-bottom-left-radius:9999px}.vc-rounded-tl-none{border-top-left-radius:0}.vc-rounded-tr-none{border-top-right-radius:0}.vc-rounded-br-none{border-bottom-right-radius:0}.vc-rounded-bl-none{border-bottom-left-radius:0}.vc-rounded-tl-sm{border-top-left-radius:18px}.vc-rounded-tr-sm{border-top-right-radius:18px}.vc-rounded-br-sm{border-bottom-right-radius:18px}.vc-rounded-bl-sm{border-bottom-left-radius:18px}.vc-rounded-tl{border-top-left-radius:4px}.vc-rounded-tr{border-top-right-radius:4px}.vc-rounded-br{border-bottom-right-radius:4px}.vc-rounded-bl{border-bottom-left-radius:4px}.vc-rounded-tl-lg{border-top-left-radius:8px}.vc-rounded-tr-lg{border-top-right-radius:8px}.vc-rounded-br-lg{border-bottom-right-radius:8px}.vc-rounded-bl-lg{border-bottom-left-radius:8px}.vc-rounded-tl-full{border-top-left-radius:9999px}.vc-rounded-tr-full{border-top-right-radius:9999px}.vc-rounded-br-full{border-bottom-right-radius:9999px}.vc-rounded-bl-full{border-bottom-left-radius:9999px}.vc-border-solid{border-style:solid}.vc-border-dashed{border-style:dashed}.vc-border-dotted{border-style:dotted}.vc-border-double{border-style:double}.vc-border-none{border-style:none}.vc-border-0{border-width:0}.vc-border-2{border-width:2px}.vc-border-4{border-width:4px}.vc-border-8{border-width:8px}.vc-border{border-width:1px}.vc-border-t-0{border-top-width:0}.vc-border-r-0{border-right-width:0}.vc-border-b-0{border-bottom-width:0}.vc-border-l-0{border-left-width:0}.vc-border-t-2{border-top-width:2px}.vc-border-r-2{border-right-width:2px}.vc-border-b-2{border-bottom-width:2px}.vc-border-l-2{border-left-width:2px}.vc-border-t-4{border-top-width:4px}.vc-border-r-4{border-right-width:4px}.vc-border-b-4{border-bottom-width:4px}.vc-border-l-4{border-left-width:4px}.vc-border-t-8{border-top-width:8px}.vc-border-r-8{border-right-width:8px}.vc-border-b-8{border-bottom-width:8px}.vc-border-l-8{border-left-width:8px}.vc-border-t{border-top-width:1px}.vc-border-r{border-right-width:1px}.vc-border-b{border-bottom-width:1px}.vc-border-l{border-left-width:1px}.vc-cursor-pointer{cursor:pointer}.vc-cursor-not-allowed{cursor:not-allowed}.vc-flex{display:flex}.vc-items-center{align-items:center}.vc-justify-center{justify-content:center}.vc-font-medium{font-weight:500}.vc-font-semibold{font-weight:600}.focus\\:vc-font-bold:focus,.vc-font-bold{font-weight:700}.vc-h-full{height:100%}.vc-leading-tight{line-height:1.25}.vc-leading-snug{line-height:1.375}.vc-mr-auto{margin-right:auto}.vc-ml-auto{margin-left:auto}.vc-min-w-full{min-width:100%}.vc-opacity-0{opacity:0}.vc-opacity-25{opacity:.25}.vc-opacity-75{opacity:.75}.hover\\:vc-opacity-50:hover{opacity:.5}.hover\\:vc-opacity-75:hover{opacity:.75}.focus\\:vc-outline-none:focus{outline:0}.vc-overflow-hidden{overflow:hidden}.vc-p-1{padding:4px}.vc-py-1{padding-top:4px;padding-bottom:4px}.vc-py-2{padding-top:8px;padding-bottom:8px}.vc-px-2{padding-left:8px;padding-right:8px}.vc-px-3{padding-left:12px;padding-right:12px}.vc-pointer-events-none{pointer-events:none}.vc-pointer-events-auto{pointer-events:auto}.vc-relative{position:relative}.vc-shadow{box-shadow:0 1px 3px 0 rgba(0,0,0,.1),0 1px 2px 0 rgba(0,0,0,.06)}.hover\\:vc-shadow-inner:hover{box-shadow:inset 0 2px 4px 0 rgba(0,0,0,.06)}.focus\\:vc-shadow:focus{box-shadow:0 1px 3px 0 rgba(0,0,0,.1),0 1px 2px 0 rgba(0,0,0,.06)}.vc-text-left{text-align:left}.vc-text-center{text-align:center}.vc-text-right{text-align:right}.vc-text-justify{text-align:justify}.vc-text-transparent{color:transparent}.vc-text-black{color:#000}.vc-text-white{color:#fff}.vc-text-gray-100{color:#f7fafc}.vc-text-gray-200{color:#edf2f7}.vc-text-gray-300{color:#e2e8f0}.vc-text-gray-400{color:#cbd5e0}.vc-text-gray-500{color:#a0aec0}.vc-text-gray-600{color:#718096}.vc-text-gray-700{color:#4a5568}.vc-text-gray-800{color:#2d3748}.vc-text-gray-900{color:#1a202c}.vc-text-red-100{color:#fff5f5}.vc-text-red-200{color:#fed7d7}.vc-text-red-300{color:#feb2b2}.vc-text-red-400{color:#fc8181}.vc-text-red-500{color:#f56565}.vc-text-red-600{color:#e53e3e}.vc-text-red-700{color:#c53030}.vc-text-red-800{color:#9b2c2c}.vc-text-red-900{color:#742a2a}.vc-text-orange-100{color:#fffaf0}.vc-text-orange-200{color:#feebc8}.vc-text-orange-300{color:#fbd38d}.vc-text-orange-400{color:#f6ad55}.vc-text-orange-500{color:#ed8936}.vc-text-orange-600{color:#dd6b20}.vc-text-orange-700{color:#c05621}.vc-text-orange-800{color:#9c4221}.vc-text-orange-900{color:#7b341e}.vc-text-yellow-100{color:ivory}.vc-text-yellow-200{color:#fefcbf}.vc-text-yellow-300{color:#faf089}.vc-text-yellow-400{color:#f6e05e}.vc-text-yellow-500{color:#ecc94b}.vc-text-yellow-600{color:#d69e2e}.vc-text-yellow-700{color:#b7791f}.vc-text-yellow-800{color:#975a16}.vc-text-yellow-900{color:#744210}.vc-text-green-100{color:#f0fff4}.vc-text-green-200{color:#c6f6d5}.vc-text-green-300{color:#9ae6b4}.vc-text-green-400{color:#68d391}.vc-text-green-500{color:#48bb78}.vc-text-green-600{color:#38a169}.vc-text-green-700{color:#2f855a}.vc-text-green-800{color:#276749}.vc-text-green-900{color:#22543d}.vc-text-teal-100{color:#e6fffa}.vc-text-teal-200{color:#b2f5ea}.vc-text-teal-300{color:#81e6d9}.vc-text-teal-400{color:#4fd1c5}.vc-text-teal-500{color:#38b2ac}.vc-text-teal-600{color:#319795}.vc-text-teal-700{color:#2c7a7b}.vc-text-teal-800{color:#285e61}.vc-text-teal-900{color:#234e52}.vc-text-blue-100{color:#ebf8ff}.vc-text-blue-200{color:#bee3f8}.vc-text-blue-300{color:#90cdf4}.vc-text-blue-400{color:#63b3ed}.vc-text-blue-500{color:#4299e1}.vc-text-blue-600{color:#3182ce}.vc-text-blue-700{color:#2b6cb0}.vc-text-blue-800{color:#2c5282}.vc-text-blue-900{color:#2a4365}.vc-text-indigo-100{color:#ebf4ff}.vc-text-indigo-200{color:#c3dafe}.vc-text-indigo-300{color:#a3bffa}.vc-text-indigo-400{color:#7f9cf5}.vc-text-indigo-500{color:#667eea}.vc-text-indigo-600{color:#5a67d8}.vc-text-indigo-700{color:#4c51bf}.vc-text-indigo-800{color:#434190}.vc-text-indigo-900{color:#3c366b}.vc-text-purple-100{color:#faf5ff}.vc-text-purple-200{color:#e9d8fd}.vc-text-purple-300{color:#d6bcfa}.vc-text-purple-400{color:#b794f4}.vc-text-purple-500{color:#9f7aea}.vc-text-purple-600{color:#805ad5}.vc-text-purple-700{color:#6b46c1}.vc-text-purple-800{color:#553c9a}.vc-text-purple-900{color:#44337a}.vc-text-pink-100{color:#fff5f7}.vc-text-pink-200{color:#fed7e2}.vc-text-pink-300{color:#fbb6ce}.vc-text-pink-400{color:#f687b3}.vc-text-pink-500{color:#ed64a6}.vc-text-pink-600{color:#d53f8c}.vc-text-pink-700{color:#b83280}.vc-text-pink-800{color:#97266d}.vc-text-pink-900{color:#702459}.hover\\:vc-text-transparent:hover{color:transparent}.hover\\:vc-text-black:hover{color:#000}.hover\\:vc-text-white:hover{color:#fff}.hover\\:vc-text-gray-100:hover{color:#f7fafc}.hover\\:vc-text-gray-200:hover{color:#edf2f7}.hover\\:vc-text-gray-300:hover{color:#e2e8f0}.hover\\:vc-text-gray-400:hover{color:#cbd5e0}.hover\\:vc-text-gray-500:hover{color:#a0aec0}.hover\\:vc-text-gray-600:hover{color:#718096}.hover\\:vc-text-gray-700:hover{color:#4a5568}.hover\\:vc-text-gray-800:hover{color:#2d3748}.hover\\:vc-text-gray-900:hover{color:#1a202c}.hover\\:vc-text-red-100:hover{color:#fff5f5}.hover\\:vc-text-red-200:hover{color:#fed7d7}.hover\\:vc-text-red-300:hover{color:#feb2b2}.hover\\:vc-text-red-400:hover{color:#fc8181}.hover\\:vc-text-red-500:hover{color:#f56565}.hover\\:vc-text-red-600:hover{color:#e53e3e}.hover\\:vc-text-red-700:hover{color:#c53030}.hover\\:vc-text-red-800:hover{color:#9b2c2c}.hover\\:vc-text-red-900:hover{color:#742a2a}.hover\\:vc-text-orange-100:hover{color:#fffaf0}.hover\\:vc-text-orange-200:hover{color:#feebc8}.hover\\:vc-text-orange-300:hover{color:#fbd38d}.hover\\:vc-text-orange-400:hover{color:#f6ad55}.hover\\:vc-text-orange-500:hover{color:#ed8936}.hover\\:vc-text-orange-600:hover{color:#dd6b20}.hover\\:vc-text-orange-700:hover{color:#c05621}.hover\\:vc-text-orange-800:hover{color:#9c4221}.hover\\:vc-text-orange-900:hover{color:#7b341e}.hover\\:vc-text-yellow-100:hover{color:ivory}.hover\\:vc-text-yellow-200:hover{color:#fefcbf}.hover\\:vc-text-yellow-300:hover{color:#faf089}.hover\\:vc-text-yellow-400:hover{color:#f6e05e}.hover\\:vc-text-yellow-500:hover{color:#ecc94b}.hover\\:vc-text-yellow-600:hover{color:#d69e2e}.hover\\:vc-text-yellow-700:hover{color:#b7791f}.hover\\:vc-text-yellow-800:hover{color:#975a16}.hover\\:vc-text-yellow-900:hover{color:#744210}.hover\\:vc-text-green-100:hover{color:#f0fff4}.hover\\:vc-text-green-200:hover{color:#c6f6d5}.hover\\:vc-text-green-300:hover{color:#9ae6b4}.hover\\:vc-text-green-400:hover{color:#68d391}.hover\\:vc-text-green-500:hover{color:#48bb78}.hover\\:vc-text-green-600:hover{color:#38a169}.hover\\:vc-text-green-700:hover{color:#2f855a}.hover\\:vc-text-green-800:hover{color:#276749}.hover\\:vc-text-green-900:hover{color:#22543d}.hover\\:vc-text-teal-100:hover{color:#e6fffa}.hover\\:vc-text-teal-200:hover{color:#b2f5ea}.hover\\:vc-text-teal-300:hover{color:#81e6d9}.hover\\:vc-text-teal-400:hover{color:#4fd1c5}.hover\\:vc-text-teal-500:hover{color:#38b2ac}.hover\\:vc-text-teal-600:hover{color:#319795}.hover\\:vc-text-teal-700:hover{color:#2c7a7b}.hover\\:vc-text-teal-800:hover{color:#285e61}.hover\\:vc-text-teal-900:hover{color:#234e52}.hover\\:vc-text-blue-100:hover{color:#ebf8ff}.hover\\:vc-text-blue-200:hover{color:#bee3f8}.hover\\:vc-text-blue-300:hover{color:#90cdf4}.hover\\:vc-text-blue-400:hover{color:#63b3ed}.hover\\:vc-text-blue-500:hover{color:#4299e1}.hover\\:vc-text-blue-600:hover{color:#3182ce}.hover\\:vc-text-blue-700:hover{color:#2b6cb0}.hover\\:vc-text-blue-800:hover{color:#2c5282}.hover\\:vc-text-blue-900:hover{color:#2a4365}.hover\\:vc-text-indigo-100:hover{color:#ebf4ff}.hover\\:vc-text-indigo-200:hover{color:#c3dafe}.hover\\:vc-text-indigo-300:hover{color:#a3bffa}.hover\\:vc-text-indigo-400:hover{color:#7f9cf5}.hover\\:vc-text-indigo-500:hover{color:#667eea}.hover\\:vc-text-indigo-600:hover{color:#5a67d8}.hover\\:vc-text-indigo-700:hover{color:#4c51bf}.hover\\:vc-text-indigo-800:hover{color:#434190}.hover\\:vc-text-indigo-900:hover{color:#3c366b}.hover\\:vc-text-purple-100:hover{color:#faf5ff}.hover\\:vc-text-purple-200:hover{color:#e9d8fd}.hover\\:vc-text-purple-300:hover{color:#d6bcfa}.hover\\:vc-text-purple-400:hover{color:#b794f4}.hover\\:vc-text-purple-500:hover{color:#9f7aea}.hover\\:vc-text-purple-600:hover{color:#805ad5}.hover\\:vc-text-purple-700:hover{color:#6b46c1}.hover\\:vc-text-purple-800:hover{color:#553c9a}.hover\\:vc-text-purple-900:hover{color:#44337a}.hover\\:vc-text-pink-100:hover{color:#fff5f7}.hover\\:vc-text-pink-200:hover{color:#fed7e2}.hover\\:vc-text-pink-300:hover{color:#fbb6ce}.hover\\:vc-text-pink-400:hover{color:#f687b3}.hover\\:vc-text-pink-500:hover{color:#ed64a6}.hover\\:vc-text-pink-600:hover{color:#d53f8c}.hover\\:vc-text-pink-700:hover{color:#b83280}.hover\\:vc-text-pink-800:hover{color:#97266d}.hover\\:vc-text-pink-900:hover{color:#702459}.vc-text-xs{font-size:12px}.vc-text-sm{font-size:14px}.vc-text-base{font-size:16px}.vc-text-lg{font-size:18px}.vc-text-xl{font-size:20px}.vc-text-2xl{font-size:24px}.vc-select-none{-webkit-user-select:none;-ms-user-select:none;user-select:none}.vc-w-12{width:48px}.vc-w-full{width:100%}@media (min-width:640px){.sm\\:vc-bg-fixed{background-attachment:fixed}.sm\\:vc-bg-local{background-attachment:local}.sm\\:vc-bg-scroll{background-attachment:scroll}.sm\\:vc-bg-bottom{background-position:bottom}.sm\\:vc-bg-center{background-position:50%}.sm\\:vc-bg-left{background-position:0}.sm\\:vc-bg-left-bottom{background-position:0 100%}.sm\\:vc-bg-left-top{background-position:0 0}.sm\\:vc-bg-right{background-position:100%}.sm\\:vc-bg-right-bottom{background-position:100% 100%}.sm\\:vc-bg-right-top{background-position:100% 0}.sm\\:vc-bg-top{background-position:top}.sm\\:vc-bg-repeat{background-repeat:repeat}.sm\\:vc-bg-no-repeat{background-repeat:no-repeat}.sm\\:vc-bg-repeat-x{background-repeat:repeat-x}.sm\\:vc-bg-repeat-y{background-repeat:repeat-y}.sm\\:vc-bg-repeat-round{background-repeat:round}.sm\\:vc-bg-repeat-space{background-repeat:space}.sm\\:vc-bg-auto{background-size:auto}.sm\\:vc-bg-cover{background-size:cover}.sm\\:vc-bg-contain{background-size:contain}.sm\\:vc-border-collapse{border-collapse:collapse}.sm\\:vc-border-separate{border-collapse:initial}.sm\\:vc-border-solid{border-style:solid}.sm\\:vc-border-dashed{border-style:dashed}.sm\\:vc-border-dotted{border-style:dotted}.sm\\:vc-border-double{border-style:double}.sm\\:vc-border-none{border-style:none}.sm\\:vc-border-0{border-width:0}.sm\\:vc-border-2{border-width:2px}.sm\\:vc-border-4{border-width:4px}.sm\\:vc-border-8{border-width:8px}.sm\\:vc-border{border-width:1px}.sm\\:vc-border-t-0{border-top-width:0}.sm\\:vc-border-r-0{border-right-width:0}.sm\\:vc-border-b-0{border-bottom-width:0}.sm\\:vc-border-l-0{border-left-width:0}.sm\\:vc-border-t-2{border-top-width:2px}.sm\\:vc-border-r-2{border-right-width:2px}.sm\\:vc-border-b-2{border-bottom-width:2px}.sm\\:vc-border-l-2{border-left-width:2px}.sm\\:vc-border-t-4{border-top-width:4px}.sm\\:vc-border-r-4{border-right-width:4px}.sm\\:vc-border-b-4{border-bottom-width:4px}.sm\\:vc-border-l-4{border-left-width:4px}.sm\\:vc-border-t-8{border-top-width:8px}.sm\\:vc-border-r-8{border-right-width:8px}.sm\\:vc-border-b-8{border-bottom-width:8px}.sm\\:vc-border-l-8{border-left-width:8px}.sm\\:vc-border-t{border-top-width:1px}.sm\\:vc-border-r{border-right-width:1px}.sm\\:vc-border-b{border-bottom-width:1px}.sm\\:vc-border-l{border-left-width:1px}.sm\\:vc-text-left{text-align:left}.sm\\:vc-text-center{text-align:center}.sm\\:vc-text-right{text-align:right}.sm\\:vc-text-justify{text-align:justify}.sm\\:vc-text-xs{font-size:12px}.sm\\:vc-text-sm{font-size:14px}.sm\\:vc-text-base{font-size:16px}.sm\\:vc-text-lg{font-size:18px}.sm\\:vc-text-xl{font-size:20px}.sm\\:vc-text-2xl{font-size:24px}}@media (min-width:768px){.md\\:vc-bg-fixed{background-attachment:fixed}.md\\:vc-bg-local{background-attachment:local}.md\\:vc-bg-scroll{background-attachment:scroll}.md\\:vc-bg-bottom{background-position:bottom}.md\\:vc-bg-center{background-position:50%}.md\\:vc-bg-left{background-position:0}.md\\:vc-bg-left-bottom{background-position:0 100%}.md\\:vc-bg-left-top{background-position:0 0}.md\\:vc-bg-right{background-position:100%}.md\\:vc-bg-right-bottom{background-position:100% 100%}.md\\:vc-bg-right-top{background-position:100% 0}.md\\:vc-bg-top{background-position:top}.md\\:vc-bg-repeat{background-repeat:repeat}.md\\:vc-bg-no-repeat{background-repeat:no-repeat}.md\\:vc-bg-repeat-x{background-repeat:repeat-x}.md\\:vc-bg-repeat-y{background-repeat:repeat-y}.md\\:vc-bg-repeat-round{background-repeat:round}.md\\:vc-bg-repeat-space{background-repeat:space}.md\\:vc-bg-auto{background-size:auto}.md\\:vc-bg-cover{background-size:cover}.md\\:vc-bg-contain{background-size:contain}.md\\:vc-border-collapse{border-collapse:collapse}.md\\:vc-border-separate{border-collapse:initial}.md\\:vc-border-solid{border-style:solid}.md\\:vc-border-dashed{border-style:dashed}.md\\:vc-border-dotted{border-style:dotted}.md\\:vc-border-double{border-style:double}.md\\:vc-border-none{border-style:none}.md\\:vc-border-0{border-width:0}.md\\:vc-border-2{border-width:2px}.md\\:vc-border-4{border-width:4px}.md\\:vc-border-8{border-width:8px}.md\\:vc-border{border-width:1px}.md\\:vc-border-t-0{border-top-width:0}.md\\:vc-border-r-0{border-right-width:0}.md\\:vc-border-b-0{border-bottom-width:0}.md\\:vc-border-l-0{border-left-width:0}.md\\:vc-border-t-2{border-top-width:2px}.md\\:vc-border-r-2{border-right-width:2px}.md\\:vc-border-b-2{border-bottom-width:2px}.md\\:vc-border-l-2{border-left-width:2px}.md\\:vc-border-t-4{border-top-width:4px}.md\\:vc-border-r-4{border-right-width:4px}.md\\:vc-border-b-4{border-bottom-width:4px}.md\\:vc-border-l-4{border-left-width:4px}.md\\:vc-border-t-8{border-top-width:8px}.md\\:vc-border-r-8{border-right-width:8px}.md\\:vc-border-b-8{border-bottom-width:8px}.md\\:vc-border-l-8{border-left-width:8px}.md\\:vc-border-t{border-top-width:1px}.md\\:vc-border-r{border-right-width:1px}.md\\:vc-border-b{border-bottom-width:1px}.md\\:vc-border-l{border-left-width:1px}.md\\:vc-text-left{text-align:left}.md\\:vc-text-center{text-align:center}.md\\:vc-text-right{text-align:right}.md\\:vc-text-justify{text-align:justify}.md\\:vc-text-xs{font-size:12px}.md\\:vc-text-sm{font-size:14px}.md\\:vc-text-base{font-size:16px}.md\\:vc-text-lg{font-size:18px}.md\\:vc-text-xl{font-size:20px}.md\\:vc-text-2xl{font-size:24px}}@media (min-width:1024px){.lg\\:vc-bg-fixed{background-attachment:fixed}.lg\\:vc-bg-local{background-attachment:local}.lg\\:vc-bg-scroll{background-attachment:scroll}.lg\\:vc-bg-bottom{background-position:bottom}.lg\\:vc-bg-center{background-position:50%}.lg\\:vc-bg-left{background-position:0}.lg\\:vc-bg-left-bottom{background-position:0 100%}.lg\\:vc-bg-left-top{background-position:0 0}.lg\\:vc-bg-right{background-position:100%}.lg\\:vc-bg-right-bottom{background-position:100% 100%}.lg\\:vc-bg-right-top{background-position:100% 0}.lg\\:vc-bg-top{background-position:top}.lg\\:vc-bg-repeat{background-repeat:repeat}.lg\\:vc-bg-no-repeat{background-repeat:no-repeat}.lg\\:vc-bg-repeat-x{background-repeat:repeat-x}.lg\\:vc-bg-repeat-y{background-repeat:repeat-y}.lg\\:vc-bg-repeat-round{background-repeat:round}.lg\\:vc-bg-repeat-space{background-repeat:space}.lg\\:vc-bg-auto{background-size:auto}.lg\\:vc-bg-cover{background-size:cover}.lg\\:vc-bg-contain{background-size:contain}.lg\\:vc-border-collapse{border-collapse:collapse}.lg\\:vc-border-separate{border-collapse:initial}.lg\\:vc-border-solid{border-style:solid}.lg\\:vc-border-dashed{border-style:dashed}.lg\\:vc-border-dotted{border-style:dotted}.lg\\:vc-border-double{border-style:double}.lg\\:vc-border-none{border-style:none}.lg\\:vc-border-0{border-width:0}.lg\\:vc-border-2{border-width:2px}.lg\\:vc-border-4{border-width:4px}.lg\\:vc-border-8{border-width:8px}.lg\\:vc-border{border-width:1px}.lg\\:vc-border-t-0{border-top-width:0}.lg\\:vc-border-r-0{border-right-width:0}.lg\\:vc-border-b-0{border-bottom-width:0}.lg\\:vc-border-l-0{border-left-width:0}.lg\\:vc-border-t-2{border-top-width:2px}.lg\\:vc-border-r-2{border-right-width:2px}.lg\\:vc-border-b-2{border-bottom-width:2px}.lg\\:vc-border-l-2{border-left-width:2px}.lg\\:vc-border-t-4{border-top-width:4px}.lg\\:vc-border-r-4{border-right-width:4px}.lg\\:vc-border-b-4{border-bottom-width:4px}.lg\\:vc-border-l-4{border-left-width:4px}.lg\\:vc-border-t-8{border-top-width:8px}.lg\\:vc-border-r-8{border-right-width:8px}.lg\\:vc-border-b-8{border-bottom-width:8px}.lg\\:vc-border-l-8{border-left-width:8px}.lg\\:vc-border-t{border-top-width:1px}.lg\\:vc-border-r{border-right-width:1px}.lg\\:vc-border-b{border-bottom-width:1px}.lg\\:vc-border-l{border-left-width:1px}.lg\\:vc-text-left{text-align:left}.lg\\:vc-text-center{text-align:center}.lg\\:vc-text-right{text-align:right}.lg\\:vc-text-justify{text-align:justify}.lg\\:vc-text-xs{font-size:12px}.lg\\:vc-text-sm{font-size:14px}.lg\\:vc-text-base{font-size:16px}.lg\\:vc-text-lg{font-size:18px}.lg\\:vc-text-xl{font-size:20px}.lg\\:vc-text-2xl{font-size:24px}}@media (min-width:1280px){.xl\\:vc-bg-fixed{background-attachment:fixed}.xl\\:vc-bg-local{background-attachment:local}.xl\\:vc-bg-scroll{background-attachment:scroll}.xl\\:vc-bg-bottom{background-position:bottom}.xl\\:vc-bg-center{background-position:50%}.xl\\:vc-bg-left{background-position:0}.xl\\:vc-bg-left-bottom{background-position:0 100%}.xl\\:vc-bg-left-top{background-position:0 0}.xl\\:vc-bg-right{background-position:100%}.xl\\:vc-bg-right-bottom{background-position:100% 100%}.xl\\:vc-bg-right-top{background-position:100% 0}.xl\\:vc-bg-top{background-position:top}.xl\\:vc-bg-repeat{background-repeat:repeat}.xl\\:vc-bg-no-repeat{background-repeat:no-repeat}.xl\\:vc-bg-repeat-x{background-repeat:repeat-x}.xl\\:vc-bg-repeat-y{background-repeat:repeat-y}.xl\\:vc-bg-repeat-round{background-repeat:round}.xl\\:vc-bg-repeat-space{background-repeat:space}.xl\\:vc-bg-auto{background-size:auto}.xl\\:vc-bg-cover{background-size:cover}.xl\\:vc-bg-contain{background-size:contain}.xl\\:vc-border-collapse{border-collapse:collapse}.xl\\:vc-border-separate{border-collapse:initial}.xl\\:vc-border-solid{border-style:solid}.xl\\:vc-border-dashed{border-style:dashed}.xl\\:vc-border-dotted{border-style:dotted}.xl\\:vc-border-double{border-style:double}.xl\\:vc-border-none{border-style:none}.xl\\:vc-border-0{border-width:0}.xl\\:vc-border-2{border-width:2px}.xl\\:vc-border-4{border-width:4px}.xl\\:vc-border-8{border-width:8px}.xl\\:vc-border{border-width:1px}.xl\\:vc-border-t-0{border-top-width:0}.xl\\:vc-border-r-0{border-right-width:0}.xl\\:vc-border-b-0{border-bottom-width:0}.xl\\:vc-border-l-0{border-left-width:0}.xl\\:vc-border-t-2{border-top-width:2px}.xl\\:vc-border-r-2{border-right-width:2px}.xl\\:vc-border-b-2{border-bottom-width:2px}.xl\\:vc-border-l-2{border-left-width:2px}.xl\\:vc-border-t-4{border-top-width:4px}.xl\\:vc-border-r-4{border-right-width:4px}.xl\\:vc-border-b-4{border-bottom-width:4px}.xl\\:vc-border-l-4{border-left-width:4px}.xl\\:vc-border-t-8{border-top-width:8px}.xl\\:vc-border-r-8{border-right-width:8px}.xl\\:vc-border-b-8{border-bottom-width:8px}.xl\\:vc-border-l-8{border-left-width:8px}.xl\\:vc-border-t{border-top-width:1px}.xl\\:vc-border-r{border-right-width:1px}.xl\\:vc-border-b{border-bottom-width:1px}.xl\\:vc-border-l{border-left-width:1px}.xl\\:vc-text-left{text-align:left}.xl\\:vc-text-center{text-align:center}.xl\\:vc-text-right{text-align:right}.xl\\:vc-text-justify{text-align:justify}.xl\\:vc-text-xs{font-size:12px}.xl\\:vc-text-sm{font-size:14px}.xl\\:vc-text-base{font-size:16px}.xl\\:vc-text-lg{font-size:18px}.xl\\:vc-text-xl{font-size:20px}.xl\\:vc-text-2xl{font-size:24px}}",""])},f4d6:function(e,t,r){var o=r("ffd6"),n=1/0;function c(e){if("string"==typeof e||o(e))return e;var t=e+"";return"0"==t&&1/e==-n?"-0":t}e.exports=c},f4d9:function(e,t){var r="\\ud800-\\udfff",o="\\u0300-\\u036f",n="\\ufe20-\\ufe2f",c="\\u20d0-\\u20ff",i=o+n+c,a="\\u2700-\\u27bf",s="a-z\\xdf-\\xf6\\xf8-\\xff",d="\\xac\\xb1\\xd7\\xf7",u="\\x00-\\x2f\\x3a-\\x40\\x5b-\\x60\\x7b-\\xbf",l="\\u2000-\\u206f",f=" \\t\\x0b\\f\\xa0\\ufeff\\n\\r\\u2028\\u2029\\u1680\\u180e\\u2000\\u2001\\u2002\\u2003\\u2004\\u2005\\u2006\\u2007\\u2008\\u2009\\u200a\\u202f\\u205f\\u3000",v="A-Z\\xc0-\\xd6\\xd8-\\xde",b="\\ufe0e\\ufe0f",h=d+u+l+f,p="['’]",g="["+h+"]",m="["+i+"]",y="\\d+",x="["+a+"]",w="["+s+"]",k="[^"+r+h+y+a+s+v+"]",O="\\ud83c[\\udffb-\\udfff]",j="(?:"+m+"|"+O+")",D="[^"+r+"]",P="(?:\\ud83c[\\udde6-\\uddff]){2}",M="[\\ud800-\\udbff][\\udc00-\\udfff]",S="["+v+"]",E="\\u200d",_="(?:"+w+"|"+k+")",Y="(?:"+S+"|"+k+")",C="(?:"+p+"(?:d|ll|m|re|s|t|ve))?",I="(?:"+p+"(?:D|LL|M|RE|S|T|VE))?",$=j+"?",A="["+b+"]?",T="(?:"+E+"(?:"+[D,P,M].join("|")+")"+A+$+")*",L="\\d*(?:1st|2nd|3rd|(?![123])\\dth)(?=\\b|[A-Z_])",F="\\d*(?:1ST|2ND|3RD|(?![123])\\dTH)(?=\\b|[a-z_])",N=A+$+T,z="(?:"+[x,P,M].join("|")+")"+N,R=RegExp([S+"?"+w+"+"+C+"(?="+[g,S,"$"].join("|")+")",Y+"+"+I+"(?="+[g,S+_,"$"].join("|")+")",S+"?"+_+"+"+C,S+"+"+I,F,L,y,z].join("|"),"g");function V(e){return e.match(R)||[]}e.exports=V},f542:function(e,t,r){var o=r("ec47"),n=r("ec69"),c=o(n);e.exports=c},f608:function(e,t,r){var o=r("6747"),n=r("ffd6"),c=/\.|\[(?:[^[\]]*|(["'])(?:(?!\1)[^\\]|\\.)*?\1)\]/,i=/^\w*$/;function a(e,t){if(o(e))return!1;var r=typeof e;return!("number"!=r&&"symbol"!=r&&"boolean"!=r&&null!=e&&!n(e))||(i.test(e)||!c.test(e)||null!=t&&e in Object(t))}e.exports=a},f678:function(e,t,r){var o=r("8384"),n=r("b4b0");function c(e,t,r){return void 0===r&&(r=t,t=void 0),void 0!==r&&(r=n(r),r=r===r?r:0),void 0!==t&&(t=n(t),t=t===t?t:0),o(n(e),t,r)}e.exports=c},f772:function(e,t){e.exports=function(e){return"object"===typeof e?null!==e:"function"===typeof e}},f7f1:function(e,t,r){"use strict";r.d(t,"a",(function(){return i}));var o=r("fe1f"),n=r("fd3a"),c=r("8c86");function i(e,t){Object(c["a"])(2,arguments);var r=Object(n["a"])(e),i=Object(o["a"])(t);return isNaN(i)?new Date(NaN):i?(r.setDate(r.getDate()+i),r):r}},f8af:function(e,t,r){var o=r("2474");function n(e){var t=new e.constructor(e.byteLength);return new o(t).set(new o(e)),t}e.exports=n},f909:function(e,t,r){var o=r("7e64"),n=r("b760"),c=r("72af"),i=r("4f50"),a=r("1a8c"),s=r("9934"),d=r("8adb");function u(e,t,r,l,f){e!==t&&c(t,(function(c,s){if(f||(f=new o),a(c))i(e,t,s,r,u,l,f);else{var v=l?l(d(e,s),c,s+"",e,t,f):void 0;void 0===v&&(v=c),n(e,s,v)}}),s)}e.exports=u},f9ce:function(e,t,r){var o=r("ef5d"),n=r("e3f8"),c=r("f608"),i=r("f4d6");function a(e){return c(e)?o(i(e)):n(e)}e.exports=a},fa21:function(e,t,r){var o=r("7530"),n=r("2dcb"),c=r("eac5");function i(e){return"function"!=typeof e.constructor||c(e)?{}:o(n(e))}e.exports=i},fa5b:function(e,t,r){e.exports=r("5537")("native-function-to-string",Function.toString)},fab2:function(e,t,r){var o=r("7726").document;e.exports=o&&o.documentElement},fb15:function(e,t,r){"use strict";var o;(r.r(t),r.d(t,"Calendar",(function(){return n["c"]})),r.d(t,"CalendarNav",(function(){return n["d"]})),r.d(t,"DatePicker",(function(){return n["f"]})),r.d(t,"Popover",(function(){return n["i"]})),r.d(t,"PopoverRef",(function(){return n["j"]})),r.d(t,"Grid",(function(){return n["g"]})),r.d(t,"Locale",(function(){return n["h"]})),r.d(t,"DateInfo",(function(){return n["e"]})),r.d(t,"Attribute",(function(){return n["a"]})),r.d(t,"AttributeStore",(function(){return n["b"]})),r.d(t,"setupCalendar",(function(){return n["L"]})),r.d(t,"evalFn",(function(){return n["u"]})),r.d(t,"pageIsValid",(function(){return n["K"]})),r.d(t,"pageIsBeforePage",(function(){return n["H"]})),r.d(t,"pageIsAfterPage",(function(){return n["G"]})),r.d(t,"pageIsBetweenPages",(function(){return n["I"]})),r.d(t,"pageIsEqualToPage",(function(){return n["J"]})),r.d(t,"pageForDate",(function(){return n["C"]})),r.d(t,"addPages",(function(){return n["l"]})),r.d(t,"pageForThisMonth",(function(){return n["F"]})),r.d(t,"pageForNextMonth",(function(){return n["D"]})),r.d(t,"pageForPrevMonth",(function(){return n["E"]})),r.d(t,"getMaxPage",(function(){return n["w"]})),r.d(t,"datesAreEqual",(function(){return n["p"]})),r.d(t,"arrayHasItems",(function(){return n["n"]})),r.d(t,"findAncestor",(function(){return n["v"]})),r.d(t,"elementHasAncestor",(function(){return n["s"]})),r.d(t,"elementPositionInAncestor",(function(){return n["t"]})),r.d(t,"mixinOptionalProps",(function(){return n["y"]})),r.d(t,"on",(function(){return n["A"]})),r.d(t,"off",(function(){return n["z"]})),r.d(t,"elementContains",(function(){return n["r"]})),r.d(t,"onSpaceOrEnter",(function(){return n["B"]})),r.d(t,"createGuid",(function(){return n["o"]})),r.d(t,"hash",(function(){return n["x"]})),r.d(t,"addTapOrClickHandler",(function(){return n["m"]})),r.d(t,"addHorizontalSwipeHandler",(function(){return n["k"]})),"undefined"!==typeof window)&&((o=window.document.currentScript)&&(o=o.src.match(/(.+\/)[^/]+\.js(\?.*)?$/))&&(r.p=o[1]));var n=r("34e9");t["default"]=n["q"]},fba5:function(e,t,r){var o=r("cb5a");function n(e){return o(this.__data__,e)>-1}e.exports=n},fd3a:function(e,t,r){"use strict";r.d(t,"a",(function(){return n}));var o=r("8c86");function n(e){Object(o["a"])(1,arguments);var t=Object.prototype.toString.call(e);return e instanceof Date||"object"===typeof e&&"[object Date]"===t?new Date(e.getTime()):"number"===typeof e||"[object Number]"===t?new Date(e):("string"!==typeof e&&"[object String]"!==t||"undefined"===typeof console||(console.warn("Starting with v2.0.0-beta.1 date-fns doesn't accept strings as arguments. Please use `parseISO` to parse strings. See: https://git.io/fjule"),console.warn((new Error).stack)),new Date(NaN))}},fe1f:function(e,t,r){"use strict";function o(e){if(null===e||!0===e||!1===e)return NaN;var t=Number(e);return isNaN(t)?t:t<0?Math.ceil(t):Math.floor(t)}r.d(t,"a",(function(){return o}))},ffd6:function(e,t,r){var o=r("3729"),n=r("1310"),c="[object Symbol]";function i(e){return"symbol"==typeof e||n(e)&&o(e)==c}e.exports=i}})}));
 //# sourceMappingURL=v-calendar.umd.min.js.map
+
+/***/ }),
+
+/***/ "./resources/js/components/CategoriesControl.vue":
+/*!*******************************************************!*\
+  !*** ./resources/js/components/CategoriesControl.vue ***!
+  \*******************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _CategoriesControl_vue_vue_type_template_id_889e1774_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./CategoriesControl.vue?vue&type=template&id=889e1774&scoped=true& */ "./resources/js/components/CategoriesControl.vue?vue&type=template&id=889e1774&scoped=true&");
+/* harmony import */ var _CategoriesControl_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./CategoriesControl.vue?vue&type=script&lang=js& */ "./resources/js/components/CategoriesControl.vue?vue&type=script&lang=js&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+;
+var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _CategoriesControl_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _CategoriesControl_vue_vue_type_template_id_889e1774_scoped_true___WEBPACK_IMPORTED_MODULE_0__.render,
+  _CategoriesControl_vue_vue_type_template_id_889e1774_scoped_true___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
+  false,
+  null,
+  "889e1774",
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/CategoriesControl.vue"
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (component.exports);
 
 /***/ }),
 
@@ -2404,32 +2696,6 @@ component.options.__file = "resources/js/pages/Calendar.vue"
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /*::-webkit-scrollbar {
     width: 0px;
 }
@@ -2438,6 +2704,45 @@ component.options.__file = "resources/js/pages/Calendar.vue"
     display: none;
 }*/
 
+
+/***/ }),
+
+/***/ "./resources/js/pages/Calendar/AddTaskModal.vue":
+/*!******************************************************!*\
+  !*** ./resources/js/pages/Calendar/AddTaskModal.vue ***!
+  \******************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _AddTaskModal_vue_vue_type_template_id_268d2bc2_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./AddTaskModal.vue?vue&type=template&id=268d2bc2&scoped=true& */ "./resources/js/pages/Calendar/AddTaskModal.vue?vue&type=template&id=268d2bc2&scoped=true&");
+/* harmony import */ var _AddTaskModal_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./AddTaskModal.vue?vue&type=script&lang=js& */ "./resources/js/pages/Calendar/AddTaskModal.vue?vue&type=script&lang=js&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+;
+var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _AddTaskModal_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _AddTaskModal_vue_vue_type_template_id_268d2bc2_scoped_true___WEBPACK_IMPORTED_MODULE_0__.render,
+  _AddTaskModal_vue_vue_type_template_id_268d2bc2_scoped_true___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
+  false,
+  null,
+  "268d2bc2",
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/pages/Calendar/AddTaskModal.vue"
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (component.exports);
 
 /***/ }),
 
@@ -2714,6 +3019,22 @@ component.options.__file = "resources/js/pages/UpcomingAuctions.vue"
 
 /***/ }),
 
+/***/ "./resources/js/components/CategoriesControl.vue?vue&type=script&lang=js&":
+/*!********************************************************************************!*\
+  !*** ./resources/js/components/CategoriesControl.vue?vue&type=script&lang=js& ***!
+  \********************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_CategoriesControl_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./CategoriesControl.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/CategoriesControl.vue?vue&type=script&lang=js&");
+ /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_CategoriesControl_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
 /***/ "./resources/js/pages/Calendar.vue?vue&type=script&lang=js&":
 /*!******************************************************************!*\
   !*** ./resources/js/pages/Calendar.vue?vue&type=script&lang=js& ***!
@@ -2727,6 +3048,22 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Calendar_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./Calendar.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/pages/Calendar.vue?vue&type=script&lang=js&");
  /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Calendar_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/pages/Calendar/AddTaskModal.vue?vue&type=script&lang=js&":
+/*!*******************************************************************************!*\
+  !*** ./resources/js/pages/Calendar/AddTaskModal.vue?vue&type=script&lang=js& ***!
+  \*******************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_AddTaskModal_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./AddTaskModal.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/pages/Calendar/AddTaskModal.vue?vue&type=script&lang=js&");
+ /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_AddTaskModal_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
 
 /***/ }),
 
@@ -2842,6 +3179,23 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/components/CategoriesControl.vue?vue&type=template&id=889e1774&scoped=true&":
+/*!**************************************************************************************************!*\
+  !*** ./resources/js/components/CategoriesControl.vue?vue&type=template&id=889e1774&scoped=true& ***!
+  \**************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_CategoriesControl_vue_vue_type_template_id_889e1774_scoped_true___WEBPACK_IMPORTED_MODULE_0__.render),
+/* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_CategoriesControl_vue_vue_type_template_id_889e1774_scoped_true___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
+/* harmony export */ });
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_CategoriesControl_vue_vue_type_template_id_889e1774_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./CategoriesControl.vue?vue&type=template&id=889e1774&scoped=true& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/CategoriesControl.vue?vue&type=template&id=889e1774&scoped=true&");
+
+
+/***/ }),
+
 /***/ "./resources/js/pages/Calendar.vue?vue&type=style&index=0&id=f1e19272&lang=postcss&scoped=true&":
 /*!******************************************************************************************************!*\
   !*** ./resources/js/pages/Calendar.vue?vue&type=style&index=0&id=f1e19272&lang=postcss&scoped=true& ***!
@@ -2875,6 +3229,23 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Calendar_vue_vue_type_template_id_f1e19272_scoped_true___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
 /* harmony export */ });
 /* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Calendar_vue_vue_type_template_id_f1e19272_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./Calendar.vue?vue&type=template&id=f1e19272&scoped=true& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/pages/Calendar.vue?vue&type=template&id=f1e19272&scoped=true&");
+
+
+/***/ }),
+
+/***/ "./resources/js/pages/Calendar/AddTaskModal.vue?vue&type=template&id=268d2bc2&scoped=true&":
+/*!*************************************************************************************************!*\
+  !*** ./resources/js/pages/Calendar/AddTaskModal.vue?vue&type=template&id=268d2bc2&scoped=true& ***!
+  \*************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_AddTaskModal_vue_vue_type_template_id_268d2bc2_scoped_true___WEBPACK_IMPORTED_MODULE_0__.render),
+/* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_AddTaskModal_vue_vue_type_template_id_268d2bc2_scoped_true___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
+/* harmony export */ });
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_AddTaskModal_vue_vue_type_template_id_268d2bc2_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./AddTaskModal.vue?vue&type=template&id=268d2bc2&scoped=true& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/pages/Calendar/AddTaskModal.vue?vue&type=template&id=268d2bc2&scoped=true&");
 
 
 /***/ }),
@@ -2998,6 +3369,170 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/CategoriesControl.vue?vue&type=template&id=889e1774&scoped=true&":
+/*!*****************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/CategoriesControl.vue?vue&type=template&id=889e1774&scoped=true& ***!
+  \*****************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* binding */ render),
+/* harmony export */   "staticRenderFns": () => (/* binding */ staticRenderFns)
+/* harmony export */ });
+var render = function () {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return !_vm.loading
+    ? _c("div", { staticClass: "bkt-wrapper-column bkt-gap-large" }, [
+        _c(
+          "div",
+          { staticClass: "bkt-wrapper-column bkt-gap-small" },
+          _vm._l(_vm.items, function (category, index) {
+            return _c("bkt-collapse", {
+              key: index,
+              attrs: {
+                id: "category-collapse-" + index,
+                main_class: "bkt-collapse_check",
+                collapse_button_class:
+                  category.subcategories.length > 0 ? "bkt-bg-white" : "d-none",
+              },
+              scopedSlots: _vm._u(
+                [
+                  {
+                    key: "title",
+                    fn: function () {
+                      return [
+                        _c(
+                          "div",
+                          { staticClass: "bkt-collapse__title-wrapper" },
+                          [
+                            category.subcategories.length == 0
+                              ? _c("bkt-checkbox", {
+                                  attrs: {
+                                    name: "bkt-category-checkbox-" + index,
+                                    id: "bkt-category-checkbox-" + index,
+                                    val: category.key,
+                                  },
+                                  model: {
+                                    value: _vm.model,
+                                    callback: function ($$v) {
+                                      _vm.model = $$v
+                                    },
+                                    expression: "model",
+                                  },
+                                })
+                              : _c("bkt-checkbox", {
+                                  attrs: {
+                                    name: "bkt-category-checkbox-" + index,
+                                    id: "bkt-category-checkbox-" + index,
+                                    indeterminate: _vm.isIndeterminate(index),
+                                  },
+                                  on: {
+                                    input: function ($event) {
+                                      return _vm.selectAll(index)
+                                    },
+                                  },
+                                  model: {
+                                    value: category.status,
+                                    callback: function ($$v) {
+                                      _vm.$set(category, "status", $$v)
+                                    },
+                                    expression: "category.status",
+                                  },
+                                }),
+                            _vm._v(" "),
+                            _c(
+                              "h5",
+                              {
+                                staticClass: "bkt-regions-tabs__title",
+                                attrs: {
+                                  "data-bs-toggle": "collapse",
+                                  "data-bs-target":
+                                    "#category-collapse-" + index,
+                                },
+                              },
+                              [
+                                _vm._v(
+                                  "\n                        " +
+                                    _vm._s(category.label) +
+                                    "\n                    "
+                                ),
+                              ]
+                            ),
+                          ],
+                          1
+                        ),
+                      ]
+                    },
+                    proxy: true,
+                  },
+                  {
+                    key: "collapse",
+                    fn: function () {
+                      return _vm._l(
+                        category.subcategories,
+                        function (subcategory, index) {
+                          return _c("div", { staticClass: "bkt-gap-mini" }, [
+                            _c(
+                              "div",
+                              { staticClass: "bkt-collapse__title-wrapper" },
+                              [
+                                _c("bkt-checkbox", {
+                                  attrs: {
+                                    name: "bkt-subcategory-checkbox-" + index,
+                                    id: "bkt-subcategory-checkbox-" + index,
+                                    val: subcategory.key,
+                                  },
+                                  model: {
+                                    value: _vm.model,
+                                    callback: function ($$v) {
+                                      _vm.model = $$v
+                                    },
+                                    expression: "model",
+                                  },
+                                }),
+                                _vm._v(" "),
+                                _c(
+                                  "h6",
+                                  { staticClass: "bkt-regions-tabs__subtitle" },
+                                  [
+                                    _vm._v(
+                                      "\n                            " +
+                                        _vm._s(subcategory.label) +
+                                        "\n                        "
+                                    ),
+                                  ]
+                                ),
+                              ],
+                              1
+                            ),
+                          ])
+                        }
+                      )
+                    },
+                    proxy: true,
+                  },
+                ],
+                null,
+                true
+              ),
+            })
+          }),
+          1
+        ),
+      ])
+    : _vm._e()
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/pages/Calendar.vue?vue&type=template&id=f1e19272&scoped=true&":
 /*!***************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/pages/Calendar.vue?vue&type=template&id=f1e19272&scoped=true& ***!
@@ -3014,171 +3549,207 @@ var render = function () {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "container bkt-calendar bkt-container" }, [
-    _vm._m(0),
-    _vm._v(" "),
-    _c("div", { staticClass: "bkt-content" }, [
-      _c("div", { staticClass: "row" }, [
-        _c("div", { staticClass: "col-12 col-lg-3" }, [
-          _c(
-            "div",
-            { staticClass: "bkt-month-calendar mb-2" },
-            [
-              _c("v-calendar", {
-                staticClass: "bkt-left-calendar bkt-calendar-none-border m-1",
-                attrs: { attributes: _vm.attr, masks: _vm.masks },
-                scopedSlots: _vm._u([
-                  {
-                    key: "header-left-button",
-                    fn: function () {
-                      return undefined
+  return _c(
+    "div",
+    { staticClass: "container bkt-calendar bkt-container" },
+    [
+      _c("add-task-modal"),
+      _vm._v(" "),
+      _vm._m(0),
+      _vm._v(" "),
+      _c("div", { staticClass: "bkt-content" }, [
+        _c("div", { staticClass: "row" }, [
+          _c("div", { staticClass: "col-12 col-lg-3" }, [
+            _c(
+              "div",
+              { staticClass: "bkt-month-calendar mb-2" },
+              [
+                _c("v-calendar", {
+                  staticClass: "bkt-left-calendar bkt-calendar-none-border m-1",
+                  attrs: { attributes: _vm.attr, masks: _vm.masks },
+                  scopedSlots: _vm._u([
+                    {
+                      key: "header-left-button",
+                      fn: function () {
+                        return undefined
+                      },
+                      proxy: true,
                     },
-                    proxy: true,
-                  },
-                ]),
-              }),
-            ],
-            1
-          ),
-          _vm._v(" "),
-          _c(
-            "div",
-            {
-              staticClass:
-                "bkt-calendar-checkboxes d-flex flex-wrap flex-column pl-4 pt-4 pb-4",
-            },
-            [
-              _c("bkt-checkbox", {
-                staticClass: "events_check mr-2",
-                attrs: {
-                  label: "События",
-                  name: "events",
-                  value: "true",
-                  wrapper_class: "bkt-check__wrapper-inline",
-                },
-              }),
-              _vm._v(" "),
-              _c("bkt-checkbox", {
-                staticClass: "tasks_check mr-2",
-                attrs: {
-                  label: "Задачи",
-                  name: "tasks",
-                  value: "true",
-                  wrapper_class: "bkt-check__wrapper-inline",
-                },
-              }),
-              _vm._v(" "),
-              _c("bkt-checkbox", {
-                staticClass: "reminders_check mr-2",
-                attrs: {
-                  label: "Напоминания",
-                  name: "reminders",
-                  value: "true",
-                  wrapper_class: "bkt-check__wrapper-inline",
-                },
-              }),
-            ],
-            1
-          ),
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "col-12 col-lg-9" }, [
-          _c(
-            "div",
-            { staticClass: "bkt-month-calendar" },
-            [
-              _c("v-calendar", {
+                  ]),
+                }),
+              ],
+              1
+            ),
+            _vm._v(" "),
+            _c(
+              "div",
+              {
                 staticClass:
-                  "bkt-calendar-none-border custom-calendar max-w-full",
-                attrs: {
-                  masks: _vm.masks,
-                  attributes: _vm.attr,
-                  "disable-page-swipe": "",
-                  "is-expanded": "",
-                },
-                scopedSlots: _vm._u([
-                  {
-                    key: "day-content",
-                    fn: function (ref) {
-                      var day = ref.day
-                      var attributes = ref.attributes
-                      return [
-                        _c(
-                          "div",
-                          {
-                            staticClass:
-                              "flex flex-col h-full z-10 overflow-hidden",
-                          },
-                          [
-                            _c(
-                              "span",
-                              {
-                                staticClass: "day-label text-sm text-gray-900",
-                              },
-                              [_vm._v(_vm._s(day.day))]
-                            ),
-                            _vm._v(" "),
-                            _c(
-                              "div",
-                              {
-                                staticClass:
-                                  "flex-grow overflow-y-auto overflow-x-auto",
-                              },
-                              _vm._l(attributes, function (attr) {
-                                return attr.customData
-                                  ? _c(
-                                      "p",
-                                      {
-                                        key: attr.key,
-                                        staticClass:
-                                          "text-xs leading-tight rounded-sm p-1 mt-0 mb-1",
-                                        class: attr.customData.class,
-                                      },
-                                      [
-                                        _vm._v(
-                                          "\n                                        " +
-                                            _vm._s(attr.customData.title) +
-                                            "\n                                    "
-                                        ),
-                                      ]
-                                    )
-                                  : _vm._e()
-                              }),
-                              0
-                            ),
-                          ]
-                        ),
-                      ]
-                    },
+                  "bkt-calendar-checkboxes d-flex flex-wrap flex-column pl-4 pt-4 pb-4",
+              },
+              [
+                _c("bkt-checkbox", {
+                  staticClass: "events_check mr-2",
+                  attrs: {
+                    label: "События",
+                    name: "events",
+                    value: "true",
+                    wrapper_class: "bkt-check__wrapper-inline",
                   },
-                  {
-                    key: "default",
-                    fn: function (ref) {
-                      var inputValue = ref.inputValue
-                      var inputEvents = ref.inputEvents
-                      return [
-                        _c(
-                          "input",
-                          _vm._g(
+                }),
+                _vm._v(" "),
+                _c("bkt-checkbox", {
+                  staticClass: "tasks_check mr-2",
+                  attrs: {
+                    label: "Задачи",
+                    name: "tasks",
+                    value: "true",
+                    wrapper_class: "bkt-check__wrapper-inline",
+                  },
+                }),
+                _vm._v(" "),
+                _c("bkt-checkbox", {
+                  staticClass: "reminders_check mr-2",
+                  attrs: {
+                    label: "Напоминания",
+                    name: "reminders",
+                    value: "true",
+                    wrapper_class: "bkt-check__wrapper-inline",
+                  },
+                }),
+              ],
+              1
+            ),
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "col-12 col-lg-9" }, [
+            _c(
+              "div",
+              { staticClass: "bkt-month-calendar" },
+              [
+                _c("v-calendar", {
+                  staticClass:
+                    "bkt-calendar-none-border custom-calendar max-w-full",
+                  attrs: {
+                    masks: _vm.masks,
+                    attributes: _vm.attr,
+                    "disable-page-swipe": "",
+                    "is-expanded": "",
+                  },
+                  scopedSlots: _vm._u([
+                    {
+                      key: "day-popover-header",
+                      fn: function (ref) {
+                        var day = ref.day
+                        return [
+                          _vm._v(
+                            "\n                            day\n                        "
+                          ),
+                        ]
+                      },
+                    },
+                    {
+                      key: "show-notification",
+                      fn: function (ref) {
+                        var day = ref.day
+                        return [_c("p", [_vm._v("dddddddddddd")])]
+                      },
+                    },
+                    {
+                      key: "day-content",
+                      fn: function (ref) {
+                        var day = ref.day
+                        var attributes = ref.attributes
+                        return [
+                          _c(
+                            "div",
                             {
-                              staticClass: "px-3 py-1 border rounded",
-                              domProps: { value: inputValue },
+                              staticClass:
+                                "flex flex-col h-full z-10 overflow-hidden",
+                              on: { click: _vm.openModal },
                             },
-                            inputEvents
-                          )
-                        ),
-                      ]
+                            [
+                              _c(
+                                "span",
+                                {
+                                  staticClass:
+                                    "day-label text-sm text-gray-900",
+                                },
+                                [
+                                  _vm._v(
+                                    _vm._s(_vm._f("moment")(day.id, "D MMM"))
+                                  ),
+                                ]
+                              ),
+                              _vm._v(" "),
+                              _vm._l(attributes, function (attr_date) {
+                                return _c(
+                                  "div",
+                                  {
+                                    key: attr_date.key,
+                                    staticClass:
+                                      "flex-grow overflow-y-auto overflow-x-auto",
+                                    staticStyle: { "margin-bottom": "35px" },
+                                  },
+                                  [
+                                    attr_date.customData
+                                      ? _c(
+                                          "p",
+                                          {
+                                            staticClass:
+                                              "text-xs leading-tight rounded-sm p-1 mt-0 mb-1",
+                                            class: attr_date.customData.class,
+                                          },
+                                          [
+                                            _vm._v(
+                                              "\n                                        " +
+                                                _vm._s(
+                                                  attr_date.customData.title
+                                                ) +
+                                                "\n                                    "
+                                            ),
+                                          ]
+                                        )
+                                      : _vm._e(),
+                                  ]
+                                )
+                              }),
+                            ],
+                            2
+                          ),
+                        ]
+                      },
                     },
-                  },
-                ]),
-              }),
-            ],
-            1
-          ),
+                    {
+                      key: "default",
+                      fn: function (ref) {
+                        var inputValue = ref.inputValue
+                        var inputEvents = ref.inputEvents
+                        return [
+                          _c(
+                            "input",
+                            _vm._g(
+                              {
+                                staticClass: "px-3 py-1 border rounded",
+                                domProps: { value: inputValue },
+                              },
+                              inputEvents
+                            )
+                          ),
+                        ]
+                      },
+                    },
+                  ]),
+                }),
+              ],
+              1
+            ),
+          ]),
         ]),
       ]),
-    ]),
-  ])
+    ],
+    1
+  )
 }
 var staticRenderFns = [
   function () {
@@ -3190,6 +3761,161 @@ var staticRenderFns = [
     ])
   },
 ]
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/pages/Calendar/AddTaskModal.vue?vue&type=template&id=268d2bc2&scoped=true&":
+/*!****************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/pages/Calendar/AddTaskModal.vue?vue&type=template&id=268d2bc2&scoped=true& ***!
+  \****************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* binding */ render),
+/* harmony export */   "staticRenderFns": () => (/* binding */ staticRenderFns)
+/* harmony export */ });
+var render = function () {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("bkt-modal", {
+    ref: "addTaskModal",
+    attrs: {
+      id: "addTaskModal",
+      modal_class: "bkt-category-modal bkt-add-task-modal modal-lg",
+      title: _vm._f("moment")(new Date(), "D MMM YYYY"),
+      right_button: "Добавить",
+    },
+    scopedSlots: _vm._u([
+      {
+        key: "body",
+        fn: function () {
+          return [
+            _c(
+              "div",
+              [
+                _c("div", { staticClass: "bkt-content-tasks" }, [
+                  _c("div", { staticClass: "bkt-content-tasks__item d-flex" }, [
+                    _c(
+                      "div",
+                      { staticClass: "bkt-border-neutral" },
+                      [
+                        _c(
+                          "div",
+                          {
+                            staticClass: "bkt-content-tasks__item-task d-flex",
+                          },
+                          [
+                            _c("div", { staticClass: "bkt-bg-red" }, [
+                              _vm._v("status"),
+                            ]),
+                            _vm._v(" "),
+                            _c("p", [
+                              _vm._v(
+                                'Прием заявок по лоту "Рено Кангу" до 15.04.2022 15:00'
+                              ),
+                            ]),
+                          ]
+                        ),
+                        _vm._v(" "),
+                        _c("bkt-icon", { attrs: { name: "Settings" } }),
+                      ],
+                      1
+                    ),
+                  ]),
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "text-left mb-3 bkt-input d-flex" }, [
+                  _c(
+                    "button",
+                    {
+                      staticClass: "bkt-button w-100",
+                      class: [
+                        _vm.selBtn == 1 ? "shadow green" : "bkt-text-main",
+                      ],
+                      attrs: { type: "button" },
+                      on: {
+                        click: function ($event) {
+                          _vm.selBtn = 1
+                        },
+                      },
+                    },
+                    [_vm._v("\n                    Событие\n                ")]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "button",
+                    {
+                      staticClass: "bkt-button w-100",
+                      class: [
+                        _vm.selBtn == 2 ? "shadow green" : "bkt-text-main",
+                      ],
+                      attrs: { type: "button" },
+                      on: {
+                        click: function ($event) {
+                          _vm.selBtn = 2
+                        },
+                      },
+                    },
+                    [_vm._v("\n                    Задача\n                ")]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "button",
+                    {
+                      staticClass: "bkt-button w-100",
+                      class: [
+                        _vm.selBtn == 3 ? "shadow green" : "bkt-text-main",
+                      ],
+                      attrs: { type: "button" },
+                      on: {
+                        click: function ($event) {
+                          _vm.selBtn = 3
+                        },
+                      },
+                    },
+                    [
+                      _vm._v(
+                        "\n                    Напоминание\n                "
+                      ),
+                    ]
+                  ),
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "bkt-date" }, [
+                  _c(
+                    "label",
+                    { staticClass: "bkt-input__label", attrs: { for: "" } },
+                    [_vm._v("дата и время")]
+                  ),
+                ]),
+                _vm._v(" "),
+                _c("bkt-input", {
+                  attrs: { label: "добавить описание", name: "description" },
+                }),
+              ],
+              1
+            ),
+          ]
+        },
+        proxy: true,
+      },
+      {
+        key: "left_button",
+        fn: function () {
+          return [_c("span")]
+        },
+        proxy: true,
+      },
+    ]),
+  })
+}
+var staticRenderFns = []
 render._withStripped = true
 
 
@@ -3231,177 +3957,15 @@ var render = function () {
                     "div",
                     { staticClass: "bkt-wrapper-column bkt-gap-large" },
                     [
-                      _c(
-                        "div",
-                        { staticClass: "bkt-wrapper-column bkt-gap-small" },
-                        _vm._l(_vm.items, function (category, index) {
-                          return _c("bkt-collapse", {
-                            key: index,
-                            attrs: {
-                              id: "category-collapse-" + index,
-                              main_class: "bkt-collapse_check",
-                              collapse_button_class:
-                                category.subcategories.length > 0
-                                  ? "bkt-bg-white"
-                                  : "d-none",
-                            },
-                            scopedSlots: _vm._u(
-                              [
-                                {
-                                  key: "title",
-                                  fn: function () {
-                                    return [
-                                      _c(
-                                        "div",
-                                        {
-                                          staticClass:
-                                            "bkt-collapse__title-wrapper",
-                                        },
-                                        [
-                                          category.subcategories.length == 0
-                                            ? _c("bkt-checkbox", {
-                                                attrs: {
-                                                  name:
-                                                    "bkt-category-checkbox-" +
-                                                    index,
-                                                  id:
-                                                    "bkt-category-checkbox-" +
-                                                    index,
-                                                  val: category.key,
-                                                },
-                                                model: {
-                                                  value: _vm.result,
-                                                  callback: function ($$v) {
-                                                    _vm.result = $$v
-                                                  },
-                                                  expression: "result",
-                                                },
-                                              })
-                                            : _c("bkt-checkbox", {
-                                                attrs: {
-                                                  name:
-                                                    "bkt-category-checkbox-" +
-                                                    index,
-                                                  id:
-                                                    "bkt-category-checkbox-" +
-                                                    index,
-                                                  indeterminate:
-                                                    _vm.isIndeterminate(index),
-                                                },
-                                                on: {
-                                                  input: function ($event) {
-                                                    return _vm.selectAll(index)
-                                                  },
-                                                },
-                                                model: {
-                                                  value: category.status,
-                                                  callback: function ($$v) {
-                                                    _vm.$set(
-                                                      category,
-                                                      "status",
-                                                      $$v
-                                                    )
-                                                  },
-                                                  expression: "category.status",
-                                                },
-                                              }),
-                                          _vm._v(" "),
-                                          _c(
-                                            "h5",
-                                            {
-                                              staticClass:
-                                                "bkt-regions-tabs__title",
-                                              attrs: {
-                                                "data-bs-toggle": "collapse",
-                                                "data-bs-target":
-                                                  "#category-collapse-" + index,
-                                              },
-                                            },
-                                            [
-                                              _vm._v(
-                                                "\n                                    " +
-                                                  _vm._s(category.label) +
-                                                  "\n                                "
-                                              ),
-                                            ]
-                                          ),
-                                        ],
-                                        1
-                                      ),
-                                    ]
-                                  },
-                                  proxy: true,
-                                },
-                                {
-                                  key: "collapse",
-                                  fn: function () {
-                                    return _vm._l(
-                                      category.subcategories,
-                                      function (subcategory, index) {
-                                        return _c(
-                                          "div",
-                                          { staticClass: "bkt-gap-mini" },
-                                          [
-                                            _c(
-                                              "div",
-                                              {
-                                                staticClass:
-                                                  "bkt-collapse__title-wrapper",
-                                              },
-                                              [
-                                                _c("bkt-checkbox", {
-                                                  attrs: {
-                                                    name:
-                                                      "bkt-subcategory-checkbox-" +
-                                                      index,
-                                                    id:
-                                                      "bkt-subcategory-checkbox-" +
-                                                      index,
-                                                    val: subcategory.key,
-                                                  },
-                                                  model: {
-                                                    value: _vm.result,
-                                                    callback: function ($$v) {
-                                                      _vm.result = $$v
-                                                    },
-                                                    expression: "result",
-                                                  },
-                                                }),
-                                                _vm._v(" "),
-                                                _c(
-                                                  "h6",
-                                                  {
-                                                    staticClass:
-                                                      "bkt-regions-tabs__subtitle",
-                                                  },
-                                                  [
-                                                    _vm._v(
-                                                      "\n                                        " +
-                                                        _vm._s(
-                                                          subcategory.label
-                                                        ) +
-                                                        "\n                                    "
-                                                    ),
-                                                  ]
-                                                ),
-                                              ],
-                                              1
-                                            ),
-                                          ]
-                                        )
-                                      }
-                                    )
-                                  },
-                                  proxy: true,
-                                },
-                              ],
-                              null,
-                              true
-                            ),
-                          })
-                        }),
-                        1
-                      ),
+                      _c("bkt-categories-control", {
+                        model: {
+                          value: _vm.result,
+                          callback: function ($$v) {
+                            _vm.result = $$v
+                          },
+                          expression: "result",
+                        },
+                      }),
                       _vm._v(" "),
                       _vm.result.length > 0
                         ? _c("div", { staticClass: "bkt-region-selected" }, [
@@ -3467,7 +4031,8 @@ var render = function () {
                             ),
                           ])
                         : _vm._e(),
-                    ]
+                    ],
+                    1
                   )
                 : _vm._e(),
               _vm._v(" "),
@@ -4974,17 +5539,29 @@ var render = function () {
     "div",
     { staticClass: "bkt-page bkt-auctions bkt-container" },
     [
-      _c("bkt-category-modal"),
+      _c("bkt-category-modal", {
+        attrs: { filter: "nearest_filters", method_name: "getNearestTrades" },
+      }),
       _vm._v(" "),
-      _c("bkt-region-modal"),
+      _c("bkt-region-modal", {
+        attrs: { filter: "nearest_filters", method_name: "getNearestTrades" },
+      }),
       _vm._v(" "),
-      _c("bkt-params-modal"),
+      _c("bkt-params-modal", {
+        attrs: { filter: "nearest_filters", method_name: "getNearestTrades" },
+      }),
       _vm._v(" "),
-      _c("bkt-price-modal"),
+      _c("bkt-price-modal", {
+        attrs: { filter: "nearest_filters", method_name: "getNearestTrades" },
+      }),
       _vm._v(" "),
-      _c("bkt-date-modal"),
+      _c("bkt-date-modal", {
+        attrs: { filter: "nearest_filters", method_name: "getNearestTrades" },
+      }),
       _vm._v(" "),
-      _c("bkt-options-modal"),
+      _c("bkt-options-modal", {
+        attrs: { filter: "nearest_filters", method_name: "getNearestTrades" },
+      }),
       _vm._v(" "),
       _c("h1", { staticClass: "bkt-page__title" }, [
         _vm._v("\n        Ближайшие торги\n    "),
@@ -5178,12 +5755,45 @@ var render = function () {
                   [
                     _c("bkt-select", {
                       attrs: {
-                        multiple: "",
                         name: "regions",
-                        option_label: "shortName",
-                        reduce: function (item) {
-                          return item.id
+                        options: _vm.region_options,
+                        with_option: "",
+                        with_selected_option: "",
+                      },
+                      scopedSlots: _vm._u([
+                        {
+                          key: "option",
+                          fn: function (ref) {
+                            var option = ref.option
+                            return [
+                              _vm._v(
+                                "\n                            " +
+                                  _vm._s(_vm.$t("regions." + option.label)) +
+                                  "\n                        "
+                              ),
+                            ]
+                          },
                         },
+                        {
+                          key: "selected-option",
+                          fn: function (ref) {
+                            var option = ref.option
+                            return [
+                              _vm._v(
+                                "\n                            " +
+                                  _vm._s(_vm.$t("regions." + option.label)) +
+                                  "\n                        "
+                              ),
+                            ]
+                          },
+                        },
+                      ]),
+                      model: {
+                        value: _vm.current_region,
+                        callback: function ($$v) {
+                          _vm.current_region = $$v
+                        },
+                        expression: "current_region",
                       },
                     }),
                   ],
@@ -5196,6 +5806,11 @@ var render = function () {
               _c("div", { staticClass: "col-2" }),
               _vm._v(" "),
               _c("div", { staticClass: "col-10" }, [
+                _vm._v(
+                  "\n                    " +
+                    _vm._s(_vm.selected_regions) +
+                    "\n                    "
+                ),
                 _c(
                   "div",
                   { staticClass: "bkt-selected-region float-left d-flex" },
@@ -5283,6 +5898,7 @@ var render = function () {
                             reduce: function (item) {
                               return item.id
                             },
+                            options: [],
                           },
                         }),
                       ],
@@ -5805,7 +6421,7 @@ var render = function () {
             { staticClass: "bkt-footer-mobile mt-3 p-3" },
             [
               _c("bkt-checkbox", {
-                attrs: { label: "с ближайших", value: true },
+                attrs: { label: "с ближайших", value: true, name: "nearest" },
               }),
               _vm._v(" "),
               _c(
@@ -5817,7 +6433,10 @@ var render = function () {
                   ]),
                   _vm._v(" "),
                   _c("bkt-checkbox", {
-                    attrs: { label: "окончание приёма заявок" },
+                    attrs: {
+                      label: "окончание приёма заявок",
+                      name: "applicationTimeEnd",
+                    },
                   }),
                 ],
                 1

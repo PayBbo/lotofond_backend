@@ -7,13 +7,64 @@
         <bkt-category-modal></bkt-category-modal>
         <bkt-region-modal></bkt-region-modal>
         <h1 class="bkt-page__title">Электронные торги по банкротству</h1>
-        <div class="bkt-search position-relative bg-white">
-            <input class="w-100 bkt-search__input" type="text" placeholder="Введите нужное слово или фразу">
-            <button class="bkt-button green bkt-search__button">
-                <span class="d-none d-md-block">Найти</span>
-                <bkt-icon class="d-block d-md-none" :name="'Search'"></bkt-icon>
-            </button>
-        </div>
+
+        <bkt-search v-model="searchString" method_name="searchTrades" :method_params="{}" :loading="false">
+            <template #dropdown-block="{options}">
+                <div class="row w-100 m-auto bkt-gap">
+                    <div class="col-12 px-0 d-none d-md-block">
+                        <div class="row w-100 mx-auto align-items-center justify-content-center">
+                            <div class="col-2 pl-0">
+                                <h6 class="bkt-text-neutral-dark">фото</h6>
+                            </div>
+                            <div class="col-3">
+                                <h6 class="bkt-text-neutral-dark">описание лота</h6>
+                            </div>
+                            <div class="col-2">
+                                <h6 class="bkt-text-neutral-dark">цена</h6>
+                            </div>
+                            <div class="col-2">
+                                <h6 class="bkt-text-neutral-dark">даты торгов</h6>
+                            </div>
+                            <div class="col-3">
+                                <h6 class="bkt-text-neutral-dark">ЭТП и организатор</h6>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 px-0" v-for="item in options">
+                        <mini-trade-card :item="item" class="bkt-card-trade-short"></mini-trade-card>
+                    </div>
+                </div>
+            </template>
+            <template #dropdown-block-header>
+                <div class="row w-100 mx-auto align-items-center justify-content-center">
+                    <div class="col-2 pl-0">
+                        <h6 class="bkt-text-neutral-dark">фото</h6>
+                    </div>
+                    <div class="col-3">
+                        <h6 class="bkt-text-neutral-dark">описание лота</h6>
+                    </div>
+                    <div class="col-2">
+                        <h6 class="bkt-text-neutral-dark">цена</h6>
+                    </div>
+                    <div class="col-2">
+                        <h6 class="bkt-text-neutral-dark">даты торгов</h6>
+                    </div>
+                    <div class="col-3">
+                        <h6 class="bkt-text-neutral-dark">ЭТП и организатор</h6>
+                    </div>
+                </div>
+            </template>
+                <template #dropdown-item="{item}">
+                <mini-trade-card :item="item"></mini-trade-card>
+            </template>
+        </bkt-search>
+<!--        <div class="bkt-search position-relative bg-white">-->
+<!--            <input class="w-100 bkt-search__input" type="text" placeholder="Введите нужное слово или фразу">-->
+<!--            <button class="bkt-button green bkt-search__button">-->
+<!--                <span class="d-none d-md-block">Найти</span>-->
+<!--                <bkt-icon class="d-block d-md-none" :name="'Search'"></bkt-icon>-->
+<!--            </button>-->
+<!--        </div>-->
         <div class="bkt-main-categories bkt-card__list">
             <bkt-filter-card
                 :icon="{name:'Category'}" category_class="bkt-bg-green"
@@ -229,12 +280,13 @@
     import BktCategoryModal from "./CategoryModal";
     import BktSelect from "../../components/Select";
     import BktFilterCard from "../../components/FilterCard";
-
+    import MiniTradeCard from "../../components/MiniTradeCard";
     export default {
         name: "Main",
         components: {
             BktDateModal, BktPriceModal, BktOptionsModal,
-            BktParamsModal, BktRegionModal, BktCategoryModal, BktSelect, BktFilterCard
+            BktParamsModal, BktRegionModal, BktCategoryModal, BktSelect, BktFilterCard,
+            MiniTradeCard
         },
         created() {
             this.$store.dispatch('getLotsStatistic');
@@ -258,7 +310,8 @@
                     {title: 'Дате окончания торгов', value: "eventEnd"},
                     {title: 'Дате начала приема заявок', value: "applicationStart"},
                     {title: 'Дате окончания приема заявок', value: "applicationEnd"},
-                ]
+                ],
+                searchString: ''
             };
         },
         computed: {

@@ -85,13 +85,13 @@ export default {
         setCategories(state, payload) {
             payload.forEach(item => {
                 Vue.set(item, 'status', false)
-                state.categories.push(item)
+                state.filters_data.categories.data.push(item)
             });
         },
         setRegions(state, payload) {
             payload.forEach(item => {
                 Vue.set(item, 'status', false)
-                state.regions.push(item)
+                state.filters_data.regions.data.push(item)
             });
         },
         setFiltersBidders(state, payload) {
@@ -136,7 +136,7 @@ export default {
     },
     actions: {
         async getCategories({commit, state}, payload) {
-            if (state.filters_data.categories.length == 0) {
+            if (state.filters_data.categories.data.length == 0) {
                 commit('saveFilterDataProperty', {filter: 'categories', key: 'loading', value: true});
                 await axios({
                     method: 'get',
@@ -153,7 +153,7 @@ export default {
             }
         },
         async getRegions({commit, state}) {
-            if (state.filters_data.regions.length == 0) {
+            if (state.filters_data.regions.data.length == 0) {
                 commit('saveFilterDataProperty', {filter: 'regions', key: 'loading', value: true});
                 await axios({
                     method: 'get',

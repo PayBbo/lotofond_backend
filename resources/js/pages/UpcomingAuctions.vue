@@ -1,11 +1,11 @@
 <template>
     <div class="bkt-page bkt-auctions bkt-container">
-        <bkt-category-modal/>
-        <bkt-region-modal/>
-        <bkt-params-modal/>
-        <bkt-price-modal/>
-        <bkt-date-modal/>
-        <bkt-options-modal/>
+        <bkt-category-modal filter="nearest_filters" method_name="getNearestTrades"/>
+        <bkt-region-modal filter="nearest_filters" method_name="getNearestTrades"/>
+        <bkt-params-modal filter="nearest_filters" method_name="getNearestTrades"/>
+        <bkt-price-modal filter="nearest_filters" method_name="getNearestTrades"/>
+        <bkt-date-modal filter="nearest_filters" method_name="getNearestTrades"/>
+        <bkt-options-modal filter="nearest_filters" method_name="getNearestTrades"/>
         <h1 class="bkt-page__title">
             Ближайшие торги
         </h1>
@@ -45,14 +45,25 @@
                         <h5 class="bkt-form__label">регион</h5>
                     </div>
                     <div class="col-12 col-lg-10">
-                        <bkt-select multiple name="regions" :option_label="'shortName'" :reduce="item => item.id"
-
-                        ></bkt-select>
+                        <bkt-select name="regions"
+                                    v-model="current_region"
+                                    :options="region_options"
+                                    with_option
+                                    with_selected_option
+                        >
+                            <template #option="{option}">
+                                {{$t('regions.'+option.label)}}
+                            </template>
+                            <template #selected-option="{option}">
+                                {{$t('regions.'+option.label)}}
+                            </template>
+                        </bkt-select>
                     </div>
                 </div>
                 <div class="row bkt-data__item mb-3">
                     <div class="col-2"></div>
                     <div class="col-10">
+                        {{selected_regions}}
                         <div class="bkt-selected-region float-left d-flex">
                             <div class="bkt-region__item bkt-bg-item-rounded bkt-item-rounded mr-2">
                                 <div class="mb-1 p-2 w-100 pl-4 pr-4 text-left">
@@ -82,7 +93,7 @@
                         <div class="row">
                             <div class="col-12 col-md-3">
                                 <bkt-select multiple name="trading_platform" :option_label="'shortName'"
-                                            :reduce="item => item.id"
+                                            :reduce="item => item.id" :options="[]"
                                 ></bkt-select>
                             </div>
                             <div class="col-12 col-md-9">
@@ -247,10 +258,10 @@
             </div>
 
             <div class="bkt-footer-mobile mt-3 p-3">
-                <bkt-checkbox label="с ближайших" :value="true"></bkt-checkbox>
+                <bkt-checkbox label="с ближайших" :value="true" name="nearest"></bkt-checkbox>
                 <div class="d-flex mt-4">
                     <span class="ml-5 mr-3 bkt-text-neutral">окончание торгов</span>
-                    <bkt-checkbox label="окончание приёма заявок"></bkt-checkbox>
+                    <bkt-checkbox label="окончание приёма заявок" name="applicationTimeEnd"></bkt-checkbox>
                 </div>
 
                 <div class="btn-actions d-flex justify-content-between mt-4">
@@ -285,92 +296,94 @@
 </template>
 
 <script>
-import BktDateModal from "./Main/DateModal";
-import BktPriceModal from "./Main/PriceModal";
-import BktOptionsModal from "./Main/OptionsModal";
-import BktParamsModal from "./Main/ParamsModal";
-import BktRegionModal from "./Main/RegionModal";
-import BktCategoryModal from "./Main/CategoryModal";
-import BktCardList from "../components/CardList";
+    import BktDateModal from "./Main/DateModal";
+    import BktPriceModal from "./Main/PriceModal";
+    import BktOptionsModal from "./Main/OptionsModal";
+    import BktParamsModal from "./Main/ParamsModal";
+    import BktRegionModal from "./Main/RegionModal";
+    import BktCategoryModal from "./Main/CategoryModal";
+    import BktCardList from "../components/CardList";
 
-export default {
-    name: "UpcomingAuctions",
-    components: {
-        BktDateModal, BktPriceModal, BktOptionsModal,
-        BktParamsModal, BktRegionModal, BktCategoryModal, BktCardList
-    },
-    data() {
-        return {
-            pricing: [{title: "начальная цена, ₽", minPrice: '', maxPrice: ''},
-                {title: "текущая цена, ₽", minPrice: '', maxPrice: ''},
-                {title: "минимальная цена, ₽", minPrice: '', maxPrice: ''},
-                {title: "процент снижения, %", minPrice: '', maxPrice: ''}],
-        };
-    },
-    mounted() {
-        this.getData();
-    },
-    computed: {
-        filters() {
-            return this.$store.getters.filters;
+    export default {
+        name: "UpcomingAuctions",
+        components: {
+            BktDateModal, BktPriceModal, BktOptionsModal,
+            BktParamsModal, BktRegionModal, BktCategoryModal, BktCardList
         },
-        filters_other: {
-            get() {
-                return this.$store.getters.filters_other;
+        data() {
+            return {
+                pricing: [{title: "начальная цена, ₽", minPrice: '', maxPrice: ''},
+                    {title: "текущая цена, ₽", minPrice: '', maxPrice: ''},
+                    {title: "минимальная цена, ₽", minPrice: '', maxPrice: ''},
+                    {title: "процент снижения, %", minPrice: '', maxPrice: ''}],
+                selected_regions: [],
+            };
+        },
+        mounted() {
+            this.getData();
+            this.getRegions();
+        },
+        computed: {
+            filters() {
+                return this.$store.getters.nearest_filters;
             },
-            set(value) {
-                this.$store.commit('saveFilterProperty', {filter: 'extraOptions', key: 'other', value: value});
-            }
-        },
-        filters_sort: {
-            get() {
-                return this.$store.getters.filters_sort;
+            items() {
+                return this.$store.getters.nearest_trades;
             },
-            set(value) {
-                this.$store.commit('saveFiltersProperty', {key: 'sort', value: value});
-            }
+            pagination_data() {
+                return this.$store.getters.nearest_trades_pagination;
+            },
+            loading() {
+                return this.$store.getters.nearest_trades_loading;
+            },
+            current_region: {
+                get: function () {
+                    return null;
+                },
+                set: function (newValue) {
+                    this.selected_regions.push(newValue);
+                }
+            },
+            region_options() {
+                return [].concat.apply([], this.$store.getters.regions.map(item => item.regions));
+            },
+            regions() {
+                return this.$store.getters.regions
+            },
         },
-        items() {
-            return this.$store.getters.nearest_trades;
+        methods: {
+            async getData(page = 1) {
+                await this.$store.dispatch('getNearestTrades', {page: page, filters: this.filters});
+            },
+            openCategoryModal() {
+                this.$store.commit('openModal', '#categoryModal');
+            },
+            openRegionModal() {
+                this.$store.commit('openModal', '#regionModal');
+            },
+            openParamsModal() {
+                this.$store.commit('openModal', '#paramsModal');
+            },
+            openPriceModal() {
+                this.$store.commit('openModal', '#priceModal');
+            },
+            openDateModal() {
+                this.$store.commit('openModal', '#dateModal');
+            },
+            openOptionsModal() {
+                this.$store.commit('openModal', '#optionsModal');
+            },
+            async getRegions() {
+                console.log('getRegions', this.regions.length)
+                if (this.regions.length === 0) {
+                    console.log('getRegions1', this.regions.length)
+                    await this.$store.dispatch('getRegions').then(resp => {
+                        console.log('getRegions2', this.regions.length)
+                    });
+                }
+            },
         },
-        pagination_data() {
-            return this.$store.getters.nearest_trades_pagination;
-        },
-        loading() {
-            return this.$store.getters.nearest_trades_loading;
-        },
-    },
-    methods: {
-        async getData(page = 1) {
-            await this.$store.dispatch('getNearestTrades', {page: page, filters: this.filters});
-        },
-        toggleDirection() {
-            if (this.filters_sort.direction == 'asc') {
-                this.filters_sort.direction = 'desc';
-            } else {
-                this.filters_sort.direction = 'asc';
-            }
-        },
-        openCategoryModal() {
-            this.$store.commit('openModal', '#categoryModal');
-        },
-        openRegionModal() {
-            this.$store.commit('openModal', '#regionModal');
-        },
-        openParamsModal() {
-            this.$store.commit('openModal', '#paramsModal');
-        },
-        openPriceModal() {
-            this.$store.commit('openModal', '#priceModal');
-        },
-        openDateModal() {
-            this.$store.commit('openModal', '#dateModal');
-        },
-        openOptionsModal() {
-            this.$store.commit('openModal', '#optionsModal');
-        },
-    },
-}
+    }
 </script>
 
 <style scoped>

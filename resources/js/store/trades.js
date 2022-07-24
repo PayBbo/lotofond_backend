@@ -110,6 +110,24 @@ export default {
         setWinsLoading(state, payload) {
             return (state.wins_loading = payload);
         },
+        changeTradeFavouritePaths(state, payload)
+        {
+            let lot = state.trades.findIndex(item => item.id === payload.lotId);
+            if (lot >= 0) {
+                if(state.trades[lot].favouritePaths) {
+                    let lot_path = state.trades[lot].favouritePaths.findIndex(item => item.pathId === payload.currentPathId);
+                    if (lot_path >= 0) {
+                        state.trades[lot].favouritePaths.splice(lot_path, 1);
+                    }
+                    lot_path = state.trades[lot].favouritePaths.findIndex(item => item.pathId === payload.newPathId);
+                    if (lot_path < 0) {
+                        if (new_path >= 0) {
+                            state.trades[lot].favouritePaths.push(state.favourites_paths[new_path]);
+                        }
+                    }
+                }
+            }
+        }
     },
     actions: {
         async getTrades({commit, state}, payload) {
@@ -214,67 +232,8 @@ export default {
                 //     throw error
                 // });
         },
-        async addTrade({commit}, payload) {
-            await axios.post('/api/trades', payload, {
-                headers: {
-                    'Content-Type': 'multipart/form-data',
-                }
-            }).then((response) => {
-                commit('addTrade', response.data)
-            }).catch(error => {
-                console.log(error);
-                throw error
-            });
-        },
-        async updateTrade({commit}, payload) {
-            await axios.post('/api/trades/' + payload.id, payload.formData,
-                {
-                    headers: {
-                        'Content-Type': 'multipart/form-data',
-                    }
-                })
-                .then((response) => {
-                    commit('saveTrade', response.data);
-                }).catch(error => {
-                    console.log(error);
-                    throw error
-                });
-        },
-        async removeTrade({dispatch, commit}, payload) {
-            await axios.delete(`/api/trades/${payload.id}`)
-                .then(response => {
-                    commit('removeTrade', payload.id);
-                    dispatch('sendNotification',
-                        {
-                            self: payload.self,
-                            title: 'Торги',
-                            message: 'Торги успешно удалены'
-                        });
-                }).catch(error => {
-                    dispatch('sendNotification',
-                        {
-                            self: payload.self,
-                            title: 'Торги',
-                            type: 'error',
-                            message: 'Произошла ошибка'
-                        });
-                });
-        },
-        async saveTrade({commit}, payload) {
-            await axios
-                .post(`/api/trades/save/${payload.id}`, {
-                        key: payload.key,
-                        value: payload.value
-                    }
-                ).then((response) => {
-                    commit('saveTrade', response.data.trade)
-                }).catch(error => {
-                    console.log(error);
-                    throw error
-                });
-        },
         async getNearestTrades({commit, state}, payload) {
-            commit('setNearestTradesLoading', true);
+            commit('setNearestLoading', true);
             // let filters = JSON.parse(JSON.stringify(payload.filters));
             await axios.put('/api/trades/nearest?page=' + payload.page, payload.filters)
                 .then((response) => {
@@ -283,7 +242,7 @@ export default {
                     console.log(error);
                     commit('setNearestTrades', {data: [], pagination: {}});
                 }).finally(()=>{
-                    commit('setNearestTradesLoading', false);
+                    commit('setNearestLoading', false);
                 })
 
         },
@@ -300,6 +259,13 @@ export default {
                     commit('setWinsLoading', false);
                 })
 
+        },
+        async searchTrades({commit, state}, payload) {
+            return await axios({
+                method: 'put',
+                url: '/api/trades/short/lots?page=' + payload.page,
+                data: payload,
+            })
         },
     },
 

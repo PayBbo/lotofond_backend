@@ -75,6 +75,81 @@ export default {
                 type: "publishDate"
             }
         },
+        nearest_filters: {
+            categories: JSON.parse(localStorage.getItem('nearest_categories')) || [],
+            regions: JSON.parse(localStorage.getItem('nearest_regions')) || [],
+            prices: JSON.parse(localStorage.getItem('nearest_prices')) || {
+                currentPrice: {
+                    min: '',
+                    max: ''
+                },
+                startPrice: {
+                    min: '',
+                    max: ''
+                },
+                minPrice: {
+                    min: '',
+                    max: ''
+                },
+                percentageReduction: {
+                    min: '',
+                    max: ''
+                }
+            },
+            dates: JSON.parse(localStorage.getItem('nearest_dates')) || {
+                eventTimeStart: {
+                    start: "",
+                    end: ""
+                },
+                eventTimeEnd: {
+                    start: "",
+                    end: ""
+                },
+                applicationTimeStart: {
+                    start: "",
+                    end: ""
+                },
+                applicationTimeEnd: {
+                    start: "",
+                    end: ""
+                }
+            },
+            extraOptions: JSON.parse(localStorage.getItem('nearest_extraOptions')) || {
+                debtorCategories: [
+                ],
+                debtors: [
+                ],
+                organizers: [
+                ],
+                arbitrManagers: [
+                ],
+                other: {
+                    period: 'periodAll',
+                    hasPhotos: false,
+                    isStopped: false,
+                    isCompleted: false,
+                    isHidden: false,
+                    organizer: false
+                },
+            },
+            mainParams: {
+                excludedWords: '',
+                includedWords:'',
+                tradePlaces: [],
+                tradeType:'',
+            },
+            // other: {
+            //     period: 'all',
+            //     hasPhotos: false,
+            //     isStopped: false,
+            //     isCompleted: false,
+            //     isHidden: false
+            // },
+            sort: {
+                direction: "asc",
+                type: "publishDate"
+            }
+        },
     },
 
     getters: {
@@ -104,6 +179,9 @@ export default {
         },
         filters_sort(state) {
             return state.filters.sort;
+        },
+        nearest_filters(state) {
+            return state.nearest_filters;
         },
     },
 

@@ -1,9 +1,9 @@
 "use strict";
 (self["webpackChunk"] = self["webpackChunk"] || []).push([["monitoring"],{
 
-/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/pages/Main/RegionModal.vue?vue&type=script&lang=js&":
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/ColorPallet.vue?vue&type=script&lang=js&":
 /*!******************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/pages/Main/RegionModal.vue?vue&type=script&lang=js& ***!
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/ColorPallet.vue?vue&type=script&lang=js& ***!
   \******************************************************************************************************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
@@ -11,7 +11,78 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _components_Collapse_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../components/Collapse.vue */ "./resources/js/components/Collapse.vue");
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  name: "ColorPallet",
+  props: {
+    value: {
+      type: String,
+      "default": 'yellow'
+    }
+  },
+  computed: {
+    model: {
+      get: function get() {
+        return this.value;
+      },
+      set: function set(value) {
+        this.$emit("input", value);
+      }
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/RegionsControl.vue?vue&type=script&lang=js&":
+/*!*********************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/RegionsControl.vue?vue&type=script&lang=js& ***!
+  \*********************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
 function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 
 function _regeneratorRuntime() { "use strict"; /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/facebook/regenerator/blob/main/LICENSE */ _regeneratorRuntime = function _regeneratorRuntime() { return exports; }; var exports = {}, Op = Object.prototype, hasOwn = Op.hasOwnProperty, $Symbol = "function" == typeof Symbol ? Symbol : {}, iteratorSymbol = $Symbol.iterator || "@@iterator", asyncIteratorSymbol = $Symbol.asyncIterator || "@@asyncIterator", toStringTagSymbol = $Symbol.toStringTag || "@@toStringTag"; function define(obj, key, value) { return Object.defineProperty(obj, key, { value: value, enumerable: !0, configurable: !0, writable: !0 }), obj[key]; } try { define({}, ""); } catch (err) { define = function define(obj, key, value) { return obj[key] = value; }; } function wrap(innerFn, outerFn, self, tryLocsList) { var protoGenerator = outerFn && outerFn.prototype instanceof Generator ? outerFn : Generator, generator = Object.create(protoGenerator.prototype), context = new Context(tryLocsList || []); return generator._invoke = function (innerFn, self, context) { var state = "suspendedStart"; return function (method, arg) { if ("executing" === state) throw new Error("Generator is already running"); if ("completed" === state) { if ("throw" === method) throw arg; return doneResult(); } for (context.method = method, context.arg = arg;;) { var delegate = context.delegate; if (delegate) { var delegateResult = maybeInvokeDelegate(delegate, context); if (delegateResult) { if (delegateResult === ContinueSentinel) continue; return delegateResult; } } if ("next" === context.method) context.sent = context._sent = context.arg;else if ("throw" === context.method) { if ("suspendedStart" === state) throw state = "completed", context.arg; context.dispatchException(context.arg); } else "return" === context.method && context.abrupt("return", context.arg); state = "executing"; var record = tryCatch(innerFn, self, context); if ("normal" === record.type) { if (state = context.done ? "completed" : "suspendedYield", record.arg === ContinueSentinel) continue; return { value: record.arg, done: context.done }; } "throw" === record.type && (state = "completed", context.method = "throw", context.arg = record.arg); } }; }(innerFn, self, context), generator; } function tryCatch(fn, obj, arg) { try { return { type: "normal", arg: fn.call(obj, arg) }; } catch (err) { return { type: "throw", arg: err }; } } exports.wrap = wrap; var ContinueSentinel = {}; function Generator() {} function GeneratorFunction() {} function GeneratorFunctionPrototype() {} var IteratorPrototype = {}; define(IteratorPrototype, iteratorSymbol, function () { return this; }); var getProto = Object.getPrototypeOf, NativeIteratorPrototype = getProto && getProto(getProto(values([]))); NativeIteratorPrototype && NativeIteratorPrototype !== Op && hasOwn.call(NativeIteratorPrototype, iteratorSymbol) && (IteratorPrototype = NativeIteratorPrototype); var Gp = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(IteratorPrototype); function defineIteratorMethods(prototype) { ["next", "throw", "return"].forEach(function (method) { define(prototype, method, function (arg) { return this._invoke(method, arg); }); }); } function AsyncIterator(generator, PromiseImpl) { function invoke(method, arg, resolve, reject) { var record = tryCatch(generator[method], generator, arg); if ("throw" !== record.type) { var result = record.arg, value = result.value; return value && "object" == _typeof(value) && hasOwn.call(value, "__await") ? PromiseImpl.resolve(value.__await).then(function (value) { invoke("next", value, resolve, reject); }, function (err) { invoke("throw", err, resolve, reject); }) : PromiseImpl.resolve(value).then(function (unwrapped) { result.value = unwrapped, resolve(result); }, function (error) { return invoke("throw", error, resolve, reject); }); } reject(record.arg); } var previousPromise; this._invoke = function (method, arg) { function callInvokeWithMethodAndArg() { return new PromiseImpl(function (resolve, reject) { invoke(method, arg, resolve, reject); }); } return previousPromise = previousPromise ? previousPromise.then(callInvokeWithMethodAndArg, callInvokeWithMethodAndArg) : callInvokeWithMethodAndArg(); }; } function maybeInvokeDelegate(delegate, context) { var method = delegate.iterator[context.method]; if (undefined === method) { if (context.delegate = null, "throw" === context.method) { if (delegate.iterator["return"] && (context.method = "return", context.arg = undefined, maybeInvokeDelegate(delegate, context), "throw" === context.method)) return ContinueSentinel; context.method = "throw", context.arg = new TypeError("The iterator does not provide a 'throw' method"); } return ContinueSentinel; } var record = tryCatch(method, delegate.iterator, context.arg); if ("throw" === record.type) return context.method = "throw", context.arg = record.arg, context.delegate = null, ContinueSentinel; var info = record.arg; return info ? info.done ? (context[delegate.resultName] = info.value, context.next = delegate.nextLoc, "return" !== context.method && (context.method = "next", context.arg = undefined), context.delegate = null, ContinueSentinel) : info : (context.method = "throw", context.arg = new TypeError("iterator result is not an object"), context.delegate = null, ContinueSentinel); } function pushTryEntry(locs) { var entry = { tryLoc: locs[0] }; 1 in locs && (entry.catchLoc = locs[1]), 2 in locs && (entry.finallyLoc = locs[2], entry.afterLoc = locs[3]), this.tryEntries.push(entry); } function resetTryEntry(entry) { var record = entry.completion || {}; record.type = "normal", delete record.arg, entry.completion = record; } function Context(tryLocsList) { this.tryEntries = [{ tryLoc: "root" }], tryLocsList.forEach(pushTryEntry, this), this.reset(!0); } function values(iterable) { if (iterable) { var iteratorMethod = iterable[iteratorSymbol]; if (iteratorMethod) return iteratorMethod.call(iterable); if ("function" == typeof iterable.next) return iterable; if (!isNaN(iterable.length)) { var i = -1, next = function next() { for (; ++i < iterable.length;) { if (hasOwn.call(iterable, i)) return next.value = iterable[i], next.done = !1, next; } return next.value = undefined, next.done = !0, next; }; return next.next = next; } } return { next: doneResult }; } function doneResult() { return { value: undefined, done: !0 }; } return GeneratorFunction.prototype = GeneratorFunctionPrototype, define(Gp, "constructor", GeneratorFunctionPrototype), define(GeneratorFunctionPrototype, "constructor", GeneratorFunction), GeneratorFunction.displayName = define(GeneratorFunctionPrototype, toStringTagSymbol, "GeneratorFunction"), exports.isGeneratorFunction = function (genFun) { var ctor = "function" == typeof genFun && genFun.constructor; return !!ctor && (ctor === GeneratorFunction || "GeneratorFunction" === (ctor.displayName || ctor.name)); }, exports.mark = function (genFun) { return Object.setPrototypeOf ? Object.setPrototypeOf(genFun, GeneratorFunctionPrototype) : (genFun.__proto__ = GeneratorFunctionPrototype, define(genFun, toStringTagSymbol, "GeneratorFunction")), genFun.prototype = Object.create(Gp), genFun; }, exports.awrap = function (arg) { return { __await: arg }; }, defineIteratorMethods(AsyncIterator.prototype), define(AsyncIterator.prototype, asyncIteratorSymbol, function () { return this; }), exports.AsyncIterator = AsyncIterator, exports.async = function (innerFn, outerFn, self, tryLocsList, PromiseImpl) { void 0 === PromiseImpl && (PromiseImpl = Promise); var iter = new AsyncIterator(wrap(innerFn, outerFn, self, tryLocsList), PromiseImpl); return exports.isGeneratorFunction(outerFn) ? iter : iter.next().then(function (result) { return result.done ? result.value : iter.next(); }); }, defineIteratorMethods(Gp), define(Gp, toStringTagSymbol, "Generator"), define(Gp, iteratorSymbol, function () { return this; }), define(Gp, "toString", function () { return "[object Generator]"; }), exports.keys = function (object) { var keys = []; for (var key in object) { keys.push(key); } return keys.reverse(), function next() { for (; keys.length;) { var key = keys.pop(); if (key in object) return next.value = key, next.done = !1, next; } return next.done = !0, next; }; }, exports.values = values, Context.prototype = { constructor: Context, reset: function reset(skipTempReset) { if (this.prev = 0, this.next = 0, this.sent = this._sent = undefined, this.done = !1, this.delegate = null, this.method = "next", this.arg = undefined, this.tryEntries.forEach(resetTryEntry), !skipTempReset) for (var name in this) { "t" === name.charAt(0) && hasOwn.call(this, name) && !isNaN(+name.slice(1)) && (this[name] = undefined); } }, stop: function stop() { this.done = !0; var rootRecord = this.tryEntries[0].completion; if ("throw" === rootRecord.type) throw rootRecord.arg; return this.rval; }, dispatchException: function dispatchException(exception) { if (this.done) throw exception; var context = this; function handle(loc, caught) { return record.type = "throw", record.arg = exception, context.next = loc, caught && (context.method = "next", context.arg = undefined), !!caught; } for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i], record = entry.completion; if ("root" === entry.tryLoc) return handle("end"); if (entry.tryLoc <= this.prev) { var hasCatch = hasOwn.call(entry, "catchLoc"), hasFinally = hasOwn.call(entry, "finallyLoc"); if (hasCatch && hasFinally) { if (this.prev < entry.catchLoc) return handle(entry.catchLoc, !0); if (this.prev < entry.finallyLoc) return handle(entry.finallyLoc); } else if (hasCatch) { if (this.prev < entry.catchLoc) return handle(entry.catchLoc, !0); } else { if (!hasFinally) throw new Error("try statement without catch or finally"); if (this.prev < entry.finallyLoc) return handle(entry.finallyLoc); } } } }, abrupt: function abrupt(type, arg) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.tryLoc <= this.prev && hasOwn.call(entry, "finallyLoc") && this.prev < entry.finallyLoc) { var finallyEntry = entry; break; } } finallyEntry && ("break" === type || "continue" === type) && finallyEntry.tryLoc <= arg && arg <= finallyEntry.finallyLoc && (finallyEntry = null); var record = finallyEntry ? finallyEntry.completion : {}; return record.type = type, record.arg = arg, finallyEntry ? (this.method = "next", this.next = finallyEntry.finallyLoc, ContinueSentinel) : this.complete(record); }, complete: function complete(record, afterLoc) { if ("throw" === record.type) throw record.arg; return "break" === record.type || "continue" === record.type ? this.next = record.arg : "return" === record.type ? (this.rval = this.arg = record.arg, this.method = "return", this.next = "end") : "normal" === record.type && afterLoc && (this.next = afterLoc), ContinueSentinel; }, finish: function finish(finallyLoc) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.finallyLoc === finallyLoc) return this.complete(entry.completion, entry.afterLoc), resetTryEntry(entry), ContinueSentinel; } }, "catch": function _catch(tryLoc) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.tryLoc === tryLoc) { var record = entry.completion; if ("throw" === record.type) { var thrown = record.arg; resetTryEntry(entry); } return thrown; } } throw new Error("illegal catch attempt"); }, delegateYield: function delegateYield(iterable, resultName, nextLoc) { return this.delegate = { iterator: values(iterable), resultName: resultName, nextLoc: nextLoc }, "next" === this.method && (this.arg = undefined), ContinueSentinel; } }, exports; }
@@ -110,58 +181,31 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  name: "RegionModal",
-  components: {
-    BktCollapse: _components_Collapse_vue__WEBPACK_IMPORTED_MODULE_0__["default"]
+  name: "RegionsControl",
+  props: {
+    value: {
+      type: null,
+      "default": false
+    }
   },
   data: function data() {
     return {
       regionGroups: [],
-      selectedRegion: null,
-      result: []
+      selectedRegion: null
     };
   },
   created: function created() {
     this.getRegions();
-    this.result = JSON.parse(JSON.stringify(this.$store.getters.filters_regions));
   },
   computed: {
-    filters_regions: function filters_regions() {
-      return this.$store.getters.filters_regions;
-    },
-    filters: function filters() {
-      return this.$store.getters.filters;
+    model: {
+      get: function get() {
+        return this.value;
+      },
+      set: function set(value) {
+        this.$emit("input", value);
+      }
     },
     regions: function regions() {
       return this.$store.getters.regions;
@@ -172,14 +216,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   },
   methods: {
     toggleRegion: function toggleRegion(region) {
-      var item_index = this.result.findIndex(function (el) {
-        return el == region;
+      var item_index = this.model.findIndex(function (el) {
+        return el === region;
       });
 
       if (item_index < 0) {
-        this.result.push(region);
+        this.model.push(region);
       } else {
-        this.result.splice(item_index, 1);
+        this.model.splice(item_index, 1);
       }
     },
     selectAll: function selectAll(index) {
@@ -187,22 +231,22 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
       if (this.regionGroups[index].status) {
         this.regionGroups[index].regions.forEach(function (item) {
-          var item_index = _this.result.findIndex(function (el) {
-            return el == item;
+          var item_index = _this.model.findIndex(function (el) {
+            return el === item;
           });
 
           if (item_index < 0) {
-            _this.result.push(item);
+            _this.model.push(item);
           }
         });
       } else {
         this.regionGroups[index].regions.forEach(function (item) {
-          var item_index = _this.result.findIndex(function (el) {
-            return el == item;
+          var item_index = _this.model.findIndex(function (el) {
+            return el === item;
           });
 
           if (item_index >= 0) {
-            _this.result.splice(item_index, 1);
+            _this.model.splice(item_index, 1);
           }
         });
       }
@@ -215,41 +259,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     isIndeterminate: function isIndeterminate(index) {
       var _this2 = this;
 
-      var all_checked = this.allChecked(this.result, this.regionGroups[index].regions);
+      var all_checked = this.allChecked(this.model, this.regionGroups[index].regions);
       var some_checked = this.regionGroups[index].regions.some(function (v) {
-        return _this2.result.includes(v);
+        return _this2.model.includes(v);
       });
-
-      if (all_checked) {
-        this.regionGroups[index].status = true;
-      } else {
-        this.regionGroups[index].status = false;
-      }
-
+      this.regionGroups[index].status = !!all_checked;
       return !all_checked && some_checked;
-    },
-    saveFilters: function saveFilters() {
-      this.$store.commit('saveFiltersProperty', {
-        key: 'regions',
-        value: this.result
-      });
-      this.$store.commit('closeModal', '#regionModal');
-      this.$store.dispatch('getFilteredTrades', {
-        page: 1,
-        filters: this.filters
-      });
-    },
-    clearFilters: function clearFilters() {
-      this.result = [];
-      this.$store.commit('saveFiltersProperty', {
-        key: 'regions',
-        value: []
-      });
-      this.$store.commit('closeModal', '#regionModal');
-      this.$store.dispatch('getFilteredTrades', {
-        page: 1,
-        filters: this.filters
-      });
     },
     getRegions: function getRegions() {
       var _this3 = this;
@@ -259,13 +274,26 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                _context.next = 2;
+                if (!(_this3.regions.length === 0)) {
+                  _context.next = 5;
+                  break;
+                }
+
+                _context.next = 3;
                 return _this3.$store.dispatch('getRegions').then(function (resp) {
                   _this3.regionGroups = JSON.parse(JSON.stringify(_this3.regions));
                   _this3.selectedRegion = _this3.regionGroups[0];
                 });
 
-              case 2:
+              case 3:
+                _context.next = 7;
+                break;
+
+              case 5:
+                _this3.regionGroups = JSON.parse(JSON.stringify(_this3.regions));
+                _this3.selectedRegion = _this3.regionGroups[0];
+
+              case 7:
               case "end":
                 return _context.stop();
             }
@@ -677,6 +705,16 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "Monitoring",
@@ -785,7 +823,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       return this.$store.getters.monitorings_pagination;
     },
     items_paths: function items_paths() {
-      return this.$store.getters.monitorings_paths;
+      var monitorings_paths = this.$store.getters.monitorings_paths;
+      monitorings_paths.unshift({
+        pathId: 0,
+        name: 'Все',
+        color: 'primary'
+      });
+      return monitorings_paths;
     },
     current_path: function current_path() {
       return this.$store.getters.monitoring_current_path;
@@ -873,7 +917,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, _callee2);
       }))();
     },
-    setCurrentPath: function setCurrentPath(value) {
+    setCurrentMonitoringPath: function setCurrentMonitoringPath(value) {
       var _this4 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee3() {
@@ -883,7 +927,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               case 0:
                 _this4.loading = true;
                 _context3.next = 3;
-                return _this4.$store.dispatch('setCurrentPath', value)["finally"](function () {
+                return _this4.$store.dispatch('setCurrentMonitoringPath', value)["finally"](function () {
                   _this4.loading = false;
                 });
 
@@ -905,7 +949,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               case 0:
                 _context4.next = 2;
                 return _this5.$store.dispatch('removeMonitoringPath', _this5.current_path).then(function (resp) {
-                  _this5.setCurrentPath(_this5.items_paths[0].pathId);
+                  _this5.setCurrentMonitoringPath(_this5.items_paths[0].pathId);
                 });
 
               case 2:
@@ -931,9 +975,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _components_Select__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../components/Select */ "./resources/js/components/Select.vue");
-/* harmony import */ var _Main_RegionModal__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../Main/RegionModal */ "./resources/js/pages/Main/RegionModal.vue");
-/* harmony import */ var _components_Collapse_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../components/Collapse.vue */ "./resources/js/components/Collapse.vue");
+/* harmony import */ var _components_RegionsControl__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../components/RegionsControl */ "./resources/js/components/RegionsControl.vue");
+/* harmony import */ var _components_ColorPallet__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../components/ColorPallet */ "./resources/js/components/ColorPallet.vue");
 function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 
 function _regeneratorRuntime() { "use strict"; /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/facebook/regenerator/blob/main/LICENSE */ _regeneratorRuntime = function _regeneratorRuntime() { return exports; }; var exports = {}, Op = Object.prototype, hasOwn = Op.hasOwnProperty, $Symbol = "function" == typeof Symbol ? Symbol : {}, iteratorSymbol = $Symbol.iterator || "@@iterator", asyncIteratorSymbol = $Symbol.asyncIterator || "@@asyncIterator", toStringTagSymbol = $Symbol.toStringTag || "@@toStringTag"; function define(obj, key, value) { return Object.defineProperty(obj, key, { value: value, enumerable: !0, configurable: !0, writable: !0 }), obj[key]; } try { define({}, ""); } catch (err) { define = function define(obj, key, value) { return obj[key] = value; }; } function wrap(innerFn, outerFn, self, tryLocsList) { var protoGenerator = outerFn && outerFn.prototype instanceof Generator ? outerFn : Generator, generator = Object.create(protoGenerator.prototype), context = new Context(tryLocsList || []); return generator._invoke = function (innerFn, self, context) { var state = "suspendedStart"; return function (method, arg) { if ("executing" === state) throw new Error("Generator is already running"); if ("completed" === state) { if ("throw" === method) throw arg; return doneResult(); } for (context.method = method, context.arg = arg;;) { var delegate = context.delegate; if (delegate) { var delegateResult = maybeInvokeDelegate(delegate, context); if (delegateResult) { if (delegateResult === ContinueSentinel) continue; return delegateResult; } } if ("next" === context.method) context.sent = context._sent = context.arg;else if ("throw" === context.method) { if ("suspendedStart" === state) throw state = "completed", context.arg; context.dispatchException(context.arg); } else "return" === context.method && context.abrupt("return", context.arg); state = "executing"; var record = tryCatch(innerFn, self, context); if ("normal" === record.type) { if (state = context.done ? "completed" : "suspendedYield", record.arg === ContinueSentinel) continue; return { value: record.arg, done: context.done }; } "throw" === record.type && (state = "completed", context.method = "throw", context.arg = record.arg); } }; }(innerFn, self, context), generator; } function tryCatch(fn, obj, arg) { try { return { type: "normal", arg: fn.call(obj, arg) }; } catch (err) { return { type: "throw", arg: err }; } } exports.wrap = wrap; var ContinueSentinel = {}; function Generator() {} function GeneratorFunction() {} function GeneratorFunctionPrototype() {} var IteratorPrototype = {}; define(IteratorPrototype, iteratorSymbol, function () { return this; }); var getProto = Object.getPrototypeOf, NativeIteratorPrototype = getProto && getProto(getProto(values([]))); NativeIteratorPrototype && NativeIteratorPrototype !== Op && hasOwn.call(NativeIteratorPrototype, iteratorSymbol) && (IteratorPrototype = NativeIteratorPrototype); var Gp = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(IteratorPrototype); function defineIteratorMethods(prototype) { ["next", "throw", "return"].forEach(function (method) { define(prototype, method, function (arg) { return this._invoke(method, arg); }); }); } function AsyncIterator(generator, PromiseImpl) { function invoke(method, arg, resolve, reject) { var record = tryCatch(generator[method], generator, arg); if ("throw" !== record.type) { var result = record.arg, value = result.value; return value && "object" == _typeof(value) && hasOwn.call(value, "__await") ? PromiseImpl.resolve(value.__await).then(function (value) { invoke("next", value, resolve, reject); }, function (err) { invoke("throw", err, resolve, reject); }) : PromiseImpl.resolve(value).then(function (unwrapped) { result.value = unwrapped, resolve(result); }, function (error) { return invoke("throw", error, resolve, reject); }); } reject(record.arg); } var previousPromise; this._invoke = function (method, arg) { function callInvokeWithMethodAndArg() { return new PromiseImpl(function (resolve, reject) { invoke(method, arg, resolve, reject); }); } return previousPromise = previousPromise ? previousPromise.then(callInvokeWithMethodAndArg, callInvokeWithMethodAndArg) : callInvokeWithMethodAndArg(); }; } function maybeInvokeDelegate(delegate, context) { var method = delegate.iterator[context.method]; if (undefined === method) { if (context.delegate = null, "throw" === context.method) { if (delegate.iterator["return"] && (context.method = "return", context.arg = undefined, maybeInvokeDelegate(delegate, context), "throw" === context.method)) return ContinueSentinel; context.method = "throw", context.arg = new TypeError("The iterator does not provide a 'throw' method"); } return ContinueSentinel; } var record = tryCatch(method, delegate.iterator, context.arg); if ("throw" === record.type) return context.method = "throw", context.arg = record.arg, context.delegate = null, ContinueSentinel; var info = record.arg; return info ? info.done ? (context[delegate.resultName] = info.value, context.next = delegate.nextLoc, "return" !== context.method && (context.method = "next", context.arg = undefined), context.delegate = null, ContinueSentinel) : info : (context.method = "throw", context.arg = new TypeError("iterator result is not an object"), context.delegate = null, ContinueSentinel); } function pushTryEntry(locs) { var entry = { tryLoc: locs[0] }; 1 in locs && (entry.catchLoc = locs[1]), 2 in locs && (entry.finallyLoc = locs[2], entry.afterLoc = locs[3]), this.tryEntries.push(entry); } function resetTryEntry(entry) { var record = entry.completion || {}; record.type = "normal", delete record.arg, entry.completion = record; } function Context(tryLocsList) { this.tryEntries = [{ tryLoc: "root" }], tryLocsList.forEach(pushTryEntry, this), this.reset(!0); } function values(iterable) { if (iterable) { var iteratorMethod = iterable[iteratorSymbol]; if (iteratorMethod) return iteratorMethod.call(iterable); if ("function" == typeof iterable.next) return iterable; if (!isNaN(iterable.length)) { var i = -1, next = function next() { for (; ++i < iterable.length;) { if (hasOwn.call(iterable, i)) return next.value = iterable[i], next.done = !1, next; } return next.value = undefined, next.done = !0, next; }; return next.next = next; } } return { next: doneResult }; } function doneResult() { return { value: undefined, done: !0 }; } return GeneratorFunction.prototype = GeneratorFunctionPrototype, define(Gp, "constructor", GeneratorFunctionPrototype), define(GeneratorFunctionPrototype, "constructor", GeneratorFunction), GeneratorFunction.displayName = define(GeneratorFunctionPrototype, toStringTagSymbol, "GeneratorFunction"), exports.isGeneratorFunction = function (genFun) { var ctor = "function" == typeof genFun && genFun.constructor; return !!ctor && (ctor === GeneratorFunction || "GeneratorFunction" === (ctor.displayName || ctor.name)); }, exports.mark = function (genFun) { return Object.setPrototypeOf ? Object.setPrototypeOf(genFun, GeneratorFunctionPrototype) : (genFun.__proto__ = GeneratorFunctionPrototype, define(genFun, toStringTagSymbol, "GeneratorFunction")), genFun.prototype = Object.create(Gp), genFun; }, exports.awrap = function (arg) { return { __await: arg }; }, defineIteratorMethods(AsyncIterator.prototype), define(AsyncIterator.prototype, asyncIteratorSymbol, function () { return this; }), exports.AsyncIterator = AsyncIterator, exports.async = function (innerFn, outerFn, self, tryLocsList, PromiseImpl) { void 0 === PromiseImpl && (PromiseImpl = Promise); var iter = new AsyncIterator(wrap(innerFn, outerFn, self, tryLocsList), PromiseImpl); return exports.isGeneratorFunction(outerFn) ? iter : iter.next().then(function (result) { return result.done ? result.value : iter.next(); }); }, defineIteratorMethods(Gp), define(Gp, toStringTagSymbol, "Generator"), define(Gp, iteratorSymbol, function () { return this; }), define(Gp, "toString", function () { return "[object Generator]"; }), exports.keys = function (object) { var keys = []; for (var key in object) { keys.push(key); } return keys.reverse(), function next() { for (; keys.length;) { var key = keys.pop(); if (key in object) return next.value = key, next.done = !1, next; } return next.done = !0, next; }; }, exports.values = values, Context.prototype = { constructor: Context, reset: function reset(skipTempReset) { if (this.prev = 0, this.next = 0, this.sent = this._sent = undefined, this.done = !1, this.delegate = null, this.method = "next", this.arg = undefined, this.tryEntries.forEach(resetTryEntry), !skipTempReset) for (var name in this) { "t" === name.charAt(0) && hasOwn.call(this, name) && !isNaN(+name.slice(1)) && (this[name] = undefined); } }, stop: function stop() { this.done = !0; var rootRecord = this.tryEntries[0].completion; if ("throw" === rootRecord.type) throw rootRecord.arg; return this.rval; }, dispatchException: function dispatchException(exception) { if (this.done) throw exception; var context = this; function handle(loc, caught) { return record.type = "throw", record.arg = exception, context.next = loc, caught && (context.method = "next", context.arg = undefined), !!caught; } for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i], record = entry.completion; if ("root" === entry.tryLoc) return handle("end"); if (entry.tryLoc <= this.prev) { var hasCatch = hasOwn.call(entry, "catchLoc"), hasFinally = hasOwn.call(entry, "finallyLoc"); if (hasCatch && hasFinally) { if (this.prev < entry.catchLoc) return handle(entry.catchLoc, !0); if (this.prev < entry.finallyLoc) return handle(entry.finallyLoc); } else if (hasCatch) { if (this.prev < entry.catchLoc) return handle(entry.catchLoc, !0); } else { if (!hasFinally) throw new Error("try statement without catch or finally"); if (this.prev < entry.finallyLoc) return handle(entry.finallyLoc); } } } }, abrupt: function abrupt(type, arg) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.tryLoc <= this.prev && hasOwn.call(entry, "finallyLoc") && this.prev < entry.finallyLoc) { var finallyEntry = entry; break; } } finallyEntry && ("break" === type || "continue" === type) && finallyEntry.tryLoc <= arg && arg <= finallyEntry.finallyLoc && (finallyEntry = null); var record = finallyEntry ? finallyEntry.completion : {}; return record.type = type, record.arg = arg, finallyEntry ? (this.method = "next", this.next = finallyEntry.finallyLoc, ContinueSentinel) : this.complete(record); }, complete: function complete(record, afterLoc) { if ("throw" === record.type) throw record.arg; return "break" === record.type || "continue" === record.type ? this.next = record.arg : "return" === record.type ? (this.rval = this.arg = record.arg, this.method = "return", this.next = "end") : "normal" === record.type && afterLoc && (this.next = afterLoc), ContinueSentinel; }, finish: function finish(finallyLoc) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.finallyLoc === finallyLoc) return this.complete(entry.completion, entry.afterLoc), resetTryEntry(entry), ContinueSentinel; } }, "catch": function _catch(tryLoc) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.tryLoc === tryLoc) { var record = entry.completion; if ("throw" === record.type) { var thrown = record.arg; resetTryEntry(entry); } return thrown; } } throw new Error("illegal catch attempt"); }, delegateYield: function delegateYield(iterable, resultName, nextLoc) { return this.delegate = { iterator: values(iterable), resultName: resultName, nextLoc: nextLoc }, "next" === this.method && (this.arg = undefined), ContinueSentinel; } }, exports; }
@@ -1218,93 +1261,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//import ColorFolder from "../../components/ColorFolder";
-
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "AddNewMonitoring",
   components: {
-    RegionModal: _Main_RegionModal__WEBPACK_IMPORTED_MODULE_1__["default"],
-    'bkt-select': _components_Select__WEBPACK_IMPORTED_MODULE_0__["default"],
-    'bkt-collapse': _components_Collapse_vue__WEBPACK_IMPORTED_MODULE_2__["default"] //  'bkt-color-folder': ColorFolder
-
+    BktRegionsControl: _components_RegionsControl__WEBPACK_IMPORTED_MODULE_0__["default"],
+    BktColorPallet: _components_ColorPallet__WEBPACK_IMPORTED_MODULE_1__["default"]
   },
   data: function data() {
     return {
@@ -1357,7 +1320,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       result: [],
       result_categories: [],
       items_categories: [],
-      selectedCategory: ''
+      selectedCategory: '',
+      monitoring: {
+        name: '',
+        // pathId: 0,
+        color: 'yellow',
+        notificationTime: "hourly",
+        filters: {}
+      }
     };
   },
   created: function created() {
@@ -1507,9 +1477,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 /***/ }),
 
-/***/ "./resources/js/pages/Main/RegionModal.vue":
+/***/ "./resources/js/components/ColorPallet.vue":
 /*!*************************************************!*\
-  !*** ./resources/js/pages/Main/RegionModal.vue ***!
+  !*** ./resources/js/components/ColorPallet.vue ***!
   \*************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
@@ -1517,9 +1487,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _RegionModal_vue_vue_type_template_id_4027d8ac_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./RegionModal.vue?vue&type=template&id=4027d8ac&scoped=true& */ "./resources/js/pages/Main/RegionModal.vue?vue&type=template&id=4027d8ac&scoped=true&");
-/* harmony import */ var _RegionModal_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./RegionModal.vue?vue&type=script&lang=js& */ "./resources/js/pages/Main/RegionModal.vue?vue&type=script&lang=js&");
-/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+/* harmony import */ var _ColorPallet_vue_vue_type_template_id_38a9fe48_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ColorPallet.vue?vue&type=template&id=38a9fe48&scoped=true& */ "./resources/js/components/ColorPallet.vue?vue&type=template&id=38a9fe48&scoped=true&");
+/* harmony import */ var _ColorPallet_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ColorPallet.vue?vue&type=script&lang=js& */ "./resources/js/components/ColorPallet.vue?vue&type=script&lang=js&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 
 
@@ -1528,19 +1498,57 @@ __webpack_require__.r(__webpack_exports__);
 /* normalize component */
 ;
 var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
-  _RegionModal_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
-  _RegionModal_vue_vue_type_template_id_4027d8ac_scoped_true___WEBPACK_IMPORTED_MODULE_0__.render,
-  _RegionModal_vue_vue_type_template_id_4027d8ac_scoped_true___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
+  _ColorPallet_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _ColorPallet_vue_vue_type_template_id_38a9fe48_scoped_true___WEBPACK_IMPORTED_MODULE_0__.render,
+  _ColorPallet_vue_vue_type_template_id_38a9fe48_scoped_true___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
   false,
   null,
-  "4027d8ac",
+  "38a9fe48",
   null
   
 )
 
 /* hot reload */
 if (false) { var api; }
-component.options.__file = "resources/js/pages/Main/RegionModal.vue"
+component.options.__file = "resources/js/components/ColorPallet.vue"
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/RegionsControl.vue":
+/*!****************************************************!*\
+  !*** ./resources/js/components/RegionsControl.vue ***!
+  \****************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _RegionsControl_vue_vue_type_template_id_0687b6ee_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./RegionsControl.vue?vue&type=template&id=0687b6ee&scoped=true& */ "./resources/js/components/RegionsControl.vue?vue&type=template&id=0687b6ee&scoped=true&");
+/* harmony import */ var _RegionsControl_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./RegionsControl.vue?vue&type=script&lang=js& */ "./resources/js/components/RegionsControl.vue?vue&type=script&lang=js&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+;
+var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _RegionsControl_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _RegionsControl_vue_vue_type_template_id_0687b6ee_scoped_true___WEBPACK_IMPORTED_MODULE_0__.render,
+  _RegionsControl_vue_vue_type_template_id_0687b6ee_scoped_true___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
+  false,
+  null,
+  "0687b6ee",
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/RegionsControl.vue"
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (component.exports);
 
 /***/ }),
@@ -1659,9 +1667,9 @@ component.options.__file = "resources/js/pages/Monitoring/AddNewMonitoring.vue"
 
 /***/ }),
 
-/***/ "./resources/js/pages/Main/RegionModal.vue?vue&type=script&lang=js&":
+/***/ "./resources/js/components/ColorPallet.vue?vue&type=script&lang=js&":
 /*!**************************************************************************!*\
-  !*** ./resources/js/pages/Main/RegionModal.vue?vue&type=script&lang=js& ***!
+  !*** ./resources/js/components/ColorPallet.vue?vue&type=script&lang=js& ***!
   \**************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
@@ -1669,8 +1677,23 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_RegionModal_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./RegionModal.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/pages/Main/RegionModal.vue?vue&type=script&lang=js&");
- /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_RegionModal_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_ColorPallet_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./ColorPallet.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/ColorPallet.vue?vue&type=script&lang=js&");
+ /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_ColorPallet_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/RegionsControl.vue?vue&type=script&lang=js&":
+/*!*****************************************************************************!*\
+  !*** ./resources/js/components/RegionsControl.vue?vue&type=script&lang=js& ***!
+  \*****************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_RegionsControl_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./RegionsControl.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/RegionsControl.vue?vue&type=script&lang=js&");
+ /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_RegionsControl_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
 
 /***/ }),
 
@@ -1719,18 +1742,34 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./resources/js/pages/Main/RegionModal.vue?vue&type=template&id=4027d8ac&scoped=true&":
+/***/ "./resources/js/components/ColorPallet.vue?vue&type=template&id=38a9fe48&scoped=true&":
 /*!********************************************************************************************!*\
-  !*** ./resources/js/pages/Main/RegionModal.vue?vue&type=template&id=4027d8ac&scoped=true& ***!
+  !*** ./resources/js/components/ColorPallet.vue?vue&type=template&id=38a9fe48&scoped=true& ***!
   \********************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "render": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_RegionModal_vue_vue_type_template_id_4027d8ac_scoped_true___WEBPACK_IMPORTED_MODULE_0__.render),
-/* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_RegionModal_vue_vue_type_template_id_4027d8ac_scoped_true___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
+/* harmony export */   "render": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ColorPallet_vue_vue_type_template_id_38a9fe48_scoped_true___WEBPACK_IMPORTED_MODULE_0__.render),
+/* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ColorPallet_vue_vue_type_template_id_38a9fe48_scoped_true___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
 /* harmony export */ });
-/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_RegionModal_vue_vue_type_template_id_4027d8ac_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./RegionModal.vue?vue&type=template&id=4027d8ac&scoped=true& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/pages/Main/RegionModal.vue?vue&type=template&id=4027d8ac&scoped=true&");
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ColorPallet_vue_vue_type_template_id_38a9fe48_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./ColorPallet.vue?vue&type=template&id=38a9fe48&scoped=true& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/ColorPallet.vue?vue&type=template&id=38a9fe48&scoped=true&");
+
+
+/***/ }),
+
+/***/ "./resources/js/components/RegionsControl.vue?vue&type=template&id=0687b6ee&scoped=true&":
+/*!***********************************************************************************************!*\
+  !*** ./resources/js/components/RegionsControl.vue?vue&type=template&id=0687b6ee&scoped=true& ***!
+  \***********************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_RegionsControl_vue_vue_type_template_id_0687b6ee_scoped_true___WEBPACK_IMPORTED_MODULE_0__.render),
+/* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_RegionsControl_vue_vue_type_template_id_0687b6ee_scoped_true___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
+/* harmony export */ });
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_RegionsControl_vue_vue_type_template_id_0687b6ee_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./RegionsControl.vue?vue&type=template&id=0687b6ee&scoped=true& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/RegionsControl.vue?vue&type=template&id=0687b6ee&scoped=true&");
 
 
 /***/ }),
@@ -1783,9 +1822,9 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/pages/Main/RegionModal.vue?vue&type=template&id=4027d8ac&scoped=true&":
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/ColorPallet.vue?vue&type=template&id=38a9fe48&scoped=true&":
 /*!***********************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/pages/Main/RegionModal.vue?vue&type=template&id=4027d8ac&scoped=true& ***!
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/ColorPallet.vue?vue&type=template&id=38a9fe48&scoped=true& ***!
   \***********************************************************************************************************************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
@@ -1798,438 +1837,417 @@ var render = function () {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("bkt-modal", {
-    ref: "regionModal",
-    attrs: {
-      id: "regionModal",
-      modal_class: "bkt-region-modal bkt-filters-modal",
-      title: "Выберите регион",
-      loading: _vm.loading,
-    },
-    on: { left_action: _vm.clearFilters, right_action: _vm.saveFilters },
-    scopedSlots: _vm._u(
-      [
-        {
-          key: "body",
-          fn: function (ref) {
-            var invalid = ref.invalid
-            return [
-              _c("div", { staticClass: "bkt-wrapper-column bkt-gap-large" }, [
-                !_vm.loading && _vm.selectedRegion
-                  ? _c(
-                      "div",
-                      { staticClass: "bkt-regions-tabs d-lg-block d-none" },
-                      [
-                        _c("div", { staticClass: "bkt-form" }, [
-                          _c("div", { staticClass: "col-5 p-0" }, [
-                            _c(
-                              "div",
-                              {
-                                staticClass:
-                                  "bkt-regions-tabs__nav text-center",
-                              },
-                              _vm._l(_vm.regionGroups, function (group, index) {
-                                return _c(
-                                  "div",
-                                  {
-                                    staticClass: "bkt-regions-tabs__nav-item",
-                                    class: {
-                                      "active bkt-bg-item-neutral":
-                                        _vm.selectedRegion.regionGroup ==
-                                        group.regionGroup,
-                                    },
-                                    on: {
-                                      click: function ($event) {
-                                        _vm.selectedRegion = group
-                                      },
-                                    },
-                                  },
-                                  [
-                                    _vm._v(
-                                      "\n                                " +
-                                        _vm._s(
-                                          _vm.$t(
-                                            "region_groups." + group.regionGroup
-                                          )
-                                        ) +
-                                        "\n                            "
-                                    ),
-                                  ]
-                                )
-                              }),
-                              0
-                            ),
-                          ]),
-                          _vm._v(" "),
-                          _c("div", { staticClass: "col-7 p-0" }, [
-                            _c(
-                              "div",
-                              {
-                                staticClass:
-                                  "bkt-regions-tabs__content bkt-bg-body",
-                                class: {
-                                  "bkt-rounded-left-top-none":
-                                    _vm.regionGroups[0].regionGroup ==
-                                    _vm.selectedRegion.regionGroup,
-                                  "bkt-rounded-left-bottom-none":
-                                    _vm.regionGroups[
-                                      _vm.regionGroups.length - 1
-                                    ].regionGroup ==
-                                    _vm.selectedRegion.regionGroup,
-                                },
-                              },
-                              _vm._l(
-                                _vm.selectedRegion.regions,
-                                function (item, index) {
-                                  return _c(
-                                    "div",
-                                    {
-                                      key: index,
-                                      staticClass: "bkt-tag__wrapper",
-                                    },
-                                    [
-                                      _c(
-                                        "div",
-                                        {
-                                          staticClass:
-                                            "bkt-tag w-100 text-left bkt-bg-item-rounded",
-                                          class: {
-                                            "bkt-bg-green bkt-text-white":
-                                              _vm.result.findIndex(function (
-                                                el
-                                              ) {
-                                                return el === item
-                                              }) >= 0,
-                                          },
-                                        },
-                                        [
-                                          _vm._v(
-                                            "\n                                    " +
-                                              _vm._s(
-                                                _vm.$t("regions." + item)
-                                              ) +
-                                              "\n                                "
-                                          ),
-                                        ]
-                                      ),
-                                      _vm._v(" "),
-                                      _c(
-                                        "div",
-                                        {
-                                          staticClass: "bkt-tag__icon",
-                                          on: {
-                                            click: function ($event) {
-                                              return _vm.toggleRegion(item)
-                                            },
-                                          },
-                                        },
-                                        [
-                                          _c("bkt-icon", {
-                                            directives: [
-                                              {
-                                                name: "show",
-                                                rawName: "v-show",
-                                                value:
-                                                  _vm.result.findIndex(
-                                                    function (data) {
-                                                      return data === item
-                                                    }
-                                                  ) >= 0,
-                                                expression:
-                                                  "result.findIndex(data => data === item)>=0",
-                                              },
-                                            ],
-                                            attrs: {
-                                              name: "Cancel",
-                                              color: "red",
-                                            },
-                                          }),
-                                          _vm._v(" "),
-                                          _c("bkt-icon", {
-                                            directives: [
-                                              {
-                                                name: "show",
-                                                rawName: "v-show",
-                                                value:
-                                                  _vm.result.findIndex(
-                                                    function (data) {
-                                                      return data === item
-                                                    }
-                                                  ) < 0,
-                                                expression:
-                                                  "result.findIndex(data => data === item)<0",
-                                              },
-                                            ],
-                                            attrs: {
-                                              name: "Plus",
-                                              color: "green",
-                                            },
-                                          }),
-                                        ],
-                                        1
-                                      ),
-                                    ]
-                                  )
-                                }
-                              ),
-                              0
-                            ),
-                          ]),
-                        ]),
-                      ]
-                    )
-                  : _vm._e(),
-                _vm._v(" "),
-                !_vm.loading && _vm.selectedRegion
-                  ? _c(
-                      "div",
-                      {
-                        staticClass:
-                          "d-lg-none bkt-wrapper-column bkt-gap-small",
+  return _c(
+    "div",
+    { staticClass: "bkt-wrapper mx-0" },
+    [
+      _c("bkt-checkbox", {
+        staticClass: "bkt-check_color",
+        attrs: {
+          val: "yellow",
+          name: "yellow",
+          type: "radio",
+          check_color: "yellow",
+          border_color: _vm.model === "yellow" ? "yellow" : "",
+        },
+        model: {
+          value: _vm.model,
+          callback: function ($$v) {
+            _vm.model = $$v
+          },
+          expression: "model",
+        },
+      }),
+      _vm._v(" "),
+      _c("bkt-checkbox", {
+        staticClass: "bkt-check_color",
+        attrs: {
+          val: "blue",
+          name: "blue",
+          type: "radio",
+          check_color: "blue",
+          border_color: _vm.model === "blue" ? "blue" : "",
+        },
+        model: {
+          value: _vm.model,
+          callback: function ($$v) {
+            _vm.model = $$v
+          },
+          expression: "model",
+        },
+      }),
+      _vm._v(" "),
+      _c("bkt-checkbox", {
+        staticClass: "bkt-check_color",
+        attrs: {
+          val: "pink",
+          name: "pink",
+          type: "radio",
+          check_color: "pink",
+          border_color: _vm.model === "pink" ? "pink" : "",
+        },
+        model: {
+          value: _vm.model,
+          callback: function ($$v) {
+            _vm.model = $$v
+          },
+          expression: "model",
+        },
+      }),
+      _vm._v(" "),
+      _c("bkt-checkbox", {
+        staticClass: "bkt-check_color",
+        attrs: {
+          val: "green",
+          name: "green",
+          type: "radio",
+          check_color: "green",
+          border_color: _vm.model === "green" ? "green" : "",
+        },
+        model: {
+          value: _vm.model,
+          callback: function ($$v) {
+            _vm.model = $$v
+          },
+          expression: "model",
+        },
+      }),
+      _vm._v(" "),
+      _c("bkt-checkbox", {
+        staticClass: "bkt-check_color",
+        attrs: {
+          val: "red",
+          name: "red",
+          type: "radio",
+          check_color: "red",
+          border_color: _vm.model === "red" ? "red" : "",
+        },
+        model: {
+          value: _vm.model,
+          callback: function ($$v) {
+            _vm.model = $$v
+          },
+          expression: "model",
+        },
+      }),
+      _vm._v(" "),
+      _c("bkt-checkbox", {
+        staticClass: "bkt-check_color",
+        attrs: {
+          val: "main",
+          name: "main",
+          type: "radio",
+          check_color: "main",
+          border_color: _vm.model === "main" ? "main" : "",
+        },
+        model: {
+          value: _vm.model,
+          callback: function ($$v) {
+            _vm.model = $$v
+          },
+          expression: "model",
+        },
+      }),
+      _vm._v(" "),
+      _c("bkt-checkbox", {
+        staticClass: "bkt-check_color",
+        attrs: {
+          val: "primary",
+          name: "primary",
+          type: "radio",
+          check_color: "primary",
+          border_color: _vm.model === "primary" ? "primary" : "",
+        },
+        model: {
+          value: _vm.model,
+          callback: function ($$v) {
+            _vm.model = $$v
+          },
+          expression: "model",
+        },
+      }),
+    ],
+    1
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/RegionsControl.vue?vue&type=template&id=0687b6ee&scoped=true&":
+/*!**************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/RegionsControl.vue?vue&type=template&id=0687b6ee&scoped=true& ***!
+  \**************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* binding */ render),
+/* harmony export */   "staticRenderFns": () => (/* binding */ staticRenderFns)
+/* harmony export */ });
+var render = function () {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "bkt-wrapper-column bkt-gap-large" }, [
+    !_vm.loading && _vm.selectedRegion
+      ? _c("div", { staticClass: "bkt-regions-tabs d-lg-block d-none" }, [
+          _c("div", { staticClass: "bkt-form" }, [
+            _c("div", { staticClass: "col-5 p-0" }, [
+              _c(
+                "div",
+                { staticClass: "bkt-regions-tabs__nav text-center" },
+                _vm._l(_vm.regionGroups, function (group, index) {
+                  return _c(
+                    "div",
+                    {
+                      staticClass: "bkt-regions-tabs__nav-item",
+                      class: {
+                        "active bkt-bg-item-neutral":
+                          _vm.selectedRegion.regionGroup == group.regionGroup,
                       },
-                      _vm._l(_vm.regionGroups, function (group, index) {
-                        return _c("bkt-collapse", {
-                          key: index,
-                          attrs: {
-                            id: "region-collapse-" + index,
-                            main_class: "bkt-collapse_check",
-                            collapse_button_class: "bkt-bg-white",
-                          },
-                          scopedSlots: _vm._u(
-                            [
-                              {
-                                key: "title",
-                                fn: function () {
-                                  return [
-                                    _c(
-                                      "div",
-                                      {
-                                        staticClass:
-                                          "bkt-collapse__title-wrapper",
-                                      },
-                                      [
-                                        _c("bkt-checkbox", {
-                                          attrs: {
-                                            label: "",
-                                            name:
-                                              "bkt-region-group-checkbox-" +
-                                              index,
-                                            id:
-                                              "bkt-region-group-checkbox-" +
-                                              index,
-                                            indeterminate:
-                                              _vm.isIndeterminate(index),
-                                          },
-                                          on: {
-                                            input: function ($event) {
-                                              return _vm.selectAll(index)
-                                            },
-                                          },
-                                          model: {
-                                            value: group.status,
-                                            callback: function ($$v) {
-                                              _vm.$set(group, "status", $$v)
-                                            },
-                                            expression: "group.status",
-                                          },
-                                        }),
-                                        _vm._v(" "),
-                                        _c(
-                                          "h5",
-                                          {
-                                            staticClass:
-                                              "bkt-regions-tabs__title",
-                                            attrs: {
-                                              "data-bs-toggle": "collapse",
-                                              "data-bs-target":
-                                                "#region-collapse-" + index,
-                                            },
-                                          },
-                                          [
-                                            _vm._v(
-                                              "\n                                " +
-                                                _vm._s(
-                                                  _vm.$t(
-                                                    "region_groups." +
-                                                      group.regionGroup
-                                                  )
-                                                ) +
-                                                "\n                            "
-                                            ),
-                                          ]
-                                        ),
-                                      ],
-                                      1
-                                    ),
-                                  ]
-                                },
-                                proxy: true,
-                              },
-                              {
-                                key: "collapse",
-                                fn: function () {
-                                  return _vm._l(
-                                    group.regions,
-                                    function (region, index) {
-                                      return _c(
-                                        "div",
-                                        { staticClass: "bkt-gap-mini" },
-                                        [
-                                          _c(
-                                            "div",
-                                            {
-                                              staticClass:
-                                                "bkt-collapse__title-wrapper",
-                                            },
-                                            [
-                                              _c("bkt-checkbox", {
-                                                attrs: {
-                                                  label: "",
-                                                  name:
-                                                    "bkt-region-checkbox-" +
-                                                    index,
-                                                  id:
-                                                    "bkt-region-checkbox-" +
-                                                    index,
-                                                  val: region,
-                                                },
-                                                model: {
-                                                  value: _vm.result,
-                                                  callback: function ($$v) {
-                                                    _vm.result = $$v
-                                                  },
-                                                  expression: "result",
-                                                },
-                                              }),
-                                              _vm._v(" "),
-                                              _c(
-                                                "h6",
-                                                {
-                                                  staticClass:
-                                                    "bkt-regions-tabs__subtitle",
-                                                },
-                                                [
-                                                  _vm._v(
-                                                    "\n                                    " +
-                                                      _vm._s(
-                                                        _vm.$t(
-                                                          "regions." + region
-                                                        )
-                                                      ) +
-                                                      "\n                                "
-                                                  ),
-                                                ]
-                                              ),
-                                            ],
-                                            1
-                                          ),
-                                        ]
-                                      )
-                                    }
-                                  )
-                                },
-                                proxy: true,
-                              },
-                            ],
-                            null,
-                            true
-                          ),
-                        })
-                      }),
-                      1
-                    )
-                  : _vm._e(),
-                _vm._v(" "),
-                _vm.result.length > 0 && !_vm.loading
-                  ? _c("div", { staticClass: "bkt-region-selected" }, [
+                      on: {
+                        click: function ($event) {
+                          _vm.selectedRegion = group
+                        },
+                      },
+                    },
+                    [
+                      _vm._v(
+                        "\n                        " +
+                          _vm._s(_vm.$t("region_groups." + group.regionGroup)) +
+                          "\n                    "
+                      ),
+                    ]
+                  )
+                }),
+                0
+              ),
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "col-7 p-0" }, [
+              _c(
+                "div",
+                {
+                  staticClass: "bkt-regions-tabs__content bkt-bg-body",
+                  class: {
+                    "bkt-rounded-left-top-none":
+                      _vm.regionGroups[0].regionGroup ==
+                      _vm.selectedRegion.regionGroup,
+                    "bkt-rounded-left-bottom-none":
+                      _vm.regionGroups[_vm.regionGroups.length - 1]
+                        .regionGroup == _vm.selectedRegion.regionGroup,
+                  },
+                },
+                _vm._l(_vm.selectedRegion.regions, function (item, index) {
+                  return _c(
+                    "div",
+                    { key: index, staticClass: "bkt-tag__wrapper" },
+                    [
                       _c(
-                        "h5",
+                        "div",
                         {
                           staticClass:
-                            "bkt-region-selected__title text-left mb-2",
+                            "bkt-tag w-100 text-left bkt-bg-item-rounded",
+                          class: {
+                            "bkt-bg-green bkt-text-white":
+                              _vm.model.findIndex(function (el) {
+                                return el === item
+                              }) >= 0,
+                          },
                         },
                         [
-                          _c("span", { staticClass: "text-muted" }, [
-                            _vm._v("выбранные регионы"),
-                          ]),
+                          _vm._v(
+                            "\n                            " +
+                              _vm._s(_vm.$t("regions." + item)) +
+                              "\n                        "
+                          ),
                         ]
                       ),
                       _vm._v(" "),
                       _c(
                         "div",
-                        { staticClass: "bkt-tag__list" },
-                        _vm._l(_vm.result, function (item, index) {
-                          return _c(
-                            "div",
-                            {
-                              staticClass:
-                                "bkt-region__item bkt-tag justify-content-between flex-fill",
+                        {
+                          staticClass: "bkt-tag__icon",
+                          on: {
+                            click: function ($event) {
+                              return _vm.toggleRegion(item)
                             },
+                          },
+                        },
+                        [
+                          _c("bkt-icon", {
+                            directives: [
+                              {
+                                name: "show",
+                                rawName: "v-show",
+                                value:
+                                  _vm.model.findIndex(function (data) {
+                                    return data === item
+                                  }) >= 0,
+                                expression:
+                                  "model.findIndex(data => data === item)>=0",
+                              },
+                            ],
+                            attrs: { name: "Cancel", color: "red" },
+                          }),
+                          _vm._v(" "),
+                          _c("bkt-icon", {
+                            directives: [
+                              {
+                                name: "show",
+                                rawName: "v-show",
+                                value:
+                                  _vm.model.findIndex(function (data) {
+                                    return data === item
+                                  }) < 0,
+                                expression:
+                                  "model.findIndex(data => data === item)<0",
+                              },
+                            ],
+                            attrs: { name: "Plus", color: "green" },
+                          }),
+                        ],
+                        1
+                      ),
+                    ]
+                  )
+                }),
+                0
+              ),
+            ]),
+          ]),
+        ])
+      : _vm._e(),
+    _vm._v(" "),
+    !_vm.loading && _vm.selectedRegion
+      ? _c(
+          "div",
+          { staticClass: "d-lg-none bkt-wrapper-column bkt-gap-small" },
+          _vm._l(_vm.regionGroups, function (group, index) {
+            return _c("bkt-collapse", {
+              key: index,
+              attrs: {
+                id: "region-collapse-" + index,
+                main_class: "bkt-collapse_check",
+                collapse_button_class: "bkt-bg-white",
+              },
+              scopedSlots: _vm._u(
+                [
+                  {
+                    key: "title",
+                    fn: function () {
+                      return [
+                        _c(
+                          "div",
+                          { staticClass: "bkt-collapse__title-wrapper" },
+                          [
+                            _c("bkt-checkbox", {
+                              attrs: {
+                                label: "",
+                                name: "bkt-region-group-checkbox-" + index,
+                                id: "bkt-region-group-checkbox-" + index,
+                                indeterminate: _vm.isIndeterminate(index),
+                              },
+                              on: {
+                                input: function ($event) {
+                                  return _vm.selectAll(index)
+                                },
+                              },
+                              model: {
+                                value: group.status,
+                                callback: function ($$v) {
+                                  _vm.$set(group, "status", $$v)
+                                },
+                                expression: "group.status",
+                              },
+                            }),
+                            _vm._v(" "),
+                            _c(
+                              "h5",
+                              {
+                                staticClass: "bkt-regions-tabs__title",
+                                attrs: {
+                                  "data-bs-toggle": "collapse",
+                                  "data-bs-target": "#region-collapse-" + index,
+                                },
+                              },
+                              [
+                                _vm._v(
+                                  "\n                        " +
+                                    _vm._s(
+                                      _vm.$t(
+                                        "region_groups." + group.regionGroup
+                                      )
+                                    ) +
+                                    "\n                    "
+                                ),
+                              ]
+                            ),
+                          ],
+                          1
+                        ),
+                      ]
+                    },
+                    proxy: true,
+                  },
+                  {
+                    key: "collapse",
+                    fn: function () {
+                      return _vm._l(group.regions, function (region, index) {
+                        return _c("div", { staticClass: "bkt-gap-mini" }, [
+                          _c(
+                            "div",
+                            { staticClass: "bkt-collapse__title-wrapper" },
                             [
-                              _c(
-                                "span",
-                                { staticClass: "bkt-item-rounded__text mr-2" },
-                                [_vm._v(_vm._s(_vm.$t("regions." + item)))]
-                              ),
+                              _c("bkt-checkbox", {
+                                attrs: {
+                                  label: "",
+                                  name: "bkt-region-checkbox-" + index,
+                                  id: "bkt-region-checkbox-" + index,
+                                  val: region,
+                                },
+                                model: {
+                                  value: _vm.model,
+                                  callback: function ($$v) {
+                                    _vm.model = $$v
+                                  },
+                                  expression: "model",
+                                },
+                              }),
                               _vm._v(" "),
                               _c(
-                                "span",
-                                {
-                                  staticClass:
-                                    "bkt-tag__icon bkt-cursor-pointer",
-                                  on: {
-                                    click: function ($event) {
-                                      return _vm.toggleRegion(item)
-                                    },
-                                  },
-                                },
+                                "h6",
+                                { staticClass: "bkt-regions-tabs__subtitle" },
                                 [
-                                  _c("bkt-icon", {
-                                    attrs: { name: "Cancel", color: "red" },
-                                  }),
-                                ],
-                                1
+                                  _vm._v(
+                                    "\n                            " +
+                                      _vm._s(_vm.$t("regions." + region)) +
+                                      "\n                        "
+                                  ),
+                                ]
                               ),
-                            ]
-                          )
-                        }),
-                        0
-                      ),
-                    ])
-                  : _vm._e(),
-                _vm._v(" "),
-                _vm.loading
-                  ? _c(
-                      "div",
-                      {
-                        staticClass: "d-flex w-100 justify-content-center my-5",
-                      },
-                      [
-                        _vm._t("loading", function () {
-                          return [
-                            _c("div", {
-                              staticClass: "spinner-border",
-                              staticStyle: {
-                                color: "#2953ff",
-                                "border-width": "2px",
-                              },
-                              attrs: { role: "status" },
-                            }),
-                          ]
-                        }),
-                      ],
-                      2
-                    )
-                  : _vm._e(),
-              ]),
-            ]
-          },
-        },
-      ],
-      null,
-      true
-    ),
-  })
+                            ],
+                            1
+                          ),
+                        ])
+                      })
+                    },
+                    proxy: true,
+                  },
+                ],
+                null,
+                true
+              ),
+            })
+          }),
+          1
+        )
+      : _vm._e(),
+  ])
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -2866,67 +2884,79 @@ var render = function () {
                           ],
                           on: {
                             click: function ($event) {
-                              return _vm.setCurrentPath(path.pathId)
+                              return _vm.setCurrentMonitoringPath(path.pathId)
                             },
                           },
                         },
                         [
-                          _c(
-                            "div",
-                            {
-                              staticClass: "d-flex bkt-gap align-items-center",
-                            },
-                            [
-                              _c("span", [_vm._v(_vm._s(path.name))]),
-                              _vm._v(" "),
-                              _c(
-                                "span",
+                          path.pathId === 0
+                            ? _c("span", [_vm._v(_vm._s(path.name))])
+                            : _vm._e(),
+                          _vm._v(" "),
+                          path.pathId !== 0
+                            ? _c(
+                                "div",
                                 {
-                                  staticClass: "bkt-badge",
-                                  class: [
-                                    path.color
-                                      ? "bkt-text-" + path.color
-                                      : "bkt-text-primary",
-                                    _vm.current_path !== path.pathId &&
-                                    path.color
-                                      ? "bkt-bg-" + path.color + "-lighter"
-                                      : "",
-                                    {
-                                      "bkt-bg-white":
-                                        _vm.current_path === path.pathId,
-                                      "bkt-bg-primary-lighter":
-                                        _vm.current_path !== path.pathId &&
-                                        !path.color,
-                                    },
-                                  ],
+                                  staticClass:
+                                    "d-flex bkt-gap align-items-center",
                                 },
                                 [
-                                  _vm._v(
-                                    "\n                                " +
-                                      _vm._s(
-                                        path.lotCount ? path.lotCount : "0"
-                                      ) +
-                                      "\n                            "
+                                  _c("span", [_vm._v(_vm._s(path.name))]),
+                                  _vm._v(" "),
+                                  _c(
+                                    "span",
+                                    {
+                                      staticClass: "bkt-badge",
+                                      class: [
+                                        path.color
+                                          ? "bkt-text-" + path.color
+                                          : "bkt-text-primary",
+                                        _vm.current_path !== path.pathId &&
+                                        path.color
+                                          ? "bkt-bg-" + path.color + "-lighter"
+                                          : "",
+                                        {
+                                          "bkt-bg-white":
+                                            _vm.current_path === path.pathId,
+                                          "bkt-bg-primary-lighter":
+                                            _vm.current_path !== path.pathId &&
+                                            !path.color,
+                                        },
+                                      ],
+                                    },
+                                    [
+                                      _vm._v(
+                                        "\n                                    " +
+                                          _vm._s(
+                                            path.lotCount ? path.lotCount : "0"
+                                          ) +
+                                          "\n                                "
+                                      ),
+                                    ]
                                   ),
                                 ]
-                              ),
-                            ]
-                          ),
+                              )
+                            : _vm._e(),
                           _vm._v(" "),
-                          _c(
-                            "div",
-                            {
-                              staticClass:
-                                "bkt-icon-frame-small bkt-bg-primary-lighter",
-                            },
-                            [
-                              _c("bkt-icon", {
-                                staticClass: "bkt-icon",
-                                attrs: { name: "Settings", color: "primary" },
-                              }),
-                            ],
-                            1
-                          ),
+                          path.pathId !== 0
+                            ? _c(
+                                "div",
+                                {
+                                  staticClass:
+                                    "bkt-icon-frame-small bkt-bg-primary-lighter",
+                                },
+                                [
+                                  _c("bkt-icon", {
+                                    staticClass: "bkt-icon",
+                                    attrs: {
+                                      name: "Settings",
+                                      color: "primary",
+                                    },
+                                  }),
+                                ],
+                                1
+                              )
+                            : _vm._e(),
                         ]
                       ),
                     ])
@@ -2947,7 +2977,7 @@ var render = function () {
                 "bkt-button__new-monitoring bkt-button primary bkt-w-md-100",
               on: { click: _vm.openModal },
             },
-            [_vm._v("\n                Новый мониторинг\n            ")]
+            [_vm._v("\n                    Новый мониторинг\n                ")]
           ),
         ]),
       ]),
@@ -2962,7 +2992,7 @@ var render = function () {
             [
               _c("bkt-collapse", {
                 attrs: {
-                  id: "collapsePaths",
+                  id: "collapseMonitoringPaths",
                   main_class: "bkt-monitoring__paths-collapse",
                   header_class: _vm.current_path_object.color
                     ? "bkt-bg-" + _vm.current_path_object.color
@@ -2972,16 +3002,16 @@ var render = function () {
                 },
                 scopedSlots: _vm._u(
                   [
-                    _vm.paths.length > 0
+                    _vm.items_paths.length > 0
                       ? {
                           key: "title",
                           fn: function () {
                             return [
                               _c("h6", { staticClass: "mx-auto" }, [
                                 _vm._v(
-                                  "\n                    " +
+                                  "\n                        " +
                                     _vm._s(_vm.current_path_object.name) +
-                                    "\n                    "
+                                    "\n                        "
                                 ),
                                 _c(
                                   "span",
@@ -2994,13 +3024,13 @@ var render = function () {
                                   },
                                   [
                                     _vm._v(
-                                      "\n                                " +
+                                      "\n                            " +
                                         _vm._s(
                                           _vm.current_path_object.lotCount
                                             ? _vm.current_path_object.lotCount
                                             : "0"
                                         ) +
-                                        "\n                            "
+                                        "\n                        "
                                     ),
                                   ]
                                 ),
@@ -3028,7 +3058,7 @@ var render = function () {
                                             "w-100 bkt-button bkt-button_plump text-uppercase bkt-bg-white bkt-text-main text-center",
                                           on: {
                                             click: function ($event) {
-                                              return _vm.setCurrentPath(
+                                              return _vm.setCurrentMonitoringPath(
                                                 path.pathId
                                               )
                                             },
@@ -3036,9 +3066,9 @@ var render = function () {
                                         },
                                         [
                                           _vm._v(
-                                            "\n                        " +
+                                            "\n                            " +
                                               _vm._s(path.name) +
-                                              "\n                        "
+                                              "\n                            "
                                           ),
                                           _c(
                                             "span",
@@ -3053,13 +3083,13 @@ var render = function () {
                                             },
                                             [
                                               _vm._v(
-                                                "\n                                " +
+                                                "\n                                    " +
                                                   _vm._s(
                                                     path.lotCount
                                                       ? path.lotCount
                                                       : "0"
                                                   ) +
-                                                  "\n                            "
+                                                  "\n                                "
                                               ),
                                             ]
                                           ),
@@ -3101,7 +3131,7 @@ var render = function () {
           items: _vm.items,
           loading: _vm.loading,
           pagination_data: _vm.pagination_data,
-          infinite: _vm.items_paths.length > 0,
+          infinite: _vm.items_paths.length > 1,
           method_name: "getMonitorings",
           method_params: _vm.method_params,
         },
@@ -3141,712 +3171,164 @@ var render = function () {
       title: "Новый мониторинг",
       loading: _vm.loading,
     },
-    scopedSlots: _vm._u(
-      [
-        {
-          key: "body",
-          fn: function (ref) {
-            var invalid = ref.invalid
-            return [
-              _c("div", [
+    scopedSlots: _vm._u([
+      {
+        key: "body",
+        fn: function (ref) {
+          var invalid = ref.invalid
+          return [
+            _c("bkt-input", {
+              attrs: {
+                rules: "required",
+                name: "monitoring_name",
+                no_group_item: "",
+                label: "название мониторинга",
+                placeholder: "Введите название мониторинга",
+              },
+              model: {
+                value: _vm.monitoring.name,
+                callback: function ($$v) {
+                  _vm.$set(_vm.monitoring, "name", $$v)
+                },
+                expression: "monitoring.name",
+              },
+            }),
+            _vm._v(" "),
+            _c(
+              "div",
+              {
+                staticClass:
+                  "bkt-monitoring-field__input bkt-monitoring-field__filter text-left mb-3 bkt-input",
+              },
+              [
                 _c(
-                  "div",
-                  { staticClass: "bkt-monitoring-field text-left mb-5" },
-                  [
-                    _c(
-                      "label",
-                      {
-                        staticClass: "bkt-monitoring-field__text",
-                        attrs: { for: "name_monitoring" },
+                  "button",
+                  {
+                    staticClass: "bkt-button",
+                    class: [
+                      _vm.selectedFilter == 1
+                        ? "shadow green"
+                        : "bkt-text-main",
+                    ],
+                    on: {
+                      click: function ($event) {
+                        _vm.selectedFilter = 1
                       },
-                      [_vm._v("название мониторинга")]
-                    ),
-                    _vm._v(" "),
-                    _c("input", {
-                      staticClass:
-                        "bkt-monitoring-field__input bkt-input pl-4 pr-4",
-                      attrs: {
-                        type: "text",
-                        id: "name_monitoring",
-                        name: "name_monitoring",
-                        placeholder: "Введите название мониторинга",
-                      },
-                    }),
-                  ]
+                    },
+                  },
+                  [_vm._v("По категории\n                ")]
                 ),
                 _vm._v(" "),
                 _c(
-                  "div",
+                  "button",
                   {
-                    staticClass:
-                      "bkt-monitoring-field__input bkt-monitoring-field__filter text-left mb-3 bkt-input",
+                    staticClass: "bkt-button",
+                    class: [
+                      _vm.selectedFilter == 2
+                        ? "shadow green"
+                        : "bkt-text-main",
+                    ],
+                    on: {
+                      click: function ($event) {
+                        _vm.selectedFilter = 2
+                      },
+                    },
                   },
-                  [
-                    _c(
-                      "button",
-                      {
-                        staticClass: "bkt-button",
-                        class: [
-                          _vm.selectedFilter == 1
-                            ? "shadow green"
-                            : "bkt-text-main",
-                        ],
-                        on: {
-                          click: function ($event) {
-                            _vm.selectedFilter = 1
-                          },
-                        },
-                      },
-                      [_vm._v("По категории\n                ")]
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "button",
-                      {
-                        staticClass: "bkt-button",
-                        class: [
-                          _vm.selectedFilter == 2
-                            ? "shadow green"
-                            : "bkt-text-main",
-                        ],
-                        on: {
-                          click: function ($event) {
-                            _vm.selectedFilter = 2
-                          },
-                        },
-                      },
-                      [_vm._v("По дате торгов\n                ")]
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "button",
-                      {
-                        staticClass: "bkt-button",
-                        class: [
-                          _vm.selectedFilter == 3
-                            ? "shadow green"
-                            : "bkt-text-main",
-                        ],
-                        on: {
-                          click: function ($event) {
-                            _vm.selectedFilter = 3
-                          },
-                        },
-                      },
-                      [_vm._v("По региону\n                ")]
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "button",
-                      {
-                        staticClass: "bkt-button",
-                        class: [
-                          _vm.selectedFilter == 4
-                            ? "shadow green"
-                            : "bkt-text-main",
-                        ],
-                        on: {
-                          click: function ($event) {
-                            _vm.selectedFilter = 4
-                          },
-                        },
-                      },
-                      [_vm._v("По должнику\n                ")]
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "button",
-                      {
-                        staticClass: "bkt-button",
-                        class: [
-                          _vm.selectedFilter == 5
-                            ? "shadow green"
-                            : "bkt-text-main",
-                        ],
-                        on: {
-                          click: function ($event) {
-                            _vm.selectedFilter = 5
-                          },
-                        },
-                      },
-                      [_vm._v("По цене\n                ")]
-                    ),
-                  ]
+                  [_vm._v("По дате торгов\n                ")]
                 ),
-              ]),
-              _vm._v(" "),
-              _vm.selectedFilter === 1
-                ? _c("div", { staticClass: "bkt-monitoring-category" }, [
-                    _vm._v(
-                      "\n            " +
-                        _vm._s(_vm.selectedCategory) +
-                        "\n            "
-                    ),
-                    _c(
-                      "div",
-                      { staticClass: "bkt-monitoring-field text-left mb-2" },
-                      [
-                        _c("bkt-select", {
-                          attrs: {
-                            name: "monitoringCategory",
-                            option_label: "label",
-                            reduce: function (item) {
-                              return item.id
-                            },
-                            options: _vm.items_categories,
-                          },
-                        }),
-                      ],
-                      1
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "div",
-                      { staticClass: "bkt-monitoring-field text-left mb-4" },
-                      [
-                        _c("bkt-select", {
-                          attrs: {
-                            multiple: "",
-                            name: "monitoringSubcategory",
-                            option_label: "name",
-                            options: [],
-                          },
-                        }),
-                      ],
-                      1
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "div",
-                      {
-                        staticClass:
-                          "bkt-monitoring-field bkt-monitoring__items text-left d-flex",
+                _vm._v(" "),
+                _c(
+                  "button",
+                  {
+                    staticClass: "bkt-button",
+                    class: [
+                      _vm.selectedFilter == 3
+                        ? "shadow green"
+                        : "bkt-text-main",
+                    ],
+                    on: {
+                      click: function ($event) {
+                        _vm.selectedFilter = 3
                       },
-                      [
-                        _c(
-                          "div",
-                          {
-                            staticClass:
-                              "bkt bkt-border-primary-dark bkt-border-rounded p-2 pl-4 pr-4 mr-2",
-                          },
-                          [_c("span", [_vm._v("BMW")])]
-                        ),
-                        _vm._v(" "),
-                        _c(
-                          "div",
-                          {
-                            staticClass:
-                              "bkt bkt-border-primary-dark bkt-border-rounded p-2 pl-4 pr-4 mr-2",
-                          },
-                          [_c("span", [_vm._v("Ford")])]
-                        ),
-                        _vm._v(" "),
-                        _c(
-                          "div",
-                          {
-                            staticClass:
-                              "bkt bkt-border-primary-dark bkt-border-rounded p-2 pl-4 pr-4 mr-2",
-                          },
-                          [_c("span", [_vm._v("Toyota")])]
-                        ),
-                        _vm._v(" "),
-                        _c(
-                          "div",
-                          {
-                            staticClass:
-                              "bkt bkt-border-primary-dark bkt-border-rounded p-2 pl-4 pr-4 mr-2",
-                          },
-                          [_c("span", [_vm._v("Audi")])]
-                        ),
-                        _vm._v(" "),
-                        _c(
-                          "div",
-                          {
-                            staticClass:
-                              "bkt bkt-border-primary-dark bkt-border-rounded p-2 pl-4 pr-4",
-                          },
-                          [_c("span", [_vm._v("Lexus")])]
-                        ),
-                      ]
-                    ),
-                  ])
-                : _vm._e(),
-              _vm._v(" "),
-              _vm.selectedFilter === 2
-                ? _c(
-                    "div",
-                    { staticClass: "bkt-monitoring-date text-left" },
-                    _vm._l(_vm.trading_date, function (date, index) {
-                      return _c("div", { staticClass: "row mb-2" }, [
-                        _c(
-                          "div",
-                          {
-                            staticClass:
-                              "col-12 col-md-2 d-flex align-items-center",
-                          },
-                          [
-                            _c(
-                              "span",
-                              { staticClass: "bkt-monitoring-date__label" },
-                              [_vm._v(_vm._s(date.title))]
-                            ),
-                          ]
-                        ),
-                        _vm._v(" "),
-                        _c(
-                          "div",
-                          {
-                            staticClass:
-                              "col-12 col-md-5 bkt-monitoring-date__input",
-                          },
-                          [
-                            _c("bkt-datepicker", {
-                              attrs: {
-                                field_name: "dateStart",
-                                name: "dateStart",
-                              },
-                              model: {
-                                value: date["date_start"],
-                                callback: function ($$v) {
-                                  _vm.$set(date, "date_start", $$v)
-                                },
-                                expression: "date['date_start']",
-                              },
-                            }),
-                          ],
-                          1
-                        ),
-                        _vm._v(" "),
-                        _c(
-                          "div",
-                          {
-                            staticClass:
-                              "col-12 col-md-5 bkt-monitoring-date__input",
-                          },
-                          [
-                            _c("bkt-datepicker", {
-                              attrs: { field_name: "dateEnd", name: "dateEnd" },
-                              model: {
-                                value: date["date_end"],
-                                callback: function ($$v) {
-                                  _vm.$set(date, "date_end", $$v)
-                                },
-                                expression: "date['date_end']",
-                              },
-                            }),
-                          ],
-                          1
-                        ),
-                      ])
-                    }),
-                    0
-                  )
-                : _vm._e(),
-              _vm._v(" "),
-              _vm.selectedFilter === 3
-                ? _c(
-                    "div",
-                    { staticClass: "bkt-monitoring-region bkt-region-modal" },
-                    [
-                      _c(
-                        "div",
-                        {
-                          staticClass:
-                            "bkt-search position-relative bg-white bkt-bg-item-neutral",
+                    },
+                  },
+                  [_vm._v("По региону\n                ")]
+                ),
+                _vm._v(" "),
+                _c(
+                  "button",
+                  {
+                    staticClass: "bkt-button",
+                    class: [
+                      _vm.selectedFilter == 4
+                        ? "shadow green"
+                        : "bkt-text-main",
+                    ],
+                    on: {
+                      click: function ($event) {
+                        _vm.selectedFilter = 4
+                      },
+                    },
+                  },
+                  [_vm._v("По должнику\n                ")]
+                ),
+                _vm._v(" "),
+                _c(
+                  "button",
+                  {
+                    staticClass: "bkt-button",
+                    class: [
+                      _vm.selectedFilter == 5
+                        ? "shadow green"
+                        : "bkt-text-main",
+                    ],
+                    on: {
+                      click: function ($event) {
+                        _vm.selectedFilter = 5
+                      },
+                    },
+                  },
+                  [_vm._v("По цене\n                ")]
+                ),
+              ]
+            ),
+            _vm._v(" "),
+            _vm.selectedFilter === 1
+              ? _c(
+                  "div",
+                  { staticClass: "bkt-monitoring-category" },
+                  [
+                    _c("bkt-categories-control", {
+                      model: {
+                        value: _vm.monitoring.filters.categories,
+                        callback: function ($$v) {
+                          _vm.$set(_vm.monitoring.filters, "categories", $$v)
                         },
-                        [
-                          _c("input", {
-                            staticClass: "w-100 bkt-search__input",
-                            attrs: {
-                              type: "text",
-                              placeholder: "Введите нужное слово или фразу",
-                            },
-                          }),
-                          _vm._v(" "),
+                        expression: "monitoring.filters.categories",
+                      },
+                    }),
+                    _vm._v(" "),
+                    _vm.result.length > 0 && !_vm.loading
+                      ? _c("div", { staticClass: "bkt-region-selected" }, [
                           _c(
-                            "button",
+                            "h5",
                             {
                               staticClass:
-                                "bkt-button green bkt-search__button",
+                                "bkt-region-selected__title text-left mb-2",
                             },
                             [
-                              _c("span", { staticClass: "d-none d-md-block" }, [
-                                _vm._v("Найти"),
-                              ]),
-                              _vm._v(" "),
-                              _c("bkt-icon", {
-                                staticClass: "d-block d-md-none",
-                                attrs: { name: "Search" },
-                              }),
-                            ],
-                            1
-                          ),
-                        ]
-                      ),
-                      _vm._v(" "),
-                      !_vm.loading && _vm.selectedRegion
-                        ? _c(
-                            "div",
-                            {
-                              staticClass: "bkt-regions-tabs d-lg-block d-none",
-                            },
-                            [
-                              _c("div", { staticClass: "bkt-form" }, [
-                                _c("div", { staticClass: "col-5 p-0" }, [
-                                  _c(
-                                    "div",
-                                    {
-                                      staticClass:
-                                        "bkt-regions-tabs__nav text-center",
-                                    },
-                                    _vm._l(
-                                      _vm.regionGroups,
-                                      function (group, index) {
-                                        return _c(
-                                          "div",
-                                          {
-                                            staticClass:
-                                              "bkt-regions-tabs__nav-item",
-                                            class: {
-                                              "active bkt-bg-item-neutral":
-                                                _vm.selectedRegion
-                                                  .regionGroup ==
-                                                group.regionGroup,
-                                            },
-                                            on: {
-                                              click: function ($event) {
-                                                _vm.selectedRegion = group
-                                              },
-                                            },
-                                          },
-                                          [
-                                            _vm._v(
-                                              "\n                                " +
-                                                _vm._s(
-                                                  _vm.$t(
-                                                    "region_groups." +
-                                                      group.regionGroup
-                                                  )
-                                                ) +
-                                                "\n                            "
-                                            ),
-                                          ]
-                                        )
-                                      }
-                                    ),
-                                    0
-                                  ),
-                                ]),
-                                _vm._v(" "),
-                                _c("div", { staticClass: "col-7 p-0" }, [
-                                  _c(
-                                    "div",
-                                    {
-                                      staticClass:
-                                        "bkt-regions-tabs__content bkt-bg-body",
-                                      class: {
-                                        "bkt-rounded-left-top-none":
-                                          _vm.regionGroups[0].regionGroup ==
-                                          _vm.selectedRegion.regionGroup,
-                                        "bkt-rounded-left-bottom-none":
-                                          _vm.regionGroups[
-                                            _vm.regionGroups.length - 1
-                                          ].regionGroup ==
-                                          _vm.selectedRegion.regionGroup,
-                                      },
-                                    },
-                                    _vm._l(
-                                      _vm.selectedRegion.regions,
-                                      function (item, index) {
-                                        return _c(
-                                          "div",
-                                          {
-                                            key: index,
-                                            staticClass: "bkt-tag__wrapper",
-                                          },
-                                          [
-                                            _c(
-                                              "div",
-                                              {
-                                                staticClass:
-                                                  "bkt-tag w-100 text-left bkt-bg-item-rounded",
-                                                class: {
-                                                  "bkt-bg-green bkt-text-white":
-                                                    _vm.result.findIndex(
-                                                      function (el) {
-                                                        return el === item
-                                                      }
-                                                    ) >= 0,
-                                                },
-                                              },
-                                              [
-                                                _vm._v(
-                                                  "\n                                    " +
-                                                    _vm._s(
-                                                      _vm.$t("regions." + item)
-                                                    ) +
-                                                    "\n                                "
-                                                ),
-                                              ]
-                                            ),
-                                            _vm._v(" "),
-                                            _c(
-                                              "div",
-                                              {
-                                                staticClass: "bkt-tag__icon",
-                                                on: {
-                                                  click: function ($event) {
-                                                    return _vm.toggleRegion(
-                                                      item
-                                                    )
-                                                  },
-                                                },
-                                              },
-                                              [
-                                                _c("bkt-icon", {
-                                                  directives: [
-                                                    {
-                                                      name: "show",
-                                                      rawName: "v-show",
-                                                      value:
-                                                        _vm.result.findIndex(
-                                                          function (data) {
-                                                            return data === item
-                                                          }
-                                                        ) >= 0,
-                                                      expression:
-                                                        "result.findIndex(data => data === item)>=0",
-                                                    },
-                                                  ],
-                                                  attrs: {
-                                                    name: "Cancel",
-                                                    color: "red",
-                                                  },
-                                                }),
-                                                _vm._v(" "),
-                                                _c("bkt-icon", {
-                                                  directives: [
-                                                    {
-                                                      name: "show",
-                                                      rawName: "v-show",
-                                                      value:
-                                                        _vm.result.findIndex(
-                                                          function (data) {
-                                                            return data === item
-                                                          }
-                                                        ) < 0,
-                                                      expression:
-                                                        "result.findIndex(data => data === item)<0",
-                                                    },
-                                                  ],
-                                                  attrs: {
-                                                    name: "Plus",
-                                                    color: "green",
-                                                  },
-                                                }),
-                                              ],
-                                              1
-                                            ),
-                                          ]
-                                        )
-                                      }
-                                    ),
-                                    0
-                                  ),
-                                ]),
+                              _c("span", { staticClass: "text-muted" }, [
+                                _vm._v("выбранные категории"),
                               ]),
                             ]
-                          )
-                        : _vm._e(),
-                      _vm._v(" "),
-                      !_vm.loading && _vm.selectedRegion
-                        ? _c(
+                          ),
+                          _vm._v(" "),
+                          _c(
                             "div",
-                            {
-                              staticClass:
-                                "d-lg-none bkt-wrapper-column bkt-gap-small",
-                            },
-                            _vm._l(_vm.regionGroups, function (group, index) {
-                              return _c("bkt-collapse", {
-                                key: index,
-                                attrs: {
-                                  id: "region-collapse-" + index,
-                                  main_class: "bkt-collapse_check",
-                                  collapse_button_class: "bkt-bg-white",
-                                },
-                                scopedSlots: _vm._u(
-                                  [
-                                    {
-                                      key: "title",
-                                      fn: function () {
-                                        return [
-                                          _c(
-                                            "div",
-                                            {
-                                              staticClass:
-                                                "bkt-collapse__title-wrapper",
-                                            },
-                                            [
-                                              _c("bkt-checkbox", {
-                                                attrs: {
-                                                  label: "",
-                                                  name:
-                                                    "bkt-region-group-checkbox-" +
-                                                    index,
-                                                  id:
-                                                    "bkt-region-group-checkbox-" +
-                                                    index,
-                                                  indeterminate:
-                                                    _vm.isIndeterminate(index),
-                                                },
-                                                on: {
-                                                  input: function ($event) {
-                                                    return _vm.selectAll(index)
-                                                  },
-                                                },
-                                                model: {
-                                                  value: group.status,
-                                                  callback: function ($$v) {
-                                                    _vm.$set(
-                                                      group,
-                                                      "status",
-                                                      $$v
-                                                    )
-                                                  },
-                                                  expression: "group.status",
-                                                },
-                                              }),
-                                              _vm._v(" "),
-                                              _c(
-                                                "h5",
-                                                {
-                                                  staticClass:
-                                                    "bkt-regions-tabs__title",
-                                                  attrs: {
-                                                    "data-bs-toggle":
-                                                      "collapse",
-                                                    "data-bs-target":
-                                                      "#region-collapse-" +
-                                                      index,
-                                                  },
-                                                },
-                                                [
-                                                  _vm._v(
-                                                    "\n                                " +
-                                                      _vm._s(
-                                                        _vm.$t(
-                                                          "region_groups." +
-                                                            group.regionGroup
-                                                        )
-                                                      ) +
-                                                      "\n                            "
-                                                  ),
-                                                ]
-                                              ),
-                                            ],
-                                            1
-                                          ),
-                                        ]
-                                      },
-                                      proxy: true,
-                                    },
-                                    {
-                                      key: "collapse",
-                                      fn: function () {
-                                        return _vm._l(
-                                          group.regions,
-                                          function (region, index) {
-                                            return _c(
-                                              "div",
-                                              { staticClass: "bkt-gap-mini" },
-                                              [
-                                                _c(
-                                                  "div",
-                                                  {
-                                                    staticClass:
-                                                      "bkt-collapse__title-wrapper",
-                                                  },
-                                                  [
-                                                    _c("bkt-checkbox", {
-                                                      attrs: {
-                                                        label: "",
-                                                        name:
-                                                          "bkt-region-checkbox-" +
-                                                          index,
-                                                        id:
-                                                          "bkt-region-checkbox-" +
-                                                          index,
-                                                        val: region,
-                                                      },
-                                                      model: {
-                                                        value: _vm.result,
-                                                        callback: function (
-                                                          $$v
-                                                        ) {
-                                                          _vm.result = $$v
-                                                        },
-                                                        expression: "result",
-                                                      },
-                                                    }),
-                                                    _vm._v(" "),
-                                                    _c(
-                                                      "h6",
-                                                      {
-                                                        staticClass:
-                                                          "bkt-regions-tabs__subtitle",
-                                                      },
-                                                      [
-                                                        _vm._v(
-                                                          "\n                                    " +
-                                                            _vm._s(
-                                                              _vm.$t(
-                                                                "regions." +
-                                                                  region
-                                                              )
-                                                            ) +
-                                                            "\n                                "
-                                                        ),
-                                                      ]
-                                                    ),
-                                                  ],
-                                                  1
-                                                ),
-                                              ]
-                                            )
-                                          }
-                                        )
-                                      },
-                                      proxy: true,
-                                    },
-                                  ],
-                                  null,
-                                  true
-                                ),
-                              })
-                            }),
-                            1
-                          )
-                        : _vm._e(),
-                      _vm._v(" "),
-                      _vm.result.length > 0 && !_vm.loading
-                        ? _c("div", { staticClass: "bkt-region-selected" }, [
-                            _c(
-                              "h5",
-                              {
-                                staticClass:
-                                  "bkt-region-selected__title text-left mb-2",
-                              },
-                              [
-                                _c("span", { staticClass: "text-muted" }, [
-                                  _vm._v("выбранные регионы"),
-                                ]),
-                              ]
-                            ),
-                            _vm._v(" "),
-                            _c(
-                              "div",
-                              { staticClass: "bkt-tag__list" },
-                              _vm._l(_vm.result, function (item, index) {
+                            { staticClass: "bkt-tag__list" },
+                            _vm._l(
+                              _vm.monitoring.filters.categories,
+                              function (item, index) {
                                 return _c(
                                   "div",
                                   {
@@ -3862,7 +3344,7 @@ var render = function () {
                                       },
                                       [
                                         _vm._v(
-                                          _vm._s(_vm.$t("regions." + item))
+                                          _vm._s(_vm.$t("categories." + item))
                                         ),
                                       ]
                                     ),
@@ -3890,539 +3372,682 @@ var render = function () {
                                     ),
                                   ]
                                 )
-                              }),
-                              0
+                              }
                             ),
-                          ])
-                        : _vm._e(),
-                      _vm._v(" "),
-                      _vm.loading
-                        ? _c(
-                            "div",
-                            {
-                              staticClass:
-                                "d-flex w-100 justify-content-center my-5",
-                            },
-                            [
-                              _vm._t("loading", function () {
-                                return [
-                                  _c("div", {
-                                    staticClass: "spinner-border",
-                                    staticStyle: {
-                                      color: "#2953ff",
-                                      "border-width": "2px",
-                                    },
-                                    attrs: { role: "status" },
-                                  }),
-                                ]
-                              }),
-                            ],
-                            2
-                          )
-                        : _vm._e(),
-                    ]
-                  )
-                : _vm._e(),
-              _vm._v(" "),
-              _vm.selectedFilter === 4
-                ? _c("div", { staticClass: "bkt-monitoring-debtor" }, [
-                    _c("input", {
-                      staticClass:
-                        "bkt-monitoring-field__input bkt-input pl-4 pr-4",
-                      attrs: {
-                        type: "text",
-                        id: "debtor",
-                        name: "debtor",
-                        placeholder: "Введите данные должника",
-                      },
-                    }),
-                  ])
-                : _vm._e(),
-              _vm._v(" "),
-              _vm.selectedFilter === 5
-                ? _c(
-                    "div",
-                    { staticClass: "bkt-monitoring-price text-left" },
-                    [
+                            0
+                          ),
+                        ])
+                      : _vm._e(),
+                  ],
+                  1
+                )
+              : _vm._e(),
+            _vm._v(" "),
+            _vm.selectedFilter === 2
+              ? _c(
+                  "div",
+                  { staticClass: "bkt-monitoring-date text-left" },
+                  _vm._l(_vm.trading_date, function (date, index) {
+                    return _c("div", { staticClass: "row mb-2" }, [
                       _c(
                         "div",
-                        { staticClass: "bkt-form mx-auto align-items-start" },
+                        {
+                          staticClass:
+                            "col-12 col-md-2 d-flex align-items-center",
+                        },
                         [
-                          _c("div", { staticClass: "col-12 col-lg-3 p-0" }, [
-                            _c("h5", { staticClass: "bkt-form__label" }, [
-                              _vm._v("начальная цена, ₽"),
-                            ]),
-                          ]),
-                          _vm._v(" "),
                           _c(
-                            "div",
-                            { staticClass: "bkt-form col-12 col-lg-9 m-0" },
-                            [
-                              _c(
-                                "div",
-                                { staticClass: "col-12 col-lg-6" },
-                                [
-                                  _c("bkt-input", {
-                                    attrs: {
-                                      type: "number",
-                                      field_name: "'Начальная цена от'",
-                                      name: "startPriceMin",
-                                      icon_name: "Check",
-                                      group_item_class: _vm.filter.startPrice
-                                        .min
-                                        ? "bkt-bg-green"
-                                        : "bkt-bg-white",
-                                      icon_color: _vm.filter.startPrice.min
-                                        ? "white"
-                                        : "main-lighter",
-                                    },
-                                    scopedSlots: _vm._u(
-                                      [
-                                        {
-                                          key: "group-text",
-                                          fn: function () {
-                                            return [
-                                              _vm._v(
-                                                "\n                                от\n                            "
-                                              ),
-                                            ]
-                                          },
-                                          proxy: true,
-                                        },
-                                      ],
-                                      null,
-                                      true
-                                    ),
-                                    model: {
-                                      value: _vm.filter.startPrice.min,
-                                      callback: function ($$v) {
-                                        _vm.$set(
-                                          _vm.filter.startPrice,
-                                          "min",
-                                          $$v
-                                        )
-                                      },
-                                      expression: "filter.startPrice.min",
-                                    },
-                                  }),
-                                ],
-                                1
-                              ),
-                              _vm._v(" "),
-                              _c(
-                                "div",
-                                { staticClass: "col-12 col-lg-6" },
-                                [
-                                  _c("bkt-input", {
-                                    attrs: {
-                                      type: "number",
-                                      field_name: "'Начальная цена до'",
-                                      name: "startPriceMax",
-                                      icon_name: "Check",
-                                      group_item_class: _vm.filter.startPrice
-                                        .max
-                                        ? "bkt-bg-green"
-                                        : "bkt-bg-white",
-                                      icon_color: _vm.filter.startPrice.max
-                                        ? "white"
-                                        : "main-lighter",
-                                    },
-                                    scopedSlots: _vm._u(
-                                      [
-                                        {
-                                          key: "group-text",
-                                          fn: function () {
-                                            return [
-                                              _vm._v(
-                                                "\n                                до\n                            "
-                                              ),
-                                            ]
-                                          },
-                                          proxy: true,
-                                        },
-                                      ],
-                                      null,
-                                      true
-                                    ),
-                                    model: {
-                                      value: _vm.filter.startPrice.max,
-                                      callback: function ($$v) {
-                                        _vm.$set(
-                                          _vm.filter.startPrice,
-                                          "max",
-                                          $$v
-                                        )
-                                      },
-                                      expression: "filter.startPrice.max",
-                                    },
-                                  }),
-                                ],
-                                1
-                              ),
-                            ]
-                          ),
-                          _vm._v(" "),
-                          _c("div", { staticClass: "col-12 col-lg-3 p-0" }, [
-                            _c("h5", { staticClass: "bkt-form__label" }, [
-                              _vm._v("текущая цена, ₽"),
-                            ]),
-                          ]),
-                          _vm._v(" "),
-                          _c(
-                            "div",
-                            { staticClass: "bkt-form col-12 col-lg-9 m-0" },
-                            [
-                              _c(
-                                "div",
-                                { staticClass: "col-12 col-lg-6" },
-                                [
-                                  _c("bkt-input", {
-                                    attrs: {
-                                      type: "number",
-                                      field_name: "'Текущая цена от'",
-                                      name: "currentPriceMin",
-                                      icon_name: "Check",
-                                      group_item_class: _vm.filter.currentPrice
-                                        .min
-                                        ? "bkt-bg-green"
-                                        : "bkt-bg-white",
-                                      icon_color: _vm.filter.currentPrice.min
-                                        ? "white"
-                                        : "main-lighter",
-                                    },
-                                    scopedSlots: _vm._u(
-                                      [
-                                        {
-                                          key: "group-text",
-                                          fn: function () {
-                                            return [
-                                              _vm._v(
-                                                "\n                                от\n                            "
-                                              ),
-                                            ]
-                                          },
-                                          proxy: true,
-                                        },
-                                      ],
-                                      null,
-                                      true
-                                    ),
-                                    model: {
-                                      value: _vm.filter.currentPrice.min,
-                                      callback: function ($$v) {
-                                        _vm.$set(
-                                          _vm.filter.currentPrice,
-                                          "min",
-                                          $$v
-                                        )
-                                      },
-                                      expression: "filter.currentPrice.min",
-                                    },
-                                  }),
-                                ],
-                                1
-                              ),
-                              _vm._v(" "),
-                              _c(
-                                "div",
-                                { staticClass: "col-12 col-lg-6" },
-                                [
-                                  _c("bkt-input", {
-                                    attrs: {
-                                      type: "number",
-                                      field_name: "'Текущая цена до'",
-                                      name: "currentPriceMax",
-                                      icon_name: "Check",
-                                      group_item_class: _vm.filter.currentPrice
-                                        .max
-                                        ? "bkt-bg-green"
-                                        : "bkt-bg-white",
-                                      icon_color: _vm.filter.currentPrice.max
-                                        ? "white"
-                                        : "main-lighter",
-                                    },
-                                    scopedSlots: _vm._u(
-                                      [
-                                        {
-                                          key: "group-text",
-                                          fn: function () {
-                                            return [
-                                              _vm._v(
-                                                "\n                                до\n                            "
-                                              ),
-                                            ]
-                                          },
-                                          proxy: true,
-                                        },
-                                      ],
-                                      null,
-                                      true
-                                    ),
-                                    model: {
-                                      value: _vm.filter.currentPrice.max,
-                                      callback: function ($$v) {
-                                        _vm.$set(
-                                          _vm.filter.currentPrice,
-                                          "max",
-                                          $$v
-                                        )
-                                      },
-                                      expression: "filter.currentPrice.max",
-                                    },
-                                  }),
-                                ],
-                                1
-                              ),
-                            ]
-                          ),
-                          _vm._v(" "),
-                          _c("div", { staticClass: "col-12 col-lg-3 p-0" }, [
-                            _c("h5", { staticClass: "bkt-form__label" }, [
-                              _vm._v("минимальная цена, ₽"),
-                            ]),
-                          ]),
-                          _vm._v(" "),
-                          _c(
-                            "div",
-                            { staticClass: "bkt-form col-12 col-lg-9 m-0" },
-                            [
-                              _c(
-                                "div",
-                                { staticClass: "col-12 col-lg-6" },
-                                [
-                                  _c("bkt-input", {
-                                    attrs: {
-                                      type: "number",
-                                      field_name: "'Минимальная цена от'",
-                                      name: "minPriceMin",
-                                      icon_name: "Check",
-                                      group_item_class: _vm.filter.minPrice.min
-                                        ? "bkt-bg-green"
-                                        : "bkt-bg-white",
-                                      icon_color: _vm.filter.minPrice.min
-                                        ? "white"
-                                        : "main-lighter",
-                                    },
-                                    scopedSlots: _vm._u(
-                                      [
-                                        {
-                                          key: "group-text",
-                                          fn: function () {
-                                            return [
-                                              _vm._v(
-                                                "\n                                от\n                            "
-                                              ),
-                                            ]
-                                          },
-                                          proxy: true,
-                                        },
-                                      ],
-                                      null,
-                                      true
-                                    ),
-                                    model: {
-                                      value: _vm.filter.minPrice.min,
-                                      callback: function ($$v) {
-                                        _vm.$set(
-                                          _vm.filter.minPrice,
-                                          "min",
-                                          $$v
-                                        )
-                                      },
-                                      expression: "filter.minPrice.min",
-                                    },
-                                  }),
-                                ],
-                                1
-                              ),
-                              _vm._v(" "),
-                              _c(
-                                "div",
-                                { staticClass: "col-12 col-lg-6" },
-                                [
-                                  _c("bkt-input", {
-                                    attrs: {
-                                      field_name: "'Минимальная цена до'",
-                                      name: "minPriceMax",
-                                      icon_name: "Check",
-                                      group_item_class: _vm.filter.minPrice.max
-                                        ? "bkt-bg-green"
-                                        : "bkt-bg-white",
-                                      icon_color: _vm.filter.minPrice.max
-                                        ? "white"
-                                        : "main-lighter",
-                                    },
-                                    scopedSlots: _vm._u(
-                                      [
-                                        {
-                                          key: "group-text",
-                                          fn: function () {
-                                            return [
-                                              _vm._v(
-                                                "\n                                до\n                            "
-                                              ),
-                                            ]
-                                          },
-                                          proxy: true,
-                                        },
-                                      ],
-                                      null,
-                                      true
-                                    ),
-                                    model: {
-                                      value: _vm.filter.minPrice.max,
-                                      callback: function ($$v) {
-                                        _vm.$set(
-                                          _vm.filter.minPrice,
-                                          "max",
-                                          $$v
-                                        )
-                                      },
-                                      expression: "filter.minPrice.max",
-                                    },
-                                  }),
-                                ],
-                                1
-                              ),
-                            ]
-                          ),
-                          _vm._v(" "),
-                          _c("div", { staticClass: "col-12 col-lg-3 p-0" }, [
-                            _c("h5", { staticClass: "bkt-form__label" }, [
-                              _vm._v("процент снижения, %"),
-                            ]),
-                          ]),
-                          _vm._v(" "),
-                          _c(
-                            "div",
-                            { staticClass: "bkt-form col-12 col-lg-9 m-0" },
-                            [
-                              _c(
-                                "div",
-                                { staticClass: "col-12 col-lg-6" },
-                                [
-                                  _c("bkt-input", {
-                                    attrs: {
-                                      field_name: "'Процент снижения от'",
-                                      name: "percentageReductionMin",
-                                      icon_name: "Check",
-                                      group_item_class: _vm.filter
-                                        .percentageReduction.min
-                                        ? "bkt-bg-green"
-                                        : "bkt-bg-white",
-                                      icon_color: _vm.filter.percentageReduction
-                                        .min
-                                        ? "white"
-                                        : "main-lighter",
-                                    },
-                                    scopedSlots: _vm._u(
-                                      [
-                                        {
-                                          key: "group-text",
-                                          fn: function () {
-                                            return [
-                                              _vm._v(
-                                                "\n                                от\n                            "
-                                              ),
-                                            ]
-                                          },
-                                          proxy: true,
-                                        },
-                                      ],
-                                      null,
-                                      true
-                                    ),
-                                    model: {
-                                      value: _vm.filter.percentageReduction.min,
-                                      callback: function ($$v) {
-                                        _vm.$set(
-                                          _vm.filter.percentageReduction,
-                                          "min",
-                                          $$v
-                                        )
-                                      },
-                                      expression:
-                                        "filter.percentageReduction.min",
-                                    },
-                                  }),
-                                ],
-                                1
-                              ),
-                              _vm._v(" "),
-                              _c(
-                                "div",
-                                { staticClass: "col-12 col-lg-6" },
-                                [
-                                  _c("bkt-input", {
-                                    attrs: {
-                                      field_name: "'Процент снижения до'",
-                                      name: "percentageReductionMax",
-                                      icon_name: "Check",
-                                      group_item_class: _vm.filter
-                                        .percentageReduction.max
-                                        ? "bkt-bg-green"
-                                        : "bkt-bg-white",
-                                      icon_color: _vm.filter.percentageReduction
-                                        .max
-                                        ? "white"
-                                        : "main-lighter",
-                                    },
-                                    scopedSlots: _vm._u(
-                                      [
-                                        {
-                                          key: "group-text",
-                                          fn: function () {
-                                            return [
-                                              _vm._v(
-                                                "\n                                до\n                            "
-                                              ),
-                                            ]
-                                          },
-                                          proxy: true,
-                                        },
-                                      ],
-                                      null,
-                                      true
-                                    ),
-                                    model: {
-                                      value: _vm.filter.percentageReduction.max,
-                                      callback: function ($$v) {
-                                        _vm.$set(
-                                          _vm.filter.percentageReduction,
-                                          "max",
-                                          $$v
-                                        )
-                                      },
-                                      expression:
-                                        "filter.percentageReduction.max",
-                                    },
-                                  }),
-                                ],
-                                1
-                              ),
-                            ]
+                            "span",
+                            { staticClass: "bkt-monitoring-date__label" },
+                            [_vm._v(_vm._s(date.title))]
                           ),
                         ]
                       ),
                       _vm._v(" "),
-                      _vm._l(_vm.pricing, function (price, index) {
-                        return  false
-                          ? 0
-                          : _vm._e()
-                      }),
-                    ],
-                    2
-                  )
-                : _vm._e(),
-              _vm._v(" "),
-              _c("bkt-color-folder"),
-            ]
-          },
+                      _c(
+                        "div",
+                        {
+                          staticClass:
+                            "col-12 col-md-5 bkt-monitoring-date__input",
+                        },
+                        [
+                          _c("bkt-datepicker", {
+                            attrs: {
+                              field_name: "dateStart",
+                              name: "dateStart",
+                            },
+                            model: {
+                              value: date["date_start"],
+                              callback: function ($$v) {
+                                _vm.$set(date, "date_start", $$v)
+                              },
+                              expression: "date['date_start']",
+                            },
+                          }),
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "div",
+                        {
+                          staticClass:
+                            "col-12 col-md-5 bkt-monitoring-date__input",
+                        },
+                        [
+                          _c("bkt-datepicker", {
+                            attrs: { field_name: "dateEnd", name: "dateEnd" },
+                            model: {
+                              value: date["date_end"],
+                              callback: function ($$v) {
+                                _vm.$set(date, "date_end", $$v)
+                              },
+                              expression: "date['date_end']",
+                            },
+                          }),
+                        ],
+                        1
+                      ),
+                    ])
+                  }),
+                  0
+                )
+              : _vm._e(),
+            _vm._v(" "),
+            _vm.selectedFilter === 3
+              ? _c(
+                  "div",
+                  { staticClass: "bkt-monitoring-region bkt-region-modal" },
+                  [
+                    _c("bkt-regions-control", {
+                      model: {
+                        value: _vm.result,
+                        callback: function ($$v) {
+                          _vm.result = $$v
+                        },
+                        expression: "result",
+                      },
+                    }),
+                    _vm._v(" "),
+                    _vm.result.length > 0 && !_vm.loading
+                      ? _c("div", { staticClass: "bkt-region-selected" }, [
+                          _c(
+                            "h5",
+                            {
+                              staticClass:
+                                "bkt-region-selected__title text-left mb-2",
+                            },
+                            [
+                              _c("span", { staticClass: "text-muted" }, [
+                                _vm._v("выбранные регионы"),
+                              ]),
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "div",
+                            { staticClass: "bkt-tag__list" },
+                            _vm._l(_vm.result, function (item, index) {
+                              return _c(
+                                "div",
+                                {
+                                  staticClass:
+                                    "bkt-region__item bkt-tag justify-content-between flex-fill",
+                                },
+                                [
+                                  _c(
+                                    "span",
+                                    {
+                                      staticClass:
+                                        "bkt-item-rounded__text mr-2",
+                                    },
+                                    [_vm._v(_vm._s(_vm.$t("regions." + item)))]
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "span",
+                                    {
+                                      staticClass:
+                                        "bkt-tag__icon bkt-cursor-pointer",
+                                      on: {
+                                        click: function ($event) {
+                                          return _vm.toggleRegion(item)
+                                        },
+                                      },
+                                    },
+                                    [
+                                      _c("bkt-icon", {
+                                        attrs: { name: "Cancel", color: "red" },
+                                      }),
+                                    ],
+                                    1
+                                  ),
+                                ]
+                              )
+                            }),
+                            0
+                          ),
+                        ])
+                      : _vm._e(),
+                    _vm._v(" "),
+                    _vm.loading
+                      ? _c(
+                          "div",
+                          {
+                            staticClass:
+                              "d-flex w-100 justify-content-center my-5",
+                          },
+                          [
+                            _c("div", {
+                              staticClass: "spinner-border",
+                              staticStyle: {
+                                color: "#2953ff",
+                                "border-width": "2px",
+                              },
+                              attrs: { role: "status" },
+                            }),
+                          ]
+                        )
+                      : _vm._e(),
+                  ],
+                  1
+                )
+              : _vm._e(),
+            _vm._v(" "),
+            _vm.selectedFilter === 4
+              ? _c("div", { staticClass: "bkt-monitoring-debtor" }, [
+                  _c("input", {
+                    staticClass:
+                      "bkt-monitoring-field__input bkt-input pl-4 pr-4",
+                    attrs: {
+                      type: "text",
+                      id: "debtor",
+                      name: "debtor",
+                      placeholder: "Введите данные должника",
+                    },
+                  }),
+                ])
+              : _vm._e(),
+            _vm._v(" "),
+            _vm.selectedFilter === 5
+              ? _c(
+                  "div",
+                  { staticClass: "bkt-monitoring-price text-left" },
+                  [
+                    _c(
+                      "div",
+                      { staticClass: "bkt-form mx-auto align-items-start" },
+                      [
+                        _c("div", { staticClass: "col-12 col-lg-3 p-0" }, [
+                          _c("h5", { staticClass: "bkt-form__label" }, [
+                            _vm._v("начальная цена, ₽"),
+                          ]),
+                        ]),
+                        _vm._v(" "),
+                        _c(
+                          "div",
+                          { staticClass: "bkt-form col-12 col-lg-9 m-0" },
+                          [
+                            _c(
+                              "div",
+                              { staticClass: "col-12 col-lg-6" },
+                              [
+                                _c("bkt-input", {
+                                  attrs: {
+                                    type: "number",
+                                    field_name: "'Начальная цена от'",
+                                    name: "startPriceMin",
+                                    icon_name: "Check",
+                                    group_item_class: _vm.filter.startPrice.min
+                                      ? "bkt-bg-green"
+                                      : "bkt-bg-white",
+                                    icon_color: _vm.filter.startPrice.min
+                                      ? "white"
+                                      : "main-lighter",
+                                  },
+                                  scopedSlots: _vm._u(
+                                    [
+                                      {
+                                        key: "group-text",
+                                        fn: function () {
+                                          return [
+                                            _vm._v(
+                                              "\n                                    от\n                                "
+                                            ),
+                                          ]
+                                        },
+                                        proxy: true,
+                                      },
+                                    ],
+                                    null,
+                                    true
+                                  ),
+                                  model: {
+                                    value: _vm.filter.startPrice.min,
+                                    callback: function ($$v) {
+                                      _vm.$set(
+                                        _vm.filter.startPrice,
+                                        "min",
+                                        $$v
+                                      )
+                                    },
+                                    expression: "filter.startPrice.min",
+                                  },
+                                }),
+                              ],
+                              1
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "div",
+                              { staticClass: "col-12 col-lg-6" },
+                              [
+                                _c("bkt-input", {
+                                  attrs: {
+                                    type: "number",
+                                    field_name: "'Начальная цена до'",
+                                    name: "startPriceMax",
+                                    icon_name: "Check",
+                                    group_item_class: _vm.filter.startPrice.max
+                                      ? "bkt-bg-green"
+                                      : "bkt-bg-white",
+                                    icon_color: _vm.filter.startPrice.max
+                                      ? "white"
+                                      : "main-lighter",
+                                  },
+                                  scopedSlots: _vm._u(
+                                    [
+                                      {
+                                        key: "group-text",
+                                        fn: function () {
+                                          return [
+                                            _vm._v(
+                                              "\n                                    до\n                                "
+                                            ),
+                                          ]
+                                        },
+                                        proxy: true,
+                                      },
+                                    ],
+                                    null,
+                                    true
+                                  ),
+                                  model: {
+                                    value: _vm.filter.startPrice.max,
+                                    callback: function ($$v) {
+                                      _vm.$set(
+                                        _vm.filter.startPrice,
+                                        "max",
+                                        $$v
+                                      )
+                                    },
+                                    expression: "filter.startPrice.max",
+                                  },
+                                }),
+                              ],
+                              1
+                            ),
+                          ]
+                        ),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "col-12 col-lg-3 p-0" }, [
+                          _c("h5", { staticClass: "bkt-form__label" }, [
+                            _vm._v("текущая цена, ₽"),
+                          ]),
+                        ]),
+                        _vm._v(" "),
+                        _c(
+                          "div",
+                          { staticClass: "bkt-form col-12 col-lg-9 m-0" },
+                          [
+                            _c(
+                              "div",
+                              { staticClass: "col-12 col-lg-6" },
+                              [
+                                _c("bkt-input", {
+                                  attrs: {
+                                    type: "number",
+                                    field_name: "'Текущая цена от'",
+                                    name: "currentPriceMin",
+                                    icon_name: "Check",
+                                    group_item_class: _vm.filter.currentPrice
+                                      .min
+                                      ? "bkt-bg-green"
+                                      : "bkt-bg-white",
+                                    icon_color: _vm.filter.currentPrice.min
+                                      ? "white"
+                                      : "main-lighter",
+                                  },
+                                  scopedSlots: _vm._u(
+                                    [
+                                      {
+                                        key: "group-text",
+                                        fn: function () {
+                                          return [
+                                            _vm._v(
+                                              "\n                                    от\n                                "
+                                            ),
+                                          ]
+                                        },
+                                        proxy: true,
+                                      },
+                                    ],
+                                    null,
+                                    true
+                                  ),
+                                  model: {
+                                    value: _vm.filter.currentPrice.min,
+                                    callback: function ($$v) {
+                                      _vm.$set(
+                                        _vm.filter.currentPrice,
+                                        "min",
+                                        $$v
+                                      )
+                                    },
+                                    expression: "filter.currentPrice.min",
+                                  },
+                                }),
+                              ],
+                              1
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "div",
+                              { staticClass: "col-12 col-lg-6" },
+                              [
+                                _c("bkt-input", {
+                                  attrs: {
+                                    type: "number",
+                                    field_name: "'Текущая цена до'",
+                                    name: "currentPriceMax",
+                                    icon_name: "Check",
+                                    group_item_class: _vm.filter.currentPrice
+                                      .max
+                                      ? "bkt-bg-green"
+                                      : "bkt-bg-white",
+                                    icon_color: _vm.filter.currentPrice.max
+                                      ? "white"
+                                      : "main-lighter",
+                                  },
+                                  scopedSlots: _vm._u(
+                                    [
+                                      {
+                                        key: "group-text",
+                                        fn: function () {
+                                          return [
+                                            _vm._v(
+                                              "\n                                    до\n                                "
+                                            ),
+                                          ]
+                                        },
+                                        proxy: true,
+                                      },
+                                    ],
+                                    null,
+                                    true
+                                  ),
+                                  model: {
+                                    value: _vm.filter.currentPrice.max,
+                                    callback: function ($$v) {
+                                      _vm.$set(
+                                        _vm.filter.currentPrice,
+                                        "max",
+                                        $$v
+                                      )
+                                    },
+                                    expression: "filter.currentPrice.max",
+                                  },
+                                }),
+                              ],
+                              1
+                            ),
+                          ]
+                        ),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "col-12 col-lg-3 p-0" }, [
+                          _c("h5", { staticClass: "bkt-form__label" }, [
+                            _vm._v("минимальная цена, ₽"),
+                          ]),
+                        ]),
+                        _vm._v(" "),
+                        _c(
+                          "div",
+                          { staticClass: "bkt-form col-12 col-lg-9 m-0" },
+                          [
+                            _c(
+                              "div",
+                              { staticClass: "col-12 col-lg-6" },
+                              [
+                                _c("bkt-input", {
+                                  attrs: {
+                                    type: "number",
+                                    field_name: "'Минимальная цена от'",
+                                    name: "minPriceMin",
+                                    icon_name: "Check",
+                                    group_item_class: _vm.filter.minPrice.min
+                                      ? "bkt-bg-green"
+                                      : "bkt-bg-white",
+                                    icon_color: _vm.filter.minPrice.min
+                                      ? "white"
+                                      : "main-lighter",
+                                  },
+                                  scopedSlots: _vm._u(
+                                    [
+                                      {
+                                        key: "group-text",
+                                        fn: function () {
+                                          return [
+                                            _vm._v(
+                                              "\n                                    от\n                                "
+                                            ),
+                                          ]
+                                        },
+                                        proxy: true,
+                                      },
+                                    ],
+                                    null,
+                                    true
+                                  ),
+                                  model: {
+                                    value: _vm.filter.minPrice.min,
+                                    callback: function ($$v) {
+                                      _vm.$set(_vm.filter.minPrice, "min", $$v)
+                                    },
+                                    expression: "filter.minPrice.min",
+                                  },
+                                }),
+                              ],
+                              1
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "div",
+                              { staticClass: "col-12 col-lg-6" },
+                              [
+                                _c("bkt-input", {
+                                  attrs: {
+                                    field_name: "'Минимальная цена до'",
+                                    name: "minPriceMax",
+                                    icon_name: "Check",
+                                    group_item_class: _vm.filter.minPrice.max
+                                      ? "bkt-bg-green"
+                                      : "bkt-bg-white",
+                                    icon_color: _vm.filter.minPrice.max
+                                      ? "white"
+                                      : "main-lighter",
+                                  },
+                                  scopedSlots: _vm._u(
+                                    [
+                                      {
+                                        key: "group-text",
+                                        fn: function () {
+                                          return [
+                                            _vm._v(
+                                              "\n                                    до\n                                "
+                                            ),
+                                          ]
+                                        },
+                                        proxy: true,
+                                      },
+                                    ],
+                                    null,
+                                    true
+                                  ),
+                                  model: {
+                                    value: _vm.filter.minPrice.max,
+                                    callback: function ($$v) {
+                                      _vm.$set(_vm.filter.minPrice, "max", $$v)
+                                    },
+                                    expression: "filter.minPrice.max",
+                                  },
+                                }),
+                              ],
+                              1
+                            ),
+                          ]
+                        ),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "col-12 col-lg-3 p-0" }, [
+                          _c("h5", { staticClass: "bkt-form__label" }, [
+                            _vm._v("процент снижения, %"),
+                          ]),
+                        ]),
+                        _vm._v(" "),
+                        _c(
+                          "div",
+                          { staticClass: "bkt-form col-12 col-lg-9 m-0" },
+                          [
+                            _c(
+                              "div",
+                              { staticClass: "col-12 col-lg-6" },
+                              [
+                                _c("bkt-input", {
+                                  attrs: {
+                                    field_name: "'Процент снижения от'",
+                                    name: "percentageReductionMin",
+                                    icon_name: "Check",
+                                    group_item_class: _vm.filter
+                                      .percentageReduction.min
+                                      ? "bkt-bg-green"
+                                      : "bkt-bg-white",
+                                    icon_color: _vm.filter.percentageReduction
+                                      .min
+                                      ? "white"
+                                      : "main-lighter",
+                                  },
+                                  scopedSlots: _vm._u(
+                                    [
+                                      {
+                                        key: "group-text",
+                                        fn: function () {
+                                          return [
+                                            _vm._v(
+                                              "\n                                    от\n                                "
+                                            ),
+                                          ]
+                                        },
+                                        proxy: true,
+                                      },
+                                    ],
+                                    null,
+                                    true
+                                  ),
+                                  model: {
+                                    value: _vm.filter.percentageReduction.min,
+                                    callback: function ($$v) {
+                                      _vm.$set(
+                                        _vm.filter.percentageReduction,
+                                        "min",
+                                        $$v
+                                      )
+                                    },
+                                    expression:
+                                      "filter.percentageReduction.min",
+                                  },
+                                }),
+                              ],
+                              1
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "div",
+                              { staticClass: "col-12 col-lg-6" },
+                              [
+                                _c("bkt-input", {
+                                  attrs: {
+                                    field_name: "'Процент снижения до'",
+                                    name: "percentageReductionMax",
+                                    icon_name: "Check",
+                                    group_item_class: _vm.filter
+                                      .percentageReduction.max
+                                      ? "bkt-bg-green"
+                                      : "bkt-bg-white",
+                                    icon_color: _vm.filter.percentageReduction
+                                      .max
+                                      ? "white"
+                                      : "main-lighter",
+                                  },
+                                  scopedSlots: _vm._u(
+                                    [
+                                      {
+                                        key: "group-text",
+                                        fn: function () {
+                                          return [
+                                            _vm._v(
+                                              "\n                                    до\n                                "
+                                            ),
+                                          ]
+                                        },
+                                        proxy: true,
+                                      },
+                                    ],
+                                    null,
+                                    true
+                                  ),
+                                  model: {
+                                    value: _vm.filter.percentageReduction.max,
+                                    callback: function ($$v) {
+                                      _vm.$set(
+                                        _vm.filter.percentageReduction,
+                                        "max",
+                                        $$v
+                                      )
+                                    },
+                                    expression:
+                                      "filter.percentageReduction.max",
+                                  },
+                                }),
+                              ],
+                              1
+                            ),
+                          ]
+                        ),
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _vm._l(_vm.pricing, function (price, index) {
+                      return  false
+                        ? 0
+                        : _vm._e()
+                    }),
+                  ],
+                  2
+                )
+              : _vm._e(),
+            _vm._v(" "),
+            _c("bkt-color-pallet", {
+              model: {
+                value: _vm.monitoring.color,
+                callback: function ($$v) {
+                  _vm.$set(_vm.monitoring, "color", $$v)
+                },
+                expression: "monitoring.color",
+              },
+            }),
+          ]
         },
-      ],
-      null,
-      true
-    ),
+      },
+    ]),
   })
 }
 var staticRenderFns = []

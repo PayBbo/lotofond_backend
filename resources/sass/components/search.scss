@@ -20,7 +20,52 @@
     &_body {
         background: $body-bg;
     }
+    &.open {
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
+    }
+    &__wrapper {
+        position: relative;
+        & .bkt-dropdown__menu {
+            position:absolute;
+            //bottom: 0;
+            //max-height: 349px;
+            border-radius: 0px 0px 25px 25px;
+            padding: 40px;
+            z-index: 2;
+        }
+        & .dropdown-block {
+            max-height: 349px;
+            height: 100%;
+            overflow-y: auto;
+            overflow-x: hidden;
+            scrollbar-width: thin !important;          /* "auto" or "thin" */
+            scrollbar-color: $primary-default #e9f3fc !important;
+            &::-webkit-scrollbar {
+                width: 7px !important;
+                height: 7px !important;
+            }
+            &::-webkit-scrollbar-track {
+                background: #e9f3fc !important;
+            }
+            &::-webkit-scrollbar-thumb {
+                background-color: $primary-default;
+                border-radius: 5px;
+            }
+            & .dropdown-title {
+                font-family: Nunito;
+                font-style: normal;
+                font-weight: bold;
+                font-size: 16px;
+                line-height: 24px;
+                letter-spacing: 0.1px;
+                color: #25282B;
+            }
+        }
+    }
 }
+
+
 
 @media screen and (max-width: 768px) {
     .bkt-search {
@@ -31,6 +76,40 @@
             width: 44px;
             height: 44px;
             padding: 14px;
+        }
+        &__wrapper {
+            & .bkt-dropdown__menu {
+                //max-height: 349px;
+                border-radius: 0px 0px 18px 18px;
+                padding: 20px;
+            }
+            & .dropdown-block {
+                max-height: 258px;
+                overflow-y: auto;
+                overflow-x: hidden;
+                scrollbar-width: thin !important;          /* "auto" or "thin" */
+                scrollbar-color: $primary-default #e9f3fc !important;
+                &::-webkit-scrollbar {
+                    width: 7px !important;
+                    height: 7px !important;
+                }
+                &::-webkit-scrollbar-track {
+                    background: #e9f3fc !important;
+                }
+                &::-webkit-scrollbar-thumb {
+                    background-color: $primary-default;
+                    border-radius: 5px;
+                }
+                & .dropdown-title {
+                    font-family: Nunito;
+                    font-style: normal;
+                    font-weight: bold;
+                    font-size: 16px;
+                    line-height: 24px;
+                    letter-spacing: 0.1px;
+                    color: #25282B;
+                }
+            }
         }
     }
 
