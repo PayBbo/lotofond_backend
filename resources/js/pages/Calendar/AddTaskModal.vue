@@ -1,6 +1,7 @@
 <template>
     <bkt-modal :id="'addTaskModal'" ref="addTaskModal" modal_class="bkt-add-task-modal"
-               :title="date.id | moment('D MMMM YYYY')" right_button="Добавить" @right_action="addEvent">
+               :title="date.id | moment('D MMMM YYYY')" :right_button="!edit_mode ? 'Добавить' : 'Сохранить'"
+               @right_action="addEvent">
         <template #body>
             <div>
                 <div class="bkt-content-tasks" v-if="events">
@@ -79,7 +80,7 @@ export default {
     data() {
         return {
             moment: moment,
-            event: {type: 'event', date: '', time: '', title: ''},
+            event: {type: 'event', date: '', time: '', title: ''}, edit_mode: false,
             modelDate: {day: null, month: null, hours: null, minutes: null},
             datetime: '',
             daysEnum: [],
@@ -104,11 +105,20 @@ export default {
             let month = this.monthEnum.find(item => item.label == this.modelDate.month).id;
             this.event.date = new Date().getFullYear() + '-' + month + '-' + this.modelDate.day; //new Date("2022-07-14").toLocaleString();
             this.event.time = this.modelDate.hours + ':' + this.modelDate.minutes + ':00';
-            await this.$store.dispatch("addEvent", this.event).then(resp => {
-                this.event = {type: 'event', date: '', time: '', title: ''};
-                this.modelDate = {day: null, month: null, hours: null, minutes: null}
-                this.$store.commit('closeModal', '#addTaskModal');
-            });
+            if (!this.edit_mode) {
+                await this.$store.dispatch("addEvent", this.event).then(resp => {
+                    this.event = {type: 'event', date: '', time: '', title: ''};
+                    this.modelDate = {day: null, month: null, hours: null, minutes: null}
+                    this.$store.commit('closeModal', '#addTaskModal');
+                });
+            } else {
+                await this.$store.dispatch("updateEvent", {id: 10, formData: this.event}).then(resp => {
+                    this.event = {type: 'event', date: '', time: '', title: ''};
+                    this.modelDate = {day: null, month: null, hours: null, minutes: null}
+                    this.$store.commit('closeModal', '#addTaskModal');
+                });
+            }
+            this.edit_mode = false;
         },
 
         async removeEvent(event) {
@@ -116,16 +126,13 @@ export default {
         },
 
         async showEditEvent(event) {
+            this.edit_mode = true;
             this.modelDate.day = (new Date(event.date).getDate()).toString().padStart(2, '0');
             this.modelDate.hours = (new Date(event.date).getHours()).toString().padStart(2, '0');
             this.modelDate.minutes = (new Date(event.date).getMinutes()).toString().padStart(2, '0');
             this.event.title = event.title;
             this.event.type = event.type;
         },
-
-        async editEvent(event) {
-            await this.$store.dispatch('removeEvent', event);
-        }
     },
     mounted() {
         for (let i = 1; i <= 31; i++) this.daysEnum.push({id: i, label: i.toString().padStart(2, '0')});
