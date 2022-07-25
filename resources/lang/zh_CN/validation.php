@@ -144,6 +144,9 @@ return [
     'exists_note'               => '所选音符不存在。',
     'exists_event'=> '所选事件不存在。',
     'credentials_submitted'=> '您需要从有效的电子邮件确认操作',
+    'user_password'=>'密码与账户密码不匹配',
+    'new_user_password'=>'新密码与当前密码不匹配',
+    'submit_user_password'=>'密码不匹配',
     'attributes' => [
         'phone' => '电话号码',
         'surname'=> '姓',

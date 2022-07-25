@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Exceptions\CustomExceptions\BaseException;
+use App\Http\Requests\ChangePasswordRequest;
 use App\Http\Requests\GetCredentialsCodeRequest;
 use App\Http\Requests\UpdateAccountRequest;
 use App\Http\Requests\UpdateNotificationsRequest;
@@ -13,6 +14,7 @@ use App\Jobs\ChangeEmail;
 use App\Models\ChangeCredentials;
 use App\Models\User;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
 class ProfileController extends Controller
@@ -28,7 +30,7 @@ class ProfileController extends Controller
         $user_id = auth()->user()->getAuthIdentifier();
         $user = User::find($user_id);
         $user->name = $request->name;
-        $user->surname = $request->surname;
+        $user->surname = $request->lastName;
         $user->middle_name = $request->middleName;
         $user->save();
         return response(new ProfileResource(User::find($user_id)), 200);
@@ -115,6 +117,33 @@ class ProfileController extends Controller
         }else{
             throw new BaseException("ERR_VALIDATION_FAILED_CODE", 422, __('validation.credentials_submitted'));
         }
+        return response(null, 200);
+    }
+
+    public function changePassword(ChangePasswordRequest $request){
+        switch ($request->grantType) {
+            case 'email':
+            {
+                $username = $request->email;
+                $user = User::where('email', $request->email)->first();
+                break;
+            }
+            case 'phone':
+            {
+                $username = $request->phone;
+                $user = User::where('phone', $request->phone)->first();
+                break;
+            }
+        }
+        $passwordReset = DB::table('password_resets')->where('email', $username)->where('created_at', '>', Carbon::now())->first();
+        if ($passwordReset == null || !Hash::check($request->code, $passwordReset->token)) {
+            throw new BaseException("ERR_VALIDATION_FAILED_CODE", 422, __('validation.verification_code'));
+        }
+
+        DB::table('password_resets')->where('email', $username)->delete();
+        $user->password = Hash::make($request->newPassword);
+        $user->save();
+
         return response(null, 200);
     }
 }

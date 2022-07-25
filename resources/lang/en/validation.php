@@ -140,6 +140,9 @@ return [
     'exists_note'               => 'The selected note does not exist.',
     'exists_event'=> 'The selected event does not exist.',
     'credentials_submitted'=> 'You need to confirm the action from a valid email',
+    'user_password'=>'Password does not match account password',
+    'new_user_password'=>'The new password cannot match the current one',
+    'submit_user_password'=>'Passwords do not match',
     /*
     |--------------------------------------------------------------------------
     | Custom Validation Language Lines

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\ApplicationController;
 use App\Http\Controllers\AuctionController;
 use App\Http\Controllers\Auth\LoginController;
@@ -126,6 +127,8 @@ Route::group(['middleware' => ['json.response', 'localization']], function () {
 
         Route::group(['prefix' => 'account'], function () {
 
+            Route::post('password/change', [ProfileController::class, 'changePassword']);
+
             Route::get('user', [ProfileController::class, 'getUser']);
 
             Route::put('user/update', [ProfileController::class, 'updateUser']);
@@ -230,6 +233,16 @@ Route::group(['middleware' => ['json.response', 'localization']], function () {
 
         });
         Route::post('/events', [EventController::class, 'getEvents']);
+
+        Route::middleware("check.role:admin")->group(function () {
+
+            Route::group(['prefix' => 'admin'], function () {
+
+                Route::get('/dashboard', [DashboardController::class, 'getDashboardData']);
+
+            });
+
+        });
 
 
     });

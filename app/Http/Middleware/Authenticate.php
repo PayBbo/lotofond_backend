@@ -40,35 +40,17 @@ class Authenticate extends Middleware
      */
     public function handle($request, Closure $next, ...$guards)
     {
-        $this->authenticate($guards);
+        $token = $request->header('Authorization');
+        if($token){
+            if ($this->auth->guard('api')->check()) {
+                $this->auth->shouldUse('api');
+            }else{
+                throw new AuthenticationException('Unauthenticated.', $guards);
+            }
+        }
 
         return $next($request);
     }
 
-    /**
-     * Determine if the user is logged in to any of the given guards.
-     *
-     * @param  array  $guards
-     * @return void
-     *
-     * @throws \Illuminate\Auth\AuthenticationException
-     */
-    protected function authenticate(array $guards)
-    {
-
-        if (empty($guards)) {
-            return $this->auth->authenticate();
-        }
-
-        foreach ($guards as $guard) {
-            if ($this->auth->guard($guard)->check()) {
-                return $this->auth->shouldUse($guard);
-            }else{
-                return null;
-            }
-        }
-
-        throw new AuthenticationException('Unauthenticated.', $guards);
-    }
 
 }

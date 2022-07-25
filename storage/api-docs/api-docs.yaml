@@ -306,6 +306,56 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+  /account/password/change:
+    parameters:
+      - name: Content-Language
+        in: header
+        description: Заголовок для определения локали (ru, en, zh_CN)
+        required: true
+    post:
+      tags:
+        - Account
+      summary: Смена пароля пользователя
+      operationId: changePassword
+      requestBody:
+        description: Данные для смены пароля
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ResetPasswordRequest'
+            examples:
+              email:
+                value:
+                  grantType: email
+                  email: test@gmail.com
+                  oldPassword: bc7$etyZ
+                  newPassword: bc7$etyZ2
+                  submitNewPassword: bc7$etyZ2
+                  code: '123451'
+              phone:
+                value:
+                  grantType: phone
+                  phone: '74951239999'
+                  oldPassword: bc7$etyZ
+                  newPassword: bc7$etyZ2
+                  submitNewPassword: bc7$etyZ2
+                  code: '123451'
+        required: true
+      responses:
+        "200":
+          description: Данные аккаунта
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenData'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+        - bearerAuth: [ ]
   /account/user/update:
     parameters:
       - name: Content-Language
