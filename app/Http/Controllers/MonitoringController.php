@@ -39,7 +39,7 @@ class MonitoringController extends Controller
                }
            }
        }
-       return response(null, 200);
+       return response(new MonitoringPathResource($path), 200);
    }
 
     public function deleteMonitoringPath($id){
