@@ -237,7 +237,7 @@
 
 <script>
     import BktCollapse from '../../components/Collapse.vue';
-    import BktCategoriesControl from "../../components/CategoriesControl";
+    import BktCategoriesControl from "../../components/FiltersControls/CategoriesControl";
     export default {
         name: "Category",
         components: {
@@ -245,7 +245,7 @@
             BktCategoriesControl
         },
         props: {
-            filter: {
+            filter_name: {
                 type: String,
                 default: 'filters'
             },
@@ -266,10 +266,10 @@
         },
         computed: {
             filters_categories() {
-                return this.$store.getters[this.filter].categories
+                return this.$store.getters[this.filter_name].categories
             },
             filters() {
-                return this.$store.getters[this.filter]
+                return this.$store.getters[this.filter_name]
             },
             categories() {
                 return this.$store.getters.categories
@@ -330,7 +330,7 @@
             },
             saveFilters() {
                 this.$store.dispatch('saveDataProperty', {
-                    module_key: 'filters', state_key: this.filter,
+                    module_key: 'filters', state_key: this.filter_name,
                     key: 'categories',
                     value: this.result
                 }, {root: true});
@@ -341,7 +341,7 @@
             clearFilters() {
                 this.result = [];
                 this.$store.dispatch('saveDataProperty', {
-                    module_key: 'filters', state_key: this.filter,
+                    module_key: 'filters', state_key: this.filter_name,
                     key: 'categories',
                     value: []
                 }, {root: true});

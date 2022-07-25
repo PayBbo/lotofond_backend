@@ -46,7 +46,7 @@ export default {
                 ],
                 organizers: [
                 ],
-                arbitrManagers: [
+                arbitrationManagers: [
                 ],
                 other: {
                     period: 'periodAll',

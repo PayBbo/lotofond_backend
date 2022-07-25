@@ -85,6 +85,27 @@
                 </template>
             </bkt-collapse>
         </div>
+        <div class="bkt-region-selected" v-if="model.length>0 && !loading && show_selected">
+            <h5 class="bkt-region-selected__title text-left mb-2">
+                <span class="text-muted">выбранные регионы</span>
+            </h5>
+            <div class="bkt-tag__list">
+                <div class="bkt-region__item bkt-tag justify-content-between flex-fill"
+                     v-for="(item, index) in model">
+                    <span class="bkt-item-rounded__text mr-2">{{ $t('regions.' + item) }}</span>
+                    <span class="bkt-tag__icon bkt-cursor-pointer" @click="toggleRegion(item)">
+                            <bkt-icon name="Cancel" color="red"></bkt-icon>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div v-if="loading" class="d-flex w-100 justify-content-center my-5">
+            <div
+                style="color: #2953ff;border-width: 2px;"
+                class="spinner-border"
+                role="status"
+            ></div>
+        </div>
     </div>
 </template>
 
@@ -96,25 +117,29 @@
                 type: null,
                 default: false,
             },
+            show_selected: {
+                type: Boolean,
+                default: true,
+            },
+        },
+        model: {
+            prop: 'value',
+            event: 'input'
         },
         data() {
             return {
                 regionGroups: [],
                 selectedRegion: null,
+                model: []
             }
         },
         created() {
             this.getRegions();
         },
+        mounted() {
+            this.model = this.value;
+        },
         computed: {
-            model: {
-                get() {
-                    return this.value;
-                },
-                set(value) {
-                    this.$emit("input", value);
-                },
-            },
             regions() {
                 return this.$store.getters.regions
             },
@@ -123,6 +148,9 @@
             },
         },
         methods: {
+            saveValue() {
+                this.$emit('input', this.model);
+            },
             toggleRegion(region) {
                 let item_index = this.model.findIndex(el => el === region);
                 if (item_index < 0) {

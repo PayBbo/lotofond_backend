@@ -36,9 +36,9 @@ export default {
     },
     mutations: {
         setMonitorings(state, payload) {
-            state.monitorings[payload.pathId] = payload.data
-            state.current_monitorings = state.monitorings[payload.pathId].data
-            state.monitorings_pagination = state.monitorings[payload.pathId].pagination
+            state.monitorings[payload.pathId] = payload.data;
+            state.current_monitorings = state.monitorings[payload.pathId].data;
+            state.monitorings_pagination = state.monitorings[payload.pathId].pagination;
             // state.monitorings = payload.data.data;
             // state.monitorings_pagination = payload.data.pagination;
             // payload.data.forEach(item => {
@@ -48,10 +48,27 @@ export default {
             //     }
             // });
         },
+        addMonitorings(state, payload) {
+            if (!state.monitorings[payload.pathId]) {
+                state.monitorings[payload.pathId] = {
+                    data: [],
+                    pagination: {}
+                }
+            }
+            payload.data.data.forEach(item => {
+                let favourite = state.monitorings[payload.pathId].data.findIndex(el => el.id === item.id);
+                if (favourite < 0) {
+                    state.monitorings[payload.pathId].data.push(item)
+                }
+            });
+            state.monitorings[payload.pathId].pagination = payload.data.pagination;
+            state.current_monitorings = state.monitorings[payload.pathId].data;
+            state.monitorings_pagination = state.monitorings[payload.pathId].pagination;
+        },
         setMonitoringPaths(state, payload) {
             state.monitorings_paths = payload;
         },
-        setMonitoringCurrentPath(state, payload) {
+        setCurrentMonitoringPath(state, payload) {
             state.monitoring_current_path = payload;
             // console.log('state.monitorings[payload].data', state.monitorings[payload].data)
             // console.log('state.monitorings[payload]', state.monitorings[payload])
@@ -75,12 +92,6 @@ export default {
         addMonitoring(state, payload) {
             state.monitorings.push(payload)
         },
-        saveMonitoring(state, payload) {
-            let monitoring = state.monitorings.findIndex(item => item.id === payload.id);
-            if (monitoring >= 0) {
-                Vue.set(state.monitorings, monitoring, payload);
-            }
-        },
         removeMonitoring(state, payload) {
             if (payload.pathId && state.monitorings[payload.pathId]) {
                 let monitoring = state.monitorings[payload.pathId].data.findIndex(item => item.id === payload.lotId);
@@ -93,82 +104,14 @@ export default {
                 }
             }
         },
-        moveMonitoring(state, payload) {
-            let new_path = state.monitorings_paths.findIndex(item => item.pathId === payload.newPathId);
-            if (new_path >= 0) {
-                Vue.set(state.monitorings_paths[new_path], 'lotCount', state.monitorings_paths[new_path].lotCount + 1)
-            }
-            let old_path = state.monitorings_paths.findIndex(item => item.pathId === payload.currentPathId);
-            if (old_path >= 0) {
-                Vue.set(state.monitorings_paths[old_path], 'lotCount', state.monitorings_paths[old_path].lotCount - 1)
-            }
-            if (state.monitorings[payload.currentPathId]) {
-                let monitoring = state.monitorings[payload.currentPathId].data.findIndex(item => item.id === payload.lotId);
-                if (monitoring >= 0) {
-                    if (state.monitorings[payload.newPathId]) {
-                        let new_lot_index = state.monitorings[payload.newPathId].data.findIndex(item => item.id === payload.lotId);
-                        if(new_lot_index<0)
-                        {
-                            let item = state.monitorings[payload.currentPathId].data[monitoring];
-                            if(item.monitoringPaths) {
-                                let item_path = item.monitoringPaths.findIndex(item => item.pathId === payload.currentPathId)
-                                if (item_path >= 0) {
-                                    item.monitoringPaths.splice(item_path, 1);
-                                }
-                                item_path = item.monitoringPaths.findIndex(item => item.pathId === payload.newPathId)
-                                if (item_path < 0) {
-                                    if (new_path >= 0) {
-                                        item.monitoringPaths.push(state.monitorings_paths[new_path]);
-                                    }
-                                }
-                            }
-                            state.monitorings[payload.newPathId].data.push(state.monitorings[payload.currentPathId].data[monitoring]);
-                        }
-                    }
-                    state.monitorings[payload.currentPathId].data.splice(monitoring, 1);
-                }
-            }
-            let lot = state.trades.findIndex(item => item.id === payload.lotId);
-            if (lot >= 0) {
-                if(state.trades[lot].monitoringPaths) {
-                    let lot_path = state.trades[lot].monitoringPaths.findIndex(item => item.pathId === payload.currentPathId);
-                    if (lot_path >= 0) {
-                        state.trades[lot].monitoringPaths.splice(lot_path, 1);
-                    }
-                    lot_path = state.trades[lot].monitoringPaths.findIndex(item => item.pathId === payload.newPathId);
-                    if (lot_path < 0) {
-                        if (new_path >= 0) {
-                            state.trades[lot].monitoringPaths.push(state.monitorings_paths[new_path]);
-                        }
-                    }
-                }
-            }
-        },
         removeMonitoringPath(state, payload) {
             let path = state.monitorings_paths.findIndex(item => item.pathId === payload);
             if (path >= 0) {
                 state.monitorings_paths.splice(path, 1);
             }
-            if(state.trades && state.trades.length>0)
-            {
-                state.trades.forEach( item => {
-                    if(item.monitoringPaths) {
-                        let lot_path = item.monitoringPaths.findIndex(item => item.pathId === payload);
-                        if (lot_path >= 0) {
-                            item.monitoringPaths.splice(lot_path, 1);
-                        }
-                    }
-                })
-            }
         },
         setMonitoringsLoading(state, payload) {
             return (state.monitorings_loading = payload);
-        },
-        saveMonitoringProperty(state, payload) {
-            let monitoring = state.monitorings.findIndex(item => item.id === payload.id);
-            if (monitoring >= 0 && state.monitorings[monitoring].hasOwnProperty(payload.key)) {
-                Vue.set(state.monitorings[monitoring], payload.key, payload.value)
-            }
         },
     },
     actions: {
@@ -193,21 +136,43 @@ export default {
         /monitoring/delete/lot
         Удаление лота из папки мониторинга
         */
-        async saveMonitoringPath({commit}, payload) {
+        async saveMonitoringPath({dispatch, commit}, payload) {
             await axios
                 .post('/api/monitoring/add/edit/path', payload
                 ).then((response) => {
+                    dispatch('setCurrentMonitoringPath', response.data.pathId)
                     commit('saveMonitoringPath', response.data)
                 }).catch(error => {
                     console.log(error);
 
                 });
         },
-        async removeMonitoringPath({commit}, payload) {
+        async editMonitoringPath({dispatch, commit}, payload) {
+            await axios
+                .post('/api/monitoring/add/edit/path', payload
+                ).then((response) => {
+                    commit('saveMonitoringPath', response.data)
+                    dispatch('saveDataProperty', {
+                        module_key: 'monitoring',
+                        state_key: 'monitorings',
+                        key: ''+response.data.pathId,
+                        value: null
+                    }, {root: true});
+                    dispatch('setCurrentMonitoringPath', response.data.pathId)
+                }).catch(error => {
+                    console.log(error);
+                });
+        },
+        async removeMonitoringPath({dispatch, commit, state}, payload) {
             await axios
                 .delete('/api/monitoring/delete/path/' + payload
                 ).then((response) => {
                     commit('removeMonitoringPath', payload)
+                    if(state.monitorings_paths.length>0)
+                    {
+                        dispatch('setCurrentMonitoringPath', state.monitorings_paths[0].pathId)
+                    }
+
                 }).catch(error => {
                     console.log(error);
 
@@ -220,7 +185,7 @@ export default {
                 data: payload,
             })
                 .then((response) => {
-                    commit('setMonitorings', {pathId: payload.pathId, data: response.data})
+                    commit('addMonitorings', {pathId: payload.pathId, data: response.data})
                 });
 
         },
@@ -233,7 +198,7 @@ export default {
                 .then((response) => {
                     // dispatch('getMonitorings', {page: 1, pathId: response.data[0].pathId});
                     commit('setMonitoringPaths', response.data)
-                    commit('setMonitoringCurrentPath', response.data[0].pathId)
+                    commit('setCurrentMonitoringPath', response.data[0].pathId)
                 });
         },
         async removeMonitoring({dispatch, commit}, payload) {
@@ -247,22 +212,13 @@ export default {
                 }).catch(error => {
                 });
         },
-        async moveMonitoring({commit}, payload) {
-            await axios
-                .put(`/api/monitoring/move/lot`, payload
-                ).then((response) => {
-                    commit('moveMonitoring', payload)
-                }).catch(error => {
-                    console.log(error);
-                });
-        },
-        async setMonitoringCurrentPath({dispatch, commit, state}, payload) {
+        async setCurrentMonitoringPath({dispatch, commit, state}, payload) {
             if (state.monitorings[payload]) {
-                commit('setMonitoringCurrentPath', payload);
+                commit('setCurrentMonitoringPath', payload);
             } else {
                 await dispatch('getMonitorings', {page: 1, pathId: payload})
                     .then(resp => {
-                        commit('setMonitoringCurrentPath', payload);
+                        commit('setCurrentMonitoringPath', payload);
                     })
             }
         }

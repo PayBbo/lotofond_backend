@@ -6,31 +6,31 @@
                     Покупка без ЭЦП
                 </router-link>
 
-                <ul v-if="isLoggedIn" class="bkt-navbar__nav d-none d-lg-flex">
+                <ul class="bkt-navbar__nav d-none d-lg-flex">
                     <li class="bkt-navbar__nav-item">
-                        <router-link to="/favourites" class="bkt-navbar__nav-link">
+                        <div @click="navigate('/favourites')" class="bkt-navbar__nav-link">
                             <span class="bkt-button-ellipse main">
                                 <bkt-icon :name="'Star'" :color="'yellow'"/>
                             </span>
                             Избранное
-                        </router-link>
+                        </div>
                     </li>
                     <li class="bkt-navbar__nav-item">
-                        <router-link to="/monitoring" class="bkt-navbar__nav-link">
+                        <div @click="navigate('/monitoring')" class="bkt-navbar__nav-link">
                     <span class="bkt-button-ellipse main">
                          <bkt-icon :name="'Target'" :color="'red'"/>
                     </span>
                             Мониторинг
-                        </router-link>
+                        </div>
                     </li>
                     <li class="bkt-navbar__nav-item">
-                        <router-link to="/messages" class="bkt-navbar__nav-link">
-                    <span class="bkt-button-ellipse main">
-                        <span class="info"></span>
-                        <bkt-icon :name="'Bell'" :color="'green'"/>
-                    </span>
+                        <div @click="navigate('/messages')" class="bkt-navbar__nav-link">
+                            <span class="bkt-button-ellipse main">
+                                <span class="info"></span>
+                                <bkt-icon :name="'Bell'" :color="'green'"/>
+                            </span>
                             Сообщения
-                        </router-link>
+                        </div>
                     </li>
                 </ul>
                 <div class="bkt-wrapper bkt-nowrap">
@@ -179,9 +179,11 @@
                             :to="link.path"
                             custom
                             v-slot="{navigate, isExactActive }"
+                            v-if="!link.meta || (link.meta && isLoggedIn)"
                         >
                             <li class="bkt-sidebar__link" @click="navigate"
                                 :class="[isExactActive ? 'bkt-bg-'+link.color+'-lighter' : '']"
+                                data-bs-dismiss="offcanvas"
                             >
                                 <div class="bkt-sidebar__link-icon"
                                      :class="[isExactActive ? 'bkt-bg-'+link.color : 'bkt-bg-'+link.color+'-lighter',
@@ -304,12 +306,21 @@
                 this.loading = true;
                 await this.$store.dispatch('logout').then(resp => {
                     this.loading = false;
+                    this.$router.push('/')
                 }).catch(error => {
                     this.loading = false;
                 })
             },
             openModal() {
                 this.$store.commit('openModal', '#authModal');
+            },
+            navigate(path) {
+                if(this.isLoggedIn) {
+                    this.$router.push(path)
+                }
+                else {
+                    this.$store.dispatch('sendAuthNotification', {self: this})
+                }
             }
         }
 

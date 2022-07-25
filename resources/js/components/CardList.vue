@@ -154,11 +154,11 @@
                 }
             },
         },
-        destroyed() {
-            if (this.infinite) {
-                this.observer.disconnect();
-            }
-        },
+        // destroyed() {
+        //     if (this.infinite) {
+        //         this.observer.disconnect();
+        //     }
+        // },
         methods: {
             changePage(page) {
                 this.$emit('change-page', page)

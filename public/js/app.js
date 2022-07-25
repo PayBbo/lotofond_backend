@@ -6327,12 +6327,14 @@ __webpack_require__.r(__webpack_exports__);
     },
     favourites_paths: function favourites_paths() {
       return this.$store.getters.favourites_paths;
+    },
+    isLoggedIn: function isLoggedIn() {
+      return this.$store.getters.isLoggedIn;
     }
   },
   watch: {
-    item: function item(newVal, oldVal) {
-      // watch it
-      console.log('Prop changed: ', newVal, ' | was: ', oldVal);
+    item: function item(newVal, oldVal) {// watch it
+      // console.log('Prop changed: ', newVal, ' | was: ', oldVal)
     } // item: {
     //     // handler(newVal) {
     //     //     this.checked = newVal
@@ -6343,9 +6345,15 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     makeAction: function makeAction(method, method_params) {
-      if (method) {
-        method(method_params);
-        return;
+      if (this.isLoggedIn) {
+        if (method) {
+          method(method_params);
+          return;
+        }
+      } else {
+        this.$store.dispatch('sendAuthNotification', {
+          self: this
+        });
       }
     },
     changeStatus: function changeStatus(payload) {
@@ -6648,11 +6656,11 @@ function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" =
       }
     }
   },
-  destroyed: function destroyed() {
-    if (this.infinite) {
-      this.observer.disconnect();
-    }
-  },
+  // destroyed() {
+  //     if (this.infinite) {
+  //         this.observer.disconnect();
+  //     }
+  // },
   methods: {
     changePage: function changePage(page) {
       this.$emit('change-page', page);
@@ -7283,8 +7291,25 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  name: "Footer"
+  name: "Footer",
+  computed: {
+    isLoggedIn: function isLoggedIn() {
+      return this.$store.getters.isLoggedIn;
+    }
+  }
 });
 
 /***/ }),
@@ -7308,6 +7333,8 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
+//
+//
 //
 //
 //
@@ -7633,6 +7660,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 _context2.next = 3;
                 return _this2.$store.dispatch('logout').then(function (resp) {
                   _this2.loading = false;
+
+                  _this2.$router.push('/');
                 })["catch"](function (error) {
                   _this2.loading = false;
                 });
@@ -7647,6 +7676,15 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     },
     openModal: function openModal() {
       this.$store.commit('openModal', '#authModal');
+    },
+    navigate: function navigate(path) {
+      if (this.isLoggedIn) {
+        this.$router.push(path);
+      } else {
+        this.$store.dispatch('sendAuthNotification', {
+          self: this
+        });
+      }
     }
   }
 });
@@ -8366,12 +8404,6 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
-function _createForOfIteratorHelper(o, allowArrayLike) { var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"]; if (!it) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = it.call(o); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it["return"] != null) it["return"](); } finally { if (didErr) throw err; } } }; }
-
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
 //
 //
 //
@@ -8472,6 +8504,10 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       type: Boolean,
       "default": false
     },
+    immediate_search: {
+      type: Boolean,
+      "default": false
+    },
     loading: {
       type: Boolean,
       "default": false
@@ -8485,10 +8521,6 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       options: [],
       currentLoading: false
     };
-  },
-  created: function created() {
-    this.searchFilter = '';
-    this.selected = '';
   },
   computed: {
     searchFilter: {
@@ -8506,65 +8538,41 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       set: function set(value) {
         this.currentLoading = value;
       }
-    },
-    filteredOptions: function filteredOptions() {
-      var filtered = [];
-      var regOption = new RegExp(this.searchFilter, 'ig');
-
-      var _iterator = _createForOfIteratorHelper(this.options),
-          _step;
-
-      try {
-        for (_iterator.s(); !(_step = _iterator.n()).done;) {
-          var option = _step.value;
-
-          if (this.searchFilter.length < 1 || option.id.match(regOption)) {
-            if (filtered.length < this.maxItem) filtered.push(option);
-          }
-        }
-      } catch (err) {
-        _iterator.e(err);
-      } finally {
-        _iterator.f();
-      }
-
-      return filtered;
     }
   },
   methods: {
     handleBlur: function handleBlur(value) {
+      this.$emit('blur', value);
+
       if (!this.no_dropdown) {
-        this.$emit('blur', value); // if (this.searchFilter == '') {
-
+        // if (this.searchFilter == '') {
         this.optionsShown = false; // }
-      } // this.exit();
+      }
+    },
+    handleFocus: function handleFocus(value) {
+      this.$emit('focus', value);
 
+      if (!this.no_dropdown && this.searchFilter !== '' && this.options.length > 0) {
+        this.optionsShown = true;
+      }
     },
     selectOption: function selectOption(option) {
       this.selected = JSON.parse(JSON.stringify(option));
       this.$emit('selected', this.selected);
-      this.searchFilter = '';
       this.optionsShown = false;
     },
     showOptions: function showOptions() {
-      // if (!this.disabled) {
-      //     this.searchFilter = '';
-      //     this.optionsShown = true;
-      // }
       if (!this.no_dropdown) {
-        this.searchFilter = '';
-        this.options = [];
-        this.optionsShown = true;
+        if (!this.disabled) {
+          // this.searchFilter = '';
+          this.optionsShown = true;
+        } // this.searchFilter = '';
+        // this.options = [];
+        // this.optionsShown = true;
+
       }
     },
     exit: function exit() {
-      if (!this.selected.id) {
-        this.selected = ''; // this.searchFilter = '';
-      } else {
-        this.searchFilter = this.selected.name;
-      } // this.$emit('selected', this.selected);
-
-
       this.searchFilter = '';
       this.options = [];
       this.optionsShown = false;
@@ -8574,12 +8582,13 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       if (event.key === "Enter" && this.options[0]) this.selectOption(this.options[0]);
     },
     getResults: lodash__WEBPACK_IMPORTED_MODULE_0___default().debounce(function (e) {
-      if (this.searchFilter.trim() !== '') {
+      if (this.immediate_search) {
         this.selected = '';
         this.runSearch();
-      } else {
-        this.showOptions();
-      }
+      } // else {
+      //     this.showOptions();
+      // }
+
     }, 700),
     runSearch: function runSearch() {
       var _this = this;
@@ -8619,13 +8628,13 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
                 _context.next = 8;
                 return _this.$store.dispatch(_this.method_name, payload).then(function (resp) {
                   if (!_this.no_dropdown) {
-                    _this.showOptions();
-
                     if (resp.data.data) {
                       _this.options = resp.data.data;
                     } else {
                       _this.options = resp.data;
                     }
+
+                    _this.showOptions();
                   }
 
                   _this.searchLoading = false;
@@ -8667,6 +8676,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var vue_infinite_loading__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue-infinite-loading */ "./node_modules/vue-infinite-loading/dist/vue-infinite-loading.js");
 /* harmony import */ var vue_infinite_loading__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue_infinite_loading__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var fuse_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! fuse.js */ "./node_modules/fuse.js/dist/fuse.esm.js");
 function _regeneratorRuntime() { "use strict"; /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/facebook/regenerator/blob/main/LICENSE */ _regeneratorRuntime = function _regeneratorRuntime() { return exports; }; var exports = {}, Op = Object.prototype, hasOwn = Op.hasOwnProperty, $Symbol = "function" == typeof Symbol ? Symbol : {}, iteratorSymbol = $Symbol.iterator || "@@iterator", asyncIteratorSymbol = $Symbol.asyncIterator || "@@asyncIterator", toStringTagSymbol = $Symbol.toStringTag || "@@toStringTag"; function define(obj, key, value) { return Object.defineProperty(obj, key, { value: value, enumerable: !0, configurable: !0, writable: !0 }), obj[key]; } try { define({}, ""); } catch (err) { define = function define(obj, key, value) { return obj[key] = value; }; } function wrap(innerFn, outerFn, self, tryLocsList) { var protoGenerator = outerFn && outerFn.prototype instanceof Generator ? outerFn : Generator, generator = Object.create(protoGenerator.prototype), context = new Context(tryLocsList || []); return generator._invoke = function (innerFn, self, context) { var state = "suspendedStart"; return function (method, arg) { if ("executing" === state) throw new Error("Generator is already running"); if ("completed" === state) { if ("throw" === method) throw arg; return doneResult(); } for (context.method = method, context.arg = arg;;) { var delegate = context.delegate; if (delegate) { var delegateResult = maybeInvokeDelegate(delegate, context); if (delegateResult) { if (delegateResult === ContinueSentinel) continue; return delegateResult; } } if ("next" === context.method) context.sent = context._sent = context.arg;else if ("throw" === context.method) { if ("suspendedStart" === state) throw state = "completed", context.arg; context.dispatchException(context.arg); } else "return" === context.method && context.abrupt("return", context.arg); state = "executing"; var record = tryCatch(innerFn, self, context); if ("normal" === record.type) { if (state = context.done ? "completed" : "suspendedYield", record.arg === ContinueSentinel) continue; return { value: record.arg, done: context.done }; } "throw" === record.type && (state = "completed", context.method = "throw", context.arg = record.arg); } }; }(innerFn, self, context), generator; } function tryCatch(fn, obj, arg) { try { return { type: "normal", arg: fn.call(obj, arg) }; } catch (err) { return { type: "throw", arg: err }; } } exports.wrap = wrap; var ContinueSentinel = {}; function Generator() {} function GeneratorFunction() {} function GeneratorFunctionPrototype() {} var IteratorPrototype = {}; define(IteratorPrototype, iteratorSymbol, function () { return this; }); var getProto = Object.getPrototypeOf, NativeIteratorPrototype = getProto && getProto(getProto(values([]))); NativeIteratorPrototype && NativeIteratorPrototype !== Op && hasOwn.call(NativeIteratorPrototype, iteratorSymbol) && (IteratorPrototype = NativeIteratorPrototype); var Gp = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(IteratorPrototype); function defineIteratorMethods(prototype) { ["next", "throw", "return"].forEach(function (method) { define(prototype, method, function (arg) { return this._invoke(method, arg); }); }); } function AsyncIterator(generator, PromiseImpl) { function invoke(method, arg, resolve, reject) { var record = tryCatch(generator[method], generator, arg); if ("throw" !== record.type) { var result = record.arg, value = result.value; return value && "object" == _typeof(value) && hasOwn.call(value, "__await") ? PromiseImpl.resolve(value.__await).then(function (value) { invoke("next", value, resolve, reject); }, function (err) { invoke("throw", err, resolve, reject); }) : PromiseImpl.resolve(value).then(function (unwrapped) { result.value = unwrapped, resolve(result); }, function (error) { return invoke("throw", error, resolve, reject); }); } reject(record.arg); } var previousPromise; this._invoke = function (method, arg) { function callInvokeWithMethodAndArg() { return new PromiseImpl(function (resolve, reject) { invoke(method, arg, resolve, reject); }); } return previousPromise = previousPromise ? previousPromise.then(callInvokeWithMethodAndArg, callInvokeWithMethodAndArg) : callInvokeWithMethodAndArg(); }; } function maybeInvokeDelegate(delegate, context) { var method = delegate.iterator[context.method]; if (undefined === method) { if (context.delegate = null, "throw" === context.method) { if (delegate.iterator["return"] && (context.method = "return", context.arg = undefined, maybeInvokeDelegate(delegate, context), "throw" === context.method)) return ContinueSentinel; context.method = "throw", context.arg = new TypeError("The iterator does not provide a 'throw' method"); } return ContinueSentinel; } var record = tryCatch(method, delegate.iterator, context.arg); if ("throw" === record.type) return context.method = "throw", context.arg = record.arg, context.delegate = null, ContinueSentinel; var info = record.arg; return info ? info.done ? (context[delegate.resultName] = info.value, context.next = delegate.nextLoc, "return" !== context.method && (context.method = "next", context.arg = undefined), context.delegate = null, ContinueSentinel) : info : (context.method = "throw", context.arg = new TypeError("iterator result is not an object"), context.delegate = null, ContinueSentinel); } function pushTryEntry(locs) { var entry = { tryLoc: locs[0] }; 1 in locs && (entry.catchLoc = locs[1]), 2 in locs && (entry.finallyLoc = locs[2], entry.afterLoc = locs[3]), this.tryEntries.push(entry); } function resetTryEntry(entry) { var record = entry.completion || {}; record.type = "normal", delete record.arg, entry.completion = record; } function Context(tryLocsList) { this.tryEntries = [{ tryLoc: "root" }], tryLocsList.forEach(pushTryEntry, this), this.reset(!0); } function values(iterable) { if (iterable) { var iteratorMethod = iterable[iteratorSymbol]; if (iteratorMethod) return iteratorMethod.call(iterable); if ("function" == typeof iterable.next) return iterable; if (!isNaN(iterable.length)) { var i = -1, next = function next() { for (; ++i < iterable.length;) { if (hasOwn.call(iterable, i)) return next.value = iterable[i], next.done = !1, next; } return next.value = undefined, next.done = !0, next; }; return next.next = next; } } return { next: doneResult }; } function doneResult() { return { value: undefined, done: !0 }; } return GeneratorFunction.prototype = GeneratorFunctionPrototype, define(Gp, "constructor", GeneratorFunctionPrototype), define(GeneratorFunctionPrototype, "constructor", GeneratorFunction), GeneratorFunction.displayName = define(GeneratorFunctionPrototype, toStringTagSymbol, "GeneratorFunction"), exports.isGeneratorFunction = function (genFun) { var ctor = "function" == typeof genFun && genFun.constructor; return !!ctor && (ctor === GeneratorFunction || "GeneratorFunction" === (ctor.displayName || ctor.name)); }, exports.mark = function (genFun) { return Object.setPrototypeOf ? Object.setPrototypeOf(genFun, GeneratorFunctionPrototype) : (genFun.__proto__ = GeneratorFunctionPrototype, define(genFun, toStringTagSymbol, "GeneratorFunction")), genFun.prototype = Object.create(Gp), genFun; }, exports.awrap = function (arg) { return { __await: arg }; }, defineIteratorMethods(AsyncIterator.prototype), define(AsyncIterator.prototype, asyncIteratorSymbol, function () { return this; }), exports.AsyncIterator = AsyncIterator, exports.async = function (innerFn, outerFn, self, tryLocsList, PromiseImpl) { void 0 === PromiseImpl && (PromiseImpl = Promise); var iter = new AsyncIterator(wrap(innerFn, outerFn, self, tryLocsList), PromiseImpl); return exports.isGeneratorFunction(outerFn) ? iter : iter.next().then(function (result) { return result.done ? result.value : iter.next(); }); }, defineIteratorMethods(Gp), define(Gp, toStringTagSymbol, "Generator"), define(Gp, iteratorSymbol, function () { return this; }), define(Gp, "toString", function () { return "[object Generator]"; }), exports.keys = function (object) { var keys = []; for (var key in object) { keys.push(key); } return keys.reverse(), function next() { for (; keys.length;) { var key = keys.pop(); if (key in object) return next.value = key, next.done = !1, next; } return next.done = !0, next; }; }, exports.values = values, Context.prototype = { constructor: Context, reset: function reset(skipTempReset) { if (this.prev = 0, this.next = 0, this.sent = this._sent = undefined, this.done = !1, this.delegate = null, this.method = "next", this.arg = undefined, this.tryEntries.forEach(resetTryEntry), !skipTempReset) for (var name in this) { "t" === name.charAt(0) && hasOwn.call(this, name) && !isNaN(+name.slice(1)) && (this[name] = undefined); } }, stop: function stop() { this.done = !0; var rootRecord = this.tryEntries[0].completion; if ("throw" === rootRecord.type) throw rootRecord.arg; return this.rval; }, dispatchException: function dispatchException(exception) { if (this.done) throw exception; var context = this; function handle(loc, caught) { return record.type = "throw", record.arg = exception, context.next = loc, caught && (context.method = "next", context.arg = undefined), !!caught; } for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i], record = entry.completion; if ("root" === entry.tryLoc) return handle("end"); if (entry.tryLoc <= this.prev) { var hasCatch = hasOwn.call(entry, "catchLoc"), hasFinally = hasOwn.call(entry, "finallyLoc"); if (hasCatch && hasFinally) { if (this.prev < entry.catchLoc) return handle(entry.catchLoc, !0); if (this.prev < entry.finallyLoc) return handle(entry.finallyLoc); } else if (hasCatch) { if (this.prev < entry.catchLoc) return handle(entry.catchLoc, !0); } else { if (!hasFinally) throw new Error("try statement without catch or finally"); if (this.prev < entry.finallyLoc) return handle(entry.finallyLoc); } } } }, abrupt: function abrupt(type, arg) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.tryLoc <= this.prev && hasOwn.call(entry, "finallyLoc") && this.prev < entry.finallyLoc) { var finallyEntry = entry; break; } } finallyEntry && ("break" === type || "continue" === type) && finallyEntry.tryLoc <= arg && arg <= finallyEntry.finallyLoc && (finallyEntry = null); var record = finallyEntry ? finallyEntry.completion : {}; return record.type = type, record.arg = arg, finallyEntry ? (this.method = "next", this.next = finallyEntry.finallyLoc, ContinueSentinel) : this.complete(record); }, complete: function complete(record, afterLoc) { if ("throw" === record.type) throw record.arg; return "break" === record.type || "continue" === record.type ? this.next = record.arg : "return" === record.type ? (this.rval = this.arg = record.arg, this.method = "return", this.next = "end") : "normal" === record.type && afterLoc && (this.next = afterLoc), ContinueSentinel; }, finish: function finish(finallyLoc) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.finallyLoc === finallyLoc) return this.complete(entry.completion, entry.afterLoc), resetTryEntry(entry), ContinueSentinel; } }, "catch": function _catch(tryLoc) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.tryLoc === tryLoc) { var record = entry.completion; if ("throw" === record.type) { var thrown = record.arg; resetTryEntry(entry); } return thrown; } } throw new Error("illegal catch attempt"); }, delegateYield: function delegateYield(iterable, resultName, nextLoc) { return this.delegate = { iterator: values(iterable), resultName: resultName, nextLoc: nextLoc }, "next" === this.method && (this.arg = undefined), ContinueSentinel; } }, exports; }
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
@@ -8754,6 +8764,11 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 //
 //
 //
+//
+//
+//
+//
+
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "Select",
@@ -8875,16 +8890,31 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
       }
     }
 
-    this.makeSearchOptions(); // this.select_value = this.value;
+    this.makeSearchOptions();
+
+    if (this.options.length == 0 && this.value) {
+      this.infiniteHandler();
+    } // this.select_value = this.value;
+
   },
-  // watch:{
-  //     options: function(){
-  //         this.makeSearchOptions()
-  //     },
-  //     value: function(){
-  //         this.select_value = this.value;
-  //     },
-  // },
+  computed: {
+    model: {
+      get: function get() {
+        return this.value;
+      },
+      set: function set(value) {
+        this.$emit("input", value);
+      }
+    }
+  },
+  watch: {
+    options: function options() {
+      this.makeSearchOptions();
+    } // value: function(){
+    //     this.select_value = this.value;
+    // },
+
+  },
   methods: {
     saveValue: function saveValue(value) {
       this.$emit('input', value);
@@ -8892,19 +8922,21 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
     makeSearchOptions: function makeSearchOptions() {
       var _this = this;
 
-      this.searchOptions.keys = [];
+      if (this.searchOptions.keys.length === 0) {
+        this.searchOptions.keys = [];
 
-      if (this.options.length > 0) {
-        // this.$set(this.searchOptions, 'keys',  Object.keys(this.options[0]))
-        Object.entries(this.options[0]).forEach(function (_ref) {
-          var _ref2 = _slicedToArray(_ref, 2),
-              key = _ref2[0],
-              value = _ref2[1];
+        if (this.options.length > 0) {
+          // this.$set(this.searchOptions, 'keys',  Object.keys(this.options[0]))
+          Object.entries(this.options[0]).forEach(function (_ref) {
+            var _ref2 = _slicedToArray(_ref, 2),
+                key = _ref2[0],
+                value = _ref2[1];
 
-          if (_typeof(value) !== 'object' && value !== null && !Array.isArray(value)) {
-            _this.searchOptions.keys.push(key);
-          }
-        }); // this.searchOptions.keys = Object.keys(this.options[0])
+            if (_typeof(value) !== 'object' && value !== null && !Array.isArray(value)) {
+              _this.searchOptions.keys.push(key);
+            }
+          }); // this.searchOptions.keys = Object.keys(this.options[0])
+        }
       }
     },
     infiniteHandler: function infiniteHandler($state) {
@@ -8941,10 +8973,12 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
                 _context.next = 9;
                 return _this2.$store.dispatch(_this2.method_name, payload).then(function (resp) {
-                  if (_this2.pagination.nextPageUrl !== null) {
-                    $state.loaded();
-                  } else {
-                    $state.complete();
+                  if ($state) {
+                    if (_this2.pagination.nextPageUrl !== null) {
+                      $state.loaded();
+                    } else {
+                      $state.complete();
+                    }
                   }
                 })["finally"](function () {
                   _this2.infinite_loading = false;
@@ -8976,10 +9010,12 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
                 _context.next = 19;
                 return _this2.$store.dispatch(_this2.method_name, _payload).then(function (resp) {
-                  if (_this2.pagination.nextPageUrl !== null) {
-                    $state.loaded();
-                  } else {
-                    $state.complete();
+                  if ($state) {
+                    if (_this2.pagination.nextPageUrl !== null) {
+                      $state.loaded();
+                    } else {
+                      $state.complete();
+                    }
                   }
                 });
 
@@ -8992,7 +9028,7 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
       }))();
     },
     fuseSearch: function fuseSearch(options, search) {
-      var fuse = new Fuse(options, this.searchOptions);
+      var fuse = new fuse_js__WEBPACK_IMPORTED_MODULE_1__["default"](options, this.searchOptions);
 
       if (this.$refs[this.method_name] && this.$refs[this.method_name].status !== 1) {
         this.$refs[this.method_name].status = 1;
@@ -10775,6 +10811,185 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 /***/ }),
 
+/***/ "./resources/js/store/events.js":
+/*!**************************************!*\
+  !*** ./resources/js/store/events.js ***!
+  \**************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
+
+function _regeneratorRuntime() { "use strict"; /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/facebook/regenerator/blob/main/LICENSE */ _regeneratorRuntime = function _regeneratorRuntime() { return exports; }; var exports = {}, Op = Object.prototype, hasOwn = Op.hasOwnProperty, $Symbol = "function" == typeof Symbol ? Symbol : {}, iteratorSymbol = $Symbol.iterator || "@@iterator", asyncIteratorSymbol = $Symbol.asyncIterator || "@@asyncIterator", toStringTagSymbol = $Symbol.toStringTag || "@@toStringTag"; function define(obj, key, value) { return Object.defineProperty(obj, key, { value: value, enumerable: !0, configurable: !0, writable: !0 }), obj[key]; } try { define({}, ""); } catch (err) { define = function define(obj, key, value) { return obj[key] = value; }; } function wrap(innerFn, outerFn, self, tryLocsList) { var protoGenerator = outerFn && outerFn.prototype instanceof Generator ? outerFn : Generator, generator = Object.create(protoGenerator.prototype), context = new Context(tryLocsList || []); return generator._invoke = function (innerFn, self, context) { var state = "suspendedStart"; return function (method, arg) { if ("executing" === state) throw new Error("Generator is already running"); if ("completed" === state) { if ("throw" === method) throw arg; return doneResult(); } for (context.method = method, context.arg = arg;;) { var delegate = context.delegate; if (delegate) { var delegateResult = maybeInvokeDelegate(delegate, context); if (delegateResult) { if (delegateResult === ContinueSentinel) continue; return delegateResult; } } if ("next" === context.method) context.sent = context._sent = context.arg;else if ("throw" === context.method) { if ("suspendedStart" === state) throw state = "completed", context.arg; context.dispatchException(context.arg); } else "return" === context.method && context.abrupt("return", context.arg); state = "executing"; var record = tryCatch(innerFn, self, context); if ("normal" === record.type) { if (state = context.done ? "completed" : "suspendedYield", record.arg === ContinueSentinel) continue; return { value: record.arg, done: context.done }; } "throw" === record.type && (state = "completed", context.method = "throw", context.arg = record.arg); } }; }(innerFn, self, context), generator; } function tryCatch(fn, obj, arg) { try { return { type: "normal", arg: fn.call(obj, arg) }; } catch (err) { return { type: "throw", arg: err }; } } exports.wrap = wrap; var ContinueSentinel = {}; function Generator() {} function GeneratorFunction() {} function GeneratorFunctionPrototype() {} var IteratorPrototype = {}; define(IteratorPrototype, iteratorSymbol, function () { return this; }); var getProto = Object.getPrototypeOf, NativeIteratorPrototype = getProto && getProto(getProto(values([]))); NativeIteratorPrototype && NativeIteratorPrototype !== Op && hasOwn.call(NativeIteratorPrototype, iteratorSymbol) && (IteratorPrototype = NativeIteratorPrototype); var Gp = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(IteratorPrototype); function defineIteratorMethods(prototype) { ["next", "throw", "return"].forEach(function (method) { define(prototype, method, function (arg) { return this._invoke(method, arg); }); }); } function AsyncIterator(generator, PromiseImpl) { function invoke(method, arg, resolve, reject) { var record = tryCatch(generator[method], generator, arg); if ("throw" !== record.type) { var result = record.arg, value = result.value; return value && "object" == _typeof(value) && hasOwn.call(value, "__await") ? PromiseImpl.resolve(value.__await).then(function (value) { invoke("next", value, resolve, reject); }, function (err) { invoke("throw", err, resolve, reject); }) : PromiseImpl.resolve(value).then(function (unwrapped) { result.value = unwrapped, resolve(result); }, function (error) { return invoke("throw", error, resolve, reject); }); } reject(record.arg); } var previousPromise; this._invoke = function (method, arg) { function callInvokeWithMethodAndArg() { return new PromiseImpl(function (resolve, reject) { invoke(method, arg, resolve, reject); }); } return previousPromise = previousPromise ? previousPromise.then(callInvokeWithMethodAndArg, callInvokeWithMethodAndArg) : callInvokeWithMethodAndArg(); }; } function maybeInvokeDelegate(delegate, context) { var method = delegate.iterator[context.method]; if (undefined === method) { if (context.delegate = null, "throw" === context.method) { if (delegate.iterator["return"] && (context.method = "return", context.arg = undefined, maybeInvokeDelegate(delegate, context), "throw" === context.method)) return ContinueSentinel; context.method = "throw", context.arg = new TypeError("The iterator does not provide a 'throw' method"); } return ContinueSentinel; } var record = tryCatch(method, delegate.iterator, context.arg); if ("throw" === record.type) return context.method = "throw", context.arg = record.arg, context.delegate = null, ContinueSentinel; var info = record.arg; return info ? info.done ? (context[delegate.resultName] = info.value, context.next = delegate.nextLoc, "return" !== context.method && (context.method = "next", context.arg = undefined), context.delegate = null, ContinueSentinel) : info : (context.method = "throw", context.arg = new TypeError("iterator result is not an object"), context.delegate = null, ContinueSentinel); } function pushTryEntry(locs) { var entry = { tryLoc: locs[0] }; 1 in locs && (entry.catchLoc = locs[1]), 2 in locs && (entry.finallyLoc = locs[2], entry.afterLoc = locs[3]), this.tryEntries.push(entry); } function resetTryEntry(entry) { var record = entry.completion || {}; record.type = "normal", delete record.arg, entry.completion = record; } function Context(tryLocsList) { this.tryEntries = [{ tryLoc: "root" }], tryLocsList.forEach(pushTryEntry, this), this.reset(!0); } function values(iterable) { if (iterable) { var iteratorMethod = iterable[iteratorSymbol]; if (iteratorMethod) return iteratorMethod.call(iterable); if ("function" == typeof iterable.next) return iterable; if (!isNaN(iterable.length)) { var i = -1, next = function next() { for (; ++i < iterable.length;) { if (hasOwn.call(iterable, i)) return next.value = iterable[i], next.done = !1, next; } return next.value = undefined, next.done = !0, next; }; return next.next = next; } } return { next: doneResult }; } function doneResult() { return { value: undefined, done: !0 }; } return GeneratorFunction.prototype = GeneratorFunctionPrototype, define(Gp, "constructor", GeneratorFunctionPrototype), define(GeneratorFunctionPrototype, "constructor", GeneratorFunction), GeneratorFunction.displayName = define(GeneratorFunctionPrototype, toStringTagSymbol, "GeneratorFunction"), exports.isGeneratorFunction = function (genFun) { var ctor = "function" == typeof genFun && genFun.constructor; return !!ctor && (ctor === GeneratorFunction || "GeneratorFunction" === (ctor.displayName || ctor.name)); }, exports.mark = function (genFun) { return Object.setPrototypeOf ? Object.setPrototypeOf(genFun, GeneratorFunctionPrototype) : (genFun.__proto__ = GeneratorFunctionPrototype, define(genFun, toStringTagSymbol, "GeneratorFunction")), genFun.prototype = Object.create(Gp), genFun; }, exports.awrap = function (arg) { return { __await: arg }; }, defineIteratorMethods(AsyncIterator.prototype), define(AsyncIterator.prototype, asyncIteratorSymbol, function () { return this; }), exports.AsyncIterator = AsyncIterator, exports.async = function (innerFn, outerFn, self, tryLocsList, PromiseImpl) { void 0 === PromiseImpl && (PromiseImpl = Promise); var iter = new AsyncIterator(wrap(innerFn, outerFn, self, tryLocsList), PromiseImpl); return exports.isGeneratorFunction(outerFn) ? iter : iter.next().then(function (result) { return result.done ? result.value : iter.next(); }); }, defineIteratorMethods(Gp), define(Gp, toStringTagSymbol, "Generator"), define(Gp, iteratorSymbol, function () { return this; }), define(Gp, "toString", function () { return "[object Generator]"; }), exports.keys = function (object) { var keys = []; for (var key in object) { keys.push(key); } return keys.reverse(), function next() { for (; keys.length;) { var key = keys.pop(); if (key in object) return next.value = key, next.done = !1, next; } return next.done = !0, next; }; }, exports.values = values, Context.prototype = { constructor: Context, reset: function reset(skipTempReset) { if (this.prev = 0, this.next = 0, this.sent = this._sent = undefined, this.done = !1, this.delegate = null, this.method = "next", this.arg = undefined, this.tryEntries.forEach(resetTryEntry), !skipTempReset) for (var name in this) { "t" === name.charAt(0) && hasOwn.call(this, name) && !isNaN(+name.slice(1)) && (this[name] = undefined); } }, stop: function stop() { this.done = !0; var rootRecord = this.tryEntries[0].completion; if ("throw" === rootRecord.type) throw rootRecord.arg; return this.rval; }, dispatchException: function dispatchException(exception) { if (this.done) throw exception; var context = this; function handle(loc, caught) { return record.type = "throw", record.arg = exception, context.next = loc, caught && (context.method = "next", context.arg = undefined), !!caught; } for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i], record = entry.completion; if ("root" === entry.tryLoc) return handle("end"); if (entry.tryLoc <= this.prev) { var hasCatch = hasOwn.call(entry, "catchLoc"), hasFinally = hasOwn.call(entry, "finallyLoc"); if (hasCatch && hasFinally) { if (this.prev < entry.catchLoc) return handle(entry.catchLoc, !0); if (this.prev < entry.finallyLoc) return handle(entry.finallyLoc); } else if (hasCatch) { if (this.prev < entry.catchLoc) return handle(entry.catchLoc, !0); } else { if (!hasFinally) throw new Error("try statement without catch or finally"); if (this.prev < entry.finallyLoc) return handle(entry.finallyLoc); } } } }, abrupt: function abrupt(type, arg) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.tryLoc <= this.prev && hasOwn.call(entry, "finallyLoc") && this.prev < entry.finallyLoc) { var finallyEntry = entry; break; } } finallyEntry && ("break" === type || "continue" === type) && finallyEntry.tryLoc <= arg && arg <= finallyEntry.finallyLoc && (finallyEntry = null); var record = finallyEntry ? finallyEntry.completion : {}; return record.type = type, record.arg = arg, finallyEntry ? (this.method = "next", this.next = finallyEntry.finallyLoc, ContinueSentinel) : this.complete(record); }, complete: function complete(record, afterLoc) { if ("throw" === record.type) throw record.arg; return "break" === record.type || "continue" === record.type ? this.next = record.arg : "return" === record.type ? (this.rval = this.arg = record.arg, this.method = "return", this.next = "end") : "normal" === record.type && afterLoc && (this.next = afterLoc), ContinueSentinel; }, finish: function finish(finallyLoc) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.finallyLoc === finallyLoc) return this.complete(entry.completion, entry.afterLoc), resetTryEntry(entry), ContinueSentinel; } }, "catch": function _catch(tryLoc) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.tryLoc === tryLoc) { var record = entry.completion; if ("throw" === record.type) { var thrown = record.arg; resetTryEntry(entry); } return thrown; } } throw new Error("illegal catch attempt"); }, delegateYield: function delegateYield(iterable, resultName, nextLoc) { return this.delegate = { iterator: values(iterable), resultName: resultName, nextLoc: nextLoc }, "next" === this.method && (this.arg = undefined), ContinueSentinel; } }, exports; }
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  state: {
+    events: [],
+    events_loading: false
+  },
+  getters: {
+    events: function events(state) {
+      return state.events;
+    },
+    events_loading: function events_loading(state) {
+      return state.events_loading;
+    }
+  },
+  mutations: {
+    setEvents: function setEvents(state, payload) {
+      state.events = payload;
+    },
+    setEventsLoading: function setEventsLoading(state, payload) {
+      return state.events_loading = payload;
+    },
+    addEvent: function addEvent(state, payload) {
+      state.events.push(payload);
+    },
+    saveEvent: function saveEvent(state, payload) {
+      var trade = state.events.findIndex(function (item) {
+        return item.id === payload.id;
+      });
+
+      if (trade >= 0) {
+        Vue.set(state.events, trade, payload);
+      }
+    },
+    removeEvent: function removeEvent(state, payload) {
+      var trade = state.events.findIndex(function (item) {
+        return item.id === payload;
+      });
+
+      if (trade >= 0) {
+        state.events.splice(trade, 1);
+      }
+    }
+  },
+  actions: {
+    getEvents: function getEvents(_ref, payload) {
+      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
+        var commit, state;
+        return _regeneratorRuntime().wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                commit = _ref.commit, state = _ref.state;
+                commit('setEventsLoading', true);
+                _context.next = 4;
+                return axios.post('/api/events', payload).then(function (response) {
+                  commit('setEvents', response.data);
+                  commit('setEventsLoading', false);
+                })["catch"](function (error) {
+                  console.log(error);
+                  commit('setEventsLoading', false);
+                });
+
+              case 4:
+                return _context.abrupt("return", _context.sent);
+
+              case 5:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee);
+      }))();
+    },
+    addEvent: function addEvent(_ref2, payload) {
+      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2() {
+        var commit;
+        return _regeneratorRuntime().wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                commit = _ref2.commit;
+                _context2.next = 3;
+                return axios.post('/api/event', payload).then(function (response) {
+                  commit('addEvent', payload);
+                })["catch"](function (error) {
+                  console.log(error);
+                  throw error;
+                });
+
+              case 3:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2);
+      }))();
+    },
+    updateEvent: function updateEvent(_ref3, payload) {
+      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee3() {
+        var commit;
+        return _regeneratorRuntime().wrap(function _callee3$(_context3) {
+          while (1) {
+            switch (_context3.prev = _context3.next) {
+              case 0:
+                commit = _ref3.commit;
+                _context3.next = 3;
+                return axios.post('/api/event/edit/' + payload.id, payload.formData).then(function (response) {
+                  commit('saveEvent', response.data);
+                })["catch"](function (error) {
+                  console.log(error);
+                  throw error;
+                });
+
+              case 3:
+              case "end":
+                return _context3.stop();
+            }
+          }
+        }, _callee3);
+      }))();
+    },
+    removeEvent: function removeEvent(_ref4, payload) {
+      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee4() {
+        var dispatch, commit;
+        return _regeneratorRuntime().wrap(function _callee4$(_context4) {
+          while (1) {
+            switch (_context4.prev = _context4.next) {
+              case 0:
+                dispatch = _ref4.dispatch, commit = _ref4.commit;
+                _context4.next = 3;
+                return axios["delete"]("/api/event/delete/".concat(payload.id)).then(function (response) {
+                  commit('removeEvent', payload.id);
+                  /*dispatch('sendNotification',
+                      {
+                          self: payload.self,
+                          title: 'Календарь',
+                          message: 'Событие успешно удалено'
+                      });*/
+                })["catch"](function (error) {
+                  /*dispatch('sendNotification',
+                      {
+                          self: payload.self,
+                          title: 'Календарь',
+                          type: 'error',
+                          message: 'Произошла ошибка'
+                      });*/
+                });
+
+              case 3:
+              case "end":
+                return _context4.stop();
+            }
+          }
+        }, _callee4);
+      }))();
+    }
+  }
+});
+
+/***/ }),
+
 /***/ "./resources/js/store/favourites.js":
 /*!******************************************!*\
   !*** ./resources/js/store/favourites.js ***!
@@ -11327,7 +11542,7 @@ __webpack_require__.r(__webpack_exports__);
         debtorCategories: [],
         debtors: [],
         organizers: [],
-        arbitrManagers: [],
+        arbitrationManagers: [],
         other: {
           period: 'periodAll',
           hasPhotos: false,
@@ -11534,10 +11749,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         pagination: {},
         loading: false
       },
-      prices: {}
+      prices: null,
+      messages_types: []
     }
   },
   getters: {
+    filters_data: function filters_data(state) {
+      return state.filters_data;
+    },
     categories: function categories(state) {
       return state.filters_data.categories.data;
     },
@@ -11576,28 +11795,43 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     },
     filters_arbitration_managers_loading: function filters_arbitration_managers_loading(state) {
       return state.filters_data.bidders.arbitrationManagers.loading;
+    },
+    messages_types: function messages_types(state) {
+      return state.filters_data.messages_types;
     }
   },
   mutations: {
     setCategories: function setCategories(state, payload) {
       payload.forEach(function (item) {
-        Vue.set(item, 'status', false);
-        state.filters_data.categories.data.push(item);
+        var category = state.filters_data.categories.data.findIndex(function (el) {
+          return el.key === item.key;
+        });
+
+        if (category < 0) {
+          Vue.set(item, 'status', false);
+          state.filters_data.categories.data.push(item);
+        }
       });
     },
     setRegions: function setRegions(state, payload) {
       payload.forEach(function (item) {
-        Vue.set(item, 'status', false);
-        state.filters_data.regions.data.push(item);
+        var region = state.filters_data.regions.data.findIndex(function (el) {
+          return el.regionGroup === item.regionGroup;
+        });
+
+        if (region < 0) {
+          Vue.set(item, 'status', false);
+          state.filters_data.regions.data.push(item);
+        }
       });
     },
     setFiltersBidders: function setFiltersBidders(state, payload) {
-      payload.data.forEach(function (item) {
-        var trade = state.filters_data.bidders[payload.type].findIndex(function (el) {
+      payload.data.data.forEach(function (item) {
+        var bidder = state.filters_data.bidders[payload.type].data.findIndex(function (el) {
           return el.id === item.id;
         });
 
-        if (trade < 0) {
+        if (bidder < 0) {
           var tmp_item = item;
 
           if (item.type === 'person') {
@@ -11617,11 +11851,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           state.filters_data.bidders[payload.type].data.push(tmp_item);
         }
       });
-      state.filters_data.bidders[payload.type].pagination = payload.pagination;
+      state.filters_data.bidders[payload.type].pagination = payload.data.pagination;
     },
     saveFiltersDataProperty: function saveFiltersDataProperty(state, payload) {
       Vue.set(state.filters_data, payload.key, payload.value);
-      localStorage.setItem(payload.key, JSON.stringify(payload.value));
     },
     saveFilterDataProperty: function saveFilterDataProperty(state, payload) {
       var schema = state.filters_data[payload.filter]; // a moving reference to internal objects within obj
@@ -11640,6 +11873,26 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     }
   },
   actions: {
+    /*
+    GET
+    /trades/filter/trade-places
+    Получение информации о торговых площадках для отображения в фильтрах
+      GET
+    /trades/filter/categories
+    Получение информации о категориях для отображения в фильтрах
+      GET
+    /trades/filter/regions
+    Получение информации о регионах для отображения в фильтрах
+      GET
+    /messages/filter/types
+    Получение информации о типах сообщений о должниках
+      GET
+    /trades/filter/prices
+    Получение информации о минимальных/максимальных ценах для отображения в фильтрах
+      PUT
+    /trades/filter/bidders/{type}
+    Получение информации о должниках/организаторах торгов/арбитражных управляющих
+     */
     getCategories: function getCategories(_ref, payload) {
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
         var commit, state;
@@ -11754,7 +12007,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   url: '/api/trades/filter/bidders/' + payload.type + '?page=' + payload.page,
                   data: payload
                 }).then(function (response) {
-                  commit('setFiltersBidders', response.data);
+                  commit('setFiltersBidders', {
+                    type: payload.type,
+                    data: response.data
+                  });
                   commit('saveFilterDataProperty', {
                     filter: 'bidders',
                     key: payload.type + '.loading',
@@ -11845,7 +12101,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               case 0:
                 commit = _ref5.commit, state = _ref5.state;
 
-                if (!(state.filters_data.prices.length === 0)) {
+                if (state.filters_data.prices) {
                   _context5.next = 4;
                   break;
                 }
@@ -11868,6 +12124,40 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             }
           }
         }, _callee5);
+      }))();
+    },
+    getFiltersMessagesTypes: function getFiltersMessagesTypes(_ref6) {
+      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee6() {
+        var commit, state;
+        return _regeneratorRuntime().wrap(function _callee6$(_context6) {
+          while (1) {
+            switch (_context6.prev = _context6.next) {
+              case 0:
+                commit = _ref6.commit, state = _ref6.state;
+
+                if (!(state.filters_data.messages_types.length == 0)) {
+                  _context6.next = 4;
+                  break;
+                }
+
+                _context6.next = 4;
+                return axios({
+                  method: 'get',
+                  url: '/api/messages/filter/types',
+                  data: {}
+                }).then(function (response) {
+                  commit('saveFiltersDataProperty', {
+                    key: 'prices',
+                    value: response.data
+                  });
+                })["catch"](function (error) {});
+
+              case 4:
+              case "end":
+                return _context6.stop();
+            }
+          }
+        }, _callee6);
       }))();
     }
   }
@@ -11898,6 +12188,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _monitoring__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./monitoring */ "./resources/js/store/monitoring.js");
 /* harmony import */ var _bidders__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./bidders */ "./resources/js/store/bidders.js");
 /* harmony import */ var _filtersData__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./filtersData */ "./resources/js/store/filtersData.js");
+/* harmony import */ var _events__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./events */ "./resources/js/store/events.js");
 
 
 vue__WEBPACK_IMPORTED_MODULE_0__["default"].use(vuex__WEBPACK_IMPORTED_MODULE_1__["default"]);
@@ -11906,6 +12197,7 @@ vue__WEBPACK_IMPORTED_MODULE_0__["default"].use(vuex__WEBPACK_IMPORTED_MODULE_1_
 
 
  // import files from './files';
+
 
 
 
@@ -11924,7 +12216,8 @@ vue__WEBPACK_IMPORTED_MODULE_0__["default"].use(vuex__WEBPACK_IMPORTED_MODULE_1_
     favourites: _favourites__WEBPACK_IMPORTED_MODULE_8__["default"],
     monitoring: _monitoring__WEBPACK_IMPORTED_MODULE_9__["default"],
     bidders: _bidders__WEBPACK_IMPORTED_MODULE_10__["default"],
-    filtersData: _filtersData__WEBPACK_IMPORTED_MODULE_11__["default"]
+    filtersData: _filtersData__WEBPACK_IMPORTED_MODULE_11__["default"],
+    events: _events__WEBPACK_IMPORTED_MODULE_12__["default"]
   }
 }));
 
@@ -12499,10 +12792,31 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       //     }
       // });
     },
+    addMonitorings: function addMonitorings(state, payload) {
+      if (!state.monitorings[payload.pathId]) {
+        state.monitorings[payload.pathId] = {
+          data: [],
+          pagination: {}
+        };
+      }
+
+      payload.data.data.forEach(function (item) {
+        var favourite = state.monitorings[payload.pathId].data.findIndex(function (el) {
+          return el.id === item.id;
+        });
+
+        if (favourite < 0) {
+          state.monitorings[payload.pathId].data.push(item);
+        }
+      });
+      state.monitorings[payload.pathId].pagination = payload.data.pagination;
+      state.current_monitorings = state.monitorings[payload.pathId].data;
+      state.monitorings_pagination = state.monitorings[payload.pathId].pagination;
+    },
     setMonitoringPaths: function setMonitoringPaths(state, payload) {
       state.monitorings_paths = payload;
     },
-    setMonitoringCurrentPath: function setMonitoringCurrentPath(state, payload) {
+    setCurrentMonitoringPath: function setCurrentMonitoringPath(state, payload) {
       state.monitoring_current_path = payload; // console.log('state.monitorings[payload].data', state.monitorings[payload].data)
       // console.log('state.monitorings[payload]', state.monitorings[payload])
 
@@ -12529,15 +12843,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     addMonitoring: function addMonitoring(state, payload) {
       state.monitorings.push(payload);
     },
-    saveMonitoring: function saveMonitoring(state, payload) {
-      var monitoring = state.monitorings.findIndex(function (item) {
-        return item.id === payload.id;
-      });
-
-      if (monitoring >= 0) {
-        Vue.set(state.monitorings, monitoring, payload);
-      }
-    },
     removeMonitoring: function removeMonitoring(state, payload) {
       if (payload.pathId && state.monitorings[payload.pathId]) {
         var monitoring = state.monitorings[payload.pathId].data.findIndex(function (item) {
@@ -12557,91 +12862,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }
       }
     },
-    moveMonitoring: function moveMonitoring(state, payload) {
-      var new_path = state.monitorings_paths.findIndex(function (item) {
-        return item.pathId === payload.newPathId;
-      });
-
-      if (new_path >= 0) {
-        Vue.set(state.monitorings_paths[new_path], 'lotCount', state.monitorings_paths[new_path].lotCount + 1);
-      }
-
-      var old_path = state.monitorings_paths.findIndex(function (item) {
-        return item.pathId === payload.currentPathId;
-      });
-
-      if (old_path >= 0) {
-        Vue.set(state.monitorings_paths[old_path], 'lotCount', state.monitorings_paths[old_path].lotCount - 1);
-      }
-
-      if (state.monitorings[payload.currentPathId]) {
-        var monitoring = state.monitorings[payload.currentPathId].data.findIndex(function (item) {
-          return item.id === payload.lotId;
-        });
-
-        if (monitoring >= 0) {
-          if (state.monitorings[payload.newPathId]) {
-            var new_lot_index = state.monitorings[payload.newPathId].data.findIndex(function (item) {
-              return item.id === payload.lotId;
-            });
-
-            if (new_lot_index < 0) {
-              var item = state.monitorings[payload.currentPathId].data[monitoring];
-
-              if (item.monitoringPaths) {
-                var item_path = item.monitoringPaths.findIndex(function (item) {
-                  return item.pathId === payload.currentPathId;
-                });
-
-                if (item_path >= 0) {
-                  item.monitoringPaths.splice(item_path, 1);
-                }
-
-                item_path = item.monitoringPaths.findIndex(function (item) {
-                  return item.pathId === payload.newPathId;
-                });
-
-                if (item_path < 0) {
-                  if (new_path >= 0) {
-                    item.monitoringPaths.push(state.monitorings_paths[new_path]);
-                  }
-                }
-              }
-
-              state.monitorings[payload.newPathId].data.push(state.monitorings[payload.currentPathId].data[monitoring]);
-            }
-          }
-
-          state.monitorings[payload.currentPathId].data.splice(monitoring, 1);
-        }
-      }
-
-      var lot = state.trades.findIndex(function (item) {
-        return item.id === payload.lotId;
-      });
-
-      if (lot >= 0) {
-        if (state.trades[lot].monitoringPaths) {
-          var lot_path = state.trades[lot].monitoringPaths.findIndex(function (item) {
-            return item.pathId === payload.currentPathId;
-          });
-
-          if (lot_path >= 0) {
-            state.trades[lot].monitoringPaths.splice(lot_path, 1);
-          }
-
-          lot_path = state.trades[lot].monitoringPaths.findIndex(function (item) {
-            return item.pathId === payload.newPathId;
-          });
-
-          if (lot_path < 0) {
-            if (new_path >= 0) {
-              state.trades[lot].monitoringPaths.push(state.monitorings_paths[new_path]);
-            }
-          }
-        }
-      }
-    },
     removeMonitoringPath: function removeMonitoringPath(state, payload) {
       var path = state.monitorings_paths.findIndex(function (item) {
         return item.pathId === payload;
@@ -12650,32 +12870,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       if (path >= 0) {
         state.monitorings_paths.splice(path, 1);
       }
-
-      if (state.trades && state.trades.length > 0) {
-        state.trades.forEach(function (item) {
-          if (item.monitoringPaths) {
-            var lot_path = item.monitoringPaths.findIndex(function (item) {
-              return item.pathId === payload;
-            });
-
-            if (lot_path >= 0) {
-              item.monitoringPaths.splice(lot_path, 1);
-            }
-          }
-        });
-      }
     },
     setMonitoringsLoading: function setMonitoringsLoading(state, payload) {
       return state.monitorings_loading = payload;
-    },
-    saveMonitoringProperty: function saveMonitoringProperty(state, payload) {
-      var monitoring = state.monitorings.findIndex(function (item) {
-        return item.id === payload.id;
-      });
-
-      if (monitoring >= 0 && state.monitorings[monitoring].hasOwnProperty(payload.key)) {
-        Vue.set(state.monitorings[monitoring], payload.key, payload.value);
-      }
     }
   },
   actions: {
@@ -12683,29 +12880,30 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     POST
     /monitoring/add/edit/path
     Создание/редактирование папки в мониторинге
-     DELETE
+      DELETE
     /monitoring/delete/path/{id}
     Удаление папки в мониторинге
-     PUT
+      PUT
     /monitoring
     Получение данных о лотах в папке мониторинга
-     GET
+      GET
     /monitoring/get/paths
     Получение данных о папках мониторинга авторизованного пользователя
-     DELETE
+      DELETE
     /monitoring/delete/lot
     Удаление лота из папки мониторинга
     */
     saveMonitoringPath: function saveMonitoringPath(_ref, payload) {
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
-        var commit;
+        var dispatch, commit;
         return _regeneratorRuntime().wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                commit = _ref.commit;
+                dispatch = _ref.dispatch, commit = _ref.commit;
                 _context.next = 3;
                 return axios.post('/api/monitoring/add/edit/path', payload).then(function (response) {
+                  dispatch('setCurrentMonitoringPath', response.data.pathId);
                   commit('saveMonitoringPath', response.data);
                 })["catch"](function (error) {
                   console.log(error);
@@ -12719,17 +12917,26 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, _callee);
       }))();
     },
-    removeMonitoringPath: function removeMonitoringPath(_ref2, payload) {
+    editMonitoringPath: function editMonitoringPath(_ref2, payload) {
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2() {
-        var commit;
+        var dispatch, commit;
         return _regeneratorRuntime().wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
-                commit = _ref2.commit;
+                dispatch = _ref2.dispatch, commit = _ref2.commit;
                 _context2.next = 3;
-                return axios["delete"]('/api/monitoring/delete/path/' + payload).then(function (response) {
-                  commit('removeMonitoringPath', payload);
+                return axios.post('/api/monitoring/add/edit/path', payload).then(function (response) {
+                  commit('saveMonitoringPath', response.data);
+                  dispatch('saveDataProperty', {
+                    module_key: 'monitoring',
+                    state_key: 'monitorings',
+                    key: '' + response.data.pathId,
+                    value: null
+                  }, {
+                    root: true
+                  });
+                  dispatch('setCurrentMonitoringPath', response.data.pathId);
                 })["catch"](function (error) {
                   console.log(error);
                 });
@@ -12742,24 +12949,23 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, _callee2);
       }))();
     },
-    getMonitorings: function getMonitorings(_ref3, payload) {
+    removeMonitoringPath: function removeMonitoringPath(_ref3, payload) {
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee3() {
-        var commit, state;
+        var dispatch, commit, state;
         return _regeneratorRuntime().wrap(function _callee3$(_context3) {
           while (1) {
             switch (_context3.prev = _context3.next) {
               case 0:
-                commit = _ref3.commit, state = _ref3.state;
+                dispatch = _ref3.dispatch, commit = _ref3.commit, state = _ref3.state;
                 _context3.next = 3;
-                return axios({
-                  method: 'put',
-                  url: '/api/monitoring?page=' + payload.page,
-                  data: payload
-                }).then(function (response) {
-                  commit('setMonitorings', {
-                    pathId: payload.pathId,
-                    data: response.data
-                  });
+                return axios["delete"]('/api/monitoring/delete/path/' + payload).then(function (response) {
+                  commit('removeMonitoringPath', payload);
+
+                  if (state.monitorings_paths.length > 0) {
+                    dispatch('setCurrentMonitoringPath', state.monitorings_paths[0].pathId);
+                  }
+                })["catch"](function (error) {
+                  console.log(error);
                 });
 
               case 3:
@@ -12770,23 +12976,24 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, _callee3);
       }))();
     },
-    getMonitoringPaths: function getMonitoringPaths(_ref4, payload) {
+    getMonitorings: function getMonitorings(_ref4, payload) {
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee4() {
-        var dispatch, commit, state;
+        var commit, state;
         return _regeneratorRuntime().wrap(function _callee4$(_context4) {
           while (1) {
             switch (_context4.prev = _context4.next) {
               case 0:
-                dispatch = _ref4.dispatch, commit = _ref4.commit, state = _ref4.state;
+                commit = _ref4.commit, state = _ref4.state;
                 _context4.next = 3;
                 return axios({
-                  method: 'get',
-                  url: '/api/monitoring/get/paths',
-                  data: {}
+                  method: 'put',
+                  url: '/api/monitoring?page=' + payload.page,
+                  data: payload
                 }).then(function (response) {
-                  // dispatch('getMonitorings', {page: 1, pathId: response.data[0].pathId});
-                  commit('setMonitoringPaths', response.data);
-                  commit('setMonitoringCurrentPath', response.data[0].pathId);
+                  commit('addMonitorings', {
+                    pathId: payload.pathId,
+                    data: response.data
+                  });
                 });
 
               case 3:
@@ -12797,15 +13004,42 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, _callee4);
       }))();
     },
-    removeMonitoring: function removeMonitoring(_ref5, payload) {
+    getMonitoringPaths: function getMonitoringPaths(_ref5, payload) {
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee5() {
-        var dispatch, commit;
+        var dispatch, commit, state;
         return _regeneratorRuntime().wrap(function _callee5$(_context5) {
           while (1) {
             switch (_context5.prev = _context5.next) {
               case 0:
-                dispatch = _ref5.dispatch, commit = _ref5.commit;
+                dispatch = _ref5.dispatch, commit = _ref5.commit, state = _ref5.state;
                 _context5.next = 3;
+                return axios({
+                  method: 'get',
+                  url: '/api/monitoring/get/paths',
+                  data: {}
+                }).then(function (response) {
+                  // dispatch('getMonitorings', {page: 1, pathId: response.data[0].pathId});
+                  commit('setMonitoringPaths', response.data);
+                  commit('setCurrentMonitoringPath', response.data[0].pathId);
+                });
+
+              case 3:
+              case "end":
+                return _context5.stop();
+            }
+          }
+        }, _callee5);
+      }))();
+    },
+    removeMonitoring: function removeMonitoring(_ref6, payload) {
+      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee6() {
+        var dispatch, commit;
+        return _regeneratorRuntime().wrap(function _callee6$(_context6) {
+          while (1) {
+            switch (_context6.prev = _context6.next) {
+              case 0:
+                dispatch = _ref6.dispatch, commit = _ref6.commit;
+                _context6.next = 3;
                 return axios({
                   method: 'delete',
                   url: '/api/monitoring/delete/lot',
@@ -12816,36 +13050,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
               case 3:
               case "end":
-                return _context5.stop();
-            }
-          }
-        }, _callee5);
-      }))();
-    },
-    moveMonitoring: function moveMonitoring(_ref6, payload) {
-      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee6() {
-        var commit;
-        return _regeneratorRuntime().wrap(function _callee6$(_context6) {
-          while (1) {
-            switch (_context6.prev = _context6.next) {
-              case 0:
-                commit = _ref6.commit;
-                _context6.next = 3;
-                return axios.put("/api/monitoring/move/lot", payload).then(function (response) {
-                  commit('moveMonitoring', payload);
-                })["catch"](function (error) {
-                  console.log(error);
-                });
-
-              case 3:
-              case "end":
                 return _context6.stop();
             }
           }
         }, _callee6);
       }))();
     },
-    setMonitoringCurrentPath: function setMonitoringCurrentPath(_ref7, payload) {
+    setCurrentMonitoringPath: function setCurrentMonitoringPath(_ref7, payload) {
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee7() {
         var dispatch, commit, state;
         return _regeneratorRuntime().wrap(function _callee7$(_context7) {
@@ -12859,7 +13070,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   break;
                 }
 
-                commit('setMonitoringCurrentPath', payload);
+                commit('setCurrentMonitoringPath', payload);
                 _context7.next = 7;
                 break;
 
@@ -12869,7 +13080,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   page: 1,
                   pathId: payload
                 }).then(function (resp) {
-                  commit('setMonitoringCurrentPath', payload);
+                  commit('setCurrentMonitoringPath', payload);
                 });
 
               case 7:
@@ -12947,9 +13158,18 @@ __webpack_require__.r(__webpack_exports__);
         duration: payload.duration | 5000
       });
     },
-    saveDataProperty: function saveDataProperty(_ref2, payload) {
-      var commit = _ref2.commit,
-          rootState = _ref2.rootState;
+    sendAuthNotification: function sendAuthNotification(_ref2, payload) {
+      var commit = _ref2.commit;
+      payload.self.$notify({
+        type: 'error',
+        title: 'LotoFond',
+        text: 'Необходима авторизация',
+        duration: 5000
+      });
+    },
+    saveDataProperty: function saveDataProperty(_ref3, payload) {
+      var commit = _ref3.commit,
+          rootState = _ref3.rootState;
       var schema = rootState[payload.module_key][payload.state_key];
       var pList = payload.key.split('.');
       var len = pList.length;
@@ -71303,7 +71523,7 @@ var render = function () {
             _vm._v(" "),
             _c("p", { staticClass: "bkt-footer__description" }, [
               _vm._v(
-                "Нашей деятельности позволяет выполнять важные\n                        задания по разработке модели развития. Таким образом дальнейшее развитие различных форм\n                        деятельности способствует подготовки."
+                "Нашей деятельности позволяет выполнять важные\n                            задания по разработке модели развития. Таким образом дальнейшее развитие различных форм\n                            деятельности способствует подготовки."
               ),
             ]),
             _vm._v(" "),
@@ -71367,7 +71587,7 @@ var render = function () {
                         { attrs: { to: "/auctions" } },
                         [
                           _vm._v(
-                            "Горящие торги\n                                    "
+                            "Горящие торги\n                                        "
                           ),
                           _c("bkt-icon", { attrs: { name: "Fire" } }),
                         ],
@@ -71411,7 +71631,58 @@ var render = function () {
                   ),
                 ]),
                 _vm._v(" "),
-                _vm._m(0),
+                _c("ul", { staticClass: "bkt-footer__links" }, [
+                  !_vm.isLoggedIn
+                    ? _c(
+                        "li",
+                        {
+                          staticClass: "bkt-footer__link",
+                          attrs: {
+                            "data-bs-toggle": "modal",
+                            "data-bs-target": "#authModal",
+                          },
+                        },
+                        [
+                          _vm._v(
+                            "\n                                    Вход и регистрация\n                                    "
+                          ),
+                          _c(
+                            "strong",
+                            {
+                              staticStyle: {
+                                color: "rgb(65, 125, 255)",
+                                "margin-left": "5px",
+                              },
+                            },
+                            [_vm._v("❯")]
+                          ),
+                        ]
+                      )
+                    : _c(
+                        "li",
+                        { staticClass: "bkt-footer__link" },
+                        [
+                          _c("router-link", { attrs: { to: "/profile" } }, [
+                            _vm._v(
+                              "Профиль\n                                        "
+                            ),
+                            _c(
+                              "strong",
+                              {
+                                staticStyle: {
+                                  color: "rgb(65, 125, 255)",
+                                  "margin-left": "5px",
+                                },
+                              },
+                              [_vm._v("❯")]
+                            ),
+                          ]),
+                        ],
+                        1
+                      ),
+                  _vm._v(" "),
+                  _vm._m(0),
+                ]),
               ]
             ),
           ]),
@@ -71509,42 +71780,13 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("ul", { staticClass: "bkt-footer__links" }, [
-      _c("li", { staticClass: "bkt-footer__link" }, [
-        _vm._v("Приложение "),
-        _c("strong", { staticStyle: { color: "blue", "margin-left": "5px" } }, [
-          _vm._v("❯"),
-        ]),
-      ]),
-      _vm._v(" "),
+    return _c("li", { staticClass: "bkt-footer__link text-truncate" }, [
+      _vm._v("Изменения в законах "),
       _c(
-        "li",
-        {
-          staticClass: "bkt-footer__link",
-          attrs: { "data-bs-toggle": "modal", "data-bs-target": "#authModal" },
-        },
-        [
-          _vm._v(
-            "Вход и\n                                регистрация\n                                "
-          ),
-          _c(
-            "strong",
-            {
-              staticStyle: { color: "rgb(65, 125, 255)", "margin-left": "5px" },
-            },
-            [_vm._v("❯")]
-          ),
-        ]
+        "strong",
+        { staticStyle: { color: "rgb(216, 43, 30)", "margin-left": "5px" } },
+        [_vm._v("❯")]
       ),
-      _vm._v(" "),
-      _c("li", { staticClass: "bkt-footer__link text-truncate" }, [
-        _vm._v("Изменения в законах "),
-        _c(
-          "strong",
-          { staticStyle: { color: "rgb(216, 43, 30)", "margin-left": "5px" } },
-          [_vm._v("❯")]
-        ),
-      ]),
     ])
   },
   function () {
@@ -71626,101 +71868,96 @@ var render = function () {
               [_vm._v("\n                Покупка без ЭЦП\n            ")]
             ),
             _vm._v(" "),
-            _vm.isLoggedIn
-              ? _c("ul", { staticClass: "bkt-navbar__nav d-none d-lg-flex" }, [
-                  _c(
-                    "li",
-                    { staticClass: "bkt-navbar__nav-item" },
-                    [
-                      _c(
-                        "router-link",
-                        {
-                          staticClass: "bkt-navbar__nav-link",
-                          attrs: { to: "/favourites" },
-                        },
-                        [
-                          _c(
-                            "span",
-                            { staticClass: "bkt-button-ellipse main" },
-                            [
-                              _c("bkt-icon", {
-                                attrs: { name: "Star", color: "yellow" },
-                              }),
-                            ],
-                            1
-                          ),
-                          _vm._v(
-                            "\n                        Избранное\n                    "
-                          ),
-                        ]
-                      ),
-                    ],
-                    1
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "li",
-                    { staticClass: "bkt-navbar__nav-item" },
-                    [
-                      _c(
-                        "router-link",
-                        {
-                          staticClass: "bkt-navbar__nav-link",
-                          attrs: { to: "/monitoring" },
-                        },
-                        [
-                          _c(
-                            "span",
-                            { staticClass: "bkt-button-ellipse main" },
-                            [
-                              _c("bkt-icon", {
-                                attrs: { name: "Target", color: "red" },
-                              }),
-                            ],
-                            1
-                          ),
-                          _vm._v(
-                            "\n                        Мониторинг\n                    "
-                          ),
-                        ]
-                      ),
-                    ],
-                    1
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "li",
-                    { staticClass: "bkt-navbar__nav-item" },
-                    [
-                      _c(
-                        "router-link",
-                        {
-                          staticClass: "bkt-navbar__nav-link",
-                          attrs: { to: "/messages" },
-                        },
-                        [
-                          _c(
-                            "span",
-                            { staticClass: "bkt-button-ellipse main" },
-                            [
-                              _c("span", { staticClass: "info" }),
-                              _vm._v(" "),
-                              _c("bkt-icon", {
-                                attrs: { name: "Bell", color: "green" },
-                              }),
-                            ],
-                            1
-                          ),
-                          _vm._v(
-                            "\n                        Сообщения\n                    "
-                          ),
-                        ]
-                      ),
-                    ],
-                    1
-                  ),
-                ])
-              : _vm._e(),
+            _c("ul", { staticClass: "bkt-navbar__nav d-none d-lg-flex" }, [
+              _c("li", { staticClass: "bkt-navbar__nav-item" }, [
+                _c(
+                  "div",
+                  {
+                    staticClass: "bkt-navbar__nav-link",
+                    on: {
+                      click: function ($event) {
+                        return _vm.navigate("/favourites")
+                      },
+                    },
+                  },
+                  [
+                    _c(
+                      "span",
+                      { staticClass: "bkt-button-ellipse main" },
+                      [
+                        _c("bkt-icon", {
+                          attrs: { name: "Star", color: "yellow" },
+                        }),
+                      ],
+                      1
+                    ),
+                    _vm._v(
+                      "\n                        Избранное\n                    "
+                    ),
+                  ]
+                ),
+              ]),
+              _vm._v(" "),
+              _c("li", { staticClass: "bkt-navbar__nav-item" }, [
+                _c(
+                  "div",
+                  {
+                    staticClass: "bkt-navbar__nav-link",
+                    on: {
+                      click: function ($event) {
+                        return _vm.navigate("/monitoring")
+                      },
+                    },
+                  },
+                  [
+                    _c(
+                      "span",
+                      { staticClass: "bkt-button-ellipse main" },
+                      [
+                        _c("bkt-icon", {
+                          attrs: { name: "Target", color: "red" },
+                        }),
+                      ],
+                      1
+                    ),
+                    _vm._v(
+                      "\n                        Мониторинг\n                    "
+                    ),
+                  ]
+                ),
+              ]),
+              _vm._v(" "),
+              _c("li", { staticClass: "bkt-navbar__nav-item" }, [
+                _c(
+                  "div",
+                  {
+                    staticClass: "bkt-navbar__nav-link",
+                    on: {
+                      click: function ($event) {
+                        return _vm.navigate("/messages")
+                      },
+                    },
+                  },
+                  [
+                    _c(
+                      "span",
+                      { staticClass: "bkt-button-ellipse main" },
+                      [
+                        _c("span", { staticClass: "info" }),
+                        _vm._v(" "),
+                        _c("bkt-icon", {
+                          attrs: { name: "Bell", color: "green" },
+                        }),
+                      ],
+                      1
+                    ),
+                    _vm._v(
+                      "\n                        Сообщения\n                    "
+                    ),
+                  ]
+                ),
+              ]),
+            ]),
             _vm._v(" "),
             _c("div", { staticClass: "bkt-wrapper bkt-nowrap" }, [
               _c(
@@ -72147,73 +72384,84 @@ var render = function () {
               [
                 _vm._l(_vm.links, function (link, index) {
                   return [
-                    _c("router-link", {
-                      attrs: { to: link.path, custom: "" },
-                      scopedSlots: _vm._u(
-                        [
-                          {
-                            key: "default",
-                            fn: function (ref) {
-                              var navigate = ref.navigate
-                              var isExactActive = ref.isExactActive
-                              return [
-                                _c(
-                                  "li",
-                                  {
-                                    staticClass: "bkt-sidebar__link",
-                                    class: [
-                                      isExactActive
-                                        ? "bkt-bg-" + link.color + "-lighter"
-                                        : "",
-                                    ],
-                                    on: { click: navigate },
-                                  },
-                                  [
+                    !link.meta || (link.meta && _vm.isLoggedIn)
+                      ? _c("router-link", {
+                          attrs: { to: link.path, custom: "" },
+                          scopedSlots: _vm._u(
+                            [
+                              {
+                                key: "default",
+                                fn: function (ref) {
+                                  var navigate = ref.navigate
+                                  var isExactActive = ref.isExactActive
+                                  return [
                                     _c(
-                                      "div",
+                                      "li",
                                       {
-                                        staticClass: "bkt-sidebar__link-icon",
+                                        staticClass: "bkt-sidebar__link",
                                         class: [
                                           isExactActive
-                                            ? "bkt-bg-" + link.color
-                                            : "bkt-bg-" +
+                                            ? "bkt-bg-" +
                                               link.color +
-                                              "-lighter",
-                                          isExactActive &&
-                                            "router-link-exact-active",
-                                          "bkt-hover" + link.color + "-lighter",
+                                              "-lighter"
+                                            : "",
                                         ],
+                                        attrs: {
+                                          "data-bs-dismiss": "offcanvas",
+                                        },
+                                        on: { click: navigate },
                                       },
                                       [
-                                        _c("bkt-icon", {
-                                          attrs: {
-                                            name: link.icon,
-                                            color: isExactActive
-                                              ? "white"
-                                              : link.color,
+                                        _c(
+                                          "div",
+                                          {
+                                            staticClass:
+                                              "bkt-sidebar__link-icon",
+                                            class: [
+                                              isExactActive
+                                                ? "bkt-bg-" + link.color
+                                                : "bkt-bg-" +
+                                                  link.color +
+                                                  "-lighter",
+                                              isExactActive &&
+                                                "router-link-exact-active",
+                                              "bkt-hover" +
+                                                link.color +
+                                                "-lighter",
+                                            ],
                                           },
-                                        }),
-                                      ],
-                                      1
-                                    ),
-                                    _vm._v(" "),
-                                    _c(
-                                      "div",
-                                      {
-                                        staticClass: "bkt-sidebar__link-label",
-                                      },
-                                      [_vm._v(_vm._s(link.label))]
+                                          [
+                                            _c("bkt-icon", {
+                                              attrs: {
+                                                name: link.icon,
+                                                color: isExactActive
+                                                  ? "white"
+                                                  : link.color,
+                                              },
+                                            }),
+                                          ],
+                                          1
+                                        ),
+                                        _vm._v(" "),
+                                        _c(
+                                          "div",
+                                          {
+                                            staticClass:
+                                              "bkt-sidebar__link-label",
+                                          },
+                                          [_vm._v(_vm._s(link.label))]
+                                        ),
+                                      ]
                                     ),
                                   ]
-                                ),
-                              ]
-                            },
-                          },
-                        ],
-                        null,
-                        true
-                      ),
-                    }),
+                                },
+                              },
+                            ],
+                            null,
+                            true
+                          ),
+                        })
+                      : _vm._e(),
                   ]
                 }),
               ],
@@ -73018,199 +73266,198 @@ var render = function () {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    {
-      staticClass: "bkt-dropdown bkt-search__wrapper",
-      on: {
-        focusout: function ($event) {
-          _vm.optionsShown = false
-        },
+  return _c("div", { staticClass: "bkt-dropdown bkt-search__wrapper" }, [
+    _c(
+      "div",
+      {
+        staticClass: "bkt-search",
+        class: [_vm.search_class, { open: _vm.optionsShown }],
       },
-    },
-    [
-      _c(
-        "div",
-        {
-          staticClass: "bkt-search",
-          class: [_vm.search_class, { open: _vm.optionsShown }],
-        },
-        [
-          _c("input", {
-            directives: [
-              {
-                name: "model",
-                rawName: "v-model",
-                value: _vm.searchFilter,
-                expression: "searchFilter",
-              },
-            ],
-            staticClass: "w-100 bkt-search__input",
-            attrs: {
-              type: "text",
-              placeholder: _vm.placeholder,
-              disabled: _vm.disabled,
+      [
+        _c("input", {
+          directives: [
+            {
+              name: "model",
+              rawName: "v-model",
+              value: _vm.searchFilter,
+              expression: "searchFilter",
             },
-            domProps: { value: _vm.searchFilter },
-            on: {
-              keyup: _vm.keyMonitor,
-              focus: _vm.showOptions,
-              blur: function ($event) {
-                _vm.optionsShown = false
-              },
-              focusout: function ($event) {
-                _vm.optionsShown = false
-              },
-              input: function ($event) {
+          ],
+          staticClass: "w-100 bkt-search__input",
+          attrs: {
+            type: "text",
+            placeholder: _vm.placeholder,
+            disabled: _vm.disabled,
+          },
+          domProps: { value: _vm.searchFilter },
+          on: {
+            keyup: _vm.keyMonitor,
+            focus: _vm.handleFocus,
+            focusout: function ($event) {
+              _vm.optionsShown = false
+            },
+            blur: _vm.handleBlur,
+            input: [
+              function ($event) {
                 if ($event.target.composing) {
                   return
                 }
                 _vm.searchFilter = $event.target.value
               },
-            },
-          }),
-          _vm._v(" "),
-          _c(
-            "button",
-            {
-              staticClass: "bkt-button green bkt-search__button",
-              attrs: { disabled: _vm.disabled || _vm.searchLoading },
-              on: { click: _vm.runSearch },
-            },
-            [
-              _c("span", {
-                directives: [
-                  {
-                    name: "show",
-                    rawName: "v-show",
-                    value: _vm.searchLoading,
-                    expression: "searchLoading",
-                  },
-                ],
-                staticClass: "spinner-border spinner-border-sm",
-                attrs: { role: "status" },
-              }),
-              _vm._v(" "),
-              !_vm.searchLoading
-                ? _c("span", { staticClass: "d-none d-md-block" }, [
-                    _vm._v("Найти"),
-                  ])
-                : _vm._e(),
-              _vm._v(" "),
-              _c("bkt-icon", {
-                directives: [
-                  {
-                    name: "show",
-                    rawName: "v-show",
-                    value: !_vm.searchLoading,
-                    expression: "!searchLoading",
-                  },
-                ],
-                staticClass: "d-block d-md-none",
-                attrs: { name: "Search" },
-              }),
+              _vm.getResults,
             ],
-            1
-          ),
-        ]
-      ),
-      _vm._v(" "),
-      _c(
-        "div",
-        {
-          directives: [
-            {
-              name: "show",
-              rawName: "v-show",
-              value: _vm.optionsShown && !_vm.simple && !_vm.no_dropdown,
-              expression: "optionsShown&&!simple&&!no_dropdown",
+          },
+        }),
+        _vm._v(" "),
+        _c(
+          "button",
+          {
+            staticClass: "bkt-button green bkt-search__button bkt-bg-green",
+            attrs: {
+              disabled:
+                _vm.disabled || _vm.currentLoading || _vm.immediate_search,
             },
+            on: { click: _vm.runSearch },
+          },
+          [
+            _c("span", {
+              directives: [
+                {
+                  name: "show",
+                  rawName: "v-show",
+                  value: _vm.currentLoading,
+                  expression: "currentLoading",
+                },
+              ],
+              staticClass: "spinner-border spinner-border-sm",
+              attrs: { role: "status" },
+            }),
+            _vm._v(" "),
+            !_vm.currentLoading
+              ? _c(
+                  "span",
+                  {
+                    class: _vm.immediate_search
+                      ? "d-none"
+                      : "d-none d-md-block",
+                  },
+                  [_vm._v("Найти")]
+                )
+              : _vm._e(),
+            _vm._v(" "),
+            _c("bkt-icon", {
+              directives: [
+                {
+                  name: "show",
+                  rawName: "v-show",
+                  value: !_vm.currentLoading,
+                  expression: "!currentLoading",
+                },
+              ],
+              class: { "d-block d-md-none": !_vm.immediate_search },
+              attrs: { name: "Search" },
+            }),
           ],
-          staticClass: "bkt-dropdown__menu w-100",
-          class: _vm.dropdown_class,
-        },
-        [
-          _vm.options
-            ? _c(
-                "div",
-                { staticClass: "dropdown-block" },
-                [
-                  _vm._t(
-                    "dropdown-block",
-                    function () {
-                      return [
-                        _vm._t("dropdown-block-header"),
-                        _vm._v(" "),
-                        _vm._l(_vm.options, function (item, index) {
-                          return _c(
-                            "div",
-                            {
-                              staticClass: "dropdown-item",
-                              on: {
-                                click: function ($event) {
-                                  return _vm.selectOption(item)
-                                },
+          1
+        ),
+      ]
+    ),
+    _vm._v(" "),
+    _c(
+      "div",
+      {
+        directives: [
+          {
+            name: "show",
+            rawName: "v-show",
+            value: _vm.optionsShown && !_vm.simple && !_vm.no_dropdown,
+            expression: "optionsShown&&!simple&&!no_dropdown",
+          },
+        ],
+        staticClass: "bkt-dropdown__menu w-100",
+        class: _vm.dropdown_class,
+      },
+      [
+        _vm.options
+          ? _c(
+              "div",
+              { staticClass: "dropdown-block" },
+              [
+                _vm._t(
+                  "dropdown-block",
+                  function () {
+                    return [
+                      _vm._t("dropdown-block-header"),
+                      _vm._v(" "),
+                      _vm._l(_vm.options, function (item, index) {
+                        return _c(
+                          "div",
+                          {
+                            staticClass: "dropdown-item",
+                            on: {
+                              click: function ($event) {
+                                return _vm.selectOption(item)
                               },
                             },
-                            [
-                              _vm._t(
-                                "dropdown-item",
-                                function () {
-                                  return [
-                                    _vm._v(
-                                      "\n                        " +
-                                        _vm._s(item) +
-                                        "\n                    "
-                                    ),
-                                  ]
-                                },
-                                { item: item }
-                              ),
-                            ],
-                            2
-                          )
-                        }),
-                      ]
-                    },
-                    { options: _vm.options }
-                  ),
-                ],
-                2
-              )
-            : _vm._e(),
-          _vm._v(" "),
-          !_vm.options || _vm.options.length === 0
-            ? _c("div", { staticClass: "text-center p-2" }, [
-                _c(
-                  "svg",
-                  {
-                    attrs: {
-                      width: "35",
-                      height: "35",
-                      viewBox: "0 0 35 35",
-                      fill: "none",
-                      xmlns: "http://www.w3.org/2000/svg",
-                    },
+                          },
+                          [
+                            _vm._t(
+                              "dropdown-item",
+                              function () {
+                                return [
+                                  _vm._v(
+                                    "\n                        " +
+                                      _vm._s(item) +
+                                      "\n                    "
+                                  ),
+                                ]
+                              },
+                              { item: item }
+                            ),
+                          ],
+                          2
+                        )
+                      }),
+                    ]
                   },
-                  [
-                    _c("path", {
-                      attrs: {
-                        d: "M24.8964 21.8028L34.0468 30.9532C34.9011 31.8075 34.9011 33.1925 34.0468 34.0468C33.1925 34.9011 31.8075 34.9011 30.9532 34.0468L21.8028 24.8964C19.5394 26.5344 16.7575 27.5 13.75 27.5C6.15608 27.5 0 21.3439 0 13.75C0 6.15608 6.15608 0 13.75 0C21.3439 0 27.5 6.15608 27.5 13.75C27.5 16.7575 26.5344 19.5394 24.8964 21.8028ZM13.75 23.125C18.9277 23.125 23.125 18.9277 23.125 13.75C23.125 8.57233 18.9277 4.375 13.75 4.375C8.57233 4.375 4.375 8.57233 4.375 13.75C4.375 18.9277 8.57233 23.125 13.75 23.125Z",
-                        fill: "#A0A4A8",
-                      },
-                    }),
-                  ]
+                  { options: _vm.options }
                 ),
-                _vm._v(" "),
-                _c("p", { staticClass: "dropdown-text" }, [
-                  _vm._v("Ничего не нашлось"),
-                ]),
-              ])
-            : _vm._e(),
-        ]
-      ),
-    ]
-  )
+              ],
+              2
+            )
+          : _vm._e(),
+        _vm._v(" "),
+        !_vm.options || _vm.options.length === 0
+          ? _c("div", { staticClass: "text-center p-2" }, [
+              _c(
+                "svg",
+                {
+                  attrs: {
+                    width: "35",
+                    height: "35",
+                    viewBox: "0 0 35 35",
+                    fill: "none",
+                    xmlns: "http://www.w3.org/2000/svg",
+                  },
+                },
+                [
+                  _c("path", {
+                    attrs: {
+                      d: "M24.8964 21.8028L34.0468 30.9532C34.9011 31.8075 34.9011 33.1925 34.0468 34.0468C33.1925 34.9011 31.8075 34.9011 30.9532 34.0468L21.8028 24.8964C19.5394 26.5344 16.7575 27.5 13.75 27.5C6.15608 27.5 0 21.3439 0 13.75C0 6.15608 6.15608 0 13.75 0C21.3439 0 27.5 6.15608 27.5 13.75C27.5 16.7575 26.5344 19.5394 24.8964 21.8028ZM13.75 23.125C18.9277 23.125 23.125 18.9277 23.125 13.75C23.125 8.57233 18.9277 4.375 13.75 4.375C8.57233 4.375 4.375 8.57233 4.375 13.75C4.375 18.9277 8.57233 23.125 13.75 23.125Z",
+                      fill: "#A0A4A8",
+                    },
+                  }),
+                ]
+              ),
+              _vm._v(" "),
+              _c("p", { staticClass: "dropdown-text" }, [
+                _vm._v("Ничего не нашлось"),
+              ]),
+            ])
+          : _vm._e(),
+      ]
+    ),
+  ])
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -73267,14 +73514,13 @@ var render = function () {
                   _c("v-select", {
                     staticClass: "bkt-v-select order-2",
                     class: [
-                      _vm.value ? "vs--selected" : "",
+                      _vm.model ? "vs--selected" : "",
                       errors && errors.length > 0 ? "error" : "",
                       _vm.additional_class,
                     ],
                     attrs: {
                       multiple: _vm.multiple,
                       placeholder: _vm.placeholder,
-                      value: _vm.value,
                       label: _vm.option_label,
                       reduce: _vm.reduce,
                       options: _vm.options,
@@ -73284,7 +73530,7 @@ var render = function () {
                       loading: _vm.loading,
                       filter: _vm.fuseSearch,
                     },
-                    on: { input: _vm.saveValue },
+                    on: { input: _vm.saveValue, open: _vm.open },
                     scopedSlots: _vm._u(
                       [
                         _vm.with_option
@@ -73407,6 +73653,13 @@ var render = function () {
                       null,
                       true
                     ),
+                    model: {
+                      value: _vm.model,
+                      callback: function ($$v) {
+                        _vm.model = $$v
+                      },
+                      expression: "model",
+                    },
                   }),
                   _vm._v(" "),
                   _vm.subtitle

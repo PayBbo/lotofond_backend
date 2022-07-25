@@ -208,10 +208,13 @@
             favourites_paths() {
                 return this.$store.getters.favourites_paths;
             },
+            isLoggedIn() {
+                return this.$store.getters.isLoggedIn
+            },
         },
         watch: {
             item: function (newVal, oldVal) { // watch it
-                console.log('Prop changed: ', newVal, ' | was: ', oldVal)
+                // console.log('Prop changed: ', newVal, ' | was: ', oldVal)
             }
             // item: {
             //     // handler(newVal) {
@@ -222,9 +225,15 @@
         },
         methods: {
             makeAction(method, method_params) {
-                if (method) {
-                    method(method_params);
-                    return;
+                if(this.isLoggedIn)
+                {
+                    if (method) {
+                        method(method_params);
+                        return;
+                    }
+                }
+                else {
+                    this.$store.dispatch('sendAuthNotification', {self: this})
                 }
             },
             changeStatus(payload) {
@@ -280,7 +289,6 @@
                 }
             },
             moveFavourite() {
-
                 this.$store.commit('setSelectedLot', this.item);
                 this.$store.commit('openModal', '#moveFavouriteModal')
             },

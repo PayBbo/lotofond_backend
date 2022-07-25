@@ -15,7 +15,7 @@
             <h6 class="bkt-card__subtitle">
                 № {{item.trade.externalId}}, лот {{item.lotNumber}}
             </h6>
-            <h5 class="bkt-text-truncate">
+            <h5 class="bkt-text-truncate bkt-card-trade-mini__title">
                 <router-link :to="'/lot/'+item.id">
                 {{item.description}}
                 </router-link>

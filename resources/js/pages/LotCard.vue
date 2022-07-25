@@ -115,7 +115,7 @@
                                 </li>
                             </template>
                             <template v-for="(subject, index) in item.descriptionExtracts">
-                                <li>
+                                <li v-if="subject.tradeSubject">
                                     <div class="bkt-contents__heading">
                                         <span class="bkt-contents__heading text-lowercase">
                                             объект {{item.descriptionExtracts.length>1 ? index+1 : ''}}
@@ -124,7 +124,7 @@
                                     <div class="bkt-contents__answer"><span>{{subject.tradeSubject}}</span>
                                     </div>
                                 </li>
-                                <li v-for="extract in subject.extracts">
+                                <li v-if="subject.extracts.length>0" v-for="extract in subject.extracts">
                                     <div class="bkt-contents__heading">
                                         <span class="bkt-contents__heading text-lowercase">{{extract.title}}</span>
                                     </div>
@@ -220,9 +220,9 @@
                             <!--                                </div>-->
                             <!--                            </li>-->
                         </ul>
-                        <div class="bkt-contents">
-                            {{item.description}}
-                        </div>
+<!--                        <div class="bkt-contents">-->
+<!--                            {{item.description}}-->
+<!--                        </div>-->
                         <div class="bkt-row outline bkt-wrapper-between align-items-center" v-if="item.cadastralData">
                             <div class="bkt-row__feature">
                                 <h4 class="bkt-row__feature-title">600 кв.м.</h4>

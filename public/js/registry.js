@@ -1136,7 +1136,7 @@ var render = function () {
           _vm._v(" "),
           _c(
             "h5",
-            { staticClass: "bkt-text-truncate" },
+            { staticClass: "bkt-text-truncate bkt-card-trade-mini__title" },
             [
               _c("router-link", { attrs: { to: "/lot/" + _vm.item.id } }, [
                 _vm._v(

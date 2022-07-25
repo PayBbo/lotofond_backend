@@ -8,7 +8,7 @@
         <bkt-region-modal></bkt-region-modal>
         <h1 class="bkt-page__title">Электронные торги по банкротству</h1>
 
-        <bkt-search v-model="searchString" method_name="searchTrades" :method_params="{}" :loading="false">
+        <bkt-search v-model="searchString" method_name="searchTrades" :method_params="{}" immediate_search>
             <template #dropdown-block="{options}">
                 <div class="row w-100 m-auto bkt-gap">
                     <div class="col-12 px-0 d-none d-md-block">
@@ -67,7 +67,7 @@
 <!--        </div>-->
         <div class="bkt-main-categories bkt-card__list">
             <bkt-filter-card
-                :icon="{name:'Category'}" category_class="bkt-bg-green"
+                :icon="{name:'Category', color:'green'}" category_class="bkt-bg-green-lighter"
                 title="Выберите<br> нужные категории" :count="filters.categories" modal_name="#categoryModal"
             >
             </bkt-filter-card>
@@ -88,7 +88,7 @@
             >
             </bkt-filter-card>
             <bkt-filter-card
-                :icon="{name:'Date'}" category_class="bkt-bg-blue"
+                :icon="{name:'Date', color:'blue'}" category_class="bkt-bg-blue-lighter"
                 title="Выберите<br> дату торгов" :count="filters.dates"
                 modal_name="#dateModal"
             >

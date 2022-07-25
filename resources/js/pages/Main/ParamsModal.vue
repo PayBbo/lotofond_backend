@@ -3,118 +3,28 @@
                @left_action="clearFilters" @right_action="saveFilters"
     >
         <template #body>
-            <div class="bkt-form wide w-100 mx-auto align-items-start">
-                <div class="col-12">
-                    <bkt-input v-model="filter.excludedWords"
-                               type="text"
-                               field_name="'Cлова-исключения'"
-                               label="cлова-исключения"
-                               label_class="bkt-form__label"
-                               name="exception_words" icon_name="Check"
-                               :group_item_class="filter.excludedWords ? 'bkt-bg-green': 'bkt-bg-white'"
-                               :icon_color="filter.excludedWords ? 'white': 'main-lighter'"
-                    >
-                    </bkt-input>
-                </div>
-                <div class="col-12">
-                    <!--                    <div class="bkt-form m-0">-->
-                    <!--                        <div class="col-lg-8 col-12 p-0">-->
-                    <bkt-select
-                        v-model="filter.tradePlaces"
-                        multiple
-                        name="tradePlaces"
-                        label="выбранные площадки"
-                        label_class="bkt-form__label"
-                        :option_label="'name'"
-                        :options="trade_places"
-                        :pagination="trade_places_pagination"
-                        :reduce="item => item.id"
-                        :method_name="'getTradePlaces'"
-                    ></bkt-select>
-                    <!--                    <h5 class="bkt-form__label bkt-text-neutral-dark">выбранные площадки</h5>-->
-
-                    <!--                        </div>-->
-                    <!--                        <div class="col-12 col-lg-4 p-0">-->
-                    <!--                            <div class="bkt-check__list">-->
-                    <!--                                <div class="bkt-check__wrapper">-->
-                    <!--                                    <div class="bkt-check">-->
-                    <!--                                        <div class="bkt-check__input">-->
-                    <!--                                            <input class="" type="checkbox">-->
-                    <!--                                            <div class="bkt-check__input-check"></div>-->
-                    <!--                                        </div>-->
-                    <!--                                        <label class="bkt-check__label">-->
-                    <!--                                            Банкротство-->
-                    <!--                                        </label>-->
-                    <!--                                    </div>-->
-                    <!--                                </div>-->
-                    <!--                                <div class="bkt-check__wrapper">-->
-                    <!--                                    <div class="bkt-check">-->
-                    <!--                                        <div class="bkt-check__input">-->
-                    <!--                                            <input class="" type="checkbox">-->
-                    <!--                                            <div class="bkt-check__input-check"></div>-->
-                    <!--                                        </div>-->
-                    <!--                                        <label class="bkt-check__label">-->
-                    <!--                                            TorgiGov-->
-                    <!--                                        </label>-->
-                    <!--                                    </div>-->
-                    <!--                                </div>-->
-                    <!--                                <div class="bkt-check__wrapper">-->
-                    <!--                                    <div class="bkt-check">-->
-                    <!--                                        <div class="bkt-check__input">-->
-                    <!--                                            <input class="" type="checkbox">-->
-                    <!--                                            <div class="bkt-check__input-check"></div>-->
-                    <!--                                        </div>-->
-                    <!--                                        <label class="bkt-check__label">-->
-                    <!--                                            Залоговое-->
-                    <!--                                        </label>-->
-                    <!--                                    </div>-->
-                    <!--                                </div>-->
-                    <!--                                <div class="bkt-check__wrapper">-->
-                    <!--                                    <div class="bkt-check">-->
-                    <!--                                        <div class="bkt-check__input">-->
-                    <!--                                            <input class="" type="checkbox">-->
-                    <!--                                            <div class="bkt-check__input-check"></div>-->
-                    <!--                                        </div>-->
-                    <!--                                        <label class="bkt-check__label">-->
-                    <!--                                            Коммерческое-->
-                    <!--                                        </label>-->
-                    <!--                                    </div>-->
-                    <!--                                </div>-->
-                    <!--                            </div>-->
-                    <!--                        </div>-->
-                    <!--                    </div>-->
-                </div>
-                <div class="col-12 p-0">
-                    <div class="bkt-form m-0">
-                        <div class="col-12 col-lg-2">
-                            <h5 class="bkt-form__label">вид торгов</h5>
-                        </div>
-                        <div class="col-12 col-lg-10">
-                            <div class="bkt-form bkt-wrapper bkt-auctions-types">
-                                <div class="bkt-auctions-type flex-fill" v-for="item in auctionTypes">
-                                    <button class="bkt-auctions-type__card bkt-auctions-type__title bkt-bg-body"
-                                            @click="filter.tradeType=item.title"
-                                            :class="[filter.tradeType===item.title ? 'bkt-border-primary': 'bkt-border-body']">
-                                        {{item.description}}
-                                    </button>
-                                    <h6 class="bkt-auctions-type__subtitle">что это?</h6>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <bkt-params-control v-model="filter"></bkt-params-control>
         </template>
     </bkt-modal>
 </template>
 
 <script>
-    import BktSelect from "../../components/Select";
+   import BktParamsControl from "../../components/FiltersControls/ParamsControl";
 
     export default {
         name: "ParamsModal",
         components: {
-            BktSelect
+            BktParamsControl
+        },
+        props: {
+            filter_name: {
+                type: String,
+                default: 'filters'
+            },
+            method_name: {
+                type: String,
+                default: 'getFilteredTrades'
+            }
         },
         data() {
             return {
@@ -142,11 +52,11 @@
         },
         computed: {
             filters() {
-                return this.$store.getters.filters
+                return this.$store.getters[this.filter_name]
             },
             filter: {
                 get() {
-                    return JSON.parse(JSON.stringify(this.$store.getters.filters_params))
+                    return JSON.parse(JSON.stringify(this.$store.getters[this.filter_name].mainParams))
                 },
                 set(value) {
                     this.params = value;
@@ -173,14 +83,24 @@
         },
         methods: {
             saveFilters() {
-                this.$store.commit('saveFiltersProperty', {key: 'mainParams', value: this.filter});
+                // this.$store.commit('saveFiltersProperty', {key: 'mainParams', value: this.filter});
+                this.$store.dispatch('saveDataProperty', {
+                    module_key: 'filters', state_key: this.filter_name,
+                    key: 'mainParams',
+                    value: this.filter
+                }, {root: true});
                 this.$store.commit('closeModal', '#paramsModal');
-                this.$store.dispatch('getFilteredTrades', {page: 1, filters: this.filters});
+                this.$store.dispatch(this.method_name, {page: 1, filters: this.filters});
             },
             clearFilters() {
-                this.$store.commit('saveFiltersProperty', {key: 'mainParams', value: this.template});
+                // this.$store.commit('saveFiltersProperty', {key: 'mainParams', value: this.template});
+                this.$store.dispatch('saveDataProperty', {
+                    module_key: 'filters', state_key: this.filter_name,
+                    key: 'mainParams',
+                    value: this.template
+                }, {root: true});
                 this.$store.commit('closeModal', '#paramsModal');
-                this.$store.dispatch('getFilteredTrades', {page: 1, filters: this.filters});
+                this.$store.dispatch(this.method_name, {page: 1, filters: this.filters});
             },
             // removePlatform(platform) {
             //     let removeIndex = this.selected_trade_places

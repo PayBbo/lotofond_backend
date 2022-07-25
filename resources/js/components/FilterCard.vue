@@ -27,7 +27,12 @@
         props:['title', 'count', 'modal_name', 'icon', 'category_class'],
         computed: {
             total() {
-                return Object.values(this.count)
+                let total = JSON.parse(JSON.stringify(this.count));
+                if(total.other)
+                {
+                    total.other = null
+                }
+                return Object.values(total)
                     .reduce((r, o) => {
                         // if(r && o) {
                         if (typeof o === 'object') {

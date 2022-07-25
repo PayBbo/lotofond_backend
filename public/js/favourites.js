@@ -300,12 +300,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       to_group: [{
         title: 'по порядку добавления',
         value: "publishDate"
-      }, {
-        title: 'по порядку добавления2',
-        value: "publishDate1"
-      }, {
-        title: 'по порядку добавления3s',
-        value: "publishDate2"
       }],
       settings: {
         "dots": false,

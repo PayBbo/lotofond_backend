@@ -5,9 +5,9 @@
             <v-select
                 :multiple="multiple"
                 class="bkt-v-select order-2"
-                :class="[value ?'vs--selected' : '', errors && errors.length>0 ? 'error':'', additional_class]"
+                :class="[model ?'vs--selected' : '', errors && errors.length>0 ? 'error':'', additional_class]"
                 :placeholder="placeholder"
-                :value="value"
+                v-model="model"
                 :label="option_label"
                 :reduce="reduce"
                 :options="options"
@@ -17,8 +17,8 @@
                 :loading="loading"
                 @input="saveValue"
                 :filter="fuseSearch"
+                @open="open"
             >
-                <!--       @open="open"    -->
                 <template v-slot:option="option" v-if="with_option">
                     <slot name="option" v-bind:option="option">
                     </slot>
@@ -27,6 +27,10 @@
                     <slot name="selected-option" v-bind:option="option">
                     </slot>
                 </template>
+<!--                <template #selected-option-container="{ option, deselect, multiple, disabled }">-->
+<!--                    <slot name="selected-option-container" v-bind="{ option, deselect, multiple, disabled }">-->
+<!--                    </slot>-->
+<!--                </template>-->
                 <template #no-options="{ search, searching, loading }">
                     <div v-if="method_name">
                         <infinite-loading
@@ -67,6 +71,7 @@
 
 <script>
     import InfiniteLoading from 'vue-infinite-loading';
+    import Fuse from 'fuse.js';
     export default {
         name: "Select",
         components: {
@@ -189,31 +194,48 @@
                 }
             }
             this.makeSearchOptions();
+            if(this.options.length ==0 && this.value) {
+                this.infiniteHandler();
+            }
             // this.select_value = this.value;
         },
-        // watch:{
-        //     options: function(){
-        //         this.makeSearchOptions()
-        //     },
-        //     value: function(){
-        //         this.select_value = this.value;
-        //     },
-        // },
+        computed: {
+            model: {
+                get() {
+                    return this.value;
+                },
+                set(value) {
+                    this.$emit("input", value);
+                },
+            },
+        },
+        watch:{
+            options: function(){
+                this.makeSearchOptions();
+            },
+            // value: function(){
+            //     this.select_value = this.value;
+            // },
+        },
         methods: {
             saveValue(value) {
                 this.$emit('input', value);
             },
             makeSearchOptions() {
-                this.searchOptions.keys=[];
-                if (this.options.length > 0){
-                    // this.$set(this.searchOptions, 'keys',  Object.keys(this.options[0]))
-                    Object.entries(this.options[0]).forEach(([key, value]) => {
-                        if(typeof value !== 'object' && value !== null && !Array.isArray(value)) {
-                            this.searchOptions.keys.push(key);
-                        }
-                    });
-                    // this.searchOptions.keys = Object.keys(this.options[0])
+                if( this.searchOptions.keys.length === 0)
+                {
+                    this.searchOptions.keys=[];
+                    if (this.options.length > 0){
+                        // this.$set(this.searchOptions, 'keys',  Object.keys(this.options[0]))
+                        Object.entries(this.options[0]).forEach(([key, value]) => {
+                            if(typeof value !== 'object' && value !== null && !Array.isArray(value)) {
+                                this.searchOptions.keys.push(key);
+                            }
+                        });
+                        // this.searchOptions.keys = Object.keys(this.options[0])
+                    }
                 }
+
             },
             async infiniteHandler($state) {
                 let page = 0;
@@ -229,11 +251,14 @@
                             payload.page = page+1;
                         }
                         await this.$store.dispatch(this.method_name, payload).then(resp => {
-                            if (this.pagination.nextPageUrl !== null) {
-                                $state.loaded();
-                            } else {
-                                $state.complete();
+                            if($state) {
+                                if (this.pagination.nextPageUrl !== null) {
+                                    $state.loaded();
+                                } else {
+                                    $state.complete();
+                                }
                             }
+
                         }).finally(() => {
                             this.infinite_loading = false;
                         });
@@ -252,10 +277,12 @@
                             payload.page = page+1;
                         }
                         await this.$store.dispatch(this.method_name, payload).then(resp => {
-                            if (this.pagination.nextPageUrl !== null) {
-                                $state.loaded();
-                            } else {
-                                $state.complete();
+                            if($state) {
+                                if (this.pagination.nextPageUrl !== null) {
+                                    $state.loaded();
+                                } else {
+                                    $state.complete();
+                                }
                             }
                         });
                     }
@@ -280,7 +307,7 @@
                         this.$refs[this.method_name].$emit('infinite', this.$refs[this.method_name].stateChanger);
                     }
                 }
-            }
+            },
         }
     }
 </script>
