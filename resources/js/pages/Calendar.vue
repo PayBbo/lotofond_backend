@@ -98,7 +98,7 @@
                             <template v-slot:day-content="{ day, attributes }">
                                 <div class="flex flex-col h-full z-10 overflow-hidden">
                                     <span class="day-label text-sm text-gray-900">{{
-                                            day | moment("D MMM")
+                                            day.id | moment("D MMM")
                                         }}</span>
                                     <div class="flex-grow overflow-y-auto overflow-x-auto" style="margin-bottom: 35px"
                                          v-for="attr_date in attributes" :key="attr_date.key">
@@ -162,7 +162,7 @@ export default {
             return this.items.map(item =>
                 ({
                     key: item.id,
-                    highlight: {color: colors.find(color => color.type == item.type).color, fillMode: "solid"},
+                    highlight: {color: colors.find(color => color.type == item.type)?.color ?? '', fillMode: "solid"},
                     dates: new Date(item.date).toLocaleString(),
                     customData: {
                         title: item.title,
@@ -170,8 +170,8 @@ export default {
                         event_type: item.type,
                         date: new Date(item.date).getDate() + '.' + new Date(item.date).getMonth() + '.' + new Date(item.date).getFullYear(),
                         time: item.time.slice(0, -3),
-                        color: colors.find(color => color.type == item.type).color,
-                        class: "text-white vc-task bkt-bg-" + colors.find(color => color.type == item.type).color,
+                        color: colors.find(color => color.type == item.type).color ?? '',
+                        class: "text-white vc-task bkt-bg-" + colors.find(color => color.type == item.type).color ?? '',
                     },
                     popover: {
                         visibility: "hover",
@@ -197,7 +197,6 @@ export default {
     created() {
         this.nowDate.month = new Date().getMonth();
         this.nowDate.year = new Date().getFullYear();
-        this.getData(this.nowDate.month, this.nowDate.year);
     },
     watch: {
         filters: {
@@ -212,9 +211,6 @@ export default {
                 this.getData(this.nowDate.month, this.nowDate.year, type);
             }, deep: true
         }
-    },
-    mounted() {
-        //console.log(new Date().getMonth());
     }
 }
 </script>

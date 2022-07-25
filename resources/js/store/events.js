@@ -50,24 +50,15 @@ export default {
                 });
         },
         async addEvent({commit}, payload) {
-            await axios.post('/api/event', payload, {
-                headers: {
-                    'Content-Type': 'multipart/form-data',
-                }
-            }).then((response) => {
-                commit('addEvent', response.data)
+            await axios.post('/api/event', payload).then((response) => {
+                commit('addEvent', payload)
             }).catch(error => {
                 console.log(error);
                 throw error
             });
         },
         async updateEvent({commit}, payload) {
-            await axios.post('/api/event/edit/' + payload.id, payload.formData,
-                {
-                    headers: {
-                        'Content-Type': 'multipart/form-data',
-                    }
-                })
+            await axios.post('/api/event/edit/' + payload.id, payload.formData)
                 .then((response) => {
                     commit('saveEvent', response.data);
                 }).catch(error => {
@@ -79,20 +70,20 @@ export default {
             await axios.delete(`/api/event/delete/${payload.id}`)
                 .then(response => {
                     commit('removeEvent', payload.id);
-                    dispatch('sendNotification',
+                    /*dispatch('sendNotification',
                         {
                             self: payload.self,
                             title: 'Календарь',
                             message: 'Событие успешно удалено'
-                        });
+                        });*/
                 }).catch(error => {
-                    dispatch('sendNotification',
+                    /*dispatch('sendNotification',
                         {
                             self: payload.self,
                             title: 'Календарь',
                             type: 'error',
                             message: 'Произошла ошибка'
-                        });
+                        });*/
                 });
         },
     }
