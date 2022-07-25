@@ -50,12 +50,8 @@ export default {
                 });
         },
         async addEvent({commit}, payload) {
-            await axios.post('/api/event', payload, {
-                headers: {
-                    'Content-Type': 'multipart/form-data',
-                }
-            }).then((response) => {
-                commit('addEvent', response.data)
+            await axios.post('/api/event', payload).then((response) => {
+                commit('addEvent', payload)
             }).catch(error => {
                 console.log(error);
                 throw error

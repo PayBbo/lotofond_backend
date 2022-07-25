@@ -1,6 +1,6 @@
 <template>
     <bkt-modal :id="'addTaskModal'" ref="addTaskModal" modal_class="bkt-add-task-modal"
-               :title="date | moment('D MMMM YYYY')" right_button="Добавить" @right_action="addEvent">
+               :title="date.id | moment('D MMMM YYYY')" right_button="Добавить" @right_action="addEvent">
         <template #body>
             <div>
                 <div class="bkt-content-tasks" v-if="events">
@@ -18,7 +18,7 @@
                                     {{ event.title }}
                                 </span>
                             </div>
-                            <button type="button" class="btn bkt-btn">
+                            <button type="button" class="btn bkt-btn" @click="showEditEvent(event)">
                                 <bkt-icon name="Settings" color="primary"/>
                             </button>
                         </div>
@@ -28,16 +28,16 @@
                     </div>
                 </div>
                 <div class="text-left mb-3 bkt-input d-flex">
-                    <button type="button" class="bkt-button w-100" @click="event.event_type = 'event'"
-                            :class="[event.event_type == 'event' ? 'shadow green' : 'bkt-text-main']">
+                    <button type="button" class="bkt-button w-100" @click="event.type = 'event'"
+                            :class="[event.type == 'event' ? 'shadow green' : 'bkt-text-main']">
                         Событие
                     </button>
-                    <button type="button" class="bkt-button w-100" @click="event.event_type = 'task'"
-                            :class="[event.event_type == 'task' ? 'shadow green' : 'bkt-text-main']">
+                    <button type="button" class="bkt-button w-100" @click="event.type = 'task'"
+                            :class="[event.type == 'task' ? 'shadow green' : 'bkt-text-main']">
                         Задача
                     </button>
-                    <button type="button" class="bkt-button w-100" @click="event.event_type = 'reminder'"
-                            :class="[event.event_type == 'reminder' ? 'shadow green' : 'bkt-text-main']">
+                    <button type="button" class="bkt-button w-100" @click="event.type = 'reminder'"
+                            :class="[event.type == 'reminder' ? 'shadow green' : 'bkt-text-main']">
                         Напоминание
                     </button>
                 </div>
@@ -65,6 +65,8 @@
 </template>
 
 <script>
+import moment from 'vue-moment';
+
 export default {
     name: "AddTaskModal",
     props: {
@@ -76,7 +78,8 @@ export default {
     },
     data() {
         return {
-            event: {event_type: 'event', date: '', time: '', title: '', detail: ''},
+            moment: moment,
+            event: {type: 'event', date: '', time: '', title: ''},
             modelDate: {day: null, month: null, hours: null, minutes: null},
             datetime: '',
             daysEnum: [],
@@ -99,13 +102,28 @@ export default {
     methods: {
         async addEvent() {
             let month = this.monthEnum.find(item => item.label == this.modelDate.month).id;
-            this.event.date = "2022-07-14";
-
+            this.event.date = new Date().getFullYear() + '-' + month + '-' + this.modelDate.day; //new Date("2022-07-14").toLocaleString();
             this.event.time = this.modelDate.hours + ':' + this.modelDate.minutes + ':00';
-            await this.$store.dispatch("addEvent", this.event);
+            await this.$store.dispatch("addEvent", this.event).then(resp => {
+                this.event = {type: 'event', date: '', time: '', title: ''};
+                this.modelDate = {day: null, month: null, hours: null, minutes: null}
+                this.$store.commit('closeModal', '#addTaskModal');
+            });
         },
 
         async removeEvent(event) {
+            await this.$store.dispatch('removeEvent', event);
+        },
+
+        async showEditEvent(event) {
+            this.modelDate.day = (new Date(event.date).getDate()).toString().padStart(2, '0');
+            this.modelDate.hours = (new Date(event.date).getHours()).toString().padStart(2, '0');
+            this.modelDate.minutes = (new Date(event.date).getMinutes()).toString().padStart(2, '0');
+            this.event.title = event.title;
+            this.event.type = event.type;
+        },
+
+        async editEvent(event) {
             await this.$store.dispatch('removeEvent', event);
         }
     },
@@ -114,7 +132,7 @@ export default {
         for (let i = 1; i <= 12; i++) this.monthEnum.push({id: i, label: this.monthNamesShort[i - 1]});
         for (let i = 1; i <= 24; i++) this.timeHoursEnum.push({id: i, label: i.toString().padStart(2, '0')});
         for (let i = 0; i <= 59; i++) this.timeMinutes.push({id: i, label: i.toString().padStart(2, '0')});
-    }
+    },
 }
 </script>
 
