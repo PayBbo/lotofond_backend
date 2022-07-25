@@ -14,7 +14,7 @@ export default {
     },
     mutations: {
         setEvents(state, payload) {
-            state.events = payload.data;
+            state.events = payload;
         },
         setEventsLoading(state, payload) {
             return state.events_loading = payload;
@@ -37,20 +37,17 @@ export default {
     },
     actions: {
         async getEvents({commit, state}, payload) {
-            if (state.events.length == 0) {
-                commit('setEvents', true)
-                await axios({
-                    method: 'get',
-                    url: '/api/events',
-                    data: {payload},
-                })
-                    .then((response) => {
-                        commit('setEvents', response.data)
-                        commit('setEventsLoading', false)
-                    }).catch(error => {
-                        commit('setEventsLoading', false)
-                    });
-            }
+            commit('setEventsLoading', true);
+            return await axios
+                .post('/api/events', payload)
+                .then((response) => {
+                    commit('setEvents', response.data)
+                    commit('setEventsLoading', false)
+                }).catch(error => {
+                    console.log(error);
+                    commit('setEventsLoading', false)
+
+                });
         },
         async addEvent({commit}, payload) {
             await axios.post('/api/event', payload, {

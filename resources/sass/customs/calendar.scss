@@ -5,15 +5,15 @@
     }
 
     & .events_check input:checked ~ .bkt-check__input-check {
-        background: #db4219;
+        background: $red;
     }
 
     & .tasks_check input:checked ~ .bkt-check__input-check {
-        background: #2dbb41;
+        background: $green-dark;
     }
 
     & .reminders_check input:checked ~ .bkt-check__input-check {
-        background: #25b0ff;
+        background: $blue-default;
     }
 
     & .bkt-calendar-none-border {
@@ -183,6 +183,10 @@
     }
 
     .bkt-left-calendar.vc-container {
+        & .vc-popover-content-wrapper {
+            display: none !important;
+        }
+
         & .vc-arrows-container {
             div {
                 background: #f4f5f5;
@@ -204,6 +208,18 @@
                     color: #d7d7d7;
                 }
             }
+        }
+
+        & .vc-bg-green-600 {
+            background: $green-dark !important;
+        }
+
+        & .vc-bg-blue-600{
+            background: $blue-default !important;
+        }
+
+        & .vc-bg-red-600{
+            background: $red !important;
         }
     }
 }
