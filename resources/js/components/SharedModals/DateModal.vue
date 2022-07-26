@@ -9,7 +9,7 @@
 </template>
 
 <script>
-    import BktDatesControl from "../../components/FiltersControls/DatesControl";
+    import BktDatesControl from "../FiltersControls/DatesControl";
     export default {
         name: "DateModal",
         components: {

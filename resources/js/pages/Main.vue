@@ -272,15 +272,15 @@
 </template>
 
 <script>
-    import BktDateModal from "./DateModal";
-    import BktPriceModal from "./PriceModal";
-    import BktOptionsModal from "./OptionsModal";
-    import BktParamsModal from "./ParamsModal";
-    import BktRegionModal from "./RegionModal";
-    import BktCategoryModal from "./CategoryModal";
-    import BktSelect from "../../components/Select";
-    import BktFilterCard from "../../components/FilterCard";
-    import MiniTradeCard from "../../components/MiniTradeCard";
+    import BktDateModal from "../components/SharedModals/DateModal";
+    import BktPriceModal from "../components/SharedModals/PriceModal";
+    import BktOptionsModal from "../components/SharedModals/OptionsModal";
+    import BktParamsModal from "../components/SharedModals/ParamsModal";
+    import BktRegionModal from "../components/SharedModals/RegionModal";
+    import BktCategoryModal from "../components/SharedModals/CategoryModal";
+    import BktSelect from "../components/Select";
+    import BktFilterCard from "../components/FilterCard";
+    import MiniTradeCard from "../components/MiniTradeCard";
     export default {
         name: "Main",
         components: {

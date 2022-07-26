@@ -9,7 +9,7 @@
 </template>
 
 <script>
-   import BktParamsControl from "../../components/FiltersControls/ParamsControl";
+   import BktParamsControl from "../FiltersControls/ParamsControl";
 
     export default {
         name: "ParamsModal",

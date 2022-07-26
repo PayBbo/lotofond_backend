@@ -286,12 +286,12 @@
 </template>
 
 <script>
-    import BktDateModal from "./Main/DateModal";
-    import BktPriceModal from "./Main/PriceModal";
-    import BktOptionsModal from "./Main/OptionsModal";
-    import BktParamsModal from "./Main/ParamsModal";
-    import BktRegionModal from "./Main/RegionModal";
-    import BktCategoryModal from "./Main/CategoryModal";
+    import BktDateModal from "../components/SharedModals/DateModal";
+    import BktPriceModal from "../components/SharedModals/PriceModal";
+    import BktOptionsModal from "../components/SharedModals/OptionsModal";
+    import BktParamsModal from "../components/SharedModals/ParamsModal";
+    import BktRegionModal from "../components/SharedModals/RegionModal";
+    import BktCategoryModal from "../components/SharedModals/CategoryModal";
     import BktCardList from "../components/CardList";
 
     export default {

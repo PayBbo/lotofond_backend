@@ -36,22 +36,22 @@ export default {
     },
     mutations: {
         setFavourites(state, payload) {
-            // state.favourites[payload.pathId] = payload.data;
-            if(!state.favourites[payload.pathId])
-            {
-                state.favourites[payload.pathId]={
-                    data:[],
-                    pagination:{},
-                    loading: false
-                }
-            }
-            payload.data.data.forEach(item => {
-                let favourite = state.favourites[payload.pathId].data.findIndex(el => el.id === item.id);
-                if (favourite < 0) {
-                    state.favourites[payload.pathId].data.push(item)
-                }
-            });
-            state.favourites[payload.pathId].pagination = payload.data.pagination;
+            state.favourites[payload.pathId] = payload.data;
+            // if(!state.favourites[payload.pathId])
+            // {
+            //     state.favourites[payload.pathId]={
+            //         data:[],
+            //         pagination:{},
+            //         loading: false
+            //     }
+            // }
+            // payload.data.data.forEach(item => {
+            //     let favourite = state.favourites[payload.pathId].data.findIndex(el => el.id === item.id);
+            //     if (favourite < 0) {
+            //         state.favourites[payload.pathId].data.push(item)
+            //     }
+            // });
+            // state.favourites[payload.pathId].pagination = payload.data.pagination;
             state.current_favourites = state.favourites[payload.pathId].data;
             state.favourites_pagination = state.favourites[payload.pathId].pagination;
             // state.favourites = payload.data.data;
@@ -263,7 +263,7 @@ export default {
             })
                 .then((response) => {
                     // dispatch('getFavourites', {page: 1, pathId: response.data[0].pathId});
-                    commit('setFavouritePaths', response.data)
+                    commit('setFavouritePaths', response.data);
                     commit('setCurrentPath', response.data[0].pathId)
                 });
         },
@@ -289,12 +289,15 @@ export default {
                 });
         },
         async setCurrentPath({dispatch, commit, state}, payload) {
-            if (state.favourites[payload]) {
-                commit('setCurrentPath', payload);
+            if (state.favourites[payload.pathId]) {
+                commit('setCurrentPath', payload.pathId);
             } else {
-                await dispatch('getFavourites', {page: 1, pathId: payload})
+                let params = payload.params;
+                params.page = 1;
+                params.pathId = payload.pathId;
+                await dispatch('getFavourites', params)
                     .then(resp => {
-                        commit('setCurrentPath', payload);
+                        commit('setCurrentPath', payload.pathId);
                     })
             }
         }

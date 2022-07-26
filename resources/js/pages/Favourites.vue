@@ -63,62 +63,70 @@
                             <span class="d-none d-xl-block">Удалить</span>
                         </button>
                     </div>
-                    <bkt-select
-                        v-model="group"
-                        class="d-none d-md-block"
-                        select_class="bkt-v-select_material w-100 main"
-                        name="sort"
-                        subtitle="сгруппировать"
-                        :reduce="item => item.value"
-                        :option_label="'title'"
-                        :options="to_group"
-                        :clearable="false"
-                    >
-                    </bkt-select>
+<!--                    <bkt-select-->
+<!--                        v-model="group"-->
+<!--                        class="d-none d-md-block"-->
+<!--                        select_class="bkt-v-select_material w-100 main"-->
+<!--                        name="sort"-->
+<!--                        subtitle="сгруппировать"-->
+<!--                        :reduce="item => item.value"-->
+<!--                        :option_label="'title'"-->
+<!--                        :options="to_group"-->
+<!--                        :clearable="false"-->
+<!--                    >-->
+<!--                    </bkt-select>-->
                 </div>
                 <div class="bkt-favourites__filters-card bkt-wrapper-column bkt-gap-large" v-if="search_mode">
                     <div class="bkt-menu__search">
-                        <div class="bkt-search position-relative">
-                            <input class="w-100 bkt-search__input d-md-block d-none" type="text"
-                                   placeholder="Введите нужное слово или фразу">
-                            <input class="w-100 bkt-search__input d-md-none d-block" type="text" placeholder="Поиск...">
-                            <button class="bkt-button green bkt-search__button">
-                                <span class="d-none d-md-block">Найти</span>
-                                <bkt-icon class="d-block d-md-none" :name="'Search'"></bkt-icon>
-                            </button>
-                        </div>
+                        <bkt-search v-model="params.searchField" no_dropdown :loading="loading" simple
+                                    @runSearch="getData(1)" search_class="bkt-register-collapse__search"
+                        >
+                        </bkt-search>
                     </div>
                     <div class="bkt-menu__group-fields">
                         <div class="bkt-form">
-                            <div class="col-12 col-md-3">
-                                <div class="bkt-select__wrapper text-left">
-                                    <label for="group" class="bkt-select__label">группа</label>
-                                    <select id="group" class="bkt-select">
-                                        <option selected value="">Текущая</option>
-                                        <option>One</option>
-                                        <option>Two</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-12 col-md-3">
-                                <div class="bkt-select__wrapper text-left">
-                                    <label for="label" class="bkt-select__label">метка</label>
-                                    <select id="label" class="bkt-select">
-                                        <option selected value="">Метка 1</option>
-                                        <option>One</option>
-                                        <option>Two</option>
-                                    </select>
-                                </div>
+<!--                            <div class="col-12 col-md-3">-->
+<!--                                <div class="bkt-select__wrapper text-left">-->
+<!--                                    <label for="group" class="bkt-select__label">группа</label>-->
+<!--                                    <select id="group" class="bkt-select">-->
+<!--                                        <option selected value="">Текущая</option>-->
+<!--                                        <option>One</option>-->
+<!--                                        <option>Two</option>-->
+<!--                                    </select>-->
+<!--                                </div>-->
+<!--                            </div>-->
+                            <div class="col-12 col-md-6 d-none d-md-block">
+                                <bkt-select
+                                    v-model="params.mark"
+                                    class="w-100"
+                                    select_class="white w-100"
+                                    name="mark"
+                                    label="метка"
+                                    label_class="bkt-form__label"
+                                    :option_label="'title'"
+                                    :options="marks"
+                                    :reduce="item => item.value"
+                                    :clearable="false"
+                                    :method_name="'getMarks'"
+                                    @input="getData(1)"
+                                >
+                                </bkt-select>
                             </div>
                             <div class="col-12 col-md-6">
-                                <div class="bkt-select__wrapper text-left bkt-sort-by">
-                                    <label for="sort" class="bkt-select__label">сортировать по</label>
-                                    <select id="sort" class="bkt-select">
-                                        <option selected value="">Добавлению в избранное</option>
-                                        <option>One</option>
-                                        <option>Two</option>
-                                    </select>
-                                </div>
+                                <bkt-select
+                                    v-model="params.sort.type"
+                                    class="w-100"
+                                    select_class="white w-100"
+                                    name="sort"
+                                    label="сортировать по"
+                                    label_class="bkt-form__label"
+                                    :option_label="'title'"
+                                    :options="sort"
+                                    :reduce="item => item.value"
+                                    :clearable="false"
+                                    @input="getData(1)"
+                                >
+                                </bkt-select>
                             </div>
                         </div>
                     </div>
@@ -129,16 +137,29 @@
                         <bkt-icon class="bkt-button__icon" :name="'Search'"
                                   :color="search_mode ? 'white': 'primary'"></bkt-icon>
                     </button>
+<!--                    <bkt-select-->
+<!--                        v-model="group"-->
+<!--                        class="w-100"-->
+<!--                        select_class="bkt-v-select_material w-100 main"-->
+<!--                        name="sort"-->
+<!--                        subtitle="сгруппировать"-->
+<!--                        :reduce="item => item.value"-->
+<!--                        :option_label="'title'"-->
+<!--                        :options="to_group"-->
+<!--                        :clearable="false"-->
+<!--                    >-->
+<!--                    </bkt-select>-->
                     <bkt-select
-                        v-model="group"
+                        v-model="params.sort.type"
                         class="w-100"
                         select_class="bkt-v-select_material w-100 main"
                         name="sort"
-                        subtitle="сгруппировать"
-                        :reduce="item => item.value"
+                        subtitle="сортировать по"
                         :option_label="'title'"
-                        :options="to_group"
+                        :options="sort"
+                        :reduce="item => item.value"
                         :clearable="false"
+                        @input="getData(1)"
                     >
                     </bkt-select>
                 </div>
@@ -233,7 +254,6 @@
             </div>
             <bkt-card-list :current_component="'BktCard'" :items="items" :loading="loading"
                            :pagination_data="pagination_data" @change-page="getData"
-                           infinite method_name="getFavourites" :method_params="method_params"
             >
             </bkt-card-list>
         </div>
@@ -286,6 +306,24 @@
                     "slidesToShow": 1,
                     "slidesToScroll": 1,
                     "variableWidth": true
+                },
+                sort: [
+                    {title: 'Дате добавления', value: "publishDate"},
+                    {title: 'Цене', value: "currentPrice"},
+                    {title: 'Дате начала торгов', value: "eventStart"},
+                    {title: 'Дате окончания торгов', value: "eventEnd"},
+                    {title: 'Дате начала приема заявок', value: "applicationStart"},
+                    {title: 'Дате окончания приема заявок', value: "applicationEnd"},
+                ],
+                params: {
+                    pathId: 0,
+                    mark:'',
+                    searchField:'',
+                    includedWords: '',
+                    sort: {
+                        direction: "asc",
+                        type: "publishDate"
+                    }
                 }
             };
         },
@@ -324,11 +362,20 @@
                 return {
                     pathId:this.current_path
                 }
-            }
+            },
+            marks() {
+                return this.$store.getters.marks;
+            },
         },
         methods: {
-            async getData(page = 1, pathId) {
-                await this.$store.dispatch('getFavourites', {page: page, pathId: pathId});
+            async getData(page = 1) {
+                console.log('getData')
+                this.loading = true;
+                this.params.page = page;
+                this.params.pathId = this.current_path;
+                await this.$store.dispatch('getFavourites', this.params).finally(() => {
+                    this.loading = false;
+                });
             },
             async getFavouritePaths() {
                 this.loading = true;
@@ -347,7 +394,7 @@
             },
             async setCurrentPath(value) {
                 this.loading = true;
-                await this.$store.dispatch('setCurrentPath', value)
+                await this.$store.dispatch('setCurrentPath', {pathId: value, params: this.params})
                     .finally(() => {
                         this.loading = false;
                     });

@@ -10,7 +10,7 @@
 </template>
 
 <script>
-    import BktOptionsControl from "../../components/FiltersControls/OptionsControl";
+    import BktOptionsControl from "../FiltersControls/OptionsControl";
     export default {
         name: "OptionsModal",
         components: {

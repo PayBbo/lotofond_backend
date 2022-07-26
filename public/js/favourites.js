@@ -271,6 +271,26 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -309,6 +329,35 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         "slidesToShow": 1,
         "slidesToScroll": 1,
         "variableWidth": true
+      },
+      sort: [{
+        title: 'Дате добавления',
+        value: "publishDate"
+      }, {
+        title: 'Цене',
+        value: "currentPrice"
+      }, {
+        title: 'Дате начала торгов',
+        value: "eventStart"
+      }, {
+        title: 'Дате окончания торгов',
+        value: "eventEnd"
+      }, {
+        title: 'Дате начала приема заявок',
+        value: "applicationStart"
+      }, {
+        title: 'Дате окончания приема заявок',
+        value: "applicationEnd"
+      }],
+      params: {
+        pathId: 0,
+        mark: '',
+        searchField: '',
+        includedWords: '',
+        sort: {
+          direction: "asc",
+          type: "publishDate"
+        }
       }
     };
   },
@@ -353,6 +402,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       return {
         pathId: this.current_path
       };
+    },
+    marks: function marks() {
+      return this.$store.getters.marks;
     }
   },
   methods: {
@@ -361,20 +413,22 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           _this2 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
-        var page, pathId;
+        var page;
         return _regeneratorRuntime().wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
                 page = _arguments.length > 0 && _arguments[0] !== undefined ? _arguments[0] : 1;
-                pathId = _arguments.length > 1 ? _arguments[1] : undefined;
-                _context.next = 4;
-                return _this2.$store.dispatch('getFavourites', {
-                  page: page,
-                  pathId: pathId
+                console.log('getData');
+                _this2.loading = true;
+                _this2.params.page = page;
+                _this2.params.pathId = _this2.current_path;
+                _context.next = 7;
+                return _this2.$store.dispatch('getFavourites', _this2.params)["finally"](function () {
+                  _this2.loading = false;
                 });
 
-              case 4:
+              case 7:
               case "end":
                 return _context.stop();
             }
@@ -424,7 +478,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               case 0:
                 _this4.loading = true;
                 _context3.next = 3;
-                return _this4.$store.dispatch('setCurrentPath', value)["finally"](function () {
+                return _this4.$store.dispatch('setCurrentPath', {
+                  pathId: value,
+                  params: _this4.params
+                })["finally"](function () {
                   _this4.loading = false;
                 });
 
@@ -1351,30 +1408,7 @@ var render = function () {
                       ),
                     ]
                   ),
-                  _vm._v(" "),
-                  _c("bkt-select", {
-                    staticClass: "d-none d-md-block",
-                    attrs: {
-                      select_class: "bkt-v-select_material w-100 main",
-                      name: "sort",
-                      subtitle: "сгруппировать",
-                      reduce: function (item) {
-                        return item.value
-                      },
-                      option_label: "title",
-                      options: _vm.to_group,
-                      clearable: false,
-                    },
-                    model: {
-                      value: _vm.group,
-                      callback: function ($$v) {
-                        _vm.group = $$v
-                      },
-                      expression: "group",
-                    },
-                  }),
-                ],
-                1
+                ]
               ),
               _vm._v(" "),
               _vm.search_mode
@@ -1385,51 +1419,110 @@ var render = function () {
                         "bkt-favourites__filters-card bkt-wrapper-column bkt-gap-large",
                     },
                     [
-                      _c("div", { staticClass: "bkt-menu__search" }, [
-                        _c(
-                          "div",
-                          { staticClass: "bkt-search position-relative" },
-                          [
-                            _c("input", {
-                              staticClass:
-                                "w-100 bkt-search__input d-md-block d-none",
-                              attrs: {
-                                type: "text",
-                                placeholder: "Введите нужное слово или фразу",
+                      _c(
+                        "div",
+                        { staticClass: "bkt-menu__search" },
+                        [
+                          _c("bkt-search", {
+                            attrs: {
+                              no_dropdown: "",
+                              loading: _vm.loading,
+                              simple: "",
+                              search_class: "bkt-register-collapse__search",
+                            },
+                            on: {
+                              runSearch: function ($event) {
+                                return _vm.getData(1)
                               },
-                            }),
-                            _vm._v(" "),
-                            _c("input", {
-                              staticClass:
-                                "w-100 bkt-search__input d-md-none d-block",
-                              attrs: { type: "text", placeholder: "Поиск..." },
-                            }),
-                            _vm._v(" "),
-                            _c(
-                              "button",
-                              {
-                                staticClass:
-                                  "bkt-button green bkt-search__button",
+                            },
+                            model: {
+                              value: _vm.params.searchField,
+                              callback: function ($$v) {
+                                _vm.$set(_vm.params, "searchField", $$v)
                               },
-                              [
-                                _c(
-                                  "span",
-                                  { staticClass: "d-none d-md-block" },
-                                  [_vm._v("Найти")]
-                                ),
-                                _vm._v(" "),
-                                _c("bkt-icon", {
-                                  staticClass: "d-block d-md-none",
-                                  attrs: { name: "Search" },
-                                }),
-                              ],
-                              1
-                            ),
-                          ]
-                        ),
-                      ]),
+                              expression: "params.searchField",
+                            },
+                          }),
+                        ],
+                        1
+                      ),
                       _vm._v(" "),
-                      _vm._m(0),
+                      _c("div", { staticClass: "bkt-menu__group-fields" }, [
+                        _c("div", { staticClass: "bkt-form" }, [
+                          _c(
+                            "div",
+                            {
+                              staticClass: "col-12 col-md-6 d-none d-md-block",
+                            },
+                            [
+                              _c("bkt-select", {
+                                staticClass: "w-100",
+                                attrs: {
+                                  select_class: "white w-100",
+                                  name: "mark",
+                                  label: "метка",
+                                  label_class: "bkt-form__label",
+                                  option_label: "title",
+                                  options: _vm.marks,
+                                  reduce: function (item) {
+                                    return item.value
+                                  },
+                                  clearable: false,
+                                  method_name: "getMarks",
+                                },
+                                on: {
+                                  input: function ($event) {
+                                    return _vm.getData(1)
+                                  },
+                                },
+                                model: {
+                                  value: _vm.params.mark,
+                                  callback: function ($$v) {
+                                    _vm.$set(_vm.params, "mark", $$v)
+                                  },
+                                  expression: "params.mark",
+                                },
+                              }),
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "div",
+                            { staticClass: "col-12 col-md-6" },
+                            [
+                              _c("bkt-select", {
+                                staticClass: "w-100",
+                                attrs: {
+                                  select_class: "white w-100",
+                                  name: "sort",
+                                  label: "сортировать по",
+                                  label_class: "bkt-form__label",
+                                  option_label: "title",
+                                  options: _vm.sort,
+                                  reduce: function (item) {
+                                    return item.value
+                                  },
+                                  clearable: false,
+                                },
+                                on: {
+                                  input: function ($event) {
+                                    return _vm.getData(1)
+                                  },
+                                },
+                                model: {
+                                  value: _vm.params.sort.type,
+                                  callback: function ($$v) {
+                                    _vm.$set(_vm.params.sort, "type", $$v)
+                                  },
+                                  expression: "params.sort.type",
+                                },
+                              }),
+                            ],
+                            1
+                          ),
+                        ]),
+                      ]),
                     ]
                   )
                 : _vm._e(),
@@ -1471,20 +1564,25 @@ var render = function () {
                     attrs: {
                       select_class: "bkt-v-select_material w-100 main",
                       name: "sort",
-                      subtitle: "сгруппировать",
+                      subtitle: "сортировать по",
+                      option_label: "title",
+                      options: _vm.sort,
                       reduce: function (item) {
                         return item.value
                       },
-                      option_label: "title",
-                      options: _vm.to_group,
                       clearable: false,
                     },
-                    model: {
-                      value: _vm.group,
-                      callback: function ($$v) {
-                        _vm.group = $$v
+                    on: {
+                      input: function ($event) {
+                        return _vm.getData(1)
                       },
-                      expression: "group",
+                    },
+                    model: {
+                      value: _vm.params.sort.type,
+                      callback: function ($$v) {
+                        _vm.$set(_vm.params.sort, "type", $$v)
+                      },
+                      expression: "params.sort.type",
                     },
                   }),
                 ],
@@ -1592,9 +1690,9 @@ var render = function () {
                             },
                             [
                               _vm._v(
-                                "\n                            " +
+                                "\n                                " +
                                   _vm._s(path.name) +
-                                  "\n                            "
+                                  "\n                                "
                               ),
                               _c(
                                 "span",
@@ -1619,11 +1717,11 @@ var render = function () {
                                 },
                                 [
                                   _vm._v(
-                                    "\n                                " +
+                                    "\n                                    " +
                                       _vm._s(
                                         path.lotCount ? path.lotCount : "0"
                                       ) +
-                                      "\n                            "
+                                      "\n                                "
                                   ),
                                 ]
                               ),
@@ -1661,9 +1759,9 @@ var render = function () {
                               return [
                                 _c("h6", { staticClass: "mx-auto" }, [
                                   _vm._v(
-                                    "\n                            " +
+                                    "\n                                " +
                                       _vm._s(_vm.current_path_object.name) +
-                                      "\n                            "
+                                      "\n                                "
                                   ),
                                   _c(
                                     "span",
@@ -1676,13 +1774,13 @@ var render = function () {
                                     },
                                     [
                                       _vm._v(
-                                        "\n                                " +
+                                        "\n                                    " +
                                           _vm._s(
                                             _vm.current_path_object.lotCount
                                               ? _vm.current_path_object.lotCount
                                               : "0"
                                           ) +
-                                          "\n                            "
+                                          "\n                                "
                                       ),
                                     ]
                                   ),
@@ -1720,9 +1818,9 @@ var render = function () {
                                             },
                                             [
                                               _vm._v(
-                                                "\n                                " +
+                                                "\n                                    " +
                                                   _vm._s(path.name) +
-                                                  "\n                                "
+                                                  "\n                                    "
                                               ),
                                               _c(
                                                 "span",
@@ -1737,13 +1835,13 @@ var render = function () {
                                                 },
                                                 [
                                                   _vm._v(
-                                                    "\n                                " +
+                                                    "\n                                    " +
                                                       _vm._s(
                                                         path.lotCount
                                                           ? path.lotCount
                                                           : "0"
                                                       ) +
-                                                      "\n                            "
+                                                      "\n                                "
                                                   ),
                                                 ]
                                               ),
@@ -1775,9 +1873,6 @@ var render = function () {
               items: _vm.items,
               loading: _vm.loading,
               pagination_data: _vm.pagination_data,
-              infinite: "",
-              method_name: "getFavourites",
-              method_params: _vm.method_params,
             },
             on: { "change-page": _vm.getData },
           }),
@@ -1794,92 +1889,7 @@ var render = function () {
     1
   )
 }
-var staticRenderFns = [
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "bkt-menu__group-fields" }, [
-      _c("div", { staticClass: "bkt-form" }, [
-        _c("div", { staticClass: "col-12 col-md-3" }, [
-          _c("div", { staticClass: "bkt-select__wrapper text-left" }, [
-            _c(
-              "label",
-              { staticClass: "bkt-select__label", attrs: { for: "group" } },
-              [_vm._v("группа")]
-            ),
-            _vm._v(" "),
-            _c(
-              "select",
-              { staticClass: "bkt-select", attrs: { id: "group" } },
-              [
-                _c("option", { attrs: { selected: "", value: "" } }, [
-                  _vm._v("Текущая"),
-                ]),
-                _vm._v(" "),
-                _c("option", [_vm._v("One")]),
-                _vm._v(" "),
-                _c("option", [_vm._v("Two")]),
-              ]
-            ),
-          ]),
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "col-12 col-md-3" }, [
-          _c("div", { staticClass: "bkt-select__wrapper text-left" }, [
-            _c(
-              "label",
-              { staticClass: "bkt-select__label", attrs: { for: "label" } },
-              [_vm._v("метка")]
-            ),
-            _vm._v(" "),
-            _c(
-              "select",
-              { staticClass: "bkt-select", attrs: { id: "label" } },
-              [
-                _c("option", { attrs: { selected: "", value: "" } }, [
-                  _vm._v("Метка 1"),
-                ]),
-                _vm._v(" "),
-                _c("option", [_vm._v("One")]),
-                _vm._v(" "),
-                _c("option", [_vm._v("Two")]),
-              ]
-            ),
-          ]),
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "col-12 col-md-6" }, [
-          _c(
-            "div",
-            { staticClass: "bkt-select__wrapper text-left bkt-sort-by" },
-            [
-              _c(
-                "label",
-                { staticClass: "bkt-select__label", attrs: { for: "sort" } },
-                [_vm._v("сортировать по")]
-              ),
-              _vm._v(" "),
-              _c(
-                "select",
-                { staticClass: "bkt-select", attrs: { id: "sort" } },
-                [
-                  _c("option", { attrs: { selected: "", value: "" } }, [
-                    _vm._v("Добавлению в избранное"),
-                  ]),
-                  _vm._v(" "),
-                  _c("option", [_vm._v("One")]),
-                  _vm._v(" "),
-                  _c("option", [_vm._v("Two")]),
-                ]
-              ),
-            ]
-          ),
-        ]),
-      ]),
-    ])
-  },
-]
+var staticRenderFns = []
 render._withStripped = true
 
 

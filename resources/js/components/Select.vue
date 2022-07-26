@@ -15,7 +15,6 @@
                 :searchable="searchable"
                 :disabled="disabled"
                 :loading="loading"
-                @input="saveValue"
                 :filter="fuseSearch"
                 @open="open"
             >
@@ -278,7 +277,7 @@
                         }
                         await this.$store.dispatch(this.method_name, payload).then(resp => {
                             if($state) {
-                                if (this.pagination.nextPageUrl !== null) {
+                                if (this.pagination && this.pagination.nextPageUrl !== null) {
                                     $state.loaded();
                                 } else {
                                     $state.complete();

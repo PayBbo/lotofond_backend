@@ -99,7 +99,62 @@
             padding-left: 0;
         }
     }
+    &.white {
+        & .bkt-select {
+            background: $white;
+            color:  $main-default;
+            border: none;
+            background-position: right 0.75rem center;
+            border-radius: 25px;
+            //height: calc(3.5rem + 2px);
 
+            &__subtitle {
+                color: rgb(255, 255, 255, 0.4);
+                font-size: 12px;
+            }
+        }
+
+        & .bkt-v-select {
+            & .vs__dropdown-menu {
+                background-color: $white;
+            }
+
+            & .vs__dropdown-toggle {
+                background-color: $white;
+                color: $main-default;
+                border-radius: 25px;
+            }
+
+            & + .bkt-select__subtitle {
+                color: rgb(255, 255, 255, 0.4);
+                font-size: 12px;
+                top: -10px;
+            }
+
+            & .vs__dropdown-option--highlight {
+                background-color: $primary-lighter !important;
+                color: $main-default !important;
+            }
+
+            & .vs__dropdown-option--selected {
+                background-color: $primary-lighter !important;
+                color: $main-default !important;
+            }
+
+            & .vs__dropdown-option {
+                background-color: white !important;
+                color: $main-default !important;
+            }
+
+            & .vs__dropdown-option {
+                color: $main-default !important;
+            }
+        }
+
+        & .vs--single .vs__selected {
+            padding-left: 0;
+        }
+    }
     .bkt-v-select {
         --vs-colors--lightest: rgba(60, 60, 60, 0.26);
         --vs-colors--light: rgba(60, 60, 60, 0.5);
@@ -254,12 +309,14 @@
         & .vs__actions {
             padding: 0px 6px 0 3px;
         }
+
         &.vs--multiple .vs__selected {
-            background-color:rgb(226 232 253);
+            background-color: rgb(226 232 253);
             font-weight: 500;
             color: rgb(45, 50, 68);
             line-height: 1.2;
         }
+
         & .vs__selected {
             //background: white;
             border: none;
@@ -268,11 +325,10 @@
             padding: 12px 25px;
             align-items: center;
             display: flex;
-
-
             //margin: 4px 2px 0 0;
             z-index: 0
         }
+
         &.vs--multiple .vs__selected-options {
             display: flex;
             flex-basis: 100%;
@@ -596,6 +652,7 @@
 
 .bkt-v-select_material {
     @extend .bkt-select__wrapper;
+
     & .bkt-v-select {
         &.vs--open ~ .bkt-select__subtitle {
             color: $neutral-dark;
@@ -606,7 +663,7 @@
 
         &.vs--selected ~ .bkt-select__subtitle {
             color: $neutral-dark;
-            top: 18px;
+            top: 14px;
             transition: 0.2s ease all;
             font-size: 12px;
         }
@@ -730,10 +787,12 @@
             height: 14px !important;
             width: 14px !important;
         }
+
         .vs__selected-options {
             padding: 0;
         }
     }
+
     & .bkt-select__subtitle {
         color: rgba(45, 50, 68, 0.4);
         font-size: 12px;
@@ -819,6 +878,7 @@
                 width: 12px !important;
             }
         }
+
         & .bkt-select__subtitle {
             font-size: 10px;
             left: 15px;

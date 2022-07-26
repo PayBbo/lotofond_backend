@@ -222,8 +222,8 @@
 </template>
 
 <script>
-    import BktCollapse from '../../components/Collapse.vue';
-    import BktCategoriesControl from "../../components/FiltersControls/CategoriesControl";
+    import BktCollapse from '../Collapse.vue';
+    import BktCategoriesControl from "../FiltersControls/CategoriesControl";
     export default {
         name: "Category",
         components: {

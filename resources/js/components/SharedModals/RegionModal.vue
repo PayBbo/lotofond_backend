@@ -11,7 +11,7 @@
 </template>
 
 <script>
-   import BktRegionsControl from "../../components/FiltersControls/RegionsControl";
+   import BktRegionsControl from "../FiltersControls/RegionsControl";
 
     export default {
         name: "RegionModal",

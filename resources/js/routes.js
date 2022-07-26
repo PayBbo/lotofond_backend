@@ -7,7 +7,7 @@ export default {
         {
             path: '/',
             name: 'Main',
-            component: () => import(/* webpackChunkName: "main" */ "./pages/Main/Main.vue"),
+            component: () => import(/* webpackChunkName: "main" */ "./pages/Main.vue"),
         },
         {
             path: '/registries',
@@ -16,8 +16,8 @@ export default {
         },
         {
             path: '/registries/:type/:id',
-            name: 'Registry',
-            component: () => import(/* webpackChunkName: "registry" */ "./pages/Registry.vue"),
+            name: 'RegistryCard',
+            component: () => import(/* webpackChunkName: "registry" */ "./pages/RegistryCard.vue"),
         },
         {
             path: '/profile',

@@ -9,7 +9,7 @@
 </template>
 
 <script>
-    import BktPricesControl from "../../components/FiltersControls/PricesControl";
+    import BktPricesControl from "../FiltersControls/PricesControl";
     export default {
         name: "PriceModal",
         components: {BktPricesControl},

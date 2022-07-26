@@ -269,7 +269,7 @@
 <script>
     import BktCollapse from '../components/Collapse.vue'
     import BktRegistry from "./Registries/Registry";
-    import BktRegionModal from "./Main/RegionModal";
+    import BktRegionModal from "../components/SharedModals/RegionModal";
 
     export default {
         name: "Registries",
