@@ -201,7 +201,10 @@
             <div class="bkt-sidebar__footer">
                 <div v-if="isLoggedIn" class="bkt-sidebar__user">
                     <div class="bkt-sidebar__profile">
-                        <img src="" alt="">
+<!--                        <img src="" alt="">-->
+                        <div class="bkt-sidebar__user-image d-flex align-items-center" style="padding:14px;">
+                            <bkt-icon name="User" color="white" width="22px" height="22px"></bkt-icon>
+                        </div>
                         <div class="bkt-navbar__user text-truncate me-1">
                             <div class="bkt-navbar__user-name text-truncate">
                                 {{ auth_user ? auth_user.name : '' }} {{ auth_user ? auth_user.surname : '' }}
@@ -242,8 +245,47 @@
                         color: 'primary',
                     },
                     {
-                        path: '/agent',
+                        path: '/favourites',
+                        icon: 'Star',
+                        code: "Favourites",
+                        label: "Избранное",
+                        color: 'yellow',
+                        meta: 'auth'
+                    },
+                    {
+                        path: '/monitoring',
                         icon: 'Target',
+                        code: "Monitoring",
+                        label: "Мониторинг",
+                        color: 'red',
+                        meta: 'auth'
+                    },
+                    {
+                        path: '/messages',
+                        icon: 'Bell',
+                        code: "messages",
+                        label: "Сообщения",
+                        color: 'green',
+                        meta: 'auth'
+                    },
+                    {
+                        path: '/profile',
+                        icon: 'User',
+                        code: "Profile",
+                        label: "Профиль",
+                        color: 'primary',
+                        meta: 'auth'
+                    },
+                    {
+                        path: '/week-winners',
+                        icon: 'Trophy',
+                        code: "WeekWinners",
+                        label: "Победы недели",
+                        color: 'yellow',
+                    },
+                    {
+                        path: '/agent',
+                        icon: 'Percentage',
                         code: "Agent",
                         label: "Купить через агента",
                         color: 'red'
@@ -256,26 +298,11 @@
                         color: 'green',
                     },
                     {
-                        path: '/week-winners',
-                        icon: 'Star',
-                        code: "WeekWinners",
-                        label: "Победы недели",
-                        color: 'yellow',
-                    },
-                    {
                         path: '/contacts',
                         icon: 'Briefcase',
                         code: "Contacts",
                         label: "Контакты",
-                        color: 'blue',
-                    },
-                    {
-                        path: '/profile',
-                        icon: 'User',
-                        code: "Profile",
-                        label: "Профиль",
                         color: 'primary',
-                        meta: 'auth'
                     },
                 ],
             }

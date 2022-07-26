@@ -115,3 +115,12 @@
 
 
 }
+@media screen and (max-width: 576px) {
+    .bkt-search {
+        padding: 5px;
+        border-radius: 13px;
+        & .bkt-search__input {
+            font-size: 12px;
+        }
+    }
+}

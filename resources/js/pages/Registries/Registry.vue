@@ -2,10 +2,12 @@
     <div>
         <slot name="filters">
             <slot name="search">
-                <bkt-search v-model="search" no_dropdown :method_name="method_name" :loading="loading" simple
-                            @runSearch="runSearch" search_class="bkt-register-collapse__search"
-                >
-                </bkt-search>
+                <div class="bkt-register__search-wrapper">
+                    <bkt-search v-model="search" no_dropdown :method_name="method_name" :loading="loading" simple
+                                @runSearch="runSearch" search_class="bkt-register-collapse__search"
+                    >
+                    </bkt-search>
+                </div>
             </slot>
         </slot>
         <div class="bkt-register-collapse__body">
@@ -126,7 +128,7 @@
                     searchString: "",
                     sort: {
                         direction: "asc",
-                        type: "id"
+                        type: ""
                     },
                     perPage: '20',
                 },
@@ -140,6 +142,10 @@
             //         type:'table'
             //     }
             // }
+            if(this.sort.length > 0) {
+                this.current_params.sort.type = this.sort[0].value;
+            }
+
             if (this.method_name) {
                 this.callMethod(1);
             }

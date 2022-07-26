@@ -1738,25 +1738,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -5756,6 +5737,8 @@ var render = function () {
                                         ? _c(
                                             "span",
                                             {
+                                              staticClass:
+                                                " bkt-cursor-pointer",
                                               on: {
                                                 click: function ($event) {
                                                   return _vm.setCurrentMonitoringPath(
@@ -5766,9 +5749,9 @@ var render = function () {
                                             },
                                             [
                                               _vm._v(
-                                                "\n                                " +
+                                                "\n                                        " +
                                                   _vm._s(path.name) +
-                                                  "\n                            "
+                                                  "\n                                    "
                                               ),
                                             ]
                                           )
@@ -5779,7 +5762,7 @@ var render = function () {
                                             "div",
                                             {
                                               staticClass:
-                                                "d-flex bkt-gap h-100 align-items-center",
+                                                "d-flex bkt-gap h-100 align-items-center bkt-cursor-pointer",
                                               on: {
                                                 click: function ($event) {
                                                   return _vm.setCurrentMonitoringPath(
@@ -5801,7 +5784,7 @@ var render = function () {
                                             "div",
                                             {
                                               staticClass:
-                                                "bkt-icon-frame-small bkt-bg-primary-lighter",
+                                                "bkt-icon-frame-small bkt-bg-primary-lighter bkt-cursor-pointer",
                                               on: {
                                                 click: function ($event) {
                                                   return _vm.editMonitoringPath(
@@ -6009,7 +5992,6 @@ var render = function () {
                   loading: _vm.loading,
                   pagination_data: _vm.pagination_data,
                   no_pagination: _vm.items_paths.length == 0,
-                  infinite: "",
                   method_name: "getMonitorings",
                   method_params: _vm.method_params,
                 },
@@ -6051,6 +6033,7 @@ var render = function () {
       modal_class: "bkt-monitoring-modal bkt-filters-modal bkt-region-modal",
       title: "Новый мониторинг",
       loading: _vm.loading,
+      left_button_class: "d-none",
     },
     on: { left_action: _vm.clear, right_action: _vm.save },
     scopedSlots: _vm._u([

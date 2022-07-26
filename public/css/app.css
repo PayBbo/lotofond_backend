@@ -13980,6 +13980,15 @@ textarea.form-control-lg {
     color: #25282B;
   }
 }
+@media screen and (max-width: 576px) {
+  .bkt-search {
+    padding: 5px;
+    border-radius: 13px;
+  }
+  .bkt-search .bkt-search__input {
+    font-size: 12px;
+  }
+}
 .bkt-input {
   border-radius: 25px;
   padding: 16px 10px;
@@ -14907,7 +14916,7 @@ textarea.form-control-lg {
   background: #2d3244;
 }
 .bkt-sidebar__header .logo {
-  width: 12rem;
+  width: 8rem;
   margin: 0 0.8rem;
 }
 .bkt-sidebar__header .bkt-sidebar__title {
@@ -14996,7 +15005,7 @@ textarea.form-control-lg {
   display: flex;
   align-items: center;
 }
-.bkt-sidebar .bkt-sidebar__user img {
+.bkt-sidebar .bkt-sidebar__user-image {
   width: 2.9rem;
   height: 2.9rem;
   border-radius: 50%;
@@ -17872,7 +17881,7 @@ ul.bkt-contents .bkt-contents__answer {
 .bkt-register .bkt-register-collapse__search {
   padding: 15px 40px;
 }
-.bkt-register .bkt-register-collapse .bkt-search__wrapper {
+.bkt-register .bkt-register-collapse .bkt-register__search-wrapper {
   border-bottom: 4px solid #f5f7fe;
   border-top: 4px solid #f5f7fe;
 }
@@ -17890,7 +17899,11 @@ ul.bkt-contents .bkt-contents__answer {
 .bkt-register .bkt-item-rounded {
   border-radius: 10px;
 }
+.bkt-register .bkt-register-filters__body {
+  padding: 0 40px;
+}
 .bkt-register .bkt-register-filters .bkt-search {
+  padding: 10px;
   background: rgb(244, 247, 254) !important;
 }
 .bkt-register .bkt-register-filters .bkt-search__input {
@@ -17909,6 +17922,20 @@ ul.bkt-contents .bkt-contents__answer {
 @media (max-width: 576px) {
   .bkt-register .bkt-register-filters {
     flex-wrap: wrap;
+  }
+  .bkt-register .bkt-register-filters__body {
+    padding: 0 25px;
+  }
+  .bkt-register .bkt-register-filters__body .bkt-register-filters__button {
+    padding: 16px 22px;
+    font-size: 12px;
+    line-height: 1.2;
+    border-radius: 13px;
+    max-width: 101px;
+    height: 44px;
+  }
+  .bkt-register .bkt-register-filters__body .bkt-search {
+    padding: 5px;
   }
   .bkt-register .bkt-pagination-items {
     order: 1;
@@ -17947,7 +17974,7 @@ ul.bkt-contents .bkt-contents__answer {
   .bkt-register .bkt-register-collapse__search .bkt-search__input::placeholder {
     color: rgba(45, 50, 68, 0.251);
   }
-  .bkt-register .bkt-register-collapse .bkt-search__wrapper {
+  .bkt-register .bkt-register-collapse .bkt-register__search-wrapper {
     border-bottom: 2px solid #f5f7fe;
     border-top: 2px solid #f5f7fe;
   }

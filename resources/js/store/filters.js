@@ -150,6 +150,22 @@ export default {
                 type: "publishDate"
             }
         },
+        messages_filters: {
+            searchString:'',
+            debtor: '',
+            types: [],
+            regions: [],
+            publishDate: {
+                start: '',
+                end: ''
+            },
+            messageHasFiles: false,
+            // sort: {
+            //     direction: "asc",
+            //     type: "date"
+            // },
+            // perPage: 20,
+        }
     },
 
     getters: {
@@ -182,6 +198,9 @@ export default {
         },
         nearest_filters(state) {
             return state.nearest_filters;
+        },
+        messages_filters(state) {
+            return state.messages_filters;
         },
     },
 

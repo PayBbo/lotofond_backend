@@ -433,16 +433,59 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "Agent",
   data: function data() {
     return {
+      loading: false,
       service: {
         name: '',
         email: '',
-        phone: ''
+        phone: '',
+        socialsForAnswer: [],
+        date: '',
+        terms: false
       }
     };
+  },
+  methods: {
+    sendApplication: function sendApplication() {
+      var _this = this;
+
+      this.loading = true;
+      axios.post('/api/send/', this.service).then(function (resp) {
+        _this.loading = false;
+      })["catch"](function (error) {
+        _this.loading = false;
+      });
+    },
+    toggleSocial: function toggleSocial(social) {
+      var index = this.service.socialsForAnswer.indexOf(social);
+
+      if (index < 0) {
+        this.service.socialsForAnswer.push(social);
+      } else {
+        this.service.socialsForAnswer.splice(index, 1);
+      }
+    }
   }
 });
 
@@ -564,7 +607,7 @@ var render = function () {
                     1
                   ),
                   _vm._v(" "),
-                  _c("p", { staticClass: "bkt-card__text" }, [
+                  _c("p", { staticClass: "bkt-card__text my-auto my-md-0" }, [
                     _vm._v("Не нужно вникать в тонкости процесса торгов"),
                   ]),
                 ]
@@ -590,7 +633,7 @@ var render = function () {
                     1
                   ),
                   _vm._v(" "),
-                  _c("p", { staticClass: "bkt-card__text" }, [
+                  _c("p", { staticClass: "bkt-card__text my-auto my-md-0" }, [
                     _vm._v(
                       "\n                        Обходится дешевле, чем покупка ЭЦП\n                    "
                     ),
@@ -618,7 +661,7 @@ var render = function () {
                     1
                   ),
                   _vm._v(" "),
-                  _c("p", { staticClass: "bkt-card__text" }, [
+                  _c("p", { staticClass: "bkt-card__text my-auto my-md-0" }, [
                     _vm._v("Не нужно изучать сервисы и площадки"),
                   ]),
                 ]
@@ -642,7 +685,7 @@ var render = function () {
                     1
                   ),
                   _vm._v(" "),
-                  _c("p", { staticClass: "bkt-card__text" }, [
+                  _c("p", { staticClass: "bkt-card__text my-auto my-md-0" }, [
                     _vm._v("Гарантируем допуск к торгам"),
                   ]),
                 ]
@@ -666,7 +709,7 @@ var render = function () {
                     1
                   ),
                   _vm._v(" "),
-                  _c("p", { staticClass: "bkt-card__text" }, [
+                  _c("p", { staticClass: "bkt-card__text my-auto my-md-0" }, [
                     _vm._v("Экономим вам время и силы"),
                   ]),
                 ]
@@ -704,6 +747,7 @@ var render = function () {
                         type: "text",
                         rules: "required|alpha|min:2",
                         label: "имя фамилия",
+                        label_class: "bkt-form__label",
                         field_name: "Имя Фамилия",
                         placeholder: "Иванов Иван",
                         icon_name: "User",
@@ -722,6 +766,7 @@ var render = function () {
                         name: "email",
                         type: "email",
                         label: "email",
+                        label_class: "bkt-form__label",
                         field_name: "Email",
                         rules: "required",
                         placeholder: "pochta@gmail.com",
@@ -741,6 +786,7 @@ var render = function () {
                         name: "phone",
                         type: "tel",
                         label: "номер телефона",
+                        label_class: "bkt-form__label",
                         field_name: "Номер телефона",
                         rules: "required|phone",
                         placeholder: "+7 495 000-00-00",
@@ -764,7 +810,7 @@ var render = function () {
                       _c(
                         "label",
                         {
-                          staticClass: "bkt-input__label",
+                          staticClass: "bkt-input__label bkt-form__label",
                           staticStyle: { "margin-bottom": "10px" },
                         },
                         [_vm._v("где вам удобнее общаться")]
@@ -773,7 +819,18 @@ var render = function () {
                       _c("div", { staticClass: "communications" }, [
                         _c(
                           "button",
-                          { staticClass: "bkt-button bkt-bg-body" },
+                          {
+                            staticClass: "bkt-button bkt-bg-body",
+                            class:
+                              _vm.service.socialsForAnswer.indexOf("Viber") >= 0
+                                ? "bkt-border-primary"
+                                : "bkt-border-body",
+                            on: {
+                              click: function ($event) {
+                                return _vm.toggleSocial("Viber")
+                              },
+                            },
+                          },
                           [
                             _c("bkt-icon", {
                               staticClass: "bkt-button__icon",
@@ -785,7 +842,18 @@ var render = function () {
                         _vm._v(" "),
                         _c(
                           "button",
-                          { staticClass: "bkt-button bkt-bg-body" },
+                          {
+                            staticClass: "bkt-button bkt-bg-body",
+                            class:
+                              _vm.service.socialsForAnswer.indexOf("Vk") >= 0
+                                ? "bkt-border-primary"
+                                : "bkt-border-body",
+                            on: {
+                              click: function ($event) {
+                                return _vm.toggleSocial("Vk")
+                              },
+                            },
+                          },
                           [
                             _c("bkt-icon", {
                               staticClass: "bkt-button__icon",
@@ -797,7 +865,20 @@ var render = function () {
                         _vm._v(" "),
                         _c(
                           "button",
-                          { staticClass: "bkt-button bkt-bg-body" },
+                          {
+                            staticClass: "bkt-button bkt-bg-body",
+                            class:
+                              _vm.service.socialsForAnswer.indexOf(
+                                "Telegram"
+                              ) >= 0
+                                ? "bkt-border-primary"
+                                : "bkt-border-body",
+                            on: {
+                              click: function ($event) {
+                                return _vm.toggleSocial("Telegram")
+                              },
+                            },
+                          },
                           [
                             _c("bkt-icon", {
                               staticClass: "bkt-button__icon",
@@ -809,7 +890,20 @@ var render = function () {
                         _vm._v(" "),
                         _c(
                           "button",
-                          { staticClass: "bkt-button bkt-bg-body" },
+                          {
+                            staticClass: "bkt-button bkt-bg-body",
+                            class:
+                              _vm.service.socialsForAnswer.indexOf(
+                                "WhatsApp"
+                              ) >= 0
+                                ? "bkt-border-primary"
+                                : "bkt-border-body",
+                            on: {
+                              click: function ($event) {
+                                return _vm.toggleSocial("WhatsApp")
+                              },
+                            },
+                          },
                           [
                             _c("bkt-icon", {
                               staticClass: "bkt-button__icon",
@@ -820,7 +914,7 @@ var render = function () {
                         ),
                         _vm._v(" "),
                         _c(
-                          "button",
+                          "div",
                           {
                             staticClass: "bkt-button bkt-bg-body bkt-text-main",
                           },
@@ -832,555 +926,31 @@ var render = function () {
                     _c("div", { staticClass: "bkt-input__wrapper" }, [
                       _c("label", { staticClass: "bkt-form__label" }, [
                         _vm._v(
-                          "\n                    позвоните\n                    лучше"
+                          "\n                    позвоните лучше\n                "
                         ),
                       ]),
                       _vm._v(" "),
-                      _c("div", { staticClass: "time_to_call" }, [
-                        _c(
-                          "select",
-                          {
-                            staticClass: "form-select",
-                            attrs: { name: "day", id: "day" },
-                          },
-                          [
-                            _c("option", { attrs: { value: "1" } }, [
-                              _vm._v("01"),
-                            ]),
-                            _vm._v(" "),
-                            _c("option", { attrs: { value: "2" } }, [
-                              _vm._v("02"),
-                            ]),
-                            _vm._v(" "),
-                            _c("option", { attrs: { value: "3" } }, [
-                              _vm._v("03"),
-                            ]),
-                            _vm._v(" "),
-                            _c("option", { attrs: { value: "4" } }, [
-                              _vm._v("04"),
-                            ]),
-                            _vm._v(" "),
-                            _c("option", { attrs: { value: "5" } }, [
-                              _vm._v("05"),
-                            ]),
-                            _vm._v(" "),
-                            _c("option", { attrs: { value: "6" } }, [
-                              _vm._v("06"),
-                            ]),
-                            _vm._v(" "),
-                            _c("option", { attrs: { value: "7" } }, [
-                              _vm._v("07"),
-                            ]),
-                            _vm._v(" "),
-                            _c("option", { attrs: { value: "8" } }, [
-                              _vm._v("08"),
-                            ]),
-                            _vm._v(" "),
-                            _c("option", { attrs: { value: "9" } }, [
-                              _vm._v("09"),
-                            ]),
-                            _vm._v(" "),
-                            _c("option", { attrs: { value: "10" } }, [
-                              _vm._v("10"),
-                            ]),
-                            _vm._v(" "),
-                            _c("option", { attrs: { value: "11" } }, [
-                              _vm._v("11"),
-                            ]),
-                            _vm._v(" "),
-                            _c("option", { attrs: { value: "12" } }, [
-                              _vm._v("12"),
-                            ]),
-                            _vm._v(" "),
-                            _c("option", { attrs: { value: "13" } }, [
-                              _vm._v("13"),
-                            ]),
-                            _vm._v(" "),
-                            _c("option", { attrs: { value: "14" } }, [
-                              _vm._v("14"),
-                            ]),
-                            _vm._v(" "),
-                            _c("option", { attrs: { value: "15" } }, [
-                              _vm._v("15"),
-                            ]),
-                            _vm._v(" "),
-                            _c("option", { attrs: { value: "16" } }, [
-                              _vm._v("16"),
-                            ]),
-                            _vm._v(" "),
-                            _c("option", { attrs: { value: "17" } }, [
-                              _vm._v("17"),
-                            ]),
-                            _vm._v(" "),
-                            _c("option", { attrs: { value: "18" } }, [
-                              _vm._v("18"),
-                            ]),
-                            _vm._v(" "),
-                            _c("option", { attrs: { value: "19" } }, [
-                              _vm._v("19"),
-                            ]),
-                            _vm._v(" "),
-                            _c("option", { attrs: { value: "20" } }, [
-                              _vm._v("20"),
-                            ]),
-                            _vm._v(" "),
-                            _c("option", { attrs: { value: "21" } }, [
-                              _vm._v("21"),
-                            ]),
-                            _vm._v(" "),
-                            _c("option", { attrs: { value: "22" } }, [
-                              _vm._v("22"),
-                            ]),
-                            _vm._v(" "),
-                            _c("option", { attrs: { value: "23" } }, [
-                              _vm._v("23"),
-                            ]),
-                            _vm._v(" "),
-                            _c("option", { attrs: { value: "24" } }, [
-                              _vm._v("24"),
-                            ]),
-                            _vm._v(" "),
-                            _c("option", { attrs: { value: "25" } }, [
-                              _vm._v("25"),
-                            ]),
-                            _vm._v(" "),
-                            _c("option", { attrs: { value: "26" } }, [
-                              _vm._v("26"),
-                            ]),
-                            _vm._v(" "),
-                            _c("option", { attrs: { value: "27" } }, [
-                              _vm._v("27"),
-                            ]),
-                            _vm._v(" "),
-                            _c("option", { attrs: { value: "28" } }, [
-                              _vm._v("28"),
-                            ]),
-                            _vm._v(" "),
-                            _c("option", { attrs: { value: "29" } }, [
-                              _vm._v("29"),
-                            ]),
-                            _vm._v(" "),
-                            _c("option", { attrs: { value: "30" } }, [
-                              _vm._v("30"),
-                            ]),
-                            _vm._v(" "),
-                            _c("option", { attrs: { value: "31" } }, [
-                              _vm._v("31"),
-                            ]),
-                          ]
-                        ),
-                        _vm._v(" "),
-                        _c(
-                          "select",
-                          {
-                            staticClass: "form-select",
-                            attrs: { name: "month", id: "month" },
-                          },
-                          [
-                            _c("option", { attrs: { value: "01" } }, [
-                              _vm._v("янв."),
-                            ]),
-                            _vm._v(" "),
-                            _c("option", { attrs: { value: "02" } }, [
-                              _vm._v("фев."),
-                            ]),
-                            _vm._v(" "),
-                            _c("option", { attrs: { value: "03" } }, [
-                              _vm._v("март"),
-                            ]),
-                            _vm._v(" "),
-                            _c("option", { attrs: { value: "04" } }, [
-                              _vm._v("апр."),
-                            ]),
-                            _vm._v(" "),
-                            _c("option", { attrs: { value: "05" } }, [
-                              _vm._v("май"),
-                            ]),
-                            _vm._v(" "),
-                            _c("option", { attrs: { value: "06" } }, [
-                              _vm._v("июнь"),
-                            ]),
-                            _vm._v(" "),
-                            _c("option", { attrs: { value: "07" } }, [
-                              _vm._v("июль"),
-                            ]),
-                            _vm._v(" "),
-                            _c("option", { attrs: { value: "08" } }, [
-                              _vm._v("авг."),
-                            ]),
-                            _vm._v(" "),
-                            _c("option", { attrs: { value: "09" } }, [
-                              _vm._v("сент."),
-                            ]),
-                            _vm._v(" "),
-                            _c("option", { attrs: { value: "10" } }, [
-                              _vm._v("окт."),
-                            ]),
-                            _vm._v(" "),
-                            _c("option", { attrs: { value: "11" } }, [
-                              _vm._v("нояб."),
-                            ]),
-                            _vm._v(" "),
-                            _c("option", { attrs: { value: "12" } }, [
-                              _vm._v("дек."),
-                            ]),
-                          ]
-                        ),
-                        _vm._v(" "),
-                        _c(
-                          "select",
-                          {
-                            staticClass: "form-select",
-                            attrs: { name: "hours", id: "hours" },
-                          },
-                          [
-                            _c("option", { attrs: { value: "00" } }, [
-                              _vm._v("00"),
-                            ]),
-                            _vm._v(" "),
-                            _c("option", { attrs: { value: "01" } }, [
-                              _vm._v("01"),
-                            ]),
-                            _vm._v(" "),
-                            _c("option", { attrs: { value: "02" } }, [
-                              _vm._v("02"),
-                            ]),
-                            _vm._v(" "),
-                            _c("option", { attrs: { value: "03" } }, [
-                              _vm._v("03"),
-                            ]),
-                            _vm._v(" "),
-                            _c("option", { attrs: { value: "04" } }, [
-                              _vm._v("04"),
-                            ]),
-                            _vm._v(" "),
-                            _c("option", { attrs: { value: "05" } }, [
-                              _vm._v("05"),
-                            ]),
-                            _vm._v(" "),
-                            _c("option", { attrs: { value: "06" } }, [
-                              _vm._v("06"),
-                            ]),
-                            _vm._v(" "),
-                            _c("option", { attrs: { value: "07" } }, [
-                              _vm._v("07"),
-                            ]),
-                            _vm._v(" "),
-                            _c("option", { attrs: { value: "08" } }, [
-                              _vm._v("08"),
-                            ]),
-                            _vm._v(" "),
-                            _c("option", { attrs: { value: "09" } }, [
-                              _vm._v("09"),
-                            ]),
-                            _vm._v(" "),
-                            _c("option", { attrs: { value: "10" } }, [
-                              _vm._v("10"),
-                            ]),
-                            _vm._v(" "),
-                            _c("option", { attrs: { value: "11" } }, [
-                              _vm._v("11"),
-                            ]),
-                            _vm._v(" "),
-                            _c("option", { attrs: { value: "12" } }, [
-                              _vm._v("12"),
-                            ]),
-                            _vm._v(" "),
-                            _c("option", { attrs: { value: "13" } }, [
-                              _vm._v("13"),
-                            ]),
-                            _vm._v(" "),
-                            _c("option", { attrs: { value: "14" } }, [
-                              _vm._v("14"),
-                            ]),
-                            _vm._v(" "),
-                            _c("option", { attrs: { value: "15" } }, [
-                              _vm._v("15"),
-                            ]),
-                            _vm._v(" "),
-                            _c("option", { attrs: { value: "16" } }, [
-                              _vm._v("16"),
-                            ]),
-                            _vm._v(" "),
-                            _c("option", { attrs: { value: "17" } }, [
-                              _vm._v("17"),
-                            ]),
-                            _vm._v(" "),
-                            _c("option", { attrs: { value: "18" } }, [
-                              _vm._v("18"),
-                            ]),
-                            _vm._v(" "),
-                            _c("option", { attrs: { value: "19" } }, [
-                              _vm._v("19"),
-                            ]),
-                            _vm._v(" "),
-                            _c("option", { attrs: { value: "20" } }, [
-                              _vm._v("20"),
-                            ]),
-                            _vm._v(" "),
-                            _c("option", { attrs: { value: "21" } }, [
-                              _vm._v("21"),
-                            ]),
-                            _vm._v(" "),
-                            _c("option", { attrs: { value: "22" } }, [
-                              _vm._v("22"),
-                            ]),
-                            _vm._v(" "),
-                            _c("option", { attrs: { value: "23" } }, [
-                              _vm._v("23"),
-                            ]),
-                          ]
-                        ),
-                        _vm._v(" "),
-                        _c(
-                          "select",
-                          {
-                            staticClass: "form-select",
-                            attrs: { name: "minutes", id: "minutes" },
-                          },
-                          [
-                            _c("option", { attrs: { value: "00" } }, [
-                              _vm._v("00"),
-                            ]),
-                            _vm._v(" "),
-                            _c("option", { attrs: { value: "01" } }, [
-                              _vm._v("01"),
-                            ]),
-                            _vm._v(" "),
-                            _c("option", { attrs: { value: "02" } }, [
-                              _vm._v("02"),
-                            ]),
-                            _vm._v(" "),
-                            _c("option", { attrs: { value: "03" } }, [
-                              _vm._v("03"),
-                            ]),
-                            _vm._v(" "),
-                            _c("option", { attrs: { value: "04" } }, [
-                              _vm._v("04"),
-                            ]),
-                            _vm._v(" "),
-                            _c("option", { attrs: { value: "05" } }, [
-                              _vm._v("05"),
-                            ]),
-                            _vm._v(" "),
-                            _c("option", { attrs: { value: "06" } }, [
-                              _vm._v("06"),
-                            ]),
-                            _vm._v(" "),
-                            _c("option", { attrs: { value: "07" } }, [
-                              _vm._v("07"),
-                            ]),
-                            _vm._v(" "),
-                            _c("option", { attrs: { value: "08" } }, [
-                              _vm._v("08"),
-                            ]),
-                            _vm._v(" "),
-                            _c("option", { attrs: { value: "09" } }, [
-                              _vm._v("09"),
-                            ]),
-                            _vm._v(" "),
-                            _c("option", { attrs: { value: "10" } }, [
-                              _vm._v("10"),
-                            ]),
-                            _vm._v(" "),
-                            _c("option", { attrs: { value: "11" } }, [
-                              _vm._v("11"),
-                            ]),
-                            _vm._v(" "),
-                            _c("option", { attrs: { value: "12" } }, [
-                              _vm._v("12"),
-                            ]),
-                            _vm._v(" "),
-                            _c("option", { attrs: { value: "13" } }, [
-                              _vm._v("13"),
-                            ]),
-                            _vm._v(" "),
-                            _c("option", { attrs: { value: "14" } }, [
-                              _vm._v("14"),
-                            ]),
-                            _vm._v(" "),
-                            _c("option", { attrs: { value: "15" } }, [
-                              _vm._v("15"),
-                            ]),
-                            _vm._v(" "),
-                            _c("option", { attrs: { value: "16" } }, [
-                              _vm._v("16"),
-                            ]),
-                            _vm._v(" "),
-                            _c("option", { attrs: { value: "17" } }, [
-                              _vm._v("17"),
-                            ]),
-                            _vm._v(" "),
-                            _c("option", { attrs: { value: "18" } }, [
-                              _vm._v("18"),
-                            ]),
-                            _vm._v(" "),
-                            _c("option", { attrs: { value: "19" } }, [
-                              _vm._v("19"),
-                            ]),
-                            _vm._v(" "),
-                            _c("option", { attrs: { value: "20" } }, [
-                              _vm._v("20"),
-                            ]),
-                            _vm._v(" "),
-                            _c("option", { attrs: { value: "21" } }, [
-                              _vm._v("21"),
-                            ]),
-                            _vm._v(" "),
-                            _c("option", { attrs: { value: "22" } }, [
-                              _vm._v("22"),
-                            ]),
-                            _vm._v(" "),
-                            _c("option", { attrs: { value: "23" } }, [
-                              _vm._v("23"),
-                            ]),
-                            _vm._v(" "),
-                            _c("option", { attrs: { value: "24" } }, [
-                              _vm._v("24"),
-                            ]),
-                            _vm._v(" "),
-                            _c("option", { attrs: { value: "25" } }, [
-                              _vm._v("25"),
-                            ]),
-                            _vm._v(" "),
-                            _c("option", { attrs: { value: "26" } }, [
-                              _vm._v("26"),
-                            ]),
-                            _vm._v(" "),
-                            _c("option", { attrs: { value: "27" } }, [
-                              _vm._v("27"),
-                            ]),
-                            _vm._v(" "),
-                            _c("option", { attrs: { value: "28" } }, [
-                              _vm._v("28"),
-                            ]),
-                            _vm._v(" "),
-                            _c("option", { attrs: { value: "29" } }, [
-                              _vm._v("29"),
-                            ]),
-                            _vm._v(" "),
-                            _c("option", { attrs: { value: "30" } }, [
-                              _vm._v("30"),
-                            ]),
-                            _vm._v(" "),
-                            _c("option", { attrs: { value: "31" } }, [
-                              _vm._v("31"),
-                            ]),
-                            _vm._v(" "),
-                            _c("option", { attrs: { value: "32" } }, [
-                              _vm._v("32"),
-                            ]),
-                            _vm._v(" "),
-                            _c("option", { attrs: { value: "33" } }, [
-                              _vm._v("33"),
-                            ]),
-                            _vm._v(" "),
-                            _c("option", { attrs: { value: "34" } }, [
-                              _vm._v("34"),
-                            ]),
-                            _vm._v(" "),
-                            _c("option", { attrs: { value: "35" } }, [
-                              _vm._v("35"),
-                            ]),
-                            _vm._v(" "),
-                            _c("option", { attrs: { value: "36" } }, [
-                              _vm._v("36"),
-                            ]),
-                            _vm._v(" "),
-                            _c("option", { attrs: { value: "37" } }, [
-                              _vm._v("37"),
-                            ]),
-                            _vm._v(" "),
-                            _c("option", { attrs: { value: "38" } }, [
-                              _vm._v("38"),
-                            ]),
-                            _vm._v(" "),
-                            _c("option", { attrs: { value: "39" } }, [
-                              _vm._v("39"),
-                            ]),
-                            _vm._v(" "),
-                            _c("option", { attrs: { value: "40" } }, [
-                              _vm._v("40"),
-                            ]),
-                            _vm._v(" "),
-                            _c("option", { attrs: { value: "41" } }, [
-                              _vm._v("41"),
-                            ]),
-                            _vm._v(" "),
-                            _c("option", { attrs: { value: "42" } }, [
-                              _vm._v("42"),
-                            ]),
-                            _vm._v(" "),
-                            _c("option", { attrs: { value: "43" } }, [
-                              _vm._v("43"),
-                            ]),
-                            _vm._v(" "),
-                            _c("option", { attrs: { value: "44" } }, [
-                              _vm._v("44"),
-                            ]),
-                            _vm._v(" "),
-                            _c("option", { attrs: { value: "45" } }, [
-                              _vm._v("45"),
-                            ]),
-                            _vm._v(" "),
-                            _c("option", { attrs: { value: "46" } }, [
-                              _vm._v("46"),
-                            ]),
-                            _vm._v(" "),
-                            _c("option", { attrs: { value: "47" } }, [
-                              _vm._v("47"),
-                            ]),
-                            _vm._v(" "),
-                            _c("option", { attrs: { value: "48" } }, [
-                              _vm._v("48"),
-                            ]),
-                            _vm._v(" "),
-                            _c("option", { attrs: { value: "49" } }, [
-                              _vm._v("49"),
-                            ]),
-                            _vm._v(" "),
-                            _c("option", { attrs: { value: "50" } }, [
-                              _vm._v("50"),
-                            ]),
-                            _vm._v(" "),
-                            _c("option", { attrs: { value: "51" } }, [
-                              _vm._v("51"),
-                            ]),
-                            _vm._v(" "),
-                            _c("option", { attrs: { value: "52" } }, [
-                              _vm._v("52"),
-                            ]),
-                            _vm._v(" "),
-                            _c("option", { attrs: { value: "53" } }, [
-                              _vm._v("53"),
-                            ]),
-                            _vm._v(" "),
-                            _c("option", { attrs: { value: "54" } }, [
-                              _vm._v("54"),
-                            ]),
-                            _vm._v(" "),
-                            _c("option", { attrs: { value: "55" } }, [
-                              _vm._v("55"),
-                            ]),
-                            _vm._v(" "),
-                            _c("option", { attrs: { value: "56" } }, [
-                              _vm._v("56"),
-                            ]),
-                            _vm._v(" "),
-                            _c("option", { attrs: { value: "57" } }, [
-                              _vm._v("57"),
-                            ]),
-                            _vm._v(" "),
-                            _c("option", { attrs: { value: "58" } }, [
-                              _vm._v("58"),
-                            ]),
-                            _vm._v(" "),
-                            _c("option", { attrs: { value: "59" } }, [
-                              _vm._v("59"),
-                            ]),
-                          ]
-                        ),
-                      ]),
+                      _c(
+                        "div",
+                        { staticClass: "time_to_call" },
+                        [
+                          _c("bkt-datepicker", {
+                            attrs: {
+                              type: "datetime",
+                              name: "service.date",
+                              field_name: "'позвоните лучше'",
+                            },
+                            model: {
+                              value: _vm.service.date,
+                              callback: function ($$v) {
+                                _vm.$set(_vm.service, "date", $$v)
+                              },
+                              expression: "service.date",
+                            },
+                          }),
+                        ],
+                        1
+                      ),
                     ]),
                     _vm._v(" "),
                     _c("bkt-checkbox", {
@@ -1406,11 +976,27 @@ var render = function () {
                         null,
                         true
                       ),
+                      model: {
+                        value: _vm.service.terms,
+                        callback: function ($$v) {
+                          _vm.$set(_vm.service, "terms", $$v)
+                        },
+                        expression: "service.terms",
+                      },
                     }),
                     _vm._v(" "),
-                    _c("button", { staticClass: "bkt-button primary" }, [
-                      _vm._v("\n                Получить услугу\n            "),
-                    ]),
+                    _c(
+                      "button",
+                      {
+                        staticClass: "bkt-button primary",
+                        attrs: { disabled: invalid || _vm.loading },
+                      },
+                      [
+                        _vm._v(
+                          "\n                Получить услугу\n            "
+                        ),
+                      ]
+                    ),
                   ]
                 },
               },
@@ -1528,7 +1114,7 @@ var staticRenderFns = [
         "div",
         {
           staticClass:
-            "bkt-form bkt-container row-cols-1 row-cols-md-2 row-cols-lg-5",
+            "bkt-form bkt-container row-cols-1 row-cols-md-5 row-cols-lg-5",
         },
         [
           _c("div", { staticClass: "col" }, [

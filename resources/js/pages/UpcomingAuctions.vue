@@ -1,11 +1,11 @@
 <template>
     <div class="bkt-page bkt-auctions bkt-container">
-        <bkt-category-modal filter="nearest_filters" method_name="getNearestTrades"/>
-        <bkt-region-modal filter="nearest_filters" method_name="getNearestTrades"/>
-        <bkt-params-modal filter="nearest_filters" method_name="getNearestTrades"/>
-        <bkt-price-modal filter="nearest_filters" method_name="getNearestTrades"/>
-        <bkt-date-modal filter="nearest_filters" method_name="getNearestTrades"/>
-        <bkt-options-modal filter="nearest_filters" method_name="getNearestTrades"/>
+        <bkt-category-modal filter_name="nearest_filters" method_name="getNearestTrades"/>
+        <bkt-region-modal filter_name="nearest_filters" method_name="getNearestTrades"/>
+        <bkt-params-modal filter_name="nearest_filters" method_name="getNearestTrades"/>
+        <bkt-price-modal filter_name="nearest_filters" method_name="getNearestTrades"/>
+        <bkt-date-modal filter_name="nearest_filters" method_name="getNearestTrades"/>
+        <bkt-options-modal filte_namer="nearest_filters" method_name="getNearestTrades"/>
         <h1 class="bkt-page__title">
             Ближайшие торги
         </h1>
@@ -63,23 +63,13 @@
                 <div class="row bkt-data__item mb-3">
                     <div class="col-2"></div>
                     <div class="col-10">
-                        {{selected_regions}}
-                        <div class="bkt-selected-region float-left d-flex">
-                            <div class="bkt-region__item bkt-bg-item-rounded bkt-item-rounded mr-2">
-                                <div class="mb-1 p-2 w-100 pl-4 pr-4 text-left">
-                                    <span class="bkt-item-rounded__text mr-2">Хабаровский край</span>
-                                    <span class="bkt-cursor-pointer">
-                    <bkt-icon :name="'Cross'"></bkt-icon>
-                  </span>
-                                </div>
-                            </div>
-                            <div class="bkt-region__item bkt-bg-item-rounded bkt-item-rounded mr-2">
-                                <div class="mb-1 p-2 w-100 pl-4 pr-4 text-left">
-                                    <span class="bkt-item-rounded__text mr-2">Бурятия</span>
-                                    <span class="bkt-cursor-pointer">
-                   <bkt-icon :name="'Cross'"></bkt-icon>
-                  </span>
-                                </div>
+                        <div class="bkt-selected-region bkt-tag__list">
+                            <div class="bkt-region__item bkt-tag justify-content-between flex-fill"
+                                 v-for="(item, index) in selected_regions">
+                                <span class="bkt-item-rounded__text mr-2">{{ $t('regions.' + item) }}</span>
+                                <span class="bkt-tag__icon bkt-cursor-pointer" @click="toggleRegion(item)">
+                            <bkt-icon name="Cancel" color="red"></bkt-icon>
+                    </span>
                             </div>
                         </div>
                     </div>
@@ -341,7 +331,10 @@
                     return null;
                 },
                 set: function (newValue) {
-                    this.selected_regions.push(newValue);
+                    let index = this.selected_regions.indexOf(newValue);
+                    if (index < 0) {
+                        this.selected_regions.push(newValue);
+                    }
                 }
             },
             region_options() {
@@ -374,11 +367,8 @@
                 this.$store.commit('openModal', '#optionsModal');
             },
             async getRegions() {
-                console.log('getRegions', this.regions.length)
                 if (this.regions.length === 0) {
-                    console.log('getRegions1', this.regions.length)
                     await this.$store.dispatch('getRegions').then(resp => {
-                        console.log('getRegions2', this.regions.length)
                     });
                 }
             },

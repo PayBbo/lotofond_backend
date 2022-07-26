@@ -25,7 +25,9 @@
                     </template>
                     <template #tbody_tr="{item}">
                         <td>{{item.id}}</td>
-                        <td><router-link custom :to="'/registries/debtor/'+item.id">{{item.fullName}}</router-link></td>
+                        <td>
+                            <router-link custom :to="'/registries/debtor/'+item.id">{{item.fullName}}</router-link>
+                        </td>
                         <td>{{item.inn ? item.inn : ''}}</td>
                         <td>{{item.region ? $t('regions.'+item.region) : ''}}</td>
                         <td>{{item.address ? item.address : ''}}</td>
@@ -56,7 +58,9 @@
                     </template>
                     <template #tbody_tr="{item}">
                         <td>{{item.id}}</td>
-                        <td><router-link custom :to="'/registries/organizer/'+item.id">{{item.fullName}}</router-link></td>
+                        <td>
+                            <router-link custom :to="'/registries/organizer/'+item.id">{{item.fullName}}</router-link>
+                        </td>
                         <td>{{item.inn ? item.inn : ''}}</td>
                         <td>{{item.region ? $t('regions.'+item.region) : ''}}</td>
                     </template>
@@ -87,7 +91,10 @@
                     </template>
                     <template #tbody_tr="{item}">
                         <td>{{item.id}}</td>
-                        <td><router-link custom :to="'/registries/arbitrationManager/'+item.id">{{item.fullName}}</router-link></td>
+                        <td>
+                            <router-link custom :to="'/registries/arbitrationManager/'+item.id">{{item.fullName}}
+                            </router-link>
+                        </td>
                         <td>{{item.inn ? item.inn : ''}}</td>
                         <td>{{item.region ? $t('regions.'+item.region) : ''}}</td>
                         <td>{{item.sroAU ? item.sroAU : ''}}</td>
@@ -96,7 +103,7 @@
             </template>
         </bkt-collapse>
 
-        <bkt-collapse main_class="bkt-register-collapse mb-2" collapse_button_class="bkt-bg-white" id="register4">
+        <bkt-collapse v-if="isLoggedIn" main_class="bkt-register-collapse mb-2" collapse_button_class="bkt-bg-white" id="register4">
             <template #title>
                 <div class="bkt-register-collapse__header">
                     <div class="bkt-bg-pink-lighter bkt-icon-frame-small bkt-icon-frame-sm">
@@ -114,165 +121,166 @@
                         <th>№</th>
                         <th>Наименование</th>
                         <th>Адрес</th>
-                        <th></th>
-                        <th>Заметка</th>
+<!--                        <th></th>-->
+<!--                        <th>Заметка</th>-->
                     </template>
                     <template #tbody_tr="{item}">
                         <td>{{item.id ? item.id : ''}}</td>
-                        <td><router-link custom :to="'/registries/trade-place/'+item.id">{{item.name ? item.name : ''}}</router-link></td>
+                        <td>
+                            <router-link custom :to="'/registries/trade-place/'+item.id">{{item.name ? item.name :
+                                ''}}
+                            </router-link>
+                        </td>
                         <td>{{item.site ? item.site : ''}}</td>
-                        <td></td>
-                        <td>{{item.note ? item.note : ''}}</td>
+<!--                        <td></td>-->
+<!--                        <td>{{item.note ? item.note : ''}}</td>-->
                     </template>
                 </bkt-registry>
             </template>
         </bkt-collapse>
 
-<!--        <bkt-collapse main_class="bkt-register-collapse mb-2" collapse_button_class="bkt-bg-white" id="register5">-->
-<!--            <template #title>-->
-<!--                <div class="bkt-register-collapse__header">-->
-<!--                    <div class="bkt-bg-blue-lighter bkt-icon-frame-small bkt-icon-frame-sm">-->
-<!--                        <bkt-icon :name="'Chat'" class="bkt-icon-frame__item" color="blue"></bkt-icon>-->
-<!--                    </div>-->
-<!--                    <h4 class="bkt-register-collapse__title">Сообщения</h4>-->
-<!--                </div>-->
-<!--            </template>-->
-<!--            <template #collapse>-->
-<!--                <bkt-registry method_name="getDebtorMessages" :method_params="messages_params"-->
-<!--                              :loading="messages_loading" :pagination_data="messages_pagination"-->
-<!--                              :items="messages" :sort="messages_sort"-->
-<!--                >-->
-<!--                    <template #filters>-->
-<!--                        <div class="bkt-register-filters p-3 m-3">-->
-<!--                            <div class="row mb-2">-->
-<!--                                <div class="col-lg-2 d-flex align-items-center">-->
-<!--                                    <span>поиск по тексту</span>-->
-<!--                                </div>-->
-<!--                                <div class="col-12 col-lg-10">-->
-<!--                                    <bkt-search v-model="messages_params.searchString"-->
-<!--                                                method_name="getDebtorMessages" :method_params="messages_params"-->
-<!--                                                :loading="messages_loading" search_field="searchString" no_dropdown-->
-<!--                                    >-->
-<!--                                    </bkt-search>-->
-<!--&lt;!&ndash;                                    <div class="w-100 bkt-search position-relative bkt-bg-neutral-light pt-0 pb-0 p-2">&ndash;&gt;-->
-<!--&lt;!&ndash;                                        <input class="w-100 bkt-search__input" type="text">&ndash;&gt;-->
-<!--&lt;!&ndash;                                        <button class="bkt-button green bkt-search__button">&ndash;&gt;-->
-<!--&lt;!&ndash;                                            <span class="d-none d-md-block">Найти</span>&ndash;&gt;-->
-<!--&lt;!&ndash;                                            <bkt-icon class="d-block d-md-none" :name="'Search'"></bkt-icon>&ndash;&gt;-->
-<!--&lt;!&ndash;                                        </button>&ndash;&gt;-->
-<!--&lt;!&ndash;                                    </div>&ndash;&gt;-->
-<!--                                </div>-->
-<!--                            </div>-->
+        <bkt-collapse main_class="bkt-register-collapse mb-2" collapse_button_class="bkt-bg-white" id="register5">
+            <template #title>
+                <div class="bkt-register-collapse__header">
+                    <div class="bkt-bg-blue-lighter bkt-icon-frame-small bkt-icon-frame-sm">
+                        <bkt-icon :name="'Chat'" class="bkt-icon-frame__item" color="blue"></bkt-icon>
+                    </div>
+                    <h4 class="bkt-register-collapse__title">Сообщения</h4>
+                </div>
+            </template>
+            <template #collapse>
+                <bkt-registry method_name="getDebtorMessages" :method_params="messages_filters"
+                              :loading="messages_loading" :pagination_data="messages_pagination"
+                              :items="messages" :sort="messages_sort"
+                >
+                    <template #filters>
+                        <div class="bkt-register-filters bkt-register-filters__body bkt-form">
+                            <div class="col-lg-2 d-flex align-items-center">
+                                <h5 class="bkt-form__label">поиск по тексту</h5>
+                            </div>
+                            <div class="col-12 col-lg-10">
+                                <bkt-search v-model="messages_params.searchString"
+                                            method_name="getDebtorMessages" :method_params="messages_filters"
+                                            :loading="messages_loading" search_field="searchString" no_dropdown
+                                            placeholder="Поиск..."
+                                >
+                                </bkt-search>
+                            </div>
+                            <div class="col-lg-2 d-flex align-items-center">
+                                <h5 class="bkt-form__label">должник</h5>
+                            </div>
+                            <div class="col-12 col-lg-10">
+                                <bkt-search v-model="messages_params.debtor"
+                                            method_name="getDebtorMessages" :method_params="messages_filters"
+                                            :loading="messages_loading" search_field="debtor" no_dropdown
+                                            placeholder="Поиск..."
+                                >
+                                </bkt-search>
+                            </div>
 
-<!--                            <div class="row mb-2">-->
-<!--                                <div class="col-lg-2 d-flex align-items-center">-->
-<!--                                    <span>должник</span>-->
-<!--                                </div>-->
-<!--                                <div class="col-12 col-lg-10">-->
-<!--                                    <bkt-search v-model="messages_params.debtor"-->
-<!--                                                method_name="getDebtorMessages" :method_params="messages_params"-->
-<!--                                                :loading="messages_loading" search_field="searchString" no_dropdown-->
-<!--                                    >-->
-<!--                                    </bkt-search>-->
-<!--&lt;!&ndash;                                    <div class="w-100 bkt-search position-relative bkt-bg-neutral-light pt-0 pb-0 p-2">&ndash;&gt;-->
-<!--&lt;!&ndash;                                        <input class="w-100 bkt-search__input" type="text">&ndash;&gt;-->
-<!--&lt;!&ndash;                                        <button class="bkt-button green bkt-search__button">&ndash;&gt;-->
-<!--&lt;!&ndash;                                            <span class="d-none d-md-block">Найти</span>&ndash;&gt;-->
-<!--&lt;!&ndash;                                            <bkt-icon class="d-block d-md-none" :name="'Search'"></bkt-icon>&ndash;&gt;-->
-<!--&lt;!&ndash;                                        </button>&ndash;&gt;-->
-<!--&lt;!&ndash;                                    </div>&ndash;&gt;-->
-<!--                                </div>-->
-<!--                            </div>-->
 
-<!--                            <div class="row mb-2">-->
-<!--                                <div class="col-lg-2 d-flex align-items-center">-->
-<!--                                    <span>типы сообщения</span>-->
-<!--                                </div>-->
-<!--                                <div class="col-12 col-lg-10 text-left">-->
-<!--                                    <button class="bkt-button bkt-bg-primary bkt-search__button">-->
-<!--                                        <span class="d-none d-md-block">Выбрать</span>-->
-<!--                                    </button>-->
-<!--                                </div>-->
-<!--                            </div>-->
-
-<!--                            <div class="row mb-2">-->
-<!--                                <div class="col-lg-2 d-flex align-items-center">-->
-<!--                                    <span>регион должника</span>-->
-<!--                                </div>-->
-<!--                                <div class="col-12 col-lg-auto text-left">-->
-<!--                                    <button class="bkt-button bkt-bg-primary bkt-search__button">-->
-<!--                                        <span class="d-none d-md-block">Выбрать</span>-->
-<!--                                    </button>-->
-<!--                                </div>-->
-<!--                                <div class="col-12 col-lg-7 col-md-5">-->
-<!--                                    <div class="bkt-tag__list">-->
-<!--                                        <div class="bkt-region__item bkt-tag justify-content-between flex-fill">-->
-<!--                                            <span class="bkt-item-rounded__text mr-2">title</span>-->
-<!--                                            <span class="bkt-tag__icon bkt-cursor-pointer">-->
-<!--                                                <bkt-icon name="Cancel" color="red"></bkt-icon>-->
-<!--                                            </span>-->
-<!--                                        </div>-->
-<!--                                    </div>-->
-<!--                                </div>-->
-<!--                            </div>-->
-
-<!--                            <div class="row mb-2">-->
-<!--                                <div class="col-lg-2 d-flex align-items-center">-->
-<!--                                    <span>дата публикации</span>-->
-<!--                                </div>-->
-<!--                                <div class="col-12 col-lg-10">-->
-<!--                                    <div class="row">-->
-<!--                                        <div class="col-12 col-lg-4">-->
-<!--                                            <bkt-datepicker field_name="с" name="dateStart"></bkt-datepicker>-->
-<!--                                        </div>-->
-<!--                                        <div class="col-12 col-lg-4">-->
-<!--                                            <bkt-datepicker field_name="по" name="dateEnd"></bkt-datepicker>-->
-<!--                                        </div>-->
-<!--                                    </div>-->
-<!--                                </div>-->
-<!--                            </div>-->
-
-<!--                            <div class="row">-->
-<!--                                <div class="col-lg-2">-->
-<!--                                </div>-->
-<!--                                <div class="col-12 col-lg-10 text-left">-->
-<!--                                    <bkt-checkbox name="check" :value="true"-->
-<!--                                                  :label="'в сообщении есть файлы'"></bkt-checkbox>-->
-<!--                                </div>-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                    </template>-->
-<!--                    <template #tr>-->
-<!--                        <th>Дата</th>-->
-<!--                        <th>Тип</th>-->
-<!--                        <th>Должник</th>-->
-<!--                    </template>-->
-<!--                    <template #tbody_tr="{item}">-->
-<!--                        <td>{{item.created_at | moment('DD.MM.YYYY')}}</td>-->
-<!--                        <td>{{item.type ? item.type : ''}}</td>-->
-<!--                        <td>{{item.debtor ? item.debtor : ''}}</td>-->
-<!--                    </template>-->
-<!--                </bkt-registry>-->
-<!--            </template>-->
-<!--        </bkt-collapse>-->
-
+                            <div class="col-7 col-md-3 col-lg-2 d-flex align-items-center">
+                                <h5 class="bkt-form__label">типы сообщения</h5>
+                            </div>
+                            <div class="col-5 col-md-9 col-lg-10 d-flex">
+                                <button class="bkt-button bkt-bg-primary bkt-register-filters__button ms-auto ms-md-0">
+                                    Выбрать
+                                </button>
+                            </div>
+                            <div class="col-7 col-md-3 col-lg-2 d-flex align-items-center">
+                                <div class="d-flex align-items-center bkt-gap-small">
+                                    <h5 class="bkt-form__label">регион должника</h5>
+                                    <span class="bkt-badge d-md-none bkt-bg-primary-lighter bkt-text-primary m-0">
+                                        {{messages_filters.regions.length}}
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="col-5 col-md-9 col-lg-10">
+                                <div class="bkt-wrapper-between">
+                                    <button class="bkt-button bkt-bg-primary bkt-register-filters__button ms-auto ms-md-0"
+                                            data-bs-toggle="modal" data-bs-target="#regionModal"
+                                    >
+                                        {{messages_filters.regions.length > 0 ? 'Изменить' : 'Выбрать'}}
+                                    </button>
+                                    <button class="bkt-button-icon bkt-bg-red-lighter d-none d-md-flex"
+                                            v-if="messages_filters.regions.length > 0"
+                                            @click="clearRegions"
+                                    >
+                                        <bkt-icon name="Trash"></bkt-icon>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="col-12 d-none d-md-flex">
+                                <div class="bkt-tag__list ">
+                                    <div class="bkt-region__item bkt-tag justify-content-between flex-fill"
+                                         v-for="(item, index) in messages_filters.regions">
+                                        <span class="bkt-item-rounded__text mr-2">{{ $t('regions.' + item) }}</span>
+                                        <span class="bkt-tag__icon bkt-cursor-pointer" @click="removeRegion(item)">
+                                                <bkt-icon name="Cancel" color="red"></bkt-icon>
+                                            </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-2 d-flex align-items-center">
+                                <h5 class="bkt-form__label">дата публикации</h5>
+                            </div>
+                            <div class="col-12 col-lg-10">
+                                <div class="bkt-form mx-auto w-100">
+                                    <div class="col-12 col-md-6 col-lg-5">
+                                        <bkt-datepicker v-model="messages_filters.publishDate.start"
+                                                        field_name="с" name="dateStart" placeholder="с"
+                                        >
+                                        </bkt-datepicker>
+                                    </div>
+                                    <div class="col-12 col-md-6 col-lg-5">
+                                        <bkt-datepicker v-model="messages_filters.publishDate.end"
+                                                        field_name="по" name="dateEnd" placeholder="по"
+                                        >
+                                        </bkt-datepicker>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-2">
+                            </div>
+                            <div class="col-12 col-lg-10 text-left">
+                                <bkt-checkbox name="check" v-model="messages_filters.messageHasFiles"
+                                              :label="'в сообщении есть файлы'"
+                                              @input="getDebtorMessages"></bkt-checkbox>
+                            </div>
+                        </div>
+                    </template>
+                    <template #tr>
+                        <th>Дата</th>
+                        <th>Тип</th>
+                        <th>Должник</th>
+                    </template>
+                    <template #tbody_tr="{item}">
+                        <td>{{item.created_at | moment('DD.MM.YYYY')}}</td>
+                        <td>{{item.type ? item.type : ''}}</td>
+                        <td>{{item.debtor ? item.debtor : ''}}</td>
+                    </template>
+                </bkt-registry>
+            </template>
+        </bkt-collapse>
+        <bkt-region-modal filter_name="messages_filters" method_name="getDebtorMessages"/>
     </div>
 </template>
 
 <script>
     import BktCollapse from '../components/Collapse.vue'
     import BktRegistry from "./Registries/Registry";
+    import BktRegionModal from "./Main/RegionModal";
 
     export default {
         name: "Registries",
         components: {
             // MainParamsModal,
-            BktCollapse, BktRegistry
+            BktCollapse, BktRegistry, BktRegionModal
         },
         data() {
             return {
                 messages_params: {
-                    searchString:'',
+                    searchString: '',
                     debtor: '',
                     types: [],
                     regions: [],
@@ -306,11 +314,15 @@
                     // {title: 'наименованию', value: 'name'},
                 ],
                 messages_sort: [
-                    {title: 'идентификатору', value: 'id'},
+                    // {title: 'идентификатору', value: 'id'},
+                    {title: 'дате', value: 'date'},
                 ],
             }
         },
         computed: {
+            isLoggedIn() {
+                return this.$store.getters.isLoggedIn
+            },
             debtors() {
                 return this.$store.getters.debtors;
             },
@@ -377,6 +389,37 @@
             messages_loading() {
                 return this.$store.getters.messages_loading;
             },
+            messages_filters: {
+                get() {
+                    return this.$store.getters.messages_filters;
+                },
+                set(value) {
+                    this.$store.dispatch('saveDataProperty', {
+                        module_key: 'filters',
+                        key: 'messages_filters',
+                        value: value
+                    });
+                    this.getDebtorMessages()
+                }
+            },
+        },
+        methods: {
+            removeRegion(region) {
+                let item_index = this.messages_filters.regions.findIndex(el => el === region);
+                if (item_index >= 0) {
+                    this.messages_filters.regions.splice(item_index, 1);
+                }
+            },
+            clearRegions() {
+                this.$store.dispatch('saveDataProperty', {
+                    module_key: 'filters',
+                    key: 'messages_filters.regions',
+                    value: []
+                });
+            },
+            getDebtorMessages() {
+                this.$store.dispatch('getDebtorMessages', this.messages_filters);
+            }
         }
     }
 </script>

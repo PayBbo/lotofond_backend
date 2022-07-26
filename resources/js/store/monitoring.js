@@ -52,7 +52,8 @@ export default {
             if (!state.monitorings[payload.pathId]) {
                 state.monitorings[payload.pathId] = {
                     data: [],
-                    pagination: {}
+                    pagination: {},
+                    loading: false
                 }
             }
             payload.data.data.forEach(item => {

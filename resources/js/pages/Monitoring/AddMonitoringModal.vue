@@ -1,7 +1,7 @@
 <template>
     <bkt-modal :id="'addMonitoringModal'"
                modal_class="bkt-monitoring-modal bkt-filters-modal bkt-region-modal"
-               :title="'Новый мониторинг'" :loading="loading"
+               :title="'Новый мониторинг'" :loading="loading" left_button_class="d-none"
                @left_action="clear" @right_action="save"
     >
         <template #body="{ invalid }">

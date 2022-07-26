@@ -2815,15 +2815,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "RegionModal",
@@ -2848,8 +2839,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     };
   },
   created: function created() {
-    this.getRegions();
-    this.result = JSON.parse(JSON.stringify(this.$store.getters.filters_regions));
+    this.getRegions(); // this.result = JSON.parse(JSON.stringify(this.$store.getters.filters_regions))
   },
   computed: {
     filters_regions: function filters_regions() {
@@ -2863,18 +2853,26 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     },
     loading: function loading() {
       return this.$store.getters.regions_loading;
+    },
+    model: {
+      get: function get() {
+        return JSON.parse(JSON.stringify(this.$store.getters[this.filter_name].regions));
+      },
+      set: function set(value) {
+        this.result = value;
+      }
     }
   },
   methods: {
     toggleRegion: function toggleRegion(region) {
-      var item_index = this.result.findIndex(function (el) {
+      var item_index = this.model.findIndex(function (el) {
         return el == region;
       });
 
       if (item_index < 0) {
-        this.result.push(region);
+        this.model.push(region);
       } else {
-        this.result.splice(item_index, 1);
+        this.model.splice(item_index, 1);
       }
     },
     selectAll: function selectAll(index) {
@@ -2882,22 +2880,22 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
       if (this.regionGroups[index].status) {
         this.regionGroups[index].regions.forEach(function (item) {
-          var item_index = _this.result.findIndex(function (el) {
+          var item_index = _this.model.findIndex(function (el) {
             return el == item;
           });
 
           if (item_index < 0) {
-            _this.result.push(item);
+            _this.model.push(item);
           }
         });
       } else {
         this.regionGroups[index].regions.forEach(function (item) {
-          var item_index = _this.result.findIndex(function (el) {
+          var item_index = _this.model.findIndex(function (el) {
             return el == item;
           });
 
           if (item_index >= 0) {
-            _this.result.splice(item_index, 1);
+            _this.model.splice(item_index, 1);
           }
         });
       }
@@ -2910,9 +2908,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     isIndeterminate: function isIndeterminate(index) {
       var _this2 = this;
 
-      var all_checked = this.allChecked(this.result, this.regionGroups[index].regions);
+      var all_checked = this.allChecked(this.model, this.regionGroups[index].regions);
       var some_checked = this.regionGroups[index].regions.some(function (v) {
-        return _this2.result.includes(v);
+        return _this2.model.includes(v);
       });
 
       if (all_checked) {
@@ -2924,12 +2922,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       return !all_checked && some_checked;
     },
     saveFilters: function saveFilters() {
-      // this.$store.commit('saveFiltersProperty', {key: 'regions', value: this.result});
+      // this.$store.commit('saveFiltersProperty', {key: 'regions', value: this.model});
       this.$store.dispatch('saveDataProperty', {
         module_key: 'filters',
         state_key: this.filter_name,
         key: 'regions',
-        value: this.result
+        value: this.model
       }, {
         root: true
       });
@@ -2940,7 +2938,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       });
     },
     clearFilters: function clearFilters() {
-      this.result = []; // this.$store.commit('saveFiltersProperty', {key: 'regions', value: []});
+      this.model = []; // this.$store.commit('saveFiltersProperty', {key: 'regions', value: []});
 
       this.$store.dispatch('saveDataProperty', {
         module_key: 'filters',
@@ -6944,61 +6942,32 @@ var render = function () {
       loading: _vm.loading,
     },
     on: { left_action: _vm.clearFilters, right_action: _vm.saveFilters },
-    scopedSlots: _vm._u(
-      [
-        {
-          key: "body",
-          fn: function (ref) {
-            var invalid = ref.invalid
-            return [
-              _c(
-                "div",
-                { staticClass: "bkt-wrapper-column bkt-gap-large" },
-                [
-                  _c("bkt-regions-control", {
-                    model: {
-                      value: _vm.result,
-                      callback: function ($$v) {
-                        _vm.result = $$v
-                      },
-                      expression: "result",
+    scopedSlots: _vm._u([
+      {
+        key: "body",
+        fn: function (ref) {
+          var invalid = ref.invalid
+          return [
+            _c(
+              "div",
+              { staticClass: "bkt-wrapper-column bkt-gap-large" },
+              [
+                _c("bkt-regions-control", {
+                  model: {
+                    value: _vm.model,
+                    callback: function ($$v) {
+                      _vm.model = $$v
                     },
-                  }),
-                  _vm._v(" "),
-                  _vm.loading
-                    ? _c(
-                        "div",
-                        {
-                          staticClass:
-                            "d-flex w-100 justify-content-center my-5",
-                        },
-                        [
-                          _vm._t("loading", function () {
-                            return [
-                              _c("div", {
-                                staticClass: "spinner-border",
-                                staticStyle: {
-                                  color: "#2953ff",
-                                  "border-width": "2px",
-                                },
-                                attrs: { role: "status" },
-                              }),
-                            ]
-                          }),
-                        ],
-                        2
-                      )
-                    : _vm._e(),
-                ],
-                1
-              ),
-            ]
-          },
+                    expression: "model",
+                  },
+                }),
+              ],
+              1
+            ),
+          ]
         },
-      ],
-      null,
-      true
-    ),
+      },
+    ]),
   })
 }
 var staticRenderFns = []

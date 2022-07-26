@@ -228,8 +228,24 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  name: "WithEcp"
+  name: "WithEcp",
+  data: function data() {
+    return {
+      application: {
+        email: '',
+        lotId: 0,
+        phone: "",
+        socialsForAnswer: []
+      }
+    };
+  },
+  methods: {
+    sendApplication: function sendApplication() {
+      axios.post('/api/send/application', this.application).then(function (resp) {})["catch"](function (error) {});
+    }
+  }
 });
 
 /***/ }),
@@ -448,9 +464,9 @@ var staticRenderFns = [
             _c("h1", { staticClass: "bkt-promo__block-title" }, [
               _vm._v("Хотите участвовать"),
               _c("br"),
-              _vm._v("в торгах"),
+              _vm._v("в торгах\n                        "),
               _c("span", { staticClass: "bkt-text-yellow" }, [
-                _vm._v(" без покупки\n                        ЭЦП?"),
+                _vm._v(" без покупки ЭЦП?"),
               ]),
             ]),
             _vm._v(" "),
@@ -525,7 +541,7 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("h2", { staticClass: "bkt-page__subtitle" }, [
-      _vm._v("В каких случаях покупать ЭЦП"),
+      _vm._v("\n            В каких случаях покупать ЭЦП\n            "),
       _c("span", { staticClass: "bkt-text-red" }, [_vm._v(" невыгодно?")]),
     ])
   },
@@ -540,7 +556,7 @@ var staticRenderFns = [
       _vm._v(" "),
       _c("p", { staticClass: "bkt-card__text" }, [
         _vm._v(
-          "Стоимость ЭЦП может достигать 30 000 руб. При однократном\n                            использовании её\n                            стоимость\n                            может не окупиться.\n                        "
+          "Стоимость ЭЦП может достигать 30 000 руб. При однократном\n                            использовании её стоимость может не окупиться.\n                        "
         ),
       ]),
     ])

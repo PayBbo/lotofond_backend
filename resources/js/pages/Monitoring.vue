@@ -22,45 +22,25 @@
                         <div class="bkt-monitoring__paths-list"
                              :class="{'p-0' : items_paths.length==1}" v-if="items_paths.length>0">
                             <slick v-bind="settings" ref="carousel" style="overflow: hidden">
-                                <!--                        <div>-->
-                                <!--                            <div-->
-                                <!--                                @click="setCurrentMonitoringPath(0)"-->
-                                <!--                                class="bkt-monitoring__path"-->
-                                <!--                                :class="current_path === 0 ? 'bkt-bg-primary bkt-text-white' : 'bkt-bg-white bkt-text-main'"-->
-                                <!--                            >-->
-                                <!--                                Все-->
-                                <!--                            </div>-->
-                                <!--                        </div>-->
                                 <div v-for="(path, index) in items_paths" :key="index">
                                     <div
                                         class="bkt-monitoring__path"
                                         :class="[current_path === path.pathId && path.color ? 'bkt-bg-'+path.color : '',
-                            {'bkt-bg-primary': current_path === path.pathId && !path.color,
-                            'bkt-bg-white bkt-text-main': current_path !== path.pathId}]"
+                                                {'bkt-bg-primary': current_path === path.pathId && !path.color,
+                                                'bkt-bg-white bkt-text-main': current_path !== path.pathId}]"
                                     >
-                                <span v-if="path.pathId === 0"
-                                      @click="setCurrentMonitoringPath(path.pathId)"
-                                >
-                                    {{path.name}}
-                                </span>
-                                        <div class="d-flex bkt-gap h-100 align-items-center" v-if="path.pathId !== 0"
+                                        <span  v-if="path.pathId === 0"
+                                              @click="setCurrentMonitoringPath(path.pathId)"
+                                               class=" bkt-cursor-pointer"
+                                        >
+                                            {{path.name}}
+                                        </span>
+                                        <div class="d-flex bkt-gap h-100 align-items-center bkt-cursor-pointer" v-if="path.pathId !== 0"
                                              @click="setCurrentMonitoringPath(path.pathId)"
                                         >
                                             <span>{{path.name}}</span>
-                                            <!--                                    <span class="bkt-badge"-->
-                                            <!--                                          :class="[-->
-                                            <!--                                          path.color ? 'bkt-text-'+path.color : 'bkt-text-primary',-->
-                                            <!--                                          current_path !== path.pathId && path.color ? 'bkt-bg-'+path.color+'-lighter' : '',-->
-                                            <!--                                          {-->
-                                            <!--                                              'bkt-bg-white': current_path === path.pathId,-->
-                                            <!--                                              'bkt-bg-primary-lighter': current_path !== path.pathId && !path.color-->
-                                            <!--                                          }-->
-                                            <!--                                      ]"-->
-                                            <!--                                    >-->
-                                            <!--                                        {{path.lotCount ? path.lotCount : '0'}}-->
-                                            <!--                                    </span>-->
                                         </div>
-                                        <div class="bkt-icon-frame-small bkt-bg-primary-lighter"
+                                        <div class="bkt-icon-frame-small bkt-bg-primary-lighter bkt-cursor-pointer"
                                              v-if="path.pathId !== 0"
                                              @click="editMonitoringPath(path.pathId)"
                                         >
@@ -127,7 +107,8 @@
                     </button>
                 </div>
             </div>
-            <div class="bkt-wrapper my-0 bkt-nowrap align-items-start bkt-gap d-md-none w-100" v-if="items_paths.length>0">
+            <div class="bkt-wrapper my-0 bkt-nowrap align-items-start bkt-gap d-md-none w-100"
+                 v-if="items_paths.length>0">
                 <bkt-collapse id="collapseMonitoringPaths" main_class="bkt-monitoring__paths-collapse"
                               :header_class="current_path_object.color ? 'bkt-bg-'+current_path_object.color : 'bkt-bg-primary'"
                               :collapse_button_class="items_paths.length>1 ? 'bkt-bg-white' : 'd-none'"
@@ -162,7 +143,7 @@
             <bkt-card-list v-if="items_paths.length>0" :current_component="'BktCard'" :items="items" :loading="loading"
                            :pagination_data="pagination_data" @change-page="getData"
                            :no_pagination="items_paths.length==0"
-                           infinite method_name="getMonitorings" :method_params="method_params">
+                            method_name="getMonitorings" :method_params="method_params">
             </bkt-card-list>
         </section>
     </div>

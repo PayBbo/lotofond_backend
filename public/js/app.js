@@ -7092,7 +7092,9 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   data: function data() {
-    return {};
+    return {
+      time_format: ''
+    };
   },
   mounted: function mounted() {
     if (!this.field_name) {
@@ -7101,6 +7103,10 @@ __webpack_require__.r(__webpack_exports__);
       if (!this.label) {
         this.field_name = this.name;
       }
+    }
+
+    if (this.type == 'datetime') {
+      this.time_format = ' HH:mm';
     }
   },
   computed: {
@@ -7562,6 +7568,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "Header",
   data: function data() {
@@ -7574,8 +7583,42 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         label: "Главная",
         color: 'primary'
       }, {
-        path: '/agent',
+        path: '/favourites',
+        icon: 'Star',
+        code: "Favourites",
+        label: "Избранное",
+        color: 'yellow',
+        meta: 'auth'
+      }, {
+        path: '/monitoring',
         icon: 'Target',
+        code: "Monitoring",
+        label: "Мониторинг",
+        color: 'red',
+        meta: 'auth'
+      }, {
+        path: '/messages',
+        icon: 'Bell',
+        code: "messages",
+        label: "Сообщения",
+        color: 'green',
+        meta: 'auth'
+      }, {
+        path: '/profile',
+        icon: 'User',
+        code: "Profile",
+        label: "Профиль",
+        color: 'primary',
+        meta: 'auth'
+      }, {
+        path: '/week-winners',
+        icon: 'Trophy',
+        code: "WeekWinners",
+        label: "Победы недели",
+        color: 'yellow'
+      }, {
+        path: '/agent',
+        icon: 'Percentage',
         code: "Agent",
         label: "Купить через агента",
         color: 'red'
@@ -7586,24 +7629,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         label: "Реестры",
         color: 'green'
       }, {
-        path: '/week-winners',
-        icon: 'Star',
-        code: "WeekWinners",
-        label: "Победы недели",
-        color: 'yellow'
-      }, {
         path: '/contacts',
         icon: 'Briefcase',
         code: "Contacts",
         label: "Контакты",
-        color: 'blue'
-      }, {
-        path: '/profile',
-        icon: 'User',
-        code: "Profile",
-        label: "Профиль",
-        color: 'primary',
-        meta: 'auth'
+        color: 'primary'
       }]
     };
   },
@@ -9860,6 +9890,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+/* harmony import */ var _store_index__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./store/index */ "./resources/js/store/index.js");
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   mode: 'history',
   linkActiveClass: 'active',
@@ -9883,9 +9915,13 @@ __webpack_require__.r(__webpack_exports__);
     }
   }, {
     path: '/profile',
+    beforeEnter: guardMyRoute,
     name: 'Profile',
     component: function component() {
       return __webpack_require__.e(/*! import() | profile */ "profile").then(__webpack_require__.bind(__webpack_require__, /*! ./pages/Profile/Profile.vue */ "./resources/js/pages/Profile/Profile.vue"));
+    },
+    meta: {
+      auth: true
     }
   }, {
     path: '/agent',
@@ -9907,21 +9943,33 @@ __webpack_require__.r(__webpack_exports__);
     }
   }, {
     path: '/favourites',
+    beforeEnter: guardMyRoute,
     name: 'Favourites',
     component: function component() {
       return __webpack_require__.e(/*! import() | favourites */ "favourites").then(__webpack_require__.bind(__webpack_require__, /*! ./pages/Favourites.vue */ "./resources/js/pages/Favourites.vue"));
+    },
+    meta: {
+      auth: true
     }
   }, {
     path: '/monitoring',
+    beforeEnter: guardMyRoute,
     name: 'Monitoring',
     component: function component() {
       return __webpack_require__.e(/*! import() | monitoring */ "monitoring").then(__webpack_require__.bind(__webpack_require__, /*! ./pages/Monitoring.vue */ "./resources/js/pages/Monitoring.vue"));
+    },
+    meta: {
+      auth: true
     }
   }, {
     path: '/messages',
+    beforeEnter: guardMyRoute,
     name: 'Messages',
     component: function component() {
       return __webpack_require__.e(/*! import() | monitoring */ "monitoring").then(__webpack_require__.bind(__webpack_require__, /*! ./pages/Messages.vue */ "./resources/js/pages/Messages.vue"));
+    },
+    meta: {
+      auth: true
     }
   }, {
     path: '/tariffs',
@@ -9937,9 +9985,13 @@ __webpack_require__.r(__webpack_exports__);
     }
   }, {
     path: '/calendar',
+    beforeEnter: guardMyRoute,
     name: 'Calendar',
     component: function component() {
       return __webpack_require__.e(/*! import() | auctions */ "auctions").then(__webpack_require__.bind(__webpack_require__, /*! ./pages/Calendar.vue */ "./resources/js/pages/Calendar.vue"));
+    },
+    meta: {
+      auth: true
     }
   }, {
     path: '/lot/:id',
@@ -9966,6 +10018,19 @@ __webpack_require__.r(__webpack_exports__);
     }
   }
 });
+
+function guardMyRoute(to, from, next) {
+  if (to.matched.some(function (record) {
+    return record.meta.auth;
+  })) {
+    if (_store_index__WEBPACK_IMPORTED_MODULE_0__["default"].getters.isLoggedIn === false) {
+      next('/');
+      return;
+    }
+  }
+
+  next();
+}
 
 /***/ }),
 
@@ -10486,7 +10551,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
      * POST
     * /bidders/estimate
     * Оценка организатора/арбитражного управляющего
-     * POST
+     * PUT
     * /bidders/debtor/messages
     * Сообщения о должнике
     *
@@ -10751,7 +10816,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 _context7.prev = 2;
                 _context7.next = 5;
                 return axios({
-                  method: 'post',
+                  method: 'put',
                   url: '/api/bidders/debtor/messages?page=' + payload.page,
                   data: payload
                 }).then(function (response) {
@@ -11048,7 +11113,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       if (!state.favourites[payload.pathId]) {
         state.favourites[payload.pathId] = {
           data: [],
-          pagination: {}
+          pagination: {},
+          loading: false
         };
       }
 
@@ -11640,6 +11706,22 @@ __webpack_require__.r(__webpack_exports__);
         direction: "asc",
         type: "publishDate"
       }
+    },
+    messages_filters: {
+      searchString: '',
+      debtor: '',
+      types: [],
+      regions: [],
+      publishDate: {
+        start: '',
+        end: ''
+      },
+      messageHasFiles: false // sort: {
+      //     direction: "asc",
+      //     type: "date"
+      // },
+      // perPage: 20,
+
     }
   },
   getters: {
@@ -11672,6 +11754,9 @@ __webpack_require__.r(__webpack_exports__);
     },
     nearest_filters: function nearest_filters(state) {
       return state.nearest_filters;
+    },
+    messages_filters: function messages_filters(state) {
+      return state.messages_filters;
     }
   },
   actions: {},
@@ -12796,7 +12881,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       if (!state.monitorings[payload.pathId]) {
         state.monitorings[payload.pathId] = {
           data: [],
-          pagination: {}
+          pagination: {},
+          loading: false
         };
       }
 
@@ -12880,16 +12966,16 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     POST
     /monitoring/add/edit/path
     Создание/редактирование папки в мониторинге
-      DELETE
+     DELETE
     /monitoring/delete/path/{id}
     Удаление папки в мониторинге
-      PUT
+     PUT
     /monitoring
     Получение данных о лотах в папке мониторинга
-      GET
+     GET
     /monitoring/get/paths
     Получение данных о папках мониторинга авторизованного пользователя
-      DELETE
+     DELETE
     /monitoring/delete/lot
     Удаление лота из папки мониторинга
     */
@@ -13170,7 +13256,12 @@ __webpack_require__.r(__webpack_exports__);
     saveDataProperty: function saveDataProperty(_ref3, payload) {
       var commit = _ref3.commit,
           rootState = _ref3.rootState;
-      var schema = rootState[payload.module_key][payload.state_key];
+      var schema = rootState[payload.module_key];
+
+      if (payload.state_key) {
+        schema = rootState[payload.module_key][payload.state_key];
+      }
+
       var pList = payload.key.split('.');
       var len = pList.length;
 
@@ -71325,9 +71416,9 @@ var render = function () {
               attrs: {
                 type: _vm.type,
                 "prefix-class": "bkt",
-                "value-type": "DD.MM.YYYY",
+                "value-type": "DD.MM.YYYY" + _vm.time_format,
                 placeholder: _vm.placeholder,
-                format: "DD MMMM YYYY",
+                format: "DD MMMM YYYY" + _vm.time_format,
                 disabled: _vm.disabled,
               },
               scopedSlots: _vm._u(
@@ -71865,7 +71956,11 @@ var render = function () {
                 staticClass: "bkt-button blue",
                 attrs: { tag: "button", to: "/without-ecp" },
               },
-              [_vm._v("\n                Покупка без ЭЦП\n            ")]
+              [
+                _vm._v(
+                  "\n                    Покупка без ЭЦП\n                "
+                ),
+              ]
             ),
             _vm._v(" "),
             _c("ul", { staticClass: "bkt-navbar__nav d-none d-lg-flex" }, [
@@ -71892,7 +71987,7 @@ var render = function () {
                       1
                     ),
                     _vm._v(
-                      "\n                        Избранное\n                    "
+                      "\n                            Избранное\n                        "
                     ),
                   ]
                 ),
@@ -71921,7 +72016,7 @@ var render = function () {
                       1
                     ),
                     _vm._v(
-                      "\n                        Мониторинг\n                    "
+                      "\n                            Мониторинг\n                        "
                     ),
                   ]
                 ),
@@ -71952,7 +72047,7 @@ var render = function () {
                       1
                     ),
                     _vm._v(
-                      "\n                        Сообщения\n                    "
+                      "\n                            Сообщения\n                        "
                     ),
                   ]
                 ),
@@ -72002,7 +72097,7 @@ var render = function () {
                             },
                             [
                               _vm._v(
-                                "\n                            " +
+                                "\n                                " +
                                   _vm._s(
                                     _vm.auth_user ? _vm.auth_user.name : ""
                                   ) +
@@ -72010,7 +72105,7 @@ var render = function () {
                                   _vm._s(
                                     _vm.auth_user ? _vm.auth_user.surname : ""
                                   ) +
-                                  "\n                        "
+                                  "\n                            "
                               ),
                             ]
                           ),
@@ -72118,7 +72213,11 @@ var render = function () {
                       "data-bs-target": "#authModal",
                     },
                   },
-                  [_vm._v("\n                Вход и регистрация\n            ")]
+                  [
+                    _vm._v(
+                      "\n                    Вход и регистрация\n                "
+                    ),
+                  ]
                 ),
           ],
           1
@@ -72134,7 +72233,7 @@ var render = function () {
               _c("router-link", { attrs: { custom: "", to: "/" } }, [
                 _c("button", { staticClass: "bkt-button primary-lighter" }, [
                   _vm._v(
-                    "\n                        Торги\n                    "
+                    "\n                            Торги\n                        "
                   ),
                 ]),
               ]),
@@ -72142,7 +72241,7 @@ var render = function () {
               _c("router-link", { attrs: { custom: "", to: "/tariffs" } }, [
                 _c("button", { staticClass: "bkt-button blue-lighter" }, [
                   _vm._v(
-                    "\n                        Тарифы\n                    "
+                    "\n                            Тарифы\n                        "
                   ),
                 ]),
               ]),
@@ -72177,7 +72276,7 @@ var render = function () {
                   },
                   [
                     _vm._v(
-                      "\n                        Купить через агента\n                    "
+                      "\n                            Купить через агента\n                        "
                     ),
                   ]
                 ),
@@ -72203,7 +72302,7 @@ var render = function () {
                       1
                     ),
                     _vm._v(
-                      "\n                        Горящие торги\n                    "
+                      "\n                            Горящие торги\n                        "
                     ),
                   ]
                 ),
@@ -72223,7 +72322,7 @@ var render = function () {
                   },
                   [
                     _vm._v(
-                      "\n                        Победы недели\n                    "
+                      "\n                            Победы недели\n                        "
                     ),
                   ]
                 ),
@@ -72243,7 +72342,7 @@ var render = function () {
                   },
                   [
                     _vm._v(
-                      "\n                        Реестры\n                    "
+                      "\n                            Реестры\n                        "
                     ),
                   ]
                 ),
@@ -72263,7 +72362,7 @@ var render = function () {
                   },
                   [
                     _vm._v(
-                      "\n                        Контакты\n                    "
+                      "\n                            Контакты\n                        "
                     ),
                   ]
                 ),
@@ -72283,7 +72382,7 @@ var render = function () {
                   },
                   [
                     _vm._v(
-                      "\n                        Тарифы\n                    "
+                      "\n                            Тарифы\n                        "
                     ),
                   ]
                 ),
@@ -72308,7 +72407,7 @@ var render = function () {
                   1
                 ),
                 _vm._v(
-                  "\n                    Изменения в законах\n                "
+                  "\n                        Изменения в законах\n                    "
                 ),
               ]
             ),
@@ -72473,7 +72572,25 @@ var render = function () {
             _vm.isLoggedIn
               ? _c("div", { staticClass: "bkt-sidebar__user" }, [
                   _c("div", { staticClass: "bkt-sidebar__profile" }, [
-                    _c("img", { attrs: { src: "", alt: "" } }),
+                    _c(
+                      "div",
+                      {
+                        staticClass:
+                          "bkt-sidebar__user-image d-flex align-items-center",
+                        staticStyle: { padding: "14px" },
+                      },
+                      [
+                        _c("bkt-icon", {
+                          attrs: {
+                            name: "User",
+                            color: "white",
+                            width: "22px",
+                            height: "22px",
+                          },
+                        }),
+                      ],
+                      1
+                    ),
                     _vm._v(" "),
                     _c(
                       "div",
@@ -72486,7 +72603,7 @@ var render = function () {
                           },
                           [
                             _vm._v(
-                              "\n                            " +
+                              "\n                                " +
                                 _vm._s(
                                   _vm.auth_user ? _vm.auth_user.name : ""
                                 ) +
@@ -72494,7 +72611,7 @@ var render = function () {
                                 _vm._s(
                                   _vm.auth_user ? _vm.auth_user.surname : ""
                                 ) +
-                                "\n                        "
+                                "\n                            "
                             ),
                           ]
                         ),
@@ -72526,7 +72643,11 @@ var render = function () {
                     attrs: { type: "button", "data-bs-dismiss": "offcanvas" },
                     on: { click: _vm.openModal },
                   },
-                  [_vm._v("\n                Вход и регистрация\n            ")]
+                  [
+                    _vm._v(
+                      "\n                    Вход и регистрация\n                "
+                    ),
+                  ]
                 ),
           ]),
         ]
@@ -72545,7 +72666,7 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "bkt-navbar__user-tarif" }, [
-      _vm._v("\n                            тариф: "),
+      _vm._v("\n                                тариф: "),
       _c("span", { staticClass: "bkt-navbar__user-tarif-name" }, [
         _vm._v("Базовый"),
       ]),
@@ -72556,7 +72677,7 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "bkt-navbar__user-tarif" }, [
-      _vm._v("\n                            тариф: "),
+      _vm._v("\n                                тариф: "),
       _c("span", { staticClass: "bkt-navbar__user-tarif-name" }, [
         _vm._v("Базовый"),
       ]),

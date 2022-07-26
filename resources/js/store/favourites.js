@@ -41,7 +41,8 @@ export default {
             {
                 state.favourites[payload.pathId]={
                     data:[],
-                    pagination:{}
+                    pagination:{},
+                    loading: false
                 }
             }
             payload.data.data.forEach(item => {

@@ -3,26 +3,32 @@
     & .bkt-register-collapse {
         background-color: rgb(255, 255, 255);
         border-radius: 25px;
+
         &__header {
             display: flex;
             align-items: center;
             gap: 15px;
         }
+
         & .bkt-collapse__header {
             padding: 25px 40px;
         }
+
         &__title {
             font-weight: 700;
             font-size: 18px;
         }
+
         &__body {
             padding: 40px;
             row-gap: 20px;
         }
+
         &__search {
             padding: 15px 40px;
         }
-        & .bkt-search__wrapper {
+
+        & .bkt-register__search-wrapper {
             border-bottom: 4px solid $body-bg;
             border-top: 4px solid $body-bg;
         }
@@ -53,7 +59,16 @@
     }
 
     & .bkt-register-filters {
+        &__body {
+            padding: 0 40px;
+
+            & .bkt-button {
+
+            }
+        }
+
         & .bkt-search {
+            padding: 10px;
             background: rgb(244, 247, 254) !important;
         }
 
@@ -79,6 +94,23 @@
     .bkt-register {
         & .bkt-register-filters {
             flex-wrap: wrap;
+
+            &__body {
+                padding: 0 25px;
+
+                & .bkt-register-filters__button {
+                    padding: 16px 22px;
+                    font-size: 12px;
+                    line-height: 1.2;
+                    border-radius: 13px;
+                    max-width: 101px;
+                    height: 44px;
+                }
+                & .bkt-search {
+                    padding: 5px;
+                }
+            }
+
         }
 
         & .bkt-pagination-items {
@@ -91,33 +123,41 @@
 
         & .bkt-register-collapse {
             border-radius: 18px;
+
             & .bkt-collapse__header {
                 padding: 10px 6px 10px 10px;
             }
+
             &__header {
                 display: flex;
                 align-items: center;
                 gap: 10px;
             }
+
             &__title {
                 font-size: 12px;
             }
+
             &__body {
                 padding: 25px;
                 row-gap: 20px;
             }
+
             &__search {
                 padding: 5px;
+
                 & .bkt-search__input {
                     font-size: 12px;
                     padding: 0 15px;
+
                     &::placeholder {
                         color: rgba(45, 50, 68, 0.251);
                     }
 
                 }
             }
-            & .bkt-search__wrapper {
+
+            & .bkt-register__search-wrapper {
                 border-bottom: 2px solid $body-bg;
                 border-top: 2px solid $body-bg;
             }

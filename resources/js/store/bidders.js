@@ -128,7 +128,7 @@ export default {
         * /bidders/estimate
         * Оценка организатора/арбитражного управляющего
 
-        * POST
+        * PUT
         * /bidders/debtor/messages
         * Сообщения о должнике
         *
@@ -233,7 +233,7 @@ export default {
             dispatch('saveDataProperty', {module_key: 'bidders', state_key: 'messages', key: 'loading', value: true}, {root: true});
             try {
                 await axios({
-                    method: 'post',
+                    method: 'put',
                     url: '/api/bidders/debtor/messages?page=' + payload.page,
                     data: payload
                 })
