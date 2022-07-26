@@ -5,20 +5,6 @@
         <template #body="{ invalid }">
             <div class="bkt-wrapper-column bkt-gap-large">
                 <bkt-regions-control v-model="result"></bkt-regions-control>
-                <div class="bkt-region-selected" v-if="result.length>0 && !loading">
-                    <h5 class="bkt-region-selected__title text-left mb-2">
-                        <span class="text-muted">выбранные регионы</span>
-                    </h5>
-                    <div class="bkt-tag__list">
-                        <div class="bkt-region__item bkt-tag justify-content-between flex-fill"
-                             v-for="(item, index) in result">
-                            <span class="bkt-item-rounded__text mr-2">{{ $t('regions.'+item)}}</span>
-                            <span class="bkt-tag__icon bkt-cursor-pointer" @click="toggleRegion(item)">
-                                    <bkt-icon name="Cancel" color="red"></bkt-icon>
-                                </span>
-                        </div>
-                    </div>
-                </div>
                 <div v-if="loading" class="d-flex w-100 justify-content-center my-5">
                     <slot name="loading">
                         <div

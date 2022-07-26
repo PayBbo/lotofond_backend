@@ -1663,20 +1663,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -2817,20 +2803,6 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 //
 //
 //
@@ -6006,71 +5978,6 @@ var render = function () {
                           expression: "result",
                         },
                       }),
-                      _vm._v(" "),
-                      _vm.result.length > 0
-                        ? _c("div", { staticClass: "bkt-region-selected" }, [
-                            _c(
-                              "h5",
-                              { staticClass: "bkt-region-selected__title" },
-                              [
-                                _vm._v(
-                                  "\n                        выбранные категории\n                    "
-                                ),
-                              ]
-                            ),
-                            _vm._v(" "),
-                            _c(
-                              "div",
-                              { staticClass: "bkt-tag__list" },
-                              _vm._l(_vm.result, function (item, index) {
-                                return _c(
-                                  "div",
-                                  {
-                                    staticClass:
-                                      "bkt-region__item bkt-tag justify-content-between flex-fill",
-                                  },
-                                  [
-                                    _c(
-                                      "span",
-                                      {
-                                        staticClass:
-                                          "bkt-item-rounded__text mr-2",
-                                      },
-                                      [
-                                        _vm._v(
-                                          _vm._s(_vm.$t("categories." + item))
-                                        ),
-                                      ]
-                                    ),
-                                    _vm._v(" "),
-                                    _c(
-                                      "span",
-                                      {
-                                        staticClass:
-                                          "bkt-tag__icon bkt-cursor-pointer",
-                                        on: {
-                                          click: function ($event) {
-                                            return _vm.toggleCategory(item)
-                                          },
-                                        },
-                                      },
-                                      [
-                                        _c("bkt-icon", {
-                                          attrs: {
-                                            name: "Cancel",
-                                            color: "red",
-                                          },
-                                        }),
-                                      ],
-                                      1
-                                    ),
-                                  ]
-                                )
-                              }),
-                              0
-                            ),
-                          ])
-                        : _vm._e(),
                     ],
                     1
                   )
@@ -7057,66 +6964,6 @@ var render = function () {
                       expression: "result",
                     },
                   }),
-                  _vm._v(" "),
-                  _vm.result.length > 0 && !_vm.loading
-                    ? _c("div", { staticClass: "bkt-region-selected" }, [
-                        _c(
-                          "h5",
-                          {
-                            staticClass:
-                              "bkt-region-selected__title text-left mb-2",
-                          },
-                          [
-                            _c("span", { staticClass: "text-muted" }, [
-                              _vm._v("выбранные регионы"),
-                            ]),
-                          ]
-                        ),
-                        _vm._v(" "),
-                        _c(
-                          "div",
-                          { staticClass: "bkt-tag__list" },
-                          _vm._l(_vm.result, function (item, index) {
-                            return _c(
-                              "div",
-                              {
-                                staticClass:
-                                  "bkt-region__item bkt-tag justify-content-between flex-fill",
-                              },
-                              [
-                                _c(
-                                  "span",
-                                  {
-                                    staticClass: "bkt-item-rounded__text mr-2",
-                                  },
-                                  [_vm._v(_vm._s(_vm.$t("regions." + item)))]
-                                ),
-                                _vm._v(" "),
-                                _c(
-                                  "span",
-                                  {
-                                    staticClass:
-                                      "bkt-tag__icon bkt-cursor-pointer",
-                                    on: {
-                                      click: function ($event) {
-                                        return _vm.toggleRegion(item)
-                                      },
-                                    },
-                                  },
-                                  [
-                                    _c("bkt-icon", {
-                                      attrs: { name: "Cancel", color: "red" },
-                                    }),
-                                  ],
-                                  1
-                                ),
-                              ]
-                            )
-                          }),
-                          0
-                        ),
-                      ])
-                    : _vm._e(),
                   _vm._v(" "),
                   _vm.loading
                     ? _c(
