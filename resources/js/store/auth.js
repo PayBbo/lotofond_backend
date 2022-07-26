@@ -106,7 +106,7 @@ export default {
         },
 
         async logout({commit}) {
-            await axios.get('/api/account/logout').then(resp => {
+            await axios.post('/api/account/logout').then(resp => {
                 console.log(resp);
                 commit('clearStorage');
                 commit('logout');

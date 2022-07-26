@@ -122,6 +122,17 @@ export default {
                     /* webpackChunkName: "week-winners" */ "./pages/WeekWinners.vue"
                     ),
 		},
+        {
+            path: '/admin/dashboard',
+            name:'Dashboard',
+            component: () =>
+                import(
+                    /* webpackChunkName: "dashboard" */ "./admin/Dashboard.vue"
+                    ),
+            meta:{
+                auth: true
+            }
+        },
 		// { path: '/:pathMatch(.*)*', component: EmptyView }
 	],
     scrollBehavior (to, from, savedPosition) {

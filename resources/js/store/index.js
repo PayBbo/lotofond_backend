@@ -12,12 +12,14 @@ import favourites from "./favourites";
 import monitoring from "./monitoring";
 import bidders from "./bidders";
 import filtersData from "./filtersData";
+import admin from './admin';
 export default new Vuex.Store({
     namespaced: false,
     modules: {
         shared, auth, trades, filters,
         marks, lots, favourites, monitoring,
-        bidders, filtersData
+        bidders, filtersData,
+        admin
     }
 })
 

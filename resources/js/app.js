@@ -166,7 +166,11 @@ import routes from './routes';
 Vue.use(VueRouter);
 import store from './store/index.js';
 
+import Fragment from 'vue-fragment'
+Vue.use(Fragment.Plugin)
+
 Vue.component("App", require("./App.vue").default);
+Vue.component("Admin", require("./Admin.vue").default);
 import Card from "./components/Card.vue";
 import Icon from "./components/Icon.vue";
 import Modal from "./components/Modal.vue";

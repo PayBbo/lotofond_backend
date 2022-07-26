@@ -15,9 +15,10 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/{any}', function () {
     return view('main');
+})->where('any', '^(?!admin).*$');
+Route::get('/admin/{any}', function () {
+    return view('admin');
 })->where('any', '.*');
-Route::get('/lot', function () {
-    return view('pages.lot-card');
-});
+
 
 

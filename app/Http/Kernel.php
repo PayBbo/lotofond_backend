@@ -66,5 +66,6 @@ class Kernel extends HttpKernel
         'json.response' => \App\Http\Middleware\ForceJsonResponse::class,
         'localization' => \App\Http\Middleware\Localization::class,
         'auth.deny' => \App\Http\Middleware\DenyIfNotAuthenticate::class,
+        'check.role' => \App\Http\Middleware\CheckRole::class,
     ];
 }
