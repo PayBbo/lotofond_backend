@@ -982,6 +982,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     value: {
       type: null,
       "default": false
+    },
+    label_column: {
+      type: String,
+      "default": 'col-12 col-lg-3 p-0'
+    },
+    content_column: {
+      type: String,
+      "default": 'col-12 col-lg-9 m-0'
     }
   },
   model: {
@@ -4870,16 +4878,12 @@ var render = function () {
                       },
                       [
                         _vm._v(
-                          "\n                            " +
+                          "\n                                " +
                             _vm._s(item.description) +
-                            "\n                        "
+                            "\n                            "
                         ),
                       ]
                     ),
-                    _vm._v(" "),
-                    _c("h6", { staticClass: "bkt-auctions-type__subtitle" }, [
-                      _vm._v("что это?"),
-                    ]),
                   ]
                 )
               }),
@@ -4923,9 +4927,13 @@ var render = function () {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "bkt-form mx-auto align-items-center" }, [
-    _vm._m(0),
+    _c("div", { class: _vm.label_column }, [
+      _c("h5", { staticClass: "bkt-form__label" }, [
+        _vm._v("начальная цена, ₽"),
+      ]),
+    ]),
     _vm._v(" "),
-    _c("div", { staticClass: "col-12 col-lg-9 m-0" }, [
+    _c("div", { class: _vm.content_column }, [
       _c("div", { staticClass: "bkt-form" }, [
         _c(
           "div",
@@ -5009,9 +5017,11 @@ var render = function () {
       ]),
     ]),
     _vm._v(" "),
-    _vm._m(1),
+    _c("div", { class: _vm.label_column }, [
+      _c("h5", { staticClass: "bkt-form__label" }, [_vm._v("текущая цена, ₽")]),
+    ]),
     _vm._v(" "),
-    _c("div", { staticClass: "col-12 col-lg-9 m-0" }, [
+    _c("div", { class: _vm.content_column }, [
       _c("div", { staticClass: "bkt-form" }, [
         _c(
           "div",
@@ -5099,9 +5109,13 @@ var render = function () {
       ]),
     ]),
     _vm._v(" "),
-    _vm._m(2),
+    _c("div", { class: _vm.label_column }, [
+      _c("h5", { staticClass: "bkt-form__label" }, [
+        _vm._v("минимальная цена, ₽"),
+      ]),
+    ]),
     _vm._v(" "),
-    _c("div", { staticClass: "col-12 col-lg-9 m-0" }, [
+    _c("div", { class: _vm.content_column }, [
       _c("div", { staticClass: "bkt-form" }, [
         _c(
           "div",
@@ -5184,9 +5198,13 @@ var render = function () {
       ]),
     ]),
     _vm._v(" "),
-    _vm._m(3),
+    _c("div", { class: _vm.label_column }, [
+      _c("h5", { staticClass: "bkt-form__label" }, [
+        _vm._v("процент снижения, %"),
+      ]),
+    ]),
     _vm._v(" "),
-    _c("div", { staticClass: "col-12 col-lg-9 m-0" }, [
+    _c("div", { class: _vm.content_column }, [
       _c("div", { staticClass: "bkt-form" }, [
         _c(
           "div",
@@ -5273,46 +5291,7 @@ var render = function () {
     ]),
   ])
 }
-var staticRenderFns = [
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-12 col-lg-3 p-0" }, [
-      _c("h5", { staticClass: "bkt-form__label" }, [
-        _vm._v("начальная цена, ₽"),
-      ]),
-    ])
-  },
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-12 col-lg-3 p-0" }, [
-      _c("h5", { staticClass: "bkt-form__label" }, [_vm._v("текущая цена, ₽")]),
-    ])
-  },
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-12 col-lg-3 p-0" }, [
-      _c("h5", { staticClass: "bkt-form__label" }, [
-        _vm._v("минимальная цена, ₽"),
-      ]),
-    ])
-  },
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-12 col-lg-3 p-0" }, [
-      _c("h5", { staticClass: "bkt-form__label" }, [
-        _vm._v("процент снижения, %"),
-      ]),
-    ])
-  },
-]
+var staticRenderFns = []
 render._withStripped = true
 
 

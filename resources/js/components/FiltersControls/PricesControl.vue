@@ -1,9 +1,9 @@
 <template>
     <div class="bkt-form mx-auto align-items-center">
-        <div class="col-12 col-lg-3 p-0">
+        <div :class="label_column">
             <h5 class="bkt-form__label">начальная цена, ₽</h5>
         </div>
-        <div class="col-12 col-lg-9 m-0">
+        <div :class="content_column">
             <div class="bkt-form">
                 <div class="col-12 col-lg-6">
                     <bkt-input v-model="model.startPrice.min"
@@ -34,10 +34,10 @@
             </div>
         </div>
 
-        <div class="col-12 col-lg-3 p-0">
+        <div :class="label_column">
             <h5 class="bkt-form__label">текущая цена, ₽</h5>
         </div>
-        <div class="col-12 col-lg-9 m-0">
+        <div :class="content_column">
             <div class="bkt-form">
                 <div class="col-12 col-lg-6">
                     <bkt-input v-model="model.currentPrice.min"
@@ -68,10 +68,10 @@
             </div>
         </div>
 
-        <div class="col-12 col-lg-3 p-0">
+        <div :class="label_column">
             <h5 class="bkt-form__label">минимальная цена, ₽</h5>
         </div>
-        <div class="col-12 col-lg-9 m-0">
+        <div :class="content_column">
             <div class="bkt-form">
                 <div class="col-12 col-lg-6">
                     <bkt-input v-model="model.minPrice.min"
@@ -101,10 +101,10 @@
             </div>
         </div>
 
-        <div class="col-12 col-lg-3 p-0">
+        <div :class="label_column">
             <h5 class="bkt-form__label">процент снижения, %</h5>
         </div>
-        <div class="col-12 col-lg-9 m-0">
+        <div :class="content_column">
             <div class="bkt-form">
                 <div class="col-12 col-lg-6">
                     <bkt-input v-model="model.percentageReduction.min"
@@ -143,6 +143,14 @@
                 type: null,
                 default: false,
             },
+            label_column: {
+                type:String,
+                default: 'col-12 col-lg-3 p-0'
+            },
+            content_column: {
+                type:String,
+                default: 'col-12 col-lg-9 m-0'
+            }
         },
         model: {
             prop: 'value',

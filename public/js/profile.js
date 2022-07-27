@@ -19,7 +19,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  name: "Switch",
+  name: "BktSwitch",
   props: {
     value: {
       type: Boolean,
@@ -42,17 +42,25 @@ __webpack_require__.r(__webpack_exports__);
     // },
 
   },
-  model: {
-    prop: 'value',
-    event: 'input'
-  },
+  // model: {
+  //     prop: 'value',
+  //     event: 'input'
+  // },
   data: function data() {
-    return {
-      model: false
+    return {// model:false,
     };
   },
-  mounted: function mounted() {
-    this.model = this.value;
+  mounted: function mounted() {// this.model = this.value;
+  },
+  computed: {
+    model: {
+      get: function get() {
+        return this.value;
+      },
+      set: function set(value) {
+        this.$emit("input", value);
+      }
+    }
   },
   methods: {
     saveValue: function saveValue() {

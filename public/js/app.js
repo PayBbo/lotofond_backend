@@ -11747,16 +11747,9 @@ __webpack_require__.r(__webpack_exports__);
         tradePlaces: [],
         tradeType: ''
       },
-      // other: {
-      //     period: 'all',
-      //     hasPhotos: false,
-      //     isStopped: false,
-      //     isCompleted: false,
-      //     isHidden: false
-      // },
       sort: {
-        direction: "asc",
-        type: "publishDate"
+        direction: "desc",
+        type: "applicationEnd"
       }
     },
     messages_filters: {
@@ -13472,7 +13465,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       state.nearest_trades_pagination = payload.pagination;
     },
     setNearestLoading: function setNearestLoading(state, payload) {
-      return state.nearest_loading = payload;
+      return state.nearest_trades_loading = payload;
     },
     setWins: function setWins(state, payload) {
       state.wins = [];
@@ -13721,13 +13714,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 _context6.next = 4;
                 return axios.put('/api/trades/nearest?page=' + payload.page, payload.filters).then(function (response) {
                   commit('setNearestTrades', response.data);
+                  commit('setNearestLoading', false);
                 })["catch"](function (error) {
-                  console.log(error);
                   commit('setNearestTrades', {
                     data: [],
                     pagination: {}
                   });
-                })["finally"](function () {
                   commit('setNearestLoading', false);
                 });
 

@@ -127,7 +127,7 @@
                                     :class="[model.tradeType===item.title ? 'bkt-border-primary': 'bkt-border-body']">
                                 {{item.description}}
                             </button>
-                            <h6 class="bkt-auctions-type__subtitle">что это?</h6>
+<!--                            <h6 class="bkt-auctions-type__subtitle">что это?</h6>-->
                         </div>
                     </div>
                 </div>

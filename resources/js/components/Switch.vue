@@ -7,7 +7,7 @@
 
 <script>
     export default {
-        name: "Switch",
+        name: "BktSwitch",
         props: {
             value: {
                 type: Boolean,
@@ -30,17 +30,27 @@
             //     default: "",
             // },
         },
-        model: {
-            prop: 'value',
-            event: 'input'
-        },
+        // model: {
+        //     prop: 'value',
+        //     event: 'input'
+        // },
         data: function() {
             return {
-                model:false,
+                // model:false,
             };
         },
         mounted() {
-            this.model = this.value;
+            // this.model = this.value;
+        },
+        computed: {
+            model: {
+                get() {
+                    return this.value;
+                },
+                set(value) {
+                    this.$emit("input", value);
+                },
+            },
         },
         methods: {
             saveValue() {

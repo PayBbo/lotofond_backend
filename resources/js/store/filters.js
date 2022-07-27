@@ -138,16 +138,9 @@ export default {
                 tradePlaces: [],
                 tradeType:'',
             },
-            // other: {
-            //     period: 'all',
-            //     hasPhotos: false,
-            //     isStopped: false,
-            //     isCompleted: false,
-            //     isHidden: false
-            // },
             sort: {
-                direction: "asc",
-                type: "publishDate"
+                direction: "desc",
+                type: "applicationEnd"
             }
         },
         messages_filters: {

@@ -81,7 +81,7 @@ export default {
             state.nearest_trades_pagination = payload.pagination;
         },
         setNearestLoading(state, payload) {
-            return (state.nearest_loading = payload);
+            return (state.nearest_trades_loading = payload);
         },
         setWins(state, payload) {
             state.wins = [];
@@ -238,10 +238,9 @@ export default {
             await axios.put('/api/trades/nearest?page=' + payload.page, payload.filters)
                 .then((response) => {
                     commit('setNearestTrades', response.data);
+                    commit('setNearestLoading', false);
                 }).catch((error) => {
-                    console.log(error);
                     commit('setNearestTrades', {data: [], pagination: {}});
-                }).finally(()=>{
                     commit('setNearestLoading', false);
                 })
 

@@ -12171,25 +12171,96 @@ textarea.form-control-lg {
 }
 
 @media (min-width: 576px) {
-  .bkt-wrapper-sm {
+  .bkt-wrapper-up-sm {
     display: flex;
     align-items: center;
     flex-direction: row;
     flex-flow: row wrap;
-    margin: auto;
   }
-  .bkt-wrapper-sm-column {
+  .bkt-wrapper-up-sm-between {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-direction: row;
+    flex-flow: row wrap;
+  }
+  .bkt-wrapper-up-sm-column {
     display: flex;
     justify-content: space-between;
     flex-direction: column;
     width: 100%;
     gap: 10px 0;
   }
-  .bkt-wrapper-sm-column-reverse {
+  .bkt-wrapper-up-sm-column-reverse {
     display: flex;
     justify-content: space-between;
     flex-direction: column-reverse;
     width: 100%;
+  }
+  .bkt-wrapper-up-sm-nowrap {
+    flex-wrap: nowrap;
+  }
+}
+@media (min-width: 768px) {
+  .bkt-wrapper-up-md {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    flex-flow: row wrap;
+  }
+  .bkt-wrapper-up-md-between {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-direction: row;
+    flex-flow: row wrap;
+  }
+  .bkt-wrapper-up-md-column {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    width: 100%;
+    gap: 10px 0;
+  }
+  .bkt-wrapper-up-md-column-reverse {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column-reverse;
+    width: 100%;
+  }
+  .bkt-wrapper-up-md-nowrap {
+    flex-wrap: nowrap;
+  }
+}
+@media (min-width: 992px) {
+  .bkt-wrapper-up-lg {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    flex-flow: row wrap;
+  }
+  .bkt-wrapper-up-lg-between {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-direction: row;
+    flex-flow: row wrap;
+  }
+  .bkt-wrapper-up-lg-column {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    width: 100%;
+    gap: 10px 0;
+  }
+  .bkt-wrapper-up-lg-column-reverse {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column-reverse;
+    width: 100%;
+  }
+  .bkt-wrapper-up-lg-nowrap {
+    flex-wrap: nowrap;
   }
 }
 @media (max-width: 576px) {
@@ -12251,6 +12322,37 @@ textarea.form-control-lg {
     width: 100%;
   }
   .bkt-wrapper-down-md-nowrap {
+    flex-wrap: nowrap;
+  }
+}
+@media (max-width: 992px) {
+  .bkt-wrapper-down-lg {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    flex-flow: row wrap;
+  }
+  .bkt-wrapper-down-lg-between {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-direction: row;
+    flex-flow: row wrap;
+  }
+  .bkt-wrapper-down-lg-column {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    width: 100%;
+    gap: 10px 0;
+  }
+  .bkt-wrapper-down-lg-column-reverse {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column-reverse;
+    width: 100%;
+  }
+  .bkt-wrapper-down-lg-nowrap {
     flex-wrap: nowrap;
   }
 }
@@ -15646,6 +15748,7 @@ textarea.form-control-lg {
   display: inline-block;
   width: 50px;
   height: 30px;
+  flex-shrink: 0;
   /* Hide default HTML checkbox */
   /* The slider */
 }
@@ -19335,150 +19438,212 @@ ul.bkt-contents .bkt-contents__answer {
   }
 }
 
-.bkt-auctions__find {
-  background-color: white;
-  border-radius: 15px;
+.bkt-auctions {
+  gap: 40px;
+  display: flex;
+  flex-direction: column;
 }
-.bkt-auctions__content {
-  border-radius: 15px;
-  background: white;
+.bkt-auctions__filters-header {
+  gap: 10px;
+  display: flex;
+  flex-wrap: nowrap;
 }
-.bkt-auctions__content .bkt-button, .bkt-auctions__content .bkt-button-link, .bkt-auctions__content .bkt-button-icon {
+.bkt-auctions__filters-header .bkt-button, .bkt-auctions__filters-header .bkt-button-link, .bkt-auctions__filters-header .bkt-button-icon {
   width: 110px;
   height: 70px;
   border-radius: 15px;
-}
-.bkt-auctions__content .bkt-content__data {
-  font-weight: 700;
-}
-.bkt-auctions__content .bkt-content__buttons .bkt-button, .bkt-auctions__content .bkt-content__buttons .bkt-button-link, .bkt-auctions__content .bkt-content__buttons .bkt-button-icon {
   display: flex;
   align-items: center;
   justify-content: center;
 }
-.bkt-auctions .bkt-btn-price-done.active {
-  background-color: #2fbb40 !important;
-}
-.bkt-auctions .bkt-btn-price-done.active svg {
-  fill: white !important;
-}
-.bkt-auctions .bkt-data__item .bkt-marketplace-checkboxes {
-  font-weight: 100;
-}
-.bkt-auctions .bkt-data__item .bkt-block-btn {
-  height: 70px;
-  align-items: center;
+.bkt-auctions__filters-content {
+  gap: 20px;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
 }
-.bkt-auctions .bkt-data__item .bkt-what-is {
-  text-decoration: underline;
-  font-weight: 100;
-}
-.bkt-auctions .bkt-data__item .bkt-input-price {
-  font-weight: 100;
-}
-.bkt-auctions .bkt-data__item .bkt-input-price__min .bkt-input__group {
-  padding-left: 1.5rem !important;
-}
-.bkt-auctions .bkt-data__item .bkt-input-price__min .bkt-input__group .bkt-input {
-  text-align: center;
-}
-.bkt-auctions .bkt-data__item .bkt-input-price__min .bkt-input__group:before {
-  content: "от";
-}
-.bkt-auctions .bkt-data__item .bkt-input-price__max .bkt-input__group {
-  padding-left: 1.5rem !important;
-}
-.bkt-auctions .bkt-data__item .bkt-input-price__max .bkt-input__group .bkt-input {
-  text-align: center;
-}
-.bkt-auctions .bkt-data__item .bkt-input-price__max .bkt-input__group:before {
-  content: "до";
-}
-.bkt-auctions .bkt-data__item .bkt-region__item {
-  background: #f5f7fe;
-  border-radius: 15px;
-}
-.bkt-auctions .bkt-footer {
+.bkt-auctions__filters-footer {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
+  gap: 40px;
 }
-.bkt-auctions .block-checkboxes {
-  font-weight: 100;
+.bkt-auctions__filters-checkboxes {
+  display: flex;
+  align-items: center;
+  gap: 40px;
 }
-.bkt-auctions .bkt-modal-delete {
+.bkt-auctions__filters-checkboxes .bkt-check__wrapper {
+  margin-bottom: 0;
+}
+.bkt-auctions__filters-checkboxes .bkt-check__label {
+  font-size: 14px;
+}
+.bkt-auctions__filters-switch {
+  gap: 10px;
+  display: flex;
+  align-items: center;
+  flex-wrap: nowrap;
+}
+.bkt-auctions__filters-switch-label {
+  font-size: 14px;
+  font-weight: 400;
+}
+.bkt-auctions__find {
+  padding: 22px;
+  text-align: center;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-family: "Gilroy";
+  color: rgb(45, 50, 68);
+  text-transform: uppercase;
+  line-height: 1.833;
+  gap: 6px;
+}
+.bkt-auctions .bkt-auctions-types .bkt-auctions-type {
+  text-align: center;
+}
+.bkt-auctions .bkt-auctions-types .bkt-auctions-type .bkt-auctions-type__card {
+  padding: 26px;
+  border-radius: 25px;
+  width: 258px;
+}
+.bkt-auctions .bkt-auctions-types .bkt-auctions-type .bkt-auctions-type__title {
+  font-size: 16px;
+  font-weight: 700;
+  color: #2d3244;
+}
+.bkt-auctions .bkt-auctions-types .bkt-auctions-type .bkt-auctions-type__subtitle {
+  font-size: 12px;
+  text-decoration: underline;
+  color: #2d3244;
+}
+.bkt-auctions .bkt-button_delete {
   width: 70px;
   height: 70px;
   padding: 23px;
-}
-.bkt-auctions .right-button .bkt-modal-save {
-  height: 70px;
-  font-size: 16px;
-  margin-left: auto;
-  color: white;
-}
-@media (max-width: 990px) {
-  .bkt-auctions .bkt-bg-transparent {
-    background: transparent;
-  }
-  .bkt-auctions__title {
-    margin-bottom: 30px;
-    margin-top: 30px;
-  }
-  .bkt-auctions__title span {
-    font-size: 24px;
-  }
-  .bkt-auctions .bkt-content__buttons {
-    flex-wrap: wrap;
-  }
-  .bkt-auctions .bkt-content__buttons .bkt-button, .bkt-auctions .bkt-content__buttons .bkt-button-link, .bkt-auctions .bkt-content__buttons .bkt-button-icon {
-    width: 100%;
-    margin-bottom: 0.5rem;
-    color: #2d3244;
-    min-height: 44px;
-    height: 44px;
-    justify-content: left;
-  }
-  .bkt-auctions .bkt-content__buttons .bkt-button svg, .bkt-auctions .bkt-content__buttons .bkt-button-link svg, .bkt-auctions .bkt-content__buttons .bkt-button-icon svg {
-    width: 20px;
-    height: 20px;
-    margin-right: 1rem;
-  }
-  .bkt-auctions .bkt-content__buttons .bkt-button svg.arrow, .bkt-auctions .bkt-content__buttons .bkt-button-link svg.arrow, .bkt-auctions .bkt-content__buttons .bkt-button-icon svg.arrow {
-    width: 15px;
-    height: 17px;
-  }
-  .bkt-auctions .bkt-content__buttons .bkt-button span, .bkt-auctions .bkt-content__buttons .bkt-button-link span, .bkt-auctions .bkt-content__buttons .bkt-button-icon span {
-    text-align: left;
-  }
-  .bkt-auctions .bkt-content__button-category {
-    background: white;
-    border-radius: 15px;
-    height: 65px;
-    margin-bottom: 0.5rem;
-    padding-left: 1rem;
-    padding-right: 1rem;
-  }
-  .bkt-auctions .bkt-content__button-category .bkt-border-rounded {
-    width: 45px;
-    height: 45px;
-    background: #effbf1;
-    margin-right: 1rem;
-  }
-  .bkt-auctions .bkt-content__button-category .bkt-border-rounded span {
-    font-weight: 700;
-  }
-  .bkt-auctions .bkt-footer-mobile {
-    background: white;
-    border-radius: 15px;
-  }
-  .bkt-auctions .bkt-footer-mobile .btn-actions .left-button, .bkt-auctions .bkt-footer-mobile .btn-actions .right-button {
-    height: 54px;
-  }
+  background: #fef1ee;
 }
 
+@media screen and (max-width: 576px) {
+  .bkt-auctions__filters-footer {
+    padding-top: 0 !important;
+  }
+  .bkt-auctions__filters-switch {
+    padding: 0 17px;
+  }
+  .bkt-auctions__filters-checkboxes {
+    gap: 25px;
+  }
+  .bkt-auctions__find {
+    padding: 11px;
+    font-size: 10px;
+    gap: 6px;
+    border-radius: 13px;
+  }
+}
+@media screen and (max-width: 768px) {
+  .bkt-auctions .bkt-auctions-types .bkt-auctions-type {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    width: 100%;
+    gap: 8px;
+  }
+  .bkt-auctions .bkt-auctions-types .bkt-auctions-type .bkt-auctions-type__card {
+    width: 100%;
+    padding: 9px;
+    border-radius: 13px;
+  }
+  .bkt-auctions .bkt-auctions-types .bkt-auctions-type .bkt-auctions-type__title {
+    font-size: 12px;
+  }
+  .bkt-auctions .bkt-auctions-types .bkt-auctions-type .bkt-auctions-type__subtitle {
+    font-size: 8px;
+  }
+  .bkt-auctions .bkt-button_delete {
+    border-radius: 18px;
+    width: 54px;
+    height: 54px;
+    padding: 16px;
+  }
+}
+@media screen and (max-width: 990px) {
+  .bkt-auctions__filters-header {
+    gap: 10px;
+    display: flex;
+    flex-wrap: nowrap;
+  }
+  .bkt-auctions__filters-header .bkt-button, .bkt-auctions__filters-header .bkt-button-link, .bkt-auctions__filters-header .bkt-button-icon {
+    width: 110px;
+    height: 70px;
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .bkt-auctions__filters-content {
+    gap: 20px;
+    display: flex;
+    flex-direction: column;
+  }
+  .bkt-auctions__filters-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 30px;
+    padding-top: 0 !important;
+  }
+  .bkt-auctions__filters-checkboxes {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 30px;
+    width: 100%;
+  }
+  .bkt-auctions__filters-checkboxes .bkt-check__label {
+    font-size: 12px;
+    font-weight: 500;
+  }
+  .bkt-auctions__filters-switch {
+    gap: 10px;
+    display: flex;
+    align-items: center;
+    flex-wrap: nowrap;
+    justify-content: center;
+  }
+  .bkt-auctions__filters-switch-label {
+    font-size: 10px;
+    font-family: "Gilroy";
+    color: rgb(45, 50, 68);
+    line-height: 1.4;
+  }
+  .bkt-auctions__filters-card {
+    border-radius: 18px;
+    height: 64px;
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 19px 10px 10px;
+    cursor: pointer;
+  }
+  .bkt-auctions__filters-card-header {
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+    gap: 12px;
+  }
+  .bkt-auctions__filters-card-header .bkt-badge {
+    margin-left: 6px;
+  }
+}
+@media (max-width: 1200px) {
+  .bkt-auctions .bkt-auctions-types .bkt-auctions-type .bkt-auctions-type__card {
+    width: 100%;
+  }
+}
 .bkt-messages {
   font-size: 14px;
 }
