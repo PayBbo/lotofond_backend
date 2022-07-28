@@ -2447,9 +2447,10 @@ paths:
       operationId: getChangeCredentialsCode
       requestBody:
         description: Почта или номер телефона пользователя.
-          1.haveAccessToOldCredentials= true, isOldCredentials = true - ввод для подтверждения действия с предыдущей почты
-          2.haveAccessToOldCredentials= true, isOldCredentials = false - ввод новой почты, после подтверждения уже существующей почты
-          3.haveAccessToOldCredentials= false, isOldCredentials = false - ввод новой почты, без доступа к предыдущей почте
+          1.haveAccessToOldCredentials= true, isOldCredentials = true - есть доступ к старой почте/телефону, отправляем сначала на нее/него код подтверждения
+          2.haveAccessToOldCredentials= true, isOldCredentials = false - есть доступ к старой почте/телефону, с нее/него уже подтвердили код,  отправляем  код подтверждения на новую почту/телефон
+          3.haveAccessToOldCredentials= false, isOldCredentials = false - доступа к старой почте/телефону нет, отправляем на новую почту/телефон код подтверждения, она/он меняется через 14 дней
+          4.haveAccessToOldCredentials= false, isOldCredentials = true - добавление почты - отправка кода на телефон аккаунта; добавление телефона - отправка кода на почту аккаунта
         content:
           application/json:
             schema:
@@ -2498,9 +2499,10 @@ paths:
       operationId: verifyChangeCredentialsCode
       requestBody:
         description: Код подтверждения.
-          1.haveAccessToOldCredentials= true, isOldCredentials = true - ввод для подтверждения действия с предыдущей почты
-          2.haveAccessToOldCredentials= true, isOldCredentials = false - ввод новой почты, после подтверждения уже существующей почты
-          3.haveAccessToOldCredentials= false, isOldCredentials = false - ввод новой почты, без доступа к предыдущей почте
+          1.haveAccessToOldCredentials= true, isOldCredentials = true - есть доступ к старой почте/телефону, вводим код, отправленный на старую почту/телефон
+          2.haveAccessToOldCredentials= true, isOldCredentials = false - есть доступ к старой почте/телефону, с нее/него уже подтвердили код, вводим код, отправленный на новую почту/телефон
+          3.haveAccessToOldCredentials= false, isOldCredentials = false - доступа к старой почте/телефону нет, вводим код, отправленный на новую почту/телефон код подтверждения, она/он меняется через 14 дней
+          4.haveAccessToOldCredentials= false, isOldCredentials = true - добавление почты - вводим код, отправленный на телефон аккаунта; добавление телефона - вводим код, отправленный на почту аккаунта
         content:
           application/json:
             schema:

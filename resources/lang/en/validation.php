@@ -139,10 +139,12 @@ return [
     'one_note'=>'The note already exists',
     'exists_note'               => 'The selected note does not exist.',
     'exists_event'=> 'The selected event does not exist.',
-    'credentials_submitted'=> 'You need to confirm the action from a valid email',
+    'credentials_submitted_email'=> 'You need to confirm the action from a valid email',
+    'credentials_submitted_phone'=> 'You need to confirm the action from a valid phone',
     'user_password'=>'Password does not match account password',
     'new_user_password'=>'The new password cannot match the current one',
     'submit_user_password'=>'Passwords do not match',
+    'message_err'=>'Message could not be sent, please try again',
     /*
     |--------------------------------------------------------------------------
     | Custom Validation Language Lines

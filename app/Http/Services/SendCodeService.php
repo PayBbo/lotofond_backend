@@ -12,41 +12,48 @@ class SendCodeService
     public function sendEmailCode($toEmail, $code)
     {
         try {
-            $html = "Здравствуйте, подтвердите Ваш адрес электронной почты для приложения BankrotMP с помощью кода проверки из данного сообщения
+            $html = "Здравствуйте, подтвердите Ваш адрес электронной почты для Lotofond с помощью кода проверки из данного сообщения
             <strong> $code </strong>
-            <p>Если Вы не запрашивали код подтверждения для выполнения операции в BankrotMP, проигнорируйте данное сообщение.</p>";
+            <p>Если Вы не запрашивали код подтверждения для выполнения операции в Lotofond, проигнорируйте данное сообщение.</p>";
             Mail::send([], [], function ($message) use ($toEmail, $html) {
-                $message->from('bankr0t.t@yandex.ru', 'BankrotMP');
+                $message->from('bankr0t.t@yandex.ru', 'Lotofond');
                 $message->to($toEmail);
                 $message->subject('Подтверждение электронной почты');
                 $message->setBody($html, 'text/html');
             });
         } catch (Exception $e) {
-            throw new BaseException("ERR_SEND_MESSAGE_FAILED", 550, "Message can't be sent to ".$toEmail);
+            throw new BaseException("ERR_SEND_MESSAGE_FAILED", 550, __('validation.message_err'));
         }
     }
 
     public function sendEmailWarning($toEmail, $newEmail)
     {
         try {
-            $html = "Здравствуйте, уведомляем Вас, что ваша электронная почта в аккаунте  BankrotMP через 14 дней будет изменена на
+            $html = "Здравствуйте, уведомляем Вас, что ваша электронная почта в аккаунте Lotofond через 14 дней будет изменена на
             <strong> $newEmail</strong>
-            <p>Если Вы не запрашивали выполнение данной операции в BankrotMP, отмените запрос на смену почты в личном кабинете.</p>";
+            <p>Если Вы не запрашивали выполнение данной операции в Lotofond, отмените запрос на смену почты в личном кабинете.</p>";
             Mail::send([], [], function ($message) use ($toEmail, $html) {
-                $message->from('bankr0t.t@yandex.ru', 'BankrotMP');
+                $message->from('bankr0t.t@yandex.ru', 'Lotofond');
                 $message->to($toEmail);
                 $message->subject('Уведомление о смене электронной почты');
                 $message->setBody($html, 'text/html');
             });
         } catch (Exception $e) {
-            throw new BaseException("ERR_SEND_MESSAGE_FAILED", 550, "Message can't be sent to ".$toEmail);
+            throw new BaseException("ERR_SEND_MESSAGE_FAILED", 550,  __('validation.message_err'));
         }
     }
 
     public function sendPhoneCode($toPhone, $code){
-        $isSent = SmsRu::send($toPhone, 'Ваш код подтверждения в BankrotMP: '.$code.' Если Вы не запрашивали код подтверждения, проигнорируйте данное сообщение.');
+        $isSent = SmsRu::send($toPhone, 'Ваш код подтверждения в Lotofond: '.$code.' Если Вы не запрашивали код подтверждения, проигнорируйте данное сообщение.');
         if(!$isSent){
-            throw new BaseException("ERR_SEND_MESSAGE_FAILED", 550, "Message can't be sent to ".$toPhone);
+            throw new BaseException("ERR_SEND_MESSAGE_FAILED", 550,  __('validation.message_err'));
+        }
+    }
+
+    public function sendPhoneWarning($toPhone, $newPhone){
+        $isSent = SmsRu::send($toPhone, 'Здравствуйте, уведомляем Вас, что ваш номер телефона в аккаунте Lotofond через 14 дней будет изменен на '.$newPhone);
+        if(!$isSent){
+            throw new BaseException("ERR_SEND_MESSAGE_FAILED", 550,  __('validation.message_err'));
         }
     }
 }

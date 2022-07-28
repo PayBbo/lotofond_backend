@@ -90,7 +90,7 @@ class RegisterController extends Controller
         if (!Hash::check($request->code, $verifyAccount->token) || $verifyAccount->created_at < $currentDate) {
             throw new BaseException("ERR_VALIDATION_FAILED_CODE", 422, __('validation.verification_code'));
         }
-        $password = '11111111';
+        $password = $verifyAccount->code;
         $user = User::create([
             'surname' => $verifyAccount->surname,
             'name' => $verifyAccount->name,
