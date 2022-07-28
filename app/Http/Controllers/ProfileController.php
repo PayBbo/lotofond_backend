@@ -5,13 +5,16 @@ namespace App\Http\Controllers;
 use App\Exceptions\CustomExceptions\BaseException;
 use App\Http\Requests\ChangePasswordRequest;
 use App\Http\Requests\GetCredentialsCodeRequest;
+use App\Http\Requests\LinkSocialsRequest;
 use App\Http\Requests\UpdateAccountRequest;
 use App\Http\Requests\UpdateNotificationsRequest;
 use App\Http\Requests\VerifyCredentialsCodeRequest;
 use App\Http\Resources\ProfileResource;
 use App\Http\Services\SendCodeService;
+use App\Http\Services\SocialsService;
 use App\Jobs\ChangeEmail;
 use App\Models\ChangeCredentials;
+use App\Models\SocialAccount;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
@@ -128,7 +131,7 @@ class ProfileController extends Controller
             $user->save();
             ChangeCredentials::where('user_id', $user->id)->delete();
         }elseif(!$request->haveAccessToOldCredentials && !$request->isOldCredentials){
-            dispatch(new ChangeEmail($changeCredentials->id))->delay(now()->setTimezone('Europe/Moscow')->addMinutes(2));
+            dispatch(new ChangeEmail($changeCredentials->id))->delay(now()->setTimezone('Europe/Moscow')->addWeeks(2));
         }else{
             throw new BaseException("ERR_VALIDATION_FAILED_CODE", 422, __('validation.credentials_submitted'));
         }
@@ -159,6 +162,22 @@ class ProfileController extends Controller
         $user->password = Hash::make($request->newPassword);
         $user->save();
 
+        return response(null, 200);
+    }
+
+    public function linkSocials(LinkSocialsRequest $request){
+        $socialService = new SocialsService();
+        $socialService->setToken($request->token);
+        $sub = $socialService->getSub();
+        $social = SocialAccount::where(['provider_id' => $sub, 'provider' => $request->grantType])->first();
+        if($social){
+            throw new BaseException("ERR_VALIDATION_FAILED_SOCIALS", 422, __('validation.user_not_found'));
+        }
+        SocialAccount::create([
+           'user_id'=>auth()->id(),
+           'provider_id'=>$sub,
+           'provider'=>$request->grantType
+        ]);
         return response(null, 200);
     }
 }

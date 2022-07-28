@@ -6,6 +6,7 @@ use App\Http\Controllers\AuctionController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\ResetPasswordController;
+use App\Http\Controllers\Auth\SocialController;
 use App\Http\Controllers\BidderController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\FavouriteController;
@@ -51,6 +52,8 @@ Route::group(['middleware' => ['json.response', 'localization']], function () {
         Route::post('password/code/verify', [ResetPasswordController::class, 'verifyResetPasswordCode']);
 
         Route::post('password/reset', [ResetPasswordController::class, 'resetPassword']);
+
+        Route::post('apple/callback', [SocialController::class, 'appleCallback']);
 
     });
     Route::group(['prefix' => 'trades'], function () {
@@ -142,6 +145,8 @@ Route::group(['middleware' => ['json.response', 'localization']], function () {
             Route::post('credentials/code/verify', [ProfileController::class, 'verifyCredentialsCode']);
 
             Route::post('notifications/settings', [ProfileController::class, 'updateNotificationsSettings']);
+
+            Route::post('socials/link', [ProfileController::class, 'linkSocials']);
 
         });
 

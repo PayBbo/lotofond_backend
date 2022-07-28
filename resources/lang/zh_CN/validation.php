@@ -149,6 +149,7 @@ return [
     'new_user_password'=>'新密码与当前密码不匹配',
     'submit_user_password'=>'密码不匹配',
     'message_err'=>'消息无法发送，请重试',
+    'user_not_found'=>'通过社交网络进行授权的数据不正确',
     'attributes' => [
         'phone' => '电话号码',
         'surname'=> '姓',

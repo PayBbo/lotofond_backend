@@ -145,6 +145,7 @@ return [
     'new_user_password'=>'The new password cannot match the current one',
     'submit_user_password'=>'Passwords do not match',
     'message_err'=>'Message could not be sent, please try again',
+    'user_not_found'=>'Incorrect data for authorization through social networks',
     /*
     |--------------------------------------------------------------------------
     | Custom Validation Language Lines
