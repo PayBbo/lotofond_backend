@@ -167,7 +167,9 @@
                                             :options="region_options"
                                             with_option
                                             with_selected_option
+                                            :method_name="'getRegions'"
                                             :loading="regions_loading"
+                                            @input="getData(1)"
                                 >
                                     <template #option="{option}">
                                         {{$t('regions.'+option.label)}}
@@ -202,6 +204,7 @@
                                             :method_name="'getTradePlaces'"
                                             :searchable="true"
                                             :loading="trade_places_loading"
+                                            @input="getData(1)"
                                 ></bkt-select>
                                 <!--                        <div class="row">-->
                                 <!--                            <div class="col-12 col-md-3">-->
@@ -249,7 +252,7 @@
                                     <div class="bkt-auctions-type flex-fill" v-for="item in auctionTypes">
                                         <button
                                             class="bkt-block-btn bkt-auctions-type__card bkt-auctions-type__title bkt-bg-body"
-                                            @click="filters.mainParams.tradeType=item.title"
+                                            @click="chooseAuctionType(item.title)"
                                             :class="[filters.mainParams.tradeType===item.title ? 'bkt-border-primary': 'bkt-border-body']">
                                             {{item.description}}
                                         </button>
@@ -404,7 +407,6 @@
         },
         mounted() {
             this.getData();
-            this.getRegions();
         },
         computed: {
             filters: {
@@ -506,7 +508,7 @@
                     } else {
                         this.filters.sort.type = 'eventEnd';
                     }
-                    this.getData(1)
+                    this.getData(1);
                 }
             }
         },
@@ -571,7 +573,7 @@
                             this.filters.categories.push(category)
                         }
                     }
-                    this.getData(1)
+                    this.getData(1);
                 }
             },
             isCategoryChecked(category) {
@@ -591,6 +593,7 @@
                 if (index >= 0) {
                     this.filters.regions.splice(index, 1);
                 }
+                this.getData(1);
             },
             removeTradePlace(id) {
                 let index = this.selected_trade_places.findIndex(el => el.id == id);
@@ -601,6 +604,7 @@
                 if (index >= 0) {
                     this.filters.mainParams.tradePlaces.splice(index, 1);
                 }
+                this.getData(1);
             },
             total(filter) {
                 let total = JSON.parse(JSON.stringify(filter));
@@ -636,6 +640,10 @@
                 });
 
             },
+            chooseAuctionType(type) {
+                this.filters.mainParams.tradeType=type;
+                this.getData(1)
+            }
         },
     }
 </script>

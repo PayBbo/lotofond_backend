@@ -1,5 +1,5 @@
 <template>
-    <ValidationProvider :name="field_label" :rules="rules" v-slot="{ errors }" tag="div" class="bkt-input__wrapper" :vid="name">
+    <ValidationProvider :name="field_name" :rules="rules" v-slot="{ errors }" tag="div" class="bkt-input__wrapper" :vid="name">
         <div class="d-flex align-items-center justify-content-between" v-if="label||status">
             <label :for="name" class="bkt-input__label" v-if="label" :class="label_class">{{ label }}</label>
             <slot name="status" v-if="status">
@@ -54,14 +54,21 @@
                 type: String,
                 required: true,
             },
-            field_name: {
-                type: String,
-            },
             label: {
                 type: String,
             },
             label_class: {
                 type: String,
+            },
+            field_name: {
+                type: String,
+                default: function () {
+                    let field_label = this.label;
+                    if (!this.label) {
+                        field_label = this.name;
+                    }
+                    return field_label;
+                }
             },
             status: {
                 type: String,
@@ -128,16 +135,9 @@
                     a: { pattern: /[a-zA-Z]/, transform: v => v.toLocaleLowerCase() },
                     '!': { escape: true }
                 },
-                field_label:''
             };
         },
         mounted() {
-            if(!this.field_name) {
-                this.field_label = this.label;
-                if (!this.label) {
-                    this.field_label = this.name;
-                }
-            }
         },
         methods: {
             saveValue(e) {

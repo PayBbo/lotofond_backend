@@ -3351,6 +3351,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
 
 
 
@@ -3466,7 +3469,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   },
   mounted: function mounted() {
     this.getData();
-    this.getRegions();
   },
   computed: {
     filters: {
@@ -3727,6 +3729,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       if (index >= 0) {
         this.filters.regions.splice(index, 1);
       }
+
+      this.getData(1);
     },
     removeTradePlace: function removeTradePlace(id) {
       var index = this.selected_trade_places.findIndex(function (el) {
@@ -3744,6 +3748,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       if (index >= 0) {
         this.filters.mainParams.tradePlaces.splice(index, 1);
       }
+
+      this.getData(1);
     },
     total: function total(filter) {
       var total = JSON.parse(JSON.stringify(filter));
@@ -3784,6 +3790,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }).then(function (resp) {
         _this5.getData(1);
       });
+    },
+    chooseAuctionType: function chooseAuctionType(type) {
+      this.filters.mainParams.tradeType = type;
+      this.getData(1);
     }
   }
 });
@@ -8762,7 +8772,13 @@ var render = function () {
                                   options: _vm.region_options,
                                   with_option: "",
                                   with_selected_option: "",
+                                  method_name: "getRegions",
                                   loading: _vm.regions_loading,
+                                },
+                                on: {
+                                  input: function ($event) {
+                                    return _vm.getData(1)
+                                  },
                                 },
                                 scopedSlots: _vm._u([
                                   {
@@ -8891,6 +8907,11 @@ var render = function () {
                                   searchable: true,
                                   loading: _vm.trade_places_loading,
                                 },
+                                on: {
+                                  input: function ($event) {
+                                    return _vm.getData(1)
+                                  },
+                                },
                                 model: {
                                   value: _vm.current_trade_place,
                                   callback: function ($$v) {
@@ -8992,8 +9013,9 @@ var render = function () {
                                       ],
                                       on: {
                                         click: function ($event) {
-                                          _vm.filters.mainParams.tradeType =
+                                          return _vm.chooseAuctionType(
                                             item.title
+                                          )
                                         },
                                       },
                                     },
