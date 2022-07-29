@@ -29,10 +29,10 @@ class ChangeCredentials extends Model
         parent::boot();
 
         static::creating(function ($item) {
-            if(ChangeCredentials::where(['email'=> $item->email, 'user_id'=>$item->id])->exists()){
-                ChangeCredentials::where(['email'=> $item->email, 'user_id'=>$item->id])->delete();
-            }else if(ChangeCredentials::where(['phone'=> $item->phone, 'user_id'=>$item->id])->exists()){
-                ChangeCredentials::where(['phone'=> $item->phone, 'user_id'=>$item->id])->delete();
+            if(ChangeCredentials::where(['email'=> $item->email, 'user_id'=>$item->user_id, 'is_old_credentials'=>$item->is_old_credentials])->exists()){
+                ChangeCredentials::where(['email'=> $item->email, 'user_id'=>$item->user_id, 'is_old_credentials'=>$item->is_old_credentials])->delete();
+            }else if(ChangeCredentials::where(['phone'=> $item->phone, 'user_id'=>$item->user_id, 'is_old_credentials'=>$item->is_old_credentials])->exists()){
+                ChangeCredentials::where(['phone'=> $item->phone, 'user_id'=>$item->user_id, 'is_old_credentials'=>$item->is_old_credentials])->delete();
             }
 
         });

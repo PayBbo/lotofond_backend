@@ -7,6 +7,8 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\LoginRequest;
 use App\Http\Services\DeviceTokenService;
 use App\Http\Services\GenerateAccessTokenService;
+use App\Http\Services\SocialsService;
+use App\Models\SocialAccount;
 use App\Models\User;
 use Exception;
 use Illuminate\Http\Request;
@@ -16,22 +18,47 @@ use Illuminate\Support\Facades\Route;
 
 class LoginController extends Controller
 {
-    public function login(LoginRequest $request){
-        switch ($request->grantType){
-            case 'email':{
+    public function login(LoginRequest $request)
+    {
+        $userPassword = null;
+        switch ($request->grantType) {
+            case 'email':
+            {
                 $user = User::where('email', $request->email)->first();
                 $username = $request->email;
+                $password = $request->password;
                 break;
             }
-            case 'phone':{
+            case 'phone':
+            {
                 $user = User::where('phone', $request->phone)->first();
                 $username = $request->phone;
                 break;
             }
-            case 'gosuslugi':{
-                //
+            /*case 'gosuslugi':
+            {
+
+                break;
+            }*/
+            case 'google':
+            case 'apple':
+            {
+                $password = strval(mt_rand(10000000, 99999999));
+                $socialService = new SocialsService();
+                $socialService->setToken($request->token);
+                $sub = $socialService->getSub();
+                $social = SocialAccount::where(['provider_id' => $sub, 'provider' => $request->grantType])->first();
+                if(!$social){
+                    throw new BaseException("ERR_VALIDATION_FAILED_SOCIALS", 422, __('validation.user_not_found'));
+                }
+                $username = $sub . ' '.$request->grantType;
+                $user = User::where('id', $social->user_id)->first();
+                $userPassword = $user->password;
+                $user->password=Hash::make($password);
+                $user->save();
                 break;
             }
+
         }
         if ($request->grantType == 'email' || $request->grantType == 'phone') {
             if (!Hash::check($request->password, $user->password)) {
@@ -39,17 +66,22 @@ class LoginController extends Controller
             }
         }
         $generateToken = new GenerateAccessTokenService();
-        $token =  $generateToken->generateToken($request, $username, $request->password);
-        if(isset($request->deviceToken)){
+        $token = $generateToken->generateToken($request, $username, $password);
+        if (isset($request->deviceToken)) {
             $deviceTokenService = new DeviceTokenService($user, $request->deviceToken);
             $deviceTokenService->saveDeviceToken();
+        }
+        if(!is_null($userPassword)){
+            $user->password = $userPassword;
+            $user->save();
         }
         return response($token, 200);
     }
 
-    public function refreshToken(Request $req){
+    public function refreshToken(Request $req)
+    {
         $req->validate([
-            'refreshToken'=>['required', 'string']
+            'refreshToken' => ['required', 'string']
         ]);
         $client = DB::table('oauth_clients')
             ->where('password_client', true)
@@ -80,10 +112,11 @@ class LoginController extends Controller
         }
     }
 
-    public function logout(Request $request){
+    public function logout(Request $request)
+    {
         try {
             $user = User::find(auth()->id());
-            if(isset($request->deviceToken)){
+            if (isset($request->deviceToken)) {
                 $deviceTokenService = new DeviceTokenService($user, $request->deviceToken);
                 $deviceTokenService->deleteDeviceToken();
             }

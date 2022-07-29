@@ -14,17 +14,16 @@ class PublishDate extends SortQuery implements SortContract
     {
         if (!is_null($value) && isset($value['start']) && strlen((string)$value['start']) > 0) {
             $start = Carbon::parse($value['start']);
-        }else{
+        } else {
             $start = RegistryNotification::min('publish_date');
         }
         if (!is_null($value) && isset($value['end']) && strlen((string)$value['end']) > 0) {
             $end = Carbon::parse($value['end']);
-        }else{
+        } else {
             $end = RegistryNotification::max('publish_date');
         }
-        if(!is_null($value) && strlen((string)$value) > 0) {
-                $this->query->whereBetween('publish_date', [$start, $end]);
+        $this->query->whereBetween('publish_date', [$start, $end]);
 
-        }
+
     }
 }

@@ -9,16 +9,20 @@ class BaseException extends Exception
     private $title;
     private $detail;
 
-    public function __construct(String $title, int $code, String $detail)
+    public function __construct(string $title, int $code, string $detail)
     {
         parent::__construct($detail, $code);
-        $this->title=$title;
-        $this->detail=$detail;
+        $this->title = $title;
+        $this->detail = $detail;
     }
-    public function getTitle(){
+
+    public function getTitle()
+    {
         return $this->title;
     }
-    public function getDetail(){
+
+    public function getDetail()
+    {
         return $this->detail;
     }
 }

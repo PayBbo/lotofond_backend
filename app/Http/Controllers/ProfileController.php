@@ -5,13 +5,16 @@ namespace App\Http\Controllers;
 use App\Exceptions\CustomExceptions\BaseException;
 use App\Http\Requests\ChangePasswordRequest;
 use App\Http\Requests\GetCredentialsCodeRequest;
+use App\Http\Requests\LinkSocialsRequest;
 use App\Http\Requests\UpdateAccountRequest;
 use App\Http\Requests\UpdateNotificationsRequest;
 use App\Http\Requests\VerifyCredentialsCodeRequest;
 use App\Http\Resources\ProfileResource;
 use App\Http\Services\SendCodeService;
+use App\Http\Services\SocialsService;
 use App\Jobs\ChangeEmail;
 use App\Models\ChangeCredentials;
+use App\Models\SocialAccount;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
@@ -61,21 +64,33 @@ class ProfileController extends Controller
             case 'email':{
                 if(!$request->haveAccessToOldCredentials && !$request->isOldCredentials){
                     $sendCode->sendEmailWarning($user->email, $request->email);
-                }else{
+                }elseif(!$request->haveAccessToOldCredentials && $request->isOldCredentials){
+                    $sendCode->sendPhoneCode($user->phone, $code);
+                    $changeCredentials->is_old_credentials = true;
+                }
+                else{
                     if($request->email == $user->email){
                         $changeCredentials->is_old_credentials = true;
                     }
+                    $sendCode->sendEmailCode($request->email, $code);
                 }
                 $changeCredentials->email = $request->email;
-                $sendCode->sendEmailCode($request->email, $code);
+
                 break;
             }
             case 'phone':{
-                if($request->phone == $user->phone){
+                if(!$request->haveAccessToOldCredentials && !$request->isOldCredentials){
+                    $sendCode->sendPhoneWarning($user->phone, $request->phone);
+                }elseif(!$request->haveAccessToOldCredentials && $request->isOldCredentials){
+                    $sendCode->sendEmailCode($user->email, $code);
                     $changeCredentials->is_old_credentials = true;
+                }else{
+                    if($request->phone == $user->phone){
+                        $changeCredentials->is_old_credentials = true;
+                    }
+                    $sendCode->sendPhoneCode($request->phone, $code);
                 }
                 $changeCredentials->phone = $request->phone;
-                $sendCode->sendPhoneCode($request->phone, $code);
                 break;
             }
         }
@@ -85,13 +100,16 @@ class ProfileController extends Controller
 
     public function verifyCredentialsCode(VerifyCredentialsCodeRequest $request)
     {
+        $user = User::find(auth()->id());
         switch ($request->grantType){
             case 'email':{
                 $changeCredentials = ChangeCredentials::where('email', $request->email)->first();
+                $isOldCredentials = $user->email == $request->email;
                 break;
             }
             case 'phone':{
                 $changeCredentials = ChangeCredentials::where('phone', $request->phone)->first();
+                $isOldCredentials = $user->phone == $request->phone;
                 break;
             }
         }
@@ -99,11 +117,11 @@ class ProfileController extends Controller
         if (!Hash::check($request->code, $changeCredentials->token) || $changeCredentials->created_at < $currentDate) {
             throw new BaseException("ERR_VALIDATION_FAILED_CODE", 422, __('validation.verification_code'));
         }
-        $user = User::find(auth()->id());
-        if($request->isOldCredentials && $request->haveAccessToOldCredentials && $user->email == $request->email){
+        if($request->isOldCredentials && $request->haveAccessToOldCredentials && $isOldCredentials){
             $changeCredentials->is_submitted_old_credentials = true;
             $changeCredentials->save();
-        }elseif($request->haveAccessToOldCredentials && !$request->isOldCredentials){
+        }elseif(($request->haveAccessToOldCredentials && !$request->isOldCredentials)
+            || (!$request->haveAccessToOldCredentials && $request->isOldCredentials)){
             if(isset($request->email)){
                 $user->email = $request->email;
             }
@@ -144,6 +162,22 @@ class ProfileController extends Controller
         $user->password = Hash::make($request->newPassword);
         $user->save();
 
+        return response(null, 200);
+    }
+
+    public function linkSocials(LinkSocialsRequest $request){
+        $socialService = new SocialsService();
+        $socialService->setToken($request->token);
+        $sub = $socialService->getSub();
+        $social = SocialAccount::where(['provider_id' => $sub, 'provider' => $request->grantType])->first();
+        if($social){
+            throw new BaseException("ERR_VALIDATION_FAILED_SOCIALS", 422, __('validation.user_not_found'));
+        }
+        SocialAccount::create([
+           'user_id'=>auth()->id(),
+           'provider_id'=>$sub,
+           'provider'=>$request->grantType
+        ]);
         return response(null, 200);
     }
 }
