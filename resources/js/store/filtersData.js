@@ -130,6 +130,15 @@ export default {
             });
             state.filters_data.bidders[payload.type].pagination = payload.data.pagination;
         },
+        setMessagesTypes(state, payload) {
+            payload.forEach(item => {
+                let region = state.filters_data.messages_types.findIndex(el => el.messagesGroup === item.messagesGroup);
+                if (region < 0) {
+                    Vue.set(item, 'status', false)
+                    state.filters_data.messages_types.push(item)
+                }
+            });
+        },
         saveFiltersDataProperty(state, payload) {
             Vue.set(state.filters_data, payload.key, payload.value);
         },
@@ -222,7 +231,6 @@ export default {
                         });
                     });
             } catch (error) {
-                console.log(error);
                 commit('saveFilterDataProperty', {filter: 'bidders', key: payload.type + '.loading', value: false});
                 throw error
             }
@@ -265,7 +273,7 @@ export default {
                     data: {},
                 })
                     .then((response) => {
-                        commit('saveFiltersDataProperty', {key: 'prices', value: response.data});
+                        commit('setMessagesTypes',  response.data);
                     }).catch(error => {
                     });
 

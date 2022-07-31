@@ -80,7 +80,7 @@
         cursor: pointer;
         padding-left: 0;
         padding-right: 0;
-
+        background: transparent;
 
         & svg {
             transform: rotate(270deg);
@@ -131,6 +131,13 @@
 
     &:disabled {
         background: $neutral-default;
+        &.next {
+            background: transparent;
+            color: $neutral-default;
+            & svg {
+                fill: $neutral-default !important;
+            }
+        }
     }
 
     &:focus:not(:focus-visible) {
@@ -203,6 +210,22 @@
     background-color: $yellow-default;
 }
 
+.bkt-button_save {
+    @extend .bkt-button;
+    height: 70px;
+    font-size: 16px;
+    margin-left: auto;
+    background: $primary-default;
+}
+
+.bkt-button_delete {
+    @extend .bkt-button;
+    width: 70px;
+    height: 70px;
+    padding: 23px;
+    background: $red-lighter;
+}
+
 @media screen and (max-width: 768px) {
     .bkt-button_plump {
         border-radius: 18px;
@@ -222,5 +245,20 @@
         border-radius: 13px;
         height: 34px;
         min-width: 200px;
+    }
+    .bkt-button_save {
+        height: 54px;
+        font-size: 12px;
+        margin-left: auto;
+    }
+
+    .bkt-button_delete {
+        width: 54px;
+        height: 54px;
+        padding: 18px;
+        & svg {
+            width: 100%;
+            height: 100%;
+        }
     }
 }

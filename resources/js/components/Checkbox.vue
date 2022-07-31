@@ -7,12 +7,15 @@
                     :type="type"
                     v-model="model"
                     :indeterminate.prop="indeterminate"
+                    :disabled="disabled"
                 />
                 <input
                     v-else
                     :type="type"
                     v-model="model"
                     :value="val"
+                    :indeterminate.prop="indeterminate"
+                    :disabled="disabled"
                 />
                 <div class="bkt-check__input-check" :class="[check_color ? 'bkt-bg-'+check_color : '']"></div>
             </div>
@@ -22,7 +25,7 @@
                 </slot>
             </label>
         </div>
-        <p class="bkt-check-error" v-if="errors">{{errors[0]}}</p>
+        <p class="bkt-check-error" v-if="errors.length>0">{{errors[0]}}</p>
     </ValidationProvider>
 </template>
 
@@ -34,7 +37,7 @@
                 default: false,
             },
             val: {
-                type: null,
+                type: [String, Number, Boolean],
             },
             name: {
                 type: String,
@@ -69,6 +72,10 @@
                 default: "",
             },
             indeterminate: {
+                type: Boolean,
+                default: false
+            },
+            disabled: {
                 type: Boolean,
                 default: false
             }

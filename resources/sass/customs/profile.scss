@@ -1,5 +1,8 @@
 .bkt-profile {
     margin: 60px auto;
+    .bkt-profile-gap {
+        gap: 15px 0;
+    }
     & .bkt-profile-tariff {
         padding: 25px;
         text-align: center;
@@ -70,11 +73,12 @@
                 columns: 2;
                 -webkit-columns: 2;
                 -moz-columns: 2;
+                margin-bottom: 0;
 
                 & .bkt-sidebar__link {
                     padding: 6px;
                     border-radius: 13px;
-                    gap: 11px;
+                    gap: 4px;
 
                     & .bkt-sidebar__link-icon {
                         width: 30px;

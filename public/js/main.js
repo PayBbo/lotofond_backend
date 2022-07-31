@@ -2951,6 +2951,17 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       return this.$store.getters.lots_statistic;
     }
   },
+  watch: {
+    isLoggedIn: function isLoggedIn(newVal, oldVal) {
+      if (oldVal == false && newVal == true) {
+        if (this.pagination_data && this.pagination_data.currentPage) {
+          this.getData(this.pagination_data.currentPage);
+        } else {
+          this.getData(1);
+        }
+      }
+    }
+  },
   methods: {
     getData: function getData() {
       var _arguments = arguments,

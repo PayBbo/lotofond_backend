@@ -2388,9 +2388,10 @@ __webpack_require__.r(__webpack_exports__);
   name: "BktSwitch",
   props: {
     value: {
-      type: Boolean,
+      type: [Boolean, Number],
       "default": false
-    } // name: {
+    },
+    // name: {
     //     type: String,
     //     required: true,
     // },
@@ -2406,7 +2407,10 @@ __webpack_require__.r(__webpack_exports__);
     //     type: String,
     //     default: "",
     // },
-
+    disabled: {
+      type: Boolean,
+      "default": false
+    }
   },
   // model: {
   //     prop: 'value',
@@ -7156,7 +7160,7 @@ var render = function () {
           expression: "model",
         },
       ],
-      attrs: { type: "checkbox" },
+      attrs: { type: "checkbox", disabled: _vm.disabled },
       domProps: {
         checked: Array.isArray(_vm.model)
           ? _vm._i(_vm.model, null) > -1

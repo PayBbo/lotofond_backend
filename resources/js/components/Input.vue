@@ -35,7 +35,7 @@
                 </div>
             </slot>
         </div>
-        <p class="bkt-input-error" v-if="errors">{{errors[0]}}</p>
+        <p class="bkt-input-error" v-if="errors.length>0">{{errors[0]}}</p>
     </ValidationProvider>
 </template>
 

@@ -43,7 +43,7 @@
                     </svg>
                 </div>
             </li>
-            <li class="page-item" v-for="(page, key) in pageRange" :key="key"
+            <li class="page-item" v-for="(page, index) in pageRange" :key="index"
                 :class="{ 'active': page == currentPage, 'dots': page == '...' }">
                 <div class="page-link" @click.prevent="changePage(page)">
                     {{ page }}
@@ -197,7 +197,9 @@
                 range.forEach(function (i) {
                     if (l) {
                         if (i - l === 2) {
-                            pages.push(l + 1);
+                            console.log('i - l === 2', i, l)
+                            // pages.push(l + 1);
+                            pages.push('...');
                         } else if (i - l !== 1) {
                             pages.push('...');
                         }
