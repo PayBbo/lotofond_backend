@@ -1,6 +1,6 @@
 <template>
     <div class="bkt-dropdown bkt-search__wrapper">
-        <div class="bkt-search" :class="[search_class, {'open': optionsShown}]">
+        <div class="bkt-search align-items-center" :class="[search_class, {'open': optionsShown}]">
             <input class="w-100 bkt-search__input" type="text" :placeholder="placeholder"
                    @keyup="keyMonitor"
                    v-model="searchFilter"
@@ -10,13 +10,19 @@
                    @input="getResults"
                    :disabled="disabled"
             >
+            <span class="p-1" @click="clear" v-if="searchFilter != ''">
+                <bkt-icon :class="{'d-none':currentLoading || !clearable}" :name="'Cancel'" color="green" height="15px"></bkt-icon>
+            </span>
+
             <button class="bkt-button green bkt-search__button bkt-bg-green"
                     :disabled="disabled || currentLoading ||immediate_search"
-                    @click="runSearch">
+                    @click="runSearch"
+            >
                 <span v-show="currentLoading" class="spinner-border spinner-border-sm"
                       role="status"></span>
                 <span :class="immediate_search ? 'd-none' :'d-none d-md-block'" v-if="!currentLoading">Найти</span>
-                <bkt-icon v-show="!currentLoading" :class="{'d-block d-md-none' : !immediate_search}" :name="'Search'"></bkt-icon>
+                <bkt-icon :class="{'d-block d-md-none' : !immediate_search, 'd-none':currentLoading}"
+                          :name="'Search'"></bkt-icon>
             </button>
         </div>
         <div class="bkt-dropdown__menu w-100" :class="dropdown_class" v-show="optionsShown&&!simple&&!no_dropdown">
@@ -107,6 +113,10 @@
             loading: {
                 type: Boolean,
                 default: false
+            },
+            clearable: {
+                type: Boolean,
+                default: false
             }
         },
         data() {
@@ -141,13 +151,13 @@
                 this.$emit('blur', value);
                 if (!this.no_dropdown) {
                     // if (this.searchFilter == '') {
-                        this.optionsShown = false;
+                    this.optionsShown = false;
                     // }
                 }
             },
             handleFocus(value) {
                 this.$emit('focus', value);
-                if (!this.no_dropdown && this.searchFilter !== '' && this.options.length>0) {
+                if (!this.no_dropdown && this.searchFilter !== '' && this.options.length > 0) {
                     this.optionsShown = true;
                 }
             },
@@ -190,39 +200,44 @@
             }, 700),
             async runSearch() {
                 if (!this.simple) {
-                    if (this.searchFilter.trim() !== '') {
-                        this.searchLoading = true;
-                        this.selected = '';
-                        let payload = this.searchFilter;
-                        if (this.method_params) {
-                            payload = this.method_params;
-                            if (this.search_field) {
-                                payload[this.search_field] = this.searchFilter;
-                            }
-                            if (!this.method_params.page) {
-                                this.method_params.page = 1;
-                            }
+                    this.searchLoading = true;
+                    this.selected = '';
+                    let payload = this.searchFilter;
+                    if (this.method_params) {
+                        payload = this.method_params;
+                        if (this.search_field) {
+                            payload[this.search_field] = this.searchFilter;
                         }
-                        await this.$store.dispatch(this.method_name, payload)
-                            .then(resp => {
-                                if (!this.no_dropdown) {
-
-                                    if (resp.data.data) {
-                                        this.options = resp.data.data;
-                                    } else {
-                                        this.options = resp.data;
-                                    }
-                                    this.showOptions();
-                                }
-                                this.searchLoading = false;
-                            }).catch(error => {
-                                this.options = [];
-                                this.searchLoading = false;
-                            });
+                        if (!this.method_params.page) {
+                            this.method_params.page = 1;
+                        }
                     }
+                    await this.$store.dispatch(this.method_name, payload)
+                        .then(resp => {
+                            if (!this.no_dropdown) {
+
+                                if (resp.data.data) {
+                                    this.options = resp.data.data;
+                                } else {
+                                    this.options = resp.data;
+                                }
+                                this.showOptions();
+                            }
+                            this.searchLoading = false;
+                        }).catch(error => {
+                            this.options = [];
+                            this.searchLoading = false;
+                        });
                 } else {
                     this.$emit("runSearch", this.searchFilter);
                 }
+            },
+            clear() {
+                this.exit();
+                this.$nextTick(() => {
+                    this.runSearch();
+                })
+
             }
         },
     }

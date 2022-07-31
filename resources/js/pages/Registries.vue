@@ -103,7 +103,8 @@
             </template>
         </bkt-collapse>
 
-        <bkt-collapse v-if="isLoggedIn" main_class="bkt-register-collapse mb-2" collapse_button_class="bkt-bg-white" id="register4">
+        <bkt-collapse v-if="isLoggedIn" main_class="bkt-register-collapse mb-2" collapse_button_class="bkt-bg-white"
+                      id="register4">
             <template #title>
                 <div class="bkt-register-collapse__header">
                     <div class="bkt-bg-pink-lighter bkt-icon-frame-small bkt-icon-frame-sm">
@@ -121,8 +122,8 @@
                         <th>№</th>
                         <th>Наименование</th>
                         <th>Адрес</th>
-<!--                        <th></th>-->
-<!--                        <th>Заметка</th>-->
+                        <!--                        <th></th>-->
+                        <!--                        <th>Заметка</th>-->
                     </template>
                     <template #tbody_tr="{item}">
                         <td>{{item.id ? item.id : ''}}</td>
@@ -132,8 +133,8 @@
                             </router-link>
                         </td>
                         <td>{{item.site ? item.site : ''}}</td>
-<!--                        <td></td>-->
-<!--                        <td>{{item.note ? item.note : ''}}</td>-->
+                        <!--                        <td></td>-->
+                        <!--                        <td>{{item.note ? item.note : ''}}</td>-->
                     </template>
                 </bkt-registry>
             </template>
@@ -151,7 +152,7 @@
             <template #collapse>
                 <bkt-registry method_name="getDebtorMessages" :method_params="messages_filters"
                               :loading="messages_loading" :pagination_data="messages_pagination"
-                              :items="messages" :sort="messages_sort"
+                              :items="messages" :sort="messages_sort" @changeParam="saveMessagesFilters"
                 >
                     <template #filters>
                         <div class="bkt-register-filters bkt-register-filters__body bkt-form">
@@ -166,25 +167,32 @@
                                 >
                                 </bkt-search>
                             </div>
-                            <div class="col-lg-2 d-flex align-items-center">
-                                <h5 class="bkt-form__label">должник</h5>
-                            </div>
-                            <div class="col-12 col-lg-10">
-                                <bkt-search v-model="messages_params.debtor"
-                                            method_name="getDebtorMessages" :method_params="messages_filters"
-                                            :loading="messages_loading" search_field="debtor" no_dropdown
-                                            placeholder="Поиск..."
-                                >
-                                </bkt-search>
-                            </div>
+<!--                            <div class="col-lg-2 d-flex align-items-center">-->
+<!--                                <h5 class="bkt-form__label">должник</h5>-->
+<!--                            </div>-->
+<!--                            <div class="col-12 col-lg-10">-->
+<!--                                <bkt-search v-model="messages_params.debtor"-->
+<!--                                            method_name="getDebtorMessages" :method_params="messages_filters"-->
+<!--                                            :loading="messages_loading" search_field="debtor" no_dropdown-->
+<!--                                            placeholder="Поиск..."-->
+<!--                                >-->
+<!--                                </bkt-search>-->
+<!--                            </div>-->
 
 
                             <div class="col-7 col-md-3 col-lg-2 d-flex align-items-center">
-                                <h5 class="bkt-form__label">типы сообщения</h5>
+                                <div class="d-flex align-items-center bkt-gap-small">
+                                    <h5 class="bkt-form__label">типы сообщения</h5>
+                                    <span class="bkt-badge d-md-none bkt-bg-primary-lighter bkt-text-primary m-0">
+                                        {{messages_filters.types.length}}
+                                    </span>
+                                </div>
                             </div>
                             <div class="col-5 col-md-9 col-lg-10 d-flex">
-                                <button class="bkt-button bkt-bg-primary bkt-register-filters__button ms-auto ms-md-0">
-                                    Выбрать
+                                <button class="bkt-button bkt-bg-primary bkt-register-filters__button ms-auto ms-md-0"
+                                        data-bs-toggle="modal" data-bs-target="#messagesTypesModal"
+                                >
+                                    {{messages_filters.types.length > 0 ? 'Изменить' : 'Выбрать'}}
                                 </button>
                             </div>
                             <div class="col-7 col-md-3 col-lg-2 d-flex align-items-center">
@@ -197,8 +205,9 @@
                             </div>
                             <div class="col-5 col-md-9 col-lg-10">
                                 <div class="bkt-wrapper-between">
-                                    <button class="bkt-button bkt-bg-primary bkt-register-filters__button ms-auto ms-md-0"
-                                            data-bs-toggle="modal" data-bs-target="#regionModal"
+                                    <button
+                                        class="bkt-button bkt-bg-primary bkt-register-filters__button ms-auto ms-md-0"
+                                        data-bs-toggle="modal" data-bs-target="#regionModal"
                                     >
                                         {{messages_filters.regions.length > 0 ? 'Изменить' : 'Выбрать'}}
                                     </button>
@@ -227,13 +236,13 @@
                             <div class="col-12 col-lg-10">
                                 <div class="bkt-form mx-auto w-100">
                                     <div class="col-12 col-md-6 col-lg-5">
-                                        <bkt-datepicker v-model="messages_filters.publishDate.start"
+                                        <bkt-datepicker v-model="messages_filters.publishDate.start" @input="getDebtorMessages"
                                                         field_name="с" name="dateStart" placeholder="с"
                                         >
                                         </bkt-datepicker>
                                     </div>
                                     <div class="col-12 col-md-6 col-lg-5">
-                                        <bkt-datepicker v-model="messages_filters.publishDate.end"
+                                        <bkt-datepicker v-model="messages_filters.publishDate.end" @input="getDebtorMessages"
                                                         field_name="по" name="dateEnd" placeholder="по"
                                         >
                                         </bkt-datepicker>
@@ -250,19 +259,41 @@
                         </div>
                     </template>
                     <template #tr>
-                        <th>Дата</th>
-                        <th>Тип</th>
+                        <th width="110px">Дата</th>
+                        <th width="543px">Тип</th>
                         <th>Должник</th>
                     </template>
                     <template #tbody_tr="{item}">
-                        <td>{{item.created_at | moment('DD.MM.YYYY')}}</td>
-                        <td>{{item.type ? item.type : ''}}</td>
-                        <td>{{item.debtor ? item.debtor : ''}}</td>
+                        <td>{{item.date | moment('DD.MM.YYYY')}}</td>
+                        <td>{{item.type ? item.type : ''}}
+                            <span @click="seeMessagePage(item.messageUrl)" v-if="item.files.length>0">
+                                <bkt-icon name="Clip" color="primary" height="22px" width="15px"></bkt-icon>
+                            </span>
+                        </td>
+                        <td>
+                            <p class="mb-0">
+                                <span v-if="item.debtor.type=='person'">
+                                <template v-for="(value, key, index) in item.debtor.person">
+                                     {{value ? value+' ' : ''}}
+                                </template>
+                            </span>
+                                <span v-else-if="item.debtor.type=='company'">
+                                {{item.debtor.company.fullName ? item.debtor.company.fullName : item.debtor.company.shortName}}
+                            </span>
+                            </p>
+
+                            <p class="mb-0" v-if="item.debtor.region">
+                                {{ $t('regions.' + item.debtor.region) }}
+                            </p>
+                        </td>
                     </template>
                 </bkt-registry>
             </template>
         </bkt-collapse>
+
         <bkt-region-modal filter_name="messages_filters" method_name="getDebtorMessages"/>
+        <bkt-message-page-modal ref="messagePageModal"></bkt-message-page-modal>
+        <bkt-messages-types-modal></bkt-messages-types-modal>
     </div>
 </template>
 
@@ -270,12 +301,15 @@
     import BktCollapse from '../components/Collapse.vue'
     import BktRegistry from "./Registries/Registry";
     import BktRegionModal from "../components/SharedModals/RegionModal";
+    import BktMessagePageModal from "./Registries/MessagePageModal";
+    import BktMessagesTypesModal from "./Registries/MessagesTypesModal";
 
     export default {
         name: "Registries",
         components: {
             // MainParamsModal,
-            BktCollapse, BktRegistry, BktRegionModal
+            BktCollapse, BktRegistry, BktRegionModal, BktMessagePageModal,
+            BktMessagesTypesModal
         },
         data() {
             return {
@@ -416,9 +450,22 @@
                     key: 'messages_filters.regions',
                     value: []
                 });
+                this.getDebtorMessages(1)
             },
-            getDebtorMessages() {
+            getDebtorMessages(page = 1) {
                 this.$store.dispatch('getDebtorMessages', this.messages_filters);
+            },
+            seeMessagePage(url) {
+                var newWin = window.open(url, 'example', 'width=600,height=400')
+                // this.$refs.messagePageModal.setUrl(url);
+                // this.$store.commit('openModal', '#messagePageModal');
+            },
+            saveMessagesFilters(payload) {
+                this.$store.dispatch('saveDataProperty', {
+                    module_key: 'filters',
+                    key: 'messages_filters.'+payload.key,
+                    value: payload.value
+                });
             }
         }
     }

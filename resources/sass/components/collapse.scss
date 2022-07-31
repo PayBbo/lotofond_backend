@@ -71,5 +71,22 @@
             font-size: 12px;
             font-weight: 600;
         }
+        &_check {
+            gap: 6px;
+            & .bkt-collapse {
+                &__title {
+                    font-size: 12px;
+                    font-weight: 600;
+                    word-break: break-word;
+                    &-wrapper {
+                        gap: 6px;
+                    }
+                }
+
+                &__subtitle {
+                    font-size: 10px;
+                }
+            }
+        }
     }
 }

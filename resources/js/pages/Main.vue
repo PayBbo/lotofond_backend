@@ -347,6 +347,19 @@
                 return this.$store.getters.lots_statistic;
             },
         },
+        watch: {
+            isLoggedIn: function (newVal, oldVal) {
+                if (oldVal == false && newVal == true) {
+                    if(this.pagination_data && this.pagination_data.currentPage) {
+                        this.getData(this.pagination_data.currentPage);
+                    }
+                    else {
+                        this.getData(1);
+                    }
+
+                }
+            }
+        },
         methods: {
             async getData(page = 1) {
                 await this.$store.dispatch('getFilteredTrades', {page: page, filters: this.filters});

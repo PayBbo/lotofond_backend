@@ -29,7 +29,7 @@
     transform: rotate(180deg);
 }
 .bkt-rotate-90 {
-    transform: rotate(90deg);
+    transform: rotate(90deg) !important;
 }
 .bkt-mirror-vertical {
     transform: scale(-1 , 1)

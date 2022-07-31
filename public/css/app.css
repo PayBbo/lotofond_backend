@@ -11066,7 +11066,7 @@ textarea.form-control-lg {
 }
 
 .bkt-rotate-90 {
-  transform: rotate(90deg);
+  transform: rotate(90deg) !important;
 }
 
 .bkt-mirror-vertical {
@@ -11077,353 +11077,353 @@ textarea.form-control-lg {
   transform: scale(1, -1);
 }
 
-.bkt-hover-main.bkt-button:hover, .bkt-hover-main.bkt-button-icon:hover, .bkt-hover-main.bkt-button-link:hover {
+.bkt-hover-main.bkt-button:hover, .bkt-hover-main.bkt-button_delete:hover, .bkt-hover-main.bkt-button_save:hover, .bkt-hover-main.bkt-button-icon:hover, .bkt-hover-main.bkt-button-link:hover {
   background-color: #2d3244 !important;
 }
-.bkt-hover-main.bkt-button:hover .bkt-fill, .bkt-hover-main.bkt-button-icon:hover .bkt-fill, .bkt-hover-main.bkt-button-link:hover .bkt-fill {
+.bkt-hover-main.bkt-button:hover .bkt-fill, .bkt-hover-main.bkt-button_delete:hover .bkt-fill, .bkt-hover-main.bkt-button_save:hover .bkt-fill, .bkt-hover-main.bkt-button-icon:hover .bkt-fill, .bkt-hover-main.bkt-button-link:hover .bkt-fill {
   fill: white !important;
 }
-.bkt-hover-main.bkt-button:hover .bkt-stroke, .bkt-hover-main.bkt-button-icon:hover .bkt-stroke, .bkt-hover-main.bkt-button-link:hover .bkt-stroke {
+.bkt-hover-main.bkt-button:hover .bkt-stroke, .bkt-hover-main.bkt-button_delete:hover .bkt-stroke, .bkt-hover-main.bkt-button_save:hover .bkt-stroke, .bkt-hover-main.bkt-button-icon:hover .bkt-stroke, .bkt-hover-main.bkt-button-link:hover .bkt-stroke {
   stroke: white !important;
 }
 
-.bkt-hover-main-light.bkt-button:hover, .bkt-hover-main-light.bkt-button-icon:hover, .bkt-hover-main-light.bkt-button-link:hover {
+.bkt-hover-main-light.bkt-button:hover, .bkt-hover-main-light.bkt-button_delete:hover, .bkt-hover-main-light.bkt-button_save:hover, .bkt-hover-main-light.bkt-button-icon:hover, .bkt-hover-main-light.bkt-button-link:hover {
   background-color: #373c4d !important;
 }
-.bkt-hover-main-light.bkt-button:hover .bkt-fill, .bkt-hover-main-light.bkt-button-icon:hover .bkt-fill, .bkt-hover-main-light.bkt-button-link:hover .bkt-fill {
+.bkt-hover-main-light.bkt-button:hover .bkt-fill, .bkt-hover-main-light.bkt-button_delete:hover .bkt-fill, .bkt-hover-main-light.bkt-button_save:hover .bkt-fill, .bkt-hover-main-light.bkt-button-icon:hover .bkt-fill, .bkt-hover-main-light.bkt-button-link:hover .bkt-fill {
   fill: white !important;
 }
-.bkt-hover-main-light.bkt-button:hover .bkt-stroke, .bkt-hover-main-light.bkt-button-icon:hover .bkt-stroke, .bkt-hover-main-light.bkt-button-link:hover .bkt-stroke {
+.bkt-hover-main-light.bkt-button:hover .bkt-stroke, .bkt-hover-main-light.bkt-button_delete:hover .bkt-stroke, .bkt-hover-main-light.bkt-button_save:hover .bkt-stroke, .bkt-hover-main-light.bkt-button-icon:hover .bkt-stroke, .bkt-hover-main-light.bkt-button-link:hover .bkt-stroke {
   stroke: white !important;
 }
 
-.bkt-hover-main-lighter.bkt-button:hover, .bkt-hover-main-lighter.bkt-button-icon:hover, .bkt-hover-main-lighter.bkt-button-link:hover {
+.bkt-hover-main-lighter.bkt-button:hover, .bkt-hover-main-lighter.bkt-button_delete:hover, .bkt-hover-main-lighter.bkt-button_save:hover, .bkt-hover-main-lighter.bkt-button-icon:hover, .bkt-hover-main-lighter.bkt-button-link:hover {
   background-color: #dfe5ff !important;
 }
-.bkt-hover-main-lighter.bkt-button:hover .bkt-fill, .bkt-hover-main-lighter.bkt-button-icon:hover .bkt-fill, .bkt-hover-main-lighter.bkt-button-link:hover .bkt-fill {
+.bkt-hover-main-lighter.bkt-button:hover .bkt-fill, .bkt-hover-main-lighter.bkt-button_delete:hover .bkt-fill, .bkt-hover-main-lighter.bkt-button_save:hover .bkt-fill, .bkt-hover-main-lighter.bkt-button-icon:hover .bkt-fill, .bkt-hover-main-lighter.bkt-button-link:hover .bkt-fill {
   fill: white !important;
 }
-.bkt-hover-main-lighter.bkt-button:hover .bkt-stroke, .bkt-hover-main-lighter.bkt-button-icon:hover .bkt-stroke, .bkt-hover-main-lighter.bkt-button-link:hover .bkt-stroke {
+.bkt-hover-main-lighter.bkt-button:hover .bkt-stroke, .bkt-hover-main-lighter.bkt-button_delete:hover .bkt-stroke, .bkt-hover-main-lighter.bkt-button_save:hover .bkt-stroke, .bkt-hover-main-lighter.bkt-button-icon:hover .bkt-stroke, .bkt-hover-main-lighter.bkt-button-link:hover .bkt-stroke {
   stroke: white !important;
 }
 
-.bkt-hover-primary.bkt-button:hover, .bkt-hover-primary.bkt-button-icon:hover, .bkt-hover-primary.bkt-button-link:hover {
+.bkt-hover-primary.bkt-button:hover, .bkt-hover-primary.bkt-button_delete:hover, .bkt-hover-primary.bkt-button_save:hover, .bkt-hover-primary.bkt-button-icon:hover, .bkt-hover-primary.bkt-button-link:hover {
   background-color: #2953ff !important;
 }
-.bkt-hover-primary.bkt-button:hover .bkt-fill, .bkt-hover-primary.bkt-button-icon:hover .bkt-fill, .bkt-hover-primary.bkt-button-link:hover .bkt-fill {
+.bkt-hover-primary.bkt-button:hover .bkt-fill, .bkt-hover-primary.bkt-button_delete:hover .bkt-fill, .bkt-hover-primary.bkt-button_save:hover .bkt-fill, .bkt-hover-primary.bkt-button-icon:hover .bkt-fill, .bkt-hover-primary.bkt-button-link:hover .bkt-fill {
   fill: white !important;
 }
-.bkt-hover-primary.bkt-button:hover .bkt-stroke, .bkt-hover-primary.bkt-button-icon:hover .bkt-stroke, .bkt-hover-primary.bkt-button-link:hover .bkt-stroke {
+.bkt-hover-primary.bkt-button:hover .bkt-stroke, .bkt-hover-primary.bkt-button_delete:hover .bkt-stroke, .bkt-hover-primary.bkt-button_save:hover .bkt-stroke, .bkt-hover-primary.bkt-button-icon:hover .bkt-stroke, .bkt-hover-primary.bkt-button-link:hover .bkt-stroke {
   stroke: white !important;
 }
 
-.bkt-hover-primary-light.bkt-button:hover, .bkt-hover-primary-light.bkt-button-icon:hover, .bkt-hover-primary-light.bkt-button-link:hover {
+.bkt-hover-primary-light.bkt-button:hover, .bkt-hover-primary-light.bkt-button_delete:hover, .bkt-hover-primary-light.bkt-button_save:hover, .bkt-hover-primary-light.bkt-button-icon:hover, .bkt-hover-primary-light.bkt-button-link:hover {
   background-color: #29b1ff !important;
 }
-.bkt-hover-primary-light.bkt-button:hover .bkt-fill, .bkt-hover-primary-light.bkt-button-icon:hover .bkt-fill, .bkt-hover-primary-light.bkt-button-link:hover .bkt-fill {
+.bkt-hover-primary-light.bkt-button:hover .bkt-fill, .bkt-hover-primary-light.bkt-button_delete:hover .bkt-fill, .bkt-hover-primary-light.bkt-button_save:hover .bkt-fill, .bkt-hover-primary-light.bkt-button-icon:hover .bkt-fill, .bkt-hover-primary-light.bkt-button-link:hover .bkt-fill {
   fill: white !important;
 }
-.bkt-hover-primary-light.bkt-button:hover .bkt-stroke, .bkt-hover-primary-light.bkt-button-icon:hover .bkt-stroke, .bkt-hover-primary-light.bkt-button-link:hover .bkt-stroke {
+.bkt-hover-primary-light.bkt-button:hover .bkt-stroke, .bkt-hover-primary-light.bkt-button_delete:hover .bkt-stroke, .bkt-hover-primary-light.bkt-button_save:hover .bkt-stroke, .bkt-hover-primary-light.bkt-button-icon:hover .bkt-stroke, .bkt-hover-primary-light.bkt-button-link:hover .bkt-stroke {
   stroke: white !important;
 }
 
-.bkt-hover-primary-lighter.bkt-button:hover, .bkt-hover-primary-lighter.bkt-button-icon:hover, .bkt-hover-primary-lighter.bkt-button-link:hover {
+.bkt-hover-primary-lighter.bkt-button:hover, .bkt-hover-primary-lighter.bkt-button_delete:hover, .bkt-hover-primary-lighter.bkt-button_save:hover, .bkt-hover-primary-lighter.bkt-button-icon:hover, .bkt-hover-primary-lighter.bkt-button-link:hover {
   background-color: #eef2ff !important;
 }
-.bkt-hover-primary-lighter.bkt-button:hover .bkt-fill, .bkt-hover-primary-lighter.bkt-button-icon:hover .bkt-fill, .bkt-hover-primary-lighter.bkt-button-link:hover .bkt-fill {
+.bkt-hover-primary-lighter.bkt-button:hover .bkt-fill, .bkt-hover-primary-lighter.bkt-button_delete:hover .bkt-fill, .bkt-hover-primary-lighter.bkt-button_save:hover .bkt-fill, .bkt-hover-primary-lighter.bkt-button-icon:hover .bkt-fill, .bkt-hover-primary-lighter.bkt-button-link:hover .bkt-fill {
   fill: white !important;
 }
-.bkt-hover-primary-lighter.bkt-button:hover .bkt-stroke, .bkt-hover-primary-lighter.bkt-button-icon:hover .bkt-stroke, .bkt-hover-primary-lighter.bkt-button-link:hover .bkt-stroke {
+.bkt-hover-primary-lighter.bkt-button:hover .bkt-stroke, .bkt-hover-primary-lighter.bkt-button_delete:hover .bkt-stroke, .bkt-hover-primary-lighter.bkt-button_save:hover .bkt-stroke, .bkt-hover-primary-lighter.bkt-button-icon:hover .bkt-stroke, .bkt-hover-primary-lighter.bkt-button-link:hover .bkt-stroke {
   stroke: white !important;
 }
 
-.bkt-hover-primary-dark.bkt-button:hover, .bkt-hover-primary-dark.bkt-button-icon:hover, .bkt-hover-primary-dark.bkt-button-link:hover {
+.bkt-hover-primary-dark.bkt-button:hover, .bkt-hover-primary-dark.bkt-button_delete:hover, .bkt-hover-primary-dark.bkt-button_save:hover, .bkt-hover-primary-dark.bkt-button-icon:hover, .bkt-hover-primary-dark.bkt-button-link:hover {
   background-color: #2953ff !important;
 }
-.bkt-hover-primary-dark.bkt-button:hover .bkt-fill, .bkt-hover-primary-dark.bkt-button-icon:hover .bkt-fill, .bkt-hover-primary-dark.bkt-button-link:hover .bkt-fill {
+.bkt-hover-primary-dark.bkt-button:hover .bkt-fill, .bkt-hover-primary-dark.bkt-button_delete:hover .bkt-fill, .bkt-hover-primary-dark.bkt-button_save:hover .bkt-fill, .bkt-hover-primary-dark.bkt-button-icon:hover .bkt-fill, .bkt-hover-primary-dark.bkt-button-link:hover .bkt-fill {
   fill: white !important;
 }
-.bkt-hover-primary-dark.bkt-button:hover .bkt-stroke, .bkt-hover-primary-dark.bkt-button-icon:hover .bkt-stroke, .bkt-hover-primary-dark.bkt-button-link:hover .bkt-stroke {
+.bkt-hover-primary-dark.bkt-button:hover .bkt-stroke, .bkt-hover-primary-dark.bkt-button_delete:hover .bkt-stroke, .bkt-hover-primary-dark.bkt-button_save:hover .bkt-stroke, .bkt-hover-primary-dark.bkt-button-icon:hover .bkt-stroke, .bkt-hover-primary-dark.bkt-button-link:hover .bkt-stroke {
   stroke: white !important;
 }
 
-.bkt-hover-green.bkt-button:hover, .bkt-hover-green.bkt-button-icon:hover, .bkt-hover-green.bkt-button-link:hover {
+.bkt-hover-green.bkt-button:hover, .bkt-hover-green.bkt-button_delete:hover, .bkt-hover-green.bkt-button_save:hover, .bkt-hover-green.bkt-button-icon:hover, .bkt-hover-green.bkt-button-link:hover {
   background-color: #2fbb40 !important;
 }
-.bkt-hover-green.bkt-button:hover .bkt-fill, .bkt-hover-green.bkt-button-icon:hover .bkt-fill, .bkt-hover-green.bkt-button-link:hover .bkt-fill {
+.bkt-hover-green.bkt-button:hover .bkt-fill, .bkt-hover-green.bkt-button_delete:hover .bkt-fill, .bkt-hover-green.bkt-button_save:hover .bkt-fill, .bkt-hover-green.bkt-button-icon:hover .bkt-fill, .bkt-hover-green.bkt-button-link:hover .bkt-fill {
   fill: white !important;
 }
-.bkt-hover-green.bkt-button:hover .bkt-stroke, .bkt-hover-green.bkt-button-icon:hover .bkt-stroke, .bkt-hover-green.bkt-button-link:hover .bkt-stroke {
+.bkt-hover-green.bkt-button:hover .bkt-stroke, .bkt-hover-green.bkt-button_delete:hover .bkt-stroke, .bkt-hover-green.bkt-button_save:hover .bkt-stroke, .bkt-hover-green.bkt-button-icon:hover .bkt-stroke, .bkt-hover-green.bkt-button-link:hover .bkt-stroke {
   stroke: white !important;
 }
 
-.bkt-hover-green-light.bkt-button:hover, .bkt-hover-green-light.bkt-button-icon:hover, .bkt-hover-green-light.bkt-button-link:hover {
+.bkt-hover-green-light.bkt-button:hover, .bkt-hover-green-light.bkt-button_delete:hover, .bkt-hover-green-light.bkt-button_save:hover, .bkt-hover-green-light.bkt-button-icon:hover, .bkt-hover-green-light.bkt-button-link:hover {
   background-color: #42c052 !important;
 }
-.bkt-hover-green-light.bkt-button:hover .bkt-fill, .bkt-hover-green-light.bkt-button-icon:hover .bkt-fill, .bkt-hover-green-light.bkt-button-link:hover .bkt-fill {
+.bkt-hover-green-light.bkt-button:hover .bkt-fill, .bkt-hover-green-light.bkt-button_delete:hover .bkt-fill, .bkt-hover-green-light.bkt-button_save:hover .bkt-fill, .bkt-hover-green-light.bkt-button-icon:hover .bkt-fill, .bkt-hover-green-light.bkt-button-link:hover .bkt-fill {
   fill: white !important;
 }
-.bkt-hover-green-light.bkt-button:hover .bkt-stroke, .bkt-hover-green-light.bkt-button-icon:hover .bkt-stroke, .bkt-hover-green-light.bkt-button-link:hover .bkt-stroke {
+.bkt-hover-green-light.bkt-button:hover .bkt-stroke, .bkt-hover-green-light.bkt-button_delete:hover .bkt-stroke, .bkt-hover-green-light.bkt-button_save:hover .bkt-stroke, .bkt-hover-green-light.bkt-button-icon:hover .bkt-stroke, .bkt-hover-green-light.bkt-button-link:hover .bkt-stroke {
   stroke: white !important;
 }
 
-.bkt-hover-green-lighter.bkt-button:hover, .bkt-hover-green-lighter.bkt-button-icon:hover, .bkt-hover-green-lighter.bkt-button-link:hover {
+.bkt-hover-green-lighter.bkt-button:hover, .bkt-hover-green-lighter.bkt-button_delete:hover, .bkt-hover-green-lighter.bkt-button_save:hover, .bkt-hover-green-lighter.bkt-button-icon:hover, .bkt-hover-green-lighter.bkt-button-link:hover {
   background-color: #effaf0 !important;
 }
-.bkt-hover-green-lighter.bkt-button:hover .bkt-fill, .bkt-hover-green-lighter.bkt-button-icon:hover .bkt-fill, .bkt-hover-green-lighter.bkt-button-link:hover .bkt-fill {
+.bkt-hover-green-lighter.bkt-button:hover .bkt-fill, .bkt-hover-green-lighter.bkt-button_delete:hover .bkt-fill, .bkt-hover-green-lighter.bkt-button_save:hover .bkt-fill, .bkt-hover-green-lighter.bkt-button-icon:hover .bkt-fill, .bkt-hover-green-lighter.bkt-button-link:hover .bkt-fill {
   fill: white !important;
 }
-.bkt-hover-green-lighter.bkt-button:hover .bkt-stroke, .bkt-hover-green-lighter.bkt-button-icon:hover .bkt-stroke, .bkt-hover-green-lighter.bkt-button-link:hover .bkt-stroke {
+.bkt-hover-green-lighter.bkt-button:hover .bkt-stroke, .bkt-hover-green-lighter.bkt-button_delete:hover .bkt-stroke, .bkt-hover-green-lighter.bkt-button_save:hover .bkt-stroke, .bkt-hover-green-lighter.bkt-button-icon:hover .bkt-stroke, .bkt-hover-green-lighter.bkt-button-link:hover .bkt-stroke {
   stroke: white !important;
 }
 
-.bkt-hover-red.bkt-button:hover, .bkt-hover-red.bkt-button-icon:hover, .bkt-hover-red.bkt-button-link:hover {
+.bkt-hover-red.bkt-button:hover, .bkt-hover-red.bkt-button_delete:hover, .bkt-hover-red.bkt-button_save:hover, .bkt-hover-red.bkt-button-icon:hover, .bkt-hover-red.bkt-button-link:hover {
   background-color: #ec4c27 !important;
 }
-.bkt-hover-red.bkt-button:hover .bkt-fill, .bkt-hover-red.bkt-button-icon:hover .bkt-fill, .bkt-hover-red.bkt-button-link:hover .bkt-fill {
+.bkt-hover-red.bkt-button:hover .bkt-fill, .bkt-hover-red.bkt-button_delete:hover .bkt-fill, .bkt-hover-red.bkt-button_save:hover .bkt-fill, .bkt-hover-red.bkt-button-icon:hover .bkt-fill, .bkt-hover-red.bkt-button-link:hover .bkt-fill {
   fill: white !important;
 }
-.bkt-hover-red.bkt-button:hover .bkt-stroke, .bkt-hover-red.bkt-button-icon:hover .bkt-stroke, .bkt-hover-red.bkt-button-link:hover .bkt-stroke {
+.bkt-hover-red.bkt-button:hover .bkt-stroke, .bkt-hover-red.bkt-button_delete:hover .bkt-stroke, .bkt-hover-red.bkt-button_save:hover .bkt-stroke, .bkt-hover-red.bkt-button-icon:hover .bkt-stroke, .bkt-hover-red.bkt-button-link:hover .bkt-stroke {
   stroke: white !important;
 }
 
-.bkt-hover-red-light.bkt-button:hover, .bkt-hover-red-light.bkt-button-icon:hover, .bkt-hover-red-light.bkt-button-link:hover {
+.bkt-hover-red-light.bkt-button:hover, .bkt-hover-red-light.bkt-button_delete:hover, .bkt-hover-red-light.bkt-button_save:hover, .bkt-hover-red-light.bkt-button-icon:hover, .bkt-hover-red-light.bkt-button-link:hover {
   background-color: #ec4c27 !important;
 }
-.bkt-hover-red-light.bkt-button:hover .bkt-fill, .bkt-hover-red-light.bkt-button-icon:hover .bkt-fill, .bkt-hover-red-light.bkt-button-link:hover .bkt-fill {
+.bkt-hover-red-light.bkt-button:hover .bkt-fill, .bkt-hover-red-light.bkt-button_delete:hover .bkt-fill, .bkt-hover-red-light.bkt-button_save:hover .bkt-fill, .bkt-hover-red-light.bkt-button-icon:hover .bkt-fill, .bkt-hover-red-light.bkt-button-link:hover .bkt-fill {
   fill: white !important;
 }
-.bkt-hover-red-light.bkt-button:hover .bkt-stroke, .bkt-hover-red-light.bkt-button-icon:hover .bkt-stroke, .bkt-hover-red-light.bkt-button-link:hover .bkt-stroke {
+.bkt-hover-red-light.bkt-button:hover .bkt-stroke, .bkt-hover-red-light.bkt-button_delete:hover .bkt-stroke, .bkt-hover-red-light.bkt-button_save:hover .bkt-stroke, .bkt-hover-red-light.bkt-button-icon:hover .bkt-stroke, .bkt-hover-red-light.bkt-button-link:hover .bkt-stroke {
   stroke: white !important;
 }
 
-.bkt-hover-red-lighter.bkt-button:hover, .bkt-hover-red-lighter.bkt-button-icon:hover, .bkt-hover-red-lighter.bkt-button-link:hover {
+.bkt-hover-red-lighter.bkt-button:hover, .bkt-hover-red-lighter.bkt-button_delete:hover, .bkt-hover-red-lighter.bkt-button_save:hover, .bkt-hover-red-lighter.bkt-button-icon:hover, .bkt-hover-red-lighter.bkt-button-link:hover {
   background-color: #fef1ee !important;
 }
-.bkt-hover-red-lighter.bkt-button:hover .bkt-fill, .bkt-hover-red-lighter.bkt-button-icon:hover .bkt-fill, .bkt-hover-red-lighter.bkt-button-link:hover .bkt-fill {
+.bkt-hover-red-lighter.bkt-button:hover .bkt-fill, .bkt-hover-red-lighter.bkt-button_delete:hover .bkt-fill, .bkt-hover-red-lighter.bkt-button_save:hover .bkt-fill, .bkt-hover-red-lighter.bkt-button-icon:hover .bkt-fill, .bkt-hover-red-lighter.bkt-button-link:hover .bkt-fill {
   fill: white !important;
 }
-.bkt-hover-red-lighter.bkt-button:hover .bkt-stroke, .bkt-hover-red-lighter.bkt-button-icon:hover .bkt-stroke, .bkt-hover-red-lighter.bkt-button-link:hover .bkt-stroke {
+.bkt-hover-red-lighter.bkt-button:hover .bkt-stroke, .bkt-hover-red-lighter.bkt-button_delete:hover .bkt-stroke, .bkt-hover-red-lighter.bkt-button_save:hover .bkt-stroke, .bkt-hover-red-lighter.bkt-button-icon:hover .bkt-stroke, .bkt-hover-red-lighter.bkt-button-link:hover .bkt-stroke {
   stroke: white !important;
 }
 
-.bkt-hover-blue.bkt-button:hover, .bkt-hover-blue.bkt-button-icon:hover, .bkt-hover-blue.bkt-button-link:hover {
+.bkt-hover-blue.bkt-button:hover, .bkt-hover-blue.bkt-button_delete:hover, .bkt-hover-blue.bkt-button_save:hover, .bkt-hover-blue.bkt-button-icon:hover, .bkt-hover-blue.bkt-button-link:hover {
   background-color: #29b1ff !important;
 }
-.bkt-hover-blue.bkt-button:hover .bkt-fill, .bkt-hover-blue.bkt-button-icon:hover .bkt-fill, .bkt-hover-blue.bkt-button-link:hover .bkt-fill {
+.bkt-hover-blue.bkt-button:hover .bkt-fill, .bkt-hover-blue.bkt-button_delete:hover .bkt-fill, .bkt-hover-blue.bkt-button_save:hover .bkt-fill, .bkt-hover-blue.bkt-button-icon:hover .bkt-fill, .bkt-hover-blue.bkt-button-link:hover .bkt-fill {
   fill: white !important;
 }
-.bkt-hover-blue.bkt-button:hover .bkt-stroke, .bkt-hover-blue.bkt-button-icon:hover .bkt-stroke, .bkt-hover-blue.bkt-button-link:hover .bkt-stroke {
+.bkt-hover-blue.bkt-button:hover .bkt-stroke, .bkt-hover-blue.bkt-button_delete:hover .bkt-stroke, .bkt-hover-blue.bkt-button_save:hover .bkt-stroke, .bkt-hover-blue.bkt-button-icon:hover .bkt-stroke, .bkt-hover-blue.bkt-button-link:hover .bkt-stroke {
   stroke: white !important;
 }
 
-.bkt-hover-blue-light.bkt-button:hover, .bkt-hover-blue-light.bkt-button-icon:hover, .bkt-hover-blue-light.bkt-button-link:hover {
+.bkt-hover-blue-light.bkt-button:hover, .bkt-hover-blue-light.bkt-button_delete:hover, .bkt-hover-blue-light.bkt-button_save:hover, .bkt-hover-blue-light.bkt-button-icon:hover, .bkt-hover-blue-light.bkt-button-link:hover {
   background-color: #50bfff !important;
 }
-.bkt-hover-blue-light.bkt-button:hover .bkt-fill, .bkt-hover-blue-light.bkt-button-icon:hover .bkt-fill, .bkt-hover-blue-light.bkt-button-link:hover .bkt-fill {
+.bkt-hover-blue-light.bkt-button:hover .bkt-fill, .bkt-hover-blue-light.bkt-button_delete:hover .bkt-fill, .bkt-hover-blue-light.bkt-button_save:hover .bkt-fill, .bkt-hover-blue-light.bkt-button-icon:hover .bkt-fill, .bkt-hover-blue-light.bkt-button-link:hover .bkt-fill {
   fill: white !important;
 }
-.bkt-hover-blue-light.bkt-button:hover .bkt-stroke, .bkt-hover-blue-light.bkt-button-icon:hover .bkt-stroke, .bkt-hover-blue-light.bkt-button-link:hover .bkt-stroke {
+.bkt-hover-blue-light.bkt-button:hover .bkt-stroke, .bkt-hover-blue-light.bkt-button_delete:hover .bkt-stroke, .bkt-hover-blue-light.bkt-button_save:hover .bkt-stroke, .bkt-hover-blue-light.bkt-button-icon:hover .bkt-stroke, .bkt-hover-blue-light.bkt-button-link:hover .bkt-stroke {
   stroke: white !important;
 }
 
-.bkt-hover-blue-lighter.bkt-button:hover, .bkt-hover-blue-lighter.bkt-button-icon:hover, .bkt-hover-blue-lighter.bkt-button-link:hover {
+.bkt-hover-blue-lighter.bkt-button:hover, .bkt-hover-blue-lighter.bkt-button_delete:hover, .bkt-hover-blue-lighter.bkt-button_save:hover, .bkt-hover-blue-lighter.bkt-button-icon:hover, .bkt-hover-blue-lighter.bkt-button-link:hover {
   background-color: #eef9ff !important;
 }
-.bkt-hover-blue-lighter.bkt-button:hover .bkt-fill, .bkt-hover-blue-lighter.bkt-button-icon:hover .bkt-fill, .bkt-hover-blue-lighter.bkt-button-link:hover .bkt-fill {
+.bkt-hover-blue-lighter.bkt-button:hover .bkt-fill, .bkt-hover-blue-lighter.bkt-button_delete:hover .bkt-fill, .bkt-hover-blue-lighter.bkt-button_save:hover .bkt-fill, .bkt-hover-blue-lighter.bkt-button-icon:hover .bkt-fill, .bkt-hover-blue-lighter.bkt-button-link:hover .bkt-fill {
   fill: white !important;
 }
-.bkt-hover-blue-lighter.bkt-button:hover .bkt-stroke, .bkt-hover-blue-lighter.bkt-button-icon:hover .bkt-stroke, .bkt-hover-blue-lighter.bkt-button-link:hover .bkt-stroke {
+.bkt-hover-blue-lighter.bkt-button:hover .bkt-stroke, .bkt-hover-blue-lighter.bkt-button_delete:hover .bkt-stroke, .bkt-hover-blue-lighter.bkt-button_save:hover .bkt-stroke, .bkt-hover-blue-lighter.bkt-button-icon:hover .bkt-stroke, .bkt-hover-blue-lighter.bkt-button-link:hover .bkt-stroke {
   stroke: white !important;
 }
 
-.bkt-hover-yellow.bkt-button:hover, .bkt-hover-yellow.bkt-button-icon:hover, .bkt-hover-yellow.bkt-button-link:hover {
+.bkt-hover-yellow.bkt-button:hover, .bkt-hover-yellow.bkt-button_delete:hover, .bkt-hover-yellow.bkt-button_save:hover, .bkt-hover-yellow.bkt-button-icon:hover, .bkt-hover-yellow.bkt-button-link:hover {
   background-color: #ffc515 !important;
 }
-.bkt-hover-yellow.bkt-button:hover .bkt-fill, .bkt-hover-yellow.bkt-button-icon:hover .bkt-fill, .bkt-hover-yellow.bkt-button-link:hover .bkt-fill {
+.bkt-hover-yellow.bkt-button:hover .bkt-fill, .bkt-hover-yellow.bkt-button_delete:hover .bkt-fill, .bkt-hover-yellow.bkt-button_save:hover .bkt-fill, .bkt-hover-yellow.bkt-button-icon:hover .bkt-fill, .bkt-hover-yellow.bkt-button-link:hover .bkt-fill {
   fill: white !important;
 }
-.bkt-hover-yellow.bkt-button:hover .bkt-stroke, .bkt-hover-yellow.bkt-button-icon:hover .bkt-stroke, .bkt-hover-yellow.bkt-button-link:hover .bkt-stroke {
+.bkt-hover-yellow.bkt-button:hover .bkt-stroke, .bkt-hover-yellow.bkt-button_delete:hover .bkt-stroke, .bkt-hover-yellow.bkt-button_save:hover .bkt-stroke, .bkt-hover-yellow.bkt-button-icon:hover .bkt-stroke, .bkt-hover-yellow.bkt-button-link:hover .bkt-stroke {
   stroke: white !important;
 }
 
-.bkt-hover-yellow-light.bkt-button:hover, .bkt-hover-yellow-light.bkt-button-icon:hover, .bkt-hover-yellow-light.bkt-button-link:hover {
+.bkt-hover-yellow-light.bkt-button:hover, .bkt-hover-yellow-light.bkt-button_delete:hover, .bkt-hover-yellow-light.bkt-button_save:hover, .bkt-hover-yellow-light.bkt-button-icon:hover, .bkt-hover-yellow-light.bkt-button-link:hover {
   background-color: #ffd863 !important;
 }
-.bkt-hover-yellow-light.bkt-button:hover .bkt-fill, .bkt-hover-yellow-light.bkt-button-icon:hover .bkt-fill, .bkt-hover-yellow-light.bkt-button-link:hover .bkt-fill {
+.bkt-hover-yellow-light.bkt-button:hover .bkt-fill, .bkt-hover-yellow-light.bkt-button_delete:hover .bkt-fill, .bkt-hover-yellow-light.bkt-button_save:hover .bkt-fill, .bkt-hover-yellow-light.bkt-button-icon:hover .bkt-fill, .bkt-hover-yellow-light.bkt-button-link:hover .bkt-fill {
   fill: white !important;
 }
-.bkt-hover-yellow-light.bkt-button:hover .bkt-stroke, .bkt-hover-yellow-light.bkt-button-icon:hover .bkt-stroke, .bkt-hover-yellow-light.bkt-button-link:hover .bkt-stroke {
+.bkt-hover-yellow-light.bkt-button:hover .bkt-stroke, .bkt-hover-yellow-light.bkt-button_delete:hover .bkt-stroke, .bkt-hover-yellow-light.bkt-button_save:hover .bkt-stroke, .bkt-hover-yellow-light.bkt-button-icon:hover .bkt-stroke, .bkt-hover-yellow-light.bkt-button-link:hover .bkt-stroke {
   stroke: white !important;
 }
 
-.bkt-hover-yellow-lighter.bkt-button:hover, .bkt-hover-yellow-lighter.bkt-button-icon:hover, .bkt-hover-yellow-lighter.bkt-button-link:hover {
+.bkt-hover-yellow-lighter.bkt-button:hover, .bkt-hover-yellow-lighter.bkt-button_delete:hover, .bkt-hover-yellow-lighter.bkt-button_save:hover, .bkt-hover-yellow-lighter.bkt-button-icon:hover, .bkt-hover-yellow-lighter.bkt-button-link:hover {
   background-color: #fff9e7 !important;
 }
-.bkt-hover-yellow-lighter.bkt-button:hover .bkt-fill, .bkt-hover-yellow-lighter.bkt-button-icon:hover .bkt-fill, .bkt-hover-yellow-lighter.bkt-button-link:hover .bkt-fill {
+.bkt-hover-yellow-lighter.bkt-button:hover .bkt-fill, .bkt-hover-yellow-lighter.bkt-button_delete:hover .bkt-fill, .bkt-hover-yellow-lighter.bkt-button_save:hover .bkt-fill, .bkt-hover-yellow-lighter.bkt-button-icon:hover .bkt-fill, .bkt-hover-yellow-lighter.bkt-button-link:hover .bkt-fill {
   fill: white !important;
 }
-.bkt-hover-yellow-lighter.bkt-button:hover .bkt-stroke, .bkt-hover-yellow-lighter.bkt-button-icon:hover .bkt-stroke, .bkt-hover-yellow-lighter.bkt-button-link:hover .bkt-stroke {
+.bkt-hover-yellow-lighter.bkt-button:hover .bkt-stroke, .bkt-hover-yellow-lighter.bkt-button_delete:hover .bkt-stroke, .bkt-hover-yellow-lighter.bkt-button_save:hover .bkt-stroke, .bkt-hover-yellow-lighter.bkt-button-icon:hover .bkt-stroke, .bkt-hover-yellow-lighter.bkt-button-link:hover .bkt-stroke {
   stroke: white !important;
 }
 
-.bkt-hover-purple.bkt-button:hover, .bkt-hover-purple.bkt-button-icon:hover, .bkt-hover-purple.bkt-button-link:hover {
+.bkt-hover-purple.bkt-button:hover, .bkt-hover-purple.bkt-button_delete:hover, .bkt-hover-purple.bkt-button_save:hover, .bkt-hover-purple.bkt-button-icon:hover, .bkt-hover-purple.bkt-button-link:hover {
   background-color: #7f30e1 !important;
 }
-.bkt-hover-purple.bkt-button:hover .bkt-fill, .bkt-hover-purple.bkt-button-icon:hover .bkt-fill, .bkt-hover-purple.bkt-button-link:hover .bkt-fill {
+.bkt-hover-purple.bkt-button:hover .bkt-fill, .bkt-hover-purple.bkt-button_delete:hover .bkt-fill, .bkt-hover-purple.bkt-button_save:hover .bkt-fill, .bkt-hover-purple.bkt-button-icon:hover .bkt-fill, .bkt-hover-purple.bkt-button-link:hover .bkt-fill {
   fill: white !important;
 }
-.bkt-hover-purple.bkt-button:hover .bkt-stroke, .bkt-hover-purple.bkt-button-icon:hover .bkt-stroke, .bkt-hover-purple.bkt-button-link:hover .bkt-stroke {
+.bkt-hover-purple.bkt-button:hover .bkt-stroke, .bkt-hover-purple.bkt-button_delete:hover .bkt-stroke, .bkt-hover-purple.bkt-button_save:hover .bkt-stroke, .bkt-hover-purple.bkt-button-icon:hover .bkt-stroke, .bkt-hover-purple.bkt-button-link:hover .bkt-stroke {
   stroke: white !important;
 }
 
-.bkt-hover-purple-light.bkt-button:hover, .bkt-hover-purple-light.bkt-button-icon:hover, .bkt-hover-purple-light.bkt-button-link:hover {
+.bkt-hover-purple-light.bkt-button:hover, .bkt-hover-purple-light.bkt-button_delete:hover, .bkt-hover-purple-light.bkt-button_save:hover, .bkt-hover-purple-light.bkt-button-icon:hover, .bkt-hover-purple-light.bkt-button-link:hover {
   background-color: #7f30e1 !important;
 }
-.bkt-hover-purple-light.bkt-button:hover .bkt-fill, .bkt-hover-purple-light.bkt-button-icon:hover .bkt-fill, .bkt-hover-purple-light.bkt-button-link:hover .bkt-fill {
+.bkt-hover-purple-light.bkt-button:hover .bkt-fill, .bkt-hover-purple-light.bkt-button_delete:hover .bkt-fill, .bkt-hover-purple-light.bkt-button_save:hover .bkt-fill, .bkt-hover-purple-light.bkt-button-icon:hover .bkt-fill, .bkt-hover-purple-light.bkt-button-link:hover .bkt-fill {
   fill: white !important;
 }
-.bkt-hover-purple-light.bkt-button:hover .bkt-stroke, .bkt-hover-purple-light.bkt-button-icon:hover .bkt-stroke, .bkt-hover-purple-light.bkt-button-link:hover .bkt-stroke {
+.bkt-hover-purple-light.bkt-button:hover .bkt-stroke, .bkt-hover-purple-light.bkt-button_delete:hover .bkt-stroke, .bkt-hover-purple-light.bkt-button_save:hover .bkt-stroke, .bkt-hover-purple-light.bkt-button-icon:hover .bkt-stroke, .bkt-hover-purple-light.bkt-button-link:hover .bkt-stroke {
   stroke: white !important;
 }
 
-.bkt-hover-purple-lighter.bkt-button:hover, .bkt-hover-purple-lighter.bkt-button-icon:hover, .bkt-hover-purple-lighter.bkt-button-link:hover {
+.bkt-hover-purple-lighter.bkt-button:hover, .bkt-hover-purple-lighter.bkt-button_delete:hover, .bkt-hover-purple-lighter.bkt-button_save:hover, .bkt-hover-purple-lighter.bkt-button-icon:hover, .bkt-hover-purple-lighter.bkt-button-link:hover {
   background-color: #f5effd !important;
 }
-.bkt-hover-purple-lighter.bkt-button:hover .bkt-fill, .bkt-hover-purple-lighter.bkt-button-icon:hover .bkt-fill, .bkt-hover-purple-lighter.bkt-button-link:hover .bkt-fill {
+.bkt-hover-purple-lighter.bkt-button:hover .bkt-fill, .bkt-hover-purple-lighter.bkt-button_delete:hover .bkt-fill, .bkt-hover-purple-lighter.bkt-button_save:hover .bkt-fill, .bkt-hover-purple-lighter.bkt-button-icon:hover .bkt-fill, .bkt-hover-purple-lighter.bkt-button-link:hover .bkt-fill {
   fill: white !important;
 }
-.bkt-hover-purple-lighter.bkt-button:hover .bkt-stroke, .bkt-hover-purple-lighter.bkt-button-icon:hover .bkt-stroke, .bkt-hover-purple-lighter.bkt-button-link:hover .bkt-stroke {
+.bkt-hover-purple-lighter.bkt-button:hover .bkt-stroke, .bkt-hover-purple-lighter.bkt-button_delete:hover .bkt-stroke, .bkt-hover-purple-lighter.bkt-button_save:hover .bkt-stroke, .bkt-hover-purple-lighter.bkt-button-icon:hover .bkt-stroke, .bkt-hover-purple-lighter.bkt-button-link:hover .bkt-stroke {
   stroke: white !important;
 }
 
-.bkt-hover-pink.bkt-button:hover, .bkt-hover-pink.bkt-button-icon:hover, .bkt-hover-pink.bkt-button-link:hover {
+.bkt-hover-pink.bkt-button:hover, .bkt-hover-pink.bkt-button_delete:hover, .bkt-hover-pink.bkt-button_save:hover, .bkt-hover-pink.bkt-button-icon:hover, .bkt-hover-pink.bkt-button-link:hover {
   background-color: #ff41be !important;
 }
-.bkt-hover-pink.bkt-button:hover .bkt-fill, .bkt-hover-pink.bkt-button-icon:hover .bkt-fill, .bkt-hover-pink.bkt-button-link:hover .bkt-fill {
+.bkt-hover-pink.bkt-button:hover .bkt-fill, .bkt-hover-pink.bkt-button_delete:hover .bkt-fill, .bkt-hover-pink.bkt-button_save:hover .bkt-fill, .bkt-hover-pink.bkt-button-icon:hover .bkt-fill, .bkt-hover-pink.bkt-button-link:hover .bkt-fill {
   fill: white !important;
 }
-.bkt-hover-pink.bkt-button:hover .bkt-stroke, .bkt-hover-pink.bkt-button-icon:hover .bkt-stroke, .bkt-hover-pink.bkt-button-link:hover .bkt-stroke {
+.bkt-hover-pink.bkt-button:hover .bkt-stroke, .bkt-hover-pink.bkt-button_delete:hover .bkt-stroke, .bkt-hover-pink.bkt-button_save:hover .bkt-stroke, .bkt-hover-pink.bkt-button-icon:hover .bkt-stroke, .bkt-hover-pink.bkt-button-link:hover .bkt-stroke {
   stroke: white !important;
 }
 
-.bkt-hover-pink-light.bkt-button:hover, .bkt-hover-pink-light.bkt-button-icon:hover, .bkt-hover-pink-light.bkt-button-link:hover {
+.bkt-hover-pink-light.bkt-button:hover, .bkt-hover-pink-light.bkt-button_delete:hover, .bkt-hover-pink-light.bkt-button_save:hover, .bkt-hover-pink-light.bkt-button-icon:hover, .bkt-hover-pink-light.bkt-button-link:hover {
   background-color: #ff48c0 !important;
 }
-.bkt-hover-pink-light.bkt-button:hover .bkt-fill, .bkt-hover-pink-light.bkt-button-icon:hover .bkt-fill, .bkt-hover-pink-light.bkt-button-link:hover .bkt-fill {
+.bkt-hover-pink-light.bkt-button:hover .bkt-fill, .bkt-hover-pink-light.bkt-button_delete:hover .bkt-fill, .bkt-hover-pink-light.bkt-button_save:hover .bkt-fill, .bkt-hover-pink-light.bkt-button-icon:hover .bkt-fill, .bkt-hover-pink-light.bkt-button-link:hover .bkt-fill {
   fill: white !important;
 }
-.bkt-hover-pink-light.bkt-button:hover .bkt-stroke, .bkt-hover-pink-light.bkt-button-icon:hover .bkt-stroke, .bkt-hover-pink-light.bkt-button-link:hover .bkt-stroke {
+.bkt-hover-pink-light.bkt-button:hover .bkt-stroke, .bkt-hover-pink-light.bkt-button_delete:hover .bkt-stroke, .bkt-hover-pink-light.bkt-button_save:hover .bkt-stroke, .bkt-hover-pink-light.bkt-button-icon:hover .bkt-stroke, .bkt-hover-pink-light.bkt-button-link:hover .bkt-stroke {
   stroke: white !important;
 }
 
-.bkt-hover-pink-lighter.bkt-button:hover, .bkt-hover-pink-lighter.bkt-button-icon:hover, .bkt-hover-pink-lighter.bkt-button-link:hover {
+.bkt-hover-pink-lighter.bkt-button:hover, .bkt-hover-pink-lighter.bkt-button_delete:hover, .bkt-hover-pink-lighter.bkt-button_save:hover, .bkt-hover-pink-lighter.bkt-button-icon:hover, .bkt-hover-pink-lighter.bkt-button-link:hover {
   background-color: #fff0fa !important;
 }
-.bkt-hover-pink-lighter.bkt-button:hover .bkt-fill, .bkt-hover-pink-lighter.bkt-button-icon:hover .bkt-fill, .bkt-hover-pink-lighter.bkt-button-link:hover .bkt-fill {
+.bkt-hover-pink-lighter.bkt-button:hover .bkt-fill, .bkt-hover-pink-lighter.bkt-button_delete:hover .bkt-fill, .bkt-hover-pink-lighter.bkt-button_save:hover .bkt-fill, .bkt-hover-pink-lighter.bkt-button-icon:hover .bkt-fill, .bkt-hover-pink-lighter.bkt-button-link:hover .bkt-fill {
   fill: white !important;
 }
-.bkt-hover-pink-lighter.bkt-button:hover .bkt-stroke, .bkt-hover-pink-lighter.bkt-button-icon:hover .bkt-stroke, .bkt-hover-pink-lighter.bkt-button-link:hover .bkt-stroke {
+.bkt-hover-pink-lighter.bkt-button:hover .bkt-stroke, .bkt-hover-pink-lighter.bkt-button_delete:hover .bkt-stroke, .bkt-hover-pink-lighter.bkt-button_save:hover .bkt-stroke, .bkt-hover-pink-lighter.bkt-button-icon:hover .bkt-stroke, .bkt-hover-pink-lighter.bkt-button-link:hover .bkt-stroke {
   stroke: white !important;
 }
 
-.bkt-hover-orange.bkt-button:hover, .bkt-hover-orange.bkt-button-icon:hover, .bkt-hover-orange.bkt-button-link:hover {
+.bkt-hover-orange.bkt-button:hover, .bkt-hover-orange.bkt-button_delete:hover, .bkt-hover-orange.bkt-button_save:hover, .bkt-hover-orange.bkt-button-icon:hover, .bkt-hover-orange.bkt-button-link:hover {
   background-color: #fd7624 !important;
 }
-.bkt-hover-orange.bkt-button:hover .bkt-fill, .bkt-hover-orange.bkt-button-icon:hover .bkt-fill, .bkt-hover-orange.bkt-button-link:hover .bkt-fill {
+.bkt-hover-orange.bkt-button:hover .bkt-fill, .bkt-hover-orange.bkt-button_delete:hover .bkt-fill, .bkt-hover-orange.bkt-button_save:hover .bkt-fill, .bkt-hover-orange.bkt-button-icon:hover .bkt-fill, .bkt-hover-orange.bkt-button-link:hover .bkt-fill {
   fill: white !important;
 }
-.bkt-hover-orange.bkt-button:hover .bkt-stroke, .bkt-hover-orange.bkt-button-icon:hover .bkt-stroke, .bkt-hover-orange.bkt-button-link:hover .bkt-stroke {
+.bkt-hover-orange.bkt-button:hover .bkt-stroke, .bkt-hover-orange.bkt-button_delete:hover .bkt-stroke, .bkt-hover-orange.bkt-button_save:hover .bkt-stroke, .bkt-hover-orange.bkt-button-icon:hover .bkt-stroke, .bkt-hover-orange.bkt-button-link:hover .bkt-stroke {
   stroke: white !important;
 }
 
-.bkt-hover-orange-lighter.bkt-button:hover, .bkt-hover-orange-lighter.bkt-button-icon:hover, .bkt-hover-orange-lighter.bkt-button-link:hover {
+.bkt-hover-orange-lighter.bkt-button:hover, .bkt-hover-orange-lighter.bkt-button_delete:hover, .bkt-hover-orange-lighter.bkt-button_save:hover, .bkt-hover-orange-lighter.bkt-button-icon:hover, .bkt-hover-orange-lighter.bkt-button-link:hover {
   background-color: #fff4ee !important;
 }
-.bkt-hover-orange-lighter.bkt-button:hover .bkt-fill, .bkt-hover-orange-lighter.bkt-button-icon:hover .bkt-fill, .bkt-hover-orange-lighter.bkt-button-link:hover .bkt-fill {
+.bkt-hover-orange-lighter.bkt-button:hover .bkt-fill, .bkt-hover-orange-lighter.bkt-button_delete:hover .bkt-fill, .bkt-hover-orange-lighter.bkt-button_save:hover .bkt-fill, .bkt-hover-orange-lighter.bkt-button-icon:hover .bkt-fill, .bkt-hover-orange-lighter.bkt-button-link:hover .bkt-fill {
   fill: white !important;
 }
-.bkt-hover-orange-lighter.bkt-button:hover .bkt-stroke, .bkt-hover-orange-lighter.bkt-button-icon:hover .bkt-stroke, .bkt-hover-orange-lighter.bkt-button-link:hover .bkt-stroke {
+.bkt-hover-orange-lighter.bkt-button:hover .bkt-stroke, .bkt-hover-orange-lighter.bkt-button_delete:hover .bkt-stroke, .bkt-hover-orange-lighter.bkt-button_save:hover .bkt-stroke, .bkt-hover-orange-lighter.bkt-button-icon:hover .bkt-stroke, .bkt-hover-orange-lighter.bkt-button-link:hover .bkt-stroke {
   stroke: white !important;
 }
 
-.bkt-hover-teal.bkt-button:hover, .bkt-hover-teal.bkt-button-icon:hover, .bkt-hover-teal.bkt-button-link:hover {
+.bkt-hover-teal.bkt-button:hover, .bkt-hover-teal.bkt-button_delete:hover, .bkt-hover-teal.bkt-button_save:hover, .bkt-hover-teal.bkt-button-icon:hover, .bkt-hover-teal.bkt-button-link:hover {
   background-color: #2bd4a6 !important;
 }
-.bkt-hover-teal.bkt-button:hover .bkt-fill, .bkt-hover-teal.bkt-button-icon:hover .bkt-fill, .bkt-hover-teal.bkt-button-link:hover .bkt-fill {
+.bkt-hover-teal.bkt-button:hover .bkt-fill, .bkt-hover-teal.bkt-button_delete:hover .bkt-fill, .bkt-hover-teal.bkt-button_save:hover .bkt-fill, .bkt-hover-teal.bkt-button-icon:hover .bkt-fill, .bkt-hover-teal.bkt-button-link:hover .bkt-fill {
   fill: white !important;
 }
-.bkt-hover-teal.bkt-button:hover .bkt-stroke, .bkt-hover-teal.bkt-button-icon:hover .bkt-stroke, .bkt-hover-teal.bkt-button-link:hover .bkt-stroke {
+.bkt-hover-teal.bkt-button:hover .bkt-stroke, .bkt-hover-teal.bkt-button_delete:hover .bkt-stroke, .bkt-hover-teal.bkt-button_save:hover .bkt-stroke, .bkt-hover-teal.bkt-button-icon:hover .bkt-stroke, .bkt-hover-teal.bkt-button-link:hover .bkt-stroke {
   stroke: white !important;
 }
 
-.bkt-hover-teal-lighter.bkt-button:hover, .bkt-hover-teal-lighter.bkt-button-icon:hover, .bkt-hover-teal-lighter.bkt-button-link:hover {
+.bkt-hover-teal-lighter.bkt-button:hover, .bkt-hover-teal-lighter.bkt-button_delete:hover, .bkt-hover-teal-lighter.bkt-button_save:hover, .bkt-hover-teal-lighter.bkt-button-icon:hover, .bkt-hover-teal-lighter.bkt-button-link:hover {
   background-color: #eefcf8 !important;
 }
-.bkt-hover-teal-lighter.bkt-button:hover .bkt-fill, .bkt-hover-teal-lighter.bkt-button-icon:hover .bkt-fill, .bkt-hover-teal-lighter.bkt-button-link:hover .bkt-fill {
+.bkt-hover-teal-lighter.bkt-button:hover .bkt-fill, .bkt-hover-teal-lighter.bkt-button_delete:hover .bkt-fill, .bkt-hover-teal-lighter.bkt-button_save:hover .bkt-fill, .bkt-hover-teal-lighter.bkt-button-icon:hover .bkt-fill, .bkt-hover-teal-lighter.bkt-button-link:hover .bkt-fill {
   fill: white !important;
 }
-.bkt-hover-teal-lighter.bkt-button:hover .bkt-stroke, .bkt-hover-teal-lighter.bkt-button-icon:hover .bkt-stroke, .bkt-hover-teal-lighter.bkt-button-link:hover .bkt-stroke {
+.bkt-hover-teal-lighter.bkt-button:hover .bkt-stroke, .bkt-hover-teal-lighter.bkt-button_delete:hover .bkt-stroke, .bkt-hover-teal-lighter.bkt-button_save:hover .bkt-stroke, .bkt-hover-teal-lighter.bkt-button-icon:hover .bkt-stroke, .bkt-hover-teal-lighter.bkt-button-link:hover .bkt-stroke {
   stroke: white !important;
 }
 
-.bkt-hover-neutral.bkt-button:hover, .bkt-hover-neutral.bkt-button-icon:hover, .bkt-hover-neutral.bkt-button-link:hover {
+.bkt-hover-neutral.bkt-button:hover, .bkt-hover-neutral.bkt-button_delete:hover, .bkt-hover-neutral.bkt-button_save:hover, .bkt-hover-neutral.bkt-button-icon:hover, .bkt-hover-neutral.bkt-button-link:hover {
   background-color: #cdced2 !important;
 }
-.bkt-hover-neutral.bkt-button:hover .bkt-fill, .bkt-hover-neutral.bkt-button-icon:hover .bkt-fill, .bkt-hover-neutral.bkt-button-link:hover .bkt-fill {
+.bkt-hover-neutral.bkt-button:hover .bkt-fill, .bkt-hover-neutral.bkt-button_delete:hover .bkt-fill, .bkt-hover-neutral.bkt-button_save:hover .bkt-fill, .bkt-hover-neutral.bkt-button-icon:hover .bkt-fill, .bkt-hover-neutral.bkt-button-link:hover .bkt-fill {
   fill: white !important;
 }
-.bkt-hover-neutral.bkt-button:hover .bkt-stroke, .bkt-hover-neutral.bkt-button-icon:hover .bkt-stroke, .bkt-hover-neutral.bkt-button-link:hover .bkt-stroke {
+.bkt-hover-neutral.bkt-button:hover .bkt-stroke, .bkt-hover-neutral.bkt-button_delete:hover .bkt-stroke, .bkt-hover-neutral.bkt-button_save:hover .bkt-stroke, .bkt-hover-neutral.bkt-button-icon:hover .bkt-stroke, .bkt-hover-neutral.bkt-button-link:hover .bkt-stroke {
   stroke: white !important;
 }
 
-.bkt-hover-neutral-light.bkt-button:hover, .bkt-hover-neutral-light.bkt-button-icon:hover, .bkt-hover-neutral-light.bkt-button-link:hover {
+.bkt-hover-neutral-light.bkt-button:hover, .bkt-hover-neutral-light.bkt-button_delete:hover, .bkt-hover-neutral-light.bkt-button_save:hover, .bkt-hover-neutral-light.bkt-button-icon:hover, .bkt-hover-neutral-light.bkt-button-link:hover {
   background-color: #efeff0 !important;
 }
-.bkt-hover-neutral-light.bkt-button:hover .bkt-fill, .bkt-hover-neutral-light.bkt-button-icon:hover .bkt-fill, .bkt-hover-neutral-light.bkt-button-link:hover .bkt-fill {
+.bkt-hover-neutral-light.bkt-button:hover .bkt-fill, .bkt-hover-neutral-light.bkt-button_delete:hover .bkt-fill, .bkt-hover-neutral-light.bkt-button_save:hover .bkt-fill, .bkt-hover-neutral-light.bkt-button-icon:hover .bkt-fill, .bkt-hover-neutral-light.bkt-button-link:hover .bkt-fill {
   fill: white !important;
 }
-.bkt-hover-neutral-light.bkt-button:hover .bkt-stroke, .bkt-hover-neutral-light.bkt-button-icon:hover .bkt-stroke, .bkt-hover-neutral-light.bkt-button-link:hover .bkt-stroke {
+.bkt-hover-neutral-light.bkt-button:hover .bkt-stroke, .bkt-hover-neutral-light.bkt-button_delete:hover .bkt-stroke, .bkt-hover-neutral-light.bkt-button_save:hover .bkt-stroke, .bkt-hover-neutral-light.bkt-button-icon:hover .bkt-stroke, .bkt-hover-neutral-light.bkt-button-link:hover .bkt-stroke {
   stroke: white !important;
 }
 
-.bkt-hover-neutral-lighter.bkt-button:hover, .bkt-hover-neutral-lighter.bkt-button-icon:hover, .bkt-hover-neutral-lighter.bkt-button-link:hover {
+.bkt-hover-neutral-lighter.bkt-button:hover, .bkt-hover-neutral-lighter.bkt-button_delete:hover, .bkt-hover-neutral-lighter.bkt-button_save:hover, .bkt-hover-neutral-lighter.bkt-button-icon:hover, .bkt-hover-neutral-lighter.bkt-button-link:hover {
   background-color: #f4f5f5 !important;
 }
-.bkt-hover-neutral-lighter.bkt-button:hover .bkt-fill, .bkt-hover-neutral-lighter.bkt-button-icon:hover .bkt-fill, .bkt-hover-neutral-lighter.bkt-button-link:hover .bkt-fill {
+.bkt-hover-neutral-lighter.bkt-button:hover .bkt-fill, .bkt-hover-neutral-lighter.bkt-button_delete:hover .bkt-fill, .bkt-hover-neutral-lighter.bkt-button_save:hover .bkt-fill, .bkt-hover-neutral-lighter.bkt-button-icon:hover .bkt-fill, .bkt-hover-neutral-lighter.bkt-button-link:hover .bkt-fill {
   fill: white !important;
 }
-.bkt-hover-neutral-lighter.bkt-button:hover .bkt-stroke, .bkt-hover-neutral-lighter.bkt-button-icon:hover .bkt-stroke, .bkt-hover-neutral-lighter.bkt-button-link:hover .bkt-stroke {
+.bkt-hover-neutral-lighter.bkt-button:hover .bkt-stroke, .bkt-hover-neutral-lighter.bkt-button_delete:hover .bkt-stroke, .bkt-hover-neutral-lighter.bkt-button_save:hover .bkt-stroke, .bkt-hover-neutral-lighter.bkt-button-icon:hover .bkt-stroke, .bkt-hover-neutral-lighter.bkt-button-link:hover .bkt-stroke {
   stroke: white !important;
 }
 
-.bkt-hover-neutral-dark.bkt-button:hover, .bkt-hover-neutral-dark.bkt-button-icon:hover, .bkt-hover-neutral-dark.bkt-button-link:hover {
+.bkt-hover-neutral-dark.bkt-button:hover, .bkt-hover-neutral-dark.bkt-button_delete:hover, .bkt-hover-neutral-dark.bkt-button_save:hover, .bkt-hover-neutral-dark.bkt-button-icon:hover, .bkt-hover-neutral-dark.bkt-button-link:hover {
   background-color: #abadb4 !important;
 }
-.bkt-hover-neutral-dark.bkt-button:hover .bkt-fill, .bkt-hover-neutral-dark.bkt-button-icon:hover .bkt-fill, .bkt-hover-neutral-dark.bkt-button-link:hover .bkt-fill {
+.bkt-hover-neutral-dark.bkt-button:hover .bkt-fill, .bkt-hover-neutral-dark.bkt-button_delete:hover .bkt-fill, .bkt-hover-neutral-dark.bkt-button_save:hover .bkt-fill, .bkt-hover-neutral-dark.bkt-button-icon:hover .bkt-fill, .bkt-hover-neutral-dark.bkt-button-link:hover .bkt-fill {
   fill: white !important;
 }
-.bkt-hover-neutral-dark.bkt-button:hover .bkt-stroke, .bkt-hover-neutral-dark.bkt-button-icon:hover .bkt-stroke, .bkt-hover-neutral-dark.bkt-button-link:hover .bkt-stroke {
+.bkt-hover-neutral-dark.bkt-button:hover .bkt-stroke, .bkt-hover-neutral-dark.bkt-button_delete:hover .bkt-stroke, .bkt-hover-neutral-dark.bkt-button_save:hover .bkt-stroke, .bkt-hover-neutral-dark.bkt-button-icon:hover .bkt-stroke, .bkt-hover-neutral-dark.bkt-button-link:hover .bkt-stroke {
   stroke: white !important;
 }
 
-.bkt-hover-neutral-darker.bkt-button:hover, .bkt-hover-neutral-darker.bkt-button-icon:hover, .bkt-hover-neutral-darker.bkt-button-link:hover {
+.bkt-hover-neutral-darker.bkt-button:hover, .bkt-hover-neutral-darker.bkt-button_delete:hover, .bkt-hover-neutral-darker.bkt-button_save:hover, .bkt-hover-neutral-darker.bkt-button-icon:hover, .bkt-hover-neutral-darker.bkt-button-link:hover {
   background-color: #a7a7a7 !important;
 }
-.bkt-hover-neutral-darker.bkt-button:hover .bkt-fill, .bkt-hover-neutral-darker.bkt-button-icon:hover .bkt-fill, .bkt-hover-neutral-darker.bkt-button-link:hover .bkt-fill {
+.bkt-hover-neutral-darker.bkt-button:hover .bkt-fill, .bkt-hover-neutral-darker.bkt-button_delete:hover .bkt-fill, .bkt-hover-neutral-darker.bkt-button_save:hover .bkt-fill, .bkt-hover-neutral-darker.bkt-button-icon:hover .bkt-fill, .bkt-hover-neutral-darker.bkt-button-link:hover .bkt-fill {
   fill: white !important;
 }
-.bkt-hover-neutral-darker.bkt-button:hover .bkt-stroke, .bkt-hover-neutral-darker.bkt-button-icon:hover .bkt-stroke, .bkt-hover-neutral-darker.bkt-button-link:hover .bkt-stroke {
+.bkt-hover-neutral-darker.bkt-button:hover .bkt-stroke, .bkt-hover-neutral-darker.bkt-button_delete:hover .bkt-stroke, .bkt-hover-neutral-darker.bkt-button_save:hover .bkt-stroke, .bkt-hover-neutral-darker.bkt-button-icon:hover .bkt-stroke, .bkt-hover-neutral-darker.bkt-button-link:hover .bkt-stroke {
   stroke: white !important;
 }
 
-.bkt-hover-white.bkt-button:hover, .bkt-hover-white.bkt-button-icon:hover, .bkt-hover-white.bkt-button-link:hover {
+.bkt-hover-white.bkt-button:hover, .bkt-hover-white.bkt-button_delete:hover, .bkt-hover-white.bkt-button_save:hover, .bkt-hover-white.bkt-button-icon:hover, .bkt-hover-white.bkt-button-link:hover {
   background-color: #ffffff !important;
 }
-.bkt-hover-white.bkt-button:hover .bkt-fill, .bkt-hover-white.bkt-button-icon:hover .bkt-fill, .bkt-hover-white.bkt-button-link:hover .bkt-fill {
+.bkt-hover-white.bkt-button:hover .bkt-fill, .bkt-hover-white.bkt-button_delete:hover .bkt-fill, .bkt-hover-white.bkt-button_save:hover .bkt-fill, .bkt-hover-white.bkt-button-icon:hover .bkt-fill, .bkt-hover-white.bkt-button-link:hover .bkt-fill {
   fill: white !important;
 }
-.bkt-hover-white.bkt-button:hover .bkt-stroke, .bkt-hover-white.bkt-button-icon:hover .bkt-stroke, .bkt-hover-white.bkt-button-link:hover .bkt-stroke {
+.bkt-hover-white.bkt-button:hover .bkt-stroke, .bkt-hover-white.bkt-button_delete:hover .bkt-stroke, .bkt-hover-white.bkt-button_save:hover .bkt-stroke, .bkt-hover-white.bkt-button-icon:hover .bkt-stroke, .bkt-hover-white.bkt-button-link:hover .bkt-stroke {
   stroke: white !important;
 }
 
@@ -12576,7 +12576,7 @@ textarea.form-control-lg {
 .bkt-navbar.white .bkt-navbar__nav-link:hover {
   color: #2d3244;
 }
-.bkt-navbar.white .bkt-button, .bkt-navbar.white .bkt-button-icon, .bkt-navbar.white .bkt-button-link {
+.bkt-navbar.white .bkt-button, .bkt-navbar.white .bkt-button_delete, .bkt-navbar.white .bkt-button_save, .bkt-navbar.white .bkt-button-icon, .bkt-navbar.white .bkt-button-link {
   padding: 13px 30px;
   line-height: 14px;
   margin: 5px;
@@ -12647,7 +12647,7 @@ textarea.form-control-lg {
 .bkt-navbar__nav-link:hover {
   color: #ffffff;
 }
-.bkt-navbar .bkt-button, .bkt-navbar .bkt-button-icon, .bkt-navbar .bkt-button-link {
+.bkt-navbar .bkt-button, .bkt-navbar .bkt-button_delete, .bkt-navbar .bkt-button_save, .bkt-navbar .bkt-button-icon, .bkt-navbar .bkt-button-link {
   margin: 5px;
   padding: 19px 30px;
   flex-grow: 1;
@@ -12768,7 +12768,7 @@ textarea.form-control-lg {
     width: 12px;
     height: 12px;
   }
-  .bkt-navbar .bkt-button, .bkt-navbar .bkt-button-icon, .bkt-navbar .bkt-button-link {
+  .bkt-navbar .bkt-button, .bkt-navbar .bkt-button_delete, .bkt-navbar .bkt-button_save, .bkt-navbar .bkt-button-icon, .bkt-navbar .bkt-button-link {
     margin: 0;
     padding: 9px 25px;
     flex-grow: 1;
@@ -12793,7 +12793,7 @@ textarea.form-control-lg {
     font-size: 11px;
   }
 }
-.bkt-button, .bkt-button-icon, .bkt-button-link {
+.bkt-button, .bkt-button_delete, .bkt-button_save, .bkt-button-icon, .bkt-button-link {
   border-radius: 15px;
   padding: 15px 30px;
   color: #ffffff;
@@ -12806,48 +12806,48 @@ textarea.form-control-lg {
   text-decoration: none;
   vertical-align: middle;
 }
-.bkt-button.primary, .primary.bkt-button-icon, .primary.bkt-button-link {
+.bkt-button.primary, .primary.bkt-button_delete, .primary.bkt-button_save, .primary.bkt-button-icon, .primary.bkt-button-link {
   background: #2953ff;
 }
-.bkt-button.primary-outline, .primary-outline.bkt-button-icon, .primary-outline.bkt-button-link {
+.bkt-button.primary-outline, .primary-outline.bkt-button_delete, .primary-outline.bkt-button_save, .primary-outline.bkt-button-icon, .primary-outline.bkt-button-link {
   outline: 2px solid #2953ff;
   outline-offset: -2px;
 }
-.bkt-button.primary-outline:focus:not(:focus-visible), .primary-outline.bkt-button-icon:focus:not(:focus-visible), .primary-outline.bkt-button-link:focus:not(:focus-visible) {
+.bkt-button.primary-outline:focus:not(:focus-visible), .primary-outline.bkt-button_delete:focus:not(:focus-visible), .primary-outline.bkt-button_save:focus:not(:focus-visible), .primary-outline.bkt-button-icon:focus:not(:focus-visible), .primary-outline.bkt-button-link:focus:not(:focus-visible) {
   outline: 2px solid #2953ff;
 }
-.bkt-button.primary-lighter, .primary-lighter.bkt-button-icon, .primary-lighter.bkt-button-link {
+.bkt-button.primary-lighter, .primary-lighter.bkt-button_delete, .primary-lighter.bkt-button_save, .primary-lighter.bkt-button-icon, .primary-lighter.bkt-button-link {
   background: #eef2ff;
   color: #2953ff;
 }
-.bkt-button.red, .red.bkt-button-icon, .red.bkt-button-link {
+.bkt-button.red, .red.bkt-button_delete, .red.bkt-button_save, .red.bkt-button-icon, .red.bkt-button-link {
   background: #ec4c27;
 }
-.bkt-button.red-outline, .red-outline.bkt-button-icon, .red-outline.bkt-button-link {
+.bkt-button.red-outline, .red-outline.bkt-button_delete, .red-outline.bkt-button_save, .red-outline.bkt-button-icon, .red-outline.bkt-button-link {
   outline: 2px solid #ec4c27;
   color: #2d3244;
   outline-offset: -2px;
 }
-.bkt-button.red-outline:focus:not(:focus-visible), .red-outline.bkt-button-icon:focus:not(:focus-visible), .red-outline.bkt-button-link:focus:not(:focus-visible) {
+.bkt-button.red-outline:focus:not(:focus-visible), .red-outline.bkt-button_delete:focus:not(:focus-visible), .red-outline.bkt-button_save:focus:not(:focus-visible), .red-outline.bkt-button-icon:focus:not(:focus-visible), .red-outline.bkt-button-link:focus:not(:focus-visible) {
   outline: 2px solid #ec4c27;
 }
-.bkt-button.green, .green.bkt-button-icon, .green.bkt-button-link {
+.bkt-button.green, .green.bkt-button_delete, .green.bkt-button_save, .green.bkt-button-icon, .green.bkt-button-link {
   background: #2fbb40;
 }
-.bkt-button.blue, .blue.bkt-button-icon, .blue.bkt-button-link {
+.bkt-button.blue, .blue.bkt-button_delete, .blue.bkt-button_save, .blue.bkt-button-icon, .blue.bkt-button-link {
   background: #29b1ff;
 }
-.bkt-button.blue-lighter, .blue-lighter.bkt-button-icon, .blue-lighter.bkt-button-link {
+.bkt-button.blue-lighter, .blue-lighter.bkt-button_delete, .blue-lighter.bkt-button_save, .blue-lighter.bkt-button-icon, .blue-lighter.bkt-button-link {
   background: #eef9ff;
   color: #29b1ff;
 }
-.bkt-button.main, .main.bkt-button-icon, .main.bkt-button-link {
+.bkt-button.main, .main.bkt-button_delete, .main.bkt-button_save, .main.bkt-button-icon, .main.bkt-button-link {
   background: #2d3244;
 }
-.bkt-button.main-light, .main-light.bkt-button-icon, .main-light.bkt-button-link {
+.bkt-button.main-light, .main-light.bkt-button_delete, .main-light.bkt-button_save, .main-light.bkt-button-icon, .main-light.bkt-button-link {
   background: #373c4d;
 }
-.bkt-button.next, .next.bkt-button-icon, .next.bkt-button-link {
+.bkt-button.next, .next.bkt-button_delete, .next.bkt-button_save, .next.bkt-button-icon, .next.bkt-button-link {
   font-size: 12px;
   font-family: "Gilroy", sans-serif;
   font-weight: 500;
@@ -12861,8 +12861,9 @@ textarea.form-control-lg {
   cursor: pointer;
   padding-left: 0;
   padding-right: 0;
+  background: transparent;
 }
-.bkt-button.next svg, .next.bkt-button-icon svg, .next.bkt-button-link svg {
+.bkt-button.next svg, .next.bkt-button_delete svg, .next.bkt-button_save svg, .next.bkt-button-icon svg, .next.bkt-button-link svg {
   transform: rotate(270deg);
 }
 .bkt-button-ellipse {
@@ -12901,10 +12902,17 @@ textarea.form-control-lg {
   max-height: 22px;
   max-width: 22px;
 }
-.bkt-button:disabled, .bkt-button-icon:disabled, .bkt-button-link:disabled {
+.bkt-button:disabled, .bkt-button_delete:disabled, .bkt-button_save:disabled, .bkt-button-icon:disabled, .bkt-button-link:disabled {
   background: #cdced2;
 }
-.bkt-button:focus:not(:focus-visible), .bkt-button-icon:focus:not(:focus-visible), .bkt-button-link:focus:not(:focus-visible) {
+.bkt-button:disabled.next, .bkt-button_delete:disabled.next, .bkt-button_save:disabled.next, .bkt-button-icon:disabled.next, .bkt-button-link:disabled.next {
+  background: transparent;
+  color: #cdced2;
+}
+.bkt-button:disabled.next svg, .bkt-button_delete:disabled.next svg, .bkt-button_save:disabled.next svg, .bkt-button-icon:disabled.next svg, .bkt-button-link:disabled.next svg {
+  fill: #cdced2 !important;
+}
+.bkt-button:focus:not(:focus-visible), .bkt-button_delete:focus:not(:focus-visible), .bkt-button_save:focus:not(:focus-visible), .bkt-button-icon:focus:not(:focus-visible), .bkt-button-link:focus:not(:focus-visible) {
   outline: initial;
 }
 
@@ -12971,6 +12979,20 @@ textarea.form-control-lg {
   background-color: #ffc515;
 }
 
+.bkt-button_save {
+  height: 70px;
+  font-size: 16px;
+  margin-left: auto;
+  background: #2953ff;
+}
+
+.bkt-button_delete {
+  width: 70px;
+  height: 70px;
+  padding: 23px;
+  background: #fef1ee;
+}
+
 @media screen and (max-width: 768px) {
   .bkt-button_plump {
     border-radius: 18px;
@@ -12990,6 +13012,20 @@ textarea.form-control-lg {
     border-radius: 13px;
     height: 34px;
     min-width: 200px;
+  }
+  .bkt-button_save {
+    height: 54px;
+    font-size: 12px;
+    margin-left: auto;
+  }
+  .bkt-button_delete {
+    width: 54px;
+    height: 54px;
+    padding: 18px;
+  }
+  .bkt-button_delete svg {
+    width: 100%;
+    height: 100%;
   }
 }
 .bkt-card, .bkt-shadow-card__inner, .bkt-card__row {
@@ -13186,7 +13222,7 @@ textarea.form-control-lg {
   flex-direction: column;
   gap: 16px 0;
 }
-.bkt-card__row-column .bkt-button, .bkt-card__row-column .bkt-button-link, .bkt-card__row-column .bkt-button-icon {
+.bkt-card__row-column .bkt-button, .bkt-card__row-column .bkt-button-link, .bkt-card__row-column .bkt-button-icon, .bkt-card__row-column .bkt-button_save, .bkt-card__row-column .bkt-button_delete {
   width: -webkit-fit-content;
   width: -moz-fit-content;
   width: fit-content;
@@ -14247,22 +14283,27 @@ textarea.form-control-lg {
   height: 100%;
   width: 100%;
 }
+.bkt-check__input input:checked ~ .bkt-check__input-check {
+  background: #2953ff !important;
+  box-shadow: 0 3px 10px 0 rgba(41, 83, 255, 0.53);
+}
 .bkt-check__input input:indeterminate ~ .bkt-check__input-check {
   height: 5px;
   border-radius: 5px;
   background: #2953ff;
   box-shadow: 0 3px 10px 0 rgba(41, 83, 255, 0.53);
 }
-.bkt-check__input input:not(:checked):not(:indeterminate) ~ .bkt-check__input-check {
-  background-color: transparent !important;
+.bkt-check__input input:not(:indeterminate) ~ .bkt-check__input-check {
+  background: transparent;
   box-shadow: none;
 }
-.bkt-check__input input:checked ~ .bkt-check__input-check {
-  background: #2953ff;
-  box-shadow: 0 3px 10px 0 rgba(41, 83, 255, 0.53);
+.bkt-check__input input[type=radio]:indeterminate ~ .bkt-check__input-check {
+  background: transparent;
+  box-shadow: none;
 }
-.bkt-check__input input:disabled ~ .bkt-check__input-check {
-  background: #2953ff;
+.bkt-check__input input:checked:disabled ~ .bkt-check__input-check {
+  background: #eef2ff !important;
+  pointer-events: none;
 }
 .bkt-check__label {
   color: #2d3244;
@@ -14332,6 +14373,7 @@ textarea.form-control-lg {
   justify-content: center;
   align-items: center;
   margin-bottom: 0;
+  gap: 6px;
 }
 .bkt-pagination .page-item .page-link, .bkt-pagination_body .page-item .page-link {
   display: flex;
@@ -14357,9 +14399,14 @@ textarea.form-control-lg {
   box-shadow: 0px 7px 20px 0px rgba(41, 83, 255, 0.25);
 }
 .bkt-pagination .page-item .page-link:focus, .bkt-pagination_body .page-item .page-link:focus {
+  color: #2d3244;
+  background-color: transparent;
   box-shadow: none;
-  color: #ffffff;
-  background-color: rgb(41, 83, 255);
+}
+.bkt-pagination .page-item .page-link:active, .bkt-pagination_body .page-item .page-link:active {
+  color: #2d3244;
+  background-color: transparent;
+  box-shadow: none;
 }
 .bkt-pagination .page-item.dots, .bkt-pagination_body .page-item.dots {
   background-color: transparent;
@@ -14371,6 +14418,7 @@ textarea.form-control-lg {
   background-color: transparent;
   box-shadow: none;
   pointer-events: none;
+  min-width: 29px;
 }
 .bkt-pagination .page-item.active > .page-link, .bkt-pagination_body .page-item.active > .page-link, .bkt-pagination .page-item.active > .page-link:hover {
   color: #ffffff;
@@ -14383,11 +14431,14 @@ textarea.form-control-lg {
 }
 .bkt-pagination .page-item.page-item-control, .bkt-pagination_body .page-item.page-item-control {
   min-width: 29px;
+  width: 29px;
+  margin: 0;
 }
 .bkt-pagination .page-item.page-item-control .page-link, .bkt-pagination_body .page-item.page-item-control .page-link {
   background-color: transparent;
   box-shadow: none;
   width: 29px;
+  min-width: 29px;
 }
 .bkt-pagination .page-item.page-item-control .page-link:hover, .bkt-pagination_body .page-item.page-item-control .page-link:hover {
   background-color: transparent;
@@ -14398,10 +14449,39 @@ textarea.form-control-lg {
   border-color: #54646D;
   background-color: transparent;
 }
-.bkt-pagination .page-item + .page-item, .bkt-pagination_body .page-item + .page-item {
-  margin-left: 6px;
+@media (max-width: 576px) {
+  .bkt-pagination .pagination, .bkt-pagination_body .pagination {
+    gap: 4px;
+  }
+  .bkt-pagination .page-item .page-link, .bkt-pagination_body .page-item .page-link {
+    border-radius: 13px;
+    min-width: 34px;
+    width: 34px;
+    height: 34px;
+    font-size: 14px;
+    font-family: "Gilroy";
+    font-weight: 500;
+    color: #2d3244;
+    line-height: 1.2;
+    text-align: center;
+  }
+  .bkt-pagination .page-item.dots, .bkt-pagination_body .page-item.dots {
+    min-width: 15px;
+  }
+  .bkt-pagination .page-item.dots > .page-link, .bkt-pagination_body .page-item.dots > .page-link {
+    min-width: 15px;
+    width: 15px;
+  }
+  .bkt-pagination .page-item.page-item-control, .bkt-pagination_body .page-item.page-item-control {
+    min-width: 15px;
+    width: 15px;
+  }
+  .bkt-pagination .page-item.page-item-control .page-link, .bkt-pagination_body .page-item.page-item-control .page-link {
+    width: 15px;
+    min-width: 15px;
+  }
 }
-@media (min-width: 576px) {
+@media (min-width: 768px) {
   .bkt-pagination .page-item .page-link, .bkt-pagination_body .page-item .page-link {
     border-radius: 15px;
     width: 60px;
@@ -14414,21 +14494,10 @@ textarea.form-control-lg {
     text-align: center;
   }
   .bkt-pagination .page-item.dots > .page-link, .bkt-pagination_body .page-item.dots > .page-link {
+    min-width: 29px;
     width: 29px;
   }
-  .bkt-pagination .page-item + .page-item, .bkt-pagination_body .page-item + .page-item {
-    margin-left: 6px;
-  }
 }
-@media (min-width: 576px) {
-  .bkt-pagination .page-item.page-item-control + .bkt-pagination .page-item.page-item-control, .bkt-pagination_body .page-item.page-item-control + .bkt-pagination .page-item.page-item-control, .bkt-pagination .page-item.page-item-control + .bkt-pagination_body .page-item.page-item-control, .bkt-pagination_body .page-item.page-item-control + .bkt-pagination_body .page-item.page-item-control {
-    margin-left: 6px;
-  }
-  .bkt-pagination .page-item-control + .page-item, .bkt-pagination_body .page-item-control + .page-item, .bkt-pagination .page-item + .page-item-control, .bkt-pagination_body .page-item + .page-item-control {
-    margin-left: 6px;
-  }
-}
-
 .bkt-pagination_body .page-item .page-link {
   background-color: #f5f7fe;
 }
@@ -15208,7 +15277,7 @@ textarea.form-control-lg {
   flex-wrap: nowrap;
   gap: 10px;
 }
-.bkt-footer__buttons .bkt-button, .bkt-footer__buttons .bkt-button-link, .bkt-footer__buttons .bkt-button-icon {
+.bkt-footer__buttons .bkt-button, .bkt-footer__buttons .bkt-button-link, .bkt-footer__buttons .bkt-button-icon, .bkt-footer__buttons .bkt-button_save, .bkt-footer__buttons .bkt-button_delete {
   height: 40px;
   max-width: inherit;
   flex-grow: 1;
@@ -15336,7 +15405,7 @@ textarea.form-control-lg {
     gap: 6px;
     margin-top: 50px;
   }
-  .bkt-footer__buttons .bkt-button, .bkt-footer__buttons .bkt-button-link, .bkt-footer__buttons .bkt-button-icon {
+  .bkt-footer__buttons .bkt-button, .bkt-footer__buttons .bkt-button-link, .bkt-footer__buttons .bkt-button-icon, .bkt-footer__buttons .bkt-button_save, .bkt-footer__buttons .bkt-button_delete {
     height: 30px;
     width: 90px;
     font-size: 10px;
@@ -15692,6 +15761,20 @@ textarea.form-control-lg {
   .bkt-collapse__title {
     font-size: 12px;
     font-weight: 600;
+  }
+  .bkt-collapse_check {
+    gap: 6px;
+  }
+  .bkt-collapse_check .bkt-collapse__title {
+    font-size: 12px;
+    font-weight: 600;
+    word-break: break-word;
+  }
+  .bkt-collapse_check .bkt-collapse__title-wrapper {
+    gap: 6px;
+  }
+  .bkt-collapse_check .bkt-collapse__subtitle {
+    font-size: 10px;
   }
 }
 .bkt-tag {
@@ -16118,7 +16201,7 @@ textarea.form-control-lg {
   display: flex;
   flex-direction: column;
 }
-.bkt-card-trade .bkt-card-menu .bkt-button, .bkt-card-win .bkt-card-menu .bkt-button, .bkt-card-trade .bkt-card-menu .bkt-button-link, .bkt-card-win .bkt-card-menu .bkt-button-link, .bkt-card-trade .bkt-card-menu .bkt-button-icon, .bkt-card-win .bkt-card-menu .bkt-button-icon {
+.bkt-card-trade .bkt-card-menu .bkt-button, .bkt-card-win .bkt-card-menu .bkt-button, .bkt-card-trade .bkt-card-menu .bkt-button-link, .bkt-card-win .bkt-card-menu .bkt-button-link, .bkt-card-trade .bkt-card-menu .bkt-button-icon, .bkt-card-win .bkt-card-menu .bkt-button-icon, .bkt-card-trade .bkt-card-menu .bkt-button_save, .bkt-card-win .bkt-card-menu .bkt-button_save, .bkt-card-trade .bkt-card-menu .bkt-button_delete, .bkt-card-win .bkt-card-menu .bkt-button_delete {
   font-size: 12px;
   padding: 15px;
   width: 100%;
@@ -16129,7 +16212,7 @@ textarea.form-control-lg {
   align-items: center;
   position: relative;
 }
-.bkt-card-trade .bkt-card-menu .bkt-button .info, .bkt-card-win .bkt-card-menu .bkt-button .info, .bkt-card-trade .bkt-card-menu .bkt-button-link .info, .bkt-card-win .bkt-card-menu .bkt-button-link .info, .bkt-card-trade .bkt-card-menu .bkt-button-icon .info, .bkt-card-win .bkt-card-menu .bkt-button-icon .info {
+.bkt-card-trade .bkt-card-menu .bkt-button .info, .bkt-card-win .bkt-card-menu .bkt-button .info, .bkt-card-trade .bkt-card-menu .bkt-button-link .info, .bkt-card-win .bkt-card-menu .bkt-button-link .info, .bkt-card-trade .bkt-card-menu .bkt-button-icon .info, .bkt-card-win .bkt-card-menu .bkt-button-icon .info, .bkt-card-trade .bkt-card-menu .bkt-button_save .info, .bkt-card-win .bkt-card-menu .bkt-button_save .info, .bkt-card-trade .bkt-card-menu .bkt-button_delete .info, .bkt-card-win .bkt-card-menu .bkt-button_delete .info {
   position: absolute;
   background: #2fbb40;
   top: 18px;
@@ -16138,7 +16221,7 @@ textarea.form-control-lg {
   height: 7px;
   border-radius: 100%;
 }
-.bkt-card-trade .bkt-card-menu .bkt-button .bkt-button__icon, .bkt-card-win .bkt-card-menu .bkt-button .bkt-button__icon, .bkt-card-trade .bkt-card-menu .bkt-button-link .bkt-button__icon, .bkt-card-win .bkt-card-menu .bkt-button-link .bkt-button__icon, .bkt-card-trade .bkt-card-menu .bkt-button-icon .bkt-button__icon, .bkt-card-win .bkt-card-menu .bkt-button-icon .bkt-button__icon {
+.bkt-card-trade .bkt-card-menu .bkt-button .bkt-button__icon, .bkt-card-win .bkt-card-menu .bkt-button .bkt-button__icon, .bkt-card-trade .bkt-card-menu .bkt-button-link .bkt-button__icon, .bkt-card-win .bkt-card-menu .bkt-button-link .bkt-button__icon, .bkt-card-trade .bkt-card-menu .bkt-button-icon .bkt-button__icon, .bkt-card-win .bkt-card-menu .bkt-button-icon .bkt-button__icon, .bkt-card-trade .bkt-card-menu .bkt-button_save .bkt-button__icon, .bkt-card-win .bkt-card-menu .bkt-button_save .bkt-button__icon, .bkt-card-trade .bkt-card-menu .bkt-button_delete .bkt-button__icon, .bkt-card-win .bkt-card-menu .bkt-button_delete .bkt-button__icon {
   max-width: 18px;
   max-height: 17px;
   margin-right: 12px;
@@ -16526,7 +16609,7 @@ textarea.form-control-lg {
   box-shadow: none;
   padding: 0 15px;
 }
-.bkt-main .bkt-main-search .bkt-button, .bkt-main .bkt-main-search .bkt-button-link, .bkt-main .bkt-main-search .bkt-button-icon {
+.bkt-main .bkt-main-search .bkt-button, .bkt-main .bkt-main-search .bkt-button-link, .bkt-main .bkt-main-search .bkt-button-icon, .bkt-main .bkt-main-search .bkt-button_save, .bkt-main .bkt-main-search .bkt-button_delete {
   font-size: 14px;
 }
 .bkt-main .bkt-main-categories .bkt-card__row {
@@ -16642,7 +16725,7 @@ textarea.form-control-lg {
   .bkt-main .bkt-main-search .bkt-main-search__input {
     padding: 0 10px;
   }
-  .bkt-main .bkt-main-search .bkt-button, .bkt-main .bkt-main-search .bkt-button-link, .bkt-main .bkt-main-search .bkt-button-icon {
+  .bkt-main .bkt-main-search .bkt-button, .bkt-main .bkt-main-search .bkt-button-link, .bkt-main .bkt-main-search .bkt-button-icon, .bkt-main .bkt-main-search .bkt-button_save, .bkt-main .bkt-main-search .bkt-button_delete {
     width: 44px;
     height: 44px;
     padding: 14px;
@@ -16695,7 +16778,7 @@ textarea.form-control-lg {
   line-height: 1.333;
   text-align: left;
 }
-.bkt-auth-modal .bkt-modal-content .bkt-modal-body .bkt-button.primary, .bkt-auth-modal .bkt-modal-content .bkt-modal-body .primary.bkt-button-link, .bkt-auth-modal .bkt-modal-content .bkt-modal-body .primary.bkt-button-icon {
+.bkt-auth-modal .bkt-modal-content .bkt-modal-body .bkt-button.primary, .bkt-auth-modal .bkt-modal-content .bkt-modal-body .primary.bkt-button-link, .bkt-auth-modal .bkt-modal-content .bkt-modal-body .primary.bkt-button-icon, .bkt-auth-modal .bkt-modal-content .bkt-modal-body .primary.bkt-button_save, .bkt-auth-modal .bkt-modal-content .bkt-modal-body .primary.bkt-button_delete {
   font-size: 16px;
   padding-top: 26px;
   padding-bottom: 26px;
@@ -16855,7 +16938,7 @@ textarea.form-control-lg {
 .bkt-auth-modal.login .bkt-modal-content .bkt-wrapper-between .bkt-forgot-password svg {
   transform: rotate(270deg);
 }
-.bkt-auth-modal.login .bkt-modal-content .bkt-wrapper-between .bkt-button.primary, .bkt-auth-modal.login .bkt-modal-content .bkt-wrapper-between .primary.bkt-button-link, .bkt-auth-modal.login .bkt-modal-content .bkt-wrapper-between .primary.bkt-button-icon {
+.bkt-auth-modal.login .bkt-modal-content .bkt-wrapper-between .bkt-button.primary, .bkt-auth-modal.login .bkt-modal-content .bkt-wrapper-between .primary.bkt-button-link, .bkt-auth-modal.login .bkt-modal-content .bkt-wrapper-between .primary.bkt-button-icon, .bkt-auth-modal.login .bkt-modal-content .bkt-wrapper-between .primary.bkt-button_save, .bkt-auth-modal.login .bkt-modal-content .bkt-wrapper-between .primary.bkt-button_delete {
   font-size: 16px;
   color: rgb(255, 255, 255);
   font-weight: bold;
@@ -17010,7 +17093,7 @@ textarea.form-control-lg {
     line-height: 1.25;
     text-align: left;
   }
-  .bkt-auth-modal .bkt-modal-content .bkt-modal-body .bkt-button.primary, .bkt-auth-modal .bkt-modal-content .bkt-modal-body .primary.bkt-button-link, .bkt-auth-modal .bkt-modal-content .bkt-modal-body .primary.bkt-button-icon {
+  .bkt-auth-modal .bkt-modal-content .bkt-modal-body .bkt-button.primary, .bkt-auth-modal .bkt-modal-content .bkt-modal-body .primary.bkt-button-link, .bkt-auth-modal .bkt-modal-content .bkt-modal-body .primary.bkt-button-icon, .bkt-auth-modal .bkt-modal-content .bkt-modal-body .primary.bkt-button_save, .bkt-auth-modal .bkt-modal-content .bkt-modal-body .primary.bkt-button_delete {
     border-radius: 18px;
     font-size: 12px;
     font-weight: bold;
@@ -17105,7 +17188,7 @@ textarea.form-control-lg {
   line-height: 1.375;
   text-align: left;
 }
-.bkt-modal .bkt-code-modal .bkt-modal-content .bkt-input__group-item .bkt-button, .bkt-modal .bkt-code-modal .bkt-modal-content .bkt-input__group-item .bkt-button-link, .bkt-modal .bkt-code-modal .bkt-modal-content .bkt-input__group-item .bkt-button-icon {
+.bkt-modal .bkt-code-modal .bkt-modal-content .bkt-input__group-item .bkt-button, .bkt-modal .bkt-code-modal .bkt-modal-content .bkt-input__group-item .bkt-button-link, .bkt-modal .bkt-code-modal .bkt-modal-content .bkt-input__group-item .bkt-button-icon, .bkt-modal .bkt-code-modal .bkt-modal-content .bkt-input__group-item .bkt-button_save, .bkt-modal .bkt-code-modal .bkt-modal-content .bkt-input__group-item .bkt-button_delete {
   font-size: 14px;
   line-height: 1.2;
   font-weight: bold;
@@ -17501,7 +17584,7 @@ ul.bkt-contents .bkt-contents__answer {
   display: flex;
   flex-direction: column;
 }
-.bkt-lot-card-card .bkt-card-menu .bkt-button, .bkt-lot-card-card .bkt-card-menu .bkt-button-link, .bkt-lot-card-card .bkt-card-menu .bkt-button-icon {
+.bkt-lot-card-card .bkt-card-menu .bkt-button, .bkt-lot-card-card .bkt-card-menu .bkt-button-link, .bkt-lot-card-card .bkt-card-menu .bkt-button-icon, .bkt-lot-card-card .bkt-card-menu .bkt-button_save, .bkt-lot-card-card .bkt-card-menu .bkt-button_delete {
   font-size: 12px;
   padding: 15px;
   width: 100%;
@@ -17512,7 +17595,7 @@ ul.bkt-contents .bkt-contents__answer {
   align-items: center;
   position: relative;
 }
-.bkt-lot-card-card .bkt-card-menu .bkt-button .info, .bkt-lot-card-card .bkt-card-menu .bkt-button-link .info, .bkt-lot-card-card .bkt-card-menu .bkt-button-icon .info {
+.bkt-lot-card-card .bkt-card-menu .bkt-button .info, .bkt-lot-card-card .bkt-card-menu .bkt-button-link .info, .bkt-lot-card-card .bkt-card-menu .bkt-button-icon .info, .bkt-lot-card-card .bkt-card-menu .bkt-button_save .info, .bkt-lot-card-card .bkt-card-menu .bkt-button_delete .info {
   position: absolute;
   background: #2fbb40;
   top: 18px;
@@ -17521,7 +17604,7 @@ ul.bkt-contents .bkt-contents__answer {
   height: 7px;
   border-radius: 100%;
 }
-.bkt-lot-card-card .bkt-card-menu .bkt-button .bkt-button__icon, .bkt-lot-card-card .bkt-card-menu .bkt-button-link .bkt-button__icon, .bkt-lot-card-card .bkt-card-menu .bkt-button-icon .bkt-button__icon {
+.bkt-lot-card-card .bkt-card-menu .bkt-button .bkt-button__icon, .bkt-lot-card-card .bkt-card-menu .bkt-button-link .bkt-button__icon, .bkt-lot-card-card .bkt-card-menu .bkt-button-icon .bkt-button__icon, .bkt-lot-card-card .bkt-card-menu .bkt-button_save .bkt-button__icon, .bkt-lot-card-card .bkt-card-menu .bkt-button_delete .bkt-button__icon {
   max-width: 18px;
   max-height: 17px;
   margin-right: 12px;
@@ -17643,10 +17726,10 @@ ul.bkt-contents .bkt-contents__answer {
   width: 40px;
   margin-right: 15px;
 }
-.bkt-lot-card-tasks .bkt-card__body .bkt-lot-card-task .bkt-button, .bkt-lot-card-tasks .bkt-card__body .bkt-lot-card-task .bkt-button-link, .bkt-lot-card-tasks .bkt-card__body .bkt-lot-card-task .bkt-button-icon {
+.bkt-lot-card-tasks .bkt-card__body .bkt-lot-card-task .bkt-button, .bkt-lot-card-tasks .bkt-card__body .bkt-lot-card-task .bkt-button-link, .bkt-lot-card-tasks .bkt-card__body .bkt-lot-card-task .bkt-button-icon, .bkt-lot-card-tasks .bkt-card__body .bkt-lot-card-task .bkt-button_save, .bkt-lot-card-tasks .bkt-card__body .bkt-lot-card-task .bkt-button_delete {
   padding: 0;
 }
-.bkt-lot-card-actual .bkt-card__header .bkt-button, .bkt-lot-card-actual .bkt-card__header .bkt-button-link, .bkt-lot-card-actual .bkt-card__header .bkt-button-icon {
+.bkt-lot-card-actual .bkt-card__header .bkt-button, .bkt-lot-card-actual .bkt-card__header .bkt-button-link, .bkt-lot-card-actual .bkt-card__header .bkt-button-icon, .bkt-lot-card-actual .bkt-card__header .bkt-button_save, .bkt-lot-card-actual .bkt-card__header .bkt-button_delete {
   font-size: 12px;
   font-family: "Gilroy", sans-serif;
   font-weight: 500;
@@ -17712,7 +17795,7 @@ ul.bkt-contents .bkt-contents__answer {
   max-width: 16px;
   max-height: 16px;
 }
-.bkt-lot-card-required-documents .bkt-requred-document .bkt-button, .bkt-lot-card-required-documents .bkt-requred-document .bkt-button-link, .bkt-lot-card-required-documents .bkt-requred-document .bkt-button-icon {
+.bkt-lot-card-required-documents .bkt-requred-document .bkt-button, .bkt-lot-card-required-documents .bkt-requred-document .bkt-button-link, .bkt-lot-card-required-documents .bkt-requred-document .bkt-button-icon, .bkt-lot-card-required-documents .bkt-requred-document .bkt-button_save, .bkt-lot-card-required-documents .bkt-requred-document .bkt-button_delete {
   padding: 0;
 }
 .bkt-lot-card-my-files .bkt-card__feature {
@@ -17736,7 +17819,7 @@ ul.bkt-contents .bkt-contents__answer {
   transform: rotate(90deg);
   width: 12px;
 }
-.bkt-lot-card-my-files .bkt-button, .bkt-lot-card-my-files .bkt-button-link, .bkt-lot-card-my-files .bkt-button-icon {
+.bkt-lot-card-my-files .bkt-button, .bkt-lot-card-my-files .bkt-button-link, .bkt-lot-card-my-files .bkt-button-icon, .bkt-lot-card-my-files .bkt-button_save, .bkt-lot-card-my-files .bkt-button_delete {
   padding-right: 25px;
   padding-left: 25px;
 }
@@ -18151,7 +18234,7 @@ ul.bkt-contents .bkt-contents__answer {
   text-transform: uppercase;
   font-weight: 400;
 }
-.bkt-registry .bkt-button.next, .bkt-registry .next.bkt-button-link, .bkt-registry .next.bkt-button-icon {
+.bkt-registry .bkt-button.next, .bkt-registry .next.bkt-button-link, .bkt-registry .next.bkt-button-icon, .bkt-registry .next.bkt-button_save, .bkt-registry .next.bkt-button_delete {
   font-size: 12px;
   line-height: 12px;
   flex-wrap: wrap;
@@ -18183,12 +18266,12 @@ ul.bkt-contents .bkt-contents__answer {
     border-radius: 18px;
     padding: 25px;
   }
-  .bkt-registry .bkt-button.next, .bkt-registry .next.bkt-button-link, .bkt-registry .next.bkt-button-icon {
+  .bkt-registry .bkt-button.next, .bkt-registry .next.bkt-button-link, .bkt-registry .next.bkt-button-icon, .bkt-registry .next.bkt-button_save, .bkt-registry .next.bkt-button_delete {
     font-size: 10px;
     flex-wrap: wrap;
     line-height: 10px;
   }
-  .bkt-registry .bkt-button.next svg, .bkt-registry .next.bkt-button-link svg, .bkt-registry .next.bkt-button-icon svg {
+  .bkt-registry .bkt-button.next svg, .bkt-registry .next.bkt-button-link svg, .bkt-registry .next.bkt-button-icon svg, .bkt-registry .next.bkt-button_save svg, .bkt-registry .next.bkt-button_delete svg {
     width: 7px;
   }
   .bkt-registry .bkt-button_rating {
@@ -18208,6 +18291,9 @@ ul.bkt-contents .bkt-contents__answer {
 
 .bkt-profile {
   margin: 60px auto;
+}
+.bkt-profile .bkt-profile-gap {
+  gap: 15px 0;
 }
 .bkt-profile .bkt-profile-tariff {
   padding: 25px;
@@ -18273,11 +18359,12 @@ ul.bkt-contents .bkt-contents__answer {
     columns: 2;
     -webkit-columns: 2;
     -moz-columns: 2;
+    margin-bottom: 0;
   }
   .bkt-profile .bkt-sidebar .bkt-sidebar__links .bkt-sidebar__link {
     padding: 6px;
     border-radius: 13px;
-    gap: 11px;
+    gap: 4px;
   }
   .bkt-profile .bkt-sidebar .bkt-sidebar__links .bkt-sidebar__link .bkt-sidebar__link-icon {
     width: 30px;
@@ -18674,7 +18761,7 @@ ul.bkt-contents .bkt-contents__answer {
     gap: 4px;
   }
 }
-.bkt-promo__form .communications .bkt-button, .bkt-promo__form .communications .bkt-button-link, .bkt-promo__form .communications .bkt-button-icon {
+.bkt-promo__form .communications .bkt-button, .bkt-promo__form .communications .bkt-button-link, .bkt-promo__form .communications .bkt-button-icon, .bkt-promo__form .communications .bkt-button_save, .bkt-promo__form .communications .bkt-button_delete {
   overflow: hidden;
   width: 120px;
   height: 50px;
@@ -18682,25 +18769,25 @@ ul.bkt-contents .bkt-contents__answer {
   background-color: rgb(245, 247, 254);
 }
 @media (max-width: 768px) {
-  .bkt-promo__form .communications .bkt-button, .bkt-promo__form .communications .bkt-button-link, .bkt-promo__form .communications .bkt-button-icon {
+  .bkt-promo__form .communications .bkt-button, .bkt-promo__form .communications .bkt-button-link, .bkt-promo__form .communications .bkt-button-icon, .bkt-promo__form .communications .bkt-button_save, .bkt-promo__form .communications .bkt-button_delete {
     width: 95px;
     padding: 10px 20px;
   }
 }
 @media (max-width: 576px) {
-  .bkt-promo__form .communications .bkt-button, .bkt-promo__form .communications .bkt-button-link, .bkt-promo__form .communications .bkt-button-icon {
+  .bkt-promo__form .communications .bkt-button, .bkt-promo__form .communications .bkt-button-link, .bkt-promo__form .communications .bkt-button-icon, .bkt-promo__form .communications .bkt-button_save, .bkt-promo__form .communications .bkt-button_delete {
     width: 50px;
     height: 40px;
     border-radius: 13px;
     flex-grow: 1;
   }
 }
-.bkt-promo__form .communications .bkt-button:last-child, .bkt-promo__form .communications .bkt-button-link:last-child, .bkt-promo__form .communications .bkt-button-icon:last-child {
+.bkt-promo__form .communications .bkt-button:last-child, .bkt-promo__form .communications .bkt-button-link:last-child, .bkt-promo__form .communications .bkt-button-icon:last-child, .bkt-promo__form .communications .bkt-button_save:last-child, .bkt-promo__form .communications .bkt-button_delete:last-child {
   align-self: flex-end;
   min-width: 100%;
 }
 @media (max-width: 576px) {
-  .bkt-promo__form .communications .bkt-button:last-child, .bkt-promo__form .communications .bkt-button-link:last-child, .bkt-promo__form .communications .bkt-button-icon:last-child {
+  .bkt-promo__form .communications .bkt-button:last-child, .bkt-promo__form .communications .bkt-button-link:last-child, .bkt-promo__form .communications .bkt-button-icon:last-child, .bkt-promo__form .communications .bkt-button_save:last-child, .bkt-promo__form .communications .bkt-button_delete:last-child {
     font-size: 10px;
   }
 }
@@ -18752,7 +18839,7 @@ ul.bkt-contents .bkt-contents__answer {
     font-size: 8px;
   }
 }
-.bkt-promo__form .bkt-button, .bkt-promo__form .bkt-button-link, .bkt-promo__form .bkt-button-icon {
+.bkt-promo__form .bkt-button, .bkt-promo__form .bkt-button-link, .bkt-promo__form .bkt-button-icon, .bkt-promo__form .bkt-button_save, .bkt-promo__form .bkt-button_delete {
   width: 100%;
   height: 70px;
   border-radius: 20px;
@@ -19448,7 +19535,7 @@ ul.bkt-contents .bkt-contents__answer {
   display: flex;
   flex-wrap: nowrap;
 }
-.bkt-auctions__filters-header .bkt-button, .bkt-auctions__filters-header .bkt-button-link, .bkt-auctions__filters-header .bkt-button-icon {
+.bkt-auctions__filters-header .bkt-button, .bkt-auctions__filters-header .bkt-button-link, .bkt-auctions__filters-header .bkt-button-icon, .bkt-auctions__filters-header .bkt-button_save, .bkt-auctions__filters-header .bkt-button_delete {
   width: 110px;
   height: 70px;
   border-radius: 15px;
@@ -19576,7 +19663,7 @@ ul.bkt-contents .bkt-contents__answer {
     display: flex;
     flex-wrap: nowrap;
   }
-  .bkt-auctions__filters-header .bkt-button, .bkt-auctions__filters-header .bkt-button-link, .bkt-auctions__filters-header .bkt-button-icon {
+  .bkt-auctions__filters-header .bkt-button, .bkt-auctions__filters-header .bkt-button-link, .bkt-auctions__filters-header .bkt-button-icon, .bkt-auctions__filters-header .bkt-button_save, .bkt-auctions__filters-header .bkt-button_delete {
     width: 110px;
     height: 70px;
     border-radius: 15px;

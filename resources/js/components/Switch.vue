@@ -1,6 +1,6 @@
 <template>
     <label class="bkt-switch">
-        <input type="checkbox" v-model="model">
+        <input type="checkbox" v-model="model" :disabled="disabled">
         <span class="bkt-slider"></span>
     </label>
 </template>
@@ -10,7 +10,7 @@
         name: "BktSwitch",
         props: {
             value: {
-                type: Boolean,
+                type: [Boolean, Number],
                 default: false,
             },
             // name: {
@@ -29,6 +29,10 @@
             //     type: String,
             //     default: "",
             // },
+            disabled: {
+                type: Boolean,
+                default: false
+            }
         },
         // model: {
         //     prop: 'value',

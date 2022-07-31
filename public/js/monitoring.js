@@ -5096,7 +5096,7 @@ var render = function () {
     { staticClass: "container bkt-messages bkt-page bkt-container" },
     [
       _c("h1", { staticClass: "bkt-page__title bkt-auctions__title" }, [
-        _vm._v("\n        Сообщения\n    "),
+        _vm._v("\n            Сообщения\n        "),
       ]),
       _vm._v(" "),
       _c("div", { staticClass: "bkt-content" }, [
@@ -5288,57 +5288,6 @@ var render = function () {
                     ),
                   ]
                 ),
-                _vm._v(" "),
-                _c(
-                  "li",
-                  {
-                    staticClass: "bkt-chat",
-                    class: {
-                      "bkt-bg-purple-lighter": _vm.selectedCategory == 4,
-                    },
-                    attrs: { id: "chat-5" },
-                    on: {
-                      click: function ($event) {
-                        _vm.selectedCategory = 4
-                      },
-                    },
-                  },
-                  [
-                    _c(
-                      "div",
-                      { staticClass: "bkt-chat__text" },
-                      [
-                        _c("bkt-icon", {
-                          staticClass: "mr-2",
-                          attrs: {
-                            name: "Chat",
-                            color: "purple",
-                            width: "15px",
-                            height: "15px",
-                          },
-                        }),
-                        _vm._v(" "),
-                        _c("span", [_vm._v("От организаторов")]),
-                      ],
-                      1
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "div",
-                      {
-                        staticClass:
-                          "rounded-pill bkt-bg-purple bkt-text-neutral-light",
-                      },
-                      [
-                        _vm.countMessages.organization > 0
-                          ? _c("span", { staticClass: "p-2" }, [
-                              _vm._v(_vm._s(_vm.countMessages.organization)),
-                            ])
-                          : _vm._e(),
-                      ]
-                    ),
-                  ]
-                ),
               ]),
             ]),
           ]),
@@ -5427,9 +5376,9 @@ var render = function () {
                                     },
                                     [
                                       _vm._v(
-                                        "\n                                        " +
+                                        "\n                                            " +
                                           _vm._s(message.category.title) +
-                                          "\n                                    "
+                                          "\n                                        "
                                       ),
                                     ]
                                   ),
@@ -5484,9 +5433,9 @@ var render = function () {
                                             },
                                             [
                                               _vm._v(
-                                                "\n                                            " +
+                                                "\n                                                " +
                                                   _vm._s(message.title) +
-                                                  "\n                                        "
+                                                  "\n                                            "
                                               ),
                                             ]
                                           )
@@ -5503,7 +5452,7 @@ var render = function () {
                                         },
                                         [
                                           _vm._v(
-                                            "\n                                            " +
+                                            "\n                                                " +
                                               _vm._s(message.note)
                                           ),
                                         ]
@@ -5522,9 +5471,9 @@ var render = function () {
                                     },
                                     [
                                       _vm._v(
-                                        "\n                                    " +
+                                        "\n                                        " +
                                           _vm._s(message.btnText) +
-                                          "\n                                "
+                                          "\n                                    "
                                       ),
                                     ]
                                   )
@@ -5561,9 +5510,9 @@ var render = function () {
                                 },
                                 [
                                   _vm._v(
-                                    "\n                                    " +
+                                    "\n                                        " +
                                       _vm._s(message.category.title) +
-                                      "\n                                "
+                                      "\n                                    "
                                   ),
                                 ]
                               ),

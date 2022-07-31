@@ -19,21 +19,19 @@
             <div class="row h-100 w-100 mx-auto row-cols-1 row-cols-md-2 row-cols-lg-3 bkt-card-trade__wrapper">
                 <div class="col p-0 px-sm-2 order-2 order-lg-1">
                     <div class="bkt-card-image-wrapper">
-                        <hooper :itemsToShow="1" :centerMode="true" class="bkt-card__image-slider">
-                            <slide v-if="!item.photos || item.photos.length==0">
-                                <img v-lazy="'/images/card-image1.png'" class="bkt-card__image"/>
-                            </slide>
+                        <img v-lazy="'/images/card-image1.png'" class="bkt-card__image" v-if="!item.photos || item.photos.length==0"/>
+                        <hooper :itemsToShow="1" :centerMode="true" class="bkt-card__image-slider" v-if="item.photos.length>0">
                             <slide v-for="photo in item.photos" :key="photo.id">
                                 <img v-lazy="photo.main" class="bkt-card__image"/>
                             </slide>
                             <hooper-navigation slot="hooper-addons"></hooper-navigation>
                         </hooper>
                         <div class="bkt-wrapper-between bkt-card-ecp-wrapper">
-                            <router-link custom v-slot="{ navigate }" to="/without-ecp">
-                                <button @click="navigate" class="bkt-button primary bkt-card-ecp w-100">
+<!--                            <router-link custom v-slot="{ navigate }" to="/without-ecp">-->
+                                <button @click="sendApplication" class="bkt-button primary bkt-card-ecp w-100">
                                     Купить без <br>ЭЦП
                                 </button>
-                            </router-link>
+<!--                            </router-link>-->
                             <router-link custom v-slot="{ navigate }" to="/agent">
                                 <button @click="navigate" class="bkt-button primary bkt-card-ecp w-100">
                                     Купить через <br>агента
@@ -275,8 +273,6 @@
         },
         computed: {
             cadastralData() {
-                // console.log(this.item.descriptionExtracts && this.item.descriptionExtracts.length > 0)
-                // console.log(this.item.descriptionExtracts)
                 if (this.item.descriptionExtracts && this.item.descriptionExtracts.length > 0) {
                     if (this.item.descriptionExtracts[0].extracts.length > 0) {
                         let extracts = this.item.descriptionExtracts[0].extracts;
@@ -301,7 +297,12 @@
                 return null;
             }
         },
-        methods: {}
+        methods: {
+            sendApplication() {
+                this.$store.commit('setSelectedLot', this.item);
+                this.$store.commit('openModal', '#applicationModal')
+            }
+        }
     };
 </script>
 

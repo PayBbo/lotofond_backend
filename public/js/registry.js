@@ -806,7 +806,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               case 0:
                 _this5.loading = true;
                 _context5.next = 3;
-                return _this5.$store.dispatch('getBidder', _this5.$route.params.id).then(function (resp) {
+                return _this5.$store.dispatch('getTradePlace', _this5.$route.params.id).then(function (resp) {
                   _this5.item = resp.data;
                   _this5.loading = false;
                 })["catch"](function (error) {

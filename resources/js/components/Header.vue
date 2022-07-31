@@ -225,8 +225,8 @@
                 </button>
             </div>
         </div>
-        <bkt-auth-modal></bkt-auth-modal>
-        <bkt-code-modal></bkt-code-modal>
+        <bkt-auth-modal v-if="!isLoggedIn"></bkt-auth-modal>
+        <bkt-code-modal v-if="!isLoggedIn"></bkt-code-modal>
     </header>
 </template>
 

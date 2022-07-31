@@ -153,11 +153,12 @@ export default {
                 end: ''
             },
             messageHasFiles: false,
-            // sort: {
-            //     direction: "asc",
-            //     type: "date"
-            // },
-            // perPage: 20,
+            sort: {
+                direction: "asc",
+                type: ""
+            },
+            perPage: 20,
+            page:1
         }
     },
 

@@ -23,7 +23,7 @@ export default {
             path: '/profile',
             beforeEnter: guardMyRoute,
             name: 'Profile',
-            component: () => import(/* webpackChunkName: "profile" */ "./pages/Profile/Profile.vue"),
+            component: () => import(/* webpackChunkName: "profile" */ "./pages/Profile.vue"),
             meta: {
                 auth: true
             },
