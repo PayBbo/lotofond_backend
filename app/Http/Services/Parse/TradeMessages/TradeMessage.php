@@ -4,6 +4,7 @@ namespace App\Http\Services\Parse\TradeMessages;
 
 use App\Http\Services\Parse\FilesService;
 use App\Models\LotFile;
+use Carbon\Carbon;
 
 abstract class TradeMessage
 {
@@ -49,7 +50,8 @@ abstract class TradeMessage
             'text' => $value,
             'date' => $date,
             'param' => $param,
-            'param_type' => $param_type
+            'param_type' => $param_type,
+            'created_at'=> Carbon::now()->setTimezone('Europe/Moscow')
         ]);
     }
 }

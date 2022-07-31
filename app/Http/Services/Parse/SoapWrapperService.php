@@ -27,7 +27,14 @@ class SoapWrapperService
                 ->cache(WSDL_CACHE_NONE)
                 ->options([
                     'login' => \Config::get('values.FEDRESURS_LOGIN'),
-                    'password' => \Config::get('values.FEDRESURS_PASSWORD')
+                    'password' => \Config::get('values.FEDRESURS_PASSWORD'),
+                    'stream' => stream_context_create(array(
+                        'ssl' => array(
+                            'verify_peer' => false,
+                            'verify_peer_name' => false,
+                            'allow_self_signed' => true
+                        )
+                    ))
                 ]);
         });
         $this->soapWrapper = $soapWrapper;

@@ -42,7 +42,7 @@ class BiddingInvitation extends TradeMessage
                 $bidderParse = new BidderService('debtor', $debtor['INN'], $debtor_type);
                 $debtor = $bidderParse->saveBidder($debtor);
             } else {
-                return;
+                return null;
             }
 
             /*Парсим арбитражного управляющего, он может быть не задан*/
@@ -121,16 +121,17 @@ class BiddingInvitation extends TradeMessage
 
             }
             foreach ($data[$prefix . 'LotList'] as $lot) {
-                if (array_key_exists('0', $lot) || array_key_exists('Lot', $lot)) {
+                if (array_key_exists('0', $lot) || array_key_exists($prefix.'Lot', $lot)) {
                     foreach ($lot as $value) {
-                        $tradeMessage = $this->createNotification($lot->id, $invitation['@attributes']['EventTime']);
-                        $tradeService = new TradeService($auction, $value, $prefix, $tradeMessage->id, $files, $images);
-                        $lot = $tradeService->saveLot();
+                        $tradeService = new TradeService($auction, $value, $prefix, null, $files, $images);
+                        $newLot = $tradeService->saveLot();
+                        $tradeMessage = $this->createNotification($newLot->id, $invitation['@attributes']['EventTime']);
                     }
                 } else {
-                    $tradeMessage = $this->createNotification($lot->id, $invitation['@attributes']['EventTime']);
-                    $tradeService = new TradeService($auction, $lot, $prefix, $tradeMessage->id, $files, $images);
-                    $lot = $tradeService->saveLot();
+                    $tradeService = new TradeService($auction, $lot, $prefix, null,  $files, $images);
+                    $newLot = $tradeService->saveLot();
+                    $tradeMessage = $this->createNotification($newLot->id, $invitation['@attributes']['EventTime']);
+
                 }
             }
 

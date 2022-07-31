@@ -33,19 +33,38 @@ class BiddingStatusInfo extends TradeMessage implements TradeMessageContract
             $auction = Auction::where('trade_id', $invitation['@attributes']['TradeId'])->first();
             if ($auction) {
                 if (array_key_exists($prefix . 'LotList', $invitation)) {
-                    $auction_lot = $auction->lots->where('number', $invitation[$prefix . 'LotList'][$prefix . 'BiddingStateLotInfo']['@attributes']['LotNumber'])->first();
-                    if ($auction_lot) {
-                        $tradeMessage = $this->createNotification($auction_lot->id, $invitation['@attributes']['EventTime'],
-                            $auction_lot->status_id, 'status_id',
-                            $invitation[$prefix . 'LotList'][$prefix . 'BiddingStateLotInfo']['@attributes']['Reason']);
-                        if(!is_null($type)) {
-                            $auction_lot->status_id = Status::where('code', $type)->first()['id'];
-                        }else{
-                            $lastTradeMessage = TradeMessage::where(['lot_id'=> $auction_lot->id, 'param_type'=>'status_id'])->latest()->first();
-                            $auction_lot->status_id = $lastTradeMessage->param;
+                    if(count($invitation[$prefix . 'LotList'][$prefix . 'BiddingStateLotInfo'])>1){
+                        foreach($invitation[$prefix . 'LotList'][$prefix . 'BiddingStateLotInfo'] as $value){
+                            $auction_lot = $auction->lots->where('number', $value['@attributes']['LotNumber'])->first();
+                            if ($auction_lot) {
+                                $tradeMessage = $this->createNotification($auction_lot->id, $invitation['@attributes']['EventTime'],
+                                    $auction_lot->status_id, 'status_id',
+                                    $value['@attributes']['Reason']);
+                                if(!is_null($type)) {
+                                    $auction_lot->status_id = Status::where('code', $type)->first()['id'];
+                                }else{
+                                    $lastTradeMessage = TradeMessage::where(['lot_id'=> $auction_lot->id, 'param_type'=>'status_id'])->latest()->first();
+                                    $auction_lot->status_id = $lastTradeMessage->param;
+                                }
+                                $this->parseFile($prefix, $invitation, $auction, $auction_lot, $tradeMessage);
+                                $auction_lot->save();
+                            }
                         }
-                        $this->parseFile($prefix, $invitation, $auction, $auction_lot, $tradeMessage);
-                        $auction_lot->save();
+                    }else{
+                        $auction_lot = $auction->lots->where('number', $invitation[$prefix . 'LotList'][$prefix . 'BiddingStateLotInfo']['@attributes']['LotNumber'])->first();
+                        if ($auction_lot) {
+                            $tradeMessage = $this->createNotification($auction_lot->id, $invitation['@attributes']['EventTime'],
+                                $auction_lot->status_id, 'status_id',
+                                $invitation[$prefix . 'LotList'][$prefix . 'BiddingStateLotInfo']['@attributes']['Reason']);
+                            if(!is_null($type)) {
+                                $auction_lot->status_id = Status::where('code', $type)->first()['id'];
+                            }else{
+                                $lastTradeMessage = TradeMessage::where(['lot_id'=> $auction_lot->id, 'param_type'=>'status_id'])->latest()->first();
+                                $auction_lot->status_id = $lastTradeMessage->param;
+                            }
+                            $this->parseFile($prefix, $invitation, $auction, $auction_lot, $tradeMessage);
+                            $auction_lot->save();
+                        }
                     }
 
                 } else {
@@ -70,4 +89,5 @@ class BiddingStatusInfo extends TradeMessage implements TradeMessageContract
             logger($invitation);
         }
     }
+
 }
