@@ -12903,7 +12903,7 @@ textarea.form-control-lg {
   max-width: 22px;
 }
 .bkt-button:disabled, .bkt-button_delete:disabled, .bkt-button_save:disabled, .bkt-button-icon:disabled, .bkt-button-link:disabled {
-  background: #cdced2;
+  background: #efeff0;
 }
 .bkt-button:disabled.next, .bkt-button_delete:disabled.next, .bkt-button_save:disabled.next, .bkt-button-icon:disabled.next, .bkt-button-link:disabled.next {
   background: transparent;
@@ -12993,6 +12993,13 @@ textarea.form-control-lg {
   background: #fef1ee;
 }
 
+.bkt-button_code {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  gap: 4px;
+}
+
 @media screen and (max-width: 768px) {
   .bkt-button_plump {
     border-radius: 18px;
@@ -13026,6 +13033,18 @@ textarea.form-control-lg {
   .bkt-button_delete svg {
     width: 100%;
     height: 100%;
+  }
+  .bkt-button_code {
+    font-size: 10px;
+    padding: 18px 15px;
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+    gap: 4px;
+  }
+  .bkt-button_code .spinner-border {
+    height: 10px;
+    width: 10px;
   }
 }
 .bkt-card, .bkt-shadow-card__inner, .bkt-card__row {
@@ -18341,6 +18360,20 @@ ul.bkt-contents .bkt-contents__answer {
 }
 .bkt-profile .bkt-sidebar {
   padding: 20px;
+}
+.bkt-profile .bkt-button_save {
+  height: 54px;
+  font-size: 12px;
+  margin-left: auto;
+}
+.bkt-profile .bkt-button_delete {
+  width: 54px;
+  height: 54px;
+  padding: 18px;
+}
+.bkt-profile .bkt-button_delete svg {
+  width: 100%;
+  height: 100%;
 }
 .bkt-profile .bkt-notifications-card {
   background: #ffffff;

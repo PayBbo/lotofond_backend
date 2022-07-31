@@ -10334,6 +10334,11 @@ vue__WEBPACK_IMPORTED_MODULE_1__["default"].use(vuex__WEBPACK_IMPORTED_MODULE_2_
     setAuthUser: function setAuthUser(state, payload) {
       state.auth_user = payload;
     },
+    updateAuthUser: function updateAuthUser(state, payload) {
+      state.auth_user.lastName = payload.lastName;
+      state.auth_user.middleName = payload.middleName;
+      state.auth_user.name = payload.name;
+    },
     setAuthUserLoading: function setAuthUserLoading(state, payload) {
       state.auth_user_loading = payload;
     },
@@ -10580,7 +10585,7 @@ vue__WEBPACK_IMPORTED_MODULE_1__["default"].use(vuex__WEBPACK_IMPORTED_MODULE_2_
                 _context8.next = 3;
                 return axios__WEBPACK_IMPORTED_MODULE_0___default().put('/api/account/user/update', payload).then(function (resp) {
                   console.log(resp);
-                  commit('setAuthUser', payload);
+                  commit('updateAuthUser', payload);
                 })["catch"](function (error) {
                   console.log(error);
                 });
@@ -10671,17 +10676,12 @@ vue__WEBPACK_IMPORTED_MODULE_1__["default"].use(vuex__WEBPACK_IMPORTED_MODULE_2_
               case 0:
                 commit = _ref12.commit;
                 _context12.next = 3;
-                return axios__WEBPACK_IMPORTED_MODULE_0___default().post('/api/account/password/change', payload).then(function (resp) {
-                  commit('auth_success', {
-                    token: resp.data.accessToken,
-                    refreshToken: resp.data.refreshToken
-                  });
-                  console.log(resp);
-                })["catch"](function (error) {
-                  console.log(error);
-                });
+                return axios__WEBPACK_IMPORTED_MODULE_0___default().post('/api/account/password/change', payload);
 
               case 3:
+                return _context12.abrupt("return", _context12.sent);
+
+              case 4:
               case "end":
                 return _context12.stop();
             }
@@ -70106,7 +70106,8 @@ var render = function () {
                               _c(
                                 "button",
                                 {
-                                  staticClass: "bkt-button primary",
+                                  staticClass:
+                                    "bkt-button primary bkt-button_code",
                                   attrs: { disabled: _vm.code_loading },
                                   on: { click: _vm.sendCode },
                                 },
@@ -70222,7 +70223,7 @@ var render = function () {
           ],
           null,
           false,
-          4284925877
+          3454139649
         ),
       })
     : _vm._e()
