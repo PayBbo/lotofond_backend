@@ -19,8 +19,8 @@ export default {
     },
     mutations: {
         setMarks(state, payload) {
-            state.marks = payload.data;
-            state.marks_pagination = payload.pagination;
+            state.marks = payload;
+            // state.marks_pagination = payload.pagination;
         },
         addMark(state, payload) {
             state.marks.push(payload)

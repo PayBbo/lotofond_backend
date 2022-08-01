@@ -5,15 +5,15 @@
     }
 
     & .events_check input:checked ~ .bkt-check__input-check {
-        background: #db4219;
+        background: $red;
     }
 
     & .tasks_check input:checked ~ .bkt-check__input-check {
-        background: #2dbb41;
+        background: $green-dark;
     }
 
     & .reminders_check input:checked ~ .bkt-check__input-check {
-        background: #25b0ff;
+        background: $blue-default;
     }
 
     & .bkt-calendar-none-border {
@@ -105,12 +105,27 @@
             border: 2px solid $primary;
         }
 
-        & .vc-grid-cell.vc-grid-cell-row-1.vc-grid-cell-col--2 {
+        & .vc-grid-cell.is-today {
+            background: $primary;
+
             .vc-weekday {
-                background: $primary;
-                color: white !important;
+                color: white !important
             }
         }
+
+        & .vc-grid-cell.vc-grid-cell-row-1.vc-grid-cell-col {
+            &--7, &--6, &--5, &--4, &--3, &--2 {
+                display: none;
+            }
+        }
+
+        & .vc-grid-cell.vc-grid-cell-row-1.vc-grid-cell-row--7.vc-grid-cell-col-7.vc-grid-cell-col--1 {
+            display: none;
+        }
+
+        /* & .vc-grid-cell-row-1 {
+             display: none;
+         }*/
 
         & .vc-day {
             padding: 0 5px 3px 5px;
@@ -142,9 +157,36 @@
         & .vc-day-dots {
             margin-bottom: 5px;
         }
+
+        & .vc-popover-content {
+            background: $primary-lighter !important;
+            border: none !important;
+            color: $main-dark !important;
+            box-shadow: none;
+            max-width: 270px;
+            border-radius: 10px;
+
+            & .bkt-status {
+                margin-bottom: 15px;
+                margin-top: 15px;
+
+                span {
+                    padding: 2px 10px;
+                    color: white;
+                }
+            }
+
+            & .bkt-text-popover {
+                margin-bottom: 15px;
+            }
+        }
     }
 
     .bkt-left-calendar.vc-container {
+        & .vc-popover-content-wrapper {
+            display: none !important;
+        }
+
         & .vc-arrows-container {
             div {
                 background: #f4f5f5;
@@ -165,6 +207,40 @@
                     opacity: 1;
                     color: #d7d7d7;
                 }
+            }
+        }
+
+        & .vc-bg-green-600 {
+            background: $green-dark !important;
+        }
+
+        & .vc-bg-blue-600{
+            background: $blue-default !important;
+        }
+
+        & .vc-bg-red-600{
+            background: $red !important;
+        }
+    }
+}
+
+.bkt-add-task-modal {
+    & .modal-dialog {
+        min-width: 40% !important;
+    }
+
+    & .bkt-content-tasks {
+        margin-bottom: 40px;
+
+        &__item {
+            height: 60px;
+            padding: 0 20px;
+
+            & .bkt-item__status {
+                margin-right: 15px;
+                border-radius: 10px;
+                padding: 0 10px;
+                color: white;
             }
         }
     }

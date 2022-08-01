@@ -1,18 +1,24 @@
 .bkt-profile {
     margin: 60px auto;
+
+    .bkt-profile-gap {
+        gap: 15px 0;
+    }
+
     & .bkt-profile-tariff {
         padding: 25px;
         text-align: center;
         margin-bottom: 14px;
-        & .bkt-card__subtitle
-        {
+
+        & .bkt-card__subtitle {
             color: rgba(255, 255, 255, 0.6);
         }
-        & .bkt-card__title
-        {
+
+        & .bkt-card__title {
             font-size: 16px;
             color: white;
         }
+
         & .bkt-card__background-figure-1 {
             position: absolute;
             margin: auto;
@@ -37,6 +43,7 @@
             right: 10.2%;
         }
     }
+
     & .bkt-tariff-button {
         font-size: 16px;
         font-family: "Gilroy";
@@ -52,6 +59,23 @@
         padding: 20px;
     }
 
+    & .bkt-button_save {
+        height: 54px;
+        font-size: 12px;
+        margin-left: auto;
+    }
+
+    & .bkt-button_delete {
+        width: 54px;
+        height: 54px;
+        padding: 18px;
+
+        & svg {
+            width: 100%;
+            height: 100%;
+        }
+    }
+
     & .bkt-notifications-card {
         background: $white;
         padding: 25px 40px;
@@ -64,69 +88,81 @@
         .bkt-profile-gap {
             gap: 15px;
         }
+
         & .bkt-sidebar {
             padding: 9px;
+
             & .bkt-sidebar__links {
                 columns: 2;
                 -webkit-columns: 2;
                 -moz-columns: 2;
+                margin-bottom: 0;
 
                 & .bkt-sidebar__link {
                     padding: 6px;
                     border-radius: 13px;
-                    gap: 11px;
+                    gap: 4px;
 
                     & .bkt-sidebar__link-icon {
                         width: 30px;
                         height: 30px;
                         padding: 8px;
                     }
+
                     & .bkt-sidebar__link-label {
                         font-size: 12px;
                     }
                 }
             }
         }
+
         & .bkt-profile-tariff {
             background-color: transparent !important;
             border: 2px solid #e5eafe;
             margin-bottom: 0;
-            & .bkt-card__subtitle
-            {
+
+            & .bkt-card__subtitle {
                 color: $main-default;
                 font-size: 10px;
             }
-            & .bkt-card__title
-            {
+
+            & .bkt-card__title {
                 font-size: 12px;
                 color: $primary-default;
             }
+
             & .bkt-card__background-figure-1 {
-               display: none;
+                display: none;
             }
 
             & .bkt-card__background-figure-2 {
                 display: none;
             }
         }
+
         & .bkt-tariff-button {
             font-size: 12px;
             border-radius: 13px;
             min-height: 44px;
             padding: 15px 35px;
         }
+
         & .bkt-card {
             border-radius: 18px;
         }
+
         & .bkt-notifications-card {
             padding: 25px;
             border-radius: 18px;
+
             & .bkt-card__title {
                 font-size: 14px;
             }
+
             & .bkt-card__subtitle {
                 font-size: 10px;
             }
+
             & .bkt-button-icon {
                 width: 14px;
                 height: 14px;

@@ -38,12 +38,18 @@
                                 </li>
                             </ul>
                             <ul class="bkt-footer__links">
-                                <li class="bkt-footer__link">Приложение <strong style="color:blue; margin-left: 5px;">&#10095;</strong>
-                                </li>
-                                <li class="bkt-footer__link" data-bs-toggle="modal" data-bs-target="#authModal">Вход и
-                                    регистрация
+                                <li v-if="!isLoggedIn" class="bkt-footer__link"
+                                    data-bs-toggle="modal" data-bs-target="#authModal"
+                                >
+                                    Вход и регистрация
                                     <strong style="color:rgb(65, 125, 255); margin-left: 5px;">&#10095;</strong>
                                 </li>
+                                <li v-else class="bkt-footer__link">
+                                    <router-link to="/profile">Профиль
+                                        <strong style="color:rgb(65, 125, 255); margin-left: 5px;">&#10095;</strong>
+                                    </router-link>
+                                </li>
+
                                 <li class="bkt-footer__link text-truncate">Изменения в законах <strong
                                     style="color:rgb(216, 43, 30); margin-left: 5px;">&#10095;</strong>
                                 </li>
@@ -69,6 +75,12 @@
                                 <a class="bkt-button-icon bkt-bg-main-light" href="/">
                                     <bkt-icon name="Youtube" width="16px" height="16px"></bkt-icon>
                                 </a>
+<!--                                <button class="bkt-button-icon bkt-bg-main-light">-->
+<!--                                    <bkt-icon name="AppleStore"></bkt-icon>-->
+<!--                                </button>-->
+<!--                                <button class="bkt-button-icon bkt-bg-main-light">-->
+<!--                                    <bkt-icon name="GooglePlay"></bkt-icon>-->
+<!--                                </button>-->
                             </div>
                         </div>
                     </div>
@@ -93,7 +105,12 @@
 
 <script>
     export default {
-        name: "Footer"
+        name: "Footer",
+        computed: {
+            isLoggedIn() {
+                return this.$store.getters.isLoggedIn
+            },
+        },
     }
 </script>
 

@@ -503,13 +503,22 @@
                 font-size: 12px;
             }
         }
-        .bkt-card-trade-mini__dates {
+        & .bkt-card-trade-mini__dates {
             color: $green-default;
             & h6 {
                 font-size: 10px;
             }
             & div h6:last-child {
                 display: none;
+            }
+        }
+        & .bkt-card-trade-mini__description {
+            & .bkt-card__subtitle {
+                font-size: 8px;
+            }
+            & .bkt-card-trade-mini__title {
+                font-size: 12px;
+                font-weight: 400;
             }
         }
     }

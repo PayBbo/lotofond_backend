@@ -119,10 +119,13 @@ class User extends Authenticatable
     public function findForPassport($username)
     {
 
-        /*if (SocialAccount::where(['provider_id' => $data[0], 'provider' => $data[1]])->exists()) {
-            $social = SocialAccount::where(['provider_id' => $data[0], 'provider' => $data[1]])->first();
-            return $this->where('id', $social->user_id)->first();
-        }*/
+        if (strpos($username, ' ') !== false) {
+            $data = explode(" ", $username);
+            if (SocialAccount::where(['provider_id' => $data[0], 'provider' => $data[1]])->exists()) {
+                $social = SocialAccount::where(['provider_id' => $data[0], 'provider' => $data[1]])->first();
+                return $this->where('id', $social->user_id)->first();
+            }
+        }
 
         if ($this->where('email', $username)->exists()) {
             return $this->where('email', $username)->first();
@@ -142,6 +145,11 @@ class User extends Authenticatable
     public function estimates()
     {
         return $this->hasMany(BidderEstimate::class);
+    }
+
+    public function socialAccount()
+    {
+        return $this->HasMany(\App\Models\SocialAccount::class);
     }
 
 }

@@ -12,7 +12,7 @@ return [
      * ],
      */
     'messages' => [
-        'categories', 'regions', 'region_groups'
+//        'categories', 'regions', 'region_groups'
     ],
 
     /*

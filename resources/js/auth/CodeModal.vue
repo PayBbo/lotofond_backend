@@ -28,7 +28,7 @@
                 disabled
             >
                 <template #group-item-inner>
-                    <button class="bkt-button primary" @click="sendCode" :disabled="code_loading">
+                    <button class="bkt-button primary bkt-button_code" @click="sendCode" :disabled="code_loading">
                          <span v-if="code_loading" class="spinner-border spinner-border-sm"
                                role="status"></span>
                         Выслать код
@@ -51,17 +51,33 @@
                 <!--                </template>-->
             </bkt-input>
 
-            <div class="bkt-select__wrapper">
-                <label class="bkt-select__label" for="sortSelect">выберите регион и получите персональную подборку
-                    лотов</label>
-                <select class="form-select bkt-select" id="sortSelect" aria-label="">
-                    <option selected></option>
-                    <option value="1">One</option>
-                    <option value="2">Two</option>
-                    <option value="3">Three</option>
-                </select>
-            </div>
-
+<!--            <div class="bkt-select__wrapper">-->
+<!--                <label class="bkt-select__label" for="sortSelect">выберите регион и получите персональную подборку-->
+<!--                    лотов</label>-->
+<!--                <select class="form-select bkt-select" id="sortSelect" aria-label="">-->
+<!--                    <option selected></option>-->
+<!--                    <option value="1">One</option>-->
+<!--                    <option value="2">Two</option>-->
+<!--                    <option value="3">Three</option>-->
+<!--                </select>-->
+<!--            </div>-->
+            <bkt-select name="regions"
+                        v-model="region"
+                        :options="region_options"
+                        label="выберите регион и получите персональную подборку лотов"
+                        label_class="bkt-select__label"
+                        with_option
+                        with_selected_option
+                        :method_name="'getRegions'"
+                        :loading="regions_loading"
+            >
+                <template #option="{option}">
+                    {{$t('regions.'+option.label)}}
+                </template>
+                <template #selected-option="{option}">
+                    {{$t('regions.'+option.label)}}
+                </template>
+            </bkt-select>
         </template>
         <!--        <template #left_button_inner>-->
         <!--            Пропустить-->
@@ -93,6 +109,12 @@
                 set(value) {
                     this.$store.commit('setUser', value)
                 }
+            },
+            region_options() {
+                return [].concat.apply([], this.$store.getters.regions.map(item => item.regions));
+            },
+            regions_loading() {
+                return this.$store.getters.regions_loading
             },
         },
         methods: {

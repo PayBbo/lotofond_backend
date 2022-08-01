@@ -12,6 +12,7 @@ class IsUniqueNewCredentials implements Rule
     protected $isOldCredentials;
     protected $haveAccessToOldCredentials;
     protected $message = 'exists';
+
     /**
      * Create a new rule instance.
      *
@@ -26,24 +27,30 @@ class IsUniqueNewCredentials implements Rule
     /**
      * Determine if the validation rule passes.
      *
-     * @param  string  $attribute
-     * @param  mixed  $value
+     * @param string $attribute
+     * @param mixed $value
      * @return bool
      */
     public function passes($attribute, $value)
     {
         $user = User::find(auth()->id());
-        if($this->isOldCredentials && $this->haveAccessToOldCredentials){
-            return User::where([$attribute=>$value, 'id'=>$user->id])->exists();
-        }elseif($this->haveAccessToOldCredentials && !$this->isOldCredentials){
-            $this->message = 'credentials_submitted';
+        if ($this->isOldCredentials && $this->haveAccessToOldCredentials) {
+            return User::where([$attribute => $value, 'id' => $user->id])->exists();
+        } elseif ($this->haveAccessToOldCredentials && !$this->isOldCredentials) {
+            if(!User::where($attribute, $value)->exists()) {
+                if ($attribute == 'email') {
+                    $this->message = 'credentials_submitted_email';
+                } else {
+                    $this->message = 'credentials_submitted_phone';
+                }
+            }
             $currentDate = Carbon::now()->setTimezone('Europe/Moscow');
             return !User::where($attribute, $value)->exists()
-                && ChangeCredentials::where(['user_id'=>$user->id, 'email'=>$user->email,
-                    'is_submitted_old_credentials'=>true])
+                && ChangeCredentials::where(['user_id' => $user->id, $attribute => $user[$attribute],
+                    'is_submitted_old_credentials' => true])
                     ->where('created_at', '>', $currentDate)
                     ->exists();
-        }else{
+        } else {
             return !User::where($attribute, $value)->exists();
         }
     }
@@ -55,6 +62,6 @@ class IsUniqueNewCredentials implements Rule
      */
     public function message()
     {
-        return __('validation.'.$this->message);
+        return __('validation.' . $this->message);
     }
 }

@@ -145,4 +145,27 @@ class BidderController extends Controller
         return response(new ReestrDebtorMessageCollection($messages), 200);
     }
 
+    public function getDebtorMessageHtml($guid){
+        $url='https://old.bankrot.fedresurs.ru/MessageWindow.aspx?ID=' . $guid;
+        $curl = curl_init($url);
+
+        $headers = array(
+            'Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9',
+            'Cache-Control: no-cache',
+            'Connection: keep-alive',
+            'Cookie: ASP.NET_SessionId=kouo3r2ly4itiioslw50y0sx; bankrotcookie=a9217e5cdbe7965d6a70fcf5e5c1b780',
+            'User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/102.0.5005.134 YaBrowser/22.7.0.1842 Yowser/2.5 Safari/537.36'
+        );
+
+        curl_setopt($curl, CURLOPT_URL, $url);
+        curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+
+        $curlinfo = curl_exec($curl);
+
+        curl_close($curl);
+
+        return response()->json(['html'=>$curlinfo], 200);
+    }
+
 }

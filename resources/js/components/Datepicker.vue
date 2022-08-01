@@ -3,8 +3,8 @@
                         tag="div" class="bkt-input__wrapper" :vid="name"
     >
         <label :for="name" class="bkt-input__label" v-if="label" :class="label_class">{{ label }}</label>
-        <date-picker :type="type" prefix-class="bkt" value-type="DD.MM.YYYY"
-                     :placeholder="placeholder" format="DD MMMM YYYY"
+        <date-picker :type="type" prefix-class="bkt" :value-type="'DD.MM.YYYY'+time_format"
+                     :placeholder="placeholder" :format="'DD MMMM YYYY'+time_format"
                      :disabled="disabled" v-model="model"
             >
             <template #icon-clear>
@@ -71,6 +71,7 @@
         },
         data: function () {
             return {
+                time_format: ''
             };
         },
         mounted() {
@@ -79,6 +80,10 @@
                 if (!this.label) {
                     this.field_name = this.name;
                 }
+            }
+            if(this.type == 'datetime')
+            {
+                this.time_format = ' HH:mm'
             }
         },
         computed: {

@@ -38,8 +38,19 @@ export default {
                 duration: payload.duration|5000
             });
         },
+        sendAuthNotification({commit}, payload) {
+            payload.self.$notify({
+                type: 'error',
+                title: 'LotoFond',
+                text: 'Необходима авторизация',
+                duration: 5000
+            });
+        },
         saveDataProperty({commit, rootState}, payload) {
-            let schema = rootState[payload.module_key][payload.state_key];
+            let schema = rootState[payload.module_key];
+            if(payload.state_key) {
+                schema = rootState[payload.module_key][payload.state_key]
+            }
             let pList = payload.key.split('.');
             let len = pList.length;
             for (let i = 0; i < len - 1; i++) {

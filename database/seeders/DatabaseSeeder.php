@@ -25,7 +25,8 @@ class DatabaseSeeder extends Seeder
             RegionSeeder::class,
             ParamSeeder::class,
             UserSeeder::class,
-            RoleSeeder::class
+            RoleSeeder::class,
+            TextDataSeeder::class
         ]);
     }
 }

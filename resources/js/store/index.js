@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+
 Vue.use(Vuex)
 import shared from './shared';
 import trades from './trades';
@@ -12,14 +13,18 @@ import favourites from "./favourites";
 import monitoring from "./monitoring";
 import bidders from "./bidders";
 import filtersData from "./filtersData";
+
 import admin from './admin';
+
+import events from './events';
+
 export default new Vuex.Store({
     namespaced: false,
     modules: {
         shared, auth, trades, filters,
         marks, lots, favourites, monitoring,
         bidders, filtersData,
-        admin
+        events, admin
     }
 })
 

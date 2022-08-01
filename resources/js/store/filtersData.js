@@ -36,11 +36,15 @@ export default {
                 pagination: {},
                 loading: false
             },
-            prices: {}
+            prices: null,
+            messages_types: []
         }
     },
 
     getters: {
+        filters_data(state) {
+            return state.filters_data;
+        },
         categories(state) {
             return state.filters_data.categories.data;
         },
@@ -80,24 +84,33 @@ export default {
         filters_arbitration_managers_loading(state) {
             return state.filters_data.bidders.arbitrationManagers.loading;
         },
+        messages_types(state) {
+            return state.filters_data.messages_types;
+        },
     },
     mutations: {
         setCategories(state, payload) {
             payload.forEach(item => {
-                Vue.set(item, 'status', false)
-                state.filters_data.categories.data.push(item)
+                let category = state.filters_data.categories.data.findIndex(el => el.key === item.key);
+                if (category < 0) {
+                    Vue.set(item, 'status', false);
+                    state.filters_data.categories.data.push(item)
+                }
             });
         },
         setRegions(state, payload) {
             payload.forEach(item => {
-                Vue.set(item, 'status', false)
-                state.filters_data.regions.data.push(item)
+                let region = state.filters_data.regions.data.findIndex(el => el.regionGroup === item.regionGroup);
+                if (region < 0) {
+                    Vue.set(item, 'status', false)
+                    state.filters_data.regions.data.push(item)
+                }
             });
         },
         setFiltersBidders(state, payload) {
-            payload.data.forEach(item => {
-                let trade = state.filters_data.bidders[payload.type].findIndex(el => el.id === item.id);
-                if (trade < 0) {
+            payload.data.data.forEach(item => {
+                let bidder = state.filters_data.bidders[payload.type].data.findIndex(el => el.id === item.id);
+                if (bidder < 0) {
                     let tmp_item = item;
                     if (item.type === 'person') {
                         tmp_item.fullName = Object.values(tmp_item.person).reduce((prev, cur) => {
@@ -115,11 +128,19 @@ export default {
                     state.filters_data.bidders[payload.type].data.push(tmp_item)
                 }
             });
-            state.filters_data.bidders[payload.type].pagination = payload.pagination;
+            state.filters_data.bidders[payload.type].pagination = payload.data.pagination;
+        },
+        setMessagesTypes(state, payload) {
+            payload.forEach(item => {
+                let region = state.filters_data.messages_types.findIndex(el => el.messagesGroup === item.messagesGroup);
+                if (region < 0) {
+                    Vue.set(item, 'status', false)
+                    state.filters_data.messages_types.push(item)
+                }
+            });
         },
         saveFiltersDataProperty(state, payload) {
             Vue.set(state.filters_data, payload.key, payload.value);
-            localStorage.setItem(payload.key, JSON.stringify(payload.value));
         },
         saveFilterDataProperty(state, payload) {
             let schema = state.filters_data[payload.filter];  // a moving reference to internal objects within obj
@@ -135,6 +156,31 @@ export default {
         }
     },
     actions: {
+        /*
+        GET
+        /trades/filter/trade-places
+        Получение информации о торговых площадках для отображения в фильтрах
+
+        GET
+        /trades/filter/categories
+        Получение информации о категориях для отображения в фильтрах
+
+        GET
+        /trades/filter/regions
+        Получение информации о регионах для отображения в фильтрах
+
+        GET
+        /messages/filter/types
+        Получение информации о типах сообщений о должниках
+
+        GET
+        /trades/filter/prices
+        Получение информации о минимальных/максимальных ценах для отображения в фильтрах
+
+        PUT
+        /trades/filter/bidders/{type}
+        Получение информации о должниках/организаторах торгов/арбитражных управляющих
+         */
         async getCategories({commit, state}, payload) {
             if (state.filters_data.categories.data.length == 0) {
                 commit('saveFilterDataProperty', {filter: 'categories', key: 'loading', value: true});
@@ -177,7 +223,7 @@ export default {
                     data: payload
                 })
                     .then((response) => {
-                        commit('setFiltersBidders', response.data);
+                        commit('setFiltersBidders', {type: payload.type, data:response.data});
                         commit('saveFilterDataProperty', {
                             filter: 'bidders',
                             key: payload.type + '.loading',
@@ -185,7 +231,6 @@ export default {
                         });
                     });
             } catch (error) {
-                console.log(error);
                 commit('saveFilterDataProperty', {filter: 'bidders', key: payload.type + '.loading', value: false});
                 throw error
             }
@@ -207,16 +252,31 @@ export default {
             }
         },
         async getFiltersPrices({commit, state}) {
-            if (state.filters_data.prices.length === 0) {
+            if (!state.filters_data.prices) {
                 await axios({
                     method: 'get',
                     url: '/api/trades/filter/prices',
                     data: {},
                 })
                     .then((response) => {
-                        commit('saveFiltersDataProperty', { key: 'prices', value: response.data});
+                        commit('saveFiltersDataProperty', {key: 'prices', value: response.data});
                     }).catch(error => {
                     });
+
+            }
+        },
+        async getFiltersMessagesTypes({commit, state}) {
+            if (state.filters_data.messages_types.length == 0) {
+                await axios({
+                    method: 'get',
+                    url: '/api/messages/filter/types',
+                    data: {},
+                })
+                    .then((response) => {
+                        commit('setMessagesTypes',  response.data);
+                    }).catch(error => {
+                    });
+
             }
         },
     }

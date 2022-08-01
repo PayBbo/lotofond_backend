@@ -8,7 +8,7 @@
         <bkt-region-modal></bkt-region-modal>
         <h1 class="bkt-page__title">Электронные торги по банкротству</h1>
 
-        <bkt-search v-model="searchString" method_name="searchTrades" :method_params="{}" :loading="false">
+        <bkt-search v-model="searchString" method_name="searchTrades" :method_params="{}" immediate_search>
             <template #dropdown-block="{options}">
                 <div class="row w-100 m-auto bkt-gap">
                     <div class="col-12 px-0 d-none d-md-block">
@@ -67,7 +67,7 @@
 <!--        </div>-->
         <div class="bkt-main-categories bkt-card__list">
             <bkt-filter-card
-                :icon="{name:'Category'}" category_class="bkt-bg-green"
+                :icon="{name:'Category', color:'green'}" category_class="bkt-bg-green-lighter"
                 title="Выберите<br> нужные категории" :count="filters.categories" modal_name="#categoryModal"
             >
             </bkt-filter-card>
@@ -88,7 +88,7 @@
             >
             </bkt-filter-card>
             <bkt-filter-card
-                :icon="{name:'Date'}" category_class="bkt-bg-blue"
+                :icon="{name:'Date', color:'blue'}" category_class="bkt-bg-blue-lighter"
                 title="Выберите<br> дату торгов" :count="filters.dates"
                 modal_name="#dateModal"
             >
@@ -272,15 +272,15 @@
 </template>
 
 <script>
-    import BktDateModal from "./DateModal";
-    import BktPriceModal from "./PriceModal";
-    import BktOptionsModal from "./OptionsModal";
-    import BktParamsModal from "./ParamsModal";
-    import BktRegionModal from "./RegionModal";
-    import BktCategoryModal from "./CategoryModal";
-    import BktSelect from "../../components/Select";
-    import BktFilterCard from "../../components/FilterCard";
-    import MiniTradeCard from "../../components/MiniTradeCard";
+    import BktDateModal from "../components/SharedModals/DateModal";
+    import BktPriceModal from "../components/SharedModals/PriceModal";
+    import BktOptionsModal from "../components/SharedModals/OptionsModal";
+    import BktParamsModal from "../components/SharedModals/ParamsModal";
+    import BktRegionModal from "../components/SharedModals/RegionModal";
+    import BktCategoryModal from "../components/SharedModals/CategoryModal";
+    import BktSelect from "../components/Select";
+    import BktFilterCard from "../components/FilterCard";
+    import MiniTradeCard from "../components/MiniTradeCard";
     export default {
         name: "Main",
         components: {
@@ -346,6 +346,19 @@
             lots_statistic() {
                 return this.$store.getters.lots_statistic;
             },
+        },
+        watch: {
+            isLoggedIn: function (newVal, oldVal) {
+                if (oldVal == false && newVal == true) {
+                    if(this.pagination_data && this.pagination_data.currentPage) {
+                        this.getData(this.pagination_data.currentPage);
+                    }
+                    else {
+                        this.getData(1);
+                    }
+
+                }
+            }
         },
         methods: {
             async getData(page = 1) {

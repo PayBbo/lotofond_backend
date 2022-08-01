@@ -16,7 +16,8 @@ class TradeMessage extends Model
         'text',
         'date',
         'param',
-        'param_type'
+        'param_type',
+        'created_at'
     ];
 
     protected $casts = [

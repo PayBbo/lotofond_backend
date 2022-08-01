@@ -46,7 +46,7 @@ export default {
                 ],
                 organizers: [
                 ],
-                arbitrManagers: [
+                arbitrationManagers: [
                 ],
                 other: {
                     period: 'periodAll',
@@ -138,18 +138,28 @@ export default {
                 tradePlaces: [],
                 tradeType:'',
             },
-            // other: {
-            //     period: 'all',
-            //     hasPhotos: false,
-            //     isStopped: false,
-            //     isCompleted: false,
-            //     isHidden: false
-            // },
             sort: {
-                direction: "asc",
-                type: "publishDate"
+                direction: "desc",
+                type: "applicationEnd"
             }
         },
+        messages_filters: {
+            searchString:'',
+            debtor: '',
+            types: [],
+            regions: [],
+            publishDate: {
+                start: '',
+                end: ''
+            },
+            messageHasFiles: false,
+            sort: {
+                direction: "asc",
+                type: ""
+            },
+            perPage: 20,
+            page:1
+        }
     },
 
     getters: {
@@ -182,6 +192,9 @@ export default {
         },
         nearest_filters(state) {
             return state.nearest_filters;
+        },
+        messages_filters(state) {
+            return state.messages_filters;
         },
     },
 

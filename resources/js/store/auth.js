@@ -11,11 +11,20 @@ export default {
         // is_admin: localStorage.getItem('is_admin') || false,
         // is_client: localStorage.getItem('is_client') || false,
         auth_user: null,
-        error: ''
+        error: '',
+        auth_user_loading: false
     },
     mutations: {
         setAuthUser(state, payload) {
             state.auth_user = payload;
+        },
+        updateAuthUser(state, payload) {
+            state.auth_user.lastName = payload.lastName;
+            state.auth_user.middleName = payload.middleName;
+            state.auth_user.name = payload.name;
+        },
+        setAuthUserLoading(state, payload) {
+            state.auth_user_loading = payload;
         },
         auth_success(state, payload) {
             if (payload.token) {
@@ -53,13 +62,17 @@ export default {
 
 
             Account
-            GET  /account/logout                Выход пользователя из аккаунта
-            POST /account/refresh/token         Обновление токена
-            GET  /account/user                  Получение информации об аккаунте пользователя
-            PUT  /account/user/update           Обновление информации об аккаунте
-            POST /account/password/code         Запрос кода подтверждения для сброса пароля
-            POST /account/password/code/verify  Отправка пользователем кода подтверждения для сброса пароля
-            POST /account/password/reset        Сброс пароля пользователя
+            GET  /account/logout                  Выход пользователя из аккаунта
+            POST /account/refresh/token           Обновление токена
+            GET  /account/user                    Получение информации об аккаунте пользователя
+            PUT  /account/user/update             Обновление информации об аккаунте
+            POST /account/password/code           Запрос кода подтверждения для сброса пароля
+            POST /account/password/code/verify    Отправка пользователем кода подтверждения для сброса пароля
+            POST /account/password/reset          Сброс пароля пользователя
+            POST /account/password/change         Смена пароля пользователя
+            POST /account/credentials/code        Запрос кода подтверждения для смены почты/телефона
+            POST /account/credentials/code/verify Отправка пользователем кода подтверждения для подтвержденыя изменения почты/телефона
+            POST /account/notifications/settings  изменение настроек уведомлений в профиле пользователя
 
         */
 
@@ -125,17 +138,21 @@ export default {
             });
         },
         async getAuthUser({commit}) {
+            commit('setAuthUserLoading', true);
             await axios.get('/api/account/user').then(resp => {
-                console.log(resp);
-                commit('setAuthUser', resp.data)
+                commit('setAuthUser', resp.data);
+                commit('setAuthUserLoading', false);
             }).catch(error => {
                 console.log(error);
+                commit('clearStorage');
+                commit('logout');
+                commit('setAuthUserLoading', false);
             });
         },
         async updateAuthUser({commit}, payload) {
             await axios.put('/api/account/user/update', payload).then(resp => {
                 console.log(resp);
-                commit('setAuthUser', payload)
+                commit('updateAuthUser', payload)
             }).catch(error => {
                 console.log(error);
             });
@@ -164,9 +181,28 @@ export default {
                     console.log(error);
                 });
         },
+        async changePassword({commit}, payload) {
+            return await axios.post('/api/account/password/change', payload)
+                // .then(resp => {
+                //     // commit('auth_success', {token: resp.data.accessToken, refreshToken: resp.data.refreshToken});
+                //     console.log(resp);
+                // }).catch(error => {
+                //     console.log(error);
+                // });
+        },
+        async getCredentialsCode({commit}, payload) {
+            return await axios.post('/api/account/credentials/code', payload)
+        },
+        async verifyCredentialsCode({commit}, payload) {
+            return await axios.post('/api/account/credentials/code/verify', payload)
+        },
+        async saveNotificationsSettings({commit}, payload) {
+            return await axios.post('/api/account/notifications/settings', payload)
+        },
     },
     getters: {
         isLoggedIn: state => !!state.token,
         auth_user: state => state.auth_user,
+        auth_user_loading: state => state.auth_user_loading,
     }
 };

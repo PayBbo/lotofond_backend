@@ -5,20 +5,6 @@
         <template #body>
             <div class="bkt-wrapper-column bkt-gap-large" v-if="!loading">
                 <bkt-categories-control v-model="result"></bkt-categories-control>
-                <div class="bkt-region-selected" v-if="result.length>0">
-                    <h5 class="bkt-region-selected__title">
-                        выбранные категории
-                    </h5>
-                    <div class="bkt-tag__list">
-                        <div class="bkt-region__item bkt-tag justify-content-between flex-fill"
-                             v-for="(item, index) in result">
-                            <span class="bkt-item-rounded__text mr-2">{{ $t('categories.'+item)}}</span>
-                            <span class="bkt-tag__icon bkt-cursor-pointer" @click="toggleCategory(item)">
-                            <bkt-icon name="Cancel" color="red"></bkt-icon>
-                        </span>
-                        </div>
-                    </div>
-                </div>
             </div>
             <div v-if="loading" class="d-flex w-100 justify-content-center my-5">
                 <slot name="loading">
@@ -236,8 +222,8 @@
 </template>
 
 <script>
-    import BktCollapse from '../../components/Collapse.vue';
-    import BktCategoriesControl from "../../components/CategoriesControl";
+    import BktCollapse from '../Collapse.vue';
+    import BktCategoriesControl from "../FiltersControls/CategoriesControl";
     export default {
         name: "Category",
         components: {
@@ -245,7 +231,7 @@
             BktCategoriesControl
         },
         props: {
-            filter: {
+            filter_name: {
                 type: String,
                 default: 'filters'
             },
@@ -266,10 +252,10 @@
         },
         computed: {
             filters_categories() {
-                return this.$store.getters[this.filter].categories
+                return this.$store.getters[this.filter_name].categories
             },
             filters() {
-                return this.$store.getters[this.filter]
+                return this.$store.getters[this.filter_name]
             },
             categories() {
                 return this.$store.getters.categories
@@ -330,7 +316,7 @@
             },
             saveFilters() {
                 this.$store.dispatch('saveDataProperty', {
-                    module_key: 'filters', state_key: this.filter,
+                    module_key: 'filters', state_key: this.filter_name,
                     key: 'categories',
                     value: this.result
                 }, {root: true});
@@ -341,7 +327,7 @@
             clearFilters() {
                 this.result = [];
                 this.$store.dispatch('saveDataProperty', {
-                    module_key: 'filters', state_key: this.filter,
+                    module_key: 'filters', state_key: this.filter_name,
                     key: 'categories',
                     value: []
                 }, {root: true});

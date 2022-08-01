@@ -14,7 +14,7 @@
         background: $main-default;
 
         & .logo {
-            width: 12rem;
+            width: 8rem;
             margin: 0 0.8rem;
         }
 
@@ -116,7 +116,7 @@
         display: flex;
         align-items: center;
 
-        & img {
+        &-image {
             width: 2.9rem;
             height: 2.9rem;
             border-radius: 50%;

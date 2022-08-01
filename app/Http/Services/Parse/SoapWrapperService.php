@@ -19,13 +19,22 @@ class SoapWrapperService
     public function __construct(SoapWrapper $soapWrapper)
     {
         //ini_set('memory_limit', '-1');
+
         $soapWrapper->add('Fedresurs', function ($service) {
             $service
                 ->wsdl(\Config::get('values.WSDL'))
                 ->trace(true)
+                ->cache(WSDL_CACHE_NONE)
                 ->options([
                     'login' => \Config::get('values.FEDRESURS_LOGIN'),
-                    'password' => \Config::get('values.FEDRESURS_PASSWORD')
+                    'password' => \Config::get('values.FEDRESURS_PASSWORD'),
+                    'stream' => stream_context_create(array(
+                        'ssl' => array(
+                            'verify_peer' => false,
+                            'verify_peer_name' => false,
+                            'allow_self_signed' => true
+                        )
+                    ))
                 ]);
         });
         $this->soapWrapper = $soapWrapper;

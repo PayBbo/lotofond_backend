@@ -5,8 +5,9 @@
             <div class="bkt-promo__block-wrapper">
                 <div class="bkt-promo__block bkt-promo__block_ecp">
                     <div class="bkt-promo__block-body">
-                        <h1 class="bkt-promo__block-title">Хотите участвовать<br>в торгах<span class="bkt-text-yellow">&nbsp;без покупки
-                            ЭЦП?</span></h1>
+                        <h1 class="bkt-promo__block-title">Хотите участвовать<br>в торгах
+                            <span class="bkt-text-yellow">&nbsp;без покупки ЭЦП?</span>
+                        </h1>
                         <h4 class="bkt-promo__block-text">
                             Воспользуйтесь нашим опытом побед, чтобы избежать ошибок и сэкономить время, деньги и
                             нервы.
@@ -40,8 +41,10 @@
             </div>
         </section>
         <section>
-            <h2 class="bkt-page__subtitle">В каких случаях покупать ЭЦП<span
-                class="bkt-text-red">&nbsp;невыгодно?</span></h2>
+            <h2 class="bkt-page__subtitle">
+                В каких случаях покупать ЭЦП
+                <span class="bkt-text-red">&nbsp;невыгодно?</span>
+            </h2>
             <div class="bkt-form row-cols-1 row-cols-md-2 row-cols-lg-4">
                 <div class="col-12 col-md-6 col-lg-3">
                     <div class="bkt-card bkt-promo__profit-card h-100">
@@ -51,9 +54,7 @@
                         <div class="bkt-promo__profit-card-body">
                             <h5 class="bkt-card__title">Если у вас нет постоянных задач по торгам</h5>
                             <p class="bkt-card__text">Стоимость ЭЦП может достигать 30 000 руб. При однократном
-                                использовании её
-                                стоимость
-                                может не окупиться.
+                                использовании её стоимость может не окупиться.
                             </p>
                         </div>
                     </div>
@@ -217,7 +218,27 @@
 
 <script>
     export default {
-        name: "WithEcp"
+        name: "WithEcp",
+        data() {
+            return {
+                application: {
+                    email: '',
+                    lotId: 0,
+                    phone: "",
+                    socialsForAnswer: [
+                    ]
+                }
+            }
+        },
+        methods: {
+            sendApplication() {
+                axios.post('/api/send/application', this.application).then(resp => {
+
+                }).catch(error => {
+
+                })
+            }
+        }
     }
 </script>
 

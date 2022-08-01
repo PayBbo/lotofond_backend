@@ -102,6 +102,11 @@
                 gap: 25px;
                 background-color: white;
                 border-radius: 18px;
+                & .bkt-select__wrapper {
+                    & .bkt-v-select .vs__dropdown-toggle {
+                        background-color: $body-bg;
+                    }
+                }
             }
         }
 
@@ -117,12 +122,6 @@
             margin-right: 7px;
         }
 
-        & .bkt-select__wrapper {
-
-            & .bkt-select {
-                background-color: $body-bg;
-            }
-        }
     }
 }
 

@@ -128,7 +128,7 @@ export default {
         * /bidders/estimate
         * Оценка организатора/арбитражного управляющего
 
-        * POST
+        * PUT
         * /bidders/debtor/messages
         * Сообщения о должнике
         *
@@ -231,13 +231,24 @@ export default {
         },
         async getDebtorMessages({dispatch, commit, state}, payload) {
             dispatch('saveDataProperty', {module_key: 'bidders', state_key: 'messages', key: 'loading', value: true}, {root: true});
+            if(payload.filters) {
+                payload = {
+                    ...payload,
+                    ...payload.filters
+                }
+            }
             try {
                 await axios({
-                    method: 'post',
+                    method: 'put',
                     url: '/api/bidders/debtor/messages?page=' + payload.page,
                     data: payload
                 })
                     .then((response) => {
+                        // dispatch('saveDataProperty', {
+                        //     module_key: 'filters',
+                        //     key: 'messages_filters',
+                        //     value: payload
+                        // }, {root: true});
                         dispatch('saveDataProperty', {
                             module_key: 'bidders',
                             state_key: 'messages',

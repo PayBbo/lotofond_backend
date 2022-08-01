@@ -2,19 +2,20 @@
     & .bkt-auctions-types {
         & .bkt-auctions-type {
             text-align: center;
+
             & .bkt-auctions-type__card {
                 padding: 26px;
-                border-radius:25px;
+                border-radius: 25px;
                 width: 258px;
             }
-            & .bkt-auctions-type__title
-            {
+
+            & .bkt-auctions-type__title {
                 font-size: 16px;
                 font-weight: 700;
                 color: $main-default;
             }
-            & .bkt-auctions-type__subtitle
-            {
+
+            & .bkt-auctions-type__subtitle {
                 font-size: 12px;
                 text-decoration: underline;
                 color: $main-default;
@@ -31,23 +32,24 @@
 
         & .bkt-auctions-types {
 
-            & .bkt-auctions-type{
+            & .bkt-auctions-type {
                 display: flex;
                 flex-direction: column;
                 flex: 1;
-                width:100%;
+                width: 100%;
                 gap: 8px;
+
                 & .bkt-auctions-type__card {
-                    width:100%;
+                    width: 100%;
                     padding: 9px;
-                    border-radius:13px;
+                    border-radius: 13px;
                 }
-                & .bkt-auctions-type__title
-                {
+
+                & .bkt-auctions-type__title {
                     font-size: 12px;
                 }
-                & .bkt-auctions-type__subtitle
-                {
+
+                & .bkt-auctions-type__subtitle {
                     font-size: 8px;
                 }
             }
@@ -72,6 +74,7 @@
         }
     }
 }
+
 @media (max-width: 1200px) {
     .bkt-filters-modal {
         & .bkt-auctions-types {

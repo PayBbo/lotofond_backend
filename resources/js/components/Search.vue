@@ -1,27 +1,34 @@
 <template>
-    <div class="bkt-dropdown bkt-search__wrapper"  @focusout="optionsShown = false">
-        <div class="bkt-search" :class="[search_class, {'open': optionsShown}]">
+    <div class="bkt-dropdown bkt-search__wrapper">
+        <div class="bkt-search align-items-center" :class="[search_class, {'open': optionsShown}]">
             <input class="w-100 bkt-search__input" type="text" :placeholder="placeholder"
                    @keyup="keyMonitor"
-                   @focus="showOptions"
-                   @blur="optionsShown = false"
-                   @focusout="optionsShown = false"
                    v-model="searchFilter"
+                   @focus="handleFocus"
+                   @focusout="optionsShown = false"
+                   @blur="handleBlur"
+                   @input="getResults"
                    :disabled="disabled"
             >
-            <button class="bkt-button green bkt-search__button" :disabled="disabled || searchLoading"
-                    @click="runSearch">
-                <span v-show="searchLoading" class="spinner-border spinner-border-sm"
+            <span class="p-1" @click="clear" v-if="searchFilter != ''">
+                <bkt-icon :class="{'d-none':currentLoading || !clearable}" :name="'Cancel'" color="green" height="15px"></bkt-icon>
+            </span>
+
+            <button class="bkt-button green bkt-search__button bkt-bg-green"
+                    :disabled="disabled || currentLoading ||immediate_search"
+                    @click="runSearch"
+            >
+                <span v-show="currentLoading" class="spinner-border spinner-border-sm"
                       role="status"></span>
-                <span class="d-none d-md-block" v-if="!searchLoading">Найти</span>
-                <bkt-icon v-show="!searchLoading" class="d-block d-md-none" :name="'Search'"></bkt-icon>
+                <span :class="immediate_search ? 'd-none' :'d-none d-md-block'" v-if="!currentLoading">Найти</span>
+                <bkt-icon :class="{'d-block d-md-none' : !immediate_search, 'd-none':currentLoading}"
+                          :name="'Search'"></bkt-icon>
             </button>
         </div>
         <div class="bkt-dropdown__menu w-100" :class="dropdown_class" v-show="optionsShown&&!simple&&!no_dropdown">
             <div class="dropdown-block" v-if="options">
                 <slot name="dropdown-block" :options="options">
                     <slot name="dropdown-block-header">
-
                     </slot>
                     <div class="dropdown-item" v-for="(item, index) in options" @click="selectOption(item)">
                         <slot name="dropdown-item" v-bind:item="item">
@@ -29,7 +36,6 @@
                         </slot>
                     </div>
                 </slot>
-
             </div>
             <div class="text-center p-2" v-if="!options || options.length ===0">
                 <svg width="35" height="35" viewBox="0 0 35 35" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -100,7 +106,15 @@
                 type: Boolean,
                 default: false
             },
+            immediate_search: {
+                type: Boolean,
+                default: false
+            },
             loading: {
+                type: Boolean,
+                default: false
+            },
+            clearable: {
                 type: Boolean,
                 default: false
             }
@@ -113,10 +127,6 @@
                 options: [],
                 currentLoading: false
             }
-        },
-        created() {
-            this.searchFilter = '';
-            this.selected = '';
         },
         computed: {
             searchFilter: {
@@ -135,54 +145,41 @@
                     this.currentLoading = value;
                 },
             },
-            filteredOptions() {
-                const filtered = [];
-                const regOption = new RegExp(this.searchFilter, 'ig');
-                for (const option of this.options) {
-                    if (this.searchFilter.length < 1 || option.id.match(regOption)) {
-                        if (filtered.length < this.maxItem) filtered.push(option);
-                    }
-                }
-                return filtered;
-            }
         },
         methods: {
             handleBlur(value) {
+                this.$emit('blur', value);
                 if (!this.no_dropdown) {
-                    this.$emit('blur', value);
                     // if (this.searchFilter == '') {
-                        this.optionsShown = false;
+                    this.optionsShown = false;
                     // }
                 }
-
-                // this.exit();
+            },
+            handleFocus(value) {
+                this.$emit('focus', value);
+                if (!this.no_dropdown && this.searchFilter !== '' && this.options.length > 0) {
+                    this.optionsShown = true;
+                }
             },
             selectOption(option) {
                 this.selected = JSON.parse(JSON.stringify(option));
                 this.$emit('selected', this.selected);
-                this.searchFilter = '';
                 this.optionsShown = false;
             },
             showOptions() {
-                // if (!this.disabled) {
-                //     this.searchFilter = '';
-                //     this.optionsShown = true;
-                // }
                 if (!this.no_dropdown) {
 
-                    this.searchFilter = '';
-                    this.options = [];
-                    this.optionsShown = true;
+                    if (!this.disabled) {
+                        // this.searchFilter = '';
+                        this.optionsShown = true;
+                    }
+
+                    // this.searchFilter = '';
+                    // this.options = [];
+                    // this.optionsShown = true;
                 }
             },
             exit() {
-                if (!this.selected.id) {
-                    this.selected = '';
-                    // this.searchFilter = '';
-                } else {
-                    this.searchFilter = this.selected.name;
-                }
-                // this.$emit('selected', this.selected);
                 this.searchFilter = '';
                 this.options = [];
                 this.optionsShown = false;
@@ -193,49 +190,54 @@
                     this.selectOption(this.options[0]);
             },
             getResults: _.debounce(function (e) {
-                if (this.searchFilter.trim() !== '') {
+                if (this.immediate_search) {
                     this.selected = '';
                     this.runSearch();
-                } else {
-                    this.showOptions();
                 }
-
+                // else {
+                //     this.showOptions();
+                // }
             }, 700),
             async runSearch() {
                 if (!this.simple) {
-                    if (this.searchFilter.trim() !== '') {
-                        this.searchLoading = true;
-                        this.selected = '';
-                        let payload = this.searchFilter;
-                        if (this.method_params) {
-                            payload = this.method_params;
-                            if (this.search_field) {
-                                payload[this.search_field] = this.searchFilter;
-                            }
-                            if (!this.method_params.page) {
-                                this.method_params.page = 1;
-                            }
+                    this.searchLoading = true;
+                    this.selected = '';
+                    let payload = this.searchFilter;
+                    if (this.method_params) {
+                        payload = this.method_params;
+                        if (this.search_field) {
+                            payload[this.search_field] = this.searchFilter;
                         }
-                        await this.$store.dispatch(this.method_name, payload)
-                            .then(resp => {
-                                if (!this.no_dropdown) {
-                                    this.showOptions();
-                                    if (resp.data.data) {
-                                        this.options = resp.data.data;
-                                    } else {
-                                        this.options = resp.data;
-                                    }
-
-                                }
-                                this.searchLoading = false;
-                            }).catch(error => {
-                                this.options = [];
-                                this.searchLoading = false;
-                            });
+                        if (!this.method_params.page) {
+                            this.method_params.page = 1;
+                        }
                     }
+                    await this.$store.dispatch(this.method_name, payload)
+                        .then(resp => {
+                            if (!this.no_dropdown) {
+
+                                if (resp.data.data) {
+                                    this.options = resp.data.data;
+                                } else {
+                                    this.options = resp.data;
+                                }
+                                this.showOptions();
+                            }
+                            this.searchLoading = false;
+                        }).catch(error => {
+                            this.options = [];
+                            this.searchLoading = false;
+                        });
                 } else {
                     this.$emit("runSearch", this.searchFilter);
                 }
+            },
+            clear() {
+                this.exit();
+                this.$nextTick(() => {
+                    this.runSearch();
+                })
+
             }
         },
     }

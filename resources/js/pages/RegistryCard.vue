@@ -402,7 +402,7 @@
             },
             async getTradePlace() {
                 this.loading = true;
-                await this.$store.dispatch('getBidder', this.$route.params.id)
+                await this.$store.dispatch('getTradePlace', this.$route.params.id)
                     .then(resp => {
                         this.item = resp.data;
                         this.loading = false;

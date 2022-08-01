@@ -12,7 +12,7 @@
                         <div class="bkt-modal-header" :invalid="invalid" v-if="!no_header">
                             <slot name="header">
                                 <slot name="title" v-if="title">
-                                    <h3 class="bkt-modal__title" v-if="title" v-html="title">{{title}}</h3>
+                                    <h3 class="bkt-modal__title" v-html="title">{{title}}</h3>
                                 </slot>
                                 <button type="button" :class="close_button_class" data-bs-dismiss="modal"
                                         aria-label="Close">

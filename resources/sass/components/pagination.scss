@@ -6,6 +6,7 @@
         justify-content: center;
         align-items: center;
         margin-bottom: 0;
+        gap: 6px;
     }
 
     //&.body-bg .pagination .page-item .page-link {
@@ -36,17 +37,22 @@
                 background-color: rgb(41, 83, 255);
                 box-shadow: 0px 7px 20px 0px rgba(41, 83, 255, 0.25);
             }
-            &:focus {
-                box-shadow: none;
-                color: #ffffff;
-                background-color: rgb(41, 83, 255);
-            }
             //&:focus {
-            //    color: $main-default;
-            //    background-color: transparent;
             //    box-shadow: none;
-            //    pointer-events: none;
+            //    color: #ffffff;
+            //    background-color: rgb(41, 83, 255);
             //}
+            &:focus {
+                color: $main-default;
+                background-color: transparent;
+                box-shadow: none;
+                //pointer-events: none;
+            }
+            &:active {
+                color: $main-default;
+                background-color: transparent;
+                box-shadow: none;
+            }
 
         }
         &.dots {
@@ -59,6 +65,7 @@
                 background-color: transparent;
                 box-shadow: none;
                 pointer-events: none;
+                min-width: 29px;
             }
         }
         &.active {
@@ -76,10 +83,13 @@
         }
         &.page-item-control {
             min-width: 29px;
+            width: 29px;
+            margin:0;
             & .page-link {
                 background-color: transparent;
                 box-shadow: none;
                 width: 29px;
+                min-width: 29px;
                 &:hover {
                     //color: #ffffff;
                     //border-color: #169FED;
@@ -98,10 +108,50 @@
     }
 
     & .page-item + .page-item {
-        margin-left: 6px;
+        //margin-left: 6px;
     }
 
-    @media (min-width: 576px) {
+
+    @media (max-width: 576px) {
+        & .pagination {
+            gap: 4px;
+            //flex-wrap: wrap;
+        }
+        & .page-item {
+            & .page-link {
+                border-radius: 13px;
+                min-width: 34px;
+                width: 34px;
+                height: 34px;
+                font-size: 14px;
+                font-family: "Gilroy";
+                font-weight: 500;
+                color: $main-default;
+                line-height: 1.2;
+                text-align: center;
+            }
+            &.dots {
+                min-width: 15px;
+                &  > .page-link {
+                    min-width: 15px;
+                    width: 15px;
+                }
+            }
+            &.page-item-control {
+                min-width: 15px;
+                width: 15px;
+                & .page-link {
+                    width: 15px;
+                    min-width: 15px;
+                }
+            }
+        }
+        & .page-item + .page-item {
+            //margin-left: 4px;
+        }
+    }
+
+    @media (min-width: 768px) {
         & .page-item {
             & .page-link {
                 border-radius: 15px;
@@ -116,23 +166,24 @@
             }
             &.dots {
                 &  > .page-link {
+                    min-width: 29px;
                     width: 29px;
                 }
             }
         }
         & .page-item + .page-item {
-            margin-left: 6px;
+            //margin-left: 6px;
         }
     }
 
     @media (min-width: 576px) {
         & .page-item {
             &.page-item-control + &.page-item-control {
-                margin-left: 6px;
+                //margin-left: 6px;
             }
         }
         & .page-item-control + .page-item, & .page-item + .page-item-control {
-            margin-left: 6px;
+            //margin-left: 6px;
         }
     }
 }

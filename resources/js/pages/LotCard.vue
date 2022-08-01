@@ -84,6 +84,22 @@
                             <!--                                <div class="bkt-contents__answer"><span>Нахимовский проспект, дом 47</span>-->
                             <!--                                </div>-->
                             <!--                            </li>-->
+                            <li v-if="item.trade && item.trade.type">
+                                <div class="bkt-contents__heading">
+                                    <span class="bkt-contents__heading">тип торгов</span>
+                                </div>
+                                <div class="bkt-contents__answer">
+                                    <span>{{ $t('trades.type.'+item.trade.type)}}</span>
+                                </div>
+                            </li>
+                            <li v-if="item.state">
+                                <div class="bkt-contents__heading">
+                                    <span class="bkt-contents__heading">статус торгов</span>
+                                </div>
+                                <div class="bkt-contents__answer">
+                                    <span>{{$t('trades.state.'+item.state)}}</span>
+                                </div>
+                            </li>
                             <template v-for="(category, index) in item.categories">
                                 <li>
                                     <div class="bkt-contents__heading">
@@ -115,7 +131,7 @@
                                 </li>
                             </template>
                             <template v-for="(subject, index) in item.descriptionExtracts">
-                                <li>
+                                <li v-if="subject.tradeSubject">
                                     <div class="bkt-contents__heading">
                                         <span class="bkt-contents__heading text-lowercase">
                                             объект {{item.descriptionExtracts.length>1 ? index+1 : ''}}
@@ -124,13 +140,16 @@
                                     <div class="bkt-contents__answer"><span>{{subject.tradeSubject}}</span>
                                     </div>
                                 </li>
-                                <li v-for="extract in subject.extracts">
-                                    <div class="bkt-contents__heading">
-                                        <span class="bkt-contents__heading text-lowercase">{{extract.title}}</span>
-                                    </div>
-                                    <div class="bkt-contents__answer"><span>{{extract.value}}</span>
-                                    </div>
-                                </li>
+                                <template v-if="subject.extracts.length>0" v-for="extract in subject.extracts">
+                                    <li v-if="extract.value">
+                                        <div class="bkt-contents__heading">
+                                            <span class="bkt-contents__heading text-lowercase">{{extract.title}}</span>
+                                        </div>
+                                        <div class="bkt-contents__answer"><span>{{extract.value}}</span>
+                                        </div>
+                                    </li>
+                                </template>
+
                             </template>
                             <!--                            <li>-->
                             <!--                                <div class="bkt-contents__heading">-->
@@ -220,9 +239,9 @@
                             <!--                                </div>-->
                             <!--                            </li>-->
                         </ul>
-                        <div class="bkt-contents">
-                            {{item.description}}
-                        </div>
+<!--                        <div class="bkt-contents">-->
+<!--                            {{item.description}}-->
+<!--                        </div>-->
                         <div class="bkt-row outline bkt-wrapper-between align-items-center" v-if="item.cadastralData">
                             <div class="bkt-row__feature">
                                 <h4 class="bkt-row__feature-title">600 кв.м.</h4>

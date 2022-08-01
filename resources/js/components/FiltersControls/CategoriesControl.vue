@@ -1,6 +1,6 @@
 <template>
-    <div class="bkt-wrapper-column bkt-gap-large" v-if="!loading">
-        <div class="bkt-wrapper-column bkt-gap-small">
+    <div class="bkt-wrapper-column bkt-gap-large">
+        <div class="bkt-wrapper-column bkt-gap-small" v-if="!loading">
             <bkt-collapse :id="'category-collapse-'+index" v-for="(category, index) in items" :key="index"
                           main_class="bkt-collapse_check"
                           :collapse_button_class="category.subcategories.length>0 ? 'bkt-bg-white': 'd-none'"
@@ -43,6 +43,20 @@
                 </template>
             </bkt-collapse>
         </div>
+        <div class="bkt-region-selected" v-if="model.length>0 && !loading && show_selected">
+            <h5 class="bkt-region-selected__title text-left mb-2">
+                <span class="text-muted">выбранные категории</span>
+            </h5>
+            <div class="bkt-tag__list">
+                <div class="bkt-region__item bkt-tag justify-content-between flex-fill"
+                     v-for="(item, index) in model">
+                    <span class="bkt-item-rounded__text mr-2">{{ $t('categories.' + item) }}</span>
+                    <span class="bkt-tag__icon bkt-cursor-pointer" @click="toggleCategory(item)">
+                                    <bkt-icon name="Cancel" color="red"></bkt-icon>
+                                </span>
+                </div>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -54,24 +68,28 @@
                 type: null,
                 default: false,
             },
+            show_selected: {
+                type: Boolean,
+                default: true,
+            },
+        },
+        model: {
+            prop: 'value',
+            event: 'input'
         },
         data() {
             return {
-                items:[]
+                items:[],
+                model:[]
             };
         },
         created() {
             this.getCategories();
         },
+        mounted() {
+            this.model = this.value;
+        },
         computed: {
-            model: {
-                get() {
-                    return this.value;
-                },
-                set(value) {
-                    this.$emit("input", value);
-                },
-            },
             categories() {
                 return this.$store.getters.categories
                     .sort(function (one, other) {
@@ -82,7 +100,15 @@
                 return this.$store.getters.categories_loading
             },
         },
+        watch:{
+            value: function(){
+                this.model = this.value;
+            },
+        },
         methods: {
+            saveValue() {
+                this.$emit('input', this.model);
+            },
             include(category) {
                 return this.model.indexOf(category) >= 0
             },

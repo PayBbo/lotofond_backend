@@ -1,5 +1,6 @@
 <template>
     <div ref="cardList" :class="main_class">
+        <bkt-application-modal></bkt-application-modal>
         <slot name="header">
         </slot>
         <slot name="filters">
@@ -52,6 +53,7 @@
 </template>
 
 <script>
+    import BktApplicationModal from "./SharedModals/ApplicationModal";
     import _ from 'lodash';
     export default {
         name: "CardList",
@@ -119,6 +121,9 @@
 
             }
         },
+        components: {
+            BktApplicationModal
+        },
         data() {
             return {
                 results: [],
@@ -154,11 +159,11 @@
                 }
             },
         },
-        destroyed() {
-            if (this.infinite) {
-                this.observer.disconnect();
-            }
-        },
+        // destroyed() {
+        //     if (this.infinite) {
+        //         this.observer.disconnect();
+        //     }
+        // },
         methods: {
             changePage(page) {
                 this.$emit('change-page', page)

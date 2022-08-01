@@ -6,31 +6,31 @@
                     Покупка без ЭЦП
                 </router-link>
 
-                <ul v-if="isLoggedIn" class="bkt-navbar__nav d-none d-lg-flex">
+                <ul class="bkt-navbar__nav d-none d-lg-flex">
                     <li class="bkt-navbar__nav-item">
-                        <router-link to="/favourites" class="bkt-navbar__nav-link">
+                        <div @click="navigate('/favourites')" class="bkt-navbar__nav-link">
                             <span class="bkt-button-ellipse main">
                                 <bkt-icon :name="'Star'" :color="'yellow'"/>
                             </span>
                             Избранное
-                        </router-link>
+                        </div>
                     </li>
                     <li class="bkt-navbar__nav-item">
-                        <router-link to="/monitoring" class="bkt-navbar__nav-link">
+                        <div @click="navigate('/monitoring')" class="bkt-navbar__nav-link">
                     <span class="bkt-button-ellipse main">
                          <bkt-icon :name="'Target'" :color="'red'"/>
                     </span>
                             Мониторинг
-                        </router-link>
+                        </div>
                     </li>
                     <li class="bkt-navbar__nav-item">
-                        <router-link to="/messages" class="bkt-navbar__nav-link">
-                    <span class="bkt-button-ellipse main">
-                        <span class="info"></span>
-                        <bkt-icon :name="'Bell'" :color="'green'"/>
-                    </span>
+                        <div @click="navigate('/messages')" class="bkt-navbar__nav-link">
+                            <span class="bkt-button-ellipse main">
+                                <span class="info"></span>
+                                <bkt-icon :name="'Bell'" :color="'green'"/>
+                            </span>
                             Сообщения
-                        </router-link>
+                        </div>
                     </li>
                 </ul>
                 <div class="bkt-wrapper bkt-nowrap">
@@ -179,9 +179,11 @@
                             :to="link.path"
                             custom
                             v-slot="{navigate, isExactActive }"
+                            v-if="!link.meta || (link.meta && isLoggedIn)"
                         >
                             <li class="bkt-sidebar__link" @click="navigate"
                                 :class="[isExactActive ? 'bkt-bg-'+link.color+'-lighter' : '']"
+                                data-bs-dismiss="offcanvas"
                             >
                                 <div class="bkt-sidebar__link-icon"
                                      :class="[isExactActive ? 'bkt-bg-'+link.color : 'bkt-bg-'+link.color+'-lighter',
@@ -199,7 +201,10 @@
             <div class="bkt-sidebar__footer">
                 <div v-if="isLoggedIn" class="bkt-sidebar__user">
                     <div class="bkt-sidebar__profile">
-                        <img src="" alt="">
+<!--                        <img src="" alt="">-->
+                        <div class="bkt-sidebar__user-image d-flex align-items-center" style="padding:14px;">
+                            <bkt-icon name="User" color="white" width="22px" height="22px"></bkt-icon>
+                        </div>
                         <div class="bkt-navbar__user text-truncate me-1">
                             <div class="bkt-navbar__user-name text-truncate">
                                 {{ auth_user ? auth_user.name : '' }} {{ auth_user ? auth_user.surname : '' }}
@@ -220,8 +225,8 @@
                 </button>
             </div>
         </div>
-        <bkt-auth-modal></bkt-auth-modal>
-        <bkt-code-modal></bkt-code-modal>
+        <bkt-auth-modal v-if="!isLoggedIn"></bkt-auth-modal>
+        <bkt-code-modal v-if="!isLoggedIn"></bkt-code-modal>
     </header>
 </template>
 
@@ -240,8 +245,47 @@
                         color: 'primary',
                     },
                     {
-                        path: '/agent',
+                        path: '/favourites',
+                        icon: 'Star',
+                        code: "Favourites",
+                        label: "Избранное",
+                        color: 'yellow',
+                        meta: 'auth'
+                    },
+                    {
+                        path: '/monitoring',
                         icon: 'Target',
+                        code: "Monitoring",
+                        label: "Мониторинг",
+                        color: 'red',
+                        meta: 'auth'
+                    },
+                    {
+                        path: '/messages',
+                        icon: 'Bell',
+                        code: "messages",
+                        label: "Сообщения",
+                        color: 'green',
+                        meta: 'auth'
+                    },
+                    {
+                        path: '/profile',
+                        icon: 'User',
+                        code: "Profile",
+                        label: "Профиль",
+                        color: 'primary',
+                        meta: 'auth'
+                    },
+                    {
+                        path: '/week-winners',
+                        icon: 'Trophy',
+                        code: "WeekWinners",
+                        label: "Победы недели",
+                        color: 'yellow',
+                    },
+                    {
+                        path: '/agent',
+                        icon: 'Percentage',
                         code: "Agent",
                         label: "Купить через агента",
                         color: 'red'
@@ -254,26 +298,11 @@
                         color: 'green',
                     },
                     {
-                        path: '/week-winners',
-                        icon: 'Star',
-                        code: "WeekWinners",
-                        label: "Победы недели",
-                        color: 'yellow',
-                    },
-                    {
                         path: '/contacts',
                         icon: 'Briefcase',
                         code: "Contacts",
                         label: "Контакты",
-                        color: 'blue',
-                    },
-                    {
-                        path: '/profile',
-                        icon: 'User',
-                        code: "Profile",
-                        label: "Профиль",
                         color: 'primary',
-                        meta: 'auth'
                     },
                 ],
             }
@@ -304,12 +333,21 @@
                 this.loading = true;
                 await this.$store.dispatch('logout').then(resp => {
                     this.loading = false;
+                    this.$router.push('/')
                 }).catch(error => {
                     this.loading = false;
                 })
             },
             openModal() {
                 this.$store.commit('openModal', '#authModal');
+            },
+            navigate(path) {
+                if(this.isLoggedIn) {
+                    this.$router.push(path)
+                }
+                else {
+                    this.$store.dispatch('sendAuthNotification', {self: this})
+                }
             }
         }
 

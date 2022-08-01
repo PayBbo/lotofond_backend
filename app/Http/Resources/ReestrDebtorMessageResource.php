@@ -18,7 +18,7 @@ class ReestrDebtorMessageResource extends JsonResource
             'date' => $this->publish_date,
             'type' => __('registry_notifications.' . $this->registryNotificationType->title),
             'debtor' => new BidderResource($this->debtor),
-            'messageUrl' => 'https://old.bankrot.fedresurs.ru/MessageWindow.aspx?ID=' . $this->guid,
+            'guid' =>  $this->guid,
             'files' => is_null($this->files) ?  [] : $this->files
         ];
     }

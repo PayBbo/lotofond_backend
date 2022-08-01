@@ -54,18 +54,18 @@
                                         }}</span>
                                 </div>
                             </li>
-                            <li class="bkt-chat" :class="{'bkt-bg-purple-lighter': selectedCategory==4}" id="chat-5"
-                                @click="selectedCategory = 4">
-                                <div class="bkt-chat__text">
-                                    <bkt-icon :name="'Chat'" :color="'purple'" width="15px" height="15px" class="mr-2"/>
-                                    <span>От организаторов</span>
-                                </div>
+<!--                            <li class="bkt-chat" :class="{'bkt-bg-purple-lighter': selectedCategory==4}" id="chat-5"-->
+<!--                                @click="selectedCategory = 4">-->
+<!--                                <div class="bkt-chat__text">-->
+<!--                                    <bkt-icon :name="'Chat'" :color="'purple'" width="15px" height="15px" class="mr-2"/>-->
+<!--                                    <span>От организаторов</span>-->
+<!--                                </div>-->
 
-                                <div class="rounded-pill bkt-bg-purple bkt-text-neutral-light">
-                                    <span v-if="countMessages.organization > 0"
-                                          class="p-2">{{ countMessages.organization }}</span>
-                                </div>
-                            </li>
+<!--                                <div class="rounded-pill bkt-bg-purple bkt-text-neutral-light">-->
+<!--                                    <span v-if="countMessages.organization > 0"-->
+<!--                                          class="p-2">{{ countMessages.organization }}</span>-->
+<!--                                </div>-->
+<!--                            </li>-->
                         </ul>
                     </div>
                 </div>

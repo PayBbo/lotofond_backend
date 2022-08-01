@@ -41,6 +41,22 @@
             height: 100%;
             width: 100%;
         }
+        & input:checked ~ .bkt-check__input-check {
+            background: $primary-default !important;
+            box-shadow: 0 3px 10px 0 rgba(41, 83, 255, 0.53);
+        }
+
+        //& input:not(:checked):indeterminate ~ .bkt-check__input-check {
+        //    height: 5px;
+        //    border-radius: 5px;
+        //    background: $primary-default;
+        //    box-shadow: 0 3px 10px 0 rgba(41, 83, 255, 0.53);
+        //}
+        //
+        //& input:not(:checked) ~ .bkt-check__input-check {
+        //    background: transparent !important;
+        //    box-shadow: none;
+        //}
 
         & input:indeterminate ~ .bkt-check__input-check {
             height: 5px;
@@ -48,18 +64,20 @@
             background: $primary-default;
             box-shadow: 0 3px 10px 0 rgba(41, 83, 255, 0.53);
         }
-        & input:not(:checked):not(:indeterminate) ~ .bkt-check__input-check {
-            background-color: transparent !important;
+
+        & input:not(:indeterminate) ~ .bkt-check__input-check {
+            background: transparent;
             box-shadow: none;
         }
 
-        & input:checked ~ .bkt-check__input-check {
-            background: $primary-default;
-            box-shadow: 0 3px 10px 0 rgba(41, 83, 255, 0.53);
+        & input[type="radio"]:indeterminate ~ .bkt-check__input-check {
+            background: transparent;
+            box-shadow: none;
         }
 
-        & input:disabled ~ .bkt-check__input-check {
-            background: $primary-default;
+        & input:checked:disabled ~ .bkt-check__input-check {
+            background: $primary-lighter !important;
+            pointer-events: none;
         }
     }
 
