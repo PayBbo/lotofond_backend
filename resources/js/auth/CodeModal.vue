@@ -28,7 +28,7 @@
                 disabled
             >
                 <template #group-item-inner>
-                    <button class="bkt-button primary" @click="sendCode" :disabled="code_loading">
+                    <button class="bkt-button primary bkt-button_code" @click="sendCode" :disabled="code_loading">
                          <span v-if="code_loading" class="spinner-border spinner-border-sm"
                                role="status"></span>
                         Выслать код

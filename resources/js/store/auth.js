@@ -18,6 +18,11 @@ export default {
         setAuthUser(state, payload) {
             state.auth_user = payload;
         },
+        updateAuthUser(state, payload) {
+            state.auth_user.lastName = payload.lastName;
+            state.auth_user.middleName = payload.middleName;
+            state.auth_user.name = payload.name;
+        },
         setAuthUserLoading(state, payload) {
             state.auth_user_loading = payload;
         },
@@ -147,7 +152,7 @@ export default {
         async updateAuthUser({commit}, payload) {
             await axios.put('/api/account/user/update', payload).then(resp => {
                 console.log(resp);
-                commit('setAuthUser', payload)
+                commit('updateAuthUser', payload)
             }).catch(error => {
                 console.log(error);
             });
@@ -177,13 +182,13 @@ export default {
                 });
         },
         async changePassword({commit}, payload) {
-            await axios.post('/api/account/password/change', payload)
-                .then(resp => {
-                    commit('auth_success', {token: resp.data.accessToken, refreshToken: resp.data.refreshToken});
-                    console.log(resp);
-                }).catch(error => {
-                    console.log(error);
-                });
+            return await axios.post('/api/account/password/change', payload)
+                // .then(resp => {
+                //     // commit('auth_success', {token: resp.data.accessToken, refreshToken: resp.data.refreshToken});
+                //     console.log(resp);
+                // }).catch(error => {
+                //     console.log(error);
+                // });
         },
         async getCredentialsCode({commit}, payload) {
             return await axios.post('/api/account/credentials/code', payload)

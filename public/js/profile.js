@@ -411,8 +411,71 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  name: "ContactTab"
+  name: "ContactTab",
+  data: function data() {
+    return {
+      edit_user: {
+        email: "",
+        middle_name: '',
+        name: "",
+        phone: '',
+        lastName: ""
+      },
+      loading: false
+    };
+  },
+  mounted: function mounted() {
+    if (this.isLoggedIn) {
+      this.edit_user = JSON.parse(JSON.stringify(this.user));
+    }
+  },
+  computed: {
+    user: function user() {
+      return this.$store.getters.auth_user;
+    },
+    isLoggedIn: function isLoggedIn() {
+      return this.$store.getters.isLoggedIn;
+    } // profile_user: {
+    //     get() {
+    //         return JSON.parse(JSON.stringify(this.user));
+    //     },
+    //     set(value) {
+    //         this.edit_user = value;
+    //     }
+    // },
+
+  }
 });
 
 /***/ }),
@@ -945,55 +1008,14 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "ProfileTab",
   data: function data() {
     return {
       passwords: {
         grantType: "email",
-        email: "test@gmail.com",
+        // email: "",
+        // phone: "",
         newPassword: '',
         oldPassword: '',
         submitNewPassword: '',
@@ -1016,7 +1038,14 @@ __webpack_require__.r(__webpack_exports__);
       edit_user_mode: false,
       loading: false,
       password_loading: false,
-      edit_password_mode: false
+      edit_password_mode: false,
+      grantTypes: [{
+        title: 'Email',
+        value: 'email'
+      }, {
+        title: 'Телефон',
+        value: 'phone'
+      }]
     };
   },
   mounted: function mounted() {
@@ -1041,8 +1070,85 @@ __webpack_require__.r(__webpack_exports__);
 
   },
   methods: {
-    sendCode: function sendCode() {},
-    save: function save() {},
+    sendCode: function sendCode() {
+      var _this = this;
+
+      var data = {};
+      data.grantType = this.passwords.grantType;
+      var message = '';
+
+      if (this.passwords.grantType === 'email') {
+        data.email = this.edit_user.email;
+        message = 'На указанную почту отправлено письмо с кодом подтверждения';
+      } else {
+        data.phone = this.edit_user.phone;
+        message = 'На указанный номер телефона отправлено смс с кодом подтверждения';
+      }
+
+      this.code_loading = true;
+      this.$store.dispatch('getPasswordCode', data).then(function (resp) {
+        _this.code_loading = false;
+
+        _this.$store.dispatch('sendNotification', {
+          self: _this,
+          message: message
+        });
+      })["catch"](function (err) {
+        _this.code_loading = false; // this.$store.dispatch('sendNotification',
+        //     {self: this, message:'Ошибка', type: 'error'})
+      });
+    },
+    changePassword: function changePassword() {
+      var _this2 = this;
+
+      this.password_loading = true;
+      var data = this.passwords;
+
+      if (this.passwords.grantType === 'email') {
+        data.email = this.edit_user.email;
+      } else {
+        data.phone = this.edit_user.phone;
+      }
+
+      this.$store.dispatch('changePassword', data).then(function (resp) {
+        _this2.password_loading = false;
+
+        _this2.$store.dispatch('sendNotification', {
+          self: _this2,
+          message: 'Пароль успешно изменен'
+        });
+
+        _this2.edit_password_mode = false;
+        _this2.edit_user = JSON.parse(JSON.stringify(_this2.user));
+        _this2.passwords = {
+          grantType: "email",
+          newPassword: '',
+          oldPassword: '',
+          submitNewPassword: '',
+          code: ''
+        };
+      })["catch"](function (err) {
+        _this2.password_loading = false; // this.$store.dispatch('sendNotification',
+        //     {self: this, message:'Ошибка', type: 'error'})
+      });
+    },
+    save: function save() {
+      var _this3 = this;
+
+      this.loading = true;
+      this.$store.dispatch('updateAuthUser', this.edit_user).then(function (resp) {
+        _this3.loading = false;
+
+        _this3.$store.dispatch('sendNotification', {
+          self: _this3,
+          message: 'Ваши данные успешно обновлены'
+        });
+
+        _this3.cancel();
+      })["catch"](function (error) {
+        _this3.loading = false;
+      });
+    },
     cancel: function cancel() {
       this.edit_user_mode = false;
       this.edit_user = JSON.parse(JSON.stringify(this.user));
@@ -2125,7 +2231,57 @@ var render = function () {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div")
+  return _c("div", [
+    _c(
+      "div",
+      { staticClass: "bkt-card bkt-card__body bkt-gap-down-sm-row-large" },
+      [
+        _c("h3", { staticClass: "bkt-card__title" }, [_vm._v("Ваши контакты")]),
+        _vm._v(" "),
+        _c("bkt-input", {
+          attrs: {
+            name: "email",
+            type: "email",
+            label: "e-mail",
+            rules: "required|email",
+            placeholder: "pochta@gmail.com",
+            icon_name: "Email",
+            icon_color: "primary",
+            disabled: "",
+          },
+          model: {
+            value: _vm.edit_user.email,
+            callback: function ($$v) {
+              _vm.$set(_vm.edit_user, "email", $$v)
+            },
+            expression: "edit_user.email",
+          },
+        }),
+        _vm._v(" "),
+        _c("bkt-input", {
+          attrs: {
+            name: "phone",
+            type: "tel",
+            label: "номер телефона",
+            rules: "required|phone",
+            placeholder: "+7 495 000-00-00",
+            icon_name: "Smartphone",
+            icon_color: "primary",
+            mask: ["+# ### ### ####", "+## ### ### ####", "+## ### #### ####"],
+            disabled: "",
+          },
+          model: {
+            value: _vm.edit_user.phone,
+            callback: function ($$v) {
+              _vm.$set(_vm.edit_user, "phone", $$v)
+            },
+            expression: "edit_user.phone",
+          },
+        }),
+      ],
+      1
+    ),
+  ])
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -3028,31 +3184,8 @@ var render = function () {
                 fn: function (ref) {
                   var invalid = ref.invalid
                   return [
-                    _c("div", { staticClass: "bkt-wrapper-between" }, [
-                      _c("h3", { staticClass: "bkt-card__title" }, [
-                        _vm._v("Ваши данные"),
-                      ]),
-                      _vm._v(" "),
-                      !_vm.edit_user_mode
-                        ? _c(
-                            "button",
-                            {
-                              staticClass:
-                                "bkt-button-icon bkt-bg-primary-lighter",
-                              on: {
-                                click: function ($event) {
-                                  _vm.edit_user_mode = true
-                                },
-                              },
-                            },
-                            [
-                              _c("bkt-icon", {
-                                attrs: { name: "Pencil", color: "primary" },
-                              }),
-                            ],
-                            1
-                          )
-                        : _vm._e(),
+                    _c("h3", { staticClass: "bkt-card__title" }, [
+                      _vm._v("Ваши данные"),
                     ]),
                     _vm._v(" "),
                     _c("bkt-input", {
@@ -3112,14 +3245,12 @@ var render = function () {
                       },
                     }),
                     _vm._v(" "),
-                    _vm.edit_user_mode
-                      ? _c(
-                          "div",
-                          {
-                            staticClass: "bkt-card__footer bkt-wrapper-between",
-                          },
-                          [
-                            _c(
+                    _c(
+                      "div",
+                      { staticClass: "bkt-card__footer bkt-wrapper-between" },
+                      [
+                        _vm.edit_user_mode
+                          ? _c(
                               "button",
                               {
                                 staticClass: "bkt-button bkt-button_delete",
@@ -3140,9 +3271,11 @@ var render = function () {
                                 }),
                               ],
                               1
-                            ),
-                            _vm._v(" "),
-                            _c(
+                            )
+                          : _vm._e(),
+                        _vm._v(" "),
+                        _vm.edit_user_mode
+                          ? _c(
                               "button",
                               {
                                 staticClass: "bkt-button bkt-button_save",
@@ -3164,10 +3297,41 @@ var render = function () {
                                   "\n                            Сохранить\n                        "
                                 ),
                               ]
+                            )
+                          : _vm._e(),
+                        _vm._v(" "),
+                        _c(
+                          "button",
+                          {
+                            directives: [
+                              {
+                                name: "show",
+                                rawName: "v-show",
+                                value: !_vm.edit_user_mode,
+                                expression: "!edit_user_mode",
+                              },
+                            ],
+                            staticClass: "bkt-button next ms-auto",
+                            attrs: {
+                              type: "button",
+                              disabled: invalid || _vm.loading,
+                            },
+                            on: {
+                              click: function ($event) {
+                                _vm.edit_user_mode = true
+                              },
+                            },
+                          },
+                          [
+                            _vm._v(
+                              "\n                            Редактировать\n                            "
                             ),
-                          ]
-                        )
-                      : _vm._e(),
+                            _c("bkt-icon", { attrs: { name: "ArrowDown" } }),
+                          ],
+                          1
+                        ),
+                      ]
+                    ),
                   ]
                 },
               },
@@ -3184,6 +3348,14 @@ var render = function () {
         { staticClass: "bkt-card" },
         [
           _c("ValidationObserver", {
+            directives: [
+              {
+                name: "show",
+                rawName: "v-show",
+                value: !_vm.edit_password_mode,
+                expression: "!edit_password_mode",
+              },
+            ],
             staticClass: "bkt-card__body bkt-gap-down-sm-row-large",
             attrs: { tag: "div" },
             scopedSlots: _vm._u([
@@ -3193,303 +3365,306 @@ var render = function () {
                   var invalid = ref.invalid
                   return [
                     _c("h3", { staticClass: "bkt-card__title" }, [
-                      _vm._v(
-                        _vm._s(
-                          _vm.edit_password_mode
-                            ? "Код подтверждения"
-                            : "Смена пароля"
-                        )
-                      ),
+                      _vm._v("Смена пароля"),
                     ]),
                     _vm._v(" "),
-                    !_vm.edit_password_mode
-                      ? _c("bkt-input", {
-                          attrs: {
-                            name: "old_password",
-                            type: _vm.passwords_types.oldPassword,
-                            label: "старый пароль",
-                            rules: "required|min:8",
-                            group_item_action: "",
-                          },
-                          on: {
-                            "click-group-item": function ($event) {
-                              return _vm.switchVisibility("oldPassword")
-                            },
-                          },
-                          scopedSlots: _vm._u(
-                            [
-                              {
-                                key: "icon",
-                                fn: function () {
-                                  return [
-                                    _c(
-                                      "svg",
-                                      {
-                                        attrs: {
-                                          version: "1.1",
-                                          xmlns: "http://www.w3.org/2000/svg",
-                                          viewBox: "0 0 516.000000 404.000000",
-                                          width: "100%",
-                                          height: "18px",
-                                        },
-                                      },
-                                      [
-                                        _c(
-                                          "g",
-                                          {
-                                            attrs: {
-                                              transform:
-                                                "translate(0.000000,404.000000) scale(0.100000,-0.100000)",
-                                              fill: "#2953ff",
-                                              stroke: "none",
-                                            },
-                                          },
-                                          [
-                                            _c("path", {
-                                              attrs: {
-                                                d: "M2295 4020 c-138 -17 -272 -42 -402 -76 -652 -168 -1237 -609 -1667\n                                    -1258 -98 -148 -159 -276 -193 -403 -24 -87 -27 -116 -27 -263 0 -147 3 -176\n                                    27 -263 47 -177 161 -379 348 -619 352 -453 761 -767 1244 -956 322 -126 641\n                                    -178 1025 -169 250 6 363 20 580 73 188 46 330 98 515 189 462 227 868 596\n                                    1189 1079 98 148 159 276 193 403 24 87 27 116 27 263 0 147 -3 176 -27 263\n                                    -34 127 -95 255 -193 403 -328 495 -744 869 -1217 1094 -226 108 -479 185\n                                    -737 226 -121 19 -571 28 -685 14z m456 -461 c453 -36 855 -199 1224 -496 193\n                                    -156 417 -405 568 -633 115 -173 147 -263 147 -410 0 -149 -31 -234 -146 -408\n                                    -311 -466 -718 -811 -1169 -990 -429 -170 -932 -195 -1385 -68 -532 148 -1015\n                                    520 -1374 1058 -115 174 -146 259 -146 408 0 149 31 234 146 408 395 593 934\n                                    978 1534 1096 215 42 386 52 601 35z",
-                                              },
-                                            }),
-                                            _vm._v(" "),
-                                            _c("path", {
-                                              attrs: {
-                                                d: "M2458 3100 c-790 -100 -1213 -962 -806 -1644 91 -153 247 -301 409\n                                    -390 295 -162 667 -173 977 -30 208 95 389 267 500 474 141 262 166 593 65\n                                    875 -107 298 -344 539 -638 650 -149 57 -360 84 -507 65z m322 -495 c183 -67\n                                    316 -198 385 -385 25 -66 29 -89 29 -195 0 -85 -4 -135 -16 -171 -92 -288\n                                    -344 -467 -633 -451 -250 15 -460 174 -551 417 -24 66 -28 89 -28 195 0 85 4\n                                    135 16 171 56 176 175 316 332 391 53 26 82 36 171 57 11 3 65 3 120 1 77 -2\n                                    117 -9 175 -30z",
-                                              },
-                                            }),
-                                          ]
-                                        ),
-                                      ]
-                                    ),
-                                  ]
-                                },
-                                proxy: true,
-                              },
-                            ],
-                            null,
-                            true
-                          ),
-                          model: {
-                            value: _vm.passwords.old_password,
-                            callback: function ($$v) {
-                              _vm.$set(_vm.passwords, "old_password", $$v)
-                            },
-                            expression: "passwords.old_password",
-                          },
-                        })
-                      : _vm._e(),
-                    _vm._v(" "),
-                    !_vm.edit_password_mode
-                      ? _c("bkt-input", {
-                          attrs: {
-                            name: "password",
-                            type: _vm.passwords_types.newPassword,
-                            label: "новый пароль",
-                            rules: "required|min:8",
-                            group_item_action: "",
-                          },
-                          on: {
-                            "click-group-item": function ($event) {
-                              return _vm.switchVisibility("newPassword")
-                            },
-                          },
-                          scopedSlots: _vm._u(
-                            [
-                              {
-                                key: "icon",
-                                fn: function () {
-                                  return [
-                                    _c(
-                                      "svg",
-                                      {
-                                        attrs: {
-                                          version: "1.1",
-                                          xmlns: "http://www.w3.org/2000/svg",
-                                          viewBox: "0 0 516.000000 404.000000",
-                                          width: "100%",
-                                          height: "18px",
-                                        },
-                                      },
-                                      [
-                                        _c(
-                                          "g",
-                                          {
-                                            attrs: {
-                                              transform:
-                                                "translate(0.000000,404.000000) scale(0.100000,-0.100000)",
-                                              fill: "#2953ff",
-                                              stroke: "none",
-                                            },
-                                          },
-                                          [
-                                            _c("path", {
-                                              attrs: {
-                                                d: "M2295 4020 c-138 -17 -272 -42 -402 -76 -652 -168 -1237 -609 -1667\n                                    -1258 -98 -148 -159 -276 -193 -403 -24 -87 -27 -116 -27 -263 0 -147 3 -176\n                                    27 -263 47 -177 161 -379 348 -619 352 -453 761 -767 1244 -956 322 -126 641\n                                    -178 1025 -169 250 6 363 20 580 73 188 46 330 98 515 189 462 227 868 596\n                                    1189 1079 98 148 159 276 193 403 24 87 27 116 27 263 0 147 -3 176 -27 263\n                                    -34 127 -95 255 -193 403 -328 495 -744 869 -1217 1094 -226 108 -479 185\n                                    -737 226 -121 19 -571 28 -685 14z m456 -461 c453 -36 855 -199 1224 -496 193\n                                    -156 417 -405 568 -633 115 -173 147 -263 147 -410 0 -149 -31 -234 -146 -408\n                                    -311 -466 -718 -811 -1169 -990 -429 -170 -932 -195 -1385 -68 -532 148 -1015\n                                    520 -1374 1058 -115 174 -146 259 -146 408 0 149 31 234 146 408 395 593 934\n                                    978 1534 1096 215 42 386 52 601 35z",
-                                              },
-                                            }),
-                                            _vm._v(" "),
-                                            _c("path", {
-                                              attrs: {
-                                                d: "M2458 3100 c-790 -100 -1213 -962 -806 -1644 91 -153 247 -301 409\n                                    -390 295 -162 667 -173 977 -30 208 95 389 267 500 474 141 262 166 593 65\n                                    875 -107 298 -344 539 -638 650 -149 57 -360 84 -507 65z m322 -495 c183 -67\n                                    316 -198 385 -385 25 -66 29 -89 29 -195 0 -85 -4 -135 -16 -171 -92 -288\n                                    -344 -467 -633 -451 -250 15 -460 174 -551 417 -24 66 -28 89 -28 195 0 85 4\n                                    135 16 171 56 176 175 316 332 391 53 26 82 36 171 57 11 3 65 3 120 1 77 -2\n                                    117 -9 175 -30z",
-                                              },
-                                            }),
-                                          ]
-                                        ),
-                                      ]
-                                    ),
-                                  ]
-                                },
-                                proxy: true,
-                              },
-                            ],
-                            null,
-                            true
-                          ),
-                          model: {
-                            value: _vm.passwords.newPassword,
-                            callback: function ($$v) {
-                              _vm.$set(_vm.passwords, "newPassword", $$v)
-                            },
-                            expression: "passwords.newPassword",
-                          },
-                        })
-                      : _vm._e(),
-                    _vm._v(" "),
-                    !_vm.edit_password_mode
-                      ? _c("bkt-input", {
-                          attrs: {
-                            name: "confirmation",
-                            type: _vm.passwords_types.submitNewPassword,
-                            label: "повторите новый пароль",
-                            rules: "required|min:8",
-                            group_item_action: "",
-                          },
-                          on: {
-                            "click-group-item": function ($event) {
-                              return _vm.switchVisibility("submitNewPassword")
-                            },
-                          },
-                          scopedSlots: _vm._u(
-                            [
-                              {
-                                key: "icon",
-                                fn: function () {
-                                  return [
-                                    _c(
-                                      "svg",
-                                      {
-                                        attrs: {
-                                          version: "1.1",
-                                          xmlns: "http://www.w3.org/2000/svg",
-                                          viewBox: "0 0 516.000000 404.000000",
-                                          width: "100%",
-                                          height: "18px",
-                                        },
-                                      },
-                                      [
-                                        _c(
-                                          "g",
-                                          {
-                                            attrs: {
-                                              transform:
-                                                "translate(0.000000,404.000000) scale(0.100000,-0.100000)",
-                                              fill: "#2953ff",
-                                              stroke: "none",
-                                            },
-                                          },
-                                          [
-                                            _c("path", {
-                                              attrs: {
-                                                d: "M2295 4020 c-138 -17 -272 -42 -402 -76 -652 -168 -1237 -609 -1667\n                                    -1258 -98 -148 -159 -276 -193 -403 -24 -87 -27 -116 -27 -263 0 -147 3 -176\n                                    27 -263 47 -177 161 -379 348 -619 352 -453 761 -767 1244 -956 322 -126 641\n                                    -178 1025 -169 250 6 363 20 580 73 188 46 330 98 515 189 462 227 868 596\n                                    1189 1079 98 148 159 276 193 403 24 87 27 116 27 263 0 147 -3 176 -27 263\n                                    -34 127 -95 255 -193 403 -328 495 -744 869 -1217 1094 -226 108 -479 185\n                                    -737 226 -121 19 -571 28 -685 14z m456 -461 c453 -36 855 -199 1224 -496 193\n                                    -156 417 -405 568 -633 115 -173 147 -263 147 -410 0 -149 -31 -234 -146 -408\n                                    -311 -466 -718 -811 -1169 -990 -429 -170 -932 -195 -1385 -68 -532 148 -1015\n                                    520 -1374 1058 -115 174 -146 259 -146 408 0 149 31 234 146 408 395 593 934\n                                    978 1534 1096 215 42 386 52 601 35z",
-                                              },
-                                            }),
-                                            _vm._v(" "),
-                                            _c("path", {
-                                              attrs: {
-                                                d: "M2458 3100 c-790 -100 -1213 -962 -806 -1644 91 -153 247 -301 409\n                                    -390 295 -162 667 -173 977 -30 208 95 389 267 500 474 141 262 166 593 65\n                                    875 -107 298 -344 539 -638 650 -149 57 -360 84 -507 65z m322 -495 c183 -67\n                                    316 -198 385 -385 25 -66 29 -89 29 -195 0 -85 -4 -135 -16 -171 -92 -288\n                                    -344 -467 -633 -451 -250 15 -460 174 -551 417 -24 66 -28 89 -28 195 0 85 4\n                                    135 16 171 56 176 175 316 332 391 53 26 82 36 171 57 11 3 65 3 120 1 77 -2\n                                    117 -9 175 -30z",
-                                              },
-                                            }),
-                                          ]
-                                        ),
-                                      ]
-                                    ),
-                                  ]
-                                },
-                                proxy: true,
-                              },
-                            ],
-                            null,
-                            true
-                          ),
-                          model: {
-                            value: _vm.passwords.submitNewPassword,
-                            callback: function ($$v) {
-                              _vm.$set(_vm.passwords, "submitNewPassword", $$v)
-                            },
-                            expression: "passwords.submitNewPassword",
-                          },
-                        })
-                      : _vm._e(),
-                    _vm._v(" "),
-                    _vm.edit_password_mode
-                      ? _c(
-                          "label",
+                    _c("bkt-input", {
+                      attrs: {
+                        name: "old_password",
+                        type: _vm.passwords_types.oldPassword,
+                        label: "старый пароль",
+                        rules: "required|min:8",
+                        group_item_action: "",
+                      },
+                      on: {
+                        "click-group-item": function ($event) {
+                          return _vm.switchVisibility("oldPassword")
+                        },
+                      },
+                      scopedSlots: _vm._u(
+                        [
                           {
-                            staticClass:
-                              "bkt-input__label bkt-form__label mt-0",
+                            key: "icon",
+                            fn: function () {
+                              return [
+                                _c(
+                                  "svg",
+                                  {
+                                    attrs: {
+                                      version: "1.1",
+                                      xmlns: "http://www.w3.org/2000/svg",
+                                      viewBox: "0 0 516.000000 404.000000",
+                                      width: "100%",
+                                      height: "18px",
+                                    },
+                                  },
+                                  [
+                                    _c(
+                                      "g",
+                                      {
+                                        attrs: {
+                                          transform:
+                                            "translate(0.000000,404.000000) scale(0.100000,-0.100000)",
+                                          fill: "#2953ff",
+                                          stroke: "none",
+                                        },
+                                      },
+                                      [
+                                        _c("path", {
+                                          attrs: {
+                                            d: "M2295 4020 c-138 -17 -272 -42 -402 -76 -652 -168 -1237 -609 -1667\n                                    -1258 -98 -148 -159 -276 -193 -403 -24 -87 -27 -116 -27 -263 0 -147 3 -176\n                                    27 -263 47 -177 161 -379 348 -619 352 -453 761 -767 1244 -956 322 -126 641\n                                    -178 1025 -169 250 6 363 20 580 73 188 46 330 98 515 189 462 227 868 596\n                                    1189 1079 98 148 159 276 193 403 24 87 27 116 27 263 0 147 -3 176 -27 263\n                                    -34 127 -95 255 -193 403 -328 495 -744 869 -1217 1094 -226 108 -479 185\n                                    -737 226 -121 19 -571 28 -685 14z m456 -461 c453 -36 855 -199 1224 -496 193\n                                    -156 417 -405 568 -633 115 -173 147 -263 147 -410 0 -149 -31 -234 -146 -408\n                                    -311 -466 -718 -811 -1169 -990 -429 -170 -932 -195 -1385 -68 -532 148 -1015\n                                    520 -1374 1058 -115 174 -146 259 -146 408 0 149 31 234 146 408 395 593 934\n                                    978 1534 1096 215 42 386 52 601 35z",
+                                          },
+                                        }),
+                                        _vm._v(" "),
+                                        _c("path", {
+                                          attrs: {
+                                            d: "M2458 3100 c-790 -100 -1213 -962 -806 -1644 91 -153 247 -301 409\n                                    -390 295 -162 667 -173 977 -30 208 95 389 267 500 474 141 262 166 593 65\n                                    875 -107 298 -344 539 -638 650 -149 57 -360 84 -507 65z m322 -495 c183 -67\n                                    316 -198 385 -385 25 -66 29 -89 29 -195 0 -85 -4 -135 -16 -171 -92 -288\n                                    -344 -467 -633 -451 -250 15 -460 174 -551 417 -24 66 -28 89 -28 195 0 85 4\n                                    135 16 171 56 176 175 316 332 391 53 26 82 36 171 57 11 3 65 3 120 1 77 -2\n                                    117 -9 175 -30z",
+                                          },
+                                        }),
+                                      ]
+                                    ),
+                                  ]
+                                ),
+                              ]
+                            },
+                            proxy: true,
                           },
-                          [_vm._v("способ потверждения")]
-                        )
-                      : _vm._e(),
+                        ],
+                        null,
+                        true
+                      ),
+                      model: {
+                        value: _vm.passwords.oldPassword,
+                        callback: function ($$v) {
+                          _vm.$set(_vm.passwords, "oldPassword", $$v)
+                        },
+                        expression: "passwords.oldPassword",
+                      },
+                    }),
                     _vm._v(" "),
-                    _vm.edit_password_mode
-                      ? _c("div", { staticClass: "bkt-select__wrapper" }, [
-                          _c(
-                            "select",
-                            {
-                              directives: [
-                                {
-                                  name: "model",
-                                  rawName: "v-model",
-                                  value: _vm.passwords.grantType,
-                                  expression: "passwords.grantType",
-                                },
-                              ],
-                              staticClass: "form-select bkt-select w-100",
-                              on: {
-                                change: function ($event) {
-                                  var $$selectedVal = Array.prototype.filter
-                                    .call($event.target.options, function (o) {
-                                      return o.selected
-                                    })
-                                    .map(function (o) {
-                                      var val =
-                                        "_value" in o ? o._value : o.value
-                                      return val
-                                    })
-                                  _vm.$set(
-                                    _vm.passwords,
-                                    "grantType",
-                                    $event.target.multiple
-                                      ? $$selectedVal
-                                      : $$selectedVal[0]
-                                  )
-                                },
+                    _c("bkt-input", {
+                      attrs: {
+                        name: "password",
+                        type: _vm.passwords_types.newPassword,
+                        label: "новый пароль",
+                        rules: "required|min:8",
+                        group_item_action: "",
+                      },
+                      on: {
+                        "click-group-item": function ($event) {
+                          return _vm.switchVisibility("newPassword")
+                        },
+                      },
+                      scopedSlots: _vm._u(
+                        [
+                          {
+                            key: "icon",
+                            fn: function () {
+                              return [
+                                _c(
+                                  "svg",
+                                  {
+                                    attrs: {
+                                      version: "1.1",
+                                      xmlns: "http://www.w3.org/2000/svg",
+                                      viewBox: "0 0 516.000000 404.000000",
+                                      width: "100%",
+                                      height: "18px",
+                                    },
+                                  },
+                                  [
+                                    _c(
+                                      "g",
+                                      {
+                                        attrs: {
+                                          transform:
+                                            "translate(0.000000,404.000000) scale(0.100000,-0.100000)",
+                                          fill: "#2953ff",
+                                          stroke: "none",
+                                        },
+                                      },
+                                      [
+                                        _c("path", {
+                                          attrs: {
+                                            d: "M2295 4020 c-138 -17 -272 -42 -402 -76 -652 -168 -1237 -609 -1667\n                                    -1258 -98 -148 -159 -276 -193 -403 -24 -87 -27 -116 -27 -263 0 -147 3 -176\n                                    27 -263 47 -177 161 -379 348 -619 352 -453 761 -767 1244 -956 322 -126 641\n                                    -178 1025 -169 250 6 363 20 580 73 188 46 330 98 515 189 462 227 868 596\n                                    1189 1079 98 148 159 276 193 403 24 87 27 116 27 263 0 147 -3 176 -27 263\n                                    -34 127 -95 255 -193 403 -328 495 -744 869 -1217 1094 -226 108 -479 185\n                                    -737 226 -121 19 -571 28 -685 14z m456 -461 c453 -36 855 -199 1224 -496 193\n                                    -156 417 -405 568 -633 115 -173 147 -263 147 -410 0 -149 -31 -234 -146 -408\n                                    -311 -466 -718 -811 -1169 -990 -429 -170 -932 -195 -1385 -68 -532 148 -1015\n                                    520 -1374 1058 -115 174 -146 259 -146 408 0 149 31 234 146 408 395 593 934\n                                    978 1534 1096 215 42 386 52 601 35z",
+                                          },
+                                        }),
+                                        _vm._v(" "),
+                                        _c("path", {
+                                          attrs: {
+                                            d: "M2458 3100 c-790 -100 -1213 -962 -806 -1644 91 -153 247 -301 409\n                                    -390 295 -162 667 -173 977 -30 208 95 389 267 500 474 141 262 166 593 65\n                                    875 -107 298 -344 539 -638 650 -149 57 -360 84 -507 65z m322 -495 c183 -67\n                                    316 -198 385 -385 25 -66 29 -89 29 -195 0 -85 -4 -135 -16 -171 -92 -288\n                                    -344 -467 -633 -451 -250 15 -460 174 -551 417 -24 66 -28 89 -28 195 0 85 4\n                                    135 16 171 56 176 175 316 332 391 53 26 82 36 171 57 11 3 65 3 120 1 77 -2\n                                    117 -9 175 -30z",
+                                          },
+                                        }),
+                                      ]
+                                    ),
+                                  ]
+                                ),
+                              ]
+                            },
+                            proxy: true,
+                          },
+                        ],
+                        null,
+                        true
+                      ),
+                      model: {
+                        value: _vm.passwords.newPassword,
+                        callback: function ($$v) {
+                          _vm.$set(_vm.passwords, "newPassword", $$v)
+                        },
+                        expression: "passwords.newPassword",
+                      },
+                    }),
+                    _vm._v(" "),
+                    _c("bkt-input", {
+                      attrs: {
+                        name: "confirmation",
+                        type: _vm.passwords_types.submitNewPassword,
+                        label: "повторите новый пароль",
+                        rules: "required|min:8",
+                        group_item_action: "",
+                      },
+                      on: {
+                        "click-group-item": function ($event) {
+                          return _vm.switchVisibility("submitNewPassword")
+                        },
+                      },
+                      scopedSlots: _vm._u(
+                        [
+                          {
+                            key: "icon",
+                            fn: function () {
+                              return [
+                                _c(
+                                  "svg",
+                                  {
+                                    attrs: {
+                                      version: "1.1",
+                                      xmlns: "http://www.w3.org/2000/svg",
+                                      viewBox: "0 0 516.000000 404.000000",
+                                      width: "100%",
+                                      height: "18px",
+                                    },
+                                  },
+                                  [
+                                    _c(
+                                      "g",
+                                      {
+                                        attrs: {
+                                          transform:
+                                            "translate(0.000000,404.000000) scale(0.100000,-0.100000)",
+                                          fill: "#2953ff",
+                                          stroke: "none",
+                                        },
+                                      },
+                                      [
+                                        _c("path", {
+                                          attrs: {
+                                            d: "M2295 4020 c-138 -17 -272 -42 -402 -76 -652 -168 -1237 -609 -1667\n                                    -1258 -98 -148 -159 -276 -193 -403 -24 -87 -27 -116 -27 -263 0 -147 3 -176\n                                    27 -263 47 -177 161 -379 348 -619 352 -453 761 -767 1244 -956 322 -126 641\n                                    -178 1025 -169 250 6 363 20 580 73 188 46 330 98 515 189 462 227 868 596\n                                    1189 1079 98 148 159 276 193 403 24 87 27 116 27 263 0 147 -3 176 -27 263\n                                    -34 127 -95 255 -193 403 -328 495 -744 869 -1217 1094 -226 108 -479 185\n                                    -737 226 -121 19 -571 28 -685 14z m456 -461 c453 -36 855 -199 1224 -496 193\n                                    -156 417 -405 568 -633 115 -173 147 -263 147 -410 0 -149 -31 -234 -146 -408\n                                    -311 -466 -718 -811 -1169 -990 -429 -170 -932 -195 -1385 -68 -532 148 -1015\n                                    520 -1374 1058 -115 174 -146 259 -146 408 0 149 31 234 146 408 395 593 934\n                                    978 1534 1096 215 42 386 52 601 35z",
+                                          },
+                                        }),
+                                        _vm._v(" "),
+                                        _c("path", {
+                                          attrs: {
+                                            d: "M2458 3100 c-790 -100 -1213 -962 -806 -1644 91 -153 247 -301 409\n                                    -390 295 -162 667 -173 977 -30 208 95 389 267 500 474 141 262 166 593 65\n                                    875 -107 298 -344 539 -638 650 -149 57 -360 84 -507 65z m322 -495 c183 -67\n                                    316 -198 385 -385 25 -66 29 -89 29 -195 0 -85 -4 -135 -16 -171 -92 -288\n                                    -344 -467 -633 -451 -250 15 -460 174 -551 417 -24 66 -28 89 -28 195 0 85 4\n                                    135 16 171 56 176 175 316 332 391 53 26 82 36 171 57 11 3 65 3 120 1 77 -2\n                                    117 -9 175 -30z",
+                                          },
+                                        }),
+                                      ]
+                                    ),
+                                  ]
+                                ),
+                              ]
+                            },
+                            proxy: true,
+                          },
+                        ],
+                        null,
+                        true
+                      ),
+                      model: {
+                        value: _vm.passwords.submitNewPassword,
+                        callback: function ($$v) {
+                          _vm.$set(_vm.passwords, "submitNewPassword", $$v)
+                        },
+                        expression: "passwords.submitNewPassword",
+                      },
+                    }),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      { staticClass: "bkt-card__footer bkt-wrapper-between" },
+                      [
+                        _c(
+                          "button",
+                          {
+                            staticClass: "bkt-button next ms-auto",
+                            attrs: { type: "button", disabled: invalid },
+                            on: {
+                              click: function ($event) {
+                                _vm.edit_password_mode = true
                               },
                             },
-                            [
-                              _c("option", { attrs: { value: "email" } }, [
-                                _vm._v("E-mail"),
-                              ]),
-                              _vm._v(" "),
-                              _c("option", { attrs: { value: "phone" } }, [
-                                _vm._v("Телефон"),
-                              ]),
-                            ]
-                          ),
-                        ])
-                      : _vm._e(),
+                          },
+                          [
+                            _vm._v(
+                              "\n                            Далее\n                            "
+                            ),
+                            _c("bkt-icon", { attrs: { name: "ArrowDown" } }),
+                          ],
+                          1
+                        ),
+                      ]
+                    ),
+                  ]
+                },
+              },
+            ]),
+          }),
+          _vm._v(" "),
+          _c("ValidationObserver", {
+            directives: [
+              {
+                name: "show",
+                rawName: "v-show",
+                value: _vm.edit_password_mode,
+                expression: "edit_password_mode",
+              },
+            ],
+            staticClass: "bkt-card__body bkt-gap-down-sm-row-large",
+            attrs: { tag: "div" },
+            scopedSlots: _vm._u([
+              {
+                key: "default",
+                fn: function (ref) {
+                  var invalid = ref.invalid
+                  return [
+                    _c("h3", { staticClass: "bkt-card__title" }, [
+                      _vm._v("Код подтверждения"),
+                    ]),
                     _vm._v(" "),
-                    _vm.edit_password_mode &&
+                    _c("bkt-select", {
+                      staticClass: "w-100",
+                      attrs: {
+                        reduce: function (item) {
+                          return item.value
+                        },
+                        option_label: "title",
+                        name: "grantType",
+                        options: _vm.grantTypes,
+                        clearable: false,
+                        label_class: "bkt-input__label",
+                        label: "способ потверждения",
+                        select_class: "w-100",
+                      },
+                      model: {
+                        value: _vm.passwords.grantType,
+                        callback: function ($$v) {
+                          _vm.$set(_vm.passwords, "grantType", $$v)
+                        },
+                        expression: "passwords.grantType",
+                      },
+                    }),
+                    _vm._v(" "),
                     _vm.passwords.grantType === "email"
                       ? _c("bkt-input", {
                           attrs: {
@@ -3499,6 +3674,7 @@ var render = function () {
                             rules: "required",
                             placeholder: "pochta@gmail.com",
                             icon_name: "Email",
+                            icon_color: "primary",
                           },
                           model: {
                             value: _vm.edit_user.email,
@@ -3510,37 +3686,85 @@ var render = function () {
                         })
                       : _vm._e(),
                     _vm._v(" "),
+                    _vm.passwords.grantType === "phone"
+                      ? _c("bkt-input", {
+                          attrs: {
+                            name: "phone",
+                            type: "tel",
+                            label: "номер телефона",
+                            rules: "required|phone",
+                            placeholder: "+7 495 000-00-00",
+                            icon_name: "Smartphone",
+                            icon_color: "primary",
+                            mask: [
+                              "+# ### ### ####",
+                              "+## ### ### ####",
+                              "+## ### #### ####",
+                            ],
+                          },
+                          model: {
+                            value: _vm.edit_user.phone,
+                            callback: function ($$v) {
+                              _vm.$set(_vm.edit_user, "phone", $$v)
+                            },
+                            expression: "edit_user.phone",
+                          },
+                        })
+                      : _vm._e(),
+                    _vm._v(" "),
                     _c("bkt-input", {
-                      directives: [
-                        {
-                          name: "show",
-                          rawName: "v-show",
-                          value:
-                            _vm.edit_password_mode &&
-                            _vm.passwords.grantType === "phone",
-                          expression:
-                            "edit_password_mode && passwords.grantType==='phone'",
-                        },
-                      ],
                       attrs: {
-                        name: "phone",
-                        type: "tel",
-                        label: "номер телефона",
-                        rules: "required|phone",
-                        placeholder: "+7 495 000-00-00",
-                        icon_name: "Smartphone",
-                        mask: [
-                          "+# ### ### ####",
-                          "+## ### ### ####",
-                          "+## ### #### ####",
-                        ],
+                        name: "code",
+                        type: "text",
+                        label: "код",
+                        rules: "required|digits:6",
+                        mask: "######",
                       },
+                      scopedSlots: _vm._u(
+                        [
+                          {
+                            key: "group-item-inner",
+                            fn: function () {
+                              return [
+                                _c(
+                                  "button",
+                                  {
+                                    staticClass:
+                                      "bkt-button primary bkt-button_code",
+                                    attrs: {
+                                      disabled:
+                                        _vm.password_loading ||
+                                        _vm.code_loading,
+                                    },
+                                    on: { click: _vm.sendCode },
+                                  },
+                                  [
+                                    _vm.code_loading
+                                      ? _c("span", {
+                                          staticClass:
+                                            "spinner-border spinner-border-sm",
+                                          attrs: { role: "status" },
+                                        })
+                                      : _vm._e(),
+                                    _vm._v(
+                                      "\n                                Выслать код\n                            "
+                                    ),
+                                  ]
+                                ),
+                              ]
+                            },
+                            proxy: true,
+                          },
+                        ],
+                        null,
+                        true
+                      ),
                       model: {
-                        value: _vm.edit_user.phone,
+                        value: _vm.passwords.code,
                         callback: function ($$v) {
-                          _vm.$set(_vm.edit_user, "phone", $$v)
+                          _vm.$set(_vm.passwords, "code", $$v)
                         },
-                        expression: "edit_user.phone",
+                        expression: "passwords.code",
                       },
                     }),
                     _vm._v(" "),
@@ -3548,60 +3772,42 @@ var render = function () {
                       "div",
                       { staticClass: "bkt-card__footer bkt-wrapper-between" },
                       [
-                        !_vm.edit_password_mode
-                          ? _c(
-                              "button",
-                              {
-                                staticClass: "bkt-button next ms-auto",
-                                attrs: { type: "button", disabled: invalid },
-                                on: {
-                                  click: function ($event) {
-                                    _vm.edit_password_mode = true
-                                  },
-                                },
+                        _c(
+                          "button",
+                          {
+                            staticClass: "bkt-button next me-auto",
+                            attrs: { type: "button" },
+                            on: {
+                              click: function ($event) {
+                                _vm.edit_password_mode = false
                               },
-                              [
-                                _vm._v("\n                            Далее "),
-                                _c("bkt-icon", {
-                                  attrs: { name: "ArrowDown" },
-                                }),
-                              ],
-                              1
-                            )
-                          : _vm._e(),
-                        _vm._v(" "),
-                        _vm.edit_password_mode
-                          ? _c(
-                              "button",
-                              {
-                                staticClass: "bkt-button next me-auto",
-                                attrs: { type: "button" },
-                                on: {
-                                  click: function ($event) {
-                                    _vm.edit_password_mode = false
-                                  },
-                                },
-                              },
-                              [
-                                _c("bkt-icon", {
-                                  staticClass: "bkt-rotate-90",
-                                  attrs: { name: "ArrowDown" },
-                                }),
-                                _vm._v(" Назад\n                        "),
-                              ],
-                              1
-                            )
-                          : _vm._e(),
+                            },
+                          },
+                          [
+                            _c("bkt-icon", {
+                              staticClass: "bkt-rotate-90",
+                              attrs: { name: "ArrowDown" },
+                            }),
+                            _vm._v(
+                              "\n                            Назад\n                        "
+                            ),
+                          ],
+                          1
+                        ),
                         _vm._v(" "),
                         _vm.edit_password_mode
                           ? _c(
                               "button",
                               {
                                 staticClass:
-                                  "bkt-button primary bkt-button_plump",
+                                  "bkt-button primary bkt-button_save",
                                 attrs: {
-                                  disabled: invalid || _vm.password_loading,
+                                  disabled:
+                                    invalid ||
+                                    _vm.password_loading ||
+                                    _vm.code_loading,
                                 },
+                                on: { click: _vm.changePassword },
                               },
                               [
                                 _vm._v(
