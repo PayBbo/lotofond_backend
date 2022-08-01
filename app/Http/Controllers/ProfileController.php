@@ -60,17 +60,16 @@ class ProfileController extends Controller
         $changeCredentials->token = Hash::make($code);
         $changeCredentials->user_id = $user->id;
         $changeCredentials->created_at = Carbon::now()->setTimezone('Europe/Moscow')->addDay();
+        $changeCredentials->is_old_credentials = $request->isOldCredentials;
         switch ($request->grantType){
             case 'email':{
                 if(!$request->haveAccessToOldCredentials && !$request->isOldCredentials){
                     $sendCode->sendEmailWarning($user->email, $request->email);
                 }elseif(!$request->haveAccessToOldCredentials && $request->isOldCredentials){
                     $sendCode->sendPhoneCode($user->phone, $code);
-                    $changeCredentials->is_old_credentials = true;
                 }
                 else{
                     if($request->email == $user->email){
-                        $changeCredentials->is_old_credentials = true;
                     }
                     $sendCode->sendEmailCode($request->email, $code);
                 }
@@ -83,11 +82,7 @@ class ProfileController extends Controller
                     $sendCode->sendPhoneWarning($user->phone, $request->phone);
                 }elseif(!$request->haveAccessToOldCredentials && $request->isOldCredentials){
                     $sendCode->sendEmailCode($user->email, $code);
-                    $changeCredentials->is_old_credentials = true;
                 }else{
-                    if($request->phone == $user->phone){
-                        $changeCredentials->is_old_credentials = true;
-                    }
                     $sendCode->sendPhoneCode($request->phone, $code);
                 }
                 $changeCredentials->phone = $request->phone;
