@@ -8,6 +8,7 @@ use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\Auth\SocialController;
 use App\Http\Controllers\BidderController;
+use App\Http\Controllers\DataController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\FavouriteController;
 use App\Http\Controllers\FileController;
@@ -96,10 +97,12 @@ Route::group(['middleware' => ['json.response', 'localization']], function () {
 
     Route::get('/messages/filter/types', [FilterController::class, 'getRegistryTypesForFilter']);
 
+    Route::get('/text-data', [DataController::class, 'getTextData']);
+
     Route::group(['prefix' => 'bidders'], function () {
 
         Route::put('/trades', [BidderController::class, 'getTradesByBidder'])
-        ->middleware('auth:api')->name('bidders-trades');
+            ->middleware('auth:api')->name('bidders-trades');
 
         Route::get('/{bidderId}/{type}', [BidderController::class, 'getBidder'])->middleware('auth:api');
 
@@ -115,6 +118,8 @@ Route::group(['middleware' => ['json.response', 'localization']], function () {
 
         Route::put('/debtor/messages', [BidderController::class, 'getDebtorMessages']);
 
+        Route::get('/debtor/message/{guid}', [BidderController::class, 'getDebtorMessageHtml']);
+
     });
 
     Route::group(['prefix' => 'statistics'], function () {
@@ -126,7 +131,15 @@ Route::group(['middleware' => ['json.response', 'localization']], function () {
 
     Route::middleware("auth.deny:api")->group(function () {
 
-        Route::post('send/application', [ApplicationController::class, 'sendApplication']);
+        Route::group(['prefix' => 'send'], function () {
+
+            Route::post('/application', [ApplicationController::class, 'sendApplication']);
+
+            Route::post('/question', [ApplicationController::class, 'sendQuestion']);
+
+            Route::post('/contacts', [ApplicationController::class, 'sendContacts']);
+
+        });
 
         Route::group(['prefix' => 'account'], function () {
 

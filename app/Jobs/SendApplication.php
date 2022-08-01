@@ -14,23 +14,20 @@ class SendApplication implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    protected $username;
+    protected $html;
     protected $email;
-    protected $phone;
-    protected $socials;
-    protected $lot;
+    protected $subject;
+
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct($username, $email, $phone, $socials, $lot)
+    public function __construct($html, $subject, $email)
     {
-        $this->username = $username;
+        $this->html = $html;
+        $this->subject = $subject;
         $this->email = $email;
-        $this->phone = $phone;
-        $this->socials = $socials;
-        $this->lot = $lot;
     }
 
     /**
@@ -41,17 +38,12 @@ class SendApplication implements ShouldQueue
     public function handle()
     {
         $toEmail = $this->email;
-        $html = "Пользователь $this->username оставил заявку на покупку без ЕЦП лота
-            <a> $this->lot </a>
-            <br>
-            <strong>Почта: $this->email</strong>
-             <br>
-            <strong>Телефон: $this->phone</strong>
-            <p>Социальные сети для ответа: $this->socials</p>";
-        Mail::send([], [], function ($message) use ($toEmail, $html) {
-            $message->from('bankr0t.t@yandex.ru', 'BankrotMP');
+        $html = $this->html;
+        $subject = $this->subject;
+        Mail::send([], [], function ($message) use ($toEmail, $html, $subject) {
+            $message->from('bankr0t.t@yandex.ru', 'LotoFond');
             $message->to($toEmail);
-            $message->subject('Новая заявка на покупку без ЕЦП');
+            $message->subject($subject);
             $message->setBody($html, 'text/html');
         });
     }

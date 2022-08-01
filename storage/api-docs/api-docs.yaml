@@ -2101,6 +2101,39 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+  /bidders/debtor/message/{guid}:
+    get:
+      parameters:
+        - in: path
+          name: guid
+          schema:
+            type: string
+          required: true
+          description: guid сообщения на федресурсе для получения html страницы
+      tags:
+        - Bidders
+      summary: Сообщение html о должнике
+      operationId: getDebtorMessageHtml
+      responses:
+        "200":
+          description: Сообщение html о должнике
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      html:
+                        type: string
+                        description: Сообщение html о должнике
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
   /files/store:
     post:
       tags:
@@ -2614,6 +2647,107 @@ paths:
                       - Vk
                       - Viber
                       - WhatsApp
+                      - Telegram
+                dateForCallback:
+                  type: string
+      responses:
+        "200":
+          description: заявка успешно отправлена
+        "422":
+          description: Ошибка валидации данных
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+        - bearerAuth: [ ]
+  /send/question:
+    post:
+      parameters:
+        - name: Content-Language
+          in: header
+          description: Заголовок для определения локали (ru, en, zh_CN)
+          required: true
+      tags:
+        - Applications
+      summary: Отправка вопроса на почту менеджеру
+      operationId: sendQuestion
+      requestBody:
+        description: данные для отправления вопроса
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required:
+                - email
+                - topic
+                - question
+              properties:
+                email:
+                  type: string
+                topic:
+                  type: string
+                question:
+                  type: string
+                file:
+                  type: string
+                  format: binary
+      responses:
+        "200":
+          description: вопрос успешно отправлен
+        "422":
+          description: Ошибка валидации данных
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+        - bearerAuth: [ ]
+  /send/contacts:
+    post:
+      parameters:
+        - name: Content-Language
+          in: header
+          description: Заголовок для определения локали (ru, en, zh_CN)
+          required: true
+      tags:
+        - Applications
+      summary: Отправка вопроса на почту менеджеру
+      operationId: sendContacts
+      requestBody:
+        description: данные для отправления вопроса
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - question
+                - communicationType
+                - communication
+              properties:
+                question:
+                  type: string
+                communication:
+                  type: string
+                communicationType:
+                  type: string
+                  enum:
+                     - email
+                     - phone
       responses:
         "200":
           description: заявка успешно отправлена
@@ -2695,6 +2829,29 @@ paths:
           description: привязка социальной сети произошла успешно
         "422":
           description: социальная сеть уже привязана либо неверный токен для привязки
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+        - bearerAuth: [ ]
+  /text-data:
+    get:
+      tags:
+        - TextData
+      summary: получение данных для страниц помощи, контакты, о приложении и тд
+      operationId: getTextData
+      responses:
+        "200":
+          description: данные для текстовых страниц
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/TextData"
         default:
           description: unexpected error
           content:
@@ -4166,10 +4323,9 @@ components:
         type:
           type: string
           description: название сообщения
-        messageUrl:
+        guid:
           type: string
-          format: uri
-          description: ссылка на сообщение на федресурсе
+          description: guid для ссылки на сообщение на федресурсе
         debtor:
           $ref: "#/components/schemas/BidderInfo"
         files:
@@ -4227,7 +4383,20 @@ components:
         tradePlaceSite:
           type: string
           description: сайт ЭТП
-
+    TextData:
+      type: object
+      properties:
+        header:
+          type: string
+        value:
+          type: string
+        type:
+          type: string
+          enum:
+            - info
+            - help
+            - about
+            - contacts
   securitySchemes:
     bearerAuth:
       type: http

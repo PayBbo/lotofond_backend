@@ -24,7 +24,8 @@ class DatabaseSeeder extends Seeder
             CategorySeeder::class,
             RegionSeeder::class,
             ParamSeeder::class,
-            UserSeeder::class
+            UserSeeder::class,
+            TextDataSeeder::class
         ]);
     }
 }

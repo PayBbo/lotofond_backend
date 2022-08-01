@@ -64,6 +64,6 @@ class TestCommand extends Command
                 logger($e);
             }
         }*/
-        dispatch(new ParseTrades);
+        dispatch(new ParseDebtorMessages);
     }
 }
