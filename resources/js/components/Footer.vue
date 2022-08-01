@@ -50,16 +50,16 @@
                                     </router-link>
                                 </li>
 
-                                <li class="bkt-footer__link text-truncate">Изменения в законах <strong
-                                    style="color:rgb(216, 43, 30); margin-left: 5px;">&#10095;</strong>
+                                <li class="bkt-footer__link text-truncate">
+                                    Изменения в законах <strong style="color:rgb(216, 43, 30); margin-left: 5px;">&#10095;</strong>
                                 </li>
                             </ul>
                         </div>
                     </div>
                     <div class="col-12 col-lg-3">
                         <div class="bkt-footer__socials">
-                            <h3 class="bkt-footer__socials-phone">8 (800) 560-88-55</h3>
-                            <h5 class="bkt-footer__socials-email">nazvanieemaila@gmail.com</h5>
+                            <h3 class="bkt-footer__socials-phone">+7 916 018-48-58</h3>
+                            <h5 class="bkt-footer__socials-email">vicemine@mail.ru</h5>
                             <p class="bkt-footer__socials-address">г. Название, ул. Ленина, 74</p>
 
                             <div class="bkt-footer__socials-links">

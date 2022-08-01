@@ -1413,8 +1413,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "MiniTradeCard",
@@ -5676,53 +5674,53 @@ var render = function () {
         "div",
         { staticClass: "col-12 col-md-2 ps-0 bkt-card-trade-mini__image" },
         [
-          _c(
-            "hooper",
-            {
-              staticClass: "w-100 h-100",
-              staticStyle: { "min-height": "159px" },
-              attrs: { itemsToShow: 1, centerMode: true },
-            },
-            [
-              !_vm.item.photos || _vm.item.photos.length == 0
-                ? _c("slide", [
-                    _c("img", {
-                      directives: [
-                        {
-                          name: "lazy",
-                          rawName: "v-lazy",
-                          value: "/images/card-image1.png",
-                          expression: "'/images/card-image1.png'",
-                        },
-                      ],
-                      staticClass: "bkt-card__image",
-                    }),
-                  ])
-                : _vm._e(),
-              _vm._v(" "),
-              _vm._l(_vm.item.photos, function (photo) {
-                return _c("slide", { key: photo.id }, [
-                  _c("img", {
-                    directives: [
-                      {
-                        name: "lazy",
-                        rawName: "v-lazy",
-                        value: photo.main,
-                        expression: "photo.main",
-                      },
-                    ],
-                    staticClass: "bkt-card__image",
+          !_vm.item.photos || _vm.item.photos.length == 0
+            ? _c("img", {
+                directives: [
+                  {
+                    name: "lazy",
+                    rawName: "v-lazy",
+                    value: "/images/card-image1.png",
+                    expression: "'/images/card-image1.png'",
+                  },
+                ],
+                staticClass: "bkt-card__image",
+              })
+            : _vm._e(),
+          _vm._v(" "),
+          _vm.item.photos.length > 0
+            ? _c(
+                "hooper",
+                {
+                  staticClass: "w-100 h-100",
+                  staticStyle: { "min-height": "159px" },
+                  attrs: { itemsToShow: 1, centerMode: true },
+                },
+                [
+                  _vm._l(_vm.item.photos, function (photo) {
+                    return _c("slide", { key: photo.id }, [
+                      _c("img", {
+                        directives: [
+                          {
+                            name: "lazy",
+                            rawName: "v-lazy",
+                            value: photo.main,
+                            expression: "photo.main",
+                          },
+                        ],
+                        staticClass: "bkt-card__image",
+                      }),
+                    ])
                   }),
-                ])
-              }),
-              _vm._v(" "),
-              _c("hooper-navigation", {
-                attrs: { slot: "hooper-addons" },
-                slot: "hooper-addons",
-              }),
-            ],
-            2
-          ),
+                  _vm._v(" "),
+                  _c("hooper-navigation", {
+                    attrs: { slot: "hooper-addons" },
+                    slot: "hooper-addons",
+                  }),
+                ],
+                2
+              )
+            : _vm._e(),
         ],
         1
       ),

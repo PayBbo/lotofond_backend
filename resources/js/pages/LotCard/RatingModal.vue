@@ -1,116 +1,93 @@
 <template>
-    <bkt-modal :id="'paramsModal'" title="Выберите основные параметры" modal_class="bkt-filters-modal"
-               @left_action="clearFilters" @right_action="saveFilters"
+    <bkt-modal :id="'ratingModal'" title="Оцените работу организатора торгов"
+               modal_class="bkt-filters-modal text-center" :loading="loading"
+               @left_action="cancel" @right_action="save"
     >
+        <template #title>
+            <h3 class="bkt-modal__title mx-auto">
+                Оцените работу {{ type == 'arbitrationManager' ? 'арбитражного управляющего' : 'организатора'}}
+            </h3>
+        </template>
         <template #body>
-            <div class="bkt-form wide w-100 mx-auto align-items-start">
-                <div class="col-12">
-                    <bkt-input v-model="filter.excludedWords"
-                               type="text"
-                               field_name="'Cлова-исключения'"
-                               label="cлова-исключения"
-                               label_class="bkt-form__label"
-                               name="exception_words" icon_name="Check"
-                               :group_item_class="filter.excludedWords ? 'bkt-bg-green': 'bkt-bg-white'"
-                               :icon_color="filter.excludedWords ? 'white': 'main-lighter'"
+            <div class="bkt-wrapper-column bkt-gap-row-large">
+                <ValidationProvider :name="'Оценка'" :rules="'required|min_value:1|max_value:5'" v-slot="{ errors }"
+                                    tag="div" class="bkt-rating bkt-wrapper-column" style="gap: 0;">
+                    <label class="bkt-input__label text-center mb-0">выберите оценку от 1 до 5</label>
+                    <star-rating :show-rating="false" v-model="rating.estimate" class="mx-auto"
+                                 :star-size="16" :increment="1" :rounded-corners="false"
                     >
-                    </bkt-input>
-                </div>
-                <div class="col-12">
-                    <!--                    <div class="bkt-form m-0">-->
-                    <!--                        <div class="col-lg-8 col-12 p-0">-->
-                    <bkt-select
-                        v-model="filter.tradePlaces"
-                        multiple
-                        name="tradePlaces"
-                        label="выбранные площадки"
-                        label_class="bkt-form__label"
-                        :option_label="'name'"
-                        :options="trade_places"
-                        :pagination="trade_places_pagination"
-                        :reduce="item => item.id"
-                        :method_name="'getTradePlaces'"
-                    ></bkt-select>
-                    <!--                    <h5 class="bkt-form__label bkt-text-neutral-dark">выбранные площадки</h5>-->
-
-                    <!--                        </div>-->
-                    <!--                        <div class="col-12 col-lg-4 p-0">-->
-                    <!--                            <div class="bkt-check__list">-->
-                    <!--                                <div class="bkt-check__wrapper">-->
-                    <!--                                    <div class="bkt-check">-->
-                    <!--                                        <div class="bkt-check__input">-->
-                    <!--                                            <input class="" type="checkbox">-->
-                    <!--                                            <div class="bkt-check__input-check"></div>-->
-                    <!--                                        </div>-->
-                    <!--                                        <label class="bkt-check__label">-->
-                    <!--                                            Банкротство-->
-                    <!--                                        </label>-->
-                    <!--                                    </div>-->
-                    <!--                                </div>-->
-                    <!--                                <div class="bkt-check__wrapper">-->
-                    <!--                                    <div class="bkt-check">-->
-                    <!--                                        <div class="bkt-check__input">-->
-                    <!--                                            <input class="" type="checkbox">-->
-                    <!--                                            <div class="bkt-check__input-check"></div>-->
-                    <!--                                        </div>-->
-                    <!--                                        <label class="bkt-check__label">-->
-                    <!--                                            TorgiGov-->
-                    <!--                                        </label>-->
-                    <!--                                    </div>-->
-                    <!--                                </div>-->
-                    <!--                                <div class="bkt-check__wrapper">-->
-                    <!--                                    <div class="bkt-check">-->
-                    <!--                                        <div class="bkt-check__input">-->
-                    <!--                                            <input class="" type="checkbox">-->
-                    <!--                                            <div class="bkt-check__input-check"></div>-->
-                    <!--                                        </div>-->
-                    <!--                                        <label class="bkt-check__label">-->
-                    <!--                                            Залоговое-->
-                    <!--                                        </label>-->
-                    <!--                                    </div>-->
-                    <!--                                </div>-->
-                    <!--                                <div class="bkt-check__wrapper">-->
-                    <!--                                    <div class="bkt-check">-->
-                    <!--                                        <div class="bkt-check__input">-->
-                    <!--                                            <input class="" type="checkbox">-->
-                    <!--                                            <div class="bkt-check__input-check"></div>-->
-                    <!--                                        </div>-->
-                    <!--                                        <label class="bkt-check__label">-->
-                    <!--                                            Коммерческое-->
-                    <!--                                        </label>-->
-                    <!--                                    </div>-->
-                    <!--                                </div>-->
-                    <!--                            </div>-->
-                    <!--                        </div>-->
-                    <!--                    </div>-->
-                </div>
-                <div class="col-12 p-0">
-                    <div class="bkt-form m-0">
-                        <div class="col-12 col-lg-2">
-                            <h5 class="bkt-form__label">вид торгов</h5>
-                        </div>
-                        <div class="col-12 col-lg-10">
-                            <div class="bkt-form bkt-wrapper bkt-auctions-types">
-                                <div class="bkt-auctions-type" v-for="item in auctionTypes">
-                                    <button class="bkt-auctions-type__card bkt-auctions-type__title bkt-bg-body"
-                                            @click="filter.tradeType=item.title"
-                                            :class="[filter.tradeType===item.title ? 'bkt-border-primary': 'bkt-border-body']">
-                                        {{item.description}}
-                                    </button>
-                                    <h6 class="bkt-auctions-type__subtitle">что это?</h6>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                    </star-rating>
+                    <p class="bkt-input-error" v-if="errors.length>0">{{errors[0]}}</p>
+                </ValidationProvider>
+                <bkt-textarea v-model="rating.comment"
+                              label="мой комментарий (вижу только я)"
+                              name="comment"
+                              class="w-100"
+                              rows="4"
+                              rules="required"
+                              no_group_item
+                >
+                </bkt-textarea>
             </div>
         </template>
     </bkt-modal>
 </template>
 
 <script>
+    import StarRating from "vue-star-rating";
+
     export default {
-        name: "RatingModal"
+        name: "RatingModal",
+        props: {
+            type: {
+                type: String,
+                default: 'organizer'
+            },
+            bidderId: {
+                type: [String, Number],
+                default: '0'
+            }
+        },
+        components: {
+            StarRating
+        },
+        data() {
+            return {
+                loading: false,
+                rating: {
+                    estimate: 0,
+                    comment: "",
+                    bidderId: 0,
+                    type: "organizer"
+                }
+            };
+        },
+        methods: {
+            cancel() {
+                this.$store.commit('closeModal', '#ratingModal');
+                this.rating = {
+                    estimate: 0,
+                    comment: "",
+                    bidderId: this.bidderId,
+                    type: this.type
+                }
+            },
+            save() {
+                this.loading = true;
+                this.rating.bidderId = this.bidderId;
+                this.rating.type = this.type;
+                this.$store.dispatch('estimateBidder', this.rating)
+                    .then(resp => {
+                        this.loading = false;
+                        this.$emit('estimated', resp.data);
+                        this.$store.dispatch('sendNotification',
+                            {self: this, message: 'Оценка успешно сохранена'});
+                        this.cancel();
+                    }).catch(error => {
+                    this.loading = false;
+                })
+            }
+        }
     }
 </script>
 

@@ -2,50 +2,50 @@
     <bkt-modal :id="'messagePageModal'" :title="''" modal_class="bkt-filters-modal" no_footer
     >
         <template #body>
-            <div class="bkt-page mx-0">
-<!--                <iframe width="100%" height="500px" frameborder="0" ref="test"-->
-<!--                        allowtransparency="true" :src="url" allow-same-origin allowfullscreen-->
-
-<!--                >-->
-<!--                    &lt;!&ndash;                scrolling="no"&ndash;&gt;-->
-<!--                </iframe>-->
-<!--                <div v-html="page" id="shadow"></div>-->
+            <div v-if="!loading" class="bkt-page mx-0">
+                <div v-html="page"></div>
             </div>
-<!--            <show-hello name="John"></show-hello>-->
-<!--            <embedded-webview-->
-<!--               src="https://old.bankrot.fedresurs.ru/MessageWindow.aspx?ID=8E17E5C3280645A955641C6C7BB72B2E"-->
-<!--            ></embedded-webview>-->
+            <div v-if="loading" class="d-flex w-100 justify-content-center my-5">
+                <slot name="loading">
+                    <div
+                        style="color: #2953ff;border-width: 2px;"
+                        class="spinner-border"
+                        role="status"
+                    ></div>
+                </slot>
+            </div>
         </template>
     </bkt-modal>
 </template>
 
 <script>
-    // customElements.define('embedded-webview', class extends HTMLElement {
-    //     connectedCallback() {
-    //         fetch(this.getAttribute('src'))
-    //             .then(response => response.html())
-    //             .then(html => {
-    //                 const shadow = this.attachShadow({ mode: 'closed' });
-    //                 shadow.innerHTML = html;
-    //             });
-    //     }
-    // });
-
     export default {
         name: "MessagePageModal",
         // props:['url'],
         data() {
             return {
-                url: '',
-                page: ''
+                guid: '',
+                page: '',
+                loading: false,
             }
         },
         mounted() {
 
         },
         methods: {
-            setUrl(value) {
-                this.url = value;
+            setGuid(value) {
+                this.guid = value;
+                this.getPage();
+            },
+            getPage() {
+                this.loading = true;
+                this.$store.dispatch('getDebtorMessagePage', this.guid)
+                    .then(resp => {
+                        this.page = resp.data.html;
+                        this.loading = false;
+                    }).catch(error => {
+                    this.loading = false;
+                })
             }
         }
     }

@@ -15,7 +15,7 @@
         props: {
             color:{
                 type:String,
-                default:'purple'
+                default:'pink'
             },
             stroke:{
                 type:String,
