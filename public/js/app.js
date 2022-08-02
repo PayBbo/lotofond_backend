@@ -12867,23 +12867,22 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js");
-/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
-/* harmony import */ var _shared__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./shared */ "./resources/js/store/shared.js");
-/* harmony import */ var _trades__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./trades */ "./resources/js/store/trades.js");
-/* harmony import */ var _auth__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./auth */ "./resources/js/store/auth.js");
-/* harmony import */ var _filters__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./filters */ "./resources/js/store/filters.js");
-/* harmony import */ var _marks__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./marks */ "./resources/js/store/marks.js");
-/* harmony import */ var _lots__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./lots */ "./resources/js/store/lots.js");
-/* harmony import */ var _favourites__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./favourites */ "./resources/js/store/favourites.js");
-/* harmony import */ var _monitoring__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./monitoring */ "./resources/js/store/monitoring.js");
-/* harmony import */ var _bidders__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./bidders */ "./resources/js/store/bidders.js");
-/* harmony import */ var _filtersData__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./filtersData */ "./resources/js/store/filtersData.js");
-/* harmony import */ var _admin__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./admin */ "./resources/js/store/admin.js");
-/* harmony import */ var _events__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./events */ "./resources/js/store/events.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js");
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var _shared__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./shared */ "./resources/js/store/shared.js");
+/* harmony import */ var _trades__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./trades */ "./resources/js/store/trades.js");
+/* harmony import */ var _auth__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./auth */ "./resources/js/store/auth.js");
+/* harmony import */ var _filters__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./filters */ "./resources/js/store/filters.js");
+/* harmony import */ var _marks__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./marks */ "./resources/js/store/marks.js");
+/* harmony import */ var _lots__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./lots */ "./resources/js/store/lots.js");
+/* harmony import */ var _favourites__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./favourites */ "./resources/js/store/favourites.js");
+/* harmony import */ var _monitoring__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./monitoring */ "./resources/js/store/monitoring.js");
+/* harmony import */ var _bidders__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./bidders */ "./resources/js/store/bidders.js");
+/* harmony import */ var _filtersData__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./filtersData */ "./resources/js/store/filtersData.js");
+/* harmony import */ var _admin__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./admin */ "./resources/js/store/admin.js");
+/* harmony import */ var _events__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./events */ "./resources/js/store/events.js");
 
 
-vue__WEBPACK_IMPORTED_MODULE_0__["default"].use(vuex__WEBPACK_IMPORTED_MODULE_1__["default"]);
 
 
 
@@ -12897,21 +12896,22 @@ vue__WEBPACK_IMPORTED_MODULE_0__["default"].use(vuex__WEBPACK_IMPORTED_MODULE_1_
 
 
 
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
+vue__WEBPACK_IMPORTED_MODULE_12__["default"].use(vuex__WEBPACK_IMPORTED_MODULE_13__["default"]);
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (new vuex__WEBPACK_IMPORTED_MODULE_13__["default"].Store({
   namespaced: false,
   modules: {
-    shared: _shared__WEBPACK_IMPORTED_MODULE_2__["default"],
-    auth: _auth__WEBPACK_IMPORTED_MODULE_4__["default"],
-    trades: _trades__WEBPACK_IMPORTED_MODULE_3__["default"],
-    filters: _filters__WEBPACK_IMPORTED_MODULE_5__["default"],
-    marks: _marks__WEBPACK_IMPORTED_MODULE_6__["default"],
-    lots: _lots__WEBPACK_IMPORTED_MODULE_7__["default"],
-    favourites: _favourites__WEBPACK_IMPORTED_MODULE_8__["default"],
-    monitoring: _monitoring__WEBPACK_IMPORTED_MODULE_9__["default"],
-    bidders: _bidders__WEBPACK_IMPORTED_MODULE_10__["default"],
-    filtersData: _filtersData__WEBPACK_IMPORTED_MODULE_11__["default"],
-    events: _events__WEBPACK_IMPORTED_MODULE_13__["default"],
-    admin: _admin__WEBPACK_IMPORTED_MODULE_12__["default"]
+    shared: _shared__WEBPACK_IMPORTED_MODULE_0__["default"],
+    auth: _auth__WEBPACK_IMPORTED_MODULE_2__["default"],
+    trades: _trades__WEBPACK_IMPORTED_MODULE_1__["default"],
+    filters: _filters__WEBPACK_IMPORTED_MODULE_3__["default"],
+    marks: _marks__WEBPACK_IMPORTED_MODULE_4__["default"],
+    lots: _lots__WEBPACK_IMPORTED_MODULE_5__["default"],
+    favourites: _favourites__WEBPACK_IMPORTED_MODULE_6__["default"],
+    monitoring: _monitoring__WEBPACK_IMPORTED_MODULE_7__["default"],
+    bidders: _bidders__WEBPACK_IMPORTED_MODULE_8__["default"],
+    filtersData: _filtersData__WEBPACK_IMPORTED_MODULE_9__["default"],
+    events: _events__WEBPACK_IMPORTED_MODULE_11__["default"],
+    admin: _admin__WEBPACK_IMPORTED_MODULE_10__["default"]
   }
 }));
 
