@@ -33,6 +33,7 @@ class LoginController extends Controller
             {
                 $user = User::where('phone', $request->phone)->first();
                 $username = $request->phone;
+                $password = $request->password;
                 break;
             }
             /*case 'gosuslugi':
