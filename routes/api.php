@@ -97,7 +97,7 @@ Route::group(['middleware' => ['json.response', 'localization']], function () {
 
     Route::get('/messages/filter/types', [FilterController::class, 'getRegistryTypesForFilter']);
 
-    Route::get('/text-data', [DataController::class, 'getTextData']);
+    Route::get('/text-data/{type}', [DataController::class, 'getTextData']);
 
     Route::group(['prefix' => 'bidders'], function () {
 

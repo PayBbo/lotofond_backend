@@ -2837,8 +2837,18 @@ paths:
                 $ref: '#/components/schemas/Error'
       security:
         - bearerAuth: [ ]
-  /text-data:
+  /text-data/{type}:
     get:
+      parameters:
+        - name: type
+          in: path
+          schema:
+            type: string
+            enum:
+              - info
+              - help
+              - about
+              - contacts
       tags:
         - TextData
       summary: получение данных для страниц помощи, контакты, о приложении и тд
