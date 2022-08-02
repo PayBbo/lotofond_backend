@@ -98,7 +98,8 @@ class ParseTrades implements ShouldQueue
                             }
                         }
                     }catch(\Exception $e){
-                        dispatch(new ParseTrades);
+                        logger('ParseTrades');
+                        logger($e);
                     }
                 }
             }

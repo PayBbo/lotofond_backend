@@ -1,21 +1,14 @@
 <?php
 
-namespace App\Jobs;
+namespace App\Http\Services\Parse;
 
 use App\Models\Lot;
 use App\Models\LotParam;
 use App\Models\Param;
 use App\Models\Region;
-use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Foundation\Bus\Dispatchable;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Queue\SerializesModels;
 
-class ParseDataFromRosreestr implements ShouldQueue
+class ParseDataFromRosreestrService
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
-
     protected $cadastralNumber;
 
     /**
