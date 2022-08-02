@@ -132,6 +132,9 @@ export default {
         * /bidders/debtor/messages
         * Сообщения о должнике
         *
+        * GET
+        * /bidders/debtor/message/{guid}
+        * Сообщение html о должнике
         */
         async getBidderLots({commit, state}, payload) {
             return await axios({
@@ -272,6 +275,12 @@ export default {
                 dispatch('saveDataProperty', {module_key: 'bidders', state_key: 'messages', key: 'loading', value: false}, {root: true});
                 throw error
             }
+        },
+        async getDebtorMessagePage({commit, state}, payload) {
+            return await axios({
+                method: 'get',
+                url: '/api/bidders/debtor/message/'+ payload,
+            })
         },
     },
 };

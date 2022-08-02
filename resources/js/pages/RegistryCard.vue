@@ -79,109 +79,84 @@
                             <td>
                                 Организационная форма
                             </td>
-                            <td>-
+                            <td>
+                                -
                             </td>
                         </tr>
-                        <tr v-if="item.region">
+                        <tr v-if="item[item_type] && item[item_type].region">
                             <td>
                                 Регион
                             </td>
-                            <td>{{item.region}}
+                            <td>
+                                {{item[item_type].region ? $t('regions.'+item[item_type].region) : '-'}}
                             </td>
                         </tr>
-                        <tr v-if="item.address">
+                        <tr v-if="item[item_type] && item[item_type].address">
                             <td>
                                 Адрес
                             </td>
                             <td>
-                                {{item.address}}
+                                {{item[item_type].address ? item[item_type].address : '-'}}
                             </td>
                         </tr>
                         <tr v-if="item.inn">
                             <td>ИНН</td>
                             <td>
-                                {{item.inn}}
+                                {{item.inn ? item.inn : '-'}}
                             </td>
                         </tr>
-                        <tr v-if="item.sroAU">
+                        <tr v-if="item[item_type] && item[item_type].sroAU">
                             <td>
                                 СРО
                             </td>
                             <td>
-                                {{item.sroAU}}
+                                {{item[item_type].sroAU ? item[item_type].sroAU : '-'}}
                             </td>
                         </tr>
-                        <tr v-if="item_type == 'arbitration-manager'">
+                        <tr v-if="item_type == 'arbitrationManager'">
                             <td>
                                 Номер регистрации
                             </td>
                             <td>
-                                -
+                                {{item.arbitrationManager && item.arbitrationManager.regNum ? item.arbitrationManager.regNum : '-'}}
                             </td>
                         </tr>
-                        <tr v-if="item_type == 'arbitration-manager'">
+                        <tr v-if="item_type == 'arbitrationManager'">
                             <td>
                                 Дата регистрации
                             </td>
                             <td>
-                                -
+                                {{item.arbitrationManager && item.arbitrationManager.regDate ? item.arbitrationManager.regDate : '-'}}
                             </td>
                         </tr>
-                        <tr v-if="item.ogrn">
+                        <tr v-if="item[item_type] && item[item_type].ogrn">
                             <td>
                                 ОГРН
                             </td>
-                            <td>-</td>
-                        </tr>
-                        <tr v-if="item_type == 'arbitrationManager'">
                             <td>
-                                Оценка арбитражного управляющего
-                            </td>
-                            <td>
-                                <div class="rating">
-                                    <div class="result_wrapper">
-                                        <span class="result">3 / 5</span>
-                                        <div class="rating-result">
-                                            <span class="active"></span>
-                                            <span class="active"></span>
-                                            <span class="active"></span>
-                                            <span></span>
-                                            <span></span>
-                                        </div>
-                                    </div>
-                                    <button class="bkt-button bkt-bg-body">ОЦЕНИТЬ
-                                        <svg fill="#ffc515" width="8" height="12"
-                                             viewBox="0 0 8 12"
-                                             class="bkt-button__icon bkt-fill-primary"
-                                             style="margin-left: 10px;">
-                                            <path
-                                                d="M0 10.5801L4.58 6.00012L0 1.41012L1.41 0.00012207L7.41 6.00012L1.41 12.0001L0 10.5801Z">
-                                            </path>
-                                        </svg>
-                                    </button>
-                                </div>
+                                {{item[item_type].ogrn ? item[item_type].ogrn : '-'}}
                             </td>
                         </tr>
-                        <tr v-if="item_type == 'organizer'">
+                        <tr v-if="item_type == 'arbitrationManager' || item_type == 'organizer'">
                             <td>
-                                Оценка организатора
+                                Оценка {{ item_type == 'arbitrationManager' ? 'арбитражного управляющего' : 'организатора'}}
                             </td>
                             <td>
                                 <div class="bkt-wrapper-between align-items-center bkt-registry-rating">
-                                    <button class="bkt-button next">
+                                    <button v-if="item_type == 'organizer'" class="bkt-button next">
                                         мои победы
                                         <span class="bkt-text-red"
                                               style="text-transform: initial"> (добавьте ИНН)  </span>
                                         <bkt-icon name="ArrowDown" color="green"></bkt-icon>
                                     </button>
-                                    <div class="bkt-rating text-center">
-                                        <h6>3,3 / 5</h6>
-                                        <star-rating :show-rating="false" :rating="3.3" :read-only="true"
+                                    <div v-if="item[item_type] && item[item_type].rating" class="bkt-rating text-center">
+                                        <h6>{{item[item_type].rating.estimate ? item[item_type].rating.estimate : 0}} / 5</h6>
+                                        <star-rating :show-rating="false" :rating="item[item_type].rating.estimate" :read-only="true"
                                                      :star-size="16"
                                                      :increment="0.01" :rounded-corners="false"></star-rating>
                                     </div>
-                                    <button class="bkt-button bkt-button_rating">
-                                        оценить организатора
+                                    <button class="bkt-button bkt-button_rating" data-bs-toggle="modal" data-bs-target="#ratingModal">
+                                        оценить
                                         <bkt-icon name="ArrowDown" color="primary"
                                                   class="bkt-rotate-270"></bkt-icon>
                                     </button>
@@ -293,12 +268,18 @@
               </bkt-table>
             </template>
         </bkt-collapse>
+        <bkt-rating-modal v-if="item_type == 'arbitrationManager' || item_type == 'organizer'"
+                          :type="item_type" :bidder-id="item.id" @estimated="estimated"
+        >
+
+        </bkt-rating-modal>
     </div>
 </template>
 
 <script>
     import BktTable from "../components/Table";
     import StarRating from "vue-star-rating";
+    import BktRatingModal from "./LotCard/RatingModal";
     import {
         Hooper,
         Slide,
@@ -315,7 +296,8 @@
             Hooper,
             Slide,
             HooperNavigation,
-            MiniTradeCard
+            MiniTradeCard,
+            BktRatingModal
         },
         data() {
             return {
@@ -413,6 +395,10 @@
             },
             changeStatus(payload) {
                 Vue.set(this.item, payload.key, payload.value)
+            },
+            estimated(value) {
+                console.log('estimated', value)
+                Vue.set(this.item[this.item_type], 'rating', value)
             }
         }
     }

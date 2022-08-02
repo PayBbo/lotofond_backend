@@ -9,10 +9,10 @@
                     <slot name="aside">
                     </slot>
                     <ValidationObserver v-slot="{ invalid }" tag="div" class="modal-content bkt-modal-content">
-                        <div class="bkt-modal-header" :invalid="invalid" v-if="!no_header">
-                            <slot name="header">
-                                <slot name="title" v-if="title">
-                                    <h3 class="bkt-modal__title" v-html="title">{{title}}</h3>
+                        <div class="bkt-modal-header"  v-if="!no_header">
+                            <slot name="header" :invalid="invalid">
+                                <slot name="title" >
+                                    <h3 class="bkt-modal__title" v-if="title" v-html="title">{{title}}</h3>
                                 </slot>
                                 <button type="button" :class="close_button_class" data-bs-dismiss="modal"
                                         aria-label="Close">
@@ -84,7 +84,7 @@
             },
             right_button_class: {
                 type: String,
-                default: 'bkt-button bkt-bg-primary bkt-modal-save'
+                default: 'bkt-button primary bkt-modal-save'
             },
             left_button_class: {
                 type: String,

@@ -15,6 +15,7 @@ return [
         'BiddingFail' => 'Торги не состоялись',
         'BiddingPause' => 'Торги приостановлены',
         'BiddingResume' => 'Торги возобновлены',
+        'finished' => 'Торги завершены',
     ],
     'type' => [
         'OpenAuction' => 'Открытый аукцион',

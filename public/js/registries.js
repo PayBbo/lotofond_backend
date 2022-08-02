@@ -1057,7 +1057,8 @@ __webpack_require__.r(__webpack_exports__);
       {
         title: 'дате',
         value: 'date'
-      }]
+      }],
+      message_page_loading: false
     };
   },
   computed: {
@@ -1166,9 +1167,11 @@ __webpack_require__.r(__webpack_exports__);
       var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
       this.$store.dispatch('getDebtorMessages', this.messages_filters);
     },
-    seeMessagePage: function seeMessagePage(url) {
-      var newWin = window.open(url, 'example', 'width=600,height=400'); // this.$refs.messagePageModal.setUrl(url);
-      // this.$store.commit('openModal', '#messagePageModal');
+    seeMessagePage: function seeMessagePage(guid) {
+      // var newWin = window.open(url, 'example', 'width=600,height=400')
+      console.log('guid', guid);
+      this.$refs.messagePageModal.setGuid(guid);
+      this.$store.commit('openModal', '#messagePageModal');
     },
     saveMessagesFilters: function saveMessagesFilters(payload) {
       this.$store.dispatch('saveDataProperty', {
@@ -1212,30 +1215,32 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-// customElements.define('embedded-webview', class extends HTMLElement {
-//     connectedCallback() {
-//         fetch(this.getAttribute('src'))
-//             .then(response => response.html())
-//             .then(html => {
-//                 const shadow = this.attachShadow({ mode: 'closed' });
-//                 shadow.innerHTML = html;
-//             });
-//     }
-// });
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "MessagePageModal",
   // props:['url'],
   data: function data() {
     return {
-      url: '',
-      page: ''
+      guid: '',
+      page: '',
+      loading: false
     };
   },
   mounted: function mounted() {},
   methods: {
-    setUrl: function setUrl(value) {
-      this.url = value;
+    setGuid: function setGuid(value) {
+      this.guid = value;
+      this.getPage();
+    },
+    getPage: function getPage() {
+      var _this = this;
+
+      this.loading = true;
+      this.$store.dispatch('getDebtorMessagePage', this.guid).then(function (resp) {
+        _this.page = resp.data.html;
+        _this.loading = false;
+      })["catch"](function (error) {
+        _this.loading = false;
+      });
     }
   }
 });
@@ -3756,9 +3761,7 @@ var render = function () {
                                   {
                                     on: {
                                       click: function ($event) {
-                                        return _vm.seeMessagePage(
-                                          item.messageUrl
-                                        )
+                                        return _vm.seeMessagePage(item.guid)
                                       },
                                     },
                                   },
@@ -3882,15 +3885,47 @@ var render = function () {
       modal_class: "bkt-filters-modal",
       no_footer: "",
     },
-    scopedSlots: _vm._u([
-      {
-        key: "body",
-        fn: function () {
-          return [_c("div", { staticClass: "bkt-page mx-0" })]
+    scopedSlots: _vm._u(
+      [
+        {
+          key: "body",
+          fn: function () {
+            return [
+              !_vm.loading
+                ? _c("div", { staticClass: "bkt-page mx-0" }, [
+                    _c("div", { domProps: { innerHTML: _vm._s(_vm.page) } }),
+                  ])
+                : _vm._e(),
+              _vm._v(" "),
+              _vm.loading
+                ? _c(
+                    "div",
+                    { staticClass: "d-flex w-100 justify-content-center my-5" },
+                    [
+                      _vm._t("loading", function () {
+                        return [
+                          _c("div", {
+                            staticClass: "spinner-border",
+                            staticStyle: {
+                              color: "#2953ff",
+                              "border-width": "2px",
+                            },
+                            attrs: { role: "status" },
+                          }),
+                        ]
+                      }),
+                    ],
+                    2
+                  )
+                : _vm._e(),
+            ]
+          },
+          proxy: true,
         },
-        proxy: true,
-      },
-    ]),
+      ],
+      null,
+      true
+    ),
   })
 }
 var staticRenderFns = []

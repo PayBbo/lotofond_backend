@@ -17515,6 +17515,8 @@ ul.bkt-contents .bkt-contents__answer {
 
 .bkt-lot-card {
   gap: 30px;
+  display: flex;
+  flex-direction: column;
 }
 .bkt-lot-card-actions-nav .bkt-trading-number {
   font-size: 14px;
@@ -17544,7 +17546,7 @@ ul.bkt-contents .bkt-contents__answer {
 }
 .bkt-lot-card__cards {
   gap: 30px 0;
-  margin: 30px auto;
+  margin: 0 auto;
 }
 .bkt-main .bkt-lot-card-card.bkt-card, .bkt-main .bkt-lot-card-card.bkt-card__row, .bkt-main .bkt-lot-card-card.bkt-shadow-card__inner {
   margin: 0;
@@ -17857,9 +17859,24 @@ ul.bkt-contents .bkt-contents__answer {
 .bkt-lot-card-active-lots .bkt-collapse__header {
   gap: 10px;
 }
+.bkt-lot-card .bkt-shadow-card__inner {
+  padding: 60px;
+}
+.bkt-lot-card .bkt-shadow-card__title {
+  font-size: 18px;
+  font-weight: 200;
+  color: white;
+}
+.bkt-lot-card .bkt-shadow-card__title span {
+  font-weight: 700;
+}
 @media screen and (max-width: 568px) {
+  .bkt-lot-card {
+    gap: 15px;
+  }
   .bkt-lot-card__cards > * {
     padding: 0;
+    gap: 15px;
   }
   .bkt-lot-card .bkt-card-ecp-wrapper {
     gap: 4px;
@@ -17873,6 +17890,20 @@ ul.bkt-contents .bkt-contents__answer {
     line-height: 1.2;
     padding: 9px 15px;
     border-radius: 10px;
+  }
+  .bkt-lot-card .bkt-shadow-card__inner {
+    padding: 40px 24px;
+  }
+  .bkt-lot-card .bkt-shadow-card__inner .bkt-button, .bkt-lot-card .bkt-shadow-card__inner .bkt-button-link, .bkt-lot-card .bkt-shadow-card__inner .bkt-button-icon, .bkt-lot-card .bkt-shadow-card__inner .bkt-button_save, .bkt-lot-card .bkt-shadow-card__inner .bkt-button_delete {
+    width: 100%;
+  }
+  .bkt-lot-card .bkt-shadow-card__title {
+    font-size: 14px;
+    font-weight: 200;
+    color: white;
+  }
+  .bkt-lot-card .bkt-shadow-card__title span {
+    font-weight: 700;
   }
 }
 @media screen and (max-width: 991px) {
@@ -19569,12 +19600,16 @@ ul.bkt-contents .bkt-contents__answer {
   flex-wrap: nowrap;
 }
 .bkt-auctions__filters-header .bkt-button, .bkt-auctions__filters-header .bkt-button-link, .bkt-auctions__filters-header .bkt-button-icon, .bkt-auctions__filters-header .bkt-button_save, .bkt-auctions__filters-header .bkt-button_delete {
-  width: 110px;
+  max-width: 110px;
+  width: 100%;
   height: 70px;
   border-radius: 15px;
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-shrink: 1;
+  flex-grow: 1;
+  padding: 15px;
 }
 .bkt-auctions__filters-content {
   gap: 20px;
@@ -19690,7 +19725,7 @@ ul.bkt-contents .bkt-contents__answer {
     padding: 16px;
   }
 }
-@media screen and (max-width: 990px) {
+@media screen and (max-width: 992px) {
   .bkt-auctions__filters-header {
     gap: 10px;
     display: flex;
