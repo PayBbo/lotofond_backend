@@ -1,0 +1,28 @@
+<?php
+function toNumbers($d) {
+      $e = [];
+      preg_match_all('/(..)/', $d, $matches, PREG_SET_ORDER, 0);
+      foreach ($matches as $value) {
+      	array_push($e, intval($value[0], 16));
+      }
+      return $e;
+}
+$a = toNumbers("74427e6ccd878971032462bd10b505c4");
+$b = toNumbers("9312c8c1150850d710b88a95061641df");
+$c = toNumbers("36ce07066391f4ee725f2728c2649678");
+
+$now = new DateTime();
+echo $now;
+echo '   ';
+$now += 3600 * 1000;
+echo $now;
+echo '   ';
+$now = $now.time()*1000;
+echo $now;
+echo '   ';
+
+echo date('Y-m-d\TH:i:s.000\Z');
+
+//$decode = "74";
+//$int = intval($decode, 16);
+//echo $int;

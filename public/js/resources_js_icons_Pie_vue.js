@@ -27,7 +27,7 @@ __webpack_require__.r(__webpack_exports__);
   props: {
     color: {
       type: String,
-      "default": 'purple'
+      "default": 'pink'
     },
     stroke: {
       type: String,

@@ -2,6 +2,8 @@
 
 namespace App\Jobs;
 
+use App\Exceptions\CustomExceptions\BaseException;
+use Exception;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -40,11 +42,15 @@ class SendApplication implements ShouldQueue
         $toEmail = $this->email;
         $html = $this->html;
         $subject = $this->subject;
-        Mail::send([], [], function ($message) use ($toEmail, $html, $subject) {
-            $message->from('bankr0t.t@yandex.ru', 'LotoFond');
-            $message->to($toEmail);
-            $message->subject($subject);
-            $message->setBody($html, 'text/html');
-        });
+        try {
+            Mail::send([], [], function ($message) use ($toEmail, $html, $subject) {
+                $message->from('bankr0t.t@yandex.ru', 'LotoFond');
+                $message->to($toEmail);
+                $message->subject($subject);
+                $message->setBody($html, 'text/html');
+            });
+        }catch (Exception $e) {
+            throw new BaseException("ERR_SEND_MESSAGE_FAILED", 550, __('validation.message_err'));
+        }
     }
 }

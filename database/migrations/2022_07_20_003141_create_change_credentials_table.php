@@ -19,8 +19,8 @@ class CreateChangeCredentialsTable extends Migration
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')
                 ->on('users')->cascadeOnDelete();
-            $table->string('email')->unique()->nullable();
-            $table->string('phone')->unique()->nullable();
+            $table->string('email')->nullable();
+            $table->string('phone')->nullable();
             $table->string('token');
             $table->boolean('is_old_credentials')->default(false);
             $table->boolean('is_submitted_old_credentials')->default(false);

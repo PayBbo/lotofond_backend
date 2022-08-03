@@ -2,7 +2,6 @@
 
 namespace App\Http\Services\Parse;
 
-use App\Jobs\ParseDataFromRosreestr;
 use App\Models\Category;
 use App\Models\Lot;
 use App\Models\LotFile;
@@ -106,7 +105,8 @@ class TradeService
             if (count($matches[0]) > 0) {
                 foreach (array_unique($matches[0]) as $match) {
                     $lot->params()->attach(Param::find(4), ['value' => $match, 'parent_id' => null]);
-                    dispatch(new ParseDataFromRosreestr($match));
+                    $parseDataFromRosreestr = new ParseDataFromRosreestrService($match);
+                    $parseDataFromRosreestr->handle();
                 }
             }
             $avto_number = '/' . $this->getAvtoNumberRegex() . '/um';

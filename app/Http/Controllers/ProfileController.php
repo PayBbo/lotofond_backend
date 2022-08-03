@@ -66,11 +66,12 @@ class ProfileController extends Controller
                 if(!$request->haveAccessToOldCredentials && !$request->isOldCredentials){
                     $sendCode->sendEmailWarning($user->email, $request->email);
                 }elseif(!$request->haveAccessToOldCredentials && $request->isOldCredentials){
+                    if(is_null($user->phone)){
+                        throw new BaseException("ERR_INCORRECT_DATA", 422, 'Value does not exist');
+                    }
                     $sendCode->sendPhoneCode($user->phone, $code);
                 }
                 else{
-                    if($request->email == $user->email){
-                    }
                     $sendCode->sendEmailCode($request->email, $code);
                 }
                 $changeCredentials->email = $request->email;
@@ -81,7 +82,11 @@ class ProfileController extends Controller
                 if(!$request->haveAccessToOldCredentials && !$request->isOldCredentials){
                     $sendCode->sendPhoneWarning($user->phone, $request->phone);
                 }elseif(!$request->haveAccessToOldCredentials && $request->isOldCredentials){
+                    if(is_null($user->email)){
+                        throw new BaseException("ERR_INCORRECT_DATA", 422, 'Value does not exist');
+                    }
                     $sendCode->sendEmailCode($user->email, $code);
+
                 }else{
                     $sendCode->sendPhoneCode($request->phone, $code);
                 }

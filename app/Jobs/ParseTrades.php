@@ -50,9 +50,9 @@ class ParseTrades implements ShouldQueue
                     $tradePlace->owner_name = $message->OwnerName;
                     $tradePlace->save();
                 }
-                if ($message->TradeList) {
+                if (array_key_exists('TradeList', $message)) {
                     try {
-                        foreach (get_object_vars($message->TradeList) as $val) {
+                       foreach (get_object_vars($message->TradeList) as $val) {
                             foreach ($val as $trade) {
                                 if (gettype($trade) == 'string') {
                                     $trade = json_decode($trade);
@@ -98,8 +98,14 @@ class ParseTrades implements ShouldQueue
                             }
                         }
                     }catch(\Exception $e){
-                        dispatch(new ParseTrades);
+                        logger('ParseTrades');
+                        logger(json_encode($message));
+                        logger($e);
                     }
+                }else{
+                    $xml = $service->getTradeMessageContent($message->TradeMessage->ID);
+                    $get_trade_message_content = new GetTradeMessageContent($xml, $message->TradeMessage->Type);
+                    $get_trade_message_content->switchMessageType($tradePlace->id, $message, $message->TradeMessage->ID);
                 }
             }
         }

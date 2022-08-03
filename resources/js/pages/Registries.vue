@@ -266,7 +266,7 @@
                     <template #tbody_tr="{item}">
                         <td>{{item.date | moment('DD.MM.YYYY')}}</td>
                         <td>{{item.type ? item.type : ''}}
-                            <span @click="seeMessagePage(item.messageUrl)" v-if="item.files.length>0">
+                            <span @click="seeMessagePage(item.guid)" v-if="item.files.length>0">
                                 <bkt-icon name="Clip" color="primary" height="22px" width="15px"></bkt-icon>
                             </span>
                         </td>
@@ -351,6 +351,7 @@
                     // {title: 'идентификатору', value: 'id'},
                     {title: 'дате', value: 'date'},
                 ],
+                message_page_loading: false,
             }
         },
         computed: {
@@ -455,10 +456,11 @@
             getDebtorMessages(page = 1) {
                 this.$store.dispatch('getDebtorMessages', this.messages_filters);
             },
-            seeMessagePage(url) {
-                var newWin = window.open(url, 'example', 'width=600,height=400')
-                // this.$refs.messagePageModal.setUrl(url);
-                // this.$store.commit('openModal', '#messagePageModal');
+            seeMessagePage(guid) {
+                // var newWin = window.open(url, 'example', 'width=600,height=400')
+                console.log('guid', guid)
+                this.$refs.messagePageModal.setGuid(guid);
+                this.$store.commit('openModal', '#messagePageModal');
             },
             saveMessagesFilters(payload) {
                 this.$store.dispatch('saveDataProperty', {

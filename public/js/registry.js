@@ -90,8 +90,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "MiniTradeCard",
@@ -311,6 +309,117 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/pages/LotCard/RatingModal.vue?vue&type=script&lang=js&":
+/*!*********************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/pages/LotCard/RatingModal.vue?vue&type=script&lang=js& ***!
+  \*********************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var vue_star_rating__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue-star-rating */ "./node_modules/vue-star-rating/dist/VueStarRating.common.js");
+/* harmony import */ var vue_star_rating__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue_star_rating__WEBPACK_IMPORTED_MODULE_0__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  name: "RatingModal",
+  props: {
+    type: {
+      type: String,
+      "default": 'organizer'
+    },
+    bidderId: {
+      type: [String, Number],
+      "default": '0'
+    }
+  },
+  components: {
+    StarRating: (vue_star_rating__WEBPACK_IMPORTED_MODULE_0___default())
+  },
+  data: function data() {
+    return {
+      loading: false,
+      rating: {
+        estimate: 0,
+        comment: "",
+        bidderId: 0,
+        type: "organizer"
+      }
+    };
+  },
+  methods: {
+    cancel: function cancel() {
+      this.$store.commit('closeModal', '#ratingModal');
+      this.rating = {
+        estimate: 0,
+        comment: "",
+        bidderId: this.bidderId,
+        type: this.type
+      };
+    },
+    save: function save() {
+      var _this = this;
+
+      this.loading = true;
+      this.rating.bidderId = this.bidderId;
+      this.rating.type = this.type;
+      this.$store.dispatch('estimateBidder', this.rating).then(function (resp) {
+        _this.loading = false;
+
+        _this.$emit('estimated', resp.data);
+
+        _this.$store.dispatch('sendNotification', {
+          self: _this,
+          message: 'Оценка успешно сохранена'
+        });
+
+        _this.cancel();
+      })["catch"](function (error) {
+        _this.loading = false;
+      });
+    }
+  }
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/pages/RegistryCard.vue?vue&type=script&lang=js&":
 /*!**************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/pages/RegistryCard.vue?vue&type=script&lang=js& ***!
@@ -325,9 +434,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_Table__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../components/Table */ "./resources/js/components/Table.vue");
 /* harmony import */ var vue_star_rating__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue-star-rating */ "./node_modules/vue-star-rating/dist/VueStarRating.common.js");
 /* harmony import */ var vue_star_rating__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(vue_star_rating__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var hooper__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! hooper */ "./node_modules/hooper/dist/hooper.esm.js");
-/* harmony import */ var hooper_dist_hooper_css__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! hooper/dist/hooper.css */ "./node_modules/hooper/dist/hooper.css");
-/* harmony import */ var _components_MiniTradeCard__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../components/MiniTradeCard */ "./resources/js/components/MiniTradeCard.vue");
+/* harmony import */ var _LotCard_RatingModal__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./LotCard/RatingModal */ "./resources/js/pages/LotCard/RatingModal.vue");
+/* harmony import */ var hooper__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! hooper */ "./node_modules/hooper/dist/hooper.esm.js");
+/* harmony import */ var hooper_dist_hooper_css__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! hooper/dist/hooper.css */ "./node_modules/hooper/dist/hooper.css");
+/* harmony import */ var _components_MiniTradeCard__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../components/MiniTradeCard */ "./resources/js/components/MiniTradeCard.vue");
 function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 
 function _regeneratorRuntime() { "use strict"; /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/facebook/regenerator/blob/main/LICENSE */ _regeneratorRuntime = function _regeneratorRuntime() { return exports; }; var exports = {}, Op = Object.prototype, hasOwn = Op.hasOwnProperty, $Symbol = "function" == typeof Symbol ? Symbol : {}, iteratorSymbol = $Symbol.iterator || "@@iterator", asyncIteratorSymbol = $Symbol.asyncIterator || "@@asyncIterator", toStringTagSymbol = $Symbol.toStringTag || "@@toStringTag"; function define(obj, key, value) { return Object.defineProperty(obj, key, { value: value, enumerable: !0, configurable: !0, writable: !0 }), obj[key]; } try { define({}, ""); } catch (err) { define = function define(obj, key, value) { return obj[key] = value; }; } function wrap(innerFn, outerFn, self, tryLocsList) { var protoGenerator = outerFn && outerFn.prototype instanceof Generator ? outerFn : Generator, generator = Object.create(protoGenerator.prototype), context = new Context(tryLocsList || []); return generator._invoke = function (innerFn, self, context) { var state = "suspendedStart"; return function (method, arg) { if ("executing" === state) throw new Error("Generator is already running"); if ("completed" === state) { if ("throw" === method) throw arg; return doneResult(); } for (context.method = method, context.arg = arg;;) { var delegate = context.delegate; if (delegate) { var delegateResult = maybeInvokeDelegate(delegate, context); if (delegateResult) { if (delegateResult === ContinueSentinel) continue; return delegateResult; } } if ("next" === context.method) context.sent = context._sent = context.arg;else if ("throw" === context.method) { if ("suspendedStart" === state) throw state = "completed", context.arg; context.dispatchException(context.arg); } else "return" === context.method && context.abrupt("return", context.arg); state = "executing"; var record = tryCatch(innerFn, self, context); if ("normal" === record.type) { if (state = context.done ? "completed" : "suspendedYield", record.arg === ContinueSentinel) continue; return { value: record.arg, done: context.done }; } "throw" === record.type && (state = "completed", context.method = "throw", context.arg = record.arg); } }; }(innerFn, self, context), generator; } function tryCatch(fn, obj, arg) { try { return { type: "normal", arg: fn.call(obj, arg) }; } catch (err) { return { type: "throw", arg: err }; } } exports.wrap = wrap; var ContinueSentinel = {}; function Generator() {} function GeneratorFunction() {} function GeneratorFunctionPrototype() {} var IteratorPrototype = {}; define(IteratorPrototype, iteratorSymbol, function () { return this; }); var getProto = Object.getPrototypeOf, NativeIteratorPrototype = getProto && getProto(getProto(values([]))); NativeIteratorPrototype && NativeIteratorPrototype !== Op && hasOwn.call(NativeIteratorPrototype, iteratorSymbol) && (IteratorPrototype = NativeIteratorPrototype); var Gp = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(IteratorPrototype); function defineIteratorMethods(prototype) { ["next", "throw", "return"].forEach(function (method) { define(prototype, method, function (arg) { return this._invoke(method, arg); }); }); } function AsyncIterator(generator, PromiseImpl) { function invoke(method, arg, resolve, reject) { var record = tryCatch(generator[method], generator, arg); if ("throw" !== record.type) { var result = record.arg, value = result.value; return value && "object" == _typeof(value) && hasOwn.call(value, "__await") ? PromiseImpl.resolve(value.__await).then(function (value) { invoke("next", value, resolve, reject); }, function (err) { invoke("throw", err, resolve, reject); }) : PromiseImpl.resolve(value).then(function (unwrapped) { result.value = unwrapped, resolve(result); }, function (error) { return invoke("throw", error, resolve, reject); }); } reject(record.arg); } var previousPromise; this._invoke = function (method, arg) { function callInvokeWithMethodAndArg() { return new PromiseImpl(function (resolve, reject) { invoke(method, arg, resolve, reject); }); } return previousPromise = previousPromise ? previousPromise.then(callInvokeWithMethodAndArg, callInvokeWithMethodAndArg) : callInvokeWithMethodAndArg(); }; } function maybeInvokeDelegate(delegate, context) { var method = delegate.iterator[context.method]; if (undefined === method) { if (context.delegate = null, "throw" === context.method) { if (delegate.iterator["return"] && (context.method = "return", context.arg = undefined, maybeInvokeDelegate(delegate, context), "throw" === context.method)) return ContinueSentinel; context.method = "throw", context.arg = new TypeError("The iterator does not provide a 'throw' method"); } return ContinueSentinel; } var record = tryCatch(method, delegate.iterator, context.arg); if ("throw" === record.type) return context.method = "throw", context.arg = record.arg, context.delegate = null, ContinueSentinel; var info = record.arg; return info ? info.done ? (context[delegate.resultName] = info.value, context.next = delegate.nextLoc, "return" !== context.method && (context.method = "next", context.arg = undefined), context.delegate = null, ContinueSentinel) : info : (context.method = "throw", context.arg = new TypeError("iterator result is not an object"), context.delegate = null, ContinueSentinel); } function pushTryEntry(locs) { var entry = { tryLoc: locs[0] }; 1 in locs && (entry.catchLoc = locs[1]), 2 in locs && (entry.finallyLoc = locs[2], entry.afterLoc = locs[3]), this.tryEntries.push(entry); } function resetTryEntry(entry) { var record = entry.completion || {}; record.type = "normal", delete record.arg, entry.completion = record; } function Context(tryLocsList) { this.tryEntries = [{ tryLoc: "root" }], tryLocsList.forEach(pushTryEntry, this), this.reset(!0); } function values(iterable) { if (iterable) { var iteratorMethod = iterable[iteratorSymbol]; if (iteratorMethod) return iteratorMethod.call(iterable); if ("function" == typeof iterable.next) return iterable; if (!isNaN(iterable.length)) { var i = -1, next = function next() { for (; ++i < iterable.length;) { if (hasOwn.call(iterable, i)) return next.value = iterable[i], next.done = !1, next; } return next.value = undefined, next.done = !0, next; }; return next.next = next; } } return { next: doneResult }; } function doneResult() { return { value: undefined, done: !0 }; } return GeneratorFunction.prototype = GeneratorFunctionPrototype, define(Gp, "constructor", GeneratorFunctionPrototype), define(GeneratorFunctionPrototype, "constructor", GeneratorFunction), GeneratorFunction.displayName = define(GeneratorFunctionPrototype, toStringTagSymbol, "GeneratorFunction"), exports.isGeneratorFunction = function (genFun) { var ctor = "function" == typeof genFun && genFun.constructor; return !!ctor && (ctor === GeneratorFunction || "GeneratorFunction" === (ctor.displayName || ctor.name)); }, exports.mark = function (genFun) { return Object.setPrototypeOf ? Object.setPrototypeOf(genFun, GeneratorFunctionPrototype) : (genFun.__proto__ = GeneratorFunctionPrototype, define(genFun, toStringTagSymbol, "GeneratorFunction")), genFun.prototype = Object.create(Gp), genFun; }, exports.awrap = function (arg) { return { __await: arg }; }, defineIteratorMethods(AsyncIterator.prototype), define(AsyncIterator.prototype, asyncIteratorSymbol, function () { return this; }), exports.AsyncIterator = AsyncIterator, exports.async = function (innerFn, outerFn, self, tryLocsList, PromiseImpl) { void 0 === PromiseImpl && (PromiseImpl = Promise); var iter = new AsyncIterator(wrap(innerFn, outerFn, self, tryLocsList), PromiseImpl); return exports.isGeneratorFunction(outerFn) ? iter : iter.next().then(function (result) { return result.done ? result.value : iter.next(); }); }, defineIteratorMethods(Gp), define(Gp, toStringTagSymbol, "Generator"), define(Gp, iteratorSymbol, function () { return this; }), define(Gp, "toString", function () { return "[object Generator]"; }), exports.keys = function (object) { var keys = []; for (var key in object) { keys.push(key); } return keys.reverse(), function next() { for (; keys.length;) { var key = keys.pop(); if (key in object) return next.value = key, next.done = !1, next; } return next.done = !0, next; }; }, exports.values = values, Context.prototype = { constructor: Context, reset: function reset(skipTempReset) { if (this.prev = 0, this.next = 0, this.sent = this._sent = undefined, this.done = !1, this.delegate = null, this.method = "next", this.arg = undefined, this.tryEntries.forEach(resetTryEntry), !skipTempReset) for (var name in this) { "t" === name.charAt(0) && hasOwn.call(this, name) && !isNaN(+name.slice(1)) && (this[name] = undefined); } }, stop: function stop() { this.done = !0; var rootRecord = this.tryEntries[0].completion; if ("throw" === rootRecord.type) throw rootRecord.arg; return this.rval; }, dispatchException: function dispatchException(exception) { if (this.done) throw exception; var context = this; function handle(loc, caught) { return record.type = "throw", record.arg = exception, context.next = loc, caught && (context.method = "next", context.arg = undefined), !!caught; } for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i], record = entry.completion; if ("root" === entry.tryLoc) return handle("end"); if (entry.tryLoc <= this.prev) { var hasCatch = hasOwn.call(entry, "catchLoc"), hasFinally = hasOwn.call(entry, "finallyLoc"); if (hasCatch && hasFinally) { if (this.prev < entry.catchLoc) return handle(entry.catchLoc, !0); if (this.prev < entry.finallyLoc) return handle(entry.finallyLoc); } else if (hasCatch) { if (this.prev < entry.catchLoc) return handle(entry.catchLoc, !0); } else { if (!hasFinally) throw new Error("try statement without catch or finally"); if (this.prev < entry.finallyLoc) return handle(entry.finallyLoc); } } } }, abrupt: function abrupt(type, arg) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.tryLoc <= this.prev && hasOwn.call(entry, "finallyLoc") && this.prev < entry.finallyLoc) { var finallyEntry = entry; break; } } finallyEntry && ("break" === type || "continue" === type) && finallyEntry.tryLoc <= arg && arg <= finallyEntry.finallyLoc && (finallyEntry = null); var record = finallyEntry ? finallyEntry.completion : {}; return record.type = type, record.arg = arg, finallyEntry ? (this.method = "next", this.next = finallyEntry.finallyLoc, ContinueSentinel) : this.complete(record); }, complete: function complete(record, afterLoc) { if ("throw" === record.type) throw record.arg; return "break" === record.type || "continue" === record.type ? this.next = record.arg : "return" === record.type ? (this.rval = this.arg = record.arg, this.method = "return", this.next = "end") : "normal" === record.type && afterLoc && (this.next = afterLoc), ContinueSentinel; }, finish: function finish(finallyLoc) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.finallyLoc === finallyLoc) return this.complete(entry.completion, entry.afterLoc), resetTryEntry(entry), ContinueSentinel; } }, "catch": function _catch(tryLoc) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.tryLoc === tryLoc) { var record = entry.completion; if ("throw" === record.type) { var thrown = record.arg; resetTryEntry(entry); } return thrown; } } throw new Error("illegal catch attempt"); }, delegateYield: function delegateYield(iterable, resultName, nextLoc) { return this.delegate = { iterator: values(iterable), resultName: resultName, nextLoc: nextLoc }, "next" === this.method && (this.arg = undefined), ContinueSentinel; } }, exports; }
@@ -614,26 +724,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
+
 
 
 
@@ -644,10 +735,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   components: {
     BktTable: _components_Table__WEBPACK_IMPORTED_MODULE_0__["default"],
     StarRating: (vue_star_rating__WEBPACK_IMPORTED_MODULE_1___default()),
-    Hooper: hooper__WEBPACK_IMPORTED_MODULE_2__.Hooper,
-    Slide: hooper__WEBPACK_IMPORTED_MODULE_2__.Slide,
-    HooperNavigation: hooper__WEBPACK_IMPORTED_MODULE_2__.Navigation,
-    MiniTradeCard: _components_MiniTradeCard__WEBPACK_IMPORTED_MODULE_4__["default"]
+    Hooper: hooper__WEBPACK_IMPORTED_MODULE_3__.Hooper,
+    Slide: hooper__WEBPACK_IMPORTED_MODULE_3__.Slide,
+    HooperNavigation: hooper__WEBPACK_IMPORTED_MODULE_3__.Navigation,
+    MiniTradeCard: _components_MiniTradeCard__WEBPACK_IMPORTED_MODULE_5__["default"],
+    BktRatingModal: _LotCard_RatingModal__WEBPACK_IMPORTED_MODULE_2__["default"]
   },
   data: function data() {
     return {
@@ -823,6 +915,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     },
     changeStatus: function changeStatus(payload) {
       Vue.set(this.item, payload.key, payload.value);
+    },
+    estimated: function estimated(value) {
+      console.log('estimated', value);
+      Vue.set(this.item[this.item_type], 'rating', value);
     }
   }
 });
@@ -907,6 +1003,45 @@ component.options.__file = "resources/js/components/Table.vue"
 
 /***/ }),
 
+/***/ "./resources/js/pages/LotCard/RatingModal.vue":
+/*!****************************************************!*\
+  !*** ./resources/js/pages/LotCard/RatingModal.vue ***!
+  \****************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _RatingModal_vue_vue_type_template_id_d50b6e2e_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./RatingModal.vue?vue&type=template&id=d50b6e2e&scoped=true& */ "./resources/js/pages/LotCard/RatingModal.vue?vue&type=template&id=d50b6e2e&scoped=true&");
+/* harmony import */ var _RatingModal_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./RatingModal.vue?vue&type=script&lang=js& */ "./resources/js/pages/LotCard/RatingModal.vue?vue&type=script&lang=js&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+;
+var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _RatingModal_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _RatingModal_vue_vue_type_template_id_d50b6e2e_scoped_true___WEBPACK_IMPORTED_MODULE_0__.render,
+  _RatingModal_vue_vue_type_template_id_d50b6e2e_scoped_true___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
+  false,
+  null,
+  "d50b6e2e",
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/pages/LotCard/RatingModal.vue"
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (component.exports);
+
+/***/ }),
+
 /***/ "./resources/js/pages/RegistryCard.vue":
 /*!*********************************************!*\
   !*** ./resources/js/pages/RegistryCard.vue ***!
@@ -978,6 +1113,22 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/pages/LotCard/RatingModal.vue?vue&type=script&lang=js&":
+/*!*****************************************************************************!*\
+  !*** ./resources/js/pages/LotCard/RatingModal.vue?vue&type=script&lang=js& ***!
+  \*****************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_RatingModal_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./RatingModal.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/pages/LotCard/RatingModal.vue?vue&type=script&lang=js&");
+ /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_RatingModal_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
 /***/ "./resources/js/pages/RegistryCard.vue?vue&type=script&lang=js&":
 /*!**********************************************************************!*\
   !*** ./resources/js/pages/RegistryCard.vue?vue&type=script&lang=js& ***!
@@ -1028,6 +1179,23 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/pages/LotCard/RatingModal.vue?vue&type=template&id=d50b6e2e&scoped=true&":
+/*!***********************************************************************************************!*\
+  !*** ./resources/js/pages/LotCard/RatingModal.vue?vue&type=template&id=d50b6e2e&scoped=true& ***!
+  \***********************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_RatingModal_vue_vue_type_template_id_d50b6e2e_scoped_true___WEBPACK_IMPORTED_MODULE_0__.render),
+/* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_RatingModal_vue_vue_type_template_id_d50b6e2e_scoped_true___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
+/* harmony export */ });
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_RatingModal_vue_vue_type_template_id_d50b6e2e_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./RatingModal.vue?vue&type=template&id=d50b6e2e&scoped=true& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/pages/LotCard/RatingModal.vue?vue&type=template&id=d50b6e2e&scoped=true&");
+
+
+/***/ }),
+
 /***/ "./resources/js/pages/RegistryCard.vue?vue&type=template&id=402c2476&scoped=true&":
 /*!****************************************************************************************!*\
   !*** ./resources/js/pages/RegistryCard.vue?vue&type=template&id=402c2476&scoped=true& ***!
@@ -1069,53 +1237,53 @@ var render = function () {
         "div",
         { staticClass: "col-12 col-md-2 ps-0 bkt-card-trade-mini__image" },
         [
-          _c(
-            "hooper",
-            {
-              staticClass: "w-100 h-100",
-              staticStyle: { "min-height": "159px" },
-              attrs: { itemsToShow: 1, centerMode: true },
-            },
-            [
-              !_vm.item.photos || _vm.item.photos.length == 0
-                ? _c("slide", [
-                    _c("img", {
-                      directives: [
-                        {
-                          name: "lazy",
-                          rawName: "v-lazy",
-                          value: "/images/card-image1.png",
-                          expression: "'/images/card-image1.png'",
-                        },
-                      ],
-                      staticClass: "bkt-card__image",
-                    }),
-                  ])
-                : _vm._e(),
-              _vm._v(" "),
-              _vm._l(_vm.item.photos, function (photo) {
-                return _c("slide", { key: photo.id }, [
-                  _c("img", {
-                    directives: [
-                      {
-                        name: "lazy",
-                        rawName: "v-lazy",
-                        value: photo.main,
-                        expression: "photo.main",
-                      },
-                    ],
-                    staticClass: "bkt-card__image",
+          !_vm.item.photos || _vm.item.photos.length == 0
+            ? _c("img", {
+                directives: [
+                  {
+                    name: "lazy",
+                    rawName: "v-lazy",
+                    value: "/images/card-image1.png",
+                    expression: "'/images/card-image1.png'",
+                  },
+                ],
+                staticClass: "bkt-card__image",
+              })
+            : _vm._e(),
+          _vm._v(" "),
+          _vm.item.photos.length > 0
+            ? _c(
+                "hooper",
+                {
+                  staticClass: "w-100 h-100",
+                  staticStyle: { "min-height": "159px" },
+                  attrs: { itemsToShow: 1, centerMode: true },
+                },
+                [
+                  _vm._l(_vm.item.photos, function (photo) {
+                    return _c("slide", { key: photo.id }, [
+                      _c("img", {
+                        directives: [
+                          {
+                            name: "lazy",
+                            rawName: "v-lazy",
+                            value: photo.main,
+                            expression: "photo.main",
+                          },
+                        ],
+                        staticClass: "bkt-card__image",
+                      }),
+                    ])
                   }),
-                ])
-              }),
-              _vm._v(" "),
-              _c("hooper-navigation", {
-                attrs: { slot: "hooper-addons" },
-                slot: "hooper-addons",
-              }),
-            ],
-            2
-          ),
+                  _vm._v(" "),
+                  _c("hooper-navigation", {
+                    attrs: { slot: "hooper-addons" },
+                    slot: "hooper-addons",
+                  }),
+                ],
+                2
+              )
+            : _vm._e(),
         ],
         1
       ),
@@ -1372,6 +1540,142 @@ render._withStripped = true
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/pages/LotCard/RatingModal.vue?vue&type=template&id=d50b6e2e&scoped=true&":
+/*!**************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/pages/LotCard/RatingModal.vue?vue&type=template&id=d50b6e2e&scoped=true& ***!
+  \**************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* binding */ render),
+/* harmony export */   "staticRenderFns": () => (/* binding */ staticRenderFns)
+/* harmony export */ });
+var render = function () {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("bkt-modal", {
+    attrs: {
+      id: "ratingModal",
+      title: "Оцените работу организатора торгов",
+      modal_class: "bkt-filters-modal text-center",
+      loading: _vm.loading,
+    },
+    on: { left_action: _vm.cancel, right_action: _vm.save },
+    scopedSlots: _vm._u([
+      {
+        key: "title",
+        fn: function () {
+          return [
+            _c("h3", { staticClass: "bkt-modal__title mx-auto" }, [
+              _vm._v(
+                "\n            Оцените работу " +
+                  _vm._s(
+                    _vm.type == "arbitrationManager"
+                      ? "арбитражного управляющего"
+                      : "организатора"
+                  ) +
+                  "\n        "
+              ),
+            ]),
+          ]
+        },
+        proxy: true,
+      },
+      {
+        key: "body",
+        fn: function () {
+          return [
+            _c(
+              "div",
+              { staticClass: "bkt-wrapper-column bkt-gap-row-large" },
+              [
+                _c("ValidationProvider", {
+                  staticClass: "bkt-rating bkt-wrapper-column",
+                  staticStyle: { gap: "0" },
+                  attrs: {
+                    name: "Оценка",
+                    rules: "required|min_value:1|max_value:5",
+                    tag: "div",
+                  },
+                  scopedSlots: _vm._u([
+                    {
+                      key: "default",
+                      fn: function (ref) {
+                        var errors = ref.errors
+                        return [
+                          _c(
+                            "label",
+                            {
+                              staticClass: "bkt-input__label text-center mb-0",
+                            },
+                            [_vm._v("выберите оценку от 1 до 5")]
+                          ),
+                          _vm._v(" "),
+                          _c("star-rating", {
+                            staticClass: "mx-auto",
+                            attrs: {
+                              "show-rating": false,
+                              "star-size": 16,
+                              increment: 1,
+                              "rounded-corners": false,
+                            },
+                            model: {
+                              value: _vm.rating.estimate,
+                              callback: function ($$v) {
+                                _vm.$set(_vm.rating, "estimate", $$v)
+                              },
+                              expression: "rating.estimate",
+                            },
+                          }),
+                          _vm._v(" "),
+                          errors.length > 0
+                            ? _c("p", { staticClass: "bkt-input-error" }, [
+                                _vm._v(_vm._s(errors[0])),
+                              ])
+                            : _vm._e(),
+                        ]
+                      },
+                    },
+                  ]),
+                }),
+                _vm._v(" "),
+                _c("bkt-textarea", {
+                  staticClass: "w-100",
+                  attrs: {
+                    label: "мой комментарий (вижу только я)",
+                    name: "comment",
+                    rows: "4",
+                    rules: "required",
+                    no_group_item: "",
+                  },
+                  model: {
+                    value: _vm.rating.comment,
+                    callback: function ($$v) {
+                      _vm.$set(_vm.rating, "comment", $$v)
+                    },
+                    expression: "rating.comment",
+                  },
+                }),
+              ],
+              1
+            ),
+          ]
+        },
+        proxy: true,
+      },
+    ]),
+  })
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/pages/RegistryCard.vue?vue&type=template&id=402c2476&scoped=true&":
 /*!*******************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/pages/RegistryCard.vue?vue&type=template&id=402c2476&scoped=true& ***!
@@ -1614,11 +1918,15 @@ var render = function () {
                               ),
                             ]),
                             _vm._v(" "),
-                            _c("td", [_vm._v("-\n                        ")]),
+                            _c("td", [
+                              _vm._v(
+                                "\n                            -\n                        "
+                              ),
+                            ]),
                           ])
                         : _vm._e(),
                       _vm._v(" "),
-                      _vm.item.region
+                      _vm.item[_vm.item_type] && _vm.item[_vm.item_type].region
                         ? _c("tr", [
                             _c("td", [
                               _vm._v(
@@ -1628,14 +1936,22 @@ var render = function () {
                             _vm._v(" "),
                             _c("td", [
                               _vm._v(
-                                _vm._s(_vm.item.region) +
+                                "\n                            " +
+                                  _vm._s(
+                                    _vm.item[_vm.item_type].region
+                                      ? _vm.$t(
+                                          "regions." +
+                                            _vm.item[_vm.item_type].region
+                                        )
+                                      : "-"
+                                  ) +
                                   "\n                        "
                               ),
                             ]),
                           ])
                         : _vm._e(),
                       _vm._v(" "),
-                      _vm.item.address
+                      _vm.item[_vm.item_type] && _vm.item[_vm.item_type].address
                         ? _c("tr", [
                             _c("td", [
                               _vm._v(
@@ -1646,7 +1962,11 @@ var render = function () {
                             _c("td", [
                               _vm._v(
                                 "\n                            " +
-                                  _vm._s(_vm.item.address) +
+                                  _vm._s(
+                                    _vm.item[_vm.item_type].address
+                                      ? _vm.item[_vm.item_type].address
+                                      : "-"
+                                  ) +
                                   "\n                        "
                               ),
                             ]),
@@ -1660,14 +1980,14 @@ var render = function () {
                             _c("td", [
                               _vm._v(
                                 "\n                            " +
-                                  _vm._s(_vm.item.inn) +
+                                  _vm._s(_vm.item.inn ? _vm.item.inn : "-") +
                                   "\n                        "
                               ),
                             ]),
                           ])
                         : _vm._e(),
                       _vm._v(" "),
-                      _vm.item.sroAU
+                      _vm.item[_vm.item_type] && _vm.item[_vm.item_type].sroAU
                         ? _c("tr", [
                             _c("td", [
                               _vm._v(
@@ -1678,14 +1998,18 @@ var render = function () {
                             _c("td", [
                               _vm._v(
                                 "\n                            " +
-                                  _vm._s(_vm.item.sroAU) +
+                                  _vm._s(
+                                    _vm.item[_vm.item_type].sroAU
+                                      ? _vm.item[_vm.item_type].sroAU
+                                      : "-"
+                                  ) +
                                   "\n                        "
                               ),
                             ]),
                           ])
                         : _vm._e(),
                       _vm._v(" "),
-                      _vm.item_type == "arbitration-manager"
+                      _vm.item_type == "arbitrationManager"
                         ? _c("tr", [
                             _c("td", [
                               _vm._v(
@@ -1695,13 +2019,20 @@ var render = function () {
                             _vm._v(" "),
                             _c("td", [
                               _vm._v(
-                                "\n                            -\n                        "
+                                "\n                            " +
+                                  _vm._s(
+                                    _vm.item.arbitrationManager &&
+                                      _vm.item.arbitrationManager.regNum
+                                      ? _vm.item.arbitrationManager.regNum
+                                      : "-"
+                                  ) +
+                                  "\n                        "
                               ),
                             ]),
                           ])
                         : _vm._e(),
                       _vm._v(" "),
-                      _vm.item_type == "arbitration-manager"
+                      _vm.item_type == "arbitrationManager"
                         ? _c("tr", [
                             _c("td", [
                               _vm._v(
@@ -1711,13 +2042,20 @@ var render = function () {
                             _vm._v(" "),
                             _c("td", [
                               _vm._v(
-                                "\n                            -\n                        "
+                                "\n                            " +
+                                  _vm._s(
+                                    _vm.item.arbitrationManager &&
+                                      _vm.item.arbitrationManager.regDate
+                                      ? _vm.item.arbitrationManager.regDate
+                                      : "-"
+                                  ) +
+                                  "\n                        "
                               ),
                             ]),
                           ])
                         : _vm._e(),
                       _vm._v(" "),
-                      _vm.item.ogrn
+                      _vm.item[_vm.item_type] && _vm.item[_vm.item_type].ogrn
                         ? _c("tr", [
                             _c("td", [
                               _vm._v(
@@ -1725,78 +2063,32 @@ var render = function () {
                               ),
                             ]),
                             _vm._v(" "),
-                            _c("td", [_vm._v("-")]),
-                          ])
-                        : _vm._e(),
-                      _vm._v(" "),
-                      _vm.item_type == "arbitrationManager"
-                        ? _c("tr", [
                             _c("td", [
                               _vm._v(
-                                "\n                            Оценка арбитражного управляющего\n                        "
+                                "\n                            " +
+                                  _vm._s(
+                                    _vm.item[_vm.item_type].ogrn
+                                      ? _vm.item[_vm.item_type].ogrn
+                                      : "-"
+                                  ) +
+                                  "\n                        "
                               ),
-                            ]),
-                            _vm._v(" "),
-                            _c("td", [
-                              _c("div", { staticClass: "rating" }, [
-                                _c("div", { staticClass: "result_wrapper" }, [
-                                  _c("span", { staticClass: "result" }, [
-                                    _vm._v("3 / 5"),
-                                  ]),
-                                  _vm._v(" "),
-                                  _c("div", { staticClass: "rating-result" }, [
-                                    _c("span", { staticClass: "active" }),
-                                    _vm._v(" "),
-                                    _c("span", { staticClass: "active" }),
-                                    _vm._v(" "),
-                                    _c("span", { staticClass: "active" }),
-                                    _vm._v(" "),
-                                    _c("span"),
-                                    _vm._v(" "),
-                                    _c("span"),
-                                  ]),
-                                ]),
-                                _vm._v(" "),
-                                _c(
-                                  "button",
-                                  { staticClass: "bkt-button bkt-bg-body" },
-                                  [
-                                    _vm._v(
-                                      "ОЦЕНИТЬ\n                                    "
-                                    ),
-                                    _c(
-                                      "svg",
-                                      {
-                                        staticClass:
-                                          "bkt-button__icon bkt-fill-primary",
-                                        staticStyle: { "margin-left": "10px" },
-                                        attrs: {
-                                          fill: "#ffc515",
-                                          width: "8",
-                                          height: "12",
-                                          viewBox: "0 0 8 12",
-                                        },
-                                      },
-                                      [
-                                        _c("path", {
-                                          attrs: {
-                                            d: "M0 10.5801L4.58 6.00012L0 1.41012L1.41 0.00012207L7.41 6.00012L1.41 12.0001L0 10.5801Z",
-                                          },
-                                        }),
-                                      ]
-                                    ),
-                                  ]
-                                ),
-                              ]),
                             ]),
                           ])
                         : _vm._e(),
                       _vm._v(" "),
+                      _vm.item_type == "arbitrationManager" ||
                       _vm.item_type == "organizer"
                         ? _c("tr", [
                             _c("td", [
                               _vm._v(
-                                "\n                            Оценка организатора\n                        "
+                                "\n                            Оценка " +
+                                  _vm._s(
+                                    _vm.item_type == "arbitrationManager"
+                                      ? "арбитражного управляющего"
+                                      : "организатора"
+                                  ) +
+                                  "\n                        "
                               ),
                             ]),
                             _vm._v(" "),
@@ -1808,63 +2100,86 @@ var render = function () {
                                     "bkt-wrapper-between align-items-center bkt-registry-rating",
                                 },
                                 [
-                                  _c(
-                                    "button",
-                                    { staticClass: "bkt-button next" },
-                                    [
-                                      _vm._v(
-                                        "\n                                    мои победы\n                                    "
-                                      ),
-                                      _c(
-                                        "span",
-                                        {
-                                          staticClass: "bkt-text-red",
-                                          staticStyle: {
-                                            "text-transform": "initial",
-                                          },
-                                        },
-                                        [_vm._v(" (добавьте ИНН)  ")]
-                                      ),
-                                      _vm._v(" "),
-                                      _c("bkt-icon", {
-                                        attrs: {
-                                          name: "ArrowDown",
-                                          color: "green",
-                                        },
-                                      }),
-                                    ],
-                                    1
-                                  ),
+                                  _vm.item_type == "organizer"
+                                    ? _c(
+                                        "button",
+                                        { staticClass: "bkt-button next" },
+                                        [
+                                          _vm._v(
+                                            "\n                                    мои победы\n                                    "
+                                          ),
+                                          _c(
+                                            "span",
+                                            {
+                                              staticClass: "bkt-text-red",
+                                              staticStyle: {
+                                                "text-transform": "initial",
+                                              },
+                                            },
+                                            [_vm._v(" (добавьте ИНН)  ")]
+                                          ),
+                                          _vm._v(" "),
+                                          _c("bkt-icon", {
+                                            attrs: {
+                                              name: "ArrowDown",
+                                              color: "green",
+                                            },
+                                          }),
+                                        ],
+                                        1
+                                      )
+                                    : _vm._e(),
                                   _vm._v(" "),
-                                  _c(
-                                    "div",
-                                    { staticClass: "bkt-rating text-center" },
-                                    [
-                                      _c("h6", [_vm._v("3,3 / 5")]),
-                                      _vm._v(" "),
-                                      _c("star-rating", {
-                                        attrs: {
-                                          "show-rating": false,
-                                          rating: 3.3,
-                                          "read-only": true,
-                                          "star-size": 16,
-                                          increment: 0.01,
-                                          "rounded-corners": false,
+                                  _vm.item[_vm.item_type] &&
+                                  _vm.item[_vm.item_type].rating
+                                    ? _c(
+                                        "div",
+                                        {
+                                          staticClass: "bkt-rating text-center",
                                         },
-                                      }),
-                                    ],
-                                    1
-                                  ),
+                                        [
+                                          _c("h6", [
+                                            _vm._v(
+                                              _vm._s(
+                                                _vm.item[_vm.item_type].rating
+                                                  .estimate
+                                                  ? _vm.item[_vm.item_type]
+                                                      .rating.estimate
+                                                  : 0
+                                              ) + " / 5"
+                                            ),
+                                          ]),
+                                          _vm._v(" "),
+                                          _c("star-rating", {
+                                            attrs: {
+                                              "show-rating": false,
+                                              rating:
+                                                _vm.item[_vm.item_type].rating
+                                                  .estimate,
+                                              "read-only": true,
+                                              "star-size": 16,
+                                              increment: 0.01,
+                                              "rounded-corners": false,
+                                            },
+                                          }),
+                                        ],
+                                        1
+                                      )
+                                    : _vm._e(),
                                   _vm._v(" "),
                                   _c(
                                     "button",
                                     {
                                       staticClass:
                                         "bkt-button bkt-button_rating",
+                                      attrs: {
+                                        "data-bs-toggle": "modal",
+                                        "data-bs-target": "#ratingModal",
+                                      },
                                     },
                                     [
                                       _vm._v(
-                                        "\n                                    оценить организатора\n                                    "
+                                        "\n                                    оценить\n                                    "
                                       ),
                                       _c("bkt-icon", {
                                         staticClass: "bkt-rotate-270",
@@ -2252,6 +2567,13 @@ var render = function () {
               null,
               true
             ),
+          })
+        : _vm._e(),
+      _vm._v(" "),
+      _vm.item_type == "arbitrationManager" || _vm.item_type == "organizer"
+        ? _c("bkt-rating-modal", {
+            attrs: { type: _vm.item_type, "bidder-id": _vm.item.id },
+            on: { estimated: _vm.estimated },
           })
         : _vm._e(),
     ],
