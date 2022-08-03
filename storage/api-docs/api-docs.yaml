@@ -2696,9 +2696,11 @@ paths:
                   type: string
                 question:
                   type: string
-                file:
-                  type: string
-                  format: binary
+                files[]:
+                  type: array
+                  items:
+                    type: string
+                    format: binary
       responses:
         "200":
           description: вопрос успешно отправлен
@@ -2763,8 +2765,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
-      security:
-        - bearerAuth: [ ]
   /account/apple/callback:
     post:
       tags:

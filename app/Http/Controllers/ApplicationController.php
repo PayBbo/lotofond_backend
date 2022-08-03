@@ -8,6 +8,7 @@ use App\Http\Requests\QuestionRequest;
 use App\Jobs\SendApplication;
 use App\Models\User;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\URL;
 
@@ -54,11 +55,13 @@ class ApplicationController extends Controller
             <p>$request->topic</p>
             <p>$request->question</p>
             <strong>Почта: $request->email</strong>";
-
-        if ($request->hasFile('file')) {
-            $path = Storage::disk('public')->put('questions/user-' . auth()->id(), $request->file);
-            $path = Storage::url($path);
-            $html .= " <br><a href=$path> Прикрепленный файл </a>";
+        if ($request->hasFile('files')) {;
+            foreach ($request->file('files') as $file) {
+                $filename=  str_replace(" ", "-", $file->getClientOriginalName());
+                $path = Storage::disk('public')->put('questions/user-' . auth()->id() .'/'.$filename, File::get($file));
+                $path = Storage::url('questions/user-' . auth()->id() .'/'.$filename);
+                $html .= " <br><a href=$path> Прикрепленный файл </a>";
+            }
         }
         $subject = 'Новый вопрос';
         dispatch_sync(new SendApplication($html, $subject, $request->email));
@@ -67,13 +70,12 @@ class ApplicationController extends Controller
 
     public function sendContacts(ContactsRequest $request)
     {
-        $user = User::find(auth()->id());
         $communication = 'Почта для ответа: '.$request->communication;
         if($request->communicationType == 'phone'){
             $communication = 'Телефон для ответа: '.$request->communication;
         }
-        $username = $user->surname . ' ' . $user->name;
-        $html = "Пользователь $username  задал вопрос:
+
+        $html = "У Вас новый вопрос:
             <p>$request->question</p>
             <strong>$communication</strong>";
         $subject = 'Новый вопрос';

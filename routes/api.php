@@ -129,6 +129,8 @@ Route::group(['middleware' => ['json.response', 'localization']], function () {
         Route::get('/lots', [StatisticsController::class, 'getStatisticsByLots']);
     });
 
+    Route::post('/send/contacts', [ApplicationController::class, 'sendContacts']);
+
     Route::middleware("auth.deny:api")->group(function () {
 
         Route::group(['prefix' => 'send'], function () {
@@ -136,8 +138,6 @@ Route::group(['middleware' => ['json.response', 'localization']], function () {
             Route::post('/application', [ApplicationController::class, 'sendApplication']);
 
             Route::post('/question', [ApplicationController::class, 'sendQuestion']);
-
-            Route::post('/contacts', [ApplicationController::class, 'sendContacts']);
 
         });
 
