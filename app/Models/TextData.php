@@ -12,6 +12,7 @@ class TextData extends Model
     protected $fillable = [
         'header',
         'value',
-        'type'
+        'type',
+        'screen'
     ];
 }

@@ -169,7 +169,12 @@ import store from './store/index.js';
 import Fragment from 'vue-fragment'
 Vue.use(Fragment.Plugin)
 
+import VueSweetalert2 from 'vue-sweetalert2';
+import 'sweetalert2/dist/sweetalert2.min.css';
+Vue.use(VueSweetalert2);
+
 Vue.component("App", require("./App.vue").default);
+Vue.component("Layout", require("./Layout.vue").default);
 Vue.component("Admin", require("./Admin.vue").default);
 import Card from "./components/Card.vue";
 import Icon from "./components/Icon.vue";

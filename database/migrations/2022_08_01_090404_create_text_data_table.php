@@ -18,6 +18,7 @@ class CreateTextDataTable extends Migration
             $table->string('header');
             $table->longText('value');
             $table->enum('type', ['info', 'help', 'about', 'contacts']);
+            $table->enum('screen', ['О приложении', 'Помощь', 'О нас', 'Контакты']);
             $table->timestamps();
         });
     }

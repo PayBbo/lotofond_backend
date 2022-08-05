@@ -26,7 +26,8 @@ class DatabaseSeeder extends Seeder
             ParamSeeder::class,
             UserSeeder::class,
             RoleSeeder::class,
-            TextDataSeeder::class
+            TextDataSeeder::class,
+            ContactSeeder::class
         ]);
     }
 }

@@ -12,7 +12,8 @@ import monitoring from "./monitoring";
 import bidders from "./bidders";
 import filtersData from "./filtersData";
 
-import admin from './admin';
+import admin from './admin/dashboard';
+import adminData from './admin/adminData';
 
 import events from './events';
 
@@ -24,7 +25,7 @@ export default new Vuex.Store({
         shared, auth, trades, filters,
         marks, lots, favourites, monitoring,
         bidders, filtersData,
-        events, admin
+        events, admin, adminData
     }
 })
 

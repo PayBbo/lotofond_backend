@@ -14,5 +14,8 @@
     "/js/lot-card.js": "/js/lot-card.js",
     "/js/week-winners.js": "/js/week-winners.js",
     "/js/dashboard.js": "/js/dashboard.js",
+    "/js/users.js": "/js/users.js",
+    "/js/text-data.js": "/js/text-data.js",
+    "/js/text-data-edit.js": "/js/text-data-edit.js",
     "/css/app.css": "/css/app.css"
 }
