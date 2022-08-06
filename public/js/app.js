@@ -10909,22 +10909,22 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     * PUT
     * /bidders/trades
     * Получение активных/неактивных торгов выбранного участника
-      * GET
+     * GET
     * /bidders/{bidderId}/{type}
     * Получение данных об арбитражном управляющем/организаторе/должнике
-      * PUT
+     * PUT
     * /bidders/get/{type}
     * Получение информации о должниках/организаторах торгов/арбитражных управляющих
-      * PUT
+     * PUT
     * /bidders/trade-places
     * Получение информации о торговых площадках для отображения в реестрах
-      * GET
+     * GET
     * /bidders/{tradePlaceId}
     * Получение данных о торговой площадке
-      * POST
+     * POST
     * /bidders/estimate
     * Оценка организатора/арбитражного управляющего
-      * PUT
+     * PUT
     * /bidders/debtor/messages
     * Сообщения о должнике
     *

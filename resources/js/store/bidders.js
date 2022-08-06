@@ -279,7 +279,7 @@ export default {
         async getDebtorMessagePage({commit, state}, payload) {
             return await axios({
                 method: 'get',
-                url: '/api/bidders/debtor/message/'+ payload,
+                url: '/api/bidders/debtor/message/'+ payload
             })
         },
     },

@@ -2101,19 +2101,23 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
-  /bidders/debtor/message/{guid}:
-    get:
-      parameters:
-        - in: path
-          name: guid
-          schema:
-            type: string
-          required: true
-          description: guid сообщения на федресурсе для получения html страницы
+  /bidders/debtor/message:
+    post:
       tags:
         - Bidders
       summary: Сообщение html о должнике
       operationId: getDebtorMessageHtml
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                guid:
+                  type: string
+                  description: guid сообщения на федресурсе для получения html страницы
+                cookie:
+                  type: string
       responses:
         "200":
           description: Сообщение html о должнике
@@ -2127,7 +2131,10 @@ paths:
                     properties:
                       html:
                         type: string
-                        description: Сообщение html о должнике
+                        description: Сообщение html о должнике (если кукисы действительны, если нет - вернется объект с параметрами а, в, с, которые используем для получения кукисов и выполняем запрос второй раз)
+                      isSetCookie:
+                        type: boolean
+                        description: флаг для обозначения, корректны ли кукисы при запросе, если false - необходимо сгенерировать куки и выполнить запрос во второй раз
         default:
           description: unexpected error
           content:

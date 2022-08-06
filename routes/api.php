@@ -118,7 +118,7 @@ Route::group(['middleware' => ['json.response', 'localization']], function () {
 
         Route::put('/debtor/messages', [BidderController::class, 'getDebtorMessages']);
 
-        Route::get('/debtor/message/{guid}', [BidderController::class, 'getDebtorMessageHtml']);
+        Route::post('/debtor/message', [BidderController::class, 'getDebtorMessageHtml']);
 
     });
 
