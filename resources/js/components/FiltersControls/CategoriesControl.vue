@@ -12,6 +12,7 @@
                                       :id="'bkt-category-checkbox-'+index"
                                       v-model="model"
                                       :val="category.key"
+                                      @input="saveValue"
                         ></bkt-checkbox>
                         <bkt-checkbox v-else
                                       :name="'bkt-category-checkbox-'+index"
@@ -34,6 +35,7 @@
                                 :id="'bkt-subcategory-checkbox-'+index"
                                 v-model="model"
                                 :val="subcategory.key"
+                                @input="saveValue"
                             ></bkt-checkbox>
                             <h6 class="bkt-regions-tabs__subtitle">
                                 {{subcategory.label}}
@@ -49,11 +51,12 @@
             </h5>
             <div class="bkt-tag__list">
                 <div class="bkt-region__item bkt-tag justify-content-between flex-fill"
-                     v-for="(item, index) in model">
+                     v-for="(item, index) in model"
+                >
                     <span class="bkt-item-rounded__text mr-2">{{ $t('categories.' + item) }}</span>
                     <span class="bkt-tag__icon bkt-cursor-pointer" @click="toggleCategory(item)">
-                                    <bkt-icon name="Cancel" color="red"></bkt-icon>
-                                </span>
+                        <bkt-icon name="Cancel" color="red"></bkt-icon>
+                    </span>
                 </div>
             </div>
         </div>
@@ -93,7 +96,7 @@
             categories() {
                 return this.$store.getters.categories
                     .sort(function (one, other) {
-                        return  other.subcategories.length - one.subcategories.length;
+                        return other.subcategories.length - one.subcategories.length;
                     });
             },
             loading() {
@@ -101,8 +104,9 @@
             },
         },
         watch:{
-            value: function(){
-                this.model = this.value;
+            value: function(newValue, oldValue){
+                this.model = newValue;
+                this.saveValue()
             },
         },
         methods: {
@@ -137,6 +141,7 @@
                         }
                     });
                 }
+                this.saveValue()
             },
             allChecked(arr, target) {
                 return target.every(v => arr.includes(v))

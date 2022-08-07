@@ -9,6 +9,7 @@
                        name="includedWords" icon_name="Check"
                        :group_item_class="model.includedWords ? 'bkt-bg-green': 'bkt-bg-white'"
                        :icon_color="model.includedWords ? 'white': 'main-lighter'"
+                       @input="saveValue"
             >
             </bkt-input>
         </div>
@@ -21,6 +22,7 @@
                        name="exception_words" icon_name="Check"
                        :group_item_class="model.excludedWords ? 'bkt-bg-green': 'bkt-bg-white'"
                        :icon_color="model.excludedWords ? 'white': 'main-lighter'"
+                       @input="saveValue"
             >
             </bkt-input>
         </div>
@@ -40,6 +42,7 @@
                 :method_name="'getTradePlaces'"
                 :searchable="true"
                 :loading="trade_places_loading"
+                @input="saveValue"
             >
             </bkt-select>
             <!--            <bkt-select name="tradePlaces"-->
@@ -123,11 +126,11 @@
                     <div class="bkt-form bkt-wrapper bkt-auctions-types">
                         <div class="bkt-auctions-type flex-fill" v-for="item in auctionTypes">
                             <button class="bkt-auctions-type__card bkt-auctions-type__title bkt-bg-body"
-                                    @click="model.tradeType=item.title"
+                                    @click="chooseAuctionType(item.title)"
                                     :class="[model.tradeType===item.title ? 'bkt-border-primary': 'bkt-border-body']">
                                 {{item.description}}
                             </button>
-<!--                            <h6 class="bkt-auctions-type__subtitle">что это?</h6>-->
+                            <!--                            <h6 class="bkt-auctions-type__subtitle">что это?</h6>-->
                         </div>
                     </div>
                 </div>
@@ -160,11 +163,11 @@
                     {description: 'Закрытое публичное предложение', title: 'ClosePublicOffer'},
                 ],
                 selected_trade_places: [],
-                model:{
+                model: {
                     excludedWords: '',
-                    includedWords:'',
+                    includedWords: '',
                     tradePlaces: [],
-                    tradeType:'',
+                    tradeType: '',
                 },
             };
         },
@@ -200,9 +203,18 @@
                 return this.$store.getters.trade_places_loading
             },
         },
+        watch: {
+            value: function () {
+                this.model = this.value;
+                this.saveValue()
+            },
+        },
         methods: {
             saveValue() {
                 this.$emit('input', this.model);
+            },
+            chooseAuctionType(title) {
+                this.model.tradeType = title
             },
             removeTradePlace(id) {
                 let item_index = this.selected_trade_places.findIndex(el => el.id == id);

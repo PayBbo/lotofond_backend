@@ -197,7 +197,6 @@
                 range.forEach(function (i) {
                     if (l) {
                         if (i - l === 2) {
-                            console.log('i - l === 2', i, l)
                             // pages.push(l + 1);
                             pages.push('...');
                         } else if (i - l !== 1) {

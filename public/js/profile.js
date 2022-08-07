@@ -468,6 +468,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "AskQuestion",
@@ -478,8 +481,8 @@ __webpack_require__.r(__webpack_exports__);
     return {
       question: {
         email: "",
-        description: '',
-        subject: "",
+        question: '',
+        topic: "",
         files: []
       },
       loading: false
@@ -488,6 +491,41 @@ __webpack_require__.r(__webpack_exports__);
   methods: {
     removeFile: function removeFile(index) {
       this.$refs.upload_file.removeFile(index);
+    },
+    sendApplication: function sendApplication() {
+      var _this = this;
+
+      this.loading = true;
+      var formData = new FormData();
+      formData.append('email', this.question.email);
+      formData.append('question', this.question.question);
+      formData.append('topic', this.question.topic);
+
+      for (var i = 0; i < this.question.files.length; i++) {
+        formData.append("file[]", this.question.files[i]);
+      }
+
+      axios.post('/api/send/question', this.question, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      }).then(function (resp) {
+        _this.loading = false;
+
+        _this.$store.dispatch('sendNotification', {
+          self: _this,
+          message: 'Вопрос успешно отправлен'
+        });
+
+        _this.question = {
+          email: "",
+          question: '',
+          topic: "",
+          files: []
+        };
+      })["catch"](function (error) {
+        _this.loading = false;
+      });
     }
   }
 });
@@ -504,6 +542,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+/* harmony import */ var _EditContactModal__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./EditContactModal */ "./resources/js/pages/Profile/EditContactModal.vue");
 //
 //
 //
@@ -538,8 +577,35 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "ContactTab",
+  components: {
+    BktEditContactModal: _EditContactModal__WEBPACK_IMPORTED_MODULE_0__["default"]
+  },
   data: function data() {
     return {
       edit_user: {
@@ -572,6 +638,410 @@ __webpack_require__.r(__webpack_exports__);
     //     }
     // },
 
+  },
+  methods: {
+    editContact: function editContact(type) {
+      this.$refs.editContact.setType(type);
+      this.$store.commit('openModal', '#editContactModal');
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/pages/Profile/EditContactModal.vue?vue&type=script&lang=js&":
+/*!**************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/pages/Profile/EditContactModal.vue?vue&type=script&lang=js& ***!
+  \**************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
+
+function _regeneratorRuntime() { "use strict"; /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/facebook/regenerator/blob/main/LICENSE */ _regeneratorRuntime = function _regeneratorRuntime() { return exports; }; var exports = {}, Op = Object.prototype, hasOwn = Op.hasOwnProperty, $Symbol = "function" == typeof Symbol ? Symbol : {}, iteratorSymbol = $Symbol.iterator || "@@iterator", asyncIteratorSymbol = $Symbol.asyncIterator || "@@asyncIterator", toStringTagSymbol = $Symbol.toStringTag || "@@toStringTag"; function define(obj, key, value) { return Object.defineProperty(obj, key, { value: value, enumerable: !0, configurable: !0, writable: !0 }), obj[key]; } try { define({}, ""); } catch (err) { define = function define(obj, key, value) { return obj[key] = value; }; } function wrap(innerFn, outerFn, self, tryLocsList) { var protoGenerator = outerFn && outerFn.prototype instanceof Generator ? outerFn : Generator, generator = Object.create(protoGenerator.prototype), context = new Context(tryLocsList || []); return generator._invoke = function (innerFn, self, context) { var state = "suspendedStart"; return function (method, arg) { if ("executing" === state) throw new Error("Generator is already running"); if ("completed" === state) { if ("throw" === method) throw arg; return doneResult(); } for (context.method = method, context.arg = arg;;) { var delegate = context.delegate; if (delegate) { var delegateResult = maybeInvokeDelegate(delegate, context); if (delegateResult) { if (delegateResult === ContinueSentinel) continue; return delegateResult; } } if ("next" === context.method) context.sent = context._sent = context.arg;else if ("throw" === context.method) { if ("suspendedStart" === state) throw state = "completed", context.arg; context.dispatchException(context.arg); } else "return" === context.method && context.abrupt("return", context.arg); state = "executing"; var record = tryCatch(innerFn, self, context); if ("normal" === record.type) { if (state = context.done ? "completed" : "suspendedYield", record.arg === ContinueSentinel) continue; return { value: record.arg, done: context.done }; } "throw" === record.type && (state = "completed", context.method = "throw", context.arg = record.arg); } }; }(innerFn, self, context), generator; } function tryCatch(fn, obj, arg) { try { return { type: "normal", arg: fn.call(obj, arg) }; } catch (err) { return { type: "throw", arg: err }; } } exports.wrap = wrap; var ContinueSentinel = {}; function Generator() {} function GeneratorFunction() {} function GeneratorFunctionPrototype() {} var IteratorPrototype = {}; define(IteratorPrototype, iteratorSymbol, function () { return this; }); var getProto = Object.getPrototypeOf, NativeIteratorPrototype = getProto && getProto(getProto(values([]))); NativeIteratorPrototype && NativeIteratorPrototype !== Op && hasOwn.call(NativeIteratorPrototype, iteratorSymbol) && (IteratorPrototype = NativeIteratorPrototype); var Gp = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(IteratorPrototype); function defineIteratorMethods(prototype) { ["next", "throw", "return"].forEach(function (method) { define(prototype, method, function (arg) { return this._invoke(method, arg); }); }); } function AsyncIterator(generator, PromiseImpl) { function invoke(method, arg, resolve, reject) { var record = tryCatch(generator[method], generator, arg); if ("throw" !== record.type) { var result = record.arg, value = result.value; return value && "object" == _typeof(value) && hasOwn.call(value, "__await") ? PromiseImpl.resolve(value.__await).then(function (value) { invoke("next", value, resolve, reject); }, function (err) { invoke("throw", err, resolve, reject); }) : PromiseImpl.resolve(value).then(function (unwrapped) { result.value = unwrapped, resolve(result); }, function (error) { return invoke("throw", error, resolve, reject); }); } reject(record.arg); } var previousPromise; this._invoke = function (method, arg) { function callInvokeWithMethodAndArg() { return new PromiseImpl(function (resolve, reject) { invoke(method, arg, resolve, reject); }); } return previousPromise = previousPromise ? previousPromise.then(callInvokeWithMethodAndArg, callInvokeWithMethodAndArg) : callInvokeWithMethodAndArg(); }; } function maybeInvokeDelegate(delegate, context) { var method = delegate.iterator[context.method]; if (undefined === method) { if (context.delegate = null, "throw" === context.method) { if (delegate.iterator["return"] && (context.method = "return", context.arg = undefined, maybeInvokeDelegate(delegate, context), "throw" === context.method)) return ContinueSentinel; context.method = "throw", context.arg = new TypeError("The iterator does not provide a 'throw' method"); } return ContinueSentinel; } var record = tryCatch(method, delegate.iterator, context.arg); if ("throw" === record.type) return context.method = "throw", context.arg = record.arg, context.delegate = null, ContinueSentinel; var info = record.arg; return info ? info.done ? (context[delegate.resultName] = info.value, context.next = delegate.nextLoc, "return" !== context.method && (context.method = "next", context.arg = undefined), context.delegate = null, ContinueSentinel) : info : (context.method = "throw", context.arg = new TypeError("iterator result is not an object"), context.delegate = null, ContinueSentinel); } function pushTryEntry(locs) { var entry = { tryLoc: locs[0] }; 1 in locs && (entry.catchLoc = locs[1]), 2 in locs && (entry.finallyLoc = locs[2], entry.afterLoc = locs[3]), this.tryEntries.push(entry); } function resetTryEntry(entry) { var record = entry.completion || {}; record.type = "normal", delete record.arg, entry.completion = record; } function Context(tryLocsList) { this.tryEntries = [{ tryLoc: "root" }], tryLocsList.forEach(pushTryEntry, this), this.reset(!0); } function values(iterable) { if (iterable) { var iteratorMethod = iterable[iteratorSymbol]; if (iteratorMethod) return iteratorMethod.call(iterable); if ("function" == typeof iterable.next) return iterable; if (!isNaN(iterable.length)) { var i = -1, next = function next() { for (; ++i < iterable.length;) { if (hasOwn.call(iterable, i)) return next.value = iterable[i], next.done = !1, next; } return next.value = undefined, next.done = !0, next; }; return next.next = next; } } return { next: doneResult }; } function doneResult() { return { value: undefined, done: !0 }; } return GeneratorFunction.prototype = GeneratorFunctionPrototype, define(Gp, "constructor", GeneratorFunctionPrototype), define(GeneratorFunctionPrototype, "constructor", GeneratorFunction), GeneratorFunction.displayName = define(GeneratorFunctionPrototype, toStringTagSymbol, "GeneratorFunction"), exports.isGeneratorFunction = function (genFun) { var ctor = "function" == typeof genFun && genFun.constructor; return !!ctor && (ctor === GeneratorFunction || "GeneratorFunction" === (ctor.displayName || ctor.name)); }, exports.mark = function (genFun) { return Object.setPrototypeOf ? Object.setPrototypeOf(genFun, GeneratorFunctionPrototype) : (genFun.__proto__ = GeneratorFunctionPrototype, define(genFun, toStringTagSymbol, "GeneratorFunction")), genFun.prototype = Object.create(Gp), genFun; }, exports.awrap = function (arg) { return { __await: arg }; }, defineIteratorMethods(AsyncIterator.prototype), define(AsyncIterator.prototype, asyncIteratorSymbol, function () { return this; }), exports.AsyncIterator = AsyncIterator, exports.async = function (innerFn, outerFn, self, tryLocsList, PromiseImpl) { void 0 === PromiseImpl && (PromiseImpl = Promise); var iter = new AsyncIterator(wrap(innerFn, outerFn, self, tryLocsList), PromiseImpl); return exports.isGeneratorFunction(outerFn) ? iter : iter.next().then(function (result) { return result.done ? result.value : iter.next(); }); }, defineIteratorMethods(Gp), define(Gp, toStringTagSymbol, "Generator"), define(Gp, iteratorSymbol, function () { return this; }), define(Gp, "toString", function () { return "[object Generator]"; }), exports.keys = function (object) { var keys = []; for (var key in object) { keys.push(key); } return keys.reverse(), function next() { for (; keys.length;) { var key = keys.pop(); if (key in object) return next.value = key, next.done = !1, next; } return next.done = !0, next; }; }, exports.values = values, Context.prototype = { constructor: Context, reset: function reset(skipTempReset) { if (this.prev = 0, this.next = 0, this.sent = this._sent = undefined, this.done = !1, this.delegate = null, this.method = "next", this.arg = undefined, this.tryEntries.forEach(resetTryEntry), !skipTempReset) for (var name in this) { "t" === name.charAt(0) && hasOwn.call(this, name) && !isNaN(+name.slice(1)) && (this[name] = undefined); } }, stop: function stop() { this.done = !0; var rootRecord = this.tryEntries[0].completion; if ("throw" === rootRecord.type) throw rootRecord.arg; return this.rval; }, dispatchException: function dispatchException(exception) { if (this.done) throw exception; var context = this; function handle(loc, caught) { return record.type = "throw", record.arg = exception, context.next = loc, caught && (context.method = "next", context.arg = undefined), !!caught; } for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i], record = entry.completion; if ("root" === entry.tryLoc) return handle("end"); if (entry.tryLoc <= this.prev) { var hasCatch = hasOwn.call(entry, "catchLoc"), hasFinally = hasOwn.call(entry, "finallyLoc"); if (hasCatch && hasFinally) { if (this.prev < entry.catchLoc) return handle(entry.catchLoc, !0); if (this.prev < entry.finallyLoc) return handle(entry.finallyLoc); } else if (hasCatch) { if (this.prev < entry.catchLoc) return handle(entry.catchLoc, !0); } else { if (!hasFinally) throw new Error("try statement without catch or finally"); if (this.prev < entry.finallyLoc) return handle(entry.finallyLoc); } } } }, abrupt: function abrupt(type, arg) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.tryLoc <= this.prev && hasOwn.call(entry, "finallyLoc") && this.prev < entry.finallyLoc) { var finallyEntry = entry; break; } } finallyEntry && ("break" === type || "continue" === type) && finallyEntry.tryLoc <= arg && arg <= finallyEntry.finallyLoc && (finallyEntry = null); var record = finallyEntry ? finallyEntry.completion : {}; return record.type = type, record.arg = arg, finallyEntry ? (this.method = "next", this.next = finallyEntry.finallyLoc, ContinueSentinel) : this.complete(record); }, complete: function complete(record, afterLoc) { if ("throw" === record.type) throw record.arg; return "break" === record.type || "continue" === record.type ? this.next = record.arg : "return" === record.type ? (this.rval = this.arg = record.arg, this.method = "return", this.next = "end") : "normal" === record.type && afterLoc && (this.next = afterLoc), ContinueSentinel; }, finish: function finish(finallyLoc) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.finallyLoc === finallyLoc) return this.complete(entry.completion, entry.afterLoc), resetTryEntry(entry), ContinueSentinel; } }, "catch": function _catch(tryLoc) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.tryLoc === tryLoc) { var record = entry.completion; if ("throw" === record.type) { var thrown = record.arg; resetTryEntry(entry); } return thrown; } } throw new Error("illegal catch attempt"); }, delegateYield: function delegateYield(iterable, resultName, nextLoc) { return this.delegate = { iterator: values(iterable), resultName: resultName, nextLoc: nextLoc }, "next" === this.method && (this.arg = undefined), ContinueSentinel; } }, exports; }
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  name: "EditContactModal",
+  data: function data() {
+    return {
+      loading: false,
+      code_loading: false,
+      verify_loading: false,
+      contact: {
+        code: '',
+        grantType: "email",
+        haveAccessToOldCredentials: true,
+        isOldCredentials: true
+      },
+      email: '',
+      phone: '',
+      code_mode: false,
+      new_code: false,
+      edit_user: {}
+    };
+  },
+  computed: {
+    user: function user() {
+      return this.$store.getters.auth_user;
+    },
+    no_contact: function no_contact() {
+      if (!this.contact.haveAccessToOldCredentials) {
+        if (this.contact.grantType == 'email') {
+          if (!this.user.phone) {
+            return true;
+          }
+        } else {
+          if (!this.user.email) {
+            return true;
+          }
+        }
+      }
+
+      return false;
+    },
+    same_contact: function same_contact() {
+      if (this.contact.grantType == 'phone') {
+        if (this.user.phone === this.phone) {
+          return true;
+        }
+      } else {
+        if (this.user.email === this.email) {
+          return true;
+        }
+      }
+
+      return false;
+    },
+    mode: function mode() {
+      if (this.contact.haveAccessToOldCredentials && this.contact.isOldCredentials) {
+        return 'old'; //verify_old
+      }
+
+      if (this.contact.haveAccessToOldCredentials && !this.contact.isOldCredentials) {
+        return 'new'; //verify_new
+      }
+
+      if (!this.contact.haveAccessToOldCredentials && !this.contact.isOldCredentials) {
+        return 'no_contact'; //14
+      }
+
+      if (!this.contact.haveAccessToOldCredentials && this.contact.isOldCredentials) {
+        return 'new_contact'; //new_contact
+      }
+    }
+  },
+  methods: {
+    setType: function setType() {
+      var type = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'email';
+      this.edit_user = JSON.parse(JSON.stringify(this.user));
+      this.contact.grantType = type;
+      this.code_mode = false;
+      this.new_code = false; // this.email = this.edit_user.email;
+      // this.phone = this.edit_user.phone;
+
+      if (!this.edit_user[type]) {
+        this.contact.haveAccessToOldCredentials = false;
+        this.contact.isOldCredentials = true;
+      }
+
+      if (this.edit_user[type]) {
+        this.contact.haveAccessToOldCredentials = true;
+        this.contact.isOldCredentials = true;
+      }
+
+      if (!this.edit_user.email && !this.edit_user.phone) {
+        this.contact.haveAccessToOldCredentials = false;
+        this.contact.isOldCredentials = false;
+      }
+    },
+    sendCode: function sendCode(type) {
+      var _this = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
+        var data;
+        return _regeneratorRuntime().wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                // if(type ==='repeat') {
+                _this.code_loading = true; // }
+
+                if (!_this.contact.haveAccessToOldCredentials) {
+                  if (_this.contact.grantType === 'email' && _this.edit_user.email && !_this.edit_user.phone) {
+                    _this.contact.isOldCredentials = false;
+                  }
+
+                  if (_this.contact.grantType === 'phone' && !_this.edit_user.email && _this.edit_user.phone) {
+                    _this.contact.isOldCredentials = false;
+                  }
+                }
+
+                data = JSON.parse(JSON.stringify(_this.contact));
+                data[data.grantType] = _this[data.grantType]; // if(this.mode !== 'no_contact') {
+
+                _this.code_mode = true; // }
+
+                if (_this.mode == 'old') {
+                  data[data.grantType] = _this.user[data.grantType];
+                }
+
+                if (_this.mode == 'new') {
+                  _this.new_code = true;
+                }
+
+                _context.next = 9;
+                return _this.$store.dispatch('getCredentialsCode', data).then(function (resp) {
+                  _this.code_loading = false;
+                  _this.loading = false;
+
+                  if (type === 'repeat') {
+                    _this.$store.dispatch('sendNotification', {
+                      self: _this,
+                      message: 'Код подтверждения был отправлен повторно'
+                    });
+                  } // if(this.mode == 'no_contact' && type !== 'repeat') {
+                  //     this.verifyCode()
+                  // }
+
+                })["catch"](function (err) {
+                  _this.code_loading = false;
+                  _this.loading = false; // this.$store.dispatch('sendNotification',
+                  //     {self: this, message:'Ошибка', type: 'error'})
+                });
+
+              case 9:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee);
+      }))();
+    },
+    verifyCode: function verifyCode() {
+      var _this2 = this;
+
+      this.loading = true;
+      var data = JSON.parse(JSON.stringify(this.contact));
+
+      if (this.mode !== 'no_contact') {
+        this.code_mode = true;
+      }
+
+      data[data.grantType] = this[data.grantType];
+
+      if (this.mode == 'old') {
+        data[data.grantType] = this.user[data.grantType];
+      }
+
+      this.$store.dispatch('verifyCredentialsCode', data).then(function (resp) {
+        if (_this2.mode == 'old') {
+          _this2.contact.code = '';
+          _this2.contact.haveAccessToOldCredentials = true;
+          _this2.contact.isOldCredentials = false;
+
+          _this2.sendCode().then(function (resp) {
+            _this2.new_code = true;
+          });
+        } else {
+          _this2.loading = false;
+
+          if (_this2.mode !== 'no_contact') {
+            _this2.$store.dispatch('sendNotification', {
+              self: _this2,
+              message: 'Ваш контакт успешно изменен'
+            });
+
+            _this2.$store.dispatch('saveDataProperty', {
+              module_key: 'auth',
+              state_key: 'auth_user',
+              key: data.grantType,
+              value: data[data.grantType]
+            }, {
+              root: true
+            });
+          } else {
+            _this2.$store.dispatch('sendNotification', {
+              self: _this2,
+              message: 'Ваш контакт будет изменен через 14 дней'
+            });
+          }
+
+          _this2.cancel();
+        }
+      })["catch"](function (err) {
+        _this2.loading = false;
+      });
+    },
+    back: function back() {
+      this.code_mode = false;
+      this.new_code = false;
+      this.contact.code = '';
+      this.setType(this.contact.grantType);
+    },
+    cancel: function cancel() {
+      this.back();
+      this.$store.commit('closeModal', '#editContactModal');
+    }
   }
 });
 
@@ -1540,6 +2010,44 @@ component.options.__file = "resources/js/pages/Profile/ContactsTab.vue"
 
 /***/ }),
 
+/***/ "./resources/js/pages/Profile/EditContactModal.vue":
+/*!*********************************************************!*\
+  !*** ./resources/js/pages/Profile/EditContactModal.vue ***!
+  \*********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _EditContactModal_vue_vue_type_template_id_04b71934_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./EditContactModal.vue?vue&type=template&id=04b71934&scoped=true& */ "./resources/js/pages/Profile/EditContactModal.vue?vue&type=template&id=04b71934&scoped=true&");
+/* harmony import */ var _EditContactModal_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./EditContactModal.vue?vue&type=script&lang=js& */ "./resources/js/pages/Profile/EditContactModal.vue?vue&type=script&lang=js&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+;
+var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _EditContactModal_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _EditContactModal_vue_vue_type_template_id_04b71934_scoped_true___WEBPACK_IMPORTED_MODULE_0__.render,
+  _EditContactModal_vue_vue_type_template_id_04b71934_scoped_true___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
+  false,
+  null,
+  "04b71934",
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/pages/Profile/EditContactModal.vue"
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (component.exports);
+
+/***/ }),
+
 /***/ "./resources/js/pages/Profile/HelpTab.vue":
 /*!************************************************!*\
   !*** ./resources/js/pages/Profile/HelpTab.vue ***!
@@ -1744,6 +2252,21 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/pages/Profile/EditContactModal.vue?vue&type=script&lang=js&":
+/*!**********************************************************************************!*\
+  !*** ./resources/js/pages/Profile/EditContactModal.vue?vue&type=script&lang=js& ***!
+  \**********************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_EditContactModal_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./EditContactModal.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/pages/Profile/EditContactModal.vue?vue&type=script&lang=js&");
+ /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_EditContactModal_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
 /***/ "./resources/js/pages/Profile/HelpTab.vue?vue&type=script&lang=js&":
 /*!*************************************************************************!*\
   !*** ./resources/js/pages/Profile/HelpTab.vue?vue&type=script&lang=js& ***!
@@ -1893,6 +2416,22 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ContactsTab_vue_vue_type_template_id_3a9ae6c3_scoped_true___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
 /* harmony export */ });
 /* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ContactsTab_vue_vue_type_template_id_3a9ae6c3_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./ContactsTab.vue?vue&type=template&id=3a9ae6c3&scoped=true& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/pages/Profile/ContactsTab.vue?vue&type=template&id=3a9ae6c3&scoped=true&");
+
+
+/***/ }),
+
+/***/ "./resources/js/pages/Profile/EditContactModal.vue?vue&type=template&id=04b71934&scoped=true&":
+/*!****************************************************************************************************!*\
+  !*** ./resources/js/pages/Profile/EditContactModal.vue?vue&type=template&id=04b71934&scoped=true& ***!
+  \****************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_EditContactModal_vue_vue_type_template_id_04b71934_scoped_true___WEBPACK_IMPORTED_MODULE_0__.render),
+/* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_EditContactModal_vue_vue_type_template_id_04b71934_scoped_true___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
+/* harmony export */ });
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_EditContactModal_vue_vue_type_template_id_04b71934_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./EditContactModal.vue?vue&type=template&id=04b71934&scoped=true& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/pages/Profile/EditContactModal.vue?vue&type=template&id=04b71934&scoped=true&");
 
 
 /***/ }),
@@ -2386,13 +2925,20 @@ var render = function () {
           [
             _c("bkt-input", {
               attrs: {
-                name: "from_email",
+                name: "email",
                 type: "email",
                 label: "ваш e-mail",
                 rules: "required|email",
                 placeholder: "pochta@gmail.com",
                 label_class: "d-md-none",
                 no_group_item: "",
+              },
+              model: {
+                value: _vm.question.email,
+                callback: function ($$v) {
+                  _vm.$set(_vm.question, "email", $$v)
+                },
+                expression: "question.email",
               },
             }),
           ],
@@ -2407,13 +2953,20 @@ var render = function () {
           [
             _c("bkt-input", {
               attrs: {
-                name: "subject",
+                name: "topic",
                 type: "text",
                 label: "тема вопроса",
                 rules: "required",
                 placeholder: "",
                 label_class: "d-md-none",
                 no_group_item: "",
+              },
+              model: {
+                value: _vm.question.topic,
+                callback: function ($$v) {
+                  _vm.$set(_vm.question, "topic", $$v)
+                },
+                expression: "question.topic",
               },
             }),
           ],
@@ -2428,13 +2981,20 @@ var render = function () {
           [
             _c("bkt-textarea", {
               attrs: {
-                name: "description",
+                name: "question",
                 type: "text",
                 label: "текст вопроса",
                 rules: "required",
                 placeholder: "",
                 label_class: "d-md-none",
                 no_group_item: "",
+              },
+              model: {
+                value: _vm.question.question,
+                callback: function ($$v) {
+                  _vm.$set(_vm.question, "question", $$v)
+                },
+                expression: "question.question",
               },
             }),
           ],
@@ -2511,11 +3071,7 @@ var render = function () {
                   staticClass:
                     "bkt-button primary bkt-button_plump bkt-w-sm-100",
                 },
-                [
-                  _vm._v(
-                    "\n                        Отправить\n                    "
-                  ),
-                ]
+                [_vm._v("\n                    Отправить\n                ")]
               ),
             ],
             1
@@ -2574,53 +3130,620 @@ var render = function () {
   var _c = _vm._self._c || _h
   return _c(
     "div",
-    { staticClass: "bkt-card bkt-card__body bkt-gap-down-sm-row-large" },
+    { staticClass: "bkt-wrapper-column bkt-gap-large bkt-gap-down-sm" },
     [
-      _c("h3", { staticClass: "bkt-card__title" }, [_vm._v("Ваши контакты")]),
+      _c("div", { staticClass: "bkt-card bkt-card__body bkt-gap-row-medium" }, [
+        _c("h3", { staticClass: "bkt-card__title" }, [
+          _vm._v("Ваша электронная почта"),
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "bkt-form bkt-gap-down-sm-row-medium" }, [
+          _c(
+            "div",
+            { staticClass: "col-12 col-md-8" },
+            [
+              _c("bkt-input", {
+                attrs: {
+                  name: "email",
+                  type: "email",
+                  rules: "required|email",
+                  placeholder: "pochta@gmail.com",
+                  icon_name: "Email",
+                  icon_color: "primary",
+                  disabled: "",
+                },
+                model: {
+                  value: _vm.edit_user.email,
+                  callback: function ($$v) {
+                    _vm.$set(_vm.edit_user, "email", $$v)
+                  },
+                  expression: "edit_user.email",
+                },
+              }),
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c("div", { staticClass: "col-12 col-md-4" }, [
+            _c(
+              "button",
+              {
+                staticClass:
+                  "bkt-button primary bkt-button_plump float-end bkt-w-down-sm-100",
+                on: {
+                  click: function ($event) {
+                    return _vm.editContact("email")
+                  },
+                },
+              },
+              [
+                _vm._v(
+                  "\n                    " +
+                    _vm._s(_vm.edit_user.email ? "Изменить" : "Привязать") +
+                    "\n                    "
+                ),
+              ]
+            ),
+          ]),
+        ]),
+      ]),
       _vm._v(" "),
-      _c("bkt-input", {
-        attrs: {
-          name: "email",
-          type: "email",
-          label: "e-mail",
-          rules: "required|email",
-          placeholder: "pochta@gmail.com",
-          icon_name: "Email",
-          icon_color: "primary",
-          disabled: "",
-        },
-        model: {
-          value: _vm.edit_user.email,
-          callback: function ($$v) {
-            _vm.$set(_vm.edit_user, "email", $$v)
-          },
-          expression: "edit_user.email",
-        },
-      }),
+      _c("div", { staticClass: "bkt-card bkt-card__body bkt-gap-row-medium" }, [
+        _c("h3", { staticClass: "bkt-card__title" }, [
+          _vm._v("Ваш номер телефона"),
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "bkt-form bkt-gap-down-sm-row-medium" }, [
+          _c(
+            "div",
+            { staticClass: "col-12 col-md-8" },
+            [
+              _c("bkt-input", {
+                attrs: {
+                  name: "phone",
+                  type: "tel",
+                  rules: "required|phone",
+                  placeholder: "+7 495 000-00-00",
+                  icon_name: "Smartphone",
+                  icon_color: "primary",
+                  mask: [
+                    "+# ### ### ####",
+                    "+## ### ### ####",
+                    "+## ### #### ####",
+                  ],
+                  disabled: "",
+                },
+                model: {
+                  value: _vm.edit_user.phone,
+                  callback: function ($$v) {
+                    _vm.$set(_vm.edit_user, "phone", $$v)
+                  },
+                  expression: "edit_user.phone",
+                },
+              }),
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c("div", { staticClass: "col-12 col-md-4" }, [
+            _c(
+              "button",
+              {
+                staticClass:
+                  "bkt-button primary bkt-button_plump float-end bkt-w-down-sm-100",
+                on: {
+                  click: function ($event) {
+                    return _vm.editContact("phone")
+                  },
+                },
+              },
+              [
+                _vm._v(
+                  "\n                    " +
+                    _vm._s(_vm.edit_user.phone ? "Изменить" : "Привязать") +
+                    "\n                    "
+                ),
+              ]
+            ),
+          ]),
+        ]),
+      ]),
       _vm._v(" "),
-      _c("bkt-input", {
-        attrs: {
-          name: "phone",
-          type: "tel",
-          label: "номер телефона",
-          rules: "required|phone",
-          placeholder: "+7 495 000-00-00",
-          icon_name: "Smartphone",
-          icon_color: "primary",
-          mask: ["+# ### ### ####", "+## ### ### ####", "+## ### #### ####"],
-          disabled: "",
-        },
-        model: {
-          value: _vm.edit_user.phone,
-          callback: function ($$v) {
-            _vm.$set(_vm.edit_user, "phone", $$v)
-          },
-          expression: "edit_user.phone",
-        },
-      }),
+      _c("bkt-edit-contact-modal", { ref: "editContact" }),
     ],
     1
   )
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/pages/Profile/EditContactModal.vue?vue&type=template&id=04b71934&scoped=true&":
+/*!*******************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/pages/Profile/EditContactModal.vue?vue&type=template&id=04b71934&scoped=true& ***!
+  \*******************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* binding */ render),
+/* harmony export */   "staticRenderFns": () => (/* binding */ staticRenderFns)
+/* harmony export */ });
+var render = function () {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _vm.user
+    ? _c("bkt-modal", {
+        attrs: {
+          id: "editContactModal",
+          title: "Привязать контакт",
+          modal_class: "bkt-code-modal",
+          loading: _vm.loading,
+        },
+        on: { "close-modal": _vm.back },
+        scopedSlots: _vm._u(
+          [
+            {
+              key: "body",
+              fn: function (ref) {
+                var invalid = ref.invalid
+                return [
+                  !_vm.code_mode
+                    ? [
+                        _vm.contact.grantType == "email"
+                          ? _c("bkt-input", {
+                              attrs: {
+                                name: "contact_email",
+                                type: "email",
+                                label: "новая эл.почта",
+                                rules: "required|email",
+                                placeholder: "pochta@gmail.com",
+                                no_group_item: "",
+                              },
+                              model: {
+                                value: _vm.email,
+                                callback: function ($$v) {
+                                  _vm.email = $$v
+                                },
+                                expression: "email",
+                              },
+                            })
+                          : _vm._e(),
+                        _vm._v(" "),
+                        _vm.contact.grantType == "phone"
+                          ? _c("bkt-input", {
+                              attrs: {
+                                name: "contact_phone",
+                                type: "tel",
+                                label: "новый номер телефона",
+                                rules: "required|phone",
+                                placeholder: "+7 495 000-00-00",
+                                mask: [
+                                  "+# ### ### ####",
+                                  "+## ### ### ####",
+                                  "+## ### #### ####",
+                                ],
+                                no_group_item: "",
+                              },
+                              model: {
+                                value: _vm.phone,
+                                callback: function ($$v) {
+                                  _vm.phone = $$v
+                                },
+                                expression: "phone",
+                              },
+                            })
+                          : _vm._e(),
+                        _vm._v(" "),
+                        _vm.user[_vm.contact.grantType]
+                          ? _c("div", { staticClass: "bkt-wrapper-column" }, [
+                              _c("label", { staticClass: "bkt-input__label" }, [
+                                _vm._v(
+                                  "\n                        " +
+                                    _vm._s(
+                                      _vm.contact.grantType == "email"
+                                        ? "доступ к старой электронной почте:"
+                                        : "доступ к старому телефону:"
+                                    ) +
+                                    "\n                    "
+                                ),
+                              ]),
+                              _vm._v(" "),
+                              _c(
+                                "div",
+                                { staticClass: "d-flex bkt-gap" },
+                                [
+                                  _c("bkt-checkbox", {
+                                    attrs: {
+                                      type: "radio",
+                                      name: "access",
+                                      label: "есть",
+                                      val: true,
+                                    },
+                                    model: {
+                                      value:
+                                        _vm.contact.haveAccessToOldCredentials,
+                                      callback: function ($$v) {
+                                        _vm.$set(
+                                          _vm.contact,
+                                          "haveAccessToOldCredentials",
+                                          $$v
+                                        )
+                                      },
+                                      expression:
+                                        "contact.haveAccessToOldCredentials",
+                                    },
+                                  }),
+                                  _vm._v(" "),
+                                  _c("bkt-checkbox", {
+                                    attrs: {
+                                      type: "radio",
+                                      name: "access1",
+                                      label: "нет",
+                                      val: false,
+                                    },
+                                    model: {
+                                      value:
+                                        _vm.contact.haveAccessToOldCredentials,
+                                      callback: function ($$v) {
+                                        _vm.$set(
+                                          _vm.contact,
+                                          "haveAccessToOldCredentials",
+                                          $$v
+                                        )
+                                      },
+                                      expression:
+                                        "contact.haveAccessToOldCredentials",
+                                    },
+                                  }),
+                                ],
+                                1
+                              ),
+                            ])
+                          : _vm._e(),
+                      ]
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _vm.code_mode
+                    ? [
+                        _c(
+                          "div",
+                          {
+                            staticClass: "bkt-shadow-card",
+                            class: _vm.new_code
+                              ? "bkt-shadow-card_green"
+                              : "bkt-shadow-card_blue",
+                          },
+                          [
+                            _c(
+                              "div",
+                              {
+                                staticClass:
+                                  "bkt-shadow-card__inner bkt-gap-large",
+                              },
+                              [
+                                _vm.contact.haveAccessToOldCredentials &&
+                                !_vm.new_code
+                                  ? _c(
+                                      "h5",
+                                      {
+                                        staticClass:
+                                          "bkt-card__title bkt-text-white",
+                                      },
+                                      [
+                                        _vm._v(
+                                          "\n                            Код подтверждения\n                            " +
+                                            _vm._s(
+                                              _vm.contact.grantType == "email"
+                                                ? "вашей старой электронной почты"
+                                                : "вашего старого номера телефона"
+                                            ) +
+                                            "\n                            был отправлен на " +
+                                            _vm._s(
+                                              _vm.contact.grantType == "email"
+                                                ? _vm.edit_user.email
+                                                : _vm.edit_user.phone
+                                            ) +
+                                            ".\n                        "
+                                        ),
+                                      ]
+                                    )
+                                  : _vm._e(),
+                                _vm._v(" "),
+                                (_vm.contact.haveAccessToOldCredentials &&
+                                  _vm.new_code) ||
+                                _vm.no_contact
+                                  ? _c(
+                                      "h5",
+                                      {
+                                        staticClass:
+                                          "bkt-card__title bkt-text-white",
+                                      },
+                                      [
+                                        _vm._v(
+                                          "\n                            Код подтверждения\n                            " +
+                                            _vm._s(
+                                              _vm.contact.grantType == "email"
+                                                ? "вашей новой электронной почты"
+                                                : "вашего нового номера телефона"
+                                            ) +
+                                            "\n                            был отправлен на " +
+                                            _vm._s(
+                                              _vm.contact.grantType == "email"
+                                                ? _vm.email
+                                                : _vm.phone
+                                            ) +
+                                            ".\n                        "
+                                        ),
+                                      ]
+                                    )
+                                  : _vm._e(),
+                                _vm._v(" "),
+                                _vm.no_contact
+                                  ? _c(
+                                      "h5",
+                                      {
+                                        staticClass:
+                                          "bkt-card__title bkt-text-white",
+                                      },
+                                      [
+                                        _vm._v(
+                                          "\n                            После подтверждения операции изменения\n                            " +
+                                            _vm._s(
+                                              _vm.contact.grantType == "email"
+                                                ? "электронной почты"
+                                                : "номера телефона"
+                                            ) +
+                                            "\n                            вступят в силу через 14 дней.\n                        "
+                                        ),
+                                      ]
+                                    )
+                                  : _vm._e(),
+                                _vm._v(" "),
+                                !_vm.contact.haveAccessToOldCredentials &&
+                                _vm.contact.isOldCredentials
+                                  ? _c(
+                                      "h5",
+                                      {
+                                        staticClass:
+                                          "bkt-card__title bkt-text-white",
+                                      },
+                                      [
+                                        _vm._v(
+                                          "\n                            Код подтверждения " +
+                                            _vm._s(
+                                              _vm.contact.grantType == "email"
+                                                ? "электронной почты"
+                                                : "номера телефона"
+                                            ) +
+                                            "\n                            был отправлен на " +
+                                            _vm._s(
+                                              _vm.contact.grantType == "email"
+                                                ? _vm.edit_user.phone
+                                                : _vm.edit_user.email
+                                            ) +
+                                            ".\n                        "
+                                        ),
+                                      ]
+                                    )
+                                  : _vm._e(),
+                                _vm._v(" "),
+                                _c("div", {
+                                  staticClass: "bkt-shadow-card__shadow-1",
+                                }),
+                                _vm._v(" "),
+                                _c("div", {
+                                  staticClass: "bkt-shadow-card__shadow-2",
+                                }),
+                              ]
+                            ),
+                          ]
+                        ),
+                        _vm._v(" "),
+                        _c("bkt-input", {
+                          attrs: {
+                            name: "contact_code",
+                            type: "text",
+                            field_name: "код",
+                            label: "код",
+                            rules: "required|digits:6",
+                            mask: "######",
+                          },
+                          scopedSlots: _vm._u(
+                            [
+                              {
+                                key: "group-item-inner",
+                                fn: function () {
+                                  return [
+                                    _c(
+                                      "button",
+                                      {
+                                        staticClass:
+                                          "bkt-button primary bkt-button_code",
+                                        attrs: {
+                                          disabled:
+                                            _vm.loading || _vm.code_loading,
+                                        },
+                                        on: {
+                                          click: function ($event) {
+                                            return _vm.sendCode("repeat")
+                                          },
+                                        },
+                                      },
+                                      [
+                                        _vm.code_loading
+                                          ? _c("span", {
+                                              staticClass:
+                                                "spinner-border spinner-border-sm",
+                                              attrs: { role: "status" },
+                                            })
+                                          : _vm._e(),
+                                        _vm._v(
+                                          "\n                            Выслать повторно\n                        "
+                                        ),
+                                      ]
+                                    ),
+                                  ]
+                                },
+                                proxy: true,
+                              },
+                            ],
+                            null,
+                            true
+                          ),
+                          model: {
+                            value: _vm.contact.code,
+                            callback: function ($$v) {
+                              _vm.$set(_vm.contact, "code", $$v)
+                            },
+                            expression: "contact.code",
+                          },
+                        }),
+                      ]
+                    : _vm._e(),
+                ]
+              },
+            },
+            {
+              key: "footer",
+              fn: function (ref) {
+                var invalid = ref.invalid
+                return [
+                  !_vm.code_mode
+                    ? _c(
+                        "button",
+                        {
+                          staticClass: "bkt-button next ms-auto",
+                          attrs: {
+                            type: "button",
+                            disabled: invalid || _vm.same_contact,
+                          },
+                          on: { click: _vm.sendCode },
+                        },
+                        [
+                          _vm._v("\n                Далее\n                "),
+                          _c("bkt-icon", { attrs: { name: "ArrowDown" } }),
+                        ],
+                        1
+                      )
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _vm.code_mode
+                    ? _c(
+                        "button",
+                        {
+                          staticClass: "bkt-button next me-auto",
+                          attrs: {
+                            type: "button",
+                            disabled: _vm.loading || _vm.code_loading,
+                          },
+                          on: { click: _vm.back },
+                        },
+                        [
+                          _c("bkt-icon", {
+                            staticClass: "bkt-rotate-90",
+                            attrs: { name: "ArrowDown" },
+                          }),
+                          _vm._v("\n                Назад\n            "),
+                        ],
+                        1
+                      )
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _vm.code_mode && !_vm.new_code && !_vm.no_contact
+                    ? _c(
+                        "button",
+                        {
+                          staticClass: "bkt-button next ms-auto",
+                          attrs: {
+                            type: "button",
+                            disabled:
+                              invalid || _vm.loading || _vm.code_loading,
+                          },
+                          on: { click: _vm.verifyCode },
+                        },
+                        [
+                          _vm._v("\n                Далее\n                "),
+                          _c("bkt-icon", {
+                            directives: [
+                              {
+                                name: "show",
+                                rawName: "v-show",
+                                value: !_vm.loading && !_vm.code_loading,
+                                expression: "!loading && !code_loading",
+                              },
+                            ],
+                            attrs: { name: "ArrowDown" },
+                          }),
+                          _vm._v(" "),
+                          _vm.loading
+                            ? _c("span", {
+                                staticClass:
+                                  "spinner-border spinner-border-sm bkt-border-primary",
+                                attrs: { role: "status" },
+                              })
+                            : _vm._e(),
+                        ],
+                        1
+                      )
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _vm.code_mode && _vm.new_code
+                    ? _c(
+                        "button",
+                        {
+                          staticClass: "bkt-button primary bkt-button_save",
+                          attrs: {
+                            disabled:
+                              invalid || _vm.loading || _vm.code_loading,
+                          },
+                          on: { click: _vm.verifyCode },
+                        },
+                        [
+                          _vm.loading
+                            ? _c("span", {
+                                staticClass: "spinner-border spinner-border-sm",
+                                attrs: { role: "status" },
+                              })
+                            : _vm._e(),
+                          _vm._v("\n                Сохранить\n            "),
+                        ]
+                      )
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _vm.code_mode && _vm.no_contact
+                    ? _c(
+                        "button",
+                        {
+                          staticClass: "bkt-button primary bkt-button_save",
+                          attrs: { disabled: invalid || _vm.loading },
+                          on: { click: _vm.verifyCode },
+                        },
+                        [
+                          _vm.loading
+                            ? _c("span", {
+                                staticClass: "spinner-border spinner-border-sm",
+                                attrs: { role: "status" },
+                              })
+                            : _vm._e(),
+                          _vm._v("\n                Подтвердить\n            "),
+                        ]
+                      )
+                    : _vm._e(),
+                ]
+              },
+            },
+          ],
+          null,
+          false,
+          2148652318
+        ),
+      })
+    : _vm._e()
 }
 var staticRenderFns = []
 render._withStripped = true

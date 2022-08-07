@@ -149,7 +149,7 @@
                     },
                     {
                         icon: 'Target',
-                        label: "Следить за лотом",
+                        label: "В мониторинге",
                         color: 'red',
                         code: '',
                         status: 'inMonitoring',

@@ -7,13 +7,15 @@
     >
         <template #body="{ invalid }">
             <div class="bkt-code-modal-steps">
-                <h4 class="bkt-modal__subtitle">Чтобы начать работу, пройдите несколько шагов:</h4>
-                <div class="bkt-card bkt-bg-green">
-                    <h5 class="bkt-card__subtitle">Попробуйте все услуги нашего сервиса</h5>
-                    <h1 class="bkt-card__title">бесплатно в течение 7 дней</h1>
-                    <div class="bkt-card bkt-card__background-figure-1">
-                    </div>
-                    <div class="bkt-card bkt-card__background-figure-2 bg-green-light">
+                <h4 class="bkt-modal__subtitle bkt-input__label">Чтобы начать работу, пройдите несколько шагов:</h4>
+                <div class="bkt-shadow-card bkt-shadow-card_green">
+                    <div class="bkt-shadow-card__inner bkt-gap-large">
+                        <h5 class="bkt-card__subtitle">Попробуйте все услуги нашего сервиса</h5>
+                        <h1 class="bkt-card__title">бесплатно в течение 7 дней</h1>
+                        <div class="bkt-shadow-card__shadow-1">
+                        </div>
+                        <div class="bkt-shadow-card__shadow-2">
+                        </div>
                     </div>
                 </div>
             </div>
@@ -43,6 +45,7 @@
                 label="код"
                 :rules="'required|digits:6'"
                 v-mask="'######'"
+                no_group_item
             >
                 <!--                <template #group-item-inner>-->
                 <!--                    <button class="bkt-button primary">-->
@@ -51,21 +54,11 @@
                 <!--                </template>-->
             </bkt-input>
 
-<!--            <div class="bkt-select__wrapper">-->
-<!--                <label class="bkt-select__label" for="sortSelect">выберите регион и получите персональную подборку-->
-<!--                    лотов</label>-->
-<!--                <select class="form-select bkt-select" id="sortSelect" aria-label="">-->
-<!--                    <option selected></option>-->
-<!--                    <option value="1">One</option>-->
-<!--                    <option value="2">Two</option>-->
-<!--                    <option value="3">Three</option>-->
-<!--                </select>-->
-<!--            </div>-->
             <bkt-select name="regions"
                         v-model="region"
                         :options="region_options"
                         label="выберите регион и получите персональную подборку лотов"
-                        label_class="bkt-select__label"
+                        label_class="bkt-input__label"
                         with_option
                         with_selected_option
                         :method_name="'getRegions'"
@@ -78,6 +71,16 @@
                     {{$t('regions.'+option.label)}}
                 </template>
             </bkt-select>
+            <!--            <div class="bkt-select__wrapper">-->
+            <!--                <label class="bkt-select__label" for="sortSelect">выберите регион и получите персональную подборку-->
+            <!--                    лотов</label>-->
+            <!--                <select class="form-select bkt-select" id="sortSelect" aria-label="">-->
+            <!--                    <option selected></option>-->
+            <!--                    <option value="1">One</option>-->
+            <!--                    <option value="2">Two</option>-->
+            <!--                    <option value="3">Three</option>-->
+            <!--                </select>-->
+            <!--            </div>-->
         </template>
         <!--        <template #left_button_inner>-->
         <!--            Пропустить-->
@@ -91,7 +94,7 @@
         name: "CodeModal",
         data() {
             return {
-                region: 'region',
+                region: '',
                 loading: false,
                 code_loading: false,
                 // user:''
@@ -134,9 +137,9 @@
                     .catch(err => {
                         this.loading = false;
                     })
-                .finally(() => {
-                    this.loading = false;
-                });
+                    .finally(() => {
+                        this.loading = false;
+                    });
             },
             sendCode() {
                 let data = JSON.parse(JSON.stringify(this.user));

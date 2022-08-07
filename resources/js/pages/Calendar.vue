@@ -1,30 +1,34 @@
 <template>
-    <div class="container bkt-calendar bkt-container">
+    <div class="bkt-page bkt-calendar bkt-container">
         <add-task-modal :date="sel_date"/>
         <div class="bkt-main-title bkt-auctions__title">
             <h1 class="bkt-page__title">Календарь</h1>
         </div>
-
-
         <div class="bkt-content">
             <div class="row">
                 <div class="col-12 col-lg-3">
-                    <div class="bkt-month-calendar mb-2">
-                        <v-calendar class="bkt-left-calendar bkt-calendar-none-border m-1"
-                                    :attributes="current_items" @update:from-page="changePage"
-                                    :masks="masks" @dayclick="addEvent">
-                            <template #default="{ inputValue, inputEvents }">
-                                <input class="px-3 py-1 border rounded" :value="inputValue" v-on="inputEvents"/>
-                            </template>
-                        </v-calendar>
-                    </div>
-                    <div class="bkt-calendar-checkboxes d-flex flex-wrap flex-column pl-4 pt-4 pb-4">
-                        <bkt-checkbox label="События" :name="'events'" v-model="filters.events"
-                                      wrapper_class="bkt-check__wrapper-inline" class="events_check mr-2"/>
-                        <bkt-checkbox label="Задачи" :name="'tasks'" v-model="filters.tasks"
-                                      wrapper_class="bkt-check__wrapper-inline" class="tasks_check mr-2"/>
-                        <bkt-checkbox label="Напоминания" :name="'reminders'" v-model="filters.reminder"
-                                      wrapper_class="bkt-check__wrapper-inline" class="reminders_check mr-2"/>
+                    <div class="bkt-form">
+                        <div class="col-12 col-md-6 col-lg-12">
+                            <div class="bkt-month-calendar mb-2">
+                                <v-calendar is-expanded class="bkt-left-calendar bkt-calendar-none-border m-1"
+                                            :attributes="current_items" @update:from-page="changePage"
+                                            :masks="masks" @dayclick="addEvent">
+                                    <template #default="{ inputValue, inputEvents }">
+                                        <input class="px-3 py-1 border rounded" :value="inputValue" v-on="inputEvents"/>
+                                    </template>
+                                </v-calendar>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6 col-lg-12">
+                            <div class="bkt-calendar-checkboxes d-flex flex-wrap flex-column pl-4 pt-4 pb-4">
+                                <bkt-checkbox label="События" :name="'events'" v-model="filters.events"
+                                              wrapper_class="bkt-check__wrapper-inline" class="events_check mr-2"/>
+                                <bkt-checkbox label="Задачи" :name="'tasks'" v-model="filters.tasks"
+                                              wrapper_class="bkt-check__wrapper-inline" class="tasks_check mr-2"/>
+                                <bkt-checkbox label="Напоминания" :name="'reminders'" v-model="filters.reminder"
+                                              wrapper_class="bkt-check__wrapper-inline" class="reminders_check mr-2"/>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="col-12 col-lg-9">
@@ -97,9 +101,9 @@
 
                             <template v-slot:day-content="{ day, attributes }">
                                 <div class="flex flex-col h-full z-10 overflow-hidden">
-                                    <span class="day-label text-sm text-gray-900">{{
-                                            day.id | moment("D MMM")
-                                        }}</span>
+                                    <span class="day-label text-sm text-gray-900">
+                                        {{day.id | moment("D MMM")}}
+                                    </span>
                                     <div class="flex-grow overflow-y-auto overflow-x-auto" style="margin-bottom: 35px"
                                          v-for="attr_date in attributes" :key="attr_date.key">
                                         <p v-if="attr_date.customData"
@@ -122,7 +126,6 @@
 </template>
 
 <script>
-import Checkbox from "../components/Checkbox";
 import Calendar from "v-calendar";
 import AddTaskModal from "./Calendar/AddTaskModal";
 
@@ -130,7 +133,6 @@ export default {
     name: "Calendar",
     components: {
         AddTaskModal,
-        'bkt-checkbox': Checkbox,
         Calendar,
     },
     data() {

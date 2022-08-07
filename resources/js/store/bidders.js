@@ -101,6 +101,9 @@ export default {
             });
             state.bidders[payload.type].pagination = payload.pagination;
         },
+        setCookie(state, payload){
+            state.cookie = payload
+        }
     },
     actions: {
         /*
@@ -132,8 +135,8 @@ export default {
         * /bidders/debtor/messages
         * Сообщения о должнике
         *
-        * GET
-        * /bidders/debtor/message/{guid}
+        * POST
+        * /bidders/debtor/message
         * Сообщение html о должнике
         */
         async getBidderLots({commit, state}, payload) {
@@ -276,10 +279,13 @@ export default {
                 throw error
             }
         },
-        async getDebtorMessagePage({commit, state}, payload) {
-            return await axios({
-                method: 'get',
-                url: '/api/bidders/debtor/message/'+ payload
+        async getDebtorMessagePage({dispatch, commit, state}, payload) {
+             return await axios({
+                method: 'post',
+                url: '/api/bidders/debtor/message',
+                data: {
+                    guid: payload,
+                }
             })
         },
     },

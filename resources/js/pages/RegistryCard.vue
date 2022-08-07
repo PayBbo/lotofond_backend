@@ -30,7 +30,7 @@
         </div>
         <div class="bkt-card">
             <div class="bkt-card__body">
-                <bkt-table :loading="loading" :items="[]" main_class="bkt-simple-table_list">
+                <bkt-table :loading="loading" main_class="bkt-simple-table_list" :no_data_slot="false">
                     <template #tbody>
                         <tr>
                             <td>
@@ -143,12 +143,12 @@
                             </td>
                             <td>
                                 <div class="bkt-wrapper-between align-items-center bkt-registry-rating">
-                                    <button v-if="item_type == 'organizer'" class="bkt-button next">
-                                        мои победы
-                                        <span class="bkt-text-red"
-                                              style="text-transform: initial"> (добавьте ИНН)  </span>
-                                        <bkt-icon name="ArrowDown" color="green"></bkt-icon>
-                                    </button>
+<!--                                    <button v-if="item_type == 'organizer'" class="bkt-button next">-->
+<!--                                        мои победы-->
+<!--                                        <span class="bkt-text-red"-->
+<!--                                              style="text-transform: initial"> (добавьте ИНН)  </span>-->
+<!--                                        <bkt-icon name="ArrowDown" color="green"></bkt-icon>-->
+<!--                                    </button>-->
                                     <div v-if="item[item_type] && item[item_type].rating" class="bkt-rating text-center">
                                         <h6>{{item[item_type].rating.estimate ? item[item_type].rating.estimate : 0}} / 5</h6>
                                         <star-rating :show-rating="false" :rating="item[item_type].rating.estimate" :read-only="true"
@@ -173,7 +173,7 @@
                       :disabled="active_lots.length===0&&!active_lots_loading"
         >
             <template #collapse v-if="active_lots.length>0">
-                <div class="row w-100 m-auto bkt-gap">
+                <div class="bkt-form w-100 m-auto bkt-gap">
                     <div class="col-12 px-0 d-none d-md-block">
                         <div class="row w-100 mx-auto align-items-center justify-content-center">
                             <div class="col-2 pl-0">

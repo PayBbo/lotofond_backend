@@ -10,10 +10,10 @@
                                 <h5 class="bkt-text-neutral-dark">
                                     телефон
                                 </h5>
-                                <h4 class="bkt-card__title">+7 (495) 500-20-60</h4>
-                                <button class="bkt-button primary bkt-w-sm-100" @click="phoneMe">
+                                <h4 class="bkt-card__title">+7 916 018-48-58</h4>
+                                <a class="bkt-button primary bkt-text-white bkt-w-sm-100" href="tel:+79160184858">
                                     Перезвонить мне
-                                </button>
+                                </a>
                             </div>
                         </div>
                         <div class="col-12 col-lg-2 d-none d-lg-block">
@@ -30,10 +30,10 @@
                                 <h5 class="bkt-text-neutral-dark">
                                     e-mail
                                 </h5>
-                                <h4 class="bkt-card__title">bankrot@pochta.ru</h4>
-                                <button class="bkt-button primary bkt-w-sm-100" @click="writeMe">
+                                <h4 class="bkt-card__title">vicemine@mail.ru</h4>
+                                <a class="bkt-button primary bkt-text-white bkt-w-sm-100" href="mailto:vicemine@mail.ru">
                                     Написать
-                                </button>
+                                </a>
                             </div>
                         </div>
                         <div class="col-12 col-lg-2 d-none d-lg-block">
@@ -63,39 +63,46 @@
             <div class="col-12 col-lg-8">
                 <div class="bkt-wrapper-column bkt-gap-large">
                     <div class="bkt-card bkt-card__body">
-                        <ValidationObserver v-slot="{ invalid }" tag="div" class="bkt-form align-items-end wide">
+                        <ValidationObserver v-slot="{ invalid }" ref="observer" tag="div" class="bkt-form align-items-end wide">
                             <div class="col-12">
-                                <bkt-textarea :name="'message'"
-                                              field_name="Сообщение"
-                                              v-model="contact.message" rows="6" rules="required"
+                                <bkt-textarea name="message"
+                                              field_name="вопроса"
+                                              v-model="contact.question" rows="6" rules="required"
                                               label="Задайте вопрос или опишите проблему"
-                                              label_class="bkt-card__title"></bkt-textarea>
+                                              label_class="bkt-card__title" no_group_item
+                                >
+                                </bkt-textarea>
                             </div>
                             <div class="col">
                                 <label class="bkt-input__label bkt-form__label mt-0">куда вам прислать ответ</label>
                                 <div class="bkt-select__wrapper">
-                                    <select class="form-select bkt-select w-100" v-model="contact.type">
+                                    <select class="form-select bkt-select w-100" v-model="contact.communicationType">
                                         <option value="email">E-mail</option>
                                         <option value="phone">Телефон</option>
                                     </select>
                                 </div>
                             </div>
                             <div class="col-12 col-lg-5">
-                                <bkt-input v-if="contact.type=='email'" v-model="contact.email"
+                                <bkt-input v-if="contact.communicationType=='email'" v-model="email"
                                            :name="'email'" label="ваш e-mail" field_name="E-mail"
                                            :rules="'required|email'"
                                            label_class="bkt-form__label d-lg-none mt-0"
+                                           no_group_item
+                                           errors_class="d-lg-none"
                                 />
                                 <bkt-input
-                                    v-model="user.phone"
-                                    v-if="contact.type=='phone'"
+                                    v-model="phone"
+                                    v-if="contact.communicationType=='phone'"
                                     :name="'phone'"
                                     type="tel"
                                     field_name="Телефон"
                                     label="ваш номер телефона"
+                                    label_class="bkt-form__label d-lg-none mt-0"
                                     :rules="'required|phone'"
                                     :placeholder="'+7 495 000-00-00'"
                                     :mask="['+# ### ### ####','+## ### ### ####', '+## ### #### ####']"
+                                    no_group_item
+                                    errors_class="d-lg-none"
                                 />
                             </div>
                             <div class="col">
@@ -108,9 +115,9 @@
                             </div>
                         </ValidationObserver>
                     </div>
-                    <button class="bkt-button_pill bkt-border-primary bkt-w-md-100 ms-auto" @click="subscribe">
-                        Подписаться на новости
-                    </button>
+<!--                    <button class="bkt-button_pill bkt-border-primary bkt-w-md-100 ms-auto" @click="subscribe">-->
+<!--                        Подписаться на новости-->
+<!--                    </button>-->
                 </div>
             </div>
         </div>
@@ -124,16 +131,35 @@
             return {
                 loading: false,
                 contact: {
-                    message: '',
-                    type: 'email',
-                    email: '',
-                    phone: '',
-                }
+                    question: '',
+                    communicationType: 'email',
+                    communication: '',
+                },
+                phone:'',
+                email:''
             };
         },
         methods: {
             submit() {
-
+                this.loading = true;
+                axios.post('/api/send/contact', this.contact)
+                    .then(resp => {
+                        this.loading = false;
+                        this.$store.dispatch('sendNotification',
+                            {self:this, message: 'Вопрос успешно отправлен'});
+                        this.contact = {
+                            question: '',
+                            communicationType: 'email',
+                            communication: '',
+                        };
+                        this.$nextTick(() => {
+                            this.$refs.observer.reset();
+                        });
+                    })
+                    .catch(error => {
+                        // this.$store.dispatch('sendNotification', {self:this, type: 'error'});
+                        this.loading = false;
+                    })
             },
             subscribe() {
 

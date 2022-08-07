@@ -1,7 +1,7 @@
 <template>
-    <div class="row w-100 mx-auto bkt-row outline bkt-card-trade-mini">
-        <div class="col-12 col-md-2 ps-0 bkt-card-trade-mini__image">
-            <img v-lazy="'/images/card-image1.png'" class="bkt-card__image" v-if="!item.photos || item.photos.length==0"/>
+    <div class="bkt-form w-100 mx-auto bkt-row outline bkt-card-trade-mini">
+        <div class="col-12 col-md-2 ps-sm-0 bkt-card-trade-mini__image">
+            <card-image-category  v-if="!item.photos || item.photos.length==0" :categories="item.categories"></card-image-category>
             <hooper :itemsToShow="1" :centerMode="true" class="w-100 h-100" style="min-height: 159px" v-if="item.photos.length>0">
                 <slide v-for="photo in item.photos" :key="photo.id">
                     <img v-lazy="photo.main" class="bkt-card__image"/>
@@ -82,12 +82,13 @@
         Slide,
         Navigation as HooperNavigation
     } from 'hooper';
+    import CardImageCategory from "./CardImageCategory";
     export default {
         name: "MiniTradeCard",
         props: ['item'],
         components: {
             Hooper,
-            Slide, HooperNavigation
+            Slide, HooperNavigation, CardImageCategory
         }
     }
 </script>

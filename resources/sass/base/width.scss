@@ -12,6 +12,14 @@
     .bkt-w-sm-initial {
         width: initial !important;
     }
+    .bkt-w-down-sm {
+        &-100{
+            width: 100%;
+        }
+        &-initial {
+            width: initial;
+        }
+    }
 }
 
 @media (max-width: 768px) {
@@ -20,6 +28,14 @@
     }
     .bkt-w-md-initial {
         width: initial !important;
+    }
+    .bkt-w-down-md {
+        &-100{
+            width: 100%;
+        }
+        &-initial {
+            width: initial;
+        }
     }
 }
 
@@ -30,6 +46,14 @@
     .bkt-w-lg-initial {
         width: initial !important;
     }
+    .bkt-w-down-lg {
+        &-100{
+            width: 100%;
+        }
+        &-initial {
+            width: initial;
+        }
+    }
 }
 
 @media (max-width: 1200px) {
@@ -39,6 +63,14 @@
     .bkt-w-xl-initial {
         width: initial !important;
     }
+    .bkt-w-down-xl {
+        &-100{
+            width: 100%;
+        }
+        &-initial {
+            width: initial;
+        }
+    }
 }
 
 @media (max-width: 1400px) {
@@ -47,5 +79,68 @@
     }
     .bkt-w-xxl-initial {
         width: initial !important;
+    }
+    .bkt-w-down-xxl {
+        &-100{
+            width: 100%;
+        }
+        &-initial {
+            width: initial;
+        }
+    }
+}
+
+@media (min-width: 576px) {
+    .bkt-w-up-sm {
+        &-100{
+            width: 100%;
+        }
+        &-initial {
+            width: initial;
+        }
+    }
+}
+
+@media (min-width: 768px) {
+    .bkt-w-up-md {
+        &-100{
+            width: 100%;
+        }
+        &-initial {
+            width: initial;
+        }
+    }
+}
+
+@media (min-width: 992px) {
+    .bkt-w-up-lg {
+        &-100{
+            width: 100%;
+        }
+        &-initial {
+            width: initial;
+        }
+    }
+}
+
+@media (min-width: 1200px) {
+    .bkt-w-up-xl {
+        &-100{
+            width: 100%;
+        }
+        &-initial {
+            width: initial;
+        }
+    }
+}
+
+@media (min-width: 1400px) {
+    .bkt-w-up-xxl {
+        &-100{
+            width: 100%;
+        }
+        &-initial {
+            width: initial;
+        }
     }
 }

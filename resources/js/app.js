@@ -161,9 +161,7 @@ Vue.prototype.$search = function (term, list, options) {
 import InfiniteLoading from 'vue-infinite-loading';
 Vue.component('infinite-loading', InfiniteLoading);
 
-import VueRouter from 'vue-router';
-import routes from './routes';
-Vue.use(VueRouter);
+import router from './routes';
 import store from './store/index.js';
 
 Vue.component("App", require("./App.vue").default);
@@ -221,7 +219,7 @@ Vue.filter('daysToDate', value => {
 
 const app = new Vue({
     el: "#app",
-    router: new VueRouter(routes),
+    router,
     store
 });
 

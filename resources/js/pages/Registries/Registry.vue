@@ -205,9 +205,9 @@
                 //     this.callMethod(1);
                 // }
             },
-            changeParam(key, value=null) {
+            changeParam(key, value = null) {
                 let item_value = value;
-                if(value === null) {
+                if (value === null) {
                     let schema = this.current_params;
                     let pList = key.split('.');
                     let len = pList.length;
@@ -216,11 +216,15 @@
                         if (!schema[elem]) schema[elem] = {};
                         schema = schema[elem];
                     }
-                    item_value = schema[pList[len-1]]
+                    item_value = schema[pList[len - 1]]
                 }
-                this.$emit('changeParam', {key:key, value: item_value});
+                this.$emit('changeParam', {key: key, value: item_value});
                 if (this.method_name) {
-                    this.callMethod(1);
+                    let page = 1;
+                    if (key === 'page') {
+                        page = item_value;
+                    }
+                    this.callMethod(page);
                 }
             },
             async callMethod(page = 1) {

@@ -12,6 +12,7 @@
                                name="startPriceMin" icon_name="Check"
                                :group_item_class="model.startPrice.min ? 'bkt-bg-green': 'bkt-bg-white'"
                                :icon_color="model.startPrice.min ? 'white': 'main-lighter'"
+                               @input="saveValue"
                     >
                         <template #group-text>
                             от
@@ -25,6 +26,7 @@
                                name="startPriceMax" icon_name="Check"
                                :group_item_class="model.startPrice.max ? 'bkt-bg-green': 'bkt-bg-white'"
                                :icon_color="model.startPrice.max ? 'white': 'main-lighter'"
+                               @input="saveValue"
                     >
                         <template #group-text>
                             до
@@ -46,6 +48,7 @@
                                name="currentPriceMin" icon_name="Check"
                                :group_item_class="model.currentPrice.min ? 'bkt-bg-green': 'bkt-bg-white'"
                                :icon_color="model.currentPrice.min ? 'white': 'main-lighter'"
+                               @input="saveValue"
                     >
                         <template #group-text>
                             от
@@ -59,6 +62,7 @@
                                name="currentPriceMax" icon_name="Check"
                                :group_item_class="model.currentPrice.max ? 'bkt-bg-green': 'bkt-bg-white'"
                                :icon_color="model.currentPrice.max ? 'white': 'main-lighter'"
+                               @input="saveValue"
                     >
                         <template #group-text>
                             до
@@ -80,6 +84,7 @@
                                name="minPriceMin" icon_name="Check"
                                :group_item_class="model.minPrice.min ? 'bkt-bg-green': 'bkt-bg-white'"
                                :icon_color="model.minPrice.min ? 'white': 'main-lighter'"
+                               @input="saveValue"
                     >
                         <template #group-text>
                             от
@@ -92,6 +97,7 @@
                                name="minPriceMax" icon_name="Check"
                                :group_item_class="model.minPrice.max ? 'bkt-bg-green': 'bkt-bg-white'"
                                :icon_color="model.minPrice.max ? 'white': 'main-lighter'"
+                               @input="saveValue"
                     >
                         <template #group-text>
                             до
@@ -112,6 +118,7 @@
                                name="percentageReductionMin" icon_name="Check"
                                :group_item_class="model.percentageReduction.min ? 'bkt-bg-green': 'bkt-bg-white'"
                                :icon_color="model.percentageReduction.min ? 'white': 'main-lighter'"
+                               @input="saveValue"
                     >
                         <template #group-text>
                             от
@@ -124,6 +131,7 @@
                                name="percentageReductionMax" icon_name="Check"
                                :group_item_class="model.percentageReduction.max ? 'bkt-bg-green': 'bkt-bg-white'"
                                :icon_color="model.percentageReduction.max ? 'white': 'main-lighter'"
+                               @input="saveValue"
                     >
                         <template #group-text>
                             до
@@ -188,6 +196,12 @@
         computed: {
             filters_prices() {
                 return this.$store.getters.filters_data.prices;
+            },
+        },
+        watch:{
+            value: function(newValue, oldValue){
+                this.model = newValue;
+                this.saveValue()
             },
         },
         methods: {

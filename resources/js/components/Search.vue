@@ -5,13 +5,13 @@
                    @keyup="keyMonitor"
                    v-model="searchFilter"
                    @focus="handleFocus"
-                   @focusout="optionsShown = false"
                    @blur="handleBlur"
                    @input="getResults"
                    :disabled="disabled"
             >
             <span class="p-1" @click="clear" v-if="searchFilter != ''">
-                <bkt-icon :class="{'d-none':currentLoading || !clearable}" :name="'Cancel'" color="green" height="15px"></bkt-icon>
+                <bkt-icon :class="{'d-none':currentLoading || !clearable}" :name="'Cancel'" color="green"
+                          height="15px"></bkt-icon>
             </span>
 
             <button class="bkt-button green bkt-search__button bkt-bg-green"
@@ -30,10 +30,12 @@
                 <slot name="dropdown-block" :options="options">
                     <slot name="dropdown-block-header">
                     </slot>
-                    <div class="dropdown-item" v-for="(item, index) in options" @click="selectOption(item)">
-                        <slot name="dropdown-item" v-bind:item="item">
-                            {{item}}
-                        </slot>
+                    <div class="row w-100 m-auto bkt-gap">
+                        <div class="col-12 px-0" v-for="(item, index) in options" @mousedown="selectOption(item)">
+                            <slot name="dropdown-item" v-bind:item="item">
+                                {{item}}
+                            </slot>
+                        </div>
                     </div>
                 </slot>
             </div>
@@ -148,6 +150,7 @@
         },
         methods: {
             handleBlur(value) {
+                console.log('blur')
                 this.$emit('blur', value);
                 if (!this.no_dropdown) {
                     // if (this.searchFilter == '') {
@@ -160,6 +163,11 @@
                 if (!this.no_dropdown && this.searchFilter !== '' && this.options.length > 0) {
                     this.optionsShown = true;
                 }
+            },
+            handleFocusOut(value) {
+                this.$emit('focusout', value);
+                setTimeout(() => this.optionsShown = false, 10000);
+
             },
             selectOption(option) {
                 this.selected = JSON.parse(JSON.stringify(option));

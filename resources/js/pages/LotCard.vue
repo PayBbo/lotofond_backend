@@ -282,10 +282,11 @@
                             <!--                        </button>-->
                         </div>
                         <div class="bkt-card-image-wrapper">
-                            <hooper :itemsToShow="1" :centerMode="true" class="bkt-card__image-slider">
-                                <slide v-if="!item.photos || item.photos.length==0">
-                                    <img v-lazy="'/images/card-image1.png'" class="bkt-card__image"/>
-                                </slide>
+                            <bkt-card-image-category  v-if="!item.photos || item.photos.length==0" :categories="item.categories"></bkt-card-image-category>
+<!--                            <div class="bkt-card__image-category" v-if="!item.photos || item.photos.length==0">-->
+<!--                                <bkt-icon name="Cow" color="neutral-dark"></bkt-icon>-->
+<!--                            </div>-->
+                            <hooper :itemsToShow="1" :centerMode="true" class="bkt-card__image-slider" v-if="item.photos && item.photos.length>0">
                                 <slide v-for="photo in item.photos" :key="photo.id">
                                     <img v-lazy="photo.main" class="bkt-card__image"/>
                                 </slide>
@@ -315,13 +316,13 @@
                             </div>
                         </div>
                         <div class="bkt-card-infographics" style="gap: 10px;">
-                            <div class="bkt-card__row outline bkt-wrapper-between">
+                            <div class="bkt-card__row outline bkt-wrapper-between align-items-center">
                                 <h5 class="bkt-card__subtitle">начальная цена</h5>
                                 <h4 class="bkt-card__title bkt-text-primary">
                                     {{item && item.startPrice ? item.startPrice : '0' | priceFormat}} ₽
                                 </h4>
                             </div>
-                            <div class="bkt-card__row outline bkt-wrapper-between">
+                            <div class="bkt-card__row outline bkt-wrapper-between align-items-center">
                                 <h5 class="bkt-card__subtitle">минимальная цена</h5>
                                 <h4 class="bkt-card__title bkt-text-red">
                                     {{item && item.minPrice ? item.minPrice : '0' | priceFormat}} ₽
@@ -1151,6 +1152,7 @@
     import StarRating from 'vue-star-rating'
     import BktCollapse from '../components/Collapse.vue'
     import BktCardActions from '../components/CardActions.vue'
+    import BktCardImageCategory from "../components/CardImageCategory";
     import MiniTradeCard from "../components/MiniTradeCard";
 
     export default {
@@ -1162,7 +1164,8 @@
             HooperNavigation,
             StarRating,
             BktCollapse,
-            BktCardActions
+            BktCardActions,
+            BktCardImageCategory
         },
         data() {
             return {

@@ -58,7 +58,7 @@ export default {
                 },
             },
             mainParams: {
-                excludedWords: '',
+                excludedWords: null,
                 includedWords:'',
                 tradePlaces: [],
                 tradeType:'',

@@ -147,7 +147,7 @@
                                 :class="isCategoryChecked('obligations') ? 'bkt-border-primary' : 'bkt-border-teal-lighter'"
                                 @click="toggleCategory('obligations')" :disabled="categories_loading"
                         >
-                            <bkt-icon :name="'File'" :color="'green'" :width="'30px'" :height="'30px'"></bkt-icon>
+                            <bkt-icon :name="'File'" :color="'teal'" :width="'30px'" :height="'30px'"></bkt-icon>
                         </button>
                         <button class="bkt-button bkt-bg-body"
                                 :class="isCategoryChecked('other') ? 'bkt-border-primary' : 'bkt-border-body'"
@@ -262,7 +262,7 @@
                             </div>
                         </div>
                         <bkt-prices-control v-model="filters.prices" label_column="col-12 col-md-2 p-0"
-                                            content_column="col-12 col-lg-10"
+                                            content_column="col-12 col-lg-10" @input="inputPrice"
                         >
                         </bkt-prices-control>
                     </div>
@@ -319,6 +319,7 @@
     import BktCardList from "../components/CardList";
     import BktPricesControl from "../components/FiltersControls/PricesControl";
     import BktSwitch from "../components/Switch";
+    import _ from 'lodash';
 
     export default {
         name: "UpcomingAuctions",
@@ -497,10 +498,8 @@
             },
             sort_type: {
                 get: function () {
-                    if (this.filters.sort.type == 'applicationEnd') {
-                        return true;
-                    }
-                    return false;
+                    return this.filters.sort.type == 'applicationEnd';
+
                 },
                 set: function (newValue) {
                     if (newValue) {
@@ -643,7 +642,10 @@
             chooseAuctionType(type) {
                 this.filters.mainParams.tradeType=type;
                 this.getData(1)
-            }
+            },
+            inputPrice: _.debounce(function (e) {
+                this.getData(1)
+            }, 700),
         },
     }
 </script>

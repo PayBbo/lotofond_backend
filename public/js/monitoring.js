@@ -153,6 +153,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "CategoriesControl",
   props: {
@@ -192,8 +195,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     }
   },
   watch: {
-    value: function value() {
-      this.model = this.value;
+    value: function value(newValue, oldValue) {
+      this.model = newValue;
+      this.saveValue();
     }
   },
   methods: {
@@ -242,6 +246,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           }
         });
       }
+
+      this.saveValue();
     },
     allChecked: function allChecked(arr, target) {
       return target.every(function (v) {
@@ -706,6 +712,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "ParamsControl",
   props: {
@@ -781,9 +790,18 @@ __webpack_require__.r(__webpack_exports__);
       return this.$store.getters.trade_places_loading;
     }
   },
+  watch: {
+    value: function value() {
+      this.model = this.value;
+      this.saveValue();
+    }
+  },
   methods: {
     saveValue: function saveValue() {
       this.$emit('input', this.model);
+    },
+    chooseAuctionType: function chooseAuctionType(title) {
+      this.model.tradeType = title;
     },
     removeTradePlace: function removeTradePlace(id) {
       var item_index = this.selected_trade_places.findIndex(function (el) {
@@ -825,6 +843,14 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -1016,6 +1042,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       return this.$store.getters.filters_data.prices;
     }
   },
+  watch: {
+    value: function value(newValue, oldValue) {
+      this.model = newValue;
+      this.saveValue();
+    }
+  },
   methods: {
     saveValue: function saveValue() {
       this.$emit('input', this.model);
@@ -1178,6 +1210,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "RegionsControl",
   props: {
@@ -1213,6 +1246,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     },
     loading: function loading() {
       return this.$store.getters.regions_loading;
+    }
+  },
+  watch: {
+    value: function value(newValue, oldValue) {
+      this.model = newValue;
+      this.saveValue();
     }
   },
   methods: {
@@ -1254,6 +1293,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           }
         });
       }
+
+      this.saveValue();
     },
     allChecked: function allChecked(arr, target) {
       return target.every(function (v) {
@@ -3588,6 +3629,7 @@ var render = function () {
                                     id: "bkt-category-checkbox-" + index,
                                     val: category.key,
                                   },
+                                  on: { input: _vm.saveValue },
                                   model: {
                                     value: _vm.model,
                                     callback: function ($$v) {
@@ -3658,6 +3700,7 @@ var render = function () {
                                     id: "bkt-subcategory-checkbox-" + index,
                                     val: subcategory.key,
                                   },
+                                  on: { input: _vm.saveValue },
                                   model: {
                                     value: _vm.model,
                                     callback: function ($$v) {
@@ -4208,6 +4251,7 @@ var render = function () {
                 : "bkt-bg-white",
               icon_color: _vm.model.includedWords ? "white" : "main-lighter",
             },
+            on: { input: _vm.saveValue },
             model: {
               value: _vm.model.includedWords,
               callback: function ($$v) {
@@ -4237,6 +4281,7 @@ var render = function () {
                 : "bkt-bg-white",
               icon_color: _vm.model.excludedWords ? "white" : "main-lighter",
             },
+            on: { input: _vm.saveValue },
             model: {
               value: _vm.model.excludedWords,
               callback: function ($$v) {
@@ -4269,6 +4314,7 @@ var render = function () {
               searchable: true,
               loading: _vm.trade_places_loading,
             },
+            on: { input: _vm.saveValue },
             model: {
               value: _vm.model.tradePlaces,
               callback: function ($$v) {
@@ -4306,15 +4352,15 @@ var render = function () {
                         ],
                         on: {
                           click: function ($event) {
-                            _vm.model.tradeType = item.title
+                            return _vm.chooseAuctionType(item.title)
                           },
                         },
                       },
                       [
                         _vm._v(
-                          "\n                                " +
+                          "\n                            " +
                             _vm._s(item.description) +
-                            "\n                            "
+                            "\n                        "
                         ),
                       ]
                     ),
@@ -4384,6 +4430,7 @@ var render = function () {
                   : "bkt-bg-white",
                 icon_color: _vm.model.startPrice.min ? "white" : "main-lighter",
               },
+              on: { input: _vm.saveValue },
               scopedSlots: _vm._u([
                 {
                   key: "group-text",
@@ -4424,6 +4471,7 @@ var render = function () {
                   : "bkt-bg-white",
                 icon_color: _vm.model.startPrice.max ? "white" : "main-lighter",
               },
+              on: { input: _vm.saveValue },
               scopedSlots: _vm._u([
                 {
                   key: "group-text",
@@ -4474,6 +4522,7 @@ var render = function () {
                   ? "white"
                   : "main-lighter",
               },
+              on: { input: _vm.saveValue },
               scopedSlots: _vm._u([
                 {
                   key: "group-text",
@@ -4516,6 +4565,7 @@ var render = function () {
                   ? "white"
                   : "main-lighter",
               },
+              on: { input: _vm.saveValue },
               scopedSlots: _vm._u([
                 {
                   key: "group-text",
@@ -4566,6 +4616,7 @@ var render = function () {
                   : "bkt-bg-white",
                 icon_color: _vm.model.minPrice.min ? "white" : "main-lighter",
               },
+              on: { input: _vm.saveValue },
               scopedSlots: _vm._u([
                 {
                   key: "group-text",
@@ -4605,6 +4656,7 @@ var render = function () {
                   : "bkt-bg-white",
                 icon_color: _vm.model.minPrice.max ? "white" : "main-lighter",
               },
+              on: { input: _vm.saveValue },
               scopedSlots: _vm._u([
                 {
                   key: "group-text",
@@ -4656,6 +4708,7 @@ var render = function () {
                   ? "white"
                   : "main-lighter",
               },
+              on: { input: _vm.saveValue },
               scopedSlots: _vm._u([
                 {
                   key: "group-text",
@@ -4697,6 +4750,7 @@ var render = function () {
                   ? "white"
                   : "main-lighter",
               },
+              on: { input: _vm.saveValue },
               scopedSlots: _vm._u([
                 {
                   key: "group-text",
@@ -4965,6 +5019,7 @@ var render = function () {
                                   id: "bkt-region-checkbox-" + index,
                                   val: region,
                                 },
+                                on: { input: _vm.saveValue },
                                 model: {
                                   value: _vm.model,
                                   callback: function ($$v) {

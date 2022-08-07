@@ -1,5 +1,5 @@
 <template>
-    <ValidationProvider :name="label" :rules="rules" v-slot="{ errors }" tag="div" class="bkt-input__wrapper" :vid="name">
+    <ValidationProvider :name="field_name" :rules="rules" v-slot="{ errors }" tag="div" class="bkt-input__wrapper" :vid="name">
         <label :for="name" class="bkt-input__label" :class="label_class" v-if="label">{{ label }}</label>
         <div class="bkt-input__group">
             <textarea
@@ -53,6 +53,16 @@
             },
             label_class: {
                 type: String,
+            },
+            field_name: {
+                type: String,
+                default: function () {
+                    let field_label = this.label;
+                    if (!this.label) {
+                        field_label = this.name;
+                    }
+                    return field_label;
+                }
             },
             placeholder: {
                 type: String,

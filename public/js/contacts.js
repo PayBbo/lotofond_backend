@@ -130,21 +130,54 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "Contacts",
   data: function data() {
     return {
       loading: false,
       contact: {
-        message: '',
-        type: 'email',
-        email: '',
-        phone: ''
-      }
+        question: '',
+        communicationType: 'email',
+        communication: ''
+      },
+      phone: '',
+      email: ''
     };
   },
   methods: {
-    submit: function submit() {},
+    submit: function submit() {
+      var _this = this;
+
+      this.loading = true;
+      axios.post('/api/send/contact', this.contact).then(function (resp) {
+        _this.loading = false;
+
+        _this.$store.dispatch('sendNotification', {
+          self: _this,
+          message: 'Вопрос успешно отправлен'
+        });
+
+        _this.contact = {
+          question: '',
+          communicationType: 'email',
+          communication: ''
+        };
+
+        _this.$nextTick(function () {
+          _this.$refs.observer.reset();
+        });
+      })["catch"](function (error) {
+        // this.$store.dispatch('sendNotification', {self:this, type: 'error'});
+        _this.loading = false;
+      });
+    },
     subscribe: function subscribe() {},
     phoneMe: function phoneMe() {},
     writeMe: function writeMe() {}
@@ -244,32 +277,7 @@ var render = function () {
       _c("div", { staticClass: "col-12 col-lg-4 bkt-form__offset-right" }, [
         _c("div", { staticClass: "bkt-wrapper-column bkt-gap-large" }, [
           _c("div", { staticClass: "bkt-card__row" }, [
-            _c("div", { staticClass: "col-12 col-lg-10" }, [
-              _c("div", { staticClass: "bkt-card__row-column" }, [
-                _c("h5", { staticClass: "bkt-text-neutral-dark" }, [
-                  _vm._v(
-                    "\n                                телефон\n                            "
-                  ),
-                ]),
-                _vm._v(" "),
-                _c("h4", { staticClass: "bkt-card__title" }, [
-                  _vm._v("+7 (495) 500-20-60"),
-                ]),
-                _vm._v(" "),
-                _c(
-                  "button",
-                  {
-                    staticClass: "bkt-button primary bkt-w-sm-100",
-                    on: { click: _vm.phoneMe },
-                  },
-                  [
-                    _vm._v(
-                      "\n                                Перезвонить мне\n                            "
-                    ),
-                  ]
-                ),
-              ]),
-            ]),
+            _vm._m(0),
             _vm._v(" "),
             _c("div", { staticClass: "col-12 col-lg-2 d-none d-lg-block" }, [
               _c(
@@ -299,32 +307,7 @@ var render = function () {
           ]),
           _vm._v(" "),
           _c("div", { staticClass: "bkt-card__row" }, [
-            _c("div", { staticClass: "col-12 col-lg-10" }, [
-              _c("div", { staticClass: "bkt-card__row-column" }, [
-                _c("h5", { staticClass: "bkt-text-neutral-dark" }, [
-                  _vm._v(
-                    "\n                                e-mail\n                            "
-                  ),
-                ]),
-                _vm._v(" "),
-                _c("h4", { staticClass: "bkt-card__title" }, [
-                  _vm._v("bankrot@pochta.ru"),
-                ]),
-                _vm._v(" "),
-                _c(
-                  "button",
-                  {
-                    staticClass: "bkt-button primary bkt-w-sm-100",
-                    on: { click: _vm.writeMe },
-                  },
-                  [
-                    _vm._v(
-                      "\n                                Написать\n                            "
-                    ),
-                  ]
-                ),
-              ]),
-            ]),
+            _vm._m(1),
             _vm._v(" "),
             _c("div", { staticClass: "col-12 col-lg-2 d-none d-lg-block" }, [
               _c(
@@ -404,6 +387,7 @@ var render = function () {
             { staticClass: "bkt-card bkt-card__body" },
             [
               _c("ValidationObserver", {
+                ref: "observer",
                 staticClass: "bkt-form align-items-end wide",
                 attrs: { tag: "div" },
                 scopedSlots: _vm._u([
@@ -419,18 +403,19 @@ var render = function () {
                             _c("bkt-textarea", {
                               attrs: {
                                 name: "message",
-                                field_name: "Сообщение",
+                                field_name: "вопроса",
                                 rows: "6",
                                 rules: "required",
                                 label: "Задайте вопрос или опишите проблему",
                                 label_class: "bkt-card__title",
+                                no_group_item: "",
                               },
                               model: {
-                                value: _vm.contact.message,
+                                value: _vm.contact.question,
                                 callback: function ($$v) {
-                                  _vm.$set(_vm.contact, "message", $$v)
+                                  _vm.$set(_vm.contact, "question", $$v)
                                 },
-                                expression: "contact.message",
+                                expression: "contact.question",
                               },
                             }),
                           ],
@@ -455,8 +440,8 @@ var render = function () {
                                   {
                                     name: "model",
                                     rawName: "v-model",
-                                    value: _vm.contact.type,
-                                    expression: "contact.type",
+                                    value: _vm.contact.communicationType,
+                                    expression: "contact.communicationType",
                                   },
                                 ],
                                 staticClass: "form-select bkt-select w-100",
@@ -476,7 +461,7 @@ var render = function () {
                                       })
                                     _vm.$set(
                                       _vm.contact,
-                                      "type",
+                                      "communicationType",
                                       $event.target.multiple
                                         ? $$selectedVal
                                         : $$selectedVal[0]
@@ -501,7 +486,7 @@ var render = function () {
                           "div",
                           { staticClass: "col-12 col-lg-5" },
                           [
-                            _vm.contact.type == "email"
+                            _vm.contact.communicationType == "email"
                               ? _c("bkt-input", {
                                   attrs: {
                                     name: "email",
@@ -510,24 +495,28 @@ var render = function () {
                                     rules: "required|email",
                                     label_class:
                                       "bkt-form__label d-lg-none mt-0",
+                                    no_group_item: "",
+                                    errors_class: "d-lg-none",
                                   },
                                   model: {
-                                    value: _vm.contact.email,
+                                    value: _vm.email,
                                     callback: function ($$v) {
-                                      _vm.$set(_vm.contact, "email", $$v)
+                                      _vm.email = $$v
                                     },
-                                    expression: "contact.email",
+                                    expression: "email",
                                   },
                                 })
                               : _vm._e(),
                             _vm._v(" "),
-                            _vm.contact.type == "phone"
+                            _vm.contact.communicationType == "phone"
                               ? _c("bkt-input", {
                                   attrs: {
                                     name: "phone",
                                     type: "tel",
                                     field_name: "Телефон",
                                     label: "ваш номер телефона",
+                                    label_class:
+                                      "bkt-form__label d-lg-none mt-0",
                                     rules: "required|phone",
                                     placeholder: "+7 495 000-00-00",
                                     mask: [
@@ -535,13 +524,15 @@ var render = function () {
                                       "+## ### ### ####",
                                       "+## ### #### ####",
                                     ],
+                                    no_group_item: "",
+                                    errors_class: "d-lg-none",
                                   },
                                   model: {
-                                    value: _vm.user.phone,
+                                    value: _vm.phone,
                                     callback: function ($$v) {
-                                      _vm.$set(_vm.user, "phone", $$v)
+                                      _vm.phone = $$v
                                     },
-                                    expression: "user.phone",
+                                    expression: "phone",
                                   },
                                 })
                               : _vm._e(),
@@ -570,7 +561,7 @@ var render = function () {
                                   })
                                 : _vm._e(),
                               _vm._v(
-                                "\n                                Задать вопрос\n                            "
+                                "\n                                    Задать вопрос\n                                "
                               ),
                             ]
                           ),
@@ -583,26 +574,75 @@ var render = function () {
             ],
             1
           ),
-          _vm._v(" "),
-          _c(
-            "button",
-            {
-              staticClass:
-                "bkt-button_pill bkt-border-primary bkt-w-md-100 ms-auto",
-              on: { click: _vm.subscribe },
-            },
-            [
-              _vm._v(
-                "\n                    Подписаться на новости\n                "
-              ),
-            ]
-          ),
         ]),
       ]),
     ]),
   ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col-12 col-lg-10" }, [
+      _c("div", { staticClass: "bkt-card__row-column" }, [
+        _c("h5", { staticClass: "bkt-text-neutral-dark" }, [
+          _vm._v(
+            "\n                                    телефон\n                                "
+          ),
+        ]),
+        _vm._v(" "),
+        _c("h4", { staticClass: "bkt-card__title" }, [
+          _vm._v("+7 916 018-48-58"),
+        ]),
+        _vm._v(" "),
+        _c(
+          "a",
+          {
+            staticClass: "bkt-button primary bkt-text-white bkt-w-sm-100",
+            attrs: { href: "tel:+79160184858" },
+          },
+          [
+            _vm._v(
+              "\n                                    Перезвонить мне\n                                "
+            ),
+          ]
+        ),
+      ]),
+    ])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col-12 col-lg-10" }, [
+      _c("div", { staticClass: "bkt-card__row-column" }, [
+        _c("h5", { staticClass: "bkt-text-neutral-dark" }, [
+          _vm._v(
+            "\n                                    e-mail\n                                "
+          ),
+        ]),
+        _vm._v(" "),
+        _c("h4", { staticClass: "bkt-card__title" }, [
+          _vm._v("vicemine@mail.ru"),
+        ]),
+        _vm._v(" "),
+        _c(
+          "a",
+          {
+            staticClass: "bkt-button primary bkt-text-white bkt-w-sm-100",
+            attrs: { href: "mailto:vicemine@mail.ru" },
+          },
+          [
+            _vm._v(
+              "\n                                    Написать\n                                "
+            ),
+          ]
+        ),
+      ]),
+    ])
+  },
+]
 render._withStripped = true
 
 
