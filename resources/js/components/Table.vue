@@ -35,6 +35,13 @@
                                 </slot>
                             </tr>
                         </slot>
+                        <tr v-if="items.length==0 && no_data_slot">
+                            <td colspan="5">
+                                <div class="bkt-wrapper w-100 mx-auto">
+                                    <h5 class="mx-auto">Нет данных</h5>
+                                </div>
+                            </td>
+                        </tr>
                         </tbody>
                     </table>
                 </div>
@@ -94,7 +101,7 @@
         props: {
             items: {
                 type: Array,
-                required: true,
+                // required: true,
                 default: function () {
                     return [];
                 }
@@ -102,6 +109,10 @@
             loading: {
                 type: Boolean,
                 default: false
+            },
+            no_data_slot: {
+                type: Boolean,
+                default: true
             },
             main_class: {
                 type: String,

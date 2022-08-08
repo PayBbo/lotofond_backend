@@ -1,6 +1,12 @@
+import Vue from 'vue'
 import store from './store/index'
-
-export default {
+import VueRouter from 'vue-router'
+import NProgress from 'nprogress';
+NProgress.configure({showSpinner: false, speed: 1000});
+Vue.use(VueRouter);
+const progressShowDelay = 100;
+let routeResolved = false;
+let router = new VueRouter({
     mode: 'history',
     linkActiveClass: 'active',
     routes: [
@@ -173,7 +179,7 @@ export default {
             return {x: 0, y: 0}
         }
     }
-};
+});
 
 function guardMyRoute(to, from, next) {
     if (to.matched.some(record => record.meta.auth)) {
@@ -198,3 +204,19 @@ function guardAdminRoute(to, from, next) {
     })
     next();
 }
+
+router.beforeEach((to, from, next) => {
+    routeResolved = false;
+    setTimeout(() => {
+        if (!routeResolved) {
+            NProgress.start();
+        }
+    }, progressShowDelay);
+    next();
+});
+router.afterEach(() => {
+    routeResolved = true;
+    NProgress.done();
+});
+export default router
+

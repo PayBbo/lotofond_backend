@@ -1,5 +1,6 @@
 .bkt-calendar {
-    & .bkt-month-calendar, & .bkt-calendar-checkboxes {
+    font-family: 'Gilroy', sans-serif;
+    & .bkt-calendar-checkboxes {
         background: white;
         border-radius: 15px;
     }
@@ -21,18 +22,19 @@
     }
 
     .custom-calendar.vc-container {
-        --day-border: 2px solid #d7d7d7;
+        --day-border: 2px solid #F5F7FE;
         --day-border-highlight: 1px solid #b8c2cc;
-        --day-width: 90px;
-        --day-height: 90px;
+        --day-width: 100%;
+        --day-height: 100%;
         --weekday-bg: #f8fafc;
-        --weekday-border: 1px solid #eaeaea;
-        border-radius: 0;
+        --weekday-border: 2px solid #F5F7FE;
+        border-radius: 15px;
         width: 100%;
         background: transparent;
 
         & .vc-header {
             display: none;
+            font-family: 'Gilroy', sans-serif;
         }
 
         & .vc-weeks {
@@ -40,11 +42,14 @@
 
             & .vc-weekday {
                 // padding: 1rem;
+                font-family: 'Gilroy', sans-serif;
             }
 
             & .vc-day {
                 min-height: 90px;
-                height: 90px;
+                max-height: 90px;
+                max-width: 123px;
+                font-family: 'Gilroy', sans-serif;
             }
 
             & .vc-day.in-prev-month, & .vc-day.in-next-month {
@@ -78,17 +83,7 @@
             width: 90%;
             font-size: 13px;
         }
-    }
 
-    & .bkt-calendar-checkboxes {
-        padding-left: 20px;
-
-        & .bkt-check__wrapper {
-            margin-bottom: 10px;
-        }
-    }
-
-    .custom-calendar.vc-container {
         & .vc-weeks {
             padding: 0;
         }
@@ -96,17 +91,38 @@
         & .vc-weekday {
             color: $primary;
             //background-color: var(--weekday-bg);
-            border-bottom: var(--weekday-border);
+            border: none;
+            //border-right: var(--weekday-border);
             //border-top: var(--weekday-border);
             padding: 5px 0;
+            font-family: 'Gilroy', sans-serif;
+        }
+
+        & .vc-grid-cell:last-child > .vc-weekday {
+            border-right: none;
         }
 
         & .vc-day.is-today.in-month {
             border: 2px solid $primary;
         }
 
+        & .vc-grid-container.grid {
+            border-radius: 15px;
+        }
+
+        & .vc-grid-container.vc-weeks {
+            padding: 0;
+            gap: 2px !important;
+            //border-radius: 13px;
+            grid-template-columns: repeat(7, minmax(0px, 122px)) !important;
+
+            & .vc-grid-cell {
+                background: white;
+            }
+        }
+
         & .vc-grid-cell.is-today {
-            background: $primary;
+            background: $primary-default !important;
 
             .vc-weekday {
                 color: white !important
@@ -171,6 +187,7 @@
                 margin-top: 15px;
 
                 span {
+                    font-family: 'Gilroy', sans-serif;
                     padding: 2px 10px;
                     color: white;
                 }
@@ -178,27 +195,69 @@
 
             & .bkt-text-popover {
                 margin-bottom: 15px;
+                font-family: 'Gilroy', sans-serif;
             }
         }
     }
 
+    & .bkt-calendar-checkboxes {
+        padding-left: 20px;
+
+        & .bkt-check__wrapper {
+            margin-bottom: 10px;
+        }
+    }
+
     .bkt-left-calendar.vc-container {
+
+        & .vc-grid-container.grid {
+            grid-template-columns: repeat(1, minmax(100px, 100%));
+        }
+
         & .vc-popover-content-wrapper {
             display: none !important;
         }
 
-        & .vc-arrows-container {
-            div {
-                background: #f4f5f5;
-                height: 40px;
-                width: 40px;
+        & .vc-header {
+            padding-top: 12px;
+            padding-right: 12px;
+            padding-left: 12px;
+
+            & .vc-title {
+                font-family: "Gilroy", sans-serif;
+                font-size: 14px;
+                line-height: 14px;
+
+                &-wrapper {
+                    padding: 12px 20px;
+                    background-color: $body-bg;
+                    border-radius: 10px;
+                    height: 40px;
+                    max-width: calc(100% - 88px);
+                    width: 100%;
+                    text-align: center;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                }
             }
         }
 
-        & .vc-title-wrapper {
-            padding: 0.33rem 0;
-            background: #f4f5f5;
-            border-radius: 5px;
+        & .vc-arrows-container {
+            padding-top: 12px;
+            padding-right: 12px;
+            padding-left: 12px;
+
+            & div {
+                border-radius: 10px;
+                background-color:  $body-bg;
+                width: 40px;
+                height: 40px;
+                border: none !important;
+                & .vc-svg-icon path {
+                    fill: $primary-default;
+                }
+            }
         }
 
         & .vc-weeks {
@@ -214,14 +273,66 @@
             background: $green-dark !important;
         }
 
-        & .vc-bg-blue-600{
+        & .vc-bg-blue-600 {
             background: $blue-default !important;
         }
 
-        & .vc-bg-red-600{
-            background: $red !important;
+        & .vc-bg-red-600 {
+            background: $red-default !important;
         }
     }
+
+    &__day {
+        font-family: 'Gilroy', sans-serif;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+        z-index: 10;
+        height: 100%;
+
+        &-events {
+            gap: 4px;
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+            scrollbar-width: thin;
+            scrollbar-color: $primary-default #e9f3fc;
+
+            &::-webkit-scrollbar {
+                width: 2px;
+            }
+
+            &::-webkit-scrollbar-track {
+                background: transparent;
+            }
+
+            &::-webkit-scrollbar-thumb {
+                background-color: $primary-default;
+                border-radius: 2px;
+            }
+
+        }
+
+        &-event {
+            font-family: Gilroy, sans-serif;
+            border-radius: 9px;
+            font-size: 11px;
+            text-transform: lowercase;
+            line-height: 11px !important;
+            padding: 5px 8px;
+            color: white;
+            height: 18px;
+            max-width: 92px;
+            flex-shrink: 0;
+        }
+        &-label {
+            font-size: 14px;
+            font-family: Gilroy, sans-serif;
+            color: rgb(45, 50, 68);
+            line-height: 1.2;
+        }
+    }
+
 }
 
 .bkt-add-task-modal {
@@ -242,6 +353,132 @@
                 padding: 0 10px;
                 color: white;
             }
+        }
+    }
+}
+
+@media (max-width: 576px) {
+    .bkt-calendar {
+        & .bkt-form > * {
+            padding: 0;
+        }
+
+        & .bkt-calendar-checkboxes {
+            background: transparent;
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            padding: 0;
+        }
+
+        & .bkt-month-calendar {
+            background: transparent;
+        }
+
+        .bkt-left-calendar.vc-container {
+            font-family: 'Gilroy', sans-serif;
+            --day-min-height: 38px;
+            --day-content-width: 34px;
+            --day-content-height: 20px;
+            background-color: transparent !important;
+
+            %is-today-weekday {
+                background: $primary;
+                color: white !important
+            }
+
+            $weekdays: 1, 2, 3, 4, 5, 6;
+
+            @each $weekday in $weekdays {
+                &.is-today-#{$weekday} {
+                    & .vc-grid-cell-col-#{$weekday} > .vc-weekday {
+                        @extend %is-today-weekday;
+                    }
+                }
+            }
+
+            &.is-today-0 {
+                & .vc-grid-cell-col-7 > .vc-weekday {
+                    @extend %is-today-weekday;
+                }
+            }
+
+            & .vc-pane {
+                gap: 15px;
+            }
+
+            & .vc-header {
+                padding: 0;
+
+                & .vc-title {
+                    font-size: 12px;
+                    line-height: 12px;
+
+                    &-wrapper {
+                        padding: 19px 30px;
+                        background-color: rgb(255, 255, 255);
+                        border-radius: 13px;
+                        height: 50px;
+                        max-width: calc(100% - 108px);
+                        width: 100%;
+                        text-align: center;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                    }
+                }
+
+            }
+
+            & .vc-arrows-container {
+                padding-top: 0;
+                padding-left: 0;
+                padding-right: 0;
+
+                & div {
+                    border-radius: 13px;
+                    background-color: rgb(255, 255, 255);
+                    width: 50px;
+                    height: 50px;
+
+                    & .vc-svg-icon path {
+                        fill: $primary-default;
+                    }
+                }
+            }
+
+            & .vc-grid-container.vc-weeks {
+                padding: 0;
+                gap: 2px !important;
+                border-radius: 13px;
+
+                & .vc-grid-cell {
+                    background: white;
+                }
+            }
+
+            & .vc-day-content {
+                font-size: 12px;
+                font-family: Gilroy, sans-serif;
+            }
+
+            & .vc-weekday {
+                font-size: 12px;
+                color: $primary-default;
+            }
+
+            & .vc-day.is-today.in-month {
+                border: 2px solid $primary;
+            }
+
+            & .vc-grid-cell.is-today {
+                background: $primary;
+
+                .vc-weekday {
+                    color: white !important
+                }
+            }
+
         }
     }
 }

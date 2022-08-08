@@ -31,7 +31,7 @@ class MonitoringController extends Controller
        $path->not_time = $request->notificationTime;
        $path->filters = $request->filters;
        $path->save();
-       $lots = Lot::filterBy($request->filters)->get();
+       $lots = Lot::filterBy( json_decode(json_encode($request->filters), false))->get();
        if($lots->count() >0) {
            foreach ($lots as $lot) {
                if (!$path->lots->contains($lot)) {
@@ -57,7 +57,8 @@ class MonitoringController extends Controller
             'pathId'=>['required', 'integer', new IsUserMonitoringPath()]
         ]);
         $path = Monitoring::find($request->pathId);
-        $lots = $path->lots()->filterBy($request->request)->customSortBy($request)->paginate(20);
+        $lotIds = $path->lots()->pluck('lots.id')->toArray();
+        $lots = Lot::whereIn('id', $lotIds)->customSortBy($request)->filterBy($request->request)->paginate(20);
         return response(new LotCollection($lots), 200);
     }
 

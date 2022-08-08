@@ -62,7 +62,7 @@ class BidderController extends Controller
         $searchString = $request->searchString;
         $type = substr_replace($type, "", -1);
         $perPage = 20;
-        if(isset($request->perPage) && strlen($request->perPage) > 0){
+        if (isset($request->perPage) && strlen($request->perPage) > 0) {
             $perPage = $request->perPage;
         }
         $bidders = Bidder::customSortBy($request)
@@ -94,23 +94,23 @@ class BidderController extends Controller
     {
         $searchString = $request->searchString;
         $perPage = 20;
-        if(isset($request->perPage) && strlen($request->perPage) > 0){
+        if (isset($request->perPage) && strlen($request->perPage) > 0) {
             $perPage = $request->perPage;
         }
         $sortType = 'id';
         $sortDirection = 'asc';
-        if(isset($request->sort) && count($request->sort) > 0){
-          if(isset($request->sort->type) && strlen($request->sort->type)>0){
-              $sortType = $request->sort->type;
-          }
-            if(isset($request->sort->direction) && strlen($request->sort->direction)>0){
+        if (isset($request->sort) && count($request->sort) > 0) {
+            if (isset($request->sort->type) && strlen($request->sort->type) > 0) {
+                $sortType = $request->sort->type;
+            }
+            if (isset($request->sort->direction) && strlen($request->sort->direction) > 0) {
                 $sortDirection = $request->sort->direction;
             }
         }
         $tradePlaces = TradePlace::when(isset($searchString) && strlen($searchString) > 0, function ($query) use ($searchString) {
-                $query->where('name', 'LIKE', '%' . $searchString . '%')
-                    ->orWhere('site', 'LIKE', '%' . $searchString . '%');
-            })
+            $query->where('name', 'LIKE', '%' . $searchString . '%')
+                ->orWhere('site', 'LIKE', '%' . $searchString . '%');
+        })
             ->orderBy($sortType, $sortDirection)
             ->paginate($perPage);
         return response(new TradePlaceCollection($tradePlaces), 200);
@@ -138,33 +138,73 @@ class BidderController extends Controller
     public function getDebtorMessages(Request $request)
     {
         $perPage = 20;
-        if(isset($request->perPage) && strlen($request->perPage) > 0){
+        if (isset($request->perPage) && strlen($request->perPage) > 0) {
             $perPage = $request->perPage;
         }
         $messages = RegistryNotification::customSortBy($request)->filterBy($request->request)->paginate($perPage);
         return response(new ReestrDebtorMessageCollection($messages), 200);
     }
 
-    public function getDebtorMessageHtml($guid){
-        $url='https://old.bankrot.fedresurs.ru/MessageWindow.aspx?ID=' . $guid;
-        $curl = curl_init($url);
-
+    public function getDebtorMessageHtml(Request $request)
+    {
+        $url = 'https://old.bankrot.fedresurs.ru/MessageWindow.aspx?ID=' . $request->guid;
         $headers = array(
+            'User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.160 YaBrowser/22.5.2.615 Yowser/2.5 Safari/537.36',
             'Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9',
             'Cache-Control: no-cache',
             'Connection: keep-alive',
-            'User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/102.0.5005.134 YaBrowser/22.7.0.1842 Yowser/2.5 Safari/537.36'
+            'Cookie: bankrotcookie=' . $request->cookie
+        );
+        $options = array(
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_HTTPHEADER => $headers
         );
 
+        $ch = curl_init($url);
+        curl_setopt_array($ch, $options);
+
+        $content = curl_exec($ch);
+
+        curl_close($ch);
+
+        preg_match_all('/(?<=toNumbers\(")(.*?)(?=\")/', $content, $matches, PREG_SET_ORDER, 0);
+        if (strlen((string)$request->cookie) > 0 && !is_null($request->cookie) && count($matches) === 0) {
+            return response()->json(['html' => $content, 'isSetCookie' => false], 200);
+        }
+        $arr = array('a' => '4333f122b9293c7ca2ec1b7aa16a256c', 'b' => 'd7c4c5db69e0b79da8fe49cdfb7a0262', 'c' => '0b273cd470b2991d4db2d944d9b25ddf');
+        if (count($matches) === 3) {
+            $arr = array();
+            foreach ($matches as $key => $val) {
+                $arr[array('a', 'b', 'c')[$key]] = $val[0];
+            }
+        }
+        return response()->json(['html' => $content, 'arr' => $arr, 'isSetCookie' => true], 200);
+    }
+
+    public function getDebtorMessagePage(Request $request)
+    {
+        $url = 'https://tbankrot.ru/script/ajax.php';
+        $curl = curl_init($url);
         curl_setopt($curl, CURLOPT_URL, $url);
-        curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
+        curl_setopt($curl, CURLOPT_POST, true);
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
 
-        $curlinfo = curl_exec($curl);
+        $headers = array(
+            'User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.160 YaBrowser/22.5.2.615 Yowser/2.5 Safari/537.36',
+            'Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9',
+            'Cache-Control: no-cache',
+            'Connection: keep-alive',
+            "Content-Type: application/x-www-form-urlencoded; charset=UTF-8",
+        );
+        curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
 
+        $data = "key=message&url=https%3A%2F%2Fold.bankrot.fedresurs.ru%2FMessageWindow.aspx%3FID%3D".$request->guid."&match_words=Array";
+
+        curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
+
+        $responseBody = curl_exec($curl);
         curl_close($curl);
-
-        return response()->json(['html'=>$curlinfo], 200);
+        return response($responseBody);
     }
 
 }

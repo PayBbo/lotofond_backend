@@ -76,6 +76,7 @@
                                           :id="'bkt-region-checkbox-'+index"
                                           v-model="model"
                                           :val="region"
+                                          @input="saveValue"
                             ></bkt-checkbox>
                             <h6 class="bkt-regions-tabs__subtitle">
                                 {{$t('regions.'+region)}}
@@ -147,6 +148,12 @@
                 return this.$store.getters.regions_loading
             },
         },
+        watch:{
+            value: function(newValue, oldValue){
+                this.model = newValue;
+                this.saveValue()
+            },
+        },
         methods: {
             saveValue() {
                 this.$emit('input', this.model);
@@ -175,6 +182,7 @@
                         }
                     });
                 }
+                this.saveValue()
             },
             allChecked(arr, target) {
                 return target.every(v => arr.includes(v))

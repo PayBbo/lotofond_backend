@@ -130,6 +130,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "RegionsControl",
   props: {
@@ -165,6 +166,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     },
     loading: function loading() {
       return this.$store.getters.regions_loading;
+    }
+  },
+  watch: {
+    value: function value(newValue, oldValue) {
+      this.model = newValue;
+      this.saveValue();
     }
   },
   methods: {
@@ -206,6 +213,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           }
         });
       }
+
+      this.saveValue();
     },
     allChecked: function allChecked(arr, target) {
       return target.every(function (v) {
@@ -334,7 +343,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     },
     model: {
       get: function get() {
-        return JSON.parse(JSON.stringify(this.$store.getters[this.filter_name].regions));
+        return JSON.parse(JSON.stringify(this.filters_regions));
       },
       set: function set(value) {
         this.result = value;
@@ -342,70 +351,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     }
   },
   methods: {
-    toggleRegion: function toggleRegion(region) {
-      var item_index = this.model.findIndex(function (el) {
-        return el == region;
-      });
-
-      if (item_index < 0) {
-        this.model.push(region);
-      } else {
-        this.model.splice(item_index, 1);
-      }
-    },
-    selectAll: function selectAll(index) {
-      var _this = this;
-
-      if (this.regionGroups[index].status) {
-        this.regionGroups[index].regions.forEach(function (item) {
-          var item_index = _this.model.findIndex(function (el) {
-            return el == item;
-          });
-
-          if (item_index < 0) {
-            _this.model.push(item);
-          }
-        });
-      } else {
-        this.regionGroups[index].regions.forEach(function (item) {
-          var item_index = _this.model.findIndex(function (el) {
-            return el == item;
-          });
-
-          if (item_index >= 0) {
-            _this.model.splice(item_index, 1);
-          }
-        });
-      }
-    },
-    allChecked: function allChecked(arr, target) {
-      return target.every(function (v) {
-        return arr.includes(v);
-      });
-    },
-    isIndeterminate: function isIndeterminate(index) {
-      var _this2 = this;
-
-      var all_checked = this.allChecked(this.model, this.regionGroups[index].regions);
-      var some_checked = this.regionGroups[index].regions.some(function (v) {
-        return _this2.model.includes(v);
-      });
-
-      if (all_checked) {
-        this.regionGroups[index].status = true;
-      } else {
-        this.regionGroups[index].status = false;
-      }
-
-      return !all_checked && some_checked;
-    },
     saveFilters: function saveFilters() {
       // this.$store.commit('saveFiltersProperty', {key: 'regions', value: this.model});
       this.$store.dispatch('saveDataProperty', {
         module_key: 'filters',
         state_key: this.filter_name,
         key: 'regions',
-        value: this.model
+        value: this.result
       }, {
         root: true
       });
@@ -433,7 +385,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       });
     },
     getRegions: function getRegions() {
-      var _this3 = this;
+      var _this = this;
 
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
         return _regeneratorRuntime().wrap(function _callee$(_context) {
@@ -441,9 +393,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             switch (_context.prev = _context.next) {
               case 0:
                 _context.next = 2;
-                return _this3.$store.dispatch('getRegions').then(function (resp) {
-                  _this3.regionGroups = JSON.parse(JSON.stringify(_this3.regions));
-                  _this3.selectedRegion = _this3.regionGroups[0];
+                return _this.$store.dispatch('getRegions').then(function (resp) {
+                  _this.regionGroups = JSON.parse(JSON.stringify(_this.regions));
+                  _this.selectedRegion = _this.regionGroups[0];
                 });
 
               case 2:
@@ -567,12 +519,19 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "Table",
   props: {
     items: {
       type: Array,
-      required: true,
+      // required: true,
       "default": function _default() {
         return [];
       }
@@ -580,6 +539,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     loading: {
       type: Boolean,
       "default": false
+    },
+    no_data_slot: {
+      type: Boolean,
+      "default": true
     },
     main_class: {
       type: String,
@@ -1214,7 +1177,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "MessagePageModal",
   // props:['url'],
@@ -1236,8 +1198,33 @@ __webpack_require__.r(__webpack_exports__);
 
       this.loading = true;
       this.$store.dispatch('getDebtorMessagePage', this.guid).then(function (resp) {
-        _this.page = resp.data.html;
+        _this.page = resp.data;
         _this.loading = false;
+        console.log('here');
+
+        _this.$nextTick(function () {
+          console.log('here next');
+          var boxes = document.querySelector('.lotInfoTable');
+          console.log(boxes, boxes.childNodes[0], boxes.childNodes[0].childNodes[0]);
+          var ths = boxes.childNodes[0].childNodes[0].childNodes;
+          console.log(ths);
+          var ths_labels = Array.prototype.map.call(ths, function (element) {
+            return element.innerText;
+          } // ({
+          //     height: element.offsetTop,
+          //     bgsrc: element.dataset.bgsrc,
+          //     bgcolor: element.dataset.bgcolor,
+          //     size: element.dataset.size,
+          //     name: element.id,
+          //     image: parseInt(element.dataset.image)
+          // })
+          );
+          boxes.childNodes[0].childNodes.forEach(function (tr) {
+            tr.childNodes.forEach(function (td, index) {
+              td.setAttribute('data-label', ths_labels[index]);
+            });
+          });
+        });
       })["catch"](function (error) {
         _this.loading = false;
       });
@@ -1754,7 +1741,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       });
 
       if (this.method_name) {
-        this.callMethod(1);
+        var page = 1;
+
+        if (key === 'page') {
+          page = item_value;
+        }
+
+        this.callMethod(page);
       }
     },
     callMethod: function callMethod() {
@@ -2527,6 +2520,7 @@ var render = function () {
                                   id: "bkt-region-checkbox-" + index,
                                   val: region,
                                 },
+                                on: { input: _vm.saveValue },
                                 model: {
                                   value: _vm.model,
                                   callback: function ($$v) {
@@ -2738,6 +2732,10 @@ var render = function () {
                 return _c("tr", [_vm._t("tbody_tr", null, { item: item })], 2)
               })
             }),
+            _vm._v(" "),
+            _vm.items.length == 0 && _vm.no_data_slot
+              ? _c("tr", [_vm._m(0)])
+              : _vm._e(),
           ],
           2
         ),
@@ -2745,7 +2743,18 @@ var render = function () {
     ),
   ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("td", { attrs: { colspan: "5" } }, [
+      _c("div", { staticClass: "bkt-wrapper w-100 mx-auto" }, [
+        _c("h5", { staticClass: "mx-auto" }, [_vm._v("Нет данных")]),
+      ]),
+    ])
+  },
+]
 render._withStripped = true
 
 
@@ -3885,47 +3894,38 @@ var render = function () {
       modal_class: "bkt-filters-modal",
       no_footer: "",
     },
-    scopedSlots: _vm._u(
-      [
-        {
-          key: "body",
-          fn: function () {
-            return [
+    scopedSlots: _vm._u([
+      {
+        key: "body",
+        fn: function () {
+          return [
+            _c("div", { staticClass: "bkt-message-page" }, [
               !_vm.loading
-                ? _c("div", { staticClass: "bkt-page mx-0" }, [
-                    _c("div", { domProps: { innerHTML: _vm._s(_vm.page) } }),
-                  ])
+                ? _c("div", { domProps: { innerHTML: _vm._s(_vm.page) } })
                 : _vm._e(),
               _vm._v(" "),
               _vm.loading
                 ? _c(
                     "div",
-                    { staticClass: "d-flex w-100 justify-content-center my-5" },
+                    { staticClass: "d-flex w-100 justify-content-center" },
                     [
-                      _vm._t("loading", function () {
-                        return [
-                          _c("div", {
-                            staticClass: "spinner-border",
-                            staticStyle: {
-                              color: "#2953ff",
-                              "border-width": "2px",
-                            },
-                            attrs: { role: "status" },
-                          }),
-                        ]
+                      _c("div", {
+                        staticClass: "spinner-border",
+                        staticStyle: {
+                          color: "#2953ff",
+                          "border-width": "2px",
+                        },
+                        attrs: { role: "status" },
                       }),
-                    ],
-                    2
+                    ]
                   )
                 : _vm._e(),
-            ]
-          },
-          proxy: true,
+            ]),
+          ]
         },
-      ],
-      null,
-      true
-    ),
+        proxy: true,
+      },
+    ]),
   })
 }
 var staticRenderFns = []

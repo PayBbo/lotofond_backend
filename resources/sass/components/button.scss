@@ -271,16 +271,18 @@
         }
     }
     .bkt-button_code {
-        font-size: 10px;
-        padding: 18px 15px;
+        border-radius: 13px;
+        font-size: 8px !important;
+        line-height: 8px !important;
+        padding: 13px;
         display: flex;
         flex-wrap: nowrap;
         align-items: center;
         gap: 4px;
 
         & .spinner-border {
-            height: 10px;
-            width: 10px;
+            height: 8px;
+            width: 8px;
         }
     }
 }

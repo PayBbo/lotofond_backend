@@ -8,13 +8,13 @@
                 <div class="bkt-modal-wrapper w-100">
                     <slot name="aside">
                     </slot>
-                    <ValidationObserver v-slot="{ invalid }" tag="div" class="modal-content bkt-modal-content">
+                    <ValidationObserver v-slot="{ invalid }" ref="observer" tag="div" class="modal-content bkt-modal-content">
                         <div class="bkt-modal-header"  v-if="!no_header">
                             <slot name="header" :invalid="invalid">
                                 <slot name="title" >
                                     <h3 class="bkt-modal__title" v-if="title" v-html="title">{{title}}</h3>
                                 </slot>
-                                <button type="button" :class="close_button_class" data-bs-dismiss="modal"
+                                <button type="button" :class="close_button_class" @click="close"
                                         aria-label="Close">
                                     <bkt-icon :name="'Cancel'" :width="'13px'" :height="'13px'"></bkt-icon>
                                 </button>
@@ -124,6 +124,15 @@
                     this.right_action();
                     return;
                 }
+            },
+            resetForm() {
+                this.$nextTick(() => {
+                    this.$refs.observer.reset();
+                });
+            },
+            close() {
+                this.$emit('close-modal');
+                this.$store.commit('closeModal', '#'+this.id)
             }
         }
     }

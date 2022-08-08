@@ -3,10 +3,10 @@
         //& .bkt-modal-header {
         //    margin-bottom: 0;
         //}
-        & .bkt-modal-body {
-            padding-top: 0;
-            padding-bottom: 25px;
-        }
+        //& .bkt-modal-body {
+        //    padding-top: 0;
+        //    padding-bottom: 25px;
+        //}
 
         & .bkt-modal__title {
             font-weight: 600;
@@ -90,16 +90,14 @@
             }
         }
     }
-
-
 }
 
 @media (max-width: 576px) {
     .bkt-modal .bkt-code-modal .bkt-modal-content {
-        & .bkt-modal-header {
-            margin-bottom: 0;
-            padding-bottom: 0;
-        }
+        //& .bkt-modal-header {
+        //    margin-bottom: 0;
+        //    padding-bottom: 0;
+        //}
         & .bkt-modal__title {
             font-size: 15px;
             font-weight: bold;
@@ -115,24 +113,59 @@
         }
 
         & .bkt-code-modal-steps {
-            & .bkt-card {
-                padding: 13px 24px;
 
-                &__title {
-                    color: white;
-                    font-size: 12px;
-                    line-height: 1.833;
+            & .bkt-card__title {
+                color: white;
+                font-size: 12px;
+                line-height: 1.833;
+            }
+
+            & .bkt-card__subtitle {
+                font-size: 8px;
+                font-weight: 600;
+                line-height: 8px;
+                margin-bottom: 6px;
+                text-align: center;
+            }
+
+            & .bkt-shadow-card {
+                &__inner {
+                    padding: 13px 24px;
+                    border-radius: 13px;
                 }
 
-                &__subtitle {
-                    font-size: 8px;
-                    font-weight: 600;
-                    line-height: 2.75;
-                    text-align: center;
+                &__shadow-1 {
+                    border-radius: 13px;
+                }
+
+                &__shadow-2 {
+                    border-radius: 13px;
                 }
             }
         }
 
+        & .bkt-shadow-card {
+            &__inner {
+                padding: 13px 24px;
+            }
+
+
+            & .bkt-card__title {
+                font-size: 12px;
+                line-height: 12px;
+            }
+        }
+
+        & .bkt-input__group {
+            padding: 10px 6px;
+            border-radius: 13px;
+            height: 54px;
+
+            & .bkt-input {
+                padding: 12px 10px;
+                font-size: 12px;
+            }
+        }
     }
 }
 

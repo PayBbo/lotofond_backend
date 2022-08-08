@@ -49,38 +49,6 @@
                           :color="item.isHide ? 'white' : 'red'"></bkt-icon>
             </button>
         </div>
-
-
-        <!--        <button :class="['bkt-button'+button_type, main_bg, 'bkt-hover-'+getHover('Eye')]" @click="makeAction('seen')">-->
-        <!--            <bkt-icon class="bkt-button__icon" :name="'Eye'" :color="getColor('Eye')"></bkt-icon>-->
-        <!--            <span v-if="type=='menu'">Инфо о должнике</span>-->
-        <!--        </button>-->
-        <!--        <button :class="['bkt-button'+button_type, main_bg, 'bkt-hover-'+getHover('Pencil')]">-->
-        <!--            <bkt-icon class="bkt-button__icon" :name="'Pencil'" :color="getColor('Pencil')"></bkt-icon>-->
-        <!--            <span v-if="type=='menu'">Добавить заметку</span>-->
-        <!--        </button>-->
-        <!--        <button :class="['bkt-button'+button_type, item.inMonitoring ? 'bkt-bg-red' : main_bg, 'bkt-hover-'+getHover('Target')]">-->
-        <!--            <bkt-icon class="bkt-button__icon" :name="'Target'" :color="getColor('Target')"></bkt-icon>-->
-        <!--            <span v-if="type=='menu'">Следить за лотом</span>-->
-        <!--        </button>-->
-        <!--        <button :class="['bkt-button'+button_type, item.inFavourite ? 'bkt-bg-yellow' : main_bg, 'bkt-hover-'+getHover('Star')]">-->
-        <!--            <bkt-icon class="bkt-button__icon" :name="'Star'" :color="getColor('Star')"></bkt-icon>-->
-        <!--            <span v-if="type=='menu'">В избранное</span>-->
-        <!--        </button>-->
-        <!--        <button :class="['bkt-button'+button_type, main_bg, 'bkt-hover-'+getHover('Bell')]">-->
-        <!--            <span class="info"></span>-->
-        <!--            <bkt-icon class="bkt-button__icon" :name="'Bell'" :color="getColor('Bell')"></bkt-icon>-->
-        <!--            <span v-if="type=='menu'">Уведомления</span>-->
-        <!--        </button>-->
-        <!--        <button :class="['bkt-button'+button_type, item.isPinned ? 'bkt-bg-pink' : main_bg, 'bkt-hover-'+getHover('Clip')]"-->
-        <!--                @click="makeAction('fixed')"-->
-        <!--        >-->
-        <!--            <bkt-icon class="bkt-button__icon" :name="'Clip'" :color="getColor('Clip')"></bkt-icon>-->
-        <!--            <span v-if="type=='menu'">Закрепить</span>-->
-        <!--        </button>-->
-        <!--        <button :class="'bkt-button'+button_type" @click="makeAction('hidden')">-->
-        <!--            <bkt-icon class="bkt-button__icon mx-auto" :name="'Trash'"></bkt-icon>-->
-        <!--        </button>-->
     </div>
 </template>
 
@@ -149,7 +117,7 @@
                     },
                     {
                         icon: 'Target',
-                        label: "Следить за лотом",
+                        label: "В мониторинге",
                         color: 'red',
                         code: '',
                         status: 'inMonitoring',
@@ -237,19 +205,24 @@
                 }
             },
             changeStatus(payload) {
-                this.toggleProcess(payload.icon)
-                this.$store.dispatch('changeTradeLotStatus', {lot_id: this.item.id, type: payload.type})
-                    .then(resp => {
-                        this.$store.commit('saveTradeProperty', {
-                            id: this.item.id,
-                            key: payload.status,
-                            value: !this.item[payload.status]
+                if(this.isLoggedIn) {
+                    this.toggleProcess(payload.icon)
+                    this.$store.dispatch('changeTradeLotStatus', {lot_id: this.item.id, type: payload.type})
+                        .then(resp => {
+                            this.$store.commit('saveTradeProperty', {
+                                id: this.item.id,
+                                key: payload.status,
+                                value: !this.item[payload.status]
+                            })
+                            this.$emit('changeStatus', {key: payload.status, value: !this.item[payload.status]})
                         })
-                        this.$emit('changeStatus', {key: payload.status, value: !this.item[payload.status]})
-                    })
-                    .finally(() => {
-                        this.toggleProcess(payload.icon)
-                    })
+                        .finally(() => {
+                            this.toggleProcess(payload.icon)
+                        })
+                }
+                else {
+                    this.$store.dispatch('sendAuthNotification', {self: this})
+                }
             },
             addToFavourites(payload) {
                 if (!this.item.inFavourite) {

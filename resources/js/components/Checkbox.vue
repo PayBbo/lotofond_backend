@@ -3,7 +3,7 @@
         <div class="bkt-check">
             <div class="bkt-check__input" :class="[border_color ? 'bkt-border-'+border_color : '']">
                 <input
-                    v-if="val_type=='boolean'"
+                    v-if="val_type=='boolean'&&type !='radio'"
                     :type="type"
                     v-model="model"
                     :indeterminate.prop="indeterminate"

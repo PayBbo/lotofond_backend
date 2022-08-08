@@ -1,4 +1,6 @@
 .bkt-shadow-card {
+    position: relative;
+    z-index: 0;
     &__inner {
         @extend .bkt-card;
         position: relative;
@@ -55,11 +57,11 @@
         background-color: $green-default;
 
         & .bkt-shadow-card__shadow-1 {
-            background-color: #b8c6fe;
+            background-color: #b6e7bc;
         }
 
         & .bkt-shadow-card__shadow-2 {
-            background-color: #dce3fe;
+            background-color: #e0f5e3;
         }
     }
 }

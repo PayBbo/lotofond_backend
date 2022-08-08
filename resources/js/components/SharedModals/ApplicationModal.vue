@@ -112,7 +112,7 @@
                         this.$store.commit('closeModal', '#applicationModal');
                     })
                     .catch(error => {
-                        this.$store.dispatch('sendNotification', {self:this, type: 'error'});
+                        // this.$store.dispatch('sendNotification', {self:this, type: 'error'});
                         this.loading = false;
                     })
             },

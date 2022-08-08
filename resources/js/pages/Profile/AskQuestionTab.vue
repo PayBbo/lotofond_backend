@@ -6,7 +6,8 @@
             </div>
             <div class="col-12 col-md-8 p-md-0">
                 <bkt-input
-                    name="from_email"
+                    v-model="question.email"
+                    name="email"
                     type="email"
                     label="ваш e-mail"
                     :rules="'required|email'"
@@ -21,7 +22,8 @@
             </div>
             <div class="col-12 col-md-8 p-md-0">
                 <bkt-input
-                    name="subject"
+                    v-model="question.topic"
+                    name="topic"
                     type="text"
                     label="тема вопроса"
                     :rules="'required'"
@@ -36,7 +38,8 @@
             </div>
             <div class="col-12 col-md-8 p-md-0">
                 <bkt-textarea
-                    name="description"
+                    v-model="question.question"
+                    name="question"
                     type="text"
                     label="текст вопроса"
                     :rules="'required'"
@@ -49,8 +52,8 @@
             <div class="col-12 col-md-8 p-md-0">
                 <div class="bkt-tag__list">
                     <div class="bkt-tag justify-content-between flex-fill" v-for="(item, index) in question.files">
-                            <span class="bkt-text-truncate">{{ item.name }}</span>
-                            <h6 class="bkt-text-neutral">{{ item.file_size }}</h6>
+                        <span class="bkt-text-truncate">{{ item.name }}</span>
+                        <h6 class="bkt-text-neutral">{{ item.file_size }}</h6>
 
                         <span class="bkt-tag__icon bkt-cursor-pointer" @click="removeFile(index)">
                             <bkt-icon name="Cancel" color="red" width="12px" height="12px"></bkt-icon>
@@ -58,10 +61,10 @@
                     </div>
                 </div>
                 <div class="bkt-card__footer bkt-wrapper-between bkt-gap-large">
-<!--                    <button class="bkt-button-link">-->
-<!--                        <bkt-icon name="Clip" color="primary" class="bkt-button__icon"></bkt-icon>-->
-<!--                        прикрепить файл-->
-<!--                    </button>-->
+                    <!--                    <button class="bkt-button-link">-->
+                    <!--                        <bkt-icon name="Clip" color="primary" class="bkt-button__icon"></bkt-icon>-->
+                    <!--                        прикрепить файл-->
+                    <!--                    </button>-->
                     <bkt-upload-file v-model="question.files" ref="upload_file"></bkt-upload-file>
                     <button class="bkt-button primary bkt-button_plump bkt-w-sm-100">
                         Отправить
@@ -74,6 +77,7 @@
 
 <script>
     import BktUploadFile from "../../components/UploadFile";
+
     export default {
         name: "AskQuestion",
         components: {
@@ -83,9 +87,9 @@
             return {
                 question: {
                     email: "",
-                    description: '',
-                    subject: "",
-                    files:[]
+                    question: '',
+                    topic: "",
+                    files: []
                 },
                 loading: false,
             }
@@ -93,7 +97,36 @@
         methods: {
             removeFile(index) {
                 this.$refs.upload_file.removeFile(index);
-            }
+            },
+            sendApplication() {
+                this.loading = true;
+                let formData = new FormData();
+                formData.append('email', this.question.email);
+                formData.append('question', this.question.question);
+                formData.append('topic', this.question.topic);
+                for (var i = 0; i < this.question.files.length; i++) {
+                    formData.append("file[]", this.question.files[i]);
+                }
+                axios.post('/api/send/question', this.question, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data',
+                    }
+                })
+                    .then(resp => {
+                        this.loading = false;
+                        this.$store.dispatch('sendNotification',
+                            {self: this, message: 'Вопрос успешно отправлен'});
+                        this.question = {
+                            email: "",
+                            question: '',
+                            topic: "",
+                            files: []
+                        };
+                    })
+                    .catch(error => {
+                        this.loading = false;
+                    })
+            },
         }
     }
 </script>

@@ -12,6 +12,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var hooper__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! hooper */ "./node_modules/hooper/dist/hooper.esm.js");
+/* harmony import */ var _CardImageCategory__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./CardImageCategory */ "./resources/js/components/CardImageCategory.vue");
 //
 //
 //
@@ -91,13 +92,15 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "MiniTradeCard",
   props: ['item'],
   components: {
     Hooper: hooper__WEBPACK_IMPORTED_MODULE_0__.Hooper,
     Slide: hooper__WEBPACK_IMPORTED_MODULE_0__.Slide,
-    HooperNavigation: hooper__WEBPACK_IMPORTED_MODULE_0__.Navigation
+    HooperNavigation: hooper__WEBPACK_IMPORTED_MODULE_0__.Navigation,
+    CardImageCategory: _CardImageCategory__WEBPACK_IMPORTED_MODULE_1__["default"]
   }
 });
 
@@ -212,12 +215,19 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "Table",
   props: {
     items: {
       type: Array,
-      required: true,
+      // required: true,
       "default": function _default() {
         return [];
       }
@@ -225,6 +235,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     loading: {
       type: Boolean,
       "default": false
+    },
+    no_data_slot: {
+      type: Boolean,
+      "default": true
     },
     main_class: {
       type: String,
@@ -1231,23 +1245,17 @@ var render = function () {
   var _c = _vm._self._c || _h
   return _c(
     "div",
-    { staticClass: "row w-100 mx-auto bkt-row outline bkt-card-trade-mini" },
+    {
+      staticClass: "bkt-form w-100 mx-auto bkt-row outline bkt-card-trade-mini",
+    },
     [
       _c(
         "div",
-        { staticClass: "col-12 col-md-2 ps-0 bkt-card-trade-mini__image" },
+        { staticClass: "col-12 col-md-2 ps-sm-0 bkt-card-trade-mini__image" },
         [
           !_vm.item.photos || _vm.item.photos.length == 0
-            ? _c("img", {
-                directives: [
-                  {
-                    name: "lazy",
-                    rawName: "v-lazy",
-                    value: "/images/card-image1.png",
-                    expression: "'/images/card-image1.png'",
-                  },
-                ],
-                staticClass: "bkt-card__image",
+            ? _c("card-image-category", {
+                attrs: { categories: _vm.item.categories },
               })
             : _vm._e(),
           _vm._v(" "),
@@ -1526,6 +1534,10 @@ var render = function () {
                 return _c("tr", [_vm._t("tbody_tr", null, { item: item })], 2)
               })
             }),
+            _vm._v(" "),
+            _vm.items.length == 0 && _vm.no_data_slot
+              ? _c("tr", [_vm._m(0)])
+              : _vm._e(),
           ],
           2
         ),
@@ -1533,7 +1545,18 @@ var render = function () {
     ),
   ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("td", { attrs: { colspan: "5" } }, [
+      _c("div", { staticClass: "bkt-wrapper w-100 mx-auto" }, [
+        _c("h5", { staticClass: "mx-auto" }, [_vm._v("Нет данных")]),
+      ]),
+    ])
+  },
+]
 render._withStripped = true
 
 
@@ -1758,9 +1781,9 @@ var render = function () {
                           _vm._l(_vm.item.person, function (value, key, index) {
                             return [
                               _vm._v(
-                                "\n                             " +
+                                "\n                                 " +
                                   _vm._s(value ? value + " " : "") +
-                                  "\n                        "
+                                  "\n                            "
                               ),
                             ]
                           }),
@@ -1770,20 +1793,20 @@ var render = function () {
                     : _vm.item.type == "company"
                     ? _c("span", [
                         _vm._v(
-                          "\n                        " +
+                          "\n                            " +
                             _vm._s(
                               _vm.item.company.fullName
                                 ? _vm.item.company.fullName
                                 : _vm.item.company.shortName
                             ) +
-                            "\n                    "
+                            "\n                        "
                         ),
                       ])
                     : _c("span", [
                         _vm._v(
-                          "\n                        " +
+                          "\n                            " +
                             _vm._s(_vm.item.name ? _vm.item.name : "") +
-                            "\n                    "
+                            "\n                        "
                         ),
                       ]),
                 ]
@@ -1801,8 +1824,8 @@ var render = function () {
             _c("bkt-table", {
               attrs: {
                 loading: _vm.loading,
-                items: [],
                 main_class: "bkt-simple-table_list",
+                no_data_slot: false,
               },
               scopedSlots: _vm._u([
                 {
@@ -1812,7 +1835,7 @@ var render = function () {
                       _c("tr", [
                         _c("td", [
                           _vm._v(
-                            "\n                            Полное наименование/ФИО\n                        "
+                            "\n                                Полное наименование/ФИО\n                            "
                           ),
                         ]),
                         _vm._v(" "),
@@ -1826,9 +1849,9 @@ var render = function () {
                                     function (value, key, index) {
                                       return [
                                         _vm._v(
-                                          "\n                                     " +
+                                          "\n                                         " +
                                             _vm._s(value ? value + " " : "") +
-                                            "\n                                "
+                                            "\n                                    "
                                         ),
                                       ]
                                     }
@@ -1839,20 +1862,20 @@ var render = function () {
                             : _vm.item.type == "company"
                             ? _c("span", [
                                 _vm._v(
-                                  "\n                                " +
+                                  "\n                                    " +
                                     _vm._s(
                                       _vm.item.company.fullName
                                         ? _vm.item.company.fullName
                                         : _vm.item.company.shortName
                                     ) +
-                                    "\n                            "
+                                    "\n                                "
                                 ),
                               ])
                             : _c("span", [
                                 _vm._v(
-                                  "\n                                " +
+                                  "\n                                    " +
                                     _vm._s(_vm.item.name ? _vm.item.name : "") +
-                                    "\n                            "
+                                    "\n                                "
                                 ),
                               ]),
                         ]),
@@ -1862,7 +1885,7 @@ var render = function () {
                         ? _c("tr", [
                             _c("td", [
                               _vm._v(
-                                "\n                            Категория\n                        "
+                                "\n                                Категория\n                            "
                               ),
                             ]),
                             _vm._v(" "),
@@ -1878,15 +1901,15 @@ var render = function () {
                         ? _c("tr", [
                             _c("td", [
                               _vm._v(
-                                "\n                            Адрес сайта\n                        "
+                                "\n                                Адрес сайта\n                            "
                               ),
                             ]),
                             _vm._v(" "),
                             _c("td", [
                               _vm._v(
-                                "\n                            " +
+                                "\n                                " +
                                   _vm._s(_vm.item.site) +
-                                  "\n                        "
+                                  "\n                            "
                               ),
                             ]),
                           ])
@@ -1896,15 +1919,15 @@ var render = function () {
                         ? _c("tr", [
                             _c("td", [
                               _vm._v(
-                                "\n                            Собственник\n                        "
+                                "\n                                Собственник\n                            "
                               ),
                             ]),
                             _vm._v(" "),
                             _c("td", [
                               _vm._v(
-                                "\n                            " +
+                                "\n                                " +
                                   _vm._s(_vm.item.ownerName) +
-                                  "\n                        "
+                                  "\n                            "
                               ),
                             ]),
                           ])
@@ -1914,13 +1937,13 @@ var render = function () {
                         ? _c("tr", [
                             _c("td", [
                               _vm._v(
-                                "\n                            Организационная форма\n                        "
+                                "\n                                Организационная форма\n                            "
                               ),
                             ]),
                             _vm._v(" "),
                             _c("td", [
                               _vm._v(
-                                "\n                            -\n                        "
+                                "\n                                -\n                            "
                               ),
                             ]),
                           ])
@@ -1930,13 +1953,13 @@ var render = function () {
                         ? _c("tr", [
                             _c("td", [
                               _vm._v(
-                                "\n                            Регион\n                        "
+                                "\n                                Регион\n                            "
                               ),
                             ]),
                             _vm._v(" "),
                             _c("td", [
                               _vm._v(
-                                "\n                            " +
+                                "\n                                " +
                                   _vm._s(
                                     _vm.item[_vm.item_type].region
                                       ? _vm.$t(
@@ -1945,7 +1968,7 @@ var render = function () {
                                         )
                                       : "-"
                                   ) +
-                                  "\n                        "
+                                  "\n                            "
                               ),
                             ]),
                           ])
@@ -1955,19 +1978,19 @@ var render = function () {
                         ? _c("tr", [
                             _c("td", [
                               _vm._v(
-                                "\n                            Адрес\n                        "
+                                "\n                                Адрес\n                            "
                               ),
                             ]),
                             _vm._v(" "),
                             _c("td", [
                               _vm._v(
-                                "\n                            " +
+                                "\n                                " +
                                   _vm._s(
                                     _vm.item[_vm.item_type].address
                                       ? _vm.item[_vm.item_type].address
                                       : "-"
                                   ) +
-                                  "\n                        "
+                                  "\n                            "
                               ),
                             ]),
                           ])
@@ -1979,9 +2002,9 @@ var render = function () {
                             _vm._v(" "),
                             _c("td", [
                               _vm._v(
-                                "\n                            " +
+                                "\n                                " +
                                   _vm._s(_vm.item.inn ? _vm.item.inn : "-") +
-                                  "\n                        "
+                                  "\n                            "
                               ),
                             ]),
                           ])
@@ -1991,19 +2014,19 @@ var render = function () {
                         ? _c("tr", [
                             _c("td", [
                               _vm._v(
-                                "\n                            СРО\n                        "
+                                "\n                                СРО\n                            "
                               ),
                             ]),
                             _vm._v(" "),
                             _c("td", [
                               _vm._v(
-                                "\n                            " +
+                                "\n                                " +
                                   _vm._s(
                                     _vm.item[_vm.item_type].sroAU
                                       ? _vm.item[_vm.item_type].sroAU
                                       : "-"
                                   ) +
-                                  "\n                        "
+                                  "\n                            "
                               ),
                             ]),
                           ])
@@ -2013,20 +2036,20 @@ var render = function () {
                         ? _c("tr", [
                             _c("td", [
                               _vm._v(
-                                "\n                            Номер регистрации\n                        "
+                                "\n                                Номер регистрации\n                            "
                               ),
                             ]),
                             _vm._v(" "),
                             _c("td", [
                               _vm._v(
-                                "\n                            " +
+                                "\n                                " +
                                   _vm._s(
                                     _vm.item.arbitrationManager &&
                                       _vm.item.arbitrationManager.regNum
                                       ? _vm.item.arbitrationManager.regNum
                                       : "-"
                                   ) +
-                                  "\n                        "
+                                  "\n                            "
                               ),
                             ]),
                           ])
@@ -2036,20 +2059,20 @@ var render = function () {
                         ? _c("tr", [
                             _c("td", [
                               _vm._v(
-                                "\n                            Дата регистрации\n                        "
+                                "\n                                Дата регистрации\n                            "
                               ),
                             ]),
                             _vm._v(" "),
                             _c("td", [
                               _vm._v(
-                                "\n                            " +
+                                "\n                                " +
                                   _vm._s(
                                     _vm.item.arbitrationManager &&
                                       _vm.item.arbitrationManager.regDate
                                       ? _vm.item.arbitrationManager.regDate
                                       : "-"
                                   ) +
-                                  "\n                        "
+                                  "\n                            "
                               ),
                             ]),
                           ])
@@ -2059,19 +2082,19 @@ var render = function () {
                         ? _c("tr", [
                             _c("td", [
                               _vm._v(
-                                "\n                            ОГРН\n                        "
+                                "\n                                ОГРН\n                            "
                               ),
                             ]),
                             _vm._v(" "),
                             _c("td", [
                               _vm._v(
-                                "\n                            " +
+                                "\n                                " +
                                   _vm._s(
                                     _vm.item[_vm.item_type].ogrn
                                       ? _vm.item[_vm.item_type].ogrn
                                       : "-"
                                   ) +
-                                  "\n                        "
+                                  "\n                            "
                               ),
                             ]),
                           ])
@@ -2082,13 +2105,13 @@ var render = function () {
                         ? _c("tr", [
                             _c("td", [
                               _vm._v(
-                                "\n                            Оценка " +
+                                "\n                                Оценка " +
                                   _vm._s(
                                     _vm.item_type == "arbitrationManager"
                                       ? "арбитражного управляющего"
                                       : "организатора"
                                   ) +
-                                  "\n                        "
+                                  "\n                            "
                               ),
                             ]),
                             _vm._v(" "),
@@ -2100,36 +2123,6 @@ var render = function () {
                                     "bkt-wrapper-between align-items-center bkt-registry-rating",
                                 },
                                 [
-                                  _vm.item_type == "organizer"
-                                    ? _c(
-                                        "button",
-                                        { staticClass: "bkt-button next" },
-                                        [
-                                          _vm._v(
-                                            "\n                                    мои победы\n                                    "
-                                          ),
-                                          _c(
-                                            "span",
-                                            {
-                                              staticClass: "bkt-text-red",
-                                              staticStyle: {
-                                                "text-transform": "initial",
-                                              },
-                                            },
-                                            [_vm._v(" (добавьте ИНН)  ")]
-                                          ),
-                                          _vm._v(" "),
-                                          _c("bkt-icon", {
-                                            attrs: {
-                                              name: "ArrowDown",
-                                              color: "green",
-                                            },
-                                          }),
-                                        ],
-                                        1
-                                      )
-                                    : _vm._e(),
-                                  _vm._v(" "),
                                   _vm.item[_vm.item_type] &&
                                   _vm.item[_vm.item_type].rating
                                     ? _c(
@@ -2179,7 +2172,7 @@ var render = function () {
                                     },
                                     [
                                       _vm._v(
-                                        "\n                                    оценить\n                                    "
+                                        "\n                                        оценить\n                                        "
                                       ),
                                       _c("bkt-icon", {
                                         staticClass: "bkt-rotate-270",
@@ -2229,7 +2222,7 @@ var render = function () {
                         return [
                           _c(
                             "div",
-                            { staticClass: "row w-100 m-auto bkt-gap" },
+                            { staticClass: "bkt-form w-100 m-auto bkt-gap" },
                             [
                               _c(
                                 "div",

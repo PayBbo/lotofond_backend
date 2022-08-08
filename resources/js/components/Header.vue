@@ -2,7 +2,7 @@
     <header class="">
         <nav class="bkt-navbar">
             <div class="bkt-container bkt-navbar__wrapper">
-                <router-link tag="button" :to="'/without-ecp'" class="bkt-button blue">
+                <router-link :to="'/without-ecp'" class="bkt-button blue">
                     Покупка без ЭЦП
                 </router-link>
 
@@ -17,9 +17,9 @@
                     </li>
                     <li class="bkt-navbar__nav-item">
                         <div @click="navigate('/monitoring')" class="bkt-navbar__nav-link">
-                    <span class="bkt-button-ellipse main">
-                         <bkt-icon :name="'Target'" :color="'red'"/>
-                    </span>
+                            <span class="bkt-button-ellipse main">
+                                 <bkt-icon :name="'Target'" :color="'red'"/>
+                            </span>
                             Мониторинг
                         </div>
                     </li>
@@ -146,9 +146,9 @@
                 </ul>
                 <div class="bkt-navbar__wrapper">
                     <button class="bkt-button red-outline d-none d-lg-flex">
-                    <span class="bkt-button__icon mx-2">
-                         <bkt-icon :name="'Law'" :width="'16px'" :height="'16px'"/>
-                    </span>
+                        <span class="bkt-button__icon mx-2">
+                             <bkt-icon :name="'Law'" :width="'16px'" :height="'16px'"/>
+                        </span>
                         Изменения в законах
                     </button>
                     <button class="bkt-button-ellipse m-0 d-flex d-lg-none" type="button" data-bs-toggle="offcanvas"

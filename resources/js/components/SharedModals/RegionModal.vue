@@ -54,7 +54,7 @@
             },
             model:{
                 get() {
-                    return JSON.parse(JSON.stringify(this.$store.getters[this.filter_name].regions));
+                    return JSON.parse(JSON.stringify(this.filters_regions));
                 },
                 set(value) {
                     this.result = value
@@ -62,50 +62,12 @@
             }
         },
         methods: {
-            toggleRegion(region) {
-                let item_index = this.model.findIndex(el => el == region);
-                if (item_index < 0) {
-                    this.model.push(region);
-                } else {
-                    this.model.splice(item_index, 1);
-                }
-            },
-            selectAll(index) {
-                if (this.regionGroups[index].status) {
-                    this.regionGroups[index].regions.forEach(item => {
-                        let item_index = this.model.findIndex(el => el == item);
-                        if (item_index < 0) {
-                            this.model.push(item)
-                        }
-                    })
-                } else {
-                    this.regionGroups[index].regions.forEach(item => {
-                        let item_index = this.model.findIndex(el => el == item);
-                        if (item_index >= 0) {
-                            this.model.splice(item_index, 1)
-                        }
-                    });
-                }
-            },
-            allChecked(arr, target) {
-                return target.every(v => arr.includes(v))
-            },
-            isIndeterminate(index) {
-                let all_checked = this.allChecked(this.model, this.regionGroups[index].regions);
-                let some_checked = this.regionGroups[index].regions.some(v => this.model.includes(v));
-                if (all_checked) {
-                    this.regionGroups[index].status = true;
-                } else {
-                    this.regionGroups[index].status = false;
-                }
-                return !all_checked && some_checked;
-            },
             saveFilters() {
                 // this.$store.commit('saveFiltersProperty', {key: 'regions', value: this.model});
                 this.$store.dispatch('saveDataProperty', {
                     module_key: 'filters', state_key: this.filter_name,
                     key: 'regions',
-                    value: this.model
+                    value: this.result
                 }, {root: true});
                 this.$store.commit('closeModal', '#regionModal');
                 this.$store.dispatch(this.method_name, {page: 1, filters: this.filters});

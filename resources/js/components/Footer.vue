@@ -16,8 +16,8 @@
                     <div class="col-6">
                         <div class="bkt-footer__block bkt-wrapper bkt-wrapper-down-lg-column">
                             <ul class="bkt-footer__links">
-                                <li class="bkt-footer__link">
-                                    <router-link to="/calendar">Календарь</router-link>
+                                <li class="bkt-footer__link bkt-cursor-pointer" @click="navigate('/calendar')">
+                                    Календарь
                                 </li>
                                 <li class="bkt-footer__link">
                                     <router-link to="/agent">Купить через агента</router-link>
@@ -111,6 +111,16 @@
                 return this.$store.getters.isLoggedIn
             },
         },
+        methods: {
+            navigate(path) {
+                if(this.isLoggedIn) {
+                    this.$router.push(path)
+                }
+                else {
+                    this.$store.dispatch('sendAuthNotification', {self: this})
+                }
+            }
+        }
     }
 </script>
 

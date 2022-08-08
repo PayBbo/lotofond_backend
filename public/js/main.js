@@ -167,6 +167,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "CategoriesControl",
   props: {
@@ -206,8 +209,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     }
   },
   watch: {
-    value: function value() {
-      this.model = this.value;
+    value: function value(newValue, oldValue) {
+      this.model = newValue;
+      this.saveValue();
     }
   },
   methods: {
@@ -256,6 +260,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           }
         });
       }
+
+      this.saveValue();
     },
     allChecked: function allChecked(arr, target) {
       return target.every(function (v) {
@@ -720,6 +726,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "ParamsControl",
   props: {
@@ -795,9 +804,18 @@ __webpack_require__.r(__webpack_exports__);
       return this.$store.getters.trade_places_loading;
     }
   },
+  watch: {
+    value: function value() {
+      this.model = this.value;
+      this.saveValue();
+    }
+  },
   methods: {
     saveValue: function saveValue() {
       this.$emit('input', this.model);
+    },
+    chooseAuctionType: function chooseAuctionType(title) {
+      this.model.tradeType = title;
     },
     removeTradePlace: function removeTradePlace(id) {
       var item_index = this.selected_trade_places.findIndex(function (el) {
@@ -839,6 +857,14 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -1030,6 +1056,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       return this.$store.getters.filters_data.prices;
     }
   },
+  watch: {
+    value: function value(newValue, oldValue) {
+      this.model = newValue;
+      this.saveValue();
+    }
+  },
   methods: {
     saveValue: function saveValue() {
       this.$emit('input', this.model);
@@ -1192,6 +1224,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "RegionsControl",
   props: {
@@ -1227,6 +1260,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     },
     loading: function loading() {
       return this.$store.getters.regions_loading;
+    }
+  },
+  watch: {
+    value: function value(newValue, oldValue) {
+      this.model = newValue;
+      this.saveValue();
     }
   },
   methods: {
@@ -1268,6 +1307,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           }
         });
       }
+
+      this.saveValue();
     },
     allChecked: function allChecked(arr, target) {
       return target.every(function (v) {
@@ -1335,6 +1376,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var hooper__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! hooper */ "./node_modules/hooper/dist/hooper.esm.js");
+/* harmony import */ var _CardImageCategory__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./CardImageCategory */ "./resources/js/components/CardImageCategory.vue");
 //
 //
 //
@@ -1414,13 +1456,15 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "MiniTradeCard",
   props: ['item'],
   components: {
     Hooper: hooper__WEBPACK_IMPORTED_MODULE_0__.Hooper,
     Slide: hooper__WEBPACK_IMPORTED_MODULE_0__.Slide,
-    HooperNavigation: hooper__WEBPACK_IMPORTED_MODULE_0__.Navigation
+    HooperNavigation: hooper__WEBPACK_IMPORTED_MODULE_0__.Navigation,
+    CardImageCategory: _CardImageCategory__WEBPACK_IMPORTED_MODULE_1__["default"]
   }
 });
 
@@ -1446,208 +1490,6 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 //
 //
 //
@@ -1695,10 +1537,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   },
   created: function created() {
     this.getCategories();
-    this.result = JSON.parse(JSON.stringify(this.filters_categories));
   },
   computed: {
     filters_categories: function filters_categories() {
+      this.result = this.$store.getters[this.filter_name].categories;
       return this.$store.getters[this.filter_name].categories;
     },
     filters: function filters() {
@@ -1715,75 +1557,17 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     },
     loading: function loading() {
       return this.$store.getters.categories_loading;
+    },
+    model: {
+      get: function get() {
+        return JSON.parse(JSON.stringify(this.filters_categories));
+      },
+      set: function set(value) {
+        this.result = value;
+      }
     }
   },
   methods: {
-    include: function include(category) {
-      return this.result.indexOf(category) >= 0;
-    },
-    toggleCategory: function toggleCategory(subcategory) {
-      var item_index = this.result.findIndex(function (el) {
-        return el == subcategory;
-      });
-
-      if (item_index < 0) {
-        this.result.push(subcategory);
-      } else {
-        this.result.splice(item_index, 1);
-      }
-    },
-    selectAll: function selectAll(index) {
-      var _this = this;
-
-      var tmp = this.items[index].subcategories.map(function (item) {
-        return item.key;
-      });
-
-      if (this.items[index].status) {
-        tmp.forEach(function (item) {
-          var item_index = _this.result.findIndex(function (el) {
-            return el == item;
-          });
-
-          if (item_index < 0) {
-            _this.result.push(item);
-          }
-        });
-      } else {
-        tmp.forEach(function (it) {
-          var item_index = _this.result.findIndex(function (el) {
-            return el == it;
-          });
-
-          if (item_index >= 0) {
-            _this.result.splice(item_index, 1);
-          }
-        });
-      }
-    },
-    allChecked: function allChecked(arr, target) {
-      return target.every(function (v) {
-        return arr.includes(v);
-      });
-    },
-    isIndeterminate: function isIndeterminate(index) {
-      var _this2 = this;
-
-      var all_checked = this.allChecked(this.result, this.items[index].subcategories.map(function (item) {
-        return item.key;
-      }));
-      var some_checked = this.items[index].subcategories.some(function (v) {
-        return _this2.result.includes(v.key);
-      });
-
-      if (all_checked) {
-        this.items[index].status = true;
-      } else {
-        this.items[index].status = false;
-      }
-
-      return !all_checked && some_checked;
-    },
     saveFilters: function saveFilters() {
       this.$store.dispatch('saveDataProperty', {
         module_key: 'filters',
@@ -1792,7 +1576,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         value: this.result
       }, {
         root: true
-      }); // this.$store.commit('saveFiltersProperty', {key: 'categories', value: this.result});
+      }); // this.$store.commit('saveFiltersProperty', {key: 'categories', value: this.model});
 
       this.$store.commit('closeModal', '#categoryModal');
       this.$store.dispatch(this.method_name, {
@@ -1801,7 +1585,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       });
     },
     clearFilters: function clearFilters() {
-      this.result = [];
+      this.model = [];
       this.$store.dispatch('saveDataProperty', {
         module_key: 'filters',
         state_key: this.filter_name,
@@ -1818,7 +1602,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       });
     },
     getCategories: function getCategories() {
-      var _this3 = this;
+      var _this = this;
 
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
         return _regeneratorRuntime().wrap(function _callee$(_context) {
@@ -1826,8 +1610,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             switch (_context.prev = _context.next) {
               case 0:
                 _context.next = 2;
-                return _this3.$store.dispatch('getCategories').then(function (resp) {
-                  _this3.items = JSON.parse(JSON.stringify(_this3.categories));
+                return _this.$store.dispatch('getCategories').then(function (resp) {
+                  _this.items = JSON.parse(JSON.stringify(_this.categories));
                 });
 
               case 2:
@@ -2418,7 +2202,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     },
     model: {
       get: function get() {
-        return JSON.parse(JSON.stringify(this.$store.getters[this.filter_name].regions));
+        return JSON.parse(JSON.stringify(this.filters_regions));
       },
       set: function set(value) {
         this.result = value;
@@ -2426,70 +2210,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     }
   },
   methods: {
-    toggleRegion: function toggleRegion(region) {
-      var item_index = this.model.findIndex(function (el) {
-        return el == region;
-      });
-
-      if (item_index < 0) {
-        this.model.push(region);
-      } else {
-        this.model.splice(item_index, 1);
-      }
-    },
-    selectAll: function selectAll(index) {
-      var _this = this;
-
-      if (this.regionGroups[index].status) {
-        this.regionGroups[index].regions.forEach(function (item) {
-          var item_index = _this.model.findIndex(function (el) {
-            return el == item;
-          });
-
-          if (item_index < 0) {
-            _this.model.push(item);
-          }
-        });
-      } else {
-        this.regionGroups[index].regions.forEach(function (item) {
-          var item_index = _this.model.findIndex(function (el) {
-            return el == item;
-          });
-
-          if (item_index >= 0) {
-            _this.model.splice(item_index, 1);
-          }
-        });
-      }
-    },
-    allChecked: function allChecked(arr, target) {
-      return target.every(function (v) {
-        return arr.includes(v);
-      });
-    },
-    isIndeterminate: function isIndeterminate(index) {
-      var _this2 = this;
-
-      var all_checked = this.allChecked(this.model, this.regionGroups[index].regions);
-      var some_checked = this.regionGroups[index].regions.some(function (v) {
-        return _this2.model.includes(v);
-      });
-
-      if (all_checked) {
-        this.regionGroups[index].status = true;
-      } else {
-        this.regionGroups[index].status = false;
-      }
-
-      return !all_checked && some_checked;
-    },
     saveFilters: function saveFilters() {
       // this.$store.commit('saveFiltersProperty', {key: 'regions', value: this.model});
       this.$store.dispatch('saveDataProperty', {
         module_key: 'filters',
         state_key: this.filter_name,
         key: 'regions',
-        value: this.model
+        value: this.result
       }, {
         root: true
       });
@@ -2517,7 +2244,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       });
     },
     getRegions: function getRegions() {
-      var _this3 = this;
+      var _this = this;
 
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
         return _regeneratorRuntime().wrap(function _callee$(_context) {
@@ -2525,9 +2252,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             switch (_context.prev = _context.next) {
               case 0:
                 _context.next = 2;
-                return _this3.$store.dispatch('getRegions').then(function (resp) {
-                  _this3.regionGroups = JSON.parse(JSON.stringify(_this3.regions));
-                  _this3.selectedRegion = _this3.regionGroups[0];
+                return _this.$store.dispatch('getRegions').then(function (resp) {
+                  _this.regionGroups = JSON.parse(JSON.stringify(_this.regions));
+                  _this.selectedRegion = _this.regionGroups[0];
                 });
 
               case 2:
@@ -2570,32 +2297,6 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 //
 //
 //
@@ -2992,6 +2693,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       } else {
         this.filters_sort.direction = 'asc';
       }
+    },
+    selectSearchLot: function selectSearchLot(lot) {
+      this.$router.push('/lot/' + lot.id);
     }
   }
 });
@@ -4163,6 +3867,7 @@ var render = function () {
                                     id: "bkt-category-checkbox-" + index,
                                     val: category.key,
                                   },
+                                  on: { input: _vm.saveValue },
                                   model: {
                                     value: _vm.model,
                                     callback: function ($$v) {
@@ -4233,6 +3938,7 @@ var render = function () {
                                     id: "bkt-subcategory-checkbox-" + index,
                                     val: subcategory.key,
                                   },
+                                  on: { input: _vm.saveValue },
                                   model: {
                                     value: _vm.model,
                                     callback: function ($$v) {
@@ -4783,6 +4489,7 @@ var render = function () {
                 : "bkt-bg-white",
               icon_color: _vm.model.includedWords ? "white" : "main-lighter",
             },
+            on: { input: _vm.saveValue },
             model: {
               value: _vm.model.includedWords,
               callback: function ($$v) {
@@ -4812,6 +4519,7 @@ var render = function () {
                 : "bkt-bg-white",
               icon_color: _vm.model.excludedWords ? "white" : "main-lighter",
             },
+            on: { input: _vm.saveValue },
             model: {
               value: _vm.model.excludedWords,
               callback: function ($$v) {
@@ -4844,6 +4552,7 @@ var render = function () {
               searchable: true,
               loading: _vm.trade_places_loading,
             },
+            on: { input: _vm.saveValue },
             model: {
               value: _vm.model.tradePlaces,
               callback: function ($$v) {
@@ -4881,15 +4590,15 @@ var render = function () {
                         ],
                         on: {
                           click: function ($event) {
-                            _vm.model.tradeType = item.title
+                            return _vm.chooseAuctionType(item.title)
                           },
                         },
                       },
                       [
                         _vm._v(
-                          "\n                                " +
+                          "\n                            " +
                             _vm._s(item.description) +
-                            "\n                            "
+                            "\n                        "
                         ),
                       ]
                     ),
@@ -4959,6 +4668,7 @@ var render = function () {
                   : "bkt-bg-white",
                 icon_color: _vm.model.startPrice.min ? "white" : "main-lighter",
               },
+              on: { input: _vm.saveValue },
               scopedSlots: _vm._u([
                 {
                   key: "group-text",
@@ -4999,6 +4709,7 @@ var render = function () {
                   : "bkt-bg-white",
                 icon_color: _vm.model.startPrice.max ? "white" : "main-lighter",
               },
+              on: { input: _vm.saveValue },
               scopedSlots: _vm._u([
                 {
                   key: "group-text",
@@ -5049,6 +4760,7 @@ var render = function () {
                   ? "white"
                   : "main-lighter",
               },
+              on: { input: _vm.saveValue },
               scopedSlots: _vm._u([
                 {
                   key: "group-text",
@@ -5091,6 +4803,7 @@ var render = function () {
                   ? "white"
                   : "main-lighter",
               },
+              on: { input: _vm.saveValue },
               scopedSlots: _vm._u([
                 {
                   key: "group-text",
@@ -5141,6 +4854,7 @@ var render = function () {
                   : "bkt-bg-white",
                 icon_color: _vm.model.minPrice.min ? "white" : "main-lighter",
               },
+              on: { input: _vm.saveValue },
               scopedSlots: _vm._u([
                 {
                   key: "group-text",
@@ -5180,6 +4894,7 @@ var render = function () {
                   : "bkt-bg-white",
                 icon_color: _vm.model.minPrice.max ? "white" : "main-lighter",
               },
+              on: { input: _vm.saveValue },
               scopedSlots: _vm._u([
                 {
                   key: "group-text",
@@ -5231,6 +4946,7 @@ var render = function () {
                   ? "white"
                   : "main-lighter",
               },
+              on: { input: _vm.saveValue },
               scopedSlots: _vm._u([
                 {
                   key: "group-text",
@@ -5272,6 +4988,7 @@ var render = function () {
                   ? "white"
                   : "main-lighter",
               },
+              on: { input: _vm.saveValue },
               scopedSlots: _vm._u([
                 {
                   key: "group-text",
@@ -5540,6 +5257,7 @@ var render = function () {
                                   id: "bkt-region-checkbox-" + index,
                                   val: region,
                                 },
+                                on: { input: _vm.saveValue },
                                 model: {
                                   value: _vm.model,
                                   callback: function ($$v) {
@@ -5668,23 +5386,17 @@ var render = function () {
   var _c = _vm._self._c || _h
   return _c(
     "div",
-    { staticClass: "row w-100 mx-auto bkt-row outline bkt-card-trade-mini" },
+    {
+      staticClass: "bkt-form w-100 mx-auto bkt-row outline bkt-card-trade-mini",
+    },
     [
       _c(
         "div",
-        { staticClass: "col-12 col-md-2 ps-0 bkt-card-trade-mini__image" },
+        { staticClass: "col-12 col-md-2 ps-sm-0 bkt-card-trade-mini__image" },
         [
           !_vm.item.photos || _vm.item.photos.length == 0
-            ? _c("img", {
-                directives: [
-                  {
-                    name: "lazy",
-                    rawName: "v-lazy",
-                    value: "/images/card-image1.png",
-                    expression: "'/images/card-image1.png'",
-                  },
-                ],
-                staticClass: "bkt-card__image",
+            ? _c("card-image-category", {
+                attrs: { categories: _vm.item.categories },
               })
             : _vm._e(),
           _vm._v(" "),
@@ -5957,11 +5669,11 @@ var render = function () {
                     [
                       _c("bkt-categories-control", {
                         model: {
-                          value: _vm.result,
+                          value: _vm.model,
                           callback: function ($$v) {
-                            _vm.result = $$v
+                            _vm.model = $$v
                           },
-                          expression: "result",
+                          expression: "model",
                         },
                       }),
                     ],
@@ -6300,90 +6012,8 @@ var render = function () {
           method_params: {},
           immediate_search: "",
         },
+        on: { selected: _vm.selectSearchLot },
         scopedSlots: _vm._u([
-          {
-            key: "dropdown-block",
-            fn: function (ref) {
-              var options = ref.options
-              return [
-                _c(
-                  "div",
-                  { staticClass: "row w-100 m-auto bkt-gap" },
-                  [
-                    _c(
-                      "div",
-                      { staticClass: "col-12 px-0 d-none d-md-block" },
-                      [
-                        _c(
-                          "div",
-                          {
-                            staticClass:
-                              "row w-100 mx-auto align-items-center justify-content-center",
-                          },
-                          [
-                            _c("div", { staticClass: "col-2 pl-0" }, [
-                              _c(
-                                "h6",
-                                { staticClass: "bkt-text-neutral-dark" },
-                                [_vm._v("фото")]
-                              ),
-                            ]),
-                            _vm._v(" "),
-                            _c("div", { staticClass: "col-3" }, [
-                              _c(
-                                "h6",
-                                { staticClass: "bkt-text-neutral-dark" },
-                                [_vm._v("описание лота")]
-                              ),
-                            ]),
-                            _vm._v(" "),
-                            _c("div", { staticClass: "col-2" }, [
-                              _c(
-                                "h6",
-                                { staticClass: "bkt-text-neutral-dark" },
-                                [_vm._v("цена")]
-                              ),
-                            ]),
-                            _vm._v(" "),
-                            _c("div", { staticClass: "col-2" }, [
-                              _c(
-                                "h6",
-                                { staticClass: "bkt-text-neutral-dark" },
-                                [_vm._v("даты торгов")]
-                              ),
-                            ]),
-                            _vm._v(" "),
-                            _c("div", { staticClass: "col-3" }, [
-                              _c(
-                                "h6",
-                                { staticClass: "bkt-text-neutral-dark" },
-                                [_vm._v("ЭТП и организатор")]
-                              ),
-                            ]),
-                          ]
-                        ),
-                      ]
-                    ),
-                    _vm._v(" "),
-                    _vm._l(options, function (item) {
-                      return _c(
-                        "div",
-                        { staticClass: "col-12 px-0" },
-                        [
-                          _c("mini-trade-card", {
-                            staticClass: "bkt-card-trade-short",
-                            attrs: { item: item },
-                          }),
-                        ],
-                        1
-                      )
-                    }),
-                  ],
-                  2
-                ),
-              ]
-            },
-          },
           {
             key: "dropdown-block-header",
             fn: function () {
@@ -6392,7 +6022,7 @@ var render = function () {
                   "div",
                   {
                     staticClass:
-                      "row w-100 mx-auto align-items-center justify-content-center",
+                      "row w-100 mx-auto align-items-center justify-content-center d-none d-md-flex",
                   },
                   [
                     _c("div", { staticClass: "col-2 pl-0" }, [
@@ -6434,7 +6064,12 @@ var render = function () {
             key: "dropdown-item",
             fn: function (ref) {
               var item = ref.item
-              return [_c("mini-trade-card", { attrs: { item: item } })]
+              return [
+                _c("mini-trade-card", {
+                  staticClass: "bkt-card-trade-short",
+                  attrs: { item: item },
+                }),
+              ]
             },
           },
         ]),

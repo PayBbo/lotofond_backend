@@ -354,6 +354,10 @@
     align-items: center;
     justify-content: center;
     min-height: 120px;
+    & .bkt-card__image-category {
+        padding: 20px;
+        min-height: 50px;
+    }
 }
 
 @media screen and (max-width: 568px) {
@@ -452,6 +456,7 @@
                 & .bkt-card__feature {
                     & .bkt-card__title {
                         font-size: 14px;
+                        line-height: 14px;
                     }
 
                     & .bkt-card__subtitle {
@@ -482,6 +487,9 @@
     .bkt-card-trade-mini {
         padding: 20px;
         border-radius: 13px;
+        &__image {
+            padding: 0;
+        }
     }
 
     .bkt-card-trade-short {
