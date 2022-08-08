@@ -10,6 +10,7 @@ class Other extends SortQuery implements SortContract
 {
     public function handle($value): void
     {
+        $value = json_decode(json_encode($value), true);
         $minDate = null;
         $maxDate = null;
         if (!is_null($value) && isset($value['period']) && strlen((string)$value['period']) > 0 && $value['period'] !== 'periodAll') {
