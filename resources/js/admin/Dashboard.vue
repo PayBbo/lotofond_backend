@@ -41,8 +41,9 @@
                             <div class="icon">
                                 <i class="fas fa-user-plus"></i>
                             </div>
-                            <router-link to="/admin/users"class="small-box-footer">
-                                Перейти <i class="fas fa-arrow-circle-right"></i>
+                            <router-link to="/admin/users"  class="small-box-footer">
+                                Перейти
+                                <i class="fas fa-arrow-circle-right"></i>
                             </router-link>
                         </div>
                     </div>
@@ -116,7 +117,7 @@ import {mapActions, mapGetters} from "vuex";
 export default {
     name: "Dashboard",
     computed: {
-        ...mapGetters(['newLotsCount','newLotsCount', 'lotsCount', 'usersCount', 'contacts'])
+        ...mapGetters(['newLotsCount','newLotsCount', 'lotsCount', 'usersCount', 'newUsersCount', 'contacts'])
     },
     created() {
         this.getDashboardData()

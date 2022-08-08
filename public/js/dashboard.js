@@ -129,10 +129,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "Dashboard",
-  computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapGetters)(['newLotsCount', 'newLotsCount', 'lotsCount', 'usersCount', 'contacts'])),
+  computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapGetters)(['newLotsCount', 'newLotsCount', 'lotsCount', 'usersCount', 'newUsersCount', 'contacts'])),
   created: function created() {
     this.getDashboardData();
   },
@@ -294,7 +295,9 @@ var render = function () {
                     attrs: { to: "/admin/users" },
                   },
                   [
-                    _vm._v("\n                            Перейти "),
+                    _vm._v(
+                      "\n                            Перейти\n                            "
+                    ),
                     _c("i", { staticClass: "fas fa-arrow-circle-right" }),
                   ]
                 ),
