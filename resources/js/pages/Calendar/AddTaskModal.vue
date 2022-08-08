@@ -72,14 +72,13 @@ export default {
     name: "AddTaskModal",
     props: {
         date: {
-            type: Object,
+            type: [Object, String, Date],
             default: null
         }
 
     },
     data() {
         return {
-            moment: moment,
             event: {type: 'event', date: '', time: '', title: ''}, edit_mode: false,
             modelDate: {day: null, month: null, hours: null, minutes: null},
             datetime: '',

@@ -2187,6 +2187,22 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+//
+//
+//
+//
 //
 //
 //
@@ -2329,26 +2345,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       masks: {
         weekdays: 'WWW'
       },
-      filters: {
-        events: true,
-        tasks: true,
-        reminder: true
-      },
+      event_types: ['event', 'task', 'reminder'],
       nowDate: {
         month: 1,
         year: 2022
-      }
-    };
-  },
-  computed: {
-    items: function items() {
-      return this.$store.getters.events;
-    },
-    events_loading: function events_loading() {
-      return this.$store.getters.events_loading;
-    },
-    current_items: function current_items() {
-      var colors = [{
+      },
+      colors: [{
         type: 'event',
         color: 'red'
       }, {
@@ -2357,8 +2359,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }, {
         type: 'reminder',
         color: 'blue'
-      }];
-      var events = [{
+      }],
+      events: [{
         type: 'event',
         title: 'событие'
       }, {
@@ -2367,31 +2369,45 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }, {
         type: 'reminder',
         title: 'напоминание'
-      }];
+      }]
+    };
+  },
+  computed: {
+    items: function items() {
+      var _this = this;
+
+      return this.$store.getters.events.filter(function (item) {
+        return _this.event_types.indexOf(item.type) >= 0;
+      });
+    },
+    events_loading: function events_loading() {
+      return this.$store.getters.events_loading;
+    },
+    current_items: function current_items() {
+      var _this2 = this;
+
       return this.items.map(function (item) {
-        var _colors$find$color, _colors$find, _colors$find$color2, _ref;
+        var _this2$colors$find$co, _ref;
 
         return {
           key: item.id,
-          highlight: {
-            color: (_colors$find$color = (_colors$find = colors.find(function (color) {
-              return color.type == item.type;
-            })) === null || _colors$find === void 0 ? void 0 : _colors$find.color) !== null && _colors$find$color !== void 0 ? _colors$find$color : '',
-            fillMode: "solid"
-          },
+          // highlight: {
+          //     color: this.colors.find(color => color.type == item.type)?.color ?? '',
+          //     fillMode: "solid"
+          // },
           dates: new Date(item.date).toLocaleString(),
           customData: {
             title: item.title,
-            subtitle: events.find(function (event) {
+            subtitle: _this2.events.find(function (event) {
               return event.type == item.type;
             }).title,
             event_type: item.type,
             date: new Date(item.date).getDate() + '.' + new Date(item.date).getMonth() + '.' + new Date(item.date).getFullYear(),
             time: item.time.slice(0, -3),
-            color: (_colors$find$color2 = colors.find(function (color) {
+            color: (_this2$colors$find$co = _this2.colors.find(function (color) {
               return color.type == item.type;
-            }).color) !== null && _colors$find$color2 !== void 0 ? _colors$find$color2 : '',
-            "class": (_ref = "text-white vc-task bkt-bg-" + colors.find(function (color) {
+            }).color) !== null && _this2$colors$find$co !== void 0 ? _this2$colors$find$co : '',
+            "class": (_ref = "bkt-bg-" + _this2.colors.find(function (color) {
               return color.type == item.type;
             }).color) !== null && _ref !== void 0 ? _ref : ''
           },
@@ -2400,12 +2416,48 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           }
         };
       });
+    },
+    dot_items: function dot_items() {
+      var _this3 = this;
+
+      var events = [{
+        highlight: {
+          color: 'primary',
+          fillMode: "light",
+          // class: 'd-none d-md-flex'
+          "class": 'bkt-border-primary'
+        },
+        dates: [new Date()]
+      }];
+      this.colors.forEach(function (color) {
+        var _color$color;
+
+        // let unique = this.items.filter(item => item.type == color.type).map(item => new Date(item.date))
+        //     .filter((v, i, a) => a.indexOf(v) === i)
+        events.push({
+          dot: {
+            color: (_color$color = color.color) !== null && _color$color !== void 0 ? _color$color : '' // class: 'd-md-none'
+
+          },
+          // highlight: {
+          //     color: color.color ?? '',
+          //     fillMode: "solid",
+          //     class: 'd-none d-md-flex'
+          // },
+          dates: _toConsumableArray(new Set(_this3.items.filter(function (item) {
+            return item.type == color.type;
+          }).map(function (item) {
+            return new Date(item.date);
+          })))
+        });
+      });
+      return events;
     }
   },
   methods: {
     getData: function getData() {
       var _arguments = arguments,
-          _this = this;
+          _this4 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
         var month, year, type;
@@ -2417,7 +2469,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 year = _arguments.length > 1 && _arguments[1] !== undefined ? _arguments[1] : 2022;
                 type = _arguments.length > 2 && _arguments[2] !== undefined ? _arguments[2] : 'all';
                 _context.next = 5;
-                return _this.$store.dispatch('getEvents', {
+                return _this4.$store.dispatch('getEvents', {
                   month: month,
                   year: year,
                   type: type
@@ -2432,28 +2484,27 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }))();
     },
     addEvent: function addEvent(date) {
+      var _this5 = this;
+
       this.sel_date = date;
-      this.$store.commit('openModal', '#addTaskModal');
+      this.$nextTick(function () {
+        _this5.$store.commit('openModal', '#addTaskModal');
+      });
     },
     changePage: function changePage(date) {
       this.nowDate.month = date.month;
       this.nowDate.year = date.year;
+
+      if (this.$refs['bkt-custom-calendar']) {
+        this.$refs['bkt-custom-calendar'].move(date);
+      }
+
       this.getData(this.nowDate.month, this.nowDate.year);
     }
   },
   created: function created() {
     this.nowDate.month = new Date().getMonth();
     this.nowDate.year = new Date().getFullYear();
-  },
-  watch: {
-    filters: {
-      handler: function handler(filter) {
-        var type = 'all';
-        if (filter.events && filter.tasks && filter.reminder) type = 'all';else if (!filter.events && !filter.tasks && !filter.reminder) type = '';else if (filter.events) type = 'event';else if (filter.tasks) type = 'task';else if (filter.reminder) type = 'reminder';
-        this.getData(this.nowDate.month, this.nowDate.year, type);
-      },
-      deep: true
-    }
   }
 });
 
@@ -2552,13 +2603,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   name: "AddTaskModal",
   props: {
     date: {
-      type: Object,
+      type: [Object, String, Date],
       "default": null
     }
   },
   data: function data() {
     return {
-      moment: (vue_moment__WEBPACK_IMPORTED_MODULE_0___default()),
       event: {
         type: 'event',
         date: '',
@@ -4120,6 +4170,42 @@ component.options.__file = "resources/js/pages/Calendar.vue"
   !*** ./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/pages/Calendar.vue?vue&type=style&index=0&id=f1e19272&lang=postcss&scoped=true& ***!
   \*****************************************************************************************************************************************************************/
 /***/ (() => {
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -6965,432 +7051,450 @@ var render = function () {
       _vm._m(0),
       _vm._v(" "),
       _c("div", { staticClass: "bkt-content" }, [
-        _c("div", { staticClass: "row" }, [
-          _c("div", { staticClass: "col-12 col-lg-3" }, [
-            _c("div", { staticClass: "bkt-form" }, [
-              _c("div", { staticClass: "col-12 col-md-6 col-lg-12" }, [
-                _c(
-                  "div",
-                  { staticClass: "bkt-month-calendar mb-2" },
-                  [
-                    _c("v-calendar", {
-                      staticClass:
-                        "bkt-left-calendar bkt-calendar-none-border m-1",
-                      attrs: {
-                        "is-expanded": "",
-                        attributes: _vm.current_items,
-                        masks: _vm.masks,
-                      },
-                      on: {
-                        "update:from-page": _vm.changePage,
-                        dayclick: _vm.addEvent,
-                      },
-                      scopedSlots: _vm._u([
-                        {
-                          key: "default",
-                          fn: function (ref) {
-                            var inputValue = ref.inputValue
-                            var inputEvents = ref.inputEvents
-                            return [
-                              _c(
-                                "input",
-                                _vm._g(
-                                  {
-                                    staticClass: "px-3 py-1 border rounded",
-                                    domProps: { value: inputValue },
-                                  },
-                                  inputEvents
-                                )
-                              ),
-                            ]
-                          },
-                        },
-                      ]),
-                    }),
-                  ],
-                  1
-                ),
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "col-12 col-md-6 col-lg-12" }, [
-                _c(
-                  "div",
-                  {
-                    staticClass:
-                      "bkt-calendar-checkboxes d-flex flex-wrap flex-column pl-4 pt-4 pb-4",
-                  },
-                  [
-                    _c("bkt-checkbox", {
-                      staticClass: "events_check mr-2",
-                      attrs: {
-                        label: "События",
-                        name: "events",
-                        wrapper_class: "bkt-check__wrapper-inline",
-                      },
-                      model: {
-                        value: _vm.filters.events,
-                        callback: function ($$v) {
-                          _vm.$set(_vm.filters, "events", $$v)
-                        },
-                        expression: "filters.events",
-                      },
-                    }),
-                    _vm._v(" "),
-                    _c("bkt-checkbox", {
-                      staticClass: "tasks_check mr-2",
-                      attrs: {
-                        label: "Задачи",
-                        name: "tasks",
-                        wrapper_class: "bkt-check__wrapper-inline",
-                      },
-                      model: {
-                        value: _vm.filters.tasks,
-                        callback: function ($$v) {
-                          _vm.$set(_vm.filters, "tasks", $$v)
-                        },
-                        expression: "filters.tasks",
-                      },
-                    }),
-                    _vm._v(" "),
-                    _c("bkt-checkbox", {
-                      staticClass: "reminders_check mr-2",
-                      attrs: {
-                        label: "Напоминания",
-                        name: "reminders",
-                        wrapper_class: "bkt-check__wrapper-inline",
-                      },
-                      model: {
-                        value: _vm.filters.reminder,
-                        callback: function ($$v) {
-                          _vm.$set(_vm.filters, "reminder", $$v)
-                        },
-                        expression: "filters.reminder",
-                      },
-                    }),
-                  ],
-                  1
-                ),
-              ]),
-            ]),
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "col-12 col-lg-9" }, [
-            _c(
-              "div",
-              { staticClass: "bkt-month-calendar" },
-              [
-                _c("v-calendar", {
+        _c("div", { staticClass: "bkt-form bkt-form_wide" }, [
+          _c(
+            "div",
+            { staticClass: "col-12 col-lg-4 col-xl-3 bkt-form__offset-right" },
+            [
+              _c(
+                "div",
+                {
                   staticClass:
-                    "bkt-calendar-none-border custom-calendar max-w-full",
-                  attrs: {
-                    masks: _vm.masks,
-                    attributes: _vm.current_items,
-                    "is-expanded": "",
-                  },
-                  scopedSlots: _vm._u([
-                    {
-                      key: "header",
-                      fn: function () {
-                        return [
-                          _c(
-                            "div",
-                            {
-                              staticClass: "vc-grid-container vc-weeks d-grid",
-                              staticStyle: {
-                                "grid-template-columns": "repeat(7,1fr)",
-                                gap: "0px",
+                    "bkt-form bkt-gap-row bkt-wrapper-down-sm-column-reverse",
+                },
+                [
+                  _c("div", { staticClass: "col-12 col-md-6 col-lg-12" }, [
+                    _c(
+                      "div",
+                      { staticClass: "bkt-month-calendar" },
+                      [
+                        _c("v-calendar", {
+                          ref: "bkt-left-calendar",
+                          staticClass:
+                            "bkt-left-calendar bkt-calendar-none-border",
+                          class: "is-today-" + new Date().getDay(),
+                          attrs: {
+                            "is-expanded": "",
+                            attributes: _vm.dot_items,
+                            masks: _vm.masks,
+                          },
+                          on: {
+                            "update:from-page": _vm.changePage,
+                            dayclick: _vm.addEvent,
+                          },
+                        }),
+                      ],
+                      1
+                    ),
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "col-12 col-md-6 col-lg-12" }, [
+                    _c(
+                      "div",
+                      {
+                        staticClass:
+                          "bkt-calendar-checkboxes bkt-card bkt-card__body",
+                      },
+                      [
+                        _c("bkt-checkbox", {
+                          staticClass: "events_check mr-2",
+                          attrs: {
+                            label: "События",
+                            name: "events",
+                            val: "event",
+                            wrapper_class: "bkt-check__wrapper-inline",
+                          },
+                          model: {
+                            value: _vm.event_types,
+                            callback: function ($$v) {
+                              _vm.event_types = $$v
+                            },
+                            expression: "event_types",
+                          },
+                        }),
+                        _vm._v(" "),
+                        _c("bkt-checkbox", {
+                          staticClass: "tasks_check mr-2",
+                          attrs: {
+                            label: "Задачи",
+                            name: "tasks",
+                            val: "task",
+                            wrapper_class: "bkt-check__wrapper-inline",
+                          },
+                          model: {
+                            value: _vm.event_types,
+                            callback: function ($$v) {
+                              _vm.event_types = $$v
+                            },
+                            expression: "event_types",
+                          },
+                        }),
+                        _vm._v(" "),
+                        _c("bkt-checkbox", {
+                          staticClass: "reminders_check mr-2",
+                          attrs: {
+                            label: "Напоминания",
+                            name: "reminders",
+                            val: "reminder",
+                            wrapper_class: "bkt-check__wrapper-inline",
+                          },
+                          model: {
+                            value: _vm.event_types,
+                            callback: function ($$v) {
+                              _vm.event_types = $$v
+                            },
+                            expression: "event_types",
+                          },
+                        }),
+                      ],
+                      1
+                    ),
+                  ]),
+                ]
+              ),
+            ]
+          ),
+          _vm._v(" "),
+          _c(
+            "div",
+            { staticClass: "col-12 col-lg-8 col-xl-9 d-none d-sm-flex" },
+            [
+              _c(
+                "div",
+                { staticClass: "bkt-month-calendar" },
+                [
+                  _c("v-calendar", {
+                    ref: "bkt-custom-calendar",
+                    staticClass:
+                      "bkt-calendar-none-border custom-calendar max-w-full",
+                    attrs: {
+                      masks: _vm.masks,
+                      attributes: _vm.current_items,
+                      "is-expanded": "",
+                    },
+                    scopedSlots: _vm._u([
+                      {
+                        key: "header",
+                        fn: function () {
+                          return [
+                            _c(
+                              "div",
+                              {
+                                staticClass:
+                                  "vc-grid-container vc-weeks d-grid",
+                                staticStyle: {
+                                  "grid-template-columns": "repeat(7,1fr)",
+                                  gap: "0px",
+                                },
                               },
-                            },
-                            [
-                              _c(
-                                "div",
-                                {
-                                  staticClass:
-                                    "vc-grid-cell vc-grid-cell-row vc-grid-cell-row--7 vc-grid-cell-col-1 vc-grid-cell-col--7",
-                                  class: [
-                                    new Date().getDay() == 1 ? "is-today" : "",
-                                  ],
-                                  staticStyle: {
-                                    "grid-area": "1 / 1 / auto / auto",
-                                  },
-                                },
-                                [
-                                  _c(
-                                    "div",
-                                    {
-                                      staticClass:
-                                        "vc-weekday vc-text-sm vc-font-bold vc-text-gray-500",
-                                    },
-                                    [
-                                      _vm._v(
-                                        "пн\n                                    "
-                                      ),
-                                    ]
-                                  ),
-                                ]
-                              ),
-                              _vm._v(" "),
-                              _c(
-                                "div",
-                                {
-                                  staticClass:
-                                    "vc-grid-cell vc-grid-cell-row vc-grid-cell-row--7 vc-grid-cell-col-2 vc-grid-cell-col--6",
-                                  class: [
-                                    new Date().getDay() == 2 ? "is-today" : "",
-                                  ],
-                                  staticStyle: {
-                                    "grid-area": "1 / 2 / auto / auto",
-                                  },
-                                },
-                                [
-                                  _c(
-                                    "div",
-                                    {
-                                      staticClass:
-                                        "vc-weekday vc-text-sm vc-font-bold vc-text-gray-500",
-                                    },
-                                    [
-                                      _vm._v(
-                                        "вт\n                                    "
-                                      ),
-                                    ]
-                                  ),
-                                ]
-                              ),
-                              _vm._v(" "),
-                              _c(
-                                "div",
-                                {
-                                  staticClass:
-                                    "vc-grid-cell vc-grid-cell-row vc-grid-cell-row--7 vc-grid-cell-col-3 vc-grid-cell-col--5",
-                                  class: [
-                                    new Date().getDay() == 3 ? "is-today" : "",
-                                  ],
-                                  staticStyle: {
-                                    "grid-area": "1 / 3 / auto / auto",
-                                  },
-                                },
-                                [
-                                  _c(
-                                    "div",
-                                    {
-                                      staticClass:
-                                        "vc-weekday vc-text-sm vc-font-bold vc-text-gray-500",
-                                    },
-                                    [
-                                      _vm._v(
-                                        "ср\n                                    "
-                                      ),
-                                    ]
-                                  ),
-                                ]
-                              ),
-                              _vm._v(" "),
-                              _c(
-                                "div",
-                                {
-                                  staticClass:
-                                    "vc-grid-cell vc-grid-cell-row vc-grid-cell-row--7 vc-grid-cell-col-4 vc-grid-cell-col--4",
-                                  class: [
-                                    new Date().getDay() == 4 ? "is-today" : "",
-                                  ],
-                                  staticStyle: {
-                                    "grid-area": "1 / 4 / auto / auto",
-                                  },
-                                },
-                                [
-                                  _c(
-                                    "div",
-                                    {
-                                      staticClass:
-                                        "vc-weekday vc-text-sm vc-font-bold vc-text-gray-500",
-                                    },
-                                    [
-                                      _vm._v(
-                                        "чт\n                                    "
-                                      ),
-                                    ]
-                                  ),
-                                ]
-                              ),
-                              _vm._v(" "),
-                              _c(
-                                "div",
-                                {
-                                  staticClass:
-                                    "vc-grid-cell vc-grid-cell-row vc-grid-cell-row--7 vc-grid-cell-col-5 vc-grid-cell-col--3",
-                                  class: [
-                                    new Date().getDay() == 5 ? "is-today" : "",
-                                  ],
-                                  staticStyle: {
-                                    "grid-area": "1 / 5 / auto / auto",
-                                  },
-                                },
-                                [
-                                  _c(
-                                    "div",
-                                    {
-                                      staticClass:
-                                        "vc-weekday vc-text-sm vc-font-bold vc-text-gray-500",
-                                    },
-                                    [
-                                      _vm._v(
-                                        "пт\n                                    "
-                                      ),
-                                    ]
-                                  ),
-                                ]
-                              ),
-                              _vm._v(" "),
-                              _c(
-                                "div",
-                                {
-                                  staticClass:
-                                    "vc-grid-cell vc-grid-cell-row vc-grid-cell-row--7 vc-grid-cell-col-6 vc-grid-cell-col--2",
-                                  class: [
-                                    new Date().getDay() == 6 ? "is-today" : "",
-                                  ],
-                                  staticStyle: {
-                                    "grid-area": "1 / 6 / auto / auto",
-                                  },
-                                },
-                                [
-                                  _c(
-                                    "div",
-                                    {
-                                      staticClass:
-                                        "vc-weekday vc-text-sm vc-font-bold vc-text-gray-500",
-                                    },
-                                    [
-                                      _vm._v(
-                                        "сб\n                                    "
-                                      ),
-                                    ]
-                                  ),
-                                ]
-                              ),
-                              _vm._v(" "),
-                              _c(
-                                "div",
-                                {
-                                  staticClass:
-                                    "vc-grid-cell vc-grid-cell-row vc-grid-cell-row--7 vc-grid-cell-col-7 vc-grid-cell-col--1",
-                                  class: [
-                                    new Date().getDay() == 0 ? "is-today" : "",
-                                  ],
-                                  staticStyle: {
-                                    "grid-area": "1 / 7 / auto / auto",
-                                  },
-                                },
-                                [
-                                  _c(
-                                    "div",
-                                    {
-                                      staticClass:
-                                        "vc-weekday vc-text-sm vc-font-bold vc-text-gray-500",
-                                    },
-                                    [
-                                      _vm._v(
-                                        "вс\n                                    "
-                                      ),
-                                    ]
-                                  ),
-                                ]
-                              ),
-                            ]
-                          ),
-                        ]
-                      },
-                      proxy: true,
-                    },
-                    {
-                      key: "day-popover",
-                      fn: function (ref) {
-                        var day = ref.day
-                        var attributes = ref.attributes
-                        return _vm._l(attributes, function (attr_date) {
-                          return _c("div", { staticClass: "bkt-popover" }, [
-                            _c("div", { staticClass: "bkt-status" }, [
-                              _c(
-                                "span",
-                                {
-                                  staticClass: "text-white bkt-border-rounded",
-                                  class: [
-                                    "bkt-bg-" + attr_date.customData.color,
-                                  ],
-                                },
-                                [
-                                  _vm._v(
-                                    "\n                                        " +
-                                      _vm._s(attr_date.customData.subtitle) +
-                                      "\n                                    "
-                                  ),
-                                ]
-                              ),
-                            ]),
-                            _vm._v(" "),
-                            _c("div", { staticClass: "bkt-text-popover" }, [
-                              _c("span", [
-                                _vm._v(
-                                  _vm._s(attr_date.customData.title) +
-                                    " до " +
-                                    _vm._s(attr_date.customData.date) +
-                                    "\n                                        " +
-                                    _vm._s(attr_date.customData.time) +
-                                    "\n                                    "
-                                ),
-                              ]),
-                            ]),
-                          ])
-                        })
-                      },
-                    },
-                    {
-                      key: "day-content",
-                      fn: function (ref) {
-                        var day = ref.day
-                        var attributes = ref.attributes
-                        return [
-                          _c(
-                            "div",
-                            {
-                              staticClass:
-                                "flex flex-col h-full z-10 overflow-hidden",
-                            },
-                            [
-                              _c(
-                                "span",
-                                {
-                                  staticClass:
-                                    "day-label text-sm text-gray-900",
-                                },
-                                [
-                                  _vm._v(
-                                    "\n                                    " +
-                                      _vm._s(
-                                        _vm._f("moment")(day.id, "D MMM")
-                                      ) +
-                                      "\n                                "
-                                  ),
-                                ]
-                              ),
-                              _vm._v(" "),
-                              _vm._l(attributes, function (attr_date) {
-                                return _c(
+                              [
+                                _c(
                                   "div",
                                   {
-                                    key: attr_date.key,
                                     staticClass:
-                                      "flex-grow overflow-y-auto overflow-x-auto",
-                                    staticStyle: { "margin-bottom": "35px" },
+                                      "vc-grid-cell vc-grid-cell-row vc-grid-cell-row--7 vc-grid-cell-col-1 vc-grid-cell-col--7",
+                                    class: [
+                                      new Date().getDay() == 1
+                                        ? "is-today"
+                                        : "",
+                                    ],
+                                    staticStyle: {
+                                      "grid-area": "1 / 1 / auto / auto",
+                                    },
                                   },
                                   [
-                                    attr_date.customData
+                                    _c(
+                                      "div",
+                                      {
+                                        staticClass:
+                                          "vc-weekday vc-text-sm vc-font-bold vc-text-gray-500",
+                                      },
+                                      [
+                                        _vm._v(
+                                          "пн\n                                    "
+                                        ),
+                                      ]
+                                    ),
+                                  ]
+                                ),
+                                _vm._v(" "),
+                                _c(
+                                  "div",
+                                  {
+                                    staticClass:
+                                      "vc-grid-cell vc-grid-cell-row vc-grid-cell-row--7 vc-grid-cell-col-2 vc-grid-cell-col--6",
+                                    class: [
+                                      new Date().getDay() == 2
+                                        ? "is-today"
+                                        : "",
+                                    ],
+                                    staticStyle: {
+                                      "grid-area": "1 / 2 / auto / auto",
+                                    },
+                                  },
+                                  [
+                                    _c(
+                                      "div",
+                                      {
+                                        staticClass:
+                                          "vc-weekday vc-text-sm vc-font-bold vc-text-gray-500",
+                                      },
+                                      [
+                                        _vm._v(
+                                          "вт\n                                    "
+                                        ),
+                                      ]
+                                    ),
+                                  ]
+                                ),
+                                _vm._v(" "),
+                                _c(
+                                  "div",
+                                  {
+                                    staticClass:
+                                      "vc-grid-cell vc-grid-cell-row vc-grid-cell-row--7 vc-grid-cell-col-3 vc-grid-cell-col--5",
+                                    class: [
+                                      new Date().getDay() == 3
+                                        ? "is-today"
+                                        : "",
+                                    ],
+                                    staticStyle: {
+                                      "grid-area": "1 / 3 / auto / auto",
+                                    },
+                                  },
+                                  [
+                                    _c(
+                                      "div",
+                                      {
+                                        staticClass:
+                                          "vc-weekday vc-text-sm vc-font-bold vc-text-gray-500",
+                                      },
+                                      [
+                                        _vm._v(
+                                          "ср\n                                    "
+                                        ),
+                                      ]
+                                    ),
+                                  ]
+                                ),
+                                _vm._v(" "),
+                                _c(
+                                  "div",
+                                  {
+                                    staticClass:
+                                      "vc-grid-cell vc-grid-cell-row vc-grid-cell-row--7 vc-grid-cell-col-4 vc-grid-cell-col--4",
+                                    class: [
+                                      new Date().getDay() == 4
+                                        ? "is-today"
+                                        : "",
+                                    ],
+                                    staticStyle: {
+                                      "grid-area": "1 / 4 / auto / auto",
+                                    },
+                                  },
+                                  [
+                                    _c(
+                                      "div",
+                                      {
+                                        staticClass:
+                                          "vc-weekday vc-text-sm vc-font-bold vc-text-gray-500",
+                                      },
+                                      [
+                                        _vm._v(
+                                          "чт\n                                    "
+                                        ),
+                                      ]
+                                    ),
+                                  ]
+                                ),
+                                _vm._v(" "),
+                                _c(
+                                  "div",
+                                  {
+                                    staticClass:
+                                      "vc-grid-cell vc-grid-cell-row vc-grid-cell-row--7 vc-grid-cell-col-5 vc-grid-cell-col--3",
+                                    class: [
+                                      new Date().getDay() == 5
+                                        ? "is-today"
+                                        : "",
+                                    ],
+                                    staticStyle: {
+                                      "grid-area": "1 / 5 / auto / auto",
+                                    },
+                                  },
+                                  [
+                                    _c(
+                                      "div",
+                                      {
+                                        staticClass:
+                                          "vc-weekday vc-text-sm vc-font-bold vc-text-gray-500",
+                                      },
+                                      [
+                                        _vm._v(
+                                          "пт\n                                    "
+                                        ),
+                                      ]
+                                    ),
+                                  ]
+                                ),
+                                _vm._v(" "),
+                                _c(
+                                  "div",
+                                  {
+                                    staticClass:
+                                      "vc-grid-cell vc-grid-cell-row vc-grid-cell-row--7 vc-grid-cell-col-6 vc-grid-cell-col--2",
+                                    class: [
+                                      new Date().getDay() == 6
+                                        ? "is-today"
+                                        : "",
+                                    ],
+                                    staticStyle: {
+                                      "grid-area": "1 / 6 / auto / auto",
+                                    },
+                                  },
+                                  [
+                                    _c(
+                                      "div",
+                                      {
+                                        staticClass:
+                                          "vc-weekday vc-text-sm vc-font-bold vc-text-gray-500",
+                                      },
+                                      [
+                                        _vm._v(
+                                          "сб\n                                    "
+                                        ),
+                                      ]
+                                    ),
+                                  ]
+                                ),
+                                _vm._v(" "),
+                                _c(
+                                  "div",
+                                  {
+                                    staticClass:
+                                      "vc-grid-cell vc-grid-cell-row vc-grid-cell-row--7 vc-grid-cell-col-7 vc-grid-cell-col--1",
+                                    class: [
+                                      new Date().getDay() == 0
+                                        ? "is-today"
+                                        : "",
+                                    ],
+                                    staticStyle: {
+                                      "grid-area": "1 / 7 / auto / auto",
+                                    },
+                                  },
+                                  [
+                                    _c(
+                                      "div",
+                                      {
+                                        staticClass:
+                                          "vc-weekday vc-text-sm vc-font-bold vc-text-gray-500",
+                                      },
+                                      [
+                                        _vm._v(
+                                          "вс\n                                    "
+                                        ),
+                                      ]
+                                    ),
+                                  ]
+                                ),
+                              ]
+                            ),
+                          ]
+                        },
+                        proxy: true,
+                      },
+                      {
+                        key: "day-popover",
+                        fn: function (ref) {
+                          var day = ref.day
+                          var attributes = ref.attributes
+                          return _vm._l(attributes, function (attr_date) {
+                            return _c("div", { staticClass: "bkt-popover" }, [
+                              _c("div", { staticClass: "bkt-status" }, [
+                                _c(
+                                  "span",
+                                  {
+                                    staticClass:
+                                      "text-white bkt-border-rounded",
+                                    class: [
+                                      "bkt-bg-" + attr_date.customData.color,
+                                    ],
+                                  },
+                                  [
+                                    _vm._v(
+                                      "\n                                        " +
+                                        _vm._s(attr_date.customData.subtitle) +
+                                        "\n                                    "
+                                    ),
+                                  ]
+                                ),
+                              ]),
+                              _vm._v(" "),
+                              _c("div", { staticClass: "bkt-text-popover" }, [
+                                _c("span", [
+                                  _vm._v(
+                                    _vm._s(attr_date.customData.title) +
+                                      " до " +
+                                      _vm._s(attr_date.customData.date) +
+                                      "\n                                        " +
+                                      _vm._s(attr_date.customData.time) +
+                                      "\n                                    "
+                                  ),
+                                ]),
+                              ]),
+                            ])
+                          })
+                        },
+                      },
+                      {
+                        key: "day-content",
+                        fn: function (ref) {
+                          var day = ref.day
+                          var attributes = ref.attributes
+                          return [
+                            _c(
+                              "div",
+                              {
+                                staticClass: "bkt-calendar__day",
+                                on: {
+                                  dblclick: function ($event) {
+                                    return _vm.addEvent(day)
+                                  },
+                                },
+                              },
+                              [
+                                _c(
+                                  "span",
+                                  {
+                                    staticClass: "bkt-calendar__day-label",
+                                    on: {
+                                      dblclick: function ($event) {
+                                        return _vm.addEvent(day)
+                                      },
+                                    },
+                                  },
+                                  [
+                                    _vm._v(
+                                      "\n                                    " +
+                                        _vm._s(
+                                          _vm._f("moment")(day.id, "D MMM")
+                                        ) +
+                                        "\n                                "
+                                    ),
+                                  ]
+                                ),
+                                _vm._v(" "),
+                                _c(
+                                  "div",
+                                  { staticClass: "bkt-calendar__day-events" },
+                                  _vm._l(attributes, function (attr_date) {
+                                    return attr_date.customData
                                       ? _c(
-                                          "p",
+                                          "div",
                                           {
+                                            key: attr_date.key,
                                             staticClass:
-                                              "text-xs leading-tight rounded-sm p-1 mt-0 mb-1",
+                                              "bkt-calendar__day-event text-truncate",
                                             class: attr_date.customData.class,
                                           },
                                           [
@@ -7403,41 +7507,22 @@ var render = function () {
                                             ),
                                           ]
                                         )
-                                      : _vm._e(),
-                                  ]
-                                )
-                              }),
-                            ],
-                            2
-                          ),
-                        ]
+                                      : _vm._e()
+                                  }),
+                                  0
+                                ),
+                              ]
+                            ),
+                          ]
+                        },
                       },
-                    },
-                    {
-                      key: "default",
-                      fn: function (ref) {
-                        var inputValue = ref.inputValue
-                        var inputEvents = ref.inputEvents
-                        return [
-                          _c(
-                            "input",
-                            _vm._g(
-                              {
-                                staticClass: "px-3 py-1 border rounded",
-                                domProps: { value: inputValue },
-                              },
-                              inputEvents
-                            )
-                          ),
-                        ]
-                      },
-                    },
-                  ]),
-                }),
-              ],
-              1
-            ),
-          ]),
+                    ]),
+                  }),
+                ],
+                1
+              ),
+            ]
+          ),
         ]),
       ]),
     ],

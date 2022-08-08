@@ -5,36 +5,36 @@
             <h1 class="bkt-page__title">Календарь</h1>
         </div>
         <div class="bkt-content">
-            <div class="row">
-                <div class="col-12 col-lg-3">
-                    <div class="bkt-form">
+            <div class="bkt-form bkt-form_wide">
+                <div class="col-12 col-lg-4 col-xl-3 bkt-form__offset-right">
+                    <div class="bkt-form bkt-gap-row bkt-wrapper-down-sm-column-reverse">
                         <div class="col-12 col-md-6 col-lg-12">
-                            <div class="bkt-month-calendar mb-2">
-                                <v-calendar is-expanded class="bkt-left-calendar bkt-calendar-none-border m-1"
-                                            :attributes="current_items" @update:from-page="changePage"
-                                            :masks="masks" @dayclick="addEvent">
-                                    <template #default="{ inputValue, inputEvents }">
-                                        <input class="px-3 py-1 border rounded" :value="inputValue" v-on="inputEvents"/>
-                                    </template>
+                            <div class="bkt-month-calendar">
+                                <v-calendar is-expanded class="bkt-left-calendar bkt-calendar-none-border"
+                                            :attributes="dot_items" @update:from-page="changePage"
+                                            :masks="masks" @dayclick="addEvent" ref="bkt-left-calendar"
+                                            :class="'is-today-'+new Date().getDay()">
                                 </v-calendar>
                             </div>
                         </div>
                         <div class="col-12 col-md-6 col-lg-12">
-                            <div class="bkt-calendar-checkboxes d-flex flex-wrap flex-column pl-4 pt-4 pb-4">
-                                <bkt-checkbox label="События" :name="'events'" v-model="filters.events"
+                            <div class="bkt-calendar-checkboxes bkt-card bkt-card__body">
+                                <bkt-checkbox label="События" :name="'events'" v-model="event_types" val="event"
                                               wrapper_class="bkt-check__wrapper-inline" class="events_check mr-2"/>
-                                <bkt-checkbox label="Задачи" :name="'tasks'" v-model="filters.tasks"
+                                <bkt-checkbox label="Задачи" :name="'tasks'" v-model="event_types" val="task"
                                               wrapper_class="bkt-check__wrapper-inline" class="tasks_check mr-2"/>
-                                <bkt-checkbox label="Напоминания" :name="'reminders'" v-model="filters.reminder"
+                                <bkt-checkbox label="Напоминания" :name="'reminders'" v-model="event_types" val="reminder"
                                               wrapper_class="bkt-check__wrapper-inline" class="reminders_check mr-2"/>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-12 col-lg-9">
+                <div class="col-12 col-lg-8 col-xl-9 d-none d-sm-flex">
                     <div class="bkt-month-calendar">
                         <v-calendar class="bkt-calendar-none-border custom-calendar max-w-full" :masks="masks"
-                                    :attributes="current_items" is-expanded>
+                                    :attributes="current_items" is-expanded
+                                    ref="bkt-custom-calendar"
+                        >
                             <template #header>
                                 <div class="vc-grid-container vc-weeks d-grid"
                                      style="grid-template-columns: repeat(7,1fr); gap: 0px;">
@@ -100,22 +100,26 @@
                             </template>
 
                             <template v-slot:day-content="{ day, attributes }">
-                                <div class="flex flex-col h-full z-10 overflow-hidden">
-                                    <span class="day-label text-sm text-gray-900">
+                                <div class="bkt-calendar__day" @dblclick="addEvent(day)">
+                                    <span class="bkt-calendar__day-label" @dblclick="addEvent(day)">
                                         {{day.id | moment("D MMM")}}
                                     </span>
-                                    <div class="flex-grow overflow-y-auto overflow-x-auto" style="margin-bottom: 35px"
-                                         v-for="attr_date in attributes" :key="attr_date.key">
-                                        <p v-if="attr_date.customData"
-                                           class="text-xs leading-tight rounded-sm p-1 mt-0 mb-1"
-                                           :class="attr_date.customData.class">
+                                    <div class="bkt-calendar__day-events">
+                                        <div class="bkt-calendar__day-event text-truncate" v-if="attr_date.customData"
+                                             v-for="attr_date in attributes" :key="attr_date.key"
+                                             :class="attr_date.customData.class"
+                                        >
                                             {{ attr_date.customData.title }}
-                                        </p>
+                                        </div>
                                     </div>
+                                    <!--                                    <div class="flex-grow overflow-y-auto overflow-x-auto">-->
+                                    <!--                                        <p v-if="attr_date.customData" v-for="attr_date in attributes" :key="attr_date.key"-->
+                                    <!--                                           class="text-xs leading-tight rounded-sm p-1 mt-0 mb-1"-->
+                                    <!--                                           :class="attr_date.customData.class">-->
+                                    <!--                                            {{ attr_date.customData.title }}-->
+                                    <!--                                        </p>-->
+                                    <!--                                    </div>-->
                                 </div>
-                            </template>
-                            <template #default="{ inputValue, inputEvents }">
-                                <input class="px-3 py-1 border rounded" :value="inputValue" v-on="inputEvents"/>
                             </template>
                         </v-calendar>
                     </div>
@@ -126,104 +130,136 @@
 </template>
 
 <script>
-import Calendar from "v-calendar";
-import AddTaskModal from "./Calendar/AddTaskModal";
+    import Calendar from "v-calendar";
+    import AddTaskModal from "./Calendar/AddTaskModal";
 
-export default {
-    name: "Calendar",
-    components: {
-        AddTaskModal,
-        Calendar,
-    },
-    data() {
-        return {
-            sel_date: null,
-            event: null,
-            masks: {
-                weekdays: 'WWW',
+    export default {
+        name: "Calendar",
+        components: {
+            AddTaskModal,
+            Calendar,
+        },
+        data() {
+            return {
+                sel_date: null,
+                event: null,
+                masks: {
+                    weekdays: 'WWW',
+                },
+                event_types: ['event', 'task', 'reminder'],
+                nowDate: {month: 1, year: 2022},
+                colors: [{type: 'event', color: 'red'},
+                    {type: 'task', color: 'green'},
+                    {type: 'reminder', color: 'blue'}],
+                events: [{type: 'event', title: 'событие'},
+                    {type: 'task', title: 'задача'},
+                    {type: 'reminder', title: 'напоминание'}]
+            }
+        },
+        computed: {
+            items() {
+                return this.$store.getters.events.filter( item => this.event_types.indexOf(item.type)>=0);
             },
-            filters: {events: true, tasks: true, reminder: true},
-            nowDate: {month: 1, year: 2022}
-        }
-    },
-    computed: {
-        items() {
-            return this.$store.getters.events;
-        },
-        events_loading() {
-            return this.$store.getters.events_loading;
-        },
-        current_items() {
-            let colors = [{type: 'event', color: 'red'},
-                {type: 'task', color: 'green'},
-                {type: 'reminder', color: 'blue'}];
-            let events = [{type: 'event', title: 'событие'},
-                {type: 'task', title: 'задача'},
-                {type: 'reminder', title: 'напоминание'}];
-
-            return this.items.map(item =>
-                ({
-                    key: item.id,
-                    highlight: {color: colors.find(color => color.type == item.type)?.color ?? '', fillMode: "solid"},
-                    dates: new Date(item.date).toLocaleString(),
-                    customData: {
-                        title: item.title,
-                        subtitle: events.find(event => event.type == item.type).title,
-                        event_type: item.type,
-                        date: new Date(item.date).getDate() + '.' + new Date(item.date).getMonth() + '.' + new Date(item.date).getFullYear(),
-                        time: item.time.slice(0, -3),
-                        color: colors.find(color => color.type == item.type).color ?? '',
-                        class: "text-white vc-task bkt-bg-" + colors.find(color => color.type == item.type).color ?? '',
-                    },
-                    popover: {
-                        visibility: "hover",
+            events_loading() {
+                return this.$store.getters.events_loading;
+            },
+            current_items() {
+                return this.items.map(item =>
+                    ({
+                        key: item.id,
+                        // highlight: {
+                        //     color: this.colors.find(color => color.type == item.type)?.color ?? '',
+                        //     fillMode: "solid"
+                        // },
+                        dates: new Date(item.date).toLocaleString(),
+                        customData: {
+                            title: item.title,
+                            subtitle: this.events.find(event => event.type == item.type).title,
+                            event_type: item.type,
+                            date: new Date(item.date).getDate() + '.' + new Date(item.date).getMonth() + '.' + new Date(item.date).getFullYear(),
+                            time: item.time.slice(0, -3),
+                            color: this.colors.find(color => color.type == item.type).color ?? '',
+                            class: "bkt-bg-" + this.colors.find(color => color.type == item.type).color ?? '',
+                        },
+                        popover: {
+                            visibility: "hover",
+                        }
+                    })
+                );
+            },
+            dot_items() {
+                let events = [
+                    {
+                        highlight: {
+                            color: 'primary',
+                            fillMode: "light",
+                            // class: 'd-none d-md-flex'
+                            class: 'bkt-border-primary'
+                        },
+                        dates: [
+                            new Date()
+                        ],
                     }
+                ];
+                this.colors.forEach(color => {
+                    // let unique = this.items.filter(item => item.type == color.type).map(item => new Date(item.date))
+                    //     .filter((v, i, a) => a.indexOf(v) === i)
+                    events.push({
+                        dot: {
+                            color: color.color ?? '',
+                            // class: 'd-md-none'
+                        },
+                        // highlight: {
+                        //     color: color.color ?? '',
+                        //     fillMode: "solid",
+                        //     class: 'd-none d-md-flex'
+                        // },
+                        dates: [
+                            ...new Set(this.items
+                                .filter(item => item.type == color.type)
+                                .map(item => new Date(item.date))
+                            )
+                        ],
+                    })
+                });
+                return events;
+            }
+        },
+        methods: {
+            async getData(month = 1, year = 2022, type = 'all') {
+                await this.$store.dispatch('getEvents', {month: month, year: year, type: type});
+            },
+            addEvent(date) {
+                this.sel_date = date;
+                this.$nextTick(() => {
+                    this.$store.commit('openModal', '#addTaskModal');
                 })
-            );
-        }
-    },
-    methods: {
-        async getData(month = 1, year = 2022, type = 'all') {
-            await this.$store.dispatch('getEvents', {month: month, year: year, type: type});
-        },
-        addEvent(date) {
-            this.sel_date = date;
-            this.$store.commit('openModal', '#addTaskModal');
-        },
-        changePage(date) {
-            this.nowDate.month = date.month;
-            this.nowDate.year = date.year;
-            this.getData(this.nowDate.month, this.nowDate.year);
-        },
-    },
-    created() {
-        this.nowDate.month = new Date().getMonth();
-        this.nowDate.year = new Date().getFullYear();
-    },
-    watch: {
-        filters: {
-            handler: function (filter) {
-                let type = 'all';
-                if (filter.events && filter.tasks && filter.reminder) type = 'all';
-                else if (!filter.events && !filter.tasks && !filter.reminder) type = '';
-                else if (filter.events) type = 'event';
-                else if (filter.tasks) type = 'task';
-                else if (filter.reminder) type = 'reminder';
+            },
+            changePage(date) {
+                this.nowDate.month = date.month;
+                this.nowDate.year = date.year;
+                if(this.$refs['bkt-custom-calendar'])
+                {
+                    this.$refs['bkt-custom-calendar'].move(date)
+                }
+                this.getData(this.nowDate.month, this.nowDate.year);
 
-                this.getData(this.nowDate.month, this.nowDate.year, type);
-            }, deep: true
-        }
+            },
+        },
+        created() {
+            this.nowDate.month = new Date().getMonth();
+            this.nowDate.year = new Date().getFullYear();
+        },
     }
-}
 </script>
 
 <style lang="postcss" scoped>
 
-/*::-webkit-scrollbar {
-    width: 0px;
-}
+    /*::-webkit-scrollbar {
+        width: 0px;
+    }
 
-::-webkit-scrollbar-track {
-    display: none;
-}*/
+    ::-webkit-scrollbar-track {
+        display: none;
+    }*/
 </style>

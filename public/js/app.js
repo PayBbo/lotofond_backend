@@ -6249,38 +6249,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "CardActions",
   props: {
@@ -6449,24 +6417,30 @@ __webpack_require__.r(__webpack_exports__);
     changeStatus: function changeStatus(payload) {
       var _this2 = this;
 
-      this.toggleProcess(payload.icon);
-      this.$store.dispatch('changeTradeLotStatus', {
-        lot_id: this.item.id,
-        type: payload.type
-      }).then(function (resp) {
-        _this2.$store.commit('saveTradeProperty', {
-          id: _this2.item.id,
-          key: payload.status,
-          value: !_this2.item[payload.status]
-        });
+      if (this.isLoggedIn) {
+        this.toggleProcess(payload.icon);
+        this.$store.dispatch('changeTradeLotStatus', {
+          lot_id: this.item.id,
+          type: payload.type
+        }).then(function (resp) {
+          _this2.$store.commit('saveTradeProperty', {
+            id: _this2.item.id,
+            key: payload.status,
+            value: !_this2.item[payload.status]
+          });
 
-        _this2.$emit('changeStatus', {
-          key: payload.status,
-          value: !_this2.item[payload.status]
+          _this2.$emit('changeStatus', {
+            key: payload.status,
+            value: !_this2.item[payload.status]
+          });
+        })["finally"](function () {
+          _this2.toggleProcess(payload.icon);
         });
-      })["finally"](function () {
-        _this2.toggleProcess(payload.icon);
-      });
+      } else {
+        this.$store.dispatch('sendAuthNotification', {
+          self: this
+        });
+      }
     },
     addToFavourites: function addToFavourites(payload) {
       var _this3 = this;
@@ -7515,6 +7489,17 @@ __webpack_require__.r(__webpack_exports__);
   computed: {
     isLoggedIn: function isLoggedIn() {
       return this.$store.getters.isLoggedIn;
+    }
+  },
+  methods: {
+    navigate: function navigate(path) {
+      if (this.isLoggedIn) {
+        this.$router.push(path);
+      } else {
+        this.$store.dispatch('sendAuthNotification', {
+          self: this
+        });
+      }
     }
   }
 });
@@ -72985,13 +72970,19 @@ var render = function () {
                 _c("ul", { staticClass: "bkt-footer__links" }, [
                   _c(
                     "li",
-                    { staticClass: "bkt-footer__link" },
+                    {
+                      staticClass: "bkt-footer__link bkt-cursor-pointer",
+                      on: {
+                        click: function ($event) {
+                          return _vm.navigate("/calendar")
+                        },
+                      },
+                    },
                     [
-                      _c("router-link", { attrs: { to: "/calendar" } }, [
-                        _vm._v("Календарь"),
-                      ]),
-                    ],
-                    1
+                      _vm._v(
+                        "\n                                    Календарь\n                                "
+                      ),
+                    ]
                   ),
                   _vm._v(" "),
                   _c(
