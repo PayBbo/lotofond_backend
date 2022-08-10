@@ -17,7 +17,9 @@ class TextDataResource extends JsonResource
         return [
             'header'=>$this->header,
             'value'=>$this->value,
-            'type'=>$this->type
+            'type'=>$this->type,
+            'id'=>$this->id,
+            'screen'=>$this->screen
         ];
     }
 }

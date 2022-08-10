@@ -26,7 +26,13 @@ class FilterBuilder
             if (!class_exists($class)) {
                 continue;
             }
-            (new $class($this->query))->handle($value, $name);
+            if($name === 'dates'){
+                foreach ($value as $item => $val){
+                    (new $class($this->query))->handle($val, $item);
+                }
+            }else{
+                (new $class($this->query))->handle($value, $name);
+            }
 
         }
         return $this->query;

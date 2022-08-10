@@ -105,6 +105,71 @@ let router = new VueRouter({
             name: 'WeekWinners',
             component: () => import(/* webpackChunkName: "week-winners" */ "./pages/WeekWinners.vue"),
         },
+        {
+            path: '/admin/dashboard',
+            name: 'Dashboard',
+            beforeEnter: guardAdminRoute,
+            component: () =>
+                import(
+                    /* webpackChunkName: "dashboard" */ "./admin/Dashboard.vue"
+                    ),
+            meta: {
+                auth: true,
+                layout: 'Admin'
+            }
+        },
+        {
+            path: '/admin/users',
+            name: 'Users',
+            beforeEnter: guardAdminRoute,
+            component: () =>
+                import(
+                    /* webpackChunkName: "users" */ "./admin/users/Users.vue"
+                    ),
+            meta: {
+                auth: true,
+                layout: 'Admin'
+            }
+        },
+        {
+            path: '/admin/text-data',
+            name: 'TextData',
+            beforeEnter: guardAdminRoute,
+            component: () =>
+                import(
+                    /* webpackChunkName: "text-data" */ "./admin/textData/TextData.vue"
+                    ),
+            meta: {
+                auth: true,
+                layout: 'Admin'
+            }
+        },
+        {
+            path: '/admin/text-data/:id',
+            name: 'TextDataEdit',
+            beforeEnter: guardAdminRoute,
+            component: () =>
+                import(
+                    /* webpackChunkName: "text-data-edit" */ "./admin/textData/TextDataEdit.vue"
+                    ),
+            meta: {
+                auth: true,
+                layout: 'Admin'
+            }
+        },
+        {
+            path: '/admin/text-data/add',
+            name: 'TextDataEdit',
+            beforeEnter: guardAdminRoute,
+            component: () =>
+                import(
+                    /* webpackChunkName: "text-data-edit" */ "./admin/textData/TextDataEdit.vue"
+                    ),
+            meta: {
+                auth: true,
+                layout: 'Admin'
+            }
+        },
         // { path: '/:pathMatch(.*)*', component: EmptyView }
     ],
     scrollBehavior(to, from, savedPosition) {
@@ -125,6 +190,21 @@ function guardMyRoute(to, from, next) {
     }
     next()
 }
+
+function guardAdminRoute(to, from, next) {
+    if (store.getters.isLoggedIn === false) {
+        next('/');
+        return;
+    }
+    axios.get('/api/admin/check').then(response => {
+        if (response.data.status !== true) {
+            next('/');
+
+        }
+    })
+    next();
+}
+
 router.beforeEach((to, from, next) => {
     routeResolved = false;
     setTimeout(() => {
@@ -139,3 +219,4 @@ router.afterEach(() => {
     NProgress.done();
 });
 export default router
+

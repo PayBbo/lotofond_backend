@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\TextDataController;
+use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\ApplicationController;
 use App\Http\Controllers\AuctionController;
 use App\Http\Controllers\Auth\LoginController;
@@ -252,11 +254,36 @@ Route::group(['middleware' => ['json.response', 'localization']], function () {
         });
         Route::post('/events', [EventController::class, 'getEvents']);
 
+        Route::get('/admin/check', [DashboardController::class, 'checkAdmin']);
+
         Route::middleware("check.role:admin")->group(function () {
 
             Route::group(['prefix' => 'admin'], function () {
 
                 Route::get('/dashboard', [DashboardController::class, 'getDashboardData']);
+
+                Route::put('/contacts/update', [DashboardController::class, 'updateContacts']);
+
+                Route::group(['prefix' => 'users'], function () {
+
+                    Route::get('/', [UserController::class, 'get']);
+
+                    Route::put('/update', [UserController::class, 'update']);
+
+                });
+                Route::group(['prefix' => 'text-data'], function () {
+
+                    Route::get('/', [TextDataController::class, 'get']);
+
+                    Route::post('/add', [TextDataController::class, 'add']);
+
+                    Route::get('/{id}/edit', [TextDataController::class, 'edit']);
+
+                    Route::delete('/{id}', [TextDataController::class, 'delete']);
+
+                    Route::put('/{id}/update', [TextDataController::class, 'update']);
+
+                });
 
             });
 
