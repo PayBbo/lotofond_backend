@@ -2,7 +2,7 @@
     <header class="">
         <nav class="bkt-navbar">
             <div class="bkt-container bkt-navbar__wrapper">
-                <router-link :to="'/without-ecp'" class="bkt-button blue">
+                <router-link :to="'/without-ecp'" class="bkt-button bkt-text-white blue mx-0">
                     Покупка без ЭЦП
                 </router-link>
 
@@ -91,20 +91,7 @@
         </nav>
         <nav class="bkt-navbar white">
             <div class="bkt-navbar__wrapper bkt-container">
-                <div class="bkt-navbar__wrapper d-none d-lg-flex">
-                    <router-link custom to="/">
-                        <button class="bkt-button primary-lighter">
-                            Торги
-                        </button>
-                    </router-link>
-                    <router-link custom to="/tariffs">
-                        <button class="bkt-button blue-lighter">
-                            Тарифы
-                        </button>
-                    </router-link>
-
-                </div>
-                <div class="bkt-navbar__logo d-flex d-lg-none">
+                <div class="bkt-navbar__logo flex-grow-1">
                     <router-link custom to="/">
                         <img class="bkt-navbar__logo" src="/images/logo.png" alt="logo">
                     </router-link>
@@ -144,14 +131,30 @@
                         </router-link>
                     </li>
                 </ul>
-                <div class="bkt-navbar__wrapper">
-                    <button class="bkt-button red-outline d-none d-lg-flex">
-                        <span class="bkt-button__icon mx-2">
-                             <bkt-icon :name="'Law'" :width="'16px'" :height="'16px'"/>
-                        </span>
-                        Изменения в законах
-                    </button>
-                    <button class="bkt-button-ellipse m-0 d-flex d-lg-none" type="button" data-bs-toggle="offcanvas"
+<!--                <div class="bkt-navbar__wrapper d-none d-lg-flex">-->
+<!--&lt;!&ndash;                    <router-link custom to="/">&ndash;&gt;-->
+<!--&lt;!&ndash;                        <button class="bkt-button primary-lighter">&ndash;&gt;-->
+<!--&lt;!&ndash;                            Торги&ndash;&gt;-->
+<!--&lt;!&ndash;                        </button>&ndash;&gt;-->
+<!--&lt;!&ndash;                    </router-link>&ndash;&gt;-->
+<!--                    <router-link custom to="/tariffs">-->
+<!--                        <button class="bkt-button blue-lighter">-->
+<!--                            Тарифы-->
+<!--                        </button>-->
+<!--                    </router-link>-->
+
+<!--                </div>-->
+                <div class="bkt-navbar__wrapper flex-grow-1">
+<!--                    <button class="bkt-button red-outline d-none d-lg-flex">-->
+<!--                        <span class="bkt-button__icon mx-2">-->
+<!--                             <bkt-icon :name="'Law'" :width="'16px'" :height="'16px'"/>-->
+<!--                        </span>-->
+<!--                        Изменения в законах-->
+<!--                    </button>-->
+                    <router-link custom to="/tariffs" class=" w-100 bkt-button blue-lighter d-none d-lg-block">
+                            Тарифы
+                    </router-link>
+                    <button class="bkt-button-ellipse my-0 ms-auto me-0 d-block d-lg-none" type="button" data-bs-toggle="offcanvas"
                             data-bs-target="#offcanvasExample"
                     >
                         <span class="bkt-button__icon">

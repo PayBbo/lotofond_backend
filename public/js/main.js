@@ -6352,7 +6352,7 @@ var render = function () {
                         }),
                         _vm._v(" "),
                         _c("bkt-checkbox", {
-                          attrs: { label: "удалённые", name: "isHidden" },
+                          attrs: { label: "скрытые", name: "isHidden" },
                           on: {
                             input: function ($event) {
                               return _vm.getData(1)

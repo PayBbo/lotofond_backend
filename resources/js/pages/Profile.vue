@@ -126,22 +126,10 @@
                     {
                         icon: 'Alignment',
                         code: "About",
-                        label: "Об сайте",
+                        label: "О сайте",
                         color: 'red'
                     },
                 ],
-                edit_user: {
-                    email: "",
-                    middleName: '',
-                    name: "",
-                    phone: '',
-                    lastName: "",
-                }
-            }
-        },
-        mounted() {
-            if (this.isLoggedIn) {
-                this.edit_user = JSON.parse(JSON.stringify(this.user));
             }
         },
         computed: {
@@ -156,9 +144,6 @@
             },
         },
         methods: {
-            sendCode() {
-
-            }
         }
     }
 </script>

@@ -71,7 +71,7 @@ let router = new VueRouter({
             path: '/messages',
             beforeEnter: guardMyRoute,
             name: 'Messages',
-            component: () => import(/* webpackChunkName: "monitoring" */ "./pages/Messages.vue"),
+            component: () => import(/* webpackChunkName: "messages" */ "./pages/Messages.vue"),
             meta: {
                 auth: true
             },
@@ -90,7 +90,7 @@ let router = new VueRouter({
             path: '/calendar',
             beforeEnter: guardMyRoute,
             name: 'Calendar',
-            component: () => import(/* webpackChunkName: "auctions" */ "./pages/Calendar.vue"),
+            component: () => import(/* webpackChunkName: "calendar" */ "./pages/Calendar.vue"),
             meta: {
                 auth: true
             },

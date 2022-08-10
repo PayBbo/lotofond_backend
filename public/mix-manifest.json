@@ -13,5 +13,7 @@
     "/js/auctions.js": "/js/auctions.js",
     "/js/lot-card.js": "/js/lot-card.js",
     "/js/week-winners.js": "/js/week-winners.js",
-    "/css/app.css": "/css/app.css"
+    "/css/app.css": "/css/app.css",
+    "/js/messages.js": "/js/messages.js",
+    "/js/calendar.js": "/js/calendar.js"
 }

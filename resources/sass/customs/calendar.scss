@@ -1,27 +1,28 @@
 .bkt-calendar {
     font-family: 'Gilroy', sans-serif;
-    & .bkt-calendar-checkboxes {
+
+    &-checkboxes {
         background: white;
         border-radius: 15px;
+        height: 100%;
+
+        & .events_check input:checked ~ .bkt-check__input-check {
+            background: $red-default;
+            box-shadow: 0 3px 10px 0 rgba(236, 76, 39, 0.53);
+        }
+
+        & .tasks_check input:checked ~ .bkt-check__input-check {
+            background: $green-default;
+            box-shadow: 0 3px 10px 0 rgba(47, 187, 64, 0.53);
+        }
+
+        & .reminders_check input:checked ~ .bkt-check__input-check {
+            background: $blue-default;
+            box-shadow: 0 3px 10px 0 rgba(41, 177, 255, 0.53);
+        }
     }
 
-    & .events_check input:checked ~ .bkt-check__input-check {
-        background: $red;
-    }
-
-    & .tasks_check input:checked ~ .bkt-check__input-check {
-        background: $green-dark;
-    }
-
-    & .reminders_check input:checked ~ .bkt-check__input-check {
-        background: $blue-default;
-    }
-
-    & .bkt-calendar-none-border {
-        border: none;
-    }
-
-    .custom-calendar.vc-container {
+    & .custom-calendar.vc-container {
         --day-border: 2px solid #F5F7FE;
         --day-border-highlight: 1px solid #b8c2cc;
         --day-width: 100%;
@@ -70,18 +71,6 @@
 
         & .vc-day-layer {
             display: none;
-        }
-
-        & .vc-task {
-            border-radius: 15px;
-            padding-left: 10px !important;
-            padding-right: 10px !important;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            position: absolute;
-            width: 90%;
-            font-size: 13px;
         }
 
         & .vc-weeks {
@@ -139,10 +128,6 @@
             display: none;
         }
 
-        /* & .vc-grid-cell-row-1 {
-             display: none;
-         }*/
-
         & .vc-day {
             padding: 0 5px 3px 5px;
             text-align: left;
@@ -168,51 +153,30 @@
                 border-right: var(--day-border);
             }
 
-        }
-
-        & .vc-day-dots {
-            margin-bottom: 5px;
-        }
-
-        & .vc-popover-content {
-            background: $primary-lighter !important;
-            border: none !important;
-            color: $main-dark !important;
-            box-shadow: none;
-            max-width: 270px;
-            border-radius: 10px;
-
-            & .bkt-status {
-                margin-bottom: 15px;
-                margin-top: 15px;
-
-                span {
-                    font-family: 'Gilroy', sans-serif;
-                    padding: 2px 10px;
-                    color: white;
-                }
+            &:not(.in-next-month):hover {
+                box-shadow: 0px 7px 20px 0px rgba(45, 50, 68, 0.15);
+                z-index: 2;
             }
 
-            & .bkt-text-popover {
-                margin-bottom: 15px;
-                font-family: 'Gilroy', sans-serif;
-            }
         }
     }
 
-    & .bkt-calendar-checkboxes {
-        padding-left: 20px;
+    & .bkt-left-calendar.vc-container {
+        --day-content-bg-color-hover: transparent;
+        --dot-diameter: 6px;
+        --day-content-bg-color-focus: transparent;
+        --dot-spacing: 2px;
+        --dot-border-radius: 6px;
+        border-radius: 15px;
 
-        & .bkt-check__wrapper {
-            margin-bottom: 10px;
+        & .vc-grid-container {
+            overflow: hidden;
+
+            &.grid {
+                grid-template-columns: repeat(1, minmax(100px, 100%));
+            }
         }
-    }
 
-    .bkt-left-calendar.vc-container {
-
-        & .vc-grid-container.grid {
-            grid-template-columns: repeat(1, minmax(100px, 100%));
-        }
 
         & .vc-popover-content-wrapper {
             display: none !important;
@@ -250,10 +214,11 @@
 
             & div {
                 border-radius: 10px;
-                background-color:  $body-bg;
+                background-color: $body-bg;
                 width: 40px;
                 height: 40px;
                 border: none !important;
+
                 & .vc-svg-icon path {
                     fill: $primary-default;
                 }
@@ -265,6 +230,21 @@
                 div {
                     opacity: 1;
                     color: #d7d7d7;
+                }
+            }
+        }
+
+        & .vc-day {
+            &-content {
+                align-items: flex-start;
+            }
+
+            &:not(.in-next-month):hover {
+                box-shadow: 0px 7px 20px 0px rgba(45, 50, 68, 0.25);
+                z-index: 2;
+
+                & .vc-day-content {
+                    color: $primary-default;
                 }
             }
         }
@@ -325,6 +305,7 @@
             max-width: 92px;
             flex-shrink: 0;
         }
+
         &-label {
             font-size: 14px;
             font-family: Gilroy, sans-serif;
@@ -333,27 +314,156 @@
         }
     }
 
-}
+    &__event {
+        &-type {
+            font-size: 11px;
+            line-height: 11px;
+            font-weight: 500;
+            font-family: 'Gilroy', sans-serif;
+            padding: 5px;
+            border-radius: 9px;
+            color: white;
+            text-transform: lowercase;
+            width: fit-content;
+        }
 
-.bkt-add-task-modal {
-    & .modal-dialog {
-        min-width: 40% !important;
-    }
+        &__text {
+            font-size: 14px;
+            line-height: 14px;
+            font-weight: 400;
+            font-family: 'Gilroy', sans-serif;
+        }
 
-    & .bkt-content-tasks {
-        margin-bottom: 40px;
+        &s {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            max-height: 222px;
+            overflow-y: auto;
+            scrollbar-width: thin;
+            scrollbar-color: $primary-default #e9f3fc;
 
-        &__item {
-            height: 60px;
-            padding: 0 20px;
+            &::-webkit-scrollbar {
+                width: 2px;
+            }
 
-            & .bkt-item__status {
-                margin-right: 15px;
-                border-radius: 10px;
-                padding: 0 10px;
-                color: white;
+            &::-webkit-scrollbar-track {
+                background: transparent;
+            }
+
+            &::-webkit-scrollbar-thumb {
+                background-color: $primary-default;
+                border-radius: 2px;
             }
         }
+
+        .bkt-calendar__events & {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: nowrap;
+            gap: 8px;
+
+            &-wrapper {
+                display: flex;
+                padding: 20px;
+                background: transparent;
+                align-items: center;
+                justify-content: space-between;
+                flex-wrap: nowrap;
+            }
+        }
+    }
+}
+
+.v-popper--theme-bkt {
+    & .v-popper__inner {
+        @extend .bkt-popover;
+    }
+
+    & .v-popper__arrow-outer {
+        border-color: $primary-lighter;
+    }
+
+    & .v-popper__arrow-inner {
+        visibility: hidden;
+    }
+}
+
+.bkt-popover {
+    background: $primary-lighter !important;
+    border: none !important;
+    color: $main-dark !important;
+    //box-shadow: none;
+    max-width: 270px;
+    width: 100% !important;
+    border-radius: 15px;
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    box-shadow: 0px 29px 20px 0px rgba(45, 50, 68, 0.18);
+    z-index: 3 !important;
+
+    &__status {
+        font-size: 11px;
+        line-height: 11px;
+        font-weight: 500;
+        font-family: 'Gilroy', sans-serif;
+        padding: 5px;
+        border-radius: 9px;
+        color: white;
+        text-transform: lowercase;
+        width: fit-content;
+    }
+
+    &__text {
+        font-size: 14px;
+        line-height: 14px;
+        font-weight: 400;
+        font-family: 'Gilroy', sans-serif;
+    }
+
+    &__wrapper {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    &.dropdown-position-bottom:before {
+        border-left: 6px solid transparent;
+        border-right: 6px solid transparent;
+        border-bottom: 6px solid $primary-lighter;
+        top: -6px;
+        left: calc(50% - #{6px});
+        filter: drop-shadow(0px -2px 2px rgba(52, 73, 94, 0.1));
+    }
+
+    &.dropdown-position-top:before {
+        border-left: 6px solid transparent;
+        border-right: 6px solid transparent;
+        border-top: 6px solid $primary-lighter;
+        bottom: -6px;
+        left: calc(50% - #{6px});
+        filter: drop-shadow(0px 2px 2px rgba(52, 73, 94, 0.1));
+    }
+
+    &.dropdown-position-left:before {
+        border-top: 6px solid transparent;
+        border-bottom: 6px solid transparent;
+        border-left: 6px solid $primary-lighter;
+        right: -6px;
+        top: calc(50% - #{6px});
+        filter: drop-shadow(2px 0px 2px rgba(52, 73, 94, 0.1));
+    }
+
+    &.dropdown-position-right:before {
+        border-top: 6px solid transparent;
+        border-bottom: 6px solid transparent;
+        border-right: 6px solid $primary-lighter;
+        left: -6px;
+        top: calc(50% - #{6px});
+        filter: drop-shadow(-2px 0px 2px rgba(52, 73, 94, 0.1));
     }
 }
 
@@ -363,7 +473,7 @@
             padding: 0;
         }
 
-        & .bkt-calendar-checkboxes {
+        &-checkboxes {
             background: transparent;
             display: flex;
             flex-direction: row;
@@ -375,11 +485,11 @@
             background: transparent;
         }
 
-        .bkt-left-calendar.vc-container {
+        & .bkt-left-calendar.vc-container {
             font-family: 'Gilroy', sans-serif;
             --day-min-height: 38px;
             --day-content-width: 34px;
-            --day-content-height: 20px;
+            --day-content-height: 100%;
             background-color: transparent !important;
 
             %is-today-weekday {
@@ -388,7 +498,6 @@
             }
 
             $weekdays: 1, 2, 3, 4, 5, 6;
-
             @each $weekday in $weekdays {
                 &.is-today-#{$weekday} {
                     & .vc-grid-cell-col-#{$weekday} > .vc-weekday {
@@ -447,19 +556,24 @@
                 }
             }
 
-            & .vc-grid-container.vc-weeks {
-                padding: 0;
-                gap: 2px !important;
-                border-radius: 13px;
+            & .vc-grid {
+                &-container.vc-weeks {
+                    padding: 0;
+                    gap: 2px !important;
+                    border-radius: 13px;
 
-                & .vc-grid-cell {
-                    background: white;
+                    & .vc-grid-cell {
+                        background: white;
+                    }
                 }
-            }
 
-            & .vc-day-content {
-                font-size: 12px;
-                font-family: Gilroy, sans-serif;
+                &-cell.is-today {
+                    background: $primary-default;
+
+                    & .vc-weekday {
+                        color: white !important
+                    }
+                }
             }
 
             & .vc-weekday {
@@ -467,18 +581,56 @@
                 color: $primary-default;
             }
 
-            & .vc-day.is-today.in-month {
-                border: 2px solid $primary;
-            }
+            & .vc-day {
+                &.is-today.in-month {
+                    border: 2px solid $primary-default;
+                }
 
-            & .vc-grid-cell.is-today {
-                background: $primary;
+                &-layer {
+                    bottom: 8px;
+                }
 
-                .vc-weekday {
-                    color: white !important
+                &-content {
+                    font-size: 12px;
+                    font-family: Gilroy, sans-serif;
                 }
             }
+        }
 
+        &__event {
+            &-type {
+                font-size: 8px;
+                line-height: 8px;
+                padding: 4px 8px;
+                border-radius: 8px;
+            }
+
+            &-text {
+                font-size: 12px;
+                line-height: 12px;
+            }
+
+            &s {
+                max-height: 100%;
+            }
+
+            .bkt-calendar__events & {
+                flex-direction: column;
+                justify-content: flex-start;
+                align-items: flex-start;
+                gap: 12px;
+
+                &-wrapper {
+                    border: 2px solid #ebedf5 !important;
+                }
+            }
+        }
+
+        & .bkt-calendar__date {
+            font-size: 16px;
+            font-weight: 400;
+            line-height: 1.2;
+            font-family: "Gilroy", sans-serif;
         }
     }
 }

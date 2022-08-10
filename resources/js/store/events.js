@@ -10,7 +10,6 @@ export default {
         events_loading(state) {
             return state.events_loading;
         },
-
     },
     mutations: {
         setEvents(state, payload) {
@@ -23,15 +22,15 @@ export default {
             state.events.push(payload)
         },
         saveEvent(state, payload) {
-            let trade = state.events.findIndex(item => item.id === payload.id);
-            if (trade >= 0) {
-                Vue.set(state.events, trade, payload)
+            let event = state.events.findIndex(item => item.id === payload.id);
+            if (event >= 0) {
+                Vue.set(state.events, event, payload)
             }
         },
         removeEvent(state, payload) {
-            let trade = state.events.findIndex(item => item.id === payload);
-            if (trade >= 0) {
-                state.events.splice(trade, 1);
+            let event = state.events.findIndex(item => item.id === payload);
+            if (event >= 0) {
+                state.events.splice(event, 1);
             }
         },
     },
@@ -41,33 +40,33 @@ export default {
             return await axios
                 .post('/api/events', payload)
                 .then((response) => {
-                    commit('setEvents', response.data)
+                    commit('setEvents', response.data);
                     commit('setEventsLoading', false)
                 }).catch(error => {
-                    console.log(error);
                     commit('setEventsLoading', false)
-
                 });
         },
         async addEvent({commit}, payload) {
             await axios.post('/api/event', payload).then((response) => {
-                commit('addEvent', payload)
+                commit('addEvent', response.data)
             }).catch(error => {
-                console.log(error);
-                throw error
+                throw errors
             });
         },
         async updateEvent({commit}, payload) {
-            await axios.post('/api/event/edit/' + payload.id, payload.formData)
+            await axios.put('/api/event/edit', payload)
                 .then((response) => {
-                    commit('saveEvent', response.data);
+                    commit('saveEvent', payload);
                 }).catch(error => {
-                    console.log(error);
                     throw error
                 });
         },
         async removeEvent({dispatch, commit}, payload) {
-            await axios.delete(`/api/event/delete/${payload.id}`)
+            await axios({
+                method: 'delete',
+                url: '/api/event/delete',
+                data: payload,
+            })
                 .then(response => {
                     commit('removeEvent', payload.id);
                     /*dispatch('sendNotification',

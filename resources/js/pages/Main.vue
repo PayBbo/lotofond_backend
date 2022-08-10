@@ -154,7 +154,7 @@
                                 >
                                 </bkt-checkbox>
                                 <bkt-checkbox v-model="filters_other.isHidden"
-                                              label="удалённые"
+                                              label="скрытые"
                                               name="isHidden"
                                               @input="getData(1)"
                                 >
