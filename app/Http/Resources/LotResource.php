@@ -66,7 +66,7 @@ class LotResource extends JsonResource
             'efrsbLink' => 'https://fedresurs.ru/bidding/' . $this->auction->guid,
             'marks'=> $this->userMarks()->makeHidden(['pivot']),
             'descriptionExtracts'=>$this->description_extracts,
-            $this->mergeWhen(($this->isLotInfo && !is_null($this->getNote())), [
+            $this->mergeWhen(!is_null($this->getNote()), [
                 'note'=> $this->getNote()
             ]),
             $this->mergeWhen(($this->isLotInfo ), [

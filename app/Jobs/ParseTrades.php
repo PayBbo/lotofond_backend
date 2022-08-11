@@ -34,14 +34,15 @@ class ParseTrades implements ShouldQueue
      */
     public function handle()
     {
-        $startFrom = Carbon::now()->setTimezone('Europe/Moscow')->subHours(2)->format('Y-m-d\TH:i:s');
-        $endTo = Carbon::now()->setTimezone('Europe/Moscow')->format('Y-m-d\TH:i:s');
+        $startFrom = Carbon::now()->setTimezone('Europe/Moscow')->subHours(4)->format('Y-m-d\TH:i:s');
+        $endTo = Carbon::now()->setTimezone('Europe/Moscow')->subHours(2)->format('Y-m-d\TH:i:s');
         $soapWrapper = new SoapWrapper();
         $service = new SoapWrapperService($soapWrapper);
         $messages = $service->getTradeMessages($startFrom, $endTo);
         foreach ($messages as $value) {
             foreach ($value as $message) {
                 if(!array_key_exists('INN', $message)){
+                    logger('WITHOUTINN');
                     logger($message);
                     continue;
                 }
@@ -58,7 +59,10 @@ class ParseTrades implements ShouldQueue
                     try {
                        foreach (get_object_vars($message->TradeList) as $val) {
                            if (gettype($val) === 'string') {
-                               $val = json_decode(preg_replace('/[\x00-\x1F\x80-\xFF]/', '', $val));
+                               logger("TEST");
+                               logger($val);
+                               logger(json_decode($val));
+                               $val = json_decode($val);
                            }
                            if(array_key_exists('ID', $val)){
                                $xml = $service->getTradeMessageContent($val->ID);
@@ -66,14 +70,22 @@ class ParseTrades implements ShouldQueue
                                $get_trade_message_content->switchMessageType($tradePlace->id, $val, $val->ID);
                                continue;
                            }
+                           if (gettype($val) == 'object') {
+                               $xml = $service->getTradeMessageContent($val->MessageList->TradeMessage->ID);
+                               $get_trade_message_content = new GetTradeMessageContent($xml, $val->MessageList->TradeMessage->Type);
+                               $get_trade_message_content->switchMessageType($tradePlace->id, $val, $val->MessageList->TradeMessage->ID);
+
+                           }
+                           logger('====================================');
+                           logger("VAL");
+                           logger(json_encode($val));
                             foreach ($val as $trade) {
-                                if (gettype($trade) === 'string') {
-                                    $trade =   json_decode(preg_replace('/[\x00-\x1F\x80-\xFF]/', '',$trade));
-                                }
-                                if(array_key_exists('ID', $trade)){
-                                    $xml = $service->getTradeMessageContent($trade->ID);
-                                    $get_trade_message_content = new GetTradeMessageContent($xml, $trade->Type);
-                                    $get_trade_message_content->switchMessageType($tradePlace->id, $trade, $trade->ID);
+                                logger("TRADE");
+                                logger(json_encode($trade));
+                                if(array_key_exists('TradeMessage', $trade)){
+                                    $xml = $service->getTradeMessageContent($trade->TradeMessage->ID);
+                                    $get_trade_message_content = new GetTradeMessageContent($xml, $trade->TradeMessage->Type);
+                                    $get_trade_message_content->switchMessageType($tradePlace->id, $trade, $trade->TradeMessage->ID);
                                     continue;
                                 }
                                 if (!array_key_exists('MessageList', $trade)) {
