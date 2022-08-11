@@ -52,6 +52,7 @@ class ParseArbitrManager implements ShouldQueue
 
             } catch (\Exception $e) {
                 logger('ParseArbitrManagerExc: ' . $e);
+                logger($person);
             }
         }
 

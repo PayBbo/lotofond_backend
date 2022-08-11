@@ -257,11 +257,12 @@ class Lot extends Model
         if (isset($request->sort) && isset($request->sort['direction']) && strlen((string)$request->sort['direction']) > 0
             && isset($request->sort['type']) && strlen((string)$request->sort['type']) > 0) {
             $namespace = 'App\Utilities\LotSorts';
-            $sort = new SortBuilder($query, $request->sort, $namespace);
+            $sort = new SortBuilder($query->isFixed(), $request->sort, $namespace);
 
             return $sort->apply();
         }
-        return $query;
+        return $query->isFixed();
+
     }
 
     public function scopeFilterBy($query, $request)
@@ -334,5 +335,27 @@ class Lot extends Model
             }
         }
         return $result;
+    }
+
+    public function userHiddenLot()
+    {
+        return $this->belongsToMany(User::class, 'hidden_lots')->where('user_id', auth()->id());
+    }
+
+    public function scopeIsFixed($query)
+    {
+        if(auth()->guard('api')->check()) {
+            logger('ye');
+            $sort =  $query->orderBy(FixedLot::select('created_at')
+                ->whereColumn('lots.id', 'fixed_lots.lot_id')
+                ->where('fixed_lots.user_id', auth()->guard('api')->id())
+                ->take(1),
+                'desc'
+            );
+            logger($sort->pluck('id'));
+            return $sort;
+        }else{
+            return $query;
+        }
     }
 }

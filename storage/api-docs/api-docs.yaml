@@ -2356,6 +2356,10 @@ paths:
       responses:
         "200":
           description: Добавление события прошло успешно
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Event"
         "422":
           description: Ошибка валидации
         default:
@@ -2385,6 +2389,10 @@ paths:
       responses:
         "200":
           description: Редактирование события прошло успешно
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Event"
         "422":
           description: Ошибка валидации
         default:

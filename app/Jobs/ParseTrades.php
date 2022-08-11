@@ -34,13 +34,17 @@ class ParseTrades implements ShouldQueue
      */
     public function handle()
     {
-        $startFrom = Carbon::now()->setTimezone('Europe/Moscow')->subHour()->format('Y-m-d\TH:i:s');
+        $startFrom = Carbon::now()->setTimezone('Europe/Moscow')->subHours(2)->format('Y-m-d\TH:i:s');
         $endTo = Carbon::now()->setTimezone('Europe/Moscow')->format('Y-m-d\TH:i:s');
         $soapWrapper = new SoapWrapper();
         $service = new SoapWrapperService($soapWrapper);
         $messages = $service->getTradeMessages($startFrom, $endTo);
         foreach ($messages as $value) {
             foreach ($value as $message) {
+                if(!array_key_exists('INN', $message)){
+                    logger($message);
+                    continue;
+                }
                 $tradePlace = TradePlace::where('inn', $message->INN)->first();
                 if (!$tradePlace) {
                     $tradePlace = new TradePlace();
@@ -53,6 +57,12 @@ class ParseTrades implements ShouldQueue
                 if (array_key_exists('TradeList', $message)) {
                     try {
                        foreach (get_object_vars($message->TradeList) as $val) {
+                           if(array_key_exists('ID', $val)){
+                               $xml = $service->getTradeMessageContent($val->ID);
+                               $get_trade_message_content = new GetTradeMessageContent($xml, $val->Type);
+                               $get_trade_message_content->switchMessageType($tradePlace->id, $val, $val->ID);
+                               continue;
+                           }
                             foreach ($val as $trade) {
                                 if (gettype($trade) == 'string') {
                                     $trade = json_decode($trade);

@@ -25,9 +25,11 @@ class SoapWrapperService
                 ->wsdl(\Config::get('values.WSDL'))
                 ->trace(true)
                 ->cache(WSDL_CACHE_NONE)
+
                 ->options([
                     'login' => \Config::get('values.FEDRESURS_LOGIN'),
                     'password' => \Config::get('values.FEDRESURS_PASSWORD'),
+                    'compression'   => SOAP_COMPRESSION_ACCEPT | SOAP_COMPRESSION_GZIP | SOAP_COMPRESSION_DEFLATE,
                     'stream' => stream_context_create(array(
                         'ssl' => array(
                             'verify_peer' => false,
