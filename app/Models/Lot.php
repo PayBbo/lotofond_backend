@@ -356,4 +356,33 @@ class Lot extends Model
             return $query;
         }
     }
+
+    public function categoriesStructure(){
+        $categories = [];
+        $parents = [];
+        foreach ($this->categories as $category) {
+            if (!is_null($category->parent())) {
+                $parents[] = $category->parent();
+            } else {
+                $parents[] = $category;
+            }
+        }
+        $categoriesIds = $this->categories->pluck('id')->toArray();
+        $serialized = array_map('serialize', $parents);
+        $unique = array_unique($serialized);
+        $parents = array_intersect_key($parents, $unique);
+        foreach ($parents as $category) {
+            $subs = array_intersect($category->subcategories()->pluck('id')->toArray(), $categoriesIds);
+            $subs = Category::whereIn('id', array_unique($subs))->get();
+            $subcategories = [];
+            foreach($subs as $sub){
+                $value = ['label'=>$sub->label, 'key'=>$sub->title];
+                if(!in_array($value, $subcategories)) {
+                    $subcategories[] = $value;
+                }
+            }
+            $categories[] = ['label'=>$category->label, 'key'=>$category->title, 'subcategories'=>$subcategories];
+        }
+        return $categories;
+    }
 }

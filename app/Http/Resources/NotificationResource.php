@@ -33,7 +33,9 @@ class NotificationResource extends JsonResource
                     'photos' => is_null($this->lot_id) ? null : $this->lot->lot->photos,
                     'description' => is_null($this->lot_id) ? null : stripslashes(preg_replace('/[\x00-\x1F\x7F]/u', ' ', $this->lot->lot->description)),
                     'detail' => $value,
-                    'favouritePaths' => is_null($this->lot_id) ? null : $this->lot->lot->getLotFavouritePaths()
+                    'favouritePaths' => is_null($this->lot_id) ? null : $this->lot->lot->getLotFavouritePaths(),
+                    'id'=>is_null($this->lot_id) ? null : $this->lot->lot->id,
+                    'categories'=>is_null($this->lot_id) ? [] : $this->lot->lot->categoriesStructure(),
                 ]
             ]),
             $this->mergeWhen($this->type_id  == 3, [

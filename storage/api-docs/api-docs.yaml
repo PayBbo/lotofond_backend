@@ -3927,6 +3927,11 @@ components:
               type: array
               items:
                 $ref: "#/components/schemas/PathFavourite"
+            id:
+              type: integer
+              description: айдишник лота
+            categories:
+              $ref: '#/components/schemas/Categories'
         dataMonitoring:
           type: object
           properties:

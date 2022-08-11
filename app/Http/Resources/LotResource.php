@@ -19,31 +19,6 @@ class LotResource extends JsonResource
     {
         $user = auth()->guard('api')->user();
         $inFavourite = auth()->guard('api')->check() ? $this->inFavourite() : false;
-        $categories = [];
-        $parents = [];
-        foreach ($this->categories as $category) {
-            if (!is_null($category->parent())) {
-                $parents[] = $category->parent();
-            } else {
-                $parents[] = $category;
-            }
-        }
-        $categoriesIds = $this->categories->pluck('id')->toArray();
-        $serialized = array_map('serialize', $parents);
-        $unique = array_unique($serialized);
-        $parents = array_intersect_key($parents, $unique);
-        foreach ($parents as $category) {
-            $subs = array_intersect($category->subcategories()->pluck('id')->toArray(), $categoriesIds);
-            $subs = Category::whereIn('id', array_unique($subs))->get();
-            $subcategories = [];
-            foreach($subs as $sub){
-                $value = ['label'=>$sub->label, 'key'=>$sub->title];
-                if(!in_array($value, $subcategories)) {
-                    $subcategories[] = $value;
-                }
-            }
-            $categories[] = ['label'=>$category->label, 'key'=>$category->title, 'subcategories'=>$subcategories];
-        }
         $this->auction->isLotInfo = $this->isLotInfo;
         $regions = $this->regions()->select('code', 'lot_regions.is_debtor_region as isDebtorRegion')->get();
         return [
@@ -51,7 +26,7 @@ class LotResource extends JsonResource
             'trade' => new TradeResource($this->auction),
             'lotNumber' => $this->number,
             'photos' => $this->photos,
-            'categories' => $categories,
+            'categories' => $this->categoriesStructure(),
             'description' => stripslashes(preg_replace('/[\x00-\x1F\x7F]/u', ' ', $this->description)),
             'state' => $this->status->code,
             'location' => $regions->makeHidden(['pivot']),
