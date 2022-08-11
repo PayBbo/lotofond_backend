@@ -96,8 +96,7 @@
         props: {
             data: {
                 type: Object,
-                default: () => {
-                }
+                default: () => {}
             },
             limit: {
                 type: Number,

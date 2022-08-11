@@ -63,7 +63,7 @@
         },
         methods: {
             saveFilters() {
-                // this.$store.commit('saveFiltersProperty', {key: 'regions', value: this.model});
+                this.$store.commit('saveFiltersProperty', {key: 'filters_regions', value: this.result});
                 this.$store.dispatch('saveDataProperty', {
                     module_key: 'filters', state_key: this.filter_name,
                     key: 'regions',
@@ -74,7 +74,7 @@
             },
             clearFilters() {
                 this.model = [];
-                // this.$store.commit('saveFiltersProperty', {key: 'regions', value: []});
+                this.$store.commit('saveFiltersProperty', {key: 'filters_regions', value: []});
                 this.$store.dispatch('saveDataProperty', {
                     module_key: 'filters', state_key: this.filter_name,
                     key: 'regions',

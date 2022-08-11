@@ -211,7 +211,7 @@
         },
         methods: {
             async getData(page = 1, pathId = 0) {
-                await this.$store.dispatch('getMonitorings', {page: page, pathId: pathId})
+                await this.$store.dispatch('getMonitorings', {page: page, pathId: this.current_path})
             },
 
             openModal() {
@@ -249,9 +249,11 @@
                     });
             },
             editMonitoringPath(value) {
-                this.setCurrentMonitoringPath(value)
-                this.$store.commit('setCurrentMonitoringPath', value)
-                this.$store.commit('openModal', '#editMonitoringModal');
+                if(!this.loading) {
+                    this.setCurrentMonitoringPath(value)
+                    this.$store.commit('setCurrentMonitoringPath', value)
+                    this.$store.commit('openModal', '#editMonitoringModal');
+                }
             },
             showPrev() {
                 this.$refs.carousel.prev()

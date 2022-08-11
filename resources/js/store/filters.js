@@ -1,9 +1,9 @@
 export default {
     state: {
         filters: {
-            categories: JSON.parse(localStorage.getItem('categories')) || [],
-            regions: JSON.parse(localStorage.getItem('regions')) || [],
-            prices: JSON.parse(localStorage.getItem('prices')) || {
+            categories: JSON.parse(localStorage.getItem('filters_categories')) || [],
+            regions: JSON.parse(localStorage.getItem('filters_regions')) || [],
+            prices: JSON.parse(localStorage.getItem('filters_prices')) || {
                 currentPrice: {
                     min: '',
                     max: ''
@@ -21,7 +21,7 @@ export default {
                     max: ''
                 }
             },
-            dates: JSON.parse(localStorage.getItem('dates')) || {
+            dates: JSON.parse(localStorage.getItem('filters_dates')) || {
                 eventTimeStart: {
                     start: "",
                     end: ""
@@ -39,7 +39,7 @@ export default {
                     end: ""
                 }
             },
-            extraOptions: JSON.parse(localStorage.getItem('extraOptions')) || {
+            extraOptions: JSON.parse(localStorage.getItem('filters_extraOptions')) || {
                 debtorCategories: [
                 ],
                 debtors: [
@@ -57,7 +57,7 @@ export default {
                     organizer: false
                 },
             },
-            mainParams: {
+            mainParams: JSON.parse(localStorage.getItem('filters_mainParams')) ||  {
                 excludedWords: null,
                 includedWords:'',
                 tradePlaces: [],
@@ -206,7 +206,7 @@ export default {
             return (state.filters = payload);
         },
         saveFiltersProperty(state, payload) {
-            Vue.set(state.filters, payload.key, payload.value);
+            // Vue.set(state.filters, payload.key, payload.value);
             localStorage.setItem(payload.key, JSON.stringify(payload.value));
         },
         saveFilterProperty(state, payload) {

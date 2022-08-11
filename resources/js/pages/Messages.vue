@@ -1,128 +1,179 @@
 <template>
-    <div class="container bkt-messages bkt-page bkt-container">
-        <h1 class="bkt-page__title bkt-auctions__title">
+    <div class="bkt-messages bkt-page bkt-container">
+        <h1 class="bkt-page__title">
             Сообщения
         </h1>
-
         <div class="bkt-content">
             <div class="row">
                 <div class="col-12 col-lg-3">
                     <div class="bkt-history__chats">
                         <ul class="list-unstyled text-left pt-4 pb-4">
-                            <li class="bkt-chat" :class="{'bkt-bg-primary-lighter': selectedCategory==0}" id="chat-1"
-                                @click="selectedCategory = 0">
+                            <li class="bkt-chat" :class="{'bkt-bg-primary-lighter': selectedType=='all'}" id="chat-1"
+                                @click="setType('all')"
+                            >
                                 <span>Все</span>
-                                <div class="rounded-pill bkt-bg-primary bkt-text-neutral-light">
-                                    <span v-if="countMessages.all > 0" class="p-2">{{ countMessages.all }}</span>
+                                <div class="bkt-chat__num rounded-pill bkt-bg-primary bkt-text-neutral-light">
+                                    <span v-if="notifications_count.all > 0" class="p-2">
+                                        {{notifications_count.all}}
+                                    </span>
                                 </div>
                             </li>
-                            <li class="bkt-chat" :class="{'bkt-bg-green-lighter': selectedCategory==1}" id="chat-2"
-                                @click="selectedCategory = 1">
+                            <li class="bkt-chat" :class="{'bkt-bg-green-lighter': selectedType=='platform'}" id="chat-2"
+                                @click="setType('platform')"
+                            >
                                 <div class="bkt-chat__text">
                                     <bkt-icon :name="'Bell'" :color="'green'" width="15px" height="15px" class="mr-2"/>
                                     <span>Сообщения платформы</span>
                                 </div>
 
                                 <div class="bkt-chat__num rounded-pill bkt-bg-green bkt-text-neutral-light">
-                                    <span v-if="countMessages.platform > 0" class="p-2">{{
-                                            countMessages.platform
-                                        }}</span>
+                                    <span v-if="notifications_count.platform > 0" class="p-2">
+                                        {{notifications_count.platform}}
+                                    </span>
                                 </div>
                             </li>
-                            <li class="bkt-chat" :class="{'bkt-bg-yellow-lighter': selectedCategory==2}" id="chat-3"
-                                @click="selectedCategory = 2">
+                            <li class="bkt-chat" :class="{'bkt-bg-yellow-lighter': selectedType=='favourite'}"
+                                id="chat-3"
+                                @click="setType('favourite')"
+                            >
                                 <div class="bkt-chat__text">
                                     <bkt-icon :name="'Star'" :color="'yellow'" width="15px" height="15px" class="mr-2"/>
                                     <span>Избранное</span>
                                 </div>
                                 <div class="bkt-chat__num rounded-pill bkt-bg-yellow bkt-text-neutral-light">
-                                    <span v-if="countMessages.favourites > 0" class="p-2">{{
-                                            countMessages.favourites
-                                        }}</span>
+                                    <span v-if="notifications_count.favourite > 0" class="p-2">
+                                        {{notifications_count.favourite}}
+                                    </span>
                                 </div>
                             </li>
-                            <li class="bkt-chat" :class="{'bkt-bg-red-lighter': selectedCategory==3}" id="chat-4"
-                                @click="selectedCategory = 3">
+                            <li class="bkt-chat" :class="{'bkt-bg-red-lighter': selectedType=='monitoring'}" id="chat-4"
+                                @click="setType('monitoring')"
+                            >
                                 <div class="bkt-chat__text">
                                     <bkt-icon :name="'Target'" :color="'red'" width="15px" height="15px" class="mr-2"/>
                                     <span>Мониторинг</span>
                                 </div>
 
                                 <div class="rounded-pill bkt-bg-red bkt-text-neutral-light">
-                                    <span v-if="countMessages.monitoring > 0" class="p-2">{{
-                                            countMessages.monitoring
-                                        }}</span>
+                                    <span v-if="notifications_count.monitoring > 0" class="p-2">
+                                        {{notifications_count.monitoring}}
+                                    </span>
                                 </div>
                             </li>
-<!--                            <li class="bkt-chat" :class="{'bkt-bg-purple-lighter': selectedCategory==4}" id="chat-5"-->
-<!--                                @click="selectedCategory = 4">-->
-<!--                                <div class="bkt-chat__text">-->
-<!--                                    <bkt-icon :name="'Chat'" :color="'purple'" width="15px" height="15px" class="mr-2"/>-->
-<!--                                    <span>От организаторов</span>-->
-<!--                                </div>-->
-
-<!--                                <div class="rounded-pill bkt-bg-purple bkt-text-neutral-light">-->
-<!--                                    <span v-if="countMessages.organization > 0"-->
-<!--                                          class="p-2">{{ countMessages.organization }}</span>-->
-<!--                                </div>-->
-<!--                            </li>-->
                         </ul>
                     </div>
                 </div>
-                <div class="col-12 col-lg-9">
-                    <div class="bkt-history__messages">
-                        <div class="bkt-monitoring-checkboxes text-left mb-4" v-if="selectedCategory==3">
-                            <bkt-checkbox :value="monitoring_filter.cars" label="АВТО" :name="'cars'"
-                                          wrapper_class="bkt-check__wrapper-inline" class="mr-2"/>
-                            <bkt-checkbox :value="monitoring_filter.flats" label="КВАРТИРЫ" :name="'flats'"
-                                          wrapper_class="bkt-check__wrapper-inline"/>
-                        </div>
-                        <ul class="list-unstyled bkt-messages__block">
-                            <li class="bkt-chat__item d-flex justify-content-between position-relative"
-                                v-for="(message, index) in displayedMessages" :key="index" v-if="message">
-                                <bkt-icon :name="'Check'" :color="message.read ? 'primary' : 'main-lighter'" width="15px"
-                                          height="15px"
-                                          class="mr-2 position-absolute bkt-icon-done"/>
+                <div class="col-12 col-lg-9 bkt-gap-row-medium">
+                    <div class="bkt-wrapper-column bkt-gap-row-medium">
+                        <div v-if="!loading" class="bkt-wrapper-column bkt-gap-mini">
+                            <div class="bkt-message"
+                                 v-for="(message, index) in items" :key="index" v-if="message">
+                                <bkt-icon :name="'Check'" :color="message.isSeen ? 'primary' : 'main-lighter'"
+                                          width="15px" height="15px" class="bkt-message__check"/>
 
-                                <div class="d-md-none bkt-item-title d-flex mb-3 text-left">
-                                    <span class="bkt-text-neutral-dark">{{ message.date }}</span>
+                                <div class="d-md-none bkt-wrapper-between w-100">
+                                    <h6 class="bkt-message__date">
+                                        {{ message.date | moment('D MMMM YYYY')}} в {{ message.date | moment('HH:mm')}}
+                                    </h6>
                                     <div class="bkt-chat-content__info text-right">
-                                        <p :class="'bkt-bg-'+message.category.color+'-lighter bkt-text-'+message.category.color ">
-                                            {{ message.category.title }}
-                                        </p>
+                                        <div class="bkt-message__type" :class="{'bkt-bg-red-lighter bkt-text-red': message.type=='monitoring',
+                                        'bkt-bg-yellow-lighter bkt-text-yellow': message.type=='favourite',
+                                        'bkt-bg-green-lighter bkt-text-green': message.type=='platform',}"
+                                        >
+                                            {{ message.type=='monitoring' ? 'мониторинг' :''}}
+                                            {{ message.type=='favourite' ? 'избранное' :''}}
+                                            {{ message.type=='platform' ? 'сообщения платформы' :''}}
+                                        </div>
                                     </div>
                                 </div>
 
-                                <div class="bkt-item-content text-left">
-                                    <div class="bkt-content-message d-flex mb-3">
-                                        <div class="bkt-chat-content__logo" v-if="message.img">
-                                            <img src="" alt="" width="100%" height="100%">
+                                <div class="bkt-wrapper-column bkt-message__content">
+                                    <div class="bkt-wrapper bkt-nowrap  me-auto ms-0">
+                                        <div class="bkt-message__image-wrapper"
+                                             v-if="message.type=='favourite'">
+                                            <!--                                            <img :src="message.dataFavourite" alt="" class="bkt-message__image">-->
+                                            <bkt-card-image-category :categories="message.dataFavourite.categories"
+                                                                     v-if="(!message.dataFavourite.photos || message.dataFavourite.photos.length==0)
+                                            && message.dataFavourite.categories && message.dataFavourite.categories.length>0"
+                                            >
+                                            </bkt-card-image-category>
+                                            <img
+                                                v-if="message.dataFavourite.photos && message.dataFavourite.photos.length>0"
+                                                :src="message.dataFavourite.photos[0].preview" alt=""
+                                                class="bkt-message__image">
                                         </div>
 
                                         <div class="bkt-chat-content__text">
-                                            <p v-if="message.title" class="mb-0"
-                                               :class="{'bkt-text-title bkt-arrow-after bkt-cursor-pointer' : !message.newLot}">
-                                                {{ message.title }}
-                                            </p>
-                                            <p class="mb-0"
-                                               :class="{'bkt-text-title bkt-arrow-after bkt-text-hidden bkt-cursor-pointer' : message.newLot}">
-                                                {{ message.note }}</p>
+                                            <div v-if="message.type == 'monitoring'&& message.dataMonitoring"
+                                                 class="bkt-badge m-0"
+                                                 :class="message.dataMonitoring.folderInfo.color ?
+                                                'bkt-bg-'+message.dataMonitoring.folderInfo.color :'bkt-bg-primary'"
+                                            >
+                                                {{message.dataMonitoring.folderInfo.name}}
+                                            </div>
+                                            <h5 v-if="message.type == 'monitoring'" class="bkt-message__text">
+                                                Появились новые лоты в мониторинге:
+                                                {{message.dataMonitoring ? message.dataMonitoring.newLotCount : '0'}}
+                                            </h5>
+                                            <h6 v-if="message.type == 'platform' && message.dataPlatform"
+                                                class="bkt-message__title"
+                                            >
+                                                {{message.dataPlatform.label}}
+                                            </h6>
+                                            <h5 v-if="message.type == 'platform'" class="bkt-message__text">
+                                                {{message.dataPlatform ? message.dataPlatform.value : ''}}
+                                            </h5>
+                                            <router-link v-if="message.type == 'favourite' && message.dataFavourite"
+                                                         :to="'/lot/'+message.dataFavourite.id"
+                                                         class="bkt-card__title bkt-text-truncate"
+                                            >
+                                                <h6 v-if="message.type == 'favourite' && message.dataFavourite"
+                                                    class="bkt-message__title bkt-text-truncate bkt-arrow-after bkt-cursor-pointer"
+                                                >
+                                                    {{message.dataFavourite.description}}
+                                                </h6>
+                                            </router-link>
+                                            <h5 v-if="message.type == 'favourite'" class="bkt-message__text">
+                                                {{message.dataFavourite ? message.dataFavourite.detail : ''}}
+                                            </h5>
                                         </div>
                                     </div>
-                                    <button v-if="message.btnText" class="btn bkt-button p-4 primary mb-3">
-                                        {{ message.btnText }}
-                                    </button>
-                                    <br class="d-none d-md-block">
-                                    <span class="d-none d-md-block bkt-text-neutral-dark">{{ message.date }}</span>
+                                    <!--                                    <button v-if="message.btnText" class="btn bkt-button p-4 primary mb-3">-->
+                                    <!--                                        {{ message.btnText }}-->
+                                    <!--                                    </button>-->
+                                    <!--                                    <br class="d-none d-md-block">-->
+                                    <h6 class="d-none d-md-block bkt-message__date">
+                                        {{ message.date | moment('D MMMM YYYY')}} в {{ message.date | moment('HH:mm')}}
+                                    </h6>
                                 </div>
 
-                                <div class="d-none d-md-block bkt-chat-content__info text-right">
-                                    <p :class="'bkt-bg-'+message.category.color+'-lighter bkt-text-'+message.category.color ">
-                                        {{ message.category.title }}
-                                    </p>
+                                <div class="bkt-message__type d-none d-md-block "
+                                     :class="{'bkt-bg-red-lighter bkt-text-red': message.type=='monitoring',
+                                        'bkt-bg-yellow-lighter bkt-text-yellow': message.type=='favourite',
+                                        'bkt-bg-green-lighter bkt-text-green': message.type=='platform'}"
+                                >
+                                    {{ message.type=='monitoring' ? 'мониторинг' :''}}
+                                    {{ message.type=='favourite' ? 'избранное' :''}}
+                                    {{ message.type=='platform' ? 'сообщения платформы' :''}}
                                 </div>
-                            </li>
-                        </ul>
+                            </div>
+                        </div>
+                        <div v-if="loading||type_loading" class="d-flex w-100 justify-content-center my-5">
+                            <slot name="loading">
+                                <div
+                                    style="color: #2953ff;border-width: 2px;"
+                                    class="spinner-border"
+                                    role="status"
+                                ></div>
+                            </slot>
+                        </div>
+                        <bkt-pagination
+                            v-if="pagination_data && !type_loading"
+                            :limit="1"
+                            :data="pagination_data"
+                            @change-page="getData"
+                            :extraControls="false"
+                        ></bkt-pagination>
                     </div>
                 </div>
             </div>
@@ -131,81 +182,58 @@
 </template>
 
 <script>
+    import BktCardImageCategory from "../components/CardImageCategory";
 
-export default {
-    name: "Messages",
-    components: {},
-    data() {
-        return {
-            info_categories: [
-                {id: 1, title: 'сообщения платформы', color: 'green'},
-                {id: 2, title: 'избранное', color: 'yellow'},
-                {id: 3, title: 'мониторинг', color: 'red'},
-                {id: 4, title: 'организатор', color: 'purple'},
-            ], monitoring_filter: {cars: true, flats: true},
-            messages: [
-                {
-                    img: '',
-                    note: 'Внимание! Обновление на сайте! Мы улучшили нашу работу, добавив возможность закрепить лот вверху списка.',
-                    date: '14 марта 2022 в 15:31',
-                    category: {id: 1, title: 'сообщения платформы', color: 'green'},
-                    read: false
-                },
-                {
-                    img: 'bmw',
-                    title: 'БМВ Х5 (ЛОТ №50697876056078)',
-                    note: 'Прием заявок заканчивается через 3 дня!',
-                    date: '5 апреля 2022 в 20:00',
-                    category: {id: 2, title: 'избранное', color: 'yellow'},
-                    read: false
-                },
-                {
-                    img: 'flat',
-                    newLot: 'flat',
-                    title: 'Новые лоты "Квартиры"',
-                    note: 'ЛОТ №3456743, 3К КВАРТИРА ДОЛГОПРУДНЫЙ',
-                    date: '12 апреля 2022 в 10:56',
-                    category: {id: 3, title: 'мониторинг', color: 'red'},
-                    read: true
-                },
-                {
-                    img: 'bmw',
-                    title: 'ИВАНОВ НИКОЛАЙ ДМИТРИЕВИЧ',
-                    note: 'Здравствуйте, Сергей! Пока данных по лоту №83067 нет. Уточняю.',
-                    date: '5 апреля 2022 в 20:00',
-                    category: {id: 4, title: 'организатор', color: 'purple'},
-                    read: true
-                },
-                {
-                    img: '',
-                    note: 'Сегодня последний день платной подписки. Пожалуйста, не забудьте продлить доступ!',
-                    date: '14 марта 2022 в 15:31',
-                    category: {id: 1, title: 'сообщения платформы', color: 'green'},
-                    read: false,
-                    btnText: 'Продлить подписку'
-                },
-            ],
-            selectedCategory: 0, countMessages: {all: 0, platform: 0, favourites: 0, monitoring: 0, organization: 0}
+    export default {
+        name: "Messages",
+        components: {
+            BktCardImageCategory
+        },
+        data() {
+            return {
+                info_categories: [
+                    {id: 1, code: 'platform', title: 'сообщения платформы', color: 'green'},
+                    {id: 2, code: 'favourite', title: 'избранное', color: 'yellow'},
+                    {id: 3, code: 'monitoring', title: 'мониторинг', color: 'red'},
+                ],
+                selectedType: 'all',
+                type_loading: false,
+            }
+        },
+        created() {
+            this.getData();
+        },
+        computed: {
+            items() {
+                return this.$store.getters.notifications;
+            },
+            pagination_data() {
+                return this.$store.getters.notifications_pagination;
+            },
+            loading() {
+                return this.$store.getters.notifications_loading;
+            },
+            notifications_count() {
+                return this.$store.getters.notifications_count;
+            },
+        },
+        mounted() {
+        },
+        methods: {
+            async getData(page = 1) {
+                await this.$store.dispatch('getNotifications', {page: page, type: this.selectedType});
+            },
+            setType(type) {
+                this.type_loading = true;
+                this.selectedType = type;
+                this.getData(1).then(resp => {
+                    this.type_loading = false;
+                }).catch(resp => {
+                    this.type_loading = false;
+                });
+            }
         }
-    },
-    computed: {
-        displayedMessages() {
-            let sortMessages = this.messages.sort((a, b) => a.read - b.read);
-            return sortMessages.filter(data => {
-                return (
-                    this.selectedCategory == 0 || data.category.id == this.selectedCategory
-                );
-            });
-        }
-    },
-    mounted() {
-        this.countMessages.all = this.messages.length;
-        this.countMessages.platform = this.messages.filter(item => item.category.id == 1 && !item.read).length;
-        this.countMessages.favourites = this.messages.filter(item => item.category.id == 2 && !item.read).length;
-        this.countMessages.monitoring = this.messages.filter(item => item.category.id == 3 && !item.read).length;
-        this.countMessages.organization = this.messages.filter(item => item.category.id == 4 && !item.read).length;
     }
-}
 </script>
 
 <style scoped>

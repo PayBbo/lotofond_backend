@@ -419,16 +419,15 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             switch (_context.prev = _context.next) {
               case 0:
                 page = _arguments.length > 0 && _arguments[0] !== undefined ? _arguments[0] : 1;
-                console.log('getData');
                 _this2.loading = true;
                 _this2.params.page = page;
                 _this2.params.pathId = _this2.current_path;
-                _context.next = 7;
+                _context.next = 6;
                 return _this2.$store.dispatch('getFavourites', _this2.params)["finally"](function () {
                   _this2.loading = false;
                 });
 
-              case 7:
+              case 6:
               case "end":
                 return _context.stop();
             }
@@ -1260,6 +1259,7 @@ var render = function () {
                           class: _vm.search_mode
                             ? "bkt-bg-primary shadow"
                             : "bkt-bg-white",
+                          attrs: { disabled: _vm.loading },
                           on: {
                             click: function ($event) {
                               _vm.search_mode = !_vm.search_mode

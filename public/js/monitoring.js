@@ -1605,7 +1605,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 _context.next = 4;
                 return _this2.$store.dispatch('getMonitorings', {
                   page: page,
-                  pathId: pathId
+                  pathId: _this2.current_path
                 });
 
               case 4:
@@ -1699,9 +1699,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }))();
     },
     editMonitoringPath: function editMonitoringPath(value) {
-      this.setCurrentMonitoringPath(value);
-      this.$store.commit('setCurrentMonitoringPath', value);
-      this.$store.commit('openModal', '#editMonitoringModal');
+      if (!this.loading) {
+        this.setCurrentMonitoringPath(value);
+        this.$store.commit('setCurrentMonitoringPath', value);
+        this.$store.commit('openModal', '#editMonitoringModal');
+      }
     },
     showPrev: function showPrev() {
       this.$refs.carousel.prev();

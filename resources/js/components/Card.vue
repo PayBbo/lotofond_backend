@@ -19,9 +19,11 @@
             <div class="row h-100 w-100 mx-auto row-cols-1 row-cols-md-2 row-cols-lg-3 bkt-card-trade__wrapper">
                 <div class="col p-0 px-sm-2 order-2 order-lg-1">
                     <div class="bkt-card-image-wrapper">
-                        <card-image-category  v-if="!item.photos || item.photos.length==0" :categories="item.categories"></card-image-category>
-<!--                        <img v-lazy="'/images/card-image1.png'" class="bkt-card__image"-->
-<!--                             v-if="!item.photos || item.photos.length==0"/>-->
+                        <card-image-category
+                            v-if="(!item.photos || item.photos.length==0) && item && item.categories.length>0"
+                            :categories="item.categories"></card-image-category>
+                        <!--                        <img v-lazy="'/images/card-image1.png'" class="bkt-card__image"-->
+                        <!--                             v-if="!item.photos || item.photos.length==0"/>-->
                         <hooper :itemsToShow="1" :centerMode="true" class="bkt-card__image-slider"
                                 v-if="item.photos.length>0">
                             <slide v-for="photo in item.photos" :key="photo.id">

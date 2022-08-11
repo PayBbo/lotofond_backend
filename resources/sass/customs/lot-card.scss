@@ -218,8 +218,9 @@
                 //align-items: center;
                 text-decoration: none;
                 cursor: pointer;
-                padding: 33px 40px;
-                width: 260px;
+                padding: 30px;
+                max-width: 260px;
+                width: 100%;
                 position: relative;
 
                 &-title {
@@ -237,17 +238,20 @@
                 }
 
                 & svg {
-                    position: absolute;
-                    right: 29px;
-                    top: 45%;
+                    //position: absolute;
+                    //right: 29px;
+                    //top: 45%;
                     transform: rotate(270deg);
                 }
             }
         }
 
         & .bkt-card__body {
+            padding: 25px 40px;
+
             & .bkt-card-period {
                 flex-wrap: nowrap;
+                flex-shrink: 0;
             }
 
             & .bkt-card__category {
@@ -268,7 +272,7 @@
                 align-items: center;
                 justify-content: space-between;
                 width: 100%;
-                flex-wrap: wrap;
+                flex-wrap: nowrap;
                 gap: 19px;
 
                 & .bkt-row {
@@ -629,5 +633,38 @@
             }
         }
 
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .bkt-lot-card {
+        &-tasks {
+            & .bkt-card__header {
+                & .bkt-card-periods {
+                    display: flex;
+                    flex-direction: row;
+                    flex-wrap: wrap;
+                }
+
+                & .bkt-platform-button {
+                    border-radius: 13px;
+                    padding: 15px 20px;
+                    max-width: 100%;
+                    width: 100%;
+
+                    &-title {
+                        font-size: 12px;
+                    }
+
+                    &-subtitle {
+                        font-size: 10px;
+                    }
+                }
+            }
+
+            & .bkt-card__body {
+                padding: 25px;
+            }
+        }
     }
 }

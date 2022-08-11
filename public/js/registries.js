@@ -352,7 +352,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   },
   methods: {
     saveFilters: function saveFilters() {
-      // this.$store.commit('saveFiltersProperty', {key: 'regions', value: this.model});
+      this.$store.commit('saveFiltersProperty', {
+        key: 'filters_regions',
+        value: this.result
+      });
       this.$store.dispatch('saveDataProperty', {
         module_key: 'filters',
         state_key: this.filter_name,
@@ -368,8 +371,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       });
     },
     clearFilters: function clearFilters() {
-      this.model = []; // this.$store.commit('saveFiltersProperty', {key: 'regions', value: []});
-
+      this.model = [];
+      this.$store.commit('saveFiltersProperty', {
+        key: 'filters_regions',
+        value: []
+      });
       this.$store.dispatch('saveDataProperty', {
         module_key: 'filters',
         state_key: this.filter_name,

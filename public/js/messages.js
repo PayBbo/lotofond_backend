@@ -11,6 +11,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+/* harmony import */ var _components_CardImageCategory__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../components/CardImageCategory */ "./resources/js/components/CardImageCategory.vue");
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
+
+function _regeneratorRuntime() { "use strict"; /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/facebook/regenerator/blob/main/LICENSE */ _regeneratorRuntime = function _regeneratorRuntime() { return exports; }; var exports = {}, Op = Object.prototype, hasOwn = Op.hasOwnProperty, $Symbol = "function" == typeof Symbol ? Symbol : {}, iteratorSymbol = $Symbol.iterator || "@@iterator", asyncIteratorSymbol = $Symbol.asyncIterator || "@@asyncIterator", toStringTagSymbol = $Symbol.toStringTag || "@@toStringTag"; function define(obj, key, value) { return Object.defineProperty(obj, key, { value: value, enumerable: !0, configurable: !0, writable: !0 }), obj[key]; } try { define({}, ""); } catch (err) { define = function define(obj, key, value) { return obj[key] = value; }; } function wrap(innerFn, outerFn, self, tryLocsList) { var protoGenerator = outerFn && outerFn.prototype instanceof Generator ? outerFn : Generator, generator = Object.create(protoGenerator.prototype), context = new Context(tryLocsList || []); return generator._invoke = function (innerFn, self, context) { var state = "suspendedStart"; return function (method, arg) { if ("executing" === state) throw new Error("Generator is already running"); if ("completed" === state) { if ("throw" === method) throw arg; return doneResult(); } for (context.method = method, context.arg = arg;;) { var delegate = context.delegate; if (delegate) { var delegateResult = maybeInvokeDelegate(delegate, context); if (delegateResult) { if (delegateResult === ContinueSentinel) continue; return delegateResult; } } if ("next" === context.method) context.sent = context._sent = context.arg;else if ("throw" === context.method) { if ("suspendedStart" === state) throw state = "completed", context.arg; context.dispatchException(context.arg); } else "return" === context.method && context.abrupt("return", context.arg); state = "executing"; var record = tryCatch(innerFn, self, context); if ("normal" === record.type) { if (state = context.done ? "completed" : "suspendedYield", record.arg === ContinueSentinel) continue; return { value: record.arg, done: context.done }; } "throw" === record.type && (state = "completed", context.method = "throw", context.arg = record.arg); } }; }(innerFn, self, context), generator; } function tryCatch(fn, obj, arg) { try { return { type: "normal", arg: fn.call(obj, arg) }; } catch (err) { return { type: "throw", arg: err }; } } exports.wrap = wrap; var ContinueSentinel = {}; function Generator() {} function GeneratorFunction() {} function GeneratorFunctionPrototype() {} var IteratorPrototype = {}; define(IteratorPrototype, iteratorSymbol, function () { return this; }); var getProto = Object.getPrototypeOf, NativeIteratorPrototype = getProto && getProto(getProto(values([]))); NativeIteratorPrototype && NativeIteratorPrototype !== Op && hasOwn.call(NativeIteratorPrototype, iteratorSymbol) && (IteratorPrototype = NativeIteratorPrototype); var Gp = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(IteratorPrototype); function defineIteratorMethods(prototype) { ["next", "throw", "return"].forEach(function (method) { define(prototype, method, function (arg) { return this._invoke(method, arg); }); }); } function AsyncIterator(generator, PromiseImpl) { function invoke(method, arg, resolve, reject) { var record = tryCatch(generator[method], generator, arg); if ("throw" !== record.type) { var result = record.arg, value = result.value; return value && "object" == _typeof(value) && hasOwn.call(value, "__await") ? PromiseImpl.resolve(value.__await).then(function (value) { invoke("next", value, resolve, reject); }, function (err) { invoke("throw", err, resolve, reject); }) : PromiseImpl.resolve(value).then(function (unwrapped) { result.value = unwrapped, resolve(result); }, function (error) { return invoke("throw", error, resolve, reject); }); } reject(record.arg); } var previousPromise; this._invoke = function (method, arg) { function callInvokeWithMethodAndArg() { return new PromiseImpl(function (resolve, reject) { invoke(method, arg, resolve, reject); }); } return previousPromise = previousPromise ? previousPromise.then(callInvokeWithMethodAndArg, callInvokeWithMethodAndArg) : callInvokeWithMethodAndArg(); }; } function maybeInvokeDelegate(delegate, context) { var method = delegate.iterator[context.method]; if (undefined === method) { if (context.delegate = null, "throw" === context.method) { if (delegate.iterator["return"] && (context.method = "return", context.arg = undefined, maybeInvokeDelegate(delegate, context), "throw" === context.method)) return ContinueSentinel; context.method = "throw", context.arg = new TypeError("The iterator does not provide a 'throw' method"); } return ContinueSentinel; } var record = tryCatch(method, delegate.iterator, context.arg); if ("throw" === record.type) return context.method = "throw", context.arg = record.arg, context.delegate = null, ContinueSentinel; var info = record.arg; return info ? info.done ? (context[delegate.resultName] = info.value, context.next = delegate.nextLoc, "return" !== context.method && (context.method = "next", context.arg = undefined), context.delegate = null, ContinueSentinel) : info : (context.method = "throw", context.arg = new TypeError("iterator result is not an object"), context.delegate = null, ContinueSentinel); } function pushTryEntry(locs) { var entry = { tryLoc: locs[0] }; 1 in locs && (entry.catchLoc = locs[1]), 2 in locs && (entry.finallyLoc = locs[2], entry.afterLoc = locs[3]), this.tryEntries.push(entry); } function resetTryEntry(entry) { var record = entry.completion || {}; record.type = "normal", delete record.arg, entry.completion = record; } function Context(tryLocsList) { this.tryEntries = [{ tryLoc: "root" }], tryLocsList.forEach(pushTryEntry, this), this.reset(!0); } function values(iterable) { if (iterable) { var iteratorMethod = iterable[iteratorSymbol]; if (iteratorMethod) return iteratorMethod.call(iterable); if ("function" == typeof iterable.next) return iterable; if (!isNaN(iterable.length)) { var i = -1, next = function next() { for (; ++i < iterable.length;) { if (hasOwn.call(iterable, i)) return next.value = iterable[i], next.done = !1, next; } return next.value = undefined, next.done = !0, next; }; return next.next = next; } } return { next: doneResult }; } function doneResult() { return { value: undefined, done: !0 }; } return GeneratorFunction.prototype = GeneratorFunctionPrototype, define(Gp, "constructor", GeneratorFunctionPrototype), define(GeneratorFunctionPrototype, "constructor", GeneratorFunction), GeneratorFunction.displayName = define(GeneratorFunctionPrototype, toStringTagSymbol, "GeneratorFunction"), exports.isGeneratorFunction = function (genFun) { var ctor = "function" == typeof genFun && genFun.constructor; return !!ctor && (ctor === GeneratorFunction || "GeneratorFunction" === (ctor.displayName || ctor.name)); }, exports.mark = function (genFun) { return Object.setPrototypeOf ? Object.setPrototypeOf(genFun, GeneratorFunctionPrototype) : (genFun.__proto__ = GeneratorFunctionPrototype, define(genFun, toStringTagSymbol, "GeneratorFunction")), genFun.prototype = Object.create(Gp), genFun; }, exports.awrap = function (arg) { return { __await: arg }; }, defineIteratorMethods(AsyncIterator.prototype), define(AsyncIterator.prototype, asyncIteratorSymbol, function () { return this; }), exports.AsyncIterator = AsyncIterator, exports.async = function (innerFn, outerFn, self, tryLocsList, PromiseImpl) { void 0 === PromiseImpl && (PromiseImpl = Promise); var iter = new AsyncIterator(wrap(innerFn, outerFn, self, tryLocsList), PromiseImpl); return exports.isGeneratorFunction(outerFn) ? iter : iter.next().then(function (result) { return result.done ? result.value : iter.next(); }); }, defineIteratorMethods(Gp), define(Gp, toStringTagSymbol, "Generator"), define(Gp, iteratorSymbol, function () { return this; }), define(Gp, "toString", function () { return "[object Generator]"; }), exports.keys = function (object) { var keys = []; for (var key in object) { keys.push(key); } return keys.reverse(), function next() { for (; keys.length;) { var key = keys.pop(); if (key in object) return next.value = key, next.done = !1, next; } return next.done = !0, next; }; }, exports.values = values, Context.prototype = { constructor: Context, reset: function reset(skipTempReset) { if (this.prev = 0, this.next = 0, this.sent = this._sent = undefined, this.done = !1, this.delegate = null, this.method = "next", this.arg = undefined, this.tryEntries.forEach(resetTryEntry), !skipTempReset) for (var name in this) { "t" === name.charAt(0) && hasOwn.call(this, name) && !isNaN(+name.slice(1)) && (this[name] = undefined); } }, stop: function stop() { this.done = !0; var rootRecord = this.tryEntries[0].completion; if ("throw" === rootRecord.type) throw rootRecord.arg; return this.rval; }, dispatchException: function dispatchException(exception) { if (this.done) throw exception; var context = this; function handle(loc, caught) { return record.type = "throw", record.arg = exception, context.next = loc, caught && (context.method = "next", context.arg = undefined), !!caught; } for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i], record = entry.completion; if ("root" === entry.tryLoc) return handle("end"); if (entry.tryLoc <= this.prev) { var hasCatch = hasOwn.call(entry, "catchLoc"), hasFinally = hasOwn.call(entry, "finallyLoc"); if (hasCatch && hasFinally) { if (this.prev < entry.catchLoc) return handle(entry.catchLoc, !0); if (this.prev < entry.finallyLoc) return handle(entry.finallyLoc); } else if (hasCatch) { if (this.prev < entry.catchLoc) return handle(entry.catchLoc, !0); } else { if (!hasFinally) throw new Error("try statement without catch or finally"); if (this.prev < entry.finallyLoc) return handle(entry.finallyLoc); } } } }, abrupt: function abrupt(type, arg) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.tryLoc <= this.prev && hasOwn.call(entry, "finallyLoc") && this.prev < entry.finallyLoc) { var finallyEntry = entry; break; } } finallyEntry && ("break" === type || "continue" === type) && finallyEntry.tryLoc <= arg && arg <= finallyEntry.finallyLoc && (finallyEntry = null); var record = finallyEntry ? finallyEntry.completion : {}; return record.type = type, record.arg = arg, finallyEntry ? (this.method = "next", this.next = finallyEntry.finallyLoc, ContinueSentinel) : this.complete(record); }, complete: function complete(record, afterLoc) { if ("throw" === record.type) throw record.arg; return "break" === record.type || "continue" === record.type ? this.next = record.arg : "return" === record.type ? (this.rval = this.arg = record.arg, this.method = "return", this.next = "end") : "normal" === record.type && afterLoc && (this.next = afterLoc), ContinueSentinel; }, finish: function finish(finallyLoc) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.finallyLoc === finallyLoc) return this.complete(entry.completion, entry.afterLoc), resetTryEntry(entry), ContinueSentinel; } }, "catch": function _catch(tryLoc) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.tryLoc === tryLoc) { var record = entry.completion; if ("throw" === record.type) { var thrown = record.arg; resetTryEntry(entry); } return thrown; } } throw new Error("illegal catch attempt"); }, delegateYield: function delegateYield(iterable, resultName, nextLoc) { return this.delegate = { iterator: values(iterable), resultName: resultName, nextLoc: nextLoc }, "next" === this.method && (this.arg = undefined), ContinueSentinel; } }, exports; }
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
 //
 //
 //
@@ -143,124 +152,140 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "Messages",
-  components: {},
+  components: {
+    BktCardImageCategory: _components_CardImageCategory__WEBPACK_IMPORTED_MODULE_0__["default"]
+  },
   data: function data() {
     return {
       info_categories: [{
         id: 1,
+        code: 'platform',
         title: 'сообщения платформы',
         color: 'green'
       }, {
         id: 2,
+        code: 'favourite',
         title: 'избранное',
         color: 'yellow'
       }, {
         id: 3,
+        code: 'monitoring',
         title: 'мониторинг',
         color: 'red'
-      }, {
-        id: 4,
-        title: 'организатор',
-        color: 'purple'
       }],
-      monitoring_filter: {
-        cars: true,
-        flats: true
-      },
-      messages: [{
-        img: '',
-        note: 'Внимание! Обновление на сайте! Мы улучшили нашу работу, добавив возможность закрепить лот вверху списка.',
-        date: '14 марта 2022 в 15:31',
-        category: {
-          id: 1,
-          title: 'сообщения платформы',
-          color: 'green'
-        },
-        read: false
-      }, {
-        img: 'bmw',
-        title: 'БМВ Х5 (ЛОТ №50697876056078)',
-        note: 'Прием заявок заканчивается через 3 дня!',
-        date: '5 апреля 2022 в 20:00',
-        category: {
-          id: 2,
-          title: 'избранное',
-          color: 'yellow'
-        },
-        read: false
-      }, {
-        img: 'flat',
-        newLot: 'flat',
-        title: 'Новые лоты "Квартиры"',
-        note: 'ЛОТ №3456743, 3К КВАРТИРА ДОЛГОПРУДНЫЙ',
-        date: '12 апреля 2022 в 10:56',
-        category: {
-          id: 3,
-          title: 'мониторинг',
-          color: 'red'
-        },
-        read: true
-      }, {
-        img: 'bmw',
-        title: 'ИВАНОВ НИКОЛАЙ ДМИТРИЕВИЧ',
-        note: 'Здравствуйте, Сергей! Пока данных по лоту №83067 нет. Уточняю.',
-        date: '5 апреля 2022 в 20:00',
-        category: {
-          id: 4,
-          title: 'организатор',
-          color: 'purple'
-        },
-        read: true
-      }, {
-        img: '',
-        note: 'Сегодня последний день платной подписки. Пожалуйста, не забудьте продлить доступ!',
-        date: '14 марта 2022 в 15:31',
-        category: {
-          id: 1,
-          title: 'сообщения платформы',
-          color: 'green'
-        },
-        read: false,
-        btnText: 'Продлить подписку'
-      }],
-      selectedCategory: 0,
-      countMessages: {
-        all: 0,
-        platform: 0,
-        favourites: 0,
-        monitoring: 0,
-        organization: 0
-      }
+      selectedType: 'all',
+      type_loading: false
     };
   },
+  created: function created() {
+    this.getData();
+  },
   computed: {
-    displayedMessages: function displayedMessages() {
-      var _this = this;
-
-      var sortMessages = this.messages.sort(function (a, b) {
-        return a.read - b.read;
-      });
-      return sortMessages.filter(function (data) {
-        return _this.selectedCategory == 0 || data.category.id == _this.selectedCategory;
-      });
+    items: function items() {
+      return this.$store.getters.notifications;
+    },
+    pagination_data: function pagination_data() {
+      return this.$store.getters.notifications_pagination;
+    },
+    loading: function loading() {
+      return this.$store.getters.notifications_loading;
+    },
+    notifications_count: function notifications_count() {
+      return this.$store.getters.notifications_count;
     }
   },
-  mounted: function mounted() {
-    this.countMessages.all = this.messages.length;
-    this.countMessages.platform = this.messages.filter(function (item) {
-      return item.category.id == 1 && !item.read;
-    }).length;
-    this.countMessages.favourites = this.messages.filter(function (item) {
-      return item.category.id == 2 && !item.read;
-    }).length;
-    this.countMessages.monitoring = this.messages.filter(function (item) {
-      return item.category.id == 3 && !item.read;
-    }).length;
-    this.countMessages.organization = this.messages.filter(function (item) {
-      return item.category.id == 4 && !item.read;
-    }).length;
+  mounted: function mounted() {},
+  methods: {
+    getData: function getData() {
+      var _arguments = arguments,
+          _this = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
+        var page;
+        return _regeneratorRuntime().wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                page = _arguments.length > 0 && _arguments[0] !== undefined ? _arguments[0] : 1;
+                _context.next = 3;
+                return _this.$store.dispatch('getNotifications', {
+                  page: page,
+                  type: _this.selectedType
+                });
+
+              case 3:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee);
+      }))();
+    },
+    setType: function setType(type) {
+      var _this2 = this;
+
+      this.type_loading = true;
+      this.selectedType = type;
+      this.getData(1).then(function (resp) {
+        _this2.type_loading = false;
+      })["catch"](function (resp) {
+        _this2.type_loading = false;
+      });
+    }
   }
 });
 
@@ -350,369 +375,321 @@ var render = function () {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    { staticClass: "container bkt-messages bkt-page bkt-container" },
-    [
-      _c("h1", { staticClass: "bkt-page__title bkt-auctions__title" }, [
-        _vm._v("\n            Сообщения\n        "),
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "bkt-content" }, [
-        _c("div", { staticClass: "row" }, [
-          _c("div", { staticClass: "col-12 col-lg-3" }, [
-            _c("div", { staticClass: "bkt-history__chats" }, [
-              _c("ul", { staticClass: "list-unstyled text-left pt-4 pb-4" }, [
-                _c(
-                  "li",
-                  {
-                    staticClass: "bkt-chat",
-                    class: {
-                      "bkt-bg-primary-lighter": _vm.selectedCategory == 0,
-                    },
-                    attrs: { id: "chat-1" },
-                    on: {
-                      click: function ($event) {
-                        _vm.selectedCategory = 0
-                      },
+  return _c("div", { staticClass: "bkt-messages bkt-page bkt-container" }, [
+    _c("h1", { staticClass: "bkt-page__title" }, [
+      _vm._v("\n        Сообщения\n    "),
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "bkt-content" }, [
+      _c("div", { staticClass: "row" }, [
+        _c("div", { staticClass: "col-12 col-lg-3" }, [
+          _c("div", { staticClass: "bkt-history__chats" }, [
+            _c("ul", { staticClass: "list-unstyled text-left pt-4 pb-4" }, [
+              _c(
+                "li",
+                {
+                  staticClass: "bkt-chat",
+                  class: {
+                    "bkt-bg-primary-lighter": _vm.selectedType == "all",
+                  },
+                  attrs: { id: "chat-1" },
+                  on: {
+                    click: function ($event) {
+                      return _vm.setType("all")
                     },
                   },
-                  [
-                    _c("span", [_vm._v("Все")]),
-                    _vm._v(" "),
-                    _c(
-                      "div",
-                      {
-                        staticClass:
-                          "rounded-pill bkt-bg-primary bkt-text-neutral-light",
-                      },
-                      [
-                        _vm.countMessages.all > 0
-                          ? _c("span", { staticClass: "p-2" }, [
-                              _vm._v(_vm._s(_vm.countMessages.all)),
-                            ])
-                          : _vm._e(),
-                      ]
-                    ),
-                  ]
-                ),
-                _vm._v(" "),
-                _c(
-                  "li",
-                  {
-                    staticClass: "bkt-chat",
-                    class: {
-                      "bkt-bg-green-lighter": _vm.selectedCategory == 1,
-                    },
-                    attrs: { id: "chat-2" },
-                    on: {
-                      click: function ($event) {
-                        _vm.selectedCategory = 1
-                      },
-                    },
-                  },
-                  [
-                    _c(
-                      "div",
-                      { staticClass: "bkt-chat__text" },
-                      [
-                        _c("bkt-icon", {
-                          staticClass: "mr-2",
-                          attrs: {
-                            name: "Bell",
-                            color: "green",
-                            width: "15px",
-                            height: "15px",
-                          },
-                        }),
-                        _vm._v(" "),
-                        _c("span", [_vm._v("Сообщения платформы")]),
-                      ],
-                      1
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "div",
-                      {
-                        staticClass:
-                          "bkt-chat__num rounded-pill bkt-bg-green bkt-text-neutral-light",
-                      },
-                      [
-                        _vm.countMessages.platform > 0
-                          ? _c("span", { staticClass: "p-2" }, [
-                              _vm._v(_vm._s(_vm.countMessages.platform)),
-                            ])
-                          : _vm._e(),
-                      ]
-                    ),
-                  ]
-                ),
-                _vm._v(" "),
-                _c(
-                  "li",
-                  {
-                    staticClass: "bkt-chat",
-                    class: {
-                      "bkt-bg-yellow-lighter": _vm.selectedCategory == 2,
-                    },
-                    attrs: { id: "chat-3" },
-                    on: {
-                      click: function ($event) {
-                        _vm.selectedCategory = 2
-                      },
-                    },
-                  },
-                  [
-                    _c(
-                      "div",
-                      { staticClass: "bkt-chat__text" },
-                      [
-                        _c("bkt-icon", {
-                          staticClass: "mr-2",
-                          attrs: {
-                            name: "Star",
-                            color: "yellow",
-                            width: "15px",
-                            height: "15px",
-                          },
-                        }),
-                        _vm._v(" "),
-                        _c("span", [_vm._v("Избранное")]),
-                      ],
-                      1
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "div",
-                      {
-                        staticClass:
-                          "bkt-chat__num rounded-pill bkt-bg-yellow bkt-text-neutral-light",
-                      },
-                      [
-                        _vm.countMessages.favourites > 0
-                          ? _c("span", { staticClass: "p-2" }, [
-                              _vm._v(_vm._s(_vm.countMessages.favourites)),
-                            ])
-                          : _vm._e(),
-                      ]
-                    ),
-                  ]
-                ),
-                _vm._v(" "),
-                _c(
-                  "li",
-                  {
-                    staticClass: "bkt-chat",
-                    class: { "bkt-bg-red-lighter": _vm.selectedCategory == 3 },
-                    attrs: { id: "chat-4" },
-                    on: {
-                      click: function ($event) {
-                        _vm.selectedCategory = 3
-                      },
-                    },
-                  },
-                  [
-                    _c(
-                      "div",
-                      { staticClass: "bkt-chat__text" },
-                      [
-                        _c("bkt-icon", {
-                          staticClass: "mr-2",
-                          attrs: {
-                            name: "Target",
-                            color: "red",
-                            width: "15px",
-                            height: "15px",
-                          },
-                        }),
-                        _vm._v(" "),
-                        _c("span", [_vm._v("Мониторинг")]),
-                      ],
-                      1
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "div",
-                      {
-                        staticClass:
-                          "rounded-pill bkt-bg-red bkt-text-neutral-light",
-                      },
-                      [
-                        _vm.countMessages.monitoring > 0
-                          ? _c("span", { staticClass: "p-2" }, [
-                              _vm._v(_vm._s(_vm.countMessages.monitoring)),
-                            ])
-                          : _vm._e(),
-                      ]
-                    ),
-                  ]
-                ),
-              ]),
-            ]),
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "col-12 col-lg-9" }, [
-            _c("div", { staticClass: "bkt-history__messages" }, [
-              _vm.selectedCategory == 3
-                ? _c(
+                },
+                [
+                  _c("span", [_vm._v("Все")]),
+                  _vm._v(" "),
+                  _c(
                     "div",
-                    { staticClass: "bkt-monitoring-checkboxes text-left mb-4" },
+                    {
+                      staticClass:
+                        "bkt-chat__num rounded-pill bkt-bg-primary bkt-text-neutral-light",
+                    },
                     [
-                      _c("bkt-checkbox", {
+                      _vm.notifications_count.all > 0
+                        ? _c("span", { staticClass: "p-2" }, [
+                            _vm._v(
+                              "\n                                    " +
+                                _vm._s(_vm.notifications_count.all) +
+                                "\n                                "
+                            ),
+                          ])
+                        : _vm._e(),
+                    ]
+                  ),
+                ]
+              ),
+              _vm._v(" "),
+              _c(
+                "li",
+                {
+                  staticClass: "bkt-chat",
+                  class: {
+                    "bkt-bg-green-lighter": _vm.selectedType == "platform",
+                  },
+                  attrs: { id: "chat-2" },
+                  on: {
+                    click: function ($event) {
+                      return _vm.setType("platform")
+                    },
+                  },
+                },
+                [
+                  _c(
+                    "div",
+                    { staticClass: "bkt-chat__text" },
+                    [
+                      _c("bkt-icon", {
                         staticClass: "mr-2",
                         attrs: {
-                          value: _vm.monitoring_filter.cars,
-                          label: "АВТО",
-                          name: "cars",
-                          wrapper_class: "bkt-check__wrapper-inline",
+                          name: "Bell",
+                          color: "green",
+                          width: "15px",
+                          height: "15px",
                         },
                       }),
                       _vm._v(" "),
-                      _c("bkt-checkbox", {
-                        attrs: {
-                          value: _vm.monitoring_filter.flats,
-                          label: "КВАРТИРЫ",
-                          name: "flats",
-                          wrapper_class: "bkt-check__wrapper-inline",
-                        },
-                      }),
+                      _c("span", [_vm._v("Сообщения платформы")]),
                     ],
                     1
-                  )
-                : _vm._e(),
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    {
+                      staticClass:
+                        "bkt-chat__num rounded-pill bkt-bg-green bkt-text-neutral-light",
+                    },
+                    [
+                      _vm.notifications_count.platform > 0
+                        ? _c("span", { staticClass: "p-2" }, [
+                            _vm._v(
+                              "\n                                    " +
+                                _vm._s(_vm.notifications_count.platform) +
+                                "\n                                "
+                            ),
+                          ])
+                        : _vm._e(),
+                    ]
+                  ),
+                ]
+              ),
               _vm._v(" "),
               _c(
-                "ul",
-                { staticClass: "list-unstyled bkt-messages__block" },
-                _vm._l(_vm.displayedMessages, function (message, index) {
-                  return message
-                    ? _c(
-                        "li",
-                        {
-                          key: index,
-                          staticClass:
-                            "bkt-chat__item d-flex justify-content-between position-relative",
+                "li",
+                {
+                  staticClass: "bkt-chat",
+                  class: {
+                    "bkt-bg-yellow-lighter": _vm.selectedType == "favourite",
+                  },
+                  attrs: { id: "chat-3" },
+                  on: {
+                    click: function ($event) {
+                      return _vm.setType("favourite")
+                    },
+                  },
+                },
+                [
+                  _c(
+                    "div",
+                    { staticClass: "bkt-chat__text" },
+                    [
+                      _c("bkt-icon", {
+                        staticClass: "mr-2",
+                        attrs: {
+                          name: "Star",
+                          color: "yellow",
+                          width: "15px",
+                          height: "15px",
                         },
-                        [
-                          _c("bkt-icon", {
-                            staticClass: "mr-2 position-absolute bkt-icon-done",
-                            attrs: {
-                              name: "Check",
-                              color: message.read ? "primary" : "main-lighter",
-                              width: "15px",
-                              height: "15px",
-                            },
-                          }),
-                          _vm._v(" "),
-                          _c(
+                      }),
+                      _vm._v(" "),
+                      _c("span", [_vm._v("Избранное")]),
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    {
+                      staticClass:
+                        "bkt-chat__num rounded-pill bkt-bg-yellow bkt-text-neutral-light",
+                    },
+                    [
+                      _vm.notifications_count.favourite > 0
+                        ? _c("span", { staticClass: "p-2" }, [
+                            _vm._v(
+                              "\n                                    " +
+                                _vm._s(_vm.notifications_count.favourite) +
+                                "\n                                "
+                            ),
+                          ])
+                        : _vm._e(),
+                    ]
+                  ),
+                ]
+              ),
+              _vm._v(" "),
+              _c(
+                "li",
+                {
+                  staticClass: "bkt-chat",
+                  class: {
+                    "bkt-bg-red-lighter": _vm.selectedType == "monitoring",
+                  },
+                  attrs: { id: "chat-4" },
+                  on: {
+                    click: function ($event) {
+                      return _vm.setType("monitoring")
+                    },
+                  },
+                },
+                [
+                  _c(
+                    "div",
+                    { staticClass: "bkt-chat__text" },
+                    [
+                      _c("bkt-icon", {
+                        staticClass: "mr-2",
+                        attrs: {
+                          name: "Target",
+                          color: "red",
+                          width: "15px",
+                          height: "15px",
+                        },
+                      }),
+                      _vm._v(" "),
+                      _c("span", [_vm._v("Мониторинг")]),
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    {
+                      staticClass:
+                        "rounded-pill bkt-bg-red bkt-text-neutral-light",
+                    },
+                    [
+                      _vm.notifications_count.monitoring > 0
+                        ? _c("span", { staticClass: "p-2" }, [
+                            _vm._v(
+                              "\n                                    " +
+                                _vm._s(_vm.notifications_count.monitoring) +
+                                "\n                                "
+                            ),
+                          ])
+                        : _vm._e(),
+                    ]
+                  ),
+                ]
+              ),
+            ]),
+          ]),
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "col-12 col-lg-9 bkt-gap-row-medium" }, [
+          _c(
+            "div",
+            { staticClass: "bkt-wrapper-column bkt-gap-row-medium" },
+            [
+              !_vm.loading
+                ? _c(
+                    "div",
+                    { staticClass: "bkt-wrapper-column bkt-gap-mini" },
+                    _vm._l(_vm.items, function (message, index) {
+                      return message
+                        ? _c(
                             "div",
-                            {
-                              staticClass:
-                                "d-md-none bkt-item-title d-flex mb-3 text-left",
-                            },
+                            { key: index, staticClass: "bkt-message" },
                             [
-                              _c(
-                                "span",
-                                { staticClass: "bkt-text-neutral-dark" },
-                                [_vm._v(_vm._s(message.date))]
-                              ),
+                              _c("bkt-icon", {
+                                staticClass: "bkt-message__check",
+                                attrs: {
+                                  name: "Check",
+                                  color: message.isSeen
+                                    ? "primary"
+                                    : "main-lighter",
+                                  width: "15px",
+                                  height: "15px",
+                                },
+                              }),
                               _vm._v(" "),
                               _c(
                                 "div",
                                 {
                                   staticClass:
-                                    "bkt-chat-content__info text-right",
+                                    "d-md-none bkt-wrapper-between w-100",
                                 },
                                 [
                                   _c(
-                                    "p",
-                                    {
-                                      class:
-                                        "bkt-bg-" +
-                                        message.category.color +
-                                        "-lighter bkt-text-" +
-                                        message.category.color,
-                                    },
+                                    "h6",
+                                    { staticClass: "bkt-message__date" },
                                     [
                                       _vm._v(
-                                        "\n                                            " +
-                                          _vm._s(message.category.title) +
-                                          "\n                                        "
+                                        "\n                                    " +
+                                          _vm._s(
+                                            _vm._f("moment")(
+                                              message.date,
+                                              "D MMMM YYYY"
+                                            )
+                                          ) +
+                                          " в " +
+                                          _vm._s(
+                                            _vm._f("moment")(
+                                              message.date,
+                                              "HH:mm"
+                                            )
+                                          ) +
+                                          "\n                                "
                                       ),
                                     ]
                                   ),
-                                ]
-                              ),
-                            ]
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "div",
-                            { staticClass: "bkt-item-content text-left" },
-                            [
-                              _c(
-                                "div",
-                                {
-                                  staticClass:
-                                    "bkt-content-message d-flex mb-3",
-                                },
-                                [
-                                  message.img
-                                    ? _c(
-                                        "div",
-                                        {
-                                          staticClass: "bkt-chat-content__logo",
-                                        },
-                                        [
-                                          _c("img", {
-                                            attrs: {
-                                              src: "",
-                                              alt: "",
-                                              width: "100%",
-                                              height: "100%",
-                                            },
-                                          }),
-                                        ]
-                                      )
-                                    : _vm._e(),
                                   _vm._v(" "),
                                   _c(
                                     "div",
-                                    { staticClass: "bkt-chat-content__text" },
+                                    {
+                                      staticClass:
+                                        "bkt-chat-content__info text-right",
+                                    },
                                     [
-                                      message.title
-                                        ? _c(
-                                            "p",
-                                            {
-                                              staticClass: "mb-0",
-                                              class: {
-                                                "bkt-text-title bkt-arrow-after bkt-cursor-pointer":
-                                                  !message.newLot,
-                                              },
-                                            },
-                                            [
-                                              _vm._v(
-                                                "\n                                                " +
-                                                  _vm._s(message.title) +
-                                                  "\n                                            "
-                                              ),
-                                            ]
-                                          )
-                                        : _vm._e(),
-                                      _vm._v(" "),
                                       _c(
-                                        "p",
+                                        "div",
                                         {
-                                          staticClass: "mb-0",
+                                          staticClass: "bkt-message__type",
                                           class: {
-                                            "bkt-text-title bkt-arrow-after bkt-text-hidden bkt-cursor-pointer":
-                                              message.newLot,
+                                            "bkt-bg-red-lighter bkt-text-red":
+                                              message.type == "monitoring",
+                                            "bkt-bg-yellow-lighter bkt-text-yellow":
+                                              message.type == "favourite",
+                                            "bkt-bg-green-lighter bkt-text-green":
+                                              message.type == "platform",
                                           },
                                         },
                                         [
                                           _vm._v(
-                                            "\n                                                " +
-                                              _vm._s(message.note)
+                                            "\n                                        " +
+                                              _vm._s(
+                                                message.type == "monitoring"
+                                                  ? "мониторинг"
+                                                  : ""
+                                              ) +
+                                              "\n                                        " +
+                                              _vm._s(
+                                                message.type == "favourite"
+                                                  ? "избранное"
+                                                  : ""
+                                              ) +
+                                              "\n                                        " +
+                                              _vm._s(
+                                                message.type == "platform"
+                                                  ? "сообщения платформы"
+                                                  : ""
+                                              ) +
+                                              "\n                                    "
                                           ),
                                         ]
                                       ),
@@ -721,75 +698,345 @@ var render = function () {
                                 ]
                               ),
                               _vm._v(" "),
-                              message.btnText
-                                ? _c(
-                                    "button",
+                              _c(
+                                "div",
+                                {
+                                  staticClass:
+                                    "bkt-wrapper-column bkt-message__content",
+                                },
+                                [
+                                  _c(
+                                    "div",
                                     {
                                       staticClass:
-                                        "btn bkt-button p-4 primary mb-3",
+                                        "bkt-wrapper bkt-nowrap  me-auto ms-0",
+                                    },
+                                    [
+                                      message.type == "favourite"
+                                        ? _c(
+                                            "div",
+                                            {
+                                              staticClass:
+                                                "bkt-message__image-wrapper",
+                                            },
+                                            [
+                                              (!message.dataFavourite.photos ||
+                                                message.dataFavourite.photos
+                                                  .length == 0) &&
+                                              message.dataFavourite
+                                                .categories &&
+                                              message.dataFavourite.categories
+                                                .length > 0
+                                                ? _c(
+                                                    "bkt-card-image-category",
+                                                    {
+                                                      attrs: {
+                                                        categories:
+                                                          message.dataFavourite
+                                                            .categories,
+                                                      },
+                                                    }
+                                                  )
+                                                : _vm._e(),
+                                              _vm._v(" "),
+                                              message.dataFavourite.photos &&
+                                              message.dataFavourite.photos
+                                                .length > 0
+                                                ? _c("img", {
+                                                    staticClass:
+                                                      "bkt-message__image",
+                                                    attrs: {
+                                                      src: message.dataFavourite
+                                                        .photos[0].preview,
+                                                      alt: "",
+                                                    },
+                                                  })
+                                                : _vm._e(),
+                                            ],
+                                            1
+                                          )
+                                        : _vm._e(),
+                                      _vm._v(" "),
+                                      _c(
+                                        "div",
+                                        {
+                                          staticClass: "bkt-chat-content__text",
+                                        },
+                                        [
+                                          message.type == "monitoring" &&
+                                          message.dataMonitoring
+                                            ? _c(
+                                                "div",
+                                                {
+                                                  staticClass: "bkt-badge m-0",
+                                                  class: message.dataMonitoring
+                                                    .folderInfo.color
+                                                    ? "bkt-bg-" +
+                                                      message.dataMonitoring
+                                                        .folderInfo.color
+                                                    : "bkt-bg-primary",
+                                                },
+                                                [
+                                                  _vm._v(
+                                                    "\n                                            " +
+                                                      _vm._s(
+                                                        message.dataMonitoring
+                                                          .folderInfo.name
+                                                      ) +
+                                                      "\n                                        "
+                                                  ),
+                                                ]
+                                              )
+                                            : _vm._e(),
+                                          _vm._v(" "),
+                                          message.type == "monitoring"
+                                            ? _c(
+                                                "h5",
+                                                {
+                                                  staticClass:
+                                                    "bkt-message__text",
+                                                },
+                                                [
+                                                  _vm._v(
+                                                    "\n                                            Появились новые лоты в мониторинге:\n                                            " +
+                                                      _vm._s(
+                                                        message.dataMonitoring
+                                                          ? message
+                                                              .dataMonitoring
+                                                              .newLotCount
+                                                          : "0"
+                                                      ) +
+                                                      "\n                                        "
+                                                  ),
+                                                ]
+                                              )
+                                            : _vm._e(),
+                                          _vm._v(" "),
+                                          message.type == "platform" &&
+                                          message.dataPlatform
+                                            ? _c(
+                                                "h6",
+                                                {
+                                                  staticClass:
+                                                    "bkt-message__title",
+                                                },
+                                                [
+                                                  _vm._v(
+                                                    "\n                                            " +
+                                                      _vm._s(
+                                                        message.dataPlatform
+                                                          .label
+                                                      ) +
+                                                      "\n                                        "
+                                                  ),
+                                                ]
+                                              )
+                                            : _vm._e(),
+                                          _vm._v(" "),
+                                          message.type == "platform"
+                                            ? _c(
+                                                "h5",
+                                                {
+                                                  staticClass:
+                                                    "bkt-message__text",
+                                                },
+                                                [
+                                                  _vm._v(
+                                                    "\n                                            " +
+                                                      _vm._s(
+                                                        message.dataPlatform
+                                                          ? message.dataPlatform
+                                                              .value
+                                                          : ""
+                                                      ) +
+                                                      "\n                                        "
+                                                  ),
+                                                ]
+                                              )
+                                            : _vm._e(),
+                                          _vm._v(" "),
+                                          message.type == "favourite" &&
+                                          message.dataFavourite
+                                            ? _c(
+                                                "router-link",
+                                                {
+                                                  staticClass:
+                                                    "bkt-card__title bkt-text-truncate",
+                                                  attrs: {
+                                                    to:
+                                                      "/lot/" +
+                                                      message.dataFavourite.id,
+                                                  },
+                                                },
+                                                [
+                                                  message.type == "favourite" &&
+                                                  message.dataFavourite
+                                                    ? _c(
+                                                        "h6",
+                                                        {
+                                                          staticClass:
+                                                            "bkt-message__title bkt-text-truncate bkt-arrow-after bkt-cursor-pointer",
+                                                        },
+                                                        [
+                                                          _vm._v(
+                                                            "\n                                                " +
+                                                              _vm._s(
+                                                                message
+                                                                  .dataFavourite
+                                                                  .description
+                                                              ) +
+                                                              "\n                                            "
+                                                          ),
+                                                        ]
+                                                      )
+                                                    : _vm._e(),
+                                                ]
+                                              )
+                                            : _vm._e(),
+                                          _vm._v(" "),
+                                          message.type == "favourite"
+                                            ? _c(
+                                                "h5",
+                                                {
+                                                  staticClass:
+                                                    "bkt-message__text",
+                                                },
+                                                [
+                                                  _vm._v(
+                                                    "\n                                            " +
+                                                      _vm._s(
+                                                        message.dataFavourite
+                                                          ? message
+                                                              .dataFavourite
+                                                              .detail
+                                                          : ""
+                                                      ) +
+                                                      "\n                                        "
+                                                  ),
+                                                ]
+                                              )
+                                            : _vm._e(),
+                                        ],
+                                        1
+                                      ),
+                                    ]
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "h6",
+                                    {
+                                      staticClass:
+                                        "d-none d-md-block bkt-message__date",
                                     },
                                     [
                                       _vm._v(
-                                        "\n                                        " +
-                                          _vm._s(message.btnText) +
-                                          "\n                                    "
+                                        "\n                                    " +
+                                          _vm._s(
+                                            _vm._f("moment")(
+                                              message.date,
+                                              "D MMMM YYYY"
+                                            )
+                                          ) +
+                                          " в " +
+                                          _vm._s(
+                                            _vm._f("moment")(
+                                              message.date,
+                                              "HH:mm"
+                                            )
+                                          ) +
+                                          "\n                                "
                                       ),
                                     ]
-                                  )
-                                : _vm._e(),
-                              _vm._v(" "),
-                              _c("br", { staticClass: "d-none d-md-block" }),
-                              _vm._v(" "),
-                              _c(
-                                "span",
-                                {
-                                  staticClass:
-                                    "d-none d-md-block bkt-text-neutral-dark",
-                                },
-                                [_vm._v(_vm._s(message.date))]
-                              ),
-                            ]
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "div",
-                            {
-                              staticClass:
-                                "d-none d-md-block bkt-chat-content__info text-right",
-                            },
-                            [
-                              _c(
-                                "p",
-                                {
-                                  class:
-                                    "bkt-bg-" +
-                                    message.category.color +
-                                    "-lighter bkt-text-" +
-                                    message.category.color,
-                                },
-                                [
-                                  _vm._v(
-                                    "\n                                        " +
-                                      _vm._s(message.category.title) +
-                                      "\n                                    "
                                   ),
                                 ]
                               ),
-                            ]
-                          ),
-                        ],
-                        1
-                      )
-                    : _vm._e()
-                }),
-                0
-              ),
-            ]),
-          ]),
+                              _vm._v(" "),
+                              _c(
+                                "div",
+                                {
+                                  staticClass:
+                                    "bkt-message__type d-none d-md-block ",
+                                  class: {
+                                    "bkt-bg-red-lighter bkt-text-red":
+                                      message.type == "monitoring",
+                                    "bkt-bg-yellow-lighter bkt-text-yellow":
+                                      message.type == "favourite",
+                                    "bkt-bg-green-lighter bkt-text-green":
+                                      message.type == "platform",
+                                  },
+                                },
+                                [
+                                  _vm._v(
+                                    "\n                                " +
+                                      _vm._s(
+                                        message.type == "monitoring"
+                                          ? "мониторинг"
+                                          : ""
+                                      ) +
+                                      "\n                                " +
+                                      _vm._s(
+                                        message.type == "favourite"
+                                          ? "избранное"
+                                          : ""
+                                      ) +
+                                      "\n                                " +
+                                      _vm._s(
+                                        message.type == "platform"
+                                          ? "сообщения платформы"
+                                          : ""
+                                      ) +
+                                      "\n                            "
+                                  ),
+                                ]
+                              ),
+                            ],
+                            1
+                          )
+                        : _vm._e()
+                    }),
+                    0
+                  )
+                : _vm._e(),
+              _vm._v(" "),
+              _vm.loading || _vm.type_loading
+                ? _c(
+                    "div",
+                    { staticClass: "d-flex w-100 justify-content-center my-5" },
+                    [
+                      _vm._t("loading", function () {
+                        return [
+                          _c("div", {
+                            staticClass: "spinner-border",
+                            staticStyle: {
+                              color: "#2953ff",
+                              "border-width": "2px",
+                            },
+                            attrs: { role: "status" },
+                          }),
+                        ]
+                      }),
+                    ],
+                    2
+                  )
+                : _vm._e(),
+              _vm._v(" "),
+              _vm.pagination_data && !_vm.type_loading
+                ? _c("bkt-pagination", {
+                    attrs: {
+                      limit: 1,
+                      data: _vm.pagination_data,
+                      extraControls: false,
+                    },
+                    on: { "change-page": _vm.getData },
+                  })
+                : _vm._e(),
+            ],
+            1
+          ),
         ]),
       ]),
-    ]
-  )
+    ]),
+  ])
 }
 var staticRenderFns = []
 render._withStripped = true

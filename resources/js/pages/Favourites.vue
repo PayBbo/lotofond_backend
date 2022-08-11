@@ -7,7 +7,7 @@
                     <div class="d-flex bkt-wrapper-down-md-between bkt-w-md-100 bkt-gap-small bkt-gap-down-sm-mini">
                         <button class="bkt-button-icon bkt-favourites__filters-action d-none d-md-block"
                                 :class="search_mode ? 'bkt-bg-primary shadow': 'bkt-bg-white'"
-                                @click="search_mode = !search_mode">
+                                @click="search_mode = !search_mode" :disabled="loading">
                             <bkt-icon class="bkt-button__icon" :name="'Search'"
                                       :color="search_mode ? 'white': 'primary'"></bkt-icon>
                         </button>
@@ -369,7 +369,6 @@
         },
         methods: {
             async getData(page = 1) {
-                console.log('getData')
                 this.loading = true;
                 this.params.page = page;
                 this.params.pathId = this.current_path;

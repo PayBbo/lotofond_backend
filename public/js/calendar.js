@@ -230,6 +230,10 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       selected_date: ''
     };
   },
+  created: function created() {
+    this.nowDate.month = new Date().getMonth();
+    this.nowDate.year = new Date().getFullYear();
+  },
   computed: {
     items: function items() {
       var _this = this;
@@ -245,12 +249,13 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       var _this2 = this;
 
       return this.items.map(function (item) {
-        var _this2$colors$find$co, _ref;
+        var _item$id, _this2$colors$find$co, _ref;
 
         return {
           key: item.id,
           dates: item.date,
           customData: {
+            id: (_item$id = item.id) !== null && _item$id !== void 0 ? _item$id : 0,
             title: item.title,
             subtitle: _this2.events.find(function (event) {
               return event.type == item.type;
@@ -369,6 +374,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       var _this7 = this;
 
       this.selected_event = event;
+      console.log('event', event);
       this.$refs.editEventModal.setEvent(event);
       this.$nextTick(function () {
         _this7.$store.commit('openModal', '#editEventModal');
@@ -392,10 +398,6 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
         this.addEvent(null);
       }
     }
-  },
-  created: function created() {
-    this.nowDate.month = new Date().getMonth();
-    this.nowDate.year = new Date().getFullYear();
   }
 });
 
@@ -890,6 +892,8 @@ component.options.__file = "resources/js/pages/Calendar.vue"
   !*** ./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/pages/Calendar.vue?vue&type=style&index=0&id=f1e19272&lang=postcss&scoped=true& ***!
   \*****************************************************************************************************************************************************************/
 /***/ (() => {
+
+
 
 
 

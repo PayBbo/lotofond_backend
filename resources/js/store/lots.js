@@ -62,6 +62,18 @@ export default {
         * DELETE
         * /files/{id}
         * Удаление пользовательского файла/картинки
+        *
+        * POST
+        * /note
+        * Добавление заметки к лоту/организатору торгов
+        *
+        *  PUT
+        *  /note/edit
+        * Редактирование заметки к лоту/организатору торгов
+        *
+        * DELETE
+        * /note/delete
+        *  Удаление заметки к лоту/организатору торгов
         */
         getCategoriesStatistic({commit}, payload) {
             return axios.get('/api/statistics/categories', payload);
@@ -103,6 +115,32 @@ export default {
             // }).catch(error => {
             // });
         },
+        async addLotNote({commit}, payload) {
+            return await axios.post('/api/note', payload);
+            // .then((response) => {
+            //     commit('addFile', response.data)
+            // }).catch(error => {
+            //     console.log(error);
+            //     throw error
+            // });
+        },
+        async editLotNote({commit}, payload) {
+            return await axios.put('/api/note/edit', payload);
+            // .then((response) => {
+            //     commit('addFile', response.data)
+            // }).catch(error => {
+            //     console.log(error);
+            //     throw error
+            // });
+        },
+        async removeLotNote({dispatch, commit}, payload) {
+            return await axios.delete(`/api/note/delete`, {params:payload})
+            // .then(response => {
+            //     commit('removeFile', payload.id);
+            // }).catch(error => {
+            // });
+        },
+
     },
 
 };

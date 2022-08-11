@@ -10,14 +10,14 @@ use Carbon\Carbon;
 class NoteController extends Controller
 {
     public function addNote(NoteStoreRequest $request){
-        Note::create([
+        $note = Note::create([
            'user_id'=>auth()->id(),
            'title'=>$request->title,
            'item_id'=>$request->itemId,
            'item_type'=>$request->itemType,
            'date'=>Carbon::now()->setTimezone('Europe/Moscow')
         ]);
-        return response(null, 200);
+        return response($note, 200);
     }
 
     public function editNote(NoteUpdateRequest $request){
