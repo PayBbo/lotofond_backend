@@ -28,5 +28,6 @@ class FixedLot extends Model
         'id' => 'integer',
         'user_id' => 'integer',
         'lot_id' => 'integer',
+        'created_at'=>'timestamp'
     ];
 }

@@ -130,7 +130,7 @@ class AuctionController extends Controller
                 if ($user->fixedLots->contains($lot)) {
                     $user->fixedLots()->detach($lot);
                 } else {
-                    $user->fixedLots()->attach($lot);
+                    $user->fixedLots()->attach($lot, ['created_at'=>Carbon::now()->setTimezone('Europe/Moscow')]);
                 }
             }
             case 'hidden':

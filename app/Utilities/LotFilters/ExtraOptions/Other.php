@@ -31,10 +31,12 @@ class Other extends SortQuery implements SortContract
                 $q->where('id', 10);
             });
         }
-        if(!is_null($value) && isset($value['isHidden']) && $value['isHidden'] === true) {
-            $this->query->whereHas('status', function ($q)  {
-                $q->where('id', 8);
-            });
+        if(!is_null($value) && isset($value['isHidden']) && $value['isHidden'] === true && auth()->check()) {
+            $this->query->has('userHiddenLot');
+        }
+
+        if(!is_null($value) && isset($value['isHidden']) && $value['isHidden'] === false && auth()->check()) {
+            $this->query->doesntHave('userHiddenLot');
         }
         if(isset($minDate) && isset($maxDate)){
             $this->query->whereHas('auction', function ($q) use ($minDate, $maxDate) {

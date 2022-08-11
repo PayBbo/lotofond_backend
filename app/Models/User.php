@@ -73,7 +73,7 @@ class User extends Authenticatable
 
     public function fixedLots()
     {
-        return $this->belongsToMany(Lot::class, 'fixed_lots');
+        return $this->belongsToMany(Lot::class, 'fixed_lots')->withPivot('created_at');;
     }
 
     public function seenLots()

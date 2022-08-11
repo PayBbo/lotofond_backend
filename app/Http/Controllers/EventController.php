@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\EventStoreRequest;
 use App\Http\Requests\EventUpdateRequest;
 use App\Http\Resources\EventCollection;
+use App\Http\Resources\EventResource;
 use App\Models\Event;
 use App\Rules\IsUserEvent;
 use Illuminate\Http\Request;
@@ -27,7 +28,7 @@ class EventController extends Controller
     }
 
     public function addEvent(EventStoreRequest $request){
-        Event::create([
+        $event = Event::create([
             'date'=>$request->date,
             'time'=>$request->time,
             'title'=>$request->title,
@@ -35,7 +36,7 @@ class EventController extends Controller
             'user_id'=>auth()->id()
         ]);
 
-        return response(null, 200);
+        return response(new EventResource($event), 200);
     }
 
     public function editEvent(EventUpdateRequest $request){
@@ -45,7 +46,7 @@ class EventController extends Controller
         $event->title = $request->title;
         $event->event_type = $request->type;
         $event->save();
-        return response(null, 200);
+        return response(new EventResource($event), 200);
     }
 
     public function deleteEvent(Request $request){

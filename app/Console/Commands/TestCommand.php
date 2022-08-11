@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 
 use App\Http\Services\Parse\SoapWrapperService;
+use App\Jobs\ParseArbitrManager;
 use App\Jobs\ParseDebtor;
 use App\Jobs\ParseDebtorMessages;
 use App\Jobs\ParseTrades;
@@ -64,6 +65,8 @@ class TestCommand extends Command
                 logger($e);
             }
         }*/
-        dispatch(new ParseTrades);
+       dispatch(new ParseTrades);
+
+
     }
 }

@@ -46,7 +46,7 @@ class Notification extends Model
 
     public function lot()
     {
-        return $this->belongsTo(FavouriteLot::class);
+        return $this->belongsTo(FavouriteLot::class, 'lot_id');
     }
 
     public function user()

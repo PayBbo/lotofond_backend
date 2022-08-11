@@ -148,13 +148,13 @@ class TradeService
         if (gettype($value[$prefix . 'Classification'][$prefix . 'IDClass']) == 'array') {
             foreach ($value[$prefix . 'Classification'][$prefix . 'IDClass'] as $item) {
                 $category = Category::where('code', $item)->first();
-                if (!$lot->categories->contains($category)) {
+                if (!$lot->categories()->where('title', $category->title)->exists()) {
                     $lot->categories()->attach($category);
                 }
             }
         } else {
             $category = Category::where('code', $value[$prefix . 'Classification'][$prefix . 'IDClass'])->first();
-            if (!$lot->categories->contains($category)) {
+            if (!$lot->categories()->where('title', $category->title)->exists()) {
                 $lot->categories()->attach($category);
             }
         }

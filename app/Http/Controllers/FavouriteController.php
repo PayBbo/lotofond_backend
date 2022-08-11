@@ -88,7 +88,8 @@ class FavouriteController extends Controller
             'pathId' => ['required', 'integer', new IsUserFavouritePath()]
         ]);
         $path = Favourite::find($request->pathId);
-        $lots = $path->lots()->filterBy($request->request)->customSortBy($request)->paginate(20);
+        $lots = Lot::whereIn('id', $path->lots()->pluck('lots.id')->toArray())
+            ->filterBy($request->request)->customSortBy($request)->paginate(20);
         return response(new LotCollection($lots), 200);
 
     }
