@@ -13,8 +13,7 @@ axios.interceptors.response.use(
         const originalRequest = error.config;
         if (error.response && error.config && error.config.url !== '/api/account/refresh/token') {
             console.log('interceptors have error.response');
-            if(error.response.data)
-            {
+            if (error.response.data) {
                 // if(error.response.data.code == 401)
                 // {
                 //     app.$notify({
@@ -25,15 +24,14 @@ axios.interceptors.response.use(
                 //     });
                 // }
                 // else {
-                    if(error.response.data.code != 401 && error.response.data.detail)
-                    {
-                        app.$notify({
-                            type: 'error',
-                            title:'LotoFond',
-                            text: error.response.data.detail,
-                            duration: 5000
-                        });
-                    }
+                if (error.response.data.code != 401 && error.response.data.detail) {
+                    app.$notify({
+                        type: 'error',
+                        title: 'LotoFond',
+                        text: error.response.data.detail,
+                        duration: 5000
+                    });
+                }
                 // }
 
             }
@@ -71,6 +69,7 @@ axios.interceptors.response.use(
 
 import {ValidationProvider, extend, ValidationObserver, localize, localeChanged} from 'vee-validate';
 import * as rules from 'vee-validate/dist/rules';
+
 Object.keys(rules).forEach(rule => {
     extend(rule, rules[rule]);
 });
@@ -93,12 +92,15 @@ extend('phone', {
 });
 
 import Notifications from 'vue-notification';
+
 Vue.use(Notifications);
 
 import VueTheMask from 'vue-the-mask'
+
 Vue.use(VueTheMask);
 
 import VueLazyload from 'vue-lazyload'
+
 Vue.use(VueLazyload, {
     preLoad: 1.3,
     error: "/images/card-image1.png",
@@ -117,9 +119,11 @@ import DatePicker from 'vue2-datepicker';
 import 'vue2-datepicker/locale/ru';
 import 'vue2-datepicker/locale/en';
 import 'vue2-datepicker/locale/zh-cn';
+
 Vue.component("date-picker", DatePicker);
 
 import vSelect from "vue-select";
+
 Vue.component("v-select", vSelect);
 
 require('lang.js');
@@ -143,9 +147,11 @@ import 'hooper/dist/hooper.css';
 import VueSlickCarousel from 'vue-slick-carousel'
 import 'vue-slick-carousel/dist/vue-slick-carousel.css'
 import 'vue-slick-carousel/dist/vue-slick-carousel-theme.css'
-Vue.component('slick',  VueSlickCarousel);
+
+Vue.component('slick', VueSlickCarousel);
 
 import Fuse from 'fuse.js'
+
 Vue.prototype.$search = function (term, list, options) {
     return new Promise(function (resolve, reject) {
         var run = new Fuse(list, options);
@@ -159,7 +165,23 @@ Vue.prototype.$search = function (term, list, options) {
 };
 
 import InfiniteLoading from 'vue-infinite-loading';
+
 Vue.component('infinite-loading', InfiniteLoading);
+
+import FloatingVue from 'floating-vue';
+
+Vue.use(FloatingVue, {
+        themes: {
+            bkt: {
+                '$resetCss': false,
+                triggers: ['hover'],
+                autoHide: true,
+                placement: 'auto',
+            },
+        },
+    }
+);
+import 'floating-vue/dist/style.css'
 
 import router from './routes';
 import store from './store/index.js';
@@ -215,7 +237,7 @@ Vue.component('BktCollapse', Collapse);
 
 
 Vue.filter('priceFormat', value => {
-    if(value) {
+    if (value) {
         return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
     }
     return '0';

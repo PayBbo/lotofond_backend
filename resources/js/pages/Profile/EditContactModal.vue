@@ -3,22 +3,6 @@
                :modal_class="'bkt-code-modal'" :loading="loading" @close-modal="back"
     >
         <template #body="{ invalid }">
-<!--            <div v-if="!contact.haveAccessToOldCredentials && user[contact.grantType] && no_contact"-->
-<!--                 class="bkt-shadow-card bkt-shadow-card_blue"-->
-<!--            >-->
-<!--                <div class="bkt-shadow-card__inner bkt-gap-large">-->
-<!--                    <h5 class="bkt-card__title bkt-text-white">-->
-<!--                        &lt;!&ndash;                            Чтобы продолжить, необходимо привязать {{contact.grantType=='email'?'телефон':'электронную почту'}}.&ndash;&gt;-->
-<!--                        После подтверждения операции изменения-->
-<!--                        {{contact.grantType=='email'?'электронной почты':'номера телефона'}}-->
-<!--                        вступят в силу через 14 дней.-->
-<!--                    </h5>-->
-<!--                    <div class="bkt-shadow-card__shadow-1">-->
-<!--                    </div>-->
-<!--                    <div class="bkt-shadow-card__shadow-2">-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--            </div>-->
             <template v-if="!code_mode">
                 <bkt-input
                     v-if="contact.grantType=='email'"
@@ -30,13 +14,6 @@
                     placeholder="pochta@gmail.com"
                     no_group_item
                 >
-                    <!--                    <template #group-item-inner>-->
-                    <!--                        <button class="bkt-button primary bkt-button_code" @click="sendCode" :disabled="code_loading">-->
-                    <!--                         <span v-if="code_loading" class="spinner-border spinner-border-sm"-->
-                    <!--                               role="status"></span>-->
-                    <!--                            Выслать код-->
-                    <!--                        </button>-->
-                    <!--                    </template>-->
                 </bkt-input>
                 <bkt-input
                     v-if="contact.grantType=='phone'"
@@ -144,10 +121,6 @@
                 Подтвердить
             </button>
         </template>
-        <!--        <template #left_button_inner>-->
-        <!--            Пропустить-->
-        <!--            <bkt-icon name="ArrowDown"></bkt-icon>-->
-        <!--        </template>-->
     </bkt-modal>
 </template>
 
