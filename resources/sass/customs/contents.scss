@@ -43,7 +43,7 @@ ul.bkt-contents {
     }
 
     & .bkt-contents__answer {
-        word-break: break-all;
+        word-break: break-word;
         font-size: 14px;
         font-family: "Gilroy", sans-serif;
         color: rgb(45, 50, 68);
@@ -57,4 +57,32 @@ ul.bkt-contents {
         margin-left: 30px;
     }
 
+}
+@media screen and (max-width: 768px) {
+    ul.bkt-contents {
+
+        & li {
+            margin-bottom: 17px; /* Необязателен. Задается для установки расстояния между блоками li */
+        }
+
+        & li .bkt-contents__heading span{
+            position: relative;
+            bottom: -6px; /* Смещаем значимые блоки, чтобы они перекрыли точки */
+            padding-right: 3px; /* Необязателен. Задается чтобы точки не подходили вплотную к концу текста */
+        }
+        & li .bkt-contents__answer {
+            bottom: -6px; /* Смещаем значимые блоки, чтобы они перекрыли точки */
+        }
+
+        & .bkt-contents__heading {
+            font-size: 10px;
+            max-width: 50%;
+        }
+
+        & .bkt-contents__answer {
+            font-size: 10px;
+            margin-left: 30px;
+        }
+
+    }
 }

@@ -84,7 +84,7 @@
                     key: 'categories',
                     value: this.result
                 }, {root: true});
-                // this.$store.commit('saveFiltersProperty', {key: 'categories', value: this.model});
+                this.$store.commit('saveFiltersProperty', {key: 'filters_categories', value: this.result});
                 this.$store.commit('closeModal', '#categoryModal');
                 this.$store.dispatch(this.method_name, {page: 1, filters: this.filters});
             },
@@ -95,7 +95,7 @@
                     key: 'categories',
                     value: []
                 }, {root: true});
-                // this.$store.commit('saveFiltersProperty', {key: 'categories', value: []});
+                this.$store.commit('saveFiltersProperty', {key: 'filters_categories', value: []});
                 this.$store.commit('closeModal', '#categoryModal');
                 this.$store.dispatch(this.method_name, {page: 1, filters: this.filters});
             },

@@ -1,6 +1,5 @@
 <template>
     <div class="bkt-main bkt-page bkt-lot-card bkt-container">
-
         <nav class="bkt-wrapper bkt-nowrap m-0 bkt-breadcrumb" aria-label="breadcrumb">
             <button class="bkt-button-icon bg-white" style="margin-right:20px" @click="goBack">
                 <bkt-icon :name="'ArrowDown'" class="bkt-button__icon bkt-rotate-90"></bkt-icon>
@@ -12,14 +11,15 @@
                 <li class="breadcrumb-item bkt-breadcrumb__item">торги</li>
                 <li class="breadcrumb-item bkt-breadcrumb__item active" aria-current="page">
                     торги № {{item.trade && item.trade.externalId ? item.trade.externalId : ''}} (лот
-                    {{item.lotNumber}})
+                    {{item.lotNumber ? item.lotNumber : '0'}})
                 </li>
             </ol>
         </nav>
 
         <div class="bkt-row bkt-bg-main bkt-wrapper-between bkt-lot-card-actions-nav d-none d-lg-flex">
             <h5 class="bkt-trading-number">
-                торги № {{item.tradingNumber}} (лот {{item.lotNumber}})
+                торги № {{item.trade && item.trade.externalId ? item.trade.externalId : ''}} (лот
+                {{item.lotNumber ? item.lotNumber : '0'}})
             </h5>
             <bkt-card-actions :item="item" class="bkt-actions" button_type="-icon" place="lot-card"
                               @changeStatus="changeStatus"
@@ -101,93 +101,6 @@
                                         </li>
                                     </template>
                                 </template>
-                                <!--                            <li>-->
-                                <!--                                <div class="bkt-contents__heading">-->
-                                <!--                                    <span class="bkt-contents__heading">категория объекта</span>-->
-                                <!--                                </div>-->
-                                <!--                                <div class="bkt-contents__answer"><span>нежилое</span>-->
-                                <!--                                </div>-->
-                                <!--                            </li>-->
-                                <!--                            <li>-->
-                                <!--                                <div class="bkt-contents__heading">-->
-                                <!--                                    <span class="bkt-contents__heading">форма собственности</span>-->
-                                <!--                                </div>-->
-                                <!--                                <div class="bkt-contents__answer"><span>федеральная собственность</span>-->
-                                <!--                                </div>-->
-                                <!--                            </li>-->
-                                <!--                            <li>-->
-                                <!--                                <div class="bkt-contents__heading">-->
-                                <!--                                    <span>-->
-                                <!--                                        Информация о сроках и порядке внесения задатка, реквизитах счета для перечисления задатка указана в документации (при наличии  требования о внесении задатка)-->
-                                <!--                                   </span>-->
-                                <!--                                </div>-->
-                                <!--                                <div class="bkt-contents__answer"><span>1</span>-->
-                                <!--                                </div>-->
-                                <!--                            </li>-->
-                                <!--                            <li>-->
-                                <!--                                <div class="bkt-contents__heading">-->
-                                <!--                                    <span class="bkt-contents__heading">перечисление задатка</span>-->
-                                <!--                                </div>-->
-                                <!--                                <div class="bkt-contents__answer">-->
-                                <!--                                    <span>задаток перечисляется на счет организатора</span>-->
-                                <!--                                </div>-->
-                                <!--                            </li>-->
-                                <!--                            <li>-->
-                                <!--                                <div class="bkt-contents__heading">-->
-                                <!--                                    <span class="bkt-contents__heading">вид договора</span>-->
-                                <!--                                </div>-->
-                                <!--                                <div class="bkt-contents__answer"><span>договор аренды</span>-->
-                                <!--                                </div>-->
-                                <!--                            </li>-->
-                                <!--                            <li>-->
-                                <!--                                <div class="bkt-contents__heading">-->
-                                <!--                                    <span class="bkt-contents__heading">порядок оплаты</span>-->
-                                <!--                                </div>-->
-                                <!--                                <div class="bkt-contents__answer"><span>ежемесячный платеж</span>-->
-                                <!--                                </div>-->
-                                <!--                            </li>-->
-                                <!--                            <li>-->
-                                <!--                                <div class="bkt-contents__heading">-->
-                                <!--                                    <span class="bkt-contents__heading">начальная цена за кв.м </span>-->
-                                <!--                                </div>-->
-                                <!--                                <div class="bkt-contents__answer"><span>12000</span>-->
-                                <!--                                </div>-->
-                                <!--                            </li>-->
-                                <!--                            <li>-->
-                                <!--                                <div class="bkt-contents__heading">-->
-                                <!--                                    <span class="bkt-contents__heading">ежемесячный платеж за объект</span>-->
-                                <!--                                </div>-->
-                                <!--                                <div class="bkt-contents__answer"><span>207000</span>-->
-                                <!--                                </div>-->
-                                <!--                            </li>-->
-                                <!--                            <li>-->
-                                <!--                                <div class="bkt-contents__heading">-->
-                                <!--                                    <span class="bkt-contents__heading">срок действия договора - лет</span>-->
-                                <!--                                </div>-->
-                                <!--                                <div class="bkt-contents__answer"><span>5</span>-->
-                                <!--                                </div>-->
-                                <!--                            </li>-->
-                                <!--                            <li>-->
-                                <!--                                <div class="bkt-contents__heading">-->
-                                <!--                                    <span>порядок ознакомления с имуществом, иной информацией</span>-->
-                                <!--                                </div>-->
-                                <!--                                <div class="bkt-contents__answer"><span>в соответствии с аукционной документацией</span>-->
-                                <!--                                </div>-->
-                                <!--                            </li>-->
-                                <!--                            <li>-->
-                                <!--                                <div class="bkt-contents__heading">-->
-                                <!--                                    <span class="bkt-contents__heading">обременения, ограничения</span>-->
-                                <!--                                </div>-->
-                                <!--                                <div class="bkt-contents__answer"><span>нет</span>-->
-                                <!--                                </div>-->
-                                <!--                            </li>-->
-                                <!--                            <li>-->
-                                <!--                                <div class="bkt-contents__heading">-->
-                                <!--                                    <span class="bkt-contents__heading">целевое назначение государственного или муниципального имущества, права на которое передаются по договору</span>-->
-                                <!--                                </div>-->
-                                <!--                                <div class="bkt-contents__answer"><span>офисное помещение</span>-->
-                                <!--                                </div>-->
-                                <!--                            </li>-->
                             </ul>
                             <div class="bkt-contents" v-if="!isLoggedIn">
                                 {{item.description}}
@@ -205,8 +118,9 @@
                             <div class="bkt-row outline bkt-wrapper-between align-items-center"
                                  v-if="cadastralData && cadastralData.cadastralDataPrice">
                                 <div class="bkt-row__feature">
-                                    <h4 class="bkt-row__feature-title">{{cadastralData.cadastralDataPrice |
-                                        priceFormat}} ₽</h4>
+                                    <h4 class="bkt-row__feature-title">
+                                        {{cadastralData.cadastralDataPrice | priceFormat}} ₽
+                                    </h4>
                                     <h6 class="bkt-row__feature-subtitle">кадастровая стоимость</h6>
                                 </div>
                                 <span class="bkt-row__icon">
@@ -228,10 +142,8 @@
                         <div class="bkt-card__footer" v-if="isLoggedIn">
                             <h6>
                                 <a href="">№135-ФЗ "О защите конкуренции", статья 17.1
-                                    <span>
                                     <bkt-icon :name="'ArrowDown'" :color="'primary'"
                                               class="bkt-rotate-270"></bkt-icon>
-                                </span>
                                 </a>
                             </h6>
                         </div>
@@ -282,22 +194,24 @@
                             <!--                        </button>-->
                         </div>
                         <div class="bkt-card-image-wrapper">
-                            <bkt-card-image-category  v-if="!item.photos || item.photos.length==0" :categories="item.categories"></bkt-card-image-category>
-<!--                            <div class="bkt-card__image-category" v-if="!item.photos || item.photos.length==0">-->
-<!--                                <bkt-icon name="Cow" color="neutral-dark"></bkt-icon>-->
-<!--                            </div>-->
-                            <hooper :itemsToShow="1" :centerMode="true" class="bkt-card__image-slider" v-if="item.photos && item.photos.length>0">
+                            <bkt-card-image-category :categories="item.categories"
+                                                     v-if="(!item.photos || item.photos.length==0) && item.categories && item.categories.length>0"
+                            >
+                            </bkt-card-image-category>
+                            <!--                            <div class="bkt-card__image-category" v-if="!item.photos || item.photos.length==0">-->
+                            <!--                                <bkt-icon name="Cow" color="neutral-dark"></bkt-icon>-->
+                            <!--                            </div>-->
+                            <hooper :itemsToShow="1" :centerMode="true" class="bkt-card__image-slider"
+                                    v-if="item.photos && item.photos.length>0">
                                 <slide v-for="photo in item.photos" :key="photo.id">
                                     <img v-lazy="photo.main" class="bkt-card__image"/>
                                 </slide>
                                 <hooper-navigation slot="hooper-addons"></hooper-navigation>
                             </hooper>
                             <div class="bkt-wrapper-between bkt-card-ecp-wrapper">
-                                <router-link custom v-slot="{ navigate }" to="/without-ecp">
-                                    <button @click="navigate" class="bkt-button primary bkt-card-ecp w-100">
-                                        Купить без <br>ЭЦП
-                                    </button>
-                                </router-link>
+                                <button @click="sendApplication" class="bkt-button primary bkt-card-ecp w-100">
+                                    Купить без <br>ЭЦП
+                                </button>
                                 <router-link custom v-slot="{ navigate }" to="/agent">
                                     <button @click="navigate" class="bkt-button primary bkt-card-ecp w-100">
                                         Купить через <br>агента
@@ -334,7 +248,8 @@
             </div>
             <div v-if="isLoggedIn" class="col-12 col-lg-12 order-3 px-lg-0">
                 <div class="bkt-card bkt-lot-card-tasks">
-                    <div class="bkt-card__header bkt-wrapper-between m-0 bkt-gap-large" style="border: none;">
+                    <div class="bkt-card__header bkt-wrapper-between m-0 bkt-gap-large">
+                        <!--                        :class="{'bkt-border-none': !item.note}"-->
                         <div class="bkt-card-periods">
                             <div class="bkt-card-period bkt-wrapper" v-if="item.trade && item.trade.applicationTime
                                  && (item.trade.applicationTime.start ||item.trade.applicationTime.end)">
@@ -374,495 +289,507 @@
                                         <h6 v-if="item.trade.eventTime.start">
                                             с {{item.trade.eventTime.start | moment('DD MMMM YYYY')}}
                                             <span class="bkt-text-yellow">
-                                    {{item.trade.eventTime.start | moment('HH:mm')}}
-                                </span>
+                                                {{item.trade.eventTime.start | moment('HH:mm')}}
+                                            </span>
                                         </h6>
                                         <h6 v-if="item.trade.eventTime.end">до
                                             {{item.trade.eventTime.end | moment('DD MMMM YYYY')}}
                                             <span class="bkt-text-yellow">
-                                    {{item.trade.eventTime.end | moment('HH:mm')}}
-                                </span>
+                                                {{item.trade.eventTime.end | moment('HH:mm')}}
+                                            </span>
                                         </h6>
                                     </strong>
                                 </div>
                             </div>
                         </div>
-                        <a v-if="item.trade && item.trade.tradePlace" :href="'http://'+item.trade.tradePlace.site"
-                           target="_blank" class="bkt-platform-button">
-                            <div class="bkt-platform-button-title">ЭТП {{item.trade.tradePlace.name ?
-                                item.trade.tradePlace.name : ''}}
+                        <a v-if="item.trade && item.trade.tradePlace" :href="item.trade.tradePlace.site"
+                           target="_blank" class="bkt-platform-button bkt-wrapper-between bkt-nowrap"
+                        >
+                            <div>
+                                <h5 class="bkt-platform-button-title">ЭТП {{item.trade.tradePlace.name ?
+                                    item.trade.tradePlace.name : ''}}
+                                </h5>
+                                <h6 class="bkt-platform-button-subtitle">{{item.trade.tradePlace.site ?
+                                    item.trade.tradePlace.site : ''}}
+                                </h6>
                             </div>
-                            <div class="bkt-platform-button-subtitle">{{item.trade.tradePlace.site ?
-                                item.trade.tradePlace.site : ''}}
-                            </div>
-                            <bkt-icon :name="'ArrowDown'" :color="'primary'"></bkt-icon>
+                            <span>
+                                 <bkt-icon :name="'ArrowDown'" :color="'primary'" height="10px" width="10px"></bkt-icon>
+                            </span>
                         </a>
                     </div>
-                    <!--                    <div class="bkt-card__body">-->
-                    <!--                        <div class="bkt-wrapper-between bkt-nowrap" style="margin-bottom: 23px;">-->
-                    <!--                            <div class="bkt-wrapper bkt-nowrap m-0">-->
-                    <!--                                <div class="bkt-card__category bkt-bg-primary-lighter">-->
-                    <!--                                    <bkt-icon :name="'Pencil'" :color="'primary'"-->
-                    <!--                                              class="bkt-card__category-icon"></bkt-icon>-->
-                    <!--                                </div>-->
-                    <!--                                <h5>Заметка по лоту (видите только вы)</h5>-->
-                    <!--                            </div>-->
-                    <!--                            <button class="bkt-button-icon primary">-->
-                    <!--                                <bkt-icon :name="'Plus'" class="bkt-button__icon"></bkt-icon>-->
-                    <!--                            </button>-->
-                    <!--                        </div>-->
-                    <!--&lt;!&ndash;                        <div class="bkt-lot-card-task">&ndash;&gt;-->
-                    <!--&lt;!&ndash;                            <div class="bkt-row outline bkt-wrapper-between">&ndash;&gt;-->
-                    <!--&lt;!&ndash;                                <div class="bkt-check__wrapper">&ndash;&gt;-->
-                    <!--&lt;!&ndash;                                    <div class="bkt-check check">&ndash;&gt;-->
-                    <!--&lt;!&ndash;                                        <div class="bkt-check__input">&ndash;&gt;-->
-                    <!--&lt;!&ndash;                                            <input class="" type="checkbox">&ndash;&gt;-->
-                    <!--&lt;!&ndash;                                            <div class="bkt-check__input-check"></div>&ndash;&gt;-->
-                    <!--&lt;!&ndash;                                        </div>&ndash;&gt;-->
-                    <!--&lt;!&ndash;                                    </div>&ndash;&gt;-->
-                    <!--&lt;!&ndash;                                </div>&ndash;&gt;-->
-                    <!--&lt;!&ndash;                                <h5 class="m-auto">Некоторое название задачи</h5>&ndash;&gt;-->
-                    <!--&lt;!&ndash;                                <h6 class="m-auto">Краткое описание задачи если таково имеется</h6>&ndash;&gt;-->
-                    <!--&lt;!&ndash;                                <div class="bkt-card-period bkt-wrapper">&ndash;&gt;-->
-                    <!--&lt;!&ndash;                                    <div class="bkt-card__category bkt-bg-blue-lighter">&ndash;&gt;-->
-                    <!--&lt;!&ndash;                                        <bkt-icon :name="'Date'" :width="'16px'"&ndash;&gt;-->
-                    <!--&lt;!&ndash;                                                  :height="'16px'" :color="'blue'"></bkt-icon>&ndash;&gt;-->
-                    <!--&lt;!&ndash;                                    </div>&ndash;&gt;-->
-                    <!--&lt;!&ndash;                                    <div class="bkt-card_feature">&ndash;&gt;-->
-                    <!--&lt;!&ndash;                                        <h5>&ndash;&gt;-->
-                    <!--&lt;!&ndash;                                            22 сентября 2022 <span class="bkt-text-blue">09:00</span>&ndash;&gt;-->
-                    <!--&lt;!&ndash;                                        </h5>&ndash;&gt;-->
-                    <!--&lt;!&ndash;                                    </div>&ndash;&gt;-->
-                    <!--&lt;!&ndash;                                </div>&ndash;&gt;-->
-                    <!--&lt;!&ndash;                            </div>&ndash;&gt;-->
-                    <!--&lt;!&ndash;                            <button class="bkt-button">&ndash;&gt;-->
-                    <!--&lt;!&ndash;                                <bkt-icon class="bkt-button__icon" name="Trash"></bkt-icon>&ndash;&gt;-->
-                    <!--&lt;!&ndash;                            </button>&ndash;&gt;-->
-                    <!--&lt;!&ndash;                        </div>&ndash;&gt;-->
-                    <!--&lt;!&ndash;                        <div class="bkt-lot-card-task">&ndash;&gt;-->
-                    <!--&lt;!&ndash;                            <div class="bkt-row outline bkt-wrapper-between">&ndash;&gt;-->
-                    <!--&lt;!&ndash;                                <div class="bkt-check__wrapper">&ndash;&gt;-->
-                    <!--&lt;!&ndash;                                    <div class="bkt-check check">&ndash;&gt;-->
-                    <!--&lt;!&ndash;                                        <div class="bkt-check__input">&ndash;&gt;-->
-                    <!--&lt;!&ndash;                                            <input class="" type="checkbox">&ndash;&gt;-->
-                    <!--&lt;!&ndash;                                            <div class="bkt-check__input-check"></div>&ndash;&gt;-->
-                    <!--&lt;!&ndash;                                        </div>&ndash;&gt;-->
-                    <!--&lt;!&ndash;                                    </div>&ndash;&gt;-->
-                    <!--&lt;!&ndash;                                </div>&ndash;&gt;-->
-                    <!--&lt;!&ndash;                                <h5 class="m-auto">Некоторое название задачи</h5>&ndash;&gt;-->
-                    <!--&lt;!&ndash;                                <h6 class="m-auto">Краткое описание задачи если таково имеется</h6>&ndash;&gt;-->
-                    <!--&lt;!&ndash;                                <div class="bkt-card-period bkt-wrapper">&ndash;&gt;-->
-                    <!--&lt;!&ndash;                                    <div class="bkt-card__category bkt-bg-blue-lighter">&ndash;&gt;-->
-                    <!--&lt;!&ndash;                                        <bkt-icon :name="'Date'" :width="'16px'"&ndash;&gt;-->
-                    <!--&lt;!&ndash;                                                  :height="'16px'" :color="'blue'"></bkt-icon>&ndash;&gt;-->
-                    <!--&lt;!&ndash;                                    </div>&ndash;&gt;-->
-                    <!--&lt;!&ndash;                                    <div class="bkt-card_feature">&ndash;&gt;-->
-                    <!--&lt;!&ndash;                                        <h5>&ndash;&gt;-->
-                    <!--&lt;!&ndash;                                            22 сентября 2022 <span class="bkt-text-blue">09:00</span>&ndash;&gt;-->
-                    <!--&lt;!&ndash;                                        </h5>&ndash;&gt;-->
-                    <!--&lt;!&ndash;                                    </div>&ndash;&gt;-->
-                    <!--&lt;!&ndash;                                </div>&ndash;&gt;-->
-                    <!--&lt;!&ndash;                            </div>&ndash;&gt;-->
-                    <!--&lt;!&ndash;                            <button class="bkt-button">&ndash;&gt;-->
-                    <!--&lt;!&ndash;                                <bkt-icon class="bkt-button__icon" name="Trash"></bkt-icon>&ndash;&gt;-->
-                    <!--&lt;!&ndash;                            </button>&ndash;&gt;-->
-                    <!--&lt;!&ndash;                        </div>&ndash;&gt;-->
-                    <!--&lt;!&ndash;                        <div class="bkt-lot-card-task">&ndash;&gt;-->
-                    <!--&lt;!&ndash;                            <div class="bkt-row outline bkt-wrapper-between">&ndash;&gt;-->
-                    <!--&lt;!&ndash;                                <div class="bkt-check__wrapper">&ndash;&gt;-->
-                    <!--&lt;!&ndash;                                    <div class="bkt-check">&ndash;&gt;-->
-                    <!--&lt;!&ndash;                                        <div class="bkt-check__input">&ndash;&gt;-->
-                    <!--&lt;!&ndash;                                            <input class="" type="checkbox">&ndash;&gt;-->
-                    <!--&lt;!&ndash;                                            <div class="bkt-check__input-check check"></div>&ndash;&gt;-->
-                    <!--&lt;!&ndash;                                        </div>&ndash;&gt;-->
-                    <!--&lt;!&ndash;                                    </div>&ndash;&gt;-->
-                    <!--&lt;!&ndash;                                </div>&ndash;&gt;-->
-                    <!--&lt;!&ndash;                                <h5 class="m-auto">Некоторое название задачи</h5>&ndash;&gt;-->
-                    <!--&lt;!&ndash;                                <h6 class="m-auto">Краткое описание задачи если таково имеется</h6>&ndash;&gt;-->
-                    <!--&lt;!&ndash;                                <div class="bkt-card-period bkt-wrapper">&ndash;&gt;-->
-                    <!--&lt;!&ndash;                                    <div class="bkt-card__category bkt-bg-blue-lighter">&ndash;&gt;-->
-                    <!--&lt;!&ndash;                                        <bkt-icon :name="'Date'" :width="'16px'"&ndash;&gt;-->
-                    <!--&lt;!&ndash;                                                  :height="'16px'" :color="'blue'"></bkt-icon>&ndash;&gt;-->
-                    <!--&lt;!&ndash;                                    </div>&ndash;&gt;-->
-                    <!--&lt;!&ndash;                                    <div class="bkt-card_feature">&ndash;&gt;-->
-                    <!--&lt;!&ndash;                                        <h5>&ndash;&gt;-->
-                    <!--&lt;!&ndash;                                            22 сентября 2022 <span class="bkt-text-blue">09:00</span>&ndash;&gt;-->
-                    <!--&lt;!&ndash;                                        </h5>&ndash;&gt;-->
-                    <!--&lt;!&ndash;                                    </div>&ndash;&gt;-->
-                    <!--&lt;!&ndash;                                </div>&ndash;&gt;-->
-                    <!--&lt;!&ndash;                            </div>&ndash;&gt;-->
-                    <!--&lt;!&ndash;                            <button class="bkt-button">&ndash;&gt;-->
-                    <!--&lt;!&ndash;                                <bkt-icon class="bkt-button__icon" name="Trash"></bkt-icon>&ndash;&gt;-->
-                    <!--&lt;!&ndash;                            </button>&ndash;&gt;-->
-                    <!--&lt;!&ndash;                        </div>&ndash;&gt;-->
-                    <!--                    </div>-->
+                    <div class="bkt-card__body">
+                        <div class="bkt-wrapper-between bkt-nowrap">
+                            <div class="bkt-wrapper bkt-nowrap m-0">
+                                <div class="bkt-card__category bkt-bg-primary-lighter">
+                                    <bkt-icon :name="'Pencil'" :color="'primary'"
+                                              class="bkt-card__category-icon"></bkt-icon>
+                                </div>
+                                <h5 class="">Заметка по лоту (видите только вы)</h5>
+                            </div>
+                            <button class="bkt-button-icon primary" v-if="!item.note" @click="callNoteModal">
+                                <bkt-icon :name="'Plus'" class="bkt-button__icon"></bkt-icon>
+                            </button>
+                        </div>
+                        <div class="bkt-lot-card-task" v-if="item.note">
+                            <div class="bkt-row outline bkt-wrapper-between bkt-nowrap bkt-gap-medium">
+                                <h6>{{item.note.title}}</h6>
+                                <div class="bkt-card-period bkt-wrapper">
+                                    <div class="bkt-card__category bkt-bg-blue-lighter">
+                                        <bkt-icon :name="'Date'" :width="'16px'"
+                                                  :height="'16px'" :color="'blue'"></bkt-icon>
+                                    </div>
+                                    <div class="bkt-card_feature">
+                                        <h5>
+                                          {{item.note.date | moment('D MMMM YYYY')}}
+                                            <span class="bkt-text-blue">{{item.note.date | moment('HH:mm')}}</span>
+                                        </h5>
+                                    </div>
+                                </div>
+                                <button type="button" class="bkt-button p-0 bkt-bg-transparent" @click="callNoteModal"
+                                        :disabled="loading"
+                                >
+                                    <bkt-icon name="Pencil" color="primary" width="16px" height="16px"/>
+                                </button>
+                            </div>
+                            <button class="bkt-button" @click="removeNote">
+                                <bkt-icon v-show="!note_loading" name="Trash" width="22px"/>
+                                <span v-show="note_loading" class="spinner-border spinner-border-sm bkt-text-red"
+                                      role="status"></span>
+                            </button>
+                        </div>
+                        <!--                        <div class="bkt-lot-card-task">-->
+                        <!--                            <div class="bkt-row outline bkt-wrapper-between">-->
+                        <!--                                <div class="bkt-check__wrapper">-->
+                        <!--                                    <div class="bkt-check check">-->
+                        <!--                                        <div class="bkt-check__input">-->
+                        <!--                                            <input class="" type="checkbox">-->
+                        <!--                                            <div class="bkt-check__input-check"></div>-->
+                        <!--                                        </div>-->
+                        <!--                                    </div>-->
+                        <!--                                </div>-->
+                        <!--                                <h5 class="m-auto">Некоторое название задачи</h5>-->
+                        <!--                                <h6 class="m-auto">Краткое описание задачи если таково имеется</h6>-->
+                        <!--                                <div class="bkt-card-period bkt-wrapper">-->
+                        <!--                                    <div class="bkt-card__category bkt-bg-blue-lighter">-->
+                        <!--                                        <bkt-icon :name="'Date'" :width="'16px'"-->
+                        <!--                                                  :height="'16px'" :color="'blue'"></bkt-icon>-->
+                        <!--                                    </div>-->
+                        <!--                                    <div class="bkt-card_feature">-->
+                        <!--                                        <h5>-->
+                        <!--                                            22 сентября 2022 <span class="bkt-text-blue">09:00</span>-->
+                        <!--                                        </h5>-->
+                        <!--                                    </div>-->
+                        <!--                                </div>-->
+                        <!--                            </div>-->
+                        <!--                            <button class="bkt-button">-->
+                        <!--                                <bkt-icon class="bkt-button__icon" name="Trash"></bkt-icon>-->
+                        <!--                            </button>-->
+                        <!--                        </div>-->
+                        <!--                        <div class="bkt-lot-card-task">-->
+                        <!--                            <div class="bkt-row outline bkt-wrapper-between">-->
+                        <!--                                <div class="bkt-check__wrapper">-->
+                        <!--                                    <div class="bkt-check">-->
+                        <!--                                        <div class="bkt-check__input">-->
+                        <!--                                            <input class="" type="checkbox">-->
+                        <!--                                            <div class="bkt-check__input-check check"></div>-->
+                        <!--                                        </div>-->
+                        <!--                                    </div>-->
+                        <!--                                </div>-->
+                        <!--                                <h5 class="m-auto">Некоторое название задачи</h5>-->
+                        <!--                                <h6 class="m-auto">Краткое описание задачи если таково имеется</h6>-->
+                        <!--                                <div class="bkt-card-period bkt-wrapper">-->
+                        <!--                                    <div class="bkt-card__category bkt-bg-blue-lighter">-->
+                        <!--                                        <bkt-icon :name="'Date'" :width="'16px'"-->
+                        <!--                                                  :height="'16px'" :color="'blue'"></bkt-icon>-->
+                        <!--                                    </div>-->
+                        <!--                                    <div class="bkt-card_feature">-->
+                        <!--                                        <h5>-->
+                        <!--                                            22 сентября 2022 <span class="bkt-text-blue">09:00</span>-->
+                        <!--                                        </h5>-->
+                        <!--                                    </div>-->
+                        <!--                                </div>-->
+                        <!--                            </div>-->
+                        <!--                            <button class="bkt-button">-->
+                        <!--                                <bkt-icon class="bkt-button__icon" name="Trash"></bkt-icon>-->
+                        <!--                            </button>-->
+                        <!--                        </div>-->
+                    </div>
                 </div>
             </div>
-            <!--            <div class="col-12 col-lg-12 order-3">-->
-            <!--                <div class="bkt-card bkt-card__body bkt-lot-card-actual">-->
-            <!--                    <div class="bkt-card__header bkt-wrapper-between">-->
-            <!--                        <h3 class="bkt-card__title">Актуальное по лоту</h3>-->
-            <!--                        <button class="bkt-button" style="gap:8px;">-->
-            <!--                            Смотреть отчёт-->
-            <!--                            <bkt-icon :name="'Clip'" :color="'primary'" class="bkt-button__icon"></bkt-icon>-->
-            <!--                        </button>-->
-            <!--                    </div>-->
-            <!--&lt;!&ndash;                    <div class="bkt-card outline bkt-wrapper-between">&ndash;&gt;-->
-            <!--&lt;!&ndash;                        <h5 class=""><span class="bkt-text-green">Идёт приём заявок</span> (до 19.04.2022)</h5>&ndash;&gt;-->
-            <!--&lt;!&ndash;                        <h5 class="bkt-text-neutral-dark">1 декабря 2022 в 09:00</h5>&ndash;&gt;-->
-            <!--&lt;!&ndash;                    </div>&ndash;&gt;-->
-            <!--&lt;!&ndash;                    <div class="bkt-card outline bkt-wrapper-between">&ndash;&gt;-->
-            <!--&lt;!&ndash;                        <h5 class="bkt-text-red">Приём заявок заканчивается через 2 дня!</h5>&ndash;&gt;-->
-            <!--&lt;!&ndash;                        <h5 class="bkt-text-neutral-dark">1 декабря 2022 в 09:00</h5>&ndash;&gt;-->
-            <!--&lt;!&ndash;                    </div>&ndash;&gt;-->
-            <!--&lt;!&ndash;                    <div class="bkt-card outline bkt-wrapper-between">&ndash;&gt;-->
-            <!--&lt;!&ndash;                        <h5 class=""><span class="bkt-text-green">Проведение торгов с 21.04.2022</span> (до 19.04.2022)&ndash;&gt;-->
-            <!--&lt;!&ndash;                        </h5>&ndash;&gt;-->
-            <!--&lt;!&ndash;                        <h5 class="bkt-text-neutral-dark">1 декабря 2022 в 09:00</h5>&ndash;&gt;-->
-            <!--&lt;!&ndash;                    </div>&ndash;&gt;-->
-            <!--                    <div class="bkt-card__footer bkt-wrapper-between">-->
-            <!--                        <button class="bkt-button-icon bkt-bg-body">-->
-            <!--                            <bkt-icon class="bkt-button__icon" name="ArrowDown"></bkt-icon>-->
-            <!--                        </button>-->
-            <!--                        <button class="bkt-button primary">Написать организатору</button>-->
-            <!--                    </div>-->
-            <!--                </div>-->
-            <!--            </div>-->
-            <!--            <div class="col-12 col-lg-5 order-3">-->
-            <!--                <div class="bkt-card bkt-card__body bkt-lot-card-templates">-->
-            <!--                    <div class="bkt-card__header"><h3 class="bkt-card__title">Шаблоны запросов</h3></div>-->
-            <!--                    <div class="bkt-card__row outline bkt-wrapper-between bkt-nowrap">-->
-            <!--                        <div class="bkt-template-name text-truncate">-->
-            <!--                            <div class="bkt-card__icon">-->
-            <!--                                <bkt-icon :name="'Note'" :color="'pink'" :width="'16px'" :height="'16px'"></bkt-icon>-->
-            <!--                            </div>-->
-            <!--                            <h5 class="text-truncate">Заявка на участие в торгах</h5>-->
-            <!--                        </div>-->
-            <!--                        <div class="bkt-card__icon">-->
-            <!--                            <bkt-icon :name="'ArrowDown'" :color="'primary'"-->
-            <!--                                      class="bkt-rotate-270"></bkt-icon>-->
-            <!--                        </div>-->
-            <!--                    </div>-->
-            <!--                    <div class="bkt-card__row outline bkt-wrapper-between bkt-nowrap">-->
-            <!--                        <div class="bkt-template-name text-truncate">-->
-            <!--                            <div class="bkt-card__icon">-->
-            <!--                                <bkt-icon :name="'Note'" :color="'pink'" :width="'16px'" :height="'16px'"></bkt-icon>-->
-            <!--                            </div>-->
-            <!--                            <h5 class="text-truncate">Авто</h5>-->
-            <!--                        </div>-->
-            <!--                        <div class="bkt-card__icon">-->
-            <!--                            <bkt-icon :name="'ArrowDown'" :color="'primary'"-->
-            <!--                                      class="bkt-rotate-270"></bkt-icon>-->
-            <!--                        </div>-->
-            <!--                    </div>-->
-            <!--                    <div class="bkt-card__row outline bkt-wrapper-between bkt-nowrap">-->
-            <!--                        <div class="bkt-template-name text-truncate">-->
-            <!--                            <div class="bkt-card__icon">-->
-            <!--                                <bkt-icon :name="'Note'" :color="'pink'" :width="'16px'" :height="'16px'"></bkt-icon>-->
-            <!--                            </div>-->
-            <!--                            <h5 class="text-truncate">Квартира</h5>-->
-            <!--                        </div>-->
-            <!--                        <div class="bkt-card__icon">-->
-            <!--                            <bkt-icon :name="'ArrowDown'" :color="'primary'"-->
-            <!--                                      style="transform: rotate(270deg)"></bkt-icon>-->
-            <!--                        </div>-->
-            <!--                    </div>-->
-            <!--                    <div class="bkt-card__row outline bkt-wrapper-between bkt-nowrap">-->
-            <!--                        <div class="bkt-template-name text-truncate">-->
-            <!--                            <div class="bkt-card__icon">-->
-            <!--                                <bkt-icon :name="'Note'" :color="'pink'" :width="'16px'" :height="'16px'"></bkt-icon>-->
-            <!--                            </div>-->
-            <!--                            <h5 class="text-truncate">Земля</h5>-->
-            <!--                        </div>-->
-            <!--                        <div class="bkt-card__icon">-->
-            <!--                            <bkt-icon :name="'ArrowDown'" :color="'primary'"-->
-            <!--                                      class="bkt-rotate-270"></bkt-icon>-->
-            <!--                        </div>-->
-            <!--                    </div>-->
-            <!--                    <div class="bkt-card__row outline bkt-wrapper-between bkt-nowrap">-->
-            <!--                        <div class="bkt-template-name text-truncate">-->
-            <!--                            <div class="bkt-card__icon">-->
-            <!--                                <bkt-icon :name="'Note'" :color="'pink'" :width="'16px'" :height="'16px'"></bkt-icon>-->
-            <!--                            </div>-->
-            <!--                            <h5 class="text-truncate">Дом с участком</h5>-->
-            <!--                        </div>-->
-            <!--                        <div class="bkt-card__icon">-->
-            <!--                            <bkt-icon :name="'ArrowDown'" :color="'primary'"-->
-            <!--                                      class="bkt-rotate-270"></bkt-icon>-->
-            <!--                        </div>-->
-            <!--                    </div>-->
-            <!--                    <div class="bkt-card__row outline bkt-wrapper-between bkt-nowrap">-->
-            <!--                        <div class="bkt-template-name text-truncate">-->
-            <!--                            <div class="bkt-card__icon">-->
-            <!--                                <bkt-icon :name="'Note'" :color="'pink'" :width="'16px'" :height="'16px'"></bkt-icon>-->
-            <!--                            </div>-->
-            <!--                            <h5 class="text-truncate">Дебиторская задолженность</h5>-->
-            <!--                        </div>-->
-            <!--                        <div class="bkt-card__icon">-->
-            <!--                            <bkt-icon :name="'ArrowDown'" :color="'primary'"-->
-            <!--                                      class="bkt-rotate-270"></bkt-icon>-->
-            <!--                        </div>-->
-            <!--                    </div>-->
-            <!--                    <button class="bkt-button primary">-->
-            <!--                        Загрузить другой шаблон-->
-            <!--                    </button>-->
-            <!--                </div>-->
-            <!--                <div class="bkt-card bkt-card__body bkt-lot-card-sent-requests">-->
-            <!--                    <div class="bkt-card__header"><h3 class="bkt-card__title">Отправленные запросы</h3></div>-->
-            <!--                    <div class="bkt-card outline">-->
-            <!--                        <div class="bkt-card__feature">-->
-            <!--                            <h6 class="bkt-card__subtitle">16 апреля 2022</h6>-->
-            <!--                            <h6 class="bkt-card__title">Запрос документов по торгам</h6>-->
-            <!--                        </div>-->
-            <!--                    </div>-->
-            <!--                    <div class="bkt-card outline">-->
-            <!--                        <div class="bkt-card__feature">-->
-            <!--                            <h6 class="bkt-card__subtitle">17 апреля 2022</h6>-->
-            <!--                            <h6 class="bkt-card__title">Какой-то запрос</h6>-->
-            <!--                        </div>-->
-            <!--                    </div>-->
-            <!--                </div>-->
-            <!--            </div>-->
-            <!--            <div class="col-12 col-lg-7 order-3">-->
-            <!--                <div class="bkt-card bkt-card__body bkt-lot-card-request">-->
-            <!--                    <div class="bkt-card__header">-->
-            <!--                        <h3 class="bkt-card__title">Запрос организатору торгов</h3>-->
-            <!--                    </div>-->
-            <!--                    <div class="row align-items-start" style="gap: 10px 0;">-->
-            <!--                        <div class="col-4 ps-md-0 d-none d-md-block">-->
-            <!--                            <h5 class="bkt-lot-card-request-label">шаблон запроса</h5>-->
-            <!--                        </div>-->
-            <!--                        <div class="col-12 col-md-8 p-md-0">-->
-            <!--                            <div class="bkt-select__wrapper">-->
-            <!--                                <label class="bkt-select__label d-md-none" for="sortSelect">шаблон запроса</label>-->
-            <!--                                <select class="form-select bkt-select" id="sortSelect" aria-label="">-->
-            <!--                                    <option selected>Авто</option>-->
-            <!--                                    <option value="1">One</option>-->
-            <!--                                    <option value="2">Two</option>-->
-            <!--                                    <option value="3">Three</option>-->
-            <!--                                </select>-->
+            <!--                        <div class="col-12 col-lg-12 order-3">-->
+            <!--                            <div class="bkt-card bkt-card__body bkt-lot-card-actual">-->
+            <!--                                <div class="bkt-card__header bkt-wrapper-between">-->
+            <!--                                    <h3 class="bkt-card__title">Актуальное по лоту</h3>-->
+            <!--                                    <button class="bkt-button" style="gap:8px;">-->
+            <!--                                        Смотреть отчёт-->
+            <!--                                        <bkt-icon :name="'Clip'" :color="'primary'" class="bkt-button__icon"></bkt-icon>-->
+            <!--                                    </button>-->
+            <!--                                </div>-->
+            <!--            &lt;!&ndash;                    <div class="bkt-card outline bkt-wrapper-between">&ndash;&gt;-->
+            <!--            &lt;!&ndash;                        <h5 class=""><span class="bkt-text-green">Идёт приём заявок</span> (до 19.04.2022)</h5>&ndash;&gt;-->
+            <!--            &lt;!&ndash;                        <h5 class="bkt-text-neutral-dark">1 декабря 2022 в 09:00</h5>&ndash;&gt;-->
+            <!--            &lt;!&ndash;                    </div>&ndash;&gt;-->
+            <!--            &lt;!&ndash;                    <div class="bkt-card outline bkt-wrapper-between">&ndash;&gt;-->
+            <!--            &lt;!&ndash;                        <h5 class="bkt-text-red">Приём заявок заканчивается через 2 дня!</h5>&ndash;&gt;-->
+            <!--            &lt;!&ndash;                        <h5 class="bkt-text-neutral-dark">1 декабря 2022 в 09:00</h5>&ndash;&gt;-->
+            <!--            &lt;!&ndash;                    </div>&ndash;&gt;-->
+            <!--            &lt;!&ndash;                    <div class="bkt-card outline bkt-wrapper-between">&ndash;&gt;-->
+            <!--            &lt;!&ndash;                        <h5 class=""><span class="bkt-text-green">Проведение торгов с 21.04.2022</span> (до 19.04.2022)&ndash;&gt;-->
+            <!--            &lt;!&ndash;                        </h5>&ndash;&gt;-->
+            <!--            &lt;!&ndash;                        <h5 class="bkt-text-neutral-dark">1 декабря 2022 в 09:00</h5>&ndash;&gt;-->
+            <!--            &lt;!&ndash;                    </div>&ndash;&gt;-->
+            <!--                                <div class="bkt-card__footer bkt-wrapper-between">-->
+            <!--                                    <button class="bkt-button-icon bkt-bg-body">-->
+            <!--                                        <bkt-icon class="bkt-button__icon" name="ArrowDown"></bkt-icon>-->
+            <!--                                    </button>-->
+            <!--                                    <button class="bkt-button primary">Написать организатору</button>-->
+            <!--                                </div>-->
             <!--                            </div>-->
             <!--                        </div>-->
-            <!--                        <div class="col-4 ps-md-0 d-none d-md-block">-->
-            <!--                            <h5 class="bkt-lot-card-request-label">от кого</h5>-->
-            <!--                        </div>-->
-            <!--                        <div class="col-12 col-md-8 p-md-0">-->
-            <!--                            <bkt-input-->
-            <!--                                name="from_email"-->
-            <!--                                type="email"-->
-            <!--                                label="от кого"-->
-            <!--                                :rules="'required|email'"-->
-            <!--                                placeholder="pochta@gmail.com"-->
-            <!--                                :label_class="'d-md-none'"-->
-            <!--                            >-->
-            <!--                            </bkt-input>-->
-            <!--                        </div>-->
-            <!--                        <div class="col-4 ps-md-0 d-none d-md-block">-->
-            <!--                            <h5 class="bkt-lot-card-request-label">кому</h5>-->
-            <!--                        </div>-->
-            <!--                        <div class="col-12 col-md-8 p-md-0">-->
-            <!--                            <bkt-input-->
-            <!--                                name="to_email"-->
-            <!--                                type="email"-->
-            <!--                                label="кому"-->
-            <!--                                :rules="'required|email'"-->
-            <!--                                placeholder="pochta@gmail.com"-->
-            <!--                                :label_class="'d-md-none'"-->
-            <!--                            >-->
-            <!--                            </bkt-input>-->
-            <!--                        </div>-->
-            <!--                        <div class="col-4 ps-md-0 d-none d-md-block">-->
-            <!--                            <h5 class="bkt-lot-card-request-label">тема запрос</h5>-->
-            <!--                        </div>-->
-            <!--                        <div class="col-12 col-md-8 p-md-0">-->
-            <!--                            <bkt-input-->
-            <!--                                name="subject"-->
-            <!--                                type="text"-->
-            <!--                                label="тема запроса"-->
-            <!--                                :rules="'required'"-->
-            <!--                                placeholder=""-->
-            <!--                                :label_class="'d-md-none'"-->
-            <!--                            >-->
-            <!--                            </bkt-input>-->
-            <!--                        </div>-->
-            <!--                        <div class="col-4 ps-md-0 d-none d-md-block">-->
-            <!--                            <h5 class="bkt-lot-card-request-label">текст запроса</h5>-->
-            <!--                        </div>-->
-            <!--                        <div class="col-12 col-md-8 p-md-0">-->
-            <!--                            <bkt-textarea-->
-            <!--                                name="description"-->
-            <!--                                type="text"-->
-            <!--                                label="текст запроса"-->
-            <!--                                :rules="'required'"-->
-            <!--                                placeholder=""-->
-            <!--                                :label_class="'d-md-none'"-->
-            <!--                            ></bkt-textarea>-->
-            <!--                        </div>-->
-
-            <!--                        <div class="col-4 ps-md-0 d-none d-md-block"></div>-->
-            <!--                        <div class="col-12 col-md-8 p-md-0">-->
-            <!--            <div class="bkt-tag__list">-->
-            <!--                <div class="bkt-tag justify-content-between flex-fill" v-for="(item, index) in question.files">-->
-            <!--                    <span class="bkt-text-truncate">{{ item.name }}</span>-->
-            <!--                    <h6 class="bkt-text-neutral">{{ item.file_size }}</h6>-->
-
-            <!--                    <span class="bkt-tag__icon bkt-cursor-pointer" @click="removeFile(index)">-->
-            <!--                            <bkt-icon name="Cancel" color="red" width="12px" height="12px"></bkt-icon>-->
-            <!--                        </span>-->
-            <!--                </div>-->
-            <!--            </div>-->
-            <!--                            <div class="bkt-lot-card-request-actions bkt-wrapper-between">-->
-            <!--            <bkt-upload-file v-model="files" ref="upload_file"></bkt-upload-file>-->
-            <!--                                <button class="bkt-button primary" style="flex-grow:1">-->
-            <!--                                    Отправить-->
+            <!--                        <div class="col-12 col-lg-5 order-3">-->
+            <!--                            <div class="bkt-card bkt-card__body bkt-lot-card-templates">-->
+            <!--                                <div class="bkt-card__header"><h3 class="bkt-card__title">Шаблоны запросов</h3></div>-->
+            <!--                                <div class="bkt-card__row outline bkt-wrapper-between bkt-nowrap">-->
+            <!--                                    <div class="bkt-template-name text-truncate">-->
+            <!--                                        <div class="bkt-card__icon">-->
+            <!--                                            <bkt-icon :name="'Note'" :color="'pink'" :width="'16px'" :height="'16px'"></bkt-icon>-->
+            <!--                                        </div>-->
+            <!--                                        <h5 class="text-truncate">Заявка на участие в торгах</h5>-->
+            <!--                                    </div>-->
+            <!--                                    <div class="bkt-card__icon">-->
+            <!--                                        <bkt-icon :name="'ArrowDown'" :color="'primary'"-->
+            <!--                                                  class="bkt-rotate-270"></bkt-icon>-->
+            <!--                                    </div>-->
+            <!--                                </div>-->
+            <!--                                <div class="bkt-card__row outline bkt-wrapper-between bkt-nowrap">-->
+            <!--                                    <div class="bkt-template-name text-truncate">-->
+            <!--                                        <div class="bkt-card__icon">-->
+            <!--                                            <bkt-icon :name="'Note'" :color="'pink'" :width="'16px'" :height="'16px'"></bkt-icon>-->
+            <!--                                        </div>-->
+            <!--                                        <h5 class="text-truncate">Авто</h5>-->
+            <!--                                    </div>-->
+            <!--                                    <div class="bkt-card__icon">-->
+            <!--                                        <bkt-icon :name="'ArrowDown'" :color="'primary'"-->
+            <!--                                                  class="bkt-rotate-270"></bkt-icon>-->
+            <!--                                    </div>-->
+            <!--                                </div>-->
+            <!--                                <div class="bkt-card__row outline bkt-wrapper-between bkt-nowrap">-->
+            <!--                                    <div class="bkt-template-name text-truncate">-->
+            <!--                                        <div class="bkt-card__icon">-->
+            <!--                                            <bkt-icon :name="'Note'" :color="'pink'" :width="'16px'" :height="'16px'"></bkt-icon>-->
+            <!--                                        </div>-->
+            <!--                                        <h5 class="text-truncate">Квартира</h5>-->
+            <!--                                    </div>-->
+            <!--                                    <div class="bkt-card__icon">-->
+            <!--                                        <bkt-icon :name="'ArrowDown'" :color="'primary'"-->
+            <!--                                                  style="transform: rotate(270deg)"></bkt-icon>-->
+            <!--                                    </div>-->
+            <!--                                </div>-->
+            <!--                                <div class="bkt-card__row outline bkt-wrapper-between bkt-nowrap">-->
+            <!--                                    <div class="bkt-template-name text-truncate">-->
+            <!--                                        <div class="bkt-card__icon">-->
+            <!--                                            <bkt-icon :name="'Note'" :color="'pink'" :width="'16px'" :height="'16px'"></bkt-icon>-->
+            <!--                                        </div>-->
+            <!--                                        <h5 class="text-truncate">Земля</h5>-->
+            <!--                                    </div>-->
+            <!--                                    <div class="bkt-card__icon">-->
+            <!--                                        <bkt-icon :name="'ArrowDown'" :color="'primary'"-->
+            <!--                                                  class="bkt-rotate-270"></bkt-icon>-->
+            <!--                                    </div>-->
+            <!--                                </div>-->
+            <!--                                <div class="bkt-card__row outline bkt-wrapper-between bkt-nowrap">-->
+            <!--                                    <div class="bkt-template-name text-truncate">-->
+            <!--                                        <div class="bkt-card__icon">-->
+            <!--                                            <bkt-icon :name="'Note'" :color="'pink'" :width="'16px'" :height="'16px'"></bkt-icon>-->
+            <!--                                        </div>-->
+            <!--                                        <h5 class="text-truncate">Дом с участком</h5>-->
+            <!--                                    </div>-->
+            <!--                                    <div class="bkt-card__icon">-->
+            <!--                                        <bkt-icon :name="'ArrowDown'" :color="'primary'"-->
+            <!--                                                  class="bkt-rotate-270"></bkt-icon>-->
+            <!--                                    </div>-->
+            <!--                                </div>-->
+            <!--                                <div class="bkt-card__row outline bkt-wrapper-between bkt-nowrap">-->
+            <!--                                    <div class="bkt-template-name text-truncate">-->
+            <!--                                        <div class="bkt-card__icon">-->
+            <!--                                            <bkt-icon :name="'Note'" :color="'pink'" :width="'16px'" :height="'16px'"></bkt-icon>-->
+            <!--                                        </div>-->
+            <!--                                        <h5 class="text-truncate">Дебиторская задолженность</h5>-->
+            <!--                                    </div>-->
+            <!--                                    <div class="bkt-card__icon">-->
+            <!--                                        <bkt-icon :name="'ArrowDown'" :color="'primary'"-->
+            <!--                                                  class="bkt-rotate-270"></bkt-icon>-->
+            <!--                                    </div>-->
+            <!--                                </div>-->
+            <!--                                <button class="bkt-button primary">-->
+            <!--                                    Загрузить другой шаблон-->
             <!--                                </button>-->
             <!--                            </div>-->
-            <!--                        </div>-->
-            <!--                    </div>-->
-            <!--                </div>-->
-            <!--            </div>-->
-            <!--            <div class="col-12 col-lg-6 order-3">-->
-            <!--                <div class="bkt-card bkt-lot-card-required-documents">-->
-            <!--                    <div class="bkt-card__body">-->
-            <!--                        <div class="bkt-card__header">-->
-            <!--                            <h3 class="bkt-card__title">Необходимые документы</h3>-->
-            <!--                        </div>-->
-            <!--                        <div class="bkt-requred-document">-->
-            <!--                            <div class="bkt-card__row outline w-100 bkt-wrapper-between bkt-nowrap">-->
-            <!--                                <h5 class="text-truncate">Свидетельство о праве собственности</h5>-->
-            <!--                                <div class="bkt-card__icon">-->
-            <!--                                    <bkt-icon :name="'Check'" :color="'green'"></bkt-icon>-->
+            <!--                            <div class="bkt-card bkt-card__body bkt-lot-card-sent-requests">-->
+            <!--                                <div class="bkt-card__header"><h3 class="bkt-card__title">Отправленные запросы</h3></div>-->
+            <!--                                <div class="bkt-card outline">-->
+            <!--                                    <div class="bkt-card__feature">-->
+            <!--                                        <h6 class="bkt-card__subtitle">16 апреля 2022</h6>-->
+            <!--                                        <h6 class="bkt-card__title">Запрос документов по торгам</h6>-->
+            <!--                                    </div>-->
+            <!--                                </div>-->
+            <!--                                <div class="bkt-card outline">-->
+            <!--                                    <div class="bkt-card__feature">-->
+            <!--                                        <h6 class="bkt-card__subtitle">17 апреля 2022</h6>-->
+            <!--                                        <h6 class="bkt-card__title">Какой-то запрос</h6>-->
+            <!--                                    </div>-->
             <!--                                </div>-->
             <!--                            </div>-->
-            <!--                            <button class="bkt-button">-->
-            <!--                                <bkt-icon class="bkt-button__icon" name="Trash"></bkt-icon>-->
-            <!--                            </button>-->
             <!--                        </div>-->
-            <!--                        <div class="bkt-requred-document">-->
-            <!--                            <div class="bkt-card__row outline w-100 bkt-wrapper-between bkt-nowrap">-->
-            <!--                                <h5 class="text-truncate">Правоустанавливающие документы</h5>-->
-            <!--                                <div class="bkt-card__icon">-->
-            <!--                                    <bkt-icon :name="'DotsCircle'" :width="'16px'" :height="'16px'"></bkt-icon>-->
+            <!--                        <div class="col-12 col-lg-7 order-3">-->
+            <!--                            <div class="bkt-card bkt-card__body bkt-lot-card-request">-->
+            <!--                                <div class="bkt-card__header">-->
+            <!--                                    <h3 class="bkt-card__title">Запрос организатору торгов</h3>-->
+            <!--                                </div>-->
+            <!--                                <div class="row align-items-start" style="gap: 10px 0;">-->
+            <!--                                    <div class="col-4 ps-md-0 d-none d-md-block">-->
+            <!--                                        <h5 class="bkt-lot-card-request-label">шаблон запроса</h5>-->
+            <!--                                    </div>-->
+            <!--                                    <div class="col-12 col-md-8 p-md-0">-->
+            <!--                                        <div class="bkt-select__wrapper">-->
+            <!--                                            <label class="bkt-select__label d-md-none" for="sortSelect">шаблон запроса</label>-->
+            <!--                                            <select class="form-select bkt-select" id="sortSelect" aria-label="">-->
+            <!--                                                <option selected>Авто</option>-->
+            <!--                                                <option value="1">One</option>-->
+            <!--                                                <option value="2">Two</option>-->
+            <!--                                                <option value="3">Three</option>-->
+            <!--                                            </select>-->
+            <!--                                        </div>-->
+            <!--                                    </div>-->
+            <!--                                    <div class="col-4 ps-md-0 d-none d-md-block">-->
+            <!--                                        <h5 class="bkt-lot-card-request-label">от кого</h5>-->
+            <!--                                    </div>-->
+            <!--                                    <div class="col-12 col-md-8 p-md-0">-->
+            <!--                                        <bkt-input-->
+            <!--                                            name="from_email"-->
+            <!--                                            type="email"-->
+            <!--                                            label="от кого"-->
+            <!--                                            :rules="'required|email'"-->
+            <!--                                            placeholder="pochta@gmail.com"-->
+            <!--                                            :label_class="'d-md-none'"-->
+            <!--                                        >-->
+            <!--                                        </bkt-input>-->
+            <!--                                    </div>-->
+            <!--                                    <div class="col-4 ps-md-0 d-none d-md-block">-->
+            <!--                                        <h5 class="bkt-lot-card-request-label">кому</h5>-->
+            <!--                                    </div>-->
+            <!--                                    <div class="col-12 col-md-8 p-md-0">-->
+            <!--                                        <bkt-input-->
+            <!--                                            name="to_email"-->
+            <!--                                            type="email"-->
+            <!--                                            label="кому"-->
+            <!--                                            :rules="'required|email'"-->
+            <!--                                            placeholder="pochta@gmail.com"-->
+            <!--                                            :label_class="'d-md-none'"-->
+            <!--                                        >-->
+            <!--                                        </bkt-input>-->
+            <!--                                    </div>-->
+            <!--                                    <div class="col-4 ps-md-0 d-none d-md-block">-->
+            <!--                                        <h5 class="bkt-lot-card-request-label">тема запрос</h5>-->
+            <!--                                    </div>-->
+            <!--                                    <div class="col-12 col-md-8 p-md-0">-->
+            <!--                                        <bkt-input-->
+            <!--                                            name="subject"-->
+            <!--                                            type="text"-->
+            <!--                                            label="тема запроса"-->
+            <!--                                            :rules="'required'"-->
+            <!--                                            placeholder=""-->
+            <!--                                            :label_class="'d-md-none'"-->
+            <!--                                        >-->
+            <!--                                        </bkt-input>-->
+            <!--                                    </div>-->
+            <!--                                    <div class="col-4 ps-md-0 d-none d-md-block">-->
+            <!--                                        <h5 class="bkt-lot-card-request-label">текст запроса</h5>-->
+            <!--                                    </div>-->
+            <!--                                    <div class="col-12 col-md-8 p-md-0">-->
+            <!--                                        <bkt-textarea-->
+            <!--                                            name="description"-->
+            <!--                                            type="text"-->
+            <!--                                            label="текст запроса"-->
+            <!--                                            :rules="'required'"-->
+            <!--                                            placeholder=""-->
+            <!--                                            :label_class="'d-md-none'"-->
+            <!--                                        ></bkt-textarea>-->
+            <!--                                    </div>-->
+
+            <!--                                    <div class="col-4 ps-md-0 d-none d-md-block"></div>-->
+            <!--                                    <div class="col-12 col-md-8 p-md-0">-->
+            <!--                        <div class="bkt-tag__list">-->
+            <!--                            <div class="bkt-tag justify-content-between flex-fill" v-for="(item, index) in question.files">-->
+            <!--                                <span class="bkt-text-truncate">{{ item.name }}</span>-->
+            <!--                                <h6 class="bkt-text-neutral">{{ item.file_size }}</h6>-->
+
+            <!--                                <span class="bkt-tag__icon bkt-cursor-pointer" @click="removeFile(index)">-->
+            <!--                                        <bkt-icon name="Cancel" color="red" width="12px" height="12px"></bkt-icon>-->
+            <!--                                    </span>-->
+            <!--                            </div>-->
+            <!--                        </div>-->
+            <!--                                        <div class="bkt-lot-card-request-actions bkt-wrapper-between">-->
+            <!--                        <bkt-upload-file v-model="files" ref="upload_file"></bkt-upload-file>-->
+            <!--                                            <button class="bkt-button primary" style="flex-grow:1">-->
+            <!--                                                Отправить-->
+            <!--                                            </button>-->
+            <!--                                        </div>-->
+            <!--                                    </div>-->
             <!--                                </div>-->
             <!--                            </div>-->
-            <!--                            <button class="bkt-button">-->
-            <!--                                <bkt-icon class="bkt-button__icon" name="Trash"></bkt-icon>-->
-            <!--                            </button>-->
             <!--                        </div>-->
-            <!--                        <div class="bkt-requred-document">-->
-            <!--                            <div class="bkt-card__row outline w-100 bkt-wrapper-between bkt-nowrap">-->
-            <!--                                <h5 class="text-truncate">Кадастровый паспорт участка</h5>-->
-            <!--                                <div class="bkt-card__icon">-->
-            <!--                                    <bkt-icon :name="'Download'" :color="'primary'" :width="'16px'"-->
-            <!--                                              :height="'16px'"></bkt-icon>-->
+            <!--                        <div class="col-12 col-lg-6 order-3">-->
+            <!--                            <div class="bkt-card bkt-lot-card-required-documents">-->
+            <!--                                <div class="bkt-card__body">-->
+            <!--                                    <div class="bkt-card__header">-->
+            <!--                                        <h3 class="bkt-card__title">Необходимые документы</h3>-->
+            <!--                                    </div>-->
+            <!--                                    <div class="bkt-requred-document">-->
+            <!--                                        <div class="bkt-card__row outline w-100 bkt-wrapper-between bkt-nowrap">-->
+            <!--                                            <h5 class="text-truncate">Свидетельство о праве собственности</h5>-->
+            <!--                                            <div class="bkt-card__icon">-->
+            <!--                                                <bkt-icon :name="'Check'" :color="'green'"></bkt-icon>-->
+            <!--                                            </div>-->
+            <!--                                        </div>-->
+            <!--                                        <button class="bkt-button">-->
+            <!--                                            <bkt-icon class="bkt-button__icon" name="Trash"></bkt-icon>-->
+            <!--                                        </button>-->
+            <!--                                    </div>-->
+            <!--                                    <div class="bkt-requred-document">-->
+            <!--                                        <div class="bkt-card__row outline w-100 bkt-wrapper-between bkt-nowrap">-->
+            <!--                                            <h5 class="text-truncate">Правоустанавливающие документы</h5>-->
+            <!--                                            <div class="bkt-card__icon">-->
+            <!--                                                <bkt-icon :name="'DotsCircle'" :width="'16px'" :height="'16px'"></bkt-icon>-->
+            <!--                                            </div>-->
+            <!--                                        </div>-->
+            <!--                                        <button class="bkt-button">-->
+            <!--                                            <bkt-icon class="bkt-button__icon" name="Trash"></bkt-icon>-->
+            <!--                                        </button>-->
+            <!--                                    </div>-->
+            <!--                                    <div class="bkt-requred-document">-->
+            <!--                                        <div class="bkt-card__row outline w-100 bkt-wrapper-between bkt-nowrap">-->
+            <!--                                            <h5 class="text-truncate">Кадастровый паспорт участка</h5>-->
+            <!--                                            <div class="bkt-card__icon">-->
+            <!--                                                <bkt-icon :name="'Download'" :color="'primary'" :width="'16px'"-->
+            <!--                                                          :height="'16px'"></bkt-icon>-->
+            <!--                                            </div>-->
+            <!--                                        </div>-->
+            <!--                                        <button class="bkt-button">-->
+            <!--                                            <bkt-icon class="bkt-button__icon" name="Trash"></bkt-icon>-->
+            <!--                                        </button>-->
+            <!--                                    </div>-->
+            <!--                                    <div class="bkt-requred-document">-->
+            <!--                                        <div class="bkt-card__row outline  w-100 bkt-wrapper-between bkt-nowrap">-->
+            <!--                                            <h5 class="text-truncate">Положение о порядке и сроках реализации имуще...</h5>-->
+            <!--                                            <div class="bkt-card__icon">-->
+            <!--                                                <bkt-icon :name="'Download'" :color="'primary'" :width="'16px'"-->
+            <!--                                                          :height="'16px'"></bkt-icon>-->
+            <!--                                            </div>-->
+            <!--                                        </div>-->
+            <!--                                        <button class="bkt-button">-->
+            <!--                                            <bkt-icon class="bkt-button__icon" name="Trash"></bkt-icon>-->
+            <!--                                        </button>-->
+            <!--                                    </div>-->
+            <!--                                    <div class="bkt-requred-document">-->
+            <!--                                        <div class="bkt-card__row outline w-100 bkt-wrapper-between bkt-nowrap">-->
+            <!--                                            <h5 class="text-truncate">Оценка рыночной стоимости участка</h5>-->
+            <!--                                            <div class="bkt-card__icon">-->
+            <!--                                                <bkt-icon :name="'Check'" :color="'green'"></bkt-icon>-->
+            <!--                                            </div>-->
+            <!--                                        </div>-->
+            <!--                                        <button class="bkt-button">-->
+            <!--                                            <bkt-icon class="bkt-button__icon" name="Trash"></bkt-icon>-->
+            <!--                                        </button>-->
+            <!--                                    </div>-->
             <!--                                </div>-->
             <!--                            </div>-->
-            <!--                            <button class="bkt-button">-->
-            <!--                                <bkt-icon class="bkt-button__icon" name="Trash"></bkt-icon>-->
-            <!--                            </button>-->
             <!--                        </div>-->
-            <!--                        <div class="bkt-requred-document">-->
-            <!--                            <div class="bkt-card__row outline  w-100 bkt-wrapper-between bkt-nowrap">-->
-            <!--                                <h5 class="text-truncate">Положение о порядке и сроках реализации имуще...</h5>-->
-            <!--                                <div class="bkt-card__icon">-->
-            <!--                                    <bkt-icon :name="'Download'" :color="'primary'" :width="'16px'"-->
-            <!--                                              :height="'16px'"></bkt-icon>-->
+            <!--                        <div class="col-12 col-lg-3 order-3">-->
+            <!--                            <div class="bkt-card bkt-card__body bkt-lot-card-document-sets">-->
+            <!--                                <div class="bkt-card__header"><h3 class="bkt-card__title">Наборы документов</h3></div>-->
+            <!--                                <div class="bkt-card__row outline bkt-wrapper bkt-nowrap">-->
+            <!--                                    <div class="bkt-card__icon">-->
+            <!--                                        <bkt-icon :name="'Note'" :color="'blue'" :width="'16px'" :height="'16px'"></bkt-icon>-->
+            <!--                                    </div>-->
+            <!--                                    <h5 class="text-truncate">Авто</h5>-->
             <!--                                </div>-->
-            <!--                            </div>-->
-            <!--                            <button class="bkt-button">-->
-            <!--                                <bkt-icon class="bkt-button__icon" name="Trash"></bkt-icon>-->
-            <!--                            </button>-->
-            <!--                        </div>-->
-            <!--                        <div class="bkt-requred-document">-->
-            <!--                            <div class="bkt-card__row outline w-100 bkt-wrapper-between bkt-nowrap">-->
-            <!--                                <h5 class="text-truncate">Оценка рыночной стоимости участка</h5>-->
-            <!--                                <div class="bkt-card__icon">-->
-            <!--                                    <bkt-icon :name="'Check'" :color="'green'"></bkt-icon>-->
+            <!--                                <div class="bkt-card__row outline bkt-wrapper bkt-nowrap">-->
+            <!--                                    <div class="bkt-card__icon">-->
+            <!--                                        <bkt-icon :name="'Note'" :color="'blue'" :width="'16px'" :height="'16px'"></bkt-icon>-->
+            <!--                                    </div>-->
+            <!--                                    <h5 class="text-truncate">Квартира</h5>-->
             <!--                                </div>-->
+            <!--                                <div class="bkt-card__row outline bkt-wrapper bkt-nowrap">-->
+            <!--                                    <div class="bkt-card__icon">-->
+            <!--                                        <bkt-icon :name="'Note'" :color="'blue'" :width="'16px'" :height="'16px'"></bkt-icon>-->
+            <!--                                    </div>-->
+            <!--                                    <h5 class="text-truncate">Земля</h5>-->
+            <!--                                </div>-->
+            <!--                                <div class="bkt-card__row outline bkt-wrapper bkt-nowrap">-->
+            <!--                                    <div class="bkt-card__icon">-->
+            <!--                                        <bkt-icon :name="'Note'" :color="'blue'" :width="'16px'" :height="'16px'"></bkt-icon>-->
+            <!--                                    </div>-->
+            <!--                                    <h5 class="text-truncate">Дом с участком</h5>-->
+            <!--                                </div>-->
+            <!--                                <div class="bkt-card__row outline bkt-wrapper bkt-nowrap">-->
+            <!--                                    <div class="bkt-card__icon">-->
+            <!--                                        <bkt-icon :name="'Note'" :color="'blue'" :width="'16px'" :height="'16px'"></bkt-icon>-->
+            <!--                                    </div>-->
+            <!--                                    <h5 class="text-truncate">Дебиторская задолженность</h5>-->
+            <!--                                </div>-->
+            <!--                                <div class="bkt-card__row outline bkt-wrapper bkt-nowrap">-->
+            <!--                                    <div class="bkt-card__icon">-->
+            <!--                                        <bkt-icon :name="'Note'" :color="'blue'" :width="'16px'" :height="'16px'"></bkt-icon>-->
+            <!--                                    </div>-->
+            <!--                                    <h5 class="text-truncate">Свой набор</h5>-->
+            <!--                                </div>-->
+            <!--                                <button class="bkt-button primary">Добавить набор</button>-->
             <!--                            </div>-->
-            <!--                            <button class="bkt-button">-->
-            <!--                                <bkt-icon class="bkt-button__icon" name="Trash"></bkt-icon>-->
-            <!--                            </button>-->
             <!--                        </div>-->
-            <!--                    </div>-->
-            <!--                </div>-->
-            <!--            </div>-->
-            <!--            <div class="col-12 col-lg-3 order-3">-->
-            <!--                <div class="bkt-card bkt-card__body bkt-lot-card-document-sets">-->
-            <!--                    <div class="bkt-card__header"><h3 class="bkt-card__title">Наборы документов</h3></div>-->
-            <!--                    <div class="bkt-card__row outline bkt-wrapper bkt-nowrap">-->
-            <!--                        <div class="bkt-card__icon">-->
-            <!--                            <bkt-icon :name="'Note'" :color="'blue'" :width="'16px'" :height="'16px'"></bkt-icon>-->
+            <!--                        <div class="col-12 col-lg-3 order-3">-->
+            <!--                            <div class="bkt-card bkt-card__body bkt-lot-card-my-files">-->
+            <!--                                <div class="bkt-card__header"><h3 class="bkt-card__title">Мои файлы</h3></div>-->
+            <!--            &lt;!&ndash;                    <div class="bkt-card__row outline bkt-wrapper-between bkt-nowrap">&ndash;&gt;-->
+            <!--            &lt;!&ndash;                        <div class="bkt-card__feature text-truncate">&ndash;&gt;-->
+            <!--            &lt;!&ndash;                            <h5 class="text-truncate">Nazvanie.pdf</h5>&ndash;&gt;-->
+            <!--            &lt;!&ndash;                            <h6 class="bkt-card__subtitle">23.1 Mb</h6>&ndash;&gt;-->
+            <!--            &lt;!&ndash;                        </div>&ndash;&gt;-->
+            <!--            &lt;!&ndash;                        <div class="bkt-card__icon">&ndash;&gt;-->
+            <!--            &lt;!&ndash;                            <bkt-icon :name="'More'"></bkt-icon>&ndash;&gt;-->
+            <!--            &lt;!&ndash;                        </div>&ndash;&gt;-->
+            <!--            &lt;!&ndash;                    </div>&ndash;&gt;-->
+            <!--            &lt;!&ndash;                    <div class="bkt-card__row outline bkt-wrapper-between bkt-nowrap">&ndash;&gt;-->
+            <!--            &lt;!&ndash;                        <div class="bkt-card__feature text-truncate">&ndash;&gt;-->
+            <!--            &lt;!&ndash;                            <h5 class="text-truncate">Foto.jpg</h5>&ndash;&gt;-->
+            <!--            &lt;!&ndash;                            <h6 class="bkt-card__subtitle">45.99 Kb</h6>&ndash;&gt;-->
+            <!--            &lt;!&ndash;                        </div>&ndash;&gt;-->
+            <!--            &lt;!&ndash;                        <div class="bkt-card__icon">&ndash;&gt;-->
+            <!--            &lt;!&ndash;                            <bkt-icon :name="'More'"></bkt-icon>&ndash;&gt;-->
+            <!--            &lt;!&ndash;                        </div>&ndash;&gt;-->
+            <!--            &lt;!&ndash;                    </div>&ndash;&gt;-->
+            <!--                                <button class="bkt-button green">Добавить фото</button>-->
+            <!--                                <button class="bkt-button green">Добавить документ</button>-->
+            <!--                            </div>-->
             <!--                        </div>-->
-            <!--                        <h5 class="text-truncate">Авто</h5>-->
-            <!--                    </div>-->
-            <!--                    <div class="bkt-card__row outline bkt-wrapper bkt-nowrap">-->
-            <!--                        <div class="bkt-card__icon">-->
-            <!--                            <bkt-icon :name="'Note'" :color="'blue'" :width="'16px'" :height="'16px'"></bkt-icon>-->
-            <!--                        </div>-->
-            <!--                        <h5 class="text-truncate">Квартира</h5>-->
-            <!--                    </div>-->
-            <!--                    <div class="bkt-card__row outline bkt-wrapper bkt-nowrap">-->
-            <!--                        <div class="bkt-card__icon">-->
-            <!--                            <bkt-icon :name="'Note'" :color="'blue'" :width="'16px'" :height="'16px'"></bkt-icon>-->
-            <!--                        </div>-->
-            <!--                        <h5 class="text-truncate">Земля</h5>-->
-            <!--                    </div>-->
-            <!--                    <div class="bkt-card__row outline bkt-wrapper bkt-nowrap">-->
-            <!--                        <div class="bkt-card__icon">-->
-            <!--                            <bkt-icon :name="'Note'" :color="'blue'" :width="'16px'" :height="'16px'"></bkt-icon>-->
-            <!--                        </div>-->
-            <!--                        <h5 class="text-truncate">Дом с участком</h5>-->
-            <!--                    </div>-->
-            <!--                    <div class="bkt-card__row outline bkt-wrapper bkt-nowrap">-->
-            <!--                        <div class="bkt-card__icon">-->
-            <!--                            <bkt-icon :name="'Note'" :color="'blue'" :width="'16px'" :height="'16px'"></bkt-icon>-->
-            <!--                        </div>-->
-            <!--                        <h5 class="text-truncate">Дебиторская задолженность</h5>-->
-            <!--                    </div>-->
-            <!--                    <div class="bkt-card__row outline bkt-wrapper bkt-nowrap">-->
-            <!--                        <div class="bkt-card__icon">-->
-            <!--                            <bkt-icon :name="'Note'" :color="'blue'" :width="'16px'" :height="'16px'"></bkt-icon>-->
-            <!--                        </div>-->
-            <!--                        <h5 class="text-truncate">Свой набор</h5>-->
-            <!--                    </div>-->
-            <!--                    <button class="bkt-button primary">Добавить набор</button>-->
-            <!--                </div>-->
-            <!--            </div>-->
-            <!--            <div class="col-12 col-lg-3 order-3">-->
-            <!--                <div class="bkt-card bkt-card__body bkt-lot-card-my-files">-->
-            <!--                    <div class="bkt-card__header"><h3 class="bkt-card__title">Мои файлы</h3></div>-->
-            <!--&lt;!&ndash;                    <div class="bkt-card__row outline bkt-wrapper-between bkt-nowrap">&ndash;&gt;-->
-            <!--&lt;!&ndash;                        <div class="bkt-card__feature text-truncate">&ndash;&gt;-->
-            <!--&lt;!&ndash;                            <h5 class="text-truncate">Nazvanie.pdf</h5>&ndash;&gt;-->
-            <!--&lt;!&ndash;                            <h6 class="bkt-card__subtitle">23.1 Mb</h6>&ndash;&gt;-->
-            <!--&lt;!&ndash;                        </div>&ndash;&gt;-->
-            <!--&lt;!&ndash;                        <div class="bkt-card__icon">&ndash;&gt;-->
-            <!--&lt;!&ndash;                            <bkt-icon :name="'More'"></bkt-icon>&ndash;&gt;-->
-            <!--&lt;!&ndash;                        </div>&ndash;&gt;-->
-            <!--&lt;!&ndash;                    </div>&ndash;&gt;-->
-            <!--&lt;!&ndash;                    <div class="bkt-card__row outline bkt-wrapper-between bkt-nowrap">&ndash;&gt;-->
-            <!--&lt;!&ndash;                        <div class="bkt-card__feature text-truncate">&ndash;&gt;-->
-            <!--&lt;!&ndash;                            <h5 class="text-truncate">Foto.jpg</h5>&ndash;&gt;-->
-            <!--&lt;!&ndash;                            <h6 class="bkt-card__subtitle">45.99 Kb</h6>&ndash;&gt;-->
-            <!--&lt;!&ndash;                        </div>&ndash;&gt;-->
-            <!--&lt;!&ndash;                        <div class="bkt-card__icon">&ndash;&gt;-->
-            <!--&lt;!&ndash;                            <bkt-icon :name="'More'"></bkt-icon>&ndash;&gt;-->
-            <!--&lt;!&ndash;                        </div>&ndash;&gt;-->
-            <!--&lt;!&ndash;                    </div>&ndash;&gt;-->
-            <!--                    <button class="bkt-button green">Добавить фото</button>-->
-            <!--                    <button class="bkt-button green">Добавить документ</button>-->
-            <!--                </div>-->
-            <!--            </div>-->
             <div v-if="item.trade && item.trade.debtor && isLoggedIn" class="col-12 col-lg-12 order-3 px-lg-0">
                 <div class="bkt-card bkt-card__body bkt-lot-card-debtor">
                     <div class="bkt-card__header bkt-wrapper-between pb-0">
                         <h3 class="bkt-card__title">Информация по должнику</h3>
-                        <a href="" class="bkt-button next ps-sm-2 py-md-0" style="line-height: 1;">
-                            Сообщения по должнику
-                            <span class="bkt-text-neutral-dark">(0)</span>
-                            <bkt-icon name="ArrowDown"></bkt-icon>
-                        </a>
+                        <!--                        <a href="" class="bkt-button next ps-sm-2 py-md-0" style="line-height: 1;">-->
+                        <!--                            Сообщения по должнику-->
+                        <!--                            <span class="bkt-text-neutral-dark">(0)</span>-->
+                        <!--                            <bkt-icon name="ArrowDown"></bkt-icon>-->
+                        <!--                        </a>-->
+                        <router-link custom v-slot="{navigate}" :to="'/registries/debtor/'+item.trade.debtor.id"
+                                     v-if="item.trade && item.trade.debtor"
+                        >
+                            <button class="bkt-button next" @click="navigate">
+                                Подробнее о должнике
+                                <bkt-icon name="ArrowDown" color="primary"></bkt-icon>
+                            </button>
+                        </router-link>
                     </div>
                     <ul class="bkt-contents">
                         <li>
@@ -989,7 +916,7 @@
                     </template>
                 </bkt-collapse>
             </div>
-            <div v-if="isLoggedIn" class="col-12 col-lg-8 order-3 ps-lg-0">
+            <div v-if="item.trade && item.trade.organizer && isLoggedIn" class="col-12 col-lg-8 order-3 ps-lg-0">
                 <div class="bkt-card bkt-card__body">
                     <div class="bkt-card__header pb-0">
                         <h3 class="bkt-card__title">Информация по организатору</h3>
@@ -1060,7 +987,8 @@
                     <!--                    </div>-->
                 </div>
             </div>
-            <div v-if="isLoggedIn" class="col-12 col-lg-4 order-3 pe-lg-0">
+            <div v-if="isLoggedIn && item.trade && item.trade.arbitrationManager"
+                 class="col-12 col-lg-4 order-3 pe-lg-0">
                 <div class=" bkt-card bkt-card__body bkt-lot-card-arbitration-manager">
                     <div class="bkt-card__header pb-0">
                         <h3 class="bkt-card__title">Информация по арбитражному управляющему</h3>
@@ -1113,26 +1041,28 @@
                               id="collapseDocuments" :loading="files_loading" :disabled="files.length==0"
                 >
                     <template #collapse v-if="files.length>0">
-                        <div class="row w-100 g-2 align-items-stretch mx-auto">
+                        <div class="row w-100 row-cols-2 g-2 align-items-stretch mx-auto">
                             <div class="col-12 col-md-6" v-for="file in files">
-                                <div class="row bkt-row outline align-items-start bkt-nowrap">
-                                    <div class="col p-0" style="max-width: 28px;">
-                                        <bkt-icon name="Note" color="red" width="16px" height="16px"
-                                                  class="d-flex"></bkt-icon>
+                                <a :href="file.url" target="_blank" class="h-100">
+                                    <div class="row bkt-row outline align-items-start bkt-nowrap h-100">
+                                        <div class="col p-0" style="max-width: 28px;">
+                                            <bkt-icon name="Note" color="red" width="16px" height="16px"
+                                                      class="d-flex"></bkt-icon>
+                                        </div>
+                                        <div class="col">
+                                            <h6>{{file.title}}</h6>
+                                        </div>
+                                        <!--                                    <div class="col-7 col-md-8 px-1">-->
+                                        <!--                                        <h6>{{file}}</h6>-->
+                                        <!--                                    </div>-->
+                                        <!--                                    <div class="col p-0">-->
+                                        <!--                                        <h6 class="bkt-text-blue">jpg</h6>-->
+                                        <!--                                    </div>-->
+                                        <!--                                    <div class="col p-0">-->
+                                        <!--                                        <h6 class="bkt-text-neutral-dark">23.1 Mb</h6>-->
+                                        <!--                                    </div>-->
                                     </div>
-                                    <div class="col">
-                                        <h6>{{file}}</h6>
-                                    </div>
-                                    <!--                                    <div class="col-7 col-md-8 px-1">-->
-                                    <!--                                        <h6>{{file}}</h6>-->
-                                    <!--                                    </div>-->
-                                    <!--                                    <div class="col p-0">-->
-                                    <!--                                        <h6 class="bkt-text-blue">jpg</h6>-->
-                                    <!--                                    </div>-->
-                                    <!--                                    <div class="col p-0">-->
-                                    <!--                                        <h6 class="bkt-text-neutral-dark">23.1 Mb</h6>-->
-                                    <!--                                    </div>-->
-                                </div>
+                                </a>
                             </div>
                         </div>
                     </template>
@@ -1170,7 +1100,8 @@
         data() {
             return {
                 loading: false,
-                item: {},
+                note_loading: false,
+                // item: {},
                 files: [],
                 user_files: [],
                 files_loading: false,
@@ -1213,6 +1144,12 @@
                     }
                 }
                 return null;
+            },
+            item() {
+                if (this.loading) {
+                    return {}
+                }
+                return this.$store.getters.selected_lot
             }
         },
         watch: {
@@ -1243,7 +1180,8 @@
                 // } else {
                 await this.$store.dispatch('getTradeLot', this.$route.params.id)
                     .then(resp => {
-                        this.item = resp.data;
+                        // this.item = resp.data;
+                        this.$store.commit('setSelectedLot', resp.data);
                         this.loading = false;
                         this.getDebtorActiveLots();
                         this.getDebtorCompletedLots();
@@ -1257,7 +1195,13 @@
                 this.files_loading = true;
                 await this.$store.dispatch('getLotFiles', this.$route.params.id)
                     .then(resp => {
-                        this.files = resp.data.files;
+                        this.files = [];
+                        resp.data.files.forEach(item => {
+                            let str = item;
+                            let n = item.lastIndexOf('/');
+                            let result = str.substring(n + 1);
+                            this.files.push({title: result, url: item})
+                        })
                         this.user_files = resp.data.userFiles;
                     }).catch(error => {
 
@@ -1314,7 +1258,32 @@
                     })
             },
             changeStatus(payload) {
-                Vue.set(this.item, payload.key, payload.value)
+                this.$store.dispatch('saveDataProperty', {
+                    module_key: 'lots', state_key: 'selected_lot',
+                    key: payload.key,
+                    value: payload.value
+                }, {root: true});
+                // Vue.set(this.item, payload.key, payload.value)
+            },
+            callNoteModal() {
+                this.$store.commit('openModal', '#noteModal')
+            },
+            removeNote() {
+                this.note_loading = true;
+                this.$store.dispatch('removeLotNote', {noteId: this.item.note.id})
+                    .then(resp => {
+                        this.$store.dispatch('saveDataProperty', {
+                            module_key: 'lots', state_key: 'selected_lot',
+                            key: 'note',
+                            value: null
+                        }, {root: true});
+                        this.note_loading = false;
+                    }).catch(error => {
+                    this.note_loading = false;
+                });
+            },
+            sendApplication() {
+                this.$store.commit('openModal', '#applicationModal')
             }
         }
     }

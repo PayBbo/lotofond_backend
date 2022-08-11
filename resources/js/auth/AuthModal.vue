@@ -1,5 +1,5 @@
 <template>
-    <bkt-modal :id="'authModal'" ref="authModal" :modal_class="'bkt-auth-modal '+tab">
+    <bkt-modal :id="'authModal'" ref="authModal" :modal_class="'bkt-auth-modal '+tab" no_footer>
         <template #aside>
             <div class="bkt-modal__aside">
                 <img class="bkt-modal__aside-image" :src="'/images/'+tab+'_image.png'" alt="">
@@ -175,10 +175,10 @@
                 Зарегистрироваться
             </button>
             <div class="bkt-wrapper-between w-100" v-if="tab=='login'">
-                <a class="bkt-forgot-password" @click="submit">Забыли пароль?
-                    <bkt-icon name="ArrowDown"></bkt-icon>
-                </a>
-                <button class="bkt-button primary" :disabled="invalid" @click="submit">
+<!--                <a class="bkt-forgot-password" @click="submit">Забыли пароль?-->
+<!--                    <bkt-icon name="ArrowDown"></bkt-icon>-->
+<!--                </a>-->
+                <button class="bkt-button primary ms-auto me-0" :disabled="invalid" @click="submit">
                     <span v-if="loading" class="spinner-border spinner-border-sm" role="status"
                           aria-hidden="true"></span>
                     Войти

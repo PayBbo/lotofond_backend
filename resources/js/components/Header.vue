@@ -26,7 +26,7 @@
                     <li class="bkt-navbar__nav-item">
                         <div @click="navigate('/messages')" class="bkt-navbar__nav-link">
                             <span class="bkt-button-ellipse main">
-                                <span class="info"></span>
+                                <span class="info" v-if="hasNotSeenNotifications"></span>
                                 <bkt-icon :name="'Bell'" :color="'green'"/>
                             </span>
                             Сообщения
@@ -301,13 +301,27 @@
                         color: 'green',
                     },
                     {
+                        path: '/calendar',
+                        icon: 'Date',
+                        code: "Calendar",
+                        label: "Календарь",
+                        color: 'primary',
+                        meta: 'auth'
+                    },
+                    {
                         path: '/contacts',
                         icon: 'Briefcase',
                         code: "Contacts",
                         label: "Контакты",
-                        color: 'primary',
+                        color: 'yellow',
                     },
                 ],
+            }
+        },
+        created() {
+            this.getUser();
+            if (this.isLoggedIn) {
+                this.checkNotifications();
             }
         },
         computed: {
@@ -317,9 +331,16 @@
             isLoggedIn() {
                 return this.$store.getters.isLoggedIn
             },
+            hasNotSeenNotifications(state) {
+                return this.$store.getters.hasNotSeenNotifications;
+            },
         },
-        created() {
-            this.getUser();
+        watch: {
+            isLoggedIn: function (newVal, oldVal) {
+                if (oldVal == false && newVal == true) {
+                    this.checkNotifications();
+                }
+            }
         },
         methods: {
             async getUser() {
@@ -351,6 +372,9 @@
                 else {
                     this.$store.dispatch('sendAuthNotification', {self: this})
                 }
+            },
+            checkNotifications() {
+                this.$store.dispatch('checkNotifications')
             }
         }
 

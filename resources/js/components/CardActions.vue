@@ -3,7 +3,7 @@
         <div class="bkt-dropdown dropdown" v-for="action in actions">
             <button
                 :class="['bkt-button'+button_type, item[action.status] ? 'bkt-bg-'+action.color : main_bg,
-                 action.color ? 'bkt-hover-'+action.color : 'bkt-hover-'+main_bg]"
+                 action.color ? 'bkt-hover-'+action.color : 'bkt-hover-'+main_bg, action.class]"
                 @click="makeAction(action.method, action.method_params)"
                 :id="action.dropdown_id ? action.dropdown_id : 'button-dropdown-'+action.icon"
                 :data-bs-toggle="action.dropdown_id && item[action.status] ? 'dropdown' : ''"
@@ -93,27 +93,30 @@
                         status: 'isWatched',
                         method: this.changeStatus,
                         method_params: {type: 'seen', icon: 'Eye', status: 'isWatched'},
-                        place: 'all'
+                        place: 'all',
+                        class: ''
                     },
-                    {
-                        icon: 'Bookmark',
-                        label: "Добавить метку",
-                        color: 'blue',
-                        code: '',
-                        status: 'no_status',
-                        method: '',
-                        method_params: {icon: 'Bookmark'},
-                        place: 'lot-card'
-                    },
+                    // {
+                    //     icon: 'Bookmark',
+                    //     label: "Добавить метку",
+                    //     color: 'blue',
+                    //     code: '',
+                    //     status: 'no_status',
+                    //     method: '',
+                    //     method_params: {icon: 'Bookmark'},
+                    //     place: 'lot-card',
+                    //     class: ''
+                    // },
                     {
                         icon: 'Pencil',
                         label: "Добавить заметку",
                         color: 'blue',
                         code: '',
-                        status: 'no_status',
-                        method: '',
+                        status: 'note',
+                        method: this.addNote,
                         method_params: {icon: 'Pencil'},
-                        place: 'card'
+                        place: 'all',
+                        class: ''
                     },
                     {
                         icon: 'Target',
@@ -123,7 +126,8 @@
                         status: 'inMonitoring',
                         method: '',
                         method_params: {icon: 'Target'},
-                        place: 'all'
+                        place: 'all',
+                        class: 'bkt-cursor-auto'
                     },
                     {
                         icon: 'Star',
@@ -134,17 +138,19 @@
                         method: this.addToFavourites,
                         method_params: {icon: 'Star'},
                         place: 'all',
-                        dropdown_id: 'inFavourite'
+                        dropdown_id: 'inFavourite',
+                        class: ''
                     },
                     {
                         icon: 'Bell',
                         label: "Уведомления",
                         color: 'green',
                         code: '',
-                        status: 'no_status',
+                        status: 'hasNotSeenNotification',
                         method: '',
                         method_params: {icon: 'Bell'},
-                        place: 'all'
+                        place: 'all',
+                        class: 'bkt-cursor-auto'
                     },
                     {
                         icon: 'Clip',
@@ -154,7 +160,8 @@
                         status: 'isPinned',
                         method: this.changeStatus,
                         method_params: {type: 'fixed', icon: 'Clip', status: 'isPinned'},
-                        place: 'all'
+                        place: 'all',
+                        class: ''
                     },
                     // {
                     //     icon: 'Trash',
@@ -267,6 +274,10 @@
             },
             addToMonitoring() {
 
+            },
+            addNote() {
+                this.$store.commit('setSelectedLot', this.item);
+                this.$store.commit('openModal', '#noteModal')
             },
             getColor(icon) {
                 if (this.type == 'menu') {

@@ -73,6 +73,8 @@ export default {
             POST /account/credentials/code        Запрос кода подтверждения для смены почты/телефона
             POST /account/credentials/code/verify Отправка пользователем кода подтверждения для подтвержденыя изменения почты/телефона
             POST /account/notifications/settings  изменение настроек уведомлений в профиле пользователя
+            POST /account/apple/callback          Получение данных после авторизации через соц.сеть
+            POST /account/socials/link            Привязка социальной сети к аккаунту
 
         */
 
@@ -183,12 +185,12 @@ export default {
         },
         async changePassword({commit}, payload) {
             return await axios.post('/api/account/password/change', payload)
-                // .then(resp => {
-                //     // commit('auth_success', {token: resp.data.accessToken, refreshToken: resp.data.refreshToken});
-                //     console.log(resp);
-                // }).catch(error => {
-                //     console.log(error);
-                // });
+            // .then(resp => {
+            //     // commit('auth_success', {token: resp.data.accessToken, refreshToken: resp.data.refreshToken});
+            //     console.log(resp);
+            // }).catch(error => {
+            //     console.log(error);
+            // });
         },
         async getCredentialsCode({commit}, payload) {
             return await axios.post('/api/account/credentials/code', payload)

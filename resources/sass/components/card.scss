@@ -164,7 +164,7 @@
     &__header {
         padding: 40px;
         margin: 0;
-        border-bottom: 1px solid rgba(0, 0, 0, 0.125);
+        border-bottom: 2px solid $body-bg;
     }
 
     &__body &__header {

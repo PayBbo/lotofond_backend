@@ -1576,8 +1576,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         value: this.result
       }, {
         root: true
-      }); // this.$store.commit('saveFiltersProperty', {key: 'categories', value: this.model});
-
+      });
+      this.$store.commit('saveFiltersProperty', {
+        key: 'filters_categories',
+        value: this.result
+      });
       this.$store.commit('closeModal', '#categoryModal');
       this.$store.dispatch(this.method_name, {
         page: 1,
@@ -1593,8 +1596,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         value: []
       }, {
         root: true
-      }); // this.$store.commit('saveFiltersProperty', {key: 'categories', value: []});
-
+      });
+      this.$store.commit('saveFiltersProperty', {
+        key: 'filters_categories',
+        value: []
+      });
       this.$store.commit('closeModal', '#categoryModal');
       this.$store.dispatch(this.method_name, {
         page: 1,
@@ -1704,7 +1710,10 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     saveFilters: function saveFilters() {
-      // this.$store.commit('saveFiltersProperty', {key: 'dates', value: this.filter});
+      this.$store.commit('saveFiltersProperty', {
+        key: 'filters_dates',
+        value: this.filter
+      });
       this.$store.dispatch('saveDataProperty', {
         module_key: 'filters',
         state_key: this.filter_name,
@@ -1720,7 +1729,10 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     clearFilters: function clearFilters() {
-      // this.$store.commit('saveFiltersProperty', {key: 'dates', value: this.template});
+      this.$store.commit('saveFiltersProperty', {
+        key: 'filters_dates',
+        value: this.template
+      });
       this.$store.dispatch('saveDataProperty', {
         module_key: 'filters',
         state_key: this.filter_name,
@@ -1833,7 +1845,10 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     saveFilters: function saveFilters() {
-      // this.$store.commit('saveFiltersProperty', {key:'extraOptions', value: this.filter});
+      this.$store.commit('saveFiltersProperty', {
+        key: 'filters_extraOptions',
+        value: this.filter
+      });
       this.$store.dispatch('saveDataProperty', {
         module_key: 'filters',
         state_key: this.filter_name,
@@ -1849,7 +1864,10 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     clearFilters: function clearFilters() {
-      // this.$store.commit('saveFiltersProperty', {key:'extraOptions', value: this.template});
+      this.$store.commit('saveFiltersProperty', {
+        key: 'filters_extraOptions',
+        value: this.template
+      });
       this.$store.dispatch('saveDataProperty', {
         module_key: 'filters',
         state_key: this.filter_name,
@@ -1974,7 +1992,10 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     saveFilters: function saveFilters() {
-      // this.$store.commit('saveFiltersProperty', {key: 'mainParams', value: this.filter});
+      this.$store.commit('saveFiltersProperty', {
+        key: 'filters_mainParams',
+        value: this.filter
+      });
       this.$store.dispatch('saveDataProperty', {
         module_key: 'filters',
         state_key: this.filter_name,
@@ -1990,7 +2011,10 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     clearFilters: function clearFilters() {
-      // this.$store.commit('saveFiltersProperty', {key: 'mainParams', value: this.template});
+      this.$store.commit('saveFiltersProperty', {
+        key: 'filters_mainParams',
+        value: this.template
+      });
       this.$store.dispatch('saveDataProperty', {
         module_key: 'filters',
         state_key: this.filter_name,
@@ -2094,7 +2118,10 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     saveFilters: function saveFilters() {
-      // this.$store.commit('saveFiltersProperty', {key: 'prices', value: this.filter});
+      this.$store.commit('saveFiltersProperty', {
+        key: 'filters_prices',
+        value: this.filter
+      });
       this.$store.dispatch('saveDataProperty', {
         module_key: 'filters',
         state_key: this.filter_name,
@@ -2110,7 +2137,10 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     clearFilters: function clearFilters() {
-      // this.$store.commit('saveFiltersProperty', {key: 'prices', value: this.template});
+      this.$store.commit('saveFiltersProperty', {
+        key: 'filters_prices',
+        value: this.template
+      });
       this.$store.dispatch('saveDataProperty', {
         module_key: 'filters',
         state_key: this.filter_name,
@@ -2211,7 +2241,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   },
   methods: {
     saveFilters: function saveFilters() {
-      // this.$store.commit('saveFiltersProperty', {key: 'regions', value: this.model});
+      this.$store.commit('saveFiltersProperty', {
+        key: 'filters_regions',
+        value: this.result
+      });
       this.$store.dispatch('saveDataProperty', {
         module_key: 'filters',
         state_key: this.filter_name,
@@ -2227,8 +2260,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       });
     },
     clearFilters: function clearFilters() {
-      this.model = []; // this.$store.commit('saveFiltersProperty', {key: 'regions', value: []});
-
+      this.model = [];
+      this.$store.commit('saveFiltersProperty', {
+        key: 'filters_regions',
+        value: []
+      });
       this.$store.dispatch('saveDataProperty', {
         module_key: 'filters',
         state_key: this.filter_name,
@@ -6493,7 +6529,7 @@ var render = function () {
                 }),
                 _vm._v(" "),
                 _c("bkt-checkbox", {
-                  attrs: { label: "удалённые", name: "isHidden" },
+                  attrs: { label: "скрытые", name: "isHidden" },
                   on: {
                     input: function ($event) {
                       return _vm.getData(1)

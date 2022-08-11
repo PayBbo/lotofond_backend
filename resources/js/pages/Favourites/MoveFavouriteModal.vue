@@ -86,7 +86,7 @@
                         lotId: this.item.id
                     })
                     .then(resp => {
-                        this.$store.commit('closeModal', '#moveFavouriteModal')
+                        this.$store.commit('closeModal', '#moveFavouriteModal');
                         this.loading = false;
                     })
                     .finally(() => {

@@ -1,162 +1,280 @@
 .bkt-messages {
-  font-size: 14px;
-  //letter-spacing: 1px;
+    font-size: 14px;
+    //letter-spacing: 1px;
 
-  & .bkt-bg-green-lighter {
-    background: #eefcef !important;
-  }
+    & .bkt-bg-green-lighter {
+        background: #eefcef !important;
+    }
 
-  & .bkt-content {
-    & .bkt-history {
-      &__chats {
+    & .bkt-message {
+        position: relative;
+        display: flex;
+        flex-wrap: nowrap;
+        align-items: flex-start;
+        justify-content: space-between;
+        padding: 20px 30px;
         background: white;
-        border-radius: 15px;
+        gap: 20px;
 
-        & .bkt-chat {
-          display: flex;
-          justify-content: space-between;
-          height: 50px;
-          align-items: center;
-          padding-left: 1.5rem;
-          padding-right: 1.5rem;
-          cursor: pointer;
-          font-weight: 600;
+        &:first-child {
+            border-top-left-radius: 25px;
+            border-top-right-radius: 25px;
         }
-      }
 
-      &__messages {
-        & .bkt-chat__item {
-          background: white;
-          padding: 2rem;
-          margin-bottom: 0.5rem;
+        &:last-child {
+            border-bottom-right-radius: 25px;
+            border-bottom-left-radius: 25px;
+        }
+        &__content
+        {
+            gap: 15px;
+        }
+        &__type {
+            padding: 9px 15px;
+            font-weight: 600;
+            border-radius: 10px;
+            font-size: 12px;
+            text-transform: lowercase;
+        }
 
-          &:first-child {
-            border-top-left-radius: 15px;
-            border-top-right-radius: 15px;
-          }
+        &__title {
+            font-size: 12px;
+            font-family: "Gilroy", sans-serif;
+            color: rgb(41, 83, 255);
+            font-weight: bold;
+            line-height: 1.833;
+            text-transform: uppercase;
+        }
 
-          &:last-child {
-            border-bottom-right-radius: 15px;
-            border-bottom-left-radius: 15px;
-          }
+        &__text {
+            font-size: 14px;
+            font-family: "Gilroy", sans-serif;
+            color: rgb(45, 50, 68);
+            line-height: 1.429;
+            text-align: left;
+            font-weight: 400;
+        }
 
-          .bkt-icon-done {
-            right: 10px;
+        &__date {
+            font-size: 12px;
+            font-family: "Gilroy", sans-serif;
+            color: rgba(45, 50, 68, 0.4);
+            line-height: 1.2;
+        }
+
+        &__check {
+            position: absolute;
+            right: 15px;
             bottom: 15px;
-          }
+        }
 
-          & .bkt-item-content {
-            max-width: 70%;
-          }
+        &__image {
+            &-wrapper {
+                margin-right: 15px;
+                & .bkt-card__image-category {
+                    min-width: 42px;
+                    width: 42px;
+                    height: 42px;
+                    padding: 10px;
+                    min-height: 42px;
+                }
+            }
+            min-width: 42px;
+            width: 42px;
+            height: 42px;
+            border-radius: 10px;
+            object-fit: fill;
+        }
+    }
 
-          & .bkt-chat-content {
-            &__logo {
-              min-width: 42px;
-              width: 42px;
-              height: 42px;
-              border-radius: 10px;
-              margin-right: 15px;
+    & .bkt-content {
+        & .bkt-history {
+            &__chats {
+                background: white;
+                border-radius: 15px;
+
+                & .bkt-chat {
+                    display: flex;
+                    justify-content: space-between;
+                    height: 50px;
+                    align-items: center;
+                    padding-left: 1.5rem;
+                    padding-right: 1.5rem;
+                    cursor: pointer;
+                    font-weight: 600;
+                }
             }
 
-            &__info {
-              & p {
-                padding: 0.5rem 1rem;
-                font-weight: 600;
-                border-radius: 10px;
-              }
+            &__messages {
+                & .bkt-chat__item {
+                    background: white;
+                    //padding: 2rem;
+                    //margin-bottom: 0.5rem;
+
+                    &:first-child {
+                        border-top-left-radius: 25px;
+                        border-top-right-radius: 25px;
+                    }
+
+                    &:last-child {
+                        border-bottom-right-radius: 25px;
+                        border-bottom-left-radius: 25px;
+                    }
+
+                    .bkt-icon-done {
+                        right: 15px;
+                        bottom: 15px;
+                    }
+
+                    & .bkt-item-content {
+                        max-width: 70%;
+                    }
+
+                    & .bkt-chat-content {
+                        &__logo {
+                            min-width: 42px;
+                            width: 42px;
+                            height: 42px;
+                            border-radius: 10px;
+                            margin-right: 15px;
+                        }
+
+                        &__info {
+                            & p {
+                                padding: 0.5rem 1rem;
+                                font-weight: 600;
+                                border-radius: 10px;
+                            }
+                        }
+
+                        &__text {
+                            // line-height: 13px;
+                            & .bkt-text-title {
+                                color: #2953ff;
+                                font-weight: 600;
+                            }
+                        }
+                    }
+                }
+
+                & .bkt-monitoring-checkboxes {
+                    display: flex;
+                    flex-direction: column;
+                }
+            }
+        }
+    }
+
+    @media (max-width: 576px) {
+        //* {
+        //    font-size: 10px;
+        //}
+        & .bkt-message {
+            padding: 14px 20px;
+
+            &__type {
+                padding: 6px 10px;
+                border-radius: 8px;
+                font-size: 8px;
+            }
+
+            &__title {
+                font-size: 10px;
+                line-height: 10px;
             }
 
             &__text {
-              // line-height: 13px;
-              & .bkt-text-title {
-                color: #2953ff;
-                font-weight: 600;
-              }
+                font-size: 12px;
+                line-height: 12px;
             }
-          }
+
+            &__date {
+                font-size: 10px;
+                line-height: 10px;
+            }
+
+            &__check {
+                right: 12px;
+                bottom: 17px;
+            }
         }
-
-        & .bkt-monitoring-checkboxes {
-          display: flex;
-          flex-direction: column;
-        }
-      }
-    }
-  }
-
-  @media (max-width: 576px) {
-    * {
-      font-size: 10px;
-    }
-    & .bkt-history {
-      &__chats {
-        & .bkt-chat {
-          height: 40px !important;
-          padding-left: 2.5rem !important;
-          padding-right: 2.5rem !important;
-        }
-      }
-
-      &__messages {
-        & .bkt-chat__item {
-          display: block !important;
-
-          & .bkt-item-title {
-            justify-content: space-between;
-          }
-
-          & .bkt-item-content {
-            max-width: 100% !important;
-
-            & .bkt-content-message {
-              & .bkt-chat-content {
-                &__text {
-                  & .bkt-text-hidden {
-                    width: 150px;
-                    overflow: hidden;
-                    text-overflow: ellipsis;
-                    white-space: pre;
-
-                    &::after {
-                      content: 'dd';
-                    }
-                  }
+        & .bkt-history {
+            &__chats {
+                & .bkt-chat {
+                    height: 40px !important;
+                    padding-left: 2.5rem !important;
+                    padding-right: 2.5rem !important;
                 }
-              }
             }
-          }
 
-          & .bkt-chat-content__info {
-            span {
-              font-size: 9px !important;
+            &__messages {
+                & .bkt-chat__item {
+                    display: block !important;
+
+                    & .bkt-item-title {
+                        justify-content: space-between;
+                    }
+
+                    & .bkt-item-content {
+                        max-width: 100% !important;
+
+                        & .bkt-content-message {
+                            & .bkt-chat-content {
+                                &__text {
+                                    & .bkt-text-hidden {
+                                        width: 150px;
+                                        overflow: hidden;
+                                        text-overflow: ellipsis;
+                                        white-space: pre;
+
+                                        &::after {
+                                            content: 'dd';
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    & .bkt-chat-content__info {
+                        span {
+                            font-size: 9px !important;
+                        }
+                    }
+                }
             }
-          }
         }
-      }
     }
-  }
 
-  @media (min-width: 577px) and (max-width: 767px) {
-    & .bkt-chat__item {
-      flex-wrap: wrap;
-
-      & .bkt-item-title {
-        display: contents !important;
-      }
-
-      & .bkt-item-content {
-        margin-top: 1rem;
-      }
+    @media (max-width: 767px) {
+        & .bkt-message {
+            flex-wrap: wrap;
+            gap: 12px;
+        }
     }
-  }
 
-  @media (min-width: 768px) and (max-width: 1200px) {
-    & .bkt-item-content {
-      width: 100% !important;
+    @media (min-width: 577px) and (max-width: 767px) {
+
+        & .bkt-chat__item {
+            flex-wrap: wrap;
+
+            & .bkt-item-title {
+                display: contents !important;
+            }
+
+            & .bkt-item-content {
+                margin-top: 1rem;
+            }
+        }
     }
-  }
 
-  .bkt-arrow-after:after {
-    content: ' ❯';
-  }
+    @media (min-width: 768px) and (max-width: 1200px) {
+        & .bkt-item-content {
+            width: 100% !important;
+        }
+    }
+
+    .bkt-arrow-after:after {
+        content: ' ❯';
+    }
 }

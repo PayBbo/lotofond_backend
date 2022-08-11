@@ -177,6 +177,10 @@
                 selected_date: ''
             }
         },
+        created() {
+            this.nowDate.month = new Date().getMonth();
+            this.nowDate.year = new Date().getFullYear();
+        },
         computed: {
             items() {
                 return this.$store.getters.events.filter(item => this.event_types.indexOf(item.type) >= 0);
@@ -190,6 +194,7 @@
                         key: item.id,
                         dates: item.date,
                         customData: {
+                            id: item.id ?? 0,
                             title: item.title,
                             subtitle: this.events.find(event => event.type == item.type).title,
                             type: item.type,
@@ -266,6 +271,7 @@
             },
             editEvent(event) {
                 this.selected_event = event;
+                console.log('event', event)
                 this.$refs.editEventModal.setEvent(event);
                 this.$nextTick(() => {
                     this.$store.commit('openModal', '#editEventModal');
@@ -286,10 +292,6 @@
                     this.addEvent(null)
                 }
             }
-        },
-        created() {
-            this.nowDate.month = new Date().getMonth();
-            this.nowDate.year = new Date().getFullYear();
         },
     }
 </script>
