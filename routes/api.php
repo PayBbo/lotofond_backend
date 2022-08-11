@@ -149,6 +149,8 @@ Route::group(['middleware' => ['json.response', 'localization']], function () {
 
             Route::get('user', [ProfileController::class, 'getUser']);
 
+            Route::get('notifications', [ProfileController::class, 'hasNotSeenNotifications']);
+
             Route::put('user/update', [ProfileController::class, 'updateUser']);
 
             Route::post('logout', [LoginController::class, 'logout']);

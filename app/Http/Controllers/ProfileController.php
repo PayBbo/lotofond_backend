@@ -14,6 +14,7 @@ use App\Http\Services\SendCodeService;
 use App\Http\Services\SocialsService;
 use App\Jobs\ChangeEmail;
 use App\Models\ChangeCredentials;
+use App\Models\Notification;
 use App\Models\SocialAccount;
 use App\Models\User;
 use Carbon\Carbon;
@@ -182,5 +183,9 @@ class ProfileController extends Controller
            'provider'=>$request->grantType
         ]);
         return response(null, 200);
+    }
+
+    public function hasNotSeenNotifications(){
+        return response(['hasNotSeenNotifications'=>Notification::where(['user_id'=> auth()->guard('api')->id(), 'is_seen'=>false])->exists()], 200);
     }
 }

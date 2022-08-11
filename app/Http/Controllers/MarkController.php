@@ -25,7 +25,7 @@ class MarkController extends Controller
         if(!$lot->marks->contains($mark)){
             $lot->marks()->attach($mark);
         }
-        return response(null, 200);
+        return response(['id'=>$mark->id, 'title'=>$mark->title], 200);
     }
 
     public function deleteMark($markId, $lotId){

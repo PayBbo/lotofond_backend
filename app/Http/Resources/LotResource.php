@@ -33,6 +33,7 @@ class LotResource extends JsonResource
             'isWatched' => auth()->guard('api')->check() ? $user->seenLots->pluck('id')->contains($this->id) : false,
             'isPinned' => auth()->guard('api')->check() ? $user->fixedLots->pluck('id')->contains($this->id) : false,
             'inFavourite' => $inFavourite,
+            'hasNotSeenNotification'=>auth()->guard('api')->check() ? $this->hasNotSeenNotification() : false,
             $this->mergeWhen($inFavourite  && !is_null($this->getLotFavouritePaths()), [
                 'favouritePaths' => $this->getLotFavouritePaths(),
             ]),

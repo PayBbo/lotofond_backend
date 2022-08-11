@@ -416,6 +416,30 @@ paths:
                 $ref: '#/components/schemas/Error'
       security:
         - bearerAuth: [ ]
+  /account/notifications:
+    get:
+      tags:
+        - Account
+      summary: Получение информации о непрочитанных оповещениях пользователя
+      operationId: hasNotSeenNotifications
+      responses:
+        "200":
+          description: Информация о непрочитанных оповещениях пользователя
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  hasNotSeenNotifications:
+                    type: boolean
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+        - bearerAuth: [ ]
   /account/logout:
     post:
       tags:
@@ -1602,6 +1626,17 @@ paths:
       responses:
         "200":
           description: метка успешно добавлена
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    description: айдишник метки
+                  title:
+                    type: string
+                    description: значение метки
         "422":
           description: Ошибка валидации данных (лот не существует)
           content:
@@ -3221,6 +3256,9 @@ components:
         isHide:
           type: boolean
           description: скрыт/не скрыт
+        hasNotSeenNotification:
+          type: boolean
+          description: флаг на наличие непрочитанных оповещений по лоту
         description:
           type: string
           description: описание лота
@@ -3291,6 +3329,9 @@ components:
         isPinned:
           type: boolean
           description: закреплен/не закреплен
+        hasNotSeenNotification:
+          type: boolean
+          description: флаг на наличие непрочитанных оповещений по лоту
         inFavourites:
           type: boolean
           description: в избранном/нет

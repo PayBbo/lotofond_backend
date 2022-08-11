@@ -385,4 +385,17 @@ class Lot extends Model
         }
         return $categories;
     }
+
+    public function hasNotSeenNotification(){
+        $favourites = auth()->guard('api')->user()->favourites;
+        foreach($favourites as $favourite){
+            if($favourite->lots->contains($this)){
+                $ids = $favourite->lots()->pluck('favourite_lot.id')->toArray();
+                if(Notification::whereIn('lot_id', $ids)->where(['user_id'=> auth()->guard('api')->id(), 'is_seen'=>false])->exists()){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
 }
