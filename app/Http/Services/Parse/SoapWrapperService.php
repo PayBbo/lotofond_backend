@@ -30,6 +30,8 @@ class SoapWrapperService
                     'login' => \Config::get('values.FEDRESURS_LOGIN'),
                     'password' => \Config::get('values.FEDRESURS_PASSWORD'),
                     'compression'   => SOAP_COMPRESSION_ACCEPT | SOAP_COMPRESSION_GZIP | SOAP_COMPRESSION_DEFLATE,
+                    'keep_alive' => false,
+                    'connection_timeout' => 5000,
                     'stream' => stream_context_create(array(
                         'ssl' => array(
                             'verify_peer' => false,

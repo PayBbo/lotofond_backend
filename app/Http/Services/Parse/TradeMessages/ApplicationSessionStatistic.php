@@ -18,13 +18,13 @@ class ApplicationSessionStatistic extends TradeMessage implements TradeMessageCo
                 if(!array_key_exists('@attributes', $invitation)){
                    $invitation = $invitation[$prefix . 'LotList'][$prefix . 'LotStatistic'];
                 }
-                if(count($lot)>1){
+               /* if(count($lot)>1){
                     foreach($lot as $item){
                         $this->saveStatistics($auction, $item, $prefix, $invitation);
                     }
-                }else{
+                }else{*/
                     $this->saveStatistics($auction, $lot, $prefix, $invitation);
-                }
+               // }
 
             }
         } catch (\Exception $e) {

@@ -15,8 +15,8 @@ class Annulment extends TradeMessage implements TradeMessageContract
             if($message){
                 if(!is_null($message->param) && !is_null($message->param_type)){
                     $lot = Lot::find($message->lot_id);
-                    if($lot['param_type'] !== 'auction_dates' && $lot['param_type'] !== 'organizer'){
-                        $lot['param_type'] = $lot['param'];
+                    if($message->param_type !== 'auction_dates' && $message->param_type !== 'organizer'){
+                        $lot[$message->param_type] = $message->param;
                         $lot->save();
                     }else{
                         $auction = $lot->auction;
