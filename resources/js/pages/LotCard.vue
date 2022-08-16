@@ -30,7 +30,7 @@
                 <div class="bkt-wrapper-column bkt-lot-card__cards">
                     <div class="bkt-card">
                         <div class="bkt-card__body">
-                            <h3 class="bkt-card__title bkt-text-truncate">
+                            <h3 class="bkt-card__title bkt-text-truncate d-none d-sm-block">
                                 {{item && item.description ? item.description:'Некоторое название торгов'}}
                             </h3>
                             <ul class="bkt-contents" v-if="isLoggedIn">
@@ -48,6 +48,14 @@
                                     </div>
                                     <div class="bkt-contents__answer">
                                         <span>{{$t('trades.state.'+item.state)}}</span>
+                                    </div>
+                                </li>
+                                <li v-if="item.trade && item.trade.priceOfferForm">
+                                    <div class="bkt-contents__heading">
+                                        <span class="bkt-contents__heading">форма подачи предложения о цене</span>
+                                    </div>
+                                    <div class="bkt-contents__answer">
+                                        <span>{{$t('trades.priceOfferForm.'+item.trade.priceOfferForm)}}</span>
                                     </div>
                                 </li>
                                 <template v-for="(category, index) in item.categories">
@@ -102,7 +110,7 @@
                                     </template>
                                 </template>
                             </ul>
-                            <div class="bkt-contents" v-if="!isLoggedIn">
+                            <div class="bkt-contents">
                                 {{item.description}}
                             </div>
                             <div class="bkt-row outline bkt-wrapper-between align-items-center"
@@ -138,14 +146,6 @@
                                 <bkt-icon :name="'Pie'"></bkt-icon>
                             </span>
                             </div>
-                        </div>
-                        <div class="bkt-card__footer" v-if="isLoggedIn">
-                            <h6>
-                                <a href="">№135-ФЗ "О защите конкуренции", статья 17.1
-                                    <bkt-icon :name="'ArrowDown'" :color="'primary'"
-                                              class="bkt-rotate-270"></bkt-icon>
-                                </a>
-                            </h6>
                         </div>
                     </div>
                     <div v-if="!isLoggedIn" class="bkt-shadow-card bkt-shadow-card_primary">
@@ -219,12 +219,18 @@
                                 </router-link>
                             </div>
                         </div>
-                        <div class="bkt-card-price bkt-button green w-100">
+                        <div class="bkt-card-price bkt-button w-100"
+                             :class="{'bkt-bg-red': item.currentPriceState=='down',
+                                  'bkt-bg-green': item.currentPriceState=='up',
+                                  'bkt-bg-primary-lighter bkt-text-primary': item.currentPriceState=='hold'}"
+                        >
                             {{item.currentPrice ? item.currentPrice : '0' | priceFormat}} ₽
-                            <div class="bkt-card-price-icon bkt-bg-green-light">
+                            <div class="bkt-card-price-icon" v-if="item.currentPriceState!=='hold'"
+                                 :class="{'bkt-bg-red-light': item.currentPriceState=='down',
+                                          'bkt-bg-green-light': item.currentPriceState=='up'}"
+                            >
                                 <bkt-icon :name="'ArrowTriple'" :width="'22px'" :height="'22px'"
-                                          :class="{'bkt-rotate-180': item.currentPriceState=='down',
-                                          'bkt-rotate-90': item.currentPriceState=='hold'}"
+                                          :class="{'bkt-rotate-180': item.currentPriceState=='down'}"
                                 >
                                 </bkt-icon>
                             </div>
@@ -249,10 +255,9 @@
             <div v-if="isLoggedIn" class="col-12 col-lg-12 order-3 px-lg-0">
                 <div class="bkt-card bkt-lot-card-tasks">
                     <div class="bkt-card__header bkt-wrapper-between m-0 bkt-gap-large">
-                        <!--                        :class="{'bkt-border-none': !item.note}"-->
                         <div class="bkt-card-periods">
                             <div class="bkt-card-period bkt-wrapper" v-if="item.trade && item.trade.applicationTime
-                                 && (item.trade.applicationTime.start ||item.trade.applicationTime.end)">
+                                 && (item.trade.applicationTime.start || item.trade.applicationTime.end)">
                                 <div class="bkt-card__category bkt-bg-blue">
                                     <bkt-icon :name="'Date'" :width="'16px'"
                                               :height="'16px'"></bkt-icon>
@@ -277,14 +282,16 @@
                             </div>
                             <div class="bkt-card-period bkt-wrapper"
                                  v-if="item.trade && item.trade.eventTime
-                                 && (item.trade.eventTime.start ||item.trade.eventTime.end)"
+                                 && (item.trade.eventTime.start || item.trade.eventTime.end || item.trade.eventTime.result)"
                             >
                                 <div class="bkt-card__category bkt-bg-yellow">
                                     <bkt-icon :name="'Alarm'" :width="'16px'"
                                               :height="'16px'"></bkt-icon>
                                 </div>
                                 <div class="bkt-card_feature">
-                                    <h6>проведение торгов</h6>
+                                    <h6>
+                                        {{item.trade.eventTime.result ? 'объявление результатов торгов' : 'проведение торгов'}}
+                                    </h6>
                                     <strong>
                                         <h6 v-if="item.trade.eventTime.start">
                                             с {{item.trade.eventTime.start | moment('DD MMMM YYYY')}}
@@ -296,6 +303,12 @@
                                             {{item.trade.eventTime.end | moment('DD MMMM YYYY')}}
                                             <span class="bkt-text-yellow">
                                                 {{item.trade.eventTime.end | moment('HH:mm')}}
+                                            </span>
+                                        </h6>
+                                        <h6 v-if="item.trade.eventTime.result">
+                                            {{item.trade.eventTime.result | moment('DD MMMM YYYY')}}
+                                            <span class="bkt-text-yellow">
+                                                {{item.trade.eventTime.result | moment('HH:mm')}}
                                             </span>
                                         </h6>
                                     </strong>
@@ -325,95 +338,41 @@
                                     <bkt-icon :name="'Pencil'" :color="'primary'"
                                               class="bkt-card__category-icon"></bkt-icon>
                                 </div>
-                                <h5 class="">Заметка по лоту (видите только вы)</h5>
+                                <h5 class="bkt-note__title">Заметка по лоту (видите только вы)</h5>
                             </div>
                             <button class="bkt-button-icon primary" v-if="!item.note" @click="callNoteModal">
                                 <bkt-icon :name="'Plus'" class="bkt-button__icon"></bkt-icon>
                             </button>
                         </div>
-                        <div class="bkt-lot-card-task" v-if="item.note">
-                            <div class="bkt-row outline bkt-wrapper-between bkt-nowrap bkt-gap-medium">
-                                <h6>{{item.note.title}}</h6>
-                                <div class="bkt-card-period bkt-wrapper">
+                        <div class="bkt-note__wrapper bkt-wrapper-down-sm-column" v-if="item.note">
+                            <div class="bkt-note w-100 bkt-row outline bkt-wrapper-between bkt-gap-medium">
+                                <h6 class="bkt-note__text">{{item.note.title}}</h6>
+                                <div class="bkt-note__date-wrapper">
                                     <div class="bkt-card__category bkt-bg-blue-lighter">
                                         <bkt-icon :name="'Date'" :width="'16px'"
                                                   :height="'16px'" :color="'blue'"></bkt-icon>
                                     </div>
-                                    <div class="bkt-card_feature">
-                                        <h5>
-                                          {{item.note.date | moment('D MMMM YYYY')}}
-                                            <span class="bkt-text-blue">{{item.note.date | moment('HH:mm')}}</span>
-                                        </h5>
-                                    </div>
+                                    <h5 class="bkt-note__date">
+                                        {{item.note.date | moment('D MMMM YYYY')}}
+                                        <span class="bkt-text-blue">{{item.note.date | moment('HH:mm')}}</span>
+                                    </h5>
                                 </div>
-                                <button type="button" class="bkt-button p-0 bkt-bg-transparent" @click="callNoteModal"
+                            </div>
+                            <div class="bkt-wrapper-between bkt-nowrap bkt-w-down-sm-100 bkt-gap">
+                                <button type="button" class="bkt-button bkt-note__button bkt-note__button_edit ms-auto"
+                                        @click="callNoteModal"
                                         :disabled="loading"
                                 >
                                     <bkt-icon name="Pencil" color="primary" width="16px" height="16px"/>
                                 </button>
+                                <button class="bkt-button bkt-note__button bkt-note__button_delete" @click="removeNote">
+                                    <bkt-icon v-show="!note_loading" name="Trash" width="16px"/>
+                                    <span v-show="note_loading"
+                                          class="spinner-border spinner-border-sm bkt-text-red"
+                                          role="status"></span>
+                                </button>
                             </div>
-                            <button class="bkt-button" @click="removeNote">
-                                <bkt-icon v-show="!note_loading" name="Trash" width="22px"/>
-                                <span v-show="note_loading" class="spinner-border spinner-border-sm bkt-text-red"
-                                      role="status"></span>
-                            </button>
                         </div>
-                        <!--                        <div class="bkt-lot-card-task">-->
-                        <!--                            <div class="bkt-row outline bkt-wrapper-between">-->
-                        <!--                                <div class="bkt-check__wrapper">-->
-                        <!--                                    <div class="bkt-check check">-->
-                        <!--                                        <div class="bkt-check__input">-->
-                        <!--                                            <input class="" type="checkbox">-->
-                        <!--                                            <div class="bkt-check__input-check"></div>-->
-                        <!--                                        </div>-->
-                        <!--                                    </div>-->
-                        <!--                                </div>-->
-                        <!--                                <h5 class="m-auto">Некоторое название задачи</h5>-->
-                        <!--                                <h6 class="m-auto">Краткое описание задачи если таково имеется</h6>-->
-                        <!--                                <div class="bkt-card-period bkt-wrapper">-->
-                        <!--                                    <div class="bkt-card__category bkt-bg-blue-lighter">-->
-                        <!--                                        <bkt-icon :name="'Date'" :width="'16px'"-->
-                        <!--                                                  :height="'16px'" :color="'blue'"></bkt-icon>-->
-                        <!--                                    </div>-->
-                        <!--                                    <div class="bkt-card_feature">-->
-                        <!--                                        <h5>-->
-                        <!--                                            22 сентября 2022 <span class="bkt-text-blue">09:00</span>-->
-                        <!--                                        </h5>-->
-                        <!--                                    </div>-->
-                        <!--                                </div>-->
-                        <!--                            </div>-->
-                        <!--                            <button class="bkt-button">-->
-                        <!--                                <bkt-icon class="bkt-button__icon" name="Trash"></bkt-icon>-->
-                        <!--                            </button>-->
-                        <!--                        </div>-->
-                        <!--                        <div class="bkt-lot-card-task">-->
-                        <!--                            <div class="bkt-row outline bkt-wrapper-between">-->
-                        <!--                                <div class="bkt-check__wrapper">-->
-                        <!--                                    <div class="bkt-check">-->
-                        <!--                                        <div class="bkt-check__input">-->
-                        <!--                                            <input class="" type="checkbox">-->
-                        <!--                                            <div class="bkt-check__input-check check"></div>-->
-                        <!--                                        </div>-->
-                        <!--                                    </div>-->
-                        <!--                                </div>-->
-                        <!--                                <h5 class="m-auto">Некоторое название задачи</h5>-->
-                        <!--                                <h6 class="m-auto">Краткое описание задачи если таково имеется</h6>-->
-                        <!--                                <div class="bkt-card-period bkt-wrapper">-->
-                        <!--                                    <div class="bkt-card__category bkt-bg-blue-lighter">-->
-                        <!--                                        <bkt-icon :name="'Date'" :width="'16px'"-->
-                        <!--                                                  :height="'16px'" :color="'blue'"></bkt-icon>-->
-                        <!--                                    </div>-->
-                        <!--                                    <div class="bkt-card_feature">-->
-                        <!--                                        <h5>-->
-                        <!--                                            22 сентября 2022 <span class="bkt-text-blue">09:00</span>-->
-                        <!--                                        </h5>-->
-                        <!--                                    </div>-->
-                        <!--                                </div>-->
-                        <!--                            </div>-->
-                        <!--                            <button class="bkt-button">-->
-                        <!--                                <bkt-icon class="bkt-button__icon" name="Trash"></bkt-icon>-->
-                        <!--                            </button>-->
-                        <!--                        </div>-->
                     </div>
                 </div>
             </div>
@@ -1156,6 +1115,7 @@
             isLoggedIn: function (newVal, oldVal) {
                 if (oldVal == false && newVal == true) {
                     this.getLotFiles();
+                    this.makeWatched();
                 }
             }
         },
@@ -1163,6 +1123,7 @@
             this.getLot();
             if (this.isLoggedIn) {
                 this.getLotFiles();
+                this.makeWatched();
             }
         },
         methods: {
@@ -1284,7 +1245,19 @@
             },
             sendApplication() {
                 this.$store.commit('openModal', '#applicationModal')
-            }
+            },
+            makeWatched() {
+                if (!this.item.isWatched) {
+                    this.$store.dispatch('changeTradeLotStatus', {lot_id: this.$route.params.id, type: 'seen'})
+                        .then(resp => {
+                            this.$store.dispatch('saveDataProperty', {
+                                module_key: 'lots', state_key: 'selected_lot',
+                                key: 'isWatched',
+                                value: true
+                            });
+                        })
+                }
+            },
         }
     }
 </script>

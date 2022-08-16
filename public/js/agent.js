@@ -451,6 +451,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "Agent",
   data: function data() {
@@ -635,7 +638,7 @@ var render = function () {
                   _vm._v(" "),
                   _c("p", { staticClass: "bkt-card__text my-auto my-md-0" }, [
                     _vm._v(
-                      "\n                        Обходится дешевле, чем покупка ЭЦП\n                    "
+                      "\n                            Обходится дешевле, чем покупка ЭЦП\n                        "
                     ),
                   ]),
                 ]
@@ -745,7 +748,7 @@ var render = function () {
                       attrs: {
                         name: "name",
                         type: "text",
-                        rules: "required|alpha|min:2",
+                        rules: "required|alpha_spaces|min:2",
                         label: "имя фамилия",
                         label_class: "bkt-form__label",
                         field_name: "Имя Фамилия",
@@ -926,7 +929,7 @@ var render = function () {
                     _c("div", { staticClass: "bkt-input__wrapper" }, [
                       _c("label", { staticClass: "bkt-form__label" }, [
                         _vm._v(
-                          "\n                    позвоните лучше\n                "
+                          "\n                        позвоните лучше\n                    "
                         ),
                       ]),
                       _vm._v(" "),
@@ -966,7 +969,7 @@ var render = function () {
                             fn: function () {
                               return [
                                 _vm._v(
-                                  "\n                    Согласен с условиями пользовательского соглашения, политики сайта, обработки персональных\n                    данных.\n                "
+                                  "\n                        Согласен с условиями пользовательского соглашения, политики сайта, обработки персональных\n                        данных.\n                    "
                                 ),
                               ]
                             },
@@ -993,7 +996,7 @@ var render = function () {
                       },
                       [
                         _vm._v(
-                          "\n                Получить услугу\n            "
+                          "\n                    Получить услугу\n                "
                         ),
                       ]
                     ),
@@ -1035,7 +1038,7 @@ var staticRenderFns = [
             _vm._v(" "),
             _c("h4", { staticClass: "bkt-promo__block-text" }, [
               _vm._v(
-                "\n                        Воспользуйтесь нашим опытом побед, чтобы избежать ошибок и сэкономить время, деньги и\n                        нервы.\n                    "
+                "\n                            Воспользуйтесь нашим опытом побед, чтобы избежать ошибок и сэкономить время, деньги и\n                            нервы.\n                        "
               ),
             ]),
           ]),
@@ -1122,7 +1125,7 @@ var staticRenderFns = [
               _c("div", { staticClass: "plus-wrapper" }, [
                 _c("div", { staticClass: "plus" }, [
                   _vm._v(
-                    "\n                            +\n                        "
+                    "\n                                +\n                            "
                   ),
                 ]),
               ]),
@@ -1142,7 +1145,7 @@ var staticRenderFns = [
               _c("div", { staticClass: "plus-wrapper" }, [
                 _c("div", { staticClass: "plus" }, [
                   _vm._v(
-                    "\n                            +\n                        "
+                    "\n                                +\n                            "
                   ),
                 ]),
               ]),
@@ -1167,7 +1170,7 @@ var staticRenderFns = [
               _c("div", { staticClass: "plus-wrapper" }, [
                 _c("div", { staticClass: "plus" }, [
                   _vm._v(
-                    "\n                            +\n                        "
+                    "\n                                +\n                            "
                   ),
                 ]),
               ]),
@@ -1187,7 +1190,7 @@ var staticRenderFns = [
               _c("div", { staticClass: "plus-wrapper" }, [
                 _c("div", { staticClass: "plus" }, [
                   _vm._v(
-                    "\n                            +\n                        "
+                    "\n                                +\n                            "
                   ),
                 ]),
               ]),
@@ -1207,7 +1210,7 @@ var staticRenderFns = [
               _c("div", { staticClass: "plus-wrapper" }, [
                 _c("div", { staticClass: "plus" }, [
                   _vm._v(
-                    "\n                            +\n                        "
+                    "\n                                +\n                            "
                   ),
                 ]),
               ]),
@@ -1324,7 +1327,7 @@ var staticRenderFns = [
         _c("span", { staticClass: "bkt-text-yellow" }, [
           _vm._v("шансы на победу"),
         ]),
-        _vm._v(" в торгах\n            увеличиваются до\n        "),
+        _vm._v(" в торгах\n                увеличиваются до\n            "),
       ]),
       _c(
         "span",

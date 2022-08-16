@@ -1166,47 +1166,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 
 
@@ -1299,6 +1258,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     isLoggedIn: function isLoggedIn(newVal, oldVal) {
       if (oldVal == false && newVal == true) {
         this.getLotFiles();
+        this.makeWatched();
       }
     }
   },
@@ -1314,6 +1274,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
               if (_this.isLoggedIn) {
                 _this.getLotFiles();
+
+                _this.makeWatched();
               }
 
             case 2:
@@ -1519,6 +1481,23 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     },
     sendApplication: function sendApplication() {
       this.$store.commit('openModal', '#applicationModal');
+    },
+    makeWatched: function makeWatched() {
+      var _this7 = this;
+
+      if (!this.item.isWatched) {
+        this.$store.dispatch('changeTradeLotStatus', {
+          lot_id: this.$route.params.id,
+          type: 'seen'
+        }).then(function (resp) {
+          _this7.$store.dispatch('saveDataProperty', {
+            module_key: 'lots',
+            state_key: 'selected_lot',
+            key: 'isWatched',
+            value: true
+          });
+        });
+      }
     }
   }
 });
@@ -2062,7 +2041,10 @@ var render = function () {
                   _c("div", { staticClass: "bkt-card__body" }, [
                     _c(
                       "h3",
-                      { staticClass: "bkt-card__title bkt-text-truncate" },
+                      {
+                        staticClass:
+                          "bkt-card__title bkt-text-truncate d-none d-sm-block",
+                      },
                       [
                         _vm._v(
                           "\n                            " +
@@ -2126,12 +2108,35 @@ var render = function () {
                                 ])
                               : _vm._e(),
                             _vm._v(" "),
+                            _vm.item.trade && _vm.item.trade.priceOfferForm
+                              ? _c("li", [
+                                  _vm._m(2),
+                                  _vm._v(" "),
+                                  _c(
+                                    "div",
+                                    { staticClass: "bkt-contents__answer" },
+                                    [
+                                      _c("span", [
+                                        _vm._v(
+                                          _vm._s(
+                                            _vm.$t(
+                                              "trades.priceOfferForm." +
+                                                _vm.item.trade.priceOfferForm
+                                            )
+                                          )
+                                        ),
+                                      ]),
+                                    ]
+                                  ),
+                                ])
+                              : _vm._e(),
+                            _vm._v(" "),
                             _vm._l(
                               _vm.item.categories,
                               function (category, index) {
                                 return [
                                   _c("li", [
-                                    _vm._m(2, true),
+                                    _vm._m(3, true),
                                     _vm._v(" "),
                                     _c(
                                       "div",
@@ -2148,7 +2153,7 @@ var render = function () {
                                     category.subcategories,
                                     function (subcategory) {
                                       return _c("li", [
-                                        _vm._m(3, true),
+                                        _vm._m(4, true),
                                         _vm._v(" "),
                                         _c(
                                           "div",
@@ -2318,15 +2323,13 @@ var render = function () {
                         )
                       : _vm._e(),
                     _vm._v(" "),
-                    !_vm.isLoggedIn
-                      ? _c("div", { staticClass: "bkt-contents" }, [
-                          _vm._v(
-                            "\n                            " +
-                              _vm._s(_vm.item.description) +
-                              "\n                        "
-                          ),
-                        ])
-                      : _vm._e(),
+                    _c("div", { staticClass: "bkt-contents" }, [
+                      _vm._v(
+                        "\n                            " +
+                          _vm._s(_vm.item.description) +
+                          "\n                        "
+                      ),
+                    ]),
                     _vm._v(" "),
                     _vm.cadastralData && _vm.cadastralData.cadastralDataArea
                       ? _c(
@@ -2450,27 +2453,6 @@ var render = function () {
                         )
                       : _vm._e(),
                   ]),
-                  _vm._v(" "),
-                  _vm.isLoggedIn
-                    ? _c("div", { staticClass: "bkt-card__footer" }, [
-                        _c("h6", [
-                          _c(
-                            "a",
-                            { attrs: { href: "" } },
-                            [
-                              _vm._v(
-                                '№135-ФЗ "О защите конкуренции", статья 17.1\n                                '
-                              ),
-                              _c("bkt-icon", {
-                                staticClass: "bkt-rotate-270",
-                                attrs: { name: "ArrowDown", color: "primary" },
-                              }),
-                            ],
-                            1
-                          ),
-                        ]),
-                      ])
-                    : _vm._e(),
                 ]),
                 _vm._v(" "),
                 !_vm.isLoggedIn
@@ -2479,7 +2461,7 @@ var render = function () {
                       {
                         staticClass: "bkt-shadow-card bkt-shadow-card_primary",
                       },
-                      [_vm._m(4)]
+                      [_vm._m(5)]
                     )
                   : _vm._e(),
               ]
@@ -2667,7 +2649,15 @@ var render = function () {
                 _vm._v(" "),
                 _c(
                   "div",
-                  { staticClass: "bkt-card-price bkt-button green w-100" },
+                  {
+                    staticClass: "bkt-card-price bkt-button w-100",
+                    class: {
+                      "bkt-bg-red": _vm.item.currentPriceState == "down",
+                      "bkt-bg-green": _vm.item.currentPriceState == "up",
+                      "bkt-bg-primary-lighter bkt-text-primary":
+                        _vm.item.currentPriceState == "hold",
+                    },
+                  },
                   [
                     _vm._v(
                       "\n                        " +
@@ -2678,26 +2668,34 @@ var render = function () {
                         ) +
                         " ₽\n                        "
                     ),
-                    _c(
-                      "div",
-                      { staticClass: "bkt-card-price-icon bkt-bg-green-light" },
-                      [
-                        _c("bkt-icon", {
-                          class: {
-                            "bkt-rotate-180":
-                              _vm.item.currentPriceState == "down",
-                            "bkt-rotate-90":
-                              _vm.item.currentPriceState == "hold",
+                    _vm.item.currentPriceState !== "hold"
+                      ? _c(
+                          "div",
+                          {
+                            staticClass: "bkt-card-price-icon",
+                            class: {
+                              "bkt-bg-red-light":
+                                _vm.item.currentPriceState == "down",
+                              "bkt-bg-green-light":
+                                _vm.item.currentPriceState == "up",
+                            },
                           },
-                          attrs: {
-                            name: "ArrowTriple",
-                            width: "22px",
-                            height: "22px",
-                          },
-                        }),
-                      ],
-                      1
-                    ),
+                          [
+                            _c("bkt-icon", {
+                              class: {
+                                "bkt-rotate-180":
+                                  _vm.item.currentPriceState == "down",
+                              },
+                              attrs: {
+                                name: "ArrowTriple",
+                                width: "22px",
+                                height: "22px",
+                              },
+                            }),
+                          ],
+                          1
+                        )
+                      : _vm._e(),
                   ]
                 ),
                 _vm._v(" "),
@@ -2890,7 +2888,8 @@ var render = function () {
                       _vm.item.trade &&
                       _vm.item.trade.eventTime &&
                       (_vm.item.trade.eventTime.start ||
-                        _vm.item.trade.eventTime.end)
+                        _vm.item.trade.eventTime.end ||
+                        _vm.item.trade.eventTime.result)
                         ? _c(
                             "div",
                             { staticClass: "bkt-card-period bkt-wrapper" },
@@ -2914,7 +2913,17 @@ var render = function () {
                               ),
                               _vm._v(" "),
                               _c("div", { staticClass: "bkt-card_feature" }, [
-                                _c("h6", [_vm._v("проведение торгов")]),
+                                _c("h6", [
+                                  _vm._v(
+                                    "\n                                    " +
+                                      _vm._s(
+                                        _vm.item.trade.eventTime.result
+                                          ? "объявление результатов торгов"
+                                          : "проведение торгов"
+                                      ) +
+                                      "\n                                "
+                                  ),
+                                ]),
                                 _vm._v(" "),
                                 _c("strong", [
                                   _vm.item.trade.eventTime.start
@@ -2971,6 +2980,38 @@ var render = function () {
                                                   _vm._f("moment")(
                                                     _vm.item.trade.eventTime
                                                       .end,
+                                                    "HH:mm"
+                                                  )
+                                                ) +
+                                                "\n                                        "
+                                            ),
+                                          ]
+                                        ),
+                                      ])
+                                    : _vm._e(),
+                                  _vm._v(" "),
+                                  _vm.item.trade.eventTime.result
+                                    ? _c("h6", [
+                                        _vm._v(
+                                          "\n                                        " +
+                                            _vm._s(
+                                              _vm._f("moment")(
+                                                _vm.item.trade.eventTime.result,
+                                                "DD MMMM YYYY"
+                                              )
+                                            ) +
+                                            "\n                                        "
+                                        ),
+                                        _c(
+                                          "span",
+                                          { staticClass: "bkt-text-yellow" },
+                                          [
+                                            _vm._v(
+                                              "\n                                            " +
+                                                _vm._s(
+                                                  _vm._f("moment")(
+                                                    _vm.item.trade.eventTime
+                                                      .result,
                                                     "HH:mm"
                                                   )
                                                 ) +
@@ -3069,7 +3110,7 @@ var render = function () {
                         1
                       ),
                       _vm._v(" "),
-                      _c("h5", {}, [
+                      _c("h5", { staticClass: "bkt-note__title" }, [
                         _vm._v("Заметка по лоту (видите только вы)"),
                       ]),
                     ]),
@@ -3093,50 +3134,57 @@ var render = function () {
                   ]),
                   _vm._v(" "),
                   _vm.item.note
-                    ? _c("div", { staticClass: "bkt-lot-card-task" }, [
-                        _c(
-                          "div",
-                          {
-                            staticClass:
-                              "bkt-row outline bkt-wrapper-between bkt-nowrap bkt-gap-medium",
-                          },
-                          [
-                            _c("h6", [_vm._v(_vm._s(_vm.item.note.title))]),
-                            _vm._v(" "),
-                            _c(
-                              "div",
-                              { staticClass: "bkt-card-period bkt-wrapper" },
-                              [
-                                _c(
-                                  "div",
-                                  {
-                                    staticClass:
-                                      "bkt-card__category bkt-bg-blue-lighter",
-                                  },
-                                  [
-                                    _c("bkt-icon", {
-                                      attrs: {
-                                        name: "Date",
-                                        width: "16px",
-                                        height: "16px",
-                                        color: "blue",
-                                      },
-                                    }),
-                                  ],
-                                  1
-                                ),
-                                _vm._v(" "),
-                                _c("div", { staticClass: "bkt-card_feature" }, [
-                                  _c("h5", [
+                    ? _c(
+                        "div",
+                        {
+                          staticClass:
+                            "bkt-note__wrapper bkt-wrapper-down-sm-column",
+                        },
+                        [
+                          _c(
+                            "div",
+                            {
+                              staticClass:
+                                "bkt-note w-100 bkt-row outline bkt-wrapper-between bkt-gap-medium",
+                            },
+                            [
+                              _c("h6", { staticClass: "bkt-note__text" }, [
+                                _vm._v(_vm._s(_vm.item.note.title)),
+                              ]),
+                              _vm._v(" "),
+                              _c(
+                                "div",
+                                { staticClass: "bkt-note__date-wrapper" },
+                                [
+                                  _c(
+                                    "div",
+                                    {
+                                      staticClass:
+                                        "bkt-card__category bkt-bg-blue-lighter",
+                                    },
+                                    [
+                                      _c("bkt-icon", {
+                                        attrs: {
+                                          name: "Date",
+                                          width: "16px",
+                                          height: "16px",
+                                          color: "blue",
+                                        },
+                                      }),
+                                    ],
+                                    1
+                                  ),
+                                  _vm._v(" "),
+                                  _c("h5", { staticClass: "bkt-note__date" }, [
                                     _vm._v(
-                                      "\n                                      " +
+                                      "\n                                    " +
                                         _vm._s(
                                           _vm._f("moment")(
                                             _vm.item.note.date,
                                             "D MMMM YYYY"
                                           )
                                         ) +
-                                        "\n                                        "
+                                        "\n                                    "
                                     ),
                                     _c(
                                       "span",
@@ -3153,72 +3201,82 @@ var render = function () {
                                       ]
                                     ),
                                   ]),
-                                ]),
-                              ]
-                            ),
-                            _vm._v(" "),
-                            _c(
-                              "button",
-                              {
-                                staticClass:
-                                  "bkt-button p-0 bkt-bg-transparent",
-                                attrs: {
-                                  type: "button",
-                                  disabled: _vm.loading,
-                                },
-                                on: { click: _vm.callNoteModal },
-                              },
-                              [
-                                _c("bkt-icon", {
-                                  attrs: {
-                                    name: "Pencil",
-                                    color: "primary",
-                                    width: "16px",
-                                    height: "16px",
-                                  },
-                                }),
-                              ],
-                              1
-                            ),
-                          ]
-                        ),
-                        _vm._v(" "),
-                        _c(
-                          "button",
-                          {
-                            staticClass: "bkt-button",
-                            on: { click: _vm.removeNote },
-                          },
-                          [
-                            _c("bkt-icon", {
-                              directives: [
-                                {
-                                  name: "show",
-                                  rawName: "v-show",
-                                  value: !_vm.note_loading,
-                                  expression: "!note_loading",
-                                },
-                              ],
-                              attrs: { name: "Trash", width: "22px" },
-                            }),
-                            _vm._v(" "),
-                            _c("span", {
-                              directives: [
-                                {
-                                  name: "show",
-                                  rawName: "v-show",
-                                  value: _vm.note_loading,
-                                  expression: "note_loading",
-                                },
-                              ],
+                                ]
+                              ),
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "div",
+                            {
                               staticClass:
-                                "spinner-border spinner-border-sm bkt-text-red",
-                              attrs: { role: "status" },
-                            }),
-                          ],
-                          1
-                        ),
-                      ])
+                                "bkt-wrapper-between bkt-nowrap bkt-w-down-sm-100 bkt-gap",
+                            },
+                            [
+                              _c(
+                                "button",
+                                {
+                                  staticClass:
+                                    "bkt-button bkt-note__button bkt-note__button_edit ms-auto",
+                                  attrs: {
+                                    type: "button",
+                                    disabled: _vm.loading,
+                                  },
+                                  on: { click: _vm.callNoteModal },
+                                },
+                                [
+                                  _c("bkt-icon", {
+                                    attrs: {
+                                      name: "Pencil",
+                                      color: "primary",
+                                      width: "16px",
+                                      height: "16px",
+                                    },
+                                  }),
+                                ],
+                                1
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "button",
+                                {
+                                  staticClass:
+                                    "bkt-button bkt-note__button bkt-note__button_delete",
+                                  on: { click: _vm.removeNote },
+                                },
+                                [
+                                  _c("bkt-icon", {
+                                    directives: [
+                                      {
+                                        name: "show",
+                                        rawName: "v-show",
+                                        value: !_vm.note_loading,
+                                        expression: "!note_loading",
+                                      },
+                                    ],
+                                    attrs: { name: "Trash", width: "16px" },
+                                  }),
+                                  _vm._v(" "),
+                                  _c("span", {
+                                    directives: [
+                                      {
+                                        name: "show",
+                                        rawName: "v-show",
+                                        value: _vm.note_loading,
+                                        expression: "note_loading",
+                                      },
+                                    ],
+                                    staticClass:
+                                      "spinner-border spinner-border-sm bkt-text-red",
+                                    attrs: { role: "status" },
+                                  }),
+                                ],
+                                1
+                              ),
+                            ]
+                          ),
+                        ]
+                      )
                     : _vm._e(),
                 ]),
               ]),
@@ -3291,7 +3349,7 @@ var render = function () {
                   _vm._v(" "),
                   _c("ul", { staticClass: "bkt-contents" }, [
                     _c("li", [
-                      _vm._m(5),
+                      _vm._m(6),
                       _vm._v(" "),
                       _c("div", { staticClass: "bkt-contents__answer" }, [
                         _vm.item.trade.debtor.type == "person"
@@ -3329,7 +3387,7 @@ var render = function () {
                     _vm._v(" "),
                     _vm.item.trade.debtor.inn
                       ? _c("li", [
-                          _vm._m(6),
+                          _vm._m(7),
                           _vm._v(" "),
                           _c("div", { staticClass: "bkt-contents__answer" }, [
                             _c("span", [
@@ -3754,7 +3812,7 @@ var render = function () {
                 _vm._v(" "),
                 _c("ul", { staticClass: "bkt-contents" }, [
                   _c("li", [
-                    _vm._m(7),
+                    _vm._m(8),
                     _vm._v(" "),
                     _vm.item.trade && _vm.item.trade.organizer
                       ? _c(
@@ -3807,7 +3865,7 @@ var render = function () {
                   _vm._v(" "),
                   _vm.item.trade && _vm.item.trade.organizer
                     ? _c("li", [
-                        _vm._m(8),
+                        _vm._m(9),
                         _vm._v(" "),
                         _c("div", { staticClass: "bkt-contents__answer" }, [
                           _c("span", [
@@ -3888,7 +3946,7 @@ var render = function () {
                   _vm._v(" "),
                   _c("ul", { staticClass: "bkt-contents" }, [
                     _c("li", [
-                      _vm._m(9),
+                      _vm._m(10),
                       _vm._v(" "),
                       _c("div", { staticClass: "bkt-contents__answer" }, [
                         _vm.item.trade.arbitrationManager.type == "person"
@@ -3929,7 +3987,7 @@ var render = function () {
                     _vm._v(" "),
                     _vm.item.trade.arbitrationManager.inn
                       ? _c("li", [
-                          _vm._m(10),
+                          _vm._m(11),
                           _vm._v(" "),
                           _c("div", { staticClass: "bkt-contents__answer" }, [
                             _c("span", [
@@ -3943,7 +4001,7 @@ var render = function () {
                     _vm._v(" "),
                     _vm.item.trade.arbitrationManager.sroAU
                       ? _c("li", [
-                          _vm._m(11),
+                          _vm._m(12),
                           _vm._v(" "),
                           _c(
                             "div",
@@ -4098,6 +4156,16 @@ var staticRenderFns = [
     return _c("div", { staticClass: "bkt-contents__heading" }, [
       _c("span", { staticClass: "bkt-contents__heading" }, [
         _vm._v("статус торгов"),
+      ]),
+    ])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "bkt-contents__heading" }, [
+      _c("span", { staticClass: "bkt-contents__heading" }, [
+        _vm._v("форма подачи предложения о цене"),
       ]),
     ])
   },

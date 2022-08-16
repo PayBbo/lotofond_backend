@@ -239,7 +239,7 @@
                 </div>
             </div>
         </div>
-        <bkt-card-list :current_component="'BktCard'" :items="items" :loading="loading"
+        <bkt-card-list ref="cardList" :current_component="'BktCard'" :items="items" :loading="loading"
                        :pagination_data="pagination_data" @change-page="getData">
         </bkt-card-list>
     </div>
@@ -344,6 +344,7 @@
                 } else {
                     this.filters_sort.direction = 'asc';
                 }
+                this.getData(1)
             },
             selectSearchLot(lot) {
                 this.$router.push('/lot/'+lot.id)

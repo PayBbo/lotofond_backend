@@ -32,6 +32,7 @@
         "floating-vue": "^1.0.0-beta.18",
         "fuse.js": "^6.6.2",
         "hooper": "^0.3.4",
+        "moment-timezone": "^0.5.34",
         "nprogress": "^0.2.0",
         "sass": "^1.52.3",
         "v-calendar": "^1.0.8",

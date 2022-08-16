@@ -217,6 +217,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       } else {
         this.model.splice(item_index, 1);
       }
+
+      this.saveValue();
     },
     selectAll: function selectAll(index) {
       var _this = this;
@@ -1268,6 +1270,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       } else {
         this.model.splice(item_index, 1);
       }
+
+      this.saveValue();
     },
     selectAll: function selectAll(index) {
       var _this = this;

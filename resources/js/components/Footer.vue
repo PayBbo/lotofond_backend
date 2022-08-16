@@ -4,21 +4,18 @@
             <div class="bkt-container">
                 <div class="row w-100 mx-auto bkt-gap-row-large">
                     <div class="col-6 col-lg-3">
-                        <img class="bkt-footer__logo" src="/images/logo.png" alt="logo">
+                        <router-link to="/"><img class="bkt-footer__logo" src="/images/logo.png" alt="logo"></router-link>
                         <p class="bkt-footer__description">Нашей деятельности позволяет выполнять важные
                             задания по разработке модели развития. Таким образом дальнейшее развитие различных форм
                             деятельности способствует подготовки.</p>
                         <div class="bkt-footer__buttons bkt-gap-small">
-                            <router-link to="/" class="bkt-button primary">Торги</router-link>
+<!--                            <router-link to="/" class="bkt-button primary">Торги</router-link>-->
                             <router-link to="/tariffs" class="bkt-button blue">Тарифы</router-link>
                         </div>
                     </div>
                     <div class="col-6">
                         <div class="bkt-footer__block bkt-wrapper bkt-wrapper-down-lg-column">
                             <ul class="bkt-footer__links">
-                                <li class="bkt-footer__link bkt-cursor-pointer" @click="navigate('/calendar')">
-                                    Календарь
-                                </li>
                                 <li class="bkt-footer__link">
                                     <router-link to="/agent">Купить через агента</router-link>
                                 </li>
@@ -49,9 +46,8 @@
                                         <strong style="color:rgb(65, 125, 255); margin-left: 5px;">&#10095;</strong>
                                     </router-link>
                                 </li>
-
-                                <li class="bkt-footer__link text-truncate">
-                                    Изменения в законах <strong style="color:rgb(216, 43, 30); margin-left: 5px;">&#10095;</strong>
+                                <li class="bkt-footer__link bkt-cursor-pointer" @click="navigate('/calendar')">
+                                    Календарь <strong style="color:rgb(216, 43, 30); margin-left: 5px;">&#10095;</strong>
                                 </li>
                             </ul>
                         </div>
@@ -60,7 +56,6 @@
                         <div class="bkt-footer__socials">
                             <h3 class="bkt-footer__socials-phone">+7 916 018-48-58</h3>
                             <h5 class="bkt-footer__socials-email">vicemine@mail.ru</h5>
-                            <p class="bkt-footer__socials-address">г. Название, ул. Ленина, 74</p>
 
                             <div class="bkt-footer__socials-links">
                                 <a class="bkt-button-icon bkt-bg-main-light" href="/">

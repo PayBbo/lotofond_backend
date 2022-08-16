@@ -4968,7 +4968,7 @@ var render = function () {
                         name: "confirmation",
                         type: _vm.passwords_types.submitNewPassword,
                         label: "повторите новый пароль",
-                        rules: "required|min:8",
+                        rules: "required|min:8|confirmed:password",
                         group_item_action: "",
                       },
                       on: {

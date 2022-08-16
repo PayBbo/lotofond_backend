@@ -37,7 +37,7 @@
                                   label="заметка"
                                   label_class="bkt-form__label d-none"
                                   name="title" icon_name="Check"
-                                  rules="required"
+                                  rules="required|max:255"
                                   no_group_item
                     >
                     </bkt-textarea>
@@ -103,7 +103,7 @@
                 return this.$store.getters.selected_lot
             },
             edit_mode() {
-                if(this.item.note){
+                if(this.item && this.item.note){
                     return true;
                 }
                 return false;
@@ -126,11 +126,15 @@
             // },
             clearNote() {
                 if (!this.edit_mode) {
-                    this.note = this.template;
+                    this.$store.dispatch('saveDataProperty', {
+                        module_key: 'lots', state_key: 'selected_lot',
+                        key: 'note',
+                        value: null
+                    }, {root: true});
                     this.$store.commit('closeModal', '#noteModal')
                 } else {
                     this.loading = true;
-                    this.$store.dispatch('removeLotNote', {noteId: this.edit_note.id})
+                    this.$store.dispatch('removeLotNote', {noteId: this.note.id})
                         .then(resp => {
                             this.loading = false;
                             this.$store.dispatch('saveDataProperty', {
@@ -138,6 +142,7 @@
                                 key: 'note',
                                 value: null
                             }, {root: true});
+                            this.$store.commit('closeModal', '#noteModal')
                         }).catch(error => {
                         this.loading = false;
                     })
@@ -159,7 +164,7 @@
                                 key: 'note',
                                 value: resp.data
                             }, {root: true});
-                            this.$store.commit('closeModal', '#noteModal')
+                            this.$store.commit('closeModal', '#noteModal');
                         }).catch(error => {
                         this.loading = false;
                     })
@@ -176,7 +181,7 @@
                                 key: 'note',
                                 value: this.note
                             }, {root: true});
-                            this.$store.commit('closeModal', '#noteModal')
+                            this.$store.commit('closeModal', '#noteModal');
                         }).catch(error => {
                         this.loading = false;
                     })

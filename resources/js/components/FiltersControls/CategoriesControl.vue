@@ -123,6 +123,7 @@
                 } else {
                     this.model.splice(item_index, 1);
                 }
+                this.saveValue()
             },
             selectAll(index) {
                 let tmp = this.items[index].subcategories.map(item => item.key);

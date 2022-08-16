@@ -147,7 +147,7 @@
                         :type="passwords_types.submitNewPassword"
                         label="повторите новый пароль"
                         @click-group-item="switchVisibility('submitNewPassword')"
-                        :rules="'required|min:8'"
+                        :rules="'required|min:8|confirmed:password'"
                         group_item_action
                     >
                         <template #icon>

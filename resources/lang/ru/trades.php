@@ -11,6 +11,7 @@ return [
         'biddingStart' => 'Начаты торги',
         'biddingEnd' => 'Торги завершены',
         'biddingCancel' => 'Отмена торгов',
+        'biddingCanceled' => 'Торги отменены',
         'annulment' => 'Аннулирование',
         'biddingFail' => 'Торги не состоялись',
         'biddingPause' => 'Торги приостановлены',
@@ -35,5 +36,9 @@ return [
         'CloseAuction' => 'Закрытый аукцион',
         'CloseConcours' => 'Закрытый конкурс',
         'ClosePublicOffer' => 'Закрытое публичное предложение',
+    ],
+    'priceOfferForm' => [
+        'open' => 'Открытая',
+        'close' => 'Закрытая',
     ]
 ];

@@ -188,6 +188,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       } else {
         this.model.splice(item_index, 1);
       }
+
+      this.saveValue();
     },
     selectAll: function selectAll(index) {
       var _this = this;
@@ -290,6 +292,15 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -2662,32 +2673,60 @@ var render = function () {
       loading: _vm.loading,
     },
     on: { left_action: _vm.clearFilters, right_action: _vm.saveFilters },
-    scopedSlots: _vm._u([
-      {
-        key: "body",
-        fn: function (ref) {
-          var invalid = ref.invalid
-          return [
-            _c(
-              "div",
-              { staticClass: "bkt-wrapper-column bkt-gap-large" },
-              [
-                _c("bkt-regions-control", {
-                  model: {
-                    value: _vm.model,
-                    callback: function ($$v) {
-                      _vm.model = $$v
-                    },
-                    expression: "model",
-                  },
-                }),
-              ],
-              1
-            ),
-          ]
+    scopedSlots: _vm._u(
+      [
+        {
+          key: "body",
+          fn: function (ref) {
+            var invalid = ref.invalid
+            return [
+              !_vm.loading
+                ? _c(
+                    "div",
+                    { staticClass: "bkt-wrapper-column bkt-gap-large" },
+                    [
+                      _c("bkt-regions-control", {
+                        model: {
+                          value: _vm.model,
+                          callback: function ($$v) {
+                            _vm.model = $$v
+                          },
+                          expression: "model",
+                        },
+                      }),
+                    ],
+                    1
+                  )
+                : _vm._e(),
+              _vm._v(" "),
+              _vm.loading
+                ? _c(
+                    "div",
+                    { staticClass: "d-flex w-100 justify-content-center my-5" },
+                    [
+                      _vm._t("loading", function () {
+                        return [
+                          _c("div", {
+                            staticClass: "spinner-border",
+                            staticStyle: {
+                              color: "#2953ff",
+                              "border-width": "2px",
+                            },
+                            attrs: { role: "status" },
+                          }),
+                        ]
+                      }),
+                    ],
+                    2
+                  )
+                : _vm._e(),
+            ]
+          },
         },
-      },
-    ]),
+      ],
+      null,
+      true
+    ),
   })
 }
 var staticRenderFns = []

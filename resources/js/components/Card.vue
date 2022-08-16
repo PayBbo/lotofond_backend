@@ -1,13 +1,16 @@
 <template>
     <div class="bkt-card-trade bkt-card__row w-100 mx-auto mx-0">
-        <div class="bkt-wrapper-between bkt-card__heading w-100">
+        <div class="bkt-wrapper-between bkt-card__heading w-100" v-if="item && item.trade">
             <h5>торги № {{item && item.trade.externalId ? item.trade.externalId : '0'}}</h5>
-            <h5>до окончания более
-                <span v-if="item && item.trade && item.trade.eventTime && item.trade.eventTime.result">
-                    {{ item.trade.eventTime.result | daysToDate }} дней
+            <h5>
+                <span v-if="dateIsPast(item.trade.applicationTime.end) && item.trade.applicationTime && item.trade.applicationTime.end">
+                дней до окончания приёма заявок: {{ item.trade.applicationTime.end | daysToDate }}
                 </span>
-                <span v-else-if="item && item.trade && item.trade.eventTime && item.trade.eventTime.end">
-                    {{item.trade.eventTime.end | daysToDate}} дней
+                <span v-else-if="item.trade.eventTime && item.trade.eventTime.end">
+                    дней до окончания торгов: {{item.trade.eventTime.end | daysToDate}}
+                </span>
+                <span v-else-if="item.trade.eventTime && item.trade.eventTime.result">
+                   дней до объявления результатов торгов: {{item.trade.eventTime.result | daysToDate}}
                 </span>
                 <span v-else>0 дней</span>
                 <span class="bkt-card__icon d-inline-block">
@@ -94,15 +97,22 @@
                 <div class="col order-3 p-0 px-sm-2">
                     <div class="bkt-card-trade__wrapper bkt-wrapper-column">
                         <div class="bkt-wrapper-column bkt-gap-small">
-                            <div class="bkt-card-trade__price-wrapper bkt-button green w-100">
-                                <h2 class="bkt-card-trade__price text-truncate">
+                            <div class="bkt-card-trade__price-wrapper bkt-button w-100"
+                                 :class="{'bkt-bg-red': item.currentPriceState=='down',
+                                  'bkt-bg-green': item.currentPriceState=='up',
+                                  'bkt-bg-primary-lighter': item.currentPriceState=='hold'}">
+                                <h2 class="bkt-card-trade__price text-truncate"
+                                    :class="{'bkt-text-primary': item.currentPriceState=='hold'}"
+                                >
                                     {{item && item.currentPrice ? item.currentPrice : '0' | priceFormat}} ₽
                                 </h2>
 
-                                <div class="bkt-card-trade__price-icon bkt-bg-green-light">
+                                <div class="bkt-card-trade__price-icon" v-if="item.currentPriceState!=='hold'"
+                                     :class="{'bkt-bg-red-light': item.currentPriceState=='down',
+                                              'bkt-bg-green-light': item.currentPriceState=='up'}"
+                                >
                                     <bkt-icon :name="'ArrowTriple'" :width="'22px'" :height="'22px'"
-                                              :class="{'bkt-rotate-180': item.currentPriceState=='down',
-                                              'bkt-rotate-90': item.currentPriceState=='hold'}"
+                                              :class="{'bkt-rotate-180': item.currentPriceState=='down'}"
                                     >
                                     </bkt-icon>
                                 </div>
@@ -159,7 +169,7 @@
                                               :height="'16px'"></bkt-icon>
                                 </div>
                                 <div class="bkt-card_feature">
-                                    <h6><strong>проведение торгов</strong></h6>
+                                    <h6><strong>{{item.trade.eventTime.result ? 'объявление результатов торгов' : 'проведение торгов'}}</strong></h6>
                                     <div>
                                         <h6 v-if="item.trade.eventTime.start">
                                             с {{item.trade.eventTime.start | moment('DD MMMM YYYY')}}
@@ -173,6 +183,12 @@
                                     {{item.trade.eventTime.end | moment('HH:mm')}}
                                 </span>
                                         </h6>
+                                        <h6 v-if="item.trade.eventTime.result">
+                                            {{item.trade.eventTime.result | moment('DD MMMM YYYY')}}
+                                            <span class="bkt-text-yellow">
+                                                {{item.trade.eventTime.result | moment('HH:mm')}}
+                                            </span>
+                                        </h6>
                                     </div>
                                 </div>
                             </div>
@@ -185,7 +201,7 @@
                         <div class="bkt-card__row outline bkt-wrapper-between align-items-center"
                              v-if="cadastralData.cadastralDataArea">
                             <div class="bkt-card__feature">
-                                <h4 class="bkt-card__title">{{cadastralData.cadastralDataArea}} кв. м.</h4>
+                                <h4 class="bkt-card__title">{{cadastralData.cadastralDataArea | priceFormat}} кв. м.</h4>
                                 <h6 class="bkt-card__subtitle">земельный участок</h6>
                             </div>
                             <span class="bkt-card__icon">
@@ -308,6 +324,9 @@
             sendApplication() {
                 this.$store.commit('setSelectedLot', this.item);
                 this.$store.commit('openModal', '#applicationModal')
+            },
+            dateIsPast(date) {
+                return this.$moment(date).isAfter(this.$moment())
             }
         }
     };

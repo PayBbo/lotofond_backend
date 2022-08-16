@@ -9,7 +9,7 @@
                     v-model="service.name"
                     name="application_name"
                     type="text"
-                    :rules="'required|alpha|min:2'"
+                    :rules="'required|alpha_spaces|min:2'"
                     label="имя фамилия"
                     label_class="bkt-form__label"
                     field_name="Имя Фамилия"

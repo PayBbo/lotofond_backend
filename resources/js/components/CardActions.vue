@@ -124,10 +124,10 @@
                         color: 'red',
                         code: '',
                         status: 'inMonitoring',
-                        method: '',
-                        method_params: {icon: 'Target'},
+                        method: this.navigate,
+                        method_params: {icon: 'Target', path:'/monitoring'},
                         place: 'all',
-                        class: 'bkt-cursor-auto'
+                        class: 'bkt-cursor-auto',
                     },
                     {
                         icon: 'Star',
@@ -147,10 +147,11 @@
                         color: 'green',
                         code: '',
                         status: 'hasNotSeenNotification',
-                        method: '',
-                        method_params: {icon: 'Bell'},
+                        method: this.navigate,
+                        method_params: {icon: 'Bell', path:'/messages'},
                         place: 'all',
-                        class: 'bkt-cursor-auto'
+                        class: 'bkt-cursor-auto',
+
                     },
                     {
                         icon: 'Clip',
@@ -213,7 +214,7 @@
             },
             changeStatus(payload) {
                 if(this.isLoggedIn) {
-                    this.toggleProcess(payload.icon)
+                    this.toggleProcess(payload.icon);
                     this.$store.dispatch('changeTradeLotStatus', {lot_id: this.item.id, type: payload.type})
                         .then(resp => {
                             this.$store.commit('saveTradeProperty', {
@@ -272,12 +273,12 @@
                 this.$store.commit('setSelectedLot', this.item);
                 this.$store.commit('openModal', '#moveFavouriteModal')
             },
-            addToMonitoring() {
-
-            },
             addNote() {
                 this.$store.commit('setSelectedLot', this.item);
                 this.$store.commit('openModal', '#noteModal')
+            },
+            navigate(payload) {
+                this.$router.push(payload.path)
             },
             getColor(icon) {
                 if (this.type == 'menu') {

@@ -10370,7 +10370,7 @@ textarea.form-control-lg {
 }
 
 .bkt-text-red-light {
-  color: #ec4c27 !important;
+  color: #f9542e !important;
 }
 
 .bkt-text-red-lighter {
@@ -10518,11 +10518,15 @@ textarea.form-control-lg {
 }
 
 .bkt-bg-red-light {
-  background-color: #ec4c27 !important;
+  background-color: #f9542e !important;
 }
 
 .bkt-bg-red-lighter {
   background-color: #fef1ee !important;
+}
+
+.bkt-bg-red-dark {
+  background-color: #ac3f28 !important;
 }
 
 .bkt-bg-blue {
@@ -10670,7 +10674,7 @@ textarea.form-control-lg {
 }
 
 .bkt-border-red-light {
-  border: 2px solid #ec4c27 !important;
+  border: 2px solid #f9542e !important;
 }
 
 .bkt-border-red-lighter {
@@ -10862,11 +10866,11 @@ textarea.form-control-lg {
 }
 
 .bkt-stroke-red-light {
-  stroke: #ec4c27 !important;
+  stroke: #f9542e !important;
 }
 
 .bkt-fill-red-light {
-  fill: #ec4c27 !important;
+  fill: #f9542e !important;
 }
 
 .bkt-stroke-red-lighter {
@@ -11196,7 +11200,7 @@ textarea.form-control-lg {
 }
 
 .bkt-hover-red-light.bkt-button:hover, .bkt-hover-red-light.bkt-button_delete:hover, .bkt-hover-red-light.bkt-button_save:hover, .bkt-hover-red-light.bkt-button-icon:hover, .bkt-hover-red-light.bkt-button-link:hover {
-  background-color: #ec4c27 !important;
+  background-color: #f9542e !important;
 }
 .bkt-hover-red-light.bkt-button:hover .bkt-fill, .bkt-hover-red-light.bkt-button_delete:hover .bkt-fill, .bkt-hover-red-light.bkt-button_save:hover .bkt-fill, .bkt-hover-red-light.bkt-button-icon:hover .bkt-fill, .bkt-hover-red-light.bkt-button-link:hover .bkt-fill {
   fill: white !important;
@@ -11546,7 +11550,7 @@ textarea.form-control-lg {
 }
 
 .bkt-hover-red-light.bkt-button-ellipse:hover {
-  background-color: #ec4c27 !important;
+  background-color: #f9542e !important;
 }
 .bkt-hover-red-light.bkt-button-ellipse:hover .bkt-fill {
   fill: white !important;
@@ -11896,7 +11900,7 @@ textarea.form-control-lg {
 }
 
 .bkt-hover-red-light.bkt-button-icon:hover {
-  background-color: #ec4c27 !important;
+  background-color: #f9542e !important;
 }
 .bkt-hover-red-light.bkt-button-icon:hover .bkt-fill {
   fill: white !important;
@@ -14453,7 +14457,7 @@ textarea.form-control-lg {
 }
 .bkt-input-error {
   font-size: 12px;
-  color: #ec4c27;
+  color: #f9542e;
   margin: 0;
 }
 .bkt-input__wrapper {
@@ -14604,7 +14608,7 @@ textarea.form-control-lg {
 }
 .bkt-check-error {
   font-size: 12px;
-  color: #ec4c27;
+  color: #f9542e;
   margin: 0;
 }
 
@@ -17015,7 +17019,7 @@ textarea.form-control-lg {
   color: white;
 }
 .bkt-main .bkt-main-statistic .bkt-card__text {
-  color: rgba(255, 255, 255, 0.5);
+  color: rgb(255, 255, 255);
 }
 .bkt-main .bkt-main-statistic .bkt-card.bkt-bg-red-light .bkt-card__background-figure-1, .bkt-main .bkt-main-statistic .bkt-bg-red-light.bkt-card__row .bkt-card__background-figure-1, .bkt-main .bkt-main-statistic .bkt-bg-red-light.bkt-shadow-card__inner .bkt-card__background-figure-1 {
   background: #f2bbb3;
@@ -17912,7 +17916,7 @@ ul.bkt-contents .bkt-contents__answer {
 }
 .bkt-lot-card-actions-nav .bkt-trading-number {
   font-size: 14px;
-  font-family: "Gilroy";
+  font-family: "Gilroy", sans-serif;
   color: rgba(255, 255, 255, 0.4);
   text-align: left;
 }
@@ -17949,7 +17953,7 @@ ul.bkt-contents .bkt-contents__answer {
 }
 .bkt-lot-card-card .bkt-card-price {
   font-size: 30px;
-  font-family: "Gilroy";
+  font-family: "Gilroy", sans-serif;
   font-weight: 700;
   padding: 18px 46px;
   position: relative;
@@ -17973,7 +17977,7 @@ ul.bkt-contents .bkt-contents__answer {
   height: 40px;
   text-align: center;
   line-height: 1.2;
-  box-shadow: 0px 11px 15px 0px rgba(13, 85, 21, 0.15);
+  box-shadow: 0 11px 15px 0 rgba(13, 85, 21, 0.15);
 }
 .bkt-lot-card-card .bkt-card-menu {
   background-color: #2d3244;
@@ -18060,6 +18064,46 @@ ul.bkt-contents .bkt-contents__answer {
   flex-wrap: nowrap;
   margin-bottom: 25px;
 }
+.bkt-lot-card .bkt-note {
+  padding: 15px 30px;
+  flex-wrap: nowrap;
+}
+.bkt-lot-card .bkt-note__wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  flex-wrap: nowrap;
+  gap: 19px;
+}
+.bkt-lot-card .bkt-note__title {
+  font-family: "Gilroy", sans-serif;
+  color: rgb(45, 50, 68);
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 1.571;
+}
+.bkt-lot-card .bkt-note__date-wrapper {
+  display: flex;
+  align-items: center;
+  margin: 0;
+  flex-wrap: nowrap;
+  flex-shrink: 0;
+}
+.bkt-lot-card .bkt-note__date-wrapper .bkt-card__category {
+  height: 40px;
+  min-height: 40px;
+  width: 40px;
+  margin-right: 15px;
+}
+.bkt-lot-card .bkt-note__date-wrapper .bkt-card__category-icon {
+  max-width: 16px;
+  max-height: 16px;
+}
+.bkt-lot-card .bkt-note__button {
+  padding: 0;
+  background: transparent;
+}
 .bkt-lot-card-tasks .bkt-card__header .bkt-card-periods {
   gap: 10px;
   display: flex;
@@ -18123,26 +18167,6 @@ ul.bkt-contents .bkt-contents__answer {
 .bkt-lot-card-tasks .bkt-card__body .bkt-card__category-icon {
   max-width: 16px;
   max-height: 16px;
-}
-.bkt-lot-card-tasks .bkt-card__body .bkt-lot-card-task {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-  flex-wrap: nowrap;
-  gap: 19px;
-}
-.bkt-lot-card-tasks .bkt-card__body .bkt-lot-card-task .bkt-row {
-  padding: 15px 30px;
-}
-.bkt-lot-card-tasks .bkt-card__body .bkt-lot-card-task .bkt-row .bkt-card__category {
-  height: 40px;
-  min-height: 40px;
-  width: 40px;
-  margin-right: 15px;
-}
-.bkt-lot-card-tasks .bkt-card__body .bkt-lot-card-task .bkt-button, .bkt-lot-card-tasks .bkt-card__body .bkt-lot-card-task .bkt-button-link, .bkt-lot-card-tasks .bkt-card__body .bkt-lot-card-task .bkt-button-icon, .bkt-lot-card-tasks .bkt-card__body .bkt-lot-card-task .bkt-button_save, .bkt-lot-card-tasks .bkt-card__body .bkt-lot-card-task .bkt-button_delete {
-  padding: 0;
 }
 .bkt-lot-card-actual .bkt-card__header .bkt-button, .bkt-lot-card-actual .bkt-card__header .bkt-button-link, .bkt-lot-card-actual .bkt-card__header .bkt-button-icon, .bkt-lot-card-actual .bkt-card__header .bkt-button_save, .bkt-lot-card-actual .bkt-card__header .bkt-button_delete {
   font-size: 12px;
@@ -18278,7 +18302,7 @@ ul.bkt-contents .bkt-contents__answer {
   }
   .bkt-lot-card .bkt-card-ecp-wrapper .bkt-card-ecp {
     font-size: 10px;
-    font-family: "Gilroy";
+    font-family: "Gilroy", sans-serif;
     color: rgb(255, 255, 255);
     font-weight: 700;
     line-height: 1.2;
@@ -18299,6 +18323,46 @@ ul.bkt-contents .bkt-contents__answer {
   .bkt-lot-card .bkt-shadow-card__title span {
     font-weight: 700;
   }
+  .bkt-lot-card .bkt-note {
+    padding: 20px;
+  }
+  .bkt-lot-card .bkt-note__title {
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 1.333;
+  }
+  .bkt-lot-card .bkt-note__text {
+    font-size: 12px;
+    font-weight: 400;
+  }
+  .bkt-lot-card .bkt-note__date {
+    font-size: 10px;
+    font-weight: 600;
+  }
+  .bkt-lot-card .bkt-note__date-wrapper {
+    flex-shrink: 1;
+  }
+  .bkt-lot-card .bkt-note__date-wrapper .bkt-card__category {
+    height: 34px;
+    min-height: 34px;
+    width: 34px;
+    margin-right: 12px;
+    border-radius: 10px;
+  }
+  .bkt-lot-card .bkt-note__date-wrapper .bkt-card__category-icon {
+    max-width: 14px;
+    max-height: 14px;
+  }
+  .bkt-lot-card .bkt-note__button {
+    width: 100%;
+    padding: 15px 30px;
+  }
+  .bkt-lot-card .bkt-note__button_edit {
+    background: #eef2ff !important;
+  }
+  .bkt-lot-card .bkt-note__button_delete {
+    background: #fef1ee !important;
+  }
 }
 @media screen and (max-width: 991px) {
   .bkt-lot-card .bkt-card-menu-button {
@@ -18310,7 +18374,7 @@ ul.bkt-contents .bkt-contents__answer {
 @media screen and (max-width: 1200px) {
   .bkt-lot-card .bkt-card-price {
     font-size: 18px;
-    font-family: "Gilroy";
+    font-family: "Gilroy", sans-serif;
     font-weight: 700;
     padding: 15px 40px;
     position: relative;
@@ -18331,7 +18395,7 @@ ul.bkt-contents .bkt-contents__answer {
     height: 32px;
     text-align: center;
     line-height: 1.2;
-    box-shadow: 0px 11px 15px 0px rgba(13, 85, 21, 0.15);
+    box-shadow: 0 11px 15px 0 rgba(13, 85, 21, 0.15);
   }
 }
 @media screen and (min-width: 1200px) {
@@ -18374,6 +18438,12 @@ ul.bkt-contents .bkt-contents__answer {
   }
   .bkt-lot-card-tasks .bkt-card__body {
     padding: 25px;
+  }
+  .bkt-lot-card .bkt-note {
+    flex-wrap: wrap;
+  }
+  .bkt-lot-card .bkt-note__date-wrapper {
+    flex-shrink: 1;
   }
 }
 .bkt-region-modal {

@@ -36,7 +36,8 @@ axios.interceptors.response.use(
 
             }
 
-            if (error.response.status === 401 && !originalRequest._retry && !error.response.config.__isRetryRequest) {
+            if ( error.config.url == '/api/account/user' && error.response.status === 401
+                && !originalRequest._retry && !error.response.config.__isRetryRequest) {
                 console.log('interceptors have error.response.status === 403');
                 store.commit('clearStorage');
                 if (localStorage.getItem('token')) {
@@ -108,7 +109,10 @@ Vue.use(VueLazyload, {
     attempt: 1
 });
 
-const moment = require('moment');
+// const moment = require('moment');
+// const moment = require('moment-timezone/builds/moment-timezone-with-data');
+import moment from 'moment-timezone'
+moment.tz.setDefault('UTC');
 require('moment/locale/ru');
 moment.locale('ru');
 Vue.use(require('vue-moment'), {
@@ -237,6 +241,23 @@ Vue.component('BktCollapse', Collapse);
 
 
 Vue.filter('priceFormat', value => {
+    if (value) {
+        // let formatter =
+        //     return new Intl.NumberFormat('ru-RU', {
+        //     style: 'currency',
+        //     currency: 'RUB',
+        //     minimumFractionDigits: 0
+        // }).format(value);
+        let val = value.toString();
+        const dec = val.split('.')[1];
+        if(dec && dec.length > 0) {
+            val = (value/1).toFixed(2);
+        }
+        return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ").replace('.', ',')
+    }
+    return '0';
+});
+Vue.filter('numberFormat', value => {
     if (value) {
         return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
     }

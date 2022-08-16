@@ -231,6 +231,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       } else {
         this.model.splice(item_index, 1);
       }
+
+      this.saveValue();
     },
     selectAll: function selectAll(index) {
       var _this = this;
@@ -1282,6 +1284,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       } else {
         this.model.splice(item_index, 1);
       }
+
+      this.saveValue();
     },
     selectAll: function selectAll(index) {
       var _this = this;
@@ -1763,6 +1767,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var _FiltersControls_OptionsControl__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../FiltersControls/OptionsControl */ "./resources/js/components/FiltersControls/OptionsControl.vue");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 //
 //
 //
@@ -1864,15 +1874,17 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     clearFilters: function clearFilters() {
+      var tmp_filter = _objectSpread(_objectSpread({}, this.filters.extraOptions), this.template);
+
       this.$store.commit('saveFiltersProperty', {
         key: 'filters_extraOptions',
-        value: this.template
+        value: tmp_filter
       });
       this.$store.dispatch('saveDataProperty', {
         module_key: 'filters',
         state_key: this.filter_name,
         key: 'extraOptions',
-        value: this.template
+        value: tmp_filter
       }, {
         root: true
       });
@@ -2179,6 +2191,15 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -2729,6 +2750,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       } else {
         this.filters_sort.direction = 'asc';
       }
+
+      this.getData(1);
     },
     selectSearchLot: function selectSearchLot(lot) {
       this.$router.push('/lot/' + lot.id);
@@ -5972,32 +5995,60 @@ var render = function () {
       loading: _vm.loading,
     },
     on: { left_action: _vm.clearFilters, right_action: _vm.saveFilters },
-    scopedSlots: _vm._u([
-      {
-        key: "body",
-        fn: function (ref) {
-          var invalid = ref.invalid
-          return [
-            _c(
-              "div",
-              { staticClass: "bkt-wrapper-column bkt-gap-large" },
-              [
-                _c("bkt-regions-control", {
-                  model: {
-                    value: _vm.model,
-                    callback: function ($$v) {
-                      _vm.model = $$v
-                    },
-                    expression: "model",
-                  },
-                }),
-              ],
-              1
-            ),
-          ]
+    scopedSlots: _vm._u(
+      [
+        {
+          key: "body",
+          fn: function (ref) {
+            var invalid = ref.invalid
+            return [
+              !_vm.loading
+                ? _c(
+                    "div",
+                    { staticClass: "bkt-wrapper-column bkt-gap-large" },
+                    [
+                      _c("bkt-regions-control", {
+                        model: {
+                          value: _vm.model,
+                          callback: function ($$v) {
+                            _vm.model = $$v
+                          },
+                          expression: "model",
+                        },
+                      }),
+                    ],
+                    1
+                  )
+                : _vm._e(),
+              _vm._v(" "),
+              _vm.loading
+                ? _c(
+                    "div",
+                    { staticClass: "d-flex w-100 justify-content-center my-5" },
+                    [
+                      _vm._t("loading", function () {
+                        return [
+                          _c("div", {
+                            staticClass: "spinner-border",
+                            staticStyle: {
+                              color: "#2953ff",
+                              "border-width": "2px",
+                            },
+                            attrs: { role: "status" },
+                          }),
+                        ]
+                      }),
+                    ],
+                    2
+                  )
+                : _vm._e(),
+            ]
+          },
         },
-      },
-    ]),
+      ],
+      null,
+      true
+    ),
   })
 }
 var staticRenderFns = []
@@ -6617,6 +6668,7 @@ var render = function () {
       ]),
       _vm._v(" "),
       _c("bkt-card-list", {
+        ref: "cardList",
         attrs: {
           current_component: "BktCard",
           items: _vm.items,

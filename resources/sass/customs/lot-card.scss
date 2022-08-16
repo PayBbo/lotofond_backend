@@ -6,7 +6,7 @@
     &-actions-nav {
         & .bkt-trading-number {
             font-size: 14px;
-            font-family: "Gilroy";
+            font-family: "Gilroy", sans-serif;
             color: rgba(255, 255, 255, 0.4);
             text-align: left;
         }
@@ -53,7 +53,7 @@
 
         & .bkt-card-price {
             font-size: 30px;
-            font-family: "Gilroy";
+            font-family: "Gilroy", sans-serif;
             font-weight: 700;
             padding: 18px 46px;
             position: relative;
@@ -77,8 +77,8 @@
                 height: 40px;
                 text-align: center;
                 line-height: 1.2;
-                -webkit-box-shadow: 0px 11px 15px 0px rgba(13, 85, 21, 0.15);
-                box-shadow: 0px 11px 15px 0px rgba(13, 85, 21, 0.15);
+                -webkit-box-shadow: 0 11px 15px 0 rgba(13, 85, 21, 0.15);
+                box-shadow: 0 11px 15px 0 rgba(13, 85, 21, 0.15);
             }
         }
 
@@ -184,6 +184,53 @@
         }
     }
 
+    & .bkt-note {
+        padding: 15px 30px;
+        flex-wrap: nowrap;
+        &__wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            flex-wrap: nowrap;
+            gap: 19px;
+        }
+        &__title {
+            font-family: "Gilroy", sans-serif;
+            color: rgb(45, 50, 68);
+            font-weight: 600;
+            font-size: 14px;
+            line-height: 1.571;
+        }
+        &__text {
+
+        }
+        &__date {
+            &-wrapper {
+                display: flex;
+                align-items: center;
+                margin: 0;
+                flex-wrap: nowrap;
+                flex-shrink: 0;
+                & .bkt-card__category {
+                    height: 40px;
+                    min-height: 40px;
+                    width: 40px;
+                    margin-right: 15px;
+                }
+
+                & .bkt-card__category-icon {
+                    max-width: 16px;
+                    max-height: 16px;
+                }
+            }
+        }
+        &__button {
+            padding: 0;
+            background: transparent;
+        }
+    }
+
     &-tasks {
         & .bkt-card__header {
             & .bkt-card-periods {
@@ -265,30 +312,6 @@
             & .bkt-card__category-icon {
                 max-width: 16px;
                 max-height: 16px;
-            }
-
-            & .bkt-lot-card-task {
-                display: flex;
-                align-items: center;
-                justify-content: space-between;
-                width: 100%;
-                flex-wrap: nowrap;
-                gap: 19px;
-
-                & .bkt-row {
-                    padding: 15px 30px;
-
-                    & .bkt-card__category {
-                        height: 40px;
-                        min-height: 40px;
-                        width: 40px;
-                        margin-right: 15px;
-                    }
-                }
-
-                & .bkt-button {
-                    padding: 0;
-                }
             }
         }
     }
@@ -535,13 +558,16 @@
             padding: 0;
             gap: 15px;
         }
+        //& .bkt-card__title {
+        //    font-size: 16px;
+        //}
         & .bkt-card-ecp-wrapper {
             gap: 4px;
             width: 100%;
 
             & .bkt-card-ecp {
                 font-size: 10px;
-                font-family: "Gilroy";
+                font-family: "Gilroy", sans-serif;
                 color: rgb(255, 255, 255);
                 font-weight: 700;
                 line-height: 1.2;
@@ -569,6 +595,47 @@
             }
 
         }
+        & .bkt-note {
+            padding: 20px;
+            &__title {
+                font-size: 12px;
+                font-weight: 600;
+                line-height: 1.333;
+            }
+            &__text {
+                font-size: 12px;
+                font-weight: 400;
+            }
+            &__date {
+                font-size: 10px;
+                font-weight: 600;
+                &-wrapper {
+                    flex-shrink: 1;
+                    & .bkt-card__category {
+                        height: 34px;
+                        min-height: 34px;
+                        width: 34px;
+                        margin-right: 12px;
+                        border-radius: 10px;
+                    }
+
+                    & .bkt-card__category-icon {
+                        max-width: 14px;
+                        max-height: 14px;
+                    }
+                }
+            }
+            &__button {
+                width: 100%;
+                padding: 15px 30px;
+                &_edit {
+                    background: $primary-lighter !important;
+                }
+                &_delete {
+                    background: $red-lighter !important;
+                }
+            }
+        }
     }
 
     @media screen and (max-width: 991px) {
@@ -582,7 +649,7 @@
     @media screen and (max-width: 1200px) {
         .bkt-card-price {
             font-size: 18px;
-            font-family: "Gilroy";
+            font-family: "Gilroy", sans-serif;
             font-weight: 700;
             padding: 15px 40px;
             position: relative;
@@ -603,8 +670,8 @@
                 height: 32px;
                 text-align: center;
                 line-height: 1.2;
-                -webkit-box-shadow: 0px 11px 15px 0px rgba(13, 85, 21, 0.15);
-                box-shadow: 0px 11px 15px 0px rgba(13, 85, 21, 0.15);
+                -webkit-box-shadow: 0 11px 15px 0 rgba(13, 85, 21, 0.15);
+                box-shadow: 0 11px 15px 0 rgba(13, 85, 21, 0.15);
 
             }
         }
@@ -664,6 +731,14 @@
 
             & .bkt-card__body {
                 padding: 25px;
+            }
+        }
+        & .bkt-note {
+            flex-wrap: wrap;
+            &__date {
+                &-wrapper {
+                    flex-shrink: 1;
+                }
             }
         }
     }

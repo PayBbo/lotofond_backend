@@ -3,8 +3,17 @@
                :title="'Выберите регион'" :loading="loading" @left_action="clearFilters" @right_action="saveFilters"
     >
         <template #body="{ invalid }">
-            <div class="bkt-wrapper-column bkt-gap-large">
+            <div class="bkt-wrapper-column bkt-gap-large" v-if="!loading">
                 <bkt-regions-control v-model="model"></bkt-regions-control>
+            </div>
+            <div v-if="loading" class="d-flex w-100 justify-content-center my-5">
+                <slot name="loading">
+                    <div
+                        style="color: #2953ff;border-width: 2px;"
+                        class="spinner-border"
+                        role="status"
+                    ></div>
+                </slot>
             </div>
         </template>
     </bkt-modal>

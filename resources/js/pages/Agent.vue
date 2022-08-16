@@ -219,7 +219,7 @@
                     v-model="service.name"
                     name="name"
                     type="text"
-                    :rules="'required|alpha|min:2'"
+                    :rules="'required|alpha_spaces|min:2'"
                     label="имя фамилия"
                     label_class="bkt-form__label"
                     field_name="Имя Фамилия"
@@ -251,6 +251,7 @@
                 />
                 <div class="bkt-input__wrapper">
                     <label class="bkt-input__label bkt-form__label" style="margin-bottom: 10px;">где вам удобнее общаться</label>
+<!--                    <ValidationProvider :name="'socialsForAnswer'" rules="required|min:1" v-slot="{ errors }">-->
                     <div class="communications">
                         <button class="bkt-button bkt-bg-body"
                                 :class="service.socialsForAnswer.indexOf('Viber')>=0 ? 'bkt-border-primary': 'bkt-border-body'"
@@ -277,6 +278,8 @@
                         </button>
                         <div class="bkt-button bkt-bg-body bkt-text-main">перезвоним в течение 10 минут</div>
                     </div>
+<!--                        <p class="bkt-input-error"  v-if="errors.length>0">{{errors[0]}}</p>-->
+<!--                    </ValidationProvider>-->
                 </div>
                 <div class="bkt-input__wrapper">
                     <label class="bkt-form__label">

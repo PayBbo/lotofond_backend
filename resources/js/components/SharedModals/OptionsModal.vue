@@ -89,11 +89,12 @@
                 this.$store.dispatch(this.method_name, {page: 1, filters: this.filters});
             },
             clearFilters() {
-                this.$store.commit('saveFiltersProperty', {key:'filters_extraOptions', value: this.template});
+                let tmp_filter = {...this.filters.extraOptions, ...this.template};
+                this.$store.commit('saveFiltersProperty', {key:'filters_extraOptions', value: tmp_filter});
                 this.$store.dispatch('saveDataProperty', {
                     module_key: 'filters', state_key: this.filter_name,
                     key: 'extraOptions',
-                    value: this.template
+                    value: tmp_filter
                 }, {root: true});
                 this.$store.commit('closeModal', '#optionsModal');
                 this.$store.dispatch(this.method_name, {page: 1, filters: this.filters});

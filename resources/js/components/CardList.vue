@@ -22,6 +22,7 @@
                         :index="index"
                         :key="index"
                         :in_process="in_process"
+                        :ref="'card'+index"
                     />
                 </template>
             </slot>
@@ -160,8 +161,17 @@
         //     }
         // },
         methods: {
+            scrollToElement() {
+                const [el] = this.$refs.card0;
+                if (el) {
+                    el.$el.scrollIntoView({ block: 'end', scrollBehavior: 'smooth' });
+                }
+            },
             changePage(page) {
-                this.$emit('change-page', page)
+                this.$emit('change-page', page);
+                if(!this.infinite) {
+                    this.scrollToElement();
+                }
             },
             inputSearch: _.debounce(function (e) {
                 this.runSearch()

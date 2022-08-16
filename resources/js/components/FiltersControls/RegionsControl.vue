@@ -165,6 +165,7 @@
                 } else {
                     this.model.splice(item_index, 1);
                 }
+                this.saveValue()
             },
             selectAll(index) {
                 if (this.regionGroups[index].status) {
