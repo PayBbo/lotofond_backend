@@ -1,9 +1,9 @@
 <template>
-    <div class="bkt-card__image-category bkt-gap bkt-nowrap"
-         :class="[{'bkt-card__image-category_multiple':icons.length>1}, 'bkt-bg-'+color+'-lighter']"
+    <div class="bkt-card__image-category bkt-gap bkt-nowrap" v-if="icons.length>0"
+         :class="[{'bkt-card__image-category_multiple':icons.length>1}, 'bkt-bg-'+categories_colors[icons[0].key]+'-lighter']"
     >
         <span v-for="category in icons">
-            <bkt-icon :name="category.icon" :color="category.color"></bkt-icon>
+            <bkt-icon :name="'categories/'+category.key" :color="categories_colors[icons[0].key]"></bkt-icon>
         </span>
     </div>
 </template>
@@ -16,6 +16,17 @@
             return {
                 color: 'primary',
                 icons: [],
+                categories_colors: {
+                    "realEstate": "green",
+                    "other": "main",
+                    "equipment": "red",
+                    "transportAndEquipment": "orange",
+                    "agriculturaProperty": "blue",
+                    "tangibles": "yellow",
+                    "productionLines": "pink",
+                    "obligations": "purple",
+                    "accountsReceivable": "primary",
+                },
                 categories_icons: [
                     {
                         "label": "Недвижимость",
@@ -75,12 +86,15 @@
             }
         },
         mounted() {
-            this.icons = this.categories_icons.filter(value => this.categories.map(item => item.key).includes(value.key));
-            if (this.icons.length > 0) {
-                this.color = this.icons[0].color;
-            }
-            else {
-                this.icons.push({icon: 'More', color: 'primary'})
+            // this.icons = this.categories_icons.filter(value => this.categories.map(item => item.key).includes(value.key));
+            // if (this.icons.length > 0) {
+            //     this.color = this.icons[0].color;
+            // } else {
+            //     this.icons.push({key: 'other', color: 'primary'})
+            // }
+            this.icons = this.categories;
+            if (this.icons.length == 0) {
+                this.icons.push({key: 'other', color: 'primary'})
             }
         }
     }

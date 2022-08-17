@@ -25,7 +25,7 @@
 .bkt-wrapper-column {
     display: flex;
     justify-content: space-between;
-    flex-direction: column !important;
+    flex-direction: column;
     width: 100%;
     gap: 10px 0;
 }
@@ -176,7 +176,7 @@
         &-column {
             display: flex;
             justify-content: space-between;
-            flex-direction: column !important;
+            flex-direction: column;
             width: 100%;
             gap: 10px 0;
         }

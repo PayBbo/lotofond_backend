@@ -79,7 +79,7 @@ export default {
         */
 
         async login({dispatch, commit}, payload) {
-            await axios.post('/api/login', payload.data)
+            await axios.post('/api/login', payload)
                 .then(resp => {
                     commit('auth_success', {token: resp.data.accessToken, refreshToken: resp.data.refreshToken});
                     commit('closeModal', '#authModal');
@@ -94,6 +94,7 @@ export default {
         async registration({dispatch, commit}, payload) {
             await axios.post('/api/registration', payload)
                 .then(resp => {
+                    console.log('then vuex registration')
                     commit('setUser', payload);
                     commit('closeModal', '#authModal');
                     commit('openModal', '#codeModal');

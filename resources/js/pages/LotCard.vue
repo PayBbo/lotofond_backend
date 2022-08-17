@@ -1,5 +1,5 @@
 <template>
-    <div class="bkt-main bkt-page bkt-lot-card bkt-container">
+    <div class="bkt-main bkt-page bkt-lot bkt-container">
         <nav class="bkt-wrapper bkt-nowrap m-0 bkt-breadcrumb" aria-label="breadcrumb">
             <button class="bkt-button-icon bg-white" style="margin-right:20px" @click="goBack">
                 <bkt-icon :name="'ArrowDown'" class="bkt-button__icon bkt-rotate-90"></bkt-icon>
@@ -16,7 +16,7 @@
             </ol>
         </nav>
 
-        <div class="bkt-row bkt-bg-main bkt-wrapper-between bkt-lot-card-actions-nav d-none d-lg-flex">
+        <div class="bkt-row bkt-bg-main bkt-wrapper-between bkt-lot__card-actions d-none d-lg-flex">
             <h5 class="bkt-trading-number">
                 торги № {{item.trade && item.trade.externalId ? item.trade.externalId : ''}} (лот
                 {{item.lotNumber ? item.lotNumber : '0'}})
@@ -25,14 +25,16 @@
                               @changeStatus="changeStatus"
             ></bkt-card-actions>
         </div>
-        <div class="row bkt-lot-card__cards w-100 p-0">
+        <div class="row bkt-lot__cards w-100 p-0">
             <div class="col-12 col-lg-7 order-2 order-lg-1 ps-lg-0">
-                <div class="bkt-wrapper-column bkt-lot-card__cards">
-                    <div class="bkt-card">
+                <div class="bkt-wrapper-column bkt-lot__cards">
+                    <div class="bkt-card bkt-lot__card">
                         <div class="bkt-card__body">
-                            <h3 class="bkt-card__title bkt-text-truncate d-none d-sm-block">
-                                {{item && item.description ? item.description:'Некоторое название торгов'}}
-                            </h3>
+                            <div class="d-none d-lg-block">
+                                <h3 class="bkt-card__title bkt-text-truncate">
+                                    {{item && item.description ? item.description:'Некоторое название торгов'}}
+                                </h3>
+                            </div>
                             <ul class="bkt-contents" v-if="isLoggedIn">
                                 <li v-if="item.trade && item.trade.type">
                                     <div class="bkt-contents__heading">
@@ -110,9 +112,9 @@
                                     </template>
                                 </template>
                             </ul>
-                            <div class="bkt-contents">
+                            <h5 class="bkt-card__text">
                                 {{item.description}}
-                            </div>
+                            </h5>
                             <div class="bkt-row outline bkt-wrapper-between align-items-center"
                                  v-if="cadastralData && cadastralData.cadastralDataArea">
                                 <div class="bkt-row__feature">
@@ -169,7 +171,7 @@
                 </div>
             </div>
             <div class="col-12 col-lg-5 order-1 order-lg-2 pe-lg-0">
-                <div class="bkt-card bkt-lot-card-card">
+                <div class="bkt-card bkt-lot__card bkt-lot-card bkt-lot__card">
                     <div class="bkt-card__body">
                         <div class="bkt-wrapper-between bkt-card__head bkt-nowrap d-flex d-lg-none">
                             <h5 class="bkt-card__title bkt-text-truncate">
@@ -193,9 +195,9 @@
                             <!--                            <bkt-icon :name="'More'"></bkt-icon>-->
                             <!--                        </button>-->
                         </div>
-                        <div class="bkt-card-image-wrapper">
+                        <div class="bkt-card__image-wrapper">
                             <bkt-card-image-category :categories="item.categories"
-                                                     v-if="(!item.photos || item.photos.length==0) && item.categories && item.categories.length>0"
+                                                     v-if="(!item.photos || item.photos.length==0) && item.categories"
                             >
                             </bkt-card-image-category>
                             <!--                            <div class="bkt-card__image-category" v-if="!item.photos || item.photos.length==0">-->
@@ -253,34 +255,33 @@
                 </div>
             </div>
             <div v-if="isLoggedIn" class="col-12 col-lg-12 order-3 px-lg-0">
-                <div class="bkt-card bkt-lot-card-tasks">
-                    <div class="bkt-card__header bkt-wrapper-between m-0 bkt-gap-large">
-                        <div class="bkt-card-periods">
-                            <div class="bkt-card-period bkt-wrapper" v-if="item.trade && item.trade.applicationTime
+                <div class="bkt-card bkt-lot__card bkt-lot-tasks">
+                    <div class="bkt-card__header bkt-wrapper-between bkt-wrapper-up-md-nowrap m-0 bkt-gap-large">
+                        <div class="bkt-gap bkt-wrapper-column bkt-wrapper-down-md">
+                            <div class="bkt-lot__card-period bkt-wrapper" v-if="item.trade && item.trade.applicationTime
                                  && (item.trade.applicationTime.start || item.trade.applicationTime.end)">
                                 <div class="bkt-card__category bkt-bg-blue">
                                     <bkt-icon :name="'Date'" :width="'16px'"
                                               :height="'16px'"></bkt-icon>
                                 </div>
-                                <div class="bkt-card_feature">
-                                    <h6>прием заявок</h6>
-                                    <strong>
-                                        <h6 v-if="item.trade.applicationTime.start">
+                                <h5 class="bkt-card__text">прием заявок
+                                    <span v-if="item.trade.applicationTime.start">
+                                            <br class="d-md-none">
                                             с {{item.trade.applicationTime.start | moment('DD MMMM YYYY')}}
                                             <span class="bkt-text-blue">
                                                 {{item.trade.applicationTime.start | moment('HH:mm')}}
                                             </span>
-                                        </h6>
-                                        <h6 v-if="item.trade.applicationTime.end">до
-                                            {{item.trade.applicationTime.end | moment('DD MMMM YYYY')}}
+                                        </span>
+                                    <span v-if="item.trade.applicationTime.end">
+                                            <br class="d-md-none">
+                                            до {{item.trade.applicationTime.end | moment('DD MMMM YYYY')}}
                                             <span class="bkt-text-blue">
                                                 {{item.trade.applicationTime.end | moment('HH:mm')}}
                                             </span>
-                                        </h6>
-                                    </strong>
-                                </div>
+                                        </span>
+                                </h5>
                             </div>
-                            <div class="bkt-card-period bkt-wrapper"
+                            <div class="bkt-lot__card-period bkt-wrapper"
                                  v-if="item.trade && item.trade.eventTime
                                  && (item.trade.eventTime.start || item.trade.eventTime.end || item.trade.eventTime.result)"
                             >
@@ -288,31 +289,30 @@
                                     <bkt-icon :name="'Alarm'" :width="'16px'"
                                               :height="'16px'"></bkt-icon>
                                 </div>
-                                <div class="bkt-card_feature">
-                                    <h6>
-                                        {{item.trade.eventTime.result ? 'объявление результатов торгов' : 'проведение торгов'}}
-                                    </h6>
-                                    <strong>
-                                        <h6 v-if="item.trade.eventTime.start">
-                                            с {{item.trade.eventTime.start | moment('DD MMMM YYYY')}}
-                                            <span class="bkt-text-yellow">
-                                                {{item.trade.eventTime.start | moment('HH:mm')}}
-                                            </span>
-                                        </h6>
-                                        <h6 v-if="item.trade.eventTime.end">до
-                                            {{item.trade.eventTime.end | moment('DD MMMM YYYY')}}
-                                            <span class="bkt-text-yellow">
-                                                {{item.trade.eventTime.end | moment('HH:mm')}}
-                                            </span>
-                                        </h6>
-                                        <h6 v-if="item.trade.eventTime.result">
-                                            {{item.trade.eventTime.result | moment('DD MMMM YYYY')}}
-                                            <span class="bkt-text-yellow">
-                                                {{item.trade.eventTime.result | moment('HH:mm')}}
-                                            </span>
-                                        </h6>
-                                    </strong>
-                                </div>
+                                <h5 class="bkt-card__text">
+                                    {{item.trade.eventTime.result ? 'объявление результатов торгов' : 'проведение торгов'}}
+                                    <span v-if="item.trade.eventTime.start">
+                                        <br class="d-md-none">
+                                        с {{item.trade.eventTime.start | moment('DD MMMM YYYY')}}
+                                        <span class="bkt-text-yellow">
+                                            {{item.trade.eventTime.start | moment('HH:mm')}}
+                                        </span>
+                                    </span>
+                                    <span v-if="item.trade.eventTime.end">
+                                        <br class="d-md-none">
+                                        до {{item.trade.eventTime.end | moment('DD MMMM YYYY')}}
+                                        <span class="bkt-text-yellow">
+                                            {{item.trade.eventTime.end | moment('HH:mm')}}
+                                        </span>
+                                    </span>
+                                    <span v-if="item.trade.eventTime.result">
+                                        <br class="d-md-none">
+                                        {{item.trade.eventTime.result | moment('DD MMMM YYYY')}}
+                                        <span class="bkt-text-yellow">
+                                            {{item.trade.eventTime.result | moment('HH:mm')}}
+                                        </span>
+                                    </span>
+                                </h5>
                             </div>
                         </div>
                         <a v-if="item.trade && item.trade.tradePlace" :href="item.trade.tradePlace.site"
@@ -377,7 +377,7 @@
                 </div>
             </div>
             <!--                        <div class="col-12 col-lg-12 order-3">-->
-            <!--                            <div class="bkt-card bkt-card__body bkt-lot-card-actual">-->
+            <!--                            <div class="bkt-card bkt-card__body bkt-lot-actual">-->
             <!--                                <div class="bkt-card__header bkt-wrapper-between">-->
             <!--                                    <h3 class="bkt-card__title">Актуальное по лоту</h3>-->
             <!--                                    <button class="bkt-button" style="gap:8px;">-->
@@ -407,7 +407,7 @@
             <!--                            </div>-->
             <!--                        </div>-->
             <!--                        <div class="col-12 col-lg-5 order-3">-->
-            <!--                            <div class="bkt-card bkt-card__body bkt-lot-card-templates">-->
+            <!--                            <div class="bkt-card bkt-card__body bkt-lot-templates">-->
             <!--                                <div class="bkt-card__header"><h3 class="bkt-card__title">Шаблоны запросов</h3></div>-->
             <!--                                <div class="bkt-card__row outline bkt-wrapper-between bkt-nowrap">-->
             <!--                                    <div class="bkt-template-name text-truncate">-->
@@ -485,7 +485,7 @@
             <!--                                    Загрузить другой шаблон-->
             <!--                                </button>-->
             <!--                            </div>-->
-            <!--                            <div class="bkt-card bkt-card__body bkt-lot-card-sent-requests">-->
+            <!--                            <div class="bkt-card bkt-card__body bkt-lot-sent-requests">-->
             <!--                                <div class="bkt-card__header"><h3 class="bkt-card__title">Отправленные запросы</h3></div>-->
             <!--                                <div class="bkt-card outline">-->
             <!--                                    <div class="bkt-card__feature">-->
@@ -502,13 +502,13 @@
             <!--                            </div>-->
             <!--                        </div>-->
             <!--                        <div class="col-12 col-lg-7 order-3">-->
-            <!--                            <div class="bkt-card bkt-card__body bkt-lot-card-request">-->
+            <!--                            <div class="bkt-card bkt-card__body bkt-lot-request">-->
             <!--                                <div class="bkt-card__header">-->
             <!--                                    <h3 class="bkt-card__title">Запрос организатору торгов</h3>-->
             <!--                                </div>-->
             <!--                                <div class="row align-items-start" style="gap: 10px 0;">-->
             <!--                                    <div class="col-4 ps-md-0 d-none d-md-block">-->
-            <!--                                        <h5 class="bkt-lot-card-request-label">шаблон запроса</h5>-->
+            <!--                                        <h5 class="bkt-lot-request-label">шаблон запроса</h5>-->
             <!--                                    </div>-->
             <!--                                    <div class="col-12 col-md-8 p-md-0">-->
             <!--                                        <div class="bkt-select__wrapper">-->
@@ -522,7 +522,7 @@
             <!--                                        </div>-->
             <!--                                    </div>-->
             <!--                                    <div class="col-4 ps-md-0 d-none d-md-block">-->
-            <!--                                        <h5 class="bkt-lot-card-request-label">от кого</h5>-->
+            <!--                                        <h5 class="bkt-lot-request-label">от кого</h5>-->
             <!--                                    </div>-->
             <!--                                    <div class="col-12 col-md-8 p-md-0">-->
             <!--                                        <bkt-input-->
@@ -536,7 +536,7 @@
             <!--                                        </bkt-input>-->
             <!--                                    </div>-->
             <!--                                    <div class="col-4 ps-md-0 d-none d-md-block">-->
-            <!--                                        <h5 class="bkt-lot-card-request-label">кому</h5>-->
+            <!--                                        <h5 class="bkt-lot-request-label">кому</h5>-->
             <!--                                    </div>-->
             <!--                                    <div class="col-12 col-md-8 p-md-0">-->
             <!--                                        <bkt-input-->
@@ -550,7 +550,7 @@
             <!--                                        </bkt-input>-->
             <!--                                    </div>-->
             <!--                                    <div class="col-4 ps-md-0 d-none d-md-block">-->
-            <!--                                        <h5 class="bkt-lot-card-request-label">тема запрос</h5>-->
+            <!--                                        <h5 class="bkt-lot-request-label">тема запрос</h5>-->
             <!--                                    </div>-->
             <!--                                    <div class="col-12 col-md-8 p-md-0">-->
             <!--                                        <bkt-input-->
@@ -564,7 +564,7 @@
             <!--                                        </bkt-input>-->
             <!--                                    </div>-->
             <!--                                    <div class="col-4 ps-md-0 d-none d-md-block">-->
-            <!--                                        <h5 class="bkt-lot-card-request-label">текст запроса</h5>-->
+            <!--                                        <h5 class="bkt-lot-request-label">текст запроса</h5>-->
             <!--                                    </div>-->
             <!--                                    <div class="col-12 col-md-8 p-md-0">-->
             <!--                                        <bkt-textarea-->
@@ -589,7 +589,7 @@
             <!--                                    </span>-->
             <!--                            </div>-->
             <!--                        </div>-->
-            <!--                                        <div class="bkt-lot-card-request-actions bkt-wrapper-between">-->
+            <!--                                        <div class="bkt-lot-request-actions bkt-wrapper-between">-->
             <!--                        <bkt-upload-file v-model="files" ref="upload_file"></bkt-upload-file>-->
             <!--                                            <button class="bkt-button primary" style="flex-grow:1">-->
             <!--                                                Отправить-->
@@ -600,7 +600,7 @@
             <!--                            </div>-->
             <!--                        </div>-->
             <!--                        <div class="col-12 col-lg-6 order-3">-->
-            <!--                            <div class="bkt-card bkt-lot-card-required-documents">-->
+            <!--                            <div class="bkt-card bkt-lot-required-documents">-->
             <!--                                <div class="bkt-card__body">-->
             <!--                                    <div class="bkt-card__header">-->
             <!--                                        <h3 class="bkt-card__title">Необходимые документы</h3>-->
@@ -666,7 +666,7 @@
             <!--                            </div>-->
             <!--                        </div>-->
             <!--                        <div class="col-12 col-lg-3 order-3">-->
-            <!--                            <div class="bkt-card bkt-card__body bkt-lot-card-document-sets">-->
+            <!--                            <div class="bkt-card bkt-card__body bkt-lot-document-sets">-->
             <!--                                <div class="bkt-card__header"><h3 class="bkt-card__title">Наборы документов</h3></div>-->
             <!--                                <div class="bkt-card__row outline bkt-wrapper bkt-nowrap">-->
             <!--                                    <div class="bkt-card__icon">-->
@@ -708,7 +708,7 @@
             <!--                            </div>-->
             <!--                        </div>-->
             <!--                        <div class="col-12 col-lg-3 order-3">-->
-            <!--                            <div class="bkt-card bkt-card__body bkt-lot-card-my-files">-->
+            <!--                            <div class="bkt-card bkt-card__body bkt-lot-my-files">-->
             <!--                                <div class="bkt-card__header"><h3 class="bkt-card__title">Мои файлы</h3></div>-->
             <!--            &lt;!&ndash;                    <div class="bkt-card__row outline bkt-wrapper-between bkt-nowrap">&ndash;&gt;-->
             <!--            &lt;!&ndash;                        <div class="bkt-card__feature text-truncate">&ndash;&gt;-->
@@ -733,7 +733,7 @@
             <!--                            </div>-->
             <!--                        </div>-->
             <div v-if="item.trade && item.trade.debtor && isLoggedIn" class="col-12 col-lg-12 order-3 px-lg-0">
-                <div class="bkt-card bkt-card__body bkt-lot-card-debtor">
+                <div class="bkt-card bkt-card__body bkt-lot__card">
                     <div class="bkt-card__header bkt-wrapper-between pb-0">
                         <h3 class="bkt-card__title">Информация по должнику</h3>
                         <!--                        <a href="" class="bkt-button next ps-sm-2 py-md-0" style="line-height: 1;">-->
@@ -794,7 +794,7 @@
                 <bkt-collapse title="Другие активные лоты должника" :count="debtor_active_lots_pagination.total"
                               id="collapseDebtorActiveLots" :loading="debtor_active_lots_loading"
                               :disabled="debtor_active_lots.length==0&&!debtor_active_lots_loading"
-                              class="bkt-lot-card-active-lots"
+                              class="bkt-lot__collapse"
                 >
                     <template #collapse v-if="debtor_active_lots.length>0">
                         <div class="row w-100 m-auto bkt-gap">
@@ -835,7 +835,7 @@
                 <bkt-collapse title="Завершённые лоты должника " :count="debtor_completed_lots_pagination.total"
                               id="collapseCompletedLots" :loading="debtor_completed_lots_loading"
                               :disabled="debtor_completed_lots.length==0&&!debtor_completed_lots_loading"
-                              class="bkt-lot-card-completed-lots"
+                              class="bkt-lot__collapse"
                 >
                     <template #collapse v-if="debtor_completed_lots.length>0">
                         <div class="row w-100 m-auto bkt-gap">
@@ -876,7 +876,7 @@
                 </bkt-collapse>
             </div>
             <div v-if="item.trade && item.trade.organizer && isLoggedIn" class="col-12 col-lg-8 order-3 ps-lg-0">
-                <div class="bkt-card bkt-card__body">
+                <div class="bkt-card bkt-card__body bkt-lot__card">
                     <div class="bkt-card__header pb-0">
                         <h3 class="bkt-card__title">Информация по организатору</h3>
                         <router-link custom v-slot="{navigate}" :to="'/registries/organizer/'+item.trade.organizer.id"
@@ -948,9 +948,9 @@
             </div>
             <div v-if="isLoggedIn && item.trade && item.trade.arbitrationManager"
                  class="col-12 col-lg-4 order-3 pe-lg-0">
-                <div class=" bkt-card bkt-card__body bkt-lot-card-arbitration-manager">
+                <div class=" bkt-card bkt-card__body bkt-lot__card">
                     <div class="bkt-card__header pb-0">
-                        <h3 class="bkt-card__title">Информация по арбитражному управляющему</h3>
+                        <h3 class="bkt-card__title bkt-lot__card-title">Информация по арбитражному управляющему</h3>
                         <router-link custom v-slot="{navigate}"
                                      :to="'/registries/arbitrationManager/'+item.trade.arbitrationManager.id"
                                      v-if="item.trade && item.trade.arbitrationManager"
@@ -996,7 +996,7 @@
                 </div>
             </div>
             <div v-if="isLoggedIn" class="col-12 col-lg-12 order-3 px-lg-0">
-                <bkt-collapse title="Документы по торгам" :count="files.length"
+                <bkt-collapse title="Документы по торгам" :count="files.length" class="bkt-lot__collapse"
                               id="collapseDocuments" :loading="files_loading" :disabled="files.length==0"
                 >
                     <template #collapse v-if="files.length>0">

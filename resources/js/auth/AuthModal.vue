@@ -169,7 +169,6 @@
                     данных.
                 </template>
             </bkt-checkbox>
-
             <button class="bkt-button primary" v-if="tab=='registration'" :disabled="invalid" @click="submit">
                 <span v-if="loading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                 Зарегистрироваться
@@ -210,8 +209,6 @@
 </template>
 
 <script>
-    import {Modal} from "bootstrap";
-    import {mask} from 'vue-the-mask'
 
     export default {
         name: "AuthModal",
@@ -242,7 +239,7 @@
                 let data = JSON.parse(JSON.stringify(this.user));
                 data.grantType = this.grantType;
                 this.loading = true;
-                await this.$store.dispatch(this.tab, {data: data, self: this}).then(resp => {
+                await this.$store.dispatch(this.tab, data).then(resp => {
 
                 }).catch(error => {
                     console.log(error)
@@ -260,7 +257,6 @@
                 this.tab = tab;
             }
         },
-        directives: {mask}
     }
 </script>
 

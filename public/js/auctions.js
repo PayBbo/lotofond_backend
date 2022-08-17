@@ -6410,7 +6410,7 @@ var render = function () {
                         [
                           _c("bkt-icon", {
                             attrs: {
-                              name: "Home",
+                              name: "categories/realEstate",
                               color: "green",
                               width: "30px",
                               height: "30px",
@@ -6437,7 +6437,7 @@ var render = function () {
                         [
                           _c("bkt-icon", {
                             attrs: {
-                              name: "Cow",
+                              name: "categories/agriculturaProperty",
                               color: "blue",
                               width: "30px",
                               height: "30px",
@@ -6464,7 +6464,7 @@ var render = function () {
                         [
                           _c("bkt-icon", {
                             attrs: {
-                              name: "Gear",
+                              name: "categories/equipment",
                               color: "red",
                               width: "30px",
                               height: "30px",
@@ -6491,7 +6491,7 @@ var render = function () {
                         [
                           _c("bkt-icon", {
                             attrs: {
-                              name: "Wrench",
+                              name: "categories/tangibles",
                               color: "yellow",
                               width: "30px",
                               height: "30px",
@@ -6518,7 +6518,7 @@ var render = function () {
                         [
                           _c("bkt-icon", {
                             attrs: {
-                              name: "Percentage",
+                              name: "categories/accountsReceivable",
                               color: "primary",
                               width: "30px",
                               height: "30px",
@@ -6545,7 +6545,7 @@ var render = function () {
                         [
                           _c("bkt-icon", {
                             attrs: {
-                              name: "MechanicalArm",
+                              name: "categories/productionLines",
                               color: "pink",
                               width: "30px",
                               height: "30px",
@@ -6572,7 +6572,7 @@ var render = function () {
                         [
                           _c("bkt-icon", {
                             attrs: {
-                              name: "Car",
+                              name: "categories/transportAndEquipment",
                               color: "orange",
                               width: "30px",
                               height: "30px",
@@ -6599,7 +6599,7 @@ var render = function () {
                         [
                           _c("bkt-icon", {
                             attrs: {
-                              name: "File",
+                              name: "categories/obligations",
                               color: "teal",
                               width: "30px",
                               height: "30px",
@@ -6626,7 +6626,7 @@ var render = function () {
                         [
                           _c("bkt-icon", {
                             attrs: {
-                              name: "More",
+                              name: "categories/other",
                               color: "main",
                               width: "30px",
                               height: "30px",

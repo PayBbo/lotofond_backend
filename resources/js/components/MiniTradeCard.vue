@@ -1,7 +1,10 @@
 <template>
     <div class="bkt-form w-100 mx-auto bkt-row outline bkt-card-trade-mini">
         <div class="col-12 col-md-2 ps-sm-0 bkt-card-trade-mini__image">
-            <card-image-category  v-if="!item.photos || item.photos.length==0" :categories="item.categories"></card-image-category>
+            <card-image-category v-if="(!item.photos || item.photos.length==0) && item.categories"
+                                 :categories="item.categories"
+            >
+            </card-image-category>
             <hooper :itemsToShow="1" :centerMode="true" class="w-100 h-100" style="min-height: 159px" v-if="item.photos.length>0">
                 <slide v-for="photo in item.photos" :key="photo.id">
                     <img v-lazy="photo.main" class="bkt-card__image"/>
@@ -26,9 +29,9 @@
         </div>
         <div class="col-12 col-md-2 bkt-card-trade-mini__dates">
             <h6 class="bkt-card__subtitle d-md-none">даты торгов</h6>
-            <div
-                v-if="item.trade && item.trade.eventTime &&
-                                        (item.trade.eventTime.start || item.trade.eventTime.end)">
+            <div v-if="item.trade && item.trade.eventTime &&
+                 (item.trade.eventTime.start || item.trade.eventTime.end)"
+            >
                 <h6 v-if="item.trade.eventTime.start">
                     с {{item.trade.eventTime.start | moment('DD MMMM YYYY HH:mm')}}
                 </h6>

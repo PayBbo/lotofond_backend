@@ -91,6 +91,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -1253,7 +1256,8 @@ var render = function () {
         "div",
         { staticClass: "col-12 col-md-2 ps-sm-0 bkt-card-trade-mini__image" },
         [
-          !_vm.item.photos || _vm.item.photos.length == 0
+          (!_vm.item.photos || _vm.item.photos.length == 0) &&
+          _vm.item.categories
             ? _c("card-image-category", {
                 attrs: { categories: _vm.item.categories },
               })
