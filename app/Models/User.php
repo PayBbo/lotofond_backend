@@ -26,8 +26,7 @@ class User extends Authenticatable
         'not_settings',
         'name',
         'email',
-        'password',
-        'device_tokens'
+        'password'
     ];
 
     /**
@@ -47,8 +46,7 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
-        'not_settings'=>'json',
-        'device_tokens'=>'array'
+        'not_settings'=>'json'
     ];
 
     public function applications()
@@ -150,6 +148,11 @@ class User extends Authenticatable
     public function socialAccount()
     {
         return $this->HasMany(\App\Models\SocialAccount::class);
+    }
+
+    public function deviceTokens()
+    {
+        return $this->HasMany(\App\Models\DeviceToken::class);
     }
 
 }

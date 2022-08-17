@@ -2,6 +2,9 @@
 
 namespace App\Http\Services;
 
+use App\Models\DeviceToken;
+use Carbon\Carbon;
+
 class DeviceTokenService
 {
     protected $user;
@@ -15,34 +18,26 @@ class DeviceTokenService
 
     public function saveDeviceToken()
     {
-        if (!is_null($this->user->device_tokens)) {
-            $not_tokens = $this->user->device_tokens;
-            if (!in_array($this->token, $not_tokens)) {
-                $not_tokens[] = $this->token;
-            }
-
-        } else {
-            $not_tokens[] = $this->token;
+        $date = Carbon::now()->setTimezone('Europe/Moscow');
+        $deviceToken = DeviceToken::where(['user_id'=>$this->user->id, 'token'=>$this->token])->first();
+        if($deviceToken){
+            $deviceToken->created_at = $date;
+            $deviceToken->save();
+        }else{
+            DeviceToken::create([
+               'user_id'=>$this->user->id,
+               'token'=>$this->token,
+               'created_at'=>$date
+            ]);
         }
-        $this->user->device_tokens = $not_tokens;
-        $this->user->save();
     }
 
     public function deleteDeviceToken()
     {
-        $not_tokens = $this->user->device_tokens;
-        if (in_array($this->token, $not_tokens)) {
-            $array = array_flip($not_tokens);
-            unset ($array[$this->token]);
-            $not_tokens = null;
-            foreach (array_flip($array) as $item) {
-                $not_tokens[] = (string)$item;
-            }
+        $deviceToken = DeviceToken::where(['user_id'=>$this->user->id, 'token'=>$this->token])->first();
+        if($deviceToken){
+            $deviceToken->delete();
         }
-
-        $this->user->device_tokens = $not_tokens;
-
-        $this->user->save();
     }
 
 }

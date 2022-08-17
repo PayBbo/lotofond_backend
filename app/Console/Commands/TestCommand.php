@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 
 use App\Http\Services\Parse\SoapWrapperService;
+use App\Http\Services\PushNotificationService;
 use App\Jobs\ParseArbitrManager;
 use App\Jobs\ParseDebtor;
 use App\Jobs\ParseDebtorMessages;
@@ -57,15 +58,9 @@ class TestCommand extends Command
         $gener->getImagesFromDocx($filename, $path, $s_path);
         $gener->getImagesFromZipOrRar($filename, $path, $s_path);
         **/
-        /*$user = User::find(1);
-        if(!is_null($user->device_tokens)) {
-            try {
-                Notification::send(null, new PushNotification('Hello', 'New Message', $user->device_tokens));
-            }catch(\Exception $e){
-                logger($e);
-            }
-        }*/
+
        dispatch(new ParseTrades);
+
 
 
     }

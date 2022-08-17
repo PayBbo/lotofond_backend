@@ -26,7 +26,6 @@ class CreateUsersTable extends Migration
             $table->boolean('not_from_favourite')->default(true);
             $table->boolean('not_from_monitoring')->default(true);
             $table->json('not_settings');
-            $table->json('device_tokens')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

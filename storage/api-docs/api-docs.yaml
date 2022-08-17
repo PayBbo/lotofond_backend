@@ -440,6 +440,32 @@ paths:
                 $ref: '#/components/schemas/Error'
       security:
         - bearerAuth: [ ]
+  /account/update/token:
+    put:
+      tags:
+        - Account
+      summary: Обновление токена устройства пользователя
+      operationId: updateDeviceToken
+      requestBody:
+        description: данные токена для обновления
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                deviceToken:
+                  type: string
+      responses:
+        "200":
+          description: Токен обновлен успешно
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+        - bearerAuth: [ ]
   /account/logout:
     post:
       tags:

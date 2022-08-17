@@ -10,6 +10,7 @@ use App\Http\Requests\UpdateAccountRequest;
 use App\Http\Requests\UpdateNotificationsRequest;
 use App\Http\Requests\VerifyCredentialsCodeRequest;
 use App\Http\Resources\ProfileResource;
+use App\Http\Services\DeviceTokenService;
 use App\Http\Services\SendCodeService;
 use App\Http\Services\SocialsService;
 use App\Jobs\ChangeEmail;
@@ -18,6 +19,7 @@ use App\Models\Notification;
 use App\Models\SocialAccount;
 use App\Models\User;
 use Carbon\Carbon;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
@@ -187,5 +189,14 @@ class ProfileController extends Controller
 
     public function hasNotSeenNotifications(){
         return response(['hasNotSeenNotifications'=>Notification::where(['user_id'=> auth()->guard('api')->id(), 'is_seen'=>false])->exists()], 200);
+    }
+
+    public function updateDeviceToken(Request $request){
+        $user = User::find(auth()->id());
+        if (isset($request->deviceToken)) {
+            $deviceTokenService = new DeviceTokenService($user, $request->deviceToken);
+            $deviceTokenService->saveDeviceToken();
+        }
+        return response(null, 200);
     }
 }

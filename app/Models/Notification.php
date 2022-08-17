@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Http\Services\PushNotificationService;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -43,6 +44,20 @@ class Notification extends Model
         'monitoring_id'=>'integer'
 
     ];
+
+    public static function boot()
+    {
+        parent::boot();
+
+        static::created(function ($notification) {
+            $value = !is_null($notification->value) ? __('messages.' . $notification->message, ['value' => $notification->value]) :
+                __('messages.' . $notification->message);
+
+            $push = new PushNotificationService('Новое оповещение', $value, $notification->user_id);
+            $push->sendPushNotification();
+        });
+
+    }
 
     public function lot()
     {
