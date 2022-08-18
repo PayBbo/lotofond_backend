@@ -10,6 +10,7 @@ use App\Http\Resources\NotificationCollection;
 use App\Http\Resources\VictoryCollection;
 use App\Models\Auction;
 use App\Models\BiddingResult;
+use App\Models\Favourite;
 use App\Models\FavouriteLot;
 use App\Models\Lot;
 use App\Models\Notification;
@@ -21,7 +22,7 @@ class AuctionController extends Controller
 {
     public function getTrades(Request $request)
     {
-        $lots = Lot::customSortBy($request)->paginate(20);
+        $lots = Lot::doesntHave('userHiddenLot')->customSortBy($request)->paginate(20);
         return response(new LotCollection($lots), 200);
     }
 
@@ -53,7 +54,7 @@ class AuctionController extends Controller
     public function getShortTrades(Request $request)
     {
         $searchString = $request->searchString;
-        $lots = Lot::when(isset($searchString) && strlen((string)$searchString) > 0, function ($query) use ($searchString) {
+        $lots = Lot::doesntHave('userHiddenLot')->when(isset($searchString) && strlen((string)$searchString) > 0, function ($query) use ($searchString) {
             $query->whereHas('auction', function ($q) use ($searchString) {
                 $q->where('trade_id', 'like', '%' . $searchString . '%');
             })
@@ -140,6 +141,12 @@ class AuctionController extends Controller
                         $user->hiddenLots()->detach($lot);
                     } else {
                         $user->hiddenLots()->attach($lot);
+                        $paths = Favourite::where('user_id', auth()->id())->get();
+                        foreach ($paths as $path) {
+                            if ($path->lots->contains($lot)) {
+                                $path->lots()->detach($lot);
+                            }
+                        }
                     }
                 }
                 if ($auction) {
