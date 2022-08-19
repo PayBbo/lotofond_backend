@@ -42,10 +42,10 @@
         <template #body="{ invalid }">
             <ul class="bkt-navbar__nav bkt-navbar__nav-pills">
                 <li class="bkt-navbar__nav-item" :class="{active: tab==='registration'}"
-                    @click="tab='registration'">
+                    @click="changeTab('registration')">
                     Регистрация
                 </li>
-                <li class="bkt-navbar__nav-item" :class="{active: tab==='login'}" @click="tab='login'">
+                <li class="bkt-navbar__nav-item" :class="{active: tab==='login'}" @click="changeTab(tab='login')">
                     Вход
                 </li>
             </ul>
@@ -56,6 +56,7 @@
                 type="text"
                 :rules="'required|alpha|min:2'"
                 label="имя"
+                field_name="'имя'"
                 placeholder="Иван"
                 icon_name="User"
             />
@@ -66,6 +67,7 @@
                 type="text"
                 :rules="'required|alpha|min:2'"
                 label="фамилия"
+                field_name="'фамилия'"
                 placeholder="Иванов"
                 icon_name="User"
             />
@@ -74,26 +76,28 @@
                 :name="'email'"
                 type="email"
                 label="e-mail"
+                field_name="'e-mail'"
                 :rules="'required'"
                 placeholder="pochta@gmail.com"
                 icon_name="Email"
             />
-            <bkt-input
-                v-model="user.phone"
-                v-if="tab=='registration'"
-                :name="'phone'"
-                type="tel"
-                label="номер телефона"
-                :rules="'required|phone'"
-                :placeholder="'+7 495 000-00-00'"
-                icon_name="Smartphone"
-                :mask="['+# ### ### ####','+## ### ### ####', '+## ### #### ####',]"
-            />
+<!--            <bkt-input-->
+<!--                v-model="user.phone"-->
+<!--                v-if="tab=='registration'"-->
+<!--                :name="'phone'"-->
+<!--                type="tel"-->
+<!--                label="номер телефона"-->
+<!--                :rules="'required|phone'"-->
+<!--                :placeholder="'+7 495 000-00-00'"-->
+<!--                icon_name="Smartphone"-->
+<!--                :mask="['+# ### ### ####','+## ### ### ####', '+## ### #### ####',]"-->
+<!--            />-->
             <bkt-input
                 v-model="user.password"
                 name="password"
                 :type="type1"
                 label="пароль"
+                field_name="'пароль'"
                 @click-group-item="switchVisibility('type1')"
                 :rules="'required|min:8'"
                 group_item_action
@@ -132,6 +136,7 @@
                 :name="'confirmation'"
                 :type="type2"
                 label="повторите пароль"
+                field_name="'повторите пароль'"
                 :rules="'required|min:8|confirmed:password'"
                 group_item_action
             >
@@ -174,9 +179,9 @@
                 Зарегистрироваться
             </button>
             <div class="bkt-wrapper-between w-100" v-if="tab=='login'">
-<!--                <a class="bkt-forgot-password" @click="submit">Забыли пароль?-->
-<!--                    <bkt-icon name="ArrowDown"></bkt-icon>-->
-<!--                </a>-->
+                <button class="bkt-button next" @click="resetPassword">Забыли пароль?
+                    <bkt-icon name="ArrowDown"></bkt-icon>
+                </button>
                 <button class="bkt-button primary ms-auto me-0" :disabled="invalid" @click="submit">
                     <span v-if="loading" class="spinner-border spinner-border-sm" role="status"
                           aria-hidden="true"></span>
@@ -240,12 +245,14 @@
                 data.grantType = this.grantType;
                 this.loading = true;
                 await this.$store.dispatch(this.tab, data).then(resp => {
-
-                }).catch(error => {
-                    console.log(error)
-                }).finally(() => {
                     this.loading = false;
-                });
+                    if(this.tab == 'registration') {
+                        this.$store.dispatch('sendNotification',
+                            {self: this, message:'Код подтверждения был отправлен на указанную почту'})
+                    }
+                }).catch(error => {
+                    this.loading = false;
+                })
             },
             vkSubmit() {
 
@@ -254,7 +261,16 @@
 
             },
             changeTab(tab) {
+                this.user = JSON.parse(JSON.stringify(this.shared_user));
+                this.terms = false;
+                if(this.$refs.authModal) {
+                    this.$refs.authModal.resetForm();
+                }
                 this.tab = tab;
+            },
+            resetPassword() {
+                this.$store.commit('closeModal', '#authModal');
+                this.$store.commit('openModal', '#resetPasswordModal');
             }
         },
     }

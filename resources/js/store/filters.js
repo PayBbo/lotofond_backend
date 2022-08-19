@@ -54,7 +54,7 @@ export default {
                     isStopped: false,
                     isCompleted: false,
                     isHidden: false,
-                    organizer: false
+                    // hasAnswer: false
                 },
             },
             mainParams: JSON.parse(localStorage.getItem('filters_mainParams')) ||  {
@@ -76,9 +76,9 @@ export default {
             }
         },
         nearest_filters: {
-            categories: JSON.parse(localStorage.getItem('nearest_categories')) || [],
-            regions: JSON.parse(localStorage.getItem('nearest_regions')) || [],
-            prices: JSON.parse(localStorage.getItem('nearest_prices')) || {
+            categories: JSON.parse(localStorage.getItem('nearest_filters_categories')) || [],
+            regions: JSON.parse(localStorage.getItem('nearest_filters_regions')) || [],
+            prices: JSON.parse(localStorage.getItem('nearest_filters_prices')) || {
                 currentPrice: {
                     min: '',
                     max: ''
@@ -96,7 +96,7 @@ export default {
                     max: ''
                 }
             },
-            dates: JSON.parse(localStorage.getItem('nearest_dates')) || {
+            dates: JSON.parse(localStorage.getItem('nearest_filters_dates')) || {
                 eventTimeStart: {
                     start: "",
                     end: ""
@@ -114,7 +114,7 @@ export default {
                     end: ""
                 }
             },
-            extraOptions: JSON.parse(localStorage.getItem('nearest_extraOptions')) || {
+            extraOptions: JSON.parse(localStorage.getItem('nearest_filters_extraOptions')) || {
                 debtorCategories: [
                 ],
                 debtors: [
@@ -129,7 +129,7 @@ export default {
                     isStopped: false,
                     isCompleted: false,
                     isHidden: false,
-                    organizer: false
+                    // hasAnswer: false
                 },
             },
             mainParams: {
@@ -207,7 +207,9 @@ export default {
         },
         saveFiltersProperty(state, payload) {
             // Vue.set(state.filters, payload.key, payload.value);
-            localStorage.setItem(payload.key, JSON.stringify(payload.value));
+            if (localStorage.getItem(payload.key)) {
+                localStorage.setItem(payload.key, JSON.stringify(payload.value));
+            }
         },
         saveFilterProperty(state, payload) {
             Vue.set(state.filters[payload.filter], payload.key, payload.value);

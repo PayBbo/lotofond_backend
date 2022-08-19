@@ -17,10 +17,10 @@
             <slot name="title">
                 <h3 class="bkt-card__title" :class="title_class" v-if="title" data-bs-toggle="collapse" :data-bs-target="'#'+id">
                     <slot name="title-inner">
-                        {{title}}
-                        <span v-if="count>=0" :class="[count>0 ? 'bkt-text-green' : 'bkt-text-neutral-dark']">
+                         <span v-if="count>=0" :class="[count>0 ? 'bkt-text-green' : 'bkt-text-neutral-dark']">
                             ({{count}})
                         </span>
+                        {{title}}
                     </slot>
                 </h3>
             </slot>

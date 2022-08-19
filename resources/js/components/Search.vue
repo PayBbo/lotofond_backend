@@ -36,6 +36,20 @@
                                 {{item}}
                             </slot>
                         </div>
+                        <slot name="infinite" v-if="infinite && !currentLoading">
+                            <div class="col-12 px-0">
+                                <div ref="infiniteLoad" class="mx-auto">
+                                    <infinite-loading
+                                        @infinite="infiniteHandler"
+                                        ref="infiniteLoading" :distance="10"
+                                        style="min-height:10px;" spinner="waveDots"
+                                    >
+                                        <span slot="no-results"></span>
+                                        <span slot="no-more"></span>
+                                    </infinite-loading>
+                                </div>
+                            </div>
+                        </slot>
                     </div>
                 </slot>
             </div>
@@ -119,6 +133,10 @@
             clearable: {
                 type: Boolean,
                 default: false
+            },
+            infinite: {
+                type: Boolean,
+                default: false
             }
         },
         data() {
@@ -127,7 +145,8 @@
                 optionsShown: false,
                 // searchFilter: '',
                 options: [],
-                currentLoading: false
+                currentLoading: false,
+                pagination: {}
             }
         },
         computed: {
@@ -150,7 +169,6 @@
         },
         methods: {
             handleBlur(value) {
-                console.log('blur')
                 this.$emit('blur', value);
                 if (!this.no_dropdown) {
                     // if (this.searchFilter == '') {
@@ -223,11 +241,12 @@
                     await this.$store.dispatch(this.method_name, payload)
                         .then(resp => {
                             if (!this.no_dropdown) {
-
                                 if (resp.data.data) {
                                     this.options = resp.data.data;
+                                    this.pagination = resp.data.pagination;
                                 } else {
                                     this.options = resp.data;
+                                    this.pagination = null;
                                 }
                                 this.showOptions();
                             }
@@ -246,7 +265,79 @@
                     this.runSearch();
                 })
 
-            }
+            },
+            async infiniteHandler($state) {
+                let page = 0;
+                if (this.pagination) {
+                    this.searchLoading = true;
+                    page = this.pagination.currentPage;
+                    if (this.pagination.nextPageUrl !== null) {
+                        let payload = this.searchFilter;
+                        if (this.method_params) {
+                            payload = this.method_params;
+                            payload.page = page + 1;
+                            if (this.search_field) {
+                                payload[this.search_field] = this.searchFilter;
+                            }
+                            if (!this.method_params.page) {
+                                this.method_params.page = page + 1;
+                            }
+                        }
+                        await this.$store.dispatch(this.method_name, payload).then(resp => {
+                            this.pagination = resp.data.pagination;
+                            resp.data.data.forEach(item => {
+                                let index = this.options.findIndex(el => el.id === item.id);
+                                if (index < 0) {
+                                    this.options.push(item)
+                                }
+                            });
+                            if (this.pagination.nextPageUrl !== null) {
+                                $state.loaded();
+                            } else {
+                                $state.complete();
+                            }
+                            this.searchLoading = false;
+                        })
+                            .catch(error => {
+                                this.searchLoading = false;
+                            });
+                    } else {
+                        $state.complete();
+                        this.searchLoading = false;
+                    }
+                }
+                // else {
+                //     let payload = this.searchFilter;
+                //     this.searchLoading = true;
+                //     if (this.method_params) {
+                //         payload = this.method_params;
+                //         payload.page = page + 1;
+                //         if (this.search_field) {
+                //             payload[this.search_field] = this.searchFilter;
+                //         }
+                //         if (!this.method_params.page) {
+                //             this.method_params.page = page + 1;
+                //         }
+                //     }
+                //     await this.$store.dispatch(this.method_name, payload).then(resp => {
+                //         this.pagination = resp.data.pagination;
+                //         resp.data.data.forEach(item => {
+                //             let index = this.options.findIndex(el => el.id === item.id);
+                //             if (index < 0) {
+                //                 this.options.push(item)
+                //             }
+                //         });
+                //         if (this.pagination.nextPageUrl !== null) {
+                //             $state.loaded();
+                //         } else {
+                //             $state.complete();
+                //         }
+                //         this.searchLoading = false;
+                //     }).catch(error => {
+                //         this.searchLoading = false;
+                //     });
+                // }
+            },
         },
     }
 </script>

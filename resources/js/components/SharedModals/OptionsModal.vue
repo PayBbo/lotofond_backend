@@ -79,7 +79,7 @@
         },
         methods: {
             saveFilters() {
-                this.$store.commit('saveFiltersProperty', {key:'filters_extraOptions', value: this.filter});
+                this.$store.commit('saveFiltersProperty', {key:this.filter_name +'_extraOptions', value: this.filter});
                 this.$store.dispatch('saveDataProperty', {
                     module_key: 'filters', state_key: this.filter_name,
                     key: 'extraOptions',
@@ -90,7 +90,7 @@
             },
             clearFilters() {
                 let tmp_filter = {...this.filters.extraOptions, ...this.template};
-                this.$store.commit('saveFiltersProperty', {key:'filters_extraOptions', value: tmp_filter});
+                this.$store.commit('saveFiltersProperty', {key:this.filter_name +'_extraOptions', value: tmp_filter});
                 this.$store.dispatch('saveDataProperty', {
                     module_key: 'filters', state_key: this.filter_name,
                     key: 'extraOptions',

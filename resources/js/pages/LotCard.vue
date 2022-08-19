@@ -818,7 +818,7 @@
                                 </div>
                             </div>
                             <div class="col-12 px-0" v-for="active_lot in debtor_active_lots">
-                                <mini-trade-card :item="active_lot"></mini-trade-card>
+                                <mini-trade-card :item="active_lot" @navigate="getMiniLot"></mini-trade-card>
                             </div>
                             <div class="col-12 px-0" v-if="debtor_active_lots_pagination">
                                 <bkt-pagination
@@ -862,7 +862,7 @@
                                 </div>
                             </div>
                             <div class="col-12 px-0" v-for="complete_lot in debtor_completed_lots">
-                                <mini-trade-card :item="complete_lot"></mini-trade-card>
+                                <mini-trade-card :item="complete_lot" @navigate="getMiniLot"></mini-trade-card>
                             </div>
                             <div class="col-12 px-0" v-if="debtor_completed_lots_pagination">
                                 <bkt-pagination
@@ -1258,6 +1258,13 @@
                         })
                 }
             },
+            getMiniLot() {
+                this.getLot();
+                if (this.isLoggedIn) {
+                    this.getLotFiles();
+                    this.makeWatched();
+                }
+            }
         }
     }
 </script>

@@ -16,10 +16,8 @@
             <h6 class="bkt-card__subtitle">
                 № {{item.trade.externalId}}, лот {{item.lotNumber}}
             </h6>
-            <h5 class="bkt-text-truncate bkt-card-trade-mini__title">
-                <router-link :to="'/lot/'+item.id">
+            <h5 class="bkt-text-truncate bkt-card-trade-mini__title bkt-cursor-pointer" @click="navigate">
                 {{item.description}}
-                </router-link>
             </h5>
         </div>
         <div class="col-12 col-md-2 bkt-card-trade-mini__price">
@@ -92,6 +90,12 @@
         components: {
             Hooper,
             Slide, HooperNavigation, CardImageCategory
+        },
+        methods: {
+            navigate() {
+                this.$router.push('/lot/'+this.item.id);
+                this.$emit('navigate', this.item.id)
+            }
         }
     }
 </script>

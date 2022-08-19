@@ -1,7 +1,8 @@
 <template>
-    <ValidationProvider :name="name" :rules="rules" v-slot="{ errors }" tag="div" class="bkt-check__wrapper" :class="wrapper_class">
+    <ValidationProvider :name="name" :rules="rules" v-slot="{ errors }" tag="div" class="bkt-check__wrapper"
+                        :class="wrapper_class">
         <div class="bkt-check">
-            <div class="bkt-check__input" :class="[border_color ? 'bkt-border-'+border_color : '']">
+            <div class="bkt-check__input" :class="[border_color ? 'bkt-border-'+border_color : '', input_class]">
                 <input
                     v-if="val_type=='boolean'&&type !='radio'"
                     :type="type"
@@ -17,7 +18,9 @@
                     :indeterminate.prop="indeterminate"
                     :disabled="disabled"
                 />
-                <div class="bkt-check__input-check" :class="[check_color ? 'bkt-bg-'+check_color : '']"></div>
+                <slot name="input-check">
+                    <div class="bkt-check__input-check" :class="[check_color ? 'bkt-bg-'+check_color : '']"></div>
+                </slot>
             </div>
             <label class="bkt-check__label">
                 <slot name="label">
@@ -59,6 +62,10 @@
                 type: String,
                 default: "",
             },
+            input_class: {
+                type: String,
+                default: "",
+            },
             type: {
                 type: String,
                 default: "checkbox",
@@ -84,7 +91,7 @@
         //     prop: 'value',
         //     event: 'change'
         // },
-        data: function() {
+        data: function () {
             return {
                 // model:null,
                 val_type: 'boolean'
@@ -92,8 +99,7 @@
         },
         mounted() {
             // this.model = this.value;
-            if(typeof this.value != 'boolean')
-            {
+            if (typeof this.value != 'boolean') {
                 this.val_type = 'other'
             }
         },

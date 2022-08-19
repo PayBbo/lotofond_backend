@@ -1,4 +1,12 @@
 "use strict";
+/*
+ * ATTENTION: An "eval-source-map" devtool has been used.
+ * This devtool is neither made for production nor for readable output files.
+ * It uses "eval()" calls to create a separate source file with attached SourceMaps in the browser devtools.
+ * If you are trying to read the output file, select a different devtool (https://webpack.js.org/configuration/devtool/)
+ * or disable the default devtool with "devtool: false".
+ * If you are looking for production-ready output files, see mode: "production" (https://webpack.js.org/configuration/mode/).
+ */
 (self["webpackChunk"] = self["webpackChunk"] || []).push([["resources_js_icons_Wallet_vue"],{
 
 /***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/icons/Wallet.vue?vue&type=script&lang=js&":
@@ -7,36 +15,7 @@
   \********************************************************************************************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-//
-//
-//
-//
-//
-//
-//
-//
-//
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  name: "Wallet",
-  props: {
-    color: {
-      type: String,
-      "default": 'yellow'
-    },
-    width: {
-      type: String,
-      "default": '22px'
-    },
-    height: {
-      type: String,
-      "default": '22px'
-    }
-  }
-});
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (__WEBPACK_DEFAULT_EXPORT__)\n/* harmony export */ });\n//\n//\n//\n//\n//\n//\n//\n//\n//\n/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({\n  name: \"Wallet\",\n  props: {\n    color: {\n      type: String,\n      \"default\": 'yellow'\n    },\n    width: {\n      type: String,\n      \"default\": '22px'\n    },\n    height: {\n      type: String,\n      \"default\": '22px'\n    }\n  }\n});//# sourceURL=[module]\n//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiLi9ub2RlX21vZHVsZXMvYmFiZWwtbG9hZGVyL2xpYi9pbmRleC5qcz8/Y2xvbmVkUnVsZVNldC01WzBdLnJ1bGVzWzBdLnVzZVswXSEuL25vZGVfbW9kdWxlcy92dWUtbG9hZGVyL2xpYi9pbmRleC5qcz8/dnVlLWxvYWRlci1vcHRpb25zIS4vcmVzb3VyY2VzL2pzL2ljb25zL1dhbGxldC52dWU/dnVlJnR5cGU9c2NyaXB0Jmxhbmc9anMmLmpzIiwibWFwcGluZ3MiOiI7Ozs7Ozs7Ozs7Ozs7QUFVQTtFQUNBQSxjQURBO0VBRUFDO0lBQ0FDO01BQ0FDLFlBREE7TUFFQTtJQUZBLENBREE7SUFLQUM7TUFDQUQsWUFEQTtNQUVBO0lBRkEsQ0FMQTtJQVNBRTtNQUNBRixZQURBO01BRUE7SUFGQTtFQVRBO0FBRkEiLCJzb3VyY2VzIjpbIndlYnBhY2s6Ly8vcmVzb3VyY2VzL2pzL2ljb25zL1dhbGxldC52dWU/YjAwOSJdLCJzb3VyY2VzQ29udGVudCI6WyI8dGVtcGxhdGU+XHJcbiAgICA8c3ZnIHhtbG5zPVwiaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmdcIiA6d2lkdGg9XCJ3aWR0aFwiIDpoZWlnaHQ9XCJoZWlnaHRcIiA6Y2xhc3M9XCInYmt0LWZpbGwtJytjb2xvclwiXHJcbiAgICAgICAgIHZpZXdCb3g9XCIwIDAgNDU4LjQgNDU2LjIxXCI+XHJcbiAgICAgICAgPHBhdGhcclxuICAgICAgICAgICAgZD1cIk00MDMsMTcyaDE3Yy4yMi43Ni44Mi44OSwxLjUsMSwxOS4yNSwzLjc2LDMzLDE0LjcyLDQyLjQ5LDMxLjcyLDE0LjgsMjYuNDMsMzAuNTEsNTIuMzYsNDQuNzUsNzkuMDgsNS40NCwxMC4xOSwxMS4xNywxNC41MywyMy4zNywxNC40NCwyOC0uMjMsNTIsMjMuMTEsNTUsNTEsMS4zOCwxMi45NS41MiwyNiwuNTIsMzguOTUsMCw0LjIuODQsNS42Myw1LjQyLDUuNywyMC4xLjI3LDM0Ljg1LDE0LDM3LjEsMzR2NzAuMTZjLTIuMjUsMjAtMTcsMzMuNzMtMzcuMTEsMzQtNC42MS4wNy01LjUsMS41Mi01LjM5LDUuNzIuMjcsMTAuNDkuMjEsMjEsLjA2LDMxLjQ4LS40NiwzMS41OC0yMy40OSw1Ni4zMy01NC42NSw1OC44Ny0xLjE2LS4wNi0yLjMyLS4xNy0zLjQ4LS4xN1EzODIsNjI4LDIzNC4zOCw2MjhjLTIuNDksMC01LC4xMi03LjQ3LjE5LTMwLjMyLTIuMzgtNTIuNzItMjQuNzctNTUuMTMtNTUuMTEuMDctMS42Ni4yMS0zLjMyLjIxLTVxMC0xMDMuNjEsMC0yMDcuMjJjMC0zLS4xLTYtLjE1LTlxMy4wNy0zMSwyOS45NC00Ni43OGMxMS44LTYuOTQsMjQuODMtOC4wNiwzOC4xMi03LjM0YTEyLjg3LDEyLjg3LDAsMCwwLDkuODQtMy42MXE1OS44MS01Mi41NiwxMTkuNzUtMTA0Ljk1YzkuNDYtOC4zMiwxOS44NC0xNC40NSwzMi40NS0xNi4zOEM0MDIuMzMsMTcyLjgsNDAyLjY1LDE3Mi4zLDQwMywxNzJaTTM3OS43OCwzMjkuNzZxLTczLjc0LDAtMTQ3LjQ3LDBjLTE3LjYsMC0yOC41MiwxMC43OS0yOC41MywyOC4yMnEtLjA4LDEwNSwwLDIxMGMwLDE3LjI3LDEwLjg1LDI4LjI0LDI4LDI4LjI1cTE0OCwuMDksMjk2LDBjMTYuNzMsMCwyNy43Ni0xMS4xMSwyOC0yNy45My4xNC0xMC41LS4xNi0yMSwuMTItMzEuNDkuMS00LTEuNDUtNC42NS01LTQuNjItOCwuMDgtMTYsLjQtMjMuOTItMS0zMi4zNy01LjgtNTYuNTUtMzQuNjgtNTYuNjktNjcuOTFzMjQuMS02Mi41Miw1Ni42OS02OC4zOWM4LTEuNDQsMTUuOTQtMS4xOSwyMy45Mi0xLDQuMTEuMDksNS0xLjMzLDQuOTQtNS4xNC0uMjMtOS41LS40My0xOSwwLTI4LjQ5Ljg2LTE4LjUzLTEyLjA5LTMwLjkxLTMwLjU3LTMwLjY4QzQ3Ni43NiwzMzAuMTYsNDI4LjI3LDMyOS43NiwzNzkuNzgsMzI5Ljc2Wm0tODQuNDktMzIuODRjMS44LjI4LDIuMjkuNDMsMi43OC40M3E4OC42OCwwLDE3Ny4zOC4wOGM1LjIyLDAsMy4zNy0yLjE3LDEuOTQtNC42NHEtMjAuODYtMzYuMzctNDEuNy03Mi43NWMtMTAuNDQtMTguMTQtMjguNTQtMjEtNDQuMzQtNy4xOXEtMzcuNjEsMzIuOTEtNzUuMjMsNjUuNzdDMzA5LjQyLDI4NC40OCwzMDIuNzQsMjkwLjM4LDI5NS4yOSwyOTYuOTJabTMwMywxNjYuMzVjMC0xMC4xNiwwLTIwLjMzLDAtMzAuNDksMC01LjU2LTEuMzUtNy02LjcyLTctMTcuNDktLjA2LTM1LS4yNS01Mi40Ny4wN2EzNy4xNCwzNy4xNCwwLDAsMCwwLDc0LjI3YzE3LjQ5LjMzLDM1LC4xNCw1Mi40Ny4wOCw1LjQsMCw2LjczLTEuNDIsNi43Ny02Ljk1QzU5OC4yOSw0ODMuMjYsNTk4LjI0LDQ3My4yNyw1OTguMjQsNDYzLjI3WlwiXHJcbiAgICAgICAgICAgIHRyYW5zZm9ybT1cInRyYW5zbGF0ZSgtMTcxLjc4IC0xNzIpXCIvPlxyXG4gICAgPC9zdmc+XHJcbjwvdGVtcGxhdGU+XHJcblxyXG48c2NyaXB0PlxyXG4gICAgZXhwb3J0IGRlZmF1bHQge1xyXG4gICAgICAgIG5hbWU6IFwiV2FsbGV0XCIsXHJcbiAgICAgICAgcHJvcHM6IHtcclxuICAgICAgICAgICAgY29sb3I6IHtcclxuICAgICAgICAgICAgICAgIHR5cGU6IFN0cmluZyxcclxuICAgICAgICAgICAgICAgIGRlZmF1bHQ6ICd5ZWxsb3cnXHJcbiAgICAgICAgICAgIH0sXHJcbiAgICAgICAgICAgIHdpZHRoOiB7XHJcbiAgICAgICAgICAgICAgICB0eXBlOiBTdHJpbmcsXHJcbiAgICAgICAgICAgICAgICBkZWZhdWx0OiAnMjJweCdcclxuICAgICAgICAgICAgfSxcclxuICAgICAgICAgICAgaGVpZ2h0OiB7XHJcbiAgICAgICAgICAgICAgICB0eXBlOiBTdHJpbmcsXHJcbiAgICAgICAgICAgICAgICBkZWZhdWx0OiAnMjJweCdcclxuICAgICAgICAgICAgfSxcclxuICAgICAgICB9XHJcbiAgICB9XHJcbjwvc2NyaXB0PlxyXG5cclxuPHN0eWxlIHNjb3BlZD5cclxuXHJcbjwvc3R5bGU+XHJcbiJdLCJuYW1lcyI6WyJuYW1lIiwicHJvcHMiLCJjb2xvciIsInR5cGUiLCJ3aWR0aCIsImhlaWdodCJdLCJzb3VyY2VSb290IjoiIn0=\n//# sourceURL=webpack-internal:///./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/icons/Wallet.vue?vue&type=script&lang=js&\n");
 
 /***/ }),
 
@@ -46,35 +25,7 @@ __webpack_require__.r(__webpack_exports__);
   \***************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var _Wallet_vue_vue_type_template_id_2a144d2c_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Wallet.vue?vue&type=template&id=2a144d2c&scoped=true& */ "./resources/js/icons/Wallet.vue?vue&type=template&id=2a144d2c&scoped=true&");
-/* harmony import */ var _Wallet_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Wallet.vue?vue&type=script&lang=js& */ "./resources/js/icons/Wallet.vue?vue&type=script&lang=js&");
-/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
-
-
-
-
-
-/* normalize component */
-;
-var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
-  _Wallet_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
-  _Wallet_vue_vue_type_template_id_2a144d2c_scoped_true___WEBPACK_IMPORTED_MODULE_0__.render,
-  _Wallet_vue_vue_type_template_id_2a144d2c_scoped_true___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
-  false,
-  null,
-  "2a144d2c",
-  null
-  
-)
-
-/* hot reload */
-if (false) { var api; }
-component.options.__file = "resources/js/icons/Wallet.vue"
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (component.exports);
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (__WEBPACK_DEFAULT_EXPORT__)\n/* harmony export */ });\n/* harmony import */ var _Wallet_vue_vue_type_template_id_2a144d2c_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Wallet.vue?vue&type=template&id=2a144d2c&scoped=true& */ \"./resources/js/icons/Wallet.vue?vue&type=template&id=2a144d2c&scoped=true&\");\n/* harmony import */ var _Wallet_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Wallet.vue?vue&type=script&lang=js& */ \"./resources/js/icons/Wallet.vue?vue&type=script&lang=js&\");\n/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ \"./node_modules/vue-loader/lib/runtime/componentNormalizer.js\");\n\n\n\n\n\n/* normalize component */\n;\nvar component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__[\"default\"])(\n  _Wallet_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__[\"default\"],\n  _Wallet_vue_vue_type_template_id_2a144d2c_scoped_true___WEBPACK_IMPORTED_MODULE_0__.render,\n  _Wallet_vue_vue_type_template_id_2a144d2c_scoped_true___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,\n  false,\n  null,\n  \"2a144d2c\",\n  null\n  \n)\n\n/* hot reload */\nif (false) { var api; }\ncomponent.options.__file = \"resources/js/icons/Wallet.vue\"\n/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (component.exports);//# sourceURL=[module]\n//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiLi9yZXNvdXJjZXMvanMvaWNvbnMvV2FsbGV0LnZ1ZS5qcyIsIm1hcHBpbmdzIjoiOzs7Ozs7O0FBQWlHO0FBQ3ZDO0FBQ0w7OztBQUdyRDtBQUNBLENBQTZGO0FBQzdGLGdCQUFnQix1R0FBVTtBQUMxQixFQUFFLDRFQUFNO0FBQ1IsRUFBRSwwRkFBTTtBQUNSLEVBQUUsbUdBQWU7QUFDakI7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBOztBQUVBO0FBQ0EsSUFBSSxLQUFVLEVBQUUsWUFpQmY7QUFDRDtBQUNBLGlFQUFlIiwic291cmNlcyI6WyJ3ZWJwYWNrOi8vLy4vcmVzb3VyY2VzL2pzL2ljb25zL1dhbGxldC52dWU/YjA1MSJdLCJzb3VyY2VzQ29udGVudCI6WyJpbXBvcnQgeyByZW5kZXIsIHN0YXRpY1JlbmRlckZucyB9IGZyb20gXCIuL1dhbGxldC52dWU/dnVlJnR5cGU9dGVtcGxhdGUmaWQ9MmExNDRkMmMmc2NvcGVkPXRydWUmXCJcbmltcG9ydCBzY3JpcHQgZnJvbSBcIi4vV2FsbGV0LnZ1ZT92dWUmdHlwZT1zY3JpcHQmbGFuZz1qcyZcIlxuZXhwb3J0ICogZnJvbSBcIi4vV2FsbGV0LnZ1ZT92dWUmdHlwZT1zY3JpcHQmbGFuZz1qcyZcIlxuXG5cbi8qIG5vcm1hbGl6ZSBjb21wb25lbnQgKi9cbmltcG9ydCBub3JtYWxpemVyIGZyb20gXCIhLi4vLi4vLi4vbm9kZV9tb2R1bGVzL3Z1ZS1sb2FkZXIvbGliL3J1bnRpbWUvY29tcG9uZW50Tm9ybWFsaXplci5qc1wiXG52YXIgY29tcG9uZW50ID0gbm9ybWFsaXplcihcbiAgc2NyaXB0LFxuICByZW5kZXIsXG4gIHN0YXRpY1JlbmRlckZucyxcbiAgZmFsc2UsXG4gIG51bGwsXG4gIFwiMmExNDRkMmNcIixcbiAgbnVsbFxuICBcbilcblxuLyogaG90IHJlbG9hZCAqL1xuaWYgKG1vZHVsZS5ob3QpIHtcbiAgdmFyIGFwaSA9IHJlcXVpcmUoXCJlOlxcXFxPcGVuU2VydmVyXFxcXE9TUGFuZWxcXFxcZG9tYWluc1xcXFxiYW5rcm90XFxcXG5vZGVfbW9kdWxlc1xcXFx2dWUtaG90LXJlbG9hZC1hcGlcXFxcZGlzdFxcXFxpbmRleC5qc1wiKVxuICBhcGkuaW5zdGFsbChyZXF1aXJlKCd2dWUnKSlcbiAgaWYgKGFwaS5jb21wYXRpYmxlKSB7XG4gICAgbW9kdWxlLmhvdC5hY2NlcHQoKVxuICAgIGlmICghYXBpLmlzUmVjb3JkZWQoJzJhMTQ0ZDJjJykpIHtcbiAgICAgIGFwaS5jcmVhdGVSZWNvcmQoJzJhMTQ0ZDJjJywgY29tcG9uZW50Lm9wdGlvbnMpXG4gICAgfSBlbHNlIHtcbiAgICAgIGFwaS5yZWxvYWQoJzJhMTQ0ZDJjJywgY29tcG9uZW50Lm9wdGlvbnMpXG4gICAgfVxuICAgIG1vZHVsZS5ob3QuYWNjZXB0KFwiLi9XYWxsZXQudnVlP3Z1ZSZ0eXBlPXRlbXBsYXRlJmlkPTJhMTQ0ZDJjJnNjb3BlZD10cnVlJlwiLCBmdW5jdGlvbiAoKSB7XG4gICAgICBhcGkucmVyZW5kZXIoJzJhMTQ0ZDJjJywge1xuICAgICAgICByZW5kZXI6IHJlbmRlcixcbiAgICAgICAgc3RhdGljUmVuZGVyRm5zOiBzdGF0aWNSZW5kZXJGbnNcbiAgICAgIH0pXG4gICAgfSlcbiAgfVxufVxuY29tcG9uZW50Lm9wdGlvbnMuX19maWxlID0gXCJyZXNvdXJjZXMvanMvaWNvbnMvV2FsbGV0LnZ1ZVwiXG5leHBvcnQgZGVmYXVsdCBjb21wb25lbnQuZXhwb3J0cyJdLCJuYW1lcyI6W10sInNvdXJjZVJvb3QiOiIifQ==\n//# sourceURL=webpack-internal:///./resources/js/icons/Wallet.vue\n");
 
 /***/ }),
 
@@ -84,12 +35,7 @@ component.options.__file = "resources/js/icons/Wallet.vue"
   \****************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Wallet_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./Wallet.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/icons/Wallet.vue?vue&type=script&lang=js&");
- /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Wallet_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (__WEBPACK_DEFAULT_EXPORT__)\n/* harmony export */ });\n/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Wallet_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./Wallet.vue?vue&type=script&lang=js& */ \"./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/icons/Wallet.vue?vue&type=script&lang=js&\");\n /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Wallet_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__[\"default\"]); //# sourceURL=[module]\n//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiLi9yZXNvdXJjZXMvanMvaWNvbnMvV2FsbGV0LnZ1ZT92dWUmdHlwZT1zY3JpcHQmbGFuZz1qcyYuanMiLCJtYXBwaW5ncyI6Ijs7Ozs7QUFBZ04sQ0FBQyxpRUFBZSwyTUFBRyxFQUFDIiwic291cmNlcyI6WyJ3ZWJwYWNrOi8vLy4vcmVzb3VyY2VzL2pzL2ljb25zL1dhbGxldC52dWU/NTJlOCJdLCJzb3VyY2VzQ29udGVudCI6WyJpbXBvcnQgbW9kIGZyb20gXCItIS4uLy4uLy4uL25vZGVfbW9kdWxlcy9iYWJlbC1sb2FkZXIvbGliL2luZGV4LmpzPz9jbG9uZWRSdWxlU2V0LTVbMF0ucnVsZXNbMF0udXNlWzBdIS4uLy4uLy4uL25vZGVfbW9kdWxlcy92dWUtbG9hZGVyL2xpYi9pbmRleC5qcz8/dnVlLWxvYWRlci1vcHRpb25zIS4vV2FsbGV0LnZ1ZT92dWUmdHlwZT1zY3JpcHQmbGFuZz1qcyZcIjsgZXhwb3J0IGRlZmF1bHQgbW9kOyBleHBvcnQgKiBmcm9tIFwiLSEuLi8uLi8uLi9ub2RlX21vZHVsZXMvYmFiZWwtbG9hZGVyL2xpYi9pbmRleC5qcz8/Y2xvbmVkUnVsZVNldC01WzBdLnJ1bGVzWzBdLnVzZVswXSEuLi8uLi8uLi9ub2RlX21vZHVsZXMvdnVlLWxvYWRlci9saWIvaW5kZXguanM/P3Z1ZS1sb2FkZXItb3B0aW9ucyEuL1dhbGxldC52dWU/dnVlJnR5cGU9c2NyaXB0Jmxhbmc9anMmXCIiXSwibmFtZXMiOltdLCJzb3VyY2VSb290IjoiIn0=\n//# sourceURL=webpack-internal:///./resources/js/icons/Wallet.vue?vue&type=script&lang=js&\n");
 
 /***/ }),
 
@@ -115,40 +61,7 @@ __webpack_require__.r(__webpack_exports__);
   \*************************************************************************************************************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "render": () => (/* binding */ render),
-/* harmony export */   "staticRenderFns": () => (/* binding */ staticRenderFns)
-/* harmony export */ });
-var render = function () {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c(
-    "svg",
-    {
-      class: "bkt-fill-" + _vm.color,
-      attrs: {
-        xmlns: "http://www.w3.org/2000/svg",
-        width: _vm.width,
-        height: _vm.height,
-        viewBox: "0 0 458.4 456.21",
-      },
-    },
-    [
-      _c("path", {
-        attrs: {
-          d: "M403,172h17c.22.76.82.89,1.5,1,19.25,3.76,33,14.72,42.49,31.72,14.8,26.43,30.51,52.36,44.75,79.08,5.44,10.19,11.17,14.53,23.37,14.44,28-.23,52,23.11,55,51,1.38,12.95.52,26,.52,38.95,0,4.2.84,5.63,5.42,5.7,20.1.27,34.85,14,37.1,34v70.16c-2.25,20-17,33.73-37.11,34-4.61.07-5.5,1.52-5.39,5.72.27,10.49.21,21,.06,31.48-.46,31.58-23.49,56.33-54.65,58.87-1.16-.06-2.32-.17-3.48-.17Q382,628,234.38,628c-2.49,0-5,.12-7.47.19-30.32-2.38-52.72-24.77-55.13-55.11.07-1.66.21-3.32.21-5q0-103.61,0-207.22c0-3-.1-6-.15-9q3.07-31,29.94-46.78c11.8-6.94,24.83-8.06,38.12-7.34a12.87,12.87,0,0,0,9.84-3.61q59.81-52.56,119.75-104.95c9.46-8.32,19.84-14.45,32.45-16.38C402.33,172.8,402.65,172.3,403,172ZM379.78,329.76q-73.74,0-147.47,0c-17.6,0-28.52,10.79-28.53,28.22q-.08,105,0,210c0,17.27,10.85,28.24,28,28.25q148,.09,296,0c16.73,0,27.76-11.11,28-27.93.14-10.5-.16-21,.12-31.49.1-4-1.45-4.65-5-4.62-8,.08-16,.4-23.92-1-32.37-5.8-56.55-34.68-56.69-67.91s24.1-62.52,56.69-68.39c8-1.44,15.94-1.19,23.92-1,4.11.09,5-1.33,4.94-5.14-.23-9.5-.43-19,0-28.49.86-18.53-12.09-30.91-30.57-30.68C476.76,330.16,428.27,329.76,379.78,329.76Zm-84.49-32.84c1.8.28,2.29.43,2.78.43q88.68,0,177.38.08c5.22,0,3.37-2.17,1.94-4.64q-20.86-36.37-41.7-72.75c-10.44-18.14-28.54-21-44.34-7.19q-37.61,32.91-75.23,65.77C309.42,284.48,302.74,290.38,295.29,296.92Zm303,166.35c0-10.16,0-20.33,0-30.49,0-5.56-1.35-7-6.72-7-17.49-.06-35-.25-52.47.07a37.14,37.14,0,0,0,0,74.27c17.49.33,35,.14,52.47.08,5.4,0,6.73-1.42,6.77-6.95C598.29,483.26,598.24,473.27,598.24,463.27Z",
-          transform: "translate(-171.78 -172)",
-        },
-      }),
-    ]
-  )
-}
-var staticRenderFns = []
-render._withStripped = true
-
-
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"render\": () => (/* binding */ render),\n/* harmony export */   \"staticRenderFns\": () => (/* binding */ staticRenderFns)\n/* harmony export */ });\nvar render = function () {\n  var _vm = this\n  var _h = _vm.$createElement\n  var _c = _vm._self._c || _h\n  return _c(\n    \"svg\",\n    {\n      class: \"bkt-fill-\" + _vm.color,\n      attrs: {\n        xmlns: \"http://www.w3.org/2000/svg\",\n        width: _vm.width,\n        height: _vm.height,\n        viewBox: \"0 0 458.4 456.21\",\n      },\n    },\n    [\n      _c(\"path\", {\n        attrs: {\n          d: \"M403,172h17c.22.76.82.89,1.5,1,19.25,3.76,33,14.72,42.49,31.72,14.8,26.43,30.51,52.36,44.75,79.08,5.44,10.19,11.17,14.53,23.37,14.44,28-.23,52,23.11,55,51,1.38,12.95.52,26,.52,38.95,0,4.2.84,5.63,5.42,5.7,20.1.27,34.85,14,37.1,34v70.16c-2.25,20-17,33.73-37.11,34-4.61.07-5.5,1.52-5.39,5.72.27,10.49.21,21,.06,31.48-.46,31.58-23.49,56.33-54.65,58.87-1.16-.06-2.32-.17-3.48-.17Q382,628,234.38,628c-2.49,0-5,.12-7.47.19-30.32-2.38-52.72-24.77-55.13-55.11.07-1.66.21-3.32.21-5q0-103.61,0-207.22c0-3-.1-6-.15-9q3.07-31,29.94-46.78c11.8-6.94,24.83-8.06,38.12-7.34a12.87,12.87,0,0,0,9.84-3.61q59.81-52.56,119.75-104.95c9.46-8.32,19.84-14.45,32.45-16.38C402.33,172.8,402.65,172.3,403,172ZM379.78,329.76q-73.74,0-147.47,0c-17.6,0-28.52,10.79-28.53,28.22q-.08,105,0,210c0,17.27,10.85,28.24,28,28.25q148,.09,296,0c16.73,0,27.76-11.11,28-27.93.14-10.5-.16-21,.12-31.49.1-4-1.45-4.65-5-4.62-8,.08-16,.4-23.92-1-32.37-5.8-56.55-34.68-56.69-67.91s24.1-62.52,56.69-68.39c8-1.44,15.94-1.19,23.92-1,4.11.09,5-1.33,4.94-5.14-.23-9.5-.43-19,0-28.49.86-18.53-12.09-30.91-30.57-30.68C476.76,330.16,428.27,329.76,379.78,329.76Zm-84.49-32.84c1.8.28,2.29.43,2.78.43q88.68,0,177.38.08c5.22,0,3.37-2.17,1.94-4.64q-20.86-36.37-41.7-72.75c-10.44-18.14-28.54-21-44.34-7.19q-37.61,32.91-75.23,65.77C309.42,284.48,302.74,290.38,295.29,296.92Zm303,166.35c0-10.16,0-20.33,0-30.49,0-5.56-1.35-7-6.72-7-17.49-.06-35-.25-52.47.07a37.14,37.14,0,0,0,0,74.27c17.49.33,35,.14,52.47.08,5.4,0,6.73-1.42,6.77-6.95C598.29,483.26,598.24,473.27,598.24,463.27Z\",\n          transform: \"translate(-171.78 -172)\",\n        },\n      }),\n    ]\n  )\n}\nvar staticRenderFns = []\nrender._withStripped = true\n\n//# sourceURL=[module]\n//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiLi9ub2RlX21vZHVsZXMvdnVlLWxvYWRlci9saWIvbG9hZGVycy90ZW1wbGF0ZUxvYWRlci5qcz8/dnVlLWxvYWRlci1vcHRpb25zIS4vbm9kZV9tb2R1bGVzL3Z1ZS1sb2FkZXIvbGliL2luZGV4LmpzPz92dWUtbG9hZGVyLW9wdGlvbnMhLi9yZXNvdXJjZXMvanMvaWNvbnMvV2FsbGV0LnZ1ZT92dWUmdHlwZT10ZW1wbGF0ZSZpZD0yYTE0NGQyYyZzY29wZWQ9dHJ1ZSYuanMiLCJtYXBwaW5ncyI6Ijs7Ozs7QUFBQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBLE9BQU87QUFDUCxLQUFLO0FBQ0w7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBLFNBQVM7QUFDVCxPQUFPO0FBQ1A7QUFDQTtBQUNBO0FBQ0E7QUFDQSIsInNvdXJjZXMiOlsid2VicGFjazovLy8uL3Jlc291cmNlcy9qcy9pY29ucy9XYWxsZXQudnVlP2JhZTAiXSwic291cmNlc0NvbnRlbnQiOlsidmFyIHJlbmRlciA9IGZ1bmN0aW9uICgpIHtcbiAgdmFyIF92bSA9IHRoaXNcbiAgdmFyIF9oID0gX3ZtLiRjcmVhdGVFbGVtZW50XG4gIHZhciBfYyA9IF92bS5fc2VsZi5fYyB8fCBfaFxuICByZXR1cm4gX2MoXG4gICAgXCJzdmdcIixcbiAgICB7XG4gICAgICBjbGFzczogXCJia3QtZmlsbC1cIiArIF92bS5jb2xvcixcbiAgICAgIGF0dHJzOiB7XG4gICAgICAgIHhtbG5zOiBcImh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnXCIsXG4gICAgICAgIHdpZHRoOiBfdm0ud2lkdGgsXG4gICAgICAgIGhlaWdodDogX3ZtLmhlaWdodCxcbiAgICAgICAgdmlld0JveDogXCIwIDAgNDU4LjQgNDU2LjIxXCIsXG4gICAgICB9LFxuICAgIH0sXG4gICAgW1xuICAgICAgX2MoXCJwYXRoXCIsIHtcbiAgICAgICAgYXR0cnM6IHtcbiAgICAgICAgICBkOiBcIk00MDMsMTcyaDE3Yy4yMi43Ni44Mi44OSwxLjUsMSwxOS4yNSwzLjc2LDMzLDE0LjcyLDQyLjQ5LDMxLjcyLDE0LjgsMjYuNDMsMzAuNTEsNTIuMzYsNDQuNzUsNzkuMDgsNS40NCwxMC4xOSwxMS4xNywxNC41MywyMy4zNywxNC40NCwyOC0uMjMsNTIsMjMuMTEsNTUsNTEsMS4zOCwxMi45NS41MiwyNiwuNTIsMzguOTUsMCw0LjIuODQsNS42Myw1LjQyLDUuNywyMC4xLjI3LDM0Ljg1LDE0LDM3LjEsMzR2NzAuMTZjLTIuMjUsMjAtMTcsMzMuNzMtMzcuMTEsMzQtNC42MS4wNy01LjUsMS41Mi01LjM5LDUuNzIuMjcsMTAuNDkuMjEsMjEsLjA2LDMxLjQ4LS40NiwzMS41OC0yMy40OSw1Ni4zMy01NC42NSw1OC44Ny0xLjE2LS4wNi0yLjMyLS4xNy0zLjQ4LS4xN1EzODIsNjI4LDIzNC4zOCw2MjhjLTIuNDksMC01LC4xMi03LjQ3LjE5LTMwLjMyLTIuMzgtNTIuNzItMjQuNzctNTUuMTMtNTUuMTEuMDctMS42Ni4yMS0zLjMyLjIxLTVxMC0xMDMuNjEsMC0yMDcuMjJjMC0zLS4xLTYtLjE1LTlxMy4wNy0zMSwyOS45NC00Ni43OGMxMS44LTYuOTQsMjQuODMtOC4wNiwzOC4xMi03LjM0YTEyLjg3LDEyLjg3LDAsMCwwLDkuODQtMy42MXE1OS44MS01Mi41NiwxMTkuNzUtMTA0Ljk1YzkuNDYtOC4zMiwxOS44NC0xNC40NSwzMi40NS0xNi4zOEM0MDIuMzMsMTcyLjgsNDAyLjY1LDE3Mi4zLDQwMywxNzJaTTM3OS43OCwzMjkuNzZxLTczLjc0LDAtMTQ3LjQ3LDBjLTE3LjYsMC0yOC41MiwxMC43OS0yOC41MywyOC4yMnEtLjA4LDEwNSwwLDIxMGMwLDE3LjI3LDEwLjg1LDI4LjI0LDI4LDI4LjI1cTE0OCwuMDksMjk2LDBjMTYuNzMsMCwyNy43Ni0xMS4xMSwyOC0yNy45My4xNC0xMC41LS4xNi0yMSwuMTItMzEuNDkuMS00LTEuNDUtNC42NS01LTQuNjItOCwuMDgtMTYsLjQtMjMuOTItMS0zMi4zNy01LjgtNTYuNTUtMzQuNjgtNTYuNjktNjcuOTFzMjQuMS02Mi41Miw1Ni42OS02OC4zOWM4LTEuNDQsMTUuOTQtMS4xOSwyMy45Mi0xLDQuMTEuMDksNS0xLjMzLDQuOTQtNS4xNC0uMjMtOS41LS40My0xOSwwLTI4LjQ5Ljg2LTE4LjUzLTEyLjA5LTMwLjkxLTMwLjU3LTMwLjY4QzQ3Ni43NiwzMzAuMTYsNDI4LjI3LDMyOS43NiwzNzkuNzgsMzI5Ljc2Wm0tODQuNDktMzIuODRjMS44LjI4LDIuMjkuNDMsMi43OC40M3E4OC42OCwwLDE3Ny4zOC4wOGM1LjIyLDAsMy4zNy0yLjE3LDEuOTQtNC42NHEtMjAuODYtMzYuMzctNDEuNy03Mi43NWMtMTAuNDQtMTguMTQtMjguNTQtMjEtNDQuMzQtNy4xOXEtMzcuNjEsMzIuOTEtNzUuMjMsNjUuNzdDMzA5LjQyLDI4NC40OCwzMDIuNzQsMjkwLjM4LDI5NS4yOSwyOTYuOTJabTMwMywxNjYuMzVjMC0xMC4xNiwwLTIwLjMzLDAtMzAuNDksMC01LjU2LTEuMzUtNy02LjcyLTctMTcuNDktLjA2LTM1LS4yNS01Mi40Ny4wN2EzNy4xNCwzNy4xNCwwLDAsMCwwLDc0LjI3YzE3LjQ5LjMzLDM1LC4xNCw1Mi40Ny4wOCw1LjQsMCw2LjczLTEuNDIsNi43Ny02Ljk1QzU5OC4yOSw0ODMuMjYsNTk4LjI0LDQ3My4yNyw1OTguMjQsNDYzLjI3WlwiLFxuICAgICAgICAgIHRyYW5zZm9ybTogXCJ0cmFuc2xhdGUoLTE3MS43OCAtMTcyKVwiLFxuICAgICAgICB9LFxuICAgICAgfSksXG4gICAgXVxuICApXG59XG52YXIgc3RhdGljUmVuZGVyRm5zID0gW11cbnJlbmRlci5fd2l0aFN0cmlwcGVkID0gdHJ1ZVxuXG5leHBvcnQgeyByZW5kZXIsIHN0YXRpY1JlbmRlckZucyB9Il0sIm5hbWVzIjpbXSwic291cmNlUm9vdCI6IiJ9\n//# sourceURL=webpack-internal:///./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/icons/Wallet.vue?vue&type=template&id=2a144d2c&scoped=true&\n");
 
 /***/ })
 

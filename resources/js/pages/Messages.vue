@@ -88,7 +88,7 @@
                                 </div>
 
                                 <div class="bkt-wrapper-column bkt-message__content">
-                                    <div class="bkt-wrapper bkt-nowrap  me-auto ms-0">
+                                    <div class="bkt-wrapper bkt-nowrap me-auto ms-0">
                                         <div class="bkt-message__image-wrapper"
                                              v-if="message.type=='favourite'">
                                             <!--                                            <img :src="message.dataFavourite" alt="" class="bkt-message__image">-->
@@ -100,18 +100,21 @@
                                             <img
                                                 v-if="message.dataFavourite.photos && message.dataFavourite.photos.length>0"
                                                 :src="message.dataFavourite.photos[0].preview" alt=""
-                                                class="bkt-message__image">
+                                                class="bkt-message__image"
+                                            >
                                         </div>
 
                                         <div class="bkt-chat-content__text">
                                             <div v-if="message.type == 'monitoring'&& message.dataMonitoring"
-                                                 class="bkt-badge m-0"
+                                                 class="bkt-badge mx-0 mb-2"
                                                  :class="message.dataMonitoring.folderInfo.color ?
                                                 'bkt-bg-'+message.dataMonitoring.folderInfo.color :'bkt-bg-primary'"
                                             >
                                                 {{message.dataMonitoring.folderInfo.name}}
                                             </div>
-                                            <h5 v-if="message.type == 'monitoring'" class="bkt-message__text">
+                                            <h5 v-if="message.type == 'monitoring'" class="bkt-message__text bkt-cursor-pointer"
+                                                @click="navigate('/monitoring')"
+                                            >
                                                 Появились новые лоты в мониторинге:
                                                 {{message.dataMonitoring ? message.dataMonitoring.newLotCount : '0'}}
                                             </h5>
@@ -159,13 +162,11 @@
                             </div>
                         </div>
                         <div v-if="loading||type_loading" class="d-flex w-100 justify-content-center my-5">
-                            <slot name="loading">
-                                <div
-                                    style="color: #2953ff;border-width: 2px;"
-                                    class="spinner-border"
-                                    role="status"
-                                ></div>
-                            </slot>
+                            <div
+                                style="color: #2953ff;border-width: 2px;"
+                                class="spinner-border"
+                                role="status"
+                            ></div>
                         </div>
                         <bkt-pagination
                             v-if="pagination_data && !type_loading"
@@ -224,13 +225,18 @@
                 await this.$store.dispatch('getNotifications', {page: page, type: this.selectedType});
             },
             setType(type) {
-                this.type_loading = true;
-                this.selectedType = type;
-                this.getData(1).then(resp => {
-                    this.type_loading = false;
-                }).catch(resp => {
-                    this.type_loading = false;
-                });
+                if (!this.loading) {
+                    this.type_loading = true;
+                    this.selectedType = type;
+                    this.getData(1).then(resp => {
+                        this.type_loading = false;
+                    }).catch(resp => {
+                        this.type_loading = false;
+                    });
+                }
+            },
+            navigate(path) {
+                this.$router.push(path);
             }
         }
     }
