@@ -10,26 +10,31 @@ class PushNotificationService
     protected $title;
     protected $body;
     protected $user_id;
+    protected $type;
 
-    public function __construct($title, $body, $user_id){
+    public function __construct($title, $body, $user_id, $type){
         $this->title = $title;
         $this->body = $body;
         $this->user_id = $user_id;
+        $this->type = $type;
     }
 
     public function sendPushNotification(){
         $user = User::find($this->user_id);
         $date = Carbon::now()->setTimezone('Europe/Moscow');
-        $tokens = $user->deviceTokens->where('created_at', '<', $date->subMonths(2))->pluck('token')->toArray();
+        $tokens = $user->deviceTokens->where('created_at', '>', $date->subMonths(2))->pluck('token')->all();
         if(count($tokens)>0) {
             try {
                 $SERVER_API_KEY = config('larafirebase.authentication_key');
 
                 $data = [
                     "registration_ids" => $tokens,
+                    "data"=>[
+                        "type"=>$this->type
+                    ],
                     "notification" => [
                         "title" => $this->title,
-                        "body" => $this->body,
+                        "body" => $this->body
                     ]
                 ];
                 $dataString = json_encode($data);

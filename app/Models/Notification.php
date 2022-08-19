@@ -53,7 +53,7 @@ class Notification extends Model
             $value = !is_null($notification->value) ? __('messages.' . $notification->message, ['value' => $notification->value]) :
                 __('messages.' . $notification->message);
 
-            $push = new PushNotificationService('Новое оповещение', $value, $notification->user_id);
+            $push = new PushNotificationService('Новое оповещение', $value, $notification->user_id, $notification->type->title);
             $push->sendPushNotification();
         });
 

@@ -34,8 +34,8 @@ class ParseTrades implements ShouldQueue
      */
     public function handle()
     {
-        $startFrom = Carbon::now()->setTimezone('Europe/Moscow')->subHours(4)->format('Y-m-d\TH:i:s');
-        $endTo = Carbon::now()->setTimezone('Europe/Moscow')->subHours(2)->format('Y-m-d\TH:i:s');
+        $startFrom = Carbon::now()->setTimezone('Europe/Moscow')->subHours(2)->format('Y-m-d\TH:i:s');
+        $endTo = Carbon::now()->setTimezone('Europe/Moscow')->format('Y-m-d\TH:i:s');
         $soapWrapper = new SoapWrapper();
         $service = new SoapWrapperService($soapWrapper);
         $messages = $service->getTradeMessages($startFrom, $endTo);
@@ -71,9 +71,17 @@ class ParseTrades implements ShouldQueue
                                continue;
                            }
                            if (gettype($val) == 'object') {
-                               $xml = $service->getTradeMessageContent($val->MessageList->TradeMessage->ID);
-                               $get_trade_message_content = new GetTradeMessageContent($xml, $val->MessageList->TradeMessage->Type);
-                               $get_trade_message_content->switchMessageType($tradePlace->id, $val, $val->MessageList->TradeMessage->ID);
+                               if(gettype($val->MessageList->TradeMessage) == 'array'){
+                                   foreach($val->MessageList->TradeMessage as $item){
+                                       $xml = $service->getTradeMessageContent($item->ID);
+                                       $get_trade_message_content = new GetTradeMessageContent($xml, $item->Type);
+                                       $get_trade_message_content->switchMessageType($tradePlace->id, $item, $item->ID);
+                                   }
+                               }else{
+                                   $xml = $service->getTradeMessageContent($val->MessageList->TradeMessage->ID);
+                                   $get_trade_message_content = new GetTradeMessageContent($xml, $val->MessageList->TradeMessage->Type);
+                                   $get_trade_message_content->switchMessageType($tradePlace->id, $val, $val->MessageList->TradeMessage->ID);
+                               }
 
                            }
                            logger('====================================');

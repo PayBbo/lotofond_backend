@@ -3,17 +3,10 @@
 namespace App\Console\Commands;
 
 
-use App\Http\Services\Parse\SoapWrapperService;
 use App\Http\Services\PushNotificationService;
-use App\Jobs\ParseArbitrManager;
-use App\Jobs\ParseDebtor;
-use App\Jobs\ParseDebtorMessages;
 use App\Jobs\ParseTrades;
-use App\Models\User;
 use App\Notifications\PushNotification;
-use Artisaninweb\SoapWrapper\SoapWrapper;
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\Notification;
 
 
 class TestCommand extends Command
@@ -50,16 +43,16 @@ class TestCommand extends Command
     public function handle()
     {
         /**
-        $filename = 'Фото.pdf';
-        $path = 'auction-files/auction-1/17-06-2022-04-28';
-        $s_path = 'app\public\auction-files\auction-1\17-06-2022-04-28';
-        $gener = new FilesService();
-        $gener->getImagesFromDocOrPdf($filename, $path, $s_path);
-        $gener->getImagesFromDocx($filename, $path, $s_path);
-        $gener->getImagesFromZipOrRar($filename, $path, $s_path);
-        **/
+         * $filename = 'Фото.pdf';
+         * $path = 'auction-files/auction-1/17-06-2022-04-28';
+         * $s_path = 'app\public\auction-files\auction-1\17-06-2022-04-28';
+         * $gener = new FilesService();
+         * $gener->getImagesFromDocOrPdf($filename, $path, $s_path);
+         * $gener->getImagesFromDocx($filename, $path, $s_path);
+         * $gener->getImagesFromZipOrRar($filename, $path, $s_path);
+         **/
 
-       dispatch(new ParseTrades);
+        dispatch(new ParseTrades);
 
 
 
