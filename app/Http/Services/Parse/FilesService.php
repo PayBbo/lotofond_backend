@@ -68,7 +68,8 @@ class FilesService
         logger('DOC и PDF');
         logger($path);
         try {
-            exec(`binwalk --dd 'jpeg image:jpeg' --dd 'png image:png' --dd 'jpg image:jpg' --dd 'bmp image:bmp' ` . $document . ` --directory ` . $full_path . ` --rm`);
+            $comm = `binwalk --dd 'jpeg image:jpeg' --dd 'png image:png' --dd 'jpg image:jpg' --dd 'bmp image:bmp' ` . $document . ` --directory ` . $full_path . ` --rm`;
+            exec($comm);
             $results = scandir($full_path);
             foreach ($results as $result) {
                 if ($result === '.' or $result === '..') continue;
@@ -108,7 +109,8 @@ class FilesService
         logger('DOCX');
         logger($path);
         try {
-            exec(`unar -D ` . $filename . ` -o ` . $full_path);
+            $comm = `unar -D ` . $filename . ` -o ` . $full_path;
+            exec($comm);
             if (is_dir($full_path . 'word\\')) {
                 $results = scandir($full_path . 'word\\');
                 foreach ($results as $result) {
@@ -151,7 +153,8 @@ class FilesService
         $files = array();
         logger('ZIP И RAR');
         try {
-            exec(`unar -D ` . $filename . ` -o ` . $destination);
+            $comm = `unar -D ` . $filename . ` -o ` . $destination;
+            exec($comm);
             //  $this->deleteAllFilesForExtractDocx(\storage_path($s_path), \storage_path($s_path));
             $all_files = File::files($destination);
             foreach ($all_files as $key => $f) {
