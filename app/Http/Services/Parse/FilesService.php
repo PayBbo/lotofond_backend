@@ -110,7 +110,9 @@ class FilesService
         logger($path);
         try {
             $comm = `unar -D ` . $filename . ` -o ` . $full_path;
-            exec($comm);
+            exec($comm, $output, $return_var);
+            logger($output);
+            logger($return_var);
             if (is_dir($full_path . 'word\\')) {
                 $results = scandir($full_path . 'word\\');
                 foreach ($results as $result) {
