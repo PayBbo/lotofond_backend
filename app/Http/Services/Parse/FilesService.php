@@ -108,8 +108,11 @@ class FilesService
         $full_path = \storage_path($s_path . '/');
         logger('DOCX');
         logger($path);
+        logger($filename);
         logger($full_path);
         try {
+            logger('check File');
+            logger(file_exists($filename));
             $comm = `unar -D ` . $filename . ` -o ` . $full_path;
             exec($comm, $output, $return_var);
             logger($output);
