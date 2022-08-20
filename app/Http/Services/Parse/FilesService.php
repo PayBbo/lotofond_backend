@@ -132,6 +132,8 @@ class FilesService
             foreach ($all_files as $key => $f) {
                 $name = substr($f, strrpos($f, '/') + 1, strlen($f));
                 $extension = substr($name, strrpos($name, '.') + 1, strlen($name));
+                logger(\storage_path($s_path));
+                logger($path);
                 if (preg_match("([^\s]+(\.(?i)(jpg|jpeg|png|bmp))$)", $name) && $this->is_image($f)) {
                     $file = 'storage/' . $path . '/' . 'image-' . $key . '.' . $extension;
                     $this->generatePreview($file, $path . '/previews/' . 'image-' . $key . '.' . $extension);
@@ -187,6 +189,8 @@ class FilesService
 
     public function generatePreview($image, $path)
     {
+        logger($image);
+        logger($path);
         $thumbnail = Image::make($image);
         $thumbnail->fit(960, 480);
         Storage::disk('public')->put($path, $thumbnail);
