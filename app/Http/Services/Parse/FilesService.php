@@ -66,31 +66,31 @@ class FilesService
         $document = \storage_path($s_path . '/' . $filename);
         $full_path = \storage_path($s_path . '/');
         logger('DOC и PDF');
-        logger($path);
         try {
-            $comm = `binwalk --dd 'jpeg image:jpeg' --dd 'png image:png' --dd 'jpg image:jpg' --dd 'bmp image:bmp' ` . $document . ` --directory ` . $full_path . ` --rm`;
-            exec($comm);
+            $comm = "binwalk --dd 'jpeg image:jpeg' --dd 'png image:png' --dd 'jpg image:jpg' --dd 'bmp image:bmp' " . $document . " --directory " . $full_path . " --rm";
+            exec(`$comm`);
             $results = scandir($full_path);
             foreach ($results as $result) {
                 if ($result === '.' or $result === '..') continue;
                 if (is_dir($full_path . $result) || preg_match("([^\s]+(\.(?i)extracted)$)", $result)) {
                     $result_files = File::files($full_path . $result);
                     foreach ($result_files as $key => $f) {
-                        $name = substr($f, strrpos($f, '\\') + 1, strlen($f));
+                        $name = substr($f, strrpos($f, '/') + 1, strlen($f));
                         $extension = substr($name, strrpos($name, '.') + 1, strlen($name));
                         if (preg_match("([^\s]+(\.(?i)(jpg|jpeg|png|bmp))$)", $name) && $this->is_image($f)) {
-                            rename(\storage_path($s_path . '\\' . $result . '\\' . $name), \storage_path($s_path . '\\' . 'image-' . $key . '.' . $extension));
+                            rename(\storage_path($s_path . '/' . $result . '/' . $name), \storage_path($s_path . '/' . 'image-' . $key . '.' . $extension));
                         }
                     }
                 }
             }
-            //  $this->deleteAllFilesForExtractDocx(\storage_path($s_path), \storage_path($s_path));
+            $this->deleteAllFilesForExtractDocx(\storage_path($s_path), \storage_path($s_path));
             $result_files = File::files($full_path);
             foreach ($result_files as $key => $f) {
-                $name = substr($f, strrpos($f, '\\') + 1, strlen($f));
+                $name = substr($f, strrpos($f, '/') + 1, strlen($f));
                 $extension = substr($name, strrpos($name, '.') + 1, strlen($name));
                 $file = 'storage/' . $path . '/' . 'image-' . $key . '.' . $extension;
-                $this->generatePreview($file, $path . '/previews/' . 'image-' . $key . '.' . $extension);
+                $filePrev = 'storage/app/public/' . $path . '/' . 'image-' . $key . '.' . $extension;
+                $this->generatePreview($filePrev, $path . '/previews/' . 'image-' . $key . '.' . $extension);
                 $preview = 'storage/' . $path . '/previews/' . 'image-' . $key . '.' . $extension;;
                 $imageAssets[$key] = ['main' => $file, 'preview' => $preview];
             }
@@ -107,7 +107,6 @@ class FilesService
         $filename = \storage_path($s_path . '/' . $filename);
         $full_path = \storage_path($s_path . '/');
         logger('DOCX');
-        logger($path);
         try {
             $comm = 'unar -D ' . $filename . ' -o ' . $full_path;
             exec(`$comm`);
@@ -154,17 +153,18 @@ class FilesService
         $files = array();
         logger('ZIP И RAR');
         try {
-            $comm = `unar -D ` . $filename . ` -o ` . $destination;
-            exec($comm);
-            //  $this->deleteAllFilesForExtractDocx(\storage_path($s_path), \storage_path($s_path));
+            $comm = "unar -D " . $filename . " -o " . $destination;
+            exec(`$comm`);
+            $this->deleteAllFilesForExtractDocx(\storage_path($s_path), \storage_path($s_path));
             $all_files = File::files($destination);
             foreach ($all_files as $key => $f) {
-                $name = substr($f, strrpos($f, '\\') + 1, strlen($f));
+                $name = substr($f, strrpos($f, '/') + 1, strlen($f));
                 $extension = substr($name, strrpos($name, '.') + 1, strlen($name));
                 if (preg_match("([^\s]+(\.(?i)(jpg|jpeg|png|bmp))$)", $name) && $this->is_image($f)) {
                     rename($destination . $name, $destination . 'image-' . $key . '.' . $extension);
-                    $file = 'storage/' . $path . '/' . 'image-' . $key . '.' . $extension;;
-                    $this->generatePreview($file, $path . '/previews/' . 'image-' . $key . '.' . $extension);
+                    $file = 'storage/' . $path . '/' . 'image-' . $key . '.' . $extension;
+                    $filePrev = 'storage/app/public/' . $path . '/' . 'image-' . $key . '.' . $extension;
+                    $this->generatePreview($filePrev, $path . '/previews/' . 'image-' . $key . '.' . $extension);
                     $preview = 'storage/' . $path . '/previews/' . 'image-' . $key . '.' . $extension;;
                     $files[] = ['main' => $file, 'preview' => $preview];
                 }
