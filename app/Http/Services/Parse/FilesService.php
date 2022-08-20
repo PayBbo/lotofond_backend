@@ -112,7 +112,9 @@ class FilesService
         logger($full_path);
         try {
             $cmd = `chmod 755 ` . $filename;
-            exec($cmd);
+            exec($cmd, $output, $return_var);
+            logger($output);
+            logger($return_var);
             $comm = `sudo unar -D ` . $filename . ` -o ` . $full_path;
             exec($comm, $output, $return_var);
             logger($output);
