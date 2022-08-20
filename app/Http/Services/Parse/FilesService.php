@@ -110,18 +110,18 @@ class FilesService
         logger($path);
         try {
             $comm = 'unar -D ' . $filename . ' -o ' . $full_path;
-            exec(`$comm`, $output, $return_var);
-            if (is_dir($full_path . 'word\\')) {
-                $results = scandir($full_path . 'word\\');
+            exec(`$comm`);
+            if (is_dir($full_path . 'word/')) {
+                $results = scandir($full_path . 'word/');
                 foreach ($results as $result) {
                     if ($result === '.' or $result === '..') continue;
-                    if (is_dir($full_path . 'word\\' . $result) || preg_match("(^media$)", $result)) {
-                        $resurl_files = File::files($full_path . 'word\\' . $result);
+                    if (is_dir($full_path . 'word/' . $result) || preg_match("(^media$)", $result)) {
+                        $resurl_files = File::files($full_path . 'word/' . $result);
                         foreach ($resurl_files as $key => $f) {
-                            $name = substr($f, strrpos($f, '\\') + 1, strlen($f));
+                            $name = substr($f, strrpos($f, '/') + 1, strlen($f));
                             $extension = substr($name, strrpos($name, '.') + 1, strlen($name));
                             if (preg_match("([^\s]+(\.(?i)(jpg|jpeg|png|bmp))$)", $name) && $this->is_image($f)) {
-                                rename(\storage_path($s_path . '\word\\' . $result . '\\' . $name), \storage_path($s_path . '\\' . 'image-' . $key . '.' . $extension));
+                                rename(\storage_path($s_path . '/word/' . $result . '/' . $name), \storage_path($s_path . '/' . 'image-' . $key . '.' . $extension));
                             }
                         }
                     }
@@ -130,10 +130,10 @@ class FilesService
             $this->deleteAllFilesForExtractDocx(\storage_path($s_path), \storage_path($s_path));
             $all_files = File::files($full_path);
             foreach ($all_files as $key => $f) {
-                $name = substr($f, strrpos($f, '\\') + 1, strlen($f));
+                $name = substr($f, strrpos($f, '/') + 1, strlen($f));
                 $extension = substr($name, strrpos($name, '.') + 1, strlen($name));
                 if (preg_match("([^\s]+(\.(?i)(jpg|jpeg|png|bmp))$)", $name) && $this->is_image($f)) {
-                    $file = 'storage/' . $path . '/' . 'image-' . $key . '.' . $extension;;
+                    $file = 'storage/' . $path . '/' . 'image-' . $key . '.' . $extension;
                     $this->generatePreview($file, $path . '/previews/' . 'image-' . $key . '.' . $extension);
                     $preview = 'storage/' . $path . '/previews/' . 'image-' . $key . '.' . $extension;
                     $imageAssets[] = ['main' => $file, 'preview' => $preview];
@@ -203,14 +203,14 @@ class FilesService
                     if (is_dir($dir . DIRECTORY_SEPARATOR . $object) && !is_link($dir . "/" . $object)) {
                         $this->deleteAllFilesForExtractDocx($dir . DIRECTORY_SEPARATOR . $object, $s_path);
                     } else {
-                        $name = substr($dir . DIRECTORY_SEPARATOR . $object, strrpos($dir . DIRECTORY_SEPARATOR . $object, '\\') + 1, strlen($dir . DIRECTORY_SEPARATOR . $object));
+                        $name = substr($dir . DIRECTORY_SEPARATOR . $object, strrpos($dir . DIRECTORY_SEPARATOR . $object, '/') + 1, strlen($dir . DIRECTORY_SEPARATOR . $object));
                         if (!preg_match("([^\s]+(\.(?i)(jpg|jpeg|png|bmp))$)", $name) && !$this->is_image($dir . DIRECTORY_SEPARATOR . $object)) {
                             unlink($dir . DIRECTORY_SEPARATOR . $object);
                         }
                     }
                 }
             }
-            if ($dir !== $s_path && $dir !== $s_path . '\previews') {
+            if ($dir !== $s_path && $dir !== $s_path . '/previews') {
                 rmdir($dir);
             }
         }
