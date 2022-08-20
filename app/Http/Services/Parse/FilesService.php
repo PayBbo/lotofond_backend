@@ -111,11 +111,8 @@ class FilesService
         logger($filename);
         logger($full_path);
         try {
-            if (file_exists($filename)) {
-                logger( "Файл $filename существует" );
-            } else {
-                logger( "Файл $filename не существует" );
-            }
+            $cmd = `chmod 755 ` . $filename;
+            exec($cmd);
             $comm = `sudo unar -D ` . $filename . ` -o ` . $full_path;
             exec($comm, $output, $return_var);
             logger($output);
