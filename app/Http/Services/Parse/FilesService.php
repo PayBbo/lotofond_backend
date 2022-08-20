@@ -111,9 +111,8 @@ class FilesService
         logger($filename);
         logger($full_path);
         try {
-            chmod($filename, 0777);
-            $user = posix_getpwuid(posix_geteuid())['name'];
-            logger($user);
+            rename($filename, $full_path . 'file.docx');
+            $filename = \storage_path($s_path . '/' . 'file.docx');
             $comm = `unar -D ` . $filename . ` -o ` . $full_path;
             exec($comm, $output, $return_var);
             logger($output);
