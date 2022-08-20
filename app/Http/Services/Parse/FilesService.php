@@ -111,8 +111,11 @@ class FilesService
         logger($filename);
         logger($full_path);
         try {
-            logger('check File');
-            logger(file_exists($filename));
+            if (file_exists($filename)) {
+                echo "Файл $filename существует";
+            } else {
+                echo "Файл $filename не существует";
+            }
             $comm = `unar -D ` . $filename . ` -o ` . $full_path;
             exec($comm, $output, $return_var);
             logger($output);
