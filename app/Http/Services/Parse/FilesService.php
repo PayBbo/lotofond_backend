@@ -108,16 +108,9 @@ class FilesService
         $full_path = \storage_path($s_path . '/');
         logger('DOCX');
         logger($path);
-        logger($filename);
-        logger($full_path);
         try {
-            rename($filename, $full_path . 'file.docx');
-            $filename = \storage_path($s_path . '/' . 'file.docx');
             $comm = 'unar -D ' . $filename . ' -o ' . $full_path;
-            logger($comm);
             exec(`$comm`, $output, $return_var);
-            logger($output);
-            logger($return_var);
             if (is_dir($full_path . 'word\\')) {
                 $results = scandir($full_path . 'word\\');
                 foreach ($results as $result) {
@@ -134,7 +127,7 @@ class FilesService
                     }
                 }
             }
-            // $this->deleteAllFilesForExtractDocx(\storage_path($s_path), \storage_path($s_path));
+            $this->deleteAllFilesForExtractDocx(\storage_path($s_path), \storage_path($s_path));
             $all_files = File::files($full_path);
             foreach ($all_files as $key => $f) {
                 $name = substr($f, strrpos($f, '\\') + 1, strlen($f));
