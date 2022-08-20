@@ -136,7 +136,8 @@ class FilesService
                 logger($path);
                 if (preg_match("([^\s]+(\.(?i)(jpg|jpeg|png|bmp))$)", $name) && $this->is_image($f)) {
                     $file = 'storage/' . $path . '/' . 'image-' . $key . '.' . $extension;
-                    $this->generatePreview($file, $path . '/previews/' . 'image-' . $key . '.' . $extension);
+                    $filePrev = 'storage/app/public/' . $path . '/' . 'image-' . $key . '.' . $extension;
+                    $this->generatePreview($filePrev, $path . '/previews/' . 'image-' . $key . '.' . $extension);
                     $preview = 'storage/' . $path . '/previews/' . 'image-' . $key . '.' . $extension;
                     $imageAssets[] = ['main' => $file, 'preview' => $preview];
                 }
