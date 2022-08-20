@@ -113,8 +113,9 @@ class FilesService
         try {
             rename($filename, $full_path . 'file.docx');
             $filename = \storage_path($s_path . '/' . 'file.docx');
-            $comm = `unar -D ` . $filename . ` -o ` . $full_path;
-            exec($comm, $output, $return_var);
+            $comm = 'unar -D ' . $filename . ' -o ' . $full_path;
+            logger($comm);
+            exec(`$comm`, $output, $return_var);
             logger($output);
             logger($return_var);
             if (is_dir($full_path . 'word\\')) {
