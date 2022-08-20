@@ -186,9 +186,9 @@ class TradeService
     public function saveFiles($file, $type)
     {
         $lot = $this->lot;
-        if (!LotFile::where(['url' => $file, 'lot_id' => $lot->id, 'type' => $type])->exists()) {
+        if (!LotFile::where(['url' => json_encode($file), 'lot_id' => $lot->id, 'type' => $type])->exists()) {
             LotFile::create([
-                'url' => $file,
+                'url' => json_encode($file),
                 'type' => $type,
                 'lot_id' => $lot->id,
                 'trade_message_id' => $this->tradeMessageId
