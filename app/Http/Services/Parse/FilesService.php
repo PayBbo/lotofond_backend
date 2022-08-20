@@ -30,18 +30,22 @@ class FilesService
         $dest = 'app/public/auction-files/auction-' . $auction->id . '/' . $time;
         $files = null;
         if ($isImages) {
+            logger('IS IMAGE!');
+            logger($invitation[$prefix . 'Attach'][$prefix . 'Type']);
             switch ($invitation[$prefix . 'Attach'][$prefix . 'Type']) {
-                case ('doc' || 'pdf'):
+                case 'doc':
+                case 'pdf':
                 {
                     $files = $this->getImagesFromDocOrPdf($name_file, $path, $dest);
                     break;
                 }
-                case ('docx'):
+                case 'docx':
                 {
                     $files = $this->getImagesFromDocx($name_file, $path, $dest);
                     break;
                 }
-                case ('zip' || 'rar'):
+                case 'zip':
+                case 'rar':
                 {
                     $files = $this->getImagesFromZipOrRar($name_file, $path, $dest);
                     break;
@@ -70,20 +74,20 @@ class FilesService
                 if ($result === '.' or $result === '..') continue;
                 if (is_dir($full_path . $result) || preg_match("([^\s]+(\.(?i)extracted)$)", $result)) {
                     $result_files = File::files($full_path . $result);
-                    foreach ($result_files as $key=>$f) {
+                    foreach ($result_files as $key => $f) {
                         $name = substr($f, strrpos($f, '\\') + 1, strlen($f));
-                        $extension = substr($name,strrpos($name,'.') + 1,strlen($name));
+                        $extension = substr($name, strrpos($name, '.') + 1, strlen($name));
                         if (preg_match("([^\s]+(\.(?i)(jpg|jpeg|png|bmp))$)", $name) && $this->is_image($f)) {
-                            rename(\storage_path($s_path . '\\' . $result . '\\' . $name), \storage_path($s_path . '\\' . 'image-'.$key.'.'.$extension));
+                            rename(\storage_path($s_path . '\\' . $result . '\\' . $name), \storage_path($s_path . '\\' . 'image-' . $key . '.' . $extension));
                         }
                     }
                 }
             }
-            $this->deleteAllFilesForExtractDocx(\storage_path($s_path), \storage_path($s_path));
+            //  $this->deleteAllFilesForExtractDocx(\storage_path($s_path), \storage_path($s_path));
             $result_files = File::files($full_path);
-            foreach ($result_files as $key=>$f) {
+            foreach ($result_files as $key => $f) {
                 $name = substr($f, strrpos($f, '\\') + 1, strlen($f));
-                $extension = substr($name,strrpos($name,'.') + 1,strlen($name));
+                $extension = substr($name, strrpos($name, '.') + 1, strlen($name));
                 $file = 'storage/' . $path . '/' . 'image-' . $key . '.' . $extension;
                 $this->generatePreview($file, $path . '/previews/' . 'image-' . $key . '.' . $extension);
                 $preview = 'storage/' . $path . '/previews/' . 'image-' . $key . '.' . $extension;;
@@ -105,7 +109,7 @@ class FilesService
         logger($path);
         try {
             //exec(`unar -D ` . $filename . ` -o ` . $full_path);
-            if (is_dir($full_path . 'word\\')){
+            if (is_dir($full_path . 'word\\')) {
                 $results = scandir($full_path . 'word\\');
                 foreach ($results as $result) {
                     if ($result === '.' or $result === '..') continue;
@@ -121,14 +125,14 @@ class FilesService
                     }
                 }
             }
-            $this->deleteAllFilesForExtractDocx(\storage_path($s_path), \storage_path($s_path));
+            // $this->deleteAllFilesForExtractDocx(\storage_path($s_path), \storage_path($s_path));
             $all_files = File::files($full_path);
-            foreach ($all_files as $key=>$f) {
+            foreach ($all_files as $key => $f) {
                 $name = substr($f, strrpos($f, '\\') + 1, strlen($f));
-                $extension = substr($name,strrpos($name,'.') + 1,strlen($name));
+                $extension = substr($name, strrpos($name, '.') + 1, strlen($name));
                 if (preg_match("([^\s]+(\.(?i)(jpg|jpeg|png|bmp))$)", $name) && $this->is_image($f)) {
                     $file = 'storage/' . $path . '/' . 'image-' . $key . '.' . $extension;;
-                    $this->generatePreview($file, $path . '/previews/' . 'image-'.$key.'.'.$extension);
+                    $this->generatePreview($file, $path . '/previews/' . 'image-' . $key . '.' . $extension);
                     $preview = 'storage/' . $path . '/previews/' . 'image-' . $key . '.' . $extension;
                     $imageAssets[] = ['main' => $file, 'preview' => $preview];
                 }
@@ -148,15 +152,15 @@ class FilesService
         logger('ZIP И RAR');
         try {
             exec(`unar -D ` . $filename . ` -o ` . $destination);
-            $this->deleteAllFilesForExtractDocx(\storage_path($s_path), \storage_path($s_path));
+            //  $this->deleteAllFilesForExtractDocx(\storage_path($s_path), \storage_path($s_path));
             $all_files = File::files($destination);
-            foreach ($all_files as $key=>$f) {
+            foreach ($all_files as $key => $f) {
                 $name = substr($f, strrpos($f, '\\') + 1, strlen($f));
-                $extension = substr($name,strrpos($name,'.') + 1,strlen($name));
+                $extension = substr($name, strrpos($name, '.') + 1, strlen($name));
                 if (preg_match("([^\s]+(\.(?i)(jpg|jpeg|png|bmp))$)", $name) && $this->is_image($f)) {
-                    rename($destination.$name, $destination. 'image-'.$key.'.'.$extension);
+                    rename($destination . $name, $destination . 'image-' . $key . '.' . $extension);
                     $file = 'storage/' . $path . '/' . 'image-' . $key . '.' . $extension;;
-                    $this->generatePreview($file, $path . '/previews/' . 'image-'.$key.'.'.$extension);
+                    $this->generatePreview($file, $path . '/previews/' . 'image-' . $key . '.' . $extension);
                     $preview = 'storage/' . $path . '/previews/' . 'image-' . $key . '.' . $extension;;
                     $files[] = ['main' => $file, 'preview' => $preview];
                 }
@@ -172,9 +176,12 @@ class FilesService
     {
         $finfo = finfo_open(FILEINFO_MIME_TYPE);
         $image_type = finfo_file($finfo, $path);
-        if(mb_substr($image_type, 0, 6) == "image/") { return true; }
+        if (mb_substr($image_type, 0, 6) == "image/") {
+            return true;
+        }
         return false;
     }
+
     public function generatePreview($image, $path)
     {
         $thumbnail = Image::make($image);
@@ -183,13 +190,15 @@ class FilesService
         $thumbnail->save(public_path('storage/' . $path));
 
     }
-    public function deleteAllFilesForExtractDocx($dir, $s_path) {
+
+    public function deleteAllFilesForExtractDocx($dir, $s_path)
+    {
         if (is_dir($dir)) {
             $objects = scandir($dir);
             foreach ($objects as $object) {
                 if ($object != "." && $object != "..") {
-                    if (is_dir($dir. DIRECTORY_SEPARATOR .$object) && !is_link($dir."/".$object)) {
-                        $this->deleteAllFilesForExtractDocx($dir. DIRECTORY_SEPARATOR .$object, $s_path);
+                    if (is_dir($dir . DIRECTORY_SEPARATOR . $object) && !is_link($dir . "/" . $object)) {
+                        $this->deleteAllFilesForExtractDocx($dir . DIRECTORY_SEPARATOR . $object, $s_path);
                     } else {
                         $name = substr($dir . DIRECTORY_SEPARATOR . $object, strrpos($dir . DIRECTORY_SEPARATOR . $object, '\\') + 1, strlen($dir . DIRECTORY_SEPARATOR . $object));
                         if (!preg_match("([^\s]+(\.(?i)(jpg|jpeg|png|bmp))$)", $name) && !$this->is_image($dir . DIRECTORY_SEPARATOR . $object)) {
@@ -198,7 +207,7 @@ class FilesService
                     }
                 }
             }
-            if($dir !== $s_path && $dir !== $s_path.'\previews') {
+            if ($dir !== $s_path && $dir !== $s_path . '\previews') {
                 rmdir($dir);
             }
         }

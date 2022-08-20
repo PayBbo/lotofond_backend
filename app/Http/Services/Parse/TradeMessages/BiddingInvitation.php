@@ -111,6 +111,7 @@ class BiddingInvitation extends TradeMessage
             $files = null;
             $images = null;
             if (array_key_exists($prefix . 'Attach', $data)) {
+                logger($data[$prefix . 'Attach'][$prefix . 'FileName']);
                 if (mb_stripos($data[$prefix . 'Attach'][$prefix . 'FileName'], 'фото') !== false) {
                     $parseFiles = new FilesService();
                     $images = $parseFiles->parseFiles($data, $auction, $prefix, true);

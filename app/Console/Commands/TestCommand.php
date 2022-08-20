@@ -3,7 +3,7 @@
 namespace App\Console\Commands;
 
 
-use App\Http\Services\PushNotificationService;
+use App\Http\Services\Parse\GetTradeMessageContent;
 use App\Jobs\ParseTrades;
 use App\Notifications\PushNotification;
 use Illuminate\Console\Command;
