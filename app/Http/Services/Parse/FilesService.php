@@ -112,10 +112,9 @@ class FilesService
         logger($full_path);
         try {
             chmod($filename, 0777);
-            exec(`whoami`, $output, $return_var);
-            logger($output);
-            logger($return_var);
-            $comm = `sudo unar -D ` . $filename . ` -o ` . $full_path;
+            $user = posix_getpwuid(posix_geteuid())['name'];
+            logger($user);
+            $comm = `unar -D ` . $filename . ` -o ` . $full_path;
             exec($comm, $output, $return_var);
             logger($output);
             logger($return_var);
