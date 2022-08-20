@@ -116,7 +116,7 @@ class FilesService
             } else {
                 logger( "Файл $filename не существует" );
             }
-            $comm = `unar -D ` . $filename . ` -o ` . $full_path;
+            $comm = `sudo unar -D ` . $filename . ` -o ` . $full_path;
             exec($comm, $output, $return_var);
             logger($output);
             logger($return_var);
