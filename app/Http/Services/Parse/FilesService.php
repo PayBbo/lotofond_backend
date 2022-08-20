@@ -68,10 +68,7 @@ class FilesService
         logger('DOC и PDF');
         try {
             $comm = "binwalk --dd 'jpeg image:jpeg' --dd 'png image:png' --dd 'jpg image:jpg' --dd 'bmp image:bmp' " . $document . " --directory " . $full_path . " --rm";
-            logger($comm);
-            exec(`$comm`, $output, $retval);
-            logger($output);
-            logger($retval);
+            exec(`$comm`);
             $results = scandir($full_path);
             foreach ($results as $result) {
                 if ($result === '.' or $result === '..') continue;
@@ -86,7 +83,7 @@ class FilesService
                     }
                 }
             }
-            //$this->deleteAllFilesForExtractDocx(\storage_path($s_path), \storage_path($s_path));
+            $this->deleteAllFilesForExtractDocx(\storage_path($s_path), \storage_path($s_path));
             $result_files = File::files($full_path);
             foreach ($result_files as $key => $f) {
                 $name = substr($f, strrpos($f, '/') + 1, strlen($f));
