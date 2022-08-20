@@ -32,14 +32,22 @@
     }
 
     &__button {
+        display: -webkit-box;
+        display: -ms-flexbox;
         display: flex;
         height: 40px;
         padding: 10px;
         min-width: 2.4rem;
+        -webkit-box-align: center;
+        -ms-flex-align: center;
         align-items: center;
+        -webkit-box-pack: center;
+        -ms-flex-pack: center;
         justify-content: center;
         border-radius: 10px;
         margin: 0 0.65rem;
+        -webkit-transition: color 0.3s;
+        -o-transition: color 0.3s;
         transition: color 0.3s;
     }
 
@@ -113,7 +121,11 @@
     }
 
     .bkt-sidebar__user {
+        display: -webkit-box;
+        display: -ms-flexbox;
         display: flex;
+        -webkit-box-align: center;
+        -ms-flex-align: center;
         align-items: center;
 
         &-image {
@@ -129,9 +141,17 @@
     .bkt-sidebar__profile {
         white-space: nowrap;
         max-width: 100%;
+        -webkit-transition: opacity 0.3s 0.2s, max-width 0.7s 0s ease-in-out;
+        -o-transition: opacity 0.3s 0.2s, max-width 0.7s 0s ease-in-out;
         transition: opacity 0.3s 0.2s, max-width 0.7s 0s ease-in-out;
+        display: -webkit-box;
+        display: -ms-flexbox;
         display: flex;
+        -webkit-box-align: center;
+        -ms-flex-align: center;
         align-items: center;
+        -webkit-box-flex: 1;
+        -ms-flex: 1;
         flex: 1;
         overflow: hidden;
     }

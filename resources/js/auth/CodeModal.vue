@@ -133,13 +133,12 @@
                 })
                     .then((resp) => {
                         this.loading = false;
+                        this.$store.dispatch('sendNotification',
+                            {self: this, message:'Регистрация прошла успешно'})
                     })
                     .catch(err => {
                         this.loading = false;
                     })
-                    .finally(() => {
-                        this.loading = false;
-                    });
             },
             sendCode() {
                 let data = JSON.parse(JSON.stringify(this.user));
@@ -148,6 +147,8 @@
                 this.$store.dispatch('registrationCode', data)
                     .then((resp) => {
                         this.code_loading = false;
+                        this.$store.dispatch('sendNotification',
+                            {self: this, message:'Код подтверждения был отправлен повторно'})
                     })
                     .catch(err => {
                         this.code_loading = false;

@@ -43,29 +43,42 @@
                     <label class="bkt-input__label bkt-form__label" style="margin-bottom: 10px;">где вам удобнее
                         общаться</label>
                     <div class="communications bkt-wrapper-between bkt-gap-small">
-                        <button class="bkt-button bkt-bg-body flex-fill"
-                                :class="service.socialsForAnswer.indexOf('Viber')>=0 ? 'bkt-border-primary': 'bkt-border-body'"
-                                @click="toggleSocial('Viber')">
-                            <bkt-icon name="Viber" color="purple" class="bkt-button__icon" height="22px" width="22px"></bkt-icon>
-                        </button>
-                        <button class="bkt-button bkt-bg-body flex-fill"
-                                :class="service.socialsForAnswer.indexOf('Vk')>=0 ? 'bkt-border-primary': 'bkt-border-body'"
-                                @click="toggleSocial('Vk')"
+                        <bkt-checkbox
+                            input_class="bkt-button bkt-bg-body flex-fill" name="Viber"
+                            v-model="service.socialsForAnswer" val="Viber" type="radio"
+                            :border_color="service.socialsForAnswer=='Viber' ? 'primary': 'body'"
                         >
-                            <bkt-icon name="Vk" color="primary" class="bkt-button__icon" height="22px" width="22px"></bkt-icon>
-                        </button>
-                        <button class="bkt-button bkt-bg-body flex-fill"
-                                :class="service.socialsForAnswer.indexOf('Telegram')>=0 ? 'bkt-border-primary': 'bkt-border-body'"
-                                @click="toggleSocial('Telegram')"
+                            <template #input-check>
+                                <bkt-icon name="Viber" color="purple" class="bkt-button__icon"></bkt-icon>
+                            </template>
+                        </bkt-checkbox>
+                        <bkt-checkbox
+                            input_class="bkt-button bkt-bg-body flex-fill" name="Vk"
+                            v-model="service.socialsForAnswer" val="Vk" type="radio"
+                            :border_color="service.socialsForAnswer=='Vk' ? 'primary': 'body'"
                         >
-                            <bkt-icon name="Telegram" color="blue" class="bkt-button__icon" height="22px" width="22px"></bkt-icon>
-                        </button>
-                        <button class="bkt-button bkt-bg-body flex-fill"
-                                :class="service.socialsForAnswer.indexOf('WhatsApp')>=0 ? 'bkt-border-primary': 'bkt-border-body'"
-                                @click="toggleSocial('WhatsApp')"
+                            <template #input-check>
+                                <bkt-icon name="Vk" color="primary" class="bkt-button__icon"></bkt-icon>
+                            </template>
+                        </bkt-checkbox>
+                        <bkt-checkbox
+                            input_class="bkt-button bkt-bg-body flex-fill" name="Telegram"
+                            v-model="service.socialsForAnswer" val="Telegram" type="radio"
+                            :border_color="service.socialsForAnswer=='Telegram' ? 'primary': 'body'"
                         >
-                            <bkt-icon name="WhatsApp" color="green" class="bkt-button__icon" height="22px" width="22px"></bkt-icon>
-                        </button>
+                            <template #input-check>
+                                <bkt-icon name="Telegram" color="blue" class="bkt-button__icon"></bkt-icon>
+                            </template>
+                        </bkt-checkbox>
+                        <bkt-checkbox
+                            input_class="bkt-button bkt-bg-body flex-fill" name="WhatsApp"
+                            v-model="service.socialsForAnswer" val="WhatsApp" type="radio"
+                            :border_color="service.socialsForAnswer=='WhatsApp' ? 'primary': 'body'"
+                        >
+                            <template #input-check>
+                                <bkt-icon name="WhatsApp" color="green" class="bkt-button__icon"></bkt-icon>
+                            </template>
+                        </bkt-checkbox>
                     </div>
                 </div>
             </div>
@@ -96,8 +109,10 @@
         methods: {
             sendApplication() {
                 this.loading = true;
-                this.service.lotId = this.selected_lot.id;
-                axios.post('/api/send/application', this.service)
+                let data = JSON.parse(JSON.stringify(this.service));
+                data.socialsForAnswer = [this.service.socialsForAnswer];
+                data.lotId = this.selected_lot.id;
+                axios.post('/api/send/application', data)
                     .then(resp => {
                         this.loading = false;
                         this.$store.dispatch('sendNotification',
@@ -115,14 +130,6 @@
                         // this.$store.dispatch('sendNotification', {self:this, type: 'error'});
                         this.loading = false;
                     })
-            },
-            toggleSocial(social) {
-                let index = this.service.socialsForAnswer.indexOf(social);
-                if (index < 0) {
-                    this.service.socialsForAnswer.push(social)
-                } else {
-                    this.service.socialsForAnswer.splice(index, 1)
-                }
             },
         }
     }

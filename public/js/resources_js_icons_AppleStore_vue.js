@@ -1,4 +1,12 @@
 "use strict";
+/*
+ * ATTENTION: An "eval-source-map" devtool has been used.
+ * This devtool is neither made for production nor for readable output files.
+ * It uses "eval()" calls to create a separate source file with attached SourceMaps in the browser devtools.
+ * If you are trying to read the output file, select a different devtool (https://webpack.js.org/configuration/devtool/)
+ * or disable the default devtool with "devtool: false".
+ * If you are looking for production-ready output files, see mode: "production" (https://webpack.js.org/configuration/mode/).
+ */
 (self["webpackChunk"] = self["webpackChunk"] || []).push([["resources_js_icons_AppleStore_vue"],{
 
 /***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/icons/AppleStore.vue?vue&type=script&lang=js&":
@@ -7,46 +15,7 @@
   \************************************************************************************************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  name: "AppleStore",
-  props: {
-    color: {
-      type: String,
-      "default": 'white'
-    },
-    width: {
-      type: String,
-      "default": '100%'
-    },
-    height: {
-      type: String,
-      "default": '100%'
-    }
-  }
-});
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (__WEBPACK_DEFAULT_EXPORT__)\n/* harmony export */ });\n//\n//\n//\n//\n//\n//\n//\n//\n//\n//\n//\n//\n//\n//\n//\n//\n//\n//\n//\n/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({\n  name: \"AppleStore\",\n  props: {\n    color: {\n      type: String,\n      \"default\": 'white'\n    },\n    width: {\n      type: String,\n      \"default\": '100%'\n    },\n    height: {\n      type: String,\n      \"default\": '100%'\n    }\n  }\n});//# sourceURL=[module]\n//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiLi9ub2RlX21vZHVsZXMvYmFiZWwtbG9hZGVyL2xpYi9pbmRleC5qcz8/Y2xvbmVkUnVsZVNldC01WzBdLnJ1bGVzWzBdLnVzZVswXSEuL25vZGVfbW9kdWxlcy92dWUtbG9hZGVyL2xpYi9pbmRleC5qcz8/dnVlLWxvYWRlci1vcHRpb25zIS4vcmVzb3VyY2VzL2pzL2ljb25zL0FwcGxlU3RvcmUudnVlP3Z1ZSZ0eXBlPXNjcmlwdCZsYW5nPWpzJi5qcyIsIm1hcHBpbmdzIjoiOzs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7OztBQW9CQTtFQUNBQSxrQkFEQTtFQUVBQztJQUNBQztNQUNBQyxZQURBO01BRUE7SUFGQSxDQURBO0lBS0FDO01BQ0FELFlBREE7TUFFQTtJQUZBLENBTEE7SUFTQUU7TUFDQUYsWUFEQTtNQUVBO0lBRkE7RUFUQTtBQUZBIiwic291cmNlcyI6WyJ3ZWJwYWNrOi8vL3Jlc291cmNlcy9qcy9pY29ucy9BcHBsZVN0b3JlLnZ1ZT84M2ViIl0sInNvdXJjZXNDb250ZW50IjpbIjx0ZW1wbGF0ZT5cbiAgICA8c3ZnIHhtbG5zPVwiaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmdcIiB2aWV3Qm94PVwiMCAwIDQzOS42IDQzOS42XCJcbiAgICAgICAgIDpjbGFzcz1cIidia3QtZmlsbCBia3QtZmlsbC0nK2NvbG9yXCIgOndpZHRoPVwid2lkdGhcIiA6aGVpZ2h0PVwiaGVpZ2h0XCJcbiAgICA+XG4gICAgICAgIDxwYXRoXG4gICAgICAgICAgICBkPVwiTTQwMSw2MjAuOGMtMTIxLjIsMC0yMTkuOC05OC42LTIxOS44LTIxOS44UzI3OS44LDE4MS4yLDQwMSwxODEuMiw2MjAuOCwyNzkuOCw2MjAuOCw0MDEsNTIyLjIsNjIwLjgsNDAxLDYyMC44Wm0uMS0yOC41QTE5MS4zLDE5MS4zLDAsMSwwLDIwOS43LDQwMS4xLDE5MSwxOTEsMCwwLDAsNDAxLjEsNTkyLjNaXCJcbiAgICAgICAgICAgIHRyYW5zZm9ybT1cInRyYW5zbGF0ZSgtMTgxLjIgLTE4MS4yKVwiLz5cbiAgICAgICAgPHBhdGhcbiAgICAgICAgICAgIGQ9XCJNNDAwLjksMjgxLjJsNy41LTEyLjhjNS45LTkuOCwxNi41LTEyLjksMjUuNi03LjRzMTEuMywxNS45LDUuNiwyNS43UTQwMy4yLDM1MCwzNjYuNCw0MTMuNGwtMy4zLDYuMSw1LjQuMmMxNi40LDAsMzIuNy40LDQ5LS4xczI3LjcsMTcuOSwyMy42LDMxLjhjLS45LDMuMS0yLjIsNC41LTUuOCw0LjVIMjc2LjRjLTExLjQsMC0xOS41LTcuNy0xOS40LTE4LjNzOC0xNy43LDE5LjQtMTcuN2MxMy41LS4xLDI2LjktLjIsNDAuNCwwLDMuMSwwLDQuOC0uOCw2LjQtMy41cTI3LjMtNDgsNTUuMS05NS42YzEuNS0yLjYsMS4zLTQuNC0uMi02LjgtNS4zLTktMTAuNS0xOC4xLTE1LjctMjcuMnMtMy4yLTIwLjcsNi0yNiwxOS42LTIsMjUuNCw4WlwiXG4gICAgICAgICAgICB0cmFuc2Zvcm09XCJ0cmFuc2xhdGUoLTE4MS4yIC0xODEuMilcIi8+XG4gICAgICAgIDxwYXRoXG4gICAgICAgICAgICBkPVwiTTUwMS43LDQ1NS45YzUuOSwxMC4yLDExLjcsMTkuNSwxNi43LDI5LjJhMjUuOCwyNS44LDAsMCwxLDMsMTIuN2MtLjQsNy44LTYuNCwxMy43LTEzLjcsMTUuM2ExNy42LDE3LjYsMCwwLDEtMTkuNC04LjJjLTUuMi04LjUtMTAuMS0xNy4zLTE1LTI1LjlsLTUxLjctODkuNmMtOC45LTE1LjMtMTAuNi0zMS40LTMuNi00Ny44LDIuMS01LDUuNS05LjMsOC44LTE0LjcsMS41LDIuMywyLjQsMy40LDMuMSw0LjdxMjQsNDEuNCw0Ny44LDgzYzIuMyw0LjEsNC44LDUuNCw5LjQsNS4zLDEzLjEtLjMsMjYuMy0uMSwzOS40LS4xLDExLjMuMSwxOS4zLDcuNCwxOS40LDE3LjhzLTgsMTguMi0xOS41LDE4LjNaXCJcbiAgICAgICAgICAgIHRyYW5zZm9ybT1cInRyYW5zbGF0ZSgtMTgxLjIgLTE4MS4yKVwiLz5cbiAgICAgICAgPHBhdGhcbiAgICAgICAgICAgIGQ9XCJNMzMxLjIsNDc0LjVjLTYsMTAuMy0xMS43LDIwLjUtMTcuNywzMC40YTE4LDE4LDAsMCwxLTMxLjItMTguMWMzLjctNi45LDcuNy0xMy43LDExLjgtMjAuM2E3LjEsNy4xLDAsMCwxLDQuMS0zLjFDMzExLjIsNDYwLjIsMzIyLjEsNDYzLjgsMzMxLjIsNDc0LjVaXCJcbiAgICAgICAgICAgIHRyYW5zZm9ybT1cInRyYW5zbGF0ZSgtMTgxLjIgLTE4MS4yKVwiLz5cbiAgICA8L3N2Zz5cbjwvdGVtcGxhdGU+XG5cbjxzY3JpcHQ+XG4gICAgZXhwb3J0IGRlZmF1bHQge1xuICAgICAgICBuYW1lOiBcIkFwcGxlU3RvcmVcIixcbiAgICAgICAgcHJvcHM6IHtcbiAgICAgICAgICAgIGNvbG9yOiB7XG4gICAgICAgICAgICAgICAgdHlwZTogU3RyaW5nLFxuICAgICAgICAgICAgICAgIGRlZmF1bHQ6ICd3aGl0ZSdcbiAgICAgICAgICAgIH0sXG4gICAgICAgICAgICB3aWR0aDoge1xuICAgICAgICAgICAgICAgIHR5cGU6IFN0cmluZyxcbiAgICAgICAgICAgICAgICBkZWZhdWx0OiAnMTAwJSdcbiAgICAgICAgICAgIH0sXG4gICAgICAgICAgICBoZWlnaHQ6IHtcbiAgICAgICAgICAgICAgICB0eXBlOiBTdHJpbmcsXG4gICAgICAgICAgICAgICAgZGVmYXVsdDogJzEwMCUnXG4gICAgICAgICAgICB9LFxuICAgICAgICB9XG4gICAgfVxuPC9zY3JpcHQ+XG5cbjxzdHlsZSBzY29wZWQ+XG5cbjwvc3R5bGU+XG4iXSwibmFtZXMiOlsibmFtZSIsInByb3BzIiwiY29sb3IiLCJ0eXBlIiwid2lkdGgiLCJoZWlnaHQiXSwic291cmNlUm9vdCI6IiJ9\n//# sourceURL=webpack-internal:///./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/icons/AppleStore.vue?vue&type=script&lang=js&\n");
 
 /***/ }),
 
@@ -56,35 +25,7 @@ __webpack_require__.r(__webpack_exports__);
   \*******************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var _AppleStore_vue_vue_type_template_id_7b3a0b4c_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./AppleStore.vue?vue&type=template&id=7b3a0b4c&scoped=true& */ "./resources/js/icons/AppleStore.vue?vue&type=template&id=7b3a0b4c&scoped=true&");
-/* harmony import */ var _AppleStore_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./AppleStore.vue?vue&type=script&lang=js& */ "./resources/js/icons/AppleStore.vue?vue&type=script&lang=js&");
-/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
-
-
-
-
-
-/* normalize component */
-;
-var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
-  _AppleStore_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
-  _AppleStore_vue_vue_type_template_id_7b3a0b4c_scoped_true___WEBPACK_IMPORTED_MODULE_0__.render,
-  _AppleStore_vue_vue_type_template_id_7b3a0b4c_scoped_true___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
-  false,
-  null,
-  "7b3a0b4c",
-  null
-  
-)
-
-/* hot reload */
-if (false) { var api; }
-component.options.__file = "resources/js/icons/AppleStore.vue"
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (component.exports);
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (__WEBPACK_DEFAULT_EXPORT__)\n/* harmony export */ });\n/* harmony import */ var _AppleStore_vue_vue_type_template_id_7b3a0b4c_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./AppleStore.vue?vue&type=template&id=7b3a0b4c&scoped=true& */ \"./resources/js/icons/AppleStore.vue?vue&type=template&id=7b3a0b4c&scoped=true&\");\n/* harmony import */ var _AppleStore_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./AppleStore.vue?vue&type=script&lang=js& */ \"./resources/js/icons/AppleStore.vue?vue&type=script&lang=js&\");\n/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ \"./node_modules/vue-loader/lib/runtime/componentNormalizer.js\");\n\n\n\n\n\n/* normalize component */\n;\nvar component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__[\"default\"])(\n  _AppleStore_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__[\"default\"],\n  _AppleStore_vue_vue_type_template_id_7b3a0b4c_scoped_true___WEBPACK_IMPORTED_MODULE_0__.render,\n  _AppleStore_vue_vue_type_template_id_7b3a0b4c_scoped_true___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,\n  false,\n  null,\n  \"7b3a0b4c\",\n  null\n  \n)\n\n/* hot reload */\nif (false) { var api; }\ncomponent.options.__file = \"resources/js/icons/AppleStore.vue\"\n/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (component.exports);//# sourceURL=[module]\n//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiLi9yZXNvdXJjZXMvanMvaWNvbnMvQXBwbGVTdG9yZS52dWUuanMiLCJtYXBwaW5ncyI6Ijs7Ozs7OztBQUFxRztBQUN2QztBQUNMOzs7QUFHekQ7QUFDQSxDQUE2RjtBQUM3RixnQkFBZ0IsdUdBQVU7QUFDMUIsRUFBRSxnRkFBTTtBQUNSLEVBQUUsOEZBQU07QUFDUixFQUFFLHVHQUFlO0FBQ2pCO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTs7QUFFQTtBQUNBLElBQUksS0FBVSxFQUFFLFlBaUJmO0FBQ0Q7QUFDQSxpRUFBZSIsInNvdXJjZXMiOlsid2VicGFjazovLy8uL3Jlc291cmNlcy9qcy9pY29ucy9BcHBsZVN0b3JlLnZ1ZT9hMzljIl0sInNvdXJjZXNDb250ZW50IjpbImltcG9ydCB7IHJlbmRlciwgc3RhdGljUmVuZGVyRm5zIH0gZnJvbSBcIi4vQXBwbGVTdG9yZS52dWU/dnVlJnR5cGU9dGVtcGxhdGUmaWQ9N2IzYTBiNGMmc2NvcGVkPXRydWUmXCJcbmltcG9ydCBzY3JpcHQgZnJvbSBcIi4vQXBwbGVTdG9yZS52dWU/dnVlJnR5cGU9c2NyaXB0Jmxhbmc9anMmXCJcbmV4cG9ydCAqIGZyb20gXCIuL0FwcGxlU3RvcmUudnVlP3Z1ZSZ0eXBlPXNjcmlwdCZsYW5nPWpzJlwiXG5cblxuLyogbm9ybWFsaXplIGNvbXBvbmVudCAqL1xuaW1wb3J0IG5vcm1hbGl6ZXIgZnJvbSBcIiEuLi8uLi8uLi9ub2RlX21vZHVsZXMvdnVlLWxvYWRlci9saWIvcnVudGltZS9jb21wb25lbnROb3JtYWxpemVyLmpzXCJcbnZhciBjb21wb25lbnQgPSBub3JtYWxpemVyKFxuICBzY3JpcHQsXG4gIHJlbmRlcixcbiAgc3RhdGljUmVuZGVyRm5zLFxuICBmYWxzZSxcbiAgbnVsbCxcbiAgXCI3YjNhMGI0Y1wiLFxuICBudWxsXG4gIFxuKVxuXG4vKiBob3QgcmVsb2FkICovXG5pZiAobW9kdWxlLmhvdCkge1xuICB2YXIgYXBpID0gcmVxdWlyZShcImU6XFxcXE9wZW5TZXJ2ZXJcXFxcT1NQYW5lbFxcXFxkb21haW5zXFxcXGJhbmtyb3RcXFxcbm9kZV9tb2R1bGVzXFxcXHZ1ZS1ob3QtcmVsb2FkLWFwaVxcXFxkaXN0XFxcXGluZGV4LmpzXCIpXG4gIGFwaS5pbnN0YWxsKHJlcXVpcmUoJ3Z1ZScpKVxuICBpZiAoYXBpLmNvbXBhdGlibGUpIHtcbiAgICBtb2R1bGUuaG90LmFjY2VwdCgpXG4gICAgaWYgKCFhcGkuaXNSZWNvcmRlZCgnN2IzYTBiNGMnKSkge1xuICAgICAgYXBpLmNyZWF0ZVJlY29yZCgnN2IzYTBiNGMnLCBjb21wb25lbnQub3B0aW9ucylcbiAgICB9IGVsc2Uge1xuICAgICAgYXBpLnJlbG9hZCgnN2IzYTBiNGMnLCBjb21wb25lbnQub3B0aW9ucylcbiAgICB9XG4gICAgbW9kdWxlLmhvdC5hY2NlcHQoXCIuL0FwcGxlU3RvcmUudnVlP3Z1ZSZ0eXBlPXRlbXBsYXRlJmlkPTdiM2EwYjRjJnNjb3BlZD10cnVlJlwiLCBmdW5jdGlvbiAoKSB7XG4gICAgICBhcGkucmVyZW5kZXIoJzdiM2EwYjRjJywge1xuICAgICAgICByZW5kZXI6IHJlbmRlcixcbiAgICAgICAgc3RhdGljUmVuZGVyRm5zOiBzdGF0aWNSZW5kZXJGbnNcbiAgICAgIH0pXG4gICAgfSlcbiAgfVxufVxuY29tcG9uZW50Lm9wdGlvbnMuX19maWxlID0gXCJyZXNvdXJjZXMvanMvaWNvbnMvQXBwbGVTdG9yZS52dWVcIlxuZXhwb3J0IGRlZmF1bHQgY29tcG9uZW50LmV4cG9ydHMiXSwibmFtZXMiOltdLCJzb3VyY2VSb290IjoiIn0=\n//# sourceURL=webpack-internal:///./resources/js/icons/AppleStore.vue\n");
 
 /***/ }),
 
@@ -94,12 +35,7 @@ component.options.__file = "resources/js/icons/AppleStore.vue"
   \********************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_AppleStore_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./AppleStore.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/icons/AppleStore.vue?vue&type=script&lang=js&");
- /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_AppleStore_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (__WEBPACK_DEFAULT_EXPORT__)\n/* harmony export */ });\n/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_AppleStore_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./AppleStore.vue?vue&type=script&lang=js& */ \"./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/icons/AppleStore.vue?vue&type=script&lang=js&\");\n /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_AppleStore_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__[\"default\"]); //# sourceURL=[module]\n//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiLi9yZXNvdXJjZXMvanMvaWNvbnMvQXBwbGVTdG9yZS52dWU/dnVlJnR5cGU9c2NyaXB0Jmxhbmc9anMmLmpzIiwibWFwcGluZ3MiOiI7Ozs7O0FBQW9OLENBQUMsaUVBQWUsK01BQUcsRUFBQyIsInNvdXJjZXMiOlsid2VicGFjazovLy8uL3Jlc291cmNlcy9qcy9pY29ucy9BcHBsZVN0b3JlLnZ1ZT9jNmUxIl0sInNvdXJjZXNDb250ZW50IjpbImltcG9ydCBtb2QgZnJvbSBcIi0hLi4vLi4vLi4vbm9kZV9tb2R1bGVzL2JhYmVsLWxvYWRlci9saWIvaW5kZXguanM/P2Nsb25lZFJ1bGVTZXQtNVswXS5ydWxlc1swXS51c2VbMF0hLi4vLi4vLi4vbm9kZV9tb2R1bGVzL3Z1ZS1sb2FkZXIvbGliL2luZGV4LmpzPz92dWUtbG9hZGVyLW9wdGlvbnMhLi9BcHBsZVN0b3JlLnZ1ZT92dWUmdHlwZT1zY3JpcHQmbGFuZz1qcyZcIjsgZXhwb3J0IGRlZmF1bHQgbW9kOyBleHBvcnQgKiBmcm9tIFwiLSEuLi8uLi8uLi9ub2RlX21vZHVsZXMvYmFiZWwtbG9hZGVyL2xpYi9pbmRleC5qcz8/Y2xvbmVkUnVsZVNldC01WzBdLnJ1bGVzWzBdLnVzZVswXSEuLi8uLi8uLi9ub2RlX21vZHVsZXMvdnVlLWxvYWRlci9saWIvaW5kZXguanM/P3Z1ZS1sb2FkZXItb3B0aW9ucyEuL0FwcGxlU3RvcmUudnVlP3Z1ZSZ0eXBlPXNjcmlwdCZsYW5nPWpzJlwiIl0sIm5hbWVzIjpbXSwic291cmNlUm9vdCI6IiJ9\n//# sourceURL=webpack-internal:///./resources/js/icons/AppleStore.vue?vue&type=script&lang=js&\n");
 
 /***/ }),
 
@@ -125,61 +61,7 @@ __webpack_require__.r(__webpack_exports__);
   \*****************************************************************************************************************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "render": () => (/* binding */ render),
-/* harmony export */   "staticRenderFns": () => (/* binding */ staticRenderFns)
-/* harmony export */ });
-var render = function () {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c(
-    "svg",
-    {
-      class: "bkt-fill bkt-fill-" + _vm.color,
-      attrs: {
-        xmlns: "http://www.w3.org/2000/svg",
-        viewBox: "0 0 439.6 439.6",
-        width: _vm.width,
-        height: _vm.height,
-      },
-    },
-    [
-      _c("path", {
-        attrs: {
-          d: "M401,620.8c-121.2,0-219.8-98.6-219.8-219.8S279.8,181.2,401,181.2,620.8,279.8,620.8,401,522.2,620.8,401,620.8Zm.1-28.5A191.3,191.3,0,1,0,209.7,401.1,191,191,0,0,0,401.1,592.3Z",
-          transform: "translate(-181.2 -181.2)",
-        },
-      }),
-      _vm._v(" "),
-      _c("path", {
-        attrs: {
-          d: "M400.9,281.2l7.5-12.8c5.9-9.8,16.5-12.9,25.6-7.4s11.3,15.9,5.6,25.7Q403.2,350,366.4,413.4l-3.3,6.1,5.4.2c16.4,0,32.7.4,49-.1s27.7,17.9,23.6,31.8c-.9,3.1-2.2,4.5-5.8,4.5H276.4c-11.4,0-19.5-7.7-19.4-18.3s8-17.7,19.4-17.7c13.5-.1,26.9-.2,40.4,0,3.1,0,4.8-.8,6.4-3.5q27.3-48,55.1-95.6c1.5-2.6,1.3-4.4-.2-6.8-5.3-9-10.5-18.1-15.7-27.2s-3.2-20.7,6-26,19.6-2,25.4,8Z",
-          transform: "translate(-181.2 -181.2)",
-        },
-      }),
-      _vm._v(" "),
-      _c("path", {
-        attrs: {
-          d: "M501.7,455.9c5.9,10.2,11.7,19.5,16.7,29.2a25.8,25.8,0,0,1,3,12.7c-.4,7.8-6.4,13.7-13.7,15.3a17.6,17.6,0,0,1-19.4-8.2c-5.2-8.5-10.1-17.3-15-25.9l-51.7-89.6c-8.9-15.3-10.6-31.4-3.6-47.8,2.1-5,5.5-9.3,8.8-14.7,1.5,2.3,2.4,3.4,3.1,4.7q24,41.4,47.8,83c2.3,4.1,4.8,5.4,9.4,5.3,13.1-.3,26.3-.1,39.4-.1,11.3.1,19.3,7.4,19.4,17.8s-8,18.2-19.5,18.3Z",
-          transform: "translate(-181.2 -181.2)",
-        },
-      }),
-      _vm._v(" "),
-      _c("path", {
-        attrs: {
-          d: "M331.2,474.5c-6,10.3-11.7,20.5-17.7,30.4a18,18,0,0,1-31.2-18.1c3.7-6.9,7.7-13.7,11.8-20.3a7.1,7.1,0,0,1,4.1-3.1C311.2,460.2,322.1,463.8,331.2,474.5Z",
-          transform: "translate(-181.2 -181.2)",
-        },
-      }),
-    ]
-  )
-}
-var staticRenderFns = []
-render._withStripped = true
-
-
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"render\": () => (/* binding */ render),\n/* harmony export */   \"staticRenderFns\": () => (/* binding */ staticRenderFns)\n/* harmony export */ });\nvar render = function () {\n  var _vm = this\n  var _h = _vm.$createElement\n  var _c = _vm._self._c || _h\n  return _c(\n    \"svg\",\n    {\n      class: \"bkt-fill bkt-fill-\" + _vm.color,\n      attrs: {\n        xmlns: \"http://www.w3.org/2000/svg\",\n        viewBox: \"0 0 439.6 439.6\",\n        width: _vm.width,\n        height: _vm.height,\n      },\n    },\n    [\n      _c(\"path\", {\n        attrs: {\n          d: \"M401,620.8c-121.2,0-219.8-98.6-219.8-219.8S279.8,181.2,401,181.2,620.8,279.8,620.8,401,522.2,620.8,401,620.8Zm.1-28.5A191.3,191.3,0,1,0,209.7,401.1,191,191,0,0,0,401.1,592.3Z\",\n          transform: \"translate(-181.2 -181.2)\",\n        },\n      }),\n      _vm._v(\" \"),\n      _c(\"path\", {\n        attrs: {\n          d: \"M400.9,281.2l7.5-12.8c5.9-9.8,16.5-12.9,25.6-7.4s11.3,15.9,5.6,25.7Q403.2,350,366.4,413.4l-3.3,6.1,5.4.2c16.4,0,32.7.4,49-.1s27.7,17.9,23.6,31.8c-.9,3.1-2.2,4.5-5.8,4.5H276.4c-11.4,0-19.5-7.7-19.4-18.3s8-17.7,19.4-17.7c13.5-.1,26.9-.2,40.4,0,3.1,0,4.8-.8,6.4-3.5q27.3-48,55.1-95.6c1.5-2.6,1.3-4.4-.2-6.8-5.3-9-10.5-18.1-15.7-27.2s-3.2-20.7,6-26,19.6-2,25.4,8Z\",\n          transform: \"translate(-181.2 -181.2)\",\n        },\n      }),\n      _vm._v(\" \"),\n      _c(\"path\", {\n        attrs: {\n          d: \"M501.7,455.9c5.9,10.2,11.7,19.5,16.7,29.2a25.8,25.8,0,0,1,3,12.7c-.4,7.8-6.4,13.7-13.7,15.3a17.6,17.6,0,0,1-19.4-8.2c-5.2-8.5-10.1-17.3-15-25.9l-51.7-89.6c-8.9-15.3-10.6-31.4-3.6-47.8,2.1-5,5.5-9.3,8.8-14.7,1.5,2.3,2.4,3.4,3.1,4.7q24,41.4,47.8,83c2.3,4.1,4.8,5.4,9.4,5.3,13.1-.3,26.3-.1,39.4-.1,11.3.1,19.3,7.4,19.4,17.8s-8,18.2-19.5,18.3Z\",\n          transform: \"translate(-181.2 -181.2)\",\n        },\n      }),\n      _vm._v(\" \"),\n      _c(\"path\", {\n        attrs: {\n          d: \"M331.2,474.5c-6,10.3-11.7,20.5-17.7,30.4a18,18,0,0,1-31.2-18.1c3.7-6.9,7.7-13.7,11.8-20.3a7.1,7.1,0,0,1,4.1-3.1C311.2,460.2,322.1,463.8,331.2,474.5Z\",\n          transform: \"translate(-181.2 -181.2)\",\n        },\n      }),\n    ]\n  )\n}\nvar staticRenderFns = []\nrender._withStripped = true\n\n//# sourceURL=[module]\n//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiLi9ub2RlX21vZHVsZXMvdnVlLWxvYWRlci9saWIvbG9hZGVycy90ZW1wbGF0ZUxvYWRlci5qcz8/dnVlLWxvYWRlci1vcHRpb25zIS4vbm9kZV9tb2R1bGVzL3Z1ZS1sb2FkZXIvbGliL2luZGV4LmpzPz92dWUtbG9hZGVyLW9wdGlvbnMhLi9yZXNvdXJjZXMvanMvaWNvbnMvQXBwbGVTdG9yZS52dWU/dnVlJnR5cGU9dGVtcGxhdGUmaWQ9N2IzYTBiNGMmc2NvcGVkPXRydWUmLmpzIiwibWFwcGluZ3MiOiI7Ozs7O0FBQUE7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQSxPQUFPO0FBQ1AsS0FBSztBQUNMO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQSxTQUFTO0FBQ1QsT0FBTztBQUNQO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQSxTQUFTO0FBQ1QsT0FBTztBQUNQO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQSxTQUFTO0FBQ1QsT0FBTztBQUNQO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQSxTQUFTO0FBQ1QsT0FBTztBQUNQO0FBQ0E7QUFDQTtBQUNBO0FBQ0EiLCJzb3VyY2VzIjpbIndlYnBhY2s6Ly8vLi9yZXNvdXJjZXMvanMvaWNvbnMvQXBwbGVTdG9yZS52dWU/YWQyNyJdLCJzb3VyY2VzQ29udGVudCI6WyJ2YXIgcmVuZGVyID0gZnVuY3Rpb24gKCkge1xuICB2YXIgX3ZtID0gdGhpc1xuICB2YXIgX2ggPSBfdm0uJGNyZWF0ZUVsZW1lbnRcbiAgdmFyIF9jID0gX3ZtLl9zZWxmLl9jIHx8IF9oXG4gIHJldHVybiBfYyhcbiAgICBcInN2Z1wiLFxuICAgIHtcbiAgICAgIGNsYXNzOiBcImJrdC1maWxsIGJrdC1maWxsLVwiICsgX3ZtLmNvbG9yLFxuICAgICAgYXR0cnM6IHtcbiAgICAgICAgeG1sbnM6IFwiaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmdcIixcbiAgICAgICAgdmlld0JveDogXCIwIDAgNDM5LjYgNDM5LjZcIixcbiAgICAgICAgd2lkdGg6IF92bS53aWR0aCxcbiAgICAgICAgaGVpZ2h0OiBfdm0uaGVpZ2h0LFxuICAgICAgfSxcbiAgICB9LFxuICAgIFtcbiAgICAgIF9jKFwicGF0aFwiLCB7XG4gICAgICAgIGF0dHJzOiB7XG4gICAgICAgICAgZDogXCJNNDAxLDYyMC44Yy0xMjEuMiwwLTIxOS44LTk4LjYtMjE5LjgtMjE5LjhTMjc5LjgsMTgxLjIsNDAxLDE4MS4yLDYyMC44LDI3OS44LDYyMC44LDQwMSw1MjIuMiw2MjAuOCw0MDEsNjIwLjhabS4xLTI4LjVBMTkxLjMsMTkxLjMsMCwxLDAsMjA5LjcsNDAxLjEsMTkxLDE5MSwwLDAsMCw0MDEuMSw1OTIuM1pcIixcbiAgICAgICAgICB0cmFuc2Zvcm06IFwidHJhbnNsYXRlKC0xODEuMiAtMTgxLjIpXCIsXG4gICAgICAgIH0sXG4gICAgICB9KSxcbiAgICAgIF92bS5fdihcIiBcIiksXG4gICAgICBfYyhcInBhdGhcIiwge1xuICAgICAgICBhdHRyczoge1xuICAgICAgICAgIGQ6IFwiTTQwMC45LDI4MS4ybDcuNS0xMi44YzUuOS05LjgsMTYuNS0xMi45LDI1LjYtNy40czExLjMsMTUuOSw1LjYsMjUuN1E0MDMuMiwzNTAsMzY2LjQsNDEzLjRsLTMuMyw2LjEsNS40LjJjMTYuNCwwLDMyLjcuNCw0OS0uMXMyNy43LDE3LjksMjMuNiwzMS44Yy0uOSwzLjEtMi4yLDQuNS01LjgsNC41SDI3Ni40Yy0xMS40LDAtMTkuNS03LjctMTkuNC0xOC4zczgtMTcuNywxOS40LTE3LjdjMTMuNS0uMSwyNi45LS4yLDQwLjQsMCwzLjEsMCw0LjgtLjgsNi40LTMuNXEyNy4zLTQ4LDU1LjEtOTUuNmMxLjUtMi42LDEuMy00LjQtLjItNi44LTUuMy05LTEwLjUtMTguMS0xNS43LTI3LjJzLTMuMi0yMC43LDYtMjYsMTkuNi0yLDI1LjQsOFpcIixcbiAgICAgICAgICB0cmFuc2Zvcm06IFwidHJhbnNsYXRlKC0xODEuMiAtMTgxLjIpXCIsXG4gICAgICAgIH0sXG4gICAgICB9KSxcbiAgICAgIF92bS5fdihcIiBcIiksXG4gICAgICBfYyhcInBhdGhcIiwge1xuICAgICAgICBhdHRyczoge1xuICAgICAgICAgIGQ6IFwiTTUwMS43LDQ1NS45YzUuOSwxMC4yLDExLjcsMTkuNSwxNi43LDI5LjJhMjUuOCwyNS44LDAsMCwxLDMsMTIuN2MtLjQsNy44LTYuNCwxMy43LTEzLjcsMTUuM2ExNy42LDE3LjYsMCwwLDEtMTkuNC04LjJjLTUuMi04LjUtMTAuMS0xNy4zLTE1LTI1LjlsLTUxLjctODkuNmMtOC45LTE1LjMtMTAuNi0zMS40LTMuNi00Ny44LDIuMS01LDUuNS05LjMsOC44LTE0LjcsMS41LDIuMywyLjQsMy40LDMuMSw0LjdxMjQsNDEuNCw0Ny44LDgzYzIuMyw0LjEsNC44LDUuNCw5LjQsNS4zLDEzLjEtLjMsMjYuMy0uMSwzOS40LS4xLDExLjMuMSwxOS4zLDcuNCwxOS40LDE3LjhzLTgsMTguMi0xOS41LDE4LjNaXCIsXG4gICAgICAgICAgdHJhbnNmb3JtOiBcInRyYW5zbGF0ZSgtMTgxLjIgLTE4MS4yKVwiLFxuICAgICAgICB9LFxuICAgICAgfSksXG4gICAgICBfdm0uX3YoXCIgXCIpLFxuICAgICAgX2MoXCJwYXRoXCIsIHtcbiAgICAgICAgYXR0cnM6IHtcbiAgICAgICAgICBkOiBcIk0zMzEuMiw0NzQuNWMtNiwxMC4zLTExLjcsMjAuNS0xNy43LDMwLjRhMTgsMTgsMCwwLDEtMzEuMi0xOC4xYzMuNy02LjksNy43LTEzLjcsMTEuOC0yMC4zYTcuMSw3LjEsMCwwLDEsNC4xLTMuMUMzMTEuMiw0NjAuMiwzMjIuMSw0NjMuOCwzMzEuMiw0NzQuNVpcIixcbiAgICAgICAgICB0cmFuc2Zvcm06IFwidHJhbnNsYXRlKC0xODEuMiAtMTgxLjIpXCIsXG4gICAgICAgIH0sXG4gICAgICB9KSxcbiAgICBdXG4gIClcbn1cbnZhciBzdGF0aWNSZW5kZXJGbnMgPSBbXVxucmVuZGVyLl93aXRoU3RyaXBwZWQgPSB0cnVlXG5cbmV4cG9ydCB7IHJlbmRlciwgc3RhdGljUmVuZGVyRm5zIH0iXSwibmFtZXMiOltdLCJzb3VyY2VSb290IjoiIn0=\n//# sourceURL=webpack-internal:///./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/icons/AppleStore.vue?vue&type=template&id=7b3a0b4c&scoped=true&\n");
 
 /***/ })
 

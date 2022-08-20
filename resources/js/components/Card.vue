@@ -1,18 +1,18 @@
 <template>
     <div class="bkt-card-trade bkt-card__row w-100 mx-auto mx-0">
         <div class="bkt-wrapper-between bkt-card__heading w-100" v-if="item && item.trade">
-            <h5>торги № {{item && item.trade.externalId ? item.trade.externalId : '0'}}</h5>
-            <h5>
-                <span v-if="dateIsPast(item.trade.applicationTime.end) && item.trade.applicationTime && item.trade.applicationTime.end">
+            <h5 class="me-auto">торги № {{item && item.trade.externalId ? item.trade.externalId : '0'}}</h5>
+            <h5 v-if="item.state == 'biddingDeclared' || item.state == 'biddingStart' || item.state == 'applicationSessionStarted'">
+                <span v-if="dateIsFuture(item.trade.applicationTime.end) && item.trade.applicationTime && item.trade.applicationTime.end">
                 дней до окончания приёма заявок: {{ item.trade.applicationTime.end | daysToDate }}
                 </span>
-                <span v-else-if="item.trade.eventTime && item.trade.eventTime.end">
+                <span v-else-if="dateIsFuture(item.trade.eventTime.end) && item.trade.eventTime && item.trade.eventTime.end">
                     дней до окончания торгов: {{item.trade.eventTime.end | daysToDate}}
                 </span>
-                <span v-else-if="item.trade.eventTime && item.trade.eventTime.result">
+                <span v-else-if="dateIsFuture(item.trade.eventTime.result) && item.trade.eventTime && item.trade.eventTime.result">
                    дней до объявления результатов торгов: {{item.trade.eventTime.result | daysToDate}}
                 </span>
-                <span v-else>0 дней</span>
+                <span v-else>торги окончены</span>
                 <span class="bkt-card__icon d-inline-block">
                     <bkt-icon :name="'Alarm'" :color="'green'" :width="'14px'" :height="'14px'"></bkt-icon>
                 </span>
@@ -63,7 +63,10 @@
                             <div class="bkt-card-menu m-0 dropdown-menu dropdown-menu-end position-absolute"
                                  aria-labelledby="dropdownMenuClickableOutside"
                             >
-                                <card-actions :item="item" class="bkt-card-menu-inner" type="menu"></card-actions>
+                                <card-actions :item="item" class="bkt-card-menu-inner" type="menu"
+                                              @changeStatus="changeStatus"
+                                >
+                                </card-actions>
                             </div>
                         </div>
                         <!--                        <button class="bkt-button bkt-bg-primary-lighter bkt-card-menu-button">-->
@@ -234,31 +237,10 @@
             </div>
         </div>
         <div class="col-2 col-lg-1 p-0 d-none d-lg-block">
-            <card-actions :item="item" class="bkt-card bkt-bg-main vertical m-0" button_type="-ellipse"></card-actions>
-            <!--            <div class="bkt-card bkt-bg-main vertical m-0">-->
-            <!--                <button class="bkt-button-ellipse main-light">-->
-            <!--                    <bkt-icon class="bkt-button__icon" :name="'Eye'" :width="'20px'" :height="'18px'"></bkt-icon>-->
-            <!--                </button>-->
-            <!--                <button class="bkt-button-ellipse main-light">-->
-            <!--                    <bkt-icon class="bkt-button__icon" :name="'Pencil'"></bkt-icon>-->
-            <!--                </button>-->
-            <!--                <button class="bkt-button-ellipse main-light">-->
-            <!--                    <bkt-icon class="bkt-button__icon" :name="'Target'"></bkt-icon>-->
-            <!--                </button>-->
-            <!--                <button class="bkt-button-ellipse main-light">-->
-            <!--                    <bkt-icon class="bkt-button__icon" :name="'Star'"></bkt-icon>-->
-            <!--                </button>-->
-            <!--                <button class="bkt-button-ellipse main-light">-->
-            <!--                    <span class="info"></span>-->
-            <!--                    <bkt-icon class="bkt-button__icon" :name="'Bell'"></bkt-icon>-->
-            <!--                </button>-->
-            <!--                <button class="bkt-button-ellipse main-light">-->
-            <!--                    <bkt-icon class="bkt-button__icon" :name="'Clip'" :width="'15px'" :height="'19px'"></bkt-icon>-->
-            <!--                </button>-->
-            <!--                <button class="bkt-button-ellipse">-->
-            <!--                    <bkt-icon class="bkt-button__icon" :name="'Trash'"></bkt-icon>-->
-            <!--                </button>-->
-            <!--            </div>-->
+            <card-actions :item="item" class="bkt-card bkt-bg-main vertical m-0" button_type="-ellipse"
+                          @changeStatus="changeStatus"
+            >
+            </card-actions>
         </div>
     </div>
 </template>
@@ -326,9 +308,12 @@
                 this.$store.commit('setSelectedLot', this.item);
                 this.$store.commit('openModal', '#applicationModal')
             },
-            dateIsPast(date) {
+            dateIsFuture(date) {
                 return this.$moment(date).isAfter(this.$moment())
-            }
+            },
+            changeStatus(payload) {
+                this.$emit('changeStatus', payload)
+            },
         }
     };
 </script>

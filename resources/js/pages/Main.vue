@@ -8,7 +8,9 @@
         <bkt-region-modal></bkt-region-modal>
         <h1 class="bkt-page__title">Электронные торги по банкротству</h1>
 
-        <bkt-search v-model="searchString" method_name="searchTrades" :method_params="{}" immediate_search @selected="selectSearchLot">
+        <bkt-search v-model="searchString" method_name="searchTrades" :method_params="{}" immediate_search
+                    @selected="selectSearchLot" infinite
+        >
             <template #dropdown-block-header>
                 <div class="row w-100 mx-auto align-items-center justify-content-center d-none d-md-flex">
                     <div class="col-2 pl-0">
@@ -159,12 +161,12 @@
                                               @input="getData(1)"
                                 >
                                 </bkt-checkbox>
-                                <bkt-checkbox v-model="filters_other.organizer"
-                                              label="получен ответ организатора"
-                                              name="organizer"
-                                              @input="getData(1)"
-                                >
-                                </bkt-checkbox>
+<!--                                <bkt-checkbox v-model="filters_other.hasAnswer"-->
+<!--                                              label="получен ответ организатора"-->
+<!--                                              name="hasAnswer"-->
+<!--                                              @input="getData(1)"-->
+<!--                                >-->
+<!--                                </bkt-checkbox>-->
                                 <bkt-checkbox v-model="filters_other.isCompleted"
                                               label="завершённые"
                                               name="isCompleted"
@@ -215,12 +217,12 @@
                         </bkt-checkbox>
                     </div>
                     <div class="bkt-check__list">
-                        <bkt-checkbox v-model="filters_other.organizer"
-                                      label="получен ответ организатора"
-                                      name="organizer"
-                                      @input="getData(1)"
-                        >
-                        </bkt-checkbox>
+<!--                        <bkt-checkbox v-model="filters_other.hasAnswer"-->
+<!--                                      label="получен ответ организатора"-->
+<!--                                      name="hasAnswer"-->
+<!--                                      @input="getData(1)"-->
+<!--                        >-->
+<!--                        </bkt-checkbox>-->
                         <bkt-checkbox v-model="filters_other.isCompleted"
                                       label="завершённые"
                                       name="isCompleted"
@@ -240,7 +242,7 @@
             </div>
         </div>
         <bkt-card-list ref="cardList" :current_component="'BktCard'" :items="items" :loading="loading"
-                       :pagination_data="pagination_data" @change-page="getData">
+                       :pagination_data="pagination_data" @change-page="getData" @changeStatus="changeStatus">
         </bkt-card-list>
     </div>
 </template>
@@ -321,17 +323,19 @@
             lots_statistic() {
                 return this.$store.getters.lots_statistic;
             },
+            isLoggedIn() {
+                return this.$store.getters.isLoggedIn
+            },
         },
         watch: {
             isLoggedIn: function (newVal, oldVal) {
-                if (oldVal == false && newVal == true) {
-                    if (this.pagination_data && this.pagination_data.currentPage) {
-                        this.getData(this.pagination_data.currentPage);
-                    } else {
-                        this.getData(1);
-                    }
-
+                // if (oldVal == false && newVal == true) {
+                if (this.pagination_data && this.pagination_data.currentPage) {
+                    this.getData(this.pagination_data.currentPage);
+                } else {
+                    this.getData(1);
                 }
+                // }
             }
         },
         methods: {
@@ -348,6 +352,16 @@
             },
             selectSearchLot(lot) {
                 this.$router.push('/lot/'+lot.id)
+            },
+            changeStatus(payload) {
+                if(payload.key ==='isHide') {
+                    let page = null;
+                    if(payload.page) {
+                        page = payload.page
+                    }
+                    this.getData(page)
+                }
+
             }
         }
     }

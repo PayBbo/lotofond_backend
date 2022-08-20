@@ -94,10 +94,10 @@ export default {
         async registration({dispatch, commit}, payload) {
             await axios.post('/api/registration', payload)
                 .then(resp => {
-                    console.log('then vuex registration')
                     commit('setUser', payload);
                     commit('closeModal', '#authModal');
                     commit('openModal', '#codeModal');
+                    dispatch('registrationCode', payload);
                 })
                 .catch(error => {
                     commit('clearStorage');
@@ -161,28 +161,28 @@ export default {
             });
         },
         async getPasswordCode({commit}, payload) {
-            await axios.post('/api/account/password/code', payload)
-                .then(resp => {
-                    console.log(resp);
-                }).catch(error => {
-                    console.log(error);
-                });
+            return await axios.post('/api/account/password/code', payload)
+                // .then(resp => {
+                //     console.log(resp);
+                // }).catch(error => {
+                //     console.log(error);
+                // });
         },
         async verifyPasswordCode({commit}, payload) {
-            await axios.post('/api/account/password/code/verify', payload)
-                .then(resp => {
-                    console.log(resp);
-                }).catch(error => {
-                    console.log(error);
-                });
+            return await axios.post('/api/account/password/code/verify', payload)
+                // .then(resp => {
+                //     console.log(resp);
+                // }).catch(error => {
+                //     console.log(error);
+                // });
         },
         async resetPassword({commit}, payload) {
-            await axios.post('/api/account/password/reset', payload)
-                .then(resp => {
-                    console.log(resp);
-                }).catch(error => {
-                    console.log(error);
-                });
+            return await axios.post('/api/account/password/reset', payload)
+                // .then(resp => {
+                //     console.log(resp);
+                // }).catch(error => {
+                //     console.log(error);
+                // });
         },
         async changePassword({commit}, payload) {
             return await axios.post('/api/account/password/change', payload)

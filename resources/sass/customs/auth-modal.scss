@@ -167,6 +167,7 @@
             }
         }
     }
+
     &.login {
         & .bkt-modal__aside {
             height: auto;
@@ -195,6 +196,7 @@
             }
 
         }
+
         & .bkt-modal-content {
             border-radius: 0 25px 25px 0;
 
@@ -205,9 +207,11 @@
             & .bkt-modal-footer {
                 border-radius: 0 0 25px 0;
             }
+
             & .bkt-wrapper-between {
                 align-items: center;
                 margin-bottom: 50px;
+
                 .bkt-forgot-password {
                     font-size: 12px;
                     font-family: 'Gilroy', sans-serif;
@@ -219,12 +223,13 @@
                     display: flex;
                     align-items: center;
                     text-decoration: none;
-                    cursor:pointer;
+                    cursor: pointer;
 
                     & svg {
                         transform: rotate(270deg);
                     }
                 }
+
                 .bkt-button.primary {
                     font-size: 16px;
                     color: rgb(255, 255, 255);
@@ -234,6 +239,33 @@
                     margin-bottom: 0;
                 }
 
+            }
+        }
+    }
+
+    &.reset {
+        & .bkt-modal__aside {
+            height: auto;
+            align-items: center;
+            justify-content: center;
+            display: flex;
+
+            &-image {
+                width: 170px;
+                height: 198px;
+                z-index: -1;
+            }
+        }
+
+        & .bkt-modal-content {
+            border-radius: 0 25px 25px 0;
+
+            & .bkt-modal-header {
+                //gap: 20px;
+                margin-bottom: 23px;
+            }
+            & .bkt-modal-body {
+                padding-bottom: 25px;
             }
         }
     }
@@ -264,6 +296,7 @@
                 width: 100%;
                 height: 120px;
                 padding: 25px;
+
                 &-image {
                     width: 119px;
                     height: 132px;
@@ -271,6 +304,7 @@
                     bottom: -8.7%;
                 }
             }
+
             & .bkt-modal-content {
                 max-height: 679px;
                 border-radius: 18px 18px 0 0;
@@ -280,8 +314,10 @@
                 }
             }
         }
+
         &.registration .bkt-modal__aside {
-            height: 670px ;
+            height: 670px;
+
             &-image {
                 width: 204px;
                 height: 276px;
@@ -340,11 +376,14 @@
 @media screen and (max-width: 768px) {
     .bkt-auth-modal {
         & .modal-dialog {
-            margin: 200px auto;
+            //margin: 200px auto;
+            margin: 20% auto;
         }
+
         & .bkt-modal-content {
             border-radius: 18px 0 0 0;
         }
+
         &.login .bkt-modal-content {
             border-radius: 18px 0 0 0;
         }
@@ -403,9 +442,15 @@
         &.login .bkt-modal-content {
             max-height: 100%;
         }
-
+        &.reset .bkt-modal-content {
+            & .bkt-modal-header {
+                padding: 25px 25px 0 25px;
+                margin: 0;
+            }
+        }
         & .bkt-modal-content {
             width: 100%;
+
             & .bkt-modal-body {
                 gap: 25px;
                 padding: 25px;
@@ -438,10 +483,12 @@
                     padding-bottom: 21px;
                 }
             }
+
             & .bkt-modal-header {
                 padding: 25px 25px 0 25px;
                 margin: 0;
             }
+
             & .bkt-modal-footer {
                 padding: 25px;
             }
@@ -529,6 +576,18 @@
         & .modal-dialog {
             max-width: 1170px;
             margin: 1.75rem auto;
+        }
+
+        &.reset {
+            & .bkt-modal-content {
+                width: 385px;
+            }
+            & .modal-dialog {
+                max-width: 670px;
+            }
+            & .bkt-modal__aside {
+                width: 285px;
+            }
         }
 
         &.login .bkt-navbar__nav {

@@ -23,6 +23,7 @@
                         :key="index"
                         :in_process="in_process"
                         :ref="'card'+index"
+                        @changeStatus="changeStatus"
                     />
                 </template>
             </slot>
@@ -169,6 +170,16 @@
             },
             changePage(page) {
                 this.$emit('change-page', page);
+                if(!this.infinite) {
+                    this.scrollToElement();
+                }
+            },
+            changeStatus(payload) {
+                if(this.pagination_data && !this.no_pagination)
+                {
+                    payload.page = this.pagination_data.currentPage;
+                }
+                this.$emit('changeStatus', payload)
                 if(!this.infinite) {
                     this.scrollToElement();
                 }

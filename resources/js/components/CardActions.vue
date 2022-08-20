@@ -1,6 +1,8 @@
 <template>
     <div>
-        <div class="bkt-dropdown dropdown" v-for="action in actions">
+        <div class="bkt-dropdown dropdown" v-for="action in actions"
+             v-if="!action.condition || (action.condition && item[action.status]==true)"
+        >
             <button
                 :class="['bkt-button'+button_type, item[action.status] ? 'bkt-bg-'+action.color : main_bg,
                  action.color ? 'bkt-hover-'+action.color : 'bkt-hover-'+main_bg, action.class]"
@@ -127,7 +129,8 @@
                         method: this.navigate,
                         method_params: {icon: 'Target', path:'/monitoring'},
                         place: 'all',
-                        class: 'bkt-cursor-auto',
+                        class: '',
+                        condition: true
                     },
                     {
                         icon: 'Star',
@@ -150,7 +153,8 @@
                         method: this.navigate,
                         method_params: {icon: 'Bell', path:'/messages'},
                         place: 'all',
-                        class: 'bkt-cursor-auto',
+                        class: '',
+                        condition: true
 
                     },
                     {
@@ -279,22 +283,6 @@
             },
             navigate(payload) {
                 this.$router.push(payload.path)
-            },
-            getColor(icon) {
-                if (this.type == 'menu') {
-                    let index = this.actions.findIndex(item => item.icon == icon);
-                    if (index >= 0) {
-                        return this.actions[index].color
-                    }
-                }
-                return 'white'
-            },
-            getHover(icon) {
-                let index = this.actions.findIndex(item => item.icon == icon);
-                if (index >= 0) {
-                    return this.actions[index].color
-                }
-                return 'main-dark'
             },
             addProcess(icon) {
                 if (this.in_process.findIndex(item => item == icon) < 0) {

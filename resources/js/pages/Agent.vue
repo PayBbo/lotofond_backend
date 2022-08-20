@@ -31,7 +31,7 @@
                     </div>
                     <div class="bkt-promo__block-price">
                         <h2>3000 ₽</h2>
-                        <button class="bkt-button bkt-button_yellow bkt-button_plump">Купить</button>
+                        <button class="bkt-button bkt-button_yellow bkt-button_plump" @click="scrollToElement">Купить</button>
                     </div>
                 </div>
                 <div class="bkt-promo__block-shadow"
@@ -212,7 +212,7 @@
                 увеличиваются до
             </h2><span class="bkt-promo__block-title bkt-text-yellow bkt-promo__block-percentage">80%</span>
         </div>
-        <section>
+        <section ref="form">
             <h2 class="bkt-page__subtitle">Как получить услугу?</h2>
             <ValidationObserver v-slot="{ invalid }" tag="div" class="bkt-card bkt-promo__form bkt-form">
                 <bkt-input
@@ -251,35 +251,45 @@
                 />
                 <div class="bkt-input__wrapper">
                     <label class="bkt-input__label bkt-form__label" style="margin-bottom: 10px;">где вам удобнее общаться</label>
-<!--                    <ValidationProvider :name="'socialsForAnswer'" rules="required|min:1" v-slot="{ errors }">-->
                     <div class="communications">
-                        <button class="bkt-button bkt-bg-body"
-                                :class="service.socialsForAnswer.indexOf('Viber')>=0 ? 'bkt-border-primary': 'bkt-border-body'"
-                                @click="toggleSocial('Viber')">
-                            <bkt-icon name="Viber" color="purple" class="bkt-button__icon"></bkt-icon>
-                        </button>
-                        <button class="bkt-button bkt-bg-body"
-                                :class="service.socialsForAnswer.indexOf('Vk')>=0 ? 'bkt-border-primary': 'bkt-border-body'"
-                                @click="toggleSocial('Vk')"
+                        <bkt-checkbox
+                            input_class="bkt-button bkt-bg-body" name="Viber"
+                            v-model="service.socialsForAnswer" val="Viber" type="radio"
+                            :border_color="service.socialsForAnswer=='Viber' ? 'primary': 'body'"
                         >
-                            <bkt-icon name="Vk" color="primary" class="bkt-button__icon"></bkt-icon>
-                        </button>
-                        <button class="bkt-button bkt-bg-body"
-                                :class="service.socialsForAnswer.indexOf('Telegram')>=0 ? 'bkt-border-primary': 'bkt-border-body'"
-                                @click="toggleSocial('Telegram')"
+                            <template #input-check>
+                                <bkt-icon name="Viber" color="purple" class="bkt-button__icon"></bkt-icon>
+                            </template>
+                        </bkt-checkbox>
+                        <bkt-checkbox
+                            input_class="bkt-button bkt-bg-body" name="Vk"
+                            v-model="service.socialsForAnswer" val="Vk" type="radio"
+                            :border_color="service.socialsForAnswer=='Vk' ? 'primary': 'body'"
                         >
-                            <bkt-icon name="Telegram" color="blue" class="bkt-button__icon"></bkt-icon>
-                        </button>
-                        <button class="bkt-button bkt-bg-body"
-                                :class="service.socialsForAnswer.indexOf('WhatsApp')>=0 ? 'bkt-border-primary': 'bkt-border-body'"
-                                @click="toggleSocial('WhatsApp')"
+                            <template #input-check>
+                                <bkt-icon name="Vk" color="primary" class="bkt-button__icon"></bkt-icon>
+                            </template>
+                        </bkt-checkbox>
+                        <bkt-checkbox
+                            input_class="bkt-button bkt-bg-body" name="Telegram"
+                            v-model="service.socialsForAnswer" val="Telegram" type="radio"
+                            :border_color="service.socialsForAnswer=='Telegram' ? 'primary': 'body'"
                         >
-                            <bkt-icon name="WhatsApp" color="green" class="bkt-button__icon"></bkt-icon>
-                        </button>
+                            <template #input-check>
+                                <bkt-icon name="Telegram" color="blue" class="bkt-button__icon"></bkt-icon>
+                            </template>
+                        </bkt-checkbox>
+                        <bkt-checkbox
+                            input_class="bkt-button bkt-bg-body" name="WhatsApp"
+                            v-model="service.socialsForAnswer" val="WhatsApp" type="radio"
+                            :border_color="service.socialsForAnswer=='WhatsApp' ? 'primary': 'body'"
+                        >
+                            <template #input-check>
+                                <bkt-icon name="WhatsApp" color="green" class="bkt-button__icon"></bkt-icon>
+                            </template>
+                        </bkt-checkbox>
                         <div class="bkt-button bkt-bg-body bkt-text-main">перезвоним в течение 10 минут</div>
                     </div>
-<!--                        <p class="bkt-input-error"  v-if="errors.length>0">{{errors[0]}}</p>-->
-<!--                    </ValidationProvider>-->
                 </div>
                 <div class="bkt-input__wrapper">
                     <label class="bkt-form__label">
@@ -433,7 +443,7 @@
                         данных.
                     </template>
                 </bkt-checkbox>
-                <button class="bkt-button primary" :disabled="invalid || loading">
+                <button class="bkt-button primary" :disabled="invalid || loading" @click="sendApplication">
                     Получить услугу
                 </button>
             </ValidationObserver>
@@ -451,7 +461,7 @@
                     name: '',
                     email: '',
                     phone: '',
-                    socialsForAnswer: [],
+                    socialsForAnswer: 'Viber',
                     date: '',
                     terms: false,
                 }
@@ -460,22 +470,22 @@
         methods: {
             sendApplication() {
                 this.loading = true;
-                axios.post('/api/send/', this.service)
-                    .then(resp => {
+                let data = JSON.parse(JSON.stringify(this.service));
+                data.socialsForAnswer = [this.service.socialsForAnswer];
+                // axios.post('/api/send/', data)
+                //     .then(resp => {
                         this.loading = false;
-                    })
-                    .catch(error => {
-                        this.loading = false;
-                    })
+                // this.$store.dispatch('sendNotification',
+                //     {self: this, message:'Заявка на услугу успешно отправлена менеджеру'})
+                //     })
+                //     .catch(error => {
+                //         this.loading = false;
+                //     })
             },
-            toggleSocial(social) {
-                let index = this.service.socialsForAnswer.indexOf(social);
-                if(index < 0)
-                {
-                    this.service.socialsForAnswer.push(social)
-                }
-                else {
-                    this.service.socialsForAnswer.splice(index, 1)
+            scrollToElement() {
+                const el = this.$refs.form;
+                if (el) {
+                    el.scrollIntoView({ block: 'start', scrollBehavior: 'smooth' });
                 }
             }
         }

@@ -78,8 +78,9 @@
                 </div>
                 <div class="bkt-favourites__filters-card bkt-wrapper-column bkt-gap-large" v-if="search_mode">
                     <div class="bkt-menu__search">
-                        <bkt-search v-model="params.searchField" no_dropdown :loading="loading" simple
+                        <bkt-search v-model="params.includedWords" no_dropdown :loading="loading" simple
                                     @runSearch="getData(1)" search_class="bkt-register-collapse__search"
+                                    placeholder="Нужные слова через запятую"
                         >
                         </bkt-search>
                     </div>
@@ -253,7 +254,7 @@
                 </div>
             </div>
             <bkt-card-list :current_component="'BktCard'" :items="items" :loading="loading"
-                           :pagination_data="pagination_data" @change-page="getData"
+                           :pagination_data="pagination_data" @change-page="getData" @changeStatus="changeStatus"
             >
             </bkt-card-list>
         </div>
@@ -403,8 +404,17 @@
                     .then(resp => {
                         this.setCurrentPath(this.items_paths[0].pathId)
                     });
-            }
+            },
+            changeStatus(payload) {
+                if(payload.key ==='isHide' || payload.key ==='inFavourite') {
+                    let page = null;
+                    if(payload.page) {
+                        page = payload.page
+                    }
+                    this.getData(page)
+                }
 
+            }
         }
     }
 </script>

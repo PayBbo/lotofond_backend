@@ -48,8 +48,8 @@
                          role="button"
                          data-bs-toggle="dropdown"
                          aria-haspopup="true"
-                         aria-expanded="false">
-
+                         aria-expanded="false"
+                    >
                         <div class="bkt-navbar__user text-truncate me-1">
                             <div class="bkt-navbar__user-name text-truncate">
                                 {{ auth_user ? auth_user.name : '' }} {{ auth_user ? auth_user.surname : '' }}
@@ -63,7 +63,7 @@
                         </div>
                     </div>
                     <div class="dropdown-menu dropdown-menu-right bkt-navbar__user-dropdown"
-                         aria-labelledby="navbarDropdown">
+                         aria-labelledby="navbarDropdown" v-if="!loading">
                         <div class="bkt-navbar__user-dropdown-menu">
                             <button class="bkt-button bkt-tarif-button">Сменить тариф</button>
                             <div class="bkt-navbar__user-dropdown-item">
@@ -230,12 +230,20 @@
         </div>
         <bkt-auth-modal v-if="!isLoggedIn"></bkt-auth-modal>
         <bkt-code-modal v-if="!isLoggedIn"></bkt-code-modal>
+        <bkt-reset-password-modal v-if="!isLoggedIn"></bkt-reset-password-modal>
+        <bkt-reset-success-modal v-if="!isLoggedIn"></bkt-reset-success-modal>
     </header>
 </template>
 
 <script>
+    import BktResetPasswordModal from "../auth/ResetPasswordModal";
+    import BktResetSuccessModal from "../auth/ResetSuccessModal";
     export default {
         name: "Header",
+        components: {
+            BktResetPasswordModal,
+            BktResetSuccessModal
+        },
         data() {
             return {
                 loading: false,
@@ -357,7 +365,9 @@
                 this.loading = true;
                 await this.$store.dispatch('logout').then(resp => {
                     this.loading = false;
-                    this.$router.push('/')
+                    if( this.$router.currentRoute.name != 'Main') {
+                        this.$router.push('/')
+                    }
                 }).catch(error => {
                     this.loading = false;
                 })

@@ -1,4 +1,12 @@
 "use strict";
+/*
+ * ATTENTION: An "eval-source-map" devtool has been used.
+ * This devtool is neither made for production nor for readable output files.
+ * It uses "eval()" calls to create a separate source file with attached SourceMaps in the browser devtools.
+ * If you are trying to read the output file, select a different devtool (https://webpack.js.org/configuration/devtool/)
+ * or disable the default devtool with "devtool: false".
+ * If you are looking for production-ready output files, see mode: "production" (https://webpack.js.org/configuration/mode/).
+ */
 (self["webpackChunk"] = self["webpackChunk"] || []).push([["resources_js_icons_Telegram_vue"],{
 
 /***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/icons/Telegram.vue?vue&type=script&lang=js&":
@@ -7,35 +15,7 @@
   \**********************************************************************************************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-//
-//
-//
-//
-//
-//
-//
-//
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  name: "Telegram",
-  props: {
-    color: {
-      type: String,
-      "default": 'white'
-    },
-    width: {
-      type: String,
-      "default": '100%'
-    },
-    height: {
-      type: String,
-      "default": '100%'
-    }
-  }
-});
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (__WEBPACK_DEFAULT_EXPORT__)\n/* harmony export */ });\n//\n//\n//\n//\n//\n//\n//\n//\n/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({\n  name: \"Telegram\",\n  props: {\n    color: {\n      type: String,\n      \"default\": 'white'\n    },\n    width: {\n      type: String,\n      \"default\": '100%'\n    },\n    height: {\n      type: String,\n      \"default\": '100%'\n    }\n  }\n});//# sourceURL=[module]\n//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiLi9ub2RlX21vZHVsZXMvYmFiZWwtbG9hZGVyL2xpYi9pbmRleC5qcz8/Y2xvbmVkUnVsZVNldC01WzBdLnJ1bGVzWzBdLnVzZVswXSEuL25vZGVfbW9kdWxlcy92dWUtbG9hZGVyL2xpYi9pbmRleC5qcz8/dnVlLWxvYWRlci1vcHRpb25zIS4vcmVzb3VyY2VzL2pzL2ljb25zL1RlbGVncmFtLnZ1ZT92dWUmdHlwZT1zY3JpcHQmbGFuZz1qcyYuanMiLCJtYXBwaW5ncyI6Ijs7Ozs7Ozs7Ozs7O0FBU0E7RUFDQUEsZ0JBREE7RUFFQUM7SUFDQUM7TUFDQUMsWUFEQTtNQUVBO0lBRkEsQ0FEQTtJQUtBQztNQUNBRCxZQURBO01BRUE7SUFGQSxDQUxBO0lBU0FFO01BQ0FGLFlBREE7TUFFQTtJQUZBO0VBVEE7QUFGQSIsInNvdXJjZXMiOlsid2VicGFjazovLy9yZXNvdXJjZXMvanMvaWNvbnMvVGVsZWdyYW0udnVlPzc5Y2EiXSwic291cmNlc0NvbnRlbnQiOlsiPHRlbXBsYXRlPlxuICAgIDxzdmcgeG1sbnM9XCJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2Z1wiIDpjbGFzcz1cIidia3QtZmlsbCBia3QtZmlsbC0nK2NvbG9yXCIgOndpZHRoPVwid2lkdGhcIiA6aGVpZ2h0PVwiaGVpZ2h0XCIgdmlld0JveD1cIjAgMCA1MTIgNDI2LjZcIj5cbiAgICAgICAgPHBhdGhcbiAgICAgICAgICAgIGQ9XCJNMTQ1LDM4OHYtNmMyLjEtMi44LDMuNi02LjQsNi40LTguMSw2LjUtNC4yLDEzLjMtOC4zLDIwLjUtMTEuMXExNjIuOS02Mi43LDMyNS45LTEyNC45bDEyNC4zLTQ3LjZjMTYuMS02LjIsMzEuMS0xLjIsMzQuNCwxNi44YTQuMSw0LjEsMCwwLDAsLjUuOXYxM2MtLjUsMS45LTEuMSwzLjgtMS41LDUuN2wtNzQuNywzNTBjLTEuNyw4LTMuNiwxNi02LjcsMjMuNS01LjQsMTIuNi0xNS43LDE2LjktMjguNywxMi41YTUxLjgsNTEuOCwwLDAsMS0xMi44LTYuNkM0OTYuMyw1NzkuNyw0NjAsNTUzLDQyMy43LDUyNi41Yy02LjktNS4xLTQuNy01LjItMTEuMS45LTE4LjMsMTcuMy0zNi40LDM0LjctNTQuNiw1Mi4xLTUuNiw1LjQtMTIsOC42LTIwLjUsOC4yLjUtNy40LDEtMTQuNSwxLjUtMjEuNiwyLjItMzEuMSw0LjQtNjIuMSw2LjgtOTMuMmExMSwxMSwwLDAsMSwzLjMtNi43cTEwMy4yLTkzLDIwNi43LTE4NS44YzMuMy0zLDYuOC01LjksOS44LTkuMiwxLTEuMiwxLjgtMy42LDEuMy00LjlzLTMuMS0yLjUtNC40LTIuMmMtNC43LDEuMi05LjgsMi4zLTEzLjksNC44LTMwLjYsMTguOS02MSwzOC4xLTkxLjUsNTcuMXEtODYuOSw1NC41LTE3My43LDEwOC42Yy0xLjcsMS4xLTQuNCwyLTYuMiwxLjVsLTExNS44LTM2QzE1NC41LDM5OCwxNDguOCwzOTQuMywxNDUsMzg4WlwiXG4gICAgICAgICAgICB0cmFuc2Zvcm09XCJ0cmFuc2xhdGUoLTE0NSAtMTg3LjcpXCIvPlxuICAgIDwvc3ZnPlxuPC90ZW1wbGF0ZT5cblxuPHNjcmlwdD5cbiAgICBleHBvcnQgZGVmYXVsdCB7XG4gICAgICAgIG5hbWU6IFwiVGVsZWdyYW1cIixcbiAgICAgICAgcHJvcHM6IHtcbiAgICAgICAgICAgIGNvbG9yOiB7XG4gICAgICAgICAgICAgICAgdHlwZTogU3RyaW5nLFxuICAgICAgICAgICAgICAgIGRlZmF1bHQ6ICd3aGl0ZSdcbiAgICAgICAgICAgIH0sXG4gICAgICAgICAgICB3aWR0aDp7XG4gICAgICAgICAgICAgICAgdHlwZTpTdHJpbmcsXG4gICAgICAgICAgICAgICAgZGVmYXVsdDonMTAwJSdcbiAgICAgICAgICAgIH0sXG4gICAgICAgICAgICBoZWlnaHQ6e1xuICAgICAgICAgICAgICAgIHR5cGU6U3RyaW5nLFxuICAgICAgICAgICAgICAgIGRlZmF1bHQ6JzEwMCUnXG4gICAgICAgICAgICB9LFxuICAgICAgICB9XG4gICAgfVxuPC9zY3JpcHQ+XG5cbjxzdHlsZSBzY29wZWQ+XG5cbjwvc3R5bGU+XG4iXSwibmFtZXMiOlsibmFtZSIsInByb3BzIiwiY29sb3IiLCJ0eXBlIiwid2lkdGgiLCJoZWlnaHQiXSwic291cmNlUm9vdCI6IiJ9\n//# sourceURL=webpack-internal:///./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/icons/Telegram.vue?vue&type=script&lang=js&\n");
 
 /***/ }),
 
@@ -45,35 +25,7 @@ __webpack_require__.r(__webpack_exports__);
   \*****************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var _Telegram_vue_vue_type_template_id_3d9a7918_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Telegram.vue?vue&type=template&id=3d9a7918&scoped=true& */ "./resources/js/icons/Telegram.vue?vue&type=template&id=3d9a7918&scoped=true&");
-/* harmony import */ var _Telegram_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Telegram.vue?vue&type=script&lang=js& */ "./resources/js/icons/Telegram.vue?vue&type=script&lang=js&");
-/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
-
-
-
-
-
-/* normalize component */
-;
-var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
-  _Telegram_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
-  _Telegram_vue_vue_type_template_id_3d9a7918_scoped_true___WEBPACK_IMPORTED_MODULE_0__.render,
-  _Telegram_vue_vue_type_template_id_3d9a7918_scoped_true___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
-  false,
-  null,
-  "3d9a7918",
-  null
-  
-)
-
-/* hot reload */
-if (false) { var api; }
-component.options.__file = "resources/js/icons/Telegram.vue"
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (component.exports);
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (__WEBPACK_DEFAULT_EXPORT__)\n/* harmony export */ });\n/* harmony import */ var _Telegram_vue_vue_type_template_id_3d9a7918_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Telegram.vue?vue&type=template&id=3d9a7918&scoped=true& */ \"./resources/js/icons/Telegram.vue?vue&type=template&id=3d9a7918&scoped=true&\");\n/* harmony import */ var _Telegram_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Telegram.vue?vue&type=script&lang=js& */ \"./resources/js/icons/Telegram.vue?vue&type=script&lang=js&\");\n/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ \"./node_modules/vue-loader/lib/runtime/componentNormalizer.js\");\n\n\n\n\n\n/* normalize component */\n;\nvar component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__[\"default\"])(\n  _Telegram_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__[\"default\"],\n  _Telegram_vue_vue_type_template_id_3d9a7918_scoped_true___WEBPACK_IMPORTED_MODULE_0__.render,\n  _Telegram_vue_vue_type_template_id_3d9a7918_scoped_true___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,\n  false,\n  null,\n  \"3d9a7918\",\n  null\n  \n)\n\n/* hot reload */\nif (false) { var api; }\ncomponent.options.__file = \"resources/js/icons/Telegram.vue\"\n/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (component.exports);//# sourceURL=[module]\n//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiLi9yZXNvdXJjZXMvanMvaWNvbnMvVGVsZWdyYW0udnVlLmpzIiwibWFwcGluZ3MiOiI7Ozs7Ozs7QUFBbUc7QUFDdkM7QUFDTDs7O0FBR3ZEO0FBQ0EsQ0FBNkY7QUFDN0YsZ0JBQWdCLHVHQUFVO0FBQzFCLEVBQUUsOEVBQU07QUFDUixFQUFFLDRGQUFNO0FBQ1IsRUFBRSxxR0FBZTtBQUNqQjtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7O0FBRUE7QUFDQSxJQUFJLEtBQVUsRUFBRSxZQWlCZjtBQUNEO0FBQ0EsaUVBQWUiLCJzb3VyY2VzIjpbIndlYnBhY2s6Ly8vLi9yZXNvdXJjZXMvanMvaWNvbnMvVGVsZWdyYW0udnVlPzE2YzkiXSwic291cmNlc0NvbnRlbnQiOlsiaW1wb3J0IHsgcmVuZGVyLCBzdGF0aWNSZW5kZXJGbnMgfSBmcm9tIFwiLi9UZWxlZ3JhbS52dWU/dnVlJnR5cGU9dGVtcGxhdGUmaWQ9M2Q5YTc5MTgmc2NvcGVkPXRydWUmXCJcbmltcG9ydCBzY3JpcHQgZnJvbSBcIi4vVGVsZWdyYW0udnVlP3Z1ZSZ0eXBlPXNjcmlwdCZsYW5nPWpzJlwiXG5leHBvcnQgKiBmcm9tIFwiLi9UZWxlZ3JhbS52dWU/dnVlJnR5cGU9c2NyaXB0Jmxhbmc9anMmXCJcblxuXG4vKiBub3JtYWxpemUgY29tcG9uZW50ICovXG5pbXBvcnQgbm9ybWFsaXplciBmcm9tIFwiIS4uLy4uLy4uL25vZGVfbW9kdWxlcy92dWUtbG9hZGVyL2xpYi9ydW50aW1lL2NvbXBvbmVudE5vcm1hbGl6ZXIuanNcIlxudmFyIGNvbXBvbmVudCA9IG5vcm1hbGl6ZXIoXG4gIHNjcmlwdCxcbiAgcmVuZGVyLFxuICBzdGF0aWNSZW5kZXJGbnMsXG4gIGZhbHNlLFxuICBudWxsLFxuICBcIjNkOWE3OTE4XCIsXG4gIG51bGxcbiAgXG4pXG5cbi8qIGhvdCByZWxvYWQgKi9cbmlmIChtb2R1bGUuaG90KSB7XG4gIHZhciBhcGkgPSByZXF1aXJlKFwiZTpcXFxcT3BlblNlcnZlclxcXFxPU1BhbmVsXFxcXGRvbWFpbnNcXFxcYmFua3JvdFxcXFxub2RlX21vZHVsZXNcXFxcdnVlLWhvdC1yZWxvYWQtYXBpXFxcXGRpc3RcXFxcaW5kZXguanNcIilcbiAgYXBpLmluc3RhbGwocmVxdWlyZSgndnVlJykpXG4gIGlmIChhcGkuY29tcGF0aWJsZSkge1xuICAgIG1vZHVsZS5ob3QuYWNjZXB0KClcbiAgICBpZiAoIWFwaS5pc1JlY29yZGVkKCczZDlhNzkxOCcpKSB7XG4gICAgICBhcGkuY3JlYXRlUmVjb3JkKCczZDlhNzkxOCcsIGNvbXBvbmVudC5vcHRpb25zKVxuICAgIH0gZWxzZSB7XG4gICAgICBhcGkucmVsb2FkKCczZDlhNzkxOCcsIGNvbXBvbmVudC5vcHRpb25zKVxuICAgIH1cbiAgICBtb2R1bGUuaG90LmFjY2VwdChcIi4vVGVsZWdyYW0udnVlP3Z1ZSZ0eXBlPXRlbXBsYXRlJmlkPTNkOWE3OTE4JnNjb3BlZD10cnVlJlwiLCBmdW5jdGlvbiAoKSB7XG4gICAgICBhcGkucmVyZW5kZXIoJzNkOWE3OTE4Jywge1xuICAgICAgICByZW5kZXI6IHJlbmRlcixcbiAgICAgICAgc3RhdGljUmVuZGVyRm5zOiBzdGF0aWNSZW5kZXJGbnNcbiAgICAgIH0pXG4gICAgfSlcbiAgfVxufVxuY29tcG9uZW50Lm9wdGlvbnMuX19maWxlID0gXCJyZXNvdXJjZXMvanMvaWNvbnMvVGVsZWdyYW0udnVlXCJcbmV4cG9ydCBkZWZhdWx0IGNvbXBvbmVudC5leHBvcnRzIl0sIm5hbWVzIjpbXSwic291cmNlUm9vdCI6IiJ9\n//# sourceURL=webpack-internal:///./resources/js/icons/Telegram.vue\n");
 
 /***/ }),
 
@@ -83,12 +35,7 @@ component.options.__file = "resources/js/icons/Telegram.vue"
   \******************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Telegram_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./Telegram.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/icons/Telegram.vue?vue&type=script&lang=js&");
- /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Telegram_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (__WEBPACK_DEFAULT_EXPORT__)\n/* harmony export */ });\n/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Telegram_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./Telegram.vue?vue&type=script&lang=js& */ \"./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/icons/Telegram.vue?vue&type=script&lang=js&\");\n /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Telegram_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__[\"default\"]); //# sourceURL=[module]\n//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiLi9yZXNvdXJjZXMvanMvaWNvbnMvVGVsZWdyYW0udnVlP3Z1ZSZ0eXBlPXNjcmlwdCZsYW5nPWpzJi5qcyIsIm1hcHBpbmdzIjoiOzs7OztBQUFrTixDQUFDLGlFQUFlLDZNQUFHLEVBQUMiLCJzb3VyY2VzIjpbIndlYnBhY2s6Ly8vLi9yZXNvdXJjZXMvanMvaWNvbnMvVGVsZWdyYW0udnVlP2JkNjUiXSwic291cmNlc0NvbnRlbnQiOlsiaW1wb3J0IG1vZCBmcm9tIFwiLSEuLi8uLi8uLi9ub2RlX21vZHVsZXMvYmFiZWwtbG9hZGVyL2xpYi9pbmRleC5qcz8/Y2xvbmVkUnVsZVNldC01WzBdLnJ1bGVzWzBdLnVzZVswXSEuLi8uLi8uLi9ub2RlX21vZHVsZXMvdnVlLWxvYWRlci9saWIvaW5kZXguanM/P3Z1ZS1sb2FkZXItb3B0aW9ucyEuL1RlbGVncmFtLnZ1ZT92dWUmdHlwZT1zY3JpcHQmbGFuZz1qcyZcIjsgZXhwb3J0IGRlZmF1bHQgbW9kOyBleHBvcnQgKiBmcm9tIFwiLSEuLi8uLi8uLi9ub2RlX21vZHVsZXMvYmFiZWwtbG9hZGVyL2xpYi9pbmRleC5qcz8/Y2xvbmVkUnVsZVNldC01WzBdLnJ1bGVzWzBdLnVzZVswXSEuLi8uLi8uLi9ub2RlX21vZHVsZXMvdnVlLWxvYWRlci9saWIvaW5kZXguanM/P3Z1ZS1sb2FkZXItb3B0aW9ucyEuL1RlbGVncmFtLnZ1ZT92dWUmdHlwZT1zY3JpcHQmbGFuZz1qcyZcIiJdLCJuYW1lcyI6W10sInNvdXJjZVJvb3QiOiIifQ==\n//# sourceURL=webpack-internal:///./resources/js/icons/Telegram.vue?vue&type=script&lang=js&\n");
 
 /***/ }),
 
@@ -114,40 +61,7 @@ __webpack_require__.r(__webpack_exports__);
   \***************************************************************************************************************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "render": () => (/* binding */ render),
-/* harmony export */   "staticRenderFns": () => (/* binding */ staticRenderFns)
-/* harmony export */ });
-var render = function () {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c(
-    "svg",
-    {
-      class: "bkt-fill bkt-fill-" + _vm.color,
-      attrs: {
-        xmlns: "http://www.w3.org/2000/svg",
-        width: _vm.width,
-        height: _vm.height,
-        viewBox: "0 0 512 426.6",
-      },
-    },
-    [
-      _c("path", {
-        attrs: {
-          d: "M145,388v-6c2.1-2.8,3.6-6.4,6.4-8.1,6.5-4.2,13.3-8.3,20.5-11.1q162.9-62.7,325.9-124.9l124.3-47.6c16.1-6.2,31.1-1.2,34.4,16.8a4.1,4.1,0,0,0,.5.9v13c-.5,1.9-1.1,3.8-1.5,5.7l-74.7,350c-1.7,8-3.6,16-6.7,23.5-5.4,12.6-15.7,16.9-28.7,12.5a51.8,51.8,0,0,1-12.8-6.6C496.3,579.7,460,553,423.7,526.5c-6.9-5.1-4.7-5.2-11.1.9-18.3,17.3-36.4,34.7-54.6,52.1-5.6,5.4-12,8.6-20.5,8.2.5-7.4,1-14.5,1.5-21.6,2.2-31.1,4.4-62.1,6.8-93.2a11,11,0,0,1,3.3-6.7q103.2-93,206.7-185.8c3.3-3,6.8-5.9,9.8-9.2,1-1.2,1.8-3.6,1.3-4.9s-3.1-2.5-4.4-2.2c-4.7,1.2-9.8,2.3-13.9,4.8-30.6,18.9-61,38.1-91.5,57.1q-86.9,54.5-173.7,108.6c-1.7,1.1-4.4,2-6.2,1.5l-115.8-36C154.5,398,148.8,394.3,145,388Z",
-          transform: "translate(-145 -187.7)",
-        },
-      }),
-    ]
-  )
-}
-var staticRenderFns = []
-render._withStripped = true
-
-
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"render\": () => (/* binding */ render),\n/* harmony export */   \"staticRenderFns\": () => (/* binding */ staticRenderFns)\n/* harmony export */ });\nvar render = function () {\n  var _vm = this\n  var _h = _vm.$createElement\n  var _c = _vm._self._c || _h\n  return _c(\n    \"svg\",\n    {\n      class: \"bkt-fill bkt-fill-\" + _vm.color,\n      attrs: {\n        xmlns: \"http://www.w3.org/2000/svg\",\n        width: _vm.width,\n        height: _vm.height,\n        viewBox: \"0 0 512 426.6\",\n      },\n    },\n    [\n      _c(\"path\", {\n        attrs: {\n          d: \"M145,388v-6c2.1-2.8,3.6-6.4,6.4-8.1,6.5-4.2,13.3-8.3,20.5-11.1q162.9-62.7,325.9-124.9l124.3-47.6c16.1-6.2,31.1-1.2,34.4,16.8a4.1,4.1,0,0,0,.5.9v13c-.5,1.9-1.1,3.8-1.5,5.7l-74.7,350c-1.7,8-3.6,16-6.7,23.5-5.4,12.6-15.7,16.9-28.7,12.5a51.8,51.8,0,0,1-12.8-6.6C496.3,579.7,460,553,423.7,526.5c-6.9-5.1-4.7-5.2-11.1.9-18.3,17.3-36.4,34.7-54.6,52.1-5.6,5.4-12,8.6-20.5,8.2.5-7.4,1-14.5,1.5-21.6,2.2-31.1,4.4-62.1,6.8-93.2a11,11,0,0,1,3.3-6.7q103.2-93,206.7-185.8c3.3-3,6.8-5.9,9.8-9.2,1-1.2,1.8-3.6,1.3-4.9s-3.1-2.5-4.4-2.2c-4.7,1.2-9.8,2.3-13.9,4.8-30.6,18.9-61,38.1-91.5,57.1q-86.9,54.5-173.7,108.6c-1.7,1.1-4.4,2-6.2,1.5l-115.8-36C154.5,398,148.8,394.3,145,388Z\",\n          transform: \"translate(-145 -187.7)\",\n        },\n      }),\n    ]\n  )\n}\nvar staticRenderFns = []\nrender._withStripped = true\n\n//# sourceURL=[module]\n//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiLi9ub2RlX21vZHVsZXMvdnVlLWxvYWRlci9saWIvbG9hZGVycy90ZW1wbGF0ZUxvYWRlci5qcz8/dnVlLWxvYWRlci1vcHRpb25zIS4vbm9kZV9tb2R1bGVzL3Z1ZS1sb2FkZXIvbGliL2luZGV4LmpzPz92dWUtbG9hZGVyLW9wdGlvbnMhLi9yZXNvdXJjZXMvanMvaWNvbnMvVGVsZWdyYW0udnVlP3Z1ZSZ0eXBlPXRlbXBsYXRlJmlkPTNkOWE3OTE4JnNjb3BlZD10cnVlJi5qcyIsIm1hcHBpbmdzIjoiOzs7OztBQUFBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0EsT0FBTztBQUNQLEtBQUs7QUFDTDtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0EsU0FBUztBQUNULE9BQU87QUFDUDtBQUNBO0FBQ0E7QUFDQTtBQUNBIiwic291cmNlcyI6WyJ3ZWJwYWNrOi8vLy4vcmVzb3VyY2VzL2pzL2ljb25zL1RlbGVncmFtLnZ1ZT84ODcwIl0sInNvdXJjZXNDb250ZW50IjpbInZhciByZW5kZXIgPSBmdW5jdGlvbiAoKSB7XG4gIHZhciBfdm0gPSB0aGlzXG4gIHZhciBfaCA9IF92bS4kY3JlYXRlRWxlbWVudFxuICB2YXIgX2MgPSBfdm0uX3NlbGYuX2MgfHwgX2hcbiAgcmV0dXJuIF9jKFxuICAgIFwic3ZnXCIsXG4gICAge1xuICAgICAgY2xhc3M6IFwiYmt0LWZpbGwgYmt0LWZpbGwtXCIgKyBfdm0uY29sb3IsXG4gICAgICBhdHRyczoge1xuICAgICAgICB4bWxuczogXCJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2Z1wiLFxuICAgICAgICB3aWR0aDogX3ZtLndpZHRoLFxuICAgICAgICBoZWlnaHQ6IF92bS5oZWlnaHQsXG4gICAgICAgIHZpZXdCb3g6IFwiMCAwIDUxMiA0MjYuNlwiLFxuICAgICAgfSxcbiAgICB9LFxuICAgIFtcbiAgICAgIF9jKFwicGF0aFwiLCB7XG4gICAgICAgIGF0dHJzOiB7XG4gICAgICAgICAgZDogXCJNMTQ1LDM4OHYtNmMyLjEtMi44LDMuNi02LjQsNi40LTguMSw2LjUtNC4yLDEzLjMtOC4zLDIwLjUtMTEuMXExNjIuOS02Mi43LDMyNS45LTEyNC45bDEyNC4zLTQ3LjZjMTYuMS02LjIsMzEuMS0xLjIsMzQuNCwxNi44YTQuMSw0LjEsMCwwLDAsLjUuOXYxM2MtLjUsMS45LTEuMSwzLjgtMS41LDUuN2wtNzQuNywzNTBjLTEuNyw4LTMuNiwxNi02LjcsMjMuNS01LjQsMTIuNi0xNS43LDE2LjktMjguNywxMi41YTUxLjgsNTEuOCwwLDAsMS0xMi44LTYuNkM0OTYuMyw1NzkuNyw0NjAsNTUzLDQyMy43LDUyNi41Yy02LjktNS4xLTQuNy01LjItMTEuMS45LTE4LjMsMTcuMy0zNi40LDM0LjctNTQuNiw1Mi4xLTUuNiw1LjQtMTIsOC42LTIwLjUsOC4yLjUtNy40LDEtMTQuNSwxLjUtMjEuNiwyLjItMzEuMSw0LjQtNjIuMSw2LjgtOTMuMmExMSwxMSwwLDAsMSwzLjMtNi43cTEwMy4yLTkzLDIwNi43LTE4NS44YzMuMy0zLDYuOC01LjksOS44LTkuMiwxLTEuMiwxLjgtMy42LDEuMy00LjlzLTMuMS0yLjUtNC40LTIuMmMtNC43LDEuMi05LjgsMi4zLTEzLjksNC44LTMwLjYsMTguOS02MSwzOC4xLTkxLjUsNTcuMXEtODYuOSw1NC41LTE3My43LDEwOC42Yy0xLjcsMS4xLTQuNCwyLTYuMiwxLjVsLTExNS44LTM2QzE1NC41LDM5OCwxNDguOCwzOTQuMywxNDUsMzg4WlwiLFxuICAgICAgICAgIHRyYW5zZm9ybTogXCJ0cmFuc2xhdGUoLTE0NSAtMTg3LjcpXCIsXG4gICAgICAgIH0sXG4gICAgICB9KSxcbiAgICBdXG4gIClcbn1cbnZhciBzdGF0aWNSZW5kZXJGbnMgPSBbXVxucmVuZGVyLl93aXRoU3RyaXBwZWQgPSB0cnVlXG5cbmV4cG9ydCB7IHJlbmRlciwgc3RhdGljUmVuZGVyRm5zIH0iXSwibmFtZXMiOltdLCJzb3VyY2VSb290IjoiIn0=\n//# sourceURL=webpack-internal:///./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/icons/Telegram.vue?vue&type=template&id=3d9a7918&scoped=true&\n");
 
 /***/ })
 

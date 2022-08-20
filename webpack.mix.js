@@ -39,7 +39,14 @@ mix.webpackConfig({
 
 mix.js('resources/js/app.js', 'public/js')
     .vue()
-    .sass("resources/sass/app.scss", "public/css");
+    .sass("resources/sass/app.scss", "public/css").options({
+    postCss: [
+        require('autoprefixer')({
+            // browsers: ['last 40 versions'],
+        })
+    ]
+})
+    .sourceMaps();
     // .postCss('resources/css/app.css', 'public/css', [
     //     //
     // ]);
