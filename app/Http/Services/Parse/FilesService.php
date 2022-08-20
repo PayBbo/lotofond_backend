@@ -108,7 +108,7 @@ class FilesService
         logger('DOCX');
         logger($path);
         try {
-            //exec(`unar -D ` . $filename . ` -o ` . $full_path);
+            exec(`unar -D ` . $filename . ` -o ` . $full_path);
             if (is_dir($full_path . 'word\\')) {
                 $results = scandir($full_path . 'word\\');
                 foreach ($results as $result) {
