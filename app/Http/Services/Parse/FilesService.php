@@ -111,7 +111,10 @@ class FilesService
         logger($filename);
         logger($full_path);
         try {
-            chmod($filename, 0755);
+            chmod($filename, 0777);
+            exec(`whoami`, $output, $return_var);
+            logger($output);
+            logger($return_var);
             $comm = `sudo unar -D ` . $filename . ` -o ` . $full_path;
             exec($comm, $output, $return_var);
             logger($output);
