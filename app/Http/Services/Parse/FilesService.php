@@ -86,7 +86,7 @@ class FilesService
                     }
                 }
             }
-            $this->deleteAllFilesForExtractDocx(\storage_path($s_path), \storage_path($s_path));
+            //$this->deleteAllFilesForExtractDocx(\storage_path($s_path), \storage_path($s_path));
             $result_files = File::files($full_path);
             foreach ($result_files as $key => $f) {
                 $name = substr($f, strrpos($f, '/') + 1, strlen($f));
