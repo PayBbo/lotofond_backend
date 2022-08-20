@@ -68,7 +68,10 @@ class FilesService
         logger('DOC и PDF');
         try {
             $comm = "binwalk --dd 'jpeg image:jpeg' --dd 'png image:png' --dd 'jpg image:jpg' --dd 'bmp image:bmp' " . $document . " --directory " . $full_path . " --rm";
-            exec(`$comm`);
+            logger($comm);
+            exec(`$comm`, $output, $retval);
+            logger($output);
+            logger($retval);
             $results = scandir($full_path);
             foreach ($results as $result) {
                 if ($result === '.' or $result === '..') continue;
