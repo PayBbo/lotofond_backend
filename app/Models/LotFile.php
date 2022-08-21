@@ -42,15 +42,15 @@ class LotFile extends Model
     }
 
     public function getUrlAttribute($value) {
-        $urls = explode(',', $value);
-        if(count($urls)>1){
+        $urls = json_decode( $value, true);
+        if(gettype($urls) == 'array'){
             $result = [];
             foreach($urls as $url){
-                $result[] = URL::to('/') .'/'. $url;
+                $result[] = asset($url);
             }
             return $result;
         }else{
-            return URL::to('/') .'/'. $value;
+            return asset($value);
         }
     }
 }

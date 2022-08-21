@@ -27,7 +27,8 @@ class ApplicationRequest extends FormRequest
         return [
             'email'=>['required', 'email'],
             'phone'=>['required', new Phone],
-            'lotId'=>['required', 'integer', 'exists:lots,id'],
+            'lotId'=>['sometimes', 'required', 'integer', 'exists:lots,id'],
+            'name'=>['sometimes', 'required', 'string'],
             'socialsForAnswer'=>['required', 'array'],
             'socialsForAnswer.*'=>['required', 'string'],
         ];

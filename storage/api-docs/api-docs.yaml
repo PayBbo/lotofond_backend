@@ -1199,6 +1199,7 @@ paths:
                 marks:
                   type: array
                   description: айдишники меток пользователя для поиска
+                  example: [1, 2, 3]
                 sort:
                   $ref: "#/components/schemas/Sort"
       responses:
@@ -2695,10 +2696,10 @@ paths:
           required: true
       tags:
         - Applications
-      summary: Отправка заявки на покупку без ЕЦП на почту менеджеру
+      summary: Отправка заявки на покупку без ЕЦП/через агента на почту менеджеру
       operationId: sendApplication
       requestBody:
-        description: данные для отправления заявки
+        description: данные для отправления заявки (если заявка на покупку через агента - не указываем lotId и указываем name, если на покупку без ЕЦП - наоборот)
         required: true
         content:
           application/json:
@@ -2707,12 +2708,13 @@ paths:
               required:
                 - email
                 - phone
-                - lotId
               properties:
                 email:
                   type: string
                 lotId:
                   type: integer
+                name:
+                  type: string
                 phone:
                   type: string
                 socialsForAnswer:
@@ -4381,6 +4383,8 @@ components:
           type: string
         photos:
           $ref: "#/components/schemas/Images"
+        categories:
+          $ref: "#/components/schemas/Categories"
         startPrice:
           type: integer
         endPrice:
@@ -4458,6 +4462,8 @@ components:
           description: номер лота
         photos:
           $ref: "#/components/schemas/Images"
+        categories:
+          $ref: "#/components/schemas/Categories"
         currentPrice:
           type: number
         externalId:

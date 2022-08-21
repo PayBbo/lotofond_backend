@@ -20,6 +20,7 @@ class LotShortResource extends JsonResource
             'trade' => new TradeResource($this->auction),
             'lotNumber' => $this->number,
             'photos' => $this->photos,
+            'categories' => $this->categoriesStructure(),
             'description' => stripslashes(preg_replace('/[\x00-\x1F\x7F]/u', ' ', $this->description)),
             'currentPrice' => (float)$this->current_price,
             'externalId' => $this->auction->trade_id,

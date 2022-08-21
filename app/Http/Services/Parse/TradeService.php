@@ -99,7 +99,7 @@ class TradeService
         }
 
         if (array_key_exists($prefix . 'TradeObjectHtml', $value)) {
-            $lot->description = $value[$prefix . 'TradeObjectHtml'];
+            $lot->description = stripslashes(preg_replace('/[\x00-\x1F\x7F]/u', ' ', $value[$prefix . 'TradeObjectHtml']));
             $cadastr_number = '/\d{2}:\d{2}:\d{1,7}:\d{1,}/';
             preg_match_all($cadastr_number, $value[$prefix . 'TradeObjectHtml'], $matches);
             if (count($matches[0]) > 0) {

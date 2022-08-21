@@ -18,10 +18,15 @@ class Application extends Model
         'user_id',
         'lot_id',
         'email',
-        'surname',
+        'username',
         'phone',
         'for_answer',
         'answer_date',
+        'topic',
+        'question',
+        'type',
+        'is_answered',
+        'files'
     ];
 
     /**
@@ -34,6 +39,8 @@ class Application extends Model
         'user_id' => 'integer',
         'lot_id' => 'integer',
         'answer_date' => 'timestamp',
+        'is_answered'=>'boolean',
+        'files'=>'array'
     ];
 
     public function user()

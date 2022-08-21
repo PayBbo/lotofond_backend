@@ -30,8 +30,6 @@ class FilesService
         $dest = 'app/public/auction-files/auction-' . $auction->id . '/' . $time;
         $files = null;
         if ($isImages) {
-            logger('IS IMAGE!');
-            logger($invitation[$prefix . 'Attach'][$prefix . 'Type']);
             switch ($invitation[$prefix . 'Attach'][$prefix . 'Type']) {
                 case 'doc':
                 case 'pdf':
@@ -65,7 +63,6 @@ class FilesService
         $imageAssets = array();
         $document = \storage_path($s_path . '/' . $filename);
         $full_path = \storage_path($s_path . '/');
-        logger('DOC и PDF');
         try {
             $comm = "binwalk --dd 'jpeg image:jpeg' --dd 'png image:png' --dd 'jpg image:jpg' --dd 'bmp image:bmp' " . $document . " --directory " . $full_path . " --rm";
             exec(`$comm`);
@@ -106,7 +103,6 @@ class FilesService
         $imageAssets = array();
         $filename = \storage_path($s_path . '/' . $filename);
         $full_path = \storage_path($s_path . '/');
-        logger('DOCX');
         try {
             $comm = 'unar -D ' . $filename . ' -o ' . $full_path;
             exec(`$comm`);
@@ -152,6 +148,7 @@ class FilesService
         $destination = \storage_path($s_path . '/');
         $files = array();
         logger('ZIP И RAR');
+        logger($destination);
         try {
             $comm = "unar -D " . $filename . " -o " . $destination;
             exec(`$comm`);

@@ -128,8 +128,9 @@ class Lot extends Model
 
     public function lotFiles()
     {
-        return $this->hasMany(LotFile::class)->where('user_id', null);
+        return $this->hasMany(LotFile::class)->where(['user_id'=>null, 'type'=>'file']);
     }
+
 
     public function userLotFiles()
     {
@@ -250,6 +251,10 @@ class Lot extends Model
 
     public function userMarks(){
         return $this->belongsToMany(Mark::class)->where('user_id', auth()->id())->select('id', 'title')->get();
+    }
+
+    public function userMarksForSearch(){
+        return $this->belongsToMany(Mark::class)->where('user_id', auth()->id());
     }
 
     public function scopeCustomSortBy($query, $request)

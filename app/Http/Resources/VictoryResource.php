@@ -21,6 +21,7 @@ class VictoryResource extends JsonResource
             'tradeId'=>$this->tradeMessage->lot->auction->trade_id,
             'description'=>stripslashes(preg_replace('/[\x00-\x1F\x7F]/u', ' ', $this->tradeMessage->lot->description)),
             'photos'=>$this->tradeMessage->lot->photos,
+            'categories' => $this->tradeMessage->lot->categoriesStructure(),
             'startPrice'=>$startPrice,
             'endPrice'=>$endPrice,
             'percentageReduction'=>$percentageReduction,

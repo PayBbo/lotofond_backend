@@ -34,8 +34,8 @@ class ParseTrades implements ShouldQueue
      */
     public function handle()
     {
-        $startFrom = Carbon::parse('20.04.2022 11:24')->format('Y-m-d\TH:i:s');
-        $endTo = Carbon::parse('20.04.2022 11:26')->format('Y-m-d\TH:i:s');
+        $startFrom = Carbon::now()->setTimezone('Europe/Moscow')->subHours(2)->format('Y-m-d\TH:i:s');
+        $endTo = Carbon::now()->format('Y-m-d\TH:i:s');
         $soapWrapper = new SoapWrapper();
         $service = new SoapWrapperService($soapWrapper);
         $messages = $service->getTradeMessages($startFrom, $endTo);

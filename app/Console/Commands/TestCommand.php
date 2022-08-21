@@ -4,8 +4,10 @@ namespace App\Console\Commands;
 
 
 use App\Http\Services\Parse\GetTradeMessageContent;
+use App\Jobs\FavouriteJob;
+use App\Jobs\MonitoringJob;
+use App\Jobs\MonitoringNotificationJob;
 use App\Jobs\ParseTrades;
-use App\Notifications\PushNotification;
 use Illuminate\Console\Command;
 
 
@@ -42,19 +44,6 @@ class TestCommand extends Command
      */
     public function handle()
     {
-        /**
-         * $filename = 'Фото.pdf';
-         * $path = 'auction-files/auction-1/17-06-2022-04-28';
-         * $s_path = 'app\public\auction-files\auction-1\17-06-2022-04-28';
-         * $gener = new FilesService();
-         * $gener->getImagesFromDocOrPdf($filename, $path, $s_path);
-         * $gener->getImagesFromDocx($filename, $path, $s_path);
-         * $gener->getImagesFromZipOrRar($filename, $path, $s_path);
-         **/
-
         dispatch(new ParseTrades);
-
-
-
     }
 }

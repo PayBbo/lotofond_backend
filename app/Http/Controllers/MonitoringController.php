@@ -10,6 +10,7 @@ use App\Models\Lot;
 use App\Models\Monitoring;
 use App\Models\User;
 use App\Rules\IsUserMonitoringPath;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class MonitoringController extends Controller
@@ -35,7 +36,7 @@ class MonitoringController extends Controller
        if($lots->count() >0) {
            foreach ($lots as $lot) {
                if (!$path->lots->contains($lot)) {
-                   $path->lots()->attach($lot);
+                   $path->lots()->attach($lot, ['created_at'=>Carbon::now()->setTimezone('Europe/Moscow')]);
                }
            }
        }

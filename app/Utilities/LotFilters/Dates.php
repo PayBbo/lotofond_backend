@@ -40,9 +40,16 @@ class Dates extends SortQuery
             $this->getDates($value, $field);
             $start = $this->start;
             $end = $this->end;
-            $this->query->whereHas('auction', function ($q) use ($start, $end, $field) {
-                $q->whereBetween($field, [$start, $end]);
+            $this->query->when(isset($start), function ($query) use($start, $field){
+                $query->whereHas('auction', function ($q) use ($start, $field) {
+                    $q->where($field, '>=', $start);
+                });
+            })->when(isset($end), function ($query) use($end, $field){
+                $query->whereHas('auction', function ($q) use ($end, $field) {
+                    $q->where($field, '<=', $end);
+                });
             });
+
 
         }
     }
@@ -50,17 +57,13 @@ class Dates extends SortQuery
     public function getDates($value, $field)
     {
         $value = json_decode(json_encode($value), true);
+        $this->start = null;
+        $this->end = null;
         if (!is_null($value) && isset($value['start']) && strlen((string)$value['start']) > 0) {
-            $start = Carbon::parse($value['start']);
-        } else {
-            $start = Auction::min($field);
+            $this->start = Carbon::parse($value['start']);
         }
         if (!is_null($value) && isset($value['end']) && strlen((string)$value['end']) > 0) {
-            $end = Carbon::parse($value['end']);
-        } else {
-            $end = Auction::max($field);
+            $this->end = Carbon::parse($value['end']);
         }
-        $this->start = $start;
-        $this->end = $end;
     }
 }

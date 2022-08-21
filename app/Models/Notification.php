@@ -3,8 +3,10 @@
 namespace App\Models;
 
 use App\Http\Services\PushNotificationService;
+use App\Http\Services\SendCodeService;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Mail;
 
 class Notification extends Model
 {
@@ -39,9 +41,9 @@ class Notification extends Model
         'user_id' => 'integer',
         'type_id' => 'integer',
         'lot_id' => 'integer',
-        'date'=>'datetime',
-        'is_seen'=>'boolean',
-        'monitoring_id'=>'integer'
+        'date' => 'datetime',
+        'is_seen' => 'boolean',
+        'monitoring_id' => 'integer'
 
     ];
 
@@ -55,6 +57,11 @@ class Notification extends Model
 
             $push = new PushNotificationService('Новое оповещение', $value, $notification->user_id, $notification->type->title);
             $push->sendPushNotification();
+            $user = User::find($notification->user_id);
+            if (!is_null($user->email)) {
+                $sendNotification = new SendCodeService();
+                $sendNotification->sendEmailNotification($user->email, $value);
+            }
         });
 
     }

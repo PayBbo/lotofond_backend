@@ -30,7 +30,7 @@ class FileController extends Controller
                 $imageAssets = ['main' => 'storage/' . $path, 'preview' => $preview];
                 if (!LotFile::where(['url' => implode(",", $imageAssets), 'lot_id' => $request->lotId, 'type' => 'image'])->exists()) {
                     LotFile::create([
-                        'url' => implode(",", $imageAssets),
+                        'url' => json_encode($imageAssets),
                         'type' => 'image',
                         'lot_id' => $request->lotId,
                         'user_id'=>auth()->id()
