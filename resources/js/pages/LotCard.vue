@@ -10,16 +10,16 @@
                 </li>
                 <li class="breadcrumb-item bkt-breadcrumb__item">торги</li>
                 <li class="breadcrumb-item bkt-breadcrumb__item active" aria-current="page">
-                    торги № {{item.trade && item.trade.externalId ? item.trade.externalId : ''}} (лот
-                    {{item.lotNumber ? item.lotNumber : '0'}})
+                    торги № {{item && item.trade && item.trade.externalId ? item.trade.externalId : ''}} (лот
+                    {{item && item.lotNumber ? item.lotNumber : '0'}})
                 </li>
             </ol>
         </nav>
 
         <div class="bkt-row bkt-bg-main bkt-wrapper-between bkt-lot__card-actions d-none d-lg-flex">
             <h5 class="bkt-trading-number">
-                торги № {{item.trade && item.trade.externalId ? item.trade.externalId : ''}} (лот
-                {{item.lotNumber ? item.lotNumber : '0'}})
+                торги № {{item && item.trade && item.trade.externalId ? item.trade.externalId : ''}} (лот
+                {{item && item.lotNumber ? item.lotNumber : '0'}})
             </h5>
             <bkt-card-actions :item="item" class="bkt-actions" button_type="-icon" place="lot-card"
                               @changeStatus="changeStatus"
@@ -1027,6 +1027,50 @@
                     </template>
                 </bkt-collapse>
             </div>
+            <div v-if="isLoggedIn && item.applicationRules" class="col-12 col-lg-12 order-3 px-lg-0">
+                <bkt-collapse title="Правила подачи заявок" class="bkt-lot__collapse"
+                              id="applicationRules"
+                >
+                    <template #collapse>
+                        <h5 class="bkt-card__text">
+                            {{item.applicationRules}}
+                        </h5>
+                    </template>
+                </bkt-collapse>
+            </div>
+            <div v-if="isLoggedIn && item.requirementsForParticipants" class="col-12 col-lg-12 order-3 px-lg-0">
+                <bkt-collapse title="Требования к участникам" class="bkt-lot__collapse"
+                              id="requirementsForParticipants"
+                >
+                    <template #collapse>
+                        <h5 class="bkt-card__text">
+                            {{item.requirementsForParticipants}}
+                        </h5>
+                    </template>
+                </bkt-collapse>
+            </div>
+            <div v-if="isLoggedIn && item.paymentInfo" class="col-12 col-lg-12 order-3 px-lg-0">
+                <bkt-collapse title="Информация об оплате" class="bkt-lot__collapse"
+                              id="paymentInfo"
+                >
+                    <template #collapse>
+                        <h5 class="bkt-card__text">
+                            {{item.paymentInfo}}
+                        </h5>
+                    </template>
+                </bkt-collapse>
+            </div>
+            <div v-if="isLoggedIn && item.saleAgreement" class="col-12 col-lg-12 order-3 px-lg-0">
+                <bkt-collapse title="Порядок и срок заключения договора купли-продажи" class="bkt-lot__collapse"
+                              id="saleAgreement"
+                >
+                    <template #collapse>
+                        <h5 class="bkt-card__text">
+                            {{item.saleAgreement}}
+                        </h5>
+                    </template>
+                </bkt-collapse>
+            </div>
         </div>
     </div>
 </template>
@@ -1114,6 +1158,7 @@
         watch: {
             isLoggedIn: function (newVal, oldVal) {
                 if (oldVal == false && newVal == true) {
+                    this.getLot();
                     this.getLotFiles();
                     this.makeWatched();
                 }

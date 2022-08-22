@@ -39,7 +39,7 @@ axios.interceptors.response.use(
             if ( error.config.url == '/api/account/user' && error.response.status === 401
                 && !originalRequest._retry && !error.response.config.__isRetryRequest) {
                 console.log('interceptors have error.response.status === 403');
-                store.commit('clearStorage');
+                // store.commit('clearStorage');
                 if (localStorage.getItem('token')) {
                     console.log('interceptors have token in localStorage');
                     originalRequest._retry = true;

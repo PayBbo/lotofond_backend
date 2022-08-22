@@ -16649,6 +16649,9 @@ textarea.form-control-lg {
 .bkt-card-win .bkt-card__image-slider {
   max-height: 325px;
 }
+.bkt-card-win .bkt-card__image-category {
+  max-height: 325px;
+}
 .bkt-card-win .bkt-card__title {
   font-size: 22px;
   font-family: "Gilroy";
@@ -20105,6 +20108,7 @@ ul.bkt-contents .bkt-contents__answer {
   font-size: 12px;
   display: flex;
   align-items: center;
+  justify-content: center;
   flex-wrap: nowrap;
   gap: 6px;
   border-radius: 15px;
@@ -20144,6 +20148,11 @@ ul.bkt-contents .bkt-contents__answer {
   background-color: white;
 }
 
+@media (max-width: 768px) {
+  .bkt-favourites__filters-card {
+    padding: 20px 0;
+  }
+}
 @media (max-width: 576px) {
   .bkt-favourites {
     gap: 15px;
@@ -20164,7 +20173,6 @@ ul.bkt-contents .bkt-contents__answer {
     border-radius: 12px;
     padding: 15px;
     height: 47px;
-    width: 47px;
     min-height: 47px;
     min-width: 47px;
   }
@@ -21316,6 +21324,9 @@ ul.bkt-contents .bkt-contents__answer {
   height: 34px;
   padding: 10px;
 }
+.bkt-monitoring .bkt-search__input {
+  background-color: transparent;
+}
 
 @media (max-width: 576px) {
   .bkt-monitoring {
@@ -21373,6 +21384,16 @@ ul.bkt-contents .bkt-contents__answer {
     align-items: center;
     justify-content: center;
     font-weight: 600;
+  }
+  .bkt-monitoring .bkt-search {
+    background-color: #f5f7fe;
+  }
+  .bkt-monitoring .bkt-search__button {
+    min-width: 44px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 7px;
   }
 }
 .bkt-monitoring-modal .bkt-monitoring-field__input {

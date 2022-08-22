@@ -61,8 +61,8 @@
                     </li>
                 </template>
             </v-select>
-            <slot name="subtitle" v-if="subtitle">
-                <label class="bkt-select__subtitle">{{subtitle}}</label>
+            <slot name="subtitle">
+                <label class="bkt-select__subtitle" v-if="subtitle">{{subtitle}}</label>
             </slot>
         </div>
     </ValidationProvider>

@@ -36,6 +36,13 @@ export default {
     },
     mutations: {
         setMonitorings(state, payload) {
+            if (!state.monitorings[payload.pathId]) {
+                state.monitorings[payload.pathId] = {
+                    data: [],
+                    pagination: {},
+                    loading: false
+                }
+            }
             state.monitorings[payload.pathId] = payload.data;
             state.current_monitorings = state.monitorings[payload.pathId].data;
             state.monitorings_pagination = state.monitorings[payload.pathId].pagination;
@@ -186,7 +193,7 @@ export default {
                 data: payload,
             })
                 .then((response) => {
-                    commit('addMonitorings', {pathId: payload.pathId, data: response.data})
+                    commit('setMonitorings', {pathId: payload.pathId, data: response.data})
                 });
 
         },
@@ -214,14 +221,14 @@ export default {
                 });
         },
         async setCurrentMonitoringPath({dispatch, commit, state}, payload) {
-            if (state.monitorings[payload]) {
-                commit('setCurrentMonitoringPath', payload);
-            } else {
-                await dispatch('getMonitorings', {page: 1, pathId: payload})
+            // if (state.monitorings[payload.pathId]) {
+            //     commit('setCurrentMonitoringPath', payload.pathId);
+            // } else {
+                await dispatch('getMonitorings', payload.params)
                     .then(resp => {
-                        commit('setCurrentMonitoringPath', payload);
+                        commit('setCurrentMonitoringPath', payload.pathId);
                     })
-            }
+            // }
         }
     },
 

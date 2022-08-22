@@ -226,7 +226,7 @@
                                 key: payload.status,
                                 value: !this.item[payload.status]
                             })
-                            this.$emit('changeStatus', {key: payload.status, value: !this.item[payload.status]})
+                            this.$emit('changeStatus', {key: payload.status, value: !this.item[payload.status], lotId: this.item.id})
                         })
                         .finally(() => {
                             this.toggleProcess(payload.icon)

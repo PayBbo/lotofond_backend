@@ -12,7 +12,7 @@
                                       :color="search_mode ? 'white': 'primary'"></bkt-icon>
                         </button>
                         <button
-                            class="bkt-button bkt-favourites__filters-action"
+                            class="bkt-button bkt-favourites__filters-action bkt-w-down-md-100"
                             data-bs-toggle="modal"
                             data-bs-target="#addPathModal"
                             :disabled="loading"
@@ -21,10 +21,10 @@
                                  <bkt-icon :name="'FolderAdd'" :color="'green'"
                                            width="16px" height="16px"></bkt-icon>
                             </span>
-                            <span class="d-none d-xl-block">Создать папку</span>
+                            Создать папку
                         </button>
                         <!--                        <button :disabled="loading"-->
-                        <!--                            class="bkt-button bkt-favourites__filters-action">-->
+                        <!--                            class="bkt-button bkt-favourites__filters-action bkt-w-down-md-100">-->
                         <!--                             <span>-->
                         <!--                            <bkt-icon :name="'FileArrowLeft'" :color="'blue'"-->
                         <!--                                      width="16px" height="16px"></bkt-icon>-->
@@ -33,15 +33,15 @@
                         <!--                        </button>-->
                         <button :disabled="loading" data-bs-toggle="modal"
                                 data-bs-target="#fieldsToDocumentModal"
-                                class="bkt-button bkt-favourites__filters-action">
+                                class="bkt-button bkt-favourites__filters-action bkt-w-down-md-100">
                              <span>
                             <bkt-icon :name="'Download'" :color="'yellow'"
                                       width="16px" height="16px"></bkt-icon>
                              </span>
-                            <span class="d-none d-xl-block">Скачать</span>
+                            Скачать папку
                         </button>
                         <button
-                            class="bkt-button bkt-favourites__filters-action"
+                            class="bkt-button bkt-favourites__filters-action bkt-w-down-md-100"
                             data-bs-toggle="modal" data-bs-target="#editPathModal"
                             :disabled="loading"
                         >
@@ -49,10 +49,10 @@
                             <bkt-icon :name="'Settings'" :color="'pink'"
                                       width="16px" height="16px"></bkt-icon>
                              </span>
-                            <span class="d-none d-xl-block">Редактировать</span>
+                            Редактировать папку
                         </button>
                         <button
-                            class="bkt-button bkt-favourites__filters-action"
+                            class="bkt-button bkt-favourites__filters-action bkt-w-down-md-100"
                             @click="removeFavouritePath"
                             :disabled="loading"
                         >
@@ -60,7 +60,7 @@
                             <bkt-icon :name="'FolderDelete'" :color="'red'"
                                       width="16px" height="16px"></bkt-icon>
                              </span>
-                            <span class="d-none d-xl-block">Удалить</span>
+                            Удалить папку
                         </button>
                     </div>
 <!--                    <bkt-select-->
@@ -80,23 +80,38 @@
                     <div class="bkt-menu__search">
                         <bkt-search v-model="params.includedWords" no_dropdown :loading="loading" simple
                                     @runSearch="getData(1)" search_class="bkt-register-collapse__search"
-                                    placeholder="Нужные слова через запятую"
+                                    placeholder="Нужные слова через запятую" :disabled="loading"
                         >
                         </bkt-search>
                     </div>
                     <div class="bkt-menu__group-fields">
                         <div class="bkt-form">
-<!--                            <div class="col-12 col-md-3">-->
-<!--                                <div class="bkt-select__wrapper text-left">-->
-<!--                                    <label for="group" class="bkt-select__label">группа</label>-->
-<!--                                    <select id="group" class="bkt-select">-->
-<!--                                        <option selected value="">Текущая</option>-->
-<!--                                        <option>One</option>-->
-<!--                                        <option>Two</option>-->
-<!--                                    </select>-->
-<!--                                </div>-->
-<!--                            </div>-->
                             <div class="col-12 col-md-6 d-none d-md-block">
+                                <bkt-select
+                                    v-model="params.sort.type"
+                                    class="w-100"
+                                    select_class="white w-100 bkt-wrapper bkt-nowrap bkt-gap"
+                                    additional_class=" w-100 "
+                                    name="sort"
+                                    label="сортировать по"
+                                    label_class="bkt-form__label"
+                                    :option_label="'title'"
+                                    :options="sort"
+                                    :reduce="item => item.value"
+                                    :clearable="false"
+                                    @input="getData(1)"
+                                >
+                                    <template #subtitle>
+                                        <button class="bkt-button-icon bkt-bg-white flex-shrink-0 order-3"
+                                                :class="{'bkt-mirror-vertical' : params.sort.direction =='desc'}"
+                                                @click="toggleDirection"
+                                        >
+                                            <bkt-icon name="Bars"></bkt-icon>
+                                        </button>
+                                    </template>
+                                </bkt-select>
+                            </div>
+                            <div class="col-12 col-md-6">
                                 <bkt-select
                                     v-model="params.mark"
                                     class="w-100"
@@ -113,43 +128,23 @@
                                 >
                                 </bkt-select>
                             </div>
-                            <div class="col-12 col-md-6">
-                                <bkt-select
-                                    v-model="params.sort.type"
-                                    class="w-100"
-                                    select_class="white w-100"
-                                    name="sort"
-                                    label="сортировать по"
-                                    label_class="bkt-form__label"
-                                    :option_label="'title'"
-                                    :options="sort"
-                                    :reduce="item => item.value"
-                                    :clearable="false"
-                                    @input="getData(1)"
-                                >
-                                </bkt-select>
-                            </div>
                         </div>
                     </div>
                 </div>
                 <div class="bkt-wrapper-between bkt-nowrap d-md-none bkt-gap">
-                    <button class="bkt-button-icon" :class="search_mode ? 'bkt-bg-primary shadow': 'bkt-bg-white'"
-                            @click="search_mode = !search_mode">
+                    <button class="bkt-button-icon flex-shrink-0"
+                            :class="search_mode ? 'bkt-bg-primary shadow': 'bkt-bg-white'"
+                            @click="search_mode = !search_mode"
+                    >
                         <bkt-icon class="bkt-button__icon" :name="'Search'"
                                   :color="search_mode ? 'white': 'primary'"></bkt-icon>
                     </button>
-<!--                    <bkt-select-->
-<!--                        v-model="group"-->
-<!--                        class="w-100"-->
-<!--                        select_class="bkt-v-select_material w-100 main"-->
-<!--                        name="sort"-->
-<!--                        subtitle="сгруппировать"-->
-<!--                        :reduce="item => item.value"-->
-<!--                        :option_label="'title'"-->
-<!--                        :options="to_group"-->
-<!--                        :clearable="false"-->
-<!--                    >-->
-<!--                    </bkt-select>-->
+                    <button class="bkt-button-icon bkt-bg-white flex-shrink-0"
+                            :class="{'bkt-mirror-vertical' : params.sort.direction =='desc'}"
+                            @click="toggleDirection"
+                    >
+                        <bkt-icon name="Bars"></bkt-icon>
+                    </button>
                     <bkt-select
                         v-model="params.sort.type"
                         class="w-100"
@@ -248,7 +243,6 @@
                                 </span>
                                 </button>
                             </div>
-
                         </template>
                     </bkt-collapse>
                 </div>
@@ -294,7 +288,6 @@
             return {
                 loading: false,
                 search_mode: false,
-                selectedBtn: 0,
                 group: 'по порядку добавления',
                 to_group: [
                     {title: 'по порядку добавления', value: "publishDate"},
@@ -318,7 +311,7 @@
                 ],
                 params: {
                     pathId: 0,
-                    mark:'',
+                    marks:[],
                     searchField:'',
                     includedWords: '',
                     sort: {
@@ -414,7 +407,15 @@
                     this.getData(page)
                 }
 
-            }
+            },
+            toggleDirection() {
+                if (this.params.sort.direction == 'asc') {
+                    this.params.sort.direction = 'desc';
+                } else {
+                    this.params.sort.direction = 'asc';
+                }
+                this.getData(1)
+            },
         }
     }
 </script>

@@ -11,10 +11,11 @@
                     </h3>
                 </div>
                 <div class="col-12 col-md-12 col-lg-4 p-0 pe-sm-2">
-                    <hooper :itemsToShow="1" :centerMode="true" class="bkt-card__image-slider h-100 w-100">
-                        <slide v-if="!item.photos || item.photos.length==0">
-                            <img v-lazy="'/images/card-image1.png'" class="bkt-card__image"/>
-                        </slide>
+                    <card-image-category v-if="(!item.photos || item.photos.length==0) && item.categories"
+                                         :categories="item.categories"
+                    >
+                    </card-image-category>
+                    <hooper :itemsToShow="1" :centerMode="true" class="bkt-card__image-slider h-100 w-100" v-if="item.photos.length>0">
                         <slide v-for="photo in item.photos" :key="photo.id">
                             <img v-lazy="photo.main" class="bkt-card__image"/>
                         </slide>
@@ -114,6 +115,7 @@
         Navigation as HooperNavigation
     } from 'hooper';
     import 'hooper/dist/hooper.css';
+    import CardImageCategory from "./CardImageCategory";
 
     export default {
         props: {
@@ -131,6 +133,7 @@
             Hooper,
             Slide,
             HooperNavigation,
+            CardImageCategory
         },
         data() {
             return {}

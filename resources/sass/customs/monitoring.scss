@@ -157,6 +157,10 @@
             padding: 10px;
         }
     }
+
+    & .bkt-search__input {
+        background-color: transparent;
+    }
 }
 
 @media (max-width: 576px) {
@@ -228,5 +232,16 @@
             }
         }
 
+        & .bkt-search {
+            background-color: $body-bg;
+        }
+
+        & .bkt-search__button {
+            min-width: 44px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-right: 7px;
+        }
     }
 }

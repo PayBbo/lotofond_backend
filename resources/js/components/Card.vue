@@ -2,21 +2,24 @@
     <div class="bkt-card-trade bkt-card__row w-100 mx-auto mx-0">
         <div class="bkt-wrapper-between bkt-card__heading w-100" v-if="item && item.trade">
             <h5 class="me-auto">торги № {{item && item.trade.externalId ? item.trade.externalId : '0'}}</h5>
-            <h5 v-if="item.state == 'biddingDeclared' || item.state == 'biddingStart' || item.state == 'applicationSessionStarted'">
-                <span v-if="dateIsFuture(item.trade.applicationTime.end) && item.trade.applicationTime && item.trade.applicationTime.end">
+            <div class="d-flex align-items-center bkt-gap-mini"
+                 v-if="item.state == 'biddingDeclared' || item.state == 'biddingStart'
+                 || item.state == 'applicationSessionStarted'"
+            >
+                <h5 v-if="dateIsFuture(item.trade.applicationTime.end) && item.trade.applicationTime && item.trade.applicationTime.end">
                 дней до окончания приёма заявок: {{ item.trade.applicationTime.end | daysToDate }}
-                </span>
-                <span v-else-if="dateIsFuture(item.trade.eventTime.end) && item.trade.eventTime && item.trade.eventTime.end">
+                </h5>
+                <h5 v-else-if="dateIsFuture(item.trade.eventTime.end) && item.trade.eventTime && item.trade.eventTime.end">
                     дней до окончания торгов: {{item.trade.eventTime.end | daysToDate}}
-                </span>
-                <span v-else-if="dateIsFuture(item.trade.eventTime.result) && item.trade.eventTime && item.trade.eventTime.result">
+                </h5>
+                <h5 v-else-if="dateIsFuture(item.trade.eventTime.result) && item.trade.eventTime && item.trade.eventTime.result">
                    дней до объявления результатов торгов: {{item.trade.eventTime.result | daysToDate}}
-                </span>
-                <span v-else>торги окончены</span>
-                <span class="bkt-card__icon d-inline-block">
+                </h5>
+                <h5 v-else>нет данных</h5>
+                <div class="bkt-card__icon">
                     <bkt-icon :name="'Alarm'" :color="'green'" :width="'14px'" :height="'14px'"></bkt-icon>
-                </span>
-            </h5>
+                </div>
+            </div>
         </div>
         <div class="col-12 col-lg-11 p-0">
             <div class="row h-100 w-100 mx-auto row-cols-1 row-cols-md-2 row-cols-lg-3 bkt-card-trade__wrapper">
@@ -254,6 +257,7 @@
     import 'hooper/dist/hooper.css';
     import CardActions from "./CardActions";
     import CardImageCategory from "./CardImageCategory";
+    import moment from "moment-timezone";
 
     export default {
         props: {
@@ -309,7 +313,11 @@
                 this.$store.commit('openModal', '#applicationModal')
             },
             dateIsFuture(date) {
-                return this.$moment(date).isAfter(this.$moment())
+                const start = this.$moment(date);
+                const end = this.$moment();
+                let future = start.isAfter(end);
+                let count = start.diff(end, "days");
+                return future && count>0
             },
             changeStatus(payload) {
                 this.$emit('changeStatus', payload)
