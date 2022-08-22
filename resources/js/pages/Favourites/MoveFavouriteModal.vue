@@ -4,9 +4,9 @@
         <template #body="{ invalid }">
             <div class="bkt-wrapper-column bkt-gap">
                 <div v-for="(path, index) in items_paths" :key="index">
-                    <button @click="newPathId = path.pathId"
-                        class="bkt-button w-100 bkt-button_plump text-uppercase"
-                        :class="[newPathId === path.pathId && path.color ? 'bkt-bg-'+path.color : '',
+                    <button @click="setNewPath(path.pathId)"
+                            class="bkt-button w-100 bkt-button_plump text-uppercase"
+                            :class="[newPathId === path.pathId && path.color ? 'bkt-bg-'+path.color : '',
                                 {'bkt-bg-primary': newPathId === path.pathId && !path.color,
                                 'bkt-bg-body bkt-text-main': newPathId !== path.pathId}]"
                     >
@@ -41,7 +41,8 @@
         data() {
             return {
                 loading: false,
-                newPathId:'',
+                newPathId: '',
+                newPath: null
             };
         },
         mounted() {
@@ -57,7 +58,7 @@
                 let paths = this.$store.getters.favourites_paths;
                 if (this.item && this.item.favouritePaths) {
                     paths = paths.filter(item => item.pathId != this.item.favouritePaths[0].pathId)
-                    if(paths.length>0) {
+                    if (paths.length > 0) {
                         this.newPathId = paths[0].pathId;
                     }
                     return paths;
@@ -76,16 +77,18 @@
             async move() {
                 this.loading = true;
                 let currentPathId = 0;
-                if (this.item && this.item.favouritePaths && this.item.favouritePaths.length>0) {
+                if (this.item && this.item.favouritePaths && this.item.favouritePaths.length > 0) {
                     currentPathId = this.item.favouritePaths[0].pathId
                 }
-                await this.$store.dispatch('moveFavourite',
-                    {
-                        currentPathId: currentPathId,
-                        newPathId: this.newPathId,
-                        lotId: this.item.id
-                    })
+                let payload = {
+                    currentPathId: currentPathId,
+                    newPathId: this.newPathId,
+                    newPath: this.newPath,
+                    lotId: this.item.id
+                }
+                await this.$store.dispatch('moveFavourite', payload)
                     .then(resp => {
+                        this.$emit('moveFavourite', payload);
                         this.$store.commit('closeModal', '#moveFavouriteModal');
                         this.loading = false;
                     })
@@ -93,6 +96,13 @@
                         this.loading = false;
                     });
             },
+            setNewPath(id) {
+                let index = this.items_paths.findIndex(item => item.pathId == id);
+                // if(index>=0) {
+                this.newPath = this.items_paths[index];
+                this.newPathId = id;
+                // }
+            }
         }
     }
 </script>

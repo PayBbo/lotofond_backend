@@ -121,8 +121,8 @@ export default {
                     }
                     lot_path = state.trades[lot].favouritePaths.findIndex(item => item.pathId === payload.newPathId);
                     if (lot_path < 0) {
-                        if (new_path >= 0) {
-                            state.trades[lot].favouritePaths.push(state.favourites_paths[new_path]);
+                        if (payload.newPath) {
+                            state.trades[lot].favouritePaths.push(payload.newPath);
                         }
                     }
                 }

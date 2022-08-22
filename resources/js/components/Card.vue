@@ -6,17 +6,16 @@
                  v-if="item.state == 'biddingDeclared' || item.state == 'biddingStart'
                  || item.state == 'applicationSessionStarted'"
             >
-                <h5 v-if="dateIsFuture(item.trade.applicationTime.end) && item.trade.applicationTime && item.trade.applicationTime.end">
-                дней до окончания приёма заявок: {{ item.trade.applicationTime.end | daysToDate }}
+                <h5 v-if="dateStatus && dateStatus.status === 'application'">
+                    дней до окончания приёма заявок: {{ dateStatus.days }}
                 </h5>
-                <h5 v-else-if="dateIsFuture(item.trade.eventTime.end) && item.trade.eventTime && item.trade.eventTime.end">
-                    дней до окончания торгов: {{item.trade.eventTime.end | daysToDate}}
+                <h5 v-else-if="dateStatus && dateStatus.status === 'bidding-end'">
+                    дней до окончания торгов: {{dateStatus.days}}
                 </h5>
-                <h5 v-else-if="dateIsFuture(item.trade.eventTime.result) && item.trade.eventTime && item.trade.eventTime.result">
-                   дней до объявления результатов торгов: {{item.trade.eventTime.result | daysToDate}}
+                <h5 v-else-if="dateStatus && dateStatus.status === 'bidding-result'">
+                    дней до объявления результатов торгов: {{dateStatus.days}}
                 </h5>
-                <h5 v-else>нет данных</h5>
-                <div class="bkt-card__icon">
+                <div class="bkt-card__icon" v-if="dateStatus">
                     <bkt-icon :name="'Alarm'" :color="'green'" :width="'14px'" :height="'14px'"></bkt-icon>
                 </div>
             </div>
@@ -129,7 +128,8 @@
                                     <div class="bkt-card__feature text-center w-100 mt-0">
                                         <h5 class="bkt-card__subtitle">шаг аукциона</h5>
                                         <h4 class="bkt-card__title bkt-text-primary">
-                                            {{item.stepPrice && item.stepPrice.value ? item.stepPrice.value : '0' | priceFormat}}
+                                            {{item.stepPrice && item.stepPrice.value ? item.stepPrice.value : '0' |
+                                            priceFormat}}
                                             {{item.stepPrice && item.stepPrice.type=='rubles' ? '₽' : '%'}}
                                         </h4>
                                     </div>
@@ -138,7 +138,8 @@
                                     <div class="bkt-card__feature text-center w-100 mt-0">
                                         <h5 class="bkt-card__subtitle">задаток</h5>
                                         <h4 class="bkt-card__title bkt-text-red">
-                                            {{item.deposit && item.deposit.value ? item.deposit.value : '0' | priceFormat}}
+                                            {{item.deposit && item.deposit.value ? item.deposit.value : '0' |
+                                            priceFormat}}
                                             {{item.deposit && item.deposit.type=='rubles' ? '₽' : '%'}}
                                         </h4>
                                     </div>
@@ -176,7 +177,8 @@
                                 </div>
                                 <div class="bkt-card_feature">
                                     <h6>
-                                        <strong>{{item.trade.eventTime.result ? 'объявление результатов торгов' : 'проведение торгов'}}</strong>
+                                        <strong>{{item.trade.eventTime.result ? 'объявление результатов торгов' :
+                                            'проведение торгов'}}</strong>
                                     </h6>
                                     <div>
                                         <h6 v-if="item.trade.eventTime.start">
@@ -208,7 +210,8 @@
                         <div class="bkt-card__row outline bkt-wrapper-between align-items-center"
                              v-if="cadastralData.cadastralDataArea">
                             <div class="bkt-card__feature">
-                                <h4 class="bkt-card__title">{{cadastralData.cadastralDataArea | priceFormat}} кв. м.</h4>
+                                <h4 class="bkt-card__title">{{cadastralData.cadastralDataArea | priceFormat}} кв.
+                                    м.</h4>
                                 <h6 class="bkt-card__subtitle">земельный участок</h6>
                             </div>
                             <span class="bkt-card__icon">
@@ -257,19 +260,12 @@
     import 'hooper/dist/hooper.css';
     import CardActions from "./CardActions";
     import CardImageCategory from "./CardImageCategory";
-    import moment from "moment-timezone";
 
     export default {
         props: {
             item: {
                 type: Object,
             },
-            in_process: {
-                type: Array,
-                default: function () {
-                    return [];
-                }
-            }
         },
         components: {
             Hooper,
@@ -301,8 +297,31 @@
                         }
                         return cadastralData == {} ? null : cadastralData
                     }
+                }
+                return null;
+            },
+            dateStatus() {
+                let days = 0;
+                if (this.item.state === 'applicationSessionStarted' && this.item.trade.applicationTime
+                    && this.item.trade.applicationTime.end && this.dateIsFuture(this.item.trade.applicationTime.end)
+                ) {
+                    days = this.countDays(this.item.trade.applicationTime.end);
+                    if (days > 0) {
+                        return {status: 'application', days: days};
+                    }
 
-
+                } else if (this.item.trade.eventTime && (this.item.state === 'biddingDeclared' || this.item.state === 'biddingStart')) {
+                    if (this.item.trade.eventTime.end && this.dateIsFuture(this.item.trade.eventTime.end)) {
+                        days = this.countDays(this.item.trade.eventTime.end);
+                        if (days > 0) {
+                            return {status: 'bidding-end', days: days};
+                        }
+                    } else if (this.item.trade.eventTime.result && this.dateIsFuture(this.item.trade.eventTime.result)) {
+                        days = this.countDays(this.item.trade.eventTime.result);
+                        if (days > 0) {
+                            return {status: 'bidding-result', days: days};
+                        }
+                    }
                 }
                 return null;
             }
@@ -313,11 +332,20 @@
                 this.$store.commit('openModal', '#applicationModal')
             },
             dateIsFuture(date) {
-                const start = this.$moment(date);
-                const end = this.$moment();
-                let future = start.isAfter(end);
-                let count = start.diff(end, "days");
-                return future && count>0
+                if (date) {
+                    const start = this.$moment(date);
+                    const end = this.$moment();
+                    return start.isAfter(end);
+                }
+                return false
+            },
+            countDays(date) {
+                if (date) {
+                    const start = this.$moment(date);
+                    const end = this.$moment();
+                    return start.diff(end, "days");
+                }
+                return -1
             },
             changeStatus(payload) {
                 this.$emit('changeStatus', payload)

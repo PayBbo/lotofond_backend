@@ -1,6 +1,8 @@
 require('./bootstrap');
 
 window.Vue = require("vue").default;
+import router from './routes';
+import store from './store/index.js';
 const token = localStorage.getItem('token');
 if (token) {
     axios.defaults.headers.common['Authorization'] = "Bearer " + token;
@@ -186,9 +188,6 @@ Vue.use(FloatingVue, {
     }
 );
 import 'floating-vue/dist/style.css'
-
-import router from './routes';
-import store from './store/index.js';
 
 import Fragment from 'vue-fragment'
 Vue.use(Fragment.Plugin)

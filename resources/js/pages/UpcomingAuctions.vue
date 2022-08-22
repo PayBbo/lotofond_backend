@@ -301,7 +301,7 @@
             </div>
 
             <bkt-card-list :current_component="'BktCard'" :items="items" :loading="loading"
-                           :pagination_data="pagination_data" @change-page="getData">
+                           :pagination_data="pagination_data" @change-page="getData" @changeStatus="changeStatus">
             </bkt-card-list>
         </section>
 
@@ -646,6 +646,15 @@
             inputPrice: _.debounce(function (e) {
                 this.getData(1)
             }, 700),
+            changeStatus(payload) {
+                if(payload.key ==='isHide') {
+                    let page = null;
+                    if(payload.page) {
+                        page = payload.page
+                    }
+                    this.getData(page)
+                }
+            }
         },
     }
 </script>

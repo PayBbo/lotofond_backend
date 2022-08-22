@@ -289,9 +289,9 @@ export default {
                 });
         },
         async setCurrentPath({dispatch, commit, state}, payload) {
-            if (state.favourites[payload.pathId]) {
-                commit('setCurrentPath', payload.pathId);
-            } else {
+            // if (state.favourites[payload.pathId]) {
+            //     commit('setCurrentPath', payload.pathId);
+            // } else {
                 let params = payload.params;
                 params.page = 1;
                 params.pathId = payload.pathId;
@@ -299,7 +299,7 @@ export default {
                     .then(resp => {
                         commit('setCurrentPath', payload.pathId);
                     })
-            }
+            // }
         }
     },
 

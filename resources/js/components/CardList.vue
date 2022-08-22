@@ -1,6 +1,9 @@
 <template>
     <div ref="cardList" :class="main_class">
-        <slot name="header">
+        <slot name="modals" v-if="!no_modals">
+            <bkt-move-favourite-modal v-if="isLoggedIn" @moveFavourite="moveFavourite"/>
+            <bkt-note-modal v-if="isLoggedIn"/>
+            <bkt-application-modal/>
         </slot>
         <slot name="filters">
         </slot>
@@ -21,7 +24,6 @@
                         :item="item"
                         :index="index"
                         :key="index"
-                        :in_process="in_process"
                         :ref="'card'+index"
                         @changeStatus="changeStatus"
                     />
@@ -55,6 +57,9 @@
 
 <script>
     import _ from 'lodash';
+    import MoveFavouriteModal from "../pages/Favourites/MoveFavouriteModal";
+    import NoteModal from "./SharedModals/NoteModal";
+    import BktApplicationModal from "./SharedModals/ApplicationModal";
     export default {
         name: "CardList",
         props: {
@@ -69,22 +74,9 @@
                 type: Boolean,
                 default: true
             },
-            // params: {
-            //     type: Object,
-            //     required: true,
-            // },
-            // fields: {
-            //     type: Array,
-            //     required: true,
-            //     default: function(){
-            //         return [];
-            //     }
-            // },
-            in_process: {
-                type: Array,
-                default: function () {
-                    return [];
-                }
+            no_modals: {
+                type: Boolean,
+                default: false
             },
             loading_class: {
                 type: String,
@@ -121,6 +113,10 @@
 
             }
         },
+        components: {
+            'bkt-move-favourite-modal': MoveFavouriteModal,
+            'bkt-note-modal': NoteModal,  BktApplicationModal
+        },
         data() {
             return {
                 results: [],
@@ -155,6 +151,9 @@
                     return this.results
                 }
             },
+            isLoggedIn() {
+                return this.$store.getters.isLoggedIn
+            },
         },
         // destroyed() {
         //     if (this.infinite) {
@@ -178,10 +177,16 @@
                 if(this.pagination_data && !this.no_pagination)
                 {
                     payload.page = this.pagination_data.currentPage;
+                    if(payload.key === 'isHide' && this.items.length <= 1) {
+                            payload.page = 1;
+                    }
                 }
-                this.$emit('changeStatus', payload)
-                if(!this.infinite) {
-                    this.scrollToElement();
+                this.$emit('changeStatus', payload);
+                this.$emit('updateData', payload);
+                if(payload.key === 'isHide') {
+                    if (!this.infinite) {
+                        this.scrollToElement();
+                    }
                 }
             },
             inputSearch: _.debounce(function (e) {
@@ -260,6 +265,21 @@
                     });
                 }
             },
+            moveFavourite(payload) {
+                if(this.pagination_data && !this.no_pagination)
+                {
+                    payload.page = this.pagination_data.currentPage;
+                    if(this.items.length <= 1) {
+                        payload.page = 1;
+                    }
+                }
+                payload.key = 'moveFavourite';
+                this.$emit('moveFavourite', payload);
+                this.$emit('updateData', payload);
+                if (!this.infinite) {
+                    this.scrollToElement();
+                }
+            }
         }
     }
 </script>

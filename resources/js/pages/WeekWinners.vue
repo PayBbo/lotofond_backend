@@ -2,7 +2,7 @@
     <div class="bkt-container bkt-page">
         <h1 class="bkt-page__title">Победы недели</h1>
         <bkt-card-list :current_component="'BktWinCard'" :items="items" :loading="loading"
-                       :pagination_data="pagination_data" @change-page="getData">
+                       :pagination_data="pagination_data" @change-page="getData" no_modals>
         </bkt-card-list>
     </div>
 </template>

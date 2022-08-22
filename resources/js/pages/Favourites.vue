@@ -248,7 +248,7 @@
                 </div>
             </div>
             <bkt-card-list :current_component="'BktCard'" :items="items" :loading="loading"
-                           :pagination_data="pagination_data" @change-page="getData" @changeStatus="changeStatus"
+                           :pagination_data="pagination_data" @change-page="getData" @updateData="updateData"
             >
             </bkt-card-list>
         </div>
@@ -398,15 +398,14 @@
                         this.setCurrentPath(this.items_paths[0].pathId)
                     });
             },
-            changeStatus(payload) {
-                if(payload.key ==='isHide' || payload.key ==='inFavourite') {
+            updateData(payload) {
+                if(payload.key ==='isHide' || payload.key ==='inFavourite' || payload.key === 'moveFavourite') {
                     let page = null;
                     if(payload.page) {
                         page = payload.page
                     }
                     this.getData(page)
                 }
-
             },
             toggleDirection() {
                 if (this.params.sort.direction == 'asc') {

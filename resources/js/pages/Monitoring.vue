@@ -604,7 +604,6 @@
                     })
                     this.getData(page)
                 }
-
             }
         },
     }
