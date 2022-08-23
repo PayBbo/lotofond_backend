@@ -2,7 +2,7 @@
 
 return [
 
-    'monitoring'=>'Новые лоты «:value»',
+    'monitoring'=>'Появились новые лоты в мониторинге: :value',
     'favouriteEventStartInFourDays'=>'Начало торгов через :value дня!',
     'favouriteEventEndInFourDays'=>'Окончание торгов через :value дня!',
     'favouriteEventStartInSevenDays'=>'Начало торгов через :value дней!',

@@ -62,7 +62,8 @@ class MonitoringNotificationJob implements ShouldQueue
                     'date' => Carbon::now()->setTimezone('Europe/Moscow'),
                     'type_id' => 3,
                     'value' => $newLotsCount,
-                    'monitoring_id' => $monitoring->id
+                    'monitoring_id' => $monitoring->id,
+                    'message'=>'monitoring'
                 ]);
             }
         }

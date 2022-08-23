@@ -46,11 +46,11 @@ class LotFile extends Model
         if(gettype($urls) == 'array'){
             $result = [];
             foreach($urls as $url){
-                $result[] = asset($url);
+                $result[] = URL::to('/').'/'.$url;
             }
             return $result;
         }else{
-            return asset($value);
+            return URL::to('/').'/'.$urls;
         }
     }
 }

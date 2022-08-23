@@ -52,10 +52,15 @@ class Notification extends Model
         parent::boot();
 
         static::created(function ($notification) {
-            $value = !is_null($notification->value) ? __('messages.' . $notification->message, ['value' => $notification->value]) :
-                __('messages.' . $notification->message);
-
-            $push = new PushNotificationService('Новое оповещение', $value, $notification->user_id, $notification->type->title);
+            if( $notification->type->title == 'monitoring'){
+                $title = $notification->monitoring->title;
+                $value = __('messages.' . $notification->message, ['value' => $notification->value]);
+            }else {
+                $title = 'Новое оповещение';
+                $value = !is_null($notification->value) ? __('messages.' . $notification->message, ['value' => $notification->value]) :
+                    __('messages.' . $notification->message);
+            }
+            $push = new PushNotificationService($title, $value, $notification->user_id, $notification->type->title);
             $push->sendPushNotification();
             $user = User::find($notification->user_id);
             if (!is_null($user->email)) {
