@@ -17,6 +17,7 @@ class FilterBuilder
 
     public function apply()
     {
+        $names = [];
         foreach ($this->filters as $name => $value) {
             if (is_null($value)) {
                 continue;
@@ -26,6 +27,7 @@ class FilterBuilder
             if (!class_exists($class)) {
                 continue;
             }
+            $names[]=$normailizedName;
             if($name === 'dates'){
                 foreach ($value as $item => $val){
                     (new $class($this->query))->handle($val, $item);
@@ -34,6 +36,9 @@ class FilterBuilder
                 (new $class($this->query))->handle($value, $name);
             }
 
+        }
+        if(!in_array('ExtraOptions', $names)){
+            $this->query->doesntHave('userHiddenLot');
         }
         return $this->query;
     }

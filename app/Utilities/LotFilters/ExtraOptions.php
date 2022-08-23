@@ -9,6 +9,7 @@ class ExtraOptions  extends SortQuery implements SortContract
 {
     public function handle($value): void
     {
+        $names = [];
         foreach ($value as $val => $item) {
             $normailizedVal = ucfirst($val);
 
@@ -16,7 +17,11 @@ class ExtraOptions  extends SortQuery implements SortContract
             if (!class_exists($class)) {
                 continue;
             }
+            $names[]=$normailizedVal;
             (new $class($this->query))->handle($item);
+        }
+        if(!in_array('Other', $names)){
+            $this->query->doesntHave('userHiddenLot');
         }
     }
 

@@ -281,7 +281,7 @@ class Lot extends Model
     public function inFavourite(){
         $favourites = auth()->guard('api')->user()->favourites;
         foreach($favourites as $favourite){
-            if($favourite->lots->contains($this)){
+            if($favourite->lots()->where('lots.id', $this->id)->exists()){
                 return true;
             }
         }
@@ -292,7 +292,7 @@ class Lot extends Model
     public function inMonitoring(){
         $monitorings = auth()->guard('api')->user()->monitorings;
         foreach($monitorings as $monitoring){
-            if($monitoring->lots->contains($this)){
+            if($monitoring->lots()->where('lots.id', $this->id)->exists()){
                 return true;
             }
         }
@@ -344,24 +344,21 @@ class Lot extends Model
 
     public function userHiddenLot()
     {
-        return $this->belongsToMany(User::class, 'hidden_lots')->where('user_id', auth()->id());
+        return $this->belongsToMany(User::class, 'hidden_lots')->where('user_id', auth()->guard('api')->id());
     }
 
     public function scopeIsFixed($query)
     {
         if(auth()->guard('api')->check()) {
-            $sort =  $query->orderBy(FixedLot::select('created_at')
+             $query->orderBy(FixedLot::select('created_at')
                 ->whereColumn('lots.id', 'fixed_lots.lot_id')
                 ->where('fixed_lots.user_id', auth()->guard('api')->id())
                 ->take(1),
                 'desc'
             );
-            return $sort;
-        }else{
-            return $query;
+
         }
     }
-
     public function categoriesStructure(){
         $categories = [];
         $parents = [];
@@ -394,7 +391,7 @@ class Lot extends Model
     public function hasNotSeenNotification(){
         $favourites = auth()->guard('api')->user()->favourites;
         foreach($favourites as $favourite){
-            if($favourite->lots->contains($this)){
+            if($favourite->lots()->where('lots.id', $this->id)->exists()){
                 $ids = $favourite->lots()->pluck('favourite_lot.id')->toArray();
                 if(Notification::whereIn('lot_id', $ids)->where(['user_id'=> auth()->guard('api')->id(), 'is_seen'=>false])->exists()){
                     return true;

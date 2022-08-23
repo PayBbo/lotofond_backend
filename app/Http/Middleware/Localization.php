@@ -30,14 +30,9 @@ class Localization
     {
         $locale = $request->header('Content-Language');
 
-        if(!$locale){
+        if(!$locale || !array_key_exists($locale, $this->app->config->get('app.supported_languages'))){
 
             $locale = $this->app->config->get('app.locale');
-        }
-
-        if (!array_key_exists($locale, $this->app->config->get('app.supported_languages'))) {
-
-            return abort(403, 'Language not supported.');
         }
 
         $this->app->setLocale($locale);
