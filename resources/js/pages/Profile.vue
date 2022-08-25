@@ -12,7 +12,7 @@
                         <ul class="bkt-sidebar__links">
                             <li class="bkt-sidebar__link" v-for="link in links"
                                 :class="[tab==link.code ? 'bkt-bg-'+link.color+'-lighter' : '']"
-                                @click="tab=link.code"
+                                @click="navigate(link)"
                             >
                                 <div class="bkt-sidebar__link-icon"
                                      :class="[tab==link.code ? 'bkt-bg-'+link.color : 'bkt-bg-'+link.color+'-lighter']"
@@ -111,12 +111,12 @@
                         label: "Задать вопрос",
                         color: 'yellow',
                     },
-                    {
-                        icon: 'Briefcase',
-                        code: "Contacts",
-                        label: "Контакты",
-                        color: 'blue',
-                    },
+                    // {
+                    //     icon: 'Briefcase',
+                    //     code: "Contacts",
+                    //     label: "Контакты",
+                    //     color: 'blue',
+                    // },
                     {
                         icon: 'Help',
                         code: "Help",
@@ -128,6 +128,13 @@
                         code: "About",
                         label: "О сайте",
                         color: 'red'
+                    },
+                    {
+                        path: '/calendar',
+                        icon: 'Date',
+                        code: "Calendar",
+                        label: "Календарь",
+                        color: 'blue'
                     },
                 ],
             }
@@ -144,6 +151,14 @@
             },
         },
         methods: {
+            navigate(link) {
+                if(link.path) {
+                    this.$router.push(link.path)
+                }
+                else {
+                    this.tab=link.code;
+                }
+            }
         }
     }
 </script>

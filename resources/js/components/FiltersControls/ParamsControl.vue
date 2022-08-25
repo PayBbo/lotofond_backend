@@ -3,8 +3,8 @@
         <div class="col-12">
             <bkt-input v-model="model.includedWords"
                        type="text"
-                       field_name="'Нужные слова'"
-                       label="нужные слова"
+                       field_name="'Ключевые слова'"
+                       label="ключевые слова"
                        label_class="bkt-form__label"
                        name="includedWords" icon_name="Check"
                        :group_item_class="model.includedWords ? 'bkt-bg-green': 'bkt-bg-white'"

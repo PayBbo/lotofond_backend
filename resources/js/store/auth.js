@@ -87,6 +87,7 @@ export default {
                 })
                 .catch(error => {
                     commit('clearStorage');
+                    throw error
                     // dispatch('sendNotification',
                     //     {self: payload.self, message: error.response.data.detail, type: 'error'})
                 });

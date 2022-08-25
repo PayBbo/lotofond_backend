@@ -35,7 +35,9 @@
                 </div>
             </slot>
         </div>
-        <p class="bkt-input-error" :class="errors_class" v-if="errors.length>0 && !no_errors">{{errors[0]}}</p>
+        <slot name="errors" :errors="errors">
+            <p class="bkt-input-error" :class="errors_class" v-if="errors.length>0 && !no_errors">{{errors[0]}}</p>
+        </slot>
     </ValidationProvider>
 </template>
 

@@ -3,7 +3,7 @@
         <nav class="bkt-navbar">
             <div class="bkt-container bkt-navbar__wrapper">
                 <router-link :to="'/without-ecp'" class="bkt-button bkt-text-white blue mx-0">
-                    Покупка без ЭЦП
+                    Покупка без ЭП
                 </router-link>
 
                 <ul class="bkt-navbar__nav d-none d-lg-flex">

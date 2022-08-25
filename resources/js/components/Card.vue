@@ -1,7 +1,9 @@
 <template>
     <div class="bkt-card-trade bkt-card__row w-100 mx-auto mx-0">
         <div class="bkt-wrapper-between bkt-card__heading w-100" v-if="item && item.trade">
-            <h5 class="me-auto">торги № {{item && item.trade.externalId ? item.trade.externalId : '0'}}</h5>
+            <h5 class="me-auto">торги № {{item.trade.externalId ? item.trade.externalId : '0'}}  |
+                <span v-if="item.trade.publishDate">  {{item.trade.publishDate | moment('DD MMMM YYYY HH:mm')}}</span>
+            </h5>
             <div class="d-flex align-items-center bkt-gap-mini"
                  v-if="item.state == 'biddingDeclared' || item.state == 'biddingStart'
                  || item.state == 'applicationSessionStarted'"
@@ -15,9 +17,9 @@
                 <h5 v-else-if="dateStatus && dateStatus.status === 'bidding-result'">
                     дней до объявления результатов торгов: {{dateStatus.days}}
                 </h5>
-                <div class="bkt-card__icon" v-if="dateStatus">
-                    <bkt-icon :name="'Alarm'" :color="'green'" :width="'14px'" :height="'14px'"></bkt-icon>
-                </div>
+<!--                <div class="bkt-card__icon" v-if="dateStatus">-->
+<!--                    <bkt-icon :name="'Alarm'" :color="'green'" :width="'14px'" :height="'14px'"></bkt-icon>-->
+<!--                </div>-->
             </div>
         </div>
         <div class="col-12 col-lg-11 p-0">
@@ -39,14 +41,14 @@
                         <div class="bkt-wrapper-between bkt-card-ecp-wrapper">
                             <!--                            <router-link custom v-slot="{ navigate }" to="/without-ecp">-->
                             <button @click="sendApplication" class="bkt-button primary bkt-card-ecp w-100">
-                                Купить без <br>ЭЦП
+                                Купить без ЭП
                             </button>
                             <!--                            </router-link>-->
-                            <router-link custom v-slot="{ navigate }" to="/agent">
-                                <button @click="navigate" class="bkt-button primary bkt-card-ecp w-100">
-                                    Купить через <br>агента
-                                </button>
-                            </router-link>
+<!--                            <router-link custom v-slot="{ navigate }" to="/agent">-->
+<!--                                <button @click="navigate" class="bkt-button primary bkt-card-ecp w-100">-->
+<!--                                    Купить через <br>агента-->
+<!--                                </button>-->
+<!--                            </router-link>-->
                         </div>
                     </div>
                 </div>
@@ -151,7 +153,7 @@
                                  && (item.trade.applicationTime.start || item.trade.applicationTime.end)"
                             >
                                 <div class="bkt-card__category bkt-bg-primary-lighter">
-                                    <bkt-icon :name="'Date'" :color="'primary'" :width="'16px'" :height="'16px'">
+                                    <bkt-icon :name="'Alarm'" :color="'primary'" :width="'16px'" :height="'16px'">
                                     </bkt-icon>
                                 </div>
                                 <div class="bkt-card_feature">
@@ -172,7 +174,7 @@
                                  && (item.trade.eventTime.start || item.trade.eventTime.end)"
                             >
                                 <div class="bkt-card__category bkt-bg-primary-lighter">
-                                    <bkt-icon :name="'Alarm'" :color="'primary'" :width="'16px'" :height="'16px'">
+                                    <bkt-icon :name="'Gavel'" :color="'primary'" :width="'22px'" :height="'22px'">
                                     </bkt-icon>
                                 </div>
                                 <div class="bkt-card_feature">
