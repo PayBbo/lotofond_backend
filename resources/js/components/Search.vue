@@ -26,10 +26,10 @@
             </button>
         </div>
         <div class="bkt-dropdown__menu w-100" :class="dropdown_class" v-show="optionsShown&&!simple&&!no_dropdown">
+            <slot name="dropdown-block-header" v-bind:pagination="pagination">
+            </slot>
             <div class="dropdown-block" v-if="options">
                 <slot name="dropdown-block" :options="options">
-                    <slot name="dropdown-block-header">
-                    </slot>
                     <div class="row w-100 m-auto bkt-gap">
                         <div class="col-12 px-0" v-for="(item, index) in options" @mousedown="selectOption(item)">
                             <slot name="dropdown-item" v-bind:item="item">

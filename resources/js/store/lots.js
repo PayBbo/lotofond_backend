@@ -109,7 +109,7 @@ export default {
             // });
         },
         async removeLotFile({dispatch, commit}, payload) {
-            return await axios.delete(`/api/files/${payload.id}`)
+            return await axios.delete(`/api/files/${payload}`)
             // .then(response => {
             //     commit('removeFile', payload.id);
             // }).catch(error => {

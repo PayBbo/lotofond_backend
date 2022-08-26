@@ -1,17 +1,27 @@
 <template>
     <div class="position-relative">
         <input type="file" ref="upload" multiple v-on:change="handleFile()"/>
-        <button class="bkt-button-link p-0" @click="startUpload">
-            <bkt-icon name="Clip" color="primary" class="bkt-button__icon"></bkt-icon>
-            прикрепить файл
-        </button>
+        <slot name="upload_button">
+            <button :class="upload_button_class" @click="startUpload">
+                <slot name="upload_button_inner">
+                    <bkt-icon name="Clip" color="primary" class="bkt-button__icon"></bkt-icon>
+                    прикрепить файл
+                </slot>
+            </button>
+        </slot>
     </div>
 </template>
 
 <script>
     export default {
         name: "UploadFile",
-        props: ['file'],
+        props: {
+            file: {},
+            upload_button_class: {
+                type: String,
+                default: 'bkt-button-link p-0'
+            }
+        },
         model: {
             prop: 'file',
             event: 'change'
@@ -30,7 +40,12 @@
             handleFile() {
                 let uploadedFiles = this.$refs['upload'].files;
                 for (let i = 0; i < uploadedFiles.length; i++) {
-                    if (/\.(jpe?g|png|gif|svg|pdf|doc|docx)$/i.test(uploadedFiles[i].name)) {
+                    if (/\.(jpe?g|png|bmp|pdf|doc|docx)$/i.test(uploadedFiles[i].name)) {
+                        uploadedFiles[i].fileType = 'file';
+                        if(/\.(jpe?g|png|bmp)$/i.test(uploadedFiles[i].name))
+                        {
+                            uploadedFiles[i].fileType = 'image';
+                        }
                         uploadedFiles[i].file_size = this.formatBytes(uploadedFiles[i].size);
                         this.upload_files.push(uploadedFiles[i]);
                         this.$emit('change', this.upload_files);
@@ -38,6 +53,7 @@
                 }
             },
             startUpload() {
+                // this.$emit('start-upload')
                 this.$refs.upload.click();
             },
             formatBytes(bytes, decimals = 2) {

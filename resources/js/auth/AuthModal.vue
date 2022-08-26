@@ -80,7 +80,12 @@
                 :rules="'required'"
                 placeholder="pochta@gmail.com"
                 icon_name="Email"
-            />
+            >
+                <template #errors="{errors}" v-if="email_error">
+                    <p class="bkt-input-error" v-if="errors.length>0">{{errors[0]}}</p>
+                    <p class="bkt-input-error" v-else>{{error.detail}}</p>
+                </template>
+            </bkt-input>
 <!--            <bkt-input-->
 <!--                v-model="user.phone"-->
 <!--                v-if="tab=='registration'"-->
@@ -102,6 +107,10 @@
                 :rules="'required|min:8'"
                 group_item_action
             >
+                <template #errors="{errors}" v-if="password_error">
+                    <p class="bkt-input-error" v-if="errors.length>0">{{errors[0]}}</p>
+                    <p class="bkt-input-error" v-else>{{error.detail}}</p>
+                </template>
                 <template #icon>
                     <svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 516.000000 404.000000"
                          width="100%" height="18px">
@@ -225,7 +234,10 @@
                 tab: 'registration',
                 terms: false,
                 loading: false,
-                user: ''
+                user: '',
+                password_error:false,
+                email_error:false,
+                error: null
             }
         },
         computed: {
@@ -244,6 +256,9 @@
                 let data = JSON.parse(JSON.stringify(this.user));
                 data.grantType = this.grantType;
                 this.loading = true;
+                this.error = null;
+                this.email_error=false;
+                this.password_error=false;
                 await this.$store.dispatch(this.tab, data).then(resp => {
                     this.loading = false;
                     if(this.tab == 'registration') {
@@ -251,6 +266,15 @@
                             {self: this, message:'Код подтверждения был отправлен на указанную почту'})
                     }
                 }).catch(error => {
+                    this.error = error.response.data;
+                    if(error.response.data.title === 'ERR_VALIDATION_FAILED_EMAIL')
+                    {
+                        this.email_error=true;
+                    }
+                    if(error.response.data.title === 'ERR_VALIDATION_FAILED_PASSWORD')
+                    {
+                        this.password_error=true;
+                    }
                     this.loading = false;
                 })
             },

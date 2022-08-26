@@ -44,6 +44,14 @@
                                         <span>{{ $t('trades.type.'+item.trade.type)}}</span>
                                     </div>
                                 </li>
+                                <li v-if="item.trade && item.trade.publishDate">
+                                    <div class="bkt-contents__heading">
+                                        <span class="bkt-contents__heading">дата размещения</span>
+                                    </div>
+                                    <div class="bkt-contents__answer">
+                                        <span>{{item.trade.publishDate | moment('DD MMMM YYYY HH:mm')}}</span>
+                                    </div>
+                                </li>
                                 <li v-if="item.state">
                                     <div class="bkt-contents__heading">
                                         <span class="bkt-contents__heading">статус торгов</span>
@@ -212,13 +220,13 @@
                             </hooper>
                             <div class="bkt-wrapper-between bkt-card-ecp-wrapper">
                                 <button @click="sendApplication" class="bkt-button primary bkt-card-ecp w-100">
-                                    Купить без <br>ЭЦП
+                                    Купить без ЭП
                                 </button>
-                                <router-link custom v-slot="{ navigate }" to="/agent">
-                                    <button @click="navigate" class="bkt-button primary bkt-card-ecp w-100">
-                                        Купить через <br>агента
-                                    </button>
-                                </router-link>
+                                <!--                                <router-link custom v-slot="{ navigate }" to="/agent">-->
+                                <!--                                    <button @click="navigate" class="bkt-button primary bkt-card-ecp w-100">-->
+                                <!--                                        Купить через <br>агента-->
+                                <!--                                    </button>-->
+                                <!--                                </router-link>-->
                             </div>
                         </div>
                         <div class="bkt-card-price bkt-button w-100"
@@ -261,8 +269,7 @@
                             <div class="bkt-lot__card-period bkt-wrapper" v-if="item.trade && item.trade.applicationTime
                                  && (item.trade.applicationTime.start || item.trade.applicationTime.end)">
                                 <div class="bkt-card__category bkt-bg-blue">
-                                    <bkt-icon :name="'Date'" :width="'16px'"
-                                              :height="'16px'"></bkt-icon>
+                                    <bkt-icon :name="'Alarm'" :width="'16px'" :height="'16px'"></bkt-icon>
                                 </div>
                                 <h5 class="bkt-card__text">прием заявок
                                     <span v-if="item.trade.applicationTime.start">
@@ -286,11 +293,10 @@
                                  && (item.trade.eventTime.start || item.trade.eventTime.end || item.trade.eventTime.result)"
                             >
                                 <div class="bkt-card__category bkt-bg-yellow">
-                                    <bkt-icon :name="'Alarm'" :width="'16px'"
-                                              :height="'16px'"></bkt-icon>
+                                    <bkt-icon :name="'Gavel'" :width="'22px'" :height="'22px'"></bkt-icon>
                                 </div>
                                 <h5 class="bkt-card__text">
-                                    {{item.trade.eventTime.result ? 'объявление результатов торгов' : 'проведение торгов'}}
+                                    {{item.trade.eventTime.result?'объявление результатов торгов':'проведение торгов'}}
                                     <span v-if="item.trade.eventTime.start">
                                         <br class="d-md-none">
                                         с {{item.trade.eventTime.start | moment('DD MMMM YYYY')}}
@@ -707,31 +713,119 @@
             <!--                                <button class="bkt-button primary">Добавить набор</button>-->
             <!--                            </div>-->
             <!--                        </div>-->
-            <!--                        <div class="col-12 col-lg-3 order-3">-->
-            <!--                            <div class="bkt-card bkt-card__body bkt-lot-my-files">-->
-            <!--                                <div class="bkt-card__header"><h3 class="bkt-card__title">Мои файлы</h3></div>-->
-            <!--            &lt;!&ndash;                    <div class="bkt-card__row outline bkt-wrapper-between bkt-nowrap">&ndash;&gt;-->
-            <!--            &lt;!&ndash;                        <div class="bkt-card__feature text-truncate">&ndash;&gt;-->
-            <!--            &lt;!&ndash;                            <h5 class="text-truncate">Nazvanie.pdf</h5>&ndash;&gt;-->
-            <!--            &lt;!&ndash;                            <h6 class="bkt-card__subtitle">23.1 Mb</h6>&ndash;&gt;-->
-            <!--            &lt;!&ndash;                        </div>&ndash;&gt;-->
-            <!--            &lt;!&ndash;                        <div class="bkt-card__icon">&ndash;&gt;-->
-            <!--            &lt;!&ndash;                            <bkt-icon :name="'More'"></bkt-icon>&ndash;&gt;-->
-            <!--            &lt;!&ndash;                        </div>&ndash;&gt;-->
-            <!--            &lt;!&ndash;                    </div>&ndash;&gt;-->
-            <!--            &lt;!&ndash;                    <div class="bkt-card__row outline bkt-wrapper-between bkt-nowrap">&ndash;&gt;-->
-            <!--            &lt;!&ndash;                        <div class="bkt-card__feature text-truncate">&ndash;&gt;-->
-            <!--            &lt;!&ndash;                            <h5 class="text-truncate">Foto.jpg</h5>&ndash;&gt;-->
-            <!--            &lt;!&ndash;                            <h6 class="bkt-card__subtitle">45.99 Kb</h6>&ndash;&gt;-->
-            <!--            &lt;!&ndash;                        </div>&ndash;&gt;-->
-            <!--            &lt;!&ndash;                        <div class="bkt-card__icon">&ndash;&gt;-->
-            <!--            &lt;!&ndash;                            <bkt-icon :name="'More'"></bkt-icon>&ndash;&gt;-->
-            <!--            &lt;!&ndash;                        </div>&ndash;&gt;-->
-            <!--            &lt;!&ndash;                    </div>&ndash;&gt;-->
-            <!--                                <button class="bkt-button green">Добавить фото</button>-->
-            <!--                                <button class="bkt-button green">Добавить документ</button>-->
-            <!--                            </div>-->
-            <!--                        </div>-->
+            <div v-if="isLoggedIn" class="col-12 col-lg-6 order-3">
+                <div class="bkt-card bkt-card__body bkt-lot-my-files bkt-lot-price-reduction">
+                    <div class="bkt-card__header">
+                        <h3 class="bkt-card__title">Изменение цены</h3>
+                    </div>
+                    <div class="bkt-card__inner bkt-wrapper-column bkt-gap">
+                        <template v-if="item.priceReduction && item.priceReduction.length>0">
+                            <div class="bkt-card__row outline bkt-wrapper-between bkt-nowrap"
+                                 v-for="reduction in item.priceReduction">
+                                <h5>{{reduction.time | moment('DD.MM.YYYY HH:mm')}}</h5>
+                                <h5>{{reduction.price | priceFormat}}</h5>
+                                <!--                            :class="{'bkt-text-green': reduction.price > item.startPrice,
+                                                            'bkt-text-primary': reduction.price == item.startPrice,
+                                                            'bkt-text-red': reduction.price < item.startPrice }"-->
+                            </div>
+                        </template>
+                        <div v-else
+                             class="bkt-wrapper-column my-auto justify-content-center align-items-center text-center"
+                             style="padding-bottom:54px;"
+                        >
+                            <bkt-icon name="ArrowDownCircle" color="neutral-light" class="mx-auto" width="80%"
+                                      height="200px"></bkt-icon>
+                            <h5 class="bkt-text-neutral">Измений ещё не было</h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div v-if="isLoggedIn"  class="col-12 col-lg-6 order-3">
+                <div class="bkt-card bkt-card__body bkt-lot-my-files">
+                    <div class="bkt-card__header">
+                        <h3 class="bkt-card__title">Мои файлы</h3>
+                    </div>
+                    <!--                    user_files-->
+                    <div class="bkt-card__inner bkt-wrapper-column justify-content-start bkt-gap">
+                        <template v-if="user_files.length>0">
+                            <bkt-dropdown v-for="(file, index) in user_files" :key="index"
+                                          :title="file.name" :subtitle="file.file_size" icon="More"
+                                          :dropdown_item_class="['bkt-card__row outline', {'disabled': !file.url}]"
+                                          dropdown_icon_class="bkt-rotate-90"
+                                          :dropdown_menu_class="['bkt-dropdown__menu_neutral', {'d-none': !file.url}]"
+                            >
+                                <template #menu>
+                                    <div class="bkt-dropdown__menu-item bkt-wrapper-between">
+                                        <a :href="file.url" target="_blank" class="h-100 w-100">
+                                            <div class="bkt-dropdown__menu-text">
+                                                Скачать
+                                            </div>
+                                            <div class="bkt-dropdown__menu-icon">
+                                                <bkt-icon name="Download" color="blue"></bkt-icon>
+                                            </div>
+                                        </a>
+                                    </div>
+                                    <div class="bkt-dropdown__menu-item bkt-wrapper-between"
+                                         @click="deleteFile(file.id, index)">
+                                        <div class="bkt-dropdown__menu-text">
+                                            Удалить
+                                        </div>
+                                        <div class="bkt-dropdown__menu-icon">
+                                            <bkt-icon name="Trash" color="red"></bkt-icon>
+                                        </div>
+                                    </div>
+                                </template>
+                                <template #icon_wrapper v-if="in_process.includes('id'+file.id)">
+                                      <span role="status" class="spinner-border spinner-border-sm bkt-text-primary">
+                                      </span>
+                                </template>
+                            </bkt-dropdown>
+                        </template>
+                        <template v-if="new_user_files.length>0">
+                            <h5 class="bkt-text-neutral mx-auto">новые незагруженные файлы</h5>
+                            <bkt-dropdown v-for="(file, index) in new_user_files" :key="index"
+                                          :title="file.name" :subtitle="file.file_size" icon="More"
+                                          dropdown_item_class="bkt-card__row outline disabled"
+                                          dropdown_icon_class="bkt-rotate-90"
+                                          dropdown_menu_class="d-none"
+                            >
+                                <template #icon_wrapper v-if="!file.url">
+                                    <div class="d-flex bkt-nowrap bkt-gap">
+                                        <div class="bkt-dropdown__item-icon" @click="saveFile(index)"
+                                             data-bs-toggle="tooltip" data-bs-placement="top" title="Сохранить"
+                                             v-show="!in_process.includes(index)"
+                                        >
+                                            <bkt-icon name="Check" color="green" width="22px" height="22px"></bkt-icon>
+                                        </div>
+                                        <div class="bkt-dropdown__item-icon" @click="removeFile(index)"
+                                             data-bs-toggle="tooltip" data-bs-placement="top" title="Отменить"
+                                             v-show="!in_process.includes(index)"
+                                        >
+                                            <bkt-icon name="Cancel" color="red" width="16px" height="16px"></bkt-icon>
+                                        </div>
+                                         <span v-if="in_process.includes(index)" role="status"
+                                               class="spinner-border spinner-border-sm bkt-text-primary"
+                                         >
+                                         </span>
+                                    </div>
+                                </template>
+                            </bkt-dropdown>
+                        </template>
+                        <div v-else
+                             class="bkt-wrapper-column my-auto justify-content-center align-items-center text-center">
+                            <bkt-icon name="Download" color="neutral-light" class="mx-auto" width="80%"
+                                      height="200px"></bkt-icon>
+                            <h5 class="bkt-text-neutral">Добавьте файлы к лоту</h5>
+                        </div>
+                    </div>
+                    <bkt-upload-file v-model="new_user_files" ref="upload_file" upload_button_class="bkt-button green w-100">
+                        <template #upload_button_inner>
+                            Добавить файл
+                        </template>
+                    </bkt-upload-file>
+<!--                    <button class="bkt-button green">Добавить файл</button>-->
+                </div>
+            </div>
             <div v-if="item.trade && item.trade.debtor && isLoggedIn" class="col-12 col-lg-12 order-3 px-lg-0">
                 <div class="bkt-card bkt-card__body bkt-lot__card">
                     <div class="bkt-card__header bkt-wrapper-between pb-0">
@@ -1087,7 +1181,8 @@
     import BktCardActions from '../components/CardActions.vue'
     import BktCardImageCategory from "../components/CardImageCategory";
     import MiniTradeCard from "../components/MiniTradeCard";
-
+    import BktDropdown from "../components/Dropdown";
+    import BktUploadFile from "../components/UploadFile";
     export default {
         name: "LotCard",
         components: {
@@ -1098,7 +1193,9 @@
             StarRating,
             BktCollapse,
             BktCardActions,
-            BktCardImageCategory
+            BktCardImageCategory,
+            BktDropdown,
+            BktUploadFile
         },
         data() {
             return {
@@ -1107,7 +1204,10 @@
                 // item: {},
                 files: [],
                 user_files: [],
+                new_user_files: [],
+                in_process:[],
                 files_loading: false,
+                user_files_loading: false,
                 debtor_active_lots: [],
                 debtor_active_lots_loading: false,
                 debtor_active_lots_pagination: {},
@@ -1208,7 +1308,14 @@
                             let result = str.substring(n + 1);
                             this.files.push({title: result, url: item})
                         })
-                        this.user_files = resp.data.userFiles;
+                        resp.data.userFiles.forEach(item => {
+                            let str = item;
+                            let n = item.lastIndexOf('/');
+                            item.title = str.substring(n + 1);
+                            this.user_files.push(item)
+                        })
+                        // this.user_files = resp.data.userFiles;
+
                     }).catch(error => {
 
                     }).finally(() => {
@@ -1309,7 +1416,58 @@
                     this.getLotFiles();
                     this.makeWatched();
                 }
-            }
+            },
+            saveFile(index) {
+                this.in_process.push(index);
+                let formData = new FormData();
+                formData.append('lotId', this.item.id);
+                formData.append("file", this.new_user_files[index]);
+                formData.append('fileType', this.new_user_files[index].fileType);
+                let file_index = this.in_process.indexOf(index);
+                this.$store.dispatch('addLotFile', formData)
+                    .then(resp => {
+                        // this.user_files = resp.data.userFiles;
+                        resp.data.userFiles.forEach(item => {
+                            if(this.user_files.findIndex(file=> file.id == item.id)<0)
+                            {
+                                let str = item;
+                                let n = item.lastIndexOf('/');
+                                item.title = str.substring(n + 1);
+                                this.user_files.push(item)
+                            }
+                        });
+                        if(file_index>=0){
+                            this.in_process.splice(file_index);
+                        }
+                        this.removeFile(index);
+                        this.$store.dispatch('sendNotification',
+                            {self: this, message: 'Файл успешно загружен'})
+                }).catch(error => {
+                    if(file_index>=0){
+                        this.in_process.splice(file_index);
+                    }
+                })
+            },
+            deleteFile(id, index) {
+                this.in_process.push('id'+id);
+                let file_index = this.in_process.indexOf('id'+id);
+                this.$store.dispatch('removeLotFile', id)
+                    .then(resp => {
+                        if(file_index>=0){
+                            this.in_process.splice(file_index);
+                        }
+                        this.user_files.splice(index);
+                        this.$store.dispatch('sendNotification',
+                            {self: this, message: 'Файл успешно удалён'})
+                    }).catch(error => {
+                        if(file_index>=0){
+                            this.in_process.splice(file_index);
+                        }
+                })
+            },
+            removeFile(index) {
+                this.$refs.upload_file.removeFile(index);
+            },
         }
     }
 </script>

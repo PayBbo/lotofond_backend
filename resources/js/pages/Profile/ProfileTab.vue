@@ -1,5 +1,5 @@
 <template>
-    <div class="bkt-form wide bkt-profile-gap">
+    <div class="bkt-form wide bkt-gap-row-large bkt-profile-gap">
         <div class="col-12 col-lg-6 bkt-form__offset-right">
             <div class="bkt-card">
                 <ValidationObserver v-slot="{ invalid }" tag="div" class="bkt-card__body bkt-gap-down-sm-row-large">
@@ -64,7 +64,7 @@
                 </ValidationObserver>
             </div>
         </div>
-        <div class="p-0 col-12 col-lg-6">
+        <div class="px-0 col-12 col-lg-6">
             <div class="bkt-card">
                 <ValidationObserver v-slot="{ invalid }" tag="div" class="bkt-card__body bkt-gap-down-sm-row-large"
                                     v-show="!edit_password_mode">
@@ -243,12 +243,19 @@
                 </ValidationObserver>
             </div>
         </div>
+        <div class="col-12">
+            <contacts-tab></contacts-tab>
+        </div>
     </div>
 </template>
 
 <script>
+    import ContactsTab from "./ContactsTab";
     export default {
         name: "ProfileTab",
+        components: {
+            ContactsTab
+        },
         data() {
             return {
                 passwords: {

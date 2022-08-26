@@ -1,5 +1,5 @@
 <template>
-    <div class="bkt-wrapper-column bkt-gap-large bkt-gap-down-sm">
+    <div class="bkt-wrapper-column bkt-gap-large bkt-profile-gap">
         <div class="bkt-card bkt-card__body bkt-gap-row-medium">
             <h3 class="bkt-card__title">Ваша электронная почта</h3>
             <div class="bkt-form bkt-gap-down-sm-row-medium">
@@ -24,7 +24,6 @@
                     </button>
                 </div>
             </div>
-
         </div>
         <div class="bkt-card bkt-card__body bkt-gap-row-medium">
             <h3 class="bkt-card__title">Ваш номер телефона</h3>

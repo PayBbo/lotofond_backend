@@ -9,10 +9,14 @@
         <h1 class="bkt-page__title">Электронные торги по банкротству</h1>
 
         <bkt-search v-model="searchString" method_name="searchTrades" :method_params="{}" immediate_search
-                    @selected="selectSearchLot" infinite
+                    @selected="selectSearchLot" infinite dropdown_class="pt-0"
         >
-            <template #dropdown-block-header>
-                <div class="row w-100 mx-auto align-items-center justify-content-center d-none d-md-flex">
+            <template #dropdown-block-header="{pagination}">
+                <div class="d-flex w-100 mx-auto align-items-center mb-2 bkt-gap-mini">
+                    <bkt-icon name="Search" width="12px" height="12px" color="primary"></bkt-icon>
+                    <h5 class="bkt-text-primary font-weight-bold">найдено лотов: {{pagination.total}}</h5>
+                </div>
+                <div class="row w-100 mx-auto align-items-center justify-content-center mb-2 d-none d-md-flex">
                     <div class="col-2 pl-0">
                         <h6 class="bkt-text-neutral-dark">фото</h6>
                     </div>
@@ -269,7 +273,9 @@
             this.$store.dispatch('getLotsStatistic');
         },
         mounted() {
-            this.getData();
+            if(this.items.length==0) {
+                this.getData();
+            }
         },
         data() {
             return {

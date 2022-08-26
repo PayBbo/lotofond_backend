@@ -72,6 +72,21 @@
             <div v-if="selectedFilter === 6" class="bkt-monitoring-price text-left">
                 <bkt-options-control v-model="monitoring.filters.extraOptions"></bkt-options-control>
             </div>
+            <div>
+                <label class="bkt-form__label bkt-input__label">
+                    Периодичность уведомлений
+                </label>
+                <bkt-checkbox label="Каждый час" v-model="monitoring.notificationTime"
+                              val="hourly" name="notificationTime1" type="radio"
+                              :disabled="loading"></bkt-checkbox>
+                <bkt-checkbox label="Раз в день" v-model="monitoring.notificationTime"
+                              val="daily" name="notificationTime2" type="radio"
+                              :disabled="loading"></bkt-checkbox>
+                <bkt-checkbox label="Раз в неделю" v-model="monitoring.notificationTime"
+                              val="weekly" name="notificationTime3" type="radio"
+                              :disabled="loading"></bkt-checkbox>
+            </div>
+
             <bkt-color-pallet v-model="monitoring.color"></bkt-color-pallet>
         </template>
     </bkt-modal>
