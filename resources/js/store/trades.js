@@ -72,7 +72,8 @@ export default {
         },
         saveTradeProperty(state, payload) {
             let trade = state.trades.findIndex(item => item.id === payload.id);
-            if (trade >= 0 && state.trades[trade].hasOwnProperty(payload.key)) {
+        // && state.trades[trade].hasOwnProperty(payload.key)
+            if (trade >= 0) {
                 Vue.set(state.trades[trade], payload.key, payload.value)
             }
         },

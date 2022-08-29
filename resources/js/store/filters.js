@@ -71,7 +71,7 @@ export default {
             //     isHidden: false
             // },
             sort: {
-                direction: "asc",
+                direction: "desc",
                 type: "publishDate"
             }
         },
@@ -154,7 +154,7 @@ export default {
             },
             messageHasFiles: false,
             sort: {
-                direction: "asc",
+                direction: "desc",
                 type: ""
             },
             perPage: 20,
@@ -207,9 +207,9 @@ export default {
         },
         saveFiltersProperty(state, payload) {
             // Vue.set(state.filters, payload.key, payload.value);
-            if (localStorage.getItem(payload.key)) {
+            // if (localStorage.getItem(payload.key)) {
                 localStorage.setItem(payload.key, JSON.stringify(payload.value));
-            }
+            // }
         },
         saveFilterProperty(state, payload) {
             Vue.set(state.filters[payload.filter], payload.key, payload.value);

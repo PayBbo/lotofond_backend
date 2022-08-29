@@ -11,13 +11,39 @@
                 :data-bs-toggle="action.dropdown_id && item[action.status] ? 'dropdown' : ''"
                 :disabled="in_process.indexOf(action.icon)>=0"
             >
-                <span v-show="in_process.indexOf(action.icon)>=0" class="spinner-border spinner-border-sm"
-                      role="status"></span>
-                <bkt-icon v-show="in_process.indexOf(action.icon)<0" class="bkt-button__icon" :name="action.icon"
-                          :color="type=='menu' && !item[action.status] ? action.color : 'white'"></bkt-icon>
-                <span v-if="type=='menu'">{{action.label}}</span>
+                <span v-if="in_process.indexOf(action.icon)>=0" style="margin-right: 12px;"
+                      class="spinner-border spinner-border-sm" role="status">
+                </span>
+<!--                <template v-if="action.status_icon">-->
+<!--                    <bkt-icon v-show="in_process.indexOf(action.icon)<0 && item[action.status]"-->
+<!--                              class="bkt-button__icon" :name="action.status_icon"-->
+<!--                              :color="type==='menu' && !item[action.status] ? action.color : 'white'">-->
+<!--                    </bkt-icon>-->
+<!--                    <bkt-icon v-show="in_process.indexOf(action.icon)<0 && !item[action.status]"-->
+<!--                              class="bkt-button__icon" :name="action.icon"-->
+<!--                              :color="type==='menu' && !item[action.status] ? action.color : 'white'">-->
+<!--                        -->
+<!--                    </bkt-icon>-->
+<!--                </template>-->
+<!--                <template v-else>-->
+<!--                    <bkt-icon v-show="in_process.indexOf(action.icon)<0"-->
+<!--                              class="bkt-button__icon" :name="action.icon"-->
+<!--                              :color="type==='menu' && !item[action.status] ? action.color : 'white'">-->
+<!--                    </bkt-icon>-->
+<!--                </template>-->
+                    <bkt-icon v-if="in_process.indexOf(action.icon)<0 "
+                              class="bkt-button__icon" :name="item[action.status] && action.status_icon ? action.status_icon : action.icon"
+                              :color="type==='menu' && !item[action.status] ? action.color : 'white'">
+                    </bkt-icon>
+<!--                    <bkt-icon v-show="in_process.indexOf(action.icon)<0 && !action.status_icon"-->
+<!--                              class="bkt-button__icon" :name="action.icon"-->
+<!--                              :color="type==='menu' && !item[action.status] ? action.color : 'white'">-->
+<!--                    </bkt-icon>-->
+
+                <span v-if="type==='menu'">{{item[action.status] && action.status_icon ? action.status_label : action.label}}
+                </span>
             </button>
-            <div v-if="action.dropdown_id && item[action.status]"
+            <div v-show="action.dropdown_id && item[action.status]"
                  class="dropdown-menu dropdown-menu-end dropdown-menu-right bkt-dropdown__menu bkt-dropdown__menu_pointed bkt-dropdown__menu_neutral"
                  aria-labelledby="dropdownMenuClickableOutside"
             >
@@ -43,12 +69,12 @@
         </div>
         <div class="dropdown">
             <button :class="['bkt-hover-red bkt-button'+button_type, item.isHide ? 'bkt-bg-red' : '']"
-                    @click="changeStatus({icon:'Trash', type:'hidden',  status:'isHide'})">
-                <span v-show="in_process.indexOf('Trash')>=0"
-                      class="spinner-border spinner-border-sm"
+                    @click="changeStatus({icon:'Hide', type:'hidden',  status:'isHide'})">
+                <span v-show="in_process.indexOf('Hide')>=0"
+                      class="spinner-border spinner-border-sm mx-auto"
                       role="status"></span>
-                <bkt-icon v-show="in_process.indexOf('Trash')<0" class="bkt-button__icon mx-auto" :name="'Trash'"
-                          :color="item.isHide ? 'white' : 'red'"></bkt-icon>
+                <bkt-icon v-if="in_process.indexOf('Hide')<0" class="bkt-button__icon mx-auto"
+                          :name="item.isHide ? 'Unhide' : 'Hide'" :color="item.isHide ? 'white' : 'red'"></bkt-icon>
             </button>
         </div>
     </div>
@@ -88,13 +114,15 @@
                 in_process: [],
                 actions: [
                     {
-                        icon: 'Eye',
-                        label: "В просмотренное",
+                        icon: 'Viewed',
+                        status_icon: 'Unviewed',
+                        label: "Отметить просмотренным",
+                        status_label: "Отметить непросмотренным",
                         color: 'primary',
                         code: '',
                         status: 'isWatched',
                         method: this.changeStatus,
-                        method_params: {type: 'seen', icon: 'Eye', status: 'isWatched'},
+                        method_params: {type: 'seen', icon: 'Viewed', status: 'isWatched'},
                         place: 'all',
                         class: ''
                     },
@@ -110,13 +138,13 @@
                     //     class: ''
                     // },
                     {
-                        icon: 'Pencil',
+                        icon: 'Edit',
                         label: "Добавить заметку",
                         color: 'blue',
                         code: '',
                         status: 'note',
                         method: this.addNote,
-                        method_params: {icon: 'Pencil'},
+                        method_params: {icon: 'Edit'},
                         place: 'all',
                         class: ''
                     },
@@ -127,14 +155,16 @@
                         code: '',
                         status: 'inMonitoring',
                         method: this.navigate,
-                        method_params: {icon: 'Target', path:'/monitoring'},
+                        method_params: {icon: 'Target', path: '/monitoring'},
                         place: 'all',
                         class: '',
                         condition: true
                     },
                     {
                         icon: 'Star',
-                        label: "В избранное",
+                        status_icon: 'Unstar',
+                        label: "Добавить в Избранное",
+                        status_label: "Убрать из Избранного",
                         color: 'yellow',
                         code: '',
                         status: 'inFavourite',
@@ -151,20 +181,21 @@
                         code: '',
                         status: 'hasNotSeenNotification',
                         method: this.navigate,
-                        method_params: {icon: 'Bell', path:'/messages'},
+                        method_params: {icon: 'Bell', path: '/messages'},
                         place: 'all',
                         class: '',
                         condition: true
-
                     },
                     {
-                        icon: 'Clip',
+                        icon: 'Pin',
+                        status_icon: 'Unpin',
                         label: "Закрепить",
+                        status_label: "Открепить",
                         color: 'pink',
                         code: '',
                         status: 'isPinned',
                         method: this.changeStatus,
-                        method_params: {type: 'fixed', icon: 'Clip', status: 'isPinned'},
+                        method_params: {type: 'fixed', icon: 'Pin', status: 'isPinned'},
                         place: 'all',
                         class: ''
                     },
@@ -205,19 +236,17 @@
         },
         methods: {
             makeAction(method, method_params) {
-                if(this.isLoggedIn)
-                {
+                if (this.isLoggedIn) {
                     if (method) {
                         method(method_params);
                         return;
                     }
-                }
-                else {
+                } else {
                     this.$store.dispatch('sendAuthNotification', {self: this})
                 }
             },
             changeStatus(payload) {
-                if(this.isLoggedIn) {
+                if (this.isLoggedIn) {
                     this.toggleProcess(payload.icon);
                     this.$store.dispatch('changeTradeLotStatus', {lot_id: this.item.id, type: payload.type})
                         .then(resp => {
@@ -226,13 +255,16 @@
                                 key: payload.status,
                                 value: !this.item[payload.status]
                             })
-                            this.$emit('changeStatus', {key: payload.status, value: !this.item[payload.status], lotId: this.item.id})
+                            this.$emit('changeStatus', {
+                                key: payload.status,
+                                value: !this.item[payload.status],
+                                lotId: this.item.id
+                            })
                         })
                         .finally(() => {
                             this.toggleProcess(payload.icon)
                         })
-                }
-                else {
+                } else {
                     this.$store.dispatch('sendAuthNotification', {self: this})
                 }
             },
@@ -246,6 +278,16 @@
                                 key: 'inFavourite',
                                 value: !this.item.inFavourite
                             })
+                            this.$store.commit('saveTradeProperty', {
+                                id: this.item.id,
+                                key: 'favouritePaths',
+                                value: [this.favourites_paths[0]]
+                            })
+                            this.$store.dispatch('saveDataProperty', {
+                                module_key: 'lots', state_key: 'selected_lot',
+                                key: 'favouritePaths',
+                                value: [this.favourites_paths[0]]
+                            }, {root: true});
                             this.$emit('changeStatus', {key: 'inFavourite', value: !this.item.inFavourite})
                         })
                         .finally(() => {

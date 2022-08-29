@@ -474,7 +474,7 @@
                     searchField: '',
                     includedWords: '',
                     sort: {
-                        direction: "asc",
+                        direction: "desc",
                         type: "publishDate"
                     }
                 }

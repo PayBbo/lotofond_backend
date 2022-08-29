@@ -4,7 +4,45 @@
                right_button="Отправить"
     >
         <template #body>
-            <div class="bkt-form bkt-wrapper-column">
+            <div class="bkt-form bkt-wrapper-column bkt-promo__form p-0 w-100">
+                <div class="bkt-promo__block-wrapper" v-if="promo == true">
+                    <div class="bkt-promo__block">
+                        <div class="bkt-promo__block-body">
+                            <h1 class="bkt-promo__block-title">Новичок?<br><span
+                                class="bkt-text-yellow">сэкономьте до 50%</span></h1>
+                            <h5 class="bkt-promo__block-subtitle">на торгах с нашей помощью</h5>
+                            <h4 class="bkt-promo__block-text">
+                                Воспользуйтесь нашим опытом побед, чтобы избежать ошибок и сэкономить время, деньги и
+                                нервы.
+                            </h4>
+                        </div>
+                        <button class="bkt-button bkt-button_yellow bkt-button_plump" @click="navigate('/agent')">
+                            Подробнее о покупке без ЭП
+                        </button>
+                        <span type="button" class="bkt-close-button" @click="close"
+                                aria-label="Close">
+                            <bkt-icon :name="'Cancel'" :width="'20px'" :height="'20px'" color="white"></bkt-icon>
+                        </span>
+                    </div>
+                </div>
+                <div v-if="selected_lot" class="bkt-promo__lot-wrapper">
+                    <label class="bkt-input__label bkt-form__label">
+                        лот
+                    </label>
+                    <div class="bkt-wrapper bkt-gap bkt-nowrap">
+                        <card-image-category
+                            v-if="(!selected_lot.photos || selected_lot.photos.length==0) && selected_lot && selected_lot.categories"
+                            :categories="selected_lot.categories"></card-image-category>
+                        <img v-if="selected_lot.photos.length>0" v-lazy="selected_lot.photos[0].main"
+                             class="bkt-card__image"
+                        />
+                        <h4 class="bkt-promo__lot-title bkt-text-truncate bkt-cursor-pointer"
+                            @click="navigate('/lot/'+selected_lot.id)">
+                            {{selected_lot.description}}
+                        </h4>
+                    </div>
+                </div>
+
                 <bkt-input
                     v-model="service.name"
                     name="application_name"
@@ -43,37 +81,37 @@
                     <label class="bkt-input__label bkt-form__label" style="margin-bottom: 10px;">где вам удобнее
                         общаться</label>
                     <div class="communications bkt-wrapper-between bkt-gap-small">
-                        <bkt-checkbox
-                            input_class="bkt-button bkt-bg-body flex-fill" name="Viber"
-                            v-model="service.socialsForAnswer" val="Viber" type="radio"
-                            :border_color="service.socialsForAnswer=='Viber' ? 'primary': 'body'"
+                        <bkt-checkbox wrapper_class="flex-fill"
+                                      input_class="bkt-button bkt-bg-body flex-fill" name="Viber"
+                                      v-model="service.socialsForAnswer" val="Viber" type="radio"
+                                      :border_color="service.socialsForAnswer=='Viber' ? 'primary': 'body'"
                         >
                             <template #input-check>
                                 <bkt-icon name="Viber" color="purple" class="bkt-button__icon"></bkt-icon>
                             </template>
                         </bkt-checkbox>
-                        <bkt-checkbox
-                            input_class="bkt-button bkt-bg-body flex-fill" name="Vk"
-                            v-model="service.socialsForAnswer" val="Vk" type="radio"
-                            :border_color="service.socialsForAnswer=='Vk' ? 'primary': 'body'"
+                        <bkt-checkbox wrapper_class="flex-fill"
+                                      input_class="bkt-button bkt-bg-body flex-fill" name="Vk"
+                                      v-model="service.socialsForAnswer" val="Vk" type="radio"
+                                      :border_color="service.socialsForAnswer=='Vk' ? 'primary': 'body'"
                         >
                             <template #input-check>
                                 <bkt-icon name="Vk" color="primary" class="bkt-button__icon"></bkt-icon>
                             </template>
                         </bkt-checkbox>
-                        <bkt-checkbox
-                            input_class="bkt-button bkt-bg-body flex-fill" name="Telegram"
-                            v-model="service.socialsForAnswer" val="Telegram" type="radio"
-                            :border_color="service.socialsForAnswer=='Telegram' ? 'primary': 'body'"
+                        <bkt-checkbox wrapper_class="flex-fill"
+                                      input_class="bkt-button bkt-bg-body flex-fill" name="Telegram"
+                                      v-model="service.socialsForAnswer" val="Telegram" type="radio"
+                                      :border_color="service.socialsForAnswer=='Telegram' ? 'primary': 'body'"
                         >
                             <template #input-check>
                                 <bkt-icon name="Telegram" color="blue" class="bkt-button__icon"></bkt-icon>
                             </template>
                         </bkt-checkbox>
-                        <bkt-checkbox
-                            input_class="bkt-button bkt-bg-body flex-fill" name="WhatsApp"
-                            v-model="service.socialsForAnswer" val="WhatsApp" type="radio"
-                            :border_color="service.socialsForAnswer=='WhatsApp' ? 'primary': 'body'"
+                        <bkt-checkbox wrapper_class="flex-fill"
+                                      input_class="bkt-button bkt-bg-body flex-fill" name="WhatsApp"
+                                      v-model="service.socialsForAnswer" val="WhatsApp" type="radio"
+                                      :border_color="service.socialsForAnswer=='WhatsApp' ? 'primary': 'body'"
                         >
                             <template #input-check>
                                 <bkt-icon name="WhatsApp" color="green" class="bkt-button__icon"></bkt-icon>
@@ -87,8 +125,11 @@
 </template>
 
 <script>
+    import CardImageCategory from "../CardImageCategory";
+
     export default {
         name: "ApplicationModal",
+        components: {CardImageCategory},
         data() {
             return {
                 loading: false,
@@ -98,7 +139,8 @@
                     phone: '',
                     socialsForAnswer: [],
                     lotId: 0,
-                }
+                },
+                promo: localStorage.getItem('bkt_application_promo') || true
             }
         },
         computed: {
@@ -116,7 +158,7 @@
                     .then(resp => {
                         this.loading = false;
                         this.$store.dispatch('sendNotification',
-                            {self:this, message: 'Заявка успешно отправлена. Менеджер скоро с Вами свяжется'});
+                            {self: this, message: 'Заявка успешно отправлена. Менеджер скоро с Вами свяжется'});
                         this.service = {
                             name: '',
                             email: '',
@@ -131,6 +173,16 @@
                         this.loading = false;
                     })
             },
+            navigate(path) {
+                this.$store.commit('closeModal', '#applicationModal');
+                if (this.$router.currentRoute.path != path) {
+                    this.$router.push(path)
+                }
+            },
+            close() {
+                this.promo=false;
+                localStorage.setItem('bkt_application_promo', 'false')
+            }
         }
     }
 </script>

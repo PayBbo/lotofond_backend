@@ -16523,7 +16523,10 @@ textarea.form-control-lg {
   flex-wrap: nowrap;
   display: flex;
 }
-.bkt-card-trade__periods .bkt-card-period h6, .bkt-card-trade__periods .bkt-card-period .h6 {
+.bkt-card-trade__periods .bkt-card-period .bkt-card__subtitle {
+  font-weight: 700;
+}
+.bkt-card-trade__periods .bkt-card-period .bkt-card__subtitle, .bkt-card-trade__periods .bkt-card-period .bkt-card__text {
   color: rgb(45, 50, 68);
   font-size: 12px;
   line-height: 1.5;
@@ -16791,20 +16794,21 @@ textarea.form-control-lg {
     margin: 0;
   }
   .bkt-card-trade__periods {
-    gap: 10px;
+    gap: 6px;
   }
   .bkt-card-trade__periods .bkt-card-period {
-    gap: 10px;
+    gap: 6px;
   }
-  .bkt-card-trade__periods .bkt-card-period h6, .bkt-card-trade__periods .bkt-card-period .h6 {
+  .bkt-card-trade__periods .bkt-card-period .bkt-card__subtitle, .bkt-card-trade__periods .bkt-card-period .bkt-card__text {
     font-size: 10px;
     line-height: 1.5;
   }
   .bkt-card-trade__periods .bkt-card-period .bkt-card__category {
-    height: 47px;
-    width: 40px;
-    border-radius: 13px;
-    padding: 15px 12px;
+    height: 30px;
+    min-height: 30px;
+    width: 30px;
+    border-radius: 8px;
+    padding: 8px;
   }
   .bkt-card-win .bkt-card-infographics {
     gap: 6px;
@@ -18171,7 +18175,6 @@ ul.bkt-contents .bkt-contents__answer {
 .bkt-lot-card .bkt-card-menu {
   background-color: #2d3244;
   width: 230px;
-  height: 386px;
   border-radius: 13px 0 13px 13px;
   padding: 25px;
   top: 37px;
@@ -19629,6 +19632,44 @@ ul.bkt-contents .bkt-contents__answer {
   height: 70px;
   border-radius: 20px;
 }
+.bkt-promo__form .bkt-promo__block-wrapper {
+  position: relative;
+}
+.bkt-promo__form .bkt-promo__block-wrapper .bkt-close-button {
+  position: absolute;
+  right: 20px;
+  top: 20px;
+  padding: 15px;
+}
+.bkt-promo__lot-wrapper {
+  width: 100%;
+}
+.bkt-promo__lot-wrapper .bkt-card__image {
+  max-height: 100px;
+  min-height: 20px;
+  height: 80px;
+  width: 110px;
+  flex-shrink: 0;
+}
+.bkt-promo__lot-wrapper .bkt-card__image-category {
+  padding: 10px;
+  max-height: 100px;
+  min-height: 20px;
+  height: 80px;
+  width: 110px;
+  flex-shrink: 0;
+  gap: 6px;
+}
+.bkt-promo__lot-wrapper .bkt-card__image-category svg {
+  max-width: 30px;
+  max-height: 30px;
+}
+.bkt-promo__lot-wrapper .bkt-card__image-category_multiple {
+  padding: 10px;
+}
+.bkt-promo__lot-title {
+  font-weight: 700;
+}
 
 @media (max-width: 767px) {
   .bkt-promo {
@@ -19716,6 +19757,24 @@ ul.bkt-contents .bkt-contents__answer {
   }
   .bkt-promo__profit-card-body {
     gap: 12px;
+  }
+  .bkt-promo__lot-wrapper .bkt-card__image {
+    border-radius: 5px;
+  }
+  .bkt-promo__lot-wrapper .bkt-card__image-category {
+    border-radius: 5px;
+    padding: 10px;
+    gap: 6px;
+  }
+  .bkt-promo__lot-wrapper .bkt-card__image-category svg {
+    max-width: 30px;
+    max-height: 30px;
+  }
+  .bkt-promo__lot-wrapper .bkt-card__image-category_multiple {
+    padding: 8px;
+  }
+  .bkt-promo__lot-title {
+    font-size: 12px;
   }
 }
 .col_div {

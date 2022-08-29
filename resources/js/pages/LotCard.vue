@@ -1,5 +1,8 @@
 <template>
     <div class="bkt-main bkt-page bkt-lot bkt-container">
+        <bkt-move-favourite-modal v-if="isLoggedIn"/>
+        <bkt-note-modal v-if="isLoggedIn"/>
+        <bkt-application-modal/>
         <nav class="bkt-wrapper bkt-nowrap m-0 bkt-breadcrumb" aria-label="breadcrumb">
             <button class="bkt-button-icon bg-white" style="margin-right:20px" @click="goBack">
                 <bkt-icon :name="'ArrowDown'" class="bkt-button__icon bkt-rotate-90"></bkt-icon>
@@ -195,7 +198,7 @@
                                 <div class="bkt-card-menu m-0 dropdown-menu dropdown-menu-end position-absolute"
                                      aria-labelledby="dropdownMenuClickableOutside"
                                 >
-                                    <bkt-card-actions :item="item" type="menu" place="lot-card"
+                                    <bkt-card-actions :item="item" type="menu" place="lot-card" @changeStatus="changeStatus"
                                                       class="bkt-card-menu-inner"></bkt-card-actions>
                                 </div>
                             </div>
@@ -1121,6 +1124,17 @@
                     </template>
                 </bkt-collapse>
             </div>
+            <div v-if="isLoggedIn && item.biddingInfo" class="col-12 col-lg-12 order-3 px-lg-0">
+                <bkt-collapse title="Информация о торгах" class="bkt-lot__collapse"
+                              id="biddingInfo"
+                >
+                    <template #collapse>
+                        <h5 class="bkt-card__text">
+                            {{item.biddingInfo}}
+                        </h5>
+                    </template>
+                </bkt-collapse>
+            </div>
             <div v-if="isLoggedIn && item.applicationRules" class="col-12 col-lg-12 order-3 px-lg-0">
                 <bkt-collapse title="Правила подачи заявок" class="bkt-lot__collapse"
                               id="applicationRules"
@@ -1183,6 +1197,9 @@
     import MiniTradeCard from "../components/MiniTradeCard";
     import BktDropdown from "../components/Dropdown";
     import BktUploadFile from "../components/UploadFile";
+    import MoveFavouriteModal from "./Favourites/MoveFavouriteModal";
+    import NoteModal from "../components/SharedModals/NoteModal";
+    import BktApplicationModal from "../components/SharedModals/ApplicationModal";
     export default {
         name: "LotCard",
         components: {
@@ -1195,7 +1212,9 @@
             BktCardActions,
             BktCardImageCategory,
             BktDropdown,
-            BktUploadFile
+            BktUploadFile,
+            'bkt-move-favourite-modal': MoveFavouriteModal,
+            'bkt-note-modal': NoteModal,  BktApplicationModal
         },
         data() {
             return {
@@ -1390,6 +1409,11 @@
                             key: 'note',
                             value: null
                         }, {root: true});
+                        this.$store.commit('saveTradeProperty', {
+                            id: this.$route.params.id,
+                            key: 'note',
+                            value: null
+                        });
                         this.note_loading = false;
                     }).catch(error => {
                     this.note_loading = false;
@@ -1404,6 +1428,11 @@
                         .then(resp => {
                             this.$store.dispatch('saveDataProperty', {
                                 module_key: 'lots', state_key: 'selected_lot',
+                                key: 'isWatched',
+                                value: true
+                            });
+                            this.$store.commit('saveTradeProperty', {
+                                id: this.$route.params.id,
                                 key: 'isWatched',
                                 value: true
                             });

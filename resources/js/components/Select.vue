@@ -263,7 +263,9 @@
                         });
                     }
                     else {
-                        $state.complete();
+                        if($state) {
+                            $state.complete();
+                        }
                     }
                 }
                 else {

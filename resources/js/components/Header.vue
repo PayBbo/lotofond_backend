@@ -2,7 +2,7 @@
     <header class="">
         <nav class="bkt-navbar">
             <div class="bkt-container bkt-navbar__wrapper">
-                <router-link :to="'/without-ecp'" class="bkt-button bkt-text-white blue mx-0">
+                <router-link :to="'/agent'" class="bkt-button bkt-text-white blue mx-0">
                     Покупка без ЭП
                 </router-link>
 
@@ -294,13 +294,13 @@
                         label: "Победы недели",
                         color: 'yellow',
                     },
-                    {
-                        path: '/agent',
-                        icon: 'Percentage',
-                        code: "Agent",
-                        label: "Купить через агента",
-                        color: 'red'
-                    },
+                    // {
+                    //     path: '/agent',
+                    //     icon: 'Percentage',
+                    //     code: "Agent",
+                    //     label: "Купить через агента",
+                    //     color: 'red'
+                    // },
                     {
                         path: '/registries',
                         icon: 'Alignment',

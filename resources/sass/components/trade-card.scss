@@ -80,8 +80,11 @@
             gap: 15px;
             flex-wrap: nowrap;
             display: flex;
-
-            & h6 {
+            & .bkt-card__subtitle
+            {
+                font-weight: 700;
+            }
+            & .bkt-card__subtitle, .bkt-card__text {
                 color: rgb(45, 50, 68);
                 font-size: 12px;
                 line-height: 1.5;
@@ -424,21 +427,26 @@
         }
 
         &__periods {
-            gap: 10px;
+            gap: 6px;
 
             & .bkt-card-period {
-                gap: 10px;
+                gap: 6px;
 
-                & h6 {
+                & .bkt-card__subtitle, .bkt-card__text {
                     font-size: 10px;
                     line-height: 1.5;
                 }
 
                 & .bkt-card__category {
-                    height: 47px;
-                    width: 40px;
-                    border-radius: 13px;
-                    padding: 15px 12px;
+                    //height: 47px;
+                    //width: 40px;
+                    //border-radius: 13px;
+                    //padding: 15px 12px;
+                    height: 30px;
+                    min-height: 30px;
+                    width: 30px;
+                    border-radius: 8px;
+                    padding: 8px;
                 }
             }
         }

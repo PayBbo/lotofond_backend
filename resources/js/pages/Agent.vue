@@ -216,6 +216,22 @@
         <section ref="form">
             <h2 class="bkt-page__subtitle">Как получить услугу?</h2>
             <ValidationObserver v-slot="{ invalid }" tag="div" class="bkt-card bkt-promo__form bkt-form">
+                <div v-if="selected_lot" class="bkt-promo__lot-wrapper">
+                    <label class="bkt-input__label bkt-form__label">
+                        лот
+                    </label>
+                    <div class="bkt-wrapper bkt-gap bkt-nowrap">
+                        <card-image-category
+                                             v-if="(!selected_lot.photos || selected_lot.photos.length==0) && selected_lot && selected_lot.categories"
+                                             :categories="selected_lot.categories"></card-image-category>
+                        <img v-if="selected_lot.photos.length>0" v-lazy="selected_lot.photos[0].main" class="bkt-card__image"/>
+                        <router-link :to="'/lot/'+selected_lot.id">
+                            <h4 class="bkt-promo__lot-title bkt-text-truncate bkt-cursor-pointer">
+                                {{selected_lot.description}}
+                            </h4>
+                        </router-link>
+                    </div>
+                </div>
                 <bkt-input
                     v-model="service.name"
                     name="name"
@@ -255,8 +271,8 @@
                         где вам удобнее общаться
                     </label>
                     <div class="communications">
-                        <bkt-checkbox
-                            input_class="bkt-button bkt-bg-body" name="Viber"
+                        <bkt-checkbox wrapper_class="flex-fill"
+                            input_class="bkt-button bkt-bg-body flex-fill" name="Viber"
                             v-model="service.socialsForAnswer" val="Viber" type="radio"
                             :border_color="service.socialsForAnswer=='Viber' ? 'primary': 'body'"
                         >
@@ -264,8 +280,8 @@
                                 <bkt-icon name="Viber" color="purple" class="bkt-button__icon"></bkt-icon>
                             </template>
                         </bkt-checkbox>
-                        <bkt-checkbox
-                            input_class="bkt-button bkt-bg-body" name="Vk"
+                        <bkt-checkbox wrapper_class="flex-fill"
+                            input_class="bkt-button bkt-bg-body flex-fill" name="Vk"
                             v-model="service.socialsForAnswer" val="Vk" type="radio"
                             :border_color="service.socialsForAnswer=='Vk' ? 'primary': 'body'"
                         >
@@ -273,8 +289,8 @@
                                 <bkt-icon name="Vk" color="primary" class="bkt-button__icon"></bkt-icon>
                             </template>
                         </bkt-checkbox>
-                        <bkt-checkbox
-                            input_class="bkt-button bkt-bg-body" name="Telegram"
+                        <bkt-checkbox wrapper_class="flex-fill"
+                            input_class="bkt-button bkt-bg-body flex-fill" name="Telegram"
                             v-model="service.socialsForAnswer" val="Telegram" type="radio"
                             :border_color="service.socialsForAnswer=='Telegram' ? 'primary': 'body'"
                         >
@@ -282,8 +298,8 @@
                                 <bkt-icon name="Telegram" color="blue" class="bkt-button__icon"></bkt-icon>
                             </template>
                         </bkt-checkbox>
-                        <bkt-checkbox
-                            input_class="bkt-button bkt-bg-body" name="WhatsApp"
+                        <bkt-checkbox wrapper_class="flex-fill"
+                            input_class="bkt-button bkt-bg-body flex-fill" name="WhatsApp"
                             v-model="service.socialsForAnswer" val="WhatsApp" type="radio"
                             :border_color="service.socialsForAnswer=='WhatsApp' ? 'primary': 'body'"
                         >
@@ -320,8 +336,10 @@
 </template>
 
 <script>
+    import CardImageCategory from "../components/CardImageCategory";
     export default {
         name: "Agent",
+        components: {CardImageCategory},
         data() {
             return {
                 loading: false,
@@ -333,6 +351,11 @@
                     dateForCallback: '',
                     terms: false,
                 }
+            }
+        },
+        computed: {
+            selected_lot() {
+                return this.$store.getters.selected_lot
             }
         },
         methods: {
