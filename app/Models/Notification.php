@@ -63,7 +63,7 @@ class Notification extends Model
             $push = new PushNotificationService($title, $value, $notification->user_id, $notification->type->title);
             $push->sendPushNotification();
             $user = User::find($notification->user_id);
-            if (!is_null($user->email)) {
+            if (!is_null($user->email) && $user->not_to_email) {
                 $sendNotification = new SendCodeService();
                 $sendNotification->sendEmailNotification($user->email, $value);
             }
