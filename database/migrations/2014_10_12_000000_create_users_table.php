@@ -25,6 +25,7 @@ class CreateUsersTable extends Migration
             $table->string('password');
             $table->boolean('not_from_favourite')->default(true);
             $table->boolean('not_from_monitoring')->default(true);
+            $table->boolean('not_to_email')->default(true);
             $table->json('not_settings');
             $table->rememberToken();
             $table->timestamps();

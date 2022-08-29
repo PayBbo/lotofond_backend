@@ -16,7 +16,7 @@ class CreateLotParamsTable extends Migration
         Schema::disableForeignKeyConstraints();
         Schema::create('lot_params', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('param_id');
+            $table->unsignedBigInteger('param_id')->nullable();
             $table->unsignedBigInteger('lot_id');
             $table->string('value', 255)->nullable();
             $table->foreign('param_id')->references('id')
@@ -24,6 +24,7 @@ class CreateLotParamsTable extends Migration
             $table->foreign('lot_id')->references('id')
                 ->on('lots')->cascadeOnDelete();
             $table->bigInteger('parent_id')->nullable();
+            $table->string('type', 70)->nullable();
             $table->timestamps();
         });
         Schema::enableForeignKeyConstraints();

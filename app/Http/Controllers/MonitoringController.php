@@ -32,14 +32,6 @@ class MonitoringController extends Controller
        $path->not_time = $request->notificationTime;
        $path->filters = $request->filters;
        $path->save();
-       $lots = Lot::filterBy( json_decode(json_encode($request->filters), false))->get();
-       if($lots->count() >0) {
-           foreach ($lots as $lot) {
-               if (!$path->lots->contains($lot)) {
-                   $path->lots()->attach($lot, ['created_at'=>Carbon::now()->setTimezone('Europe/Moscow')]);
-               }
-           }
-       }
        return response(new MonitoringPathResource($path), 200);
    }
 

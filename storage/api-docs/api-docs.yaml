@@ -1030,10 +1030,20 @@ paths:
                 value:
                   type: hidden
                   lotId: 1
-                  auctionId: 1
+                  tradeId: 1
       responses:
         "200":
           description: Лот успешно добавлен/удален в/из "просмотрено", "скрыто", "закреплено"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  lotIds:
+                    type: array
+                    items:
+                      type: integer
+                      description: массив айдишников лотов, над которыми было совершено действие
         "404":
           description: Лот/торг по переданному айдишнику не найден
           content:
@@ -2673,6 +2683,9 @@ paths:
                 notificationsFromMonitoring:
                   type: boolean
                   description: флаг - включены ли уведомления от мониторинга
+                notificationsToEmail:
+                  type: boolean
+                  description: флаг - включены ли уведомления на почту от избранного и мониторинга
                 notificationsSettings:
                   $ref: "#/components/schemas/NotificationsSettings"
         required: true
@@ -3076,6 +3089,7 @@ components:
         - phone
         - notificationsFromMonitoring
         - notificationsFromFavourite
+        - notificationsToEmail
         - notificationsSettings
       type: object
       properties:
@@ -3095,6 +3109,9 @@ components:
         notificationsFromFavourite:
           type: boolean
           description: флаг - включены ли уведомления избранного
+        notificationsToEmail:
+          type: boolean
+          description: флаг - включены ли уведомления на почту от избранного и мониторинга
         notificationsFromMonitoring:
           type: boolean
           description: флаг - включены ли уведомления от мониторинга
@@ -3590,7 +3607,7 @@ components:
         - type
       type: object
       properties:
-        lot_id:
+        lotId:
           type: integer
           description: Айдишник лота, который нужно добавить/удалить в/из "просмотрено", "скрыто", "закреплено"
         type:
@@ -3599,6 +3616,9 @@ components:
             - seen
             - hidden
             - fixed
+        tradeId:
+          type: integer
+          description: Айдишник торга, лоты которого нужно добавить/удалить в/из "просмотрено", "скрыто", "закреплено"
     BidderInfo:
       type: object
       properties:
@@ -4063,6 +4083,8 @@ components:
               url:
                 type: string
                 description: ссылка на файл
+        images:
+          $ref: '#/components/schemas/Images'
     File:
       required:
         - fileType

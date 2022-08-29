@@ -4,10 +4,14 @@ namespace App\Console\Commands;
 
 
 use App\Http\Services\Parse\GetTradeMessageContent;
+use App\Http\Services\Parse\SoapWrapperService;
 use App\Jobs\FavouriteJob;
 use App\Jobs\MonitoringJob;
 use App\Jobs\MonitoringNotificationJob;
+use App\Jobs\ParseArbitrManager;
 use App\Jobs\ParseTrades;
+use App\Models\Bidder;
+use Artisaninweb\SoapWrapper\SoapWrapper;
 use Illuminate\Console\Command;
 
 
@@ -45,5 +49,7 @@ class TestCommand extends Command
     public function handle()
     {
         dispatch(new ParseTrades);
+        //dispatch(new MonitoringJob);
+        //dispatch(new ParseArbitrManager);
     }
 }

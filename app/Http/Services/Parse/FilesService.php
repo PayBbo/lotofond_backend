@@ -94,7 +94,6 @@ class FilesService
         } catch (\Exception $exception) {
             logger($exception);
         }
-        logger($imageAssets);
         return $imageAssets;
     }
 
@@ -138,7 +137,6 @@ class FilesService
         } catch (\Exception $exception) {
             logger($exception);
         }
-        logger($imageAssets);
         return $imageAssets;
     }
 
@@ -147,8 +145,6 @@ class FilesService
         $filename = \storage_path($s_path . '/' . $filename);
         $destination = \storage_path($s_path . '/');
         $files = array();
-        logger('ZIP И RAR');
-        logger($destination);
         try {
             $comm = "unar -D " . $filename . " -o " . $destination;
             exec(`$comm`);
@@ -169,7 +165,6 @@ class FilesService
         } catch (\Exception $exception) {
             logger($exception);
         }
-        logger($files);
         return $files;
     }
 

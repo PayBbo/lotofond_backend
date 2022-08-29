@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\CheckIsString;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateNotificationsRequest extends FormRequest
@@ -26,8 +27,9 @@ class UpdateNotificationsRequest extends FormRequest
         return [
             'notificationsFromFavourite'=>['required', 'boolean'],
             'notificationsFromMonitoring'=>['required', 'boolean'],
+            'notificationsToEmail'=>['sometimes', 'boolean'],
             'notificationsSettings'=>['required', 'array'],
-            'notificationsSettings.*'=>['required', 'integer']
+            'notificationsSettings.*'=>['required', 'integer', 'in:1,2,4,7', new CheckIsString]
         ];
     }
 }

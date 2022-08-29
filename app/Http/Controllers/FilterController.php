@@ -34,18 +34,18 @@ class FilterController extends Controller
 
     public function getTradePlacesForFilter(){
 
-        $tradePlaces = TradePlace::has('auctionsWithLots')->get();
+        $tradePlaces = TradePlace::has('auctionsWithLots')->orderBy('name', 'asc')->get();
         return response(TradePlaceResource::collection($tradePlaces), 200);
 
     }
 
     public function getCategoriesForFilter(){
 
-        $parents = Category::where('parent_id', null)->get();
+        $parents = Category::where('parent_id', null)->orderBy('label', 'asc')->get();
         $categories = [];
         foreach ($parents as $category) {
             $subs = $category->subcategories()->pluck('id')->toArray();
-            $subs = Category::whereIn('id', array_unique($subs))->get();
+            $subs = Category::whereIn('id', array_unique($subs))->orderBy('label', 'asc')->get();
             $subcategories = [];
             foreach($subs as $sub){
                 $value = ['label'=>$sub->label, 'key'=>$sub->title];

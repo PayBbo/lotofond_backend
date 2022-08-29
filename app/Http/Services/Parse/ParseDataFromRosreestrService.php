@@ -46,33 +46,40 @@ class ParseDataFromRosreestrService
                     }
                 }
                 $objectName = 'Участок';
+                $type = 'other';
                 if($data['type'] == 'parcel'){
                     $flag = $data['parcelData']['oksFlag'];
                     if($flag == 1){
                         switch ($data['parcelData']['oksType']){
                             case 'building':{
                                 $objectName = 'Здание';
+                                $type = 'building';
                                 break;
                             }
                             case 'construction':{
                                 $objectName = 'Сооружение';
+                                $type = 'construction';
                                 break;
                             }
                             case 'flat':{
                                 $objectName = 'Квартира';
+                                $type = 'flat';
                                 break;
                             }
                         }
                     }else{
                         $objectName = 'Земельный участок';
+                        $type = 'landPlot';
                     }
                 }elseif ($data['type'] == 'premises'){
                     $objectName = 'Помещение';
+                    $type = 'premises';
                 }
                 $mainLotParam = LotParam::create([
                     'param_id' => 7,
-                    'value' => $objectName.' по адресу ' . $objectAddress,
-                    'lot_id' => $lot->id
+                    'value' =>  stripslashes(preg_replace('/[\x00-\x1F\x7F]/u', ' ', $objectName.' по адресу ' . $objectAddress)),
+                    'lot_id' => $lot->id,
+                    'type'=>$type
                 ]);
                 $lotParam->parent_id = $mainLotParam->id;
                 $lotParam->save();

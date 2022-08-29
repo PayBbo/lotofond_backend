@@ -22,6 +22,7 @@ class ProfileResource extends JsonResource
             'lastName'=>$this->surname,
             'notificationsFromFavourite'=>$this->not_from_favourite,
             'notificationsFromMonitoring'=>$this->not_from_monitoring,
+            'notificationsToEmail'=>$this->not_to_email,
             'notificationsSettings'=>$this->not_settings
         ];
     }

@@ -45,6 +45,7 @@ class ProfileController extends Controller
     public function updateNotificationsSettings(UpdateNotificationsRequest $request){
         $user_id = auth()->user()->getAuthIdentifier();
         $user = User::find($user_id);
+        $user->not_to_email = isset($request->notificationsToEmail) ? $request->notificationsToEmail : $user->not_to_email;
         $user->not_from_favourite = $request->notificationsFromFavourite;
         $user->not_from_monitoring = $request->notificationsFromMonitoring;
         $user->not_settings = $request->notificationsSettings;

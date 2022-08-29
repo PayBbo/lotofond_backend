@@ -128,13 +128,13 @@ class Lot extends Model
 
     public function lotFiles()
     {
-        return $this->hasMany(LotFile::class)->where(['user_id'=>null, 'type'=>'file']);
+        return $this->hasMany(LotFile::class)->where('user_id',null);
     }
 
 
     public function userLotFiles()
     {
-        return $this->hasMany(LotFile::class)->where(['user_id'=> auth()->id(), 'type'=>'file']);
+        return $this->hasMany(LotFile::class)->where('user_id', auth()->id());
     }
 
     public function lotImages()
@@ -159,8 +159,13 @@ class Lot extends Model
 
     public function priceReductionMin()
     {
-        return $this->hasMany(PriceReduction::class)
-            ->orderByRaw("CAST(price as UNSIGNED) ASC")->take(1);
+        $lots = PriceReduction::groupBy('lot_id')->pluck('lot_id')->toArray();
+        $prices = [];
+        foreach($lots as $lot){
+            $price = PriceReduction::where('lot_id', $lot)->min('price');
+            $prices[] = PriceReduction::where(['lot_id'=>$lot, 'price'=>$price])->first()['id'];
+        }
+        return $this->hasMany(PriceReduction::class)->whereIn('id', $prices);
     }
 
     public function currentPriceReduction()
@@ -262,7 +267,7 @@ class Lot extends Model
         if (isset($request->sort) && isset($request->sort['direction']) && strlen((string)$request->sort['direction']) > 0
             && isset($request->sort['type']) && strlen((string)$request->sort['type']) > 0) {
             $namespace = 'App\Utilities\LotSorts';
-            $sort = new SortBuilder($query->isFixed(), $request->sort, $namespace);
+            $sort = new SortBuilder($query, $request->sort, $namespace);
 
             return $sort->apply();
         }
@@ -323,19 +328,21 @@ class Lot extends Model
     public function getDescriptionExtractsAttribute(){
         $result = [];
         $params = $this->params()->where('lot_params.parent_id', null)
-            ->select('lot_params.id as lot_param_id','title', 'type', 'lot_params.value as value')->get();
+            ->select('lot_params.id as lot_param_id','title', 'params.type as type', 'lot_params.type as param_type', 'lot_params.value as value')->get();
         foreach($params as $param){
-            $subParams = $this->params()->where('lot_params.parent_id', $param->lot_param_id)->select('title', 'type', 'lot_params.value as value')->get();
+            $subParams = $this->params()->where('lot_params.parent_id', $param->lot_param_id)->select('title', 'params.type as type', 'lot_params.type as param_type', 'lot_params.value as value')->get();
             if($subParams->count()>0){
                 $result[] = [
                     'tradeSubject'=>$param->value,
-                    'extracts'=>$subParams->makeHidden(['pivot'])
+                    'type'=>$param->param_type,
+                    'extracts'=>$subParams->makeHidden(['pivot', 'param_type'])
                 ];
 
             }else{
                 $result[] = [
                     'tradeSubject'=>null,
-                    'extracts'=>[$param->makeHidden(['pivot', 'lot_param_id'])]
+                    'type'=>null,
+                    'extracts'=>[$param->makeHidden(['pivot', 'lot_param_id', 'param_type'])]
                 ];
             }
         }
@@ -399,5 +406,14 @@ class Lot extends Model
             }
         }
         return false;
+    }
+
+    public function getDescriptionAttribute($value){
+        $result = htmlentities($value);
+        $result = preg_replace('/^(&quot;)(.*)(&quot;)$/', "$2", $value);
+        $result = preg_replace('/^(&laquo;)(.*)(&raquo;)$/', "$2", $result);
+        $result = preg_replace('/^(&#8220;)(.*)(&#8221;)$/', "$2", $result);
+        $result = preg_replace('/^(&#39;)(.*)(&#39;)$/', "$2", $result);
+        return stripslashes(html_entity_decode($result));
     }
 }
