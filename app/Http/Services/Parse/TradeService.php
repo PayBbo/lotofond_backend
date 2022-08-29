@@ -5,6 +5,7 @@ namespace App\Http\Services\Parse;
 use App\Models\Category;
 use App\Models\Lot;
 use App\Models\LotFile;
+use App\Models\LotParam;
 use App\Models\Param;
 use App\Models\PriceReduction;
 use Carbon\Carbon;
@@ -74,18 +75,18 @@ class TradeService
 
         if (array_key_exists($prefix . 'Participants', $value)) {
             if (gettype($value[$prefix . 'Participants']) == 'array' && count($value[$prefix . 'Participants']) > 0) {
-                $lot->payment_info = $value[$prefix . 'Participants'][$prefix . 'PaymentInfo'];
-                $lot->sale_agreement = $value[$prefix . 'Participants'][$prefix . 'SaleAgreement'];
+                $lot->payment_info =  stripslashes(preg_replace('/[\x00-\x1F\x7F]/u', ' ',$value[$prefix . 'Participants'][$prefix . 'PaymentInfo']));
+                $lot->sale_agreement =  stripslashes(preg_replace('/[\x00-\x1F\x7F]/u', ' ', $value[$prefix . 'Participants'][$prefix . 'SaleAgreement']));
             }
         }
         if (array_key_exists($prefix . 'Participants', $value) && gettype($value[$prefix . 'Participants']) == 'string') {
-            $lot->participants = $value[$prefix . 'Participants'];
+            $lot->participants =  stripslashes(preg_replace('/[\x00-\x1F\x7F]/u', ' ', $value[$prefix . 'Participants']));
         }
         if (array_key_exists($prefix . 'SaleAgreement', $value)) {
-            $lot->sale_agreement = $value[$prefix . 'SaleAgreement'];
+            $lot->sale_agreement =  stripslashes(preg_replace('/[\x00-\x1F\x7F]/u', ' ', $value[$prefix . 'SaleAgreement']));
         }
         if (array_key_exists($prefix . 'PaymentInfo', $value)) {
-            $lot->payment_info = $value[$prefix . 'PaymentInfo'];
+            $lot->payment_info =  stripslashes(preg_replace('/[\x00-\x1F\x7F]/u', ' ', $value[$prefix . 'PaymentInfo']));
         }
 
         if (array_key_exists($prefix . 'Concours', $value)) {
@@ -111,17 +112,22 @@ class TradeService
             }
             $avto_number = '/' . $this->getAvtoNumberRegex() . '/um';
             preg_match_all($avto_number, $value[$prefix . 'TradeObjectHtml'], $matches);
+            $mainParam = new LotParam();
+            $mainParam->type = 'transport';
+            $mainParam->lot_id = $lot->id;
             if (count($matches['licence_plate']) > 0) {
+                $mainParam->save();
                 foreach (array_unique($matches['licence_plate']) as $match) {
                     $res = str_replace('RUS', '', mb_strtoupper(str_replace(' ', '', $match)));
-                    $lot->params()->attach(Param::find(5), ['value' => $res, 'parent_id' => null]);
+                    $lot->params()->attach(Param::find(5), ['value' => $res, 'parent_id' => $mainParam->id]);
                 }
             }
             $avto_vin = '/[A-HJ-NPR-Z0-9]{17}/ui';
             preg_match_all($avto_vin, $value[$prefix . 'TradeObjectHtml'], $matches);
             if (count($matches[0]) > 0) {
+                $mainParam->save();
                 foreach (array_unique($matches[0]) as $match) {
-                    $lot->params()->attach(Param::find(6), ['value' => $match, 'parent_id' => null]);
+                    $lot->params()->attach(Param::find(6), ['value' => $match, 'parent_id' => $mainParam->id]);
                 }
             }
         }
@@ -296,6 +302,9 @@ class TradeService
                     $i++;
                 }
             }
+            if(PriceReduction::where('lot_id', $lot->id)->count() == 0){
+                $this->savePriceReduction($lot->id, $lot->start_price, $lot->auction->event_start_date, $lot->auction->event_end_date, null, 0, 0, true);
+            }
         } catch (Exception $e) {
             logger('e: ' . $e);
             logger($red);
@@ -305,9 +314,7 @@ class TradeService
     public function savePriceReduction($lot_id, $price, $start_time, $end_time, $prev_price = null, $percent = 0, $deposit = 0, $is_system = false)
     {
         if (!is_null($prev_price)) {
-            if ($prev_price > $price) {
-                $percent = ((float)$prev_price / (float)$price - 1) * 100;
-            }
+            $percent = ((float)$prev_price / (float)$price - 1) * 100;
         }
         PriceReduction::create([
             'lot_id' => $lot_id,

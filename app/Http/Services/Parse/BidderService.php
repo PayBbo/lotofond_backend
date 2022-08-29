@@ -30,7 +30,7 @@ class BidderService
 
     public function saveBidder($person)
     {
-        $region = null;
+        $region = $this->bidder->region_id;
         if (array_key_exists('Region', $person)) {
             $tmp = $person['Region'];
             $region = Region::where('title', 'LIKE', '%' . $tmp . '%')->first();
@@ -44,13 +44,13 @@ class BidderService
         } else {
             $name = $person['FirstName'];
         }
-        $address = null;
+        $address = $this->bidder->address;
         if (array_key_exists('Address', $person)) {
             $address = $person['Address'];
         } else if (array_key_exists('LegalAddress', $person)) {
             $address = $person['LegalAddress'];
         }
-        $sro = null;
+        $sro = $this->bidder->sro_au_id;
         if (array_key_exists('SROName', $person)) {
             $sro = SroAu::where('name', $person['SROName'])->first();
             if (!$sro) {
@@ -58,30 +58,30 @@ class BidderService
             }
             $sro = $sro->id;
         }
-        $category = null;
+        $category = $this->bidder->debtor_category_id;
         if (array_key_exists('CategoryCode', $person)) {
             $category = DebtorCategory::where('code', $person['CategoryCode'])->first()['id'];
         }
 
         $this->bidder->name = $name;
-        $this->bidder->middle_name = array_key_exists('MiddleName', $person) ? $person['MiddleName'] : NULL;
-        $this->bidder->last_name = array_key_exists('LastName', $person) ? $person['LastName'] : NULL;
+        $this->bidder->middle_name = array_key_exists('MiddleName', $person) ? $person['MiddleName'] : $this->bidder->middle_name;
+        $this->bidder->last_name = array_key_exists('LastName', $person) ? $person['LastName'] : $this->bidder->last_name;
         $this->bidder->inn = $person['INN'];
-        $this->bidder->snils = array_key_exists('SNILS', $person) ? $person['SNILS'] : NULL;
-        $this->bidder->short_name = array_key_exists('ShortName', $person) ? $person['ShortName'] : NULL;
-        $this->bidder->ogrn = array_key_exists('OGRN', $person) ? $person['OGRN'] : NULL;
-        $this->bidder->bankrupt_id = array_key_exists('BankruptId', $person) ? $person['BankruptId'] : NULL;
+        $this->bidder->snils = array_key_exists('SNILS', $person) ? $person['SNILS'] : $this->bidder->snils;
+        $this->bidder->short_name = array_key_exists('ShortName', $person) ? $person['ShortName'] : $this->bidder->short_name;
+        $this->bidder->ogrn = array_key_exists('OGRN', $person) ? $person['OGRN'] : $this->bidder->ogrn;
+        $this->bidder->bankrupt_id = array_key_exists('BankruptId', $person) ? $person['BankruptId'] : $this->bidder->bankrupt_id;
         $this->bidder->address = $address;
         $this->bidder->region_id = $region;
         $this->bidder->debtor_category_id = $category;
-        $this->bidder->ogrnip = array_key_exists('OGRNIP', $person) ? $person['OGRNIP'] : NULL;
+        $this->bidder->ogrnip = array_key_exists('OGRNIP', $person) ? $person['OGRNIP'] : $this->bidder->ogrnip;
         $this->bidder->type = $this->type;
-        $this->bidder->phone = array_key_exists('Phone', $person) ? $person['Phone'] : NULL;
-        $this->bidder->email = array_key_exists('Email', $person) ? $person['Email'] : NULL;
-        $this->bidder->reg_num = array_key_exists('RegNum', $person) ? $person['RegNum'] : NULL;
-        $this->bidder->sro_reg_num = array_key_exists('SRORegNum', $person) ? $person['SRORegNum'] : NULL;
+        $this->bidder->phone = array_key_exists('Phone', $person) ? $person['Phone'] : $this->bidder->phone;
+        $this->bidder->email = array_key_exists('Email', $person) ? $person['Email'] : $this->bidder->email;
+        $this->bidder->reg_num = array_key_exists('RegNum', $person) ? $person['RegNum'] :  $this->bidder->reg_num;
+        $this->bidder->sro_reg_num = array_key_exists('SRORegNum', $person) ? $person['SRORegNum'] : $this->bidder->sro_reg_num;
         $this->bidder->sro_au_id = $sro;
-        $this->bidder->reg_date = array_key_exists('DateReg', $person) ? $person['DateReg'] : NULL;
+        $this->bidder->reg_date = array_key_exists('DateReg', $person) ? $person['DateReg'] : $this->bidder->reg_date;
 
         $this->bidder->save();
         if (!$this->bidder->types->contains($this->bidder_type)) {

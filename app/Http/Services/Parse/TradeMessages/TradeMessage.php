@@ -23,7 +23,6 @@ abstract class TradeMessage
 
     public function parseFile($prefix, $invitation, $auction, $lot, $tradeMessage){
         if (array_key_exists($prefix . 'Attach', $invitation)) {
-            logger('yeeeeeeeeeeeeeeeeee');
             $parseFiles = new FilesService();
             $files = $parseFiles->parseFiles($invitation, $auction, $prefix);
             foreach($files as $file) {

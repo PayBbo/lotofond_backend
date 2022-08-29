@@ -15,7 +15,8 @@ class CurrentPrice extends SortQuery implements SortContract
             $this->query->orderBy(PriceReduction::select('price')
                 ->whereColumn('price_reductions.lot_id', 'lots.id')
                 ->where('price_reductions.start_time', '<=', $currentDate)
-                ->where('price_reductions.end_time', '>', $currentDate)->take(1),
+                ->where('price_reductions.end_time', '>', $currentDate)
+                ->take(1),
                 $direction
             );
     }

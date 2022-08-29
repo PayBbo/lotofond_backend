@@ -26,7 +26,8 @@ class User extends Authenticatable
         'not_settings',
         'name',
         'email',
-        'password'
+        'password',
+        'not_to_email'
     ];
 
     /**
@@ -46,7 +47,10 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
-        'not_settings'=>'json'
+        'not_settings'=>'json',
+        'not_to_email'=>'boolean',
+        'not_from_favourite' =>'boolean',
+        'not_from_monitoring' =>'boolean'
     ];
 
     public function applications()

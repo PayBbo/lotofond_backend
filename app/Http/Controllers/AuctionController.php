@@ -13,6 +13,7 @@ use App\Models\BiddingResult;
 use App\Models\Favourite;
 use App\Models\FavouriteLot;
 use App\Models\Lot;
+use App\Models\Monitoring;
 use App\Models\Notification;
 use App\Models\User;
 use Carbon\Carbon;
@@ -68,7 +69,7 @@ class AuctionController extends Controller
     {
         $auction = Auction::find($auctionId);
         if (!$auction) {
-            throw new BaseException("ERR_FIND_AUCTION_FAILED", 404, "Auction with id= " . $auctionId . ' does not exist');
+            throw new BaseException("ERR_FIND_TRADE_FAILED", 404, "Trade with id= " . $auctionId . ' does not exist');
         }
         $lots = $auction->lots()->filterBy($request->request)->customSortBy($request)->paginate(20);
         return response(new LotCollection($lots), 200);
@@ -102,17 +103,19 @@ class AuctionController extends Controller
     public function actionWithLot(Request $request)
     {
         $lot = null;
+        $result = [];
         if ($request->has('lotId')) {
             $lot = Lot::find($request->lotId);
             if (!$lot) {
                 throw new BaseException("ERR_FIND_LOT_FAILED", 404, "Lot with id= " . $request->lotId . ' does not exist');
             }
+            $result[]= $lot->id;
         }
         $auction = null;
-        if ($request->has('auctionId')) {
-            $auction = Auction::find($request->auctionId);
+        if ($request->has('tradeId') && !is_null($request->tradeId)) {
+            $auction = Auction::find($request->tradeId);
             if (!$auction) {
-                throw new BaseException("ERR_FIND_AUCTION_FAILED", 404, "Auction with id= " . $request->auctionId . ' does not exist');
+                throw new BaseException("ERR_FIND_TRADE_FAILED", 404, "Trade with id= " . $request->auctionId . ' does not exist');
             }
         }
         $user = User::find(auth()->id());
@@ -133,35 +136,44 @@ class AuctionController extends Controller
                 } else {
                     $user->fixedLots()->attach($lot, ['created_at'=>Carbon::now()->setTimezone('Europe/Moscow')]);
                 }
+                break;
             }
             case 'hidden':
             {
                 if ($lot) {
-                    if ($user->hiddenLots->contains($lot)) {
-                        $user->hiddenLots()->detach($lot);
-                    } else {
-                        $user->hiddenLots()->attach($lot);
-                        $paths = Favourite::where('user_id', auth()->id())->get();
-                        foreach ($paths as $path) {
-                            if ($path->lots->contains($lot)) {
-                                $path->lots()->detach($lot);
-                            }
-                        }
-                    }
+                    $this->clearPath($user, $lot);
                 }
                 if ($auction) {
                     foreach ($auction->lots as $lot) {
-                        if ($user->hiddenLots->contains($lot)) {
-                            $user->hiddenLots()->detach($lot);
-                        } else {
-                            $user->hiddenLots()->attach($lot);
-                        }
+                        $this->clearPath($user, $lot);
+                        $result[] = $lot->id;
                     }
                 }
+                break;
             }
         }
 
-        return response(null, 200);
+        return response()->json(['lotIds'=>$result], 200);
+    }
+
+    public function clearPath($user, $lot){
+        if ($user->hiddenLots->contains($lot)) {
+            $user->hiddenLots()->detach($lot);
+        } else {
+            $user->hiddenLots()->attach($lot);
+            $paths = Favourite::where('user_id', auth()->id())->get();
+            foreach ($paths as $path) {
+                if ($path->lots->contains($lot)) {
+                    $path->lots()->detach($lot);
+                }
+            }
+            $paths = Monitoring::where('user_id', auth()->id())->get();
+            foreach ($paths as $path) {
+                if ($path->lots->contains($lot)) {
+                    $path->lots()->detach($lot);
+                }
+            }
+        }
     }
 
 }

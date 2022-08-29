@@ -37,8 +37,10 @@ class FilterBuilder
             }
 
         }
-        if(!in_array('ExtraOptions', $names)){
-            $this->query->doesntHave('userHiddenLot');
+        if($this->namespace == 'App\Utilities\LotFilters') {
+            if (!in_array('ExtraOptions', $names)) {
+                $this->query->doesntHave('userHiddenLot');
+            }
         }
         return $this->query;
     }

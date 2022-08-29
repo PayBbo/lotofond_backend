@@ -27,7 +27,7 @@ class LotResource extends JsonResource
             'lotNumber' => $this->number,
             'photos' => $this->photos,
             'categories' => $this->categoriesStructure(),
-            'description' => stripslashes(preg_replace('/[\x00-\x1F\x7F]/u', ' ', $this->description)),
+            'description' => $this->description,
             'state' => $this->status->code,
             'location' => $regions->makeHidden(['pivot']),
             'isWatched' => auth()->guard('api')->check() ? $user->seenLots->pluck('id')->contains($this->id) : false,
