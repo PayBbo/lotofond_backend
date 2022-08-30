@@ -94,7 +94,9 @@
                                 <template v-if="item.location">
                                     <li v-for="location in item.location">
                                         <div class="bkt-contents__heading">
-                                            <span class="bkt-contents__heading">регион {{location.isDebtorRegion ? 'должника' : 'объекта'}}</span>
+                                            <span class="bkt-contents__heading">
+                                                регион {{location.isDebtorRegion ? 'должника' : 'объекта'}}
+                                            </span>
                                         </div>
                                         <div class="bkt-contents__answer">
                                             <span>{{$t('regions.'+location.code)}}</span>
@@ -108,11 +110,22 @@
                                             объект {{item.descriptionExtracts.length>1 ? index+1 : ''}}
                                         </span>
                                         </div>
-                                        <div class="bkt-contents__answer"><span>{{subject.tradeSubject}}</span>
+                                        <div class="bkt-contents__answer">
+                                            <span>{{subject.tradeSubject}}</span>
+                                        </div>
+                                    </li>
+                                    <li v-if="subject.type">
+                                        <div class="bkt-contents__heading">
+                                        <span class="bkt-contents__heading text-lowercase">
+                                           тип объекта {{item.descriptionExtracts.length>1 ? index+1 : ''}}
+                                        </span>
+                                        </div>
+                                        <div class="bkt-contents__answer">
+                                            <span>{{$t('trades.tradeSubjectType.'+subject.type)}}</span>
                                         </div>
                                     </li>
                                     <template v-if="subject.extracts.length>0" v-for="extract in subject.extracts">
-                                        <li v-if="extract.value">
+                                        <li v-if="extract.value && extract.value>0 && extract.value != 0">
                                             <div class="bkt-contents__heading">
                                                 <span
                                                     class="bkt-contents__heading text-lowercase">{{extract.title}}</span>
@@ -129,7 +142,9 @@
                             <div class="bkt-row outline bkt-wrapper-between align-items-center"
                                  v-if="cadastralData && cadastralData.cadastralDataArea">
                                 <div class="bkt-row__feature">
-                                    <h4 class="bkt-row__feature-title">{{cadastralData.cadastralDataArea}} кв. м.</h4>
+                                    <h4 class="bkt-row__feature-title">{{cadastralData.cadastralDataArea | priceFormat}}
+                                        {{cadastralData.cadastralDataAreaMeasure}}
+                                    </h4>
                                     <h6 class="bkt-row__feature-subtitle">земельный участок</h6>
                                 </div>
                                 <span class="bkt-row__icon">
@@ -1257,6 +1272,15 @@
                         index = extracts.findIndex(item => item.type == 'cadastralDataArea')
                         if (index >= 0) {
                             cadastralData.cadastralDataArea = extracts[index].value;
+                            if(extracts[index].value <=100) {
+                                cadastralData.cadastralDataAreaMeasure = 'кв. м.';
+                            }
+                            else if(extracts[index].value > 100 && extracts[index].value<= 10000) {
+                                cadastralData.cadastralDataAreaMeasure = 'а';
+                            }
+                            else {
+                                cadastralData.cadastralDataAreaMeasure = 'га';
+                            }
                         }
                         index = extracts.findIndex(item => item.type == 'cadastralDataFractionalOwnership')
                         if (index >= 0) {

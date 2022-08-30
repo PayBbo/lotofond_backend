@@ -6,85 +6,72 @@
         <div class="bkt-content">
             <div class="bkt-form bkt-form_wide">
                 <div class="col-12 col-lg-4 col-xl-3 bkt-form__offset-right">
-                    <div class="bkt-form bkt-gap-row bkt-wrapper-down-sm-column-reverse">
-                        <div class="col-12 col-md-6 col-lg-12">
-                            <div class="bkt-month-calendar">
-                                <v-calendar is-expanded class="bkt-left-calendar bkt-border-none"
-                                            :attributes="dot_items" @update:from-page="changePage"
-                                            :masks="masks" @dayclick="setDate" ref="bkt-left-calendar"
-                                            :class="'is-today-'+new Date().getDay()">
-                                </v-calendar>
-                            </div>
-                        </div>
-                        <div class="col-12 col-md-6 col-lg-12">
-                            <div
-                                class="bkt-calendar-checkboxes bkt-card bkt-card__body bkt-gap-down-sm-row-mini bkt-gap-down-sm-column-large">
-                                <bkt-checkbox label="События" :name="'events'" v-model="event_types" val="event"
-                                              wrapper_class="bkt-check__wrapper-inline" class="events_check order-1"/>
-                                <bkt-checkbox label="Задачи" :name="'tasks'" v-model="event_types" val="task"
-                                              wrapper_class="bkt-check__wrapper-inline"
-                                              class="tasks_check order-last order-sm-2"/>
-                                <bkt-checkbox label="Напоминания" :name="'reminders'" v-model="event_types"
-                                              val="reminder"
-                                              wrapper_class="bkt-check__wrapper-inline"
-                                              class="reminders_check order-2"/>
-                            </div>
-                        </div>
+                    <div
+                        class="bkt-calendar-checkboxes bkt-card bkt-card__body bkt-gap-down-sm-row-mini bkt-gap-down-sm-column-large">
+                        <bkt-checkbox label="События" :name="'events'" v-model="event_types" val="event"
+                                      wrapper_class="bkt-check__wrapper-inline" class="events_check order-1"/>
+                        <bkt-checkbox label="Задачи" :name="'tasks'" v-model="event_types" val="task"
+                                      wrapper_class="bkt-check__wrapper-inline"
+                                      class="tasks_check order-last order-sm-2"/>
+                        <bkt-checkbox label="Напоминания" :name="'reminders'" v-model="event_types"
+                                      val="reminder"
+                                      wrapper_class="bkt-check__wrapper-inline"
+                                      class="reminders_check order-2"/>
                     </div>
                 </div>
-                <div class="col-12 col-lg-8 col-xl-9 d-none d-sm-flex">
-                    <div class="bkt-month-calendar">
+                <div class="col-12 col-lg-8 col-xl-9">
+                    <div class="bkt-month-calendar d-none d-sm-flex">
                         <v-calendar class="bkt-border-none custom-calendar max-w-full" :masks="masks"
                                     :attributes="current_items" is-expanded
-                                    ref="bkt-custom-calendar"
+                                    ref="bkt-custom-calendar" :class="'is-today-'+new Date().getDay()"
                         >
-                            <template #header>
-                                <div class="vc-grid-container vc-weeks d-grid"
-                                     style="grid-template-columns: repeat(7,1fr); gap: 0px;">
-                                    <div :class="[new Date().getDay() == 1 ? 'is-today' : '']"
-                                         class="vc-grid-cell vc-grid-cell-row vc-grid-cell-row--7 vc-grid-cell-col-1 vc-grid-cell-col--7"
-                                         style="grid-area: 1 / 1 / auto / auto;">
-                                        <div class="vc-weekday vc-text-sm vc-font-bold vc-text-gray-500">пн
-                                        </div>
-                                    </div>
-                                    <div :class="[new Date().getDay() == 2 ? 'is-today' : '']"
-                                         class="vc-grid-cell vc-grid-cell-row vc-grid-cell-row--7 vc-grid-cell-col-2 vc-grid-cell-col--6"
-                                         style="grid-area: 1 / 2 / auto / auto;">
-                                        <div class="vc-weekday vc-text-sm vc-font-bold vc-text-gray-500">вт
-                                        </div>
-                                    </div>
-                                    <div :class="[new Date().getDay() == 3 ? 'is-today' : '']"
-                                         class="vc-grid-cell vc-grid-cell-row vc-grid-cell-row--7 vc-grid-cell-col-3 vc-grid-cell-col--5"
-                                         style="grid-area: 1 / 3 / auto / auto;">
-                                        <div class="vc-weekday vc-text-sm vc-font-bold vc-text-gray-500">ср
-                                        </div>
-                                    </div>
-                                    <div :class="[new Date().getDay() == 4 ? 'is-today' : '']"
-                                         class="vc-grid-cell vc-grid-cell-row vc-grid-cell-row--7 vc-grid-cell-col-4 vc-grid-cell-col--4"
-                                         style="grid-area: 1 / 4 / auto / auto;">
-                                        <div class="vc-weekday vc-text-sm vc-font-bold vc-text-gray-500">чт
-                                        </div>
-                                    </div>
-                                    <div :class="[new Date().getDay() == 5 ? 'is-today' : '']"
-                                         class="vc-grid-cell vc-grid-cell-row vc-grid-cell-row--7 vc-grid-cell-col-5 vc-grid-cell-col--3"
-                                         style="grid-area: 1 / 5 / auto / auto;">
-                                        <div class="vc-weekday vc-text-sm vc-font-bold vc-text-gray-500">пт
-                                        </div>
-                                    </div>
-                                    <div :class="[new Date().getDay() == 6 ? 'is-today' : '']"
-                                         class="vc-grid-cell vc-grid-cell-row vc-grid-cell-row--7 vc-grid-cell-col-6 vc-grid-cell-col--2"
-                                         style="grid-area: 1 / 6 / auto / auto;">
-                                        <div class="vc-weekday vc-text-sm vc-font-bold vc-text-gray-500">сб
-                                        </div>
-                                    </div>
-                                    <div :class="[new Date().getDay() == 0 ? 'is-today' : '']"
-                                         class="vc-grid-cell vc-grid-cell-row vc-grid-cell-row--7 vc-grid-cell-col-7 vc-grid-cell-col--1"
-                                         style="grid-area: 1 / 7 / auto / auto;">
-                                        <div class="vc-weekday vc-text-sm vc-font-bold vc-text-gray-500">вс
-                                        </div>
-                                    </div>
-                                </div>
-                            </template>
+                            <!--                            <template #header>-->
+                            <!--                                <div class="vc-grid-container vc-weeks d-grid"-->
+                            <!--                                     style="grid-template-columns: repeat(7,1fr); gap: 0px;">-->
+                            <!--                                    <div :class="[new Date().getDay() == 1 ? 'is-today' : '']"-->
+                            <!--                                         class="vc-grid-cell vc-grid-cell-row vc-grid-cell-row&#45;&#45;7 vc-grid-cell-col-1 vc-grid-cell-col&#45;&#45;7"-->
+                            <!--                                         style="grid-area: 1 / 1 / auto / auto;">-->
+                            <!--                                        <div class="vc-weekday vc-text-sm vc-font-bold vc-text-gray-500">пн-->
+                            <!--                                        </div>-->
+                            <!--                                    </div>-->
+                            <!--                                    <div :class="[new Date().getDay() == 2 ? 'is-today' : '']"-->
+                            <!--                                         class="vc-grid-cell vc-grid-cell-row vc-grid-cell-row&#45;&#45;7 vc-grid-cell-col-2 vc-grid-cell-col&#45;&#45;6"-->
+                            <!--                                         style="grid-area: 1 / 2 / auto / auto;">-->
+                            <!--                                        <div class="vc-weekday vc-text-sm vc-font-bold vc-text-gray-500">вт-->
+                            <!--                                        </div>-->
+                            <!--                                    </div>-->
+                            <!--                                    <div :class="[new Date().getDay() == 3 ? 'is-today' : '']"-->
+                            <!--                                         class="vc-grid-cell vc-grid-cell-row vc-grid-cell-row&#45;&#45;7 vc-grid-cell-col-3 vc-grid-cell-col&#45;&#45;5"-->
+                            <!--                                         style="grid-area: 1 / 3 / auto / auto;">-->
+                            <!--                                        <div class="vc-weekday vc-text-sm vc-font-bold vc-text-gray-500">ср-->
+                            <!--                                        </div>-->
+                            <!--                                    </div>-->
+                            <!--                                    <div :class="[new Date().getDay() == 4 ? 'is-today' : '']"-->
+                            <!--                                         class="vc-grid-cell vc-grid-cell-row vc-grid-cell-row&#45;&#45;7 vc-grid-cell-col-4 vc-grid-cell-col&#45;&#45;4"-->
+                            <!--                                         style="grid-area: 1 / 4 / auto / auto;">-->
+                            <!--                                        <div class="vc-weekday vc-text-sm vc-font-bold vc-text-gray-500">чт-->
+                            <!--                                        </div>-->
+                            <!--                                    </div>-->
+                            <!--                                    <div :class="[new Date().getDay() == 5 ? 'is-today' : '']"-->
+                            <!--                                         class="vc-grid-cell vc-grid-cell-row vc-grid-cell-row&#45;&#45;7 vc-grid-cell-col-5 vc-grid-cell-col&#45;&#45;3"-->
+                            <!--                                         style="grid-area: 1 / 5 / auto / auto;">-->
+                            <!--                                        <div class="vc-weekday vc-text-sm vc-font-bold vc-text-gray-500">пт-->
+                            <!--                                        </div>-->
+                            <!--                                    </div>-->
+                            <!--                                    <div :class="[new Date().getDay() == 6 ? 'is-today' : '']"-->
+                            <!--                                         class="vc-grid-cell vc-grid-cell-row vc-grid-cell-row&#45;&#45;7 vc-grid-cell-col-6 vc-grid-cell-col&#45;&#45;2"-->
+                            <!--                                         style="grid-area: 1 / 6 / auto / auto;">-->
+                            <!--                                        <div class="vc-weekday vc-text-sm vc-font-bold vc-text-gray-500">сб-->
+                            <!--                                        </div>-->
+                            <!--                                    </div>-->
+                            <!--                                    <div :class="[new Date().getDay() == 0 ? 'is-today' : '']"-->
+                            <!--                                         class="vc-grid-cell vc-grid-cell-row vc-grid-cell-row&#45;&#45;7 vc-grid-cell-col-7 vc-grid-cell-col&#45;&#45;1"-->
+                            <!--                                         style="grid-area: 1 / 7 / auto / auto;">-->
+                            <!--                                        <div class="vc-weekday vc-text-sm vc-font-bold vc-text-gray-500">вс-->
+                            <!--                                        </div>-->
+                            <!--                                    </div>-->
+                            <!--                                </div>-->
+                            <!--                            </template>-->
                             <template v-slot:day-content="{ day, attributes }">
                                 <div class="bkt-calendar__day" @dblclick="addEvent(day)">
                                     <span class="bkt-calendar__day-label" @dblclick="addEvent(day)">
@@ -118,6 +105,13 @@
                                     </div>
                                 </div>
                             </template>
+                        </v-calendar>
+                    </div>
+                    <div class="bkt-month-calendar d-sm-none">
+                        <v-calendar is-expanded class="bkt-left-calendar bkt-border-none"
+                                    :attributes="dot_items" @update:from-page="changePage"
+                                    :masks="masks" @dayclick="setDate" ref="bkt-left-calendar"
+                                    :class="'is-today-'+new Date().getDay()">
                         </v-calendar>
                     </div>
                 </div>

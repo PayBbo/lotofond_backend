@@ -20800,7 +20800,6 @@ ul.bkt-contents .bkt-contents__answer {
 .bkt-calendar-checkboxes {
   background: white;
   border-radius: 15px;
-  height: 100%;
 }
 .bkt-calendar-checkboxes .events_check input:checked ~ .bkt-check__input-check {
   background: #ec4c27;
@@ -20826,10 +20825,41 @@ ul.bkt-contents .bkt-contents__answer {
   background: transparent;
 }
 .bkt-calendar .custom-calendar.vc-container .vc-header {
-  display: none;
+  padding: 0 0 12px 0;
   font-family: "Gilroy", sans-serif;
 }
+.bkt-calendar .custom-calendar.vc-container .vc-header .vc-title {
+  font-family: "Gilroy", sans-serif;
+  font-size: 14px;
+  line-height: 14px;
+}
+.bkt-calendar .custom-calendar.vc-container .vc-header .vc-title-wrapper {
+  padding: 12px 20px;
+  background-color: white;
+  border-radius: 10px;
+  height: 40px;
+  max-width: calc(100% - 88px);
+  width: 100%;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.bkt-calendar .custom-calendar.vc-container .vc-arrows-container {
+  padding: 0 0 12px 0;
+}
+.bkt-calendar .custom-calendar.vc-container .vc-arrows-container div {
+  border-radius: 10px;
+  background-color: white;
+  width: 40px;
+  height: 40px;
+  border: none !important;
+}
+.bkt-calendar .custom-calendar.vc-container .vc-arrows-container div .vc-svg-icon path {
+  fill: #2953ff;
+}
 .bkt-calendar .custom-calendar.vc-container .vc-weeks {
+  border-radius: 15px;
   padding: 0;
 }
 .bkt-calendar .custom-calendar.vc-container .vc-weeks .vc-weekday {
@@ -20847,15 +20877,6 @@ ul.bkt-contents .bkt-contents__answer {
 .bkt-calendar .custom-calendar.vc-container .vc-weeks .in-prev-month div, .bkt-calendar .custom-calendar.vc-container .vc-weeks .in-next-month div {
   opacity: 1;
   color: #d7d7d7;
-}
-.bkt-calendar .custom-calendar.vc-container .vc-arrows-container {
-  display: none;
-}
-.bkt-calendar .custom-calendar.vc-container .vc-day-layer {
-  display: none;
-}
-.bkt-calendar .custom-calendar.vc-container .vc-weeks {
-  padding: 0;
 }
 .bkt-calendar .custom-calendar.vc-container .vc-weekday {
   color: #0d6efd;
@@ -20886,11 +20907,33 @@ ul.bkt-contents .bkt-contents__answer {
 .bkt-calendar .custom-calendar.vc-container .vc-grid-cell.is-today .vc-weekday {
   color: white !important;
 }
-.bkt-calendar .custom-calendar.vc-container .vc-grid-cell.vc-grid-cell-row-1.vc-grid-cell-col--7, .bkt-calendar .custom-calendar.vc-container .vc-grid-cell.vc-grid-cell-row-1.vc-grid-cell-col--6, .bkt-calendar .custom-calendar.vc-container .vc-grid-cell.vc-grid-cell-row-1.vc-grid-cell-col--5, .bkt-calendar .custom-calendar.vc-container .vc-grid-cell.vc-grid-cell-row-1.vc-grid-cell-col--4, .bkt-calendar .custom-calendar.vc-container .vc-grid-cell.vc-grid-cell-row-1.vc-grid-cell-col--3, .bkt-calendar .custom-calendar.vc-container .vc-grid-cell.vc-grid-cell-row-1.vc-grid-cell-col--2 {
-  display: none;
+.bkt-calendar .custom-calendar.vc-container.is-today-1 .vc-grid-cell-col-1 > .vc-weekday {
+  background: #0d6efd;
+  color: white !important;
 }
-.bkt-calendar .custom-calendar.vc-container .vc-grid-cell.vc-grid-cell-row-1.vc-grid-cell-row--7.vc-grid-cell-col-7.vc-grid-cell-col--1 {
-  display: none;
+.bkt-calendar .custom-calendar.vc-container.is-today-2 .vc-grid-cell-col-2 > .vc-weekday {
+  background: #0d6efd;
+  color: white !important;
+}
+.bkt-calendar .custom-calendar.vc-container.is-today-3 .vc-grid-cell-col-3 > .vc-weekday {
+  background: #0d6efd;
+  color: white !important;
+}
+.bkt-calendar .custom-calendar.vc-container.is-today-4 .vc-grid-cell-col-4 > .vc-weekday {
+  background: #0d6efd;
+  color: white !important;
+}
+.bkt-calendar .custom-calendar.vc-container.is-today-5 .vc-grid-cell-col-5 > .vc-weekday {
+  background: #0d6efd;
+  color: white !important;
+}
+.bkt-calendar .custom-calendar.vc-container.is-today-6 .vc-grid-cell-col-6 > .vc-weekday {
+  background: #0d6efd;
+  color: white !important;
+}
+.bkt-calendar .custom-calendar.vc-container.is-today-0 .vc-grid-cell-col-7 > .vc-weekday {
+  background: #0d6efd;
+  color: white !important;
 }
 .bkt-calendar .custom-calendar.vc-container .vc-day {
   padding: 0 5px 3px 5px;

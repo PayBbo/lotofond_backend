@@ -4,7 +4,7 @@
     &-checkboxes {
         background: white;
         border-radius: 15px;
-        height: 100%;
+        //height: 100%;
 
         & .events_check input:checked ~ .bkt-check__input-check {
             background: $red-default;
@@ -34,13 +34,47 @@
         background: transparent;
 
         & .vc-header {
-            display: none;
+            padding: 0 0 12px 0;
             font-family: 'Gilroy', sans-serif;
+            & .vc-title {
+                font-family: "Gilroy", sans-serif;
+                font-size: 14px;
+                line-height: 14px;
+
+                &-wrapper {
+                    padding: 12px 20px;
+                    background-color: white;
+                    border-radius: 10px;
+                    height: 40px;
+                    max-width: calc(100% - 88px);
+                    width: 100%;
+                    text-align: center;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                }
+            }
+        }
+
+        & .vc-arrows-container {
+            padding: 0 0 12px 0;
+
+            & div {
+                border-radius: 10px;
+                background-color: white;
+                width: 40px;
+                height: 40px;
+                border: none !important;
+
+                & .vc-svg-icon path {
+                    fill: $primary-default;
+                }
+            }
         }
 
         & .vc-weeks {
+            border-radius: 15px;
             padding: 0;
-
             & .vc-weekday {
                 // padding: 1rem;
                 font-family: 'Gilroy', sans-serif;
@@ -65,16 +99,8 @@
             }
         }
 
-        & .vc-arrows-container {
-            display: none;
-        }
-
         & .vc-day-layer {
-            display: none;
-        }
-
-        & .vc-weeks {
-            padding: 0;
+            //display: none;
         }
 
         & .vc-weekday {
@@ -118,14 +144,21 @@
             }
         }
 
-        & .vc-grid-cell.vc-grid-cell-row-1.vc-grid-cell-col {
-            &--7, &--6, &--5, &--4, &--3, &--2 {
-                display: none;
+        $weekdays: 1, 2, 3, 4, 5, 6;
+        @each $weekday in $weekdays {
+            &.is-today-#{$weekday} {
+                & .vc-grid-cell-col-#{$weekday} > .vc-weekday {
+                    background: $primary;
+                    color: white !important
+                }
             }
         }
 
-        & .vc-grid-cell.vc-grid-cell-row-1.vc-grid-cell-row--7.vc-grid-cell-col-7.vc-grid-cell-col--1 {
-            display: none;
+        &.is-today-0 {
+            & .vc-grid-cell-col-7 > .vc-weekday {
+                background: $primary;
+                color: white !important
+            }
         }
 
         & .vc-day {
