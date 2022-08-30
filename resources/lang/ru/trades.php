@@ -40,5 +40,15 @@ return [
     'priceOfferForm' => [
         'open' => 'Открытая',
         'close' => 'Закрытая',
-    ]
+    ],
+    'tradeSubjectType' => [
+        'landPlot' => 'Земельный участок',
+        'building' => 'Здание',
+        'construction' => 'Сооружение',
+        'premise' => 'Помещение',
+        'flat' => 'Квартира',
+        'transport' => 'Транспорт',
+        'other' => 'Другое',
+
+    ],
 ];

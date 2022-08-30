@@ -126,8 +126,8 @@
                     <div class="bkt-form bkt-wrapper bkt-auctions-types">
                         <div class="bkt-auctions-type flex-fill" v-for="item in auctionTypes">
                             <button class="bkt-auctions-type__card bkt-auctions-type__title bkt-bg-body"
-                                    @click="chooseAuctionType(item.title)"
-                                    :class="[model.tradeType===item.title ? 'bkt-border-primary': 'bkt-border-body']">
+                                    @click="toggleAuctionType(item.title)"
+                                    :class="[model.tradeTypes.includes(item.title) ? 'bkt-border-primary': 'bkt-border-body']">
                                 {{item.description}}
                             </button>
                             <!--                            <h6 class="bkt-auctions-type__subtitle">что это?</h6>-->
@@ -168,6 +168,7 @@
                     includedWords: '',
                     tradePlaces: [],
                     tradeType: '',
+                    tradeTypes: [],
                 },
             };
         },
@@ -216,6 +217,15 @@
             chooseAuctionType(title) {
                 this.model.tradeType = title
             },
+            toggleAuctionType(title) {
+                let item_index = this.model.tradeTypes.findIndex(el => el == title);
+                if (item_index < 0) {
+                    this.model.tradeTypes.push(title);
+                } else {
+                    this.model.tradeTypes.splice(item_index, 1);
+                }
+                // this.saveValue();
+            },
             removeTradePlace(id) {
                 let item_index = this.selected_trade_places.findIndex(el => el.id == id);
                 if (item_index >= 0) {
@@ -225,7 +235,6 @@
                 if (item_index >= 0) {
                     this.model.tradePlaces.splice(item_index, 1);
                 }
-
             }
         }
     }

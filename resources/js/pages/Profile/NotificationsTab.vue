@@ -17,7 +17,7 @@
                     <h5 class="bkt-card__subtitle">изменение лотов подобранных в разделе “Мониторинг”</h5>
                 </div>
 
-                <bkt-switch v-model="notifications.notificationsFromMonitoring" @input="save" :disabled="loading"></bkt-switch>
+                <bkt-switch v-model="notifications.notificationsFromMonitoring" @input="save"></bkt-switch>
             </div>
         </div>
         <div class="bkt-card bkt-notifications-card">
@@ -27,84 +27,94 @@
                     <h5 class="bkt-card__subtitle">изменение лотов подобранных в разделе “Избранное”</h5>
                 </div>
 
-                <bkt-switch v-model="notifications.notificationsFromFavourite" @input="save" :disabled="loading"></bkt-switch>
+                <bkt-switch v-model="notifications.notificationsFromFavourite" @input="save"></bkt-switch>
             </div>
             <div class="bkt-wrapper-column">
                 <h6 class="bkt-card__title" :class="{'bkt-text-neutral-dark':!notifications.notificationsFromFavourite}">
                     Начало приёма заявок
                 </h6>
                 <bkt-checkbox label="за 1 день" v-model="notifications.notificationsSettings.favouriteApplicationStart"
-                              val="1" name="favouriteApplicationStart1" type="radio" @input="save"
+                              :val="1" name="favouriteApplicationStart1" type="radio" @input="save"
                               :disabled="!notifications.notificationsFromFavourite || loading"></bkt-checkbox>
                 <bkt-checkbox label="за 2 дня" v-model="notifications.notificationsSettings.favouriteApplicationStart"
-                              val="2" name="favouriteApplicationStart2" type="radio" @input="save"
+                              :val="2" name="favouriteApplicationStart2" type="radio" @input="save"
                               :disabled="!notifications.notificationsFromFavourite || loading"></bkt-checkbox>
                 <bkt-checkbox label="за 4 дня" v-model="notifications.notificationsSettings.favouriteApplicationStart"
-                              val="4" name="favouriteApplicationStart3" type="radio" @input="save"
+                              :val="4" name="favouriteApplicationStart3" type="radio" @input="save"
                               :disabled="!notifications.notificationsFromFavourite || loading"></bkt-checkbox>
                 <bkt-checkbox label="за 7 дней" v-model="notifications.notificationsSettings.favouriteApplicationStart"
-                              val="7" name="favouriteApplicationStart4" type="radio" @input="save"
+                              :val="7" name="favouriteApplicationStart4" type="radio" @input="save"
                               :disabled="!notifications.notificationsFromFavourite || loading"></bkt-checkbox>
                 <h6 class="bkt-card__title" :class="{'bkt-text-neutral-dark':!notifications.notificationsFromFavourite}">
                     Окончание приёма заявок
                 </h6>
                 <bkt-checkbox label="за 1 день" v-model="notifications.notificationsSettings.favouriteApplicationEnd"
-                              val="1" name="favouriteApplicationEnd1" type="radio" @input="save"
+                              :val="1" name="favouriteApplicationEnd1" type="radio" @input="save"
                               :disabled="!notifications.notificationsFromFavourite || loading"></bkt-checkbox>
                 <bkt-checkbox label="за 2 дня" v-model="notifications.notificationsSettings.favouriteApplicationEnd"
-                              val="2" name="favouriteApplicationEnd2" type="radio" @input="save"
+                              :val="2" name="favouriteApplicationEnd2" type="radio" @input="save"
                               :disabled="!notifications.notificationsFromFavourite || loading"></bkt-checkbox>
                 <bkt-checkbox label="за 4 дня" v-model="notifications.notificationsSettings.favouriteApplicationEnd"
-                              val="4" name="favouriteApplicationEnd3" type="radio" @input="save"
+                              :val="4" name="favouriteApplicationEnd3" type="radio" @input="save"
                               :disabled="!notifications.notificationsFromFavourite || loading"></bkt-checkbox>
                 <bkt-checkbox label="за 7 дней" v-model="notifications.notificationsSettings.favouriteApplicationEnd"
-                              val="7" name="favouriteApplicationEnd4" type="radio" @input="save"
+                              :val="7" name="favouriteApplicationEnd4" type="radio" @input="save"
                               :disabled="!notifications.notificationsFromFavourite || loading"></bkt-checkbox>
                 <h6 class="bkt-card__title" :class="{'bkt-text-neutral-dark':!notifications.notificationsFromFavourite}">
                     Начало проведение торгов
                 </h6>
                 <bkt-checkbox label="за 1 день" v-model="notifications.notificationsSettings.favouriteEventStart"
-                              val="1" name="favouriteEventStart1" type="radio" @input="save"
+                              :val="1" name="favouriteEventStart1" type="radio" @input="save"
                               :disabled="!notifications.notificationsFromFavourite || loading"></bkt-checkbox>
                 <bkt-checkbox label="за 2 дня" v-model="notifications.notificationsSettings.favouriteEventStart"
-                              val="2" name="favouriteEventStart2" type="radio" @input="save"
+                              :val="2" name="favouriteEventStart2" type="radio" @input="save"
                               :disabled="!notifications.notificationsFromFavourite || loading"></bkt-checkbox>
                 <bkt-checkbox label="за 4 дня" v-model="notifications.notificationsSettings.favouriteEventStart"
-                              val="4" name="favouriteEventStart3" type="radio" @input="save"
+                              :val="4" name="favouriteEventStart3" type="radio" @input="save"
                               :disabled="!notifications.notificationsFromFavourite || loading"></bkt-checkbox>
                 <bkt-checkbox label="за 7 дней" v-model="notifications.notificationsSettings.favouriteEventStart"
-                              val="7" name="favouriteEventStart4" type="radio" @input="save"
+                              :val="7" name="favouriteEventStart4" type="radio" @input="save"
                               :disabled="!notifications.notificationsFromFavourite || loading"></bkt-checkbox>
                 <h6 class="bkt-card__title" :class="{'bkt-text-neutral-dark':!notifications.notificationsFromFavourite}">
                     Окончание приёма заявок
                 </h6>
                 <bkt-checkbox label="за 1 день" v-model="notifications.notificationsSettings.favouriteEventEnd"
-                              val="1" name="favouriteEventEnd1" type="radio" @input="save"
+                              :val="1" name="favouriteEventEnd1" type="radio" @input="save"
                               :disabled="!notifications.notificationsFromFavourite || loading"></bkt-checkbox>
                 <bkt-checkbox label="за 2 дня" v-model="notifications.notificationsSettings.favouriteEventEnd"
-                              val="2" name="favouriteEventEnd2" type="radio" @input="save"
+                              :val="2" name="favouriteEventEnd2" type="radio" @input="save"
                               :disabled="!notifications.notificationsFromFavourite || loading"></bkt-checkbox>
                 <bkt-checkbox label="за 4 дня" v-model="notifications.notificationsSettings.favouriteEventEnd"
-                              val="4" name="favouriteEventEnd3" type="radio" @input="save"
+                              :val="4" name="favouriteEventEnd3" type="radio" @input="save"
                               :disabled="!notifications.notificationsFromFavourite || loading"></bkt-checkbox>
                 <bkt-checkbox label="за 7 дней" v-model="notifications.notificationsSettings.favouriteEventEnd"
-                              val="7" name="favouriteEventEnd4" type="radio" @input="save"
+                              :val="7" name="favouriteEventEnd4" type="radio" @input="save"
                               :disabled="!notifications.notificationsFromFavourite || loading"></bkt-checkbox>
                 <h6 class="bkt-card__title" :class="{'bkt-text-neutral-dark':!notifications.notificationsFromFavourite}">
                     Новый этап снижения цены
                 </h6>
                 <bkt-checkbox label="за 1 день" v-model="notifications.notificationsSettings.favouritePriceReduction"
-                              val="1" name="favouritePriceReduction1" type="radio" @input="save"
+                              :val="1" name="favouritePriceReduction1" type="radio" @input="save"
                               :disabled="!notifications.notificationsFromFavourite || loading"></bkt-checkbox>
                 <bkt-checkbox label="за 2 дня" v-model="notifications.notificationsSettings.favouritePriceReduction"
-                              val="2" name="favouritePriceReduction2" type="radio" @input="save"
+                              :val="2" name="favouritePriceReduction2" type="radio" @input="save"
                               :disabled="!notifications.notificationsFromFavourite || loading"></bkt-checkbox>
                 <bkt-checkbox label="за 4 дня" v-model="notifications.notificationsSettings.favouritePriceReduction"
-                              val="4" name="favouritePriceReduction3" type="radio" @input="save"
+                              :val="4" name="favouritePriceReduction3" type="radio" @input="save"
                               :disabled="!notifications.notificationsFromFavourite || loading"></bkt-checkbox>
                 <bkt-checkbox label="за 7 дней" v-model="notifications.notificationsSettings.favouritePriceReduction"
-                              val="7" name="favouritePriceReduction4" type="radio" @input="save"
+                              :val="7" name="favouritePriceReduction4" type="radio" @input="save"
                               :disabled="!notifications.notificationsFromFavourite || loading"></bkt-checkbox>
+            </div>
+        </div>
+        <div class="bkt-card bkt-notifications-card">
+            <div class="bkt-wrapper-between align-items-center bkt-nowrap">
+                <div>
+                    <div class="bkt-card__title">Оповещения на эл.почту</div>
+                    <h5 class="bkt-card__subtitle">присылать оповещения на Вашу электронную почту</h5>
+                </div>
+
+                <bkt-switch v-model="notifications.notificationsToEmail" @input="save"></bkt-switch>
             </div>
         </div>
         <!--        <div class="bkt-card bkt-notifications-card">-->
@@ -143,14 +153,19 @@
                         favouriteApplicationEnd: 1,
                         favouriteResult: 1,
                         favouritePriceReduction: 1
-                    }
+                    },
+                    notificationsToEmail:false
                 },
                 loading: false
             }
         },
         mounted() {
             if (this.isLoggedIn) {
-                this.notifications = JSON.parse(JSON.stringify(this.user));
+                // this.notifications = JSON.parse(JSON.stringify(this.user));
+                this.notifications.notificationsFromFavourite = this.user.notificationsFromFavourite;
+                this.notifications.notificationsFromMonitoring = this.user.notificationsFromMonitoring;
+                this.notifications.notificationsSettings = this.user.notificationsSettings;
+                this.notifications.notificationsToEmail = this.user.notificationsToEmail;
             }
         },
         computed: {
@@ -164,9 +179,16 @@
         methods: {
             save() {
                 this.loading = true;
+                let data = {...this.user, ...this.notifications};
                 this.$store.dispatch('saveNotificationsSettings', this.notifications)
                     .then(resp => {
                         this.loading = false;
+                        this.$store.commit('setAuthUser', data)
+                        // this.$store.dispatch('saveDataProperty', {
+                        //     module_key: 'auth', state_key: 'auth_user',
+                        //     key: 'notificationsSettings',
+                        //     value: [this.favourites_paths[0]]
+                        // }, {root: true});
                 }).catch(error => {
                     this.loading = false;
                 })

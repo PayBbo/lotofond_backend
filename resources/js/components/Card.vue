@@ -374,8 +374,10 @@
                         <div class="bkt-card__row outline bkt-wrapper-between align-items-center"
                              v-if="cadastralData.cadastralDataArea">
                             <div class="bkt-card__feature">
-                                <h4 class="bkt-card__title">{{cadastralData.cadastralDataArea | priceFormat}} кв.
-                                    м.</h4>
+                                <h4 class="bkt-card__title">
+                                    {{cadastralData.cadastralDataArea | priceFormat}}
+                                    {{cadastralData.cadastralDataAreaMeasure}}
+                                </h4>
                                 <h6 class="bkt-card__subtitle">земельный участок</h6>
                             </div>
                             <span class="bkt-card__icon">
@@ -454,6 +456,15 @@
                         index = extracts.findIndex(item => item.type == 'cadastralDataArea')
                         if (index >= 0) {
                             cadastralData.cadastralDataArea = extracts[index].value;
+                            if(extracts[index].value <=100) {
+                                cadastralData.cadastralDataAreaMeasure = 'кв. м.';
+                            }
+                            else if(extracts[index].value > 100 && extracts[index].value<= 10000) {
+                                cadastralData.cadastralDataAreaMeasure = 'а';
+                            }
+                            else {
+                                cadastralData.cadastralDataAreaMeasure = 'га';
+                            }
                         }
                         index = extracts.findIndex(item => item.type == 'cadastralDataFractionalOwnership')
                         if (index >= 0) {

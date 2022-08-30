@@ -542,7 +542,9 @@
                     // this.$store.commit('setCurrentPath', response.data[0].pathId)
                     // this.getData(1, this.current_path)
                     if (this.items_paths.length > 0) {
-                        this.$store.dispatch('getMonitorings', {page: 1, pathId: this.current_path})
+                        this.params.pathId = this.current_path;
+                        this.params.page =  1;
+                        this.$store.dispatch('getMonitorings', this.params)
                             .finally(() => {
                                 this.loading = false;
                             });

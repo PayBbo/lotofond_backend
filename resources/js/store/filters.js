@@ -62,6 +62,7 @@ export default {
                 includedWords:'',
                 tradePlaces: [],
                 tradeType:'',
+                tradeTypes:[],
             },
             // other: {
             //     period: 'all',
@@ -137,6 +138,7 @@ export default {
                 includedWords:'',
                 tradePlaces: [],
                 tradeType:'',
+                tradeTypes:[],
             },
             sort: {
                 direction: "desc",
