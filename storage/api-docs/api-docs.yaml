@@ -3801,16 +3801,18 @@ components:
               type: array
               example: [ 1, 2, 3 ]
               description: массив айдишников торговых площадок
-            tradeType:
-              type: string
-              enum:
-                - OpenAuction
-                - OpenConcours
-                - PublicOffer
-                - CloseAuction
-                - CloseConcours
-                - ClosePublicOffer
-              description: вид торгов
+            tradeTypes:
+              type: array
+              items:
+                type: string
+                enum:
+                  - OpenAuction
+                  - OpenConcours
+                  - PublicOffer
+                  - CloseAuction
+                  - CloseConcours
+                  - ClosePublicOffer
+                description: вид торгов
     TradePlace:
       type: object
       required:
