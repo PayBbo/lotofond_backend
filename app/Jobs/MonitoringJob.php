@@ -37,10 +37,10 @@ class MonitoringJob implements ShouldQueue
         $maxDate = Carbon::now()->setTimezone('Europe/Moscow');
         $monitorings = Monitoring::all();
         foreach ($monitorings as $monitoring) {
-            $lots = Lot::filterBy($monitoring->filters)->whereBetween('created_at', [$minDate, $maxDate])->get();
+            $lots = Lot::filterBy($monitoring->filters)->doesntHave('userHiddenLot')->whereBetween('created_at', [$minDate, $maxDate])->get();
             if ($lots->count() > 0) {
                 foreach ($lots as $lot) {
-                    if (!$monitoring->lots->contains($lot)) {
+                    if (!$monitoring->lots->contains($lot) && !$monitoring->user->hiddenLots->contains($lot)) {
                         $monitoring->lots()->attach($lot, ['created_at' => $maxDate]);
                     }
                 }

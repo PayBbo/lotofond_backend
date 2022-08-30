@@ -57,7 +57,7 @@ class MonitoringNotificationJob implements ShouldQueue
         foreach ($monitorings as $monitoring) {
             $newLotsCount = $monitoring->lots()->wherePivot('created_at', '>', $startDate)->count();
             if($newLotsCount>0) {
-                Notification::create([
+                $notification = Notification::create([
                     'user_id' => $monitoring->user_id,
                     'date' => Carbon::now()->setTimezone('Europe/Moscow'),
                     'type_id' => 3,
@@ -65,6 +65,9 @@ class MonitoringNotificationJob implements ShouldQueue
                     'monitoring_id' => $monitoring->id,
                     'message'=>'monitoring'
                 ]);
+                foreach( $monitoring->lots()->wherePivot('created_at', '>', $startDate)->get() as $lot){
+                    $notification->notificationLots()->attach($lot);
+                }
             }
         }
     }

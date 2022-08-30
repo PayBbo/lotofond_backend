@@ -165,12 +165,29 @@ class AuctionController extends Controller
             foreach ($paths as $path) {
                 if ($path->lots->contains($lot)) {
                     $path->lots()->detach($lot);
+                    foreach($path->notifications as $notification){
+                        if($notification->notificationLots->contains($lot)){
+                            $notification->delete();
+                            $notification->notificationLots()->detach($lot);
+                        }
+                    }
                 }
             }
             $paths = Monitoring::where('user_id', auth()->id())->get();
             foreach ($paths as $path) {
                 if ($path->lots->contains($lot)) {
                     $path->lots()->detach($lot);
+                    foreach($path->notifications as $notification){
+                        if($notification->notificationLots->contains($lot)){
+                            if($notification->value >1){
+                                $notification->value -= 1;
+                                $notification->save();
+                            }else{
+                                $notification->delete();
+                            }
+                            $notification->notificationLots()->detach($lot);
+                        }
+                    }
                 }
             }
         }

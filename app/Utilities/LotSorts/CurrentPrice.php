@@ -6,18 +6,21 @@ use App\Models\PriceReduction;
 use App\Utilities\SortContract;
 use App\Utilities\SortQuery;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 
 class CurrentPrice extends SortQuery implements SortContract
 {
     public function handle($direction): void
     {
-            $currentDate = Carbon::now()->setTimezone('Europe/Moscow');
-            $this->query->orderBy(PriceReduction::select('price')
-                ->whereColumn('price_reductions.lot_id', 'lots.id')
-                ->where('price_reductions.start_time', '<=', $currentDate)
-                ->where('price_reductions.end_time', '>', $currentDate)
-                ->take(1),
-                $direction
-            );
+        $currentDate = Carbon::now()->setTimezone('Europe/Moscow')->format('d.m.Y');
+        \DB::statement("SET SQL_MODE=''");
+        $this->query->with('priceReductions')
+            ->join('price_reductions as i', 'lots.id', '=', 'i.lot_id')
+            ->select('lots.*')
+            ->whereDate('i.start_time', '<=', DB::raw("str_to_date('" . $currentDate . "', '%d.%m.%Y')"))
+            ->whereDate('i.end_time', '>', DB::raw("str_to_date('" . $currentDate . "', '%d.%m.%Y')"))
+            ->orderBy('i.price', $direction)
+            ->groupBy(['lots.id']);
+
     }
 }

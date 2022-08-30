@@ -68,14 +68,14 @@ class FavouriteJob implements ShouldQueue
                         $value = Carbon::parse($value);
                         if($value > $date) {
                             $diff = Carbon::parse($value)->diffInDays($date);
-                            if($diff <=7 && $favourite->user->not_settings[$key] == $diff) {
+                            if($diff <=7 && $favourite->user->not_settings[$key] == $diff && $favourite->user->not_settings[$key] >0) {
                                 $lot_id = FavouriteLot::where(['lot_id'=>$lot->id, 'favourite_id'=>$favourite->id])->first()['id'];
                                 if ($diff > 4) {
-                                    $this->saveNotification($lot_id, $favourite->user_id, $key . 'InSevenDays', $diff);
+                                    $this->saveNotification($lot_id, $favourite->user_id, $key . 'InSevenDays', $diff, $lot);
                                 } elseif ($diff > 1) {
-                                    $this->saveNotification($lot_id, $favourite->user_id, $key . 'InFourDays', $diff);
+                                    $this->saveNotification($lot_id, $favourite->user_id, $key . 'InFourDays', $diff, $lot);
                                 } else {
-                                    $this->saveNotification($lot_id, $favourite->user_id, $key, $value->format('d.m.y H:i'));
+                                    $this->saveNotification($lot_id, $favourite->user_id, $key, $value->format('d.m.y H:i'), $lot);
                                 }
                             }
                         }
@@ -85,10 +85,10 @@ class FavouriteJob implements ShouldQueue
         }
     }
 
-    public function saveNotification($lot_id, $user_id, $message, $value)
+    public function saveNotification($lot_id, $user_id, $message, $value, $lot)
     {
         if(!Notification::where(['lot_id'=>$lot_id, 'user_id'=>$user_id, 'message'=>$message, 'value'=>$value])->exists()) {
-            Notification::create([
+            $notification = Notification::create([
                 'user_id' => $user_id,
                 'lot_id' => $lot_id,
                 'date' => Carbon::now()->setTimezone('Europe/Moscow'),
@@ -96,6 +96,8 @@ class FavouriteJob implements ShouldQueue
                 'value' => $value,
                 'message' => $message
             ]);
+            $notification->notificationLots()->attach($lot);
+
         }
     }
 }

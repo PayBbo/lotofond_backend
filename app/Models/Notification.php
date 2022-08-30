@@ -91,4 +91,9 @@ class Notification extends Model
         return $this->belongsTo(Monitoring::class);
     }
 
+    public function notificationLots()
+    {
+        return $this->belongsToMany(Lot::class, 'notification_lot');
+    }
+
 }

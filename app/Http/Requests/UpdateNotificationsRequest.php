@@ -29,7 +29,7 @@ class UpdateNotificationsRequest extends FormRequest
             'notificationsFromMonitoring'=>['required', 'boolean'],
             'notificationsToEmail'=>['sometimes', 'boolean'],
             'notificationsSettings'=>['required', 'array'],
-            'notificationsSettings.*'=>['required', 'integer', 'in:1,2,4,7', new CheckIsString]
+            'notificationsSettings.*'=>['required', 'integer', 'in:0,1,2,4,7', new CheckIsString]
         ];
     }
 }

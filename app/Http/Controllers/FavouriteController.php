@@ -108,8 +108,9 @@ class FavouriteController extends Controller
             $path = Favourite::where(['user_id' => auth()->id(), 'title' => 'Общее'])->first();
         }
         $lots = Lot::whereIn('id', $request->lots)->get();
+        $user = User::find(auth()->id());
         foreach ($lots as $lot) {
-            if (!$path->lots->contains($lot)) {
+            if (!$path->lots->contains($lot) && !$user->hiddenLots->contains($lot)) {
                 $path->lots()->attach($lot, ['created_at' => Carbon::now()]);
             }
         }

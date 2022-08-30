@@ -267,7 +267,7 @@ class Lot extends Model
         if (isset($request->sort) && isset($request->sort['direction']) && strlen((string)$request->sort['direction']) > 0
             && isset($request->sort['type']) && strlen((string)$request->sort['type']) > 0) {
             $namespace = 'App\Utilities\LotSorts';
-            $sort = new SortBuilder($query, $request->sort, $namespace);
+            $sort = new SortBuilder($query->isFixed(), $request->sort, $namespace);
 
             return $sort->apply();
         }
@@ -415,5 +415,10 @@ class Lot extends Model
         $result = preg_replace('/^(&#8220;)(.*)(&#8221;)$/', "$2", $result);
         $result = preg_replace('/^(&#39;)(.*)(&#39;)$/', "$2", $result);
         return stripslashes(html_entity_decode($result));
+    }
+
+    public function notificationLots()
+    {
+        return $this->belongsToMany(Notification::class, 'notification_lot');
     }
 }

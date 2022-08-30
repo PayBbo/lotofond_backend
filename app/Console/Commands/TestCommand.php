@@ -48,7 +48,7 @@ class TestCommand extends Command
      */
     public function handle()
     {
-        dispatch(new ParseTrades);
+        dispatch(new FavouriteJob);
         //dispatch(new MonitoringJob);
         //dispatch(new ParseArbitrManager);
     }
