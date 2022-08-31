@@ -7,6 +7,7 @@ use App\Http\Requests\ContactsRequest;
 use App\Http\Requests\QuestionRequest;
 use App\Jobs\SendApplication;
 use App\Models\Application;
+use App\Models\Contact;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\File;
@@ -43,7 +44,12 @@ class ApplicationController extends Controller
             $dateForCallback = Carbon::parse($request->dateForCallback)->format('d.m.Y H:i');
             $html .= " <p>Дата и время для ответа: $dateForCallback</p>";
         }
-        $subject = $request->lotId ? 'Новая заявка на покупку без ЕЦП' : 'Новая заявка на покупку через агента';
+        $subject = $request->lotId ? 'Новая заявка на покупку без ЕП' : 'Новая заявка на покупку через агента';
+        if($request->lotId){
+            $emails = Contact::where('type', 'Отправка заявок на покупку без ЕП')->pluck('contact')->toArray();
+        }else{
+            $emails = Contact::where('type', 'Отправка заявок на покупки через агента')->pluck('contact')->toArray();
+        }
         Application::create([
             'user_id' => auth()->id(),
             'lot_id' => $request->lotId,
@@ -52,9 +58,11 @@ class ApplicationController extends Controller
             'for_answer' => $socials,
             'answer_date' => $request->dateForCallback,
             'username' => $username,
-            'type'=>$request->lotId ? 'Покупка без ЕЦП' : 'Покупка через агента'
+            'type'=>$request->lotId ? 'Покупка без ЕП' : 'Покупка через агента'
         ]);
-        dispatch_sync(new SendApplication($html, $subject, $request->email));
+        if(count($emails)>0) {
+            dispatch_sync(new SendApplication($html, $subject, $emails));
+        }
         return response(null, 200);
     }
 
@@ -86,7 +94,10 @@ class ApplicationController extends Controller
             'files'=>$files,
             'type'=>$subject
         ]);
-        dispatch_sync(new SendApplication($html, $subject, $request->email));
+        $emails = Contact::where('type', 'Отправка форм с вопросами')->pluck('contact')->toArray();
+        if(count($emails)>0) {
+            dispatch_sync(new SendApplication($html, $subject, $emails));
+        }
         return response(null, 200);
     }
 
@@ -107,7 +118,10 @@ class ApplicationController extends Controller
             'question'=>$request->question,
             'type'=>$subject
         ]);
-        dispatch_sync(new SendApplication($html, $subject, $request->communication));
+        $emails = Contact::where('type', 'Отправка контактных форм')->pluck('contact')->toArray();
+        if(count($emails)>0) {
+            dispatch_sync(new SendApplication($html, $subject, $emails));
+        }
         return response(null, 200);
     }
 

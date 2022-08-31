@@ -334,14 +334,14 @@ class Lot extends Model
             if($subParams->count()>0){
                 $result[] = [
                     'tradeSubject'=>$param->value,
-                    'type'=>$param->param_type,
+                    'type'=> is_null($param->param_type) ? 'other' : $param->param_type,
                     'extracts'=>$subParams->makeHidden(['pivot', 'param_type'])
                 ];
 
             }else{
                 $result[] = [
                     'tradeSubject'=>null,
-                    'type'=>null,
+                    'type'=>'other',
                     'extracts'=>[$param->makeHidden(['pivot', 'lot_param_id', 'param_type'])]
                 ];
             }

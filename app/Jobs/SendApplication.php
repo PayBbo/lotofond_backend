@@ -17,7 +17,7 @@ class SendApplication implements ShouldQueue
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     protected $html;
-    protected $email;
+    protected $emails;
     protected $subject;
 
     /**
@@ -25,11 +25,11 @@ class SendApplication implements ShouldQueue
      *
      * @return void
      */
-    public function __construct($html, $subject, $email)
+    public function __construct($html, $subject, $emails)
     {
         $this->html = $html;
         $this->subject = $subject;
-        $this->email = $email;
+        $this->emails = $emails;
     }
 
     /**
@@ -39,7 +39,7 @@ class SendApplication implements ShouldQueue
      */
     public function handle()
     {
-        $toEmail = $this->email;
+        $toEmail = $this->emails;
         $html = $this->html;
         $subject = $this->subject;
         try {
