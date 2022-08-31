@@ -6,7 +6,7 @@
                     <input type="text" v-model="param" name="table_search" class="form-control float-right"
                            placeholder="Поиск">
                     <div class="input-group-append">
-                        <button type="submit" class="btn btn-default" @click="getData">
+                        <button type="submit" class="btn btn-default" @click="searchParam(param)">
                             <i class="fas fa-search"></i>
                         </button>
                     </div>
@@ -43,7 +43,7 @@
 <script>
 import AdminTable from "./AdminTable";
 import main from "./mixins/main";
-import {mapActions, mapGetters} from "vuex";
+import {mapActions} from "vuex";
 import AdminViewModal from "./AdminViewModal";
 
 export default {

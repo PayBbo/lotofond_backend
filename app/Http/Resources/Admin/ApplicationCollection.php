@@ -25,8 +25,7 @@ class ApplicationCollection extends ResourceCollection
     {
         return [
             'data' => $this->collection,
-            'pagination' => new PaginationResource($this),
-            'types' => ['Покупка без ЕЦП','Покупка через агента','Новый вопрос']
+            'pagination' => new PaginationResource($this)
         ];
     }
 }

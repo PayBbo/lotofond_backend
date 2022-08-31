@@ -14,6 +14,7 @@ class ApplicationsController extends Controller
         $applications = Application::when(isset($search), function($query) use ($search) {
             $query->where('type', 'LIKE', '%'.$search.'%')
                 ->orWhere('email', 'LIKE', '%'.$search.'%')
+                ->orWhere('username', 'LIKE', '%'.$search.'%')
                 ->orWhere('phone', 'LIKE', '%'.$search.'%')
                 ->orWhere('topic', 'LIKE', '%'.$search.'%')
                 ->orWhere('question', 'LIKE', '%'.$search.'%');
