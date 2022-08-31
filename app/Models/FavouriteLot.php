@@ -18,4 +18,9 @@ class FavouriteLot extends Model
 
         return $this->belongsTo(Lot::class, 'lot_id');
     }
+    public function favourite(){
+
+        return $this->belongsTo(Favourite::class, 'favourite_id');
+    }
+
 }

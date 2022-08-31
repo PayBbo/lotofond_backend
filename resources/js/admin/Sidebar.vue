@@ -39,6 +39,22 @@
                             </p>
                         </router-link>
                     </li>
+                    <li class="nav-item">
+                        <router-link to="/admin/contacts" class="nav-link">
+                            <i class="nav-icon fa fa-envelope"></i>
+                            <p>
+                               Почты для рассылки
+                            </p>
+                        </router-link>
+                    </li>
+                    <li class="nav-item">
+                        <router-link to="/admin/applications" class="nav-link">
+                            <i class="nav-icon fa fa-question-circle"></i>
+                            <p>
+                                Заявки
+                            </p>
+                        </router-link>
+                    </li>
                 </ul>
             </nav>
             <!-- /.sidebar-menu -->

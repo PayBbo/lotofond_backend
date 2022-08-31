@@ -6,6 +6,7 @@ use App\Exceptions\CustomExceptions\BaseException;
 use CodersStudio\SmsRu\Facades\SmsRu;
 use Exception;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\URL;
 
 class SendCodeService
 {
@@ -59,16 +60,26 @@ class SendCodeService
         }
     }
 
-    public function sendEmailNotification($toEmail, $text)
+    public function sendEmailNotification($toEmail, $subject, $value, $notification)
     {
         try {
-            $html = "<p>Здравствуйте!</p> <p>У Вас новое оповещение!</p>
-            <p>$text</p>
-            <p>С уважением, Lotofond</p>";
-            Mail::send([], [], function ($message) use ($toEmail, $html) {
+            $html = "<p>$value</p>";
+            $details = '';
+            if (!is_null($notification->monitoring_id)) {
+                $url =  asset( '/monitoring');
+                $details = "<p>Подробнее: $url</p>";
+            }
+            if (!is_null($notification->lot_id)) {
+                $description = $notification->lot->lot->description;
+                $url = asset('lot/' . $notification->lot->lot->id);
+                $details = "<p>$description</p><p>Подробнее: $url</p>";
+            }
+            $html .=$details . "<p>С уважением, Lotofond</p>";
+
+            Mail::send([], [], function ($message) use ($toEmail, $subject, $html) {
                 $message->from('bankr0t.t@yandex.ru', 'Lotofond');
                 $message->to($toEmail);
-                $message->subject('У Вас новое оповещение');
+                $message->subject($subject);
                 $message->setBody($html, 'text/html');
             });
         } catch (Exception $e) {

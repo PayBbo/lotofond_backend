@@ -15,13 +15,16 @@ class ChangeCredentials extends Model
         'phone',
         'token',
         'is_old_credentials',
-        'is_submitted_old_credentials'
+        'is_submitted_old_credentials',
+        'is_submitted_new_credentials',
+        'created_at'
     ];
 
     protected $casts = [
         'user_id'=>'integer',
         'is_old_credentials'=>'boolean',
-        'is_submitted_old_credentials' => 'boolean'
+        'is_submitted_old_credentials' => 'boolean',
+        'is_submitted_new_credentials' => 'boolean'
     ];
 
     public static function boot()

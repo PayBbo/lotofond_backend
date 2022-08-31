@@ -2,6 +2,7 @@
 
 namespace App\Jobs;
 
+use App\Models\Event;
 use App\Models\Favourite;
 use App\Models\FavouriteLot;
 use App\Models\Notification;
@@ -71,11 +72,11 @@ class FavouriteJob implements ShouldQueue
                             if($diff <=7 && $favourite->user->not_settings[$key] == $diff && $favourite->user->not_settings[$key] >0) {
                                 $lot_id = FavouriteLot::where(['lot_id'=>$lot->id, 'favourite_id'=>$favourite->id])->first()['id'];
                                 if ($diff > 4) {
-                                    $this->saveNotification($lot_id, $favourite->user_id, $key . 'InSevenDays', $diff, $lot);
+                                    $this->saveNotification($lot_id, $favourite->user_id, $key . 'InSevenDays', $diff, $lot, $value);
                                 } elseif ($diff > 1) {
-                                    $this->saveNotification($lot_id, $favourite->user_id, $key . 'InFourDays', $diff, $lot);
+                                    $this->saveNotification($lot_id, $favourite->user_id, $key . 'InFourDays', $diff, $lot, $value);
                                 } else {
-                                    $this->saveNotification($lot_id, $favourite->user_id, $key, $value->format('d.m.y H:i'), $lot);
+                                    $this->saveNotification($lot_id, $favourite->user_id, $key, $value->format('d.m.y H:i'), $lot, $value);
                                 }
                             }
                         }
@@ -85,8 +86,9 @@ class FavouriteJob implements ShouldQueue
         }
     }
 
-    public function saveNotification($lot_id, $user_id, $message, $value, $lot)
+    public function saveNotification($lot_id, $user_id, $message, $value, $lot, $datetime)
     {
+        logger($datetime);
         if(!Notification::where(['lot_id'=>$lot_id, 'user_id'=>$user_id, 'message'=>$message, 'value'=>$value])->exists()) {
             $notification = Notification::create([
                 'user_id' => $user_id,
@@ -97,6 +99,16 @@ class FavouriteJob implements ShouldQueue
                 'message' => $message
             ]);
             $notification->notificationLots()->attach($lot);
+
+            Event::create([
+                'user_id'=>$user_id,
+                'notification_id'=>$notification->id,
+                'event_type'=>'event',
+                'date'=> $datetime->format('y-m-d'),
+                'time'=> $datetime->format('H:i'),
+                'title'=> !is_null($notification->value) ? __('messages.' . $notification->message, ['value' => $notification->value]) :
+                       __('messages.' . $notification->message)
+                ]);
 
         }
     }

@@ -170,6 +170,32 @@ let router = new VueRouter({
                 layout: 'Admin'
             }
         },
+        {
+            path: '/admin/contacts',
+            name: 'Contacts',
+            beforeEnter: guardAdminRoute,
+            component: () =>
+                import(
+                    /* webpackChunkName: "text-data-edit" */ "./admin/Contacts.vue"
+                    ),
+            meta: {
+                auth: true,
+                layout: 'Admin'
+            }
+        },
+        {
+            path: '/admin/applications',
+            name: 'TextDataEdit',
+            beforeEnter: guardAdminRoute,
+            component: () =>
+                import(
+                    /* webpackChunkName: "text-data-edit" */ "./admin/Applications.vue"
+                    ),
+            meta: {
+                auth: true,
+                layout: 'Admin'
+            }
+        },
         // { path: '/:pathMatch(.*)*', component: EmptyView }
     ],
     scrollBehavior(to, from, savedPosition) {

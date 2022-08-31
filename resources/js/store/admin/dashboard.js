@@ -9,8 +9,7 @@ export default {
         usersCount: 0,
         newUsersCount: 0,
         lotsCount: 0,
-        newLotsCount: 0,
-        contacts: []
+        newLotsCount: 0
     },
     mutations: {
         setDashboardData(state, payload) {
@@ -18,7 +17,6 @@ export default {
             state.newUsersCount = payload.newUsersCount
             state.lotsCount = payload.lotsCount
             state.newLotsCount = payload.newLotsCount
-            state.contacts = payload.contacts
 
         }
 

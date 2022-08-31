@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\URL;
 
 class Application extends Model
 {
@@ -51,5 +52,16 @@ class Application extends Model
     public function lot()
     {
         return $this->belongsTo(Lot::class);
+    }
+
+    public function getFiles()
+    {
+        $files = [];
+        if(!is_null($this->files)) {
+            foreach ($this->files as $file) {
+                $files[] = URL::to('/').'/'.$file;
+            }
+        }
+        return $files;
     }
 }

@@ -138,6 +138,8 @@ class ProfileController extends Controller
             $user->save();
             ChangeCredentials::where('user_id', $user->id)->delete();
         }elseif(!$request->haveAccessToOldCredentials && !$request->isOldCredentials){
+            $changeCredentials->is_submitted_new_credentials = true;
+            $changeCredentials->save();
             dispatch(new ChangeEmail($changeCredentials->id))->delay(now()->setTimezone('Europe/Moscow')->addWeeks(2));
         }else{
             throw new BaseException("ERR_VALIDATION_FAILED_CODE", 422, __('validation.credentials_submitted'));
@@ -198,6 +200,15 @@ class ProfileController extends Controller
             $deviceTokenService = new DeviceTokenService($user, $request->deviceToken);
             $deviceTokenService->saveDeviceToken();
         }
+        return response(null, 200);
+    }
+
+    public function changeCredentialsProcessDelete($changeCredentialsProcessId){
+        $changeCredentials = ChangeCredentials::where(['id'=>$changeCredentialsProcessId, 'user_id'=>auth()->id(), 'is_submitted_new_credentials' => true])->first();
+        if(!$changeCredentials){
+            throw new BaseException("ERR_ACCESS_FORBIDDEN", 403, 'Selected change credentials process does not exists or does not belong to an authorized user');
+        }
+        $changeCredentials->delete();
         return response(null, 200);
     }
 }

@@ -159,4 +159,8 @@ class User extends Authenticatable
         return $this->HasMany(\App\Models\DeviceToken::class);
     }
 
+    public function changeCredentials(){
+        return $this->hasMany(ChangeCredentials::class);
+    }
+
 }

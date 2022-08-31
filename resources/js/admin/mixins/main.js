@@ -18,6 +18,12 @@ export function changeRole(user, action) {
 }
 
 export default {
+    data() {
+        return {
+            modalData: {},
+            mColumns: {}
+        }
+    },
     computed: {
         ...mapGetters(['dataItems', 'pagination']),
         compParam: {
@@ -31,7 +37,27 @@ export default {
         this.$store.commit('setParam', this.param)
         await this.getData()
     },
+    mounted() {
+        let data = this
+        $(document).ready(() => {
+            $("#exampleModalLong").on('hide.bs.modal', (evt) => {
+                data.modalData = {}
+                data.mColumns = {}
+            });
+        });
+    },
     methods: {
-        ...mapActions(['getData', 'updateData', 'deleteItem'])
+        ...mapActions(['getData', 'updateData', 'deleteItem']),
+        setModalData(index, columns) {
+            this.mColumns = columns
+            this.modalData = { ...this.dataItems[index] }
+            Object.keys(this.dataItems[index]).forEach( (key) => {
+                if (this.modalData[key] === null || this.modalData[key].length === 0
+                    || this.modalData[key] === undefined || this.modalData[key] === '') {
+                    delete this.modalData[key];
+                    delete this.mColumns[key];
+                }
+            })
+        }
     }
 }

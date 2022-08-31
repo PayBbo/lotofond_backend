@@ -79,34 +79,6 @@
                 <!-- /.row -->
             </div><!-- /.container-fluid -->
         </section>
-
-        <!-- Main content -->
-        <section class="content">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="card card-primary">
-                            <div class="card-header">
-                                <h3 class="card-title">Почты для рассылки</h3>
-                            </div>
-                            <div class="card-body">
-                                <div class="form-group">
-                                    <label>Почта для отправки заявок на покупку без ЕЦП</label>
-                                    <input required name="email0" v-model="contacts[0].contact" type="text" class="form-control">
-                                </div>
-                                <div class="form-group">
-                                    <label>Почта для отправки вопросов</label>
-                                    <input required name="email1"  v-model="contacts[1].contact" type="text" class="form-control">
-                                </div>
-                                <button type="submit" class="btn btn-success float-right" @click="updateContacts({'contacts':contacts})">Сохранить</button>
-                            </div>
-                            <!-- /.card-body -->
-                        </div>
-                        <!-- /.card -->
-                    </div>
-                </div>
-            </div>
-        </section>
     </fragment>
 </template>
 
@@ -117,13 +89,13 @@ import {mapActions, mapGetters} from "vuex";
 export default {
     name: "Dashboard",
     computed: {
-        ...mapGetters(['newLotsCount','newLotsCount', 'lotsCount', 'usersCount', 'newUsersCount', 'contacts'])
+        ...mapGetters(['newLotsCount','newLotsCount', 'lotsCount', 'usersCount', 'newUsersCount'])
     },
     created() {
         this.getDashboardData()
     },
     methods: {
-        ...mapActions(['getDashboardData', 'updateContacts'])
+        ...mapActions(['getDashboardData'])
     }
 }
 </script>

@@ -54,9 +54,15 @@ class Notification extends Model
         static::created(function ($notification) {
             if( $notification->type->title == 'monitoring'){
                 $title = $notification->monitoring->title;
+                $subtitle = 'Новые лоты в мониторинге';
                 $value = __('messages.' . $notification->message, ['value' => $notification->value]);
+            } else if( $notification->type->title == 'favourite'){
+                $title = $notification->lot->favourite->title;
+                $value = __('messages.' . $notification->message, ['value' => $notification->value]);
+                $subtitle = 'Изменение лота';
             }else {
                 $title = 'Новое оповещение';
+                $subtitle = '';
                 $value = !is_null($notification->value) ? __('messages.' . $notification->message, ['value' => $notification->value]) :
                     __('messages.' . $notification->message);
             }
@@ -65,7 +71,7 @@ class Notification extends Model
             $user = User::find($notification->user_id);
             if (!is_null($user->email) && $user->not_to_email) {
                 $sendNotification = new SendCodeService();
-                $sendNotification->sendEmailNotification($user->email, $value);
+                $sendNotification->sendEmailNotification($user->email, $title.'. '.$subtitle, $value, $notification);
             }
         });
 
@@ -94,6 +100,10 @@ class Notification extends Model
     public function notificationLots()
     {
         return $this->belongsToMany(Lot::class, 'notification_lot');
+    }
+
+    public function events(){
+        return $this->hasMany(Event::class);
     }
 
 }

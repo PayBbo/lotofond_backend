@@ -3,11 +3,9 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Contact;
 use App\Models\Lot;
 use App\Models\User;
 use Carbon\Carbon;
-use Illuminate\Http\Request;
 
 class DashboardController extends Controller
 {
@@ -23,23 +21,13 @@ class DashboardController extends Controller
         $lotsCount = Lot::count();
         $newLotsCount = Lot::whereDate('created_at',$date)->count();
         $newUsersCount = User::whereDate('created_at',$date)->count();
-        $contacts = Contact::all();
         return response(
             [
                 'usersCount'=>$usersCount,
                 'newUsersCount'=>$newUsersCount,
                 'lotsCount'=>$lotsCount,
-                'newLotsCount'=>$newLotsCount,
-                'contacts'=>$contacts
+                'newLotsCount'=>$newLotsCount
             ], 200);
     }
 
-    public function updateContacts(Request $request){
-        foreach ($request->contacts as $item){
-            $contact = Contact::find($item['id']);
-            $contact->contact = $item['contact'];
-            $contact->save();
-        }
-        return response(null, 200);
-    }
 }

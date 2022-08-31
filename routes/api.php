@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Admin\ApplicationsController;
+use App\Http\Controllers\Admin\ContactsController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\TextDataController;
 use App\Http\Controllers\Admin\UserController;
@@ -167,6 +169,8 @@ Route::group(['middleware' => ['json.response', 'localization']], function () {
 
             Route::post('socials/link', [ProfileController::class, 'linkSocials']);
 
+            Route::delete('change/credentials/delete/{changeCredentialsProcessId}', [ProfileController::class, 'changeCredentialsProcessDelete']);
+
         });
 
         Route::group(['prefix' => 'trades'], function () {
@@ -266,13 +270,29 @@ Route::group(['middleware' => ['json.response', 'localization']], function () {
 
                 Route::get('/dashboard', [DashboardController::class, 'getDashboardData']);
 
-                Route::put('/contacts/update', [DashboardController::class, 'updateContacts']);
-
                 Route::group(['prefix' => 'users'], function () {
 
                     Route::get('/', [UserController::class, 'get']);
 
                     Route::put('/update', [UserController::class, 'update']);
+
+                });
+
+                Route::group(['prefix' => 'contacts'], function () {
+
+                    Route::get('/', [ContactsController::class, 'get']);
+
+                    Route::post('/', [ContactsController::class, 'update']);
+
+                    Route::delete('/{id}', [ContactsController::class, 'delete']);
+
+                });
+
+                Route::group(['prefix' => 'applications'], function () {
+
+                    Route::get('/', [ApplicationsController::class, 'get']);
+
+                    Route::put('/update', [ApplicationsController::class, 'update']);
 
                 });
                 Route::group(['prefix' => 'text-data'], function () {

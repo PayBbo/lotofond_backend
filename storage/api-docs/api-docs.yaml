@@ -2700,6 +2700,29 @@ paths:
                 $ref: '#/components/schemas/Error'
       security:
         - bearerAuth: [ ]
+  /account/change/credentials/delete/{changeCredentialsProcessId}:
+    delete:
+      tags:
+        - Account
+      parameters:
+        - name: changeCredentialsProcessId
+          in: path
+          schema:
+            type: integer
+            description: айдишник записи о смене почты/телефона для удаления
+      summary: Отмена изменения почты/телефона аккаунта
+      operationId: changeCredentialsProcessDelete
+      responses:
+        "200":
+          description: Отмена изменения почты/телефона аккаунта прошла успешно
+        "403":
+          description: Ошибка доступа. Выбранной записи не существует либо она не принадлежит авторизованному пользователю
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+        - bearerAuth: [ ]
   /send/application:
     post:
       parameters:
@@ -3117,6 +3140,22 @@ components:
           description: флаг - включены ли уведомления от мониторинга
         notificationsSettings:
           $ref: "#/components/schemas/NotificationsSettings"
+        changeCredentialsProcess:
+          type: object
+          description: присылается объект только в том случае, если у пользователя было оформление смены почты/телефона без подтверждения прежних данных телефона/почты. В ином случае придет null
+          properties:
+            changeCredentialsProcessId:
+              type: integer
+              description: айдишник процесса изменения данных учетной записи
+            newValueType:
+              type: string
+              description: тип изменяемых данных - почта/телефон
+            newValue:
+              type: string
+              description: значение, на которое поменяется почта/телефон
+            dateOfChange:
+              type: string
+              description: дата изменения данных
     NotificationsSettings:
       type: object
       properties:
@@ -4397,6 +4436,16 @@ components:
             - event
             - reminder
             - all
+        dataFavourite:
+          type: object
+          description: присутствует в данных, если событие в календарь было добавлено в соответствии с изменениями лота в избранном
+          properties:
+            favouritePaths:
+              type: array
+              items:
+                $ref: "#/components/schemas/PathFavourite"
+            lotId:
+              type: integer
     Victory:
       type: object
       properties:
