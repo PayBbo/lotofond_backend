@@ -15,16 +15,13 @@ class ApplicationSessionStatistic extends TradeMessage implements TradeMessageCo
             $auction = Auction::where('trade_id', $invitation['@attributes']['TradeId'])->first();
             if ($auction && array_key_exists($prefix . 'LotList', $invitation)) {
                 $lot = $invitation[$prefix . 'LotList'][$prefix . 'LotStatistic'];
-                if(!array_key_exists('@attributes', $invitation)){
-                   $invitation = $invitation[$prefix . 'LotList'][$prefix . 'LotStatistic'];
-                }
-               /* if(count($lot)>1){
+               if(count($lot)>2){
                     foreach($lot as $item){
                         $this->saveStatistics($auction, $item, $prefix, $invitation);
                     }
-                }else{*/
+                }else{
                     $this->saveStatistics($auction, $lot, $prefix, $invitation);
-               // }
+                }
 
             }
         } catch (\Exception $e) {
@@ -35,6 +32,7 @@ class ApplicationSessionStatistic extends TradeMessage implements TradeMessageCo
     }
 
     public function saveStatistics($auction, $lot, $prefix, $invitation){
+        // Undefined index: @attributes
         $auction_lot = $auction->lots->where('number', $lot['@attributes']['LotNumber'])->first();
         if ($auction_lot) {
             $tradeMessage = $this->createNotification($auction_lot->id, $invitation['@attributes']['EventTime']);

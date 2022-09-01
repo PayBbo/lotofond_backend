@@ -24,7 +24,6 @@ class BiddingProcess extends TradeMessage implements TradeMessageContract
                     if($priceReduction) {
                         $old_price = $priceReduction->price;
                         if ($priceReduction->is_system && PriceReduction::where('lot_id', $auction_lot->id)->count() == 1) {
-                            logger('SYSTEM: ' . $auction_lot->id);
                             $priceReduction->end_time = Carbon::now()->setTimezone('Europe/Moscow');
                             $priceReduction->save();
                             $newPriceReduction = PriceReduction::create([
@@ -37,17 +36,17 @@ class BiddingProcess extends TradeMessage implements TradeMessageContract
                             ]);
                             $new_id = $newPriceReduction->id;
                         } else {
-                            logger('CURRENT: ' . $auction_lot->id);
                             $priceReduction->price = $price;
                             $priceReduction->save();
                         }
                     }else{
+                        $old_price = $auction_lot->start_price;
                         $priceReduction = PriceReduction::create([
                             'lot_id' => $auction_lot->id,
                             'start_time' => $auction_lot->created_at,
                             'end_time' => Carbon::now()->setTimezone('Europe/Moscow'),
                             'price' => $auction_lot->start_price,
-                            'percent' => null,
+                            'percent' => 0,
                             'is_system'=>true
                         ]);
                         $newPriceReduction = PriceReduction::create([

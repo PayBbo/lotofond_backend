@@ -19,6 +19,8 @@ class SoapWrapperService
     public function __construct(SoapWrapper $soapWrapper)
     {
         //ini_set('memory_limit', '-1');
+        ini_set('soap.wsdl_cache_enabled',0);
+        ini_set('soap.wsdl_cache_ttl',0);
 
         $soapWrapper->add('Fedresurs', function ($service) {
             $service
@@ -32,11 +34,13 @@ class SoapWrapperService
                     'compression'   => SOAP_COMPRESSION_ACCEPT | SOAP_COMPRESSION_GZIP | SOAP_COMPRESSION_DEFLATE,
                     'keep_alive' => false,
                     'connection_timeout' => 5000,
+                    'location' => 'https://services.fedresurs.ru/Bankruptcy/MessageService/WebService.svc',
                     'stream' => stream_context_create(array(
                         'ssl' => array(
                             'verify_peer' => false,
                             'verify_peer_name' => false,
-                            'allow_self_signed' => true
+                            'allow_self_signed' => true,
+                            'connection_timeout' => 1
                         )
                     ))
                 ]);

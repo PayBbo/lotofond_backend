@@ -36,7 +36,7 @@ class ParseTrades implements ShouldQueue
     {
        // $startFrom = Carbon::now()->setTimezone('Europe/Moscow')->startOfDay()->subDays(13)->format('Y-m-d\TH:i:s');
        // $endTo = Carbon::now()->endOfDay()->subDays(11)->format('Y-m-d\TH:i:s');
-        $startFrom = Carbon::now()->setTimezone('Europe/Moscow')->subDays(3)->format('Y-m-d\TH:i:s');
+        $startFrom = Carbon::now()->setTimezone('Europe/Moscow')->subDays(2)->format('Y-m-d\TH:i:s');
         $endTo = Carbon::now()->endOfDay()->format('Y-m-d\TH:i:s');
         $soapWrapper = new SoapWrapper();
         $service = new SoapWrapperService($soapWrapper);

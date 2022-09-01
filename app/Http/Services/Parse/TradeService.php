@@ -72,20 +72,23 @@ class TradeService
             $lot->auction_step = gettype($value[$prefix . 'StepPrice']) == 'array' ? NULL : $value[$prefix . 'StepPrice'];
         }
         $lot->status_id = 1;
-
         if (array_key_exists($prefix . 'Participants', $value)) {
             if (gettype($value[$prefix . 'Participants']) == 'array' && count($value[$prefix . 'Participants']) > 0) {
-                $lot->payment_info =  stripslashes(preg_replace('/[\x00-\x1F\x7F]/u', ' ',$value[$prefix . 'Participants'][$prefix . 'PaymentInfo']));
-                $lot->sale_agreement =  stripslashes(preg_replace('/[\x00-\x1F\x7F]/u', ' ', $value[$prefix . 'Participants'][$prefix . 'SaleAgreement']));
+                if(gettype($value[$prefix . 'Participants'][$prefix . 'PaymentInfo'])=='string'){
+                    $lot->payment_info =  stripslashes(preg_replace('/[\x00-\x1F\x7F]/u', ' ',$value[$prefix . 'Participants'][$prefix . 'PaymentInfo']));
+                }
+                if(gettype($value[$prefix . 'Participants'][$prefix . 'SaleAgreement'])=='string'){
+                    $lot->sale_agreement =  stripslashes(preg_replace('/[\x00-\x1F\x7F]/u', ' ', $value[$prefix . 'Participants'][$prefix . 'SaleAgreement']));
+                }
             }
         }
         if (array_key_exists($prefix . 'Participants', $value) && gettype($value[$prefix . 'Participants']) == 'string') {
             $lot->participants =  stripslashes(preg_replace('/[\x00-\x1F\x7F]/u', ' ', $value[$prefix . 'Participants']));
         }
-        if (array_key_exists($prefix . 'SaleAgreement', $value)) {
+        if (array_key_exists($prefix . 'SaleAgreement', $value) && gettype($value[$prefix . 'SaleAgreement']) == 'string') {
             $lot->sale_agreement =  stripslashes(preg_replace('/[\x00-\x1F\x7F]/u', ' ', $value[$prefix . 'SaleAgreement']));
         }
-        if (array_key_exists($prefix . 'PaymentInfo', $value)) {
+        if (array_key_exists($prefix . 'PaymentInfo', $value) && gettype($value[$prefix . 'PaymentInfo']) == 'string') {
             $lot->payment_info =  stripslashes(preg_replace('/[\x00-\x1F\x7F]/u', ' ', $value[$prefix . 'PaymentInfo']));
         }
 

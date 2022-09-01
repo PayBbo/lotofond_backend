@@ -34,8 +34,8 @@ class MarkController extends Controller
         if (!$mark || !$lot || $mark->user_id != auth()->id()) {
             throw new BaseException("ERR_ACCESS_FORBIDDEN", 403, "The user does not have rights to edit the selected mark");
         }
-        if ($lot->userMarks->contains($mark)) {
-            $lot->userMarks()->detach($mark);
+        if ($lot-> userMarksForSearch->contains($mark)) {
+            $lot-> userMarksForSearch()->detach($mark);
         }
 
         return response(null, 200);
@@ -46,7 +46,7 @@ class MarkController extends Controller
         if (!$lot) {
             throw new BaseException("ERR_FIND_LOT_FAILED", 404, "Lot with id= " . $lotId . ' does not exist');
         }
-        $marks = $lot->userMarks()->select('id', 'title')->get();
+        $marks = $lot->userMarks();
         return response($marks->makeHidden(['pivot']), 200);
     }
 
