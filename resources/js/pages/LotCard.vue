@@ -3,6 +3,7 @@
         <bkt-move-favourite-modal v-if="isLoggedIn"/>
         <bkt-note-modal v-if="isLoggedIn"/>
         <bkt-application-modal/>
+        <bkt-add-mark-modal></bkt-add-mark-modal>
         <nav class="bkt-wrapper bkt-nowrap m-0 bkt-breadcrumb" aria-label="breadcrumb">
             <button class="bkt-button-icon bg-white" style="margin-right:20px" @click="goBack">
                 <bkt-icon :name="'ArrowDown'" class="bkt-button__icon bkt-rotate-90"></bkt-icon>
@@ -137,7 +138,7 @@
                                 </template>
                             </ul>
                             <h5 class="bkt-card__text">
-                                {{item.description}}
+                                {{item ? item.description : ''}}
                             </h5>
                             <div class="bkt-row outline bkt-wrapper-between align-items-center"
                                  v-if="cadastralData && cadastralData.cadastralDataArea">
@@ -174,6 +175,24 @@
                                 <bkt-icon :name="'Pie'"></bkt-icon>
                             </span>
                             </div>
+                        </div>
+                        <div class="bkt-card__footer d-flex flex-wrap bkt-gap" v-if="item && !loading">
+                            <ShareNetwork
+                                v-for="network in networks"
+                                :network="network.network"
+                                :key="network.network"
+                                :style="{backgroundColor: network.color}"
+                                :url="'https://lotofond.ru/lot/'+item.id"
+                                :title="sharing.title"
+                                :description="short_description"
+                                :hashtags="sharing.hashtags"
+                            >
+                                <span class="share-icon h-100">
+                                      <bkt-icon :name="network.name" width="18px" height="18px"
+                                                color="white"></bkt-icon>
+                                </span>
+                                <span>{{ network.name }}</span>
+                            </ShareNetwork>
                         </div>
                     </div>
                     <div v-if="!isLoggedIn" class="bkt-shadow-card bkt-shadow-card_primary">
@@ -213,7 +232,8 @@
                                 <div class="bkt-card-menu m-0 dropdown-menu dropdown-menu-end position-absolute"
                                      aria-labelledby="dropdownMenuClickableOutside"
                                 >
-                                    <bkt-card-actions :item="item" type="menu" place="lot-card" @changeStatus="changeStatus"
+                                    <bkt-card-actions :item="item" type="menu" place="lot-card"
+                                                      @changeStatus="changeStatus"
                                                       class="bkt-card-menu-inner"></bkt-card-actions>
                                 </div>
                             </div>
@@ -276,6 +296,22 @@
                                     {{item && item.minPrice ? item.minPrice : '0' | priceFormat}} ₽
                                 </h4>
                             </div>
+                        </div>
+                    </div>
+                    <div class="bkt-card__footer d-flex flex-wrap bkt-gap"
+                         v-if="item && item.marks && item.marks.length>0 && !loading"
+                    >
+                        <div class="bkt-tag bkt-bg-orange-lighter bkt-text-orange py-1 px-3" v-for="mark in item.marks">
+                            {{mark.title}}
+                            <span v-if="!marks_in_process.includes(mark.id)" class="bkt-cursor-pointer"
+                                  @click="removeMark(mark.id)"
+                            >
+                                <bkt-icon name="Cancel" color="orange" width="10px" height="10px"></bkt-icon>
+                            </span>
+                            <span v-if="marks_in_process.includes(mark.id)"
+                                  class="spinner-border spinner-border-sm"
+                                  role="status"></span>
+
                         </div>
                     </div>
                 </div>
@@ -758,7 +794,7 @@
                     </div>
                 </div>
             </div>
-            <div v-if="isLoggedIn"  class="col-12 col-lg-6 order-3">
+            <div v-if="isLoggedIn" class="col-12 col-lg-6 order-3">
                 <div class="bkt-card bkt-card__body bkt-lot-my-files">
                     <div class="bkt-card__header">
                         <h3 class="bkt-card__title">Мои файлы</h3>
@@ -821,9 +857,9 @@
                                         >
                                             <bkt-icon name="Cancel" color="red" width="16px" height="16px"></bkt-icon>
                                         </div>
-                                         <span v-if="in_process.includes(index)" role="status"
-                                               class="spinner-border spinner-border-sm bkt-text-primary"
-                                         >
+                                        <span v-if="in_process.includes(index)" role="status"
+                                              class="spinner-border spinner-border-sm bkt-text-primary"
+                                        >
                                          </span>
                                     </div>
                                 </template>
@@ -836,12 +872,13 @@
                             <h5 class="bkt-text-neutral">Добавьте файлы к лоту</h5>
                         </div>
                     </div>
-                    <bkt-upload-file v-model="new_user_files" ref="upload_file" upload_button_class="bkt-button green w-100">
+                    <bkt-upload-file v-model="new_user_files" ref="upload_file"
+                                     upload_button_class="bkt-button green w-100">
                         <template #upload_button_inner>
                             Добавить файл
                         </template>
                     </bkt-upload-file>
-<!--                    <button class="bkt-button green">Добавить файл</button>-->
+                    <!--                    <button class="bkt-button green">Добавить файл</button>-->
                 </div>
             </div>
             <div v-if="item.trade && item.trade.debtor && isLoggedIn" class="col-12 col-lg-12 order-3 px-lg-0">
@@ -1215,9 +1252,12 @@
     import MoveFavouriteModal from "./Favourites/MoveFavouriteModal";
     import NoteModal from "../components/SharedModals/NoteModal";
     import BktApplicationModal from "../components/SharedModals/ApplicationModal";
+    import AddMarkModal from "./LotCard/AddMarkModal";
+
     export default {
         name: "LotCard",
         components: {
+            AddMarkModal,
             MiniTradeCard,
             Hooper,
             Slide,
@@ -1229,7 +1269,8 @@
             BktDropdown,
             BktUploadFile,
             'bkt-move-favourite-modal': MoveFavouriteModal,
-            'bkt-note-modal': NoteModal,  BktApplicationModal
+            'bkt-add-mark-modal': AddMarkModal,
+            'bkt-note-modal': NoteModal, BktApplicationModal
         },
         data() {
             return {
@@ -1239,7 +1280,7 @@
                 files: [],
                 user_files: [],
                 new_user_files: [],
-                in_process:[],
+                in_process: [],
                 files_loading: false,
                 user_files_loading: false,
                 debtor_active_lots: [],
@@ -1248,6 +1289,33 @@
                 debtor_completed_lots: [],
                 debtor_completed_lots_loading: false,
                 debtor_completed_lots_pagination: {},
+                marks: [],
+                marks_in_process: [],
+                sharing: {
+                    // url: 'https://news.vuejs.org/issues/180',
+                    title: 'Лот на Лотофонд',
+                    // description: '',
+                    hashtags: 'lotofond,trade,lot',
+                    // twitterUser: 'youyuxi',
+                    media: 'https://lotofond.ru/images/card-image1.png'
+                },
+                networks: [
+                    // { network: 'baidu', name: 'Baidu', icon: 'fas fah fa-lg fa-paw', color: '#2529d8' },
+                    {network: 'email', name: 'Email', color: '#2953ff'},
+                    // { network: 'line', name: 'Line', icon: 'fab fah fa-lg fa-line', color: '#00c300' },
+                    // { network: 'linkedin', name: 'LinkedIn', icon: 'fab fah fa-lg fa-linkedin', color: '#007bb5' },
+                    {network: 'odnoklassniki', name: 'Odnoklassniki', color: '#ed812b'},
+                    // { network: 'skype', name: 'Skype', icon: 'fab fah fa-lg fa-skype', color: '#00aff0' },
+                    // { network: 'sms', name: 'SMS', icon: 'far fah fa-lg fa-comment-dots', color: '#333333' },
+                    {network: 'telegram', name: 'Telegram', color: '#0088cc'},
+                    {network: 'twitter', name: 'Twitter', color: '#1da1f2'},
+                    {network: 'viber', name: 'Viber', color: '#59267c'},
+                    {network: 'vk', name: 'Vk', color: '#4a76a8'},
+                    // { network: 'weibo', name: 'Weibo', icon: 'fab fah fa-lg fa-weibo', color: '#e9152d' },
+                    {network: 'whatsapp', name: 'WhatsApp', color: '#25d366'},
+                    // { network: 'xing', name: 'Xing', icon: 'fab fah fa-lg fa-xing', color: '#026466' },
+                ],
+                short_description: ''
             };
         },
         computed: {
@@ -1272,13 +1340,11 @@
                         index = extracts.findIndex(item => item.type == 'cadastralDataArea')
                         if (index >= 0) {
                             cadastralData.cadastralDataArea = extracts[index].value;
-                            if(extracts[index].value <=100) {
+                            if (extracts[index].value <= 100) {
                                 cadastralData.cadastralDataAreaMeasure = 'кв. м.';
-                            }
-                            else if(extracts[index].value > 100 && extracts[index].value<= 10000) {
+                            } else if (extracts[index].value > 100 && extracts[index].value <= 10000) {
                                 cadastralData.cadastralDataAreaMeasure = 'а';
-                            }
-                            else {
+                            } else {
                                 cadastralData.cadastralDataAreaMeasure = 'га';
                             }
                         }
@@ -1303,6 +1369,7 @@
                 if (oldVal == false && newVal == true) {
                     this.getLot();
                     this.getLotFiles();
+                    // this.getLotMarks();
                     this.makeWatched();
                 }
             }
@@ -1311,6 +1378,7 @@
             this.getLot();
             if (this.isLoggedIn) {
                 this.getLotFiles();
+                // this.getLotMarks();
                 this.makeWatched();
             }
         },
@@ -1330,6 +1398,7 @@
                 await this.$store.dispatch('getTradeLot', this.$route.params.id)
                     .then(resp => {
                         // this.item = resp.data;
+                        this.short_description = resp.data.description.slice(0, 100) + '...';
                         this.$store.commit('setSelectedLot', resp.data);
                         this.loading = false;
                         this.getDebtorActiveLots();
@@ -1413,6 +1482,21 @@
                         this.debtor_completed_lots_loading = false;
                     })
             },
+            async getLotMarks() {
+                this.$store.dispatch('getLotMarks', this.$route.params.id).then(resp => {
+                    this.marks = resp.data;
+                }).catch(error => {
+
+                });
+            },
+            getMiniLot() {
+                this.getLot();
+                if (this.isLoggedIn) {
+                    this.getLotFiles();
+                    // this.getLotMarks();
+                    this.makeWatched();
+                }
+            },
             changeStatus(payload) {
                 this.$store.dispatch('saveDataProperty', {
                     module_key: 'lots', state_key: 'selected_lot',
@@ -1443,6 +1527,35 @@
                     this.note_loading = false;
                 });
             },
+            removeMark(id) {
+                this.marks_in_process.push(id);
+                let index = this.marks_in_process.indexOf(mark_id => mark_id == id);
+                this.$store.dispatch('removeLotMark', {markId: id, lotId: this.$route.params.id})
+                    .then(resp => {
+                        let tmp_marks = JSON.parse(JSON.stringify(this.item.marks));
+                        let mark_index = tmp_marks.findIndex(mark => mark.id == id);
+                        if (mark_index >= 0) {
+                            tmp_marks.splice(mark_index, 1);
+                        }
+                        this.$store.dispatch('saveDataProperty', {
+                            module_key: 'lots', state_key: 'selected_lot',
+                            key: 'marks',
+                            value: tmp_marks
+                        }, {root: true});
+                        this.$store.commit('saveTradeProperty', {
+                            id: this.$route.params.id,
+                            key: 'marks',
+                            value: tmp_marks
+                        });
+                        if (index >= 0) {
+                            this.marks_in_process.splice(index, 1);
+                        }
+                    }).catch(error => {
+                    if (index >= 0) {
+                        this.marks_in_process.splice(index, 1);
+                    }
+                });
+            },
             sendApplication() {
                 this.$store.commit('openModal', '#applicationModal')
             },
@@ -1463,13 +1576,6 @@
                         })
                 }
             },
-            getMiniLot() {
-                this.getLot();
-                if (this.isLoggedIn) {
-                    this.getLotFiles();
-                    this.makeWatched();
-                }
-            },
             saveFile(index) {
                 this.in_process.push(index);
                 let formData = new FormData();
@@ -1481,41 +1587,40 @@
                     .then(resp => {
                         // this.user_files = resp.data.userFiles;
                         resp.data.userFiles.forEach(item => {
-                            if(this.user_files.findIndex(file=> file.id == item.id)<0)
-                            {
+                            if (this.user_files.findIndex(file => file.id == item.id) < 0) {
                                 let str = item;
                                 let n = item.lastIndexOf('/');
                                 item.title = str.substring(n + 1);
                                 this.user_files.push(item)
                             }
                         });
-                        if(file_index>=0){
-                            this.in_process.splice(file_index);
+                        if (file_index >= 0) {
+                            this.in_process.splice(file_index, 1);
                         }
                         this.removeFile(index);
                         this.$store.dispatch('sendNotification',
                             {self: this, message: 'Файл успешно загружен'})
-                }).catch(error => {
-                    if(file_index>=0){
-                        this.in_process.splice(file_index);
+                    }).catch(error => {
+                    if (file_index >= 0) {
+                        this.in_process.splice(file_index, 1);
                     }
                 })
             },
             deleteFile(id, index) {
-                this.in_process.push('id'+id);
-                let file_index = this.in_process.indexOf('id'+id);
+                this.in_process.push('id' + id);
+                let file_index = this.in_process.indexOf('id' + id);
                 this.$store.dispatch('removeLotFile', id)
                     .then(resp => {
-                        if(file_index>=0){
-                            this.in_process.splice(file_index);
+                        if (file_index >= 0) {
+                            this.in_process.splice(file_index, 1);
                         }
-                        this.user_files.splice(index);
+                        this.user_files.splice(index, 1);
                         this.$store.dispatch('sendNotification',
                             {self: this, message: 'Файл успешно удалён'})
                     }).catch(error => {
-                        if(file_index>=0){
-                            this.in_process.splice(file_index);
-                        }
+                    if (file_index >= 0) {
+                        this.in_process.splice(file_index, 1);
+                    }
                 })
             },
             removeFile(index) {
@@ -1526,4 +1631,33 @@
 </script>
 
 <style lang="scss" scoped>
+    a[class^="share-network-"] {
+        flex: none;
+        color: #FFFFFF;
+        background-color: #333;
+        border-radius: 5px;
+        overflow: hidden;
+        display: flex;
+        flex-direction: row;
+        align-content: center;
+        align-items: center;
+        cursor: pointer;
+        text-decoration: none;
+    }
+
+    a[class^="share-network-"] .share-icon {
+        background-color: rgba(0, 0, 0, 0.2);
+        padding: 10px;
+        flex: 0 1 auto;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    a[class^="share-network-"] span {
+        padding: 5px 10px;
+        flex: 1 1;
+        font-weight: 600;
+        font-family: "Gilroy", sans-serif;
+    }
 </style>

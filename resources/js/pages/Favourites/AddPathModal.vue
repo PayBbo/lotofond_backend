@@ -1,6 +1,6 @@
 <template>
     <bkt-modal :id="'addPathModal'" ref="addPathModal" :modal_class="'bkt-folder-modal'"
-               :title="'Создать папку'" :loading="loading"  @left_action="cancel" @right_action="save">
+               :title="'Создать папку'" :loading="loading" @left_action="cancel" @right_action="save">
         <template #body="{ invalid }">
             <div class="bkt-wrapper-column bkt-gap-large">
                 <bkt-input v-model="path.name"
@@ -11,11 +11,11 @@
                            no_group_item
                 >
                 </bkt-input>
-<!--                <div class="bkt-user-checkboxes mt-4" v-if="selBtn == 2">-->
-<!--                    <div class="bkt bkt-user" v-for="(user, index) in users">-->
-<!--                        <bkt-checkbox :label="user.name"/>-->
-<!--                    </div>-->
-<!--                </div>-->
+                <!--                <div class="bkt-user-checkboxes mt-4" v-if="selBtn == 2">-->
+                <!--                    <div class="bkt bkt-user" v-for="(user, index) in users">-->
+                <!--                        <bkt-checkbox :label="user.name"/>-->
+                <!--                    </div>-->
+                <!--                </div>-->
 
                 <div class="bkt-wrapper mx-0">
                     <bkt-checkbox v-model="path.color" val="yellow" name="yellow" type="radio"
@@ -81,11 +81,14 @@
                 };
             },
             save() {
+                this.loading = true;
                 this.$store.dispatch('saveFavouritePath', this.path)
                     .then(resp => {
                         this.$store.commit('closeModal', '#addPathModal');
+                        this.loading = false;
+                    }).catch(error => {
+                    this.loading = false;
                 });
-
             }
         }
     }

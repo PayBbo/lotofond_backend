@@ -39,6 +39,15 @@ export default {
         setSelectedLot(state, payload) {
             return (state.selected_lot = payload);
         },
+        addSelectedLotMark(state, payload) {
+            if(!state.selected_lot.marks) {
+                state.selected_lot.marks = [];
+            }
+            let mark_index =  state.selected_lot.marks.findIndex(mark => mark.id == payload.id);
+            if(mark_index<0){
+                state.selected_lot.marks.push(payload);
+            }
+        },
     },
 
     actions: {

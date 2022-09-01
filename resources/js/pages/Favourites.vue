@@ -113,15 +113,16 @@
                             </div>
                             <div class="col-12 col-md-6">
                                 <bkt-select
-                                    v-model="params.mark"
+                                    multiple
+                                    v-model="params.marks"
                                     class="w-100"
                                     select_class="white w-100"
                                     name="mark"
-                                    label="метка"
+                                    label="метки"
                                     label_class="bkt-form__label"
                                     :option_label="'title'"
                                     :options="marks"
-                                    :reduce="item => item.value"
+                                    :reduce="item => item.id"
                                     :clearable="false"
                                     :method_name="'getMarks'"
                                     @input="getData(1)"
@@ -315,7 +316,7 @@
                     searchField:'',
                     includedWords: '',
                     sort: {
-                        direction: "asc",
+                        direction: "desc",
                         type: "publishDate"
                     }
                 }
@@ -366,6 +367,7 @@
                 this.loading = true;
                 this.params.page = page;
                 this.params.pathId = this.current_path;
+                sessionStorage.setItem('favourite'+this.current_path+'_page', page);
                 await this.$store.dispatch('getFavourites', this.params).finally(() => {
                     this.loading = false;
                 });
@@ -376,7 +378,14 @@
                     // this.$store.commit('setFavouritePaths', response.data)
                     // this.$store.commit('setCurrentPath', response.data[0].pathId)
                     // this.getData(1, this.current_path)
-                    this.$store.dispatch('getFavourites', {page: 1, pathId: this.current_path})
+                    let page = 1;
+                    if(sessionStorage.getItem('favourite'+this.current_path+'_page'))
+                    {
+                        page = sessionStorage.getItem('monitoring'+this.current_path+'_page')
+                    }
+                    this.params.page = page;
+                    this.params.pathId = this.current_path;
+                    this.$store.dispatch('getFavourites', this.params)
                         .finally(() => {
                             this.loading = false;
                         });
@@ -387,6 +396,7 @@
             },
             async setCurrentPath(value) {
                 this.loading = true;
+                sessionStorage.setItem('favourite_path_id', value);
                 await this.$store.dispatch('setCurrentPath', {pathId: value, params: this.params})
                     .finally(() => {
                         this.loading = false;

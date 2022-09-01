@@ -274,7 +274,12 @@
         },
         mounted() {
             if(this.items.length==0) {
-                this.getData();
+                let page = 1;
+                if(sessionStorage.getItem('main_page'))
+                {
+                    page = sessionStorage.getItem('main_page')
+                }
+                this.getData(page);
             }
         },
         data() {
@@ -346,6 +351,7 @@
         },
         methods: {
             async getData(page = 1) {
+                sessionStorage.setItem('main_page', page+'');
                 await this.$store.dispatch('getFilteredTrades', {page: page, filters: this.filters});
             },
             toggleDirection() {

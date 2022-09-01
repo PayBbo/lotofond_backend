@@ -83,15 +83,16 @@
                             </div>
                             <div class="col-12 col-md-6">
                                 <bkt-select
-                                    v-model="params.mark"
+                                    multiple
+                                    v-model="params.marks"
                                     class="w-100"
                                     select_class="white w-100"
                                     name="mark"
-                                    label="метка"
+                                    label="метки"
                                     label_class="bkt-form__label"
                                     :option_label="'title'"
                                     :options="marks"
-                                    :reduce="item => item.value"
+                                    :reduce="item => item.id"
                                     :clearable="false"
                                     :method_name="'getMarks'"
                                     @input="getData(1)"
@@ -525,6 +526,7 @@
                 this.loading = true;
                 this.params.page = page;
                 this.params.pathId = this.current_path;
+                sessionStorage.setItem('monitoring'+this.current_path+'_page', page);
                 this.$store.dispatch('getMonitorings', this.params).then(resp => {
                     this.loading = false;
                 }).catch(error => {
@@ -544,6 +546,10 @@
                     if (this.items_paths.length > 0) {
                         this.params.pathId = this.current_path;
                         this.params.page =  1;
+                        if(sessionStorage.getItem('monitoring'+this.current_path+'_page'))
+                        {
+                            this.params.page = sessionStorage.getItem('monitoring'+this.current_path+'_page')
+                        }
                         this.$store.dispatch('getMonitorings', this.params)
                             .finally(() => {
                                 this.loading = false;
@@ -556,6 +562,11 @@
             async setCurrentMonitoringPath(value) {
                 this.loading = true;
                 this.params.page = 1;
+                sessionStorage.setItem('monitoring_path_id', value);
+                if(sessionStorage.getItem('monitoring'+value+'_page'))
+                {
+                    this.params.page = sessionStorage.getItem('monitoring'+value+'_page')
+                }
                 this.params.pathId = value;
                 await this.$store.dispatch('setCurrentMonitoringPath',{ pathId: value, params: this.params})
                     .finally(() => {

@@ -126,17 +126,17 @@
                         place: 'all',
                         class: ''
                     },
-                    // {
-                    //     icon: 'Bookmark',
-                    //     label: "Добавить метку",
-                    //     color: 'blue',
-                    //     code: '',
-                    //     status: 'no_status',
-                    //     method: '',
-                    //     method_params: {icon: 'Bookmark'},
-                    //     place: 'lot-card',
-                    //     class: ''
-                    // },
+                    {
+                        icon: 'Bookmark',
+                        label: "Добавить метку",
+                        color: 'orange',
+                        code: '',
+                        status: 'no_status',
+                        method: this.addMark,
+                        method_params: {icon: 'Bookmark'},
+                        place: 'lot-card',
+                        class: ''
+                    },
                     {
                         icon: 'Edit',
                         label: "Добавить заметку",
@@ -322,6 +322,10 @@
             addNote() {
                 this.$store.commit('setSelectedLot', this.item);
                 this.$store.commit('openModal', '#noteModal')
+            },
+            addMark() {
+                this.$store.commit('setSelectedLot', this.item);
+                this.$store.commit('openModal', '#addMarkModal')
             },
             navigate(payload) {
                 this.$router.push(payload.path)

@@ -73,8 +73,8 @@
                             <!--                                </div>-->
                             <!--                            </template>-->
                             <template v-slot:day-content="{ day, attributes }">
-                                <div class="bkt-calendar__day" @dblclick="addEvent(day)">
-                                    <span class="bkt-calendar__day-label" @dblclick="addEvent(day)">
+                                <div class="bkt-calendar__day" @click="addEvent(day)">
+                                    <span class="bkt-calendar__day-label" @click="addEvent(day)">
                                         {{day.id | moment("D MMM")}}
                                     </span>
                                     <div class="bkt-calendar__day-events bkt-cursor-pointer">

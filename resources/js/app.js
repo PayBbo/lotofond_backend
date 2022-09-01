@@ -95,15 +95,12 @@ extend('phone', {
 });
 
 import Notifications from 'vue-notification';
-
 Vue.use(Notifications);
 
 import VueTheMask from 'vue-the-mask'
-
 Vue.use(VueTheMask);
 
 import VueLazyload from 'vue-lazyload'
-
 Vue.use(VueLazyload, {
     preLoad: 1.3,
     error: "/images/card-image1.png",
@@ -129,7 +126,6 @@ import 'vue2-datepicker/locale/zh-cn';
 Vue.component("date-picker", DatePicker);
 
 import vSelect from "vue-select";
-
 Vue.component("v-select", vSelect);
 
 require('lang.js');
@@ -157,7 +153,6 @@ import 'vue-slick-carousel/dist/vue-slick-carousel-theme.css'
 Vue.component('slick', VueSlickCarousel);
 
 import Fuse from 'fuse.js'
-
 Vue.prototype.$search = function (term, list, options) {
     return new Promise(function (resolve, reject) {
         var run = new Fuse(list, options);
@@ -171,11 +166,9 @@ Vue.prototype.$search = function (term, list, options) {
 };
 
 import InfiniteLoading from 'vue-infinite-loading';
-
 Vue.component('infinite-loading', InfiniteLoading);
 
 import FloatingVue from 'floating-vue';
-
 Vue.use(FloatingVue, {
         themes: {
             bkt: {
@@ -185,8 +178,7 @@ Vue.use(FloatingVue, {
                 placement: 'auto',
             },
         },
-    }
-);
+    });
 import 'floating-vue/dist/style.css'
 
 import Fragment from 'vue-fragment'
@@ -195,6 +187,9 @@ Vue.use(Fragment.Plugin)
 import VueSweetalert2 from 'vue-sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';
 Vue.use(VueSweetalert2);
+
+import VueSocialSharing from 'vue-social-sharing'
+Vue.use(VueSocialSharing);
 
 Vue.component("App", require("./App.vue").default);
 Vue.component("Layout", require("./Layout.vue").default);

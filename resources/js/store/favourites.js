@@ -264,7 +264,11 @@ export default {
                 .then((response) => {
                     // dispatch('getFavourites', {page: 1, pathId: response.data[0].pathId});
                     commit('setFavouritePaths', response.data);
-                    commit('setCurrentPath', response.data[0].pathId)
+                    let pathId = response.data[0].pathId
+                    if(sessionStorage.getItem('favourite_path_id')){
+                        pathId = sessionStorage.getItem('favourite_path_id')/1;
+                    }
+                    commit('setCurrentPath', pathId)
                 });
         },
         async removeFavourite({dispatch, commit}, payload) {
