@@ -188,7 +188,7 @@
             }
         },
         created() {
-            this.getData();
+            // this.getData();
         },
         mounted() {
             this.model = this.value;

@@ -23,32 +23,39 @@ export default {
             // state.marks_pagination = payload.pagination;
         },
         addMark(state, payload) {
-            state.marks.push(payload)
+            let mark = state.marks.findIndex(item => item.id === payload.id);
+            if (mark < 0) {
+                state.marks.push(payload)
+            }
         },
         saveMark(state, payload) {
-            let trade = state.marks.findIndex(item => item.id === payload.id);
-            if (trade >= 0) {
-                Vue.set(state.marks, trade, payload)
+            let mark = state.marks.findIndex(item => item.id === payload.id);
+            if (mark >= 0) {
+                Vue.set(state.marks, mark, payload)
             }
         },
         removeMark(state, payload) {
-            let trade = state.marks.findIndex(item => item.id === payload);
-            if (trade >= 0) {
-                state.marks.splice(trade, 1);
+            let mark = state.marks.findIndex(item => item.id === payload);
+            if (mark >= 0) {
+                state.marks.splice(mark, 1);
             }
         },
         setMarksLoading(state, payload) {
             return (state.marks_loading = payload);
         },
         saveMarkProperty(state, payload) {
-            let trade = state.marks.findIndex(item => item.id === payload.id);
-            if (trade >= 0 && state.marks[trade].hasOwnProperty(payload.key)) {
-                Vue.set(state.marks[trade], payload.key, payload.value)
+            let mark = state.marks.findIndex(item => item.id === payload.id);
+            if (mark >= 0 && state.marks[mark].hasOwnProperty(payload.key)) {
+                Vue.set(state.marks[mark], payload.key, payload.value)
             }
         },
     },
     actions: {
         /*
+            GET
+            /marks
+            Получение всех меток пользователя
+
             POST
             /mark
             Добавление метки к лоту
@@ -60,10 +67,6 @@ export default {
             GET
             /mark/lot/{lotId}
             Получение меток для лота
-
-            GET
-            /marks
-            Получение всех меток пользователя
         */
         async getMarks({commit, state}, payload) {
             try {
@@ -81,27 +84,11 @@ export default {
                 throw error
             }
         },
-        async addMark({commit}, payload) {
-            await axios.post('/api/marks', payload, {
-                headers: {
-                    'Content-Type': 'multipart/form-data',
-                }
-            }).then((response) => {
-                commit('addMark', response.data)
-            }).catch(error => {
-                console.log(error);
-                throw error
-            });
-        },
-        async updateMark({commit}, payload) {
-            await axios.post('/api/marks/' + payload.id, payload.formData,
-                {
-                    headers: {
-                        'Content-Type': 'multipart/form-data',
-                    }
-                })
+        async addMark({dispatch, commit}, payload) {
+            await axios.post('/api/mark', payload)
                 .then((response) => {
-                    commit('saveMark', response.data);
+                    commit('addMark', response.data)
+                    dispatch('sendNotification', {message: 'Метка успешно добавлена'});
                 }).catch(error => {
                     console.log(error);
                     throw error
@@ -111,68 +98,37 @@ export default {
             await axios.delete(`/api/marks/${payload.id}`)
                 .then(response => {
                     commit('removeMark', payload.id);
-                    dispatch('sendNotification',
-                        {
-                            self: payload.self,
-                            title: 'Должники',
-                            message: 'Должник успешно удален'
-                        });
+                    dispatch('sendNotification', {message: 'Метка успешно удалена'});
                 }).catch(error => {
-                    dispatch('sendNotification',
-                        {
-                            self: payload.self,
-                            title: 'Должники',
-                            type: 'error',
-                            message: 'Произошла ошибка'
-                        });
+                    throw error;
                 });
         },
-        async saveMark({commit}, payload) {
-            await axios
-                .post(`/api/marks/save/${payload.id}`, {
-                        key: payload.key,
-                        value: payload.value
-                    }
-                ).then((response) => {
-                    commit('saveMark', response.data.trade)
+        async getLotMarks({commit, state}, payload) {
+            return await axios({
+                method: 'get',
+                url: `/api/mark/lot/${payload}`,
+                data: {},
+            })
+
+        },
+        async addLotMark({dispatch, commit}, payload) {
+            await axios.post('/api/mark', payload)
+                .then((response) => {
+                    commit('addMark', response.data);
+                    commit('addSelectedLotMark', response.data);
+                    dispatch('sendNotification', {message: 'Метка успешно добавлена'});
                 }).catch(error => {
                     console.log(error);
                     throw error
                 });
         },
-        async getLotMarks({commit, state}, payload) {
-            try {
-                await axios({
-                    method: 'get',
-                    url: `/api/mark/lot/${payload.id}`,
-                    data: {},
-                })
-                    .then((response) => {
-                        commit('setMarks', response.data)
-                    });
-            } catch (error) {
-                console.log(error);
-                // commit('setMarks', []);
-                throw error
-            }
-        },
-        async addLotMark({commit}, payload) {
-            await axios.post('/api/marks', payload, {
-                headers: {
-                    'Content-Type': 'multipart/form-data',
-                }
-            }).then((response) => {
-                commit('addMark', response.data)
-            }).catch(error => {
-                console.log(error);
-                throw error
-            });
-        },
         async removeLotMark({dispatch, commit}, payload) {
-            await axios.delete(`/api/mark/${payload.markId}/lot/${payload.id}`)
+            await axios.delete(`/api/mark/${payload.markId}/lot/${payload.lotId}`)
                 .then(response => {
                     commit('removeMark', payload.id);
+                    dispatch('sendNotification', {message: 'Метка успешно удалена'});
                 }).catch(error => {
+                    throw error
                 });
         },
     },

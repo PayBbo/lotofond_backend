@@ -10,9 +10,12 @@
                 v-model="model"
                 :label="option_label"
                 :reduce="reduce"
+                :create-option="createOption"
                 :options="options"
                 :clearable="clearable"
                 :searchable="searchable"
+                :taggable="taggable"
+                :push-tags="pushTags"
                 :disabled="disabled"
                 :loading="loading"
                 :filter="fuseSearch"
@@ -129,6 +132,9 @@
                 //
                 // }
             },
+            createOption: {
+                type: Function,
+            },
             additional_class: {
                 type: String
             },
@@ -157,6 +163,14 @@
                 default: true
             },
             searchable: {
+                type: Boolean,
+                default: false
+            },
+            pushTags: {
+                type: Boolean,
+                default: false
+            },
+            taggable: {
                 type: Boolean,
                 default: false
             },
@@ -279,9 +293,12 @@
                         }
                         await this.$store.dispatch(this.method_name, payload).then(resp => {
                             if($state) {
+                                console.log('$state', $state)
                                 if (this.pagination && this.pagination.nextPageUrl !== null) {
                                     $state.loaded();
+                                    console.log('$state loaded', $state)
                                 } else {
+                                    console.log('$state complete', $state)
                                     $state.complete();
                                 }
                             }
@@ -292,7 +309,8 @@
             },
             fuseSearch(options, search) {
                 const fuse = new Fuse(options, this.searchOptions);
-                if(this.$refs[this.method_name] && this.$refs[this.method_name].status!==1) {
+                if(this.$refs[this.method_name] && this.$refs[this.method_name].status!==1 && this.method_params) {
+                    console.log('$emit infinite fuseSearch')
                     this.$refs[this.method_name].status = 1;
                     this.$refs[this.method_name].$emit('infinite', this.$refs[this.method_name].stateChanger);
                 }
@@ -304,6 +322,7 @@
                 this.$emit('open');
                 if(this.options.length===0) {
                     if(this.$refs[this.method_name] && this.$refs[this.method_name].status!==1) {
+                        console.log('$emit infinite open')
                         this.$refs[this.method_name].status = 1;
                         this.$refs[this.method_name].$emit('infinite', this.$refs[this.method_name].stateChanger);
                     }

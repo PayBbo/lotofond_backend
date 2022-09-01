@@ -407,7 +407,12 @@
             };
         },
         mounted() {
-            this.getData();
+            let page = 1;
+            if(sessionStorage.getItem('nearest_page'))
+            {
+                page = sessionStorage.getItem('nearest_page')
+            }
+            this.getData(page);
         },
         computed: {
             filters: {
@@ -513,6 +518,7 @@
         },
         methods: {
             async getData(page = 1) {
+                sessionStorage.setItem('nearest_page', page+'');
                 await this.$store.dispatch('getNearestTrades', {page: page, filters: this.filters});
             },
             openCategoryModal() {

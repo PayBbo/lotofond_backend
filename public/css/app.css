@@ -18155,7 +18155,7 @@ ul.bkt-contents .bkt-contents__answer {
   height: 60px;
   color: rgb(255, 255, 255);
   line-height: 1;
-  text-align: left;
+  text-align: center;
 }
 .bkt-lot-card .bkt-card-price-icon {
   display: flex;

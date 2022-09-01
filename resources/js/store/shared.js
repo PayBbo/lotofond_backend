@@ -30,7 +30,7 @@ export default {
             if (!payload.type){ payload.type='success';}
             if (!payload.message){ payload.message='Ошибка';}
             if (!payload.title){ payload.title='LotoFond';}
-            payload.self.$notify({
+           this._vm.$notify({
                 // group: 'message',
                 type: payload.type,
                 title: payload.title,
@@ -39,7 +39,7 @@ export default {
             });
         },
         sendAuthNotification({commit}, payload) {
-            payload.self.$notify({
+            this._vm.$notify({
                 type: 'error',
                 title: 'LotoFond',
                 text: 'Необходима авторизация',
