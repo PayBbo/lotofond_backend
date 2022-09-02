@@ -53,8 +53,8 @@ class GetTradeMessageContent
         }
         if (!TradeMessage::where('number', $id)->exists()) {
             if ($this->messageType == 'BiddingInvitation') {
-               // $biddingInvitation = new BiddingInvitation($this->invitation, $this->prefix, 'biddingDeclared', $id);
-              //  $biddingInvitation->response($tradePlace, $trade);
+                $biddingInvitation = new BiddingInvitation($this->invitation, $this->prefix, 'biddingDeclared', $id);
+                $biddingInvitation->response($tradePlace, $trade);
 
             } elseif($this->messageType == 'BiddingEnd' || $this->messageType == 'BiddingStart' ||
                 $this->messageType == 'ApplicationSessionEnd' || $this->messageType == 'ApplicationSessionStart') {
