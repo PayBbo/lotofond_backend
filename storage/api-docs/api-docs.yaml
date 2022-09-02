@@ -4124,6 +4124,23 @@ components:
               url:
                 type: string
                 description: ссылка на файл
+        allUserFiles:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: integer
+                description: айдишник файла на сервере
+              url:
+                type: string
+                description: ссылка на файл
+              type:
+                type: string
+                description: обозначение типа файла
+                enum:
+                  - file
+                  - image
         images:
           $ref: '#/components/schemas/Images'
     File:

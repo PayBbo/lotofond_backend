@@ -18,27 +18,25 @@ class SoapWrapperService
      */
     public function __construct(SoapWrapper $soapWrapper)
     {
-        //ini_set('memory_limit', '-1');
         ini_set('soap.wsdl_cache_enabled',0);
         ini_set('soap.wsdl_cache_ttl',0);
 
         $soapWrapper->add('Fedresurs', function ($service) {
             $service
                 ->wsdl(\Config::get('values.WSDL'))
-                ->trace(true)
-                ->cache(WSDL_CACHE_NONE)
-
                 ->options([
-                    'login' => \Config::get('values.FEDRESURS_LOGIN'),
-                    'password' => \Config::get('values.FEDRESURS_PASSWORD'),
-                    'compression'   => SOAP_COMPRESSION_ACCEPT | SOAP_COMPRESSION_GZIP | SOAP_COMPRESSION_DEFLATE,
-                    'keep_alive' => false,
-                    'connection_timeout' => 5000,
+                    'login'               => \Config::get('values.FEDRESURS_LOGIN'),
+                    'password'            => \Config::get('values.FEDRESURS_PASSWORD'),
+                    'compression'         => SOAP_COMPRESSION_ACCEPT | SOAP_COMPRESSION_GZIP | SOAP_COMPRESSION_DEFLATE,
+                    'keep_alive'          => false,
+                    'connection_timeout'  => 5000,
+                    'trace'               => true,
+                    'cache_wsdl'          => WSDL_CACHE_NONE,
                     'stream' => stream_context_create(array(
                         'ssl' => array(
-                            'verify_peer' => false,
-                            'verify_peer_name' => false,
-                            'allow_self_signed' => true
+                            'verify_peer'       => false,
+                            'verify_peer_name'  => false,
+                            'allow_self_signed' => true,
                         )
                     ))
                 ]);

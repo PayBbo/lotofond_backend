@@ -50,7 +50,7 @@ class LotFile extends Model
             }
             return $result;
         }else{
-            return URL::to('/').'/'.$urls;
+            return URL::to('/').'/'.$value;
         }
     }
 }

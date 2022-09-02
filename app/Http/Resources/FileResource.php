@@ -17,7 +17,8 @@ class FileResource extends JsonResource
         return [
             'files'=>$this->lotFiles()->where('type', 'file')->pluck('url'),
             'userFiles'=>auth()->check() ? $this->userLotFiles()->where('type', 'file')->select('id', 'url')->get() : [],
-            'images'=>$this->photos
+            'images'=>$this->photos,
+            'allUserFiles'=>auth()->check() ? $this->userLotFiles()->select('id', 'url', 'type')->get() : [],
         ];
     }
 }
