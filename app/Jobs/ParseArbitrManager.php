@@ -44,7 +44,7 @@ class ParseArbitrManager implements ShouldQueue
             try {
                 $bidder = get_object_vars($person);
                 if (array_key_exists('INN', $bidder) && $bidder['INN'] != "" && !is_null($bidder['INN'])) {
-                    $bidderParse = new BidderService('arbitrManager', $bidder['INN'], 'person');
+                    $bidderParse = new BidderService('arbitrationManager', $bidder['INN'], 'person');
                     $bidderParse->saveBidder($bidder);
                 } else {
                     continue;

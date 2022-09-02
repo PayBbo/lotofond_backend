@@ -50,6 +50,7 @@ class TestCommand extends Command
     {
         //dispatch(new FavouriteJob);
         //dispatch(new MonitoringJob);
+       // dispatch(new MonitoringNotificationJob('hourly'));
         //dispatch(new ParseArbitrManager);
         dispatch(new ParseTrades);
     }

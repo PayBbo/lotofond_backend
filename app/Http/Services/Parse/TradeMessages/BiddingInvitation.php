@@ -56,7 +56,7 @@ class BiddingInvitation extends TradeMessage
                 $manager_type = 'company';
             }
             if (array_key_exists('INN', $arbitr_manager) && $arbitr_manager['INN'] != "" && !is_null($arbitr_manager['INN'])) {
-                $managerParse = new BidderService('arbitrManager', $arbitr_manager['INN'], $manager_type);
+                $managerParse = new BidderService('arbitrationManager', $arbitr_manager['INN'], $manager_type);
                 $arbitr_manager = $managerParse->saveBidder($arbitr_manager);
             }
 
