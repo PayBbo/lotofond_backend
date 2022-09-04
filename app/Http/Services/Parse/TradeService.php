@@ -92,7 +92,7 @@ class TradeService
             $lot->payment_info =  stripslashes(preg_replace('/[\x00-\x1F\x7F]/u', ' ', $value[$prefix . 'PaymentInfo']));
         }
 
-        if (array_key_exists($prefix . 'Concours', $value)) {
+        if (array_key_exists($prefix . 'Concours', $value) && gettype($value[$prefix . 'Concours']) == 'string') {
             $lot->payment_info = $value[$prefix . 'Concours'];
         }
         $lot->created_at = Carbon::now()->setTimezone('Europe/Moscow');

@@ -88,7 +88,6 @@ class FavouriteJob implements ShouldQueue
 
     public function saveNotification($lot_id, $user_id, $message, $value, $lot, $datetime)
     {
-        logger($datetime);
         if(!Notification::where(['lot_id'=>$lot_id, 'user_id'=>$user_id, 'message'=>$message, 'value'=>$value])->exists()) {
             $notification = Notification::create([
                 'user_id' => $user_id,
