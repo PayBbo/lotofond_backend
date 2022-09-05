@@ -5,6 +5,7 @@ namespace App\Http\Services\Parse\TradeMessages;
 use App\Models\Auction;
 use App\Models\Bidder;
 use App\Models\BiddingParticipant;
+use Carbon\Carbon;
 
 class ContractSale extends TradeMessage implements TradeMessageContract
 {
@@ -51,7 +52,7 @@ class ContractSale extends TradeMessage implements TradeMessageContract
                     ->first();
                 if ($biddingResult) {
                     $biddingResult->contract_number = $data['ContractInfo']['ContractNumber'];
-                    $biddingResult->contract_date =  $data['ContractInfo']['DateContract'];
+                    $biddingResult->contract_date =  Carbon::parse($data['ContractInfo']['DateContract'])->setTimezone('Europe/Moscow');
                     $biddingResult->price = $data['ContractInfo']['Price'];
                     $biddingResult->save();
                     $isExists = true;

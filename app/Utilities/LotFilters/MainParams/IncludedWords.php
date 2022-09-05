@@ -21,11 +21,12 @@ class IncludedWords extends SortQuery implements SortContract
                 $conditions_desc[] = ['description', 'like', '%' . $word . '%'];
                 $conditions_type[] = ['trade_id', 'like', '%' . $word . '%'];
             }
-            $this->query
-                ->whereHas('auction', function ($q) use ($value, $conditions_type) {
+            $this->query->where(function ($query) use ($conditions_desc, $conditions_type) {
+                $query->whereHas('auction', function ($q) use ($conditions_type) {
                     $q->where($conditions_type);
                 })
-                ->orWhere($conditions_desc);
+                    ->orWhere($conditions_desc);
+            });
         }
     }
 }

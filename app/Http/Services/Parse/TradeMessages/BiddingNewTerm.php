@@ -3,6 +3,7 @@
 namespace App\Http\Services\Parse\TradeMessages;
 
 use App\Models\Auction;
+use Carbon\Carbon;
 
 class BiddingNewTerm extends TradeMessage implements TradeMessageContract
 {
@@ -24,7 +25,7 @@ class BiddingNewTerm extends TradeMessage implements TradeMessageContract
                 $previousData = [];
                 foreach($data as $key => $field){
                     if(array_key_exists($key, $invitation)){
-                        $result[$field] = $invitation[$key];
+                        $result[$field] = Carbon::parse($invitation[$key])->setTimezone('Europe/Moscow');
                         $previousData[$field] = $auction[$field];
                     }
                 }

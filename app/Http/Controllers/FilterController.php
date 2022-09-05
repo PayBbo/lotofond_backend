@@ -73,8 +73,8 @@ class FilterController extends Controller
     public function getPricesForFilter(){
         $data = [
             "currentPrice"=>[
-                "min"=> PriceReduction::min('price'),
-                "max"=> PriceReduction::max('price'),
+                "min"=> (float)PriceReduction::min('price'),
+                "max"=> (float)PriceReduction::max('price'),
             ],
             "startPrice"=>[
                 "min"=> (float)Lot::min('start_price'),

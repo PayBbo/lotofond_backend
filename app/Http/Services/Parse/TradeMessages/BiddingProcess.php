@@ -52,7 +52,7 @@ class BiddingProcess extends TradeMessage implements TradeMessageContract
                         $newPriceReduction = PriceReduction::create([
                             'lot_id' => $auction_lot->id,
                             'start_time' => Carbon::now()->setTimezone('Europe/Moscow'),
-                            'end_time' => null,
+                            'end_time' => $auction_lot->auction->event_end_date,
                             'price' => $price,
                             'percent' => ((float)$auction_lot->start_price / (float)$price - 1) * 100,
                             'is_system'=>true

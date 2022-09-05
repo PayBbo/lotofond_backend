@@ -139,7 +139,7 @@ class TradeService
         if (array_key_exists($prefix . 'PriceReduction', $value)) {
             $this->getPriceReduction($value[$prefix . 'PriceReduction'], $lot->id);
         } else {
-            $this->savePriceReduction($lot->id, $lot->start_price, $lot->auction->event_start_date, $lot->auction->event_end_date, null, 0, 0, true);
+            $this->savePriceReduction($lot->id, $lot->start_price, $lot->created_at, $lot->auction->event_end_date, null, 0, 0, true);
         }
 
         if (!is_null($this->files)) {

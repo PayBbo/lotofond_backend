@@ -22,6 +22,7 @@ class CreateLotMonitoringTable extends Migration
                 ->on('lots')->cascadeOnDelete();
             $table->foreign('monitoring_id')->references('id')
                 ->on('monitorings')->cascadeOnDelete();
+            $table->boolean('has_notification')->default(false);
             $table->dateTime('created_at');
         });
         Schema::enableForeignKeyConstraints();

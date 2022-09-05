@@ -55,7 +55,7 @@ class MonitoringNotificationJob implements ShouldQueue
         })->get();
         $startDate = $this->startDate;
         foreach ($monitorings as $monitoring) {
-            $newLotsCount = $monitoring->lots()->wherePivot('created_at', '>', $startDate)->count();
+            $newLotsCount = $monitoring->lots()->wherePivot('created_at', '>', $startDate)->wherePivot('has_notification', false)->count();
             if($newLotsCount>0) {
                 $notification = Notification::create([
                     'user_id' => $monitoring->user_id,
@@ -65,8 +65,9 @@ class MonitoringNotificationJob implements ShouldQueue
                     'monitoring_id' => $monitoring->id,
                     'message'=>'monitoring'
                 ]);
-                foreach( $monitoring->lots()->wherePivot('created_at', '>', $startDate)->get() as $lot){
+                foreach( $monitoring->lots()->wherePivot('created_at', '>', $startDate)->wherePivot('has_notification', false)->get() as $lot){
                     $notification->notificationLots()->attach($lot);
+                    $monitoring->lots()->wherePivot('created_at', '>', $startDate)->updateExistingPivot($lot, array('has_notification' => 1), false);
                 }
             }
         }

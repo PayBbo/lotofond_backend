@@ -12,6 +12,7 @@ use App\Jobs\ParseArbitrManager;
 use App\Jobs\ParseTrades;
 use App\Models\Bidder;
 use Artisaninweb\SoapWrapper\SoapWrapper;
+use Carbon\Carbon;
 use Illuminate\Console\Command;
 
 
@@ -49,9 +50,9 @@ class TestCommand extends Command
     public function handle()
     {
         //dispatch(new FavouriteJob);
-        //dispatch(new MonitoringJob);
-       // dispatch(new MonitoringNotificationJob('hourly'));
+      //  dispatch(new MonitoringJob);
+        dispatch(new MonitoringNotificationJob('weekly'));
         //dispatch(new ParseArbitrManager);
-        dispatch(new ParseTrades);
+        //dispatch(new ParseTrades);
     }
 }

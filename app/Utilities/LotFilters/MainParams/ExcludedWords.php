@@ -18,14 +18,15 @@ class ExcludedWords extends SortQuery implements SortContract
         if (!is_null($words)) {
             foreach ($words as $word) {
 
-                $conditions_desc[] = ['description', 'not like', '%' . $word . '%'];
-                $conditions_type[] = ['trade_id', 'not like', '%' . $word . '%'];
+                $conditions_desc[] = ['description', 'not like', "%$word%"];
+                $conditions_type[] = ['trade_id', 'not like', "%$word%"];
             }
-            $this->query
-                ->whereHas('auction', function ($q) use ($value, $conditions_type) {
+            $this->query->where(function ($query) use ($conditions_desc, $conditions_type) {
+                $query->whereHas('auction', function ($q) use ($conditions_type) {
                     $q->where($conditions_type);
                 })
-                ->orWhere($conditions_desc);
+                    ->where($conditions_desc);
+            });
         }
     }
 }

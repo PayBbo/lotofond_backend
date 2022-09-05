@@ -72,7 +72,7 @@ class Lot extends Model
 
     public function monitorings()
     {
-        return $this->belongsToMany(Monitoring::class, 'lot_monitoring')->withPivot('created_at');
+        return $this->belongsToMany(Monitoring::class, 'lot_monitoring')->withPivot('created_at', 'has_notification');
     }
 
     public function marks()
@@ -172,19 +172,18 @@ class Lot extends Model
     {
         $currentDate = Carbon::now()->setTimezone('Europe/Moscow');
         return $this->hasMany(PriceReduction::class)
-            ->whereDate('start_time', '<=', $currentDate)->
-            whereDate('end_time', '>', $currentDate)
+            ->whereDate('start_time', '<=', $currentDate)
+            ->where(function ($query) use ($currentDate) {
+                $query->whereDate('end_time', '>', $currentDate)
+                    ->orWhere('end_time', '=', null);
+            })
             ->take(1);
     }
 
     public function getCurrentPriceAttribute()
     {
         if ($this->has('priceReductions')) {
-            $currentDate = Carbon::now()->setTimezone('Europe/Moscow');
-            $currentRed = $this->hasMany(PriceReduction::class)
-                ->whereDate('start_time', '<=', $currentDate)
-                ->whereDate('end_time', '>', $currentDate)
-                ->first();
+            $currentRed = $this->currentPriceReduction()->first();
             if ($currentRed) {
                 return $currentRed->price;
             } else {
@@ -206,11 +205,7 @@ class Lot extends Model
     public function getCurrentPriceStateAttribute()
     {
         if ($this->has('priceReductions')) {
-            $currentDate = Carbon::now()->setTimezone('Europe/Moscow');
-            $currentPrice = $this->hasMany(PriceReduction::class)
-                ->whereDate('start_time', '<=', $currentDate)
-                ->whereDate('end_time', '>', $currentDate)
-                ->first();
+            $currentPrice = $this->currentPriceReduction()->first();
             if ($currentPrice) {
                 $prev = PriceReduction::where('id', '<', $currentPrice->id)
                     ->latest('id')

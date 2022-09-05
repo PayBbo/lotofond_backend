@@ -9,6 +9,7 @@ use App\Http\Services\Parse\TradeService;
 use App\Models\Auction;
 use App\Models\AuctionType;
 use Artisaninweb\SoapWrapper\SoapWrapper;
+use Carbon\Carbon;
 
 class BiddingInvitation extends TradeMessage
 {
@@ -89,19 +90,19 @@ class BiddingInvitation extends TradeMessage
             $auction->guid = array_key_exists('GUID', $trade) ? $trade->GUID : NULL;
             $auction->trade_place_id = $tradePlace;
             $auction->trade_id = $invitation['@attributes']['TradeId'];
-            $auction->publish_date = $invitation['@attributes']['EventTime'];
+            $auction->publish_date =Carbon::parse($invitation['@attributes']['EventTime'])->setTimezone('Europe/Moscow');
             $auction->debtor_id = $debtor->id;
             $auction->arbitr_manager_id = is_null($arbitr_manager) ?: $arbitr_manager->id;
             $auction->company_trade_organizer_id = is_null($trade_organizer) ?: $trade_organizer->id;
             $auction->auction_type_id = AuctionType::where('title', $data['@attributes']['AuctionType'])->first()->id;
-            $auction->result_date = array_key_exists($prefix . 'CloseForm', $data) ? $data[$prefix . 'CloseForm']['@attributes']['TimeResult'] : NULL;
-            $auction->event_start_date = array_key_exists($prefix . 'OpenForm', $data) ? $data[$prefix . 'OpenForm']['@attributes']['TimeBegin'] : NULL;
+            $auction->result_date = array_key_exists($prefix . 'CloseForm', $data) ? Carbon::parse($data[$prefix . 'CloseForm']['@attributes']['TimeResult'])->setTimezone('Europe/Moscow') : NULL;
+            $auction->event_start_date = array_key_exists($prefix . 'OpenForm', $data) ? Carbon::parse($data[$prefix . 'OpenForm']['@attributes']['TimeBegin'])->setTimezone('Europe/Moscow') : NULL;
             $auction->event_end_date = array_key_exists($prefix . 'OpenForm', $data) && array_key_exists('TimeEnd', $data[$prefix . 'OpenForm']) ? $data[$prefix . 'OpenForm']['TimeEnd'] : NULL;
-            $auction->application_start_date = $data[$prefix . 'Application']['@attributes']['TimeBegin'];
-            $auction->application_end_date = $data[$prefix . 'Application']['@attributes']['TimeEnd'];
+            $auction->application_start_date = Carbon::parse($data[$prefix . 'Application']['@attributes']['TimeBegin'])->setTimezone('Europe/Moscow');
+            $auction->application_end_date = Carbon::parse($data[$prefix . 'Application']['@attributes']['TimeEnd'])->setTimezone('Europe/Moscow');
             $auction->application_rules = $data[$prefix . 'Application'][$prefix.'Rules'];
-            $auction->date_publish_smi = array_key_exists($prefix . 'DatePublishSMI', $data) ? $data[$prefix . 'DatePublishSMI'] : NULL;
-            $auction->date_publish_efir = array_key_exists($prefix . 'DatePublishEFIR', $data) ? $data[$prefix . 'DatePublishEFIR'] : NULL;
+            $auction->date_publish_smi = array_key_exists($prefix . 'DatePublishSMI', $data) ? Carbon::parse($data[$prefix . 'DatePublishSMI'])->setTimezone('Europe/Moscow') : NULL;
+            $auction->date_publish_efir = array_key_exists($prefix . 'DatePublishEFIR', $data) ? Carbon::parse($data[$prefix . 'DatePublishEFIR'])->setTimezone('Europe/Moscow') : NULL;
             $auction->price_form = $data['@attributes']['FormPrice'] == 'OpenForm' ? 'open' : 'close';
             if (array_key_exists($prefix . 'LegalCase', $invitation)) {
                 $auction->case_number = $invitation[$prefix . 'LegalCase']['@attributes']['CaseNumber'];
