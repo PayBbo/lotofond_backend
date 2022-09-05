@@ -172,7 +172,10 @@ class Lot extends Model
     {
         $currentDate = Carbon::now()->setTimezone('Europe/Moscow');
         return $this->hasMany(PriceReduction::class)
-            ->whereDate('start_time', '<=', $currentDate)
+            ->where(function ($query) use ($currentDate) {
+                $query->whereDate('start_time', '<=', $currentDate )
+                    ->orWhere('start_time', '=', null);
+            })
             ->where(function ($query) use ($currentDate) {
                 $query->whereDate('end_time', '>', $currentDate)
                     ->orWhere('end_time', '=', null);

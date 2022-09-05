@@ -17,9 +17,12 @@ class CurrentPrice extends SortQuery implements SortContract
         $this->query->with('priceReductions')
             ->join('price_reductions as i', 'lots.id', '=', 'i.lot_id')
             ->select('lots.*')
-            ->whereDate('i.start_time', '<=', DB::raw("str_to_date('" . $currentDate . "', '%d.%m.%Y')"))
             ->where(function ($query) use ($currentDate) {
-                $query  ->whereDate('i.end_time', '>', DB::raw("str_to_date('" . $currentDate . "', '%d.%m.%Y')"))
+                $query->whereDate('i.start_time', '<=', DB::raw("str_to_date('" . $currentDate . "', '%d.%m.%Y')"))
+                    ->orWhere('i.start_time', '=', null);
+            })
+            ->where(function ($query) use ($currentDate) {
+                $query ->whereDate('i.end_time', '>', DB::raw("str_to_date('" . $currentDate . "', '%d.%m.%Y')"))
                     ->orWhere('i.end_time', '=', null);
             })
             ->orderBy('i.price', $direction)
