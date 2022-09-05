@@ -267,9 +267,9 @@ class Lot extends Model
             $namespace = 'App\Utilities\LotSorts';
             $sort = new SortBuilder($query->isFixed(), $request->sort, $namespace);
 
-            return $sort->apply();
+            return $sort->apply()->groupBy('lots.id');
         }
-        return $query->isFixed();
+        return $query->isFixed()->groupBy('lots.id');
 
     }
 
@@ -277,7 +277,7 @@ class Lot extends Model
     {
         $namespace = 'App\Utilities\LotFilters';
         $filters = new FilterBuilder($query, $request, $namespace);
-        return $filters->apply();
+        return $filters->apply()->groupBy('lots.id');
 
     }
 
