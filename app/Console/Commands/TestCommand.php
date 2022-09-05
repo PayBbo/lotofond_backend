@@ -51,8 +51,8 @@ class TestCommand extends Command
     {
         //dispatch(new FavouriteJob);
       //  dispatch(new MonitoringJob);
-        dispatch(new MonitoringNotificationJob('weekly'));
+       // dispatch(new MonitoringNotificationJob('weekly'));
         //dispatch(new ParseArbitrManager);
-        //dispatch(new ParseTrades);
+        dispatch(new ParseTrades);
     }
 }
