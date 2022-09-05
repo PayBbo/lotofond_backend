@@ -11,8 +11,10 @@ use App\Http\Resources\AccessTokenResource;
 use App\Http\Services\DeviceTokenService;
 use App\Http\Services\GenerateAccessTokenService;
 use App\Http\Services\SendCodeService;
+use App\Http\Services\SocialsService;
 use App\Models\Favourite;
 use App\Models\Notification;
+use App\Models\SocialAccount;
 use App\Models\User;
 use App\Models\VerifyAccount;
 use Carbon\Carbon;
@@ -41,10 +43,53 @@ class RegisterController extends Controller
                 $sendCode->sendPhoneCode($request->phone, $code);
                 break;
             }
-            case 'gosuslugi':{
-                //
+            case 'google':
+            case 'apple':
+            {
+                $password = strval(mt_rand(10000000, 99999999));
+                $socialService = new SocialsService();
+                $socialService->setToken($request->token);
+                $sub = $socialService->getSub();
+                $social = SocialAccount::where(['provider_id' => $sub, 'provider' => $request->grantType])->first();
+                $userPassword = null;
+                if(!$social){
+                    $user = User::create([
+                        'password' => Hash::make($password),
+                        'email_verified_at' => Carbon::now(),
+                        'not_settings'=>[
+                            'favouriteEventStart' => 1,
+                            'favouriteEventEnd' => 1,
+                            'favouriteApplicationStart' => 1,
+                            'favouriteApplicationEnd' => 1,
+                            'favouriteResult' => 1,
+                            'favouritePriceReduction' => 1
+                        ]
+                    ]);
+                    $social = SocialAccount::create([
+                        'user_id'=>$user->id,
+                        'provider_id'=>$sub,
+                        'provider'=>$request->grantType
+                    ]);
+                }else{
+                    $user = User::find($social->user_id);
+                    $userPassword = $user->password;
+                }
+                $username = $sub . ' '.$request->grantType;
+                $user->password=Hash::make($password);
+                $user->save();
+                $generateToken = new GenerateAccessTokenService();
+                $token = $generateToken->generateToken($request, $username, $password);
+                if(!is_null($userPassword)){
+                    $user->password = $userPassword;
+                    $user->save();
+                }
+                return response($token, 200);
                 break;
             }
+           /* case 'gosuslugi':{
+                //
+                break;
+            }*/
         }
         $verify->save();
         return response(null, 200);
@@ -108,26 +153,30 @@ class RegisterController extends Controller
             ]
         ]);
         $verifyAccount->delete();
-        Favourite::create([
-            'user_id'=>$user->id,
-            'title'=>'Общее'
-        ]);
-        Notification::create([
-            'user_id' => $user->id,
-            'date' => Carbon::now()->setTimezone('Europe/Moscow'),
-            'type_id' => 1,
-            'message' => 'gladToSeeYou',
-            'label'=> 'welcome',
-            'platform_action'=>'info'
-        ]);
-        if(isset($request->deviceToken)){
-            $deviceTokenService = new DeviceTokenService($user, $request->deviceToken);
-            $deviceTokenService->saveDeviceToken();
-        }
+        $this->saveUser($user, $request);
         $generateToken = new GenerateAccessTokenService();
         $token = $generateToken->generateToken($request, $username, $password);
         return response($token, 200);
     }
+
+     public function saveUser($user, $request){
+         Favourite::create([
+             'user_id'=>$user->id,
+             'title'=>'Общее'
+         ]);
+         Notification::create([
+             'user_id' => $user->id,
+             'date' => Carbon::now()->setTimezone('Europe/Moscow'),
+             'type_id' => 1,
+             'message' => 'gladToSeeYou',
+             'label'=> 'welcome',
+             'platform_action'=>'info'
+         ]);
+         if(isset($request->deviceToken)){
+             $deviceTokenService = new DeviceTokenService($user, $request->deviceToken);
+             $deviceTokenService->saveDeviceToken();
+         }
+     }
 
 
 }

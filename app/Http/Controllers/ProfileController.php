@@ -42,7 +42,8 @@ class ProfileController extends Controller
         return response(new ProfileResource(User::find($user_id)), 200);
     }
 
-    public function updateNotificationsSettings(UpdateNotificationsRequest $request){
+    public function updateNotificationsSettings(UpdateNotificationsRequest $request)
+    {
         $user_id = auth()->user()->getAuthIdentifier();
         $user = User::find($user_id);
         $user->not_to_email = isset($request->notificationsToEmail) ? $request->notificationsToEmail : $user->not_to_email;
@@ -60,61 +61,84 @@ class ProfileController extends Controller
         $user = User::find(auth()->id());
         $code = strval(mt_rand(100000, 999999));
         $sendCode = new SendCodeService();
-        $changeCredentials= new ChangeCredentials();
+        $changeCredentials = new ChangeCredentials();
         $changeCredentials->token = Hash::make($code);
         $changeCredentials->user_id = $user->id;
         $changeCredentials->created_at = Carbon::now()->setTimezone('Europe/Moscow')->addDay();
         $changeCredentials->is_old_credentials = $request->isOldCredentials;
-        switch ($request->grantType){
-            case 'email':{
-                if(!$request->haveAccessToOldCredentials && !$request->isOldCredentials){
+        switch ($request->grantType) {
+            case 'email':
+            {
+                if (!$request->haveAccessToOldCredentials && !$request->isOldCredentials) {
                     $sendCode->sendEmailWarning($user->email, $request->email);
                     $sendCode->sendEmailCode($request->email, $code);
-                }elseif(!$request->haveAccessToOldCredentials && $request->isOldCredentials){
-                    if(is_null($user->phone)){
-                        throw new BaseException("ERR_INCORRECT_DATA", 422, 'Value does not exist');
+                } elseif (!$request->haveAccessToOldCredentials && $request->isOldCredentials) {
+                    if (is_null($user->phone)) {
+                        throw new BaseException("ERR_VALIDATION_FAILED_PHONE", 422, __('validation.exists', ['attribute'=>'phone']));
                     }
                     $sendCode->sendPhoneCode($user->phone, $code);
-                }else {
+                } else {
                     $sendCode->sendEmailCode($request->email, $code);
                 }
 
                 $changeCredentials->email = $request->email;
-
+                $changeCredentials->save();
                 break;
             }
-            case 'phone':{
-                if(!$request->haveAccessToOldCredentials && !$request->isOldCredentials){
+            case 'phone':
+            {
+                if (!$request->haveAccessToOldCredentials && !$request->isOldCredentials) {
                     $sendCode->sendPhoneWarning($user->phone, $request->phone);
                     $sendCode->sendPhoneCode($request->phone, $code);
-                }elseif(!$request->haveAccessToOldCredentials && $request->isOldCredentials){
-                    if(is_null($user->email)){
-                        throw new BaseException("ERR_INCORRECT_DATA", 422, 'Value does not exist');
+                } elseif (!$request->haveAccessToOldCredentials && $request->isOldCredentials) {
+                    if (is_null($user->email)) {
+                        throw new BaseException("ERR_VALIDATION_FAILED_EMAIL", 422, __('validation.exists', ['attribute'=>'email']));
                     }
                     $sendCode->sendEmailCode($user->email, $code);
 
-                }else {
+                } else {
                     $sendCode->sendPhoneCode($request->phone, $code);
                 }
 
                 $changeCredentials->phone = $request->phone;
+                $changeCredentials->save();
                 break;
             }
+            case 'google':
+            case 'apple':
+            {
+                $socialService = new SocialsService();
+                $socialService->setToken($request->token);
+                $sub = $socialService->getSub();
+                $social = SocialAccount::where(['user_id'=>auth()->id(), 'provider'=>$request->grantType, 'provider_id'=>$sub])->first();
+                if(!$social){
+                    throw new BaseException("ERR_VALIDATION_FAILED_SOCIALS", 422, __('validation.user_not_found'));
+                }
+                if(isset($request->email)){
+                    $user->email = $request->email;
+                }
+                if(isset($request->phone)){
+                    $user->phone = $request->phone;
+                }
+                $user->save();
+
+            }
         }
-        $changeCredentials->save();
         return response(null, 200);
     }
 
     public function verifyCredentialsCode(VerifyCredentialsCodeRequest $request)
     {
         $user = User::find(auth()->id());
-        switch ($request->grantType){
-            case 'email':{
+        switch ($request->grantType) {
+            case 'email':
+            {
                 $changeCredentials = ChangeCredentials::where('email', $request->email)->first();
                 $isOldCredentials = $user->email == $request->email;
                 break;
             }
-            case 'phone':{
+            case 'phone':
+            {
                 $changeCredentials = ChangeCredentials::where('phone', $request->phone)->first();
                 $isOldCredentials = $user->phone == $request->phone;
                 break;
@@ -124,30 +148,31 @@ class ProfileController extends Controller
         if (!Hash::check($request->code, $changeCredentials->token) || $changeCredentials->created_at < $currentDate) {
             throw new BaseException("ERR_VALIDATION_FAILED_CODE", 422, __('validation.verification_code'));
         }
-        if($request->isOldCredentials && $request->haveAccessToOldCredentials && $isOldCredentials){
+        if ($request->isOldCredentials && $request->haveAccessToOldCredentials && $isOldCredentials) {
             $changeCredentials->is_submitted_old_credentials = true;
             $changeCredentials->save();
-        }elseif(($request->haveAccessToOldCredentials && !$request->isOldCredentials)
-            || (!$request->haveAccessToOldCredentials && $request->isOldCredentials)){
-            if(isset($request->email)){
+        } elseif (($request->haveAccessToOldCredentials && !$request->isOldCredentials)
+            || (!$request->haveAccessToOldCredentials && $request->isOldCredentials)) {
+            if (isset($request->email)) {
                 $user->email = $request->email;
             }
-            if(isset($request->phone)){
+            if (isset($request->phone)) {
                 $user->phone = $request->phone;
             }
             $user->save();
             ChangeCredentials::where('user_id', $user->id)->delete();
-        }elseif(!$request->haveAccessToOldCredentials && !$request->isOldCredentials){
+        } elseif (!$request->haveAccessToOldCredentials && !$request->isOldCredentials) {
             $changeCredentials->is_submitted_new_credentials = true;
             $changeCredentials->save();
             dispatch(new ChangeEmail($changeCredentials->id))->delay(now()->setTimezone('Europe/Moscow')->addWeeks(2));
-        }else{
+        } else {
             throw new BaseException("ERR_VALIDATION_FAILED_CODE", 422, __('validation.credentials_submitted'));
         }
         return response(null, 200);
     }
 
-    public function changePassword(ChangePasswordRequest $request){
+    public function changePassword(ChangePasswordRequest $request)
+    {
         switch ($request->grantType) {
             case 'email':
             {
@@ -174,27 +199,30 @@ class ProfileController extends Controller
         return response(null, 200);
     }
 
-    public function linkSocials(LinkSocialsRequest $request){
+    public function linkSocials(LinkSocialsRequest $request)
+    {
         $socialService = new SocialsService();
         $socialService->setToken($request->token);
         $sub = $socialService->getSub();
         $social = SocialAccount::where(['provider_id' => $sub, 'provider' => $request->grantType])->first();
-        if($social){
+        if ($social) {
             throw new BaseException("ERR_VALIDATION_FAILED_SOCIALS", 422, __('validation.user_not_found'));
         }
         SocialAccount::create([
-           'user_id'=>auth()->id(),
-           'provider_id'=>$sub,
-           'provider'=>$request->grantType
+            'user_id' => auth()->id(),
+            'provider_id' => $sub,
+            'provider' => $request->grantType
         ]);
         return response(null, 200);
     }
 
-    public function hasNotSeenNotifications(){
-        return response(['hasNotSeenNotifications'=>Notification::where(['user_id'=> auth()->guard('api')->id(), 'is_seen'=>false])->exists()], 200);
+    public function hasNotSeenNotifications()
+    {
+        return response(['hasNotSeenNotifications' => Notification::where(['user_id' => auth()->guard('api')->id(), 'is_seen' => false])->exists()], 200);
     }
 
-    public function updateDeviceToken(Request $request){
+    public function updateDeviceToken(Request $request)
+    {
         $user = User::find(auth()->id());
         if (isset($request->deviceToken)) {
             $deviceTokenService = new DeviceTokenService($user, $request->deviceToken);
@@ -203,9 +231,10 @@ class ProfileController extends Controller
         return response(null, 200);
     }
 
-    public function changeCredentialsProcessDelete($changeCredentialsProcessId){
-        $changeCredentials = ChangeCredentials::where(['id'=>$changeCredentialsProcessId, 'user_id'=>auth()->id(), 'is_submitted_new_credentials' => true])->first();
-        if(!$changeCredentials){
+    public function changeCredentialsProcessDelete($changeCredentialsProcessId)
+    {
+        $changeCredentials = ChangeCredentials::where(['id' => $changeCredentialsProcessId, 'user_id' => auth()->id(), 'is_submitted_new_credentials' => true])->first();
+        if (!$changeCredentials) {
             throw new BaseException("ERR_ACCESS_FORBIDDEN", 403, 'Selected change credentials process does not exists or does not belong to an authorized user');
         }
         $changeCredentials->delete();

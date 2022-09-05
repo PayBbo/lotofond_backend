@@ -31,8 +31,9 @@ class GetCredentialsCodeRequest extends FormRequest
                 new IsUniqueNewCredentials($this->request->get('isOldCredentials'), $this->request->get('haveAccessToOldCredentials'))],
             'phone' => ['sometimes', 'required', new Phone,
                 new IsUniqueNewCredentials($this->request->get('isOldCredentials'), $this->request->get('haveAccessToOldCredentials'))],
-            'haveAccessToOldCredentials'=>['required', 'boolean'],
-            'isOldCredentials'=>['required', 'boolean']
+            'token'=>['sometimes', 'required', 'string'],
+            'haveAccessToOldCredentials'=>['sometimes','required', 'boolean'],
+            'isOldCredentials'=>['sometimes','required', 'boolean']
         ];
     }
 }
