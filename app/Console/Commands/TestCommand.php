@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 
 use App\Http\Services\Parse\GetTradeMessageContent;
 use App\Http\Services\Parse\SoapWrapperService;
+use App\Jobs\ChangeEmail;
 use App\Jobs\FavouriteJob;
 use App\Jobs\MonitoringJob;
 use App\Jobs\MonitoringNotificationJob;
@@ -50,9 +51,14 @@ class TestCommand extends Command
     public function handle()
     {
         //dispatch(new FavouriteJob);
-      //  dispatch(new MonitoringJob);
-       // dispatch(new MonitoringNotificationJob('weekly'));
+        //  dispatch(new MonitoringJob);
+        // dispatch(new MonitoringNotificationJob('weekly'));
         //dispatch(new ParseArbitrManager);
         dispatch(new ParseTrades);
+       /* $soapWrapper = new SoapWrapper();
+        $service = new SoapWrapperService($soapWrapper);
+        $xml = $service->getTradeMessageContent( 13263027);
+        logger($xml);*/
+
     }
 }

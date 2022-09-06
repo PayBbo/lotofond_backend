@@ -34,12 +34,12 @@ class ChangeEmail implements ShouldQueue
     public function handle()
     {
         $changeCredentials = ChangeCredentials::find($this->changeCredentialsId);
-        if($changeCredentials){
+        if($changeCredentials ){
             $user = User::find($changeCredentials->user_id);
-            if(!is_null($changeCredentials->email)){
+            if(!is_null($changeCredentials->email) && !User::where('email', $changeCredentials->email)->exists()){
                 $user->email = $changeCredentials->email;
             }
-            if(!is_null($changeCredentials->phone)){
+            if(!is_null($changeCredentials->phone) && !User::where('phone', $changeCredentials->phone)->exists()){
                 $user->phone = $changeCredentials->phone;
             }
             $user->save();

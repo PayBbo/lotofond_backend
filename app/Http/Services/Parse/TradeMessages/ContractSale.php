@@ -40,7 +40,7 @@ class ContractSale extends TradeMessage implements TradeMessageContract
     public function saveBiddingResult($lot, $invitation, $prefix)
     {
         $tradeMessage = $this->createNotification($lot->id, $invitation['@attributes']['EventTime']);
-        $data = $invitation[$prefix . 'LotContractSale'];
+        $data = $invitation[$prefix . 'LotContractSaleList'][$prefix . 'LotContractSale'];
         $participantData = $data['ContractParticipantList']['ContractParticipant']['@attributes'];
         if ($lot->tradeMessages->biddingResults->count() > 0) {
             $inn = $participantData['INN'];
@@ -52,7 +52,7 @@ class ContractSale extends TradeMessage implements TradeMessageContract
                     ->first();
                 if ($biddingResult) {
                     $biddingResult->contract_number = $data['ContractInfo']['ContractNumber'];
-                    $biddingResult->contract_date =  Carbon::parse($data['ContractInfo']['DateContract'])->setTimezone('Europe/Moscow');
+                    $biddingResult->contract_date =  $this->parseDate($data['ContractInfo']['DateContract']);
                     $biddingResult->price = $data['ContractInfo']['Price'];
                     $biddingResult->save();
                     $isExists = true;

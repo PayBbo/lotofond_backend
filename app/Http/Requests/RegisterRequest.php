@@ -26,8 +26,8 @@ class RegisterRequest extends FormRequest
     {
         return [
             'grantType' => ['required', 'string'],
-            'email' => ['sometimes', 'required', 'email', 'unique:users'],
-            'phone' => ['sometimes', 'required', new Phone, 'unique:users'],
+            'email' => ['sometimes', 'required', 'email', 'unique:users,email', 'unique:change_credentials,email'],
+            'phone' => ['sometimes', 'required', new Phone, 'unique:users,phone', 'unique:change_credentials,phone'],
             'surname'=>['sometimes','required', 'string', 'max:255'],
             'name'=>['sometimes','required', 'string', 'max:255'],
             'password'=>['sometimes','required', 'string', 'min:8'],

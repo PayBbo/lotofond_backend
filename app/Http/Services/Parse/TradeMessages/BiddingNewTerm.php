@@ -25,7 +25,7 @@ class BiddingNewTerm extends TradeMessage implements TradeMessageContract
                 $previousData = [];
                 foreach($data as $key => $field){
                     if(array_key_exists($key, $invitation)){
-                        $result[$field] = Carbon::parse($invitation[$key])->setTimezone('Europe/Moscow');
+                        $result[$field] = $this->parseDate($invitation[$key]);
                         $previousData[$field] = $auction[$field];
                     }
                 }

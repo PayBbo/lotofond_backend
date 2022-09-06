@@ -27,9 +27,9 @@ class GetCredentialsCodeRequest extends FormRequest
     {
         return [
             'grantType' => ['required', 'string'],
-            'email' => ['sometimes', 'required', 'email',
+            'email' => ['sometimes', 'required', 'email', 'unique:change_credentials,email',
                 new IsUniqueNewCredentials($this->request->get('isOldCredentials'), $this->request->get('haveAccessToOldCredentials'))],
-            'phone' => ['sometimes', 'required', new Phone,
+            'phone' => ['sometimes', 'required', new Phone, 'unique:change_credentials,phone',
                 new IsUniqueNewCredentials($this->request->get('isOldCredentials'), $this->request->get('haveAccessToOldCredentials'))],
             'token'=>['sometimes', 'required', 'string'],
             'haveAccessToOldCredentials'=>['sometimes','required', 'boolean'],

@@ -121,7 +121,7 @@ class ProfileController extends Controller
                     $user->phone = $request->phone;
                 }
                 $user->save();
-
+                break;
             }
         }
         return response(null, 200);

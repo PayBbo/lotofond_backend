@@ -54,4 +54,11 @@ abstract class TradeMessage
             'created_at'=> Carbon::now()->setTimezone('Europe/Moscow')
         ]);
     }
+
+    public function parseDate($date) {
+        preg_match('/(\+[0-9]{2}:[0-9]{2})/', $date, $output_array);
+        if(count($output_array) === 0)
+            return $date;
+        return Carbon::createFromTimestampUTC(strtotime($date))->setTimezone('Europe/Moscow');
+    }
 }

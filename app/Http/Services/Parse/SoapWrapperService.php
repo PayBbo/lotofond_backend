@@ -27,17 +27,18 @@ class SoapWrapperService
                 ->trace(true)
                 ->cache(WSDL_CACHE_NONE)
                 ->options([
-                    'login'               => \Config::get('values.FEDRESURS_LOGIN'),
-                    'password'            => \Config::get('values.FEDRESURS_PASSWORD'),
-                    'compression'         => SOAP_COMPRESSION_ACCEPT | SOAP_COMPRESSION_GZIP | SOAP_COMPRESSION_DEFLATE,
-                    'keep_alive'          => false,
-                    'connection_timeout'  => 5000,
-           //         'trace'               => true,
-            //        'cache_wsdl'          => WSDL_CACHE_NONE,
+                    'login' => \Config::get('values.FEDRESURS_LOGIN'),
+                    'password' => \Config::get('values.FEDRESURS_PASSWORD'),
+                    'compression' => SOAP_COMPRESSION_ACCEPT | SOAP_COMPRESSION_GZIP | SOAP_COMPRESSION_DEFLATE,
+                    'keep_alive' => false,
+                    'connection_timeout' => 5000,
+                    'exceptions' => true,
+                    //         'trace'               => true,
+                    //        'cache_wsdl'          => WSDL_CACHE_NONE,
                     'stream' => stream_context_create(array(
                         'ssl' => array(
-                            'verify_peer'       => false,
-                            'verify_peer_name'  => false,
+                            'verify_peer' => false,
+                            'verify_peer_name' => false,
                             'allow_self_signed' => true,
                         )
                     ))
@@ -49,7 +50,7 @@ class SoapWrapperService
     /**
      * GetMessageIds. Список идентификаторов сообщений за период
      */
-    public function getMessageIds($startDate, $endDate=null)
+    public function getMessageIds($startDate, $endDate = null)
     {
         //$startDate = Carbon::now()->subDays(100)->format('Y-m-d\TH:i:s');
         //$endDate = Carbon::now()->format('Y-m-d\TH:i:s');
@@ -83,7 +84,7 @@ class SoapWrapperService
     /**
      * GetTradeMessages. Список идентификаторов торгов и сообщений ЭТП за период
      */
-    public function getTradeMessages($startFrom, $endTo=null)
+    public function getTradeMessages($startFrom, $endTo = null)
     {
 
         $response = $this->soapWrapper->call('Fedresurs.GetTradeMessages',
@@ -100,7 +101,7 @@ class SoapWrapperService
     /**
      * GetTradeMessagesByTrade. Список сообщений по идентификатору торгов на ЭТП
      */
-    public function getTradeMessagesByTrade($id, $tradePlaceInn, $startFrom, $endTo=null)
+    public function getTradeMessagesByTrade($id, $tradePlaceInn, $startFrom, $endTo = null)
     {
         //$startFrom = Carbon::now()->subDays(100)->format('Y-m-d\TH:i:s');
         //$endTo = Carbon::now()->format('Y-m-d\TH:i:s');
@@ -108,7 +109,7 @@ class SoapWrapperService
         $response = $this->soapWrapper->call('Fedresurs.GetTradeMessagesByTrade',
             [
                 [
-                    'id'=>$id,
+                    'id' => $id,
                     'startFrom' => $startFrom,
                     'endTo' => $endTo,
                     'tradePlaceInn' => $tradePlaceInn
@@ -130,13 +131,14 @@ class SoapWrapperService
                 ]
             ]
         );
-        return $response->GetTradeMessageContentResult;
+        $data = json_decode(json_encode($response), true);
+        return $data['GetTradeMessageContentResult'];
     }
 
     /**
      * GetArbitrManagerRegister. Список арбитражных управляющих
      */
-    public function getArbitrManagerRegister($date=null)
+    public function getArbitrManagerRegister($date = null)
     {
         //$date = Carbon::now()->subDays(100)->format('Y-m-d\TH:i:s');
         $response = $this->soapWrapper->call('Fedresurs.GetArbitrManagerRegister',
@@ -152,7 +154,7 @@ class SoapWrapperService
     /**
      * GetDebtorRegister. Список должников
      */
-    public function getDebtorRegister($date=null)
+    public function getDebtorRegister($date = null)
     {
         //$date = Carbon::now()->subDays(100)->format('Y-m-d\TH:i:s');
         $response = $this->soapWrapper->call('Fedresurs.GetDebtorRegister',
@@ -168,7 +170,7 @@ class SoapWrapperService
     /**
      * GetCompanyTradeOrganizerRegister. Список организаторов торгов
      */
-    public function getCompanyTradeOrganizerRegister($date=null)
+    public function getCompanyTradeOrganizerRegister($date = null)
     {
         //$date = Carbon::now()->subDays(100)->format('Y-m-d\TH:i:s');
         $response = $this->soapWrapper->call('Fedresurs.GetCompanyTradeOrganizerRegister',
@@ -184,7 +186,7 @@ class SoapWrapperService
     /**
      * GetSroRegister. Список СРО АУ
      */
-    public function getSroRegister($date=null)
+    public function getSroRegister($date = null)
     {
         //$date = Carbon::now()->subDays(100)->format('Y-m-d\TH:i:s');
         $response = $this->soapWrapper->call('Fedresurs.GetSroRegister',
@@ -234,7 +236,7 @@ class SoapWrapperService
     /**
      * GetDebtorMessagesContentForPeriodByIdBankrupt. Список сообщений по должнику за период
      */
-    public function getDebtorMessagesContentForPeriodByIdBankrupt($idBankrupt, $startDate=null)
+    public function getDebtorMessagesContentForPeriodByIdBankrupt($idBankrupt, $startDate = null)
     {
         //$startDate = Carbon::now()->format('Y-m-d\TH:i:s');
 
@@ -253,7 +255,7 @@ class SoapWrapperService
     /**
      * GetDebtorReportsContentForPeriodByIdBankrupt. Список отчетов по должнику за период
      */
-    public function getDebtorReportsContentForPeriodByIdBankrupt($idBankrupt, $startDate=null)
+    public function getDebtorReportsContentForPeriodByIdBankrupt($idBankrupt, $startDate = null)
     {
         //$startDate = Carbon::now()->format('Y-m-d\TH:i:s');
 
