@@ -4601,6 +4601,42 @@ components:
         tradePlaceSite:
           type: string
           description: сайт ЭТП
+    Bidder:
+      type: object
+      properties:
+        id:
+          type: integer
+        inn:
+          type: string
+        region:
+          type: string
+        address:
+          type: string
+        sro:
+          type: string
+        type:
+          type: string
+          enum:
+            - person
+            - company
+        person:
+          type: object
+          properties:
+            firstName:
+              type: string
+            middleName:
+              type: string
+            lastName:
+              type: string
+        company:
+          type: object
+          properties:
+            shortName:
+              type: string
+            fullName:
+              type: string
+
+
     TextData:
       type: object
       properties:

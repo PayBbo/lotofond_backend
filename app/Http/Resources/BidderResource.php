@@ -35,7 +35,9 @@ class BidderResource extends JsonResource
                 ]
             ]),
             'region'=>is_null($this->region) ? null : $this->region->code,
-            'address'=>$this->address
+            'address'=>$this->address,
+            'sro'=>is_null($this->sro_au_id) ? null : $this->sroAu->name
+
         ];
     }
 }
