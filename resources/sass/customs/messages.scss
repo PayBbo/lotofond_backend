@@ -103,6 +103,13 @@
                     padding-right: 1.5rem;
                     cursor: pointer;
                     font-weight: 600;
+                    &__text {
+                        display: flex;
+                        align-items: center;
+                        line-height: 14px;
+                        font-size: 14px;
+                        gap: 6px;
+                    }
                 }
             }
 

@@ -11,7 +11,7 @@
                             <li class="bkt-chat" :class="{'bkt-bg-primary-lighter': selectedType=='all'}" id="chat-1"
                                 @click="setType('all')"
                             >
-                                <span>Все</span>
+                                Все
                                 <div class="bkt-chat__num rounded-pill bkt-bg-primary bkt-text-neutral-light">
                                     <span v-if="notifications_count.all > 0" class="p-2">
                                         {{notifications_count.all}}
@@ -22,8 +22,8 @@
                                 @click="setType('platform')"
                             >
                                 <div class="bkt-chat__text">
-                                    <bkt-icon :name="'Bell'" :color="'green'" width="15px" height="15px" class="mr-2"/>
-                                    <span>Сообщения платформы</span>
+                                    <bkt-icon :name="'Bell'" :color="'green'" width="15px" height="15px"/>
+                                    Сообщения платформы
                                 </div>
 
                                 <div class="bkt-chat__num rounded-pill bkt-bg-green bkt-text-neutral-light">
@@ -37,8 +37,8 @@
                                 @click="setType('favourite')"
                             >
                                 <div class="bkt-chat__text">
-                                    <bkt-icon :name="'Star'" :color="'yellow'" width="15px" height="15px" class="mr-2"/>
-                                    <span>Избранное</span>
+                                    <bkt-icon :name="'Star'" :color="'yellow'" width="15px" height="15px"/>
+                                    Избранное
                                 </div>
                                 <div class="bkt-chat__num rounded-pill bkt-bg-yellow bkt-text-neutral-light">
                                     <span v-if="notifications_count.favourite > 0" class="p-2">
@@ -50,8 +50,8 @@
                                 @click="setType('monitoring')"
                             >
                                 <div class="bkt-chat__text">
-                                    <bkt-icon :name="'Target'" :color="'red'" width="15px" height="15px" class="mr-2"/>
-                                    <span>Мониторинг</span>
+                                    <bkt-icon :name="'Target'" :color="'red'" width="15px" height="15px"/>
+                                    Мониторинг
                                 </div>
 
                                 <div class="rounded-pill bkt-bg-red bkt-text-neutral-light">
@@ -112,7 +112,8 @@
                                             >
                                                 {{message.dataMonitoring.folderInfo.name}}
                                             </div>
-                                            <h5 v-if="message.type == 'monitoring'" class="bkt-message__text bkt-cursor-pointer"
+                                            <h5 v-if="message.type == 'monitoring'"
+                                                class="bkt-message__text bkt-cursor-pointer"
                                                 @click="navigate('/monitoring')"
                                             >
                                                 Появились новые лоты в мониторинге:
@@ -199,10 +200,16 @@
                 ],
                 selectedType: 'all',
                 type_loading: false,
+                signal: null,
+                controller: null,
             }
         },
         created() {
-            this.getData();
+            let page = 1;
+            if (sessionStorage.getItem('messages_page')) {
+                page = sessionStorage.getItem('messages_page')
+            }
+            this.getData(page);
         },
         computed: {
             items() {
@@ -218,22 +225,40 @@
                 return this.$store.getters.notifications_count;
             },
         },
-        mounted() {
-        },
         methods: {
             async getData(page = 1) {
-                await this.$store.dispatch('getNotifications', {page: page, type: this.selectedType});
+                this.controller = new AbortController();
+                this.signal = this.controller.signal;
+                let type = this.selectedType;
+                if (sessionStorage.getItem('messages_page_type')) {
+                    type = sessionStorage.getItem('messages_page_type');
+                    if(type != this.selectedType) {
+                        this.selectedType = type;
+                    }
+                }
+                sessionStorage.setItem('messages_page', page + '');
+                await this.$store.dispatch('getNotifications', {
+                    page: page,
+                    type: type,
+                    signal: this.signal
+                });
             },
             setType(type) {
-                if (!this.loading) {
-                    this.type_loading = true;
-                    this.selectedType = type;
+                // if (!this.loading) {
+                if (this.signal) {
+                    this.controller.abort();
+                }
+                this.type_loading = true;
+                this.selectedType = type;
+                sessionStorage.setItem('messages_page_type', type);
+                setTimeout(() => {
                     this.getData(1).then(resp => {
                         this.type_loading = false;
                     }).catch(resp => {
                         this.type_loading = false;
                     });
-                }
+                }, 50)
+                // }
             },
             navigate(path) {
                 this.$router.push(path);

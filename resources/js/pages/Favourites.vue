@@ -248,7 +248,7 @@
                     </bkt-collapse>
                 </div>
             </div>
-            <bkt-card-list :current_component="'BktCard'" :items="items" :loading="loading"
+            <bkt-card-list :current_component="'BktCard'" :items="items" :loading="loading" ref="card_list"
                            :pagination_data="pagination_data" @change-page="getData" @updateData="updateData"
             >
             </bkt-card-list>
@@ -368,6 +368,9 @@
                 this.params.page = page;
                 this.params.pathId = this.current_path;
                 sessionStorage.setItem('favourite'+this.current_path+'_page', page);
+                if(this.$refs.card_list) {
+                    this.$refs.card_list.scrollToElement();
+                }
                 await this.$store.dispatch('getFavourites', this.params).finally(() => {
                     this.loading = false;
                 });

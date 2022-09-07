@@ -33,6 +33,9 @@
                 <h6 class="bkt-card__title" :class="{'bkt-text-neutral-dark':!notifications.notificationsFromFavourite}">
                     Начало приёма заявок
                 </h6>
+                <bkt-checkbox label="не присылать" v-model="notifications.notificationsSettings.favouriteApplicationStart"
+                              :val="0" name="favouriteApplicationStart0" type="radio" @input="save"
+                              :disabled="!notifications.notificationsFromFavourite || loading"></bkt-checkbox>
                 <bkt-checkbox label="за 1 день" v-model="notifications.notificationsSettings.favouriteApplicationStart"
                               :val="1" name="favouriteApplicationStart1" type="radio" @input="save"
                               :disabled="!notifications.notificationsFromFavourite || loading"></bkt-checkbox>
@@ -48,6 +51,9 @@
                 <h6 class="bkt-card__title" :class="{'bkt-text-neutral-dark':!notifications.notificationsFromFavourite}">
                     Окончание приёма заявок
                 </h6>
+                <bkt-checkbox label="не присылать" v-model="notifications.notificationsSettings.favouriteApplicationEnd"
+                              :val="0" name="favouriteApplicationEnd1" type="radio" @input="save"
+                              :disabled="!notifications.notificationsFromFavourite || loading"></bkt-checkbox>
                 <bkt-checkbox label="за 1 день" v-model="notifications.notificationsSettings.favouriteApplicationEnd"
                               :val="1" name="favouriteApplicationEnd1" type="radio" @input="save"
                               :disabled="!notifications.notificationsFromFavourite || loading"></bkt-checkbox>
@@ -63,6 +69,9 @@
                 <h6 class="bkt-card__title" :class="{'bkt-text-neutral-dark':!notifications.notificationsFromFavourite}">
                     Начало проведение торгов
                 </h6>
+                <bkt-checkbox label="не присылать" v-model="notifications.notificationsSettings.favouriteEventStart"
+                              :val="0" name="favouriteEventStart1" type="radio" @input="save"
+                              :disabled="!notifications.notificationsFromFavourite || loading"></bkt-checkbox>
                 <bkt-checkbox label="за 1 день" v-model="notifications.notificationsSettings.favouriteEventStart"
                               :val="1" name="favouriteEventStart1" type="radio" @input="save"
                               :disabled="!notifications.notificationsFromFavourite || loading"></bkt-checkbox>
@@ -78,6 +87,9 @@
                 <h6 class="bkt-card__title" :class="{'bkt-text-neutral-dark':!notifications.notificationsFromFavourite}">
                     Окончание приёма заявок
                 </h6>
+                <bkt-checkbox label="не присылать" v-model="notifications.notificationsSettings.favouriteEventEnd"
+                              :val="0" name="favouriteEventEnd1" type="radio" @input="save"
+                              :disabled="!notifications.notificationsFromFavourite || loading"></bkt-checkbox>
                 <bkt-checkbox label="за 1 день" v-model="notifications.notificationsSettings.favouriteEventEnd"
                               :val="1" name="favouriteEventEnd1" type="radio" @input="save"
                               :disabled="!notifications.notificationsFromFavourite || loading"></bkt-checkbox>
@@ -93,6 +105,9 @@
                 <h6 class="bkt-card__title" :class="{'bkt-text-neutral-dark':!notifications.notificationsFromFavourite}">
                     Новый этап снижения цены
                 </h6>
+                <bkt-checkbox label="не присылать" v-model="notifications.notificationsSettings.favouritePriceReduction"
+                              :val="0" name="favouritePriceReduction1" type="radio" @input="save"
+                              :disabled="!notifications.notificationsFromFavourite || loading"></bkt-checkbox>
                 <bkt-checkbox label="за 1 день" v-model="notifications.notificationsSettings.favouritePriceReduction"
                               :val="1" name="favouritePriceReduction1" type="radio" @input="save"
                               :disabled="!notifications.notificationsFromFavourite || loading"></bkt-checkbox>

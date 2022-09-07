@@ -80,7 +80,7 @@ export default {
         },
         getNotifications({dispatch, commit}, payload) {
             commit('setNotificationsLoading', true);
-            return axios.get('/api/notifications/' + payload.type, {params: payload})
+            return axios.get('/api/notifications/' + payload.type, {params: payload, signal: payload.signal})
                 .then(resp => {
                     commit('setNotifications', resp.data);
                     let notificationIds = resp.data.data.filter(item => item.isSeen == false).map(item => item.id);

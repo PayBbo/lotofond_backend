@@ -81,7 +81,7 @@
                         <button class="bkt-button primary bkt-button_code" @click="sendCode('repeat')"
                                 :disabled="loading || code_loading"
                         >
-                            <span v-if="code_loading" class="spinner-border spinner-border-sm" role="status"></span>
+                            <span v-if="code_loading" class="spinner-border spinner-border-sm flex-shrink-0" role="status"></span>
                             Выслать повторно
                         </button>
                     </template>

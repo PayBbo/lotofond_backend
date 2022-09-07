@@ -11,8 +11,8 @@
                 :data-bs-toggle="action.dropdown_id && item[action.status] ? 'dropdown' : ''"
                 :disabled="in_process.indexOf(action.icon)>=0"
             >
-                <span v-if="in_process.indexOf(action.icon)>=0" style="margin-right: 12px;"
-                      class="spinner-border spinner-border-sm" role="status">
+                <span v-if="in_process.indexOf(action.icon)>=0"
+                      class="spinner-border spinner-border-sm flex-shrink-0" role="status">
                 </span>
 <!--                <template v-if="action.status_icon">-->
 <!--                    <bkt-icon v-show="in_process.indexOf(action.icon)<0 && item[action.status]"-->
@@ -40,7 +40,8 @@
 <!--                              :color="type==='menu' && !item[action.status] ? action.color : 'white'">-->
 <!--                    </bkt-icon>-->
 
-                <span v-if="type==='menu'">{{item[action.status] && action.status_icon ? action.status_label : action.label}}
+                <span v-if="type==='menu'">
+                    {{item[action.status] && action.status_icon ? action.status_label : action.label}}
                 </span>
             </button>
             <div v-show="action.dropdown_id && item[action.status]"
@@ -248,7 +249,7 @@
             changeStatus(payload) {
                 if (this.isLoggedIn) {
                     this.toggleProcess(payload.icon);
-                    this.$store.dispatch('changeTradeLotStatus', {lot_id: this.item.id, type: payload.type})
+                    this.$store.dispatch('changeTradeLotStatus', {lotId: this.item.id, type: payload.type})
                         .then(resp => {
                             this.$store.commit('saveTradeProperty', {
                                 id: this.item.id,

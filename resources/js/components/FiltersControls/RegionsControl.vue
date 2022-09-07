@@ -49,7 +49,7 @@
         </div>
         <div class="d-lg-none bkt-wrapper-column bkt-gap-small" v-if="!loading  && selectedRegion">
             <bkt-collapse :id="'region-collapse-'+index" v-for="(group, index) in regionGroups" :key="index"
-                          main_class="bkt-collapse_check"
+                          main_class="bkt-collapse_check" :collapse_header="false"
                           collapse_button_class="bkt-bg-white"
             >
                 <template #title>

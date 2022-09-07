@@ -105,12 +105,12 @@
                                 {{item.inn ? item.inn : '-'}}
                             </td>
                         </tr>
-                        <tr v-if="item[item_type] && item[item_type].sroAU">
+                        <tr v-if="item[item_type] && item[item_type].sro">
                             <td>
                                 СРО
                             </td>
                             <td>
-                                {{item[item_type].sroAU ? item[item_type].sroAU : '-'}}
+                                {{item[item_type].sro ? item[item_type].sro : '-'}}
                             </td>
                         </tr>
                         <tr v-if="item_type == 'arbitrationManager'">

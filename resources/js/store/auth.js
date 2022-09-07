@@ -73,6 +73,7 @@ export default {
             POST /account/credentials/code        Запрос кода подтверждения для смены почты/телефона
             POST /account/credentials/code/verify Отправка пользователем кода подтверждения для подтвержденыя изменения почты/телефона
             POST /account/notifications/settings  изменение настроек уведомлений в профиле пользователя
+            DELETE /account/change/credentials/delete/{changeCredentialsProcessId} Отмена изменения почты/телефона аккаунта
             POST /account/apple/callback          Получение данных после авторизации через соц.сеть
             POST /account/socials/link            Привязка социальной сети к аккаунту
 
@@ -202,6 +203,9 @@ export default {
         },
         async saveNotificationsSettings({commit}, payload) {
             return await axios.post('/api/account/notifications/settings', payload)
+        },
+        async deleteCredentialsProcess({commit}, payload) {
+            return await axios.delete('/api/account/change/credentials/delete/'+payload)
         },
     },
     getters: {

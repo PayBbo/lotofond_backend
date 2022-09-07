@@ -51,15 +51,20 @@ export default {
             if(payload.state_key) {
                 schema = rootState[payload.module_key][payload.state_key]
             }
-            let pList = payload.key.split('.');
-            let len = pList.length;
-            for (let i = 0; i < len - 1; i++) {
-                let elem = pList[i];
-                if (!schema[elem]) schema[elem] = {};
-                schema = schema[elem];
+            if(schema) {
+                let pList = payload.key.split('.');
+                let len = pList.length;
+                for (let i = 0; i < len - 1; i++) {
+                    let elem = pList[i];
+                    if (!schema[elem]) schema[elem] = {};
+                    schema = schema[elem];
+                }
+                // schema[pList[len-1]] = payload.value;
+                // if (pList[len - 1]) {
+                    Vue.set(schema, pList[len - 1], payload.value);
+                // }
             }
-            // schema[pList[len-1]] = payload.value;
-            Vue.set(schema, pList[len - 1], payload.value);
+
         },
     },
 

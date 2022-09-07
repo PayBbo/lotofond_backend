@@ -165,12 +165,12 @@
                                               @input="getData(1)"
                                 >
                                 </bkt-checkbox>
-<!--                                <bkt-checkbox v-model="filters_other.hasAnswer"-->
-<!--                                              label="получен ответ организатора"-->
-<!--                                              name="hasAnswer"-->
-<!--                                              @input="getData(1)"-->
-<!--                                >-->
-<!--                                </bkt-checkbox>-->
+                                <!--                                <bkt-checkbox v-model="filters_other.hasAnswer"-->
+                                <!--                                              label="получен ответ организатора"-->
+                                <!--                                              name="hasAnswer"-->
+                                <!--                                              @input="getData(1)"-->
+                                <!--                                >-->
+                                <!--                                </bkt-checkbox>-->
                                 <bkt-checkbox v-model="filters_other.isCompleted"
                                               label="завершённые"
                                               name="isCompleted"
@@ -221,12 +221,12 @@
                         </bkt-checkbox>
                     </div>
                     <div class="bkt-check__list">
-<!--                        <bkt-checkbox v-model="filters_other.hasAnswer"-->
-<!--                                      label="получен ответ организатора"-->
-<!--                                      name="hasAnswer"-->
-<!--                                      @input="getData(1)"-->
-<!--                        >-->
-<!--                        </bkt-checkbox>-->
+                        <!--                        <bkt-checkbox v-model="filters_other.hasAnswer"-->
+                        <!--                                      label="получен ответ организатора"-->
+                        <!--                                      name="hasAnswer"-->
+                        <!--                                      @input="getData(1)"-->
+                        <!--                        >-->
+                        <!--                        </bkt-checkbox>-->
                         <bkt-checkbox v-model="filters_other.isCompleted"
                                       label="завершённые"
                                       name="isCompleted"
@@ -269,19 +269,6 @@
             BktParamsModal, BktRegionModal, BktCategoryModal, BktSelect, BktFilterCard,
             MiniTradeCard
         },
-        created() {
-            this.$store.dispatch('getLotsStatistic');
-        },
-        mounted() {
-            if(this.items.length==0) {
-                let page = 1;
-                if(sessionStorage.getItem('main_page'))
-                {
-                    page = sessionStorage.getItem('main_page')
-                }
-                this.getData(page);
-            }
-        },
         data() {
             return {
                 in_process: [],
@@ -299,8 +286,22 @@
                     {title: 'Дате начала приема заявок', value: "applicationStart"},
                     {title: 'Дате окончания приема заявок', value: "applicationEnd"},
                 ],
-                searchString: ''
+                searchString: '',
+                signal: null,
+                controller: null,
             };
+        },
+        created() {
+            this.$store.dispatch('getLotsStatistic');
+        },
+        mounted() {
+            if (this.items.length == 0) {
+                let page = 1;
+                if (sessionStorage.getItem('main_page')) {
+                    page = sessionStorage.getItem('main_page')
+                }
+                this.getData(page);
+            }
         },
         computed: {
             filters() {
@@ -351,8 +352,23 @@
         },
         methods: {
             async getData(page = 1) {
-                sessionStorage.setItem('main_page', page+'');
-                await this.$store.dispatch('getFilteredTrades', {page: page, filters: this.filters});
+               this.newData();
+               await setTimeout(() => {
+                   this.controller = new AbortController();
+                   this.signal = this.controller.signal;
+                   sessionStorage.setItem('main_page', page + '');
+                   this.$store.dispatch('getFilteredTrades', {
+                       page: page,
+                       filters: this.filters,
+                       signal: this.signal
+                   });
+               }, 100)
+
+            },
+            newData() {
+                if (this.signal) {
+                    this.controller.abort();
+                }
             },
             toggleDirection() {
                 if (this.filters_sort.direction == 'asc') {
@@ -363,12 +379,12 @@
                 this.getData(1)
             },
             selectSearchLot(lot) {
-                this.$router.push('/lot/'+lot.id)
+                this.$router.push('/lot/' + lot.id)
             },
             changeStatus(payload) {
-                if(payload.key ==='isHide') {
+                if (payload.key === 'isHide') {
                     let page = null;
-                    if(payload.page) {
+                    if (payload.page) {
                         page = payload.page
                     }
                     this.getData(page)

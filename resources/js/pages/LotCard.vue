@@ -32,11 +32,12 @@
         <div class="row bkt-lot__cards w-100 p-0">
             <div class="col-12 col-lg-7 order-2 order-lg-1 ps-lg-0">
                 <div class="bkt-wrapper-column bkt-lot__cards">
-                    <div class="bkt-card bkt-lot__card">
+                    <div class="bkt-card bkt-lot__card" v-if="!loading">
                         <div class="bkt-card__body">
                             <div class="d-none d-lg-block">
                                 <h3 class="bkt-card__title bkt-text-truncate">
-                                    {{item && item.description ? item.description:'Некоторое название торгов'}}
+                                    <skeleton :type_name="'title'">{{item && item.description ? short_description:''}}
+                                    </skeleton>
                                 </h3>
                             </div>
                             <ul class="bkt-contents" v-if="isLoggedIn">
@@ -126,7 +127,7 @@
                                         </div>
                                     </li>
                                     <template v-if="subject.extracts.length>0" v-for="extract in subject.extracts">
-                                        <li v-if="extract.value && extract.value>0 && extract.value != 0">
+                                        <li v-if="extract.value && extract.value != 0">
                                             <div class="bkt-contents__heading">
                                                 <span
                                                     class="bkt-contents__heading text-lowercase">{{extract.title}}</span>
@@ -137,16 +138,26 @@
                                     </template>
                                 </template>
                             </ul>
-                            <h5 class="bkt-card__text">
-                                {{item ? item.description : ''}}
-                            </h5>
+                            <div>
+                                <h5 class="bkt-card__text">
+                                    {{read_more ? item.description : short_description}}
+                                </h5>
+                                <button class="bkt-button bkt-text-primary float-end px-0 text-uppercase"
+                                        @click="read_more = !read_more">
+                                    {{read_more ? 'Скрыть' : 'Подробнее'}}
+                                    <bkt-icon name="ArrowDown" color="primary" height="14px"
+                                              :class="read_more ? 'bkt-rotate-180' : ''"></bkt-icon>
+                                </button>
+                            </div>
                             <div class="bkt-row outline bkt-wrapper-between align-items-center"
                                  v-if="cadastralData && cadastralData.cadastralDataArea">
                                 <div class="bkt-row__feature">
                                     <h4 class="bkt-row__feature-title">{{cadastralData.cadastralDataArea | priceFormat}}
                                         {{cadastralData.cadastralDataAreaMeasure}}
                                     </h4>
-                                    <h6 class="bkt-row__feature-subtitle">земельный участок</h6>
+                                    <h6 class="bkt-row__feature-subtitle text-lowercase">
+                                        {{$t('trades.tradeSubjectType.'+cadastralData.cadastralDataAreaType)}}
+                                    </h6>
                                 </div>
                                 <span class="bkt-row__icon">
                             <bkt-icon :name="'Tree'"></bkt-icon>
@@ -195,6 +206,37 @@
                             </ShareNetwork>
                         </div>
                     </div>
+                    <div class="bkt-card bkt-lot__card" v-if="loading">
+                        <div class="bkt-card__body">
+                            <div class="d-none d-lg-block">
+                                <h3 class="bkt-card__title bkt-text-truncate">
+                                    <skeleton :type_name="'title'" :count="2"></skeleton>
+                                </h3>
+                            </div>
+                            <ul class="bkt-contents">
+                                <li v-for="(n,index) in 7">
+                                    <skeleton :type_name="'answer'" skeleton_class="bkt-contents__answer ms-0"
+                                              width="80px"></skeleton>
+                                    <div class="bkt-contents__answer">
+                                        <span><skeleton :type_name="'answer'"></skeleton></span>
+                                    </div>
+                                </li>
+                            </ul>
+                            <h5 class="bkt-card__text">
+                                <skeleton :type_name="'text'" :count="5"></skeleton>
+                            </h5>
+                            <div class="bkt-row outline bkt-wrapper-between align-items-center" v-for="(n,index) in 3">
+                                <div class="bkt-row__feature">
+                                    <skeleton :type_name="'text'" width="90px"></skeleton>
+                                    <skeleton :type_name="'text'" width="55px" height="8px"></skeleton>
+                                </div>
+                                <skeleton :type_name="'item'" width="25px" height="25px" circle></skeleton>
+                            </div>
+                        </div>
+                        <div class="bkt-card__footer d-flex flex-wrap bkt-gap">
+                            <skeleton width="120px" height="38px" :count="7"></skeleton>
+                        </div>
+                    </div>
                     <div v-if="!isLoggedIn" class="bkt-shadow-card bkt-shadow-card_primary">
                         <div class="bkt-shadow-card__inner bkt-gap-large">
                             <h4 class="bkt-shadow-card__title bkt-text-white">
@@ -216,7 +258,7 @@
                 </div>
             </div>
             <div class="col-12 col-lg-5 order-1 order-lg-2 pe-lg-0">
-                <div class="bkt-card bkt-lot__card bkt-lot-card bkt-lot__card">
+                <div class="bkt-card bkt-lot__card bkt-lot-card bkt-lot__card" v-if="!loading">
                     <div class="bkt-card__body">
                         <div class="bkt-wrapper-between bkt-card__head bkt-nowrap d-flex d-lg-none">
                             <h5 class="bkt-card__title bkt-text-truncate">
@@ -315,9 +357,47 @@
                         </div>
                     </div>
                 </div>
+                <div class="bkt-card bkt-lot__card bkt-lot-card bkt-lot__card" v-if="loading">
+                    <div class="bkt-card__body">
+                        <div class="bkt-wrapper-between bkt-card__head bkt-nowrap bkt-gap d-flex d-lg-none">
+                            <h5 class="bkt-card__title bkt-text-truncate w-100">
+                                <skeleton :type_name="'title'" skeleton_class="mb-0"></skeleton>
+                            </h5>
+                            <div class="dropdown d-block d-lg-none">
+                                <skeleton type_name="item" skeleton_class="bkt-button bkt-card-menu-button"></skeleton>
+                            </div>
+                        </div>
+                        <div class="bkt-card__image-wrapper">
+                            <skeleton type_name="item" skeleton_class="bkt-card__image-category"></skeleton>
+                            <div class="bkt-wrapper-between bkt-card-ecp-wrapper">
+                                <skeleton type_name="item" skeleton_class="bkt-button bkt-card-ecp w-100"
+                                          height="44px"></skeleton>
+                            </div>
+                        </div>
+                        <skeleton type_name="item" skeleton_class="bkt-card-price bkt-button w-100"></skeleton>
+                        <div class="bkt-card-infographics" style="gap: 10px;">
+                            <div class="bkt-card__row outline bkt-wrapper-between align-items-center">
+                                <h5 class="bkt-card__subtitle">
+                                    <skeleton type_name="text"></skeleton>
+                                </h5>
+                                <h4 class="bkt-card__title bkt-text-primary">
+                                    <skeleton type_name="text"></skeleton>
+                                </h4>
+                            </div>
+                            <div class="bkt-card__row outline bkt-wrapper-between align-items-center">
+                                <h5 class="bkt-card__subtitle">
+                                    <skeleton type_name="text"></skeleton>
+                                </h5>
+                                <h4 class="bkt-card__title bkt-text-red">
+                                    <skeleton type_name="text"></skeleton>
+                                </h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
             <div v-if="isLoggedIn" class="col-12 col-lg-12 order-3 px-lg-0">
-                <div class="bkt-card bkt-lot__card bkt-lot-tasks">
+                <div class="bkt-card bkt-lot__card bkt-lot-tasks" v-if="!loading">
                     <div class="bkt-card__header bkt-wrapper-between bkt-wrapper-up-md-nowrap m-0 bkt-gap-large">
                         <div class="bkt-gap bkt-wrapper-column bkt-wrapper-down-md">
                             <div class="bkt-lot__card-period bkt-wrapper" v-if="item.trade && item.trade.applicationTime
@@ -435,37 +515,92 @@
                         </div>
                     </div>
                 </div>
+                <div class="bkt-card bkt-lot__card bkt-lot-tasks" v-if="loading">
+                    <div class="bkt-card__header bkt-wrapper-between bkt-wrapper-up-md-nowrap m-0 bkt-gap-large">
+                        <div class="bkt-gap bkt-wrapper-column bkt-wrapper-down-md">
+                            <div class="bkt-lot__card-period bkt-wrapper">
+                                <skeleton skeleton_class="bkt-card__category"></skeleton>
+                                <h5 class="bkt-card__text">
+                                    <skeleton type_name="text" width="120px" height="14px"></skeleton>
+                                    <skeleton type_name="text" width="55px" height="10px"></skeleton>
+                                    <skeleton type_name="text" width="55px" height="10px"></skeleton>
+                                </h5>
+                            </div>
+                            <div class="bkt-lot__card-period bkt-wrapper">
+                                <skeleton skeleton_class="bkt-card__category"></skeleton>
+                                <h5 class="bkt-card__text">
+                                    <skeleton type_name="text" width="120px" height="14px"></skeleton>
+                                    <skeleton type_name="text" width="55px" height="10px"></skeleton>
+                                    <skeleton type_name="text" width="55px" height="10px"></skeleton>
+                                </h5>
+                            </div>
+                        </div>
+                        <div class="bkt-platform-button bkt-wrapper-between bkt-nowrap">
+                            <div>
+                                <skeleton type_name="text" width="100px" height="14px"></skeleton>
+                                <skeleton type_name="text" width="55px" height="10px" skeleton_class="mb-0"></skeleton>
+                            </div>
+                            <span>
+                                 <bkt-icon :name="'ArrowDown'" :color="'neutral'" height="10px" width="10px"></bkt-icon>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="bkt-card__body">
+                        <div class="bkt-wrapper-between bkt-nowrap">
+                            <div class="bkt-wrapper bkt-nowrap m-0">
+                                <skeleton skeleton_class="bkt-card__category"></skeleton>
+                                <skeleton type_name="text" width="150px" height="14px"></skeleton>
+                            </div>
+                            <skeleton skeleton_class="bkt-button-icon"></skeleton>
+                        </div>
+                        <div class="bkt-note__wrapper bkt-wrapper-down-sm-column">
+                            <div class="bkt-note w-100 bkt-row outline bkt-wrapper-between bkt-gap-medium">
+                                <skeleton type_name="text" skeleton_class="mb-0" height="12px"></skeleton>
+                                <div class="bkt-note__date-wrapper">
+                                    <skeleton skeleton_class="bkt-card__category"></skeleton>
+                                    <skeleton type_name="text" skeleton_class="mb-0" height="14px"
+                                              width="100px"></skeleton>
+                                </div>
+                            </div>
+                            <div class="bkt-wrapper-between bkt-nowrap bkt-w-down-sm-100 bkt-gap">
+                                <skeleton width="22px" height="22px"></skeleton>
+                                <skeleton width="22px" height="22px"></skeleton>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <!--                        <div class="col-12 col-lg-12 order-3">-->
-            <!--                            <div class="bkt-card bkt-card__body bkt-lot-actual">-->
-            <!--                                <div class="bkt-card__header bkt-wrapper-between">-->
-            <!--                                    <h3 class="bkt-card__title">Актуальное по лоту</h3>-->
-            <!--                                    <button class="bkt-button" style="gap:8px;">-->
-            <!--                                        Смотреть отчёт-->
-            <!--                                        <bkt-icon :name="'Clip'" :color="'primary'" class="bkt-button__icon"></bkt-icon>-->
-            <!--                                    </button>-->
-            <!--                                </div>-->
-            <!--            &lt;!&ndash;                    <div class="bkt-card outline bkt-wrapper-between">&ndash;&gt;-->
-            <!--            &lt;!&ndash;                        <h5 class=""><span class="bkt-text-green">Идёт приём заявок</span> (до 19.04.2022)</h5>&ndash;&gt;-->
-            <!--            &lt;!&ndash;                        <h5 class="bkt-text-neutral-dark">1 декабря 2022 в 09:00</h5>&ndash;&gt;-->
-            <!--            &lt;!&ndash;                    </div>&ndash;&gt;-->
-            <!--            &lt;!&ndash;                    <div class="bkt-card outline bkt-wrapper-between">&ndash;&gt;-->
-            <!--            &lt;!&ndash;                        <h5 class="bkt-text-red">Приём заявок заканчивается через 2 дня!</h5>&ndash;&gt;-->
-            <!--            &lt;!&ndash;                        <h5 class="bkt-text-neutral-dark">1 декабря 2022 в 09:00</h5>&ndash;&gt;-->
-            <!--            &lt;!&ndash;                    </div>&ndash;&gt;-->
-            <!--            &lt;!&ndash;                    <div class="bkt-card outline bkt-wrapper-between">&ndash;&gt;-->
-            <!--            &lt;!&ndash;                        <h5 class=""><span class="bkt-text-green">Проведение торгов с 21.04.2022</span> (до 19.04.2022)&ndash;&gt;-->
-            <!--            &lt;!&ndash;                        </h5>&ndash;&gt;-->
-            <!--            &lt;!&ndash;                        <h5 class="bkt-text-neutral-dark">1 декабря 2022 в 09:00</h5>&ndash;&gt;-->
-            <!--            &lt;!&ndash;                    </div>&ndash;&gt;-->
-            <!--                                <div class="bkt-card__footer bkt-wrapper-between">-->
-            <!--                                    <button class="bkt-button-icon bkt-bg-body">-->
-            <!--                                        <bkt-icon class="bkt-button__icon" name="ArrowDown"></bkt-icon>-->
-            <!--                                    </button>-->
-            <!--                                    <button class="bkt-button primary">Написать организатору</button>-->
-            <!--                                </div>-->
-            <!--                            </div>-->
-            <!--                        </div>-->
+            <div v-if="isLoggedIn" class="col-12 col-lg-12 order-3 px-lg-0">
+                <bkt-collapse title="Актуальное по лоту" :count="notifications_pagination.total"
+                              id="collapseRelatedLots" :loading="notifications_loading"
+                              :disabled="notifications.length==0&&!notifications_loading"
+                              class="bkt-lot__collapse"
+                >
+                    <template #collapse v-if="notifications.length>0">
+                        <div class="row w-100 m-auto bkt-gap">
+                            <div class="col-12 px-0">
+                                <div class="bkt-row outline bkt-wrapper-between bkt-nowrap bkt-gap bkt-wrapper-down-sm-column align-items-start"
+                                     v-for="notify in notifications"
+                                >
+                                    <h5 v-if="notify.type == 'favourite'" class="">
+                                        {{notify.dataFavourite ? notify.dataFavourite.detail : ''}}
+                                    </h5>
+                                    <h5 class="bkt-text-neutral-dark">
+                                        {{ notify.date | moment('D MMMM YYYY')}} в {{ notify.date | moment('HH:mm')}}
+                                    </h5>
+                                </div>
+                            </div>
+                            <div class="col-12 px-0" v-if="notifications_pagination">
+                                <bkt-pagination
+                                    :limit="1"
+                                    :data="notifications_pagination"
+                                    @change-page="getLotNotifications"
+                                ></bkt-pagination>
+                            </div>
+                        </div>
+                    </template>
+                </bkt-collapse>
+            </div>
             <!--                        <div class="col-12 col-lg-5 order-3">-->
             <!--                            <div class="bkt-card bkt-card__body bkt-lot-templates">-->
             <!--                                <div class="bkt-card__header"><h3 class="bkt-card__title">Шаблоны запросов</h3></div>-->
@@ -767,16 +902,16 @@
             <!--                                <button class="bkt-button primary">Добавить набор</button>-->
             <!--                            </div>-->
             <!--                        </div>-->
-            <div v-if="isLoggedIn" class="col-12 col-lg-6 order-3">
+            <div v-if="isLoggedIn" class="col-12 col-lg-6 order-3 ps-lg-0">
                 <div class="bkt-card bkt-card__body bkt-lot-my-files bkt-lot-price-reduction">
                     <div class="bkt-card__header">
                         <h3 class="bkt-card__title">Изменение цены</h3>
                     </div>
                     <div class="bkt-card__inner bkt-wrapper-column bkt-gap">
                         <template v-if="item.priceReduction && item.priceReduction.length>0">
-                            <div class="bkt-card__row outline bkt-wrapper-between bkt-nowrap"
+                            <div class="bkt-card__row outline bkt-wrapper-between bkt-nowrap align-items-center"
                                  v-for="reduction in item.priceReduction">
-                                <h5>{{reduction.time | moment('DD.MM.YYYY HH:mm')}}</h5>
+                                <h6 class="bkt-text-neutral-dark">{{reduction.time | moment('DD.MM.YYYY HH:mm')}}</h6>
                                 <h5>{{reduction.price | priceFormat}}</h5>
                                 <!--                            :class="{'bkt-text-green': reduction.price > item.startPrice,
                                                             'bkt-text-primary': reduction.price == item.startPrice,
@@ -794,7 +929,7 @@
                     </div>
                 </div>
             </div>
-            <div v-if="isLoggedIn" class="col-12 col-lg-6 order-3">
+            <div v-if="isLoggedIn" class="col-12 col-lg-6 order-3 pe-lg-0">
                 <div class="bkt-card bkt-card__body bkt-lot-my-files">
                     <div class="bkt-card__header">
                         <h3 class="bkt-card__title">Мои файлы</h3>
@@ -878,8 +1013,51 @@
                             Добавить файл
                         </template>
                     </bkt-upload-file>
-                    <!--                    <button class="bkt-button green">Добавить файл</button>-->
                 </div>
+            </div>
+            <div v-if="item && isLoggedIn" class="col-12 col-lg-12 order-3 px-lg-0">
+                <bkt-collapse title="Связанные лоты" :count="related_lots_pagination.total"
+                              id="collapseRelatedLots" :loading="related_lots_loading"
+                              :disabled="related_lots.length==0&&!related_lots_loading"
+                              class="bkt-lot__collapse"
+                >
+                    <template #collapse v-if="related_lots.length>0">
+                        <div class="row w-100 m-auto bkt-gap">
+                            <div class="col-12 p-0 d-none d-md-block">
+                                <div
+                                    style="padding-bottom: 10px"
+                                    class="row w-100 mx-auto align-items-center justify-content-center"
+                                >
+                                    <div class="col-2 pl-0">
+                                        <h6 class="bkt-text-neutral-dark">фото</h6>
+                                    </div>
+                                    <div class="col-3">
+                                        <h6 class="bkt-text-neutral-dark">описание лота</h6>
+                                    </div>
+                                    <div class="col-2">
+                                        <h6 class="bkt-text-neutral-dark">цена</h6>
+                                    </div>
+                                    <div class="col-2">
+                                        <h6 class="bkt-text-neutral-dark">даты торгов</h6>
+                                    </div>
+                                    <div class="col-3">
+                                        <!--                                        <h6 class="bkt-text-neutral-dark">ЭТП и организатор</h6>-->
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 px-0" v-for="related_lot in related_lots">
+                                <mini-trade-card :item="related_lot" @navigate="getMiniLot"></mini-trade-card>
+                            </div>
+                            <div class="col-12 px-0" v-if="related_lots_pagination">
+                                <bkt-pagination
+                                    :limit="1"
+                                    :data="related_lots_pagination"
+                                    @change-page="getRelatedLots"
+                                ></bkt-pagination>
+                            </div>
+                        </div>
+                    </template>
+                </bkt-collapse>
             </div>
             <div v-if="item.trade && item.trade.debtor && isLoggedIn" class="col-12 col-lg-12 order-3 px-lg-0">
                 <div class="bkt-card bkt-card__body bkt-lot__card">
@@ -1133,12 +1311,12 @@
                             <div class="bkt-contents__answer"><span>{{item.trade.arbitrationManager.inn}}</span>
                             </div>
                         </li>
-                        <li v-if="item.trade.arbitrationManager.sroAU">
+                        <li v-if="item.trade.arbitrationManager.sro">
                             <div class="bkt-contents__heading">
                                 <span class="bkt-contents__heading">СРО</span>
                             </div>
                             <div class="bkt-contents__answer" style="font-size: 12px; font-weight:600">
-                                <span>{{item.trade.arbitrationManager.sroAU}}</span>
+                                <span>{{item.trade.arbitrationManager.sro}}</span>
                             </div>
                         </li>
                     </ul>
@@ -1253,6 +1431,7 @@
     import NoteModal from "../components/SharedModals/NoteModal";
     import BktApplicationModal from "../components/SharedModals/ApplicationModal";
     import AddMarkModal from "./LotCard/AddMarkModal";
+    import Skeleton from "../components/Skeleton";
 
     export default {
         name: "LotCard",
@@ -1270,7 +1449,8 @@
             BktUploadFile,
             'bkt-move-favourite-modal': MoveFavouriteModal,
             'bkt-add-mark-modal': AddMarkModal,
-            'bkt-note-modal': NoteModal, BktApplicationModal
+            'bkt-note-modal': NoteModal, BktApplicationModal,
+            Skeleton
         },
         data() {
             return {
@@ -1289,6 +1469,12 @@
                 debtor_completed_lots: [],
                 debtor_completed_lots_loading: false,
                 debtor_completed_lots_pagination: {},
+                related_lots: [],
+                related_lots_loading: false,
+                related_lots_pagination: {},
+                notifications: [],
+                notifications_loading: false,
+                notifications_pagination: {},
                 marks: [],
                 marks_in_process: [],
                 sharing: {
@@ -1315,7 +1501,8 @@
                     {network: 'whatsapp', name: 'WhatsApp', color: '#25d366'},
                     // { network: 'xing', name: 'Xing', icon: 'fab fah fa-lg fa-xing', color: '#026466' },
                 ],
-                short_description: ''
+                short_description: '',
+                read_more: false,
             };
         },
         computed: {
@@ -1330,8 +1517,19 @@
             },
             cadastralData() {
                 if (this.item.descriptionExtracts && this.item.descriptionExtracts.length > 0) {
-                    if (this.item.descriptionExtracts[0].extracts.length > 0) {
-                        let extracts = this.item.descriptionExtracts[0].extracts;
+                    let tmp = this.item.descriptionExtracts.filter(el => {
+                        if (el.extracts.length > 0) {
+                            let index_price = el.extracts.findIndex(item => item.type == 'cadastralDataPrice' && item.value && item.value != 0);
+                            let index_area = el.extracts.findIndex(item => item.type == 'cadastralDataArea' && item.value && item.value != 0)
+                            if (index_price >= 0 && index_area >= 0) {
+                                return true
+                            }
+                        }
+                        return false
+                    })
+
+                    if (tmp.length > 0 && tmp[0].extracts.length > 0) {
+                        let extracts = tmp[0].extracts;
                         let cadastralData = {};
                         let index = extracts.findIndex(item => item.type == 'cadastralDataPrice')
                         if (index >= 0) {
@@ -1339,12 +1537,15 @@
                         }
                         index = extracts.findIndex(item => item.type == 'cadastralDataArea')
                         if (index >= 0) {
+                            cadastralData.cadastralDataAreaType = tmp[0].type;
                             cadastralData.cadastralDataArea = extracts[index].value;
                             if (extracts[index].value <= 100) {
                                 cadastralData.cadastralDataAreaMeasure = 'кв. м.';
                             } else if (extracts[index].value > 100 && extracts[index].value <= 10000) {
-                                cadastralData.cadastralDataAreaMeasure = 'а';
+                                cadastralData.cadastralDataArea = extracts[index].value / 100;
+                                cadastralData.cadastralDataAreaMeasure = 'сотки';
                             } else {
+                                cadastralData.cadastralDataArea = extracts[index].value / 10000;
                                 cadastralData.cadastralDataAreaMeasure = 'га';
                             }
                         }
@@ -1369,6 +1570,7 @@
                 if (oldVal == false && newVal == true) {
                     this.getLot();
                     this.getLotFiles();
+                    this.getLotNotifications();
                     // this.getLotMarks();
                     this.makeWatched();
                 }
@@ -1378,6 +1580,7 @@
             this.getLot();
             if (this.isLoggedIn) {
                 this.getLotFiles();
+                this.getLotNotifications();
                 // this.getLotMarks();
                 this.makeWatched();
             }
@@ -1401,6 +1604,7 @@
                         this.short_description = resp.data.description.slice(0, 100) + '...';
                         this.$store.commit('setSelectedLot', resp.data);
                         this.loading = false;
+                        this.getRelatedLots();
                         this.getDebtorActiveLots();
                         this.getDebtorCompletedLots();
                     })
@@ -1420,10 +1624,15 @@
                             let result = str.substring(n + 1);
                             this.files.push({title: result, url: item})
                         })
-                        resp.data.userFiles.forEach(item => {
+                        resp.data.allUserFiles.forEach(item => {
                             let str = item;
                             let n = item.lastIndexOf('/');
-                            item.title = str.substring(n + 1);
+                            let title = str.substring(n + 1);
+                            item.title = title;
+                            if (!title) {
+                                item.title = 'Файл №' + item.id
+                            }
+
                             this.user_files.push(item)
                         })
                         // this.user_files = resp.data.userFiles;
@@ -1482,6 +1691,42 @@
                         this.debtor_completed_lots_loading = false;
                     })
             },
+            async getRelatedLots(page = 1) {
+                this.related_lots_loading = true;
+                await this.$store.dispatch('getTradeLots', {
+                    auctionId: this.item.trade.id,
+                    page: page
+                })
+                    .then(resp => {
+                        if (resp.data.data) {
+                            this.related_lots = resp.data.data;
+                        } else {
+                            this.related_lots = resp.data;
+                        }
+                        if (resp.data.pagination) {
+                            this.related_lots_pagination = resp.data.pagination;
+                        }
+                        this.related_lots_loading = false;
+                    }).catch(error => {
+                        this.related_lots_loading = false;
+                    })
+            },
+            async getLotNotifications(page = 1) {
+                this.notifications_loading = true;
+                this.$store.dispatch('getLotNotifications', {id:this.$route.params.id, page: page}).then(resp => {
+                    if (resp.data.data) {
+                        this.notifications = resp.data.data;
+                    } else {
+                        this.notifications = resp.data;
+                    }
+                    if (resp.data.pagination) {
+                        this.notifications_pagination = resp.data.pagination;
+                    }
+                    this.notifications_loading = false;
+                }).catch(error => {
+                    this.notifications_loading = false;
+                });
+            },
             async getLotMarks() {
                 this.$store.dispatch('getLotMarks', this.$route.params.id).then(resp => {
                     this.marks = resp.data;
@@ -1493,6 +1738,7 @@
                 this.getLot();
                 if (this.isLoggedIn) {
                     this.getLotFiles();
+                    this.getLotNotifications();
                     // this.getLotMarks();
                     this.makeWatched();
                 }
@@ -1586,7 +1832,7 @@
                 this.$store.dispatch('addLotFile', formData)
                     .then(resp => {
                         // this.user_files = resp.data.userFiles;
-                        resp.data.userFiles.forEach(item => {
+                        resp.data.allUserFiles.forEach(item => {
                             if (this.user_files.findIndex(file => file.id == item.id) < 0) {
                                 let str = item;
                                 let n = item.lastIndexOf('/');

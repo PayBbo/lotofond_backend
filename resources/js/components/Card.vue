@@ -378,7 +378,9 @@
                                     {{cadastralData.cadastralDataArea | priceFormat}}
                                     {{cadastralData.cadastralDataAreaMeasure}}
                                 </h4>
-                                <h6 class="bkt-card__subtitle">земельный участок</h6>
+                                <h6 class="bkt-card__subtitle text-lowercase">
+                                    {{$t('trades.tradeSubjectType.'+cadastralData.cadastralDataAreaType)}}
+                                </h6>
                             </div>
                             <span class="bkt-card__icon">
                             <bkt-icon :name="'Tree'"></bkt-icon>
@@ -446,8 +448,19 @@
         computed: {
             cadastralData() {
                 if (this.item.descriptionExtracts && this.item.descriptionExtracts.length > 0) {
-                    if (this.item.descriptionExtracts[0].extracts.length > 0) {
-                        let extracts = this.item.descriptionExtracts[0].extracts;
+                    let tmp = this.item.descriptionExtracts.filter(el => {
+                        if(el.extracts.length > 0) {
+                            let index_price = el.extracts.findIndex(item => item.type == 'cadastralDataPrice' && item.value && item.value != 0);
+                            let index_area = el.extracts.findIndex(item => item.type == 'cadastralDataArea' && item.value && item.value != 0)
+                            if (index_price >= 0 && index_area>=0) {
+                                return true
+                            }
+                        }
+                        return false
+                    })
+
+                    if (tmp.length > 0 && tmp[0].extracts.length > 0) {
+                        let extracts = tmp[0].extracts;
                         let cadastralData = {};
                         let index = extracts.findIndex(item => item.type == 'cadastralDataPrice')
                         if (index >= 0) {
@@ -455,14 +468,15 @@
                         }
                         index = extracts.findIndex(item => item.type == 'cadastralDataArea')
                         if (index >= 0) {
+                            cadastralData.cadastralDataAreaType = tmp[0].type;
                             cadastralData.cadastralDataArea = extracts[index].value;
-                            if(extracts[index].value <=100) {
+                            if (extracts[index].value <= 100) {
                                 cadastralData.cadastralDataAreaMeasure = 'кв. м.';
-                            }
-                            else if(extracts[index].value > 100 && extracts[index].value<= 10000) {
-                                cadastralData.cadastralDataAreaMeasure = 'а';
-                            }
-                            else {
+                            } else if (extracts[index].value > 100 && extracts[index].value <= 10000) {
+                                cadastralData.cadastralDataArea = extracts[index].value/100;
+                                cadastralData.cadastralDataAreaMeasure = 'сотки';
+                            } else {
+                                cadastralData.cadastralDataArea = extracts[index].value/10000;
                                 cadastralData.cadastralDataAreaMeasure = 'га';
                             }
                         }

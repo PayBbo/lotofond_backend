@@ -33,6 +33,7 @@
                     excludedWords: '',
                     includedWords:'',
                     tradePlaces: [],
+                    tradeTypes:[],
                     tradeType:'',
                 },
                 auctionTypes: [

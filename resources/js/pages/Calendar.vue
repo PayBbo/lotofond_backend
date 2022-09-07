@@ -84,7 +84,7 @@
                                                      v-if="attr_date.customData"
                                                      :key="attr_date.key"
                                                      :class="attr_date.customData.class"
-                                                     @click="editEvent(attr_date.customData)"
+                                                     @mousedown="editEvent(attr_date.customData)"
                                                 >
                                                     {{ attr_date.customData.title }}
                                                 </div>
@@ -196,6 +196,7 @@
                             time: item.time,
                             color: this.colors.find(color => color.type == item.type).color ?? '',
                             class: "bkt-bg-" + this.colors.find(color => color.type == item.type).color ?? '',
+                            lot_info: item.dataFavourite ?? null
                         },
                     })
                 );

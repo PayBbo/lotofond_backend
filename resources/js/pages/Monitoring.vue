@@ -478,7 +478,9 @@
                         direction: "desc",
                         type: "publishDate"
                     }
-                }
+                },
+                signal: null,
+                controller: null,
             }
         },
         created() {
@@ -526,8 +528,8 @@
                 this.loading = true;
                 this.params.page = page;
                 this.params.pathId = this.current_path;
-                sessionStorage.setItem('monitoring'+this.current_path+'_page', page);
-                this.$store.dispatch('getMonitorings', this.params).then(resp => {
+                sessionStorage.setItem('monitoring'+this.current_path+'_page', page+'');
+                this.$store.dispatch('getMonitorings', {params: this.params, signal:this.signal}).then(resp => {
                     this.loading = false;
                 }).catch(error => {
                     this.loading = false;
@@ -560,18 +562,24 @@
                 });
             },
             async setCurrentMonitoringPath(value) {
-                this.loading = true;
-                this.params.page = 1;
-                sessionStorage.setItem('monitoring_path_id', value);
-                if(sessionStorage.getItem('monitoring'+value+'_page'))
-                {
-                    this.params.page = sessionStorage.getItem('monitoring'+value+'_page')
+                if (this.signal) {
+                    this.controller.abort();
                 }
-                this.params.pathId = value;
-                await this.$store.dispatch('setCurrentMonitoringPath',{ pathId: value, params: this.params})
-                    .finally(() => {
-                        this.loading = false;
-                    });
+                await setTimeout(() => {
+                    this.loading = true;
+                    this.params.page = 1;
+                    sessionStorage.setItem('monitoring_path_id', value);
+                    if (sessionStorage.getItem('monitoring' + value + '_page')) {
+                        this.params.page = sessionStorage.getItem('monitoring' + value + '_page')
+                    }
+                    this.params.pathId = value;
+                    this.controller = new AbortController();
+                    this.signal = this.controller.signal;
+                    this.$store.dispatch('setCurrentMonitoringPath', {pathId: value, params: this.params, signal:this.signal})
+                        .finally(() => {
+                            this.loading = false;
+                        });
+                }, 50)
             },
             async removeMonitoringPath() {
                 await this.$store.dispatch('removeMonitoringPath', this.current_path)

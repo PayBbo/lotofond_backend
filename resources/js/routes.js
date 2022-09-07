@@ -159,7 +159,7 @@ let router = new VueRouter({
         },
         {
             path: '/admin/text-data/add',
-            name: 'TextDataEdit',
+            name: 'TextDataAdd',
             beforeEnter: guardAdminRoute,
             component: () =>
                 import(
@@ -185,7 +185,7 @@ let router = new VueRouter({
         },
         {
             path: '/admin/applications',
-            name: 'TextDataEdit',
+            name: 'Applications',
             beforeEnter: guardAdminRoute,
             component: () =>
                 import(

@@ -189,11 +189,12 @@ export default {
         async getMonitorings({commit, state}, payload) {
             await axios({
                 method: 'put',
-                url: '/api/monitoring?page=' + payload.page,
-                data: payload,
+                url: '/api/monitoring?page=' + payload.params.page,
+                data: payload.params,
+                signal: payload.signal
             })
                 .then((response) => {
-                    commit('setMonitorings', {pathId: payload.pathId, data: response.data})
+                    commit('setMonitorings', {pathId: payload.params.pathId, data: response.data})
                 });
 
         },
@@ -228,7 +229,7 @@ export default {
             // if (state.monitorings[payload.pathId]) {
             //     commit('setCurrentMonitoringPath', payload.pathId);
             // } else {
-                await dispatch('getMonitorings', payload.params)
+                await dispatch('getMonitorings', payload)
                     .then(resp => {
                         commit('setCurrentMonitoringPath', payload.pathId);
                     })

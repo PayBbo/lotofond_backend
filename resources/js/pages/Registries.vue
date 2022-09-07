@@ -97,7 +97,7 @@
                         </td>
                         <td>{{item.inn ? item.inn : ''}}</td>
                         <td>{{item.region ? $t('regions.'+item.region) : ''}}</td>
-                        <td>{{item.sroAU ? item.sroAU : ''}}</td>
+                        <td>{{item.sro ? item.sro : ''}}</td>
                     </template>
                 </bkt-registry>
             </template>
@@ -128,8 +128,8 @@
                     <template #tbody_tr="{item}">
                         <td>{{item.id ? item.id : ''}}</td>
                         <td>
-                            <router-link custom :to="'/registries/trade-place/'+item.id">{{item.name ? item.name :
-                                ''}}
+                            <router-link custom :to="'/registries/trade-place/'+item.id">
+                                {{item.name ? item.name : ''}}
                             </router-link>
                         </td>
                         <td>{{item.site ? item.site : ''}}</td>

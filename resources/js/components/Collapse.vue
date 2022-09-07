@@ -13,7 +13,8 @@
                 </slot>
             </div>
         </div>
-        <div class="bkt-collapse__header" :class="header_class">
+        <div class="bkt-collapse__header" :class="header_class"
+             :data-bs-toggle="collapse_header ? 'collapse' : ''" :data-bs-target="collapse_header ? '#'+id : ''">
             <slot name="title">
                 <h3 class="bkt-card__title" :class="title_class" v-if="title" data-bs-toggle="collapse" :data-bs-target="'#'+id">
                     <slot name="title-inner">
@@ -58,6 +59,10 @@
             },
             header_class: {
                 type: String
+            },
+            collapse_header: {
+                type: Boolean,
+                default: true
             },
             collapse_class: {
                 type: String

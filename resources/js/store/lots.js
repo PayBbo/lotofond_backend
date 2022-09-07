@@ -76,13 +76,17 @@ export default {
         * /note
         * Добавление заметки к лоту/организатору торгов
         *
-        *  PUT
-        *  /note/edit
+        * PUT
+        * /note/edit
         * Редактирование заметки к лоту/организатору торгов
         *
         * DELETE
         * /note/delete
-        *  Удаление заметки к лоту/организатору торгов
+        * Удаление заметки к лоту/организатору торгов
+        *
+        * GET
+        * /trades/notifications/{lotId}
+        * Получение уведомлений о лоте
         */
         getCategoriesStatistic({commit}, payload) {
             return axios.get('/api/statistics/categories', payload);
@@ -149,7 +153,13 @@ export default {
             // }).catch(error => {
             // });
         },
-
+        async getLotNotifications({commit, state}, payload) {
+            return await axios({
+                method: 'get',
+                url: `/api/trades/notifications/${payload.id}?page=${payload.page}`,
+                data: {},
+            })
+        },
     },
 
 };

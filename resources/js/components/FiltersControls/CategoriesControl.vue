@@ -2,7 +2,7 @@
     <div class="bkt-wrapper-column bkt-gap-large">
         <div class="bkt-wrapper-column bkt-gap-small" v-if="!loading">
             <bkt-collapse :id="'category-collapse-'+index" v-for="(category, index) in items" :key="index"
-                          main_class="bkt-collapse_check"
+                          main_class="bkt-collapse_check" :collapse_header="false"
                           :collapse_button_class="category.subcategories.length>0 ? 'bkt-bg-white': 'd-none'"
             >
                 <template #title>

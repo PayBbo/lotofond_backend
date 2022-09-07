@@ -189,19 +189,47 @@ export default {
             //         }
             //     }
             // });
-            await axios.put('/api/trades/filter?page=' + payload.page, filters)
+            await axios({
+                method: 'put',
+                url: '/api/trades/filter',
+                data: payload,
+                signal: payload.signal,
+                params:{page: payload.page}
+            })
                 .then((response) => {
-                    commit('setTrades', response.data);
-                }).catch((error) => {
-                    console.log(error);
-                    commit('setTrades', {data: [], pagination: {}});
-                }).finally(()=>{
-                    commit('setTradesLoading', false);
-                })
+                commit('setTrades', response.data);
+            }).catch((error) => {
+                // if (axios.isCancel(error)) {
+                //     console.log('Request canceled');
+                //     console.log('Request canceled', error.message);
+                // } else {
+                //     // handle errors
+                // }
+                console.log(error);
+                commit('setTrades', {data: [], pagination: {}});
+
+            }).finally(()=>{
+                commit('setTradesLoading', false);
+            })
+            // await axios.put('/api/trades/filter?page=' + payload.page, filters, payload.options)
+            //     .then((response) => {
+            //         commit('setTrades', response.data);
+            //     }).catch((error) => {
+            //         if (axios.isCancel(error)) {
+            //             console.log('Request canceled');
+            //             console.log('Request canceled', error.message);
+            //         } else {
+            //             // handle errors
+            //         }
+            //         console.log(error);
+            //         commit('setTrades', {data: [], pagination: {}});
+            //     }).finally(()=>{
+            //         commit('setTradesLoading', false);
+            //     })
 
         },
         async getTradeLots({commit}, payload) {
-            return await axios.get('/api/trades/' + payload.auctionId + '?page=' + payload.page);
+            return await axios.put('/api/trades/' + payload.auctionId + '?page=' + payload.page);
             // .then((response) => {
             //     commit('addTrade', response.data)
             // }).catch (error=> {

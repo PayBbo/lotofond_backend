@@ -35,6 +35,9 @@
                 </div>
             </slot>
         </div>
+        <slot name="subtitle">
+            <p class="bkt-input__label bkt-text-neutral" v-if="subtitle">{{subtitle}}</p>
+        </slot>
         <slot name="errors" :errors="errors">
             <p class="bkt-input-error" :class="errors_class" v-if="errors.length>0 && !no_errors">{{errors[0]}}</p>
         </slot>
@@ -57,6 +60,9 @@
                 required: true,
             },
             label: {
+                type: String,
+            },
+            subtitle: {
                 type: String,
             },
             label_class: {

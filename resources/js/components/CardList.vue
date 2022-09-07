@@ -276,9 +276,9 @@
                 payload.key = 'moveFavourite';
                 this.$emit('moveFavourite', payload);
                 this.$emit('updateData', payload);
-                if (!this.infinite) {
-                    this.scrollToElement();
-                }
+                // if (!this.infinite) {
+                //     this.scrollToElement();
+                // }
             }
         }
     }

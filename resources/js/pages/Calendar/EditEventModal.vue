@@ -27,6 +27,10 @@
                             label="время" name="time" icon_name="Clock" rules="required"
             ></bkt-datepicker>
             <bkt-textarea rows="2" v-model="event.title" label="описание" name="description" rules="required" no_group_item/>
+            <a v-if="event.lot_info" :href="'/lot/'+event.lot_info.lotId" @click="close" class="bkt-text-primary ms-auto">
+                перейти к лоту
+                <bkt-icon name="ArrowDown" color="primary" height="14px" class="bkt-rotate-270"></bkt-icon>
+            </a>
         </template>
     </bkt-modal>
 </template>
@@ -66,6 +70,10 @@
                     this.loading = false;
                 });
             },
+            close() {
+                this.$store.commit('closeModal', '#editEventModal');
+                // this.$router.push('/lot/'+this.event.lot_info.lotId);
+            }
         },
     }
 </script>

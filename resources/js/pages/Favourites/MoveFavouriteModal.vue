@@ -29,6 +29,7 @@
         </template>
         <template #footer="{ invalid }">
             <button class="w-100 bkt-button primary bkt-button_plump" @click="move" :disabled="loading || !newPathId">
+                <span v-if="loading" class="spinner-border spinner-border-sm" role="status"></span>
                 Переместить
             </button>
         </template>
