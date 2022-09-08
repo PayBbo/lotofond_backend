@@ -16,7 +16,7 @@ class VictoryResource extends JsonResource
     {
         $startPrice = (float)$this->tradeMessage->lot->start_price;
         $endPrice = (float)$this->end_price;
-        $percentageReduction = round((1 - $endPrice / $startPrice) * 100, 1);
+        $percentageReduction = round(($startPrice / $endPrice) * 100 -100, 1);
         return [
             'tradeId'=>$this->tradeMessage->lot->auction->trade_id,
             'description'=>stripslashes(preg_replace('/[\x00-\x1F\x7F]/u', ' ', $this->tradeMessage->lot->description)),
@@ -24,7 +24,7 @@ class VictoryResource extends JsonResource
             'categories' => $this->tradeMessage->lot->categoriesStructure(),
             'startPrice'=>$startPrice,
             'endPrice'=>$endPrice,
-            'percentageReduction'=>$percentageReduction,
+            'percentageReduction'=>$percentageReduction ?? 0,
             'date'=>$this->created_at,
             'participantsCount'=>$this->biddingParticipants->count(),
             'winner'=>[
