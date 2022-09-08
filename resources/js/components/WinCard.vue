@@ -53,8 +53,9 @@
                                 <div class="bkt-card__row outline bkt-wrapper-between align-items-center">
                                     <div class="bkt-card__feature">
                                         <h6 class="bkt-card__subtitle">процент падения</h6>
-                                        <h4 class="bkt-card__title">{{item.percentageReduction ?
-                                            item.percentageReduction : ''}}%</h4>
+                                        <h4 class="bkt-card__title">
+                                            {{item.percentageReduction ? item.percentageReduction : '0'}}%
+                                        </h4>
                                     </div>
                                     <span class="bkt-card__icon">
                                     <bkt-icon :name="'ArrowDownCircle'" color="primary"></bkt-icon>
@@ -90,12 +91,13 @@
                                     <bkt-icon name="Trophy" class="bkt-button__icon"></bkt-icon>
                                 </div>
                                 <div class="bkt-wrapper-between bkt-gap-small mx-0 w-100">
-                                    <h5 class="bkt-card-winner__title">{{item.winner.fullName ? item.winner.fullName :
-                                        ''}}</h5>
+                                    <h5 class="bkt-card-winner__title">
+                                        {{item.winner.fullName ? item.winner.fullName : ''}}
+                                    </h5>
                                     <h6 class="bkt-card-winner__subtitle bkt-card__subtitle">
                                         кол-во побед:
                                         <strong class="bkt-text-blue">
-                                            {{item.winner.victoriesCount ? item.winner.victoriesCount : ''}}
+                                            {{item.winner.victoriesCount ? item.winner.victoriesCount : '0'}}
                                         </strong>
                                     </h6>
                                 </div>

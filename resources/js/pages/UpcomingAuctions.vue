@@ -252,8 +252,8 @@
                                     <div class="bkt-auctions-type flex-fill" v-for="item in auctionTypes">
                                         <button
                                             class="bkt-block-btn bkt-auctions-type__card bkt-auctions-type__title bkt-bg-body"
-                                            @click="chooseAuctionType(item.title)"
-                                            :class="[filters.mainParams.tradeType===item.title ? 'bkt-border-primary': 'bkt-border-body']">
+                                            @click="toggleAuctionType(item.title)"
+                                            :class="[filters.mainParams.tradeTypes.includes(item.title) ? 'bkt-border-primary': 'bkt-border-body']">
                                             {{item.description}}
                                         </button>
                                         <!--                                <h6 class="bkt-auctions-type__subtitle">что это?</h6>-->
@@ -338,7 +338,7 @@
                     {description: 'Публичное предложение', title: 'PublicOffer'},
                     {description: 'Закрытый аукцион', title: 'CloseAuction'},
                     {description: 'Закрытый конкурс', title: 'CloseConcours'},
-                    {description: 'Закрытое публичное предложение', title: 'ClosePublicOffer'},
+                    {description: 'Закрытое публичное предложение', title: 'ClosePublicOffer'}
                 ],
                 nearest_filters_template: {
                     categories: [],
@@ -383,21 +383,20 @@
                         debtorCategories: [],
                         debtors: [],
                         organizers: [],
-                        arbitrManagers: [],
+                        arbitrationManagers: [],
                         other: {
                             period: 'periodAll',
                             hasPhotos: false,
                             isStopped: false,
                             isCompleted: false,
-                            isHidden: false,
-                            organizer: false
+                            isHidden: false
                         },
                     },
                     mainParams: {
                         excludedWords: '',
                         includedWords: '',
                         tradePlaces: [],
-                        tradeType: '',
+                        tradeTypes:[]
                     },
                     sort: {
                         direction: "desc",
@@ -446,7 +445,7 @@
                         .indexOf(newValue.id);
                     if (index < 0) {
                         this.selected_trade_places.push(newValue);
-                        this.filters.mainParams.tradePlaces.push(newValue);
+                        this.filters.mainParams.tradePlaces.push(newValue.id);
                     }
                 }
             },
@@ -518,8 +517,19 @@
         },
         methods: {
             async getData(page = 1) {
-                sessionStorage.setItem('nearest_page', page+'');
-                await this.$store.dispatch('getNearestTrades', {page: page, filters: this.filters});
+                if (this.signal) {
+                    this.controller.abort();
+                }
+                await setTimeout(() => {
+                    this.controller = new AbortController();
+                    this.signal = this.controller.signal;
+                    sessionStorage.setItem('nearest_page', page + '');
+                    this.$store.dispatch('getNearestTrades', {
+                        page: page,
+                        filters: this.filters,
+                        signal: this.signal
+                    });
+                })
             },
             openCategoryModal() {
                 this.$store.commit('openModal', '#categoryModal');
@@ -645,8 +655,13 @@
                 });
 
             },
-            chooseAuctionType(type) {
-                this.filters.mainParams.tradeType=type;
+            toggleAuctionType(title) {
+                let item_index = this.filters.mainParams.tradeTypes.findIndex(el => el == title);
+                if (item_index < 0) {
+                    this.filters.mainParams.tradeTypes.push(title);
+                } else {
+                    this.filters.mainParams.tradeTypes.splice(item_index, 1);
+                }
                 this.getData(1)
             },
             inputPrice: _.debounce(function (e) {

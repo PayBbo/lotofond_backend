@@ -136,22 +136,21 @@
                             debtorCategories: [],
                             debtors: [],
                             organizers: [],
-                            arbitrManagers: [],
+                            arbitrationManagers: [],
                             other: {
                                 period: 'periodAll',
                                 hasPhotos: false,
                                 isStopped: false,
                                 isCompleted: false,
-                                isHidden: false,
-                                organizer: false
-                            },
+                                isHidden: false
+                            }
                         },
                         mainParams: {
                             excludedWords: '',
                             includedWords: '',
                             tradePlaces: [],
-                            tradeType: '',
-                        },
+                            tradeTypes: []
+                        }
                     }
                 },
                 template: {
@@ -202,22 +201,21 @@
                             debtorCategories: [],
                             debtors: [],
                             organizers: [],
-                            arbitrManagers: [],
+                            arbitrationManagers: [],
                             other: {
                                 period: 'periodAll',
                                 hasPhotos: false,
                                 isStopped: false,
                                 isCompleted: false,
-                                isHidden: false,
-                                organizer: false
+                                isHidden: false
                             },
                         },
                         mainParams: {
                             excludedWords: '',
                             includedWords: '',
                             tradePlaces: [],
-                            tradeType: '',
-                        },
+                            tradeTypes: [],
+                        }
                     }
                 }
             };

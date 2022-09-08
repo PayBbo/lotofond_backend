@@ -264,7 +264,7 @@ export default {
         async getNearestTrades({commit, state}, payload) {
             commit('setNearestLoading', true);
             // let filters = JSON.parse(JSON.stringify(payload.filters));
-            await axios.put('/api/trades/nearest?page=' + payload.page, payload.filters)
+            await axios.put('/api/trades/nearest?page=' + payload.page, payload.filters, {signal: payload.signal})
                 .then((response) => {
                     commit('setNearestTrades', response.data);
                     commit('setNearestLoading', false);
