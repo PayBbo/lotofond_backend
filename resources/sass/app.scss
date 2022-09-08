@@ -20,6 +20,7 @@
 @import './base/container';
 
 // Components
+@import './components/skeleton.scss';
 @import "./components/navbar.scss";
 @import './components/button.scss';
 @import './components/card.scss';
@@ -47,7 +48,6 @@
 @import "./components/trade-card.scss";
 @import "./components/badge.scss";
 @import "./components/nprogress.scss";
-@import './components/skeleton.scss';
 
 // Custom styles
 @import "./customs/main.scss";

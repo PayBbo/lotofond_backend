@@ -546,12 +546,12 @@
                         </div>
                     </div>
                     <div class="bkt-card__body">
-                        <div class="bkt-wrapper-between bkt-nowrap">
+                        <div class="bkt-wrapper-between bkt-nowrap bkt-gap">
                             <div class="bkt-wrapper bkt-nowrap m-0">
                                 <skeleton skeleton_class="bkt-card__category"></skeleton>
-                                <skeleton type_name="text" width="150px" height="14px"></skeleton>
+                                <skeleton type_name="text" width="120px" height="14px" skeleton_class="flex-shrink-1"></skeleton>
                             </div>
-                            <skeleton skeleton_class="bkt-button-icon"></skeleton>
+                            <skeleton skeleton_class="bkt-button-icon flex-shrink-0"></skeleton>
                         </div>
                         <div class="bkt-note__wrapper bkt-wrapper-down-sm-column">
                             <div class="bkt-note w-100 bkt-row outline bkt-wrapper-between bkt-gap-medium">
@@ -579,8 +579,9 @@
                     <template #collapse v-if="notifications.length>0">
                         <div class="row w-100 m-auto bkt-gap">
                             <div class="col-12 px-0">
-                                <div class="bkt-row outline bkt-wrapper-between bkt-nowrap bkt-gap bkt-wrapper-down-sm-column align-items-start"
-                                     v-for="notify in notifications"
+                                <div
+                                    class="bkt-row outline bkt-wrapper-between bkt-nowrap bkt-gap bkt-wrapper-down-sm-column align-items-start"
+                                    v-for="notify in notifications"
                                 >
                                     <h5 v-if="notify.type == 'favourite'" class="">
                                         {{notify.dataFavourite ? notify.dataFavourite.detail : ''}}
@@ -912,7 +913,7 @@
                             <div class="bkt-card__row outline bkt-wrapper-between bkt-nowrap align-items-center"
                                  v-for="reduction in item.priceReduction">
                                 <h6 class="bkt-text-neutral-dark">{{reduction.time | moment('DD.MM.YYYY HH:mm')}}</h6>
-                                <h5>{{reduction.price | priceFormat}}</h5>
+                                <h5>{{reduction.price | priceFormat}} ₽</h5>
                                 <!--                            :class="{'bkt-text-green': reduction.price > item.startPrice,
                                                             'bkt-text-primary': reduction.price == item.startPrice,
                                                             'bkt-text-red': reduction.price < item.startPrice }"-->
@@ -941,20 +942,20 @@
                                           :title="file.name" :subtitle="file.file_size" icon="More"
                                           :dropdown_item_class="['bkt-card__row outline', {'disabled': !file.url}]"
                                           dropdown_icon_class="bkt-rotate-90"
-                                          :dropdown_menu_class="['bkt-dropdown__menu_neutral', {'d-none': !file.url}]"
+                                          :dropdown_menu_class="['bkt-dropdown__menu_neutral bkt-dropdown__menu_list', {'d-none': !file.url}]"
                             >
                                 <template #menu>
-                                    <div class="bkt-dropdown__menu-item bkt-wrapper-between">
-                                        <a :href="file.url" target="_blank" class="h-100 w-100">
+                                    <a :href="file.url[0]" target="_blank" class="h-100 w-100">
+                                        <div class="bkt-dropdown__menu-item bkt-wrapper-between bkt-cursor-pointer">
                                             <div class="bkt-dropdown__menu-text">
                                                 Скачать
                                             </div>
                                             <div class="bkt-dropdown__menu-icon">
                                                 <bkt-icon name="Download" color="blue"></bkt-icon>
                                             </div>
-                                        </a>
-                                    </div>
-                                    <div class="bkt-dropdown__menu-item bkt-wrapper-between"
+                                        </div>
+                                    </a>
+                                    <div class="bkt-dropdown__menu-item bkt-wrapper-between bkt-cursor-pointer"
                                          @click="deleteFile(file.id, index)">
                                         <div class="bkt-dropdown__menu-text">
                                             Удалить
@@ -1000,7 +1001,7 @@
                                 </template>
                             </bkt-dropdown>
                         </template>
-                        <div v-else
+                        <div v-if="user_files.length===0 && new_user_files.length===0"
                              class="bkt-wrapper-column my-auto justify-content-center align-items-center text-center">
                             <bkt-icon name="Download" color="neutral-light" class="mx-auto" width="80%"
                                       height="200px"></bkt-icon>
@@ -1625,14 +1626,13 @@
                             this.files.push({title: result, url: item})
                         })
                         resp.data.allUserFiles.forEach(item => {
-                            let str = item;
-                            let n = item.lastIndexOf('/');
+                            let str = item.url[0];
+                            let n = item.url[0].lastIndexOf('/');
                             let title = str.substring(n + 1);
-                            item.title = title;
+                            item.name = title;
                             if (!title) {
-                                item.title = 'Файл №' + item.id
+                                item.name = 'Файл №' + item.id
                             }
-
                             this.user_files.push(item)
                         })
                         // this.user_files = resp.data.userFiles;
@@ -1713,7 +1713,7 @@
             },
             async getLotNotifications(page = 1) {
                 this.notifications_loading = true;
-                this.$store.dispatch('getLotNotifications', {id:this.$route.params.id, page: page}).then(resp => {
+                this.$store.dispatch('getLotNotifications', {id: this.$route.params.id, page: page}).then(resp => {
                     if (resp.data.data) {
                         this.notifications = resp.data.data;
                     } else {
@@ -1834,9 +1834,13 @@
                         // this.user_files = resp.data.userFiles;
                         resp.data.allUserFiles.forEach(item => {
                             if (this.user_files.findIndex(file => file.id == item.id) < 0) {
-                                let str = item;
-                                let n = item.lastIndexOf('/');
-                                item.title = str.substring(n + 1);
+                                let str = item.url[0];
+                                let n = item.url[0].lastIndexOf('/');
+                                let title = str.substring(n + 1);
+                                item.name = title;
+                                if (!title) {
+                                    item.name = 'Файл №' + item.id
+                                }
                                 this.user_files.push(item)
                             }
                         });

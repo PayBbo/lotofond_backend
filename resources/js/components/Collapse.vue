@@ -29,7 +29,7 @@
                     :class="[collapse_button_class, disabled ? 'bkt-button_disabled' :'']" data-bs-toggle="collapse"
                     :data-bs-target="'#'+id" aria-expanded="false" :disabled="loading||count==0||disabled"
             >
-                <span v-if="loading" class="spinner-border spinner-border-sm" role="status"></span>
+                <span v-if="loading" class="spinner-border spinner-border-sm bkt-text-primary" role="status"></span>
                 <bkt-icon v-else :name="'ArrowDown'" class="bkt-button__icon"
                           :color="disabled ? 'neutral-dark' :'primary'"></bkt-icon>
             </button>
