@@ -53,16 +53,16 @@ export default {
                     hasPhotos: false,
                     isStopped: false,
                     isCompleted: false,
-                    isHidden: false,
+                    isHidden: false
                     // hasAnswer: false
-                },
+                }
             },
             mainParams: JSON.parse(localStorage.getItem('filters_mainParams')) ||  {
                 excludedWords: null,
                 includedWords:'',
                 tradePlaces: [],
                 tradeType:'',
-                tradeTypes:[],
+                tradeTypes:[]
             },
             // other: {
             //     period: 'all',
@@ -129,16 +129,16 @@ export default {
                     hasPhotos: false,
                     isStopped: false,
                     isCompleted: false,
-                    isHidden: false,
+                    isHidden: false
                     // hasAnswer: false
-                },
+                }
             },
             mainParams: {
                 excludedWords: '',
                 includedWords:'',
                 tradePlaces: [],
                 tradeType:'',
-                tradeTypes:[],
+                tradeTypes:[]
             },
             sort: {
                 direction: "desc",
