@@ -315,7 +315,7 @@ class TradeService
     public function savePriceReduction($lot_id, $price, $start_time, $end_time, $prev_price = null, $percent = 0, $deposit = 0, $is_system = false)
     {
         if (!is_null($prev_price)) {
-            $percent = ((float)$prev_price / (float)$price - 1) * 100;
+            $percent = ((float)$prev_price / (float)$price) * 100 - 100;
         }
         PriceReduction::create([
             'lot_id' => $lot_id,
