@@ -39,4 +39,9 @@ class Favourite extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function notifications()
+    {
+        return $this->hasMany(Notification::class)->whereIn('lot_id', $this->lots()->pluck('favourite_lot.id')->toArray());
+    }
 }

@@ -179,7 +179,7 @@ class AuctionController extends Controller
             foreach ($paths as $path) {
                 if ($path->lots->contains($lot)) {
                     $path->lots()->detach($lot);
-                    foreach($path->notifications as $notification){
+                    foreach($path->notifications() as $notification){
                         if($notification->notificationLots->contains($lot)){
                             $notification->delete();
                             $notification->notificationLots()->detach($lot);
