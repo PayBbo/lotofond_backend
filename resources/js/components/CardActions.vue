@@ -70,7 +70,7 @@
         </div>
         <div class="dropdown">
             <button :class="['bkt-hover-red bkt-button'+button_type, item.isHide ? 'bkt-bg-red' : '']"
-                    @click="changeStatus({icon:'Hide', type:'hidden',  status:'isHide'})">
+                    @click="changeStatus({icon:'Hide', type:'hide',  status:'isHide'})">
                 <span v-show="in_process.indexOf('Hide')>=0"
                       class="spinner-border spinner-border-sm mx-auto"
                       role="status"></span>
@@ -196,7 +196,7 @@
                         code: '',
                         status: 'isPinned',
                         method: this.changeStatus,
-                        method_params: {type: 'fixed', icon: 'Pin', status: 'isPinned'},
+                        method_params: {type: 'pin', icon: 'Pin', status: 'isPinned'},
                         place: 'all',
                         class: ''
                     },

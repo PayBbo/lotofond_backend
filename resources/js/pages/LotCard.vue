@@ -1807,7 +1807,7 @@
             },
             makeWatched() {
                 if (!this.item.isWatched) {
-                    this.$store.dispatch('changeTradeLotStatus', {lot_id: this.$route.params.id, type: 'seen'})
+                    this.$store.dispatch('changeTradeLotStatus', {lotId: this.$route.params.id, type: 'seen'})
                         .then(resp => {
                             this.$store.dispatch('saveDataProperty', {
                                 module_key: 'lots', state_key: 'selected_lot',

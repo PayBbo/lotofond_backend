@@ -244,7 +244,7 @@ export default {
             return await
                 axios({
                     method: 'put',
-                    url: '/api/trades/lot/action',
+                    url: '/api/trades/lot/toggle-'+payload.type+'/'+payload.lotId,
                     data: payload,
                 })
                 // .then((response) => {

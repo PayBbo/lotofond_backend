@@ -18957,6 +18957,9 @@ ul.bkt-contents .bkt-contents__answer {
   font-size: 14px;
   line-height: 1.571;
 }
+.bkt-lot .bkt-note__text {
+  word-break: break-word;
+}
 .bkt-lot .bkt-note__date-wrapper {
   display: flex;
   align-items: center;
