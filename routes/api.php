@@ -175,7 +175,15 @@ Route::group(['middleware' => ['json.response', 'localization']], function () {
 
         Route::group(['prefix' => 'trades'], function () {
 
-            Route::put('/lot/action', [AuctionController::class, 'actionWithLot']);
+            Route::put('/lot/toggle-seen/{lotId}', [AuctionController::class, 'toggleSeen']);
+
+            Route::put('/lot/toggle-pin/{lotId}', [AuctionController::class, 'togglePin']);
+
+            Route::put('/lot/toggle-hide/{lotId}', [AuctionController::class, 'toggleHide']);
+
+            Route::put('/make/hidden/lots/{tradeId}', [AuctionController::class, 'makeHiddenLotByTrade']);
+
+            Route::put('/delete/hidden/lots/{tradeId}', [AuctionController::class, 'deleteHiddenLotByTrade']);
 
         });
 

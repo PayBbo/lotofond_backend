@@ -1018,36 +1018,112 @@ paths:
                 $ref: '#/components/schemas/Error'
       security:
         - bearerAuth: [ ]
-  /trades/lot/action:
+  /trades/lot/toggle-seen/{lotId}:
     put:
+      parameters:
+        - in: path
+          name: lotId
+          schema:
+            type: integer
+          required: true
+          description: Айдишник лота, который добавляем/удаляем в/из "просмотрено"
       tags:
         - Trades
-      summary: Добавление/удаление лота в/из "просмотрено", "скрыто", "закреплено"
-      operationId: actionWithLot
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/ActionWithLot'
-            examples:
-              Add/delete to/from seen:
-                value:
-                  type: seen
-                  lotId: 1
-              Add/delete to/from fixed:
-                value:
-                  type: fixed
-                  lotId: 1
-              Add/delete to/from hidden:
-                description: если скрываем все лоты торга - не передавать lotId
-                value:
-                  type: hidden
-                  lotId: 1
-                  tradeId: 1
+      summary: Добавление/удаление лота в/из "просмотрено"
+      operationId: toggleSeen
       responses:
         "200":
-          description: Лот успешно добавлен/удален в/из "просмотрено", "скрыто", "закреплено"
+          description: Лот успешно добавлен/удален в/из "просмотрено"
+        "404":
+          description: Лот по переданному айдишнику не найден
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+        - bearerAuth: [ ]
+  /trades/lot/toggle-hide/{lotId}:
+    put:
+      parameters:
+        - in: path
+          name: lotId
+          schema:
+            type: integer
+          required: true
+          description: Айдишник лота, который добавляем/удаляем в/из "скрыто"
+      tags:
+        - Trades
+      summary: Добавление/удаление лота в/из "скрыто"
+      operationId: toggleHide
+      responses:
+        "200":
+          description: Лот успешно добавлен/удален в/из "скрыто"
+        "404":
+          description: Лот по переданному айдишнику не найден
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+        - bearerAuth: [ ]
+  /trades/lot/toggle-pin/{lotId}:
+    put:
+      parameters:
+        - in: path
+          name: lotId
+          schema:
+            type: integer
+          required: true
+          description: Айдишник лота, который добавляем/удаляем в/из "закреплено"
+      tags:
+        - Trades
+      summary: Добавление/удаление лота в/из "закреплено"
+      operationId: togglePin
+      responses:
+        "200":
+          description: Лот успешно добавлен/удален в/из "закреплено"
+        "404":
+          description: Лот по переданному айдишнику не найден
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+        - bearerAuth: [ ]
+  /trades/make/hidden/lots/{tradeId}:
+    put:
+      parameters:
+        - in: path
+          name: tradeId
+          schema:
+            type: integer
+          required: true
+          description: Айдишник торга, лоты которого нужно скрыть
+      tags:
+        - Trades
+      summary: Скрытие всех связанных лотов
+      operationId: makeHiddenLotByTrade
+      responses:
+        "200":
+          description: Информация о лотах, которые был скрыты
           content:
             application/json:
               schema:
@@ -1059,7 +1135,47 @@ paths:
                       type: integer
                       description: массив айдишников лотов, над которыми было совершено действие
         "404":
-          description: Лот/торг по переданному айдишнику не найден
+          description: Торги по переданному айдишнику не найдены
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+        - bearerAuth: [ ]
+  /trades/delete/hidden/lots/{tradeId}:
+    put:
+      parameters:
+        - in: path
+          name: tradeId
+          schema:
+            type: integer
+          required: true
+          description: Айдишник торга, лоты которого нужно убрать из скрытого
+      tags:
+        - Trades
+      summary: Удаление из скрытого всех связанных лотов
+      operationId: deleteHiddenLotByTrade
+      responses:
+        "200":
+          description: Информация о лотах, которые были удалены из скрытого
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  lotIds:
+                    type: array
+                    items:
+                      type: integer
+                      description: массив айдишников лотов, над которыми было совершено действие
+        "404":
+          description: Торги по переданному айдишнику не найдены
           content:
             application/json:
               schema:

@@ -100,66 +100,80 @@ class AuctionController extends Controller
 
     }
 
-    public function actionWithLot(Request $request)
-    {
-        $lot = null;
-        $result = [];
-        if ($request->has('lotId')) {
-            $lot = Lot::find($request->lotId);
-            if (!$lot) {
-                throw new BaseException("ERR_FIND_LOT_FAILED", 404, "Lot with id= " . $request->lotId . ' does not exist');
-            }
-            $result[]= $lot->id;
-        }
-        $auction = null;
-        if ($request->has('tradeId') && !is_null($request->tradeId)) {
-            $auction = Auction::find($request->tradeId);
-            if (!$auction) {
-                throw new BaseException("ERR_FIND_TRADE_FAILED", 404, "Trade with id= " . $request->auctionId . ' does not exist');
-            }
+    public function toggleSeen($lotId){
+        $lot = Lot::find($lotId);
+        if (!$lot) {
+            throw new BaseException("ERR_FIND_LOT_FAILED", 404, "Lot with id= " . $lotId . ' does not exist');
         }
         $user = User::find(auth()->id());
-        switch ($request->type) {
-            case 'seen':
-            {
-                if ($user->seenLots->contains($lot)) {
-                    $user->seenLots()->detach($lot);
-                } else {
-                    $user->seenLots()->attach($lot);
-                }
-                break;
-            }
-            case 'fixed':
-            {
-                if ($user->fixedLots->contains($lot)) {
-                    $user->fixedLots()->detach($lot);
-                } else {
-                    $user->fixedLots()->attach($lot, ['created_at'=>Carbon::now()->setTimezone('Europe/Moscow')]);
-                }
-                break;
-            }
-            case 'hidden':
-            {
-                if ($lot) {
-                    $this->clearPath($user, $lot);
-                }
-                if ($auction) {
-                    foreach ($auction->lots as $lot) {
-                        $this->clearPath($user, $lot);
-                        $result[] = $lot->id;
-                    }
-                }
-                break;
-            }
+        if ($user->seenLots->contains($lot)) {
+            $user->seenLots()->detach($lot);
+        } else {
+            $user->seenLots()->attach($lot);
         }
+        return response(null, 200);
+    }
 
+    public function toggleHide($lotId){
+        $lot = Lot::find($lotId);
+        if (!$lot) {
+            throw new BaseException("ERR_FIND_LOT_FAILED", 404, "Lot with id= " . $lotId . ' does not exist');
+        }
+        $user = User::find(auth()->id());
+        if ($user->hiddenLots->contains($lot)) {
+            $user->hiddenLots()->detach($lot);
+        } else {
+            $this->clearPath($user, $lot);
+        }
+        return response(null, 200);
+    }
+
+    public function togglePin($lotId){
+        $lot = Lot::find($lotId);
+        if (!$lot) {
+            throw new BaseException("ERR_FIND_LOT_FAILED", 404, "Lot with id= " . $lotId . ' does not exist');
+        }
+        $user = User::find(auth()->id());
+        if ($user->fixedLots->contains($lot)) {
+            $user->fixedLots()->detach($lot);
+        } else {
+            $user->fixedLots()->attach($lot, ['created_at'=>Carbon::now()->setTimezone('Europe/Moscow')]);
+        }
+        return response(null, 200);
+    }
+
+    public function makeHiddenLotByTrade($tradeId){
+        $auction = Auction::find($tradeId);
+        if (!$auction) {
+            throw new BaseException("ERR_FIND_TRADE_FAILED", 404, "Trade with id= " . $tradeId . ' does not exist');
+        }
+        $user = User::find(auth()->id());
+        $result = [];
+        foreach ($auction->lots as $lot) {
+            $this->clearPath($user, $lot);
+            $result[] = $lot->id;
+        }
+        return response()->json(['lotIds'=>$result], 200);
+    }
+
+    public function deleteHiddenLotByTrade($tradeId){
+        $auction = Auction::find($tradeId);
+        if (!$auction) {
+            throw new BaseException("ERR_FIND_TRADE_FAILED", 404, "Trade with id= " . $tradeId . ' does not exist');
+        }
+        $user = User::find(auth()->id());
+        $result = [];
+        foreach ($auction->lots as $lot) {
+            if ($user->hiddenLots->contains($lot)) {
+                $user->hiddenLots()->detach($lot);
+            }
+            $result[] = $lot->id;
+        }
         return response()->json(['lotIds'=>$result], 200);
     }
 
     public function clearPath($user, $lot){
-        if ($user->hiddenLots->contains($lot)) {
-            $user->hiddenLots()->detach($lot);
-        } else {
+        if (!$user->hiddenLots->contains($lot)) {
             $user->hiddenLots()->attach($lot);
             $paths = Favourite::where('user_id', auth()->id())->get();
             foreach ($paths as $path) {
