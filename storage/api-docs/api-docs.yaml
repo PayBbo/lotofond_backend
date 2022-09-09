@@ -4506,6 +4506,12 @@ components:
           type: integer
         percentageReduction:
           type: integer
+        percentageDirection:
+          type: string
+          enum:
+            - up
+            - down
+          description: показатель того, значение percentageReduction является процентом падения иили процентом роста
         date:
           type: string
         participantsCount:
