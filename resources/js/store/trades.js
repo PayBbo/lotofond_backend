@@ -192,19 +192,13 @@ export default {
             await axios({
                 method: 'put',
                 url: '/api/trades/filter',
-                data: payload,
+                data: payload.filters,
                 signal: payload.signal,
                 params:{page: payload.page}
             })
                 .then((response) => {
                 commit('setTrades', response.data);
             }).catch((error) => {
-                // if (axios.isCancel(error)) {
-                //     console.log('Request canceled');
-                //     console.log('Request canceled', error.message);
-                // } else {
-                //     // handle errors
-                // }
                 console.log(error);
                 commit('setTrades', {data: [], pagination: {}});
 
