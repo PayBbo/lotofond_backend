@@ -72,7 +72,8 @@
                     value: this.filter
                 }, {root: true});
                 this.$store.commit('closeModal', '#dateModal');
-                this.$store.dispatch(this.method_name, {page: 1, filters: this.filters});
+                let tmp_filters = JSON.parse(JSON.stringify(this.filters));
+                this.$store.dispatch(this.method_name, {page: 1, filters: tmp_filters});
             },
             clearFilters() {
                 this.$store.commit('saveFiltersProperty', {key: this.filter_name +'_dates', value: this.template});
@@ -82,7 +83,8 @@
                     value: this.template
                 }, {root: true});
                 this.$store.commit('closeModal', '#dateModal');
-                this.$store.dispatch(this.method_name, {page: 1, filters: this.filters});
+                let tmp_filters = JSON.parse(JSON.stringify(this.filters));
+                this.$store.dispatch(this.method_name, {page: 1, filters: tmp_filters});
             }
         }
     }

@@ -86,7 +86,8 @@
                 }, {root: true});
                 this.$store.commit('saveFiltersProperty', {key: this.filter_name +'_categories', value: this.result});
                 this.$store.commit('closeModal', '#categoryModal');
-                this.$store.dispatch(this.method_name, {page: 1, filters: this.filters});
+                let tmp_filters = JSON.parse(JSON.stringify(this.filters));
+                this.$store.dispatch(this.method_name, {page: 1, filters: tmp_filters});
             },
             clearFilters() {
                 this.model = [];
@@ -97,7 +98,8 @@
                 }, {root: true});
                 this.$store.commit('saveFiltersProperty', {key: this.filter_name +'_categories', value: []});
                 this.$store.commit('closeModal', '#categoryModal');
-                this.$store.dispatch(this.method_name, {page: 1, filters: this.filters});
+                let tmp_filters = JSON.parse(JSON.stringify(this.filters));
+                this.$store.dispatch(this.method_name, {page: 1, filters: tmp_filters});
             },
             async getCategories() {
                 await this.$store.dispatch('getCategories').then(resp => {

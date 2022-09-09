@@ -33,8 +33,7 @@
                     excludedWords: '',
                     includedWords:'',
                     tradePlaces: [],
-                    tradeTypes:[],
-                    tradeType:'',
+                    tradeTypes:[]
                 },
                 auctionTypes: [
                     {description: 'Открытый аукцион', title: 'OpenAuction'},
@@ -91,7 +90,8 @@
                     value: this.filter
                 }, {root: true});
                 this.$store.commit('closeModal', '#paramsModal');
-                this.$store.dispatch(this.method_name, {page: 1, filters: this.filters});
+                let tmp_filters = JSON.parse(JSON.stringify(this.filters));
+                this.$store.dispatch(this.method_name, {page: 1, filters: tmp_filters});
             },
             clearFilters() {
                 this.$store.commit('saveFiltersProperty', {key: this.filter_name +'_mainParams', value: this.template});
@@ -101,7 +101,8 @@
                     value: this.template
                 }, {root: true});
                 this.$store.commit('closeModal', '#paramsModal');
-                this.$store.dispatch(this.method_name, {page: 1, filters: this.filters});
+                let tmp_filters = JSON.parse(JSON.stringify(this.filters));
+                this.$store.dispatch(this.method_name, {page: 1, filters: tmp_filters});
             },
             // removePlatform(platform) {
             //     let removeIndex = this.selected_trade_places

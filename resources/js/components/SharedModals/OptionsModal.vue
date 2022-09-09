@@ -35,7 +35,7 @@
                     ],
                     debtors: [],
                     organizers: [],
-                    arbitrManagers: []
+                    arbitrationManagers: []
                 },
                 debtorCategories: [
                     { title:'Физ.лицо', value:"SimplePerson"},
@@ -86,7 +86,8 @@
                     value: this.filter
                 }, {root: true});
                 this.$store.commit('closeModal', '#optionsModal');
-                this.$store.dispatch(this.method_name, {page: 1, filters: this.filters});
+                let tmp_filters = JSON.parse(JSON.stringify(this.filters));
+                this.$store.dispatch(this.method_name, {page: 1, filters: tmp_filters});
             },
             clearFilters() {
                 let tmp_filter = {...this.filters.extraOptions, ...this.template};
@@ -97,7 +98,8 @@
                     value: tmp_filter
                 }, {root: true});
                 this.$store.commit('closeModal', '#optionsModal');
-                this.$store.dispatch(this.method_name, {page: 1, filters: this.filters});
+                let tmp_filters = JSON.parse(JSON.stringify(this.filters));
+                this.$store.dispatch(this.method_name, {page: 1, filters: tmp_filters});
             }
         }
     }

@@ -61,7 +61,6 @@ export default {
                 excludedWords: null,
                 includedWords:'',
                 tradePlaces: [],
-                tradeType:'',
                 tradeTypes:[]
             },
             // other: {
@@ -137,7 +136,6 @@ export default {
                 excludedWords: '',
                 includedWords:'',
                 tradePlaces: [],
-                tradeType:'',
                 tradeTypes:[]
             },
             sort: {

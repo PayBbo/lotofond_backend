@@ -149,7 +149,7 @@ export default {
         },
         async getFilteredTrades({commit, state}, payload) {
             commit('setTradesLoading', true);
-            let filters = JSON.parse(JSON.stringify(payload.filters));
+            // let filters = JSON.parse(JSON.stringify(payload.filters));
             // Object.keys(filters).forEach(key => {
             //     if (Array.isArray(filters[key]))
             //     {

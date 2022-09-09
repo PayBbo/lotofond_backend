@@ -52,7 +52,9 @@
                             <div class="col-12 col-md-6">
                                 <div class="bkt-card__row outline bkt-wrapper-between align-items-center">
                                     <div class="bkt-card__feature">
-                                        <h6 class="bkt-card__subtitle">процент падения</h6>
+                                        <h6 class="bkt-card__subtitle">
+                                            {{ item.percentageDirection==='up' ? 'процент роста':'процент падения'}}
+                                        </h6>
                                         <h4 class="bkt-card__title">
                                             {{item.percentageReduction ? item.percentageReduction : '0'}}%
                                         </h4>
