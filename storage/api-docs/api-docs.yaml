@@ -2473,6 +2473,45 @@ paths:
                 $ref: '#/components/schemas/Error'
       security:
         - bearerAuth: [ ]
+  /note/{itemType}/{itemId}:
+    get:
+      parameters:
+        - name: itemType
+          in: path
+          description: обозначение, к какому типу данных была добавлена заметка
+          required: true
+          schema:
+            type: string
+            enum:
+             - debtor
+             - tradePlace
+             - lot
+             - organizer
+        - name: itemId
+          in: path
+          description: айдишник лота/торговой площадки/организатора/должника
+          required: true
+      tags:
+        - Notes
+      summary: Получение данных о заметке
+      operationId: getNote
+      responses:
+        "200":
+          description: Добавление заметки прошло успешно
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Note"
+        "404":
+          description: Заметка не найдена или не принадлежит авторизованному пользователю
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+        - bearerAuth: [ ]
   /note/edit:
     parameters:
       - name: Content-Language
@@ -4546,6 +4585,8 @@ components:
     Note:
       type: object
       properties:
+        id:
+          type: integer
         title:
           type: string
         date:

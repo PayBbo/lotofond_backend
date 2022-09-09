@@ -37,7 +37,7 @@ class IsExistsNoteItem implements Rule
         else{
             $isExists = Bidder::where('id', $value)->whereHas('types', function ($query) {
                 $query->where('title', $this->type);
-            })->exits();
+            })->exists();
         }
         return $isExists;
     }

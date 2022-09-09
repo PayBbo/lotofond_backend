@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exceptions\CustomExceptions\BaseException;
 use App\Http\Requests\NoteStoreRequest;
 use App\Http\Requests\NoteUpdateRequest;
 use App\Models\Note;
@@ -17,7 +18,7 @@ class NoteController extends Controller
            'item_type'=>$request->itemType,
            'date'=>Carbon::now()->setTimezone('Europe/Moscow')
         ]);
-        return response($note, 200);
+        return response(Note::where('id', $note->id)->select(['id', 'title', 'item_id AS itemId', 'item_type AS itemType', 'date'])->first(), 200);
     }
 
     public function editNote(NoteUpdateRequest $request){
@@ -31,6 +32,15 @@ class NoteController extends Controller
     public function deleteNote(NoteUpdateRequest $request){
         Note::where('id', $request->noteId)->delete();
         return response(null, 200);
+    }
+
+    public function getNote($itemType, $itemId){
+        $note = Note::where(['user_id'=>auth()->id(), 'item_type'=>$itemType, 'item_id'=>$itemId])
+            ->select(['id', 'title', 'item_id AS itemId', 'item_type AS itemType', 'date'])->first();
+        if(!$note){
+            throw new BaseException("ERR_FIND_NOTE_FAILED", 404, "Note with itemId= " . $itemId . " and itemType= ". $itemType ." does not exist");
+        }
+        return response($note, 200);
     }
 
 }

@@ -249,6 +249,8 @@ Route::group(['middleware' => ['json.response', 'localization']], function () {
 
             Route::post('/', [NoteController::class, 'addNote']);
 
+            Route::get('/{itemType}/{itemId}', [NoteController::class, 'getNote']);
+
         });
 
         Route::group(['prefix' => 'notifications'], function () {
