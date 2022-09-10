@@ -36,9 +36,17 @@ class BiddingInvitation extends TradeMessage
                 $service = new SoapWrapperService($soapWrapper);
                 $debtor_data = get_object_vars($service->searchDebtorByCode($codeType, $debtor['INN']));
                 if (array_key_exists($prefix . 'DebtorPerson', $debtor_data)) {
-                    $debtor = get_object_vars($debtor_data['DebtorPerson']);
+                    if(gettype($debtor_data['DebtorPerson']) == 'array'){
+                        $debtor = $debtor_data['DebtorPerson'];
+                    }else {
+                        $debtor = get_object_vars($debtor_data['DebtorPerson']);
+                    }
                 } elseif (array_key_exists('DebtorCompany', $debtor_data)) {
-                    $debtor = get_object_vars($debtor_data['DebtorCompany']);
+                    if(gettype($debtor_data['DebtorCompany']) == 'array'){
+                        $debtor = $debtor_data['DebtorCompany'];
+                    }else {
+                        $debtor = get_object_vars($debtor_data['DebtorCompany']);
+                    }
                 }
                 $bidderParse = new BidderService('debtor', $debtor['INN'], $debtor_type);
                 $debtor = $bidderParse->saveBidder($debtor);
@@ -101,8 +109,12 @@ class BiddingInvitation extends TradeMessage
             $auction->application_start_date = $this->parseDate($data[$prefix . 'Application']['@attributes']['TimeBegin']);
             $auction->application_end_date = $this->parseDate($data[$prefix . 'Application']['@attributes']['TimeEnd']);
             $auction->application_rules = $data[$prefix . 'Application'][$prefix.'Rules'];
-            $auction->date_publish_smi = array_key_exists($prefix . 'DatePublishSMI', $data) ? $data[$prefix . 'DatePublishSMI'] : NULL;
-            $auction->date_publish_efir = array_key_exists($prefix . 'DatePublishEFIR', $data) ? $data[$prefix . 'DatePublishEFIR'] : NULL;
+            if(array_key_exists($prefix . 'DatePublishSMI', $data) && gettype($data[$prefix . 'DatePublishSMI'] ) !== 'array') {
+                $auction->date_publish_smi =  $data[$prefix . 'DatePublishSMI'];
+            }
+            if(array_key_exists($prefix . 'DatePublishEFIR', $data) && gettype($data[$prefix . 'DatePublishEFIR'] ) !== 'array') {
+                $auction->date_publish_efir =  $data[$prefix . 'DatePublishEFIR'];
+            }
             $auction->price_form = $data['@attributes']['FormPrice'] == 'OpenForm' ? 'open' : 'close';
             if (array_key_exists($prefix . 'LegalCase', $invitation)) {
                 $auction->case_number = $invitation[$prefix . 'LegalCase']['@attributes']['CaseNumber'];

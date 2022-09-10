@@ -12,6 +12,7 @@ use App\Jobs\MonitoringNotificationJob;
 use App\Jobs\ParseArbitrManager;
 use App\Jobs\ParseTrades;
 use App\Models\Bidder;
+use App\Models\Lot;
 use Artisaninweb\SoapWrapper\SoapWrapper;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
@@ -51,14 +52,11 @@ class TestCommand extends Command
     public function handle()
     {
         //dispatch(new FavouriteJob);
-        //  dispatch(new MonitoringJob);
-        // dispatch(new MonitoringNotificationJob('weekly'));
+        //dispatch(new MonitoringJob);
+        //dispatch(new MonitoringNotificationJob('weekly'));
         //dispatch(new ParseArbitrManager);
         dispatch(new ParseTrades);
-       /* $soapWrapper = new SoapWrapper();
-        $service = new SoapWrapperService($soapWrapper);
-        $xml = $service->getTradeMessageContent( 13263027);
-        logger($xml);*/
-
+        //$get_trade_message_content = new GetTradeMessageContent($xml, 'BiddingInvitation');
+        //$get_trade_message_content->switchMessageType(1, $xml, 13275260);
     }
 }

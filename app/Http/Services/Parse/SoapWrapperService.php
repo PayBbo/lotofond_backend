@@ -33,8 +33,8 @@ class SoapWrapperService
                     'keep_alive' => false,
                     'connection_timeout' => 5000,
                     'exceptions' => true,
-                    //         'trace'               => true,
-                    //        'cache_wsdl'          => WSDL_CACHE_NONE,
+                    //'trace'               => true,
+                    //'cache_wsdl'          => WSDL_CACHE_NONE,
                     'stream' => stream_context_create(array(
                         'ssl' => array(
                             'verify_peer' => false,
