@@ -2,7 +2,7 @@
     <bkt-modal :id="'resetSuccessModal'" :modal_class="'bkt-auth-modal reset login'" no_footer>
         <template #aside>
             <div class="bkt-modal__aside bkt-bg-green">
-                <img class="bkt-modal__aside-image" :src="'/images/reset_image.png'" alt="">
+                <img class="bkt-modal__aside-image" v-lazy="'/images/reset_image.png'" alt="">
             </div>
         </template>
         <template #title>

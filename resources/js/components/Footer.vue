@@ -4,7 +4,7 @@
             <div class="bkt-container">
                 <div class="row w-100 mx-auto bkt-gap-row-large">
                     <div class="col-6 col-lg-3">
-                        <router-link to="/"><img class="bkt-footer__logo" src="/images/logo.png" alt="logo"></router-link>
+                        <router-link to="/"><img class="bkt-footer__logo" v-lazy="'/images/logo.png'" alt="logo"></router-link>
                         <p class="bkt-footer__description">Нашей деятельности позволяет выполнять важные
                             задания по разработке модели развития. Таким образом дальнейшее развитие различных форм
                             деятельности способствует подготовки.</p>

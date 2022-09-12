@@ -1,6 +1,6 @@
 <template>
     <bkt-modal :id="'optionsModal'" ref="optionsModal" title="Выберите дополнительные параметры"
-               modal_class="bkt-filters-modal"
+               modal_class="bkt-filters-modal" @close-modal="closeModal"
                @left_action="clearFilters" @right_action="saveFilters"
     >
         <template #body>
@@ -100,6 +100,9 @@
                 this.$store.commit('closeModal', '#optionsModal');
                 let tmp_filters = JSON.parse(JSON.stringify(this.filters));
                 this.$store.dispatch(this.method_name, {page: 1, filters: tmp_filters});
+            },
+            closeModal() {
+                Object.assign(this.filter, JSON.parse(JSON.stringify(this.filters.extraOptions)))
             }
         }
     }

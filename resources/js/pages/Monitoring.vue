@@ -552,7 +552,9 @@
                         {
                             this.params.page = sessionStorage.getItem('monitoring'+this.current_path+'_page')
                         }
-                        this.$store.dispatch('getMonitorings', this.params)
+                        this.controller = new AbortController();
+                        this.signal = this.controller.signal;
+                        this.$store.dispatch('getMonitorings', {pathId:this.current_path, params: this.params, signal: this.signal})
                             .finally(() => {
                                 this.loading = false;
                             });

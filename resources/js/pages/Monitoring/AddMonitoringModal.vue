@@ -2,7 +2,7 @@
     <bkt-modal :id="'addMonitoringModal'"
                modal_class="bkt-monitoring-modal bkt-filters-modal bkt-region-modal"
                :title="'Новый мониторинг'" :loading="loading" left_button_class="d-none"
-               @left_action="clear" @right_action="save"
+               @left_action="clear" @right_action="save" @close-modal="closeModal"
     >
         <template #body="{ invalid }">
             <bkt-input v-model="monitoring.name"
@@ -262,15 +262,18 @@
                 this.$store.dispatch('saveMonitoringPath', this.monitoring)
                     .then(resp => {
                         this.loading = false;
-                        this.$store.commit('closeModal', '#addMonitoringModal');
+                        this.clear();
                     })
                 .catch(err => {
                     this.loading = false;
                 });
             },
             clear() {
-                this.monitoring = this.template;
+                this.monitoring = JSON.parse(JSON.stringify(this.template));
                 this.$store.commit('closeModal', '#addMonitoringModal');
+            },
+            closeModal() {
+                this.monitoring = JSON.parse(JSON.stringify(this.template));
             },
             toggleRegion(region) {
                 let item_index = this.monitoring.filters.regions.findIndex(el => el == region);

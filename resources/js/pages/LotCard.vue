@@ -73,7 +73,7 @@
                                         <span>{{$t('trades.priceOfferForm.'+item.trade.priceOfferForm)}}</span>
                                     </div>
                                 </li>
-                                <template v-for="(category, index) in item.categories">
+                                <template v-for="(category, index) in item.categories" v-if="item.categories.length>0">
                                     <li>
                                         <div class="bkt-contents__heading">
                                             <span class="bkt-contents__heading">категория объекта</span>
@@ -138,7 +138,7 @@
                                     </template>
                                 </template>
                             </ul>
-                            <div>
+                            <div v-if="item.description">
                                 <h5 class="bkt-card__text">
                                     {{read_more ? item.description : short_description}}
                                 </h5>
@@ -1588,6 +1588,7 @@
         },
         methods: {
             goBack() {
+                console.log(this.$router.go(-1))
                 window.history.length > 1 ? this.$router.go(-1) : this.$router.push('/')
             },
             async getLot() {

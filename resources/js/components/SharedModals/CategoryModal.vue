@@ -1,5 +1,5 @@
 <template>
-    <bkt-modal :id="'categoryModal'" ref="categoryModal" :title="'Выберите нужные категории'"
+    <bkt-modal :id="'categoryModal'" ref="categoryModal" :title="'Выберите нужные категории'" @close-modal="closeModal"
                modal_class="bkt-category-modal bkt-region-modal" @left_action="clearFilters" @right_action="saveFilters"
     >
         <template #body>
@@ -106,6 +106,13 @@
                     this.items = JSON.parse(JSON.stringify(this.categories));
                 });
             },
+            closeModal() {
+                let tmp_categories = JSON.parse(JSON.stringify(this.filters.categories));
+                this.model.splice(0);
+                tmp_categories.forEach( item => {
+                    this.model.push(item)
+                })
+            }
         }
     }
 </script>

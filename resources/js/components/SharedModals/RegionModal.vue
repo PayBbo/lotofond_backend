@@ -1,5 +1,5 @@
 <template>
-    <bkt-modal :id="'regionModal'" ref="regionModal" :modal_class="'bkt-region-modal bkt-filters-modal'"
+    <bkt-modal :id="'regionModal'" ref="regionModal" :modal_class="'bkt-region-modal bkt-filters-modal'" @close-modal="closeModal"
                :title="'Выберите регион'" :loading="loading" @left_action="clearFilters" @right_action="saveFilters"
     >
         <template #body="{ invalid }">
@@ -100,6 +100,13 @@
                     this.selectedRegion = this.regionGroups[0];
                 });
             },
+            closeModal() {
+                let tmp_regions = JSON.parse(JSON.stringify(this.filters.regions));
+                this.model.splice(0);
+                tmp_regions.forEach( item => {
+                    this.model.push(item)
+                })
+            }
         },
     }
 

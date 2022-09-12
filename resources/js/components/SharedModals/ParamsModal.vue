@@ -1,6 +1,6 @@
 <template>
     <bkt-modal :id="'paramsModal'" title="Выберите основные параметры" modal_class="bkt-filters-modal"
-               @left_action="clearFilters" @right_action="saveFilters"
+               @left_action="clearFilters" @right_action="saveFilters" @close-modal="closeModal"
     >
         <template #body>
             <bkt-params-control v-model="filter"></bkt-params-control>
@@ -44,10 +44,6 @@
                     {description: 'Закрытое публичное предложение', title: 'ClosePublicOffer'},
                 ],
                 params: null,
-                //mock
-                // trade_places: [],
-                // trade_places_pagination: {},
-                // selected_trade_places:[],
             };
         },
         computed: {
@@ -104,6 +100,9 @@
                 let tmp_filters = JSON.parse(JSON.stringify(this.filters));
                 this.$store.dispatch(this.method_name, {page: 1, filters: tmp_filters});
             },
+            closeModal() {
+                Object.assign(this.filter, JSON.parse(JSON.stringify(this.filters.mainParams)))
+            }
             // removePlatform(platform) {
             //     let removeIndex = this.selected_trade_places
             //         .map(item => item.code)

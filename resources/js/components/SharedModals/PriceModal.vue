@@ -1,6 +1,6 @@
 <template>
     <bkt-modal :id="'priceModal'" ref="priceModal" title="Выберите стоимость объекта" modal_class="bkt-filters-modal"
-               @left_action="clearFilters" @right_action="saveFilters"
+               @left_action="clearFilters" @right_action="saveFilters" @close-modal="closeModal"
     >
         <template #body>
             <bkt-prices-control v-model="filter"></bkt-prices-control>
@@ -83,6 +83,9 @@
                 this.$store.commit('closeModal', '#priceModal');
                 let tmp_filters = JSON.parse(JSON.stringify(this.filters));
                 this.$store.dispatch(this.method_name, {page: 1, filters: tmp_filters});
+            },
+            closeModal() {
+                Object.assign(this.filter, JSON.parse(JSON.stringify(this.filters.prices)))
             }
         }
     }

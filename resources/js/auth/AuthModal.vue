@@ -2,7 +2,7 @@
     <bkt-modal :id="'authModal'" ref="authModal" :modal_class="'bkt-auth-modal '+tab" no_footer>
         <template #aside>
             <div class="bkt-modal__aside">
-                <img class="bkt-modal__aside-image" :src="'/images/'+tab+'_image.png'" alt="">
+                <img class="bkt-modal__aside-image" v-lazy="'/images/'+tab+'_image.png'" alt="">
                 <h3 class="bkt-modal__aside-title">Для чего нужна<br> регистрация на сайте?</h3>
                 <div class="bkt-modal__aside-description">
                     <h4 class="bkt-modal__aside-description-text">Прохождение регистрации позволит вам получить
