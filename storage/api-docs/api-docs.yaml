@@ -2512,6 +2512,29 @@ paths:
                 $ref: '#/components/schemas/Error'
       security:
         - bearerAuth: [ ]
+  /notes:
+    get:
+      tags:
+        - Notes
+      summary: Получение данных о заметках пользователя
+      operationId: getUserNotes
+      responses:
+        "200":
+          description: Данные о заметках пользователя
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Note"
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+        - bearerAuth: [ ]
   /note/edit:
     parameters:
       - name: Content-Language

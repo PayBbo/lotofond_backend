@@ -43,4 +43,8 @@ class NoteController extends Controller
         return response($note, 200);
     }
 
+    public function getUserNotes(){
+        return response(Note::where('user_id', auth()->id())->select(['id', 'title', 'item_id AS itemId', 'item_type AS itemType', 'date'])->get(), 200);
+    }
+
 }
