@@ -584,12 +584,25 @@
                 }, 50)
             },
             async removeMonitoringPath() {
-                await this.$store.dispatch('removeMonitoringPath', this.current_path)
-                    .then(resp => {
-                        if (this.items_paths.length > 0) {
-                            this.setCurrentMonitoringPath(this.items_paths[0].pathId)
-                        }
-                    });
+                this.$swal.fire({
+                    title: 'Вы уверены?',
+                    text: 'Вы уверены, что хотите удалить этот мониторинг?',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#2953ff',
+                    cancelButtonColor: '#ec4c27',
+                    confirmButtonText: 'Да',
+                    cancelButtonText: 'Отменить',
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        this.$store.dispatch('removeMonitoringPath', this.current_path)
+                            .then(resp => {
+                                if (this.items_paths.length > 0) {
+                                    this.setCurrentMonitoringPath(this.items_paths[0].pathId)
+                                }
+                            });
+                    }
+                })
             },
             editMonitoringPath(value) {
                 if (!this.loading) {

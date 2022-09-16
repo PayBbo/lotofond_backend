@@ -207,7 +207,7 @@ export default {
                     commit('saveFavouritePath', response.data)
                 }).catch(error => {
                     console.log(error);
-
+                    throw error;
                 });
         },
         async removeFavouritePath({commit}, payload) {
@@ -217,7 +217,7 @@ export default {
                     commit('removeFavouritePath', payload)
                 }).catch(error => {
                     console.log(error);
-
+                    throw error;
                 });
         },
         async downloadFavouritePath({commit}, payload) {
@@ -280,6 +280,7 @@ export default {
                 .then(response => {
                     commit('removeFavourite', payload);
                 }).catch(error => {
+                    throw error;
                 });
         },
         async moveFavourite({commit}, payload) {
@@ -290,6 +291,7 @@ export default {
                     commit('changeTradeFavouritePaths', payload);
                 }).catch(error => {
                     console.log(error);
+                    throw error;
                 });
         },
         async setCurrentPath({dispatch, commit, state}, payload) {

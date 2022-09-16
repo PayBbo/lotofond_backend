@@ -152,7 +152,7 @@ export default {
                     commit('saveMonitoringPath', response.data)
                 }).catch(error => {
                     console.log(error);
-
+                    throw error
                 });
         },
         async editMonitoringPath({dispatch, commit}, payload) {
@@ -169,6 +169,7 @@ export default {
                     dispatch('setCurrentMonitoringPath', response.data.pathId)
                 }).catch(error => {
                     console.log(error);
+                    throw error
                 });
         },
         async removeMonitoringPath({dispatch, commit, state}, payload) {
@@ -183,7 +184,7 @@ export default {
 
                 }).catch(error => {
                     console.log(error);
-
+                    throw error
                 });
         },
         async getMonitorings({commit, state}, payload) {
@@ -223,6 +224,7 @@ export default {
                 .then(response => {
                     commit('removeMonitoring', payload);
                 }).catch(error => {
+                    throw error
                 });
         },
         async setCurrentMonitoringPath({dispatch, commit, state}, payload) {

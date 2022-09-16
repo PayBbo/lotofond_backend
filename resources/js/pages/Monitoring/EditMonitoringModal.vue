@@ -256,15 +256,16 @@
         },
         methods: {
             cancel() {
-                this.loading = true;
-                this.$store.dispatch('removeMonitoringPath', this.current_path)
-                    .then(resp => {
-                        this.loading = false;
-                        this.$store.commit('closeModal', '#editMonitoringModal');
-                    })
-                    .catch(err => {
-                        this.loading = false;
-                    });
+                // this.loading = true;
+                // this.$store.dispatch('removeMonitoringPath', this.current_path)
+                //     .then(resp => {
+                //         this.loading = false;
+                //         this.$store.commit('closeModal', '#editMonitoringModal');
+                //     })
+                //     .catch(err => {
+                //         this.loading = false;
+                //     });
+                this.$store.commit('closeModal', '#editMonitoringModal');
             },
             save() {
                 this.loading = true;

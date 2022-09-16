@@ -406,10 +406,23 @@
                     });
             },
             async removeFavouritePath() {
-                await this.$store.dispatch('removeFavouritePath', this.current_path)
-                    .then(resp => {
-                        this.setCurrentPath(this.items_paths[0].pathId)
-                    });
+                this.$swal.fire({
+                    title: 'Вы уверены?',
+                    text: 'Вы уверены, что хотите удалить эту папку?',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#2953ff',
+                    cancelButtonColor: '#ec4c27',
+                    confirmButtonText: 'Да',
+                    cancelButtonText: 'Отменить',
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        this.$store.dispatch('removeFavouritePath', this.current_path)
+                            .then(resp => {
+                                this.setCurrentPath(this.items_paths[0].pathId)
+                            })
+                    }
+                })
             },
             updateData(payload) {
                 if(payload.key ==='isHide' || payload.key ==='inFavourite' || payload.key === 'moveFavourite') {
