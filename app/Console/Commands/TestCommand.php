@@ -55,7 +55,14 @@ class TestCommand extends Command
         //dispatch(new MonitoringJob);
         //dispatch(new MonitoringNotificationJob('weekly'));
         //dispatch(new ParseArbitrManager);
-        dispatch(new ParseTrades);
+        $startDate = Carbon::parse('2022-08-17 00:30');
+        $endDate = Carbon::parse('2022-09-07 00:40');
+        while($startDate < $endDate){
+            $startFrom = $startDate->format('Y-m-d\TH:i:s');
+            $startDate->addHours(3);
+            dispatch(new ParseTrades($startFrom, $startDate->format('Y-m-d\TH:i:s')));
+        }
+       // dispatch(new ParseTrades);
         //$get_trade_message_content = new GetTradeMessageContent($xml, 'BiddingInvitation');
         //$get_trade_message_content->switchMessageType(1, $xml, 13275260);
     }

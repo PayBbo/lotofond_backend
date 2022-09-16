@@ -117,8 +117,10 @@ class TradeService
         if (gettype($value[$prefix . 'Classification'][$prefix . 'IDClass']) == 'array') {
             foreach ($value[$prefix . 'Classification'][$prefix . 'IDClass'] as $item) {
                 $category = Category::where('code', $item)->first();
-                if (!$lot->categories()->where('title', $category->title)->exists()) {
-                    $lot->categories()->attach($category);
+                if($category) {
+                    if (!$lot->categories()->where('title', $category->title)->exists()) {
+                        $lot->categories()->attach($category);
+                    }
                 }
             }
         } else {
