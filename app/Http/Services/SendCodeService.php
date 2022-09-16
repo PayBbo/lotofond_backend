@@ -68,20 +68,37 @@ class SendCodeService
                 $html = "<p>$value</p>";
                 $details = '';
                 if (!is_null($notification->monitoring_id)) {
+                    $category_icons = [
+                        'accountsReceivable' => '/images/icons/accountsReceivable.png',
+                        'agriculturaProperty' => '/images/icons/agriculturaProperty.png',
+                        'equipment' => '/images/icons/equipment.png',
+                        'obligations' => '/images/icons/obligations.png',
+                        'other' => '/images/icons/other.png',
+                        'productionLines' => '/images/icons/productionLines.png',
+                        'realEstate' => '/images/icons/realEstate.png',
+                        'tangibles' => '/images/icons/tangibles.png',
+                        'transportAndEquipment' => '/images/icons/transportAndEquipment.png'
+                    ];
                     $lots = $notification->notificationLots;
-                    $details = '<table><thead><tr><td style="width: 5%">№</td><td style="width: 25%">Изображение</td><td style="width: 60%">Описание</td><td style="width: 10%">Ссылка</td></tr></thead><tbody>';
+                    $details = '<table style="text-align: center"><thead><tr><td style="width: 5%">№</td><td style="width: 15%">Изображение</td><td style="width: 70%">Описание</td><td style="width: 10%">Ссылка</td></tr></thead><tbody>';
                     $i = 1;
                     foreach ($lots as $lot) {
                         if ($i >= 6) {
                             break;
                         }
-                        $photo =  $message->embed(asset('/images/favicon/android-chrome-256x256.png'));
                         if (count($lot->photos) > 0) {
-                            $photo =  $message->embed($lot->photos[0]['main']);
+                            $photo = $message->embed($lot->photos[0]['main']);
+                        }else{
+                            $category = $lot->categories()->first();
+                            if(!is_null($category->parent_id)){
+                                $photo = $message->embed(asset($category_icons[$category->parent()->title]));
+                            }else{
+                                $photo = $message->embed(asset($category_icons[$category->title]));
+                            }
                         }
                         $desc = $lot->description;
                         $url = asset('lot/' . $lot->id);
-                        $details .= "<tr><td>$i</td><td><img width='150px' height='150px' src='$photo' alt=''/></td><td>$desc</td><td><a href='$url'>Подробнее</a></td></tr>";
+                        $details .= "<tr><td>$i</td><td><img width='150px' height='117px' src='$photo' alt=''/></td><td>$desc</td><td><a href='$url'>Подробнее</a></td></tr>";
                         $i++;
                     }
 
