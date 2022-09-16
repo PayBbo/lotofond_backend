@@ -189,7 +189,7 @@
                     данных.
                 </template>
             </bkt-checkbox>
-            <button class="bkt-button primary" v-if="tab=='registration'" :disabled="invalid" @click="submit">
+            <button class="bkt-button primary" v-if="tab=='registration'" :disabled="invalid||loading" @click="submit">
                 <span v-if="loading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                 Зарегистрироваться
             </button>
@@ -197,7 +197,7 @@
                 <button class="bkt-button next" @click="resetPassword">Забыли пароль?
                     <bkt-icon name="ArrowDown"></bkt-icon>
                 </button>
-                <button class="bkt-button primary ms-auto me-0" :disabled="invalid" @click="submit">
+                <button class="bkt-button primary ms-auto me-0" :disabled="invalid||loading" @click="submit">
                     <span v-if="loading" class="spinner-border spinner-border-sm" role="status"
                           aria-hidden="true"></span>
                     Войти

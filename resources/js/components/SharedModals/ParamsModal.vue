@@ -44,6 +44,8 @@
                     {description: 'Закрытое публичное предложение', title: 'ClosePublicOffer'},
                 ],
                 params: null,
+                signal: null,
+                controller: null,
             };
         },
         computed: {
@@ -86,8 +88,7 @@
                     value: this.filter
                 }, {root: true});
                 this.$store.commit('closeModal', '#paramsModal');
-                let tmp_filters = JSON.parse(JSON.stringify(this.filters));
-                this.$store.dispatch(this.method_name, {page: 1, filters: tmp_filters});
+                this.callMethod();
             },
             clearFilters() {
                 this.$store.commit('saveFiltersProperty', {key: this.filter_name +'_mainParams', value: this.template});
@@ -97,11 +98,21 @@
                     value: this.template
                 }, {root: true});
                 this.$store.commit('closeModal', '#paramsModal');
-                let tmp_filters = JSON.parse(JSON.stringify(this.filters));
-                this.$store.dispatch(this.method_name, {page: 1, filters: tmp_filters});
+                this.callMethod();
             },
             closeModal() {
                 Object.assign(this.filter, JSON.parse(JSON.stringify(this.filters.mainParams)))
+            },
+            callMethod() {
+                let tmp_filters = JSON.parse(JSON.stringify(this.filters));
+                if (this.signal) {
+                    this.controller.abort();
+                }
+                setTimeout(() => {
+                    this.controller = new AbortController();
+                    this.signal = this.controller.signal;
+                    this.$store.dispatch(this.method_name, {page: 1, filters: tmp_filters, signal:this.signal});
+                }, 100);
             }
             // removePlatform(platform) {
             //     let removeIndex = this.selected_trade_places

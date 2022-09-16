@@ -42,6 +42,8 @@
                 regionGroups: [],
                 selectedRegion: null,
                 result: [],
+                signal: null,
+                controller: null,
             }
         },
         created() {
@@ -79,8 +81,7 @@
                     value: this.result
                 }, {root: true});
                 this.$store.commit('closeModal', '#regionModal');
-                let tmp_filters = JSON.parse(JSON.stringify(this.filters));
-                this.$store.dispatch(this.method_name, {page: 1, filters: tmp_filters});
+                this.callMethod();
             },
             clearFilters() {
                 this.model = [];
@@ -91,8 +92,7 @@
                     value: []
                 }, {root: true});
                 this.$store.commit('closeModal', '#regionModal');
-                let tmp_filters = JSON.parse(JSON.stringify(this.filters));
-                this.$store.dispatch(this.method_name, {page: 1, filters: tmp_filters});
+                this.callMethod();
             },
             async getRegions() {
                 await this.$store.dispatch('getRegions').then(resp => {
@@ -106,6 +106,17 @@
                 tmp_regions.forEach( item => {
                     this.model.push(item)
                 })
+            },
+            callMethod() {
+                let tmp_filters = JSON.parse(JSON.stringify(this.filters));
+                if (this.signal) {
+                    this.controller.abort();
+                }
+                setTimeout(() => {
+                    this.controller = new AbortController();
+                    this.signal = this.controller.signal;
+                    this.$store.dispatch(this.method_name, {page: 1, filters: tmp_filters, signal:this.signal});
+                }, 100);
             }
         },
     }

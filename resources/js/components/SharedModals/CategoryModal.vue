@@ -41,7 +41,9 @@
         data() {
             return {
                 result: [],
-                items:[]
+                items:[],
+                signal: null,
+                controller: null
             };
         },
         created() {
@@ -98,8 +100,7 @@
                 }, {root: true});
                 this.$store.commit('saveFiltersProperty', {key: this.filter_name +'_categories', value: []});
                 this.$store.commit('closeModal', '#categoryModal');
-                let tmp_filters = JSON.parse(JSON.stringify(this.filters));
-                this.$store.dispatch(this.method_name, {page: 1, filters: tmp_filters});
+                this.callMethod();
             },
             async getCategories() {
                 await this.$store.dispatch('getCategories').then(resp => {
@@ -112,6 +113,17 @@
                 tmp_categories.forEach( item => {
                     this.model.push(item)
                 })
+            },
+            callMethod() {
+                let tmp_filters = JSON.parse(JSON.stringify(this.filters));
+                if (this.signal) {
+                    this.controller.abort();
+                }
+                setTimeout(() => {
+                    this.controller = new AbortController();
+                    this.signal = this.controller.signal;
+                    this.$store.dispatch(this.method_name, {page: 1, filters: tmp_filters, signal:this.signal});
+                }, 100);
             }
         }
     }

@@ -1,5 +1,5 @@
 <template>
-    <div class="bkt-card bkt-card__body">
+    <ValidationObserver v-slot="{ invalid }" tag="div" class="bkt-card bkt-card__body">
         <div class="bkt-form align-items-baseline bkt-gap-down-sm-large">
             <div class="col-4 ps-md-0 d-none d-md-block">
                 <h5 class="bkt-form__label">ваш e-mail</h5>
@@ -66,13 +66,15 @@
                     <!--                        прикрепить файл-->
                     <!--                    </button>-->
                     <bkt-upload-file v-model="question.files" ref="upload_file"></bkt-upload-file>
-                    <button class="bkt-button primary bkt-button_plump bkt-w-sm-100">
+                    <button class="bkt-button primary bkt-button_plump bkt-w-sm-100" @click="sendApplication"
+                            :disabled="loading||invalid">
+                        <span v-if="loading" class="spinner-border spinner-border-sm" role="status"></span>
                         Отправить
                     </button>
                 </div>
             </div>
         </div>
-    </div>
+    </ValidationObserver>
 </template>
 
 <script>
@@ -92,6 +94,18 @@
                     files: []
                 },
                 loading: false,
+                new_email: false
+            }
+        },
+        computed: {
+            user() {
+                return this.$store.getters.auth_user
+            },
+        },
+        mounted() {
+            this.question.email = this.user.email;
+            if(!this.user.email) {
+              this.new_email = true;
             }
         },
         methods: {
@@ -107,7 +121,7 @@
                 for (var i = 0; i < this.question.files.length; i++) {
                     formData.append("file[]", this.question.files[i]);
                 }
-                axios.post('/api/send/question', this.question, {
+                axios.post('/api/send/question', formData, {
                     headers: {
                         'Content-Type': 'multipart/form-data',
                     }

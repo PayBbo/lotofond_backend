@@ -52,7 +52,7 @@
                     >
                         <div class="bkt-navbar__user text-truncate me-1">
                             <div class="bkt-navbar__user-name text-truncate">
-                                {{ auth_user ? auth_user.name : '' }} {{ auth_user ? auth_user.surname : '' }}
+                                {{ auth_user ? auth_user.name : '' }} {{ auth_user ? auth_user.lastName : '' }}
                             </div>
                             <div class="bkt-navbar__user-tarif">
                                 тариф: <span class="bkt-navbar__user-tarif-name">Базовый</span>

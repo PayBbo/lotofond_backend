@@ -73,12 +73,13 @@
                 <!--                    </button>-->
                 <!--                </template>-->
             </bkt-input>
-
             <bkt-select name="regions"
                         v-model="region"
                         :options="region_options"
                         label="выберите регион и получите персональную подборку лотов"
                         label_class="bkt-input__label"
+                        option_label="label"
+                        :reduce="option => option.value"
                         with_option
                         with_selected_option
                         :method_name="'getRegions'"
@@ -137,9 +138,9 @@
                 let tmp = [].concat.apply([], this.$store.getters.regions.map(item => item.regions));
                 let result =[];
                 tmp.forEach(item => {
-                    result.push(this.$t('regions.'+item));
+                    result.push({label: this.$t('regions.'+item), value: item});
                 });
-                return result.sort((a, b) => a.localeCompare(b))
+                return result.sort((a, b) => a.label.localeCompare(b.label))
             },
             regions_loading() {
                 return this.$store.getters.regions_loading
