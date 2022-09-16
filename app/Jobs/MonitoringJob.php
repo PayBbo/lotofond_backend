@@ -33,7 +33,7 @@ class MonitoringJob implements ShouldQueue
      */
     public function handle()
     {
-        $minDate = Carbon::now()->setTimezone('Europe/Moscow')->subHour();
+        $minDate = Carbon::now()->setTimezone('Europe/Moscow')->subHours(3);
         $maxDate = Carbon::now()->setTimezone('Europe/Moscow');
         $monitorings = Monitoring::all();
         foreach ($monitorings as $monitoring) {

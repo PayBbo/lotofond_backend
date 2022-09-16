@@ -3,6 +3,7 @@
 namespace App\Http\Services;
 
 use App\Exceptions\CustomExceptions\BaseException;
+use App\Models\Notification;
 use CodersStudio\SmsRu\Facades\SmsRu;
 use Exception;
 use Illuminate\Support\Facades\Mail;
@@ -63,20 +64,41 @@ class SendCodeService
     public function sendEmailNotification($toEmail, $subject, $value, $notification)
     {
         try {
-            $html = "<p>$value</p>";
-            $details = '';
-            if (!is_null($notification->monitoring_id)) {
-                $url =  asset( '/monitoring');
-                $details = "<p>Подробнее: $url</p>";
-            }
-            if (!is_null($notification->lot_id)) {
-                $description = $notification->lot->lot->description;
-                $url = asset('lot/' . $notification->lot->lot->id);
-                $details = "<p>$description</p><p>Подробнее: $url</p>";
-            }
-            $html .=$details . "<p>С уважением, Lotofond</p>";
+            Mail::send([], [], function ($message) use ($toEmail, $subject, $value, $notification) {
+                $html = "<p>$value</p>";
+                $details = '';
+                if (!is_null($notification->monitoring_id)) {
+                    $lots = $notification->notificationLots;
+                    $details = '<table><thead><tr><td style="width: 5%">№</td><td style="width: 25%">Изображение</td><td style="width: 60%">Описание</td><td style="width: 10%">Ссылка</td></tr></thead><tbody>';
+                    $i = 1;
+                    foreach ($lots as $lot) {
+                        if ($i >= 6) {
+                            break;
+                        }
+                        $photo =  $message->embed(asset('/images/favicon/android-chrome-256x256.png'));
+                        if (count($lot->photos) > 0) {
+                            $photo =  $message->embed($lot->photos[0]['main']);
+                        }
+                        $desc = $lot->description;
+                        $url = asset('lot/' . $lot->id);
+                        $details .= "<tr><td>$i</td><td><img width='150px' height='150px' src='$photo' alt=''/></td><td>$desc</td><td><a href='$url'>Подробнее</a></td></tr>";
+                        $i++;
+                    }
 
-            Mail::send([], [], function ($message) use ($toEmail, $subject, $html) {
+                    if ($notification->notificationLots()->count() > 5) {
+                        $url = asset('/monitoring');
+                        $details .= "</tbody></table> <a href='$url'>Больше лотов по данному мониторингу</a>";
+                    } else {
+                        $details .= "</tbody></table>";
+                    }
+                }
+                if (!is_null($notification->lot_id)) {
+                    $description = $notification->lot->lot->description;
+                    $url = asset('lot/' . $notification->lot->lot->id);
+                    $details = "<p>$description</p><a href='$url'>Подробнее</a>";
+                }
+                $html .= $details . "<p>С уважением, Lotofond</p>";
+
                 $message->from('bankr0t.t@yandex.ru', 'Lotofond');
                 $message->to($toEmail);
                 $message->subject($subject);
