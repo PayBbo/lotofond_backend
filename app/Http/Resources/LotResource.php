@@ -21,6 +21,16 @@ class LotResource extends JsonResource
         $inFavourite = auth()->guard('api')->check() ? $this->inFavourite() : false;
         $this->auction->isLotInfo = $this->isLotInfo;
         $regions = $this->regions()->select('code', 'lot_regions.is_debtor_region as isDebtorRegion')->get();
+        $priceReductions = null;
+        if($this->has('priceReductions')){
+            $priceReductions = $this->showPriceReductions()->select('id', 'start_time as time', 'price')->get();
+            foreach($priceReductions as $priceReduction){
+                $priceReduction->isCurrentStage = false;
+                if($priceReduction->id === $this->currentPriceReduction()->first()['id']){
+                    $priceReduction->isCurrentStage = true;
+                }
+            }
+        }
         return [
             'id' => $this->id,
             'trade' => new TradeResource($this->auction),
@@ -58,7 +68,7 @@ class LotResource extends JsonResource
             $this->mergeWhen(is_null($this->deposit), [
                 'deposit' => null
             ]),
-            'priceReduction' => $this->has('priceReductions') ? $this->showPriceReductions()->select('start_time as time', 'price')->get() : null,
+            'priceReduction' => $priceReductions,
             'currentPrice' => (float)$this->current_price,
             'minPrice'=> (float)$this->min_price,
             'currentPriceState' => $this->current_price_state,

@@ -128,7 +128,7 @@ class Lot extends Model
 
     public function lotFiles()
     {
-        return $this->hasMany(LotFile::class)->where('user_id',null);
+        return $this->hasMany(LotFile::class)->where('user_id', null);
     }
 
 
@@ -161,9 +161,9 @@ class Lot extends Model
     {
         $lots = PriceReduction::groupBy('lot_id')->pluck('lot_id')->toArray();
         $prices = [];
-        foreach($lots as $lot){
+        foreach ($lots as $lot) {
             $price = PriceReduction::where('lot_id', $lot)->min('price');
-            $prices[] = PriceReduction::where(['lot_id'=>$lot, 'price'=>$price])->first()['id'];
+            $prices[] = PriceReduction::where(['lot_id' => $lot, 'price' => $price])->first()['id'];
         }
         return $this->hasMany(PriceReduction::class)->whereIn('id', $prices);
     }
@@ -171,14 +171,26 @@ class Lot extends Model
     public function currentPriceReduction()
     {
         $currentDate = Carbon::now()->setTimezone('Europe/Moscow');
-        return $this->hasMany(PriceReduction::class)
+        $isExists = $this->hasMany(PriceReduction::class)
             ->where(function ($query) use ($currentDate) {
-                $query->whereDate('start_time', '<=', $currentDate )
-                    ->orWhere('start_time', '=', null);
+                $query->whereDate('start_time', '<=', $currentDate);
             })
             ->where(function ($query) use ($currentDate) {
-                $query->whereDate('end_time', '>', $currentDate)
-                    ->orWhere('end_time', '=', null);
+                $query->where('end_time', '>', $currentDate);
+            })->exists();
+        return $this->hasMany(PriceReduction::class)
+            ->where(function ($query) use ($currentDate) {
+                $query->whereDate('start_time', '<=', $currentDate);
+            })
+            ->when($isExists, function ($q) use ($currentDate) {
+                $q->where(function ($query) use ($currentDate) {
+                    $query->where('end_time', '>', $currentDate);
+                });
+            })
+            ->when(!$isExists, function ($q) use ($currentDate) {
+                $q->where(function ($query) {
+                    $query->where('end_time', '=', null);
+                });
             })
             ->take(1);
     }
@@ -246,17 +258,19 @@ class Lot extends Model
         }
         if (auth()->check()) {
             foreach ($this->lotUserImages as $image) {
-                $photos[] = ['type' => 'user', 'main' => $image->url[0], 'preview' => $image->url[1],  'id' => $image->id];
+                $photos[] = ['type' => 'user', 'main' => $image->url[0], 'preview' => $image->url[1], 'id' => $image->id];
             }
         }
         return $photos;
     }
 
-    public function userMarks(){
+    public function userMarks()
+    {
         return $this->belongsToMany(Mark::class)->where('user_id', auth()->id())->select('id', 'title')->get();
     }
 
-    public function userMarksForSearch(){
+    public function userMarksForSearch()
+    {
         return $this->belongsToMany(Mark::class)->where('user_id', auth()->id());
     }
 
@@ -281,10 +295,11 @@ class Lot extends Model
 
     }
 
-    public function inFavourite(){
+    public function inFavourite()
+    {
         $favourites = auth()->guard('api')->user()->favourites;
-        foreach($favourites as $favourite){
-            if($favourite->lots()->where('lots.id', $this->id)->exists()){
+        foreach ($favourites as $favourite) {
+            if ($favourite->lots()->where('lots.id', $this->id)->exists()) {
                 return true;
             }
         }
@@ -292,10 +307,11 @@ class Lot extends Model
 
     }
 
-    public function inMonitoring(){
+    public function inMonitoring()
+    {
         $monitorings = auth()->guard('api')->user()->monitorings;
-        foreach($monitorings as $monitoring){
-            if($monitoring->lots()->where('lots.id', $this->id)->exists()){
+        foreach ($monitorings as $monitoring) {
+            if ($monitoring->lots()->where('lots.id', $this->id)->exists()) {
                 return true;
             }
         }
@@ -303,44 +319,47 @@ class Lot extends Model
 
     }
 
-    public function getNote(){
+    public function getNote()
+    {
         $note = null;
-        if(auth()->guard('api')->check() && Note::where(['user_id'=>auth()->guard('api')->id(),
-                'item_type'=>'lot', 'item_id'=>$this->id])->exists() ){
-            $note = Note::where(['user_id'=>auth()->guard('api')->id(),
-                'item_type'=>'lot', 'item_id'=>$this->id])->first()->only('id', 'title', 'date');
+        if (auth()->guard('api')->check() && Note::where(['user_id' => auth()->guard('api')->id(),
+                'item_type' => 'lot', 'item_id' => $this->id])->exists()) {
+            $note = Note::where(['user_id' => auth()->guard('api')->id(),
+                'item_type' => 'lot', 'item_id' => $this->id])->first()->only('id', 'title', 'date');
         }
         return $note;
     }
 
-    public function getLotFavouritePaths(){
-        if(auth()->guard('api')->check()) {
+    public function getLotFavouritePaths()
+    {
+        if (auth()->guard('api')->check()) {
             $user = auth()->guard('api')->user();
-                return FavouritePathResource::collection($user->favourites()->whereHas('lots', function ($query) {
-                    $query->where('lot_id', $this->id);
-                })->get());
+            return FavouritePathResource::collection($user->favourites()->whereHas('lots', function ($query) {
+                $query->where('lot_id', $this->id);
+            })->get());
         }
         return null;
     }
 
-    public function getDescriptionExtractsAttribute(){
+    public function getDescriptionExtractsAttribute()
+    {
         $result = [];
         $params = $this->params()->where('lot_params.parent_id', null)
-            ->select('lot_params.id as lot_param_id','title', 'params.type as type', 'lot_params.type as param_type', 'lot_params.value as value')->get();
-        foreach($params as $param){
+            ->select('lot_params.id as lot_param_id', 'title', 'params.type as type', 'lot_params.type as param_type', 'lot_params.value as value')->get();
+        foreach ($params as $param) {
             $subParams = $this->params()->where('lot_params.parent_id', $param->lot_param_id)->select('title', 'params.type as type', 'lot_params.type as param_type', 'lot_params.value as value')->get();
-            if($subParams->count()>0){
+            if ($subParams->count() > 0) {
                 $result[] = [
-                    'tradeSubject'=>$param->value,
-                    'type'=> is_null($param->param_type) ? 'other' : $param->param_type,
-                    'extracts'=>$subParams->makeHidden(['pivot', 'param_type'])
+                    'tradeSubject' => $param->value,
+                    'type' => is_null($param->param_type) ? 'other' : $param->param_type,
+                    'extracts' => $subParams->makeHidden(['pivot', 'param_type'])
                 ];
 
-            }else{
+            } else {
                 $result[] = [
-                    'tradeSubject'=>null,
-                    'type'=>'other',
-                    'extracts'=>[$param->makeHidden(['pivot', 'lot_param_id', 'param_type'])]
+                    'tradeSubject' => null,
+                    'type' => 'other',
+                    'extracts' => [$param->makeHidden(['pivot', 'lot_param_id', 'param_type'])]
                 ];
             }
         }
@@ -354,8 +373,8 @@ class Lot extends Model
 
     public function scopeIsFixed($query)
     {
-        if(auth()->guard('api')->check()) {
-             $query->orderBy(FixedLot::select('created_at')
+        if (auth()->guard('api')->check()) {
+            $query->orderBy(FixedLot::select('created_at')
                 ->whereColumn('lots.id', 'fixed_lots.lot_id')
                 ->where('fixed_lots.user_id', auth()->guard('api')->id())
                 ->take(1),
@@ -364,7 +383,9 @@ class Lot extends Model
 
         }
     }
-    public function categoriesStructure(){
+
+    public function categoriesStructure()
+    {
         $categories = [];
         $parents = [];
         foreach ($this->categories as $category) {
@@ -382,23 +403,24 @@ class Lot extends Model
             $subs = array_intersect($category->subcategories()->pluck('id')->toArray(), $categoriesIds);
             $subs = Category::whereIn('id', array_unique($subs))->get();
             $subcategories = [];
-            foreach($subs as $sub){
-                $value = ['label'=>$sub->label, 'key'=>$sub->title];
-                if(!in_array($value, $subcategories)) {
+            foreach ($subs as $sub) {
+                $value = ['label' => $sub->label, 'key' => $sub->title];
+                if (!in_array($value, $subcategories)) {
                     $subcategories[] = $value;
                 }
             }
-            $categories[] = ['label'=>$category->label, 'key'=>$category->title, 'subcategories'=>$subcategories];
+            $categories[] = ['label' => $category->label, 'key' => $category->title, 'subcategories' => $subcategories];
         }
         return $categories;
     }
 
-    public function hasNotSeenNotification(){
+    public function hasNotSeenNotification()
+    {
         $favourites = auth()->guard('api')->user()->favourites;
-        foreach($favourites as $favourite){
-            if($favourite->lots()->where('lots.id', $this->id)->exists()){
+        foreach ($favourites as $favourite) {
+            if ($favourite->lots()->where('lots.id', $this->id)->exists()) {
                 $ids = $favourite->lots()->pluck('favourite_lot.id')->toArray();
-                if(Notification::whereIn('lot_id', $ids)->where(['user_id'=> auth()->guard('api')->id(), 'is_seen'=>false])->exists()){
+                if (Notification::whereIn('lot_id', $ids)->where(['user_id' => auth()->guard('api')->id(), 'is_seen' => false])->exists()) {
                     return true;
                 }
             }
@@ -406,7 +428,8 @@ class Lot extends Model
         return false;
     }
 
-    public function getDescriptionAttribute($value){
+    public function getDescriptionAttribute($value)
+    {
         $result = htmlentities($value);
         $result = preg_replace('/^(&quot;)(.*)(&quot;)$/', "$2", $value);
         $result = preg_replace('/^(&laquo;)(.*)(&raquo;)$/', "$2", $result);

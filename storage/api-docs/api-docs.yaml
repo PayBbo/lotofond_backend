@@ -1339,7 +1339,7 @@ paths:
                 marks:
                   type: array
                   description: айдишники меток пользователя для поиска
-                  example: [1, 2, 3]
+                  example: [ 1, 2, 3 ]
                 sort:
                   $ref: "#/components/schemas/Sort"
       responses:
@@ -2483,10 +2483,10 @@ paths:
           schema:
             type: string
             enum:
-             - debtor
-             - tradePlace
-             - lot
-             - organizer
+              - debtor
+              - tradePlace
+              - lot
+              - organizer
         - name: itemId
           in: path
           description: айдишник лота/торговой площадки/организатора/должника
@@ -3065,8 +3065,8 @@ paths:
                 communicationType:
                   type: string
                   enum:
-                     - email
-                     - phone
+                    - email
+                    - phone
       responses:
         "200":
           description: заявка успешно отправлена
@@ -3674,13 +3674,15 @@ components:
           type: array
           example:
             [ {
+              "id": 1,
               "time": "string",
               "price": 0.0,
-              "deposit": 0.0
+              "isCurrentStage": true
             },{
+              "id": 2,
               "time": "string",
               "price": 0.0,
-              "deposit": 0.0
+              "isCurrentStage": false
             } ]
           description: цена или сумма залога могут быть нулевыми
         currentPrice:
