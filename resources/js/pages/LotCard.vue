@@ -1544,7 +1544,9 @@
                                 cadastralData.cadastralDataAreaMeasure = 'кв. м.';
                             } else if (extracts[index].value > 100 && extracts[index].value <= 10000) {
                                 cadastralData.cadastralDataArea = extracts[index].value / 100;
-                                cadastralData.cadastralDataAreaMeasure = 'сотки';
+                                // cadastralData.cadastralDataAreaMeasure = 'сотки';
+                                cadastralData.cadastralDataAreaMeasure = this.$tc('trades.ar', this.pluralization(cadastralData.cadastralDataArea));
+
                             } else {
                                 cadastralData.cadastralDataArea = extracts[index].value / 10000;
                                 cadastralData.cadastralDataAreaMeasure = 'га';
@@ -1588,11 +1590,19 @@
         },
         methods: {
             goBack() {
-                console.log(this.$router.go(-1))
-                window.history.length > 1 ? this.$router.go(-1) : this.$router.push('/')
+                window.history.length > 1 ? this.$router.go(-1) : this.$router.push('/');
+                setTimeout(() => {
+                    if (this.$route.params.id && this.item && this.$route.params.id != this.item.id) {
+                        this.$nextTick(() => {
+                            console.log('here', this.$route.params.id, this.item.id)
+                            this.getMiniLot();
+                        })
+                    }
+                }, 100)
             },
             async getLot() {
                 this.loading = true;
+                this.clear();
                 // if (this.trades.length > 0) {
                 //     let trade = this.trades.findIndex(item => item.id == this.$route.params.id);
                 //     if (trade >= 0) {
@@ -1877,6 +1887,39 @@
             removeFile(index) {
                 this.$refs.upload_file.removeFile(index);
             },
+            pluralization(choice, choicesLength=4) {
+                if (choice === 0) {
+                    return 0
+                }
+
+                const teen = choice > 10 && choice < 20
+                const endsWithOne = choice % 10 === 1
+                if (!teen && endsWithOne) {
+                    return 1
+                }
+                if (!teen && choice % 10 >= 2 && choice % 10 <= 4) {
+                    return 2
+                }
+                //0 соток | {n} сотка | {n} сотки | {n} соток
+                return choicesLength < 4 ? 2 : 3
+            },
+            clear() {
+                this.files=[];
+                this.user_files=[];
+                this.new_user_files=[];
+                this.in_process=[];
+                this.debtor_active_lots=[];
+                this.debtor_active_lots_pagination={};
+                this.debtor_completed_lots=[];
+                this.debtor_completed_lots_pagination={};
+                this.related_lots=[];
+                this.related_lots_pagination={};
+                this.notifications=[];
+                this.notifications_pagination={};
+                this.marks=[];
+                this.short_description = '';
+                this.read_more = false;
+            }
         }
     }
 </script>

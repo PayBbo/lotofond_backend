@@ -73,7 +73,8 @@ export default {
             sort: {
                 direction: "desc",
                 type: "publishDate"
-            }
+            },
+            searchString: JSON.parse(localStorage.getItem('filters_searchString')) ||''
         },
         nearest_filters: {
             categories: JSON.parse(localStorage.getItem('nearest_filters_categories')) || [],

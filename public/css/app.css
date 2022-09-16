@@ -13538,6 +13538,7 @@ textarea.form-control-lg {
   padding: 8px;
 }
 .bkt-navbar__nav-pills .bkt-navbar__nav-item {
+  cursor: pointer;
   flex: 1 1 auto;
   text-align: center;
   font-size: 14px;
@@ -16203,6 +16204,7 @@ textarea.form-control-lg {
 .bkt-sidebar__button {
   display: flex;
   height: 40px;
+  width: 40px;
   padding: 10px;
   min-width: 2.4rem;
   align-items: center;

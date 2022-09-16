@@ -114,6 +114,12 @@ export default {
             await axios.post('/api/registration/code/verify', payload)
                 .then(resp => {
                     commit('auth_success', {token: resp.data.accessToken, refreshToken: resp.data.refreshToken});
+                    commit('saveFiltersProperty', {key: 'filters_regions', value: [payload.region]});
+                    dispatch('saveDataProperty', {
+                        module_key: 'filters', state_key: 'filters',
+                        key: 'regions',
+                        value: [payload.region]
+                    }, {root: true});
                     dispatch('getAuthUser');
                     commit('closeModal', '#codeModal');
                 })

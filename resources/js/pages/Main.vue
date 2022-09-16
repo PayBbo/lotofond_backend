@@ -8,78 +8,85 @@
         <bkt-region-modal></bkt-region-modal>
         <h1 class="bkt-page__title">Электронные торги по банкротству</h1>
 
-        <bkt-search v-model="searchString" method_name="searchTrades" :method_params="{}" immediate_search
-                    @selected="selectSearchLot" infinite dropdown_class="pt-0"
-        >
-            <template #dropdown-block-header="{pagination}">
-                <div class="d-flex w-100 mx-auto align-items-center mb-2 bkt-gap-mini">
-                    <bkt-icon name="Search" width="12px" height="12px" color="primary"></bkt-icon>
-                    <h5 class="bkt-text-primary font-weight-bold">найдено лотов: {{pagination.total}}</h5>
-                </div>
-                <div class="row w-100 mx-auto align-items-center justify-content-center mb-2 d-none d-md-flex">
-                    <div class="col-2 pl-0">
-                        <h6 class="bkt-text-neutral-dark">фото</h6>
-                    </div>
-                    <div class="col-3">
-                        <h6 class="bkt-text-neutral-dark">описание лота</h6>
-                    </div>
-                    <div class="col-2">
-                        <h6 class="bkt-text-neutral-dark">цена</h6>
-                    </div>
-                    <div class="col-2">
-                        <h6 class="bkt-text-neutral-dark">даты торгов</h6>
-                    </div>
-                    <div class="col-3">
-                        <h6 class="bkt-text-neutral-dark">ЭТП и организатор</h6>
-                    </div>
-                </div>
-            </template>
-            <template #dropdown-item="{item}">
-                <mini-trade-card :item="item" class="bkt-card-trade-short"></mini-trade-card>
-            </template>
-        </bkt-search>
-        <!--        <div class="bkt-search position-relative bg-white">-->
-        <!--            <input class="w-100 bkt-search__input" type="text" placeholder="Введите нужное слово или фразу">-->
-        <!--            <button class="bkt-button green bkt-search__button">-->
-        <!--                <span class="d-none d-md-block">Найти</span>-->
-        <!--                <bkt-icon class="d-block d-md-none" :name="'Search'"></bkt-icon>-->
-        <!--            </button>-->
-        <!--        </div>-->
-        <div class="bkt-main-categories bkt-card__list">
-            <bkt-filter-card
-                :icon="{name:'Category', color:'green'}" category_class="bkt-bg-green-lighter"
-                title="Выберите<br> нужные категории" :count="filters.categories" modal_name="#categoryModal"
+        <!--        <bkt-search v-model="searchString" method_name="searchTrades" :method_params="{}" immediate_search-->
+        <!--                    @selected="selectSearchLot" infinite dropdown_class="pt-0"-->
+        <!--        >-->
+        <!--            <template #dropdown-block-header="{pagination}">-->
+        <!--                <div class="d-flex w-100 mx-auto align-items-center mb-2 bkt-gap-mini">-->
+        <!--                    <bkt-icon name="Search" width="12px" height="12px" color="primary"></bkt-icon>-->
+        <!--                    <h5 class="bkt-text-primary font-weight-bold">найдено лотов: {{pagination.total}}</h5>-->
+        <!--                </div>-->
+        <!--                <div class="row w-100 mx-auto align-items-center justify-content-center mb-2 d-none d-md-flex">-->
+        <!--                    <div class="col-2 pl-0">-->
+        <!--                        <h6 class="bkt-text-neutral-dark">фото</h6>-->
+        <!--                    </div>-->
+        <!--                    <div class="col-3">-->
+        <!--                        <h6 class="bkt-text-neutral-dark">описание лота</h6>-->
+        <!--                    </div>-->
+        <!--                    <div class="col-2">-->
+        <!--                        <h6 class="bkt-text-neutral-dark">цена</h6>-->
+        <!--                    </div>-->
+        <!--                    <div class="col-2">-->
+        <!--                        <h6 class="bkt-text-neutral-dark">даты торгов</h6>-->
+        <!--                    </div>-->
+        <!--                    <div class="col-3">-->
+        <!--                        <h6 class="bkt-text-neutral-dark">ЭТП и организатор</h6>-->
+        <!--                    </div>-->
+        <!--                </div>-->
+        <!--            </template>-->
+        <!--            <template #dropdown-item="{item}">-->
+        <!--                <mini-trade-card :item="item" class="bkt-card-trade-short"></mini-trade-card>-->
+        <!--            </template>-->
+        <!--        </bkt-search>-->
+        <div class="bkt-wrapper bkt-nowrap bkt-gap">
+            <bkt-search v-model="filters.searchString" no_dropdown :loading="loading" simple @runSearch="runSearch" clearable
+                        class="w-100"
             >
-            </bkt-filter-card>
-            <bkt-filter-card
-                :icon="{name:'Location'}" category_class="bkt-bg-red-lighter"
-                title="Выберите<br> регион" :count="filters.regions" modal_name="#regionModal"
+            </bkt-search>
+            <button class="bkt-button-icon p-2 flex-shrink-0" @click="filters_mode = !filters_mode"
+                    :class="filters_mode ? 'bkt-bg-primary': ''"
             >
-            </bkt-filter-card>
-            <bkt-filter-card
-                :icon="{name:'Options', color:'pink'}" category_class="bkt-bg-pink-lighter"
-                title="Выберите основные<br> параметры объекта" :count="filters.mainParams" modal_name="#paramsModal"
-            >
-            </bkt-filter-card>
-            <bkt-filter-card
-                :icon="{name:'Wallet'}" category_class="bkt-bg-yellow-lighter"
-                title="Выберите<br> стоимость объекта" :count="filters.prices"
-                modal_name="#priceModal"
-            >
-            </bkt-filter-card>
-            <bkt-filter-card
-                :icon="{name:'Date', color:'blue'}" category_class="bkt-bg-blue-lighter"
-                title="Выберите<br> дату торгов" :count="filters.dates"
-                modal_name="#dateModal"
-            >
-            </bkt-filter-card>
-            <bkt-filter-card
-                :icon="{name:'Clone'}" category_class="bkt-bg-primary-lighter"
-                title="Выберите<br> доп. параметры" :count="filters.extraOptions"
-                modal_name="#optionsModal"
-            >
-            </bkt-filter-card>
+                <bkt-icon name="Filters" :color="filters_mode ? 'white': 'primary'"></bkt-icon>
+            </button>
         </div>
+        <transition name="fade">
+            <div class="bkt-main-categories bkt-card__list" v-if="filters_mode">
+                <bkt-filter-card
+                    :icon="{name:'Category', color:'green'}" category_class="bkt-bg-green-lighter"
+                    title="Выберите<br> нужные категории" :count="filters.categories" modal_name="#categoryModal"
+                >
+                </bkt-filter-card>
+                <bkt-filter-card
+                    :icon="{name:'Location'}" category_class="bkt-bg-red-lighter"
+                    title="Выберите<br> регион" :count="filters.regions" modal_name="#regionModal"
+                >
+                </bkt-filter-card>
+                <bkt-filter-card
+                    :icon="{name:'Options', color:'pink'}" category_class="bkt-bg-pink-lighter"
+                    title="Выберите основные<br> параметры объекта" :count="filters.mainParams"
+                    modal_name="#paramsModal"
+                >
+                </bkt-filter-card>
+                <bkt-filter-card
+                    :icon="{name:'Wallet'}" category_class="bkt-bg-yellow-lighter"
+                    title="Выберите<br> стоимость объекта" :count="filters.prices"
+                    modal_name="#priceModal"
+                >
+                </bkt-filter-card>
+                <bkt-filter-card
+                    :icon="{name:'Date', color:'blue'}" category_class="bkt-bg-blue-lighter"
+                    title="Выберите<br> дату торгов" :count="filters.dates"
+                    modal_name="#dateModal"
+                >
+                </bkt-filter-card>
+                <bkt-filter-card
+                    :icon="{name:'Clone'}" category_class="bkt-bg-primary-lighter"
+                    title="Выберите<br> доп. параметры" :count="filters.extraOptions"
+                    modal_name="#optionsModal"
+                >
+                </bkt-filter-card>
+            </div>
+        </transition>
         <div class="bkt-main-statistic bkt-card__list">
             <div class="bkt-card__row bkt-bg-red-light position-relative">
                 <h5 class="bkt-card__text">Всего лотов</h5>
@@ -289,6 +296,7 @@
                 searchString: '',
                 signal: null,
                 controller: null,
+                filters_mode: false
             };
         },
         created() {
@@ -352,22 +360,29 @@
         },
         methods: {
             async getData(page = 1) {
-               this.newData();
-               await setTimeout(() => {
-                   this.controller = new AbortController();
-                   this.signal = this.controller.signal;
-                   sessionStorage.setItem('main_page', page + '');
-                   this.$store.dispatch('getFilteredTrades', {
-                       page: page,
-                       filters: this.filters,
-                       signal: this.signal
-                   });
-               }, 100)
+                this.newData();
+                await setTimeout(() => {
+                    this.controller = new AbortController();
+                    this.signal = this.controller.signal;
+                    sessionStorage.setItem('main_page', page + '');
+                    this.$store.dispatch('getFilteredTrades', {
+                        page: page,
+                        filters: this.filters,
+                        signal: this.signal
+                    });
+                }, 100)
 
             },
             newData() {
                 if (this.signal) {
                     this.controller.abort();
+                }
+            },
+            runSearch(search) {
+                this.getData();
+                let el = document.querySelector(".bkt-main-filters");
+                if(el) {
+                    el.scrollIntoView({ block: 'start', scrollBehavior: 'smooth' });
                 }
             },
             toggleDirection() {

@@ -72,9 +72,17 @@ axios.interceptors.response.use(
 
 import {ValidationProvider, extend, ValidationObserver, localize, localeChanged} from 'vee-validate';
 import * as rules from 'vee-validate/dist/rules';
-
+import en from 'vee-validate/dist/locale/en.json';
+import zh from 'vee-validate/dist/locale/zh_CN.json';
+import ru from 'vee-validate/dist/locale/ru.json';
+// import { required, min, max, email,confirmed,digits } from 'vee-validate/dist/rules';
 Object.keys(rules).forEach(rule => {
     extend(rule, rules[rule]);
+});
+localize({
+    en,
+    zh,
+    ru
 });
 Vue.component('ValidationProvider', ValidationProvider);
 Vue.component('ValidationObserver', ValidationObserver);
@@ -138,18 +146,10 @@ Vue.use(VueLang, {
     locale: 'ru', // Set locale
     fallback: 'ru' // Set fallback locale
 });
-import {
-    Hooper,
-    Slide,
-    Navigation as HooperNavigation
-} from 'hooper';
-import 'hooper/dist/hooper.css';
-
 
 import VueSlickCarousel from 'vue-slick-carousel'
 import 'vue-slick-carousel/dist/vue-slick-carousel.css'
 import 'vue-slick-carousel/dist/vue-slick-carousel-theme.css'
-
 Vue.component('slick', VueSlickCarousel);
 
 import Fuse from 'fuse.js'
@@ -274,9 +274,10 @@ if (!localStorage.getItem('locale')) {
 }
 axios.defaults.headers.common['Content-Language'] = localStorage.getItem('locale');
 app.$moment.locale(localStorage.getItem('locale'));
-import('vee-validate/dist/locale/' + localStorage.getItem('locale') + '.json')
-    .then(locale => {
-        localize(localStorage.getItem('locale'), locale);
-    });
+// import('vee-validate/dist/locale/' + localStorage.getItem('locale') + '.json')
+//     .then(locale => {
+//         localize(localStorage.getItem('locale'), locale);
+//     });
+localize(localStorage.getItem('locale'));
 DatePicker.locale(localStorage.getItem('locale'));
 localeChanged();

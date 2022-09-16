@@ -8,7 +8,7 @@
                     {{new_mode ? 'Задайте новый пароль': 'Смена пароля'}}
                 </h3>
                 <h4 class="bkt-modal__subtitle" v-if="!new_mode">
-                    Введите электронную почту, на неё<br>мы пришлем код для сброса пароля
+                    Введите {{form.grantType === 'email' ? 'электронную почту, на неё' : 'номер телефона на него'}}<br>мы пришлем код для сброса пароля
                 </h4>
                 <h4 class="bkt-modal__subtitle" v-if="new_mode">
                     Придумайте новый пароль и введите его
@@ -19,11 +19,33 @@
             <template v-if="!new_mode">
                 <bkt-input
                     v-model="new_data.email"
+                    v-if="form.grantType === 'email'"
                     name="reset_email"
                     type="email"
                     label="e-mail"
+                    field_name="'e-mail'"
                     :rules="'required|email'"
                     placeholder="pochta@gmail.com"
+                >
+                    <template #group-item-inner>
+                        <button class="bkt-button primary bkt-button_code" @click="sendCode" :disabled="code_loading">
+                         <span v-if="code_loading" class="spinner-border spinner-border-sm"
+                               role="status"></span>
+                            Выслать код
+                        </button>
+                    </template>
+                </bkt-input>
+                <bkt-input
+                    v-model="new_data.phone"
+                    v-if="form.grantType === 'phone'"
+                    name="reset_phone"
+                    type="tel"
+                    label="номер телефона"
+                    field_name="'номер телефона'"
+                    :rules="'required|phone'"
+                    :placeholder="'+7 495 000-00-00'"
+                    icon_name="Smartphone"
+                    :mask="['+# ### ### ####','+## ### ### ####', '+## ### #### ####',]"
                 >
                     <template #group-item-inner>
                         <button class="bkt-button primary bkt-button_code" @click="sendCode" :disabled="code_loading">
@@ -122,24 +144,38 @@
             </template>
         </template>
         <template #footer="{ invalid }">
-            <button type="button" class="bkt-button next" @click="skip">
-                <bkt-icon name="ArrowDown" class="bkt-rotate-90"></bkt-icon>
-                Назад
-            </button>
-            <button type="button" class="bkt-button primary bkt-button_save" v-if="!new_mode"
-                    :disabled="invalid||loading||code_loading" @click="verifyCode"
-            >
-                <span v-if="loading" class="spinner-border spinner-border-sm" role="status"></span>
-                Далее
-            </button>
-            <button class="bkt-button primary bkt-button_save"
-                    @click="submit"
-                    v-if="new_mode"
-                    :disabled="invalid || loading || code_loading"
-            >
-                <span v-if="loading" class="spinner-border spinner-border-sm" role="status"></span>
-                Сохранить
-            </button>
+            <div class="bkt-wrapper-column">
+                <div class="bkt-wrapper-between">
+                    <button type="button" class="bkt-button next" @click="skip">
+                        <bkt-icon name="ArrowDown" class="bkt-rotate-90"></bkt-icon>
+                        Назад
+                    </button>
+                    <button type="button" class="bkt-button primary bkt-button_save" v-if="!new_mode"
+                            :disabled="invalid||loading||code_loading" @click="verifyCode"
+                    >
+                        <span v-if="loading" class="spinner-border spinner-border-sm" role="status"></span>
+                        Далее
+                    </button>
+                    <button class="bkt-button primary bkt-button_save"
+                            @click="submit"
+                            v-if="new_mode"
+                            :disabled="invalid || loading || code_loading"
+                    >
+                        <span v-if="loading" class="spinner-border spinner-border-sm" role="status"></span>
+                        Сохранить
+                    </button>
+                </div>
+                <button class="bkt-button bkt-button_pill bkt-border-primary w-100" @click="form.grantType = 'phone'" v-if="!new_mode && form.grantType === 'email'"
+                        :disabled="loading||code_loading"
+                >
+                    Сменить через телефон
+                </button>
+                <button class="bkt-button bkt-button_pill bkt-border-primary w-100" @click="form.grantType = 'email'" v-if="!new_mode && form.grantType === 'phone'"
+                        :disabled="loading||code_loading"
+                >
+                    Сменить через эл.почту
+                </button>
+            </div>
         </template>
     </bkt-modal>
 </template>

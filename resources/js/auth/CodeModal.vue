@@ -22,6 +22,7 @@
 
             <bkt-input
                 v-model="user.email"
+                v-if="user.grantType === 'email'"
                 name="user_email"
                 type="email"
                 label="e-mail"
@@ -37,7 +38,26 @@
                     </button>
                 </template>
             </bkt-input>
-
+            <bkt-input
+                v-model="user.phone"
+                v-if="user.grantType === 'phone'"
+                name="reset_phone"
+                type="tel"
+                label="номер телефона"
+                field_name="'номер телефона'"
+                :rules="'required|phone'"
+                :placeholder="'+7 495 000-00-00'"
+                icon_name="Smartphone"
+                :mask="['+# ### ### ####','+## ### ### ####', '+## ### #### ####',]"
+            >
+                <template #group-item-inner>
+                    <button class="bkt-button primary bkt-button_code" @click="sendCode" :disabled="code_loading">
+                         <span v-if="code_loading" class="spinner-border spinner-border-sm"
+                               role="status"></span>
+                        Выслать код
+                    </button>
+                </template>
+            </bkt-input>
             <bkt-input
                 v-model="user.code"
                 name="code"
