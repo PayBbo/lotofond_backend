@@ -14,6 +14,7 @@
                 :type="type"
                 class="bkt-input"
                 :name="name"
+                :key="name"
                 :id="name"
                 :value="value"
                 :placeholder="placeholder"

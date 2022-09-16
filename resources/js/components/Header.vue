@@ -97,11 +97,11 @@
                     </router-link>
                 </div>
                 <ul class="bkt-navbar__nav">
-                    <li class="bkt-navbar__nav-item d-none d-lg-flex">
-                        <router-link to="/agent" class="bkt-navbar__nav-link">
-                            Купить через агента
-                        </router-link>
-                    </li>
+<!--                    <li class="bkt-navbar__nav-item d-none d-lg-flex">-->
+<!--                        <router-link to="/agent" class="bkt-navbar__nav-link">-->
+<!--                            Купить через агента-->
+<!--                        </router-link>-->
+<!--                    </li>-->
                     <li class="bkt-navbar__nav-item">
                         <router-link to="/auctions" class="bkt-navbar__nav-link">
                             <span class="bkt-navbar__nav-icon">
@@ -204,13 +204,12 @@
             <div class="bkt-sidebar__footer">
                 <div v-if="isLoggedIn" class="bkt-sidebar__user">
                     <div class="bkt-sidebar__profile">
-<!--                        <img src="" alt="">-->
                         <div class="bkt-sidebar__user-image d-flex align-items-center" style="padding:14px;">
                             <bkt-icon name="User" color="white" width="22px" height="22px"></bkt-icon>
                         </div>
                         <div class="bkt-navbar__user text-truncate me-1">
                             <div class="bkt-navbar__user-name text-truncate">
-                                {{ auth_user ? auth_user.name : '' }} {{ auth_user ? auth_user.surname : '' }}
+                                {{ auth_user ? auth_user.name : '' }} {{ auth_user ? auth_user.lastName : '' }}
                             </div>
                             <div class="bkt-navbar__user-tarif">
                                 тариф: <span class="bkt-navbar__user-tarif-name">Базовый</span>
@@ -218,7 +217,7 @@
                         </div>
                     </div>
                     <div class="bkt-sidebar__button" @click="logout" data-bs-dismiss="offcanvas">
-                        <bkt-icon name="LogOut" color="white"></bkt-icon>
+                        <bkt-icon name="LogOut" color="white" width="20px" height="20px"></bkt-icon>
                     </div>
                 </div>
 

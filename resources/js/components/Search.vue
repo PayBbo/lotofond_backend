@@ -9,7 +9,7 @@
                    @input="getResults"
                    :disabled="disabled"
             >
-            <span class="p-1" @click="clear" v-if="searchFilter != ''">
+            <span class="p-1 bkt-cursor-pointer me-2" @click="clear" v-if="searchFilter != ''">
                 <bkt-icon :class="{'d-none':currentLoading || !clearable}" :name="'Cancel'" color="green"
                           height="15px"></bkt-icon>
             </span>
