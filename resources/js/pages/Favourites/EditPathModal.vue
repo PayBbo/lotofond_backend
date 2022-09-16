@@ -102,10 +102,15 @@
                 this.$store.commit('closeModal', '#editPathModal');
             },
             save() {
+                this.loading = true;
                 this.$store.dispatch('saveFavouritePath', this.edit_path)
                     .then(resp => {
                         this.$store.commit('closeModal', '#editPathModal');
-                    });
+                        this.loading = false;
+                    })
+                    .catch(err => {
+                    this.loading = false;
+                });
 
             }
         }

@@ -84,8 +84,8 @@
                 this.loading = true;
                 this.$store.dispatch('saveFavouritePath', this.path)
                     .then(resp => {
-                        this.$store.commit('closeModal', '#addPathModal');
                         this.loading = false;
+                        this.cancel();
                     }).catch(error => {
                     this.loading = false;
                 });

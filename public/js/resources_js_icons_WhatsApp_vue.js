@@ -1,12 +1,4 @@
 "use strict";
-/*
- * ATTENTION: An "eval-source-map" devtool has been used.
- * This devtool is neither made for production nor for readable output files.
- * It uses "eval()" calls to create a separate source file with attached SourceMaps in the browser devtools.
- * If you are trying to read the output file, select a different devtool (https://webpack.js.org/configuration/devtool/)
- * or disable the default devtool with "devtool: false".
- * If you are looking for production-ready output files, see mode: "production" (https://webpack.js.org/configuration/mode/).
- */
 (self["webpackChunk"] = self["webpackChunk"] || []).push([["resources_js_icons_WhatsApp_vue"],{
 
 /***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/icons/WhatsApp.vue?vue&type=script&lang=js&":
@@ -15,17 +7,61 @@
   \**********************************************************************************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (__WEBPACK_DEFAULT_EXPORT__)\n/* harmony export */ });\n/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({\n  name: \"WhatsApp\",\n  props: {\n    color: {\n      type: String,\n      \"default\": 'white'\n    },\n    width: {\n      type: String,\n      \"default\": '100%'\n    },\n    height: {\n      type: String,\n      \"default\": '100%'\n    }\n  }\n});//# sourceURL=[module]\n//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiLi9ub2RlX21vZHVsZXMvYmFiZWwtbG9hZGVyL2xpYi9pbmRleC5qcz8/Y2xvbmVkUnVsZVNldC01LnVzZVswXSEuL25vZGVfbW9kdWxlcy92dWUtbG9hZGVyL2xpYi9pbmRleC5qcz8/dnVlLWxvYWRlci1vcHRpb25zIS4vcmVzb3VyY2VzL2pzL2ljb25zL1doYXRzQXBwLnZ1ZT92dWUmdHlwZT1zY3JpcHQmbGFuZz1qcyYuanMiLCJtYXBwaW5ncyI6Ijs7OztBQVNBO0VBQ0FBLGdCQURBO0VBRUFDO0lBQ0FDO01BQ0FDLFlBREE7TUFFQTtJQUZBLENBREE7SUFLQUM7TUFDQUQsWUFEQTtNQUVBO0lBRkEsQ0FMQTtJQVNBRTtNQUNBRixZQURBO01BRUE7SUFGQTtFQVRBO0FBRkEiLCJzb3VyY2VzIjpbIndlYnBhY2s6Ly8vcmVzb3VyY2VzL2pzL2ljb25zL1doYXRzQXBwLnZ1ZT9lZDlkIl0sInNvdXJjZXNDb250ZW50IjpbIjx0ZW1wbGF0ZT5cbiAgICA8c3ZnIHhtbG5zPVwiaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmdcIiA6Y2xhc3M9XCInYmt0LWZpbGwgYmt0LWZpbGwtJytjb2xvclwiIDp3aWR0aD1cIndpZHRoXCIgOmhlaWdodD1cImhlaWdodFwiIHZpZXdCb3g9XCIwIDAgNTEyIDUxMlwiPlxuICAgICAgICA8cGF0aFxuICAgICAgICAgICAgZD1cIk02NTcsMzg2djMwbC0xLjIsMTAuOGMtNi4xLDU0LjktMjcsMTAzLjQtNjQsMTQ0LjUtMzkuNCw0NC04OC40LDcxLjQtMTQ2LjcsODEuNy05LjYsMS43LTE5LjQsMi43LTI5LjEsNEgzODhjLTcuMy0uOC0xNC41LTEuNS0yMS44LTIuNWEyNDksMjQ5LDAsMCwxLTEwMS4zLTM3LDEwLjIsMTAuMiwwLDAsMC05LjctMS40Yy0yOS4yLDkuNi01OC41LDE4LjktODcuOCwyOC4zbC01LjUsMS42YzEwLjItMzAuNCwyMC01OS45LDMwLjEtODkuMywxLjMtNCwxLjItNi45LTEuNC0xMC41QTI0Ny4xLDI0Ny4xLDAsMCwxLDE0OSw0NDUuMWMtMS44LTEwLjYtMi43LTIxLjQtNC0zMi4xVjM4NmMuMy0xLjQuNy0yLjkuOS00LjMsMi44LTM5LjcsMTQuMi03Ni45LDM0LjktMTEwLjgsNDAuNi02Ni42LDk5LjMtMTA3LjUsMTc2LjEtMTIxLjksOS42LTEuOCwxOS40LTIuNywyOS4xLTRoMzBhMjcsMjcsMCwwLDAsMy45LjhjNDAsMi44LDc3LjUsMTQuMywxMTEuNywzNS4yLDY2LjMsNDAuNywxMDcuMSw5OS4zLDEyMS40LDE3NkM2NTQuOCwzNjYuNSw2NTUuNywzNzYuMyw2NTcsMzg2Wk00ODQuNSw1NDUuNGwuMy0xLjFhODYuNyw4Ni43LDAsMCwwLDguOS0uNiw3Miw3MiwwLDAsMCwxMi4yLTIuOGMzNi4xLTEyLjYsNDguNC0yOS45LDQ5LjQtNjMuNS4xLTUtMS43LTguNi02LjMtMTAuOC0xOS4zLTkuMS0zOC40LTE4LjUtNTcuNy0yNy41LTkuNS00LjQtMTUuMi0yLjYtMjEuNiw1LjktNS4xLDYuOC0xMCwxMy43LTE1LjMsMjAuNC03LjUsOS43LTEzLjIsMTEtMjQuNyw2LjMtNDIuOS0xNy40LTc0LjUtNDcuNi05OC4xLTg2LjgtMy42LTUuOS0zLjMtOS40LDEuMy0xNXMxMC4zLTExLjcsMTUuNS0xNy42LDcuOC0xNC4zLDMuNy0yMy40Yy04LjgtMTkuMi0xNi42LTM4LjktMjUuMS01OC4yLTEuMi0yLjgtNC02LjEtNi42LTYuNy0xMy41LTMuNC0yNy41LTQuMS0zOC43LDUuMS0yNC45LDIwLjQtMzIuNyw0Ny43LTI4LDc4LjgsMi42LDE2LjcsOS4yLDMyLDE4LDQ2LjIsMTkuNiwzMS40LDQyLjcsNTkuOSw3MC4xLDg0LjksMzEuNCwyOC44LDY4LjMsNDcuMiwxMDguNyw1OC45QzQ2MS42LDU0MS4xLDQ3My4yLDU0Myw0ODQuNSw1NDUuNFpcIlxuICAgICAgICAgICAgdHJhbnNmb3JtPVwidHJhbnNsYXRlKC0xNDUgLTE0NSlcIi8+XG4gICAgPC9zdmc+XG48L3RlbXBsYXRlPlxuXG48c2NyaXB0PlxuICAgIGV4cG9ydCBkZWZhdWx0IHtcbiAgICAgICAgbmFtZTogXCJXaGF0c0FwcFwiLFxuICAgICAgICBwcm9wczoge1xuICAgICAgICAgICAgY29sb3I6IHtcbiAgICAgICAgICAgICAgICB0eXBlOiBTdHJpbmcsXG4gICAgICAgICAgICAgICAgZGVmYXVsdDogJ3doaXRlJ1xuICAgICAgICAgICAgfSxcbiAgICAgICAgICAgIHdpZHRoOntcbiAgICAgICAgICAgICAgICB0eXBlOlN0cmluZyxcbiAgICAgICAgICAgICAgICBkZWZhdWx0OicxMDAlJ1xuICAgICAgICAgICAgfSxcbiAgICAgICAgICAgIGhlaWdodDp7XG4gICAgICAgICAgICAgICAgdHlwZTpTdHJpbmcsXG4gICAgICAgICAgICAgICAgZGVmYXVsdDonMTAwJSdcbiAgICAgICAgICAgIH0sXG4gICAgICAgIH1cbiAgICB9XG48L3NjcmlwdD5cblxuPHN0eWxlIHNjb3BlZD5cblxuPC9zdHlsZT5cbiJdLCJuYW1lcyI6WyJuYW1lIiwicHJvcHMiLCJjb2xvciIsInR5cGUiLCJ3aWR0aCIsImhlaWdodCJdLCJzb3VyY2VSb290IjoiIn0=\n//# sourceURL=webpack-internal:///./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/icons/WhatsApp.vue?vue&type=script&lang=js&\n");
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  name: "WhatsApp",
+  props: {
+    color: {
+      type: String,
+      "default": 'white'
+    },
+    width: {
+      type: String,
+      "default": '100%'
+    },
+    height: {
+      type: String,
+      "default": '100%'
+    }
+  }
+});
 
 /***/ }),
 
-/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/icons/WhatsApp.vue?vue&type=template&id=7fdfa936&scoped=true&":
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/icons/WhatsApp.vue?vue&type=template&id=4d091144&scoped=true&":
 /*!*********************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/icons/WhatsApp.vue?vue&type=template&id=7fdfa936&scoped=true& ***!
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/icons/WhatsApp.vue?vue&type=template&id=4d091144&scoped=true& ***!
   \*********************************************************************************************************************************************************************************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"render\": () => (/* binding */ render),\n/* harmony export */   \"staticRenderFns\": () => (/* binding */ staticRenderFns)\n/* harmony export */ });\nvar render = function render() {\n  var _vm = this,\n      _c = _vm._self._c;\n\n  return _c(\"svg\", {\n    \"class\": \"bkt-fill bkt-fill-\" + _vm.color,\n    attrs: {\n      xmlns: \"http://www.w3.org/2000/svg\",\n      width: _vm.width,\n      height: _vm.height,\n      viewBox: \"0 0 512 512\"\n    }\n  }, [_c(\"path\", {\n    attrs: {\n      d: \"M657,386v30l-1.2,10.8c-6.1,54.9-27,103.4-64,144.5-39.4,44-88.4,71.4-146.7,81.7-9.6,1.7-19.4,2.7-29.1,4H388c-7.3-.8-14.5-1.5-21.8-2.5a249,249,0,0,1-101.3-37,10.2,10.2,0,0,0-9.7-1.4c-29.2,9.6-58.5,18.9-87.8,28.3l-5.5,1.6c10.2-30.4,20-59.9,30.1-89.3,1.3-4,1.2-6.9-1.4-10.5A247.1,247.1,0,0,1,149,445.1c-1.8-10.6-2.7-21.4-4-32.1V386c.3-1.4.7-2.9.9-4.3,2.8-39.7,14.2-76.9,34.9-110.8,40.6-66.6,99.3-107.5,176.1-121.9,9.6-1.8,19.4-2.7,29.1-4h30a27,27,0,0,0,3.9.8c40,2.8,77.5,14.3,111.7,35.2,66.3,40.7,107.1,99.3,121.4,176C654.8,366.5,655.7,376.3,657,386ZM484.5,545.4l.3-1.1a86.7,86.7,0,0,0,8.9-.6,72,72,0,0,0,12.2-2.8c36.1-12.6,48.4-29.9,49.4-63.5.1-5-1.7-8.6-6.3-10.8-19.3-9.1-38.4-18.5-57.7-27.5-9.5-4.4-15.2-2.6-21.6,5.9-5.1,6.8-10,13.7-15.3,20.4-7.5,9.7-13.2,11-24.7,6.3-42.9-17.4-74.5-47.6-98.1-86.8-3.6-5.9-3.3-9.4,1.3-15s10.3-11.7,15.5-17.6,7.8-14.3,3.7-23.4c-8.8-19.2-16.6-38.9-25.1-58.2-1.2-2.8-4-6.1-6.6-6.7-13.5-3.4-27.5-4.1-38.7,5.1-24.9,20.4-32.7,47.7-28,78.8,2.6,16.7,9.2,32,18,46.2,19.6,31.4,42.7,59.9,70.1,84.9,31.4,28.8,68.3,47.2,108.7,58.9C461.6,541.1,473.2,543,484.5,545.4Z\",\n      transform: \"translate(-145 -145)\"\n    }\n  })]);\n};\n\nvar staticRenderFns = [];\nrender._withStripped = true;\n//# sourceURL=[module]\n//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiLi9ub2RlX21vZHVsZXMvYmFiZWwtbG9hZGVyL2xpYi9pbmRleC5qcz8/Y2xvbmVkUnVsZVNldC01LnVzZVswXSEuL25vZGVfbW9kdWxlcy92dWUtbG9hZGVyL2xpYi9sb2FkZXJzL3RlbXBsYXRlTG9hZGVyLmpzPz9ydWxlU2V0WzFdLnJ1bGVzWzJdIS4vbm9kZV9tb2R1bGVzL3Z1ZS1sb2FkZXIvbGliL2luZGV4LmpzPz92dWUtbG9hZGVyLW9wdGlvbnMhLi9yZXNvdXJjZXMvanMvaWNvbnMvV2hhdHNBcHAudnVlP3Z1ZSZ0eXBlPXRlbXBsYXRlJmlkPTdmZGZhOTM2JnNjb3BlZD10cnVlJi5qcyIsIm1hcHBpbmdzIjoiOzs7OztBQUFBLElBQUlBLE1BQU0sR0FBRyxTQUFTQSxNQUFULEdBQWtCO0VBQzdCLElBQUlDLEdBQUcsR0FBRyxJQUFWO0VBQUEsSUFDRUMsRUFBRSxHQUFHRCxHQUFHLENBQUNFLEtBQUosQ0FBVUQsRUFEakI7O0VBRUEsT0FBT0EsRUFBRSxDQUNQLEtBRE8sRUFFUDtJQUNFLFNBQU8sdUJBQXVCRCxHQUFHLENBQUNHLEtBRHBDO0lBRUVDLEtBQUssRUFBRTtNQUNMQyxLQUFLLEVBQUUsNEJBREY7TUFFTEMsS0FBSyxFQUFFTixHQUFHLENBQUNNLEtBRk47TUFHTEMsTUFBTSxFQUFFUCxHQUFHLENBQUNPLE1BSFA7TUFJTEMsT0FBTyxFQUFFO0lBSko7RUFGVCxDQUZPLEVBV1AsQ0FDRVAsRUFBRSxDQUFDLE1BQUQsRUFBUztJQUNURyxLQUFLLEVBQUU7TUFDTEssQ0FBQyxFQUFFLDhqQ0FERTtNQUVMQyxTQUFTLEVBQUU7SUFGTjtFQURFLENBQVQsQ0FESixDQVhPLENBQVQ7QUFvQkQsQ0F2QkQ7O0FBd0JBLElBQUlDLGVBQWUsR0FBRyxFQUF0QjtBQUNBWixNQUFNLENBQUNhLGFBQVAsR0FBdUIsSUFBdkIiLCJzb3VyY2VzIjpbIndlYnBhY2s6Ly8vLi9yZXNvdXJjZXMvanMvaWNvbnMvV2hhdHNBcHAudnVlPzg0N2QiXSwic291cmNlc0NvbnRlbnQiOlsidmFyIHJlbmRlciA9IGZ1bmN0aW9uIHJlbmRlcigpIHtcbiAgdmFyIF92bSA9IHRoaXMsXG4gICAgX2MgPSBfdm0uX3NlbGYuX2NcbiAgcmV0dXJuIF9jKFxuICAgIFwic3ZnXCIsXG4gICAge1xuICAgICAgY2xhc3M6IFwiYmt0LWZpbGwgYmt0LWZpbGwtXCIgKyBfdm0uY29sb3IsXG4gICAgICBhdHRyczoge1xuICAgICAgICB4bWxuczogXCJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2Z1wiLFxuICAgICAgICB3aWR0aDogX3ZtLndpZHRoLFxuICAgICAgICBoZWlnaHQ6IF92bS5oZWlnaHQsXG4gICAgICAgIHZpZXdCb3g6IFwiMCAwIDUxMiA1MTJcIixcbiAgICAgIH0sXG4gICAgfSxcbiAgICBbXG4gICAgICBfYyhcInBhdGhcIiwge1xuICAgICAgICBhdHRyczoge1xuICAgICAgICAgIGQ6IFwiTTY1NywzODZ2MzBsLTEuMiwxMC44Yy02LjEsNTQuOS0yNywxMDMuNC02NCwxNDQuNS0zOS40LDQ0LTg4LjQsNzEuNC0xNDYuNyw4MS43LTkuNiwxLjctMTkuNCwyLjctMjkuMSw0SDM4OGMtNy4zLS44LTE0LjUtMS41LTIxLjgtMi41YTI0OSwyNDksMCwwLDEtMTAxLjMtMzcsMTAuMiwxMC4yLDAsMCwwLTkuNy0xLjRjLTI5LjIsOS42LTU4LjUsMTguOS04Ny44LDI4LjNsLTUuNSwxLjZjMTAuMi0zMC40LDIwLTU5LjksMzAuMS04OS4zLDEuMy00LDEuMi02LjktMS40LTEwLjVBMjQ3LjEsMjQ3LjEsMCwwLDEsMTQ5LDQ0NS4xYy0xLjgtMTAuNi0yLjctMjEuNC00LTMyLjFWMzg2Yy4zLTEuNC43LTIuOS45LTQuMywyLjgtMzkuNywxNC4yLTc2LjksMzQuOS0xMTAuOCw0MC42LTY2LjYsOTkuMy0xMDcuNSwxNzYuMS0xMjEuOSw5LjYtMS44LDE5LjQtMi43LDI5LjEtNGgzMGEyNywyNywwLDAsMCwzLjkuOGM0MCwyLjgsNzcuNSwxNC4zLDExMS43LDM1LjIsNjYuMyw0MC43LDEwNy4xLDk5LjMsMTIxLjQsMTc2QzY1NC44LDM2Ni41LDY1NS43LDM3Ni4zLDY1NywzODZaTTQ4NC41LDU0NS40bC4zLTEuMWE4Ni43LDg2LjcsMCwwLDAsOC45LS42LDcyLDcyLDAsMCwwLDEyLjItMi44YzM2LjEtMTIuNiw0OC40LTI5LjksNDkuNC02My41LjEtNS0xLjctOC42LTYuMy0xMC44LTE5LjMtOS4xLTM4LjQtMTguNS01Ny43LTI3LjUtOS41LTQuNC0xNS4yLTIuNi0yMS42LDUuOS01LjEsNi44LTEwLDEzLjctMTUuMywyMC40LTcuNSw5LjctMTMuMiwxMS0yNC43LDYuMy00Mi45LTE3LjQtNzQuNS00Ny42LTk4LjEtODYuOC0zLjYtNS45LTMuMy05LjQsMS4zLTE1czEwLjMtMTEuNywxNS41LTE3LjYsNy44LTE0LjMsMy43LTIzLjRjLTguOC0xOS4yLTE2LjYtMzguOS0yNS4xLTU4LjItMS4yLTIuOC00LTYuMS02LjYtNi43LTEzLjUtMy40LTI3LjUtNC4xLTM4LjcsNS4xLTI0LjksMjAuNC0zMi43LDQ3LjctMjgsNzguOCwyLjYsMTYuNyw5LjIsMzIsMTgsNDYuMiwxOS42LDMxLjQsNDIuNyw1OS45LDcwLjEsODQuOSwzMS40LDI4LjgsNjguMyw0Ny4yLDEwOC43LDU4LjlDNDYxLjYsNTQxLjEsNDczLjIsNTQzLDQ4NC41LDU0NS40WlwiLFxuICAgICAgICAgIHRyYW5zZm9ybTogXCJ0cmFuc2xhdGUoLTE0NSAtMTQ1KVwiLFxuICAgICAgICB9LFxuICAgICAgfSksXG4gICAgXVxuICApXG59XG52YXIgc3RhdGljUmVuZGVyRm5zID0gW11cbnJlbmRlci5fd2l0aFN0cmlwcGVkID0gdHJ1ZVxuXG5leHBvcnQgeyByZW5kZXIsIHN0YXRpY1JlbmRlckZucyB9Il0sIm5hbWVzIjpbInJlbmRlciIsIl92bSIsIl9jIiwiX3NlbGYiLCJjb2xvciIsImF0dHJzIiwieG1sbnMiLCJ3aWR0aCIsImhlaWdodCIsInZpZXdCb3giLCJkIiwidHJhbnNmb3JtIiwic3RhdGljUmVuZGVyRm5zIiwiX3dpdGhTdHJpcHBlZCJdLCJzb3VyY2VSb290IjoiIn0=\n//# sourceURL=webpack-internal:///./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/icons/WhatsApp.vue?vue&type=template&id=7fdfa936&scoped=true&\n");
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* binding */ render),
+/* harmony export */   "staticRenderFns": () => (/* binding */ staticRenderFns)
+/* harmony export */ });
+var render = function render() {
+  var _vm = this,
+      _c = _vm._self._c;
+
+  return _c('svg', {
+    "class": 'bkt-fill bkt-fill-' + _vm.color,
+    attrs: {
+      "xmlns": "http://www.w3.org/2000/svg",
+      "width": _vm.width,
+      "height": _vm.height,
+      "viewBox": "0 0 512 512"
+    }
+  }, [_c('path', {
+    attrs: {
+      "d": "M657,386v30l-1.2,10.8c-6.1,54.9-27,103.4-64,144.5-39.4,44-88.4,71.4-146.7,81.7-9.6,1.7-19.4,2.7-29.1,4H388c-7.3-.8-14.5-1.5-21.8-2.5a249,249,0,0,1-101.3-37,10.2,10.2,0,0,0-9.7-1.4c-29.2,9.6-58.5,18.9-87.8,28.3l-5.5,1.6c10.2-30.4,20-59.9,30.1-89.3,1.3-4,1.2-6.9-1.4-10.5A247.1,247.1,0,0,1,149,445.1c-1.8-10.6-2.7-21.4-4-32.1V386c.3-1.4.7-2.9.9-4.3,2.8-39.7,14.2-76.9,34.9-110.8,40.6-66.6,99.3-107.5,176.1-121.9,9.6-1.8,19.4-2.7,29.1-4h30a27,27,0,0,0,3.9.8c40,2.8,77.5,14.3,111.7,35.2,66.3,40.7,107.1,99.3,121.4,176C654.8,366.5,655.7,376.3,657,386ZM484.5,545.4l.3-1.1a86.7,86.7,0,0,0,8.9-.6,72,72,0,0,0,12.2-2.8c36.1-12.6,48.4-29.9,49.4-63.5.1-5-1.7-8.6-6.3-10.8-19.3-9.1-38.4-18.5-57.7-27.5-9.5-4.4-15.2-2.6-21.6,5.9-5.1,6.8-10,13.7-15.3,20.4-7.5,9.7-13.2,11-24.7,6.3-42.9-17.4-74.5-47.6-98.1-86.8-3.6-5.9-3.3-9.4,1.3-15s10.3-11.7,15.5-17.6,7.8-14.3,3.7-23.4c-8.8-19.2-16.6-38.9-25.1-58.2-1.2-2.8-4-6.1-6.6-6.7-13.5-3.4-27.5-4.1-38.7,5.1-24.9,20.4-32.7,47.7-28,78.8,2.6,16.7,9.2,32,18,46.2,19.6,31.4,42.7,59.9,70.1,84.9,31.4,28.8,68.3,47.2,108.7,58.9C461.6,541.1,473.2,543,484.5,545.4Z",
+      "transform": "translate(-145 -145)"
+    }
+  })]);
+};
+
+var staticRenderFns = [];
+
 
 /***/ }),
 
@@ -35,7 +71,32 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpac
   \*****************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (__WEBPACK_DEFAULT_EXPORT__)\n/* harmony export */ });\n/* harmony import */ var _WhatsApp_vue_vue_type_template_id_7fdfa936_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./WhatsApp.vue?vue&type=template&id=7fdfa936&scoped=true& */ \"./resources/js/icons/WhatsApp.vue?vue&type=template&id=7fdfa936&scoped=true&\");\n/* harmony import */ var _WhatsApp_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./WhatsApp.vue?vue&type=script&lang=js& */ \"./resources/js/icons/WhatsApp.vue?vue&type=script&lang=js&\");\n/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ \"./node_modules/vue-loader/lib/runtime/componentNormalizer.js\");\n\n\n\n\n\n/* normalize component */\n;\nvar component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__[\"default\"])(\n  _WhatsApp_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__[\"default\"],\n  _WhatsApp_vue_vue_type_template_id_7fdfa936_scoped_true___WEBPACK_IMPORTED_MODULE_0__.render,\n  _WhatsApp_vue_vue_type_template_id_7fdfa936_scoped_true___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,\n  false,\n  null,\n  \"7fdfa936\",\n  null\n  \n)\n\n/* hot reload */\nif (false) { var api; }\ncomponent.options.__file = \"resources/js/icons/WhatsApp.vue\"\n/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (component.exports);//# sourceURL=[module]\n//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiLi9yZXNvdXJjZXMvanMvaWNvbnMvV2hhdHNBcHAudnVlLmpzIiwibWFwcGluZ3MiOiI7Ozs7Ozs7QUFBbUc7QUFDdkM7QUFDTDs7O0FBR3ZEO0FBQ0EsQ0FBNkY7QUFDN0YsZ0JBQWdCLHVHQUFVO0FBQzFCLEVBQUUsOEVBQU07QUFDUixFQUFFLDRGQUFNO0FBQ1IsRUFBRSxxR0FBZTtBQUNqQjtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7O0FBRUE7QUFDQSxJQUFJLEtBQVUsRUFBRSxZQWlCZjtBQUNEO0FBQ0EsaUVBQWUiLCJzb3VyY2VzIjpbIndlYnBhY2s6Ly8vLi9yZXNvdXJjZXMvanMvaWNvbnMvV2hhdHNBcHAudnVlP2ZmODUiXSwic291cmNlc0NvbnRlbnQiOlsiaW1wb3J0IHsgcmVuZGVyLCBzdGF0aWNSZW5kZXJGbnMgfSBmcm9tIFwiLi9XaGF0c0FwcC52dWU/dnVlJnR5cGU9dGVtcGxhdGUmaWQ9N2ZkZmE5MzYmc2NvcGVkPXRydWUmXCJcbmltcG9ydCBzY3JpcHQgZnJvbSBcIi4vV2hhdHNBcHAudnVlP3Z1ZSZ0eXBlPXNjcmlwdCZsYW5nPWpzJlwiXG5leHBvcnQgKiBmcm9tIFwiLi9XaGF0c0FwcC52dWU/dnVlJnR5cGU9c2NyaXB0Jmxhbmc9anMmXCJcblxuXG4vKiBub3JtYWxpemUgY29tcG9uZW50ICovXG5pbXBvcnQgbm9ybWFsaXplciBmcm9tIFwiIS4uLy4uLy4uL25vZGVfbW9kdWxlcy92dWUtbG9hZGVyL2xpYi9ydW50aW1lL2NvbXBvbmVudE5vcm1hbGl6ZXIuanNcIlxudmFyIGNvbXBvbmVudCA9IG5vcm1hbGl6ZXIoXG4gIHNjcmlwdCxcbiAgcmVuZGVyLFxuICBzdGF0aWNSZW5kZXJGbnMsXG4gIGZhbHNlLFxuICBudWxsLFxuICBcIjdmZGZhOTM2XCIsXG4gIG51bGxcbiAgXG4pXG5cbi8qIGhvdCByZWxvYWQgKi9cbmlmIChtb2R1bGUuaG90KSB7XG4gIHZhciBhcGkgPSByZXF1aXJlKFwiZTpcXFxcT3BlblNlcnZlclxcXFxPU1BhbmVsXFxcXGRvbWFpbnNcXFxcYmFua3JvdFxcXFxub2RlX21vZHVsZXNcXFxcdnVlLWhvdC1yZWxvYWQtYXBpXFxcXGRpc3RcXFxcaW5kZXguanNcIilcbiAgYXBpLmluc3RhbGwocmVxdWlyZSgndnVlJykpXG4gIGlmIChhcGkuY29tcGF0aWJsZSkge1xuICAgIG1vZHVsZS5ob3QuYWNjZXB0KClcbiAgICBpZiAoIWFwaS5pc1JlY29yZGVkKCc3ZmRmYTkzNicpKSB7XG4gICAgICBhcGkuY3JlYXRlUmVjb3JkKCc3ZmRmYTkzNicsIGNvbXBvbmVudC5vcHRpb25zKVxuICAgIH0gZWxzZSB7XG4gICAgICBhcGkucmVsb2FkKCc3ZmRmYTkzNicsIGNvbXBvbmVudC5vcHRpb25zKVxuICAgIH1cbiAgICBtb2R1bGUuaG90LmFjY2VwdChcIi4vV2hhdHNBcHAudnVlP3Z1ZSZ0eXBlPXRlbXBsYXRlJmlkPTdmZGZhOTM2JnNjb3BlZD10cnVlJlwiLCBmdW5jdGlvbiAoKSB7XG4gICAgICBhcGkucmVyZW5kZXIoJzdmZGZhOTM2Jywge1xuICAgICAgICByZW5kZXI6IHJlbmRlcixcbiAgICAgICAgc3RhdGljUmVuZGVyRm5zOiBzdGF0aWNSZW5kZXJGbnNcbiAgICAgIH0pXG4gICAgfSlcbiAgfVxufVxuY29tcG9uZW50Lm9wdGlvbnMuX19maWxlID0gXCJyZXNvdXJjZXMvanMvaWNvbnMvV2hhdHNBcHAudnVlXCJcbmV4cG9ydCBkZWZhdWx0IGNvbXBvbmVudC5leHBvcnRzIl0sIm5hbWVzIjpbXSwic291cmNlUm9vdCI6IiJ9\n//# sourceURL=webpack-internal:///./resources/js/icons/WhatsApp.vue\n");
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _WhatsApp_vue_vue_type_template_id_4d091144_scoped_true___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./WhatsApp.vue?vue&type=template&id=4d091144&scoped=true& */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/icons/WhatsApp.vue?vue&type=template&id=4d091144&scoped=true&");
+/* harmony import */ var _WhatsApp_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./WhatsApp.vue?vue&type=script&lang=js& */ "./resources/js/icons/WhatsApp.vue?vue&type=script&lang=js&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+;
+var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_1__["default"])(
+  _WhatsApp_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"],
+  _WhatsApp_vue_vue_type_template_id_4d091144_scoped_true___WEBPACK_IMPORTED_MODULE_2__.render,
+  _WhatsApp_vue_vue_type_template_id_4d091144_scoped_true___WEBPACK_IMPORTED_MODULE_2__.staticRenderFns,
+  false,
+  null,
+  "4d091144",
+  null
+  
+)
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (component.exports);
 
 /***/ }),
 
@@ -45,24 +106,13 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpac
   \******************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (__WEBPACK_DEFAULT_EXPORT__)\n/* harmony export */ });\n/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_WhatsApp_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./WhatsApp.vue?vue&type=script&lang=js& */ \"./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/icons/WhatsApp.vue?vue&type=script&lang=js&\");\n /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_WhatsApp_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__[\"default\"]); //# sourceURL=[module]\n//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiLi9yZXNvdXJjZXMvanMvaWNvbnMvV2hhdHNBcHAudnVlP3Z1ZSZ0eXBlPXNjcmlwdCZsYW5nPWpzJi5qcyIsIm1hcHBpbmdzIjoiOzs7OztBQUFzTSxDQUFDLGlFQUFlLG1NQUFHLEVBQUMiLCJzb3VyY2VzIjpbIndlYnBhY2s6Ly8vLi9yZXNvdXJjZXMvanMvaWNvbnMvV2hhdHNBcHAudnVlP2FmZDIiXSwic291cmNlc0NvbnRlbnQiOlsiaW1wb3J0IG1vZCBmcm9tIFwiLSEuLi8uLi8uLi9ub2RlX21vZHVsZXMvYmFiZWwtbG9hZGVyL2xpYi9pbmRleC5qcz8/Y2xvbmVkUnVsZVNldC01LnVzZVswXSEuLi8uLi8uLi9ub2RlX21vZHVsZXMvdnVlLWxvYWRlci9saWIvaW5kZXguanM/P3Z1ZS1sb2FkZXItb3B0aW9ucyEuL1doYXRzQXBwLnZ1ZT92dWUmdHlwZT1zY3JpcHQmbGFuZz1qcyZcIjsgZXhwb3J0IGRlZmF1bHQgbW9kOyBleHBvcnQgKiBmcm9tIFwiLSEuLi8uLi8uLi9ub2RlX21vZHVsZXMvYmFiZWwtbG9hZGVyL2xpYi9pbmRleC5qcz8/Y2xvbmVkUnVsZVNldC01LnVzZVswXSEuLi8uLi8uLi9ub2RlX21vZHVsZXMvdnVlLWxvYWRlci9saWIvaW5kZXguanM/P3Z1ZS1sb2FkZXItb3B0aW9ucyEuL1doYXRzQXBwLnZ1ZT92dWUmdHlwZT1zY3JpcHQmbGFuZz1qcyZcIiJdLCJuYW1lcyI6W10sInNvdXJjZVJvb3QiOiIifQ==\n//# sourceURL=webpack-internal:///./resources/js/icons/WhatsApp.vue?vue&type=script&lang=js&\n");
-
-/***/ }),
-
-/***/ "./resources/js/icons/WhatsApp.vue?vue&type=template&id=7fdfa936&scoped=true&":
-/*!************************************************************************************!*\
-  !*** ./resources/js/icons/WhatsApp.vue?vue&type=template&id=7fdfa936&scoped=true& ***!
-  \************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "render": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_lib_index_js_vue_loader_options_WhatsApp_vue_vue_type_template_id_7fdfa936_scoped_true___WEBPACK_IMPORTED_MODULE_0__.render),
-/* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_lib_index_js_vue_loader_options_WhatsApp_vue_vue_type_template_id_7fdfa936_scoped_true___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_lib_index_js_vue_loader_options_WhatsApp_vue_vue_type_template_id_7fdfa936_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[2]!../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./WhatsApp.vue?vue&type=template&id=7fdfa936&scoped=true& */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/icons/WhatsApp.vue?vue&type=template&id=7fdfa936&scoped=true&");
-
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_WhatsApp_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./WhatsApp.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/icons/WhatsApp.vue?vue&type=script&lang=js&");
+ /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_WhatsApp_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
 
 /***/ })
 
 }]);
+//# sourceMappingURL=resources_js_icons_WhatsApp_vue.js.map
