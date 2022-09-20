@@ -12,7 +12,7 @@ const mix = require('laravel-mix');
  */
 const WebpackShellPlugin = require('webpack-shell-plugin-next');
 mix.webpackConfig({
-    mode: 'development',
+    mode: 'production',
     stats: {
         children: true,
     },

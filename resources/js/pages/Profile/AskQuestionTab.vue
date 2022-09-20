@@ -26,7 +26,7 @@
                     name="topic"
                     type="text"
                     label="тема вопроса"
-                    :rules="'required'"
+                    :rules="'required|max:255'"
                     placeholder=""
                     :label_class="'d-md-none'"
                     no_group_item
@@ -42,7 +42,7 @@
                     name="question"
                     type="text"
                     label="текст вопроса"
-                    :rules="'required'"
+                    :rules="'required|max:255'"
                     placeholder=""
                     :label_class="'d-md-none'"
                     no_group_item
@@ -119,7 +119,7 @@
                 formData.append('question', this.question.question);
                 formData.append('topic', this.question.topic);
                 for (var i = 0; i < this.question.files.length; i++) {
-                    formData.append("file[]", this.question.files[i]);
+                    formData.append("files[]", this.question.files[i]);
                 }
                 axios.post('/api/send/question', formData, {
                     headers: {
@@ -136,6 +136,7 @@
                             topic: "",
                             files: []
                         };
+                        this.question.email = this.user.email;
                     })
                     .catch(error => {
                         this.loading = false;
