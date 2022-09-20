@@ -52,8 +52,8 @@ class TestCommand extends Command
     public function handle()
     {
         //dispatch(new FavouriteJob);
-       // dispatch(new MonitoringJob);
-       // dispatch(new MonitoringNotificationJob('hourly'));
+       dispatch(new MonitoringJob);
+       dispatch(new MonitoringNotificationJob('hourly'));
         //dispatch(new ParseArbitrManager);
        /* $startDate = Carbon::parse('2022-08-17 00:30');
         $endDate = Carbon::parse('2022-09-07 00:40');
@@ -62,7 +62,7 @@ class TestCommand extends Command
             $startDate->addHours(3);
             dispatch(new ParseTrades($startFrom, $startDate->format('Y-m-d\TH:i:s')));
         }*/
-         dispatch(new ParseTrades);
+        // dispatch(new ParseTrades);
         //$get_trade_message_content = new GetTradeMessageContent($xml, 'BiddingInvitation');
         //$get_trade_message_content->switchMessageType(1, $xml, 13275260);
     }

@@ -96,7 +96,7 @@ class SendCodeService
                                 $photo = $message->embed(asset($category_icons[$category->title]));
                             }
                         }
-                        $desc = $lot->description;
+                        $desc =  mb_strimwidth($lot->description, 0, 100, "...");
                         $url = asset('lot/' . $lot->id);
                         $details .= "<tr><td>$i</td><td><img width='150px' height='117px' src='$photo' alt=''/></td><td>$desc</td><td><a href='$url'>Подробнее</a></td></tr>";
                         $i++;

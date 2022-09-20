@@ -8,6 +8,7 @@ use App\Http\Resources\LotResource;
 use App\Http\Resources\LotShortCollection;
 use App\Http\Resources\NotificationCollection;
 use App\Http\Resources\VictoryCollection;
+use App\Jobs\ClearHiddenLotsJob;
 use App\Models\Auction;
 use App\Models\BiddingResult;
 use App\Models\Favourite;
@@ -123,7 +124,7 @@ class AuctionController extends Controller
         if ($user->hiddenLots->contains($lot)) {
             $user->hiddenLots()->detach($lot);
         } else {
-            $this->clearPath($user, $lot);
+            dispatch(new ClearHiddenLotsJob($user, $lot));
         }
         return response(null, 200);
     }
@@ -148,11 +149,8 @@ class AuctionController extends Controller
             throw new BaseException("ERR_FIND_TRADE_FAILED", 404, "Trade with id= " . $tradeId . ' does not exist');
         }
         $user = User::find(auth()->id());
-        $result = [];
-        foreach ($auction->lots as $lot) {
-            $this->clearPath($user, $lot);
-            $result[] = $lot->id;
-        }
+        $result = $auction->lots()->pluck('id');
+        dispatch(new ClearHiddenLotsJob($user, $auction->lots));
         return response()->json(['lotIds'=>$result], 200);
     }
 
@@ -172,39 +170,5 @@ class AuctionController extends Controller
         return response()->json(['lotIds'=>$result], 200);
     }
 
-    public function clearPath($user, $lot){
-        if (!$user->hiddenLots->contains($lot)) {
-            $user->hiddenLots()->attach($lot);
-            $paths = Favourite::where('user_id', auth()->id())->get();
-            foreach ($paths as $path) {
-                if ($path->lots->contains($lot)) {
-                    $path->lots()->detach($lot);
-                    foreach($path->notifications() as $notification){
-                        if($notification->notificationLots->contains($lot)){
-                            $notification->delete();
-                            $notification->notificationLots()->detach($lot);
-                        }
-                    }
-                }
-            }
-            $paths = Monitoring::where('user_id', auth()->id())->get();
-            foreach ($paths as $path) {
-                if ($path->lots->contains($lot)) {
-                    $path->lots()->detach($lot);
-                    foreach($path->notifications as $notification){
-                        if($notification->notificationLots->contains($lot)){
-                            if($notification->value >1){
-                                $notification->value -= 1;
-                                $notification->save();
-                            }else{
-                                $notification->delete();
-                            }
-                            $notification->notificationLots()->detach($lot);
-                        }
-                    }
-                }
-            }
-        }
-    }
 
 }
