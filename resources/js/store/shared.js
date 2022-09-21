@@ -5,7 +5,7 @@ export default {
         user: {
             name:'',
             surname:'',
-            email:'',
+            // email:'',
             // phone:'',
             code:'',
             password:'',

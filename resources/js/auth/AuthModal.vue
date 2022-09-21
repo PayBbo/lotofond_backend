@@ -72,7 +72,7 @@
                 icon_name="User"
             />
             <bkt-input
-                v-model="user.email"
+                v-model="contact.email"
                 :name="'email'"
                 v-if="grantType === 'email'"
                 type="email"
@@ -88,7 +88,7 @@
                 </template>
             </bkt-input>
             <bkt-input
-                v-model="user.phone"
+                v-model="contact.phone"
                 v-if="grantType === 'phone'"
                 :name="'phone'"
                 type="tel"
@@ -250,7 +250,11 @@
                 password_error:false,
                 email_error:false,
                 phone_error:false,
-                error: null
+                error: null,
+                contact: {
+                    email:'',
+                    phone:'',
+                }
             }
         },
         computed: {
@@ -268,6 +272,7 @@
             async submit() {
                 let data = JSON.parse(JSON.stringify(this.user));
                 data.grantType = this.grantType;
+                data[this.grantType] = this.contact[this.grantType];
                 this.loading = true;
                 this.error = null;
                 this.email_error=false;
