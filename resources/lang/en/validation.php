@@ -146,6 +146,7 @@ return [
     'submit_user_password'=>'Passwords do not match',
     'message_err'=>'Message could not be sent, please try again',
     'user_not_found'=>'Incorrect data for authorization through social networks',
+    'authorization_required'=>'You need to register to receive the rest of the content',
     /*
     |--------------------------------------------------------------------------
     | Custom Validation Language Lines

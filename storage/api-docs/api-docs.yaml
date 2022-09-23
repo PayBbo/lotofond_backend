@@ -606,11 +606,17 @@ paths:
         required: true
       responses:
         "200":
-          description: Информация о 20 торгах
+          description: Информация о 20 или 5 лотах (в зависимости от того, автворизован пользователь или нет)
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/TradeInfo'
+        "403":
+          description: Неавторизованный пользователь просмотрел 5 лотов, выдаем сообщение о необходимости регистрации
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
         default:
           description: unexpected error
           content:
@@ -645,11 +651,17 @@ paths:
         required: true
       responses:
         "200":
-          description: Информация о 20 ближайших торгах
+          description: Информация о 20 или 5 ближайших торгах (в зависимости от того, автворизован пользователь или нет)
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/TradeInfo'
+        "403":
+          description: Неавторизованный пользователь просмотрел 5 лотов, выдаем сообщение о необходимости регистрации
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
         default:
           description: unexpected error
           content:

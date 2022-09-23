@@ -19,6 +19,7 @@ use App\Models\Notification;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class AuctionController extends Controller
 {
@@ -30,7 +31,16 @@ class AuctionController extends Controller
 
     public function getFilteredTrades(Request $request)
     {
-        $lots = Lot::customSortBy($request)->filterBy($request->request)->paginate(20);
+        if(auth()->check()) {
+            $lotCount = 20;
+        }else{
+            $page = $request->query('page');
+            if($page != 1){
+                throw new BaseException("ERR_AUTHORIZATION_REQUIRED", 403, __('validation.authorization_required'));
+            }
+            $lotCount = 5;
+        }
+        $lots = Lot::customSortBy($request)->filterBy($request->request)->paginate($lotCount);
         return response(new LotCollection($lots), 200);
     }
 
@@ -38,10 +48,20 @@ class AuctionController extends Controller
     {
         $start = Carbon::now()->setTimezone('Europe/Moscow');
         $end = Carbon::now()->setTimezone('Europe/Moscow')->addWeek();
+        if(auth()->check()) {
+            $lotCount = 20;
+        }else{
+            $page = $request->query('page');
+            if($page != 1){
+                throw new BaseException("ERR_AUTHORIZATION_REQUIRED", 403, __('validation.authorization_required'));
+            }
+            $lotCount = 5;
+        }
         $lots = Lot::customSortBy($request)->filterBy($request->request)
             ->whereHas('auction', function ($q) use ($start, $end) {
-                $q->whereBetween('application_start_date', [$start, $end]);
-            })->paginate(20);
+                $q->whereBetween('application_start_date', [$start, $end])
+                    ->where('application_end_date', '>', $end);
+            })->paginate($lotCount);
         return response(new LotCollection($lots), 200);
     }
 
@@ -49,7 +69,10 @@ class AuctionController extends Controller
     {
         $start = Carbon::now()->setTimezone('Europe/Moscow')->subWeek();
         $end = Carbon::now()->setTimezone('Europe/Moscow');
-        $victories = BiddingResult::has('winner')->whereBetween('created_at', [$start, $end])->paginate(20);
+        $victories = BiddingResult::has('winner')->whereBetween('created_at', [$start, $end])
+           ->whereHas('tradeMessage.lot', function($query){
+                $query->whereBetween(DB::raw('(start_price/end_price)*100-100'), [-15, 35]);
+            })->paginate(20);
         return response(new VictoryCollection($victories), 200);
     }
 
