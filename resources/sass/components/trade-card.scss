@@ -6,7 +6,7 @@
     }
 
     & .bkt-card__title {
-        font-size: $font-size-22;
+        font-size: 16px;
     }
 
     & .bkt-card.vertical {
@@ -113,7 +113,8 @@
         font-size: 30px;
         font-family: "Gilroy";
         font-weight: 700;
-        color: rgb(255, 255, 255);
+        color: inherit;
+
         //padding: 18px 46px;
         //position: relative;
         line-height: 1;
@@ -127,10 +128,16 @@
             text-align: center;
             flex-wrap: nowrap;
             border-radius: 15px;
-            padding: 10px;
+            padding: 5px 10px;
             width: 320px;
             height: 60px;
-
+            color: rgb(255, 255, 255);
+            & .bkt-card__subtitle {
+                line-height: 14px;
+                color:inherit;
+                opacity: 0.6;
+                //color: #f8f9fab3;
+            }
         }
 
         &-icon {
@@ -630,7 +637,7 @@
             //position: relative;
 
 
-            color: rgb(255, 255, 255);
+            //color: rgb(255, 255, 255);
             line-height: 1;
             text-align: center;
 

@@ -94,13 +94,18 @@
         }
     }
 
+    .bkt-main-instruments {
+        margin-bottom: 38px;
+    }
+
     .bkt-main-filters {
-        background: $main-default;
+        background: white;
+        //background: $main-default;
         align-items: center;
         //justify-content: space-between;
         padding: 20px;
         flex-wrap: wrap;
-        margin: 38px 0;
+        margin: 38px 0 0 0;
 
         & .bkt-select__wrapper {
             width: 100%;
@@ -125,8 +130,8 @@
         }
 
         & .bkt-check__input {
-            border: 2px solid $main-light;
-            background-color: $main-default;
+            border: 2px solid $neutral-light;
+            background-color: white;
             outline: none;
             box-shadow: none;
             margin-right: 8px;
@@ -136,13 +141,13 @@
 
         }
 
-        & input:checked ~ .bkt-check__input-check {
-            background: $white;
-            box-shadow: 0 3px 10px 0 rgba(255, 255, 255, 0.53);
-        }
+        //& input:checked ~ .bkt-check__input-check {
+        //    background: $white;
+        //    box-shadow: 0 3px 10px 0 rgba(255, 255, 255, 0.53);
+        //}
 
         & .bkt-check__label {
-            color: $white;
+            color: $main-default;
             line-height: 1.833;
             font-size: $font-size-12;
         }

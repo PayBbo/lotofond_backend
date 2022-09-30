@@ -17,7 +17,7 @@
                             </h4>
                         </div>
                         <button class="bkt-button bkt-button_yellow bkt-button_plump" @click="navigate('/agent')">
-                            Подробнее о покупке без ЭП
+                            Подробнее о покупке без ЭЦП
                         </button>
                         <span type="button" class="bkt-close-button" @click="close"
                                 aria-label="Close">
@@ -80,44 +80,47 @@
                 <div class="bkt-input__wrapper">
                     <label class="bkt-input__label bkt-form__label" style="margin-bottom: 10px;">где вам удобнее
                         общаться</label>
-                    <div class="communications bkt-wrapper-between bkt-gap-small">
-                        <bkt-checkbox wrapper_class="flex-fill"
-                                      input_class="bkt-button bkt-bg-body flex-fill" name="Viber"
-                                      v-model="service.socialsForAnswer" val="Viber" type="radio"
-                                      :border_color="service.socialsForAnswer=='Viber' ? 'primary': 'body'"
-                        >
-                            <template #input-check>
-                                <bkt-icon name="Viber" color="purple" class="bkt-button__icon"></bkt-icon>
-                            </template>
-                        </bkt-checkbox>
-                        <bkt-checkbox wrapper_class="flex-fill"
-                                      input_class="bkt-button bkt-bg-body flex-fill" name="Vk"
-                                      v-model="service.socialsForAnswer" val="Vk" type="radio"
-                                      :border_color="service.socialsForAnswer=='Vk' ? 'primary': 'body'"
-                        >
-                            <template #input-check>
-                                <bkt-icon name="Vk" color="primary" class="bkt-button__icon"></bkt-icon>
-                            </template>
-                        </bkt-checkbox>
-                        <bkt-checkbox wrapper_class="flex-fill"
-                                      input_class="bkt-button bkt-bg-body flex-fill" name="Telegram"
-                                      v-model="service.socialsForAnswer" val="Telegram" type="radio"
-                                      :border_color="service.socialsForAnswer=='Telegram' ? 'primary': 'body'"
-                        >
-                            <template #input-check>
-                                <bkt-icon name="Telegram" color="blue" class="bkt-button__icon"></bkt-icon>
-                            </template>
-                        </bkt-checkbox>
-                        <bkt-checkbox wrapper_class="flex-fill"
-                                      input_class="bkt-button bkt-bg-body flex-fill" name="WhatsApp"
-                                      v-model="service.socialsForAnswer" val="WhatsApp" type="radio"
-                                      :border_color="service.socialsForAnswer=='WhatsApp' ? 'primary': 'body'"
-                        >
-                            <template #input-check>
-                                <bkt-icon name="WhatsApp" color="green" class="bkt-button__icon"></bkt-icon>
-                            </template>
-                        </bkt-checkbox>
-                    </div>
+                    <ValidationProvider :name="'Мессенджеры'" rules="required|min:1" v-slot="{ errors }">
+                        <div class="communications bkt-wrapper-between bkt-gap-small">
+                            <bkt-checkbox wrapper_class="flex-fill"
+                                          input_class="bkt-button bkt-bg-body flex-fill" name="Viber"
+                                          v-model="service.socialsForAnswer" val="Viber"
+                                          :border_color="service.socialsForAnswer.includes('Viber') ? 'primary': 'body'"
+                            >
+                                <template #input-check>
+                                    <bkt-icon name="Viber" color="purple" class="bkt-button__icon"></bkt-icon>
+                                </template>
+                            </bkt-checkbox>
+                            <bkt-checkbox wrapper_class="flex-fill"
+                                          input_class="bkt-button bkt-bg-body flex-fill" name="Vk"
+                                          v-model="service.socialsForAnswer" val="Vk"
+                                          :border_color="service.socialsForAnswer.includes('Vk') ? 'primary': 'body'"
+                            >
+                                <template #input-check>
+                                    <bkt-icon name="Vk" color="primary" class="bkt-button__icon"></bkt-icon>
+                                </template>
+                            </bkt-checkbox>
+                            <bkt-checkbox wrapper_class="flex-fill"
+                                          input_class="bkt-button bkt-bg-body flex-fill" name="Telegram"
+                                          v-model="service.socialsForAnswer" val="Telegram"
+                                          :border_color="service.socialsForAnswer.includes('Telegram') ? 'primary': 'body'"
+                            >
+                                <template #input-check>
+                                    <bkt-icon name="Telegram" color="blue" class="bkt-button__icon"></bkt-icon>
+                                </template>
+                            </bkt-checkbox>
+                            <bkt-checkbox wrapper_class="flex-fill"
+                                          input_class="bkt-button bkt-bg-body flex-fill" name="WhatsApp"
+                                          v-model="service.socialsForAnswer" val="WhatsApp"
+                                          :border_color="service.socialsForAnswer.includes('WhatsApp') ? 'primary': 'body'"
+                            >
+                                <template #input-check>
+                                    <bkt-icon name="WhatsApp" color="green" class="bkt-button__icon"></bkt-icon>
+                                </template>
+                            </bkt-checkbox>
+                        </div>
+                        <p class="bkt-input-error" v-if="errors.length>0">{{errors[0]}}</p>
+                    </ValidationProvider>
                 </div>
             </div>
         </template>
@@ -140,32 +143,62 @@
                     socialsForAnswer: [],
                     lotId: 0,
                 },
-                promo: localStorage.getItem('bkt_application_promo') || true
+                promo: localStorage.getItem('bkt_application_promo') || true,
+            }
+        },
+        mounted() {
+            if(this.user && this.isLoggedIn) {
+                this.service.name = this.user.name +' '+this.user.lastName;
+                this.service.email = this.user.email;
+                this.service.phone = this.user.phone;
             }
         },
         computed: {
             selected_lot() {
-                return this.$store.getters.selected_lot
+                return this.$store.getters.selected_lot;
+            },
+            user() {
+                return this.$store.getters.auth_user
+            },
+            isLoggedIn() {
+                return this.$store.getters.isLoggedIn
+            },
+        },
+        watch: {
+            isLoggedIn: function (newVal, oldVal) {
+                if (oldVal == false && newVal == true) {
+                    this.service.name = this.user.name +' '+this.user.lastName;
+                    this.service.email = this.user.email;
+                    this.service.phone = this.user.phone;
+                }
+            },
+            user: function (newVal, oldVal) {
+                if (newVal !== null) {
+                    this.service.name = this.user.name +' '+this.user.lastName;
+                    this.service.email = this.user.email;
+                    this.service.phone = this.user.phone;
+                }
             }
         },
         methods: {
             sendApplication() {
                 this.loading = true;
                 let data = JSON.parse(JSON.stringify(this.service));
-                data.socialsForAnswer = [this.service.socialsForAnswer];
+                // data.socialsForAnswer = [this.service.socialsForAnswer];
                 data.lotId = this.selected_lot.id;
                 axios.post('/api/send/application', data)
                     .then(resp => {
                         this.loading = false;
                         this.$store.dispatch('sendNotification',
                             {self: this, message: 'Заявка успешно отправлена. Менеджер скоро с Вами свяжется'});
-                        this.service = {
-                            name: '',
-                            email: '',
-                            phone: '',
-                            socialsForAnswer: [],
-                            lotId: 0,
-                        };
+                        // this.service = {
+                        //     name: '',
+                        //     email: '',
+                        //     phone: '',
+                        //     socialsForAnswer: [],
+                        //     lotId: 0,
+                        // };
+                        this.service.lotId = 0;
                         this.$store.commit('closeModal', '#applicationModal');
                     })
                     .catch(error => {
@@ -182,7 +215,7 @@
             close() {
                 this.promo=false;
                 localStorage.setItem('bkt_application_promo', 'false')
-            }
+            },
         }
     }
 </script>

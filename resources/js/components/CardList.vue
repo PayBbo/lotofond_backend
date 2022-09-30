@@ -8,8 +8,8 @@
         <slot name="filters">
         </slot>
         <slot name="list">
-            <slot name="loading">
-                <div v-if="loading" class="d-flex w-100 justify-content-center mb-5">
+            <slot name="loading" v-if="loading">
+                <div class="d-flex w-100 justify-content-center mb-5">
                     <div
                         style="color: #2953ff;border-width: 2px;"
                         class="spinner-border"

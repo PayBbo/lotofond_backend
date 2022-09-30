@@ -26,116 +26,116 @@
             >
             </bkt-input>
         </div>
-        <div class="col-12">
-            <!--                    <div class="bkt-form m-0">-->
-            <!--                        <div class="col-lg-8 col-12 p-0">-->
-            <bkt-select
-                v-model="model.tradePlaces"
-                multiple
-                name="tradePlaces"
-                label="торговые площадки"
-                label_class="bkt-form__label"
-                :option_label="'name'"
-                :options="trade_places"
-                :pagination="trade_places_pagination"
-                :reduce="item => item.id"
-                :method_name="'getTradePlaces'"
-                :searchable="true"
-                :loading="trade_places_loading"
-                @input="saveValue"
-            >
-            </bkt-select>
-            <!--            <bkt-select name="tradePlaces"-->
-            <!--                        label="торговые площадки"-->
-            <!--                        label_class="bkt-form__label"-->
-            <!--                        v-model="current_platform"-->
-            <!--                        :options="trade_places"-->
-            <!--                        :option_label="'name'"-->
-            <!--                        :pagination="trade_places_pagination"-->
-            <!--                        :method_name="'getTradePlaces'"-->
-            <!--            >-->
-            <!--            </bkt-select>-->
+<!--        <div class="col-12">-->
+<!--            &lt;!&ndash;                    <div class="bkt-form m-0">&ndash;&gt;-->
+<!--            &lt;!&ndash;                        <div class="col-lg-8 col-12 p-0">&ndash;&gt;-->
+<!--            <bkt-select-->
+<!--                v-model="model.tradePlaces"-->
+<!--                multiple-->
+<!--                name="tradePlaces"-->
+<!--                label="торговые площадки"-->
+<!--                label_class="bkt-form__label"-->
+<!--                :option_label="'name'"-->
+<!--                :options="trade_places"-->
+<!--                :pagination="trade_places_pagination"-->
+<!--                :reduce="item => item.id"-->
+<!--                :method_name="'getTradePlaces'"-->
+<!--                :searchable="true"-->
+<!--                :loading="trade_places_loading"-->
+<!--                @input="saveValue"-->
+<!--            >-->
+<!--            </bkt-select>-->
+<!--            &lt;!&ndash;            <bkt-select name="tradePlaces"&ndash;&gt;-->
+<!--            &lt;!&ndash;                        label="торговые площадки"&ndash;&gt;-->
+<!--            &lt;!&ndash;                        label_class="bkt-form__label"&ndash;&gt;-->
+<!--            &lt;!&ndash;                        v-model="current_platform"&ndash;&gt;-->
+<!--            &lt;!&ndash;                        :options="trade_places"&ndash;&gt;-->
+<!--            &lt;!&ndash;                        :option_label="'name'"&ndash;&gt;-->
+<!--            &lt;!&ndash;                        :pagination="trade_places_pagination"&ndash;&gt;-->
+<!--            &lt;!&ndash;                        :method_name="'getTradePlaces'"&ndash;&gt;-->
+<!--            &lt;!&ndash;            >&ndash;&gt;-->
+<!--            &lt;!&ndash;            </bkt-select>&ndash;&gt;-->
 
-            <!--            <h5 class="bkt-form__label">выбранные площадки</h5>-->
-            <!--            <div class="bkt-tag__list">-->
-            <!--                <div class="bkt-tag justify-content-between flex-fill"-->
-            <!--                     v-for="(item, index) in selected_trade_places">-->
-            <!--                    <span class="bkt-item-rounded__text mr-2">{{ item.name }}</span>-->
-            <!--                    <span class="bkt-tag__icon bkt-cursor-pointer" @click="removeTradePlace(item.id)">-->
-            <!--                        <bkt-icon name="Cancel" color="red"></bkt-icon>-->
-            <!--                    </span>-->
-            <!--                </div>-->
-            <!--            </div>-->
-            <!--                        </div>-->
-            <!--                        <div class="col-12 col-lg-4 p-0">-->
-            <!--                            <div class="bkt-check__list">-->
-            <!--                                <div class="bkt-check__wrapper">-->
-            <!--                                    <div class="bkt-check">-->
-            <!--                                        <div class="bkt-check__input">-->
-            <!--                                            <input class="" type="checkbox">-->
-            <!--                                            <div class="bkt-check__input-check"></div>-->
-            <!--                                        </div>-->
-            <!--                                        <label class="bkt-check__label">-->
-            <!--                                            Банкротство-->
-            <!--                                        </label>-->
-            <!--                                    </div>-->
-            <!--                                </div>-->
-            <!--                                <div class="bkt-check__wrapper">-->
-            <!--                                    <div class="bkt-check">-->
-            <!--                                        <div class="bkt-check__input">-->
-            <!--                                            <input class="" type="checkbox">-->
-            <!--                                            <div class="bkt-check__input-check"></div>-->
-            <!--                                        </div>-->
-            <!--                                        <label class="bkt-check__label">-->
-            <!--                                            TorgiGov-->
-            <!--                                        </label>-->
-            <!--                                    </div>-->
-            <!--                                </div>-->
-            <!--                                <div class="bkt-check__wrapper">-->
-            <!--                                    <div class="bkt-check">-->
-            <!--                                        <div class="bkt-check__input">-->
-            <!--                                            <input class="" type="checkbox">-->
-            <!--                                            <div class="bkt-check__input-check"></div>-->
-            <!--                                        </div>-->
-            <!--                                        <label class="bkt-check__label">-->
-            <!--                                            Залоговое-->
-            <!--                                        </label>-->
-            <!--                                    </div>-->
-            <!--                                </div>-->
-            <!--                                <div class="bkt-check__wrapper">-->
-            <!--                                    <div class="bkt-check">-->
-            <!--                                        <div class="bkt-check__input">-->
-            <!--                                            <input class="" type="checkbox">-->
-            <!--                                            <div class="bkt-check__input-check"></div>-->
-            <!--                                        </div>-->
-            <!--                                        <label class="bkt-check__label">-->
-            <!--                                            Коммерческое-->
-            <!--                                        </label>-->
-            <!--                                    </div>-->
-            <!--                                </div>-->
-            <!--                            </div>-->
-            <!--                        </div>-->
-            <!--                    </div>-->
-        </div>
-        <div class="col-12 p-0">
-            <div class="bkt-form m-0">
-                <div class="col-12">
-                    <h5 class="bkt-form__label">вид торгов</h5>
-                </div>
-                <div class="col-12">
-                    <div class="bkt-form bkt-wrapper bkt-auctions-types">
-                        <div class="bkt-auctions-type flex-fill" v-for="item in auctionTypes">
-                            <button class="bkt-auctions-type__card bkt-auctions-type__title bkt-bg-body"
-                                    @click="toggleAuctionType(item.title)"
-                                    :class="[model.tradeTypes.includes(item.title) ? 'bkt-border-primary': 'bkt-border-body']">
-                                {{item.description}}
-                            </button>
-                            <!--                            <h6 class="bkt-auctions-type__subtitle">что это?</h6>-->
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+<!--            &lt;!&ndash;            <h5 class="bkt-form__label">выбранные площадки</h5>&ndash;&gt;-->
+<!--            &lt;!&ndash;            <div class="bkt-tag__list">&ndash;&gt;-->
+<!--            &lt;!&ndash;                <div class="bkt-tag justify-content-between flex-fill"&ndash;&gt;-->
+<!--            &lt;!&ndash;                     v-for="(item, index) in selected_trade_places">&ndash;&gt;-->
+<!--            &lt;!&ndash;                    <span class="bkt-item-rounded__text mr-2">{{ item.name }}</span>&ndash;&gt;-->
+<!--            &lt;!&ndash;                    <span class="bkt-tag__icon bkt-cursor-pointer" @click="removeTradePlace(item.id)">&ndash;&gt;-->
+<!--            &lt;!&ndash;                        <bkt-icon name="Cancel" color="red"></bkt-icon>&ndash;&gt;-->
+<!--            &lt;!&ndash;                    </span>&ndash;&gt;-->
+<!--            &lt;!&ndash;                </div>&ndash;&gt;-->
+<!--            &lt;!&ndash;            </div>&ndash;&gt;-->
+<!--            &lt;!&ndash;                        </div>&ndash;&gt;-->
+<!--            &lt;!&ndash;                        <div class="col-12 col-lg-4 p-0">&ndash;&gt;-->
+<!--            &lt;!&ndash;                            <div class="bkt-check__list">&ndash;&gt;-->
+<!--            &lt;!&ndash;                                <div class="bkt-check__wrapper">&ndash;&gt;-->
+<!--            &lt;!&ndash;                                    <div class="bkt-check">&ndash;&gt;-->
+<!--            &lt;!&ndash;                                        <div class="bkt-check__input">&ndash;&gt;-->
+<!--            &lt;!&ndash;                                            <input class="" type="checkbox">&ndash;&gt;-->
+<!--            &lt;!&ndash;                                            <div class="bkt-check__input-check"></div>&ndash;&gt;-->
+<!--            &lt;!&ndash;                                        </div>&ndash;&gt;-->
+<!--            &lt;!&ndash;                                        <label class="bkt-check__label">&ndash;&gt;-->
+<!--            &lt;!&ndash;                                            Банкротство&ndash;&gt;-->
+<!--            &lt;!&ndash;                                        </label>&ndash;&gt;-->
+<!--            &lt;!&ndash;                                    </div>&ndash;&gt;-->
+<!--            &lt;!&ndash;                                </div>&ndash;&gt;-->
+<!--            &lt;!&ndash;                                <div class="bkt-check__wrapper">&ndash;&gt;-->
+<!--            &lt;!&ndash;                                    <div class="bkt-check">&ndash;&gt;-->
+<!--            &lt;!&ndash;                                        <div class="bkt-check__input">&ndash;&gt;-->
+<!--            &lt;!&ndash;                                            <input class="" type="checkbox">&ndash;&gt;-->
+<!--            &lt;!&ndash;                                            <div class="bkt-check__input-check"></div>&ndash;&gt;-->
+<!--            &lt;!&ndash;                                        </div>&ndash;&gt;-->
+<!--            &lt;!&ndash;                                        <label class="bkt-check__label">&ndash;&gt;-->
+<!--            &lt;!&ndash;                                            TorgiGov&ndash;&gt;-->
+<!--            &lt;!&ndash;                                        </label>&ndash;&gt;-->
+<!--            &lt;!&ndash;                                    </div>&ndash;&gt;-->
+<!--            &lt;!&ndash;                                </div>&ndash;&gt;-->
+<!--            &lt;!&ndash;                                <div class="bkt-check__wrapper">&ndash;&gt;-->
+<!--            &lt;!&ndash;                                    <div class="bkt-check">&ndash;&gt;-->
+<!--            &lt;!&ndash;                                        <div class="bkt-check__input">&ndash;&gt;-->
+<!--            &lt;!&ndash;                                            <input class="" type="checkbox">&ndash;&gt;-->
+<!--            &lt;!&ndash;                                            <div class="bkt-check__input-check"></div>&ndash;&gt;-->
+<!--            &lt;!&ndash;                                        </div>&ndash;&gt;-->
+<!--            &lt;!&ndash;                                        <label class="bkt-check__label">&ndash;&gt;-->
+<!--            &lt;!&ndash;                                            Залоговое&ndash;&gt;-->
+<!--            &lt;!&ndash;                                        </label>&ndash;&gt;-->
+<!--            &lt;!&ndash;                                    </div>&ndash;&gt;-->
+<!--            &lt;!&ndash;                                </div>&ndash;&gt;-->
+<!--            &lt;!&ndash;                                <div class="bkt-check__wrapper">&ndash;&gt;-->
+<!--            &lt;!&ndash;                                    <div class="bkt-check">&ndash;&gt;-->
+<!--            &lt;!&ndash;                                        <div class="bkt-check__input">&ndash;&gt;-->
+<!--            &lt;!&ndash;                                            <input class="" type="checkbox">&ndash;&gt;-->
+<!--            &lt;!&ndash;                                            <div class="bkt-check__input-check"></div>&ndash;&gt;-->
+<!--            &lt;!&ndash;                                        </div>&ndash;&gt;-->
+<!--            &lt;!&ndash;                                        <label class="bkt-check__label">&ndash;&gt;-->
+<!--            &lt;!&ndash;                                            Коммерческое&ndash;&gt;-->
+<!--            &lt;!&ndash;                                        </label>&ndash;&gt;-->
+<!--            &lt;!&ndash;                                    </div>&ndash;&gt;-->
+<!--            &lt;!&ndash;                                </div>&ndash;&gt;-->
+<!--            &lt;!&ndash;                            </div>&ndash;&gt;-->
+<!--            &lt;!&ndash;                        </div>&ndash;&gt;-->
+<!--            &lt;!&ndash;                    </div>&ndash;&gt;-->
+<!--        </div>-->
+<!--        <div class="col-12 p-0">-->
+<!--            <div class="bkt-form m-0">-->
+<!--                <div class="col-12">-->
+<!--                    <h5 class="bkt-form__label">вид торгов</h5>-->
+<!--                </div>-->
+<!--                <div class="col-12">-->
+<!--                    <div class="bkt-form bkt-wrapper bkt-auctions-types">-->
+<!--                        <div class="bkt-auctions-type flex-fill" v-for="item in auctionTypes">-->
+<!--                            <button class="bkt-auctions-type__card bkt-auctions-type__title bkt-bg-body"-->
+<!--                                    @click="toggleAuctionType(item.title)"-->
+<!--                                    :class="[model.tradeTypes.includes(item.title) ? 'bkt-border-primary': 'bkt-border-body']">-->
+<!--                                {{item.description}}-->
+<!--                            </button>-->
+<!--                            &lt;!&ndash;                            <h6 class="bkt-auctions-type__subtitle">что это?</h6>&ndash;&gt;-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
     </div>
 </template>
 

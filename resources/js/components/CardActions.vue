@@ -8,64 +8,93 @@
                  action.color ? 'bkt-hover-'+action.color : 'bkt-hover-'+main_bg, action.class]"
                 @click="makeAction(action.method, action.method_params)"
                 :id="action.dropdown_id ? action.dropdown_id : 'button-dropdown-'+action.icon"
-                :data-bs-toggle="action.dropdown_id && item[action.status] ? 'dropdown' : ''"
+                :data-bs-toggle="action.dropdown_id && ((action.status && item[action.status]) || !action.status) ? 'dropdown' : ''"
                 :disabled="in_process.indexOf(action.icon)>=0"
             >
                 <span v-if="in_process.indexOf(action.icon)>=0"
                       class="spinner-border spinner-border-sm flex-shrink-0" role="status">
                 </span>
-<!--                <template v-if="action.status_icon">-->
-<!--                    <bkt-icon v-show="in_process.indexOf(action.icon)<0 && item[action.status]"-->
-<!--                              class="bkt-button__icon" :name="action.status_icon"-->
-<!--                              :color="type==='menu' && !item[action.status] ? action.color : 'white'">-->
-<!--                    </bkt-icon>-->
-<!--                    <bkt-icon v-show="in_process.indexOf(action.icon)<0 && !item[action.status]"-->
-<!--                              class="bkt-button__icon" :name="action.icon"-->
-<!--                              :color="type==='menu' && !item[action.status] ? action.color : 'white'">-->
-<!--                        -->
-<!--                    </bkt-icon>-->
-<!--                </template>-->
-<!--                <template v-else>-->
-<!--                    <bkt-icon v-show="in_process.indexOf(action.icon)<0"-->
-<!--                              class="bkt-button__icon" :name="action.icon"-->
-<!--                              :color="type==='menu' && !item[action.status] ? action.color : 'white'">-->
-<!--                    </bkt-icon>-->
-<!--                </template>-->
-                    <bkt-icon v-if="in_process.indexOf(action.icon)<0 "
-                              class="bkt-button__icon" :name="item[action.status] && action.status_icon ? action.status_icon : action.icon"
-                              :color="type==='menu' && !item[action.status] ? action.color : 'white'">
-                    </bkt-icon>
-<!--                    <bkt-icon v-show="in_process.indexOf(action.icon)<0 && !action.status_icon"-->
-<!--                              class="bkt-button__icon" :name="action.icon"-->
-<!--                              :color="type==='menu' && !item[action.status] ? action.color : 'white'">-->
-<!--                    </bkt-icon>-->
+                <!--                <template v-if="action.status_icon">-->
+                <!--                    <bkt-icon v-show="in_process.indexOf(action.icon)<0 && item[action.status]"-->
+                <!--                              class="bkt-button__icon" :name="action.status_icon"-->
+                <!--                              :color="type==='menu' && !item[action.status] ? action.color : 'white'">-->
+                <!--                    </bkt-icon>-->
+                <!--                    <bkt-icon v-show="in_process.indexOf(action.icon)<0 && !item[action.status]"-->
+                <!--                              class="bkt-button__icon" :name="action.icon"-->
+                <!--                              :color="type==='menu' && !item[action.status] ? action.color : 'white'">-->
+                <!--                        -->
+                <!--                    </bkt-icon>-->
+                <!--                </template>-->
+                <!--                <template v-else>-->
+                <!--                    <bkt-icon v-show="in_process.indexOf(action.icon)<0"-->
+                <!--                              class="bkt-button__icon" :name="action.icon"-->
+                <!--                              :color="type==='menu' && !item[action.status] ? action.color : 'white'">-->
+                <!--                    </bkt-icon>-->
+                <!--                </template>-->
+                <bkt-icon v-if="in_process.indexOf(action.icon)<0 "
+                          class="bkt-button__icon"
+                          :name="item[action.status] && action.status_icon ? action.status_icon : action.icon"
+                          :color="type==='menu' && !item[action.status] ? action.color : (item[action.status] ? 'white' : icon_color)">
+                </bkt-icon>
+                <!--                    <bkt-icon v-show="in_process.indexOf(action.icon)<0 && !action.status_icon"-->
+                <!--                              class="bkt-button__icon" :name="action.icon"-->
+                <!--                              :color="type==='menu' && !item[action.status] ? action.color : 'white'">-->
+                <!--                    </bkt-icon>-->
 
                 <span v-if="type==='menu'">
                     {{item[action.status] && action.status_icon ? action.status_label : action.label}}
                 </span>
             </button>
-            <div v-show="action.dropdown_id && item[action.status]"
+            <div v-show="action.dropdown_id && ((action.status && item[action.status]) || !action.status)"
                  class="dropdown-menu dropdown-menu-end dropdown-menu-right bkt-dropdown__menu bkt-dropdown__menu_pointed bkt-dropdown__menu_neutral"
                  aria-labelledby="dropdownMenuClickableOutside"
             >
-                <div class="bkt-dropdown__menu-item bkt-wrapper-between" style="cursor: pointer"
-                     v-if="favourites_paths.length>1" @click="moveFavourite">
-                    <div class="bkt-dropdown__menu-text">
-                        Переместить
+                <template v-if="action.dropdown_id==='inFavourite'">
+                    <div class="bkt-dropdown__menu-item bkt-wrapper-between" style="cursor: pointer"
+                         v-if="favourites_paths.length>1" @click="moveFavourite">
+                        <div class="bkt-dropdown__menu-text">
+                            Переместить
+                        </div>
+                        <div class="bkt-dropdown__menu-icon">
+                            <bkt-icon name="FileArrowLeft" color="blue"></bkt-icon>
+                        </div>
                     </div>
-                    <div class="bkt-dropdown__menu-icon">
-                        <bkt-icon name="FileArrowLeft" color="blue"></bkt-icon>
+                    <div class="bkt-dropdown__menu-item bkt-wrapper-between" style="cursor: pointer"
+                         @click="removeFromFavourites">
+                        <div class="bkt-dropdown__menu-text">
+                            Удалить
+                        </div>
+                        <div class="bkt-dropdown__menu-icon">
+                            <bkt-icon name="Trash" color="red"></bkt-icon>
+                        </div>
                     </div>
-                </div>
-                <div class="bkt-dropdown__menu-item bkt-wrapper-between" style="cursor: pointer"
-                     @click="removeFromFavourites">
-                    <div class="bkt-dropdown__menu-text">
-                        Удалить
+                </template>
+                <template v-if="action.dropdown_id==='shareDropdown'">
+                    <skeleton :count="networks.length" v-if="!item.id" height="38px" skeleton_class="mb-1"></skeleton>
+                    <div class="bkt-dropdown__menu-item bkt-wrapper-between bkt-cursor-pointer mb-1"
+                         v-for="network in networks" v-else
+                    >
+                        <ShareNetwork
+                            :network="network.network"
+                            :key="network.network"
+                            :style="{backgroundColor: network.color}"
+                            :url="'https://lotofond.ru/lot/'+item.id"
+                            :title="sharing.title"
+                            :description="short_description"
+                            :hashtags="sharing.hashtags"
+                        >
+<!--                            <div class="bkt-dropdown__menu-icon">-->
+                            <span class="share-icon h-100">
+                                  <bkt-icon :name="network.name" width="18px" height="18px"
+                                            color="white"></bkt-icon>
+                            </span>
+<!--                    </div>-->
+                            <div class="bkt-dropdown__menu-text">
+                            {{ network.name }}
+                        </div>
+                        </ShareNetwork>
                     </div>
-                    <div class="bkt-dropdown__menu-icon">
-                        <bkt-icon name="Trash" color="red"></bkt-icon>
-                    </div>
-                </div>
+                </template>
             </div>
         </div>
         <div class="dropdown">
@@ -75,7 +104,7 @@
                       class="spinner-border spinner-border-sm mx-auto"
                       role="status"></span>
                 <bkt-icon v-if="in_process.indexOf('Hide')<0" class="bkt-button__icon mx-auto"
-                          :name="item.isHide ? 'Unhide' : 'Hide'" :color="item.isHide ? 'white' : 'red'"></bkt-icon>
+                          :name="item.isHide ? 'Unhide' : 'Hide'" :color="item.isHide ? icon_color : 'red'"></bkt-icon>
             </button>
         </div>
     </div>
@@ -91,6 +120,10 @@
             main_bg: {
                 type: String,
                 default: 'bkt-bg-main-light'
+            },
+            icon_color: {
+                type: String,
+                default: 'white'
             },
             type: {
                 type: String,
@@ -127,17 +160,17 @@
                         place: 'all',
                         class: ''
                     },
-                    {
-                        icon: 'Bookmark',
-                        label: "Добавить метку",
-                        color: 'orange',
-                        code: '',
-                        status: 'no_status',
-                        method: this.addMark,
-                        method_params: {icon: 'Bookmark'},
-                        place: 'lot-card',
-                        class: ''
-                    },
+                    // {
+                    //     icon: 'Bookmark',
+                    //     label: "Добавить метку",
+                    //     color: 'orange',
+                    //     code: '',
+                    //     status: 'no_status',
+                    //     method: this.addMark,
+                    //     method_params: {icon: 'Bookmark'},
+                    //     place: 'lot-card',
+                    //     class: ''
+                    // },
                     {
                         icon: 'Edit',
                         label: "Добавить заметку",
@@ -200,6 +233,18 @@
                         place: 'all',
                         class: ''
                     },
+                    {
+                        icon: 'Share',
+                        label: "Поделиться",
+                        color: 'orange',
+                        code: '',
+                        status: '',
+                        method: '',
+                        method_params: {icon: 'Share'},
+                        place: 'lot-card',
+                        dropdown_id: 'shareDropdown',
+                        class: '',
+                    },
                     // {
                     //     icon: 'Trash',
                     //     label: "Скрыть",
@@ -211,6 +256,31 @@
                     //     place: 'all'
                     // },
                 ],
+                sharing: {
+                    // url: 'https://news.vuejs.org/issues/180',
+                    title: 'Успей купить на Лотофонд',
+                    // description: '',
+                    hashtags: 'lotofond,trade,lot',
+                    // twitterUser: 'youyuxi',
+                    media: 'https://lotofond.ru/images/card-image1.png'
+                },
+                networks: [
+                    // { network: 'baidu', name: 'Baidu', icon: 'fas fah fa-lg fa-paw', color: '#2529d8' },
+                    {network: 'email', name: 'Email', color: '#2953ff'},
+                    // { network: 'line', name: 'Line', icon: 'fab fah fa-lg fa-line', color: '#00c300' },
+                    // { network: 'linkedin', name: 'LinkedIn', icon: 'fab fah fa-lg fa-linkedin', color: '#007bb5' },
+                    {network: 'odnoklassniki', name: 'Odnoklassniki', color: '#ed812b'},
+                    // { network: 'skype', name: 'Skype', icon: 'fab fah fa-lg fa-skype', color: '#00aff0' },
+                    // { network: 'sms', name: 'SMS', icon: 'far fah fa-lg fa-comment-dots', color: '#333333' },
+                    {network: 'telegram', name: 'Telegram', color: '#0088cc'},
+                    {network: 'twitter', name: 'Twitter', color: '#1da1f2'},
+                    {network: 'viber', name: 'Viber', color: '#59267c'},
+                    {network: 'vk', name: 'Vk', color: '#4a76a8'},
+                    // { network: 'weibo', name: 'Weibo', icon: 'fab fah fa-lg fa-weibo', color: '#e9152d' },
+                    {network: 'whatsapp', name: 'WhatsApp', color: '#25d366'},
+                    // { network: 'xing', name: 'Xing', icon: 'fab fah fa-lg fa-xing', color: '#026466' },
+                ],
+                short_description: '',
             }
         },
         computed: {
@@ -226,6 +296,10 @@
         },
         watch: {
             item: function (newVal, oldVal) { // watch it
+                this.short_description = '';
+                if (this.item.description.length > 0) {
+                    this.short_description = this.item.description.slice(0, 100) + '...';
+                }
                 // console.log('Prop changed: ', newVal, ' | was: ', oldVal)
             }
             // item: {
@@ -237,13 +311,14 @@
         },
         methods: {
             makeAction(method, method_params) {
-                if (this.isLoggedIn) {
-                    if (method) {
+                if (method) {
+                    if (this.isLoggedIn) {
                         method(method_params);
                         return;
+
+                    } else {
+                        this.$store.dispatch('sendAuthNotification', {self: this})
                     }
-                } else {
-                    this.$store.dispatch('sendAuthNotification', {self: this})
                 }
             },
             changeStatus(payload) {
@@ -349,10 +424,44 @@
                 } else {
                     this.in_process.push(icon);
                 }
+            },
+            getIconColor(action) {
+
             }
         }
     }
 </script>
 
 <style scoped>
+    a[class^="share-network-"] {
+        flex: none;
+        color: #FFFFFF;
+        background-color: #333;
+        border-radius: 5px;
+        overflow: hidden;
+        display: flex;
+        flex-direction: row;
+        align-content: center;
+        align-items: center;
+        cursor: pointer;
+        text-decoration: none;
+        width: 100%;
+    }
+
+    a[class^="share-network-"] .share-icon {
+        background-color: rgba(0, 0, 0, 0.2);
+        padding: 10px;
+        flex: 0 1 auto;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    a[class^="share-network-"] .bkt-dropdown__menu-text {
+        padding: 5px 10px;
+        flex: 1 1;
+        font-weight: 600;
+        font-family: "Gilroy", sans-serif;
+        color: #FFFFFF;
+    }
 </style>

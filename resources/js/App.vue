@@ -17,6 +17,9 @@
                 return this.$store.getters.isLoggedIn
             },
         },
+        mounted() {
+            this.$store.dispatch('getContacts');
+        }
     }
 </script>
 

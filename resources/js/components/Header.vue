@@ -2,14 +2,15 @@
     <header class="">
         <nav class="bkt-navbar">
             <div class="bkt-container bkt-navbar__wrapper">
-                <router-link :to="'/agent'" class="bkt-button bkt-text-white blue mx-0">
-                    Покупка без ЭП
-                </router-link>
-
+                <div class="bkt-navbar__logo flex-grow-1">
+                    <router-link custom to="/">
+                        <img class="bkt-navbar__logo" src="/images/logo.png" alt="logo">
+                    </router-link>
+                </div>
                 <ul class="bkt-navbar__nav d-none d-lg-flex">
                     <li class="bkt-navbar__nav-item">
                         <div @click="navigate('/favourites')" class="bkt-navbar__nav-link">
-                            <span class="bkt-button-ellipse main">
+                            <span class="bkt-button-ellipse bkt-bg-body">
                                 <bkt-icon :name="'Star'" :color="'yellow'"/>
                             </span>
                             Избранное
@@ -17,7 +18,7 @@
                     </li>
                     <li class="bkt-navbar__nav-item">
                         <div @click="navigate('/monitoring')" class="bkt-navbar__nav-link">
-                            <span class="bkt-button-ellipse main">
+                            <span class="bkt-button-ellipse bkt-bg-body">
                                  <bkt-icon :name="'Target'" :color="'red'"/>
                             </span>
                             Мониторинг
@@ -25,7 +26,7 @@
                     </li>
                     <li class="bkt-navbar__nav-item">
                         <div @click="navigate('/messages')" class="bkt-navbar__nav-link">
-                            <span class="bkt-button-ellipse main">
+                            <span class="bkt-button-ellipse bkt-bg-body">
                                 <span class="info" v-if="hasNotSeenNotifications"></span>
                                 <bkt-icon :name="'Bell'" :color="'green'"/>
                             </span>
@@ -35,10 +36,13 @@
                 </ul>
                 <div class="bkt-wrapper bkt-nowrap">
                     <button class="bkt-button-icon">
-                        <bkt-icon name="AppleStore"></bkt-icon>
+                        <bkt-icon name="AppleStore" color="main"></bkt-icon>
                     </button>
                     <button class="bkt-button-icon">
-                        <bkt-icon name="GooglePlay"></bkt-icon>
+                        <bkt-icon name="GooglePlay" color="main"></bkt-icon>
+                    </button>
+                    <button class="bkt-button-icon">
+                        <bkt-icon name="Rustore" color="main"></bkt-icon>
                     </button>
                 </div>
 
@@ -59,7 +63,7 @@
                             </div>
                         </div>
                         <div class="bkt-navbar__user-icon">
-                            <bkt-icon :name="'ArrowDown'"></bkt-icon>
+                            <bkt-icon :name="'ArrowDown'" color="primary"></bkt-icon>
                         </div>
                     </div>
                     <div class="dropdown-menu dropdown-menu-right bkt-navbar__user-dropdown"
@@ -82,7 +86,7 @@
 
                     </div>
                 </div>
-                <button v-else class="bkt-button primary-outline d-none d-md-block"
+                <button v-else class="bkt-button primary d-none d-md-block"
                         data-bs-toggle="modal" data-bs-target="#authModal"
                 >
                     Вход и регистрация
@@ -91,11 +95,9 @@
         </nav>
         <nav class="bkt-navbar white">
             <div class="bkt-navbar__wrapper bkt-container">
-                <div class="bkt-navbar__logo flex-grow-1">
-                    <router-link custom to="/">
-                        <img class="bkt-navbar__logo" src="/images/logo.png" alt="logo">
-                    </router-link>
-                </div>
+                <router-link :to="'/agent'" class="bkt-button bkt-text-white blue mx-0">
+                    Покупка без ЭЦП
+                </router-link>
                 <ul class="bkt-navbar__nav">
 <!--                    <li class="bkt-navbar__nav-item d-none d-lg-flex">-->
 <!--                        <router-link to="/agent" class="bkt-navbar__nav-link">-->

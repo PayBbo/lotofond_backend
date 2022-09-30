@@ -155,6 +155,62 @@
             padding-left: 0;
         }
     }
+    &.body {
+        & .bkt-select {
+            background: $body-bg;
+            color: $main-default;
+            border: none;
+            background-position: right 0.75rem center;
+            border-radius: 15px;
+            height: calc(3.5rem + 2px);
+
+            &__subtitle {
+                color: $neutral-default;
+                font-size: 12px;
+            }
+        }
+
+        & .bkt-v-select {
+            & .vs__dropdown-menu {
+                background-color: $body-bg;
+            }
+
+            & .vs__dropdown-toggle {
+                background-color: $body-bg;
+                color: $main-default;
+                border-radius: 15px;
+            }
+
+            & + .bkt-select__subtitle {
+                color: $neutral-default;
+                font-size: 12px;
+                top: -14px;
+            }
+
+            & .vs__dropdown-option--highlight {
+                background-color: $body-bg !important;
+                color: $main-default !important;
+            }
+
+            & .vs__dropdown-option--selected {
+                background-color: $body-bg !important;
+                color: $main-default !important;
+            }
+
+            & .vs__dropdown-option {
+                background-color: $body-bg !important;
+                color: $main-default !important;
+            }
+
+            & .vs__dropdown-option {
+                color: $main-default !important;
+            }
+        }
+
+        & .vs--single .vs__selected {
+            padding-left: 0;
+        }
+    }
     .bkt-v-select {
         --vs-colors--lightest: rgba(60, 60, 60, 0.26);
         --vs-colors--light: rgba(60, 60, 60, 0.5);

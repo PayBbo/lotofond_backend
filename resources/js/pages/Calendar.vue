@@ -73,18 +73,19 @@
                             <!--                                </div>-->
                             <!--                            </template>-->
                             <template v-slot:day-content="{ day, attributes }">
-                                <div class="bkt-calendar__day" @click="addEvent(day)">
+                                <div class="bkt-calendar__day position-relative" @click.self="addEvent(day)">
                                     <span class="bkt-calendar__day-label" @click="addEvent(day)">
                                         {{day.id | moment("D MMM")}}
                                     </span>
                                     <div class="bkt-calendar__day-events bkt-cursor-pointer">
                                         <template v-for="attr_date in attributes">
                                             <VDropdown disposeTimeout="0" theme="bkt" handle-resize instant-move>
-                                                <div class="bkt-calendar__day-event text-truncate bkt-cursor-pointer"
+                                                <div class="bkt-calendar__day-event text-truncate bkt-cursor-pointer position-relative"
+                                                     style="z-index: 12;"
                                                      v-if="attr_date.customData"
                                                      :key="attr_date.key"
                                                      :class="attr_date.customData.class"
-                                                     @mousedown="editEvent(attr_date.customData)"
+                                                     @click.capture="editEvent(attr_date.customData)"
                                                 >
                                                     {{ attr_date.customData.title }}
                                                 </div>
@@ -196,7 +197,7 @@
                             time: item.time,
                             color: this.colors.find(color => color.type == item.type).color ?? '',
                             class: "bkt-bg-" + this.colors.find(color => color.type == item.type).color ?? '',
-                            lot_info: item.dataFavourite ?? null
+                            lot_info: item.lot_info
                         },
                     })
                 );

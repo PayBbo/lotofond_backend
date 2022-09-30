@@ -34,11 +34,23 @@
                 <div class="bkt-wrapper-column bkt-lot__cards">
                     <div class="bkt-card bkt-lot__card" v-if="!loading">
                         <div class="bkt-card__body">
-                            <div class="d-none d-lg-block">
-                                <h3 class="bkt-card__title bkt-text-truncate">
-                                    <skeleton :type_name="'title'">{{item && item.description ? short_description:''}}
-                                    </skeleton>
-                                </h3>
+<!--                            <div class="d-none d-lg-block">-->
+<!--                                <h3 class="bkt-card__title bkt-text-truncate">-->
+<!--                                    <skeleton :type_name="'title'">{{item && item.description ? short_description:''}}-->
+<!--                                    </skeleton>-->
+<!--                                </h3>-->
+<!--                            </div>-->
+                            <div v-if="item.description">
+                                <h5 class="bkt-card__text">
+                                    {{read_more && short_description ? item.description : short_description}}
+                                    {{!short_description ? item.description : ''}}
+                                </h5>
+                                <button class="bkt-button bkt-text-primary float-end px-0 text-uppercase"
+                                        @click="read_more = !read_more" v-if="short_description">
+                                    {{read_more ? 'Скрыть' : 'Подробнее'}}
+                                    <bkt-icon name="ArrowDown" color="primary" height="14px"
+                                              :class="read_more ? 'bkt-rotate-180' : ''"></bkt-icon>
+                                </button>
                             </div>
                             <ul class="bkt-contents" v-if="isLoggedIn">
                                 <li v-if="item.trade && item.trade.type">
@@ -138,17 +150,6 @@
                                     </template>
                                 </template>
                             </ul>
-                            <div v-if="item.description">
-                                <h5 class="bkt-card__text">
-                                    {{read_more ? item.description : short_description}}
-                                </h5>
-                                <button class="bkt-button bkt-text-primary float-end px-0 text-uppercase"
-                                        @click="read_more = !read_more">
-                                    {{read_more ? 'Скрыть' : 'Подробнее'}}
-                                    <bkt-icon name="ArrowDown" color="primary" height="14px"
-                                              :class="read_more ? 'bkt-rotate-180' : ''"></bkt-icon>
-                                </button>
-                            </div>
                             <div class="bkt-row outline bkt-wrapper-between align-items-center"
                                  v-if="cadastralData && cadastralData.cadastralDataArea">
                                 <div class="bkt-row__feature">
@@ -187,24 +188,24 @@
                             </span>
                             </div>
                         </div>
-                        <div class="bkt-card__footer d-flex flex-wrap bkt-gap" v-if="item && !loading">
-                            <ShareNetwork
-                                v-for="network in networks"
-                                :network="network.network"
-                                :key="network.network"
-                                :style="{backgroundColor: network.color}"
-                                :url="'https://lotofond.ru/lot/'+item.id"
-                                :title="sharing.title"
-                                :description="short_description"
-                                :hashtags="sharing.hashtags"
-                            >
-                                <span class="share-icon h-100">
-                                      <bkt-icon :name="network.name" width="18px" height="18px"
-                                                color="white"></bkt-icon>
-                                </span>
-                                <span>{{ network.name }}</span>
-                            </ShareNetwork>
-                        </div>
+<!--                        <div class="bkt-card__footer d-flex flex-wrap bkt-gap" v-if="item && !loading">-->
+<!--                            <ShareNetwork-->
+<!--                                v-for="network in networks"-->
+<!--                                :network="network.network"-->
+<!--                                :key="network.network"-->
+<!--                                :style="{backgroundColor: network.color}"-->
+<!--                                :url="'https://lotofond.ru/lot/'+item.id"-->
+<!--                                :title="sharing.title"-->
+<!--                                :description="short_description"-->
+<!--                                :hashtags="sharing.hashtags"-->
+<!--                            >-->
+<!--                                <span class="share-icon h-100">-->
+<!--                                      <bkt-icon :name="network.name" width="18px" height="18px"-->
+<!--                                                color="white"></bkt-icon>-->
+<!--                                </span>-->
+<!--                                <span>{{ network.name }}</span>-->
+<!--                            </ShareNetwork>-->
+<!--                        </div>-->
                     </div>
                     <div class="bkt-card bkt-lot__card" v-if="loading">
                         <div class="bkt-card__body">
@@ -233,9 +234,9 @@
                                 <skeleton :type_name="'item'" width="25px" height="25px" circle></skeleton>
                             </div>
                         </div>
-                        <div class="bkt-card__footer d-flex flex-wrap bkt-gap">
-                            <skeleton width="120px" height="38px" :count="7"></skeleton>
-                        </div>
+<!--                        <div class="bkt-card__footer d-flex flex-wrap bkt-gap">-->
+<!--                            <skeleton width="120px" height="38px" :count="7"></skeleton>-->
+<!--                        </div>-->
                     </div>
                     <div v-if="!isLoggedIn" class="bkt-shadow-card bkt-shadow-card_primary">
                         <div class="bkt-shadow-card__inner bkt-gap-large">
@@ -300,7 +301,7 @@
                             </hooper>
                             <div class="bkt-wrapper-between bkt-card-ecp-wrapper">
                                 <button @click="sendApplication" class="bkt-button primary bkt-card-ecp w-100">
-                                    Купить без ЭП
+                                    Купить без ЭЦП
                                 </button>
                                 <!--                                <router-link custom v-slot="{ navigate }" to="/agent">-->
                                 <!--                                    <button @click="navigate" class="bkt-button primary bkt-card-ecp w-100">-->
@@ -314,7 +315,10 @@
                                   'bkt-bg-green': item.currentPriceState=='up',
                                   'bkt-bg-primary-lighter bkt-text-primary': item.currentPriceState=='hold'}"
                         >
-                            {{item.currentPrice ? item.currentPrice : '0' | priceFormat}} ₽
+                            <div>
+                                <h5 class="bkt-card__subtitle">текущая цена</h5>
+                                {{item.currentPrice ? item.currentPrice : '0' | priceFormat}} ₽
+                            </div>
                             <div class="bkt-card-price-icon" v-if="item.currentPriceState!=='hold'"
                                  :class="{'bkt-bg-red-light': item.currentPriceState=='down',
                                           'bkt-bg-green-light': item.currentPriceState=='up'}"
@@ -325,14 +329,38 @@
                                 </bkt-icon>
                             </div>
                         </div>
-                        <div class="bkt-card-infographics" style="gap: 10px;">
+                        <div class="bkt-card-infographics bkt-gap bkt-wrapper-between bkt-nowrap">
+                            <div class="bkt-card outline"
+                                 v-if="item&&item.trade&&(item.trade.type==='CloseAuction' || item.trade.type==='OpenAuction')"
+                            >
+                                <div class="bkt-card__feature text-center w-100 mt-0">
+                                    <h5 class="bkt-card__subtitle">шаг аукциона</h5>
+                                    <h4 class="bkt-card__title bkt-text-primary">
+                                        {{item.stepPrice && item.stepPrice.value ? item.stepPrice.value : '0' |
+                                        priceFormat}}
+                                        {{item.stepPrice && item.stepPrice.type=='rubles' ? '₽' : '%'}}
+                                    </h4>
+                                </div>
+                            </div>
+                            <div class="bkt-card outline" v-if="item.deposit">
+                                <div class="bkt-card__feature text-center w-100 mt-0">
+                                    <h5 class="bkt-card__subtitle">задаток</h5>
+                                    <h4 class="bkt-card__title bkt-text-red">
+                                        {{item.deposit && item.deposit.value ? item.deposit.value : '0' |
+                                        priceFormat}}
+                                        {{item.deposit && item.deposit.type=='rubles' ? '₽' : '%'}}
+                                    </h4>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bkt-card-infographics bkt-gap">
                             <div class="bkt-card__row outline bkt-wrapper-between align-items-center">
                                 <h5 class="bkt-card__subtitle">начальная цена</h5>
                                 <h4 class="bkt-card__title bkt-text-primary">
                                     {{item && item.startPrice ? item.startPrice : '0' | priceFormat}} ₽
                                 </h4>
                             </div>
-                            <div class="bkt-card__row outline bkt-wrapper-between align-items-center">
+                            <div class="bkt-card__row outline bkt-wrapper-between align-items-center" v-if="item&&item.trade.type!=='OpenAuction'">
                                 <h5 class="bkt-card__subtitle">минимальная цена</h5>
                                 <h4 class="bkt-card__title bkt-text-red">
                                     {{item && item.minPrice ? item.minPrice : '0' | priceFormat}} ₽
@@ -340,22 +368,21 @@
                             </div>
                         </div>
                     </div>
-                    <div class="bkt-card__footer d-flex flex-wrap bkt-gap"
-                         v-if="item && item.marks && item.marks.length>0 && !loading"
-                    >
-                        <div class="bkt-tag bkt-bg-orange-lighter bkt-text-orange py-1 px-3" v-for="mark in item.marks">
-                            {{mark.title}}
-                            <span v-if="!marks_in_process.includes(mark.id)" class="bkt-cursor-pointer"
-                                  @click="removeMark(mark.id)"
-                            >
-                                <bkt-icon name="Cancel" color="orange" width="10px" height="10px"></bkt-icon>
-                            </span>
-                            <span v-if="marks_in_process.includes(mark.id)"
-                                  class="spinner-border spinner-border-sm"
-                                  role="status"></span>
-
-                        </div>
-                    </div>
+<!--                    <div class="bkt-card__footer d-flex flex-wrap bkt-gap"-->
+<!--                         v-if="item && item.marks && item.marks.length>0 && !loading"-->
+<!--                    >-->
+<!--                        <div class="bkt-tag bkt-bg-orange-lighter bkt-text-orange py-1 px-3" v-for="mark in item.marks">-->
+<!--                            {{mark.title}}-->
+<!--                            <span v-if="!marks_in_process.includes(mark.id)" class="bkt-cursor-pointer"-->
+<!--                                  @click="removeMark(mark.id)"-->
+<!--                            >-->
+<!--                                <bkt-icon name="Cancel" color="orange" width="10px" height="10px"></bkt-icon>-->
+<!--                            </span>-->
+<!--                            <span v-if="marks_in_process.includes(mark.id)"-->
+<!--                                  class="spinner-border spinner-border-sm"-->
+<!--                                  role="status"></span>-->
+<!--                        </div>-->
+<!--                    </div>-->
                 </div>
                 <div class="bkt-card bkt-lot__card bkt-lot-card bkt-lot__card" v-if="loading">
                     <div class="bkt-card__body">
@@ -572,7 +599,7 @@
             </div>
             <div v-if="isLoggedIn" class="col-12 col-lg-12 order-3 px-lg-0">
                 <bkt-collapse title="Актуальное по лоту" :count="notifications_pagination.total"
-                              id="collapseRelatedLots" :loading="notifications_loading"
+                              id="collapseActualInfo" :loading="notifications_loading"
                               :disabled="notifications.length==0&&!notifications_loading"
                               class="bkt-lot__collapse"
                 >
@@ -580,7 +607,7 @@
                         <div class="row w-100 m-auto bkt-gap">
                             <div class="col-12 px-0">
                                 <div
-                                    class="bkt-row outline bkt-wrapper-between bkt-nowrap bkt-gap bkt-wrapper-down-sm-column align-items-start"
+                                    class="bkt-row outline bkt-wrapper-between bkt-nowrap bkt-gap bkt-wrapper-down-sm-column align-items-start mb-1"
                                     v-for="notify in notifications"
                                 >
                                     <h5 v-if="notify.type == 'favourite'" class="">
@@ -904,117 +931,129 @@
             <!--                            </div>-->
             <!--                        </div>-->
             <div v-if="isLoggedIn" class="col-12 col-lg-6 order-3 ps-lg-0">
-                <div class="bkt-card bkt-card__body bkt-lot-my-files bkt-lot-price-reduction">
-                    <div class="bkt-card__header">
-                        <h3 class="bkt-card__title">Изменение цены</h3>
-                    </div>
-                    <div class="bkt-card__inner bkt-wrapper-column bkt-gap">
-                        <template v-if="item.priceReduction && item.priceReduction.length>0">
-                            <div class="bkt-card__row outline bkt-wrapper-between bkt-nowrap align-items-center"
-                                 v-for="reduction in item.priceReduction">
-                                <h6 class="bkt-text-neutral-dark">{{reduction.time | moment('DD.MM.YYYY HH:mm')}}</h6>
-                                <h5>{{reduction.price | priceFormat}} ₽</h5>
-                                <!--                            :class="{'bkt-text-green': reduction.price > item.startPrice,
-                                                            'bkt-text-primary': reduction.price == item.startPrice,
-                                                            'bkt-text-red': reduction.price < item.startPrice }"-->
+                <bkt-collapse title="График снижения цены" id="priceReduction" :loading="loading"
+                              :disabled="loading" class="bkt-lot__collapse"
+                >
+                    <template #collapse>
+                        <div class="bkt-lot-my-files bkt-lot-price-reduction">
+<!--                            <div class="bkt-card__header">-->
+<!--                                <h3 class="bkt-card__title">График снижения цены</h3>-->
+<!--                            </div>-->
+                            <div class="bkt-card__inner bkt-wrapper-column bkt-gap">
+                                <template v-if="item.priceReduction && item.priceReduction.length>0">
+                                    <div class="bkt-card__row outline bkt-wrapper-between bkt-nowrap align-items-center"
+                                         v-for="reduction in item.priceReduction">
+                                        <h6 class="bkt-text-neutral-dark">{{reduction.time | moment('DD.MM.YYYY HH:mm')}}</h6>
+                                        <h5>{{reduction.price | priceFormat}} ₽</h5>
+                                        <!--                            :class="{'bkt-text-green': reduction.price > item.startPrice,
+                                                                    'bkt-text-primary': reduction.price == item.startPrice,
+                                                                    'bkt-text-red': reduction.price < item.startPrice }"-->
+                                    </div>
+                                </template>
+                                <div v-else
+                                     class="bkt-wrapper-column my-auto justify-content-center align-items-center text-center"
+                                     style="padding-bottom:54px;"
+                                >
+                                    <bkt-icon name="ArrowDownCircle" color="neutral-light" class="mx-auto" width="80%"
+                                              height="200px"></bkt-icon>
+                                    <h5 class="bkt-text-neutral">Измений ещё не было</h5>
+                                </div>
                             </div>
-                        </template>
-                        <div v-else
-                             class="bkt-wrapper-column my-auto justify-content-center align-items-center text-center"
-                             style="padding-bottom:54px;"
-                        >
-                            <bkt-icon name="ArrowDownCircle" color="neutral-light" class="mx-auto" width="80%"
-                                      height="200px"></bkt-icon>
-                            <h5 class="bkt-text-neutral">Измений ещё не было</h5>
                         </div>
-                    </div>
-                </div>
+                    </template>
+                </bkt-collapse>
             </div>
             <div v-if="isLoggedIn" class="col-12 col-lg-6 order-3 pe-lg-0">
-                <div class="bkt-card bkt-card__body bkt-lot-my-files">
-                    <div class="bkt-card__header">
-                        <h3 class="bkt-card__title">Мои файлы</h3>
-                    </div>
-                    <!--                    user_files-->
-                    <div class="bkt-card__inner bkt-wrapper-column justify-content-start bkt-gap">
-                        <template v-if="user_files.length>0">
-                            <bkt-dropdown v-for="(file, index) in user_files" :key="index"
-                                          :title="file.name" :subtitle="file.file_size" icon="More"
-                                          :dropdown_item_class="['bkt-card__row outline', {'disabled': !file.url}]"
-                                          dropdown_icon_class="bkt-rotate-90"
-                                          :dropdown_menu_class="['bkt-dropdown__menu_neutral bkt-dropdown__menu_list', {'d-none': !file.url}]"
-                            >
-                                <template #menu>
-                                    <a :href="file.url[0]" target="_blank" class="h-100 w-100">
-                                        <div class="bkt-dropdown__menu-item bkt-wrapper-between bkt-cursor-pointer">
-                                            <div class="bkt-dropdown__menu-text">
-                                                Скачать
+                <bkt-collapse title="Мои файлы" id="myFiles" :loading="files_loading"
+                              :disabled="files_loading" class="bkt-lot__collapse"
+                >
+                    <template #collapse>
+                        <div class="bkt-lot-my-files">
+<!--                            <div class="bkt-card__header">-->
+<!--                                <h3 class="bkt-card__title">Мои файлы</h3>-->
+<!--                            </div>-->
+                            <!--                    user_files-->
+                            <div class="bkt-card__inner bkt-wrapper-column justify-content-start bkt-gap">
+                                <template v-if="user_files.length>0">
+                                    <bkt-dropdown v-for="(file, index) in user_files" :key="index"
+                                                  :title="file.name" :subtitle="file.file_size" icon="More"
+                                                  :dropdown_item_class="['bkt-card__row outline', {'disabled': !file.url}]"
+                                                  dropdown_icon_class="bkt-rotate-90"
+                                                  :dropdown_menu_class="['bkt-dropdown__menu_neutral bkt-dropdown__menu_list', {'d-none': !file.url}]"
+                                    >
+                                        <template #menu>
+                                            <a :href="file.url[0]" target="_blank" class="h-100 w-100">
+                                                <div class="bkt-dropdown__menu-item bkt-wrapper-between bkt-cursor-pointer">
+                                                    <div class="bkt-dropdown__menu-text">
+                                                        Скачать
+                                                    </div>
+                                                    <div class="bkt-dropdown__menu-icon">
+                                                        <bkt-icon name="Download" color="blue"></bkt-icon>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                            <div class="bkt-dropdown__menu-item bkt-wrapper-between bkt-cursor-pointer"
+                                                 @click="deleteFile(file.id, index)">
+                                                <div class="bkt-dropdown__menu-text">
+                                                    Удалить
+                                                </div>
+                                                <div class="bkt-dropdown__menu-icon">
+                                                    <bkt-icon name="Trash" color="red"></bkt-icon>
+                                                </div>
                                             </div>
-                                            <div class="bkt-dropdown__menu-icon">
-                                                <bkt-icon name="Download" color="blue"></bkt-icon>
-                                            </div>
-                                        </div>
-                                    </a>
-                                    <div class="bkt-dropdown__menu-item bkt-wrapper-between bkt-cursor-pointer"
-                                         @click="deleteFile(file.id, index)">
-                                        <div class="bkt-dropdown__menu-text">
-                                            Удалить
-                                        </div>
-                                        <div class="bkt-dropdown__menu-icon">
-                                            <bkt-icon name="Trash" color="red"></bkt-icon>
-                                        </div>
-                                    </div>
-                                </template>
-                                <template #icon_wrapper v-if="in_process.includes('id'+file.id)">
+                                        </template>
+                                        <template #icon_wrapper v-if="in_process.includes('id'+file.id)">
                                       <span role="status" class="spinner-border spinner-border-sm bkt-text-primary">
                                       </span>
+                                        </template>
+                                    </bkt-dropdown>
                                 </template>
-                            </bkt-dropdown>
-                        </template>
-                        <template v-if="new_user_files.length>0">
-                            <h5 class="bkt-text-neutral mx-auto">новые незагруженные файлы</h5>
-                            <bkt-dropdown v-for="(file, index) in new_user_files" :key="index"
-                                          :title="file.name" :subtitle="file.file_size" icon="More"
-                                          dropdown_item_class="bkt-card__row outline disabled"
-                                          dropdown_icon_class="bkt-rotate-90"
-                                          dropdown_menu_class="d-none"
-                            >
-                                <template #icon_wrapper v-if="!file.url">
-                                    <div class="d-flex bkt-nowrap bkt-gap">
-                                        <div class="bkt-dropdown__item-icon" @click="saveFile(index)"
-                                             data-bs-toggle="tooltip" data-bs-placement="top" title="Сохранить"
-                                             v-show="!in_process.includes(index)"
-                                        >
-                                            <bkt-icon name="Check" color="green" width="22px" height="22px"></bkt-icon>
-                                        </div>
-                                        <div class="bkt-dropdown__item-icon" @click="removeFile(index)"
-                                             data-bs-toggle="tooltip" data-bs-placement="top" title="Отменить"
-                                             v-show="!in_process.includes(index)"
-                                        >
-                                            <bkt-icon name="Cancel" color="red" width="16px" height="16px"></bkt-icon>
-                                        </div>
-                                        <span v-if="in_process.includes(index)" role="status"
-                                              class="spinner-border spinner-border-sm bkt-text-primary"
-                                        >
+                                <template v-if="new_user_files.length>0">
+                                    <h5 class="bkt-text-neutral mx-auto">новые незагруженные файлы</h5>
+                                    <bkt-dropdown v-for="(file, index) in new_user_files" :key="index"
+                                                  :title="file.name" :subtitle="file.file_size" icon="More"
+                                                  dropdown_item_class="bkt-card__row outline disabled"
+                                                  dropdown_icon_class="bkt-rotate-90"
+                                                  dropdown_menu_class="d-none"
+                                    >
+                                        <template #icon_wrapper v-if="!file.url">
+                                            <div class="d-flex bkt-nowrap bkt-gap">
+                                                <div class="bkt-dropdown__item-icon" @click="saveFile(index)"
+                                                     data-bs-toggle="tooltip" data-bs-placement="top" title="Сохранить"
+                                                     v-show="!in_process.includes(index)"
+                                                >
+                                                    <bkt-icon name="Check" color="green" width="22px" height="22px"></bkt-icon>
+                                                </div>
+                                                <div class="bkt-dropdown__item-icon" @click="removeFile(index)"
+                                                     data-bs-toggle="tooltip" data-bs-placement="top" title="Отменить"
+                                                     v-show="!in_process.includes(index)"
+                                                >
+                                                    <bkt-icon name="Cancel" color="red" width="16px" height="16px"></bkt-icon>
+                                                </div>
+                                                <span v-if="in_process.includes(index)" role="status"
+                                                      class="spinner-border spinner-border-sm bkt-text-primary"
+                                                >
                                          </span>
-                                    </div>
+                                            </div>
+                                        </template>
+                                    </bkt-dropdown>
                                 </template>
-                            </bkt-dropdown>
-                        </template>
-                        <div v-if="user_files.length===0 && new_user_files.length===0"
-                             class="bkt-wrapper-column my-auto justify-content-center align-items-center text-center">
-                            <bkt-icon name="Download" color="neutral-light" class="mx-auto" width="80%"
-                                      height="200px"></bkt-icon>
-                            <h5 class="bkt-text-neutral">Добавьте файлы к лоту</h5>
+                                <div v-if="user_files.length===0 && new_user_files.length===0"
+                                     class="bkt-wrapper-column my-auto justify-content-center align-items-center text-center">
+                                    <bkt-icon name="Download" color="neutral-light" class="mx-auto" width="80%"
+                                              height="200px"></bkt-icon>
+                                    <h5 class="bkt-text-neutral">Добавьте файлы к лоту</h5>
+                                </div>
+                            </div>
+                            <bkt-upload-file v-model="new_user_files" ref="upload_file"
+                                             upload_button_class="bkt-button green w-100">
+                                <template #upload_button_inner>
+                                    Добавить файл
+                                </template>
+                            </bkt-upload-file>
                         </div>
-                    </div>
-                    <bkt-upload-file v-model="new_user_files" ref="upload_file"
-                                     upload_button_class="bkt-button green w-100">
-                        <template #upload_button_inner>
-                            Добавить файл
-                        </template>
-                    </bkt-upload-file>
-                </div>
+                    </template>
+                </bkt-collapse>
             </div>
             <div v-if="item && isLoggedIn" class="col-12 col-lg-12 order-3 px-lg-0">
                 <bkt-collapse title="Связанные лоты" :count="related_lots_pagination.total"
@@ -1366,17 +1405,17 @@
                     </template>
                 </bkt-collapse>
             </div>
-            <div v-if="isLoggedIn && item.applicationRules" class="col-12 col-lg-12 order-3 px-lg-0">
-                <bkt-collapse title="Правила подачи заявок" class="bkt-lot__collapse"
-                              id="applicationRules"
-                >
-                    <template #collapse>
-                        <h5 class="bkt-card__text">
-                            {{item.applicationRules}}
-                        </h5>
-                    </template>
-                </bkt-collapse>
-            </div>
+<!--            <div v-if="isLoggedIn && item.applicationRules" class="col-12 col-lg-12 order-3 px-lg-0">-->
+<!--                <bkt-collapse title="Правила подачи заявок" class="bkt-lot__collapse"-->
+<!--                              id="applicationRules"-->
+<!--                >-->
+<!--                    <template #collapse>-->
+<!--                        <h5 class="bkt-card__text">-->
+<!--                            {{item.applicationRules}}-->
+<!--                        </h5>-->
+<!--                    </template>-->
+<!--                </bkt-collapse>-->
+<!--            </div>-->
             <div v-if="isLoggedIn && item.requirementsForParticipants" class="col-12 col-lg-12 order-3 px-lg-0">
                 <bkt-collapse title="Требования к участникам" class="bkt-lot__collapse"
                               id="requirementsForParticipants"
@@ -1388,28 +1427,28 @@
                     </template>
                 </bkt-collapse>
             </div>
-            <div v-if="isLoggedIn && item.paymentInfo" class="col-12 col-lg-12 order-3 px-lg-0">
-                <bkt-collapse title="Информация об оплате" class="bkt-lot__collapse"
-                              id="paymentInfo"
-                >
-                    <template #collapse>
-                        <h5 class="bkt-card__text">
-                            {{item.paymentInfo}}
-                        </h5>
-                    </template>
-                </bkt-collapse>
-            </div>
-            <div v-if="isLoggedIn && item.saleAgreement" class="col-12 col-lg-12 order-3 px-lg-0">
-                <bkt-collapse title="Порядок и срок заключения договора купли-продажи" class="bkt-lot__collapse"
-                              id="saleAgreement"
-                >
-                    <template #collapse>
-                        <h5 class="bkt-card__text">
-                            {{item.saleAgreement}}
-                        </h5>
-                    </template>
-                </bkt-collapse>
-            </div>
+<!--            <div v-if="isLoggedIn && item.paymentInfo" class="col-12 col-lg-12 order-3 px-lg-0">-->
+<!--                <bkt-collapse title="Информация об оплате" class="bkt-lot__collapse"-->
+<!--                              id="paymentInfo"-->
+<!--                >-->
+<!--                    <template #collapse>-->
+<!--                        <h5 class="bkt-card__text">-->
+<!--                            {{item.paymentInfo}}-->
+<!--                        </h5>-->
+<!--                    </template>-->
+<!--                </bkt-collapse>-->
+<!--            </div>-->
+<!--            <div v-if="isLoggedIn && item.saleAgreement" class="col-12 col-lg-12 order-3 px-lg-0">-->
+<!--                <bkt-collapse title="Порядок и срок заключения договора купли-продажи" class="bkt-lot__collapse"-->
+<!--                              id="saleAgreement"-->
+<!--                >-->
+<!--                    <template #collapse>-->
+<!--                        <h5 class="bkt-card__text">-->
+<!--                            {{item.saleAgreement}}-->
+<!--                        </h5>-->
+<!--                    </template>-->
+<!--                </bkt-collapse>-->
+<!--            </div>-->
         </div>
     </div>
 </template>
@@ -1480,7 +1519,7 @@
                 marks_in_process: [],
                 sharing: {
                     // url: 'https://news.vuejs.org/issues/180',
-                    title: 'Лот на Лотофонд',
+                    title: 'Успей купить на Лотофонд',
                     // description: '',
                     hashtags: 'lotofond,trade,lot',
                     // twitterUser: 'youyuxi',
@@ -1590,15 +1629,16 @@
         },
         methods: {
             goBack() {
-                window.history.length > 1 ? this.$router.go(-1) : this.$router.push('/');
-                setTimeout(() => {
-                    if (this.$route.params.id && this.item && this.$route.params.id != this.item.id) {
-                        this.$nextTick(() => {
-                            console.log('here', this.$route.params.id, this.item.id)
-                            this.getMiniLot();
-                        })
-                    }
-                }, 100)
+                this.$router.push('/')
+                // window.history.length > 1 ? this.$router.go(-1) : this.$router.push('/');
+                // setTimeout(() => {
+                //     if (this.$route.params.id && this.item && this.$route.params.id != this.item.id) {
+                //         this.$nextTick(() => {
+                //             console.log('here', this.$route.params.id, this.item.id)
+                //             this.getMiniLot();
+                //         })
+                //     }
+                // }, 100)
             },
             async getLot() {
                 this.loading = true;
@@ -1613,7 +1653,11 @@
                 await this.$store.dispatch('getTradeLot', this.$route.params.id)
                     .then(resp => {
                         // this.item = resp.data;
-                        this.short_description = resp.data.description.slice(0, 100) + '...';
+                        this.short_description = '';
+                        if(resp.data.description.length>0 && resp.data.description.length>1000) {
+                            this.short_description = resp.data.description.slice(0, 1000) + '...';
+                        }
+
                         this.$store.commit('setSelectedLot', resp.data);
                         this.loading = false;
                         this.getRelatedLots();
@@ -1925,33 +1969,4 @@
 </script>
 
 <style lang="scss" scoped>
-    a[class^="share-network-"] {
-        flex: none;
-        color: #FFFFFF;
-        background-color: #333;
-        border-radius: 5px;
-        overflow: hidden;
-        display: flex;
-        flex-direction: row;
-        align-content: center;
-        align-items: center;
-        cursor: pointer;
-        text-decoration: none;
-    }
-
-    a[class^="share-network-"] .share-icon {
-        background-color: rgba(0, 0, 0, 0.2);
-        padding: 10px;
-        flex: 0 1 auto;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-
-    a[class^="share-network-"] span {
-        padding: 5px 10px;
-        flex: 1 1;
-        font-weight: 600;
-        font-family: "Gilroy", sans-serif;
-    }
 </style>
