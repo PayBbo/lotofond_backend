@@ -12,17 +12,18 @@ use App\Models\RegionGroup;
 use App\Models\RegistryNotificationGroup;
 use App\Models\TradePlace;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class FilterController extends Controller
 {
     public function getBiddersForFilter($type, Request $request)
     {
         $searchString = $request->searchString;
-        $type = substr_replace ($type, "", -1);
-        $bidders = Bidder::has($type.'AuctionsWithLots')->whereHas('types', function ($query) use ($type) {
+        $type = substr_replace($type, "", -1);
+        $bidders = Bidder::has($type . 'AuctionsWithLots')->whereHas('types', function ($query) use ($type) {
             $query->where('title', $type);
         })
-            ->when(isset($searchString) && strlen($searchString) > 0, function($query) use ($searchString){
+            ->when(isset($searchString) && strlen($searchString) > 0, function ($query) use ($searchString) {
                 $query->where('name', 'LIKE', '%' . $searchString . '%')
                     ->orWhere('short_name', 'LIKE', '%' . $searchString . '%')
                     ->orWhere('last_name', 'LIKE', '%' . $searchString . '%')
@@ -32,14 +33,16 @@ class FilterController extends Controller
         return response(new BidderCollection($bidders), 200);
     }
 
-    public function getTradePlacesForFilter(){
+    public function getTradePlacesForFilter()
+    {
 
         $tradePlaces = TradePlace::has('auctionsWithLots')->orderBy('name', 'asc')->get();
         return response(TradePlaceResource::collection($tradePlaces), 200);
 
     }
 
-    public function getCategoriesForFilter(){
+    public function getCategoriesForFilter()
+    {
 
         $parents = Category::where('parent_id', null)->orderBy('label', 'asc')->get();
         $categories = [];
@@ -47,31 +50,34 @@ class FilterController extends Controller
             $subs = $category->subcategories()->pluck('id')->toArray();
             $subs = Category::whereIn('id', array_unique($subs))->orderBy('label', 'asc')->get();
             $subcategories = [];
-            foreach($subs as $sub){
-                $value = ['label'=>$sub->label, 'key'=>$sub->title];
-                if(!in_array($value, $subcategories)) {
+            foreach ($subs as $sub) {
+                $value = ['label' => $sub->label, 'key' => $sub->title];
+                if (!in_array($value, $subcategories)) {
                     $subcategories[] = $value;
                 }
             }
             $value = ['label' => $category->label, 'key' => $category->title, 'subcategories' => $subcategories];
-            if(!in_array($value, $categories)) {
+            if (!in_array($value, $categories)) {
                 $categories[] = $value;
             }
         }
         return response($categories, 200);
     }
 
-    public function getRegionsForFilter(){
+    public function getRegionsForFilter()
+    {
         $groups = RegionGroup::all();
         $regions = [];
-        foreach($groups as $group){
-            $regions[] = ['regionGroup'=>$group->title, 'regions'=>$group->regions()->pluck('code')->toArray()];
+        foreach ($groups as $group) {
+            $regions[] = ['regionGroup' => $group->title, 'regions' => $group->regions()->pluck('code')->toArray()];
         }
         return response($regions, 200);
     }
 
-    public function getPricesForFilter(){
+    public function getPricesForFilter()
+    {
         try {
+            \DB::statement("SET SQL_MODE=''");
             $data = [
                 "currentPrice" => [
                     "min" => (float)PriceReduction::min('price'),
@@ -82,33 +88,38 @@ class FilterController extends Controller
                     "max" => (float)Lot::max('start_price'),
                 ],
                 "minPrice" => [
-                    "min" => (float)Lot::addSelect(['minimum_price' => PriceReduction::select('price')
-                        ->whereColumn('price_reductions.lot_id', 'lots.id')
-                        ->orderBy('price', 'asc')
-                        ->limit(1)])->get()->min('minimum_price'),
-                    "max" => (float)Lot::addSelect(['minimum_price' => PriceReduction::select('price')
-                        ->whereColumn('price_reductions.lot_id', 'lots.id')
-                        ->orderBy('price', 'asc')
-                        ->limit(1)])->get()->max('minimum_price'),
+                    "min" => (float)Lot::with('priceReductions')
+                        ->join('price_reductions as r', 'lots.id', '=', 'r.lot_id')
+                        ->selectRaw('lots.*, MIN(r.price) as min_price')
+                        ->groupBy('r.price')
+                        ->orderBy('min_price', 'asc')
+                        ->first()['min_price'],
+                    "max" => (float)Lot::with('priceReductions')
+                        ->join('price_reductions as r', 'lots.id', '=', 'r.lot_id')
+                        ->selectRaw('lots.*, MIN(r.price) as min_price')
+                        ->groupBy('r.price')
+                        ->orderBy('min_price', 'desc')
+                        ->first()['min_price'],
                 ]
             ];
             return response($data, 200);
-        }catch (\Exception $e){
+        } catch (\Exception $e) {
             return response($e, 500);
         }
     }
 
-    public function getRegistryTypesForFilter(){
+    public function getRegistryTypesForFilter()
+    {
         $groups = RegistryNotificationGroup::all();
         $messagesTypes = [];
-        foreach($groups as $group){
+        foreach ($groups as $group) {
             $types = [];
-            foreach ($group->registryNotificationTypes as $type){
-                $types[] = ['code'=>$type->title, 'title'=>__('registry_notifications.'.$type->title)];
+            foreach ($group->registryNotificationTypes as $type) {
+                $types[] = ['code' => $type->title, 'title' => __('registry_notifications.' . $type->title)];
             }
             $messagesTypes[] = [
-                'messagesGroup'=>__('registry_notifications.'.$group->title),
-                'types'=>$types
+                'messagesGroup' => __('registry_notifications.' . $group->title),
+                'types' => $types
             ];
         }
         return response($messagesTypes, 200);
