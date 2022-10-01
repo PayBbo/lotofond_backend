@@ -23,4 +23,8 @@ class FavouriteLot extends Model
         return $this->belongsTo(Favourite::class, 'favourite_id');
     }
 
+    public function events(){
+        return $this->hasMany(Event::class);
+    }
+
 }

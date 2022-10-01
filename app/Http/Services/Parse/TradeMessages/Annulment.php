@@ -12,7 +12,7 @@ class Annulment extends TradeMessage implements TradeMessageContract
         $invitation = $this->invitation;
         $prefix = $this->prefix;
         try {
-            $message = \App\Models\TradeMessage::where('number', $invitation['ID_Annulment'])->first();
+            $message = \App\Models\TradeMessage::where('number', $invitation[$prefix . 'ID_Annulment'])->first();
             if ($message) {
                 $lot = Lot::find($message->lot_id);
                 if (!is_null($message->param) && !is_null($message->param_type)) {
@@ -33,7 +33,7 @@ class Annulment extends TradeMessage implements TradeMessageContract
                     }
                 }
 
-                $tradeMessages = \App\Models\TradeMessage::where('number', $invitation['ID_Annulment'])->get();
+                $tradeMessages = \App\Models\TradeMessage::where('number', $invitation[$prefix . 'ID_Annulment'])->get();
                 foreach ($tradeMessages as $tradeMessage) {
                     if($tradeMessage->value !== 'BiddingInvitation'){
                         $this->createNotification($tradeMessage->lot_id, $invitation['@attributes']['EventTime']);

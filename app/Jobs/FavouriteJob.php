@@ -99,16 +99,6 @@ class FavouriteJob implements ShouldQueue
             ]);
             $notification->notificationLots()->attach($lot);
 
-            Event::create([
-                'user_id'=>$user_id,
-                'notification_id'=>$notification->id,
-                'event_type'=>'event',
-                'date'=> $datetime->format('y-m-d'),
-                'time'=> $datetime->format('H:i'),
-                'title'=> !is_null($notification->value) ? __('messages.' . $notification->message, ['value' => $notification->value]) :
-                       __('messages.' . $notification->message)
-                ]);
-
         }
     }
 }

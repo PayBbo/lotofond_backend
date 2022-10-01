@@ -11,6 +11,7 @@ use App\Http\Resources\ExportLotCollection;
 use App\Http\Resources\ExportLotResource;
 use App\Http\Resources\FavouritePathResource;
 use App\Http\Resources\LotCollection;
+use App\Jobs\AddFavouriteEventsJob;
 use App\Models\Favourite;
 use App\Models\Lot;
 use App\Models\User;
@@ -109,11 +110,7 @@ class FavouriteController extends Controller
         }
         $lots = Lot::whereIn('id', $request->lots)->get();
         $user = User::find(auth()->id());
-        foreach ($lots as $lot) {
-            if (!$path->lots->contains($lot) && !$user->hiddenLots->contains($lot)) {
-                $path->lots()->attach($lot, ['created_at' => Carbon::now()]);
-            }
-        }
+        dispatch(new AddFavouriteEventsJob($lots, $user, $path));
         return response(null, 200);
     }
 

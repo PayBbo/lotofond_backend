@@ -21,10 +21,12 @@ return [
     "favouritePriceReductionInFourDays"=>"在 :value 当天的 之后的批次价格变化！",
     "favouritePriceReductionInSevenDays"=>"在 :value 天的批次价格变化！",
     "favouritePriceReduction"=>"批次价格变化：值！",
-    "欢迎"=>"欢迎！",
+    "welcome"=>"欢迎！",
     "gladToSeeYou"=>"我们很高兴在 Lotofond 见到你",
+    'applicationAnswerTitle'=>'检查你的电子邮件',
+    'applicationAnswerBody'=>'你的申请已被处理',
 
-    "废止"=>"废止信息",
+    "Annulment"=>"废止信息",
     "biddingDeclared"=>"销售信息",
     "ApplicationSessionStart"=>"关于开始接受申请的消息",
     "BiddingPause"=>"投标暂停消息",
@@ -38,7 +40,7 @@ return [
     "ErrorMessage"=>"关于技术故障的消息",
     "BiddingNewTerm"=>"新截止日期的通知",
     "NewTradeOrganizer"=>"关于更换交易组织者的消息",
-    "投标过程"=>"投标",
+    "BiddingProcess"=>"投标",
     "BiddingEnd"=>"投标结束消息",
     "BiddingEndBankruptcyCreditor"=>"由于破产债权人离开抵押品导致拍卖结束的消息"
 

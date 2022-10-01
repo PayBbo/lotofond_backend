@@ -4679,12 +4679,19 @@ components:
           type: object
           description: присутствует в данных, если событие в календарь было добавлено в соответствии с изменениями лота в избранном
           properties:
+            photos:
+              $ref: "#/components/schemas/Images"
+            description:
+              type: string
             favouritePaths:
               type: array
               items:
                 $ref: "#/components/schemas/PathFavourite"
             lotId:
               type: integer
+              description: айдишник лота
+            categories:
+              $ref: '#/components/schemas/Categories'
     Victory:
       type: object
       properties:

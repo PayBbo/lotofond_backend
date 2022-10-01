@@ -40,6 +40,9 @@ class ParseDebtor implements ShouldQueue
         try {
             if (array_key_exists('DebtorPerson', $debtors)) {
                 foreach ($debtors['DebtorPerson'] as $person) {
+                    if(gettype($person) == 'string'){
+                        $person = json_encode($person);
+                    }
                     $bidder = get_object_vars($person);
                     if (array_key_exists('INN', $bidder) && $bidder['INN'] != "" && !is_null($bidder['INN'])) {
                         $bidderParse = new BidderService('debtor', $bidder['INN'], 'person');
@@ -49,6 +52,9 @@ class ParseDebtor implements ShouldQueue
             }
             if (array_key_exists('DebtorCompany', $debtors)) {
                 foreach ($debtors['DebtorCompany'] as $company) {
+                    if(gettype($company) == 'string'){
+                        $company = json_encode($company);
+                    }
                     $bidder = get_object_vars($company);
                     if (array_key_exists('INN', $bidder) && $bidder['INN'] != "" && !is_null($bidder['INN'])) {
                         $bidderParse = new BidderService('debtor', $bidder['INN'], 'company');

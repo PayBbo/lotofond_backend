@@ -14,18 +14,19 @@ class BiddingEndBankruptcyCreditor extends TradeMessage implements TradeMessageC
         try {
             $auction = Auction::where('trade_id', $invitation['@attributes']['TradeId'])->first();
             if ($auction) {
-                if (array_key_exists($prefix . 'CreditorLotNumberList', $invitation))
+                if (array_key_exists($prefix . 'CreditorLotNumberList', $invitation)) {
                     $lotList = $invitation[$prefix . 'CreditorLotNumberList'][$prefix . 'CreditorLotNumber'];
-                if (count($lotList) > 1) {
-                    foreach ($lotList as $lot) {
-                        $this->changeStatus($auction, $lot, $invitation);
+                    if (count($lotList) > 1) {
+                        foreach ($lotList as $lot) {
+                            $this->changeStatus($auction, $lot, $invitation);
+                        }
+                    } else {
+                        $this->changeStatus($auction, $lotList, $invitation);
                     }
                 } else {
-                    $this->changeStatus($auction, $lotList, $invitation);
-                }
-            } else {
-                foreach ($auction->lots as $lot) {
-                    $this->changeStatus($auction, $lot, $invitation);
+                    foreach ($auction->lots as $lot) {
+                        $this->changeStatus($auction, $lot, $invitation);
+                    }
                 }
             }
         } catch (\Exception $e) {

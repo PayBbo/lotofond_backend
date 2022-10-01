@@ -20,7 +20,7 @@ class CreateBiddersTable extends Migration
             $table->longText('name');
             $table->string('bankrupt_id')->unique();
             $table->string('inn', 12)->unique();
-            $table->string('snils', 11)->nullable();
+            $table->string('snils', 14)->nullable();
             $table->enum('type', ['person', 'company'])->default('person');
             $table->string('address', 255)->nullable();
             $table->unsignedBigInteger('region_id')->nullable();

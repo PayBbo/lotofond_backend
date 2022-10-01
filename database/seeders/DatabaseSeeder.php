@@ -27,7 +27,9 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             RoleSeeder::class,
             TextDataSeeder::class,
-            ContactSeeder::class
+            ContactSeeder::class,
+            TradePlaceCategorySeeder::class,
+            TradePlaceSeeder::class
         ]);
     }
 }

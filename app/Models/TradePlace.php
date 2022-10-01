@@ -18,7 +18,8 @@ class TradePlace extends Model
         'name',
         'owner_name',
         'inn',
-        'site'
+        'site',
+        'trade_place_category_id'
     ];
 
     /**
@@ -27,7 +28,8 @@ class TradePlace extends Model
      * @var array
      */
     protected $casts = [
-        'id' => 'integer'
+        'id' => 'integer',
+        'trade_place_category_id'=>'integer'
     ];
 
     public function auctions()
@@ -48,5 +50,9 @@ class TradePlace extends Model
                 'item_type'=>'tradePlace', 'item_id'=>$this->id])->first()->only('id', 'title', 'date');
         }
         return $note;
+    }
+
+    public function tradePlaceCategory(){
+        return $this->belongsTo(TradePlaceCategory::class);
     }
 }

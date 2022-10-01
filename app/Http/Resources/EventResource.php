@@ -20,10 +20,13 @@ class EventResource extends JsonResource
             'time'=>$this->time,
             'title'=>$this->title,
             'type'=>$this->event_type,
-            $this->mergeWhen(!is_null($this->notification_id), [
+            $this->mergeWhen(!is_null($this->favourite_lot_id), [
                 'dataFavourite' => [
-                    'favouritePaths' => is_null($this->notification_id) ? null : $this->notification->lot->lot->getLotFavouritePaths(),
-                    'lotId'=>is_null($this->notification_id) ? null : $this->notification->lot->lot->id
+                    'favouritePaths' => is_null($this->favourite_lot_id) ? null : $this->favouriteLot->lot->getLotFavouritePaths(),
+                    'lotId'=>is_null($this->favourite_lot_id) ? null : $this->favouriteLot->lot->id,
+                    'photos' => is_null($this->favourite_lot_id) ? null : $this->favouriteLot->lot->photos,
+                    'description' => is_null($this->favourite_lot_id) ? null : stripslashes(preg_replace('/[\x00-\x1F\x7F]/u', ' ', $this->favouriteLot->lot->description)),
+                    'categories'=>is_null($this->favourite_lot_id) ? [] : $this->favouriteLot->lot->categoriesStructure(),
                 ]
             ])
         ];

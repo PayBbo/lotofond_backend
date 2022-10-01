@@ -304,8 +304,6 @@ class TradeService
                         $i++;
                     }
                 }catch (Exception $e){
-                    logger('PARSE PRICE REDUCTION');
-                    logger($red);
                 }
             }
             if(PriceReduction::where('lot_id', $lot->id)->count() == 0){

@@ -8,9 +8,12 @@ use App\Http\Requests\QuestionRequest;
 use App\Jobs\SendApplication;
 use App\Models\Application;
 use App\Models\Contact;
+use App\Models\Lot;
 use App\Models\User;
+use App\Notifications\ApplicationTelegramNotification;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\URL;
 
@@ -33,8 +36,12 @@ class ApplicationController extends Controller
         }
         $username = $request->name ?? $user->surname . ' ' . $user->name;
         $lot = URL::to('/lot/' . $request->lotId);
-        $html = $request->lotId ? "Пользователь $username оставил заявку на покупку без ЕЦП лота
-            <a> $lot </a>" : "Пользователь $username оставил заявку на покупку через агента.";
+        $lotDesc = Lot::find($request->lotId)['description'];
+        $html = $request->lotId ? "
+            Пользователь $username оставил заявку на покупку без ЭЦП.
+            <strong> Описание лота:</strong>
+            <p>$lotDesc</p>
+            <a href='$lot'> Ссылка на лот </a>" : "Пользователь $username оставил заявку на покупку через агента.";
         $html .= "<br>
             <strong>Почта: $request->email</strong>
              <br>
@@ -42,11 +49,12 @@ class ApplicationController extends Controller
             <p>Социальные сети для ответа: $socials</p>";
         if (isset($request->dateForCallback) && strlen($request->dateForCallback) > 0) {
             $dateForCallback = Carbon::parse($request->dateForCallback)->format('d.m.Y H:i');
-            $html .= " <p>Дата и время для ответа: $dateForCallback</p>";
+            $html .= "
+            <p>Дата и время для ответа: $dateForCallback</p>";
         }
-        $subject = $request->lotId ? 'Новая заявка на покупку без ЕП' : 'Новая заявка на покупку через агента';
+        $subject = $request->lotId ? 'Новая заявка на покупку без ЭЦП' : 'Новая заявка на покупку через агента';
         if($request->lotId){
-            $emails = Contact::where('type', 'Отправка заявок на покупку без ЕП')->pluck('contact')->toArray();
+            $emails = Contact::where('type', 'Отправка заявок на покупку без ЭЦП')->pluck('contact')->toArray();
         }else{
             $emails = Contact::where('type', 'Отправка заявок на покупки через агента')->pluck('contact')->toArray();
         }
@@ -58,11 +66,14 @@ class ApplicationController extends Controller
             'for_answer' => $socials,
             'answer_date' => $request->dateForCallback,
             'username' => $username,
-            'type'=>$request->lotId ? 'Покупка без ЕП' : 'Покупка через агента'
+            'type'=>$request->lotId ? 'Покупка без ЭЦП' : 'Покупка через агента'
         ]);
         if(count($emails)>0) {
             dispatch_sync(new SendApplication($html, $subject, $emails));
         }
+        $token =  config('telegram.bot_token');
+        Notification::route('telegram', $token)
+            ->notify(new ApplicationTelegramNotification($html));
         return response(null, 200);
     }
 

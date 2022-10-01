@@ -15,7 +15,7 @@ class ApplicationSessionStatistic extends TradeMessage implements TradeMessageCo
             $auction = Auction::where('trade_id', $invitation['@attributes']['TradeId'])->first();
             if ($auction && array_key_exists($prefix . 'LotList', $invitation)) {
                 $lot = $invitation[$prefix . 'LotList'][$prefix . 'LotStatistic'];
-               if(count($lot)>2){
+               if(count($lot)>1){
                     foreach($lot as $item){
                         $this->saveStatistics($auction, $item, $prefix, $invitation);
                     }

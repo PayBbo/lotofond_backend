@@ -5,6 +5,7 @@ namespace App\Http\Services\Parse\TradeMessages;
 use App\Models\Auction;
 use App\Models\Bidder;
 use App\Models\BiddingParticipant;
+use App\Models\BiddingResult;
 use Carbon\Carbon;
 
 class ContractSale extends TradeMessage implements TradeMessageContract
@@ -41,8 +42,20 @@ class ContractSale extends TradeMessage implements TradeMessageContract
     {
         $tradeMessage = $this->createNotification($lot->id, $invitation['@attributes']['EventTime']);
         $data = $invitation[$prefix . 'LotContractSaleList'][$prefix . 'LotContractSale'];
-        $participantData = $data['ContractParticipantList']['ContractParticipant']['@attributes'];
-        if ($lot->tradeMessages->biddingResults->count() > 0) {
+        if(array_key_exists('@attributes', $data['ContractParticipantList']['ContractParticipant'])) {
+            $participantData = $data['ContractParticipantList']['ContractParticipant']['@attributes'];
+            $this->saveParticipant($lot, $participantData, $data, $tradeMessage);
+        }else{
+            foreach($data['ContractParticipantList']['ContractParticipant'] as $item){
+                $participantData = $item['@attributes'];
+                $this->saveParticipant($lot, $participantData, $data, $tradeMessage);
+            }
+        }
+
+    }
+
+    public function saveParticipant($lot, $participantData, $data, $tradeMessage){
+        if (BiddingResult::whereIn('trade_message_id', $lot->tradeMessages()->pluck('id'))->count() > 0) {
             $inn = $participantData['INN'];
             $isExists = false;
             foreach ($lot->tradeMessages->biddingResults as $result) {

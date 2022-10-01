@@ -9,6 +9,7 @@
         "ext-curl": "*",
         "ext-fileinfo": "*",
         "ext-json": "*",
+        "ext-mbstring": "*",
         "ext-soap": "*",
         "ext-zlib": "*",
         "artisaninweb/laravel-soap": "0.3.0.10",
@@ -17,6 +18,7 @@
         "fruitcake/laravel-cors": "^2.0",
         "guzzlehttp/guzzle": "^7.4",
         "intervention/image": "^2.7",
+        "laravel-notification-channels/telegram": "^2.1",
         "laravel/framework": "^8.75",
         "laravel/passport": "^10.4",
         "laravel/sanctum": "^2.11",
@@ -25,8 +27,7 @@
         "mariuzzo/laravel-js-localization": "^1.9",
         "midnite81/xml2array": "^1.0",
         "spatie/laravel-permission": "^5.5",
-        "spatie/laravel-translatable": "^4.6",
-      "ext-mbstring": "*"
+        "spatie/laravel-translatable": "^4.6"
     },
     "require-dev": {
         "facade/ignition": "^2.5",

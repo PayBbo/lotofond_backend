@@ -23,9 +23,9 @@ class CreateEventsTable extends Migration
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')
                 ->on('users')->cascadeOnDelete();
-            $table->unsignedBigInteger('notification_id')->nullable();
-            $table->foreign('notification_id')->references('id')
-                ->on('notifications')->cascadeOnDelete();
+            $table->unsignedBigInteger('favourite_lot_id')->nullable();
+            $table->foreign('favourite_lot_id')->references('id')
+                ->on('favourite_lot')->cascadeOnDelete();
             $table->timestamps();
         });
         Schema::enableForeignKeyConstraints();

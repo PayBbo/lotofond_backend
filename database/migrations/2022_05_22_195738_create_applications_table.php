@@ -25,7 +25,7 @@ class CreateApplicationsTable extends Migration
             $table->string('topic')->nullable();
             $table->string('question')->nullable();
             $table->json('files')->nullable();
-            $table->enum('type', ['Покупка без ЕП','Покупка через агента','Новый вопрос']);
+            $table->enum('type', ['Покупка без ЭЦП','Покупка через агента','Новый вопрос']);
             $table->timestamp('answer_date')->nullable();
             $table->foreign('user_id')->references('id')
                 ->on('users')->cascadeOnDelete();

@@ -179,6 +179,7 @@ return [
         Artisaninweb\SoapWrapper\ServiceProvider::class,
         Intervention\Image\ImageServiceProvider::class,
         Maatwebsite\Excel\ExcelServiceProvider::class,
+        TelegramNotifications\TelegramServiceProvider::class
     ],
 
     /*

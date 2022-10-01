@@ -22,7 +22,9 @@ return [
     'favouritePriceReductionInSevenDays'=>'Изменение цены лота через :value дней!',
     'favouritePriceReduction'=>'Изменение цены лота :value!',
     'welcome'=>'Добро пожаловать!',
-    'gladToSeeYou'=>'Мы рады вас видеть в BankrotMP',
+    'gladToSeeYou'=>'Мы рады вас видеть в Lotofond',
+    'applicationAnswerTitle'=>'Проверьте почту',
+    'applicationAnswerBody'=>'Ваша заявка была обработана',
 
 
     'Annulment'=>'Сообщение об аннулировании',

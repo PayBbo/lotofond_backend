@@ -48,7 +48,11 @@ class BiddingInvitation extends TradeMessage
                         $debtor = get_object_vars($debtor_data['DebtorCompany']);
                     }
                 }
-                $bidderParse = new BidderService('debtor', $debtor['INN'], $debtor_type);
+                if(!array_key_exists('INN', $debtor)){
+                    $bidderParse = new BidderService('debtor', get_object_vars(array_pop($debtor))['INN'], $debtor_type);
+                }else {
+                    $bidderParse = new BidderService('debtor', $debtor['INN'], $debtor_type);
+                }
                 $debtor = $bidderParse->saveBidder($debtor);
             } else {
                 return null;

@@ -20,7 +20,7 @@ class Event extends Model
         'title',
         'event_type',
         'user_id',
-        'notification_id'
+        'favourite_lot_id'
     ];
 
     /**
@@ -32,7 +32,7 @@ class Event extends Model
         'id' => 'integer',
         'date' => 'date',
         'user_id' => 'integer',
-        'notification_id' => 'integer'
+        'favourite_lot_id' => 'integer'
     ];
 
     public function user()
@@ -40,9 +40,9 @@ class Event extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function notification()
+    public function favouriteLot()
     {
-        return $this->belongsTo(Notification::class);
+        return $this->belongsTo(FavouriteLot::class);
     }
 
 }
