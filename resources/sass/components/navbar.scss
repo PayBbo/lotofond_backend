@@ -1,6 +1,7 @@
 .bkt-navbar {
     min-height: 91px;
-    background: $main-dark;
+    background: white;
+    //background: $main-dark;
     border-radius: 0;
     padding: 20px;
     //padding: 20px 215px;
@@ -41,7 +42,7 @@
     &__logo {
         font-weight: 700;
         color: $neutral-default;
-        max-width: 100px;
+        max-width: 130px;
     }
 
     &__nav {
@@ -97,7 +98,7 @@
             display: flex;
             align-items: center;
             font-size: $font-size-12;
-            color: $white;
+            color: $main-default;
             text-decoration: none;
             padding-right: 0.5rem;
             padding-left: 0.5rem;
@@ -106,7 +107,7 @@
             cursor: pointer;
 
             &:hover {
-                color: $white;
+                color: $main-default;
             }
         }
     }
@@ -149,7 +150,8 @@
 
         &-tarif {
             font-size: 12px;
-            color: rgba(255, 255, 255, 0.251);
+            color: $main-default;
+            //color: rgba(255, 255, 255, 0.251);
             line-height: 1.2;
 
             &-name {
@@ -161,7 +163,8 @@
 
         &-name {
             font-size: 14px;
-            color: rgb(255, 255, 255);
+            //color: rgb(255, 255, 255);
+            color: $main-default;
             line-height: 1.2;
         }
 
@@ -228,7 +231,7 @@
         padding: 10px 20px;
 
         &__logo {
-            max-width: 50px;
+            max-width: 100px;
         }
 
         &__wrapper {

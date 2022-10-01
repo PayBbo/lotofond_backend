@@ -35,7 +35,13 @@
                     ],
                     debtors: [],
                     organizers: [],
-                    arbitrationManagers: []
+                    arbitrationManagers: [],
+                    other: {
+                        hasPhotos: false,
+                        isStopped: false,
+                        isCompleted: false,
+                        isHidden: false
+                    }
                 },
                 debtorCategories: [
                     { title:'Физ.лицо', value:"SimplePerson"},
@@ -44,8 +50,6 @@
                 method_params: {
                     type:'filters'
                 },
-                signal: null,
-                controller: null,
             };
         },
         computed: {
@@ -107,14 +111,7 @@
             },
             callMethod() {
                 let tmp_filters = JSON.parse(JSON.stringify(this.filters));
-                if (this.signal) {
-                    this.controller.abort();
-                }
-                setTimeout(() => {
-                    this.controller = new AbortController();
-                    this.signal = this.controller.signal;
-                    this.$store.dispatch(this.method_name, {page: 1, filters: tmp_filters, signal:this.signal});
-                }, 100);
+                this.$store.dispatch(this.method_name, {page: 1, filters: tmp_filters});
             }
         }
     }

@@ -30,7 +30,18 @@
                 let total = JSON.parse(JSON.stringify(this.count));
                 if(total.other)
                 {
-                    total.other = null
+                    total.other.period = null
+                }
+                if(total.tradeTypes)
+                {
+                    total.tradeTypes = null
+                }
+                if(total.tradePlaces)
+                {
+                    total.tradePlaces = null
+                }
+                if(Array.isArray(total)) {
+                    return total.length
                 }
                 return Object.values(total)
                     .reduce((r, o) => {

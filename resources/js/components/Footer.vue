@@ -5,9 +5,8 @@
                 <div class="row w-100 mx-auto bkt-gap-row-large">
                     <div class="col-6 col-lg-3">
                         <router-link to="/"><img class="bkt-footer__logo" v-lazy="'/images/logo.png'" alt="logo"></router-link>
-                        <p class="bkt-footer__description">Нашей деятельности позволяет выполнять важные
-                            задания по разработке модели развития. Таким образом дальнейшее развитие различных форм
-                            деятельности способствует подготовки.</p>
+                        <p class="bkt-footer__description">Самая полная база торгов банкротного, залогового,
+                            арестованного, неликвидного, конфискованного и государственного имущества.</p>
                         <div class="bkt-footer__buttons bkt-gap-small">
 <!--                            <router-link to="/" class="bkt-button primary">Торги</router-link>-->
                             <router-link to="/tariffs" class="bkt-button blue">Тарифы</router-link>
@@ -17,7 +16,7 @@
                         <div class="bkt-footer__block bkt-wrapper bkt-wrapper-down-lg-column">
                             <ul class="bkt-footer__links">
                                 <li class="bkt-footer__link">
-                                    <router-link to="/agent">Купить через агента</router-link>
+                                    <router-link to="/agent">Купить с Лотофонд</router-link>
                                 </li>
                                 <li class="bkt-footer__link">
                                     <router-link to="/auctions">Горящие торги
@@ -54,9 +53,8 @@
                     </div>
                     <div class="col-12 col-lg-3">
                         <div class="bkt-footer__socials">
-                            <h3 class="bkt-footer__socials-phone">+7 916 018-48-58</h3>
-                            <h5 class="bkt-footer__socials-email">vicemine@mail.ru</h5>
-
+<!--                            <h3 class="bkt-footer__socials-phone">+7 916 018-48-58</h3>-->
+                            <h5 class="bkt-footer__socials-email"><skeleton>{{contacts.email ? contacts.email : ''}}</skeleton></h5>
                             <div class="bkt-footer__socials-links">
                                 <a class="bkt-button-icon bkt-bg-main-light" href="/">
                                     <bkt-icon name="Vk" width="16px" height="16px"></bkt-icon>
@@ -88,8 +86,8 @@
                 <div class="bkt-wrapper-between bkt-wrapper-down-sm-column">
                     <p class="bkt-footer__politics-copyright">Все права защищены © LotoFond, 2022</p>
                     <div class="bkt-footer__politics-links">
-                        <a class="bkt-footer__politics-link" href="/">Политика конфиденциальности</a>
-                        <a class="bkt-footer__politics-link" href="/">Публичная оферта</a>
+                        <a class="bkt-footer__politics-link" href="/">Политика обработки персональных данных</a>
+                        <a class="bkt-footer__politics-link" href="/">Пользовательское соглашение</a>
                     </div>
                 </div>
 
@@ -104,6 +102,9 @@
         computed: {
             isLoggedIn() {
                 return this.$store.getters.isLoggedIn
+            },
+            contacts() {
+                return this.$store.getters.main_contacts
             },
         },
         methods: {

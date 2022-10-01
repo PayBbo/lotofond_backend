@@ -60,7 +60,7 @@
                                         </h4>
                                     </div>
                                     <span class="bkt-card__icon">
-                                    <bkt-icon :name="'ArrowDownCircle'" color="primary"></bkt-icon>
+                                    <bkt-icon :name="'ArrowDownCircle'" color="primary" :class="{'bkt-rotate-180':item.percentageDirection==='up'}"></bkt-icon>
                                 </span>
                                 </div>
                             </div>

@@ -13,6 +13,9 @@ export default {
     },
     mutations: {
         setEvents(state, payload) {
+            payload.forEach(item => {
+                item.lot_info = item.dataFavourite ?? null;
+            })
             state.events = payload;
         },
         setEventsLoading(state, payload) {

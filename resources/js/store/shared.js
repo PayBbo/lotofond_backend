@@ -13,7 +13,11 @@ export default {
             grantType:'email'
         },
         locale: localStorage.getItem('locale') || 'ru',
-        selected_item: null
+        selected_item: null,
+        main_contacts: {
+            phone:'',
+            email:''
+        }
     },
 
     getters: {
@@ -22,6 +26,9 @@ export default {
         },
         locale(state) {
             return state.locale;
+        },
+        main_contacts(state) {
+            return state.main_contacts;
         },
     },
 
@@ -66,6 +73,24 @@ export default {
             }
 
         },
+        getContacts({commit}, payload) {
+            axios.get('/api/text-data/contacts')
+                .then( resp => {
+                    let contacts = {
+                        phone:'',
+                        email:''
+                    }
+                    let index = resp.data.findIndex( item => item.header=='Почта')
+                    if ( index >= 0) {
+                        contacts.email = resp.data[index].value;
+                    }
+                    index = resp.data.findIndex( item => item.header=='Телефон')
+                    if ( index >= 0) {
+                        contacts.phone = resp.data[index].value;
+                    }
+                    commit('setContacts', contacts)
+            });
+        },
     },
 
     mutations: {
@@ -99,6 +124,9 @@ export default {
             DatePicker.locale(payload);
             localize(payload);
             localeChanged();
-        }
+        },
+        setContacts(state, payload) {
+            return (state.main_contacts = payload);
+        },
     }
 };

@@ -232,6 +232,7 @@ Vue.component('BktWinCard', WinCard);
 Vue.component('BktSearch', Search);
 Vue.component('BktSelect', Select);
 Vue.component('BktCollapse', Collapse);
+Vue.component("Skeleton", require("./components/Skeleton.vue").default);
 
 
 Vue.filter('priceFormat', value => {

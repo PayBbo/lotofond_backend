@@ -9,6 +9,8 @@ export default {
         wins: [],
         wins_pagination: {},
         wins_loading: false,
+        controllers: [],
+        signals:[]
     },
 
     getters: {
@@ -38,6 +40,12 @@ export default {
         },
         wins_loading(state) {
             return state.wins_loading;
+        },
+        controllers(state) {
+            return state.controllers;
+        },
+        signals(state) {
+            return state.signals;
         },
 
     },
@@ -128,7 +136,11 @@ export default {
                     }
                 }
             }
-        }
+        },
+        setTradeAborts(state, payload) {
+            state.controllers[payload.method] = payload.controller;
+            state.signals[payload.method] = payload.signal;
+        },
     },
     actions: {
         async getTrades({commit, state}, payload) {
@@ -148,63 +160,74 @@ export default {
             }
         },
         async getFilteredTrades({commit, state}, payload) {
-            commit('setTradesLoading', true);
-            // let filters = JSON.parse(JSON.stringify(payload.filters));
-            // Object.keys(filters).forEach(key => {
-            //     if (Array.isArray(filters[key]))
-            //     {
-            //         if(filters[key].length==0) {
-            //             filters[key] = null;
-            //         }
-            //     }
-            //     if (typeof filters[key] === 'object' && filters[key] != null ) {
-            //         Object.keys(filters[key]).forEach(k => {
-            //             if (typeof filters[key][k] === 'string') {
-            //                 if (filters[key] === '') {
-            //                     filters[key] = null
-            //                 }
-            //             }
-            //             if (typeof filters[key][k] === 'object') {
-            //                 let total = Object.values(filters[key][k])
-            //                     .reduce((r, o) => {
-            //                         if (r && o) {
-            //                             Object.values(o).forEach(item => {
-            //                                 if (item) {
-            //                                     r++;
-            //                                 }
-            //                             });
-            //                             return r;
-            //                         }
-            //                         return 0;
-            //                     }, 0);
-            //                 if (total == 0) {
-            //                     filters[key][k] = null;
-            //                 }
-            //             }
-            //         });
-            //     }
-            //     if (typeof filters[key] === 'string') {
-            //         if (filters[key] === '') {
-            //             filters[key] = null
-            //         }
-            //     }
-            // });
-            await axios({
-                method: 'put',
-                url: '/api/trades/filter',
-                data: payload.filters,
-                signal: payload.signal,
-                params:{page: payload.page}
-            })
-                .then((response) => {
-                commit('setTrades', response.data);
-            }).catch((error) => {
-                console.log(error);
-                commit('setTrades', {data: [], pagination: {}});
+            if (state.signals['getFilteredTrades']) {
+                state.controllers['getFilteredTrades'].abort();
+            }
+            await setTimeout(() => {
+                let tmp_controller = new AbortController();
+                commit('setTradeAborts', {
+                    controller: tmp_controller,
+                    signal: tmp_controller.signal,
+                    method: 'getFilteredTrades'
+                });
+                commit('setTradesLoading', true);
+                // let filters = JSON.parse(JSON.stringify(payload.filters));
+                // Object.keys(filters).forEach(key => {
+                //     if (Array.isArray(filters[key]))
+                //     {
+                //         if(filters[key].length==0) {
+                //             filters[key] = null;
+                //         }
+                //     }
+                //     if (typeof filters[key] === 'object' && filters[key] != null ) {
+                //         Object.keys(filters[key]).forEach(k => {
+                //             if (typeof filters[key][k] === 'string') {
+                //                 if (filters[key] === '') {
+                //                     filters[key] = null
+                //                 }
+                //             }
+                //             if (typeof filters[key][k] === 'object') {
+                //                 let total = Object.values(filters[key][k])
+                //                     .reduce((r, o) => {
+                //                         if (r && o) {
+                //                             Object.values(o).forEach(item => {
+                //                                 if (item) {
+                //                                     r++;
+                //                                 }
+                //                             });
+                //                             return r;
+                //                         }
+                //                         return 0;
+                //                     }, 0);
+                //                 if (total == 0) {
+                //                     filters[key][k] = null;
+                //                 }
+                //             }
+                //         });
+                //     }
+                //     if (typeof filters[key] === 'string') {
+                //         if (filters[key] === '') {
+                //             filters[key] = null
+                //         }
+                //     }
+                // });
+                axios({
+                    method: 'put',
+                    url: '/api/trades/filter',
+                    data: payload.filters,
+                    signal: tmp_controller.signal,
+                    params: {page: payload.page}
+                })
+                    .then((response) => {
+                        commit('setTrades', response.data);
+                    }).catch((error) => {
+                    console.log(error);
+                    commit('setTrades', {data: [], pagination: {}});
 
-            }).finally(()=>{
-                commit('setTradesLoading', false);
-            })
+                }).finally(() => {
+                    commit('setTradesLoading', false);
+                })
+            }, 100)
             // await axios.put('/api/trades/filter?page=' + payload.page, filters, payload.options)
             //     .then((response) => {
             //         commit('setTrades', response.data);
@@ -256,17 +279,27 @@ export default {
                 // });
         },
         async getNearestTrades({commit, state}, payload) {
-            commit('setNearestLoading', true);
-            // let filters = JSON.parse(JSON.stringify(payload.filters));
-            await axios.put('/api/trades/nearest?page=' + payload.page, payload.filters, {signal: payload.signal})
-                .then((response) => {
-                    commit('setNearestTrades', response.data);
-                    commit('setNearestLoading', false);
-                }).catch((error) => {
-                    commit('setNearestTrades', {data: [], pagination: {}});
-                    commit('setNearestLoading', false);
-                })
-
+            if (state.signals['getNearestTrades']) {
+                state.controllers['getNearestTrades'].abort();
+            }
+            await setTimeout(() => {
+                let tmp_controller = new AbortController();
+                commit('setTradeAborts', {
+                    controller: tmp_controller,
+                    signal: tmp_controller.signal,
+                    method: 'getNearestTrades'
+                });
+                commit('setNearestLoading', true);
+                // let filters = JSON.parse(JSON.stringify(payload.filters));
+                 axios.put('/api/trades/nearest?page=' + payload.page, payload.filters, {signal: tmp_controller.signal})
+                    .then((response) => {
+                        commit('setNearestTrades', response.data);
+                        commit('setNearestLoading', false);
+                    }).catch((error) => {
+                        commit('setNearestTrades', {data: [], pagination: {}});
+                        commit('setNearestLoading', false);
+                    })
+            },100);
         },
         async getWins({commit, state}, payload) {
             commit('setWinsLoading', true);

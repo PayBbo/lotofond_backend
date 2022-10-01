@@ -62,6 +62,46 @@
                 :pagination="organizers_pagination"
             ></bkt-select>
         </div>
+        <div class="col-12">
+            <div class="bkt-wrapper bkt-gap">
+
+                    <bkt-checkbox v-model="model.other.hasPhotos"
+                                  label="только с фото"
+                                  name="hasPhotos"
+                                  @input="saveValue"
+                    >
+                    </bkt-checkbox>
+                    <bkt-checkbox v-model="model.other.isHidden"
+                                  label="скрытые"
+                                  name="isHidden"
+                                  @input="saveValue"
+                    >
+                    </bkt-checkbox>
+
+
+                    <!--                        <bkt-checkbox v-model="filters_other.hasAnswer"-->
+                    <!--                                      label="получен ответ организатора"-->
+                    <!--                                      name="hasAnswer"-->
+                    <!--                                      @input="getData(1)"-->
+                    <!--                        >-->
+                    <!--                        </bkt-checkbox>-->
+                    <bkt-checkbox v-model="model.other.isCompleted"
+                                  label="завершённые"
+                                  name="isCompleted"
+                                  wrapper_class="bkt-check__wrapper-inline"
+                                  @input="saveValue"
+                    >
+                    </bkt-checkbox>
+                    <bkt-checkbox v-model="model.other.isStopped"
+                                  label="приостановленные"
+                                  name="isStopped"
+                                  wrapper_class="bkt-check__wrapper-inline"
+                                  @input="saveValue"
+                    >
+                    </bkt-checkbox>
+
+            </div>
+        </div>
     </div>
 </template>
 
@@ -89,7 +129,14 @@
                     ],
                     debtors: [],
                     organizers: [],
-                    arbitrationManagers: []
+                    arbitrationManagers: [],
+                    other: {
+                        // period: 'periodAll',
+                        hasPhotos: false,
+                        isStopped: false,
+                        isCompleted: false,
+                        isHidden: false
+                    }
                 },
             };
         },
@@ -114,6 +161,12 @@
             },
             arbitr_managers_pagination() {
                 return this.$store.getters.filters_arbitration_managers_pagination
+            },
+        },
+        watch:{
+            value: function(newValue, oldValue){
+                this.model = newValue;
+                this.saveValue()
             },
         },
         methods: {

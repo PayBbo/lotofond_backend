@@ -4,34 +4,34 @@
         <div class="bkt-form bkt-form_wide bkt-gap-row-large">
             <div class="col-12 col-lg-4 bkt-form__offset-right">
                 <div class="bkt-wrapper-column bkt-gap-large">
-                    <div class="bkt-card__row">
-                        <div class="col-12 col-lg-10">
-                            <div class="bkt-card__row-column">
-                                <h5 class="bkt-text-neutral-dark">
-                                    телефон
-                                </h5>
-                                <h4 class="bkt-card__title">+7 916 018-48-58</h4>
-                                <a class="bkt-button primary bkt-text-white bkt-w-sm-100" href="tel:+79160184858">
-                                    Перезвонить мне
-                                </a>
-                            </div>
-                        </div>
-                        <div class="col-12 col-lg-2 d-none d-lg-block">
-                            <div class="bkt-card__category ms-auto bkt-bg-green-lighter">
-                                <span class="bkt-card__category-icon">
-                                    <bkt-icon name="Smartphone" color="green" height="22px"></bkt-icon>
-                                </span>
-                            </div>
-                        </div>
-                    </div>
+<!--                    <div class="bkt-card__row">-->
+<!--                        <div class="col-12 col-lg-10">-->
+<!--                            <div class="bkt-card__row-column">-->
+<!--                                <h5 class="bkt-text-neutral-dark">-->
+<!--                                    телефон-->
+<!--                                </h5>-->
+<!--                                <h4 class="bkt-card__title">+7 916 018-48-58</h4>-->
+<!--                                <a class="bkt-button primary bkt-text-white bkt-w-sm-100" href="tel:+79160184858">-->
+<!--                                    Перезвонить мне-->
+<!--                                </a>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                        <div class="col-12 col-lg-2 d-none d-lg-block">-->
+<!--                            <div class="bkt-card__category ms-auto bkt-bg-green-lighter">-->
+<!--                                <span class="bkt-card__category-icon">-->
+<!--                                    <bkt-icon name="Smartphone" color="green" height="22px"></bkt-icon>-->
+<!--                                </span>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
                     <div class="bkt-card__row">
                         <div class="col-12 col-lg-10">
                             <div class="bkt-card__row-column">
                                 <h5 class="bkt-text-neutral-dark">
                                     e-mail
                                 </h5>
-                                <h4 class="bkt-card__title">vicemine@mail.ru</h4>
-                                <a class="bkt-button primary bkt-text-white bkt-w-sm-100" href="mailto:vicemine@mail.ru">
+                                <h4 class="bkt-card__title"><skeleton>{{contacts.email ? contacts.email : ''}}</skeleton></h4>
+                                <a class="bkt-button primary bkt-text-white bkt-w-sm-100" :href="'mailto:'+contacts.email" v-if="contacts.email">
                                     Написать
                                 </a>
                             </div>
@@ -139,6 +139,11 @@
                 email:''
             };
         },
+        computed: {
+            contacts() {
+                return this.$store.getters.main_contacts
+            },
+        },
         methods: {
             submit() {
                 this.loading = true;
@@ -162,12 +167,6 @@
                     })
             },
             subscribe() {
-
-            },
-            phoneMe() {
-
-            },
-            writeMe() {
 
             },
         }

@@ -41,7 +41,7 @@
                         <div class="bkt-wrapper-between bkt-card-ecp-wrapper">
                             <!--                            <router-link custom v-slot="{ navigate }" to="/without-ecp">-->
                             <button @click="sendApplication" class="bkt-button primary bkt-card-ecp w-100">
-                                Купить без ЭП
+                                Купить без ЭЦП
                             </button>
                             <!--                            </router-link>-->
                             <!--                            <router-link custom v-slot="{ navigate }" to="/agent">-->
@@ -54,7 +54,7 @@
                 </div>
                 <div class="col-12 col-md-12 col-lg-4 p-0 px-sm-2 order-1 order-lg-2">
                     <div class="bkt-wrapper-between bkt-card__head bkt-nowrap">
-                        <router-link :to="'/lot/'+item.id" class="bkt-card__title bkt-text-truncate">
+                        <router-link :to="'/lot/'+item.id" class="bkt-card__title bkt-text-truncate-3">
                             {{item && item.description ? item.description:'Некоторое название торгов'}}
                         </router-link>
                         <div class="dropdown d-block d-lg-none">
@@ -124,11 +124,12 @@
                                  :class="{'bkt-bg-red': item.currentPriceState=='down',
                                   'bkt-bg-green': item.currentPriceState=='up',
                                   'bkt-bg-primary-lighter': item.currentPriceState=='hold'}">
-                                <h2 class="bkt-card-trade__price text-truncate"
-                                    :class="{'bkt-text-primary': item.currentPriceState=='hold'}"
-                                >
-                                    {{item && item.currentPrice ? item.currentPrice : '0' | priceFormat}} ₽
-                                </h2>
+                                <div class="m-auto" :class="{'bkt-text-primary': item.currentPriceState=='hold'}">
+                                    <h5 class="bkt-card__subtitle text-truncate">текущая цена</h5>
+                                    <h2 class="bkt-card-trade__price text-truncate">
+                                        {{item && item.currentPrice ? item.currentPrice : '0' | priceFormat}} ₽
+                                    </h2>
+                                </div>
 
                                 <div class="bkt-card-trade__price-icon" v-if="item.currentPriceState!=='hold'"
                                      :class="{'bkt-bg-red-light': item.currentPriceState=='down',
@@ -141,7 +142,9 @@
                                 </div>
                             </div>
                             <div class="bkt-card-infographics bkt-wrapper-between bkt-nowrap">
-                                <div class="bkt-card outline">
+                                <div class="bkt-card outline"
+                                     v-if="item&&item.trade&&(item.trade.type==='CloseAuction' || item.trade.type==='OpenAuction')"
+                                >
                                     <div class="bkt-card__feature text-center w-100 mt-0">
                                         <h5 class="bkt-card__subtitle">шаг аукциона</h5>
                                         <h4 class="bkt-card__title bkt-text-primary">
@@ -151,7 +154,7 @@
                                         </h4>
                                     </div>
                                 </div>
-                                <div class="bkt-card outline">
+                                <div class="bkt-card outline" v-if="item.deposit">
                                     <div class="bkt-card__feature text-center w-100 mt-0">
                                         <h5 class="bkt-card__subtitle">задаток</h5>
                                         <h4 class="bkt-card__title bkt-text-red">
@@ -206,7 +209,7 @@
                                                </h6>
                                                <h6 class="bkt-card__subtitle d-block d-lg-none">
                                                    {{item.trade.eventTime.result ? 'результат торгов' :
-                                                       'провод торгов'}}
+                                                       'провед. торгов'}}
                                                </h6>
                                                <div>
                                                    <h6 v-if="item.trade.eventTime.start" class="bkt-card__text">
@@ -411,8 +414,8 @@
             </div>
         </div>
         <div class="col-2 col-lg-1 p-0 d-none d-lg-block">
-            <card-actions :item="item" class="bkt-card bkt-bg-main vertical m-0" button_type="-ellipse"
-                          @changeStatus="changeStatus"
+            <card-actions :item="item" class="bkt-card vertical m-0" button_type="-ellipse"
+                          @changeStatus="changeStatus" main_bg="bkt-bg-body" icon_color="main"
             >
             </card-actions>
         </div>

@@ -1,7 +1,7 @@
 <template>
     <div class="container bkt-promo bkt-page bkt-container">
         <section>
-            <h1 class="bkt-page__title">Покупка без ЭП через Лотофонд</h1>
+            <h1 class="bkt-page__title">Покупка без ЭЦП через Лотофонд</h1>
             <div class="bkt-promo__block-wrapper">
                 <div class="bkt-promo__block bkt-promo__block_agent">
                     <div class="bkt-promo__block-body">
@@ -270,45 +270,48 @@
                     <label class="bkt-input__label bkt-form__label" style="margin-bottom: 10px;">
                         где вам удобнее общаться
                     </label>
-                    <div class="communications">
-                        <bkt-checkbox wrapper_class="flex-fill"
-                            input_class="bkt-button bkt-bg-body flex-fill" name="Viber"
-                            v-model="service.socialsForAnswer" val="Viber" type="radio"
-                            :border_color="service.socialsForAnswer=='Viber' ? 'primary': 'body'"
-                        >
-                            <template #input-check>
-                                <bkt-icon name="Viber" color="purple" class="bkt-button__icon"></bkt-icon>
-                            </template>
-                        </bkt-checkbox>
-                        <bkt-checkbox wrapper_class="flex-fill"
-                            input_class="bkt-button bkt-bg-body flex-fill" name="Vk"
-                            v-model="service.socialsForAnswer" val="Vk" type="radio"
-                            :border_color="service.socialsForAnswer=='Vk' ? 'primary': 'body'"
-                        >
-                            <template #input-check>
-                                <bkt-icon name="Vk" color="primary" class="bkt-button__icon"></bkt-icon>
-                            </template>
-                        </bkt-checkbox>
-                        <bkt-checkbox wrapper_class="flex-fill"
-                            input_class="bkt-button bkt-bg-body flex-fill" name="Telegram"
-                            v-model="service.socialsForAnswer" val="Telegram" type="radio"
-                            :border_color="service.socialsForAnswer=='Telegram' ? 'primary': 'body'"
-                        >
-                            <template #input-check>
-                                <bkt-icon name="Telegram" color="blue" class="bkt-button__icon"></bkt-icon>
-                            </template>
-                        </bkt-checkbox>
-                        <bkt-checkbox wrapper_class="flex-fill"
-                            input_class="bkt-button bkt-bg-body flex-fill" name="WhatsApp"
-                            v-model="service.socialsForAnswer" val="WhatsApp" type="radio"
-                            :border_color="service.socialsForAnswer=='WhatsApp' ? 'primary': 'body'"
-                        >
-                            <template #input-check>
-                                <bkt-icon name="WhatsApp" color="green" class="bkt-button__icon"></bkt-icon>
-                            </template>
-                        </bkt-checkbox>
-                        <div class="bkt-button bkt-bg-body bkt-text-main">перезвоним в течение 10 минут</div>
-                    </div>
+                    <ValidationProvider :name="'Мессенджеры'" rules="required|min:1" v-slot="{ errors }">
+                        <div class="communications">
+                            <bkt-checkbox wrapper_class="flex-fill"
+                                input_class="bkt-button bkt-bg-body flex-fill" name="Viber"
+                                v-model="service.socialsForAnswer" val="Viber"
+                                :border_color="service.socialsForAnswer.includes('Viber') ? 'primary': 'body'"
+                            >
+                                <template #input-check>
+                                    <bkt-icon name="Viber" color="purple" class="bkt-button__icon"></bkt-icon>
+                                </template>
+                            </bkt-checkbox>
+                            <bkt-checkbox wrapper_class="flex-fill"
+                                input_class="bkt-button bkt-bg-body flex-fill" name="Vk"
+                                v-model="service.socialsForAnswer" val="Vk"
+                                :border_color="service.socialsForAnswer.includes('Vk') ? 'primary': 'body'"
+                            >
+                                <template #input-check>
+                                    <bkt-icon name="Vk" color="primary" class="bkt-button__icon"></bkt-icon>
+                                </template>
+                            </bkt-checkbox>
+                            <bkt-checkbox wrapper_class="flex-fill"
+                                input_class="bkt-button bkt-bg-body flex-fill" name="Telegram"
+                                v-model="service.socialsForAnswer" val="Telegram"
+                                :border_color="service.socialsForAnswer.includes('Telegram') ? 'primary': 'body'"
+                            >
+                                <template #input-check>
+                                    <bkt-icon name="Telegram" color="blue" class="bkt-button__icon"></bkt-icon>
+                                </template>
+                            </bkt-checkbox>
+                            <bkt-checkbox wrapper_class="flex-fill"
+                                input_class="bkt-button bkt-bg-body flex-fill" name="WhatsApp"
+                                v-model="service.socialsForAnswer" val="WhatsApp"
+                                :border_color="service.socialsForAnswer.includes('WhatsApp') ? 'primary': 'body'"
+                            >
+                                <template #input-check>
+                                    <bkt-icon name="WhatsApp" color="green" class="bkt-button__icon"></bkt-icon>
+                                </template>
+                            </bkt-checkbox>
+                            <div class="bkt-button bkt-bg-body bkt-text-main">перезвоним в течение 10 минут</div>
+                        </div>
+                        <p class="bkt-input-error" v-if="errors.length>0">{{errors[0]}}</p>
+                    </ValidationProvider>
                 </div>
                 <div class="bkt-input__wrapper">
                     <label class="bkt-form__label">
@@ -347,7 +350,7 @@
                     name: '',
                     email: '',
                     phone: '',
-                    socialsForAnswer: 'Viber',
+                    socialsForAnswer: [],
                     dateForCallback: '',
                     terms: false,
                 }
@@ -362,7 +365,7 @@
             sendApplication() {
                 this.loading = true;
                 let data = JSON.parse(JSON.stringify(this.service));
-                data.socialsForAnswer = [this.service.socialsForAnswer];
+                // data.socialsForAnswer = [this.service.socialsForAnswer];
                 axios.post('/api/send/application', data)
                     .then(resp => {
                         this.loading = false;

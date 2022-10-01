@@ -5,7 +5,9 @@
         <bkt-params-modal filter_name="nearest_filters" method_name="getNearestTrades"/>
         <bkt-price-modal filter_name="nearest_filters" method_name="getNearestTrades"/>
         <bkt-date-modal filter_name="nearest_filters" method_name="getNearestTrades"/>
-        <bkt-options-modal filte_namer="nearest_filters" method_name="getNearestTrades"/>
+        <bkt-options-modal filter_name="nearest_filters" method_name="getNearestTrades"/>
+        <bkt-trade-place-modal filter_name="nearest_filters" method_name="getNearestTrades"/>
+        <bkt-trade-type-modal filter_name="nearest_filters" method_name="getNearestTrades"/>
         <h1 class="bkt-page__title">
             Ближайшие торги
         </h1>
@@ -42,12 +44,12 @@
                     </div>
                     <div class="bkt-card__row bkt-auctions__filters-card" @click="openParamsModal">
                         <div class="bkt-auctions__filters-card-header">
-                            <div class="bkt-icon-frame bkt-bg-purple-lighter">
-                                <bkt-icon :name="'Options'" :color="'purple'" width="25px" height="25px"></bkt-icon>
+                            <div class="bkt-icon-frame bkt-bg-pink-lighter">
+                                <bkt-icon :name="'Options'" :color="'pink'" width="25px" height="25px"></bkt-icon>
                             </div>
                             <h6 class="bkt-card__title">
-                                Параметры объекта
-                                <span class="bkt-badge bkt-bg-purple-lighter bkt-text-purple">
+                                Ключевые слова и слова-исключения
+                                <span class="bkt-badge bkt-bg-pink-lighter bkt-text-pink">
                                     {{total(filters.mainParams)}}
                                 </span>
                             </h6>
@@ -96,6 +98,35 @@
                         </div>
                         <bkt-icon class="arrow bkt-rotate-270" :name="'ArrowDown'"></bkt-icon>
                     </div>
+                    <div class="bkt-card__row bkt-auctions__filters-card" @click="openModal('tradePlacesModal')">
+                        <div class="bkt-auctions__filters-card-header">
+                            <div class="bkt-icon-frame bkt-bg-purple-lighter">
+                                <bkt-icon :name="'ClipboardList'" :color="'purple'" width="25px"
+                                          height="25px"></bkt-icon>
+                            </div>
+                            <h6 class="bkt-card__title">
+                                Торговые площадки
+                                <span class="bkt-badge bkt-bg-purple-lighter bkt-text-purple">
+                                    {{total(filters.mainParams.tradePlaces)}}
+                                </span>
+                            </h6>
+                        </div>
+                        <bkt-icon class="arrow bkt-rotate-270" :name="'ArrowDown'"></bkt-icon>
+                    </div>
+                    <div class="bkt-card__row bkt-auctions__filters-card" @click="openModal('tradeTypesModal')">
+                        <div class="bkt-auctions__filters-card-header">
+                            <div class="bkt-icon-frame bkt-bg-teal-lighter">
+                                <bkt-icon :name="'Clipboard'" :color="'teal'" width="25px" height="25px"></bkt-icon>
+                            </div>
+                            <h6 class="bkt-card__title">
+                                Вид торгов
+                                <span class="bkt-badge bkt-bg-teal-lighter bkt-text-teal">
+                                    {{total(filters.mainParams.tradeTypes)}}
+                                </span>
+                            </h6>
+                        </div>
+                        <bkt-icon class="arrow bkt-rotate-270" :name="'ArrowDown'"></bkt-icon>
+                    </div>
                 </div>
                 <div class="bkt-card bkt-card__body bkt-auctions__filters">
                     <div class="bkt-card__header bkt-auctions__filters-header d-lg-flex d-none">
@@ -103,25 +134,29 @@
                                 :class="isCategoryChecked('realEstate') ? 'bkt-border-primary' : 'bkt-border-green-lighter'"
                                 @click="toggleCategory('realEstate')" :disabled="categories_loading"
                         >
-                            <bkt-icon :name="'categories/realEstate'" :color="'green'" :width="'30px'" :height="'30px'"></bkt-icon>
+                            <bkt-icon :name="'categories/realEstate'" :color="'green'" :width="'30px'"
+                                      :height="'30px'"></bkt-icon>
                         </button>
                         <button class="bkt-button bkt-bg-blue-lighter"
                                 :class="isCategoryChecked('agriculturaProperty') ? 'bkt-border-primary' : 'bkt-border-blue-lighter'"
                                 @click="toggleCategory('agriculturaProperty')" :disabled="categories_loading"
                         >
-                            <bkt-icon :name="'categories/agriculturaProperty'" :color="'blue'" :width="'30px'" :height="'30px'"></bkt-icon>
+                            <bkt-icon :name="'categories/agriculturaProperty'" :color="'blue'" :width="'30px'"
+                                      :height="'30px'"></bkt-icon>
                         </button>
                         <button class="bkt-button bkt-bg-red-lighter"
                                 :class="isCategoryChecked('equipment') ? 'bkt-border-primary' : 'bkt-border-red-lighter'"
                                 @click="toggleCategory('equipment')" :disabled="categories_loading"
                         >
-                            <bkt-icon :name="'categories/equipment'" :color="'red'" :width="'30px'" :height="'30px'"></bkt-icon>
+                            <bkt-icon :name="'categories/equipment'" :color="'red'" :width="'30px'"
+                                      :height="'30px'"></bkt-icon>
                         </button>
                         <button class="bkt-button bkt-bg-yellow-lighter"
                                 :class="isCategoryChecked('tangibles') ? 'bkt-border-primary' : 'bkt-border-yellow-lighter'"
                                 @click="toggleCategory('tangibles')" :disabled="categories_loading"
                         >
-                            <bkt-icon :name="'categories/tangibles'" :color="'yellow'" :width="'30px'" :height="'30px'"></bkt-icon>
+                            <bkt-icon :name="'categories/tangibles'" :color="'yellow'" :width="'30px'"
+                                      :height="'30px'"></bkt-icon>
                         </button>
                         <button class="bkt-button bkt-bg-primary-lighter"
                                 :class="isCategoryChecked('accountsReceivable') ? 'bkt-border-primary' : 'bkt-border-primary-lighter'"
@@ -141,19 +176,22 @@
                                 :class="isCategoryChecked('transportAndEquipment') ? 'bkt-border-primary' : 'bkt-border-orange-lighter'"
                                 @click="toggleCategory('transportAndEquipment')" :disabled="categories_loading"
                         >
-                            <bkt-icon :name="'categories/transportAndEquipment'" :color="'orange'" :width="'30px'" :height="'30px'"></bkt-icon>
+                            <bkt-icon :name="'categories/transportAndEquipment'" :color="'orange'" :width="'30px'"
+                                      :height="'30px'"></bkt-icon>
                         </button>
                         <button class="bkt-button bkt-bg-teal-lighter"
                                 :class="isCategoryChecked('obligations') ? 'bkt-border-primary' : 'bkt-border-teal-lighter'"
                                 @click="toggleCategory('obligations')" :disabled="categories_loading"
                         >
-                            <bkt-icon :name="'categories/obligations'" :color="'teal'" :width="'30px'" :height="'30px'"></bkt-icon>
+                            <bkt-icon :name="'categories/obligations'" :color="'teal'" :width="'30px'"
+                                      :height="'30px'"></bkt-icon>
                         </button>
                         <button class="bkt-button bkt-bg-body"
                                 :class="isCategoryChecked('other') ? 'bkt-border-primary' : 'bkt-border-body'"
                                 @click="toggleCategory('other')" :disabled="categories_loading"
                         >
-                            <bkt-icon :name="'categories/other'" :color="'main'" :width="'30px'" :height="'30px'"></bkt-icon>
+                            <bkt-icon :name="'categories/other'" :color="'main'" :width="'30px'"
+                                      :height="'30px'"></bkt-icon>
                         </button>
                     </div>
                     <div class="bkt-auctions__filters-content d-lg-flex d-none">
@@ -316,6 +354,8 @@
     import BktParamsModal from "../components/SharedModals/ParamsModal";
     import BktRegionModal from "../components/SharedModals/RegionModal";
     import BktCategoryModal from "../components/SharedModals/CategoryModal";
+    import BktTradeTypeModal from "../components/SharedModals/TradeTypeModal";
+    import BktTradePlaceModal from "../components/SharedModals/TradePlaceModal";
     import BktCardList from "../components/CardList";
     import BktPricesControl from "../components/FiltersControls/PricesControl";
     import BktSwitch from "../components/Switch";
@@ -325,7 +365,9 @@
         name: "UpcomingAuctions",
         components: {
             BktDateModal, BktPriceModal, BktOptionsModal,
-            BktParamsModal, BktRegionModal, BktCategoryModal, BktCardList, BktPricesControl,
+            BktParamsModal, BktRegionModal, BktCategoryModal,
+            BktTradeTypeModal, BktTradePlaceModal,
+            BktCardList, BktPricesControl,
             BktSwitch, BktCard
         },
         data() {
@@ -396,7 +438,7 @@
                         excludedWords: '',
                         includedWords: '',
                         tradePlaces: [],
-                        tradeTypes:[]
+                        tradeTypes: []
                     },
                     sort: {
                         direction: "desc",
@@ -407,8 +449,7 @@
         },
         mounted() {
             let page = 1;
-            if(sessionStorage.getItem('nearest_page'))
-            {
+            if (sessionStorage.getItem('nearest_page')) {
                 page = sessionStorage.getItem('nearest_page')
             }
             this.getData(page);
@@ -517,19 +558,14 @@
         },
         methods: {
             async getData(page = 1) {
-                if (this.signal) {
-                    this.controller.abort();
-                }
-                await setTimeout(() => {
-                    this.controller = new AbortController();
-                    this.signal = this.controller.signal;
-                    sessionStorage.setItem('nearest_page', page + '');
-                    this.$store.dispatch('getNearestTrades', {
-                        page: page,
-                        filters: this.filters,
-                        signal: this.signal
-                    });
-                })
+                sessionStorage.setItem('nearest_page', page + '');
+                await this.$store.dispatch('getNearestTrades', {
+                    page: page,
+                    filters: this.filters
+                });
+            },
+            openModal(name) {
+                this.$store.commit('openModal', '#' + name);
             },
             openCategoryModal() {
                 this.$store.commit('openModal', '#categoryModal');
@@ -557,20 +593,18 @@
             },
             toggleCategory(category) {
                 let index = this.categories.findIndex(item => item.key === category);
-                if(index>=0)
-                {
+                if (index >= 0) {
                     let subcategories = this.categories[index].subcategories.map(item => item.key);
-                    if(subcategories.length>0) {
+                    if (subcategories.length > 0) {
                         let some_checked = subcategories.some(v => this.filters.categories.includes(v));
-                        if(some_checked) {
+                        if (some_checked) {
                             subcategories.forEach(item => {
                                 let item_index = this.filters.categories.findIndex(el => el == item);
                                 if (item_index >= 0) {
                                     this.filters.categories.splice(item_index, 1)
                                 }
                             });
-                        }
-                        else {
+                        } else {
                             subcategories.forEach(item => {
                                 let item_index = this.filters.categories.findIndex(el => el == item);
                                 if (item_index < 0) {
@@ -578,13 +612,11 @@
                                 }
                             })
                         }
-                    }
-                    else {
+                    } else {
                         let item_index = this.filters.categories.findIndex(el => el == category);
                         if (item_index >= 0) {
                             this.filters.categories.splice(item_index, 1)
-                        }
-                        else {
+                        } else {
                             this.filters.categories.push(category)
                         }
                     }
@@ -593,12 +625,10 @@
             },
             isCategoryChecked(category) {
                 let index = this.categories.findIndex(item => item.key === category);
-                if(index>=0) {
-                    if(this.categories[index].subcategories.length>0)
-                    {
+                if (index >= 0) {
+                    if (this.categories[index].subcategories.length > 0) {
                         return this.categories[index].subcategories.map(item => item.key).every(v => this.filters.categories.includes(v))
-                    }
-                    else {
+                    } else {
                         return this.filters.categories.includes(category)
                     }
                 }
@@ -624,7 +654,16 @@
             total(filter) {
                 let total = JSON.parse(JSON.stringify(filter));
                 if (total.other) {
-                    total.other = null
+                    total.other.period = null
+                }
+                if (total.tradeTypes) {
+                    total.tradeTypes = null
+                }
+                if (total.tradePlaces) {
+                    total.tradePlaces = null
+                }
+                if (Array.isArray(total)) {
+                    return total.length
                 }
                 return Object.values(total)
                     .reduce((r, o) => {
@@ -650,7 +689,7 @@
                     module_key: 'filters',
                     key: 'nearest_filters',
                     value: this.nearest_filters_template
-                }, {root: true}).then( resp => {
+                }, {root: true}).then(resp => {
                     this.getData(1)
                 });
 
@@ -668,9 +707,9 @@
                 this.getData(1)
             }, 700),
             changeStatus(payload) {
-                if(payload.key ==='isHide') {
+                if (payload.key === 'isHide') {
                     let page = null;
-                    if(payload.page) {
+                    if (payload.page) {
                         page = payload.page
                     }
                     this.getData(page)

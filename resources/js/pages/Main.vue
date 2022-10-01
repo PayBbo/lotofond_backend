@@ -6,7 +6,12 @@
         <bkt-params-modal></bkt-params-modal>
         <bkt-category-modal></bkt-category-modal>
         <bkt-region-modal></bkt-region-modal>
-        <h1 class="bkt-page__title">Электронные торги по банкротству</h1>
+        <bkt-trade-place-modal></bkt-trade-place-modal>
+        <bkt-trade-type-modal></bkt-trade-type-modal>
+        <div class="bkt-page__title">
+            <h1>Единый реестр имущественных торгов</h1>
+            <h4 class="bkt-text-neutral-dark">банкротство залоги аресты государство неликвид конфискат</h4>
+        </div>
 
         <!--        <bkt-search v-model="searchString" method_name="searchTrades" :method_params="{}" immediate_search-->
         <!--                    @selected="selectSearchLot" infinite dropdown_class="pt-0"-->
@@ -49,106 +54,185 @@
                 <bkt-icon name="Filters" :color="filters_mode ? 'white': 'primary'"></bkt-icon>
             </button>
         </div>
-        <transition name="fade">
-            <div class="bkt-main-categories bkt-card__list" v-if="filters_mode">
-                <bkt-filter-card
-                    :icon="{name:'Category', color:'green'}" category_class="bkt-bg-green-lighter"
-                    title="Выберите<br> нужные категории" :count="filters.categories" modal_name="#categoryModal"
-                >
-                </bkt-filter-card>
-                <bkt-filter-card
-                    :icon="{name:'Location'}" category_class="bkt-bg-red-lighter"
-                    title="Выберите<br> регион" :count="filters.regions" modal_name="#regionModal"
-                >
-                </bkt-filter-card>
-                <bkt-filter-card
-                    :icon="{name:'Options', color:'pink'}" category_class="bkt-bg-pink-lighter"
-                    title="Выберите основные<br> параметры объекта" :count="filters.mainParams"
-                    modal_name="#paramsModal"
-                >
-                </bkt-filter-card>
-                <bkt-filter-card
-                    :icon="{name:'Wallet'}" category_class="bkt-bg-yellow-lighter"
-                    title="Выберите<br> стоимость объекта" :count="filters.prices"
-                    modal_name="#priceModal"
-                >
-                </bkt-filter-card>
-                <bkt-filter-card
-                    :icon="{name:'Date', color:'blue'}" category_class="bkt-bg-blue-lighter"
-                    title="Выберите<br> дату торгов" :count="filters.dates"
-                    modal_name="#dateModal"
-                >
-                </bkt-filter-card>
-                <bkt-filter-card
-                    :icon="{name:'Clone'}" category_class="bkt-bg-primary-lighter"
-                    title="Выберите<br> доп. параметры" :count="filters.extraOptions"
-                    modal_name="#optionsModal"
-                >
-                </bkt-filter-card>
-            </div>
-        </transition>
-        <div class="bkt-main-statistic bkt-card__list">
-            <div class="bkt-card__row bkt-bg-red-light position-relative">
-                <h5 class="bkt-card__text">Всего лотов</h5>
-                <h1 class="bkt-card__title">{{ lots_statistic.allLotsCount | priceFormat}}</h1>
-                <div class="bkt-card bkt-card__background-figure-1">
-                </div>
-                <div class="bkt-card bkt-card__background-figure-2 bkt-bg-red-light">
-                </div>
-            </div>
-            <div class="bkt-card__row bkt-bg-yellow position-relative">
-                <h5 class="bkt-card__text">Активных лотов</h5>
-                <h1 class="bkt-card__title">{{ lots_statistic.activeLotsCount | priceFormat}}</h1>
-                <div class="bkt-card bkt-card__background-figure-1">
-                </div>
-                <div class="bkt-card bkt-card__background-figure-2 bkt-bg-yellow">
-                </div>
-            </div>
-            <div class="bkt-card__row bkt-bg-blue position-relative">
-                <h5 class="bkt-card__text">Добавлено сегодня</h5>
-                <h1 class="bkt-card__title">{{lots_statistic.newLotsCount | priceFormat}}</h1>
-                <div class="bkt-card bkt-card__background-figure-1">
-                </div>
-                <div class="bkt-card bkt-card__background-figure-2 bkt-bg-blue">
-                </div>
-            </div>
-        </div>
-        <div class="bkt-main-filters bkt-row bkt-bg-main">
-            <div class="col-12 col-md-6 pe-1 col-lg-4">
-                <div class="bkt-wrapper bkt-nowrap w-100 mx-auto justify-content-around dropdown bkt-dropdown">
-                    <bkt-select
-                        v-model="filters_sort.type"
-                        class="w-100"
-                        select_class="form-floating main"
-                        name="sort"
-                        subtitle="сортировать по"
-                        :option_label="'title'"
-                        :options="sort"
-                        :reduce="item => item.value"
-                        :clearable="false"
-                        @input="getData(1)"
+        <transition-group name="fade" tag="div" class="bkt-main-instruments">
+            <template v-if="filters_mode">
+                <div key="bkt-main-categories" class="bkt-main-categories bkt-card__list">
+                    <bkt-filter-card
+                        :icon="{name:'Category', color:'green'}" category_class="bkt-bg-green-lighter"
+                        title="Категории" :count="filters.categories" modal_name="#categoryModal"
                     >
-                    </bkt-select>
-                    <button class="bkt-button-ellipse main d-none d-md-block"
-                            :class="{'bkt-mirror-vertical' : filters_sort.direction =='desc'}"
-                            @click="toggleDirection"
+                    </bkt-filter-card>
+                    <bkt-filter-card
+                        :icon="{name:'Location'}" category_class="bkt-bg-red-lighter"
+                        title="Регионы" :count="filters.regions" modal_name="#regionModal"
                     >
-                        <bkt-icon name="Bars"></bkt-icon>
-                    </button>
-                    <button class="bkt-button-ellipse main d-md-none" id="filterDropdownMenu"
-                            data-bs-toggle="dropdown"
-                            data-bs-auto-close="outside" data-bs-offset="0, 10" data-bs-reference="parent"
+                    </bkt-filter-card>
+                    <bkt-filter-card
+                        :icon="{name:'Options', color:'pink'}" category_class="bkt-bg-pink-lighter"
+                        title="Ключевые слова и слова-исключения" :count="filters.mainParams"
+                        modal_name="#paramsModal"
                     >
-                        <bkt-icon name="Funnel" :width="'18px'" :height="'18px'"></bkt-icon>
-                    </button>
+                    </bkt-filter-card>
+                    <bkt-filter-card
+                        :icon="{name:'Wallet'}" category_class="bkt-bg-yellow-lighter"
+                        title="Стоимость объекта" :count="filters.prices"
+                        modal_name="#priceModal"
+                    >
+                    </bkt-filter-card>
+                    <bkt-filter-card
+                        :icon="{name:'Date', color:'blue'}" category_class="bkt-bg-blue-lighter"
+                        title="Дата торгов" :count="filters.dates"
+                        modal_name="#dateModal"
+                    >
+                    </bkt-filter-card>
+                    <bkt-filter-card
+                        :icon="{name:'Clone'}" category_class="bkt-bg-primary-lighter"
+                        title="Доп. параметры" :count="filters.extraOptions"
+                        modal_name="#optionsModal"
+                    >
+                    </bkt-filter-card>
+                    <bkt-filter-card
+                        :icon="{name:'ClipboardList', color:'purple'}" category_class="bkt-bg-purple-lighter"
+                        title="Торговые площадки" :count="filters.mainParams.tradePlaces"
+                        modal_name="#tradePlacesModal"
+                    >
+                    </bkt-filter-card>
+                    <bkt-filter-card
+                        :icon="{name:'Clipboard', color:'teal'}" category_class="bkt-bg-teal-lighter"
+                        title="Вид торгов" :count="filters.mainParams.tradeTypes"
+                        modal_name="#tradeTypesModal"
+                    >
+                    </bkt-filter-card>
+                </div>
+                <div key="bkt-main-statistic" class="bkt-main-statistic bkt-card__list">
+                    <div class="bkt-card__row bkt-bg-red-light position-relative">
+                        <h5 class="bkt-card__text">Всего лотов</h5>
+                        <h1 class="bkt-card__title">{{ lots_statistic.allLotsCount | priceFormat}}</h1>
+                        <div class="bkt-card bkt-card__background-figure-1">
+                        </div>
+                        <div class="bkt-card bkt-card__background-figure-2 bkt-bg-red-light">
+                        </div>
+                    </div>
+                    <div class="bkt-card__row bkt-bg-yellow position-relative">
+                        <h5 class="bkt-card__text">Активных лотов</h5>
+                        <h1 class="bkt-card__title">{{ lots_statistic.activeLotsCount | priceFormat}}</h1>
+                        <div class="bkt-card bkt-card__background-figure-1">
+                        </div>
+                        <div class="bkt-card bkt-card__background-figure-2 bkt-bg-yellow">
+                        </div>
+                    </div>
+                    <div class="bkt-card__row bkt-bg-blue position-relative">
+                        <h5 class="bkt-card__text">Добавлено сегодня</h5>
+                        <h1 class="bkt-card__title">{{lots_statistic.newLotsCount | priceFormat}}</h1>
+                        <div class="bkt-card bkt-card__background-figure-1">
+                        </div>
+                        <div class="bkt-card bkt-card__background-figure-2 bkt-bg-blue">
+                        </div>
+                    </div>
+                </div>
+                <div key="bkt-main-filters" class="bkt-main-filters bkt-row">
+                    <div class="col-12 col-md-4">
+                        <!--                        <div class="bkt-wrapper bkt-nowrap w-100 mx-auto justify-content-around dropdown bkt-dropdown">-->
+                        <bkt-select
+                            v-model="filters_sort.type"
+                            class="w-100"
+                            select_class="form-floating body"
+                            name="sort"
+                            subtitle="сортировать по"
+                            :option_label="'title'"
+                            :options="sort"
+                            :reduce="item => item.value"
+                            :clearable="false"
+                            @input="getData(1)"
+                        >
+                        </bkt-select>
+                        <!--                            <button class="bkt-button-ellipse bkt-bg-body d-none d-md-block"-->
+                        <!--                                    :class="{'bkt-mirror-vertical' : filters_sort.direction =='desc'}"-->
+                        <!--                                    @click="toggleDirection"-->
+                        <!--                            >-->
+                        <!--                                <bkt-icon name="Bars"></bkt-icon>-->
+                        <!--                            </button>-->
+                        <!--                            <button class="bkt-button-ellipse bkt-bg-body d-md-none" id="filterDropdownMenu"-->
+                        <!--                                    data-bs-toggle="dropdown"-->
+                        <!--                                    data-bs-auto-close="outside" data-bs-offset="0, 10" data-bs-reference="parent"-->
+                        <!--                            >-->
+                        <!--                                <bkt-icon name="Funnel" :width="'18px'" :height="'18px'"></bkt-icon>-->
+                        <!--                            </button>-->
 
-                    <div
-                        class="d-md-none dropdown-menu bkt-dropdown__menu bkt-dropdown__menu_list bkt-dropdown__menu_main"
-                        aria-labelledby="filterDropdownMenu"
-                    >
+                        <!--                            <div-->
+                        <!--                                class="d-md-none dropdown-menu bkt-dropdown__menu bkt-dropdown__menu_list bkt-dropdown__menu_main"-->
+                        <!--                                aria-labelledby="filterDropdownMenu"-->
+                        <!--                            >-->
+                        <!--                                <bkt-select-->
+                        <!--                                    v-model="filters_other.period"-->
+                        <!--                                    select_class="form-floating body"-->
+                        <!--                                    name="period"-->
+                        <!--                                    subtitle="показывать за период"-->
+                        <!--                                    :option_label="'title'"-->
+                        <!--                                    :options="periods"-->
+                        <!--                                    :reduce="item => item.value"-->
+                        <!--                                    :clearable="false"-->
+                        <!--                                    @input="getData(1)"-->
+                        <!--                                >-->
+                        <!--                                </bkt-select>-->
+                        <!--                                <div class="bkt-wrapper">-->
+                        <!--                                    <div class="bkt-check__list">-->
+                        <!--                                        <bkt-checkbox v-model="filters_other.hasPhotos"-->
+                        <!--                                                      label="только с фото"-->
+                        <!--                                                      name="hasPhotos"-->
+                        <!--                                                      @input="getData(1)"-->
+                        <!--                                        >-->
+                        <!--                                        </bkt-checkbox>-->
+                        <!--                                        <bkt-checkbox v-model="filters_other.isHidden"-->
+                        <!--                                                      label="скрытые"-->
+                        <!--                                                      name="isHidden"-->
+                        <!--                                                      @input="getData(1)"-->
+                        <!--                                        >-->
+                        <!--                                        </bkt-checkbox>-->
+                        <!--                                        &lt;!&ndash;                                <bkt-checkbox v-model="filters_other.hasAnswer"&ndash;&gt;-->
+                        <!--                                        &lt;!&ndash;                                              label="получен ответ организатора"&ndash;&gt;-->
+                        <!--                                        &lt;!&ndash;                                              name="hasAnswer"&ndash;&gt;-->
+                        <!--                                        &lt;!&ndash;                                              @input="getData(1)"&ndash;&gt;-->
+                        <!--                                        &lt;!&ndash;                                >&ndash;&gt;-->
+                        <!--                                        &lt;!&ndash;                                </bkt-checkbox>&ndash;&gt;-->
+                        <!--                                        <bkt-checkbox v-model="filters_other.isCompleted"-->
+                        <!--                                                      label="завершённые"-->
+                        <!--                                                      name="isCompleted"-->
+                        <!--                                                      @input="getData(1)"-->
+                        <!--                                                      wrapper_class="bkt-check__wrapper-inline"-->
+                        <!--                                        >-->
+                        <!--                                        </bkt-checkbox>-->
+                        <!--                                        <bkt-checkbox v-model="filters_other.isStopped"-->
+                        <!--                                                      label="приостановленные"-->
+                        <!--                                                      name="isStopped"-->
+                        <!--                                                      @input="getData(1)"-->
+                        <!--                                                      wrapper_class="bkt-check__wrapper-inline"-->
+                        <!--                                        >-->
+                        <!--                                        </bkt-checkbox>-->
+                        <!--                                    </div>-->
+                        <!--                                </div>-->
+                        <!--                            </div>-->
+                        <!--                        </div>-->
+                    </div>
+                    <div class="col-12 col-md-4 px-md-1">
+                        <bkt-select
+                            v-model="filters_sort.direction"
+                            class="w-100"
+                            select_class="form-floating body"
+                            name="sort"
+                            subtitle="направление сортировки"
+                            :option_label="'title'"
+                            :options="sort_directions"
+                            :reduce="item => item.value"
+                            :clearable="false"
+                            @input="getData(1)"
+                        >
+                        </bkt-select>
+                    </div>
+                    <div class="col-12 col-md-4">
                         <bkt-select
                             v-model="filters_other.period"
-                            select_class="form-floating main"
+                            select_class="form-floating body"
                             name="period"
                             subtitle="показывать за период"
                             :option_label="'title'"
@@ -158,100 +242,52 @@
                             @input="getData(1)"
                         >
                         </bkt-select>
-                        <div class="bkt-wrapper">
-                            <div class="bkt-check__list">
-                                <bkt-checkbox v-model="filters_other.hasPhotos"
-                                              label="только с фото"
-                                              name="hasPhotos"
-                                              @input="getData(1)"
-                                >
-                                </bkt-checkbox>
-                                <bkt-checkbox v-model="filters_other.isHidden"
-                                              label="скрытые"
-                                              name="isHidden"
-                                              @input="getData(1)"
-                                >
-                                </bkt-checkbox>
-                                <!--                                <bkt-checkbox v-model="filters_other.hasAnswer"-->
-                                <!--                                              label="получен ответ организатора"-->
-                                <!--                                              name="hasAnswer"-->
-                                <!--                                              @input="getData(1)"-->
-                                <!--                                >-->
-                                <!--                                </bkt-checkbox>-->
-                                <bkt-checkbox v-model="filters_other.isCompleted"
-                                              label="завершённые"
-                                              name="isCompleted"
-                                              @input="getData(1)"
-                                              wrapper_class="bkt-check__wrapper-inline"
-                                >
-                                </bkt-checkbox>
-                                <bkt-checkbox v-model="filters_other.isStopped"
-                                              label="приостановленные"
-                                              name="isStopped"
-                                              @input="getData(1)"
-                                              wrapper_class="bkt-check__wrapper-inline"
-                                >
-                                </bkt-checkbox>
-                            </div>
-                        </div>
                     </div>
+                    <!--                    <div class="col-md-12 col-lg-5 d-none d-md-block">-->
+                    <!--                        <div class="d-flex">-->
+                    <!--                            <div class="bkt-check__list">-->
+                    <!--                                <bkt-checkbox v-model="filters_other.hasPhotos"-->
+                    <!--                                              label="только с фото"-->
+                    <!--                                              name="hasPhotos"-->
+                    <!--                                              @input="getData(1)"-->
+                    <!--                                >-->
+                    <!--                                </bkt-checkbox>-->
+                    <!--                                <bkt-checkbox v-model="filters_other.isHidden"-->
+                    <!--                                              label="скрытые"-->
+                    <!--                                              name="isHidden"-->
+                    <!--                                              @input="getData(1)"-->
+                    <!--                                >-->
+                    <!--                                </bkt-checkbox>-->
+                    <!--                            </div>-->
+                    <!--                            <div class="bkt-check__list">-->
+                    <!--                                &lt;!&ndash;                        <bkt-checkbox v-model="filters_other.hasAnswer"&ndash;&gt;-->
+                    <!--                                &lt;!&ndash;                                      label="получен ответ организатора"&ndash;&gt;-->
+                    <!--                                &lt;!&ndash;                                      name="hasAnswer"&ndash;&gt;-->
+                    <!--                                &lt;!&ndash;                                      @input="getData(1)"&ndash;&gt;-->
+                    <!--                                &lt;!&ndash;                        >&ndash;&gt;-->
+                    <!--                                &lt;!&ndash;                        </bkt-checkbox>&ndash;&gt;-->
+                    <!--                                <bkt-checkbox v-model="filters_other.isCompleted"-->
+                    <!--                                              label="завершённые"-->
+                    <!--                                              name="isCompleted"-->
+                    <!--                                              @input="getData(1)"-->
+                    <!--                                              wrapper_class="bkt-check__wrapper-inline"-->
+                    <!--                                >-->
+                    <!--                                </bkt-checkbox>-->
+                    <!--                                <bkt-checkbox v-model="filters_other.isStopped"-->
+                    <!--                                              label="приостановленные"-->
+                    <!--                                              name="isStopped"-->
+                    <!--                                              @input="getData(1)"-->
+                    <!--                                              wrapper_class="bkt-check__wrapper-inline"-->
+                    <!--                                >-->
+                    <!--                                </bkt-checkbox>-->
+                    <!--                            </div>-->
+                    <!--                        </div>-->
+                    <!--                    </div>-->
                 </div>
-            </div>
-            <div class="col-md-6 col-lg-3 d-none d-md-block">
-                <bkt-select
-                    v-model="filters_other.period"
-                    select_class="form-floating main"
-                    name="period"
-                    subtitle="показывать за период"
-                    :option_label="'title'"
-                    :options="periods"
-                    :reduce="item => item.value"
-                    :clearable="false"
-                    @input="getData(1)"
-                >
-                </bkt-select>
-            </div>
-            <div class="col-md-12 col-lg-5 d-none d-md-block">
-                <div class="d-flex">
-                    <div class="bkt-check__list">
-                        <bkt-checkbox v-model="filters_other.hasPhotos"
-                                      label="только с фото"
-                                      name="hasPhotos"
-                                      @input="getData(1)"
-                        >
-                        </bkt-checkbox>
-                        <bkt-checkbox v-model="filters_other.isHidden"
-                                      label="скрытые"
-                                      name="isHidden"
-                                      @input="getData(1)"
-                        >
-                        </bkt-checkbox>
-                    </div>
-                    <div class="bkt-check__list">
-                        <!--                        <bkt-checkbox v-model="filters_other.hasAnswer"-->
-                        <!--                                      label="получен ответ организатора"-->
-                        <!--                                      name="hasAnswer"-->
-                        <!--                                      @input="getData(1)"-->
-                        <!--                        >-->
-                        <!--                        </bkt-checkbox>-->
-                        <bkt-checkbox v-model="filters_other.isCompleted"
-                                      label="завершённые"
-                                      name="isCompleted"
-                                      @input="getData(1)"
-                                      wrapper_class="bkt-check__wrapper-inline"
-                        >
-                        </bkt-checkbox>
-                        <bkt-checkbox v-model="filters_other.isStopped"
-                                      label="приостановленные"
-                                      name="isStopped"
-                                      @input="getData(1)"
-                                      wrapper_class="bkt-check__wrapper-inline"
-                        >
-                        </bkt-checkbox>
-                    </div>
-                </div>
-            </div>
-        </div>
+            </template>
+
+        </transition-group>
+
         <bkt-card-list ref="cardList" :current_component="'BktCard'" :items="items" :loading="loading"
                        :pagination_data="pagination_data" @change-page="getData" @changeStatus="changeStatus">
         </bkt-card-list>
@@ -265,6 +301,8 @@
     import BktParamsModal from "../components/SharedModals/ParamsModal";
     import BktRegionModal from "../components/SharedModals/RegionModal";
     import BktCategoryModal from "../components/SharedModals/CategoryModal";
+    import BktTradePlaceModal from "../components/SharedModals/TradePlaceModal";
+    import BktTradeTypeModal from "../components/SharedModals/TradeTypeModal";
     import BktSelect from "../components/Select";
     import BktFilterCard from "../components/FilterCard";
     import MiniTradeCard from "../components/MiniTradeCard";
@@ -273,8 +311,9 @@
         name: "Main",
         components: {
             BktDateModal, BktPriceModal, BktOptionsModal,
-            BktParamsModal, BktRegionModal, BktCategoryModal, BktSelect, BktFilterCard,
-            MiniTradeCard
+            BktParamsModal, BktRegionModal, BktCategoryModal,
+            BktTradePlaceModal, BktTradeTypeModal,
+            BktSelect, BktFilterCard, MiniTradeCard
         },
         data() {
             return {
@@ -293,9 +332,11 @@
                     {title: 'Дате начала приема заявок', value: "applicationStart"},
                     {title: 'Дате окончания приема заявок', value: "applicationEnd"},
                 ],
+                sort_directions: [
+                    {title: 'По возрастанию', value: "asc"},
+                    {title: 'По убыванию', value: "desc"},
+                ],
                 searchString: '',
-                signal: null,
-                controller: null,
                 filters_mode: false
             };
         },
@@ -360,23 +401,11 @@
         },
         methods: {
             async getData(page = 1) {
-                this.newData();
-                await setTimeout(() => {
-                    this.controller = new AbortController();
-                    this.signal = this.controller.signal;
-                    sessionStorage.setItem('main_page', page + '');
-                    this.$store.dispatch('getFilteredTrades', {
-                        page: page,
-                        filters: this.filters,
-                        signal: this.signal
-                    });
-                }, 100)
-
-            },
-            newData() {
-                if (this.signal) {
-                    this.controller.abort();
-                }
+                sessionStorage.setItem('main_page', page + '');
+                await this.$store.dispatch('getFilteredTrades', {
+                    page: page,
+                    filters: this.filters
+                });
             },
             runSearch(search) {
                 this.getData();
@@ -411,5 +440,19 @@
 </script>
 
 <style scoped>
-
+    .fade-enter-active,
+    .fade-leave-active
+    {
+        opacity: 0;
+        transition: opacity 0.5s ease;
+    }
+    .fade-enter-to,
+    .fade-leave-from {
+        transition: opacity 0.5s ease-in;
+        opacity: 0.9;
+    }
+    .fade-enter-from,
+    .fade-leave-to {
+        opacity: 0;
+    }
 </style>

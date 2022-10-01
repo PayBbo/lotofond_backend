@@ -15,7 +15,7 @@
         data() {
             return {
                 color: 'primary',
-                icons: [],
+                // icons: [],
                 categories_colors: {
                     "realEstate": "green",
                     "other": "main",
@@ -85,6 +85,16 @@
                 ],
             }
         },
+        computed: {
+            icons() {
+                let tmp = [];
+                tmp = this.categories;
+                if (tmp.length == 0) {
+                    tmp.push({key: 'other', color: 'primary'})
+                }
+                return tmp
+            },
+        },
         mounted() {
             // this.icons = this.categories_icons.filter(value => this.categories.map(item => item.key).includes(value.key));
             // if (this.icons.length > 0) {
@@ -92,10 +102,10 @@
             // } else {
             //     this.icons.push({key: 'other', color: 'primary'})
             // }
-            this.icons = this.categories;
-            if (this.icons.length == 0) {
-                this.icons.push({key: 'other', color: 'primary'})
-            }
+            // this.icons = this.categories;
+            // if (this.icons.length == 0) {
+            //     this.icons.push({key: 'other', color: 'primary'})
+            // }
         }
     }
 </script>
