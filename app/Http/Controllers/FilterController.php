@@ -76,7 +76,6 @@ class FilterController extends Controller
 
     public function getPricesForFilter()
     {
-        try {
             \DB::statement("SET SQL_MODE=''");
             $data = [
                 "currentPrice" => [
@@ -103,9 +102,6 @@ class FilterController extends Controller
                 ]
             ];
             return response($data, 200);
-        } catch (\Exception $e) {
-            return response($e, 500);
-        }
     }
 
     public function getRegistryTypesForFilter()

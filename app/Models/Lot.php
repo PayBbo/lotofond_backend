@@ -116,6 +116,13 @@ class Lot extends Model
         return $this->belongsToMany(Region::class, 'lot_regions')->withPivot('is_debtor_region');
     }
 
+    public function objectRegions()
+    {
+        return $this->belongsToMany(Region::class, 'lot_regions')->withPivot('is_debtor_region')
+            ->wherePivot('is_debtor_region', '=', false);
+
+    }
+
     public function notifications()
     {
         return $this->hasMany(Notification::class);

@@ -144,10 +144,12 @@ class AuctionController extends Controller
             throw new BaseException("ERR_FIND_LOT_FAILED", 404, "Lot with id= " . $lotId . ' does not exist');
         }
         $user = User::find(auth()->id());
+        $lots = [];
         if ($user->hiddenLots->contains($lot)) {
             $user->hiddenLots()->detach($lot);
         } else {
-            dispatch(new ClearHiddenLotsJob($user, $lot));
+            $lots[] = $lot;
+            dispatch(new ClearHiddenLotsJob($user, $lots));
         }
         return response(null, 200);
     }
