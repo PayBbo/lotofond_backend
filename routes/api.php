@@ -261,6 +261,12 @@ Route::group(['middleware' => ['json.response', 'localization']], function () {
 
             Route::post('/seen', [NotificationController::class, 'makeNotificationsSeen']);
 
+            Route::post('/seen/by/{type}', [NotificationController::class, 'makeSeenAllNotificationsByType']);
+
+            Route::get('/count/{type}', [NotificationController::class, 'countNotificationsByType']);
+
+
+
         });
 
         Route::group(['prefix' => 'event'], function () {

@@ -1753,6 +1753,73 @@ paths:
                 $ref: '#/components/schemas/Error'
       security:
         - bearerAuth: [ ]
+  /notifications/count/{type}:
+    get:
+      parameters:
+        - in: path
+          name: type
+          schema:
+            type: string
+            enum:
+              - favourite
+              - monitoring
+              - platform
+              - all
+          required: true
+          description: тип уведомлений, по которым необходимо получить количество непрочитанных
+      tags:
+        - Notifications
+      summary: Получение данных о количестве непрочитанных уведомлений
+      operationId: countNotificationsByType
+      responses:
+        "200":
+          description: данные количестве непрочитанных уведомленийх
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  count:
+                    type: integer
+                    required: true
+                    example: 0
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+        - bearerAuth: [ ]
+  /notifications/seen/by/{type}:
+    post:
+      parameters:
+        - in: path
+          name: type
+          schema:
+            type: string
+            enum:
+              - favourite
+              - monitoring
+              - platform
+              - all
+          required: true
+          description: тип уведомлений, по которым необходимо получить количество непрочитанных
+      tags:
+        - Notifications
+      summary: Отметка всех уведомлений выбранного типа прочитанными
+      operationId: makeSeenAllNotificationsByType
+      responses:
+        "200":
+          description: уведомления выбранного типа отмечены прочитанными
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+        - bearerAuth: [ ]
   /notifications/seen:
     post:
       tags:

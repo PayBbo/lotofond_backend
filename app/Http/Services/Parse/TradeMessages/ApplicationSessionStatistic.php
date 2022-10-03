@@ -15,13 +15,10 @@ class ApplicationSessionStatistic extends TradeMessage implements TradeMessageCo
             $auction = Auction::where('trade_id', $invitation['@attributes']['TradeId'])->first();
             if ($auction && array_key_exists($prefix . 'LotList', $invitation)) {
                 $lot = $invitation[$prefix . 'LotList'][$prefix . 'LotStatistic'];
-               if(count($lot)>1){
-                    foreach($lot as $item){
-                        $this->saveStatistics($auction, $item, $prefix, $invitation);
-                    }
-                }else{
+                if (array_key_exists('@attributes', $lot)) {
                     $this->saveStatistics($auction, $lot, $prefix, $invitation);
                 }
+
 
             }
         } catch (\Exception $e) {
@@ -31,15 +28,15 @@ class ApplicationSessionStatistic extends TradeMessage implements TradeMessageCo
 
     }
 
-    public function saveStatistics($auction, $lot, $prefix, $invitation){
-        // Undefined index: @attributes
+    public function saveStatistics($auction, $lot, $prefix, $invitation)
+    {
         $auction_lot = $auction->lots->where('number', $lot['@attributes']['LotNumber'])->first();
         if ($auction_lot) {
             $tradeMessage = $this->createNotification($auction_lot->id, $invitation['@attributes']['EventTime']);
             $this->parseFile($prefix, $invitation, $auction, $auction_lot, $tradeMessage);
             if (array_key_exists($prefix . 'ApplicationList', $lot)) {
                 $data = $lot[$prefix . 'ApplicationList'];
-                if(array_key_exists('ApplicationData', $data)) {
+                if (array_key_exists('ApplicationData', $data)) {
                     foreach ($data['ApplicationData'] as $application) {
                         LotApplication::create([
                             'entry_count' => $lot['@attributes']['EntryCount'],
