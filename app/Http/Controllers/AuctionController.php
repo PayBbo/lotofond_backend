@@ -31,38 +31,58 @@ class AuctionController extends Controller
 
     public function getFilteredTrades(Request $request)
     {
-        if(auth()->check()) {
-            $lotCount = 20;
-        }else{
-            $page = $request->query('page');
-            if($page != 1){
-                throw new BaseException("ERR_AUTHORIZATION_REQUIRED", 403, __('validation.authorization_required'));
-            }
-            $lotCount = 5;
+        if (auth()->check()) {
+            $lots = Lot::customSortBy($request)->filterBy($request->request)->paginate(20);
+            return response(new LotCollection($lots), 200);
+        } else {
+            $lots = Lot::customSortBy($request)->filterBy($request->request)->limit(5)->get();
+            return response([
+                'data' => LotResource::collection($lots),
+                'pagination' => [
+                    'total' => 5,
+                    'count' => 5,
+                    'perPage' => 5,
+                    'currentPage' => 1,
+                    'lastPage' => 1,
+                    'from' => 1,
+                    'nextPageUrl' => null,
+                    'to' => 5,
+                    'prevPageUrl' => null
+                ]], 200);
         }
-        $lots = Lot::customSortBy($request)->filterBy($request->request)->paginate($lotCount);
-        return response(new LotCollection($lots), 200);
     }
 
     public function getNearestTrades(Request $request)
     {
         $start = Carbon::now()->setTimezone('Europe/Moscow');
         $end = Carbon::now()->setTimezone('Europe/Moscow')->addWeek();
-        if(auth()->check()) {
-            $lotCount = 20;
-        }else{
-            $page = $request->query('page');
-            if($page != 1){
-                throw new BaseException("ERR_AUTHORIZATION_REQUIRED", 403, __('validation.authorization_required'));
-            }
-            $lotCount = 5;
+        if (auth()->check()) {
+            $lots = Lot::customSortBy($request)->filterBy($request->request)
+                ->whereHas('auction', function ($q) use ($start, $end) {
+                    $q->whereBetween('application_start_date', [$start, $end])
+                        ->where('application_end_date', '>', $end);
+                })->paginate(20);
+            return response(new LotCollection($lots), 200);
+        } else {
+            $lots = Lot::customSortBy($request)->filterBy($request->request)
+                ->whereHas('auction', function ($q) use ($start, $end) {
+                    $q->whereBetween('application_start_date', [$start, $end])
+                        ->where('application_end_date', '>', $end);
+                })->limit(5)->get();
+            return response([
+                'data' => LotResource::collection($lots),
+                'pagination' => [
+                    'total' => 5,
+                    'count' => 5,
+                    'perPage' => 5,
+                    'currentPage' => 1,
+                    'lastPage' => 1,
+                    'from' => 1,
+                    'nextPageUrl' => null,
+                    'to' => 5,
+                    'prevPageUrl' => null
+                ]], 200);
         }
-        $lots = Lot::customSortBy($request)->filterBy($request->request)
-            ->whereHas('auction', function ($q) use ($start, $end) {
-                $q->whereBetween('application_start_date', [$start, $end])
-                    ->where('application_end_date', '>', $end);
-            })->paginate($lotCount);
-        return response(new LotCollection($lots), 200);
     }
 
     public function getVictories()
@@ -70,7 +90,7 @@ class AuctionController extends Controller
         $start = Carbon::now()->setTimezone('Europe/Moscow')->subWeek();
         $end = Carbon::now()->setTimezone('Europe/Moscow');
         $victories = BiddingResult::has('winner')->whereBetween('created_at', [$start, $end])
-           ->whereHas('tradeMessage.lot', function($query){
+            ->whereHas('tradeMessage.lot', function ($query) {
                 $query->whereBetween(DB::raw('(start_price/end_price)*100-100'), [-15, 35]);
             })->paginate(20);
         return response(new VictoryCollection($victories), 200);
@@ -124,7 +144,8 @@ class AuctionController extends Controller
 
     }
 
-    public function toggleSeen($lotId){
+    public function toggleSeen($lotId)
+    {
         $lot = Lot::find($lotId);
         if (!$lot) {
             throw new BaseException("ERR_FIND_LOT_FAILED", 404, "Lot with id= " . $lotId . ' does not exist');
@@ -138,7 +159,8 @@ class AuctionController extends Controller
         return response(null, 200);
     }
 
-    public function toggleHide($lotId){
+    public function toggleHide($lotId)
+    {
         $lot = Lot::find($lotId);
         if (!$lot) {
             throw new BaseException("ERR_FIND_LOT_FAILED", 404, "Lot with id= " . $lotId . ' does not exist');
@@ -154,7 +176,8 @@ class AuctionController extends Controller
         return response(null, 200);
     }
 
-    public function togglePin($lotId){
+    public function togglePin($lotId)
+    {
         $lot = Lot::find($lotId);
         if (!$lot) {
             throw new BaseException("ERR_FIND_LOT_FAILED", 404, "Lot with id= " . $lotId . ' does not exist');
@@ -163,12 +186,13 @@ class AuctionController extends Controller
         if ($user->fixedLots->contains($lot)) {
             $user->fixedLots()->detach($lot);
         } else {
-            $user->fixedLots()->attach($lot, ['created_at'=>Carbon::now()->setTimezone('Europe/Moscow')]);
+            $user->fixedLots()->attach($lot, ['created_at' => Carbon::now()->setTimezone('Europe/Moscow')]);
         }
         return response(null, 200);
     }
 
-    public function makeHiddenLotByTrade($tradeId){
+    public function makeHiddenLotByTrade($tradeId)
+    {
         $auction = Auction::find($tradeId);
         if (!$auction) {
             throw new BaseException("ERR_FIND_TRADE_FAILED", 404, "Trade with id= " . $tradeId . ' does not exist');
@@ -176,10 +200,11 @@ class AuctionController extends Controller
         $user = User::find(auth()->id());
         $result = $auction->lots()->pluck('id');
         dispatch(new ClearHiddenLotsJob($user, $auction->lots));
-        return response()->json(['lotIds'=>$result], 200);
+        return response()->json(['lotIds' => $result], 200);
     }
 
-    public function deleteHiddenLotByTrade($tradeId){
+    public function deleteHiddenLotByTrade($tradeId)
+    {
         $auction = Auction::find($tradeId);
         if (!$auction) {
             throw new BaseException("ERR_FIND_TRADE_FAILED", 404, "Trade with id= " . $tradeId . ' does not exist');
@@ -192,7 +217,7 @@ class AuctionController extends Controller
             }
             $result[] = $lot->id;
         }
-        return response()->json(['lotIds'=>$result], 200);
+        return response()->json(['lotIds' => $result], 200);
     }
 
 
