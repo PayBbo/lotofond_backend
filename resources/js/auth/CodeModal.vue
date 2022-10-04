@@ -80,8 +80,6 @@
                         label_class="bkt-input__label"
                         option_label="label"
                         :reduce="option => option.value"
-                        with_option
-                        with_selected_option
                         :method_name="'getRegions'"
                         :loading="regions_loading"
             >

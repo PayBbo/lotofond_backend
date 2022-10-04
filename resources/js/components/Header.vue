@@ -70,12 +70,12 @@
                          aria-labelledby="navbarDropdown" v-if="!loading">
                         <div class="bkt-navbar__user-dropdown-menu">
                             <button class="bkt-button bkt-tarif-button">Сменить тариф</button>
-                            <div class="bkt-navbar__user-dropdown-item">
+                            <a class="bkt-navbar__user-dropdown-item" href="/profile">
                                 <div class="bkt-navbar__user-dropdown-item-icon bkt-bg-primary-lighter">
                                     <bkt-icon :name="'User'" :color="'primary'"></bkt-icon>
                                 </div>
-                                <a class="bkt-navbar__user-dropdown-item-text" href="/profile">Профиль</a>
-                            </div>
+                                <div class="bkt-navbar__user-dropdown-item-text">Профиль</div>
+                            </a>
                             <div class="bkt-navbar__user-dropdown-item" @click="logout" style="cursor: pointer">
                                 <div class="bkt-navbar__user-dropdown-item-icon bkt-bg-red-lighter">
                                     <bkt-icon name="LogOut"></bkt-icon>

@@ -291,6 +291,24 @@
         <bkt-card-list ref="cardList" :current_component="'BktCard'" :items="items" :loading="loading"
                        :pagination_data="pagination_data" @change-page="getData" @changeStatus="changeStatus">
         </bkt-card-list>
+        <div v-if="!isLoggedIn && !loading" class="bkt-shadow-card bkt-shadow-card_primary mt-3">
+            <div class="bkt-shadow-card__inner bkt-gap-large">
+                <h4 class="bkt-shadow-card__title bkt-text-white">
+                    Чтобы продолжить просмотр лотов <br>
+                    <span>войдите или зарегистрируйтесь</span>
+                </h4>
+                <button class="bkt-button bkt-bg-white bkt-text-primary mx-auto bkt-button_plump"
+                        style="max-width: 320px"
+                        data-bs-toggle="modal" data-bs-target="#authModal"
+                >
+                    Вход и регистрация
+                </button>
+                <div class="bkt-shadow-card__shadow-1">
+                </div>
+                <div class="bkt-shadow-card__shadow-2">
+                </div>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -391,11 +409,11 @@
         watch: {
             isLoggedIn: function (newVal, oldVal) {
                 // if (oldVal == false && newVal == true) {
-                if (this.pagination_data && this.pagination_data.currentPage) {
-                    this.getData(this.pagination_data.currentPage);
-                } else {
+                // if (this.pagination_data && this.pagination_data.currentPage) {
+                //     this.getData(this.pagination_data.currentPage);
+                // } else {
                     this.getData(1);
-                }
+                // }
                 // }
             }
         },

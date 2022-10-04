@@ -203,18 +203,12 @@
                                 <bkt-select name="regions"
                                             v-model="current_region"
                                             :options="region_options"
-                                            with_option
-                                            with_selected_option
+                                            option_label="label"
+                                            :reduce="option => option.value"
                                             :method_name="'getRegions'"
                                             :loading="regions_loading"
                                             @input="getData(1)"
                                 >
-                                    <template #option="{option}">
-                                        {{$t('regions.'+option.label)}}
-                                    </template>
-                                    <template #selected-option="{option}">
-                                        {{$t('regions.'+option.label)}}
-                                    </template>
                                 </bkt-select>
                             </div>
                             <div class="col-2"></div>
@@ -224,8 +218,8 @@
                                          v-for="(item, index) in filters.regions">
                                         <span class="bkt-item-rounded__text mr-2">{{ $t('regions.' + item) }}</span>
                                         <span class="bkt-tag__icon bkt-cursor-pointer" @click="removeRegion(item)">
-                                    <bkt-icon name="Cancel" color="red"></bkt-icon>
-                                </span>
+                                            <bkt-icon name="Cancel" color="red"></bkt-icon>
+                                        </span>
                                     </div>
                                 </div>
                             </div>
@@ -241,7 +235,6 @@
                                             :pagination="trade_places_pagination"
                                             :method_name="'getTradePlaces'"
                                             :searchable="true"
-                                            :loading="trade_places_loading"
                                             @input="getData(1)"
                                 ></bkt-select>
                                 <!--                        <div class="row">-->
@@ -332,15 +325,35 @@
                         <!--                        </button>-->
                     </div>
                 </div>
-                <div class="bkt-card bkt-auctions__find">
+                <div class="bkt-card bkt-auctions__find" v-if="!loading">
                     НАЙДЕНО {{pagination_data && pagination_data.total ? pagination_data.total : 0}} ЛОТОВ
                     <bkt-icon name="ArrowDown" color="primary"></bkt-icon>
                 </div>
             </div>
+            <div>
+                <bkt-card-list :current_component="'BktCard'" :items="items" :loading="loading"
+                               :pagination_data="pagination_data" @change-page="getData" @changeStatus="changeStatus">
+                </bkt-card-list>
+                <div v-if="!isLoggedIn && !loading" class="bkt-shadow-card bkt-shadow-card_primary mt-3">
+                    <div class="bkt-shadow-card__inner bkt-gap-large">
+                        <h4 class="bkt-shadow-card__title bkt-text-white">
+                            Чтобы продолжить просмотр лотов <br>
+                            <span>войдите или зарегистрируйтесь</span>
+                        </h4>
+                        <button class="bkt-button bkt-bg-white bkt-text-primary mx-auto bkt-button_plump"
+                                style="max-width: 320px"
+                                data-bs-toggle="modal" data-bs-target="#authModal"
+                        >
+                            Вход и регистрация
+                        </button>
+                        <div class="bkt-shadow-card__shadow-1">
+                        </div>
+                        <div class="bkt-shadow-card__shadow-2">
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-            <bkt-card-list :current_component="'BktCard'" :items="items" :loading="loading"
-                           :pagination_data="pagination_data" @change-page="getData" @changeStatus="changeStatus">
-            </bkt-card-list>
         </section>
 
     </div>
@@ -517,7 +530,12 @@
                 return this.$store.getters.categories_loading
             },
             region_options() {
-                return [].concat.apply([], this.$store.getters.regions.map(item => item.regions));
+                let tmp = [].concat.apply([], this.$store.getters.regions.map(item => item.regions));
+                let result =[];
+                tmp.forEach(item => {
+                    result.push({label: this.$t('regions.'+item), value: item});
+                });
+                return result.sort((a, b) => a.label.localeCompare(b.label))
             },
             regions() {
                 return this.$store.getters.regions
@@ -554,6 +572,14 @@
                     }
                     this.getData(1);
                 }
+            },
+            isLoggedIn() {
+                return this.$store.getters.isLoggedIn
+            },
+        },
+        watch: {
+            isLoggedIn: function (newVal, oldVal) {
+                this.getData(1);
             }
         },
         methods: {

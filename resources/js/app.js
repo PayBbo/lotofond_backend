@@ -111,8 +111,8 @@ Vue.use(VueTheMask);
 import VueLazyload from 'vue-lazyload'
 Vue.use(VueLazyload, {
     preLoad: 1.3,
-    error: "/images/card-image1.png",
-    loading: "/images/card-image1.png",
+    error: "/images/favicon/android-chrome-256x256.png",
+    loading: "/images/favicon/android-chrome-256x256.png",
     attempt: 1
 });
 

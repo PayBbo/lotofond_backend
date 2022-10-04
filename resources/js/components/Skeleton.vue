@@ -87,8 +87,9 @@
             isEmpty() {
                 if(!this.$slots.default) return true;
                 const [firstNode] = this.$slots.default;
-                let str = firstNode.children;
-                return !firstNode.elm && !str;
+                let children = firstNode.children;
+                let str = firstNode.text.trim();
+                return !firstNode.elm && !children && !str;
             },
         },
         beforeUpdate() {
@@ -107,6 +108,11 @@
             this.showSkeleton = this.loading !== null
                 ? this.loading
                 : this.isEmpty();
+        },
+        mounted() {
+            this.showSkeleton = this.loading !== null
+                ? this.loading
+                :  this.isEmpty();
         }
     }
 </script>
