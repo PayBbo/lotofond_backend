@@ -75,6 +75,8 @@ Route::group(['middleware' => ['json.response', 'localization']], function () {
 
             Route::get('/lot/{lotId}', [AuctionController::class, 'getLotInformation']);
 
+            Route::get('/short/lot/{lotId}', [AuctionController::class, 'getShortLotInformation']);
+
             Route::get('/victories', [AuctionController::class, 'getVictories']);
 
             Route::put('/short/lots', [AuctionController::class, 'getShortTrades']);

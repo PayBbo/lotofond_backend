@@ -130,6 +130,14 @@ class AuctionController extends Controller
         return response(new LotResource($lot), 200);
     }
 
+    public function getShortLotInformation($lotId){
+        $lot = Lot::find($lotId);
+        if (!$lot) {
+            throw new BaseException("ERR_FIND_LOT_FAILED", 404, "Lot with id= " . $lotId . ' does not exist');
+        }
+        return response(new LotResource($lot), 200);
+    }
+
     public function getLotNotifications($lotId)
     {
         $lot = Lot::find($lotId);

@@ -992,6 +992,40 @@ paths:
                 $ref: '#/components/schemas/Error'
       security:
         - bearerAuth: [ ]
+  /trades/short/lot/{lotId}:
+    get:
+      parameters:
+        - in: path
+          name: lotId
+          schema:
+            type: integer
+          required: true
+          description: Айдишник лота, краткую информацию о котором нужно получить
+      tags:
+        - Trades
+      summary: Получение краткой информации о лоте
+      operationId: getShortLotInformation
+      responses:
+        "200":
+          description: Информация о лоте
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TradeShortInfo'
+        "404":
+          description: Лот по переданному айдишнику не найден
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+        - bearerAuth: [ ]
   /trades/notifications/{lotId}:
     get:
       parameters:
