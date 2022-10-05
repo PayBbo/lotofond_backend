@@ -14,6 +14,8 @@ use App\Jobs\ParseTrades;
 use App\Models\Bidder;
 use App\Models\BiddingResult;
 use App\Models\Lot;
+use App\Models\Notification;
+use App\Models\User;
 use Artisaninweb\SoapWrapper\SoapWrapper;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
@@ -66,24 +68,47 @@ class TestCommand extends Command
         // dispatch(new ParseTrades);
         //$get_trade_message_content = new GetTradeMessageContent($xml, 'BiddingInvitation');
         //$get_trade_message_content->switchMessageType(1, $xml, 13275260);
-       /* $soapWrapper = new SoapWrapper();
-        $service = new SoapWrapperService($soapWrapper);
-        $xml = $service->getTradeMessageContent(13306908);
-        logger($xml);*/
-        $soapWrapper = new SoapWrapper();
-        $service = new SoapWrapperService($soapWrapper);
-        $debtor_data = get_object_vars($service->searchDebtorByCode( 'CompanyInn', 5610112272));
-        if (array_key_exists('DebtorCompany', $debtor_data)) {
-            if(gettype($debtor_data['DebtorCompany']) == 'array'){
-                $debtor = $debtor_data['DebtorCompany'];
-            }else {
-                $debtor = get_object_vars($debtor_data['DebtorCompany']);
+        /* $soapWrapper = new SoapWrapper();
+         $service = new SoapWrapperService($soapWrapper);
+         $xml = $service->getTradeMessageContent(13306908);
+         logger($xml);*/
+        /* $soapWrapper = new SoapWrapper();
+         $service = new SoapWrapperService($soapWrapper);
+         $debtor_data = get_object_vars($service->searchDebtorByCode( 'CompanyInn', 5610112272));
+         if (array_key_exists('DebtorCompany', $debtor_data)) {
+             if(gettype($debtor_data['DebtorCompany']) == 'array'){
+                 $debtor = $debtor_data['DebtorCompany'];
+             }else {
+                 $debtor = get_object_vars($debtor_data['DebtorCompany']);
+             }
+         }
+         if(!array_key_exists('INN', $debtor)){
+             logger(get_object_vars(array_pop($debtor))['INN']);
+         }else {
+             logger($debtor['INN']);
+         }*/
+
+        $nots = ['favourite', 'monitoring', 'favourite', 'monitoring', 'favourite', 'monitoring', 'favourite', 'monitoring', 'favourite', 'monitoring'];
+        foreach ($nots as $not) {
+            if($not == 'favourite'){
+                Notification::create([
+                    'user_id' => 17,
+                    'lot_id' => 100,
+                    'date' => Carbon::now()->setTimezone('Europe/Moscow'),
+                    'type_id' => 2,
+                    'value' => Carbon::now()->setTimezone('Europe/Moscow')->format('d.m.y H:i'),
+                    'message' => 'favouriteApplicationEnd'
+                ]);
+            }else{
+                Notification::create([
+                    'user_id' => 17,
+                    'date' => Carbon::now()->setTimezone('Europe/Moscow'),
+                    'type_id' => 3,
+                    'value' => 20,
+                    'monitoring_id' => 51,
+                    'message'=>'monitoring'
+                ]);
             }
-        }
-        if(!array_key_exists('INN', $debtor)){
-            logger(get_object_vars(array_pop($debtor))['INN']);
-        }else {
-            logger($debtor['INN']);
         }
 
 
