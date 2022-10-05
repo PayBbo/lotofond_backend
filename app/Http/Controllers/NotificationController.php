@@ -87,8 +87,8 @@ class NotificationController extends Controller
                         'message' => 'monitoring'
                     ]);
                 }
-                return response(null, 200);
             }
+            return response(null, 200);
         }catch (\Exception $exception){
             throw new BaseException("ERR_NOTIFICATION_SEND", 500, $exception);
         }
