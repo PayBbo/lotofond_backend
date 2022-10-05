@@ -259,6 +259,8 @@ Route::group(['middleware' => ['json.response', 'localization']], function () {
 
         Route::group(['prefix' => 'notifications'], function () {
 
+            Route::get('/test', [NotificationController::class, 'testNots']);
+
             Route::get('/{type}', [NotificationController::class, 'getNotifications']);
 
             Route::post('/seen', [NotificationController::class, 'makeNotificationsSeen']);

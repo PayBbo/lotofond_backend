@@ -1064,6 +1064,23 @@ paths:
                 $ref: '#/components/schemas/Error'
       security:
         - bearerAuth: [ ]
+  /notifications/test:
+    get:
+      tags:
+        - Notifications
+      summary: Тест уведомлений
+      operationId: testNots
+      responses:
+        "200":
+          description: Уведомления отправлены
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+        - bearerAuth: [ ]
   /trades/lot/toggle-seen/{lotId}:
     put:
       parameters:

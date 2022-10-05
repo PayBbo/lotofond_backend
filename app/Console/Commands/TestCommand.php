@@ -88,28 +88,6 @@ class TestCommand extends Command
              logger($debtor['INN']);
          }*/
 
-        $nots = ['favourite', 'monitoring', 'favourite', 'monitoring', 'favourite', 'monitoring', 'favourite', 'monitoring', 'favourite', 'monitoring'];
-        foreach ($nots as $not) {
-            if($not == 'favourite'){
-                Notification::create([
-                    'user_id' => 17,
-                    'lot_id' => 100,
-                    'date' => Carbon::now()->setTimezone('Europe/Moscow'),
-                    'type_id' => 2,
-                    'value' => Carbon::now()->setTimezone('Europe/Moscow')->format('d.m.y H:i'),
-                    'message' => 'favouriteApplicationEnd'
-                ]);
-            }else{
-                Notification::create([
-                    'user_id' => 17,
-                    'date' => Carbon::now()->setTimezone('Europe/Moscow'),
-                    'type_id' => 3,
-                    'value' => 20,
-                    'monitoring_id' => 51,
-                    'message'=>'monitoring'
-                ]);
-            }
-        }
 
 
     }
