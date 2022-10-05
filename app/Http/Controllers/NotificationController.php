@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Exceptions\CustomExceptions\BaseException;
 use App\Http\Resources\NotificationCollection;
+use App\Http\Services\PushNotificationService;
 use App\Models\Notification;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -78,7 +79,7 @@ class NotificationController extends Controller
                         'message' => 'favouriteApplicationEnd'
                     ]);
                 } else {
-                    Notification::create([
+                    $notification = Notification::create([
                         'user_id' => 17,
                         'date' => Carbon::now()->setTimezone('Europe/Moscow'),
                         'type_id' => 3,
@@ -86,6 +87,10 @@ class NotificationController extends Controller
                         'monitoring_id' => 51,
                         'message' => 'monitoring'
                     ]);
+                    $title = $notification->monitoring->title;
+                    $value = __('messages.' . $notification->message, ['value' => $notification->value]);
+                    $push = new PushNotificationService($title, $value, $notification->user_id, $notification->type->title);
+                    $push->sendPushNotification();
                 }
             }
             return response(null, 200);
