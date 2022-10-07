@@ -91,7 +91,10 @@ class AuctionController extends Controller
         $end = Carbon::now()->setTimezone('Europe/Moscow');
         $victories = BiddingResult::has('winner')->whereBetween('created_at', [$start, $end])
             ->whereHas('tradeMessage.lot', function ($query) {
-                $query->whereBetween(DB::raw('(start_price/end_price)*100-100'), [-15, 35]);
+                $query->whereBetween(DB::raw('(end_price/start_price)*100-100'), [15, 100])
+                    ->orWhere(function ($query) {
+                        $query->whereBetween(DB::raw('(start_price/end_price)*100-100'), [35, 100]);
+                    });
             })->paginate(20);
         return response(new VictoryCollection($victories), 200);
     }
@@ -130,7 +133,8 @@ class AuctionController extends Controller
         return response(new LotResource($lot), 200);
     }
 
-    public function getShortLotInformation($lotId){
+    public function getShortLotInformation($lotId)
+    {
         $lot = Lot::find($lotId);
         if (!$lot) {
             throw new BaseException("ERR_FIND_LOT_FAILED", 404, "Lot with id= " . $lotId . ' does not exist');
