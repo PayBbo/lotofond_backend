@@ -10,7 +10,7 @@
         <bkt-trade-type-modal></bkt-trade-type-modal>
         <div class="bkt-page__title">
             <h1>Единый реестр имущественных торгов</h1>
-            <h4 class="bkt-text-neutral-dark">банкротство залоги аресты государство неликвид конфискат</h4>
+            <h4 class="bkt-text-neutral-dark">банкротство • залоги • аресты • государство • неликвид • конфискат</h4>
         </div>
 
         <!--        <bkt-search v-model="searchString" method_name="searchTrades" :method_params="{}" immediate_search-->
@@ -48,10 +48,16 @@
                         class="w-100"
             >
             </bkt-search>
-            <button class="bkt-button-icon p-2 flex-shrink-0" @click="filters_mode = !filters_mode"
+            <button class="bkt-button-icon p-2 flex-shrink-0 position-relative" @click="filters_mode = !filters_mode"
                     :class="filters_mode ? 'bkt-bg-primary': ''"
             >
                 <bkt-icon name="Filters" :color="filters_mode ? 'white': 'primary'"></bkt-icon>
+                <div class="bkt-badge position-absolute top-0 m-0 bkt-border-primary" v-if="filters_total>0"
+                     style="left: 30px; padding: 2px; min-width: 20px; height:20px; line-height: 12px;"
+                     :class="filters_mode ? 'bkt-bg-white bkt-text-primary': 'bkt-bg-primary bkt-text-white'"
+                >
+                    {{filters_total>99 ? '99+' : filters_total}}
+                </div>
             </button>
         </div>
         <transition-group name="fade" tag="div" class="bkt-main-instruments">
@@ -390,6 +396,58 @@
                     this.$store.commit('saveFiltersProperty', {key: 'sort', value: value});
                 }
             },
+            filters_total() {
+                let filters = JSON.parse(JSON.stringify(this.filters));
+                filters.searchString = null;
+                filters.sort = null;
+                filters.extraOptions.other.period = null;
+                let total = 0;
+                if(filters) {
+                    Object.keys(filters).forEach(key => {
+                        if(filters[key]) {
+                            if (Array.isArray(filters[key])) {
+                                total += filters[key].length
+                            }
+                            else {
+                                total += Object.values(filters[key])
+                                    .reduce((r, o) => {
+                                        if (typeof o === 'object') {
+                                            if (o != null) {
+                                                Object.values(o).forEach(item => {
+                                                    if (item) {
+                                                        r++;
+                                                    }
+                                                });
+                                            }
+                                        }
+                                        if (typeof o === 'string') {
+                                            if (o !== '') {
+                                                r++;
+                                            }
+                                        }
+                                        return r;
+                                    }, 0);
+                            }
+                        }
+
+
+                    });
+                }
+
+                return total
+                // if (total.other) {
+                //     total.other.period = null
+                // }
+                // if (total.tradeTypes) {
+                //     total.tradeTypes = null
+                // }
+                // if (total.tradePlaces) {
+                //     total.tradePlaces = null
+                // }
+                // if (Array.isArray(total)) {
+                //     return total.length
+                // }
+            },
             items() {
                 return this.$store.getters.trades;
             },
@@ -451,8 +509,7 @@
                     }
                     this.getData(page)
                 }
-
-            }
+            },
         }
     }
 </script>

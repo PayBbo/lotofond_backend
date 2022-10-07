@@ -78,7 +78,7 @@
                             :network="network.network"
                             :key="network.network"
                             :style="{backgroundColor: network.color}"
-                            :url="'https://lotofond.ru/lot/'+item.id"
+                            :url="'https://www.lotofond.ru/lot/'+item.id"
                             :title="sharing.title"
                             :description="short_description"
                             :hashtags="sharing.hashtags"
@@ -262,7 +262,7 @@
                     // description: '',
                     hashtags: 'lotofond,trade,lot',
                     // twitterUser: 'youyuxi',
-                    media: 'https://lotofond.ru/images/card-image1.png'
+                    media: 'https://www.lotofond.ru/images/card-image1.png'
                 },
                 networks: [
                     // { network: 'baidu', name: 'Baidu', icon: 'fas fah fa-lg fa-paw', color: '#2529d8' },
@@ -297,8 +297,8 @@
         watch: {
             item: function (newVal, oldVal) { // watch it
                 this.short_description = '';
-                if (this.item.description.length > 0) {
-                    this.short_description = this.item.description.slice(0, 100) + '...';
+                if (newVal && newVal.description && newVal.description.length > 0) {
+                    this.short_description = newVal.description.slice(0, 100) + '...';
                 }
                 // console.log('Prop changed: ', newVal, ' | was: ', oldVal)
             }
@@ -425,9 +425,6 @@
                     this.in_process.push(icon);
                 }
             },
-            getIconColor(action) {
-
-            }
         }
     }
 </script>
