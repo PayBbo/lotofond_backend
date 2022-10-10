@@ -25,17 +25,20 @@ class AuctionController extends Controller
 {
     public function getTrades(Request $request)
     {
-        $lots = Lot::doesntHave('userHiddenLot')->customSortBy($request)->paginate(20);
+        $lots = Lot::with(['auction', 'showRegions', 'showPriceReductions', 'status', 'favouritePaths', 'monitoringPaths', 'lotImages', 'categories', 'lotParams'])
+            ->doesntHave('userHiddenLot')->customSortBy($request)->paginate(20);
         return response(new LotCollection($lots), 200);
     }
 
     public function getFilteredTrades(Request $request)
     {
         if (auth()->check()) {
-            $lots = Lot::customSortBy($request)->filterBy($request->request)->paginate(20);
+            $lots = Lot::with(['auction', 'showRegions', 'showPriceReductions', 'status', 'favouritePaths', 'monitoringPaths', 'lotImages', 'categories', 'lotParams'])
+                ->filterBy($request->request)->customSortBy($request)->paginate(20);
             return response(new LotCollection($lots), 200);
         } else {
-            $lots = Lot::customSortBy($request)->filterBy($request->request)->limit(5)->get();
+            $lots = Lot::with(['auction', 'showRegions', 'showPriceReductions', 'status', 'favouritePaths', 'monitoringPaths', 'lotImages', 'categories', 'lotParams'])
+                ->filterBy($request->request)->customSortBy($request)->limit(5)->get();
             return response([
                 'data' => LotResource::collection($lots),
                 'pagination' => [
@@ -57,18 +60,21 @@ class AuctionController extends Controller
         $start = Carbon::now()->setTimezone('Europe/Moscow');
         $end = Carbon::now()->setTimezone('Europe/Moscow')->addWeek();
         if (auth()->check()) {
-            $lots = Lot::customSortBy($request)->filterBy($request->request)
+            $lots = Lot::with(['auction', 'showRegions', 'showPriceReductions', 'status', 'favouritePaths', 'monitoringPaths', 'lotImages', 'categories', 'lotParams'])
+                ->filterBy($request->request)
                 ->whereHas('auction', function ($q) use ($start, $end) {
                     $q->whereBetween('application_start_date', [$start, $end])
                         ->where('application_end_date', '>', $end);
-                })->paginate(20);
+                })->customSortBy($request)->paginate(20);
             return response(new LotCollection($lots), 200);
         } else {
-            $lots = Lot::customSortBy($request)->filterBy($request->request)
+            $lots = Lot::with(['auction', 'showRegions', 'showPriceReductions', 'status', 'favouritePaths', 'monitoringPaths', 'lotImages', 'categories', 'lotParams'])
+                ->filterBy($request->request)
+                ->with(['auction', 'regions', 'showPriceReductions', 'currentPriceReduction'])
                 ->whereHas('auction', function ($q) use ($start, $end) {
                     $q->whereBetween('application_start_date', [$start, $end])
                         ->where('application_end_date', '>', $end);
-                })->limit(5)->get();
+                })->customSortBy($request)->limit(5)->get();
             return response([
                 'data' => LotResource::collection($lots),
                 'pagination' => [
@@ -102,12 +108,13 @@ class AuctionController extends Controller
     public function getShortTrades(Request $request)
     {
         $searchString = $request->searchString;
-        $lots = Lot::doesntHave('userHiddenLot')->when(isset($searchString) && strlen((string)$searchString) > 0, function ($query) use ($searchString) {
-            $query->whereHas('auction', function ($q) use ($searchString) {
-                $q->where('trade_id', 'like', '%' . $searchString . '%');
-            })
-                ->orWhere('description', 'like', '%' . $searchString . '%');
-        })->paginate(5);
+        $lots = Lot::with(['auction', 'showRegions', 'showPriceReductions', 'status', 'favouritePaths', 'monitoringPaths', 'lotImages', 'categories', 'lotParams'])
+            ->doesntHave('userHiddenLot')->when(isset($searchString) && strlen((string)$searchString) > 0, function ($query) use ($searchString) {
+                $query->whereHas('auction', function ($q) use ($searchString) {
+                    $q->where('trade_id', 'like', '%' . $searchString . '%');
+                })
+                    ->orWhere('description', 'like', '%' . $searchString . '%');
+            })->paginate(5);
         return response(new LotShortCollection($lots), 200);
     }
 
@@ -118,7 +125,8 @@ class AuctionController extends Controller
         if (!$auction) {
             throw new BaseException("ERR_FIND_TRADE_FAILED", 404, "Trade with id= " . $auctionId . ' does not exist');
         }
-        $lots = $auction->lots()->filterBy($request->request)->customSortBy($request)->paginate(20);
+        $lots = $auction->lots()->with(['auction', 'showRegions', 'showPriceReductions', 'status', 'favouritePaths', 'monitoringPaths', 'lotImages', 'categories', 'lotParams'])
+            ->filterBy($request->request)->customSortBy($request)->paginate(20);
         return response(new LotCollection($lots), 200);
     }
 

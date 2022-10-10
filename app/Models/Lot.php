@@ -15,7 +15,7 @@ class Lot extends Model
 
     protected $table = 'lots';
 
-    protected $appends = ['current_price', 'min_price', 'current_price_state', 'photos', 'description_extracts'];
+    protected $appends = ['min_price', 'photos', 'description_extracts'];
     /**
      * The attributes that are mass assignable.
      *
@@ -82,7 +82,7 @@ class Lot extends Model
 
     public function categories()
     {
-        return $this->belongsToMany(Category::class, 'lot_categories');
+        return $this->belongsToMany(Category::class, 'lot_categories')->with(['parentRelated']);
     }
 
     public function status()
@@ -146,7 +146,7 @@ class Lot extends Model
 
     public function lotImages()
     {
-        return $this->hasMany(LotFile::class)->where(['type' => 'image', 'user_id' => null]);
+        return $this->hasMany(LotFile::class)->where('type', 'image');
     }
 
     public function lotUserImages()
@@ -161,7 +161,7 @@ class Lot extends Model
 
     public function showPriceReductions()
     {
-        return $this->hasMany(PriceReduction::class)->where('is_system', false);
+        return $this->hasMany(PriceReduction::class)->where('is_system', false)->select('id', 'start_time as time', 'price');
     }
 
     public function priceReductionMin()
@@ -202,20 +202,6 @@ class Lot extends Model
             ->take(1);
     }
 
-    public function getCurrentPriceAttribute()
-    {
-        if ($this->has('priceReductions')) {
-            $currentRed = $this->currentPriceReduction()->first();
-            if ($currentRed) {
-                return $currentRed->price;
-            } else {
-                return $this->start_price;
-            }
-        } else {
-            return $this->start_price;
-        }
-    }
-
     public function getMinPriceAttribute()
     {
         $prices = $this->hasMany(PriceReduction::class)->pluck('price')->toArray();
@@ -224,47 +210,14 @@ class Lot extends Model
 
     }
 
-    public function getCurrentPriceStateAttribute()
-    {
-        if ($this->has('priceReductions')) {
-            $currentPrice = $this->currentPriceReduction()->first();
-            if ($currentPrice) {
-                $prev = PriceReduction::where('id', '<', $currentPrice->id)
-                    ->latest('id')
-                    ->first();
-                if ($prev && $prev->lot_id == $this->id) {
-                    if ((float)$prev->price > (float)$currentPrice->price) {
-                        return 'down';
-                    } elseif ((float)$prev->price < (float)$currentPrice->price) {
-                        return 'up';
-                    } else {
-                        return 'hold';
-                    }
-                } else {
-                    if ((float)$this->start_price > (float)$currentPrice->price) {
-                        return 'down';
-                    } elseif ((float)$this->start_price < (float)$currentPrice->price) {
-                        return 'up';
-                    } else {
-                        return 'hold';
-                    }
-                }
-            } else {
-                return 'hold';
-            }
-        } else {
-            return 'hold';
-        }
-    }
-
     public function getPhotosAttribute()
     {
         $photos = [];
-        foreach ($this->lotImages as $image) {
+        foreach ($this->lotImages->where('user_id', null) as $image) {
             $photos[] = ['type' => 'system', 'main' => $image->url[0], 'preview' => $image->url[1], 'id' => $image->id];
         }
         if (auth()->check()) {
-            foreach ($this->lotUserImages as $image) {
+            foreach ($this->lotImages->where('user_id', auth()->guard('api')->id()) as $image) {
                 $photos[] = ['type' => 'user', 'main' => $image->url[0], 'preview' => $image->url[1], 'id' => $image->id];
             }
         }
@@ -304,25 +257,18 @@ class Lot extends Model
 
     public function inFavourite()
     {
-        $favourites = auth()->guard('api')->user()->favourites;
-        foreach ($favourites as $favourite) {
-            if ($favourite->lots()->where('lots.id', $this->id)->exists()) {
-                return true;
-            }
-        }
-        return false;
+        return auth()->guard('api')->user()->favourites()->whereHas('lots', function ($query) {
+                $query->where('lot_id', $this->id);
+            })->count() > 0;
+
 
     }
 
     public function inMonitoring()
     {
-        $monitorings = auth()->guard('api')->user()->monitorings;
-        foreach ($monitorings as $monitoring) {
-            if ($monitoring->lots()->where('lots.id', $this->id)->exists()) {
-                return true;
-            }
-        }
-        return false;
+        return auth()->guard('api')->user()->monitorings()->whereHas('lots', function ($query) {
+                $query->where('lot_id', $this->id);
+            })->count() > 0;
 
     }
 
@@ -347,29 +293,43 @@ class Lot extends Model
         }
         return null;
     }
-
+    public function lotParams(){
+        return $this->hasMany(LotParam::class)->where('parent_id', null)->with(['param', 'childParams']);
+    }
     public function getDescriptionExtractsAttribute()
     {
         $result = [];
-        $params = $this->params()->where('lot_params.parent_id', null)
-            ->select('lot_params.id as lot_param_id', 'title', 'params.type as type', 'lot_params.type as param_type', 'lot_params.value as value')->get();
+        $params = $this->lotParams;
         foreach ($params as $param) {
-            $subParams = $this->params()->where('lot_params.parent_id', $param->lot_param_id)->select('title', 'params.type as type', 'lot_params.type as param_type', 'lot_params.value as value')->get();
-            if ($subParams->count() > 0) {
+            $extracts = [];
+            foreach($param->childParams as $sub){
+                $extracts[] = [
+                    'title'=>$sub->param->title,
+                    'type'=>$sub->param->type,
+                    'value'=>$sub->value
+                ];
+            }
+            if (count($extracts) > 0) {
                 $result[] = [
                     'tradeSubject' => $param->value,
-                    'type' => is_null($param->param_type) ? 'other' : $param->param_type,
-                    'extracts' => $subParams->makeHidden(['pivot', 'param_type'])
+                    'type' => is_null($param->type) ? 'other' : $param->type,
+                    'extracts' => $extracts
                 ];
 
             } else {
+                $extracts[] = [
+                    'title'=>$param->param->title,
+                    'type'=>$param->param->type,
+                    'value'=>$param->value
+                ];
                 $result[] = [
                     'tradeSubject' => null,
                     'type' => 'other',
-                    'extracts' => [$param->makeHidden(['pivot', 'lot_param_id', 'param_type'])]
+                    'extracts' => $extracts
                 ];
             }
         }
+
         return $result;
     }
 
@@ -396,8 +356,8 @@ class Lot extends Model
         $categories = [];
         $parents = [];
         foreach ($this->categories as $category) {
-            if (!is_null($category->parent())) {
-                $parents[] = $category->parent();
+            if (!is_null($category->parent_id)) {
+                $parents[] = $category->parentRelated;
             } else {
                 $parents[] = $category;
             }
@@ -407,8 +367,7 @@ class Lot extends Model
         $unique = array_unique($serialized);
         $parents = array_intersect_key($parents, $unique);
         foreach ($parents as $category) {
-            $subs = array_intersect($category->subcategories()->pluck('id')->toArray(), $categoriesIds);
-            $subs = Category::whereIn('id', array_unique($subs))->get();
+            $subs = $category->subcategories()->whereIn('id', array_unique($categoriesIds))->get();
             $subcategories = [];
             foreach ($subs as $sub) {
                 $value = ['label' => $sub->label, 'key' => $sub->title];
@@ -419,17 +378,18 @@ class Lot extends Model
             $categories[] = ['label' => $category->label, 'key' => $category->title, 'subcategories' => $subcategories];
         }
         return $categories;
+
     }
 
     public function hasNotSeenNotification()
     {
-        $favourites = auth()->guard('api')->user()->favourites;
+        $favourites = auth()->guard('api')->user()->favourites()->whereHas('lots', function ($query) {
+            $query->where('lots.id', $this->id);
+        })->get();
         foreach ($favourites as $favourite) {
-            if ($favourite->lots()->where('lots.id', $this->id)->exists()) {
-                $ids = $favourite->lots()->pluck('favourite_lot.id')->toArray();
-                if (Notification::whereIn('lot_id', $ids)->where(['user_id' => auth()->guard('api')->id(), 'is_seen' => false])->exists()) {
-                    return true;
-                }
+            $ids = $favourite->lots()->where('lots.id', $this->id)->pluck('favourite_lot.id')->toArray();
+            if (Notification::whereIn('lot_id', $ids)->where(['user_id' => auth()->guard('api')->id(), 'is_seen' => false])->exists()) {
+                return true;
             }
         }
         return false;
@@ -449,4 +409,18 @@ class Lot extends Model
     {
         return $this->belongsToMany(Notification::class, 'notification_lot');
     }
+
+    public function showRegions()
+    {
+        return $this->belongsToMany(Region::class, 'lot_regions')->withPivot('is_debtor_region')->select('code', 'lot_regions.is_debtor_region as isDebtorRegion');
+    }
+
+    public function favouritePaths(){
+        return $this->belongsToMany(Favourite::class)->where('user_id', auth()->guard('api')->id());
+    }
+
+    public function monitoringPaths(){
+        return $this->belongsToMany(Monitoring::class, 'lot_monitoring')->where('user_id', auth()->guard('api')->id());
+    }
+
 }

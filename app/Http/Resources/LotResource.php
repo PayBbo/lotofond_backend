@@ -4,6 +4,7 @@ namespace App\Http\Resources;
 
 use App\Models\Category;
 use App\Models\Note;
+use App\Models\PriceReduction;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\URL;
 
@@ -18,18 +19,36 @@ class LotResource extends JsonResource
     public function toArray($request)
     {
         $user = auth()->guard('api')->user();
-        $inFavourite = auth()->guard('api')->check() ? $this->inFavourite() : false;
+        $inFavourite = auth()->guard('api')->check() && $this->has('favouritePaths');
         $this->auction->isLotInfo = $this->isLotInfo;
-        $regions = $this->regions()->select('code', 'lot_regions.is_debtor_region as isDebtorRegion')->get();
+        $regions = $this->showRegions;
         $priceReductions = null;
-        if($this->has('priceReductions')){
-            $priceReductions = $this->showPriceReductions()->select('id', 'start_time as time', 'price')->get();
-            foreach($priceReductions as $priceReduction){
+        $currentPrice = $this->start_price;
+        $currentPriceState = 'hold';
+        $currentPriceRed = $this->currentPriceReduction()->first();
+        if ($this->has('priceReductions')) {
+            $priceReductions = $this->showPriceReductions;
+            foreach ($priceReductions as $priceReduction) {
                 $priceReduction->isCurrentStage = false;
-                if($priceReduction->id === $this->currentPriceReduction()->first()['id']){
+                if ($priceReduction->id === $currentPriceRed['id']) {
                     $priceReduction->isCurrentStage = true;
                 }
             }
+            $currentPrice = (float)$currentPriceRed['price'];
+            $prev = PriceReduction::where('lot_id', $this->id)
+                ->where('id', '<', $currentPriceRed['id'])
+                ->latest('id')
+                ->first();
+            $prevPrice = (float)$this->start_price;
+            if($prev){
+                $prevPrice = (float)$prev['price'];
+            }
+            if ($prevPrice > $currentPrice) {
+                $currentPriceState = 'down';
+            } elseif ($prevPrice < $currentPrice) {
+                $currentPriceState = 'up';
+            }
+
         }
         return [
             'id' => $this->id,
@@ -43,13 +62,13 @@ class LotResource extends JsonResource
             'isWatched' => auth()->guard('api')->check() ? $user->seenLots->pluck('id')->contains($this->id) : false,
             'isPinned' => auth()->guard('api')->check() ? $user->fixedLots->pluck('id')->contains($this->id) : false,
             'inFavourite' => $inFavourite,
-            'hasNotSeenNotification'=>auth()->guard('api')->check() ? $this->hasNotSeenNotification() : false,
-            $this->mergeWhen($inFavourite  && !is_null($this->getLotFavouritePaths()), [
-                'favouritePaths' => $this->getLotFavouritePaths(),
+            'hasNotSeenNotification' => auth()->guard('api')->check() ? $this->hasNotSeenNotification() : false,
+            $this->mergeWhen($inFavourite, [
+                'favouritePaths' => FavouritePathResource::collection($this->favouritePaths),
             ]),
             'isHide' => auth()->guard('api')->check() ? $user->hiddenLots->pluck('id')->contains($this->id) : false,
-            'inMonitoring' => auth()->guard('api')->check() ? $this->inMonitoring() : false,
-            'startPrice' =>  (float)$this->start_price,
+            'inMonitoring' => auth()->guard('api')->check() && $this->has('monitoringPaths'),
+            'startPrice' => (float)$this->start_price,
             $this->mergeWhen(!is_null($this->auction_step), [
                 'stepPrice' => [
                     'type' => $this->is_step_rub ? 'rubles' : 'percent',
@@ -69,22 +88,22 @@ class LotResource extends JsonResource
                 'deposit' => null
             ]),
             'priceReduction' => $priceReductions,
-            'currentPrice' => (float)$this->current_price,
-            'minPrice'=> (float)$this->min_price,
-            'currentPriceState' => $this->current_price_state,
+            'currentPrice' => $currentPrice,
+            'minPrice' => (float)$this->min_price,
+            'currentPriceState' => $currentPriceState,
             'link' => URL::to('/lot/' . $this->id),
             'efrsbLink' => 'https://fedresurs.ru/bidding/' . $this->auction->guid,
-            'marks'=> $this->userMarks()->makeHidden(['pivot']),
-            'descriptionExtracts'=>$this->description_extracts,
-            $this->mergeWhen(!is_null($this->getNote()), [
-                'note'=> $this->getNote()
-            ]),
-            $this->mergeWhen(($this->isLotInfo ), [
-                'requirementsForParticipants'=>$this->participants,
-                'paymentInfo'=>$this->payment_info,
-                'saleAgreement'=>$this->sale_agreement,
+            'marks' => $this->userMarks()->makeHidden(['pivot']),
+            'descriptionExtracts' => $this->description_extracts,
+            // $this->mergeWhen(!is_null($this->getNote()), [
+            'note' => $this->getNote(),
+            // ]),
+            $this->mergeWhen(($this->isLotInfo), [
+                'requirementsForParticipants' => $this->participants,
+                'paymentInfo' => $this->payment_info,
+                'saleAgreement' => $this->sale_agreement,
                 'biddingInfo' => $this->concours,
-                'applicationRules'=>$this->auction->application_rules
+                'applicationRules' => $this->auction->application_rules
             ])
         ];
     }

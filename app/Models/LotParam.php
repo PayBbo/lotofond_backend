@@ -34,4 +34,12 @@ class LotParam extends Model
         'parent_id' => 'integer',
     ];
 
+    public function childParams(){
+        return $this->hasMany('app\Models\LotParam', 'parent_id', 'id')->with('param');
+    }
+
+    public function param(){
+        return $this->belongsTo(Param::class);
+    }
+
 }

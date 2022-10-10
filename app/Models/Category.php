@@ -44,7 +44,11 @@ class Category extends Model
         return Category::find($this->parent_id);
     }
 
+    public function parentRelated(){
+        return $this->belongsTo(Category::class, 'parent_id');
+    }
+
     public function subcategories(){
-        return Category::where('parent_id', $this->id)->get();
+        return $this->hasMany('app\Models\Category', 'parent_id', 'id');
     }
 }

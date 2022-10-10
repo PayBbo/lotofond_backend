@@ -34,7 +34,7 @@ class FavouriteController extends Controller
         } else {
             $user = User::find(auth()->id());
             $countFavouritePaths = $user->favourites->count();
-            if($countFavouritePaths == 100){
+            if ($countFavouritePaths == 100) {
                 throw new BaseException("ERR_EXCEEDING_LIMIT", 422, __('validation.exceeding_limit'));
             }
             $path = new Favourite();
@@ -73,12 +73,12 @@ class FavouriteController extends Controller
             $conditions[$key] = $param;
         }
         $collection = ExportLotResource::customCollection($path->lots, $conditions);
-        $name = '/users/excel/user-' . auth()->id() .'/favourite.xlsx';
+        $name = '/users/excel/user-' . auth()->id() . '/favourite.xlsx';
         $isSuccess = Excel::store(new FavouritePathExport($headings, $collection, $path->title), $name);
-        if($isSuccess){
-            return response(['url'=>Storage::url($name)], 200);
-        }else{
-            throw new BaseException('ERR_FILE_UPLOAD', 422,  __('validation.export_err'));
+        if ($isSuccess) {
+            return response(['url' => Storage::url($name)], 200);
+        } else {
+            throw new BaseException('ERR_FILE_UPLOAD', 422, __('validation.export_err'));
         }
 
     }
@@ -89,7 +89,8 @@ class FavouriteController extends Controller
             'pathId' => ['required', 'integer', new IsUserFavouritePath()]
         ]);
         $path = Favourite::find($request->pathId);
-        $lots = Lot::whereIn('id', $path->lots()->pluck('lots.id')->toArray())
+        $lots = Lot::with(['auction', 'showRegions', 'showPriceReductions', 'status', 'favouritePaths', 'monitoringPaths', 'lotImages', 'categories', 'lotParams'])
+            ->whereIn('id', $path->lots()->pluck('lots.id')->toArray())
             ->filterBy($request->request)->customSortBy($request)->paginate(20);
         return response(new LotCollection($lots), 200);
 
