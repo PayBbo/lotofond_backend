@@ -14,6 +14,7 @@ class ChangeCredentials extends Model
         'email',
         'phone',
         'token',
+        'value',
         'is_old_credentials',
         'is_submitted_old_credentials',
         'is_submitted_new_credentials',

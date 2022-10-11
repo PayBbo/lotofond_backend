@@ -43,9 +43,9 @@ class IsUserCredentials implements Rule
             }
             $currentDate = Carbon::now()->setTimezone('Europe/Moscow');
             return ChangeCredentials::where(['user_id' => auth()->id(), $attribute => $user[$attribute],
-                    'is_submitted_old_credentials' => true])
+                    'is_submitted_old_credentials' => true, 'value'=>$value])
                     ->where('created_at', '>', $currentDate)
-                    ->exists() &&     ChangeCredentials::where(['user_id'=>auth()->id(), $attribute=>$value, 'is_old_credentials'=>false])->exists();;
+                    ->exists() && ChangeCredentials::where(['user_id'=>auth()->id(), $attribute=>$value, 'is_old_credentials'=>false])->exists();
         } else {
             return ChangeCredentials::where(['user_id'=>auth()->id(), $attribute=>$value])->exists();
         }

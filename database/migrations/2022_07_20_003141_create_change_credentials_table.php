@@ -25,6 +25,7 @@ class CreateChangeCredentialsTable extends Migration
             $table->boolean('is_old_credentials')->default(false);
             $table->boolean('is_submitted_old_credentials')->default(false);
             $table->boolean('is_submitted_new_credentials')->default(false);
+            $table->string('value')->nullable();
             $table->timestamps();
         });
         Schema::enableForeignKeyConstraints();

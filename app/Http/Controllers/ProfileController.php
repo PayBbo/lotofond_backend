@@ -72,16 +72,21 @@ class ProfileController extends Controller
                 if (!$request->haveAccessToOldCredentials && !$request->isOldCredentials) {
                     $sendCode->sendEmailWarning($user->email, $request->email);
                     $sendCode->sendEmailCode($request->email, $code);
-                } elseif (!$request->haveAccessToOldCredentials && $request->isOldCredentials) {
+                    $changeCredentials->email = $request->email;
+                } elseif ($request->haveAccessToOldCredentials && $request->isOldCredentials) {
+                    $sendCode->sendEmailCode($user->email, $code);
+                    $changeCredentials->email = $user->email;
+                    $changeCredentials->value = $request->email;
+                }elseif (!$request->haveAccessToOldCredentials && $request->isOldCredentials) {
                     if (is_null($user->phone)) {
                         throw new BaseException("ERR_VALIDATION_FAILED_PHONE", 422, __('validation.exists', ['attribute'=>'phone']));
                     }
                     $sendCode->sendPhoneCode($user->phone, $code);
+                    $changeCredentials->email = $request->email;
                 } else {
                     $sendCode->sendEmailCode($request->email, $code);
+                    $changeCredentials->email = $request->email;
                 }
-
-                $changeCredentials->email = $request->email;
                 $changeCredentials->save();
                 break;
             }
@@ -90,17 +95,23 @@ class ProfileController extends Controller
                 if (!$request->haveAccessToOldCredentials && !$request->isOldCredentials) {
                     $sendCode->sendPhoneWarning($user->phone, $request->phone);
                     $sendCode->sendPhoneCode($request->phone, $code);
-                } elseif (!$request->haveAccessToOldCredentials && $request->isOldCredentials) {
+                    $changeCredentials->phone = $request->phone;
+                }elseif ($request->haveAccessToOldCredentials && $request->isOldCredentials) {
+                    $sendCode->sendPhoneCode($user->phone, $code);
+                    $changeCredentials->phone = $user->phone;
+                }
+                elseif (!$request->haveAccessToOldCredentials && $request->isOldCredentials) {
                     if (is_null($user->email)) {
                         throw new BaseException("ERR_VALIDATION_FAILED_EMAIL", 422, __('validation.exists', ['attribute'=>'email']));
                     }
                     $sendCode->sendEmailCode($user->email, $code);
+                    $changeCredentials->phone = $request->phone;
 
                 } else {
                     $sendCode->sendPhoneCode($request->phone, $code);
+                    $changeCredentials->phone = $request->phone;
                 }
 
-                $changeCredentials->phone = $request->phone;
                 $changeCredentials->save();
                 break;
             }

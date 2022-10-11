@@ -35,7 +35,13 @@ class IsUniqueNewCredentials implements Rule
     {
         $user = User::find(auth()->id());
         if ($this->isOldCredentials && $this->haveAccessToOldCredentials) {
-            return User::where([$attribute => $value, 'id' => $user->id])->exists();
+            $exists = !User::where($attribute, $value)->exists();
+            if($exists) {
+                $this->message = 'not_enough_credentials';
+                return !is_null($user[$attribute]);
+            }else{
+                return false;
+            }
         } elseif ($this->haveAccessToOldCredentials && !$this->isOldCredentials) {
             if(!User::where($attribute, $value)->exists()) {
                 if ($attribute == 'email') {
@@ -47,11 +53,13 @@ class IsUniqueNewCredentials implements Rule
             $currentDate = Carbon::now()->setTimezone('Europe/Moscow');
             return !User::where($attribute, $value)->exists()
                 && ChangeCredentials::where(['user_id' => $user->id, $attribute => $user[$attribute],
-                    'is_submitted_old_credentials' => true])
+                    'is_submitted_old_credentials' => true, 'value'=>$value])
                     ->where('created_at', '>', $currentDate)
                     ->exists();
         } else {
-            return !User::where($attribute, $value)->exists();
+            $this->message = 'exists';
+            return !User::where($attribute, $value)->exists() &&
+                !ChangeCredentials::where($attribute, $user[$attribute])->exists();
         }
     }
 
