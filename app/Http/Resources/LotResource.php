@@ -19,7 +19,7 @@ class LotResource extends JsonResource
     public function toArray($request)
     {
         $user = auth()->guard('api')->user();
-        $inFavourite = auth()->guard('api')->check() && $this->has('favouritePaths');
+        $inFavourite = auth()->guard('api')->check() && $this->favouritePaths()->count() > 0;
         $this->auction->isLotInfo = $this->isLotInfo;
         $regions = $this->showRegions;
         $priceReductions = null;
@@ -67,7 +67,7 @@ class LotResource extends JsonResource
                 'favouritePaths' => FavouritePathResource::collection($this->favouritePaths),
             ]),
             'isHide' => auth()->guard('api')->check() ? $user->hiddenLots->pluck('id')->contains($this->id) : false,
-            'inMonitoring' => auth()->guard('api')->check() && $this->has('monitoringPaths'),
+            'inMonitoring' => auth()->guard('api')->check() && $this->monitoringPaths->count() > 0,
             'startPrice' => (float)$this->start_price,
             $this->mergeWhen(!is_null($this->auction_step), [
                 'stepPrice' => [
