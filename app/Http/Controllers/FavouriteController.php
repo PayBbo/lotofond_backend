@@ -90,7 +90,7 @@ class FavouriteController extends Controller
         ]);
         $path = Favourite::find($request->pathId);
         $lots = Lot::with(['auction', 'showRegions', 'showPriceReductions', 'status', 'favouritePaths', 'monitoringPaths', 'lotImages', 'categories', 'lotParams'])
-            ->whereIn('id', $path->lots()->pluck('lots.id')->toArray())
+            ->whereIn('lots.id', $path->lots()->pluck('lots.id')->toArray())
             ->filterBy($request->request)->customSortBy($request)->paginate(20);
         return response(new LotCollection($lots), 200);
 

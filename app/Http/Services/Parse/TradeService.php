@@ -34,7 +34,7 @@ class TradeService
     protected $regexStart = '(?:(?:(?:(?:[Рр][Ее][Гг][Ии][Сс][Тт][Рр][Аа][Цц][Ии][Оо][Нн][Нн][Ыы][Йй][ ]?[Зз][Нн][Аа][Кк])|(?:[Гг][\/\\. ]?[ ]?[Нн][.]?)|(?:[Рр][Ее][Гг][.]?[ ]?[Зз][Нн][Аа][Кк][.]?)|(?:[Гг][Оо][Сс][.]?(?:[Уу][Дд][Аа][Рр][Сс][Тт][Вв][Ее][Нн][Нн][Ыы][Йй])?[ ]?[Нн][.]?(?:[Оо][Мм])?[.]?(?:[Ее][Рр])?)|(?:[Гг][.]?[ ]?[Рр][.]?[ ]?[Зз][.]?)|(?:№))[ ]?[:\-–]?[ ]?)|(?:№)|(?<year>(?:19|20)\d\d )|(?<parenthesis>\()|(?<comma>,[ ]?))';
     protected $regexEnd = '(?(parenthesis)(?(maybe_size)(*FAIL))\))(?(comma)(?(maybe_size)(*FAIL))(?:,|\.|\n|\z))(?(year)(?(maybe_size)(*FAIL))(?:,|\.| |\n|\z))';
 
-    public function __construct($auction, $value, $prefix, $tradeMessageId,  $files = null, $images = null)
+    public function __construct($auction, $value, $prefix, $tradeMessageId, $files = null, $images = null)
     {
         if ($auction->lots->where('number', $value['@attributes']['LotNumber'])->count() == 0) {
             $lot = new Lot();
@@ -74,22 +74,22 @@ class TradeService
         $lot->status_id = 1;
         if (array_key_exists($prefix . 'Participants', $value)) {
             if (gettype($value[$prefix . 'Participants']) == 'array' && count($value[$prefix . 'Participants']) > 0) {
-                if(gettype($value[$prefix . 'Participants'][$prefix . 'PaymentInfo'])=='string'){
-                    $lot->payment_info =  stripslashes(preg_replace('/[\x00-\x1F\x7F]/u', ' ',$value[$prefix . 'Participants'][$prefix . 'PaymentInfo']));
+                if (gettype($value[$prefix . 'Participants'][$prefix . 'PaymentInfo']) == 'string') {
+                    $lot->payment_info = stripslashes(preg_replace('/[\x00-\x1F\x7F]/u', ' ', $value[$prefix . 'Participants'][$prefix . 'PaymentInfo']));
                 }
-                if(gettype($value[$prefix . 'Participants'][$prefix . 'SaleAgreement'])=='string'){
-                    $lot->sale_agreement =  stripslashes(preg_replace('/[\x00-\x1F\x7F]/u', ' ', $value[$prefix . 'Participants'][$prefix . 'SaleAgreement']));
+                if (gettype($value[$prefix . 'Participants'][$prefix . 'SaleAgreement']) == 'string') {
+                    $lot->sale_agreement = stripslashes(preg_replace('/[\x00-\x1F\x7F]/u', ' ', $value[$prefix . 'Participants'][$prefix . 'SaleAgreement']));
                 }
             }
         }
         if (array_key_exists($prefix . 'Participants', $value) && gettype($value[$prefix . 'Participants']) == 'string') {
-            $lot->participants =  stripslashes(preg_replace('/[\x00-\x1F\x7F]/u', ' ', $value[$prefix . 'Participants']));
+            $lot->participants = stripslashes(preg_replace('/[\x00-\x1F\x7F]/u', ' ', $value[$prefix . 'Participants']));
         }
         if (array_key_exists($prefix . 'SaleAgreement', $value) && gettype($value[$prefix . 'SaleAgreement']) == 'string') {
-            $lot->sale_agreement =  stripslashes(preg_replace('/[\x00-\x1F\x7F]/u', ' ', $value[$prefix . 'SaleAgreement']));
+            $lot->sale_agreement = stripslashes(preg_replace('/[\x00-\x1F\x7F]/u', ' ', $value[$prefix . 'SaleAgreement']));
         }
         if (array_key_exists($prefix . 'PaymentInfo', $value) && gettype($value[$prefix . 'PaymentInfo']) == 'string') {
-            $lot->payment_info =  stripslashes(preg_replace('/[\x00-\x1F\x7F]/u', ' ', $value[$prefix . 'PaymentInfo']));
+            $lot->payment_info = stripslashes(preg_replace('/[\x00-\x1F\x7F]/u', ' ', $value[$prefix . 'PaymentInfo']));
         }
 
         if (array_key_exists($prefix . 'Concours', $value) && gettype($value[$prefix . 'Concours']) == 'string') {
@@ -117,7 +117,7 @@ class TradeService
         if (gettype($value[$prefix . 'Classification'][$prefix . 'IDClass']) == 'array') {
             foreach ($value[$prefix . 'Classification'][$prefix . 'IDClass'] as $item) {
                 $category = Category::where('code', $item)->first();
-                if($category) {
+                if ($category) {
                     if (!$lot->categories()->where('title', $category->title)->exists()) {
                         $lot->categories()->attach($category);
                     }
@@ -207,6 +207,9 @@ class TradeService
     {
         try {
             $lot = Lot::find($lot_id);
+            if (str_starts_with($red, '&lt;table&gt;&lt;')) {
+                $red = htmlspecialchars_decode($red);
+            }
             if (str_starts_with($red, '<table><tr><td><b>')) {
                 $pattern = '/<tr[\s\S]*?<\/tr>/';
                 preg_match_all($pattern, $red, $matches);
@@ -277,39 +280,75 @@ class TradeService
                         $i++;
                     }
                 }
-            } else {
-                try {
-                    $values = explode('<br/>', $red);
-                    $i = 1;
-                    foreach ($values as $value) {
-                        $items = explode(': ', $value);
-                        if (count($items) > 1) {
-                            $price = (float)$items[1];
-                            if (date('Y-m-d H:i:s', strtotime($items[0]) == $items[0]) && $price != 0) {
-                                if ($i < count($values) - 1) {
-                                    $next_item = explode(': ', $values[$i + 1]);
-                                    $time_end = $next_item[0];
-                                } else {
-                                    $time_end = $lot->auction->result_date;
-                                }
-                                if ($i > 1) {
-                                    $prev_item = explode(': ', $values[$i - 1]);
-                                    $prev_price = (float)$prev_item[1];
-                                } else {
-                                    $prev_price = $lot->start_price;
-                                }
-                                $this->savePriceReduction($lot_id, $price, $items[0], $time_end, $prev_price);
-                            }
+            } elseif (str_starts_with($red, '<table><thead><tr><th>')) {
+                $pattern = '/<tr[\s\S]*?<\/tr>/';
+                preg_match_all($pattern, $red, $matches);
+                if (count($matches[0]) > 0) {
+                    unset($matches[0][0]);
+                    $i = 0;
+                    foreach ($matches[0] as $match) {
+                        $new_pattern = '/<td[\s\S]*?<\/td>/';
+                        preg_match_all($new_pattern, $match, $items);
+                        $start_time = substr($items[0][0], 4, strlen($items[0][0]) - 9);
+                        $end_time = substr($items[0][3], 4, strlen($items[0][3]) - 9);
+                        $price = number_format((float)preg_replace("/[^,.0-9]/", '',
+                            str_replace(',', '.',
+                                substr($items[0][5], 4, strlen($items[0][5]) - 9)
+                            )), 2, '.', '');
+                        $deposit = number_format((float)preg_replace("/[^,.0-9]/", '',
+                            str_replace(',', '.',
+                                substr($items[0][4], 4, strlen($items[0][4]) - 9)
+                            )), 2, '.', '');
+                        if ($i > 1) {
+                            preg_match_all($new_pattern, $matches[0][$i - 1], $prev_item);
+                            $prev_price = (float)preg_replace("/[^,.0-9]/", '',
+                                str_replace(',', '.',
+                                    substr($prev_item[0][5], 4, strlen($prev_item[0][5]) - 9))
+                            );
+                        } else {
+                            $prev_price = $lot->start_price;
+                        }
+                        if (date('Y-m-d H:i:s', strtotime($start_time) == $start_time) && $price > 0
+                            && date('Y-m-d H:i:s', strtotime($end_time) == $end_time)) {
+                            $this->savePriceReduction($lot_id, $price, $start_time, $end_time, $prev_price, 0, $deposit);
                         }
                         $i++;
                     }
-                }catch (Exception $e){
+                } else {
+                    try {
+                        $values = explode('<br/>', $red);
+                        $i = 1;
+                        foreach ($values as $value) {
+                            $items = explode(': ', $value);
+                            if (count($items) > 1) {
+                                $price = (float)$items[1];
+                                if (date('Y-m-d H:i:s', strtotime($items[0]) == $items[0]) && $price != 0) {
+                                    if ($i < count($values) - 1) {
+                                        $next_item = explode(': ', $values[$i + 1]);
+                                        $time_end = $next_item[0];
+                                    } else {
+                                        $time_end = $lot->auction->result_date;
+                                    }
+                                    if ($i > 1) {
+                                        $prev_item = explode(': ', $values[$i - 1]);
+                                        $prev_price = (float)$prev_item[1];
+                                    } else {
+                                        $prev_price = $lot->start_price;
+                                    }
+                                    $this->savePriceReduction($lot_id, $price, $items[0], $time_end, $prev_price);
+                                }
+                            }
+                            $i++;
+                        }
+                    } catch (Exception $e) {
+                    }
+                }
+                if (PriceReduction::where('lot_id', $lot->id)->count() == 0) {
+                    $this->savePriceReduction($lot->id, $lot->start_price, $lot->auction->event_start_date, $lot->auction->event_end_date, null, 0, 0, true);
                 }
             }
-            if(PriceReduction::where('lot_id', $lot->id)->count() == 0){
-                $this->savePriceReduction($lot->id, $lot->start_price, $lot->auction->event_start_date, $lot->auction->event_end_date, null, 0, 0, true);
-            }
-        } catch (Exception $e) {
+        } catch
+        (Exception $e) {
             logger('e: ' . $e);
             logger($red);
         }
