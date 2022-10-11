@@ -33,7 +33,7 @@ class AuctionController extends Controller
     public function getFilteredTrades(Request $request)
     {
         if (auth()->check()) {
-            $lots = Lot::with(['auction', 'showRegions', 'showPriceReductions', 'status', 'favouritePaths', 'monitoringPaths', 'lotImages', 'categories', 'lotParams'])
+            $lots = Lot::with(['auction', 'currentPriceReduction', 'showRegions', 'showPriceReductions', 'status', 'favouritePaths', 'monitoringPaths', 'lotImages', 'categories', 'lotParams'])
                 ->filterBy($request->request)->customSortBy($request)->paginate(20);
             return response(new LotCollection($lots), 200);
         } else {

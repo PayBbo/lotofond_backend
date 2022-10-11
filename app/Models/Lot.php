@@ -178,28 +178,14 @@ class Lot extends Model
     public function currentPriceReduction()
     {
         $currentDate = Carbon::now()->setTimezone('Europe/Moscow');
-        $isExists = $this->hasMany(PriceReduction::class)
+
+        return $this->hasOne(PriceReduction::class)
+            ->whereDate('start_time', '<', $currentDate)
             ->where(function ($query) use ($currentDate) {
-                $query->whereDate('start_time', '<=', $currentDate);
+                $query->whereDate('end_time', '>=', $currentDate)
+                    ->orWhere('end_time', '=', null);
             })
-            ->where(function ($query) use ($currentDate) {
-                $query->where('end_time', '>', $currentDate);
-            })->exists();
-        return $this->hasMany(PriceReduction::class)
-            ->where(function ($query) use ($currentDate) {
-                $query->whereDate('start_time', '<=', $currentDate);
-            })
-            ->when($isExists, function ($q) use ($currentDate) {
-                $q->where(function ($query) use ($currentDate) {
-                    $query->where('end_time', '>', $currentDate);
-                });
-            })
-            ->when(!$isExists, function ($q) use ($currentDate) {
-                $q->where(function ($query) {
-                    $query->where('end_time', '=', null);
-                });
-            })
-            ->take(1);
+            ->orderBy('end_time', 'desc');
     }
 
     public function getMinPriceAttribute()
@@ -293,20 +279,23 @@ class Lot extends Model
         }
         return null;
     }
-    public function lotParams(){
+
+    public function lotParams()
+    {
         return $this->hasMany(LotParam::class)->where('parent_id', null)->with(['param', 'childParams']);
     }
+
     public function getDescriptionExtractsAttribute()
     {
         $result = [];
         $params = $this->lotParams;
         foreach ($params as $param) {
             $extracts = [];
-            foreach($param->childParams as $sub){
+            foreach ($param->childParams as $sub) {
                 $extracts[] = [
-                    'title'=>$sub->param->title,
-                    'type'=>$sub->param->type,
-                    'value'=>$sub->value
+                    'title' => $sub->param->title,
+                    'type' => $sub->param->type,
+                    'value' => $sub->value
                 ];
             }
             if (count($extracts) > 0) {
@@ -318,9 +307,9 @@ class Lot extends Model
 
             } else {
                 $extracts[] = [
-                    'title'=>$param->param->title,
-                    'type'=>$param->param->type,
-                    'value'=>$param->value
+                    'title' => $param->param->title,
+                    'type' => $param->param->type,
+                    'value' => $param->value
                 ];
                 $result[] = [
                     'tradeSubject' => null,
@@ -415,11 +404,13 @@ class Lot extends Model
         return $this->belongsToMany(Region::class, 'lot_regions')->withPivot('is_debtor_region')->select('code', 'lot_regions.is_debtor_region as isDebtorRegion');
     }
 
-    public function favouritePaths(){
+    public function favouritePaths()
+    {
         return $this->belongsToMany(Favourite::class)->where('user_id', auth()->guard('api')->id());
     }
 
-    public function monitoringPaths(){
+    public function monitoringPaths()
+    {
         return $this->belongsToMany(Monitoring::class, 'lot_monitoring')->where('user_id', auth()->guard('api')->id());
     }
 

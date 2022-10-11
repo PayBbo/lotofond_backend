@@ -25,8 +25,8 @@ class LotResource extends JsonResource
         $priceReductions = null;
         $currentPrice = $this->start_price;
         $currentPriceState = 'hold';
-        $currentPriceRed = $this->currentPriceReduction()->first();
-        if ($this->has('priceReductions')) {
+        $currentPriceRed = $this->currentPriceReduction;
+        if ($this->showPriceReductions->count() >0) {
             $priceReductions = $this->showPriceReductions;
             foreach ($priceReductions as $priceReduction) {
                 $priceReduction->isCurrentStage = false;
