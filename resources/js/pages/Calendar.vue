@@ -73,11 +73,12 @@
                             <!--                                </div>-->
                             <!--                            </template>-->
                             <template v-slot:day-content="{ day, attributes }">
-                                <div class="bkt-calendar__day position-relative" @click.self="addEvent(day)">
-                                    <span class="bkt-calendar__day-label" @click="addEvent(day)">
+                                <div class="bkt-calendar__day position-relative" @click="addEvent(day)">
+                                    <span class="bkt-calendar__day-label">
                                         {{day.id | moment("D MMM")}}
                                     </span>
                                     <div class="bkt-calendar__day-events bkt-cursor-pointer">
+<!--                                        @click.capture="editEvent(attr_date.customData)"-->
                                         <template v-for="attr_date in attributes">
                                             <VDropdown disposeTimeout="0" theme="bkt" handle-resize instant-move>
                                                 <div class="bkt-calendar__day-event text-truncate bkt-cursor-pointer position-relative"
@@ -85,7 +86,6 @@
                                                      v-if="attr_date.customData"
                                                      :key="attr_date.key"
                                                      :class="attr_date.customData.class"
-                                                     @click.capture="editEvent(attr_date.customData)"
                                                 >
                                                     {{ attr_date.customData.title }}
                                                 </div>

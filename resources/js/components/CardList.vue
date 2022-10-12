@@ -29,6 +29,22 @@
                     />
                 </template>
             </slot>
+            <slot name="no_results" v-if="!loading && items.length===0 && !no_results">
+                <div class="bkt-shadow-card bkt-shadow-card_primary w-100">
+                    <div class="bkt-shadow-card__inner bkt-gap">
+                        <h3 class="bkt-shadow-card__title bkt-text-white">
+                            Странно, но ничего нет
+                        </h3>
+                        <h5 class="bkt-shadow-card__subtitle bkt-text-white">
+                            Попробуйте изменить критерии поиска
+                        </h5>
+                        <div class="bkt-shadow-card__shadow-1">
+                        </div>
+                        <div class="bkt-shadow-card__shadow-2">
+                        </div>
+                    </div>
+                </div>
+            </slot>
         </slot>
         <slot name="footer">
             <slot name="pagination" v-if="!no_pagination && items.length>0 && !loading">
@@ -88,6 +104,10 @@
             },
             current_component: {
                 // type:String
+            },
+            no_results: {
+                type: Boolean,
+                default: false
             },
             no_pagination: {
                 type: Boolean,

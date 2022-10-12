@@ -95,9 +95,9 @@
         </nav>
         <nav class="bkt-navbar white">
             <div class="bkt-navbar__wrapper bkt-container">
-                <router-link :to="'/agent'" class="bkt-button bkt-text-white blue mx-0">
+                <button @click="sendApplication" class="bkt-button bkt-text-white blue mx-0">
                     Покупка без ЭЦП
-                </router-link>
+                </button>
                 <ul class="bkt-navbar__nav">
 <!--                    <li class="bkt-navbar__nav-item d-none d-lg-flex">-->
 <!--                        <router-link to="/agent" class="bkt-navbar__nav-link">-->
@@ -386,6 +386,10 @@
             },
             checkNotifications() {
                 this.$store.dispatch('checkNotifications')
+            },
+            sendApplication() {
+                this.$store.commit('setSelectedLot', null);
+                this.$router.push('/agent')
             }
         }
 

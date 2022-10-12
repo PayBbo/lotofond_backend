@@ -6,7 +6,7 @@
             <button
                 :class="['bkt-button'+button_type, item[action.status] ? 'bkt-bg-'+action.color : main_bg,
                  action.color ? 'bkt-hover-'+action.color : 'bkt-hover-'+main_bg, action.class]"
-                @click="makeAction(action.method, action.method_params)"
+                @click="makeAction(action.method, action.method_params, action.icon)"
                 :id="action.dropdown_id ? action.dropdown_id : 'button-dropdown-'+action.icon"
                 :data-bs-toggle="action.dropdown_id && ((action.status && item[action.status]) || !action.status) ? 'dropdown' : ''"
                 :disabled="in_process.indexOf(action.icon)>=0"
@@ -241,7 +241,7 @@
                         status: '',
                         method: '',
                         method_params: {icon: 'Share'},
-                        place: 'lot-card',
+                        place: 'all',
                         dropdown_id: 'shareDropdown',
                         class: '',
                     },
@@ -294,23 +294,16 @@
                 return this.$store.getters.isLoggedIn
             },
         },
-        watch: {
-            item: function (newVal, oldVal) { // watch it
-                this.short_description = '';
-                if (newVal && newVal.description && newVal.description.length > 0) {
-                    this.short_description = newVal.description.slice(0, 100) + '...';
-                }
-                // console.log('Prop changed: ', newVal, ' | was: ', oldVal)
-            }
-            // item: {
-            //     // handler(newVal) {
-            //     //     this.checked = newVal
-            //     // },
-            //     deep: true
-            // }
-        },
         methods: {
-            makeAction(method, method_params) {
+            makeAction(method, method_params, icon) {
+                if(icon==='Share')
+                {
+                    this.short_description = '';
+                    if (this.item && this.item.description && this.item.description.length > 0) {
+                        this.short_description = this.item.description.slice(0, 100) + '...';
+                    }
+                }
+
                 if (method) {
                     if (this.isLoggedIn) {
                         method(method_params);

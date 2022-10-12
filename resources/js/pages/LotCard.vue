@@ -40,7 +40,7 @@
 <!--                                    </skeleton>-->
 <!--                                </h3>-->
 <!--                            </div>-->
-                            <div v-if="item.description">
+                            <div v-if="item && item.description">
                                 <h5 class="bkt-card__text">
                                     {{read_more && short_description ? item.description : short_description}}
                                     {{!short_description ? item.description : ''}}

@@ -166,10 +166,15 @@
         },
         watch: {
             isLoggedIn: function (newVal, oldVal) {
-                if (oldVal == false && newVal == true) {
+                if (oldVal == false && newVal == true && this.user) {
                     this.service.name = this.user.name +' '+this.user.lastName;
                     this.service.email = this.user.email;
                     this.service.phone = this.user.phone;
+                }
+                else if (oldVal == true && newVal == false) {
+                    this.service.name = '';
+                    this.service.email = '';
+                    this.service.phone = '';
                 }
             },
             user: function (newVal, oldVal) {

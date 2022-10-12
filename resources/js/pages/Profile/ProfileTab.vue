@@ -66,7 +66,7 @@
         </div>
         <div class="px-0 col-12 col-lg-6">
             <div class="bkt-card">
-                <ValidationObserver v-slot="{ invalid }" tag="div" class="bkt-card__body bkt-gap-down-sm-row-large"
+                <ValidationObserver v-slot="{ invalid }" ref="change_password" tag="div" class="bkt-card__body bkt-gap-down-sm-row-large"
                                     v-show="!edit_password_mode">
                     <h3 class="bkt-card__title">Смена пароля</h3>
                     <bkt-input
@@ -186,7 +186,7 @@
                         </button>
                     </div>
                 </ValidationObserver>
-                <ValidationObserver v-slot="{ invalid }" tag="div" class="bkt-card__body bkt-gap-down-sm-row-large"
+                <ValidationObserver v-slot="{ invalid }" ref="verify_password" tag="div" class="bkt-card__body bkt-gap-down-sm-row-large"
                                     v-show="edit_password_mode">
                     <h3 class="bkt-card__title">Код подтверждения</h3>
                     <bkt-select v-model="passwords.grantType" :reduce="item => item.value" option_label="title"
@@ -352,6 +352,14 @@
                         this.password_loading = false;
                         this.$store.dispatch('sendNotification',
                             {self: this, message: 'Пароль успешно изменен'});
+                        requestAnimationFrame(() => {
+                            if(this.$refs.change_password){
+                                this.$refs.change_password.reset();
+                            }
+                            if(this.$refs.verify_password) {
+                                this.$refs.verify_password.reset();
+                            }
+                        });
                         this.edit_password_mode = false;
                         this.edit_user = JSON.parse(JSON.stringify(this.user));
                         this.passwords = {
