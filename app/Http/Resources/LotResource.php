@@ -22,15 +22,14 @@ class LotResource extends JsonResource
         $inFavourite = auth()->guard('api')->check() && $this->favouritePaths()->count() > 0;
         $this->auction->isLotInfo = $this->isLotInfo;
         $regions = $this->showRegions;
-        $priceReductions = null;
+        $priceReductions = $this->showPriceReductions()->select('id', 'start_time as time', 'price')->get();
         $currentPrice = $this->start_price;
         $currentPriceState = 'hold';
         $currentPriceRed = $this->currentPriceReduction;
-        if ($this->showPriceReductions->count() >0) {
-            $priceReductions = $this->showPriceReductions;
+        if ($currentPriceRed) {
             foreach ($priceReductions as $priceReduction) {
                 $priceReduction->isCurrentStage = false;
-                if ($priceReduction->id === $currentPriceRed['id']) {
+                if ($priceReduction->id == $currentPriceRed['id']) {
                     $priceReduction->isCurrentStage = true;
                 }
             }

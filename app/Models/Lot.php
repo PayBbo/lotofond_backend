@@ -161,7 +161,7 @@ class Lot extends Model
 
     public function showPriceReductions()
     {
-        return $this->hasMany(PriceReduction::class)->where('is_system', false)->select('id', 'start_time as time', 'price');
+        return $this->hasMany(PriceReduction::class)->where('is_system', '=', false);
     }
 
     public function priceReductionMin()

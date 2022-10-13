@@ -46,7 +46,7 @@ class AddFavouriteEventsJob implements ShouldQueue
             if (!$path->lots->contains($lot) && !$user->hiddenLots->contains($lot)) {
                 $path->lots()->attach($lot, ['created_at' => Carbon::now()]);
                 $changePriceDate = null;
-                $currentPriceReduction = $lot->currentPriceReduction->first();
+                $currentPriceReduction = $lot->currentPriceReduction;
                 if($currentPriceReduction){
                     $nextPrice = PriceReduction::where(['lot_id'=>$lot->id, 'start_time'=>$currentPriceReduction->end_time])->first();
                     if($nextPrice){
