@@ -26,12 +26,14 @@ class LotResource extends JsonResource
         $currentPrice = $this->start_price;
         $currentPriceState = 'hold';
         $currentPriceRed = $this->currentPriceReduction;
-            foreach ($priceReductions as $priceReduction) {
-                $priceReduction->isCurrentStage = false;
+        foreach ($priceReductions as $priceReduction) {
+            $priceReduction->isCurrentStage = false;
+            if ($currentPriceRed) {
                 if ($priceReduction->id == $currentPriceRed['id']) {
                     $priceReduction->isCurrentStage = true;
                 }
             }
+        }
         if ($currentPriceRed) {
             $currentPrice = (float)$currentPriceRed['price'];
             $prev = PriceReduction::where('lot_id', $this->id)
@@ -39,7 +41,7 @@ class LotResource extends JsonResource
                 ->latest('id')
                 ->first();
             $prevPrice = (float)$this->start_price;
-            if($prev){
+            if ($prev) {
                 $prevPrice = (float)$prev['price'];
             }
             if ($prevPrice > $currentPrice) {
