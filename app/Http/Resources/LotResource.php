@@ -26,29 +26,28 @@ class LotResource extends JsonResource
         $currentPrice = $this->start_price;
         $currentPriceState = 'hold';
         $currentPriceRed = $this->currentPriceReduction;
-        if ($currentPriceRed) {
-            foreach ($priceReductions as $priceReduction) {
-                $priceReduction->isCurrentStage = false;
-                if ($priceReduction->id == $currentPriceRed['id']) {
-                    $priceReduction->isCurrentStage = true;
-                }
+        foreach ($priceReductions as $priceReduction) {
+            $priceReduction->isCurrentStage = false;
+            if ($priceReduction->id == $currentPriceRed['id']) {
+                $priceReduction->isCurrentStage = true;
             }
-            $currentPrice = (float)$currentPriceRed['price'];
-            $prev = PriceReduction::where('lot_id', $this->id)
-                ->where('id', '<', $currentPriceRed['id'])
-                ->latest('id')
-                ->first();
-            $prevPrice = (float)$this->start_price;
-            if($prev){
-                $prevPrice = (float)$prev['price'];
-            }
-            if ($prevPrice > $currentPrice) {
-                $currentPriceState = 'down';
-            } elseif ($prevPrice < $currentPrice) {
-                $currentPriceState = 'up';
-            }
-
         }
+        $currentPrice = (float)$currentPriceRed['price'];
+        $prev = PriceReduction::where('lot_id', $this->id)
+            ->where('id', '<', $currentPriceRed['id'])
+            ->latest('id')
+            ->first();
+        $prevPrice = (float)$this->start_price;
+        if ($prev) {
+            $prevPrice = (float)$prev['price'];
+        }
+        if ($prevPrice > $currentPrice) {
+            $currentPriceState = 'down';
+        } elseif ($prevPrice < $currentPrice) {
+            $currentPriceState = 'up';
+        }
+
+
         return [
             'id' => $this->id,
             'trade' => new TradeResource($this->auction),
