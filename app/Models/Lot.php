@@ -16,6 +16,7 @@ class Lot extends Model
     protected $table = 'lots';
 
     protected $appends = ['min_price', 'photos', 'description_extracts'];
+    protected $with = ['prevPrice', 'currentPriceReduction'];
     /**
      * The attributes that are mass assignable.
      *
@@ -78,11 +79,6 @@ class Lot extends Model
     public function marks()
     {
         return $this->belongsToMany(Mark::class);
-    }
-
-    public function categories()
-    {
-        return $this->belongsToMany(Category::class, 'lot_categories')->with(['parentRelated']);
     }
 
     public function status()
@@ -161,7 +157,8 @@ class Lot extends Model
 
     public function showPriceReductions()
     {
-        return $this->hasMany(PriceReduction::class)->where('is_system', '=', false);
+        return $this->hasMany(PriceReduction::class)->where('is_system', '=', false)
+            ->select(['id', 'start_time as time', 'price', 'lot_id']);
     }
 
     public function priceReductionMin()
@@ -188,6 +185,19 @@ class Lot extends Model
             ->orderBy('end_time', 'desc');
     }
 
+    public function prevPrice()
+    {
+        $currentDate = Carbon::now()->setTimezone('Europe/Moscow');
+
+        return $this->hasOne(PriceReduction::class)
+            ->whereDate('start_time', '<', $currentDate)
+            ->where(function ($query) use ($currentDate) {
+                $query->whereDate('end_time', '<', $currentDate)
+                    ->orWhere('end_time', '=', null);
+            })
+            ->orderBy('id', 'desc');
+    }
+
     public function getMinPriceAttribute()
     {
         $prices = $this->hasMany(PriceReduction::class)->pluck('price')->toArray();
@@ -212,7 +222,7 @@ class Lot extends Model
 
     public function userMarks()
     {
-        return $this->belongsToMany(Mark::class)->where('user_id', auth()->id())->select('id', 'title')->get();
+        return $this->belongsToMany(Mark::class)->where('user_id', auth()->id())->select('id', 'title');
     }
 
     public function userMarksForSearch()
@@ -261,10 +271,12 @@ class Lot extends Model
     public function getNote()
     {
         $note = null;
-        if (auth()->guard('api')->check() && Note::where(['user_id' => auth()->guard('api')->id(),
-                'item_type' => 'lot', 'item_id' => $this->id])->exists()) {
-            $note = Note::where(['user_id' => auth()->guard('api')->id(),
-                'item_type' => 'lot', 'item_id' => $this->id])->first()->only('id', 'title', 'date');
+        if (auth()->guard('api')->check()) {
+            $existsNote = Note::where(['user_id' => auth()->guard('api')->id(),
+                'item_type' => 'lot', 'item_id' => $this->id])->first();
+            if($existsNote){
+                $note = $existsNote->only('id', 'title', 'date');
+            }
         }
         return $note;
     }
@@ -340,6 +352,11 @@ class Lot extends Model
         }
     }
 
+    public function categories()
+    {
+        return $this->belongsToMany(Category::class, 'lot_categories')->with(['parentRelated', 'subcategories']);
+    }
+
     public function categoriesStructure()
     {
         $categories = [];
@@ -356,7 +373,7 @@ class Lot extends Model
         $unique = array_unique($serialized);
         $parents = array_intersect_key($parents, $unique);
         foreach ($parents as $category) {
-            $subs = $category->subcategories()->whereIn('id', array_unique($categoriesIds))->get();
+            $subs = $category->subcategories->whereIn('id', array_unique($categoriesIds));
             $subcategories = [];
             foreach ($subs as $sub) {
                 $value = ['label' => $sub->label, 'key' => $sub->title];
@@ -368,6 +385,7 @@ class Lot extends Model
         }
         return $categories;
 
+
     }
 
     public function hasNotSeenNotification()
@@ -376,8 +394,8 @@ class Lot extends Model
             $query->where('lots.id', $this->id);
         })->get();
         foreach ($favourites as $favourite) {
-            $ids = $favourite->lots()->where('lots.id', $this->id)->pluck('favourite_lot.id')->toArray();
-            if (Notification::whereIn('lot_id', $ids)->where(['user_id' => auth()->guard('api')->id(), 'is_seen' => false])->exists()) {
+            if (Notification::whereIn('lot_id', $favourite->lots()->where('lots.id', $this->id)->pluck('favourite_lot.id'))
+                ->where(['user_id' => auth()->guard('api')->id(), 'is_seen' => false])->exists()) {
                 return true;
             }
         }

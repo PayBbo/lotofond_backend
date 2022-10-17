@@ -18,7 +18,7 @@ class TradeResource extends JsonResource
         return [
             'id' => $this->id,
             'externalId' => $this->trade_id,
-            'lotCount' => $this->lots->count(),
+            'lotCount' => $this->lots_count,
             'type' => $this->auctionType->title,
             'publishDate'=> $this->publish_date,
             'eventTime' => [

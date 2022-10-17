@@ -60,6 +60,10 @@ class Auction extends Model
         'date_publish_efir'=>'datetime',
     ];
 
+    protected $with = ['debtor', 'arbitrationManager', 'tradePlace', 'companyTradeOrganizer', 'auctionType'];
+
+    protected $withCount = ['lots'];
+
     public function debtor()
     {
         return $this->belongsTo(Bidder::class, 'debtor_id');

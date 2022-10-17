@@ -19,10 +19,11 @@ class LotResource extends JsonResource
     public function toArray($request)
     {
         $user = auth()->guard('api')->user();
-        $inFavourite = auth()->guard('api')->check() && $this->favouritePaths->count() > 0;
+        $authCheck = auth()->guard('api')->check();
+        $inFavourite = $authCheck && $this->favouritePaths->count() > 0;
         $this->auction->isLotInfo = $this->isLotInfo;
         $regions = $this->showRegions;
-        $priceReductions = $this->showPriceReductions()->select('id', 'start_time as time', 'price')->get();
+        $priceReductions = $this->showPriceReductions->makeHidden('lot_id');
         $currentPrice = $this->start_price;
         $currentPriceState = 'hold';
         $currentPriceRed = $this->currentPriceReduction;
@@ -36,10 +37,7 @@ class LotResource extends JsonResource
         }
         if ($currentPriceRed) {
             $currentPrice = (float)$currentPriceRed['price'];
-            $prev = PriceReduction::where('lot_id', $this->id)
-                ->where('id', '<', $currentPriceRed['id'])
-                ->latest('id')
-                ->first();
+            $prev = $this->prevPrice;
             $prevPrice = (float)$this->start_price;
             if ($prev) {
                 $prevPrice = (float)$prev['price'];
@@ -60,15 +58,15 @@ class LotResource extends JsonResource
             'description' => $this->description,
             'state' => $this->status->code,
             'location' => $regions->makeHidden(['pivot']),
-            'isWatched' => auth()->guard('api')->check() ? $user->seenLots->pluck('id')->contains($this->id) : false,
-            'isPinned' => auth()->guard('api')->check() ? $user->fixedLots->pluck('id')->contains($this->id) : false,
+            'isWatched' => $authCheck ? $user->seenLots->pluck('id')->contains($this->id) : false,
+            'isPinned' => $authCheck ? $user->fixedLots->pluck('id')->contains($this->id) : false,
             'inFavourite' => $inFavourite,
-            'hasNotSeenNotification' => auth()->guard('api')->check() ? $this->hasNotSeenNotification() : false,
+            'hasNotSeenNotification' => $authCheck ? $this->hasNotSeenNotification() : false,
             $this->mergeWhen($inFavourite, [
                 'favouritePaths' => FavouritePathResource::collection($this->favouritePaths),
             ]),
-            'isHide' => auth()->guard('api')->check() ? $user->hiddenLots->pluck('id')->contains($this->id) : false,
-            'inMonitoring' => auth()->guard('api')->check() && $this->monitoringPaths->count() > 0,
+            'isHide' => $authCheck ? $user->hiddenLots->pluck('id')->contains($this->id) : false,
+            'inMonitoring' => $authCheck && $this->monitoringPaths->count() > 0,
             'startPrice' => (float)$this->start_price,
             $this->mergeWhen(!is_null($this->auction_step), [
                 'stepPrice' => [
@@ -94,7 +92,7 @@ class LotResource extends JsonResource
             'currentPriceState' => $currentPriceState,
             'link' => URL::to('/lot/' . $this->id),
             'efrsbLink' => 'https://fedresurs.ru/bidding/' . $this->auction->guid,
-            'marks' => $this->userMarks()->makeHidden(['pivot']),
+            'marks' => $this->userMarks->makeHidden(['pivot']),
             'descriptionExtracts' => $this->description_extracts,
             // $this->mergeWhen(!is_null($this->getNote()), [
             'note' => $this->getNote(),
