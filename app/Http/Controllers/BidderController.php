@@ -50,8 +50,8 @@ class BidderController extends Controller
     public function getBidder($bidderId, $type)
     {
         $bidder = Bidder::where('id', $bidderId)->first();
-        if (!$bidder) {
-            throw new BaseException("ERR_FIND_BIDDER_FAILED", 404, "Bidder with id= " . $bidderId . ' does not exist');
+        if (!$bidder || !$bidder->types()->where('title', $type)->exists()) {
+            throw new BaseException("ERR_FIND_BIDDER_FAILED", 404, "Bidder with id = " . $bidderId . ' and type = '.$type.' does not exist');
         }
         $bidder->role = $type;
         return response(new ReestrBidderResource($bidder), 200);

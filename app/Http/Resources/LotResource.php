@@ -19,7 +19,7 @@ class LotResource extends JsonResource
     public function toArray($request)
     {
         $user = auth()->guard('api')->user();
-        $inFavourite = auth()->guard('api')->check() && $this->favouritePaths()->count() > 0;
+        $inFavourite = auth()->guard('api')->check() && $this->favouritePaths->count() > 0;
         $this->auction->isLotInfo = $this->isLotInfo;
         $regions = $this->showRegions;
         $priceReductions = $this->showPriceReductions()->select('id', 'start_time as time', 'price')->get();
