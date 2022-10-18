@@ -117,78 +117,85 @@
                                         </div>
                                     </li>
                                 </template>
-                                <template v-for="(subject, index) in item.descriptionExtracts">
-                                    <li v-if="subject.tradeSubject">
-                                        <div class="bkt-contents__heading">
-                                        <span class="bkt-contents__heading text-lowercase">
-                                            объект {{item.descriptionExtracts.length>1 ? index+1 : ''}}
-                                        </span>
-                                        </div>
-                                        <div class="bkt-contents__answer">
-                                            <span>{{subject.tradeSubject}}</span>
-                                        </div>
-                                    </li>
-                                    <li v-if="subject.type">
-                                        <div class="bkt-contents__heading">
-                                        <span class="bkt-contents__heading text-lowercase">
-                                           тип объекта {{item.descriptionExtracts.length>1 ? index+1 : ''}}
-                                        </span>
-                                        </div>
-                                        <div class="bkt-contents__answer">
-                                            <span>{{$t('trades.tradeSubjectType.'+subject.type)}}</span>
-                                        </div>
-                                    </li>
-                                    <template v-if="subject.extracts.length>0" v-for="extract in subject.extracts">
-                                        <li v-if="extract.value && extract.value != 0">
-                                            <div class="bkt-contents__heading">
-                                                <span
-                                                    class="bkt-contents__heading text-lowercase">{{extract.title}}</span>
-                                            </div>
-                                            <div class="bkt-contents__answer"><span>{{extract.value}}</span>
-                                            </div>
-                                        </li>
-                                    </template>
-                                </template>
+<!--                                <template v-for="(subject, index) in item.descriptionExtracts">-->
+<!--                                    <li v-if="subject.tradeSubject">-->
+<!--                                        <div class="bkt-contents__heading">-->
+<!--                                        <span class="bkt-contents__heading text-lowercase">-->
+<!--                                            объект {{item.descriptionExtracts.length>1 ? index+1 : ''}}-->
+<!--                                        </span>-->
+<!--                                        </div>-->
+<!--                                        <div class="bkt-contents__answer">-->
+<!--                                            <span>{{subject.tradeSubject}}</span>-->
+<!--                                        </div>-->
+<!--                                    </li>-->
+<!--                                    <li v-if="subject.type">-->
+<!--                                        <div class="bkt-contents__heading">-->
+<!--                                        <span class="bkt-contents__heading text-lowercase">-->
+<!--                                           тип объекта {{item.descriptionExtracts.length>1 ? index+1 : ''}}-->
+<!--                                        </span>-->
+<!--                                        </div>-->
+<!--                                        <div class="bkt-contents__answer">-->
+<!--                                            <span>{{$t('trades.tradeSubjectType.'+subject.type)}}</span>-->
+<!--                                        </div>-->
+<!--                                    </li>-->
+<!--                                    <template v-if="subject.extracts.length>0" v-for="extract in subject.extracts">-->
+<!--                                        <li v-if="extract.value && extract.value != 0">-->
+<!--                                            <div class="bkt-contents__heading">-->
+<!--                                                <span-->
+<!--                                                    class="bkt-contents__heading text-lowercase">{{extract.title}}</span>-->
+<!--                                            </div>-->
+<!--                                            <div class="bkt-contents__answer"><span>{{extract.value}}</span>-->
+<!--                                            </div>-->
+<!--                                        </li>-->
+<!--                                    </template>-->
+<!--                                </template>-->
                             </ul>
-                            <div class="bkt-row outline bkt-wrapper-between align-items-center"
-                                 v-if="cadastralData && cadastralData.cadastralDataArea">
-                                <div class="bkt-row__feature">
-                                    <h4 class="bkt-row__feature-title">{{cadastralData.cadastralDataArea | priceFormat}}
-                                        {{cadastralData.cadastralDataAreaMeasure}}
-                                    </h4>
-                                    <h6 class="bkt-row__feature-subtitle text-lowercase">
-                                        {{$t('trades.tradeSubjectType.'+cadastralData.cadastralDataAreaType)}}
-                                    </h6>
-                                </div>
-                                <span class="bkt-row__icon">
-                            <bkt-icon :name="'Tree'"></bkt-icon>
-                        </span>
-                            </div>
-                            <div class="bkt-row outline bkt-wrapper-between align-items-center"
-                                 v-if="cadastralData && cadastralData.cadastralDataPrice">
-                                <div class="bkt-row__feature">
-                                    <h4 class="bkt-row__feature-title">
-                                        {{cadastralData.cadastralDataPrice | priceFormat}} ₽
-                                    </h4>
-                                    <h6 class="bkt-row__feature-subtitle">кадастровая стоимость</h6>
-                                </div>
-                                <span class="bkt-row__icon">
-                            <bkt-icon :name="'File'"></bkt-icon>
-                        </span>
-                            </div>
-                            <div class="bkt-row outline bkt-wrapper-between align-items-center"
-                                 v-if="cadastralData && cadastralData.cadastralDataFractionalOwnership">
-                                <div class="bkt-row__feature">
-                                    <h4 class="bkt-row__feature-title">
-                                        {{cadastralData.cadastralDataFractionalOwnership}}%</h4>
-                                    <h6 class="bkt-row__feature-subtitle">доля в собственности</h6>
-                                </div>
-                                <span class="bkt-row__icon">
-                                <bkt-icon :name="'Pie'"></bkt-icon>
-                            </span>
-                            </div>
+<!--                            <div class="bkt-row outline bkt-wrapper-between align-items-center"-->
+<!--                                 v-if="cadastralData && cadastralData.cadastralDataArea">-->
+<!--                                <div class="bkt-row__feature">-->
+<!--                                    <h4 class="bkt-row__feature-title">{{cadastralData.cadastralDataArea | priceFormat}}-->
+<!--                                        {{cadastralData.cadastralDataAreaMeasure}}-->
+<!--                                    </h4>-->
+<!--                                    <h6 class="bkt-row__feature-subtitle text-lowercase">-->
+<!--                                        {{$t('trades.tradeSubjectType.'+cadastralData.cadastralDataAreaType)}}-->
+<!--                                    </h6>-->
+<!--                                </div>-->
+<!--                                <span class="bkt-row__icon">-->
+<!--                            <bkt-icon :name="'Tree'"></bkt-icon>-->
+<!--                        </span>-->
+<!--                            </div>-->
+<!--                            <div class="bkt-row outline bkt-wrapper-between align-items-center"-->
+<!--                                 v-if="cadastralData && cadastralData.cadastralDataPrice">-->
+<!--                                <div class="bkt-row__feature">-->
+<!--                                    <h4 class="bkt-row__feature-title">-->
+<!--                                        {{cadastralData.cadastralDataPrice | priceFormat}} ₽-->
+<!--                                    </h4>-->
+<!--                                    <h6 class="bkt-row__feature-subtitle">кадастровая стоимость</h6>-->
+<!--                                </div>-->
+<!--                                <span class="bkt-row__icon">-->
+<!--                            <bkt-icon :name="'File'"></bkt-icon>-->
+<!--                        </span>-->
+<!--                            </div>-->
+<!--                            <div class="bkt-row outline bkt-wrapper-between align-items-center"-->
+<!--                                 v-if="cadastralData && cadastralData.cadastralDataFractionalOwnership">-->
+<!--                                <div class="bkt-row__feature">-->
+<!--                                    <h4 class="bkt-row__feature-title">-->
+<!--                                        {{cadastralData.cadastralDataFractionalOwnership}}%</h4>-->
+<!--                                    <h6 class="bkt-row__feature-subtitle">доля в собственности</h6>-->
+<!--                                </div>-->
+<!--                                <span class="bkt-row__icon">-->
+<!--                                <bkt-icon :name="'Pie'"></bkt-icon>-->
+<!--                            </span>-->
+<!--                            </div>-->
                         </div>
-<!--                        <div class="bkt-card__footer d-flex flex-wrap bkt-gap" v-if="item && !loading">-->
+                        <div class="bkt-card__footer d-flex flex-wrap bkt-gap" v-if="item && item.efrsbLink && isLoggedIn">
+                            <a :href="item.efrsbLink" target="_blank" style="font-weight: 600"
+                               class="bkt-button next bkt-text-primary py-1 ms-auto"
+                            >
+                                Лот на Федресурсе
+                                <bkt-icon name="ArrowDown" color="primary"></bkt-icon>
+                            </a>
+
 <!--                            <ShareNetwork-->
 <!--                                v-for="network in networks"-->
 <!--                                :network="network.network"-->
@@ -205,7 +212,7 @@
 <!--                                </span>-->
 <!--                                <span>{{ network.name }}</span>-->
 <!--                            </ShareNetwork>-->
-<!--                        </div>-->
+                        </div>
                     </div>
                     <div class="bkt-card bkt-lot__card" v-if="loading">
                         <div class="bkt-card__body">
@@ -238,6 +245,7 @@
 <!--                            <skeleton width="120px" height="38px" :count="7"></skeleton>-->
 <!--                        </div>-->
                     </div>
+                    <bkt-objects-list v-if="item && isLoggedIn" :items="item.descriptionExtracts" :loading="loading"></bkt-objects-list>
                     <div v-if="!isLoggedIn" class="bkt-shadow-card bkt-shadow-card_primary">
                         <div class="bkt-shadow-card__inner bkt-gap-large">
                             <h4 class="bkt-shadow-card__title bkt-text-white">
@@ -1471,7 +1479,7 @@
     import NoteModal from "../components/SharedModals/NoteModal";
     import BktApplicationModal from "../components/SharedModals/ApplicationModal";
     import AddMarkModal from "./LotCard/AddMarkModal";
-    import Skeleton from "../components/Skeleton";
+    import BktObjectsList from "./LotCard/ObjectsList";
 
     export default {
         name: "LotCard",
@@ -1490,7 +1498,7 @@
             'bkt-move-favourite-modal': MoveFavouriteModal,
             'bkt-add-mark-modal': AddMarkModal,
             'bkt-note-modal': NoteModal, BktApplicationModal,
-            Skeleton
+            BktObjectsList
         },
         data() {
             return {

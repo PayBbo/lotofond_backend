@@ -237,7 +237,7 @@
                     name="name"
                     type="text"
                     :rules="'required|alpha_spaces|min:2'"
-                    label="имя фамилия"
+                    label="имя фамилия <span class='bkt-text-red'>*</span>"
                     label_class="bkt-form__label"
                     field_name="Имя Фамилия"
                     placeholder="Иванов Иван"
@@ -247,7 +247,7 @@
                     v-model="service.email"
                     :name="'email'"
                     type="email"
-                    label="email"
+                    label="email <span class='bkt-text-red'>*</span>"
                     label_class="bkt-form__label"
                     field_name="Email"
                     :rules="'required'"
@@ -258,7 +258,7 @@
                     v-model="service.phone"
                     :name="'phone'"
                     type="tel"
-                    label="номер телефона"
+                    label="номер телефона <span class='bkt-text-red'>*</span>"
                     label_class="bkt-form__label"
                     field_name="Номер телефона"
                     :rules="'required|phone'"
@@ -268,7 +268,7 @@
                 />
                 <div class="bkt-input__wrapper">
                     <label class="bkt-input__label bkt-form__label" style="margin-bottom: 10px;">
-                        где вам удобнее общаться
+                        где вам удобнее общаться <span class="bkt-text-red">*</span>
                     </label>
                     <ValidationProvider :name="'Мессенджеры'" rules="required|min:1" v-slot="{ errors }">
                         <div class="communications">
@@ -327,7 +327,7 @@
                 <bkt-checkbox name="'Условия'" v-model="service.terms" id="terms" :rules="'required_boolean'">
                     <template #label>
                         Согласен с условиями пользовательского соглашения, политики сайта, обработки персональных
-                        данных.
+                        данных. <span class="bkt-text-red" style="font-size: 14px;">*</span>
                     </template>
                 </bkt-checkbox>
                 <button class="bkt-button primary" :disabled="invalid || loading" @click="sendApplication">

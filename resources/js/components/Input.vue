@@ -1,7 +1,7 @@
 <template>
     <ValidationProvider :name="field_name" :rules="rules" v-slot="{ errors }" tag="div" class="bkt-input__wrapper" :vid="name">
         <div class="d-flex align-items-center justify-content-between" v-if="label||status">
-            <label :for="name" class="bkt-input__label" v-if="label" :class="label_class">{{ label }}</label>
+            <label :for="name" class="bkt-input__label" v-if="label" :class="label_class" v-html="label"></label>
             <slot name="status" v-if="status">
                 <label :for="name" class="bkt-input__label" :class="status_class">{{ status }}</label>
             </slot>
