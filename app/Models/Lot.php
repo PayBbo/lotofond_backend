@@ -342,7 +342,7 @@ class Lot extends Model
     public function scopeIsFixed($query)
     {
         if (auth()->guard('api')->check()) {
-            $query->orderBy(FixedLot::select('created_at')
+           $query->orderBy(FixedLot::select('created_at')
                 ->whereColumn('lots.id', 'fixed_lots.lot_id')
                 ->where('fixed_lots.user_id', auth()->guard('api')->id())
                 ->take(1),
