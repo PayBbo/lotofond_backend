@@ -19,7 +19,7 @@ class FilterBuilder
     {
         $names = [];
         foreach ($this->filters as $name => $value) {
-            if (is_null($value)) {
+            if (is_null($value) || (gettype($value) == 'array' && count($value)==0) || (gettype($value) == 'string' && strlen((string)$value) == 0)) {
                 continue;
             }
             $normailizedName = ucfirst($name);

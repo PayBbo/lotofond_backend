@@ -12,7 +12,7 @@ class MinPrice extends SortQuery implements SortContract
     public function handle($value): void
     {
         $value = json_decode(json_encode($value), true);
-        if (!is_null($value)) {
+        if (!is_null($value) && (count($value) > 0 && (!is_null($value['min']) || !is_null($value['max'])))) {
             $this->query->with('priceReductions')->join('price_reductions as r', 'lots.id', '=', 'r.lot_id')
                 ->select('lots.*')
                 ->when(!is_null($value['min']) && strlen((string)$value['min']) > 0, function ($query) use ($value) {

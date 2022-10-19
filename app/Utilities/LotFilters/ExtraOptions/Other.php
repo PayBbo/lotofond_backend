@@ -35,7 +35,7 @@ class Other extends SortQuery implements SortContract
             $this->query->has('userHiddenLot');
         }
 
-        if($value['isHidden'] != true && auth()->check()) {
+        if(!$value['isHidden'] && auth()->check()) {
             $this->query->doesntHave('userHiddenLot');
         }
         if(isset($minDate) && isset($maxDate)){
