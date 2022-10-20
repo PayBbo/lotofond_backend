@@ -35,7 +35,7 @@ class AuctionController extends Controller
         if (auth()->check()) {
             $lots = Lot::with(['auction', 'showPriceReductions', 'userMarks',
                 'showRegions', 'status', 'favouritePaths', 'monitoringPaths', 'lotImages', 'categories', 'lotParams'])
-                ->filterBy($request->request)->customSortBy($request)->paginate(10);
+                ->filterBy($request->request)->customSortBy($request)->paginate(20);
             return response(new LotCollection($lots), 200);
         } else {
             $lots = Lot::with(['auction', 'showRegions', 'showPriceReductions', 'status', 'favouritePaths', 'monitoringPaths', 'lotImages', 'categories', 'lotParams'])
