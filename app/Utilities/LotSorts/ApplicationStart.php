@@ -10,12 +10,12 @@ class ApplicationStart extends SortQuery implements SortContract
 {
     public function handle($direction): void
     {
-      /*  $this->query->orderBy(Auction::select('application_start_date')
+       $this->query->orderBy(Auction::select('application_start_date')
             ->whereColumn('auctions.id', 'lots.auction_id')->take(1),
             $direction
-        );*/
-        $this->query->select('lots.*')
+        );
+       /* $this->query->select('lots.*')
             ->join('auctions', 'auctions.id', '=', 'lots.auction_id')
-            ->orderBy('auctions.application_start_date',  $direction);
+            ->orderBy('auctions.application_start_date',  $direction);*/
     }
 }

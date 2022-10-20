@@ -10,12 +10,12 @@ class EventEnd extends SortQuery implements SortContract
 {
     public function handle($direction): void
     {
-       /* $this->query->orderBy(Auction::select('event_end_date')
+       $this->query->orderBy(Auction::select('event_end_date')
             ->whereColumn('auctions.id', 'lots.auction_id')->take(1),
             $direction
-        );*/
-        $this->query->select('lots.*')
+        );
+      /*  $this->query->select('lots.*')
             ->join('auctions', 'auctions.id', '=', 'lots.auction_id')
-            ->orderBy('auctions.event_end_date',  $direction);
+            ->orderBy('auctions.event_end_date',  $direction);*/
     }
 }
