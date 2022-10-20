@@ -182,9 +182,18 @@
         // },
         methods: {
             scrollToElement() {
-                const [el] = this.$refs.card0;
+                // const [el] = this.$refs.card0;
+                // if (el) {
+                //     el.$el.scrollIntoView({ block: 'end', scrollBehavior: 'smooth' });
+                // }
+                const el = this.$refs.cardList;
                 if (el) {
-                    el.$el.scrollIntoView({ block: 'end', scrollBehavior: 'smooth' });
+                    requestAnimationFrame(() => {
+                        el.scrollIntoView({block: 'start', scrollBehavior: 'smooth'});
+                        requestAnimationFrame(() => {
+                            el.scrollIntoView();
+                        })
+                    })
                 }
             },
             changePage(page) {
