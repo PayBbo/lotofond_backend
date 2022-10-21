@@ -26,7 +26,8 @@ class AuctionController extends Controller
     public function getTrades(Request $request)
     {
         $lots = Lot::with(['auction', 'showRegions', 'showPriceReductions', 'status', 'favouritePaths', 'monitoringPaths', 'lotImages', 'categories', 'lotParams'])
-            ->doesntHave('userHiddenLot')->customSortBy($request)->paginate(20);
+            ->whereNotIn('id', auth()->user()->hiddenLots->pluck('id'))
+            ->customSortBy($request)->paginate(20);
         return response(new LotCollection($lots), 200);
     }
 

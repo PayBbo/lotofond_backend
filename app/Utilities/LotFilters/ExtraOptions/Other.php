@@ -32,11 +32,13 @@ class Other extends SortQuery implements SortContract
             });
         }
         if(!is_null($value) && isset($value['isHidden']) && $value['isHidden'] === true && auth()->check()) {
-            $this->query->has('userHiddenLot');
+            // $this->query->has('userHiddenLot');
+            $this->query->whereIn('id', auth()->user()->hiddenLots->pluck('id'));
         }
 
         if(!$value['isHidden'] && auth()->check()) {
-            $this->query->doesntHave('userHiddenLot');
+           // $this->query->doesntHave('userHiddenLot');
+            $this->query->whereNotIn('id', auth()->user()->hiddenLots->pluck('id'));
         }
         if(isset($minDate) && isset($maxDate)){
             $this->query->whereHas('auction', function ($q) use ($minDate, $maxDate) {
