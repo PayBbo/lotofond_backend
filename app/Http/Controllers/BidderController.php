@@ -34,12 +34,16 @@ class BidderController extends Controller
             $exceptionLots[] = $request->exceptionLotId;
         }
         if ($request->type == 'active') {
-            $lots = Lot::whereNotIn('id', $exceptionLots)->whereIn('status_id', $active_statuses)->whereHas('auction.' . $bidderType,
+            $lots = Lot::with(['auction', 'showPriceReductions', 'userMarks',
+                'showRegions', 'status', 'favouritePaths', 'monitoringPaths', 'lotImages', 'categories', 'lotParams'])
+                ->whereNotIn('id', $exceptionLots)->whereIn('status_id', $active_statuses)->whereHas('auction.' . $bidderType,
                 function ($q) use ($bidderId) {
                     $q->where('id', $bidderId);
                 })->paginate(20);
         } else {
-            $lots = Lot::whereNotIn('id', $exceptionLots)->whereNotIn('status_id', $active_statuses)->whereHas('auction.' . $bidderType,
+            $lots = Lot::with(['auction', 'showPriceReductions', 'userMarks',
+                'showRegions', 'status', 'favouritePaths', 'monitoringPaths', 'lotImages', 'categories', 'lotParams'])
+            ->whereNotIn('id', $exceptionLots)->whereNotIn('status_id', $active_statuses)->whereHas('auction.' . $bidderType,
                 function ($q) use ($bidderId) {
                     $q->where('id', $bidderId);
                 })->paginate(20);
@@ -66,6 +70,7 @@ class BidderController extends Controller
             $perPage = $request->perPage;
         }
         $bidders = Bidder::customSortBy($request)
+            ->with('region')
             ->whereHas('types', function ($query) use ($type) {
                 $query->where('title', $type);
             })

@@ -52,7 +52,8 @@ class MonitoringController extends Controller
         $path = Monitoring::find($request->pathId);
         $lotIds = $path->lots()->pluck('lots.id')->toArray();
         $lots = Lot::whereIn('id', $lotIds)
-            ->with(['auction', 'showRegions', 'showPriceReductions', 'status', 'favouritePaths', 'monitoringPaths', 'lotImages', 'categories', 'lotParams'])
+            ->with(['auction', 'showPriceReductions', 'userMarks',
+                'showRegions', 'status', 'favouritePaths', 'monitoringPaths', 'lotImages', 'categories', 'lotParams'])
             ->filterBy($request->request)->customSortBy($request)->paginate(20);
         return response(new LotCollection($lots), 200);
     }

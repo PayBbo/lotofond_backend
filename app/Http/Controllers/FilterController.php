@@ -22,7 +22,9 @@ class FilterController extends Controller
     {
         $searchString = $request->searchString;
         $type = substr_replace($type, "", -1);
-        $bidders = Bidder::has($type . 'AuctionsWithLots')->whereHas('types', function ($query) use ($type) {
+        $bidders = Bidder::has($type . 'AuctionsWithLots')
+            ->with('region')
+            ->whereHas('types', function ($query) use ($type) {
             $query->where('title', $type);
         })
             ->when(isset($searchString) && strlen($searchString) > 0, function ($query) use ($searchString) {
