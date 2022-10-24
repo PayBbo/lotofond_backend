@@ -5,6 +5,7 @@ namespace App\Jobs;
 use App\Models\Lot;
 use App\Models\Monitoring;
 use App\Models\Notification;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -37,10 +38,14 @@ class MonitoringJob implements ShouldQueue
         $maxDate = Carbon::now()->setTimezone('Europe/Moscow');
         $monitorings = Monitoring::all();
         foreach ($monitorings as $monitoring) {
-            $lots = Lot::filterBy($monitoring->filters)->doesntHave('userHiddenLot')->whereBetween('lots.created_at', [$minDate, $maxDate])->groupBy('lots.id')->get();
+          //  $user = User::find($monitoring->user_id);
+            $lots = Lot::whereNotIn('lots.id', $monitoring->user->hiddenLots->pluck('id'))->filterBy($monitoring->filters)
+                ->whereBetween('lots.created_at', [$minDate, $maxDate])->groupBy('lots.id')->get();
             if ($lots->count() > 0) {
+                logger($lots->count());
                 foreach ($lots as $lot) {
-                    if (!$monitoring->lots->contains($lot) && !$monitoring->user->hiddenLots->contains($lot)) {
+                    if (!$monitoring->lots->contains($lot)) {
+                        logger('yess');
                         $monitoring->lots()->attach($lot, ['created_at' => $maxDate]);
                     }
                 }
