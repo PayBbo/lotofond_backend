@@ -9,12 +9,99 @@
         </slot>
         <slot name="list">
             <slot name="loading" v-if="loading">
-                <div class="d-flex w-100 justify-content-center mb-5">
-                    <div
-                        style="color: #2953ff;border-width: 2px;"
-                        class="spinner-border"
-                        role="status"
-                    ></div>
+<!--                <div class="d-flex w-100 justify-content-center mb-5">-->
+<!--                    <div-->
+<!--                        style="color: #2953ff;border-width: 2px;"-->
+<!--                        class="spinner-border"-->
+<!--                        role="status"-->
+<!--                    ></div>-->
+<!--                </div>-->
+                <div class="bkt-card-trade bkt-card__row w-100 mx-auto mx-0" v-for="(item, index) in 5">
+                    <div class="bkt-wrapper-between bkt-card__heading w-100">
+                        <skeleton type_name="text" skeleton_class="me-auto mb-0" height="10px" width="50px"></skeleton>
+                        <skeleton type_name="text"  skeleton_class="mb-0" height="10px" width="55px"></skeleton>
+                    </div>
+                    <div class="col-12 col-lg-11 p-0">
+                        <div class="row h-100 w-100 mx-auto row-cols-1 row-cols-md-2 row-cols-lg-3 bkt-card-trade__wrapper">
+                            <div class="col p-0 px-sm-2 order-2 order-lg-1">
+                                <div class="bkt-card__image-wrapper">
+                                    <skeleton type_name="item" skeleton_class="bkt-card__image-category"></skeleton>
+                                    <div class="bkt-wrapper-between bkt-card-ecp-wrapper">
+                                        <skeleton type_name="item" skeleton_class="bkt-button bkt-card-ecp w-100"
+                                                  height="44px"></skeleton>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-12 col-lg-4 p-0 px-sm-2 order-1 order-lg-2">
+                                <div class="bkt-wrapper-between bkt-card__head bkt-nowrap bkt-gap">
+                                    <skeleton :type_name="'title'" skeleton_class="mb-0"></skeleton>
+                                    <div class="dropdown d-block d-lg-none">
+                                        <skeleton :type_name="'item'" skeleton_class="bkt-button bkt-card-menu-button"></skeleton>
+                                    </div>
+                                </div>
+                                <div class="d-none d-lg-block">
+                                    <div class="bkt-card__feature" v-for="(n,index) in 3">
+                                        <skeleton type_name="text" height="12px" width="60px"></skeleton>
+                                        <skeleton type_name="text" height="14px" width="80%"></skeleton>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col order-3 p-0 px-sm-2">
+                                <div class="bkt-card-trade__wrapper bkt-wrapper-column">
+                                    <div class="bkt-wrapper-column bkt-gap-small">
+                                        <skeleton type_name="item" skeleton_class="bkt-card-trade__price-wrapper bkt-button w-100"></skeleton>
+                                        <div class="bkt-card-infographics bkt-wrapper-between bkt-nowrap">
+                                            <div class="bkt-card outline" v-for="(n,index) in 2">
+                                                <div class="bkt-card__feature text-center w-100 mt-0">
+                                                    <skeleton type_name="text" height="14px" width="40px"></skeleton>
+                                                    <skeleton type_name="text" height="18px" width="90%"></skeleton>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="bkt-card-trade__periods">
+                                        <div class="bkt-form row-cols-2 row-cols-lg-1">
+                                            <div class="col" v-for="(n,index) in 2">
+                                                <div class="bkt-card-period bkt-gap-small">
+                                                    <skeleton :type_name="'item'" width="44px" height="44px"></skeleton>
+                                                    <div class="bkt-card__feature">
+                                                        <skeleton type_name="text" height="12px" width="40px"></skeleton>
+                                                        <skeleton type_name="text" height="12px" width="50px"></skeleton>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col d-lg-none" v-for="(n,index) in 4">
+                                                <div class="bkt-card-period bkt-gap-small">
+                                                    <skeleton :type_name="'item'" width="44px" height="44px"></skeleton>
+                                                    <div class="bkt-card__feature">
+                                                        <skeleton type_name="text" height="12px" width="40px"></skeleton>
+                                                        <skeleton type_name="text" height="12px" width="50px"></skeleton>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-12 col-lg-12 p-0 px-sm-2 order-4 align-self-end">
+                                <div class="bkt-wrapper-between bkt-card-trade__cadastral-info">
+                                    <div class="bkt-card__row outline bkt-wrapper-between align-items-center" v-for="(n,index) in 3">
+                                        <div class="bkt-card__feature">
+                                            <skeleton :type_name="'text'" width="90px"></skeleton>
+                                            <skeleton :type_name="'text'" width="55px" height="8px"></skeleton>
+                                        </div>
+                                        <skeleton :type_name="'item'" width="25px" height="25px" circle></skeleton>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-2 col-lg-1 p-0 d-none d-lg-block">
+                        <div class="bkt-card vertical m-0 bkt-gap-mini">
+                            <skeleton :type_name="'item'" width="40px" height="40px" circle  v-for="(n,index) in 7" :key="index"></skeleton>
+                        </div>
+                    </div>
                 </div>
             </slot>
             <slot name="card_list" v-if="!loading">

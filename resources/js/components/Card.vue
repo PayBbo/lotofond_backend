@@ -26,15 +26,17 @@
             <div class="row h-100 w-100 mx-auto row-cols-1 row-cols-md-2 row-cols-lg-3 bkt-card-trade__wrapper">
                 <div class="col p-0 px-sm-2 order-2 order-lg-1">
                     <div class="bkt-card__image-wrapper">
-                        <card-image-category
-                            v-if="(!item.photos || item.photos.length==0) && item && item.categories"
-                            :categories="item.categories"></card-image-category>
+                        <div class="bkt-cursor-pointer" @click="navigate"
+                             v-if="item && (!item.photos || item.photos.length==0) && item.categories"
+                        >
+                            <card-image-category :categories="item.categories"></card-image-category>
+                        </div>
                         <!--                        <img v-lazy="'/images/card-image1.png'" class="bkt-card__image"-->
                         <!--                             v-if="!item.photos || item.photos.length==0"/>-->
                         <hooper :itemsToShow="1" :centerMode="true" class="bkt-card__image-slider"
                                 v-if="item.photos.length>0">
                             <slide v-for="photo in item.photos" :key="photo.id">
-                                <img v-lazy="photo.main" class="bkt-card__image"/>
+                                <img v-lazy="photo.preview" class="bkt-card__image bkt-cursor-pointer" @click="navigate"/>
                             </slide>
                             <hooper-navigation slot="hooper-addons"></hooper-navigation>
                         </hooper>
@@ -53,7 +55,7 @@
                     </div>
                 </div>
                 <div class="col-12 col-md-12 col-lg-4 p-0 px-sm-2 order-1 order-lg-2">
-                    <div class="bkt-wrapper-between bkt-card__head bkt-nowrap">
+                    <div class="bkt-wrapper-between bkt-card__head bkt-nowrap bkt-gap-small">
                         <router-link :to="'/lot/'+item.id" class="bkt-card__title bkt-text-truncate-3">
                             {{item && item.description ? item.description:'Некоторое название торгов'}}
                         </router-link>
@@ -414,7 +416,7 @@
             </div>
         </div>
         <div class="col-2 col-lg-1 p-0 d-none d-lg-block">
-            <card-actions :item="item" class="bkt-card vertical m-0" button_type="-ellipse"
+            <card-actions :item="item" class="bkt-card vertical m-0 gap-0" button_type="-ellipse"
                           @changeStatus="changeStatus" main_bg="bkt-bg-body" icon_color="main"
             >
             </card-actions>
@@ -431,7 +433,6 @@
     import 'hooper/dist/hooper.css';
     import CardActions from "./CardActions";
     import CardImageCategory from "./CardImageCategory";
-
     export default {
         props: {
             item: {
@@ -443,7 +444,7 @@
             Slide,
             HooperNavigation,
             CardActions,
-            CardImageCategory
+            CardImageCategory,
         },
         data() {
             return {}
@@ -557,6 +558,9 @@
                 }
                 //0 соток | {n} сотка | {n} сотки | {n} соток
                 return choicesLength < 4 ? 2 : 3
+            },
+            navigate() {
+                this.$router.push('/lot/'+this.item.id)
             }
         }
     };

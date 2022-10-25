@@ -115,7 +115,9 @@ Vue.use(VueLazyload, {
     loading: "/images/favicon/android-chrome-256x256.png",
     attempt: 1
 });
-
+import CoolLightBox from 'vue-cool-lightbox'
+import 'vue-cool-lightbox/dist/vue-cool-lightbox.min.css'
+Vue.use(CoolLightBox);
 // const moment = require('moment');
 // const moment = require('moment-timezone/builds/moment-timezone-with-data');
 import moment from 'moment-timezone'

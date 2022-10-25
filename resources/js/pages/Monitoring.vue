@@ -435,6 +435,19 @@
                            :pagination_data="pagination_data" @change-page="getData"
                            :no_pagination="items_paths.length==0" @changeStatus="changeStatus"
             >
+                <template #no_results>
+                    <div class="bkt-shadow-card bkt-shadow-card_primary w-100">
+                        <div class="bkt-shadow-card__inner bkt-gap">
+                            <h3 class="bkt-shadow-card__title bkt-text-white">
+                                Пока ничего нет
+                            </h3>
+                            <div class="bkt-shadow-card__shadow-1">
+                            </div>
+                            <div class="bkt-shadow-card__shadow-2">
+                            </div>
+                        </div>
+                    </div>
+                </template>
             </bkt-card-list>
         </section>
     </div>

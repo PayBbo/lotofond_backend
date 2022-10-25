@@ -223,6 +223,8 @@
     }
 
     & .bkt-card__image-slider {
+        max-height: 160px;
+        min-height: 130px;
         & .hooper-prev, & .hooper-next {
             border-radius: 10px;
             background-color: rgb(255, 255, 255);
@@ -246,7 +248,10 @@
             left: 10px;
         }
     }
-
+    & .bkt-card__image-category {
+        max-height: 160px;
+        min-height: 130px;
+    }
     & .bkt-card__image-wrapper {
         gap: 25px;
         display: flex;
@@ -367,12 +372,82 @@
     align-items: center;
     justify-content: center;
     min-height: 120px;
+    & .bkt-card__image {
+        height: 136px;
+        //min-width: 136px;
+        object-fit: cover;
+    }
     & .bkt-card__image-category {
         padding: 20px;
         min-height: 50px;
+        height: 136px;
+    }
+    & .bkt-card__image-slider {
+        height: 136px;
+        width: 100%;
+    }
+    & .bkt-card__image-category_multiple {
+        padding: 10px;
+        gap: 5px !important;
     }
 }
+.bkt-card-trade, .bkt-card-win, .bkt-card-trade-mini {
+    & .bkt-card__image-slider {
+        & .hooper-prev, & .hooper-next {
+            border-radius: 10px;
+            background-color: rgb(255, 255, 255);
+            width: 30px;
+            height: 30px;
+            display: flex;
+            padding: 7px;
+            align-items: center;
+            justify-content: center;
 
+            & svg {
+                fill: $primary-default;
+            }
+        }
+
+        & .hooper-next {
+            right: 10px;
+        }
+
+        & .hooper-prev {
+            left: 10px;
+        }
+
+        & .slick-arrow, & .custom-arrow {
+            border-radius: 10px;
+            background-color: rgb(255, 255, 255);
+            width: 30px;
+            height: 30px;
+            display: flex;
+            padding: 7px;
+            align-items: center;
+            justify-content: center;
+        }
+
+        & .slick-next {
+            right: 10px;
+            &:before {
+                content:'';
+            }
+        }
+
+        & .slick-prev {
+            left: 10px;
+            z-index: 1;
+            &:before {
+                content:'';
+            }
+        }
+
+        & .slick-disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+    }
+}
 @media screen and (max-width: 568px) {
     .bkt-card-trade {
         & .bkt-card-ecp-wrapper {
@@ -406,10 +481,19 @@
             gap: 20px 0;
         }
 
-        & .bkt-card__image-wrapper {
-            gap: 20px 0;
+        & .bkt-card__image {
+            height: 136px;
+            &-category {
+                min-height: 136px;
+                max-height: 136px;
+            }
+            &-slider {
+                height: 136px;
+            }
+            &-wrapper {
+                gap: 20px 0;
+            }
         }
-
         & .bkt-card-infographics {
             & .bkt-card {
                 padding: 12px !important;
@@ -457,6 +541,7 @@
                 }
             }
         }
+
     }
 
     .bkt-card-win {
@@ -552,6 +637,11 @@
 }
 
 @media screen and (max-width: 768px) {
+    .bkt-card-trade {
+        & .bkt-card__head {
+           margin-bottom: 0 !important;
+        }
+    }
     .bkt-card-win {
         & .bkt-card-price-wrapper {
             text-align: left;
@@ -583,6 +673,62 @@
             }
             & div h6:last-child {
                 display: none;
+            }
+        }
+    }
+    .bkt-card-trade-mini {
+        & .bkt-card__image {
+            height: 160px;
+            &-category {
+                height: 160px;
+            }
+            &-slider {
+                height: 160px;
+            }
+        }
+    }
+}
+@media screen and (min-width: 768px) {
+    .bkt-card-trade-mini {
+        & .bkt-card__image-slider {
+            & .hooper-prev, & .hooper-next {
+                border-radius: 10px;
+                width: 30px;
+                height: 30px;
+                display: flex;
+                padding: 7px;
+                top: auto;
+                bottom: 15px;
+                transform: none;
+            }
+
+            & .hooper-next {
+                right: 15px;
+            }
+
+            & .hooper-prev {
+                right: 61px;
+                left: auto;
+            }
+
+            & .slick-arrow, & .custom-arrow {
+                border-radius: 10px;
+                width: 30px;
+                height: 30px;
+                display: flex;
+                padding: 7px;
+                top: auto;
+                bottom: 15px;
+                transform: none;
+            }
+
+            & .slick-next {
+                right: 15px;
+            }
+
+            & .slick-prev {
+                right: 61px;
+                left: auto;
             }
         }
     }
@@ -671,7 +817,6 @@
 }
 
 @media screen and (min-width: 1200px) {
-
     .bkt-card-trade {
         & .bkt-card__image-slider {
             & .hooper-prev, & .hooper-next {
@@ -690,6 +835,69 @@
             }
 
             & .hooper-prev {
+                right: 61px;
+                left: auto;
+            }
+
+            & .slick-arrow {
+                border-radius: 10px;
+                width: 30px;
+                height: 30px;
+                display: flex;
+                padding: 7px;
+                top: auto;
+                bottom: 15px;
+                transform: none;
+            }
+
+            & .slick-next {
+                right: 15px;
+            }
+
+            & .slick-prev {
+                right: 61px;
+                left: auto;
+            }
+        }
+    }
+    .bkt-card-trade-mini {
+        & .bkt-card__image-slider {
+            & .hooper-prev, & .hooper-next {
+                border-radius: 10px;
+                width: 30px;
+                height: 30px;
+                display: flex;
+                padding: 7px;
+                top: auto;
+                bottom: 15px;
+                transform: none;
+            }
+
+            & .hooper-next {
+                right: 15px;
+            }
+
+            & .hooper-prev {
+                right: 61px;
+                left: auto;
+            }
+
+            & .slick-arrow, & .custom-arrow {
+                border-radius: 10px;
+                width: 30px;
+                height: 30px;
+                display: flex;
+                padding: 7px;
+                top: auto;
+                bottom: 15px;
+                transform: none;
+            }
+
+            & .slick-next {
+                right: 15px;
+            }
+
+            & .slick-prev {
                 right: 61px;
                 left: auto;
             }

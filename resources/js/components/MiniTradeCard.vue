@@ -1,18 +1,28 @@
 <template>
     <div class="bkt-form w-100 mx-auto bkt-row outline bkt-card-trade-mini">
-        <div class="col-12 col-md-2 ps-sm-0 bkt-card-trade-mini__image">
-            <card-image-category v-if="(!item.photos || item.photos.length==0) && item.categories"
-                                 :categories="item.categories"
+        <div class="col-12 col-lg-2 ps-sm-0 bkt-card-trade-mini__image">
+            <div @click="navigate" class="bkt-cursor-pointer"
+                 v-if="item && (!item.photos || item.photos.length==0) && item.categories"
             >
-            </card-image-category>
-            <hooper :itemsToShow="1" :centerMode="true" class="w-100 h-100" style="min-height: 159px" v-if="item.photos.length>0">
-                <slide v-for="photo in item.photos" :key="photo.id">
-                    <img v-lazy="photo.main" class="bkt-card__image"/>
-                </slide>
-                <hooper-navigation slot="hooper-addons"></hooper-navigation>
-            </hooper>
+                <card-image-category :categories="item.categories"></card-image-category>
+            </div>
+            <slick v-bind="settings" class="w-100 bkt-card__image-slider" v-if="item && item.photos.length>0">
+                <div v-for="photo in item.photos" :key="photo.id">
+                    <img v-lazy="photo.preview" class="bkt-card__image bkt-cursor-pointer" @click="navigate"/>
+                </div>
+                <template #prevArrow="arrowOption">
+                    <div class="custom-arrow">
+                        <bkt-icon name="ArrowDown" class="bkt-rotate-90"></bkt-icon>
+                    </div>
+                </template>
+                <template #nextArrow="arrowOption">
+                    <div class="custom-arrow">
+                        <bkt-icon name="ArrowDown" class="bkt-rotate-270"></bkt-icon>
+                    </div>
+                </template>
+            </slick>
         </div>
-        <div class="col-12 col-md-3 bkt-card-trade-mini__description">
+        <div class="col-12 col-lg-3 bkt-card-trade-mini__description">
             <h6 class="bkt-card__subtitle">
                 № {{item.trade.externalId}}, лот {{item.lotNumber}}
             </h6>
@@ -20,12 +30,12 @@
                 {{item.description}}
             </h5>
         </div>
-        <div class="col-12 col-md-2 bkt-card-trade-mini__price">
+        <div class="col-12 col-lg-2 bkt-card-trade-mini__price">
             <h6 class="bkt-card__subtitle d-md-none">цена</h6>
             <h4 class="bkt-card__title bkt-text-primary">
                 {{item.currentPrice | priceFormat}} ₽</h4>
         </div>
-        <div class="col-12 col-md-2 bkt-card-trade-mini__dates">
+        <div class="col-12 col-lg-2 bkt-card-trade-mini__dates">
             <h6 class="bkt-card__subtitle d-md-none">даты торгов</h6>
             <div v-if="item.trade && item.trade.eventTime &&
                  (item.trade.eventTime.start || item.trade.eventTime.end)"
@@ -39,7 +49,7 @@
             </div>
             <h6 v-else>не указано</h6>
         </div>
-        <div class="col-12 col-md-3 bkt-card-trade-mini__organizer">
+        <div class="col-12 col-lg-3 bkt-card-trade-mini__organizer">
             <h6 class="bkt-card__subtitle d-md-none">ЭТП и организатор</h6>
             <h6 class="bkt-card__title bkt-text-main text-uppercase" v-if="item.trade && item.trade.tradePlace">
                 {{item.trade && item.trade.tradePlace
@@ -78,24 +88,29 @@
 </template>
 
 <script>
-    import {
-        Hooper,
-        Slide,
-        Navigation as HooperNavigation
-    } from 'hooper';
     import CardImageCategory from "./CardImageCategory";
     export default {
         name: "MiniTradeCard",
         props: ['item'],
         components: {
-            Hooper,
-            Slide, HooperNavigation, CardImageCategory
+            CardImageCategory
+        },
+        data() {
+            return {
+                settings: {
+                    "dots": false,
+                    "edgeFriction": 0.35,
+                    "infinite": false,
+                    "slidesToShow": 1,
+                    "slidesToScroll": 1
+                }
+            }
         },
         methods: {
             navigate() {
+                this.$emit('navigate', this.item.id);
                 this.$router.push('/lot/'+this.item.id);
-                this.$emit('navigate', this.item.id)
-            }
+            },
         }
     }
 </script>

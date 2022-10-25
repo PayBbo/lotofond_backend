@@ -1,6 +1,6 @@
 <template>
     <div class="bkt-wrapper-column bkt-lot__cards w-100" v-if="!loading">
-        <bkt-collapse v-for="(item, index) in list"
+        <bkt-collapse v-for="(item, index) in list" :key="index"
             :title="item.tradeSubject ? item.tradeSubject : 'Объект № '+(index+1)" :id="'object'+index" :loading="loading"
             :disabled="loading" collapse_button_class="bkt-bg-body flex-shrink-0"
             title_class="bkt-collapse__title bkt-text-truncate" class="bkt-lot__collapse"

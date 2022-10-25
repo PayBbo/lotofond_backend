@@ -82,7 +82,15 @@
                 type: Boolean,
                 default: false
             }
-        }
+        },
+        // mounted() {
+        //     // var myCollapsible = document.getElementById(''+this.id)
+        //     // if(myCollapsible) {
+        //     //     myCollapsible.addEventListener('show.bs.collapse', () => {
+        //     //         this.$emit('show');
+        //     //     })
+        //     // }
+        // }
     }
 </script>
 

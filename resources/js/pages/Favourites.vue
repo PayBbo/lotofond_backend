@@ -251,6 +251,19 @@
             <bkt-card-list :current_component="'BktCard'" :items="items" :loading="loading" ref="card_list"
                            :pagination_data="pagination_data" @change-page="getData" @updateData="updateData"
             >
+                <template #no_results>
+                    <div class="bkt-shadow-card bkt-shadow-card_primary w-100">
+                        <div class="bkt-shadow-card__inner bkt-gap">
+                            <h3 class="bkt-shadow-card__title bkt-text-white">
+                                Пока ничего нет
+                            </h3>
+                            <div class="bkt-shadow-card__shadow-1">
+                            </div>
+                            <div class="bkt-shadow-card__shadow-2">
+                            </div>
+                        </div>
+                    </div>
+                </template>
             </bkt-card-list>
         </div>
 

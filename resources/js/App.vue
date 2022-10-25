@@ -3,7 +3,7 @@
         <notifications position="top right" classes="bkt-notification"/>
         <bkt-header></bkt-header>
         <main class="wrapper">
-            <router-view></router-view>
+            <router-view :key="$route.fullPath"></router-view>
         </main>
         <bkt-footer></bkt-footer>
     </div>
@@ -15,7 +15,7 @@
         computed: {
             isLoggedIn() {
                 return this.$store.getters.isLoggedIn
-            },
+            }
         },
         mounted() {
             this.$store.dispatch('getContacts');

@@ -1,9 +1,18 @@
 <template>
-    <div class="bkt-main bkt-page bkt-lot bkt-container">
+    <div class="bkt-main bkt-page bkt-lot bkt-container position-relative">
         <bkt-move-favourite-modal v-if="isLoggedIn"/>
         <bkt-note-modal v-if="isLoggedIn"/>
         <bkt-application-modal/>
         <bkt-add-mark-modal></bkt-add-mark-modal>
+        <CoolLightBox
+            v-if="item && item.photos && item.photos.length>0"
+            :items="item.photos"
+            :index="photo_index"
+            loop
+            srcName="main"
+            srcThumb="preview"
+            @close="photo_index = null">
+        </CoolLightBox>
         <nav class="bkt-wrapper bkt-nowrap m-0 bkt-breadcrumb" aria-label="breadcrumb">
             <button class="bkt-button-icon bg-white" style="margin-right:20px" @click="goBack">
                 <bkt-icon :name="'ArrowDown'" class="bkt-button__icon bkt-rotate-90"></bkt-icon>
@@ -294,16 +303,16 @@
                         </div>
                         <div class="bkt-card__image-wrapper">
                             <bkt-card-image-category :categories="item.categories"
-                                                     v-if="(!item.photos || item.photos.length==0) && item.categories"
+                                                     v-if="item && (!item.photos || item.photos.length==0) && item.categories"
                             >
                             </bkt-card-image-category>
                             <!--                            <div class="bkt-card__image-category" v-if="!item.photos || item.photos.length==0">-->
                             <!--                                <bkt-icon name="Cow" color="neutral-dark"></bkt-icon>-->
                             <!--                            </div>-->
                             <hooper :itemsToShow="1" :centerMode="true" class="bkt-card__image-slider"
-                                    v-if="item.photos && item.photos.length>0">
-                                <slide v-for="photo in item.photos" :key="photo.id">
-                                    <img v-lazy="photo.main" class="bkt-card__image"/>
+                                    v-if="item && item.photos && item.photos.length>0">
+                                <slide v-for="(photo, index) in item.photos" :key="photo.id">
+                                    <img v-lazy="photo.main" class="bkt-card__image" @click="photo_index = index"/>
                                 </slide>
                                 <hooper-navigation slot="hooper-addons"></hooper-navigation>
                             </hooper>
@@ -1065,7 +1074,7 @@
 <!--            </div>-->
             <div v-if="item && isLoggedIn" class="col-12 col-lg-12 order-3 px-lg-0">
                 <bkt-collapse title="Связанные лоты" :count="related_lots_pagination.total"
-                              id="collapseRelatedLots" :loading="related_lots_loading"
+                              id="collapseRelatedLots" :loading="related_lots_loading||loading"
                               :disabled="related_lots.length==0&&!related_lots_loading"
                               class="bkt-lot__collapse"
                 >
@@ -1094,7 +1103,7 @@
                                 </div>
                             </div>
                             <div class="col-12 px-0" v-for="related_lot in related_lots">
-                                <mini-trade-card :item="related_lot" @navigate="getMiniLot"></mini-trade-card>
+                                <mini-trade-card :item="related_lot"></mini-trade-card>
                             </div>
                             <div class="col-12 px-0" v-if="related_lots_pagination">
                                 <bkt-pagination
@@ -1173,7 +1182,7 @@
                 >
                     <template #collapse v-if="debtor_active_lots.length>0">
                         <div class="row w-100 m-auto bkt-gap">
-                            <div class="col-12 px-0 d-none d-md-block">
+                            <div class="col-12 px-0 d-none d-lg-block">
                                 <div class="row w-100 mx-auto align-items-center justify-content-center">
                                     <div class="col-2 pl-0">
                                         <h6 class="bkt-text-neutral-dark">фото</h6>
@@ -1193,7 +1202,7 @@
                                 </div>
                             </div>
                             <div class="col-12 px-0" v-for="active_lot in debtor_active_lots">
-                                <mini-trade-card :item="active_lot" @navigate="getMiniLot"></mini-trade-card>
+                                <mini-trade-card :item="active_lot"></mini-trade-card>
                             </div>
                             <div class="col-12 px-0" v-if="debtor_active_lots_pagination">
                                 <bkt-pagination
@@ -1237,7 +1246,7 @@
                                 </div>
                             </div>
                             <div class="col-12 px-0" v-for="complete_lot in debtor_completed_lots">
-                                <mini-trade-card :item="complete_lot" @navigate="getMiniLot"></mini-trade-card>
+                                <mini-trade-card :item="complete_lot"></mini-trade-card>
                             </div>
                             <div class="col-12 px-0" v-if="debtor_completed_lots_pagination">
                                 <bkt-pagination
@@ -1480,7 +1489,6 @@
     import BktApplicationModal from "../components/SharedModals/ApplicationModal";
     import AddMarkModal from "./LotCard/AddMarkModal";
     import BktObjectsList from "./LotCard/ObjectsList";
-
     export default {
         name: "LotCard",
         components: {
@@ -1498,7 +1506,7 @@
             'bkt-move-favourite-modal': MoveFavouriteModal,
             'bkt-add-mark-modal': AddMarkModal,
             'bkt-note-modal': NoteModal, BktApplicationModal,
-            BktObjectsList
+            BktObjectsList,
         },
         data() {
             return {
@@ -1525,32 +1533,9 @@
                 notifications_pagination: {},
                 marks: [],
                 marks_in_process: [],
-                sharing: {
-                    // url: 'https://news.vuejs.org/issues/180',
-                    title: 'Успей купить на Лотофонд',
-                    // description: '',
-                    hashtags: 'lotofond,trade,lot',
-                    // twitterUser: 'youyuxi',
-                    media: 'https://lotofond.ru/images/card-image1.png'
-                },
-                networks: [
-                    // { network: 'baidu', name: 'Baidu', icon: 'fas fah fa-lg fa-paw', color: '#2529d8' },
-                    {network: 'email', name: 'Email', color: '#2953ff'},
-                    // { network: 'line', name: 'Line', icon: 'fab fah fa-lg fa-line', color: '#00c300' },
-                    // { network: 'linkedin', name: 'LinkedIn', icon: 'fab fah fa-lg fa-linkedin', color: '#007bb5' },
-                    {network: 'odnoklassniki', name: 'Odnoklassniki', color: '#ed812b'},
-                    // { network: 'skype', name: 'Skype', icon: 'fab fah fa-lg fa-skype', color: '#00aff0' },
-                    // { network: 'sms', name: 'SMS', icon: 'far fah fa-lg fa-comment-dots', color: '#333333' },
-                    {network: 'telegram', name: 'Telegram', color: '#0088cc'},
-                    {network: 'twitter', name: 'Twitter', color: '#1da1f2'},
-                    {network: 'viber', name: 'Viber', color: '#59267c'},
-                    {network: 'vk', name: 'Vk', color: '#4a76a8'},
-                    // { network: 'weibo', name: 'Weibo', icon: 'fab fah fa-lg fa-weibo', color: '#e9152d' },
-                    {network: 'whatsapp', name: 'WhatsApp', color: '#25d366'},
-                    // { network: 'xing', name: 'Xing', icon: 'fab fah fa-lg fa-xing', color: '#026466' },
-                ],
                 short_description: '',
                 read_more: false,
+                photo_index: null
             };
         },
         computed: {
