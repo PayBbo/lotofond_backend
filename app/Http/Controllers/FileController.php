@@ -26,8 +26,8 @@ class FileController extends Controller
                 $path = Storage::disk('public')->put('users/images/user-'.auth()->id(), $request->file);
                 $fileService =new FilesService();
                 $fileService->generatePreview($request->file('file'),
-                    '\\users\images\\user-'.auth()->id(). '\\previews\\' . $request->file('file')->getClientOriginalName());
-                $preview = 'storage/users/images/user-'.auth()->id().'/previews/' . $request->file('file')->getClientOriginalName();
+                    '\\users\images\\user-'.auth()->id(). '\\previews\\' . basename($path));
+                $preview = 'storage/users/images/user-'.auth()->id().'/previews/' . basename($path);
                 $imageAssets = ['main' => 'storage/' . $path, 'preview' => $preview];
                 if (!LotFile::where(['url' =>  $imageAssets, 'lot_id' => $request->lotId, 'type' => 'image'])->exists()) {
                     LotFile::create([
