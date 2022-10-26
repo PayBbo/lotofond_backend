@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\URL;
 
 class LotFile extends Model
@@ -25,6 +26,21 @@ class LotFile extends Model
         'lot_id' => 'integer',
         'trade_message_id' => 'integer',
     ];
+
+    public static function boot()
+    {
+        parent::boot();
+
+        static::deleting(function ($file) {
+          if($file->type == 'file'){
+              Storage::delete($file);
+          }else{
+              Storage::delete($file->url[0]);
+              Storage::delete($file->url[1]);
+          }
+        });
+
+    }
 
     public function lot()
     {
