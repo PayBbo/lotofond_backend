@@ -54,6 +54,16 @@ export default {
             payload.forEach(item => {
                 let index = state.notifications.findIndex(el => el.id == item);
                 if (index >= 0) {
+                    if (state.notifications[index].type === 'favourite') {
+                        state.notifications_count.favourite -= 1;
+                    }
+                    if (state.notifications[index].type === 'platform') {
+                        state.notifications_count.platform -= 1;
+                    }
+                    if (state.notifications[index].type === 'monitoring') {
+                        state.notifications_count.monitoring -= 1;
+                    }
+                    state.notifications_count.all -= 1;
                     Vue.set(state.notifications[index], 'isSeen', true)
                 }
             })

@@ -15,8 +15,16 @@ export default {
         setEvents(state, payload) {
             payload.forEach(item => {
                 item.lot_info = item.dataFavourite ?? null;
+                let event = state.events.findIndex(el => el.id == item.id);
+                if (event >= 0) {
+                    Vue.set(state.events, event, item)
+                }
+                else {
+                    state.events.push(item)
+                }
             })
-            state.events = payload;
+
+            // state.events = payload;
         },
         setEventsLoading(state, payload) {
             return state.events_loading = payload;

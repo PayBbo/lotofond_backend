@@ -125,7 +125,7 @@
     }
 
     & .btn-group {
-        flex-grow: 1;
+        flex-grow: 0;
         width: 220px;
         flex-shrink: 0;
     }
@@ -142,6 +142,7 @@
             align-items: center;
             width: 100%;
             height: 51px;
+            max-width: 220px;
 
             &.show {
                 border-radius: 15px 15px 0 0;
@@ -230,6 +231,9 @@
         min-height: 51px;
         padding: 10px 20px;
 
+        & .bkt-container {
+            padding: 0;
+        }
         &__logo {
             max-width: 100px;
         }
@@ -245,6 +249,9 @@
 
             & .bkt-navbar__nav-link {
                 font-size: 11px;
+            }
+            & .bkt-navbar__ecp {
+                padding: 10px;
             }
         }
 

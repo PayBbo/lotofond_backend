@@ -205,6 +205,11 @@
                 right: 12px;
                 bottom: 17px;
             }
+            &__image {
+                &-wrapper {
+                    margin-right: 10px;
+                }
+            }
         }
         & .bkt-history {
             &__chats {

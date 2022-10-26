@@ -34,7 +34,7 @@
                         </div>
                     </li>
                 </ul>
-                <div class="bkt-wrapper bkt-nowrap">
+                <div class="bkt-wrapper bkt-nowrap mx-md-auto me-0 ms-auto">
                     <button class="bkt-button-icon">
                         <bkt-icon name="AppleStore" color="main"></bkt-icon>
                     </button>
@@ -95,7 +95,7 @@
         </nav>
         <nav class="bkt-navbar white">
             <div class="bkt-navbar__wrapper bkt-container">
-                <button @click="sendApplication" class="bkt-button bkt-text-white blue mx-0">
+                <button @click="sendApplication" class="bkt-button bkt-text-white blue mx-0 bkt-navbar__ecp">
                     Покупка без ЭЦП
                 </button>
                 <ul class="bkt-navbar__nav">
@@ -106,7 +106,7 @@
 <!--                    </li>-->
                     <li class="bkt-navbar__nav-item">
                         <router-link to="/auctions" class="bkt-navbar__nav-link">
-                            <span class="bkt-navbar__nav-icon">
+                            <span class="bkt-navbar__nav-icon d-none d-sm-flex">
                                  <bkt-icon :name="'Fire'"/>
                             </span>
                             Горящие торги

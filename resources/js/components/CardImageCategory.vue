@@ -11,7 +11,16 @@
 <script>
     export default {
         name: "CardImageCategory",
-        props: ['categories'],
+        props:{
+            no_multiple: {
+                default: false
+            },
+            categories: {
+                default: function () {
+                    return [];
+                }
+            }
+        },
         data() {
             return {
                 color: 'primary',
@@ -91,6 +100,9 @@
                 tmp = this.categories;
                 if (tmp.length == 0) {
                     tmp.push({key: 'other', color: 'primary'})
+                }
+                if(this.no_multiple && tmp.length>1) {
+                    tmp = [this.categories[0]];
                 }
                 return tmp
             },

@@ -22,7 +22,7 @@
                 <div class="col-12 col-lg-8 col-xl-9">
                     <div class="bkt-month-calendar d-none d-sm-flex">
                         <v-calendar class="bkt-border-none custom-calendar max-w-full" :masks="masks"
-                                    :attributes="current_items" is-expanded
+                                    :attributes="current_items" is-expanded @update:from-page="changePage"
                                     ref="bkt-custom-calendar" :class="'is-today-'+new Date().getDay()"
                         >
                             <!--                            <template #header>-->
@@ -277,9 +277,9 @@
                 this.nowDate.month = date.month;
                 this.nowDate.year = date.year;
                 this.selected_date = '';
-                if (this.$refs['bkt-custom-calendar']) {
-                    this.$refs['bkt-custom-calendar'].move(date)
-                }
+                // if (this.$refs['bkt-custom-calendar']) {
+                //     this.$refs['bkt-custom-calendar'].move(date)
+                // }
                 this.getData(this.nowDate.month, this.nowDate.year);
             },
             setDate(date) {
