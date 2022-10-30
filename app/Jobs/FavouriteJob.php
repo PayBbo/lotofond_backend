@@ -49,7 +49,7 @@ class FavouriteJob implements ShouldQueue
                 $applicationEnd = $lot->auction->application_end_date;
                 $resultDate = $lot->auction->result_date;
                 $changePriceDate = null;
-                $currentPriceReduction = $lot->currentPriceReduction->first();
+                $currentPriceReduction = $lot->currentPriceReduction;
                 if($currentPriceReduction){
                     $nextPrice = PriceReduction::where(['lot_id'=>$lot->id, 'start_time'=>$currentPriceReduction->end_time])->first();
                     if($nextPrice){
