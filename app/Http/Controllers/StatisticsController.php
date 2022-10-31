@@ -26,8 +26,7 @@ class StatisticsController extends Controller
                 })->count()
             ];
         }
-        $data['allLotsCount'] = Lot::count();
-        $data['activeLotsCount'] = Lot::whereIn('status_id',[1, 2])->count();
+        $data['allLots'] = ['count'=>Lot::count(), 'activeCount'=>Lot::whereIn('status_id',[1, 2])->count()];
         return response($data, 200);
     }
 

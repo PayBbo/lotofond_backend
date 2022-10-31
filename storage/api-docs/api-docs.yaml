@@ -2548,8 +2548,9 @@ paths:
                     {
                       'realEstate': { 'allLotsCount': 100, 'activeLotsCount': 90 },
                       'commercialRealEstate': { 'allLotsCount': 100, 'activeLotsCount': 90 },
-                      'allLotsCount': 858739,
-                      'activeLotsCount': 75823
+                      'allLots': {'count': 858739,
+                                  'activeCount': 75823}
+
                    }
         default:
           description: unexpected error
