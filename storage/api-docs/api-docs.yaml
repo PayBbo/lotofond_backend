@@ -2541,12 +2541,16 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                example:
-                  {
-                    'realEstate': { 'allLotsCount': 100, 'activeLotsCount': 90 },
-                    'commercialRealEstate': { 'allLotsCount': 100, 'activeLotsCount': 90 }
-                  }
+                type: array
+                items:
+                  type: object
+                  example:
+                    {
+                      'realEstate': { 'allLotsCount': 100, 'activeLotsCount': 90 },
+                      'commercialRealEstate': { 'allLotsCount': 100, 'activeLotsCount': 90 },
+                      'allLotsCount': 858739,
+                      'activeLotsCount': 75823
+                   }
         default:
           description: unexpected error
           content:
