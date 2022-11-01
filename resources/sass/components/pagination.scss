@@ -14,6 +14,7 @@
     //}
 
     & .page-item {
+        cursor: pointer;
         & .page-link {
             display: flex;
             align-items: center;
@@ -59,7 +60,7 @@
             background-color: transparent;
             pointer-events: none;
             min-width: 29px;
-
+            cursor: default;
             &  > .page-link, & > .page-link:hover {
                 color: $main-default;
                 background-color: transparent;

@@ -325,7 +325,7 @@
                         <!--                        </button>-->
                     </div>
                 </div>
-                <div class="bkt-card bkt-auctions__find" v-if="!loading">
+                <div class="bkt-card bkt-auctions__find" v-if="!loading && pagination_data">
                     НАЙДЕНО {{pagination_data && pagination_data.total ? pagination_data.total : 0}} ЛОТОВ
                     <bkt-icon name="ArrowDown" color="primary"></bkt-icon>
                 </div>
@@ -353,9 +353,7 @@
                     </div>
                 </div>
             </div>
-
         </section>
-
     </div>
 </template>
 

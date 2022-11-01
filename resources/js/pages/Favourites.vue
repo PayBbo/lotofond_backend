@@ -7,7 +7,7 @@
                     <div class="d-flex bkt-wrapper-down-md-between bkt-w-md-100 bkt-gap-small bkt-gap-down-sm-mini">
                         <button class="bkt-button-icon bkt-favourites__filters-action d-none d-md-block"
                                 :class="search_mode ? 'bkt-bg-primary shadow': 'bkt-bg-white'"
-                                @click="search_mode = !search_mode" :disabled="loading">
+                                @click="search_mode = !search_mode" :disabled="favourites_loading">
                             <bkt-icon class="bkt-button__icon" :name="'Search'"
                                       :color="search_mode ? 'white': 'primary'"></bkt-icon>
                         </button>
@@ -15,7 +15,7 @@
                             class="bkt-button bkt-favourites__filters-action bkt-w-down-md-100"
                             data-bs-toggle="modal"
                             data-bs-target="#addPathModal"
-                            :disabled="loading"
+                            :disabled="favourites_loading"
                         >
                             <span>
                                  <bkt-icon :name="'FolderAdd'" :color="'green'"
@@ -23,7 +23,7 @@
                             </span>
                             Создать папку
                         </button>
-                        <!--                        <button :disabled="loading"-->
+                        <!--                        <button :disabled="favourites_loading"-->
                         <!--                            class="bkt-button bkt-favourites__filters-action bkt-w-down-md-100">-->
                         <!--                             <span>-->
                         <!--                            <bkt-icon :name="'FileArrowLeft'" :color="'blue'"-->
@@ -31,7 +31,7 @@
                         <!--                             </span>-->
                         <!--                            <span class="d-none d-xl-block">Переместить</span>-->
                         <!--                        </button>-->
-                        <button :disabled="loading" data-bs-toggle="modal"
+                        <button :disabled="favourites_loading" data-bs-toggle="modal"
                                 data-bs-target="#fieldsToDocumentModal"
                                 class="bkt-button bkt-favourites__filters-action bkt-w-down-md-100">
                              <span>
@@ -43,7 +43,7 @@
                         <button
                             class="bkt-button bkt-favourites__filters-action bkt-w-down-md-100"
                             data-bs-toggle="modal" data-bs-target="#editPathModal"
-                            :disabled="loading"
+                            :disabled="favourites_loading"
                         >
                              <span>
                             <bkt-icon :name="'Settings'" :color="'pink'"
@@ -54,7 +54,7 @@
                         <button
                             class="bkt-button bkt-favourites__filters-action bkt-w-down-md-100"
                             @click="removeFavouritePath"
-                            :disabled="loading"
+                            :disabled="favourites_loading"
                         >
                              <span>
                             <bkt-icon :name="'FolderDelete'" :color="'red'"
@@ -78,9 +78,9 @@
                 </div>
                 <div class="bkt-favourites__filters-card bkt-wrapper-column bkt-gap-large" v-if="search_mode">
                     <div class="bkt-menu__search">
-                        <bkt-search v-model="params.includedWords" no_dropdown :loading="loading" simple
+                        <bkt-search v-model="params.includedWords" no_dropdown :loading="favourites_loading" simple
                                     @runSearch="getData(1)" search_class="bkt-register-collapse__search"
-                                    placeholder="Нужные слова через запятую" :disabled="loading"
+                                    placeholder="Нужные слова через запятую" :disabled="favourites_loading"
                         >
                         </bkt-search>
                     </div>
@@ -248,7 +248,7 @@
                     </bkt-collapse>
                 </div>
             </div>
-            <bkt-card-list :current_component="'BktCard'" :items="items" :loading="loading" ref="card_list"
+            <bkt-card-list :current_component="'BktCard'" :items="items" :loading="favourites_loading" ref="card_list"
                            :pagination_data="pagination_data" @change-page="getData" @updateData="updateData"
             >
                 <template #no_results>
@@ -295,9 +295,6 @@
             this.getFavouritePaths();
             // this.getData();
         },
-
-        mounted() {
-        },
         data() {
             return {
                 loading: false,
@@ -342,9 +339,9 @@
             pagination_data() {
                 return this.$store.getters.favourites_pagination;
             },
-            // favourites_loading() {
-            //     return this.$store.getters.favourites_loading;
-            // },
+            favourites_loading() {
+                return this.$store.getters.favourites_loading || this.loading;
+            },
             items_paths() {
                 return this.$store.getters.favourites_paths;
             },

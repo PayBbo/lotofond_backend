@@ -235,16 +235,30 @@ export default {
                 //     console.log(error);
                 // });
         },
-        async getFavourites({commit, state}, payload) {
+        async getFavourites({commit, state, dispatch}, payload) {
+            dispatch('checkAbort','getFavourites');
+            let tmp_controller = new AbortController();
+            dispatch('setAborts', {
+                controller: tmp_controller,
+                signal: tmp_controller.signal,
+                method: 'getFavourites'
+            });
+            commit('setFavouritesLoading', true);
             await axios({
                 method: 'put',
                 url: '/api/favourite?page=' + payload.page,
                 data: payload,
+                signal: tmp_controller.signal,
             })
                 .then((response) => {
                     commit('setFavourites', {pathId: payload.pathId, data: response.data})
+                    commit('setFavouritesLoading', false);
+                }).catch(error => {
+                    commit('setFavouritesLoading', false);
+                    if (error.message === 'canceled') {
+                        commit('setFavouritesLoading', true);
+                    }
                 });
-
         },
         async addFavourite({commit}, payload) {
             return await axios.post('/api/favourite/add/lots', payload)
@@ -301,10 +315,11 @@ export default {
                 let params = payload.params;
                 params.page = 1;
                 params.pathId = payload.pathId;
+                commit('setCurrentPath', payload.pathId);
                 await dispatch('getFavourites', params)
-                    .then(resp => {
-                        commit('setCurrentPath', payload.pathId);
-                    })
+                    // .then(resp => {
+                    //
+                    // })
             // }
         }
     },

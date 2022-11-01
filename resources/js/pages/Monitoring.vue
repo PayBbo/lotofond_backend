@@ -9,7 +9,7 @@
                     <div class="d-flex bkt-wrapper-down-md-between bkt-w-md-100 bkt-gap-small bkt-gap-down-sm-mini">
                         <button class="bkt-button-icon bkt-favourites__filters-action d-none d-md-block"
                                 :class="search_mode ? 'bkt-bg-primary shadow': 'bkt-bg-white'"
-                                @click="search_mode = !search_mode" :disabled="loading">
+                                @click="search_mode = !search_mode" :disabled="monitorings_loading">
                             <bkt-icon class="bkt-button__icon" :name="'Search'"
                                       :color="search_mode ? 'white': 'primary'"></bkt-icon>
                         </button>
@@ -17,7 +17,7 @@
                             class="bkt-button bkt-favourites__filters-action bkt-w-down-md-100"
                             data-bs-toggle="modal"
                             data-bs-target="#addMonitoringModal"
-                            :disabled="loading"
+                            :disabled="monitorings_loading"
                         >
                             <span class="">
                                 <bkt-icon :name="'FolderAdd'" :color="'green'" width="20px" height="20px"></bkt-icon>
@@ -27,7 +27,7 @@
                         <button
                             class="bkt-button bkt-favourites__filters-action bkt-w-down-md-100"
                             data-bs-toggle="modal" data-bs-target="#editMonitoringModal"
-                            :disabled="loading"
+                            :disabled="monitorings_loading"
                         >
                             <span class="">
                                 <bkt-icon :name="'Settings'" :color="'pink'" width="16px" height="16px"></bkt-icon>
@@ -37,7 +37,7 @@
                         <button
                             class="bkt-button bkt-favourites__filters-action bkt-w-down-md-100"
                             @click="removeMonitoringPath"
-                            :disabled="loading"
+                            :disabled="monitorings_loading"
                         >
                             <span class="">
                                 <bkt-icon :name="'FolderDelete'" :color="'red'" width="20px" height="20px"></bkt-icon>
@@ -48,9 +48,9 @@
                 </div>
                 <div class="bkt-favourites__filters-card bkt-wrapper-column bkt-gap-large" v-if="search_mode">
                     <div class="bkt-menu__search">
-                        <bkt-search v-model="params.includedWords" no_dropdown :loading="loading" simple
+                        <bkt-search v-model="params.includedWords" no_dropdown :loading="monitorings_loading" simple
                                     @runSearch="getData(1)" search_class="bkt-register-collapse__search"
-                                    placeholder="Нужные слова через запятую" :disabled="loading"
+                                    placeholder="Нужные слова через запятую" :disabled="monitorings_loading"
                         >
                         </bkt-search>
                     </div>
@@ -131,169 +131,167 @@
                     </bkt-select>
                 </div>
             </div>
-            <div class="bkt-favourites__paths-list">
-                <div class="d-md-block d-none">
-                    <!--                    <slick v-bind="settings" v-if="items_paths.length>0">-->
-                    <!--                        <div v-for="(path, index) in items_paths" :key="index">-->
-                    <!--                            <button-->
-                    <!--                                @click="setCurrentMonitoringPath(path.pathId)"-->
-                    <!--                                class="bkt-button bkt-favourites__path bkt-button_plump text-uppercase"-->
-                    <!--                                :class="[current_path === path.pathId && path.color ? 'bkt-bg-'+path.color : '',-->
-                    <!--                                {'bkt-bg-primary': current_path === path.pathId && !path.color,-->
-                    <!--                                'bkt-bg-white bkt-text-main': current_path !== path.pathId}]"-->
-                    <!--                            >-->
-                    <!--                                {{path.name}}-->
-                    <!--                                <span class="bkt-badge" v-if="path.newLotCount>0"-->
-                    <!--                                      :class="[-->
-                    <!--                                          path.color ? 'bkt-text-'+path.color : 'bkt-text-primary',-->
-                    <!--                                          current_path !== path.pathId && path.color ? 'bkt-bg-'+path.color+'-lighter' : '',-->
-                    <!--                                          {-->
-                    <!--                                              'bkt-bg-white': current_path === path.pathId,-->
-                    <!--                                              'bkt-bg-primary-lighter': current_path !== path.pathId && !path.color-->
-                    <!--                                          }-->
-                    <!--                                      ]"-->
-                    <!--                                >-->
-                    <!--                                    {{path.newLotCount ? path.newLotCount : '0'}}-->
-                    <!--                                </span>-->
-                    <!--                            </button>-->
-                    <!--                        </div>-->
-                    <!--                        <template #prevArrow="arrowOption">-->
-                    <!--                            <svg-->
-                    <!--                                width="8"-->
-                    <!--                                height="12"-->
-                    <!--                                viewBox="0 0 8 12"-->
-                    <!--                                fill="#ffc515"-->
-                    <!--                            >-->
-                    <!--                                <path-->
-                    <!--                                    d="M8 1.42L3.42 6L8 10.59L6.59 12L0.59 6L6.59 1.23266e-07L8 1.42Z"-->
-                    <!--                                ></path>-->
-                    <!--                            </svg>-->
-                    <!--                        </template>-->
-                    <!--                        <template #nextArrow="arrowOption">-->
-                    <!--                            <svg-->
-                    <!--                                fill="#ffc515"-->
-                    <!--                                width="8"-->
-                    <!--                                height="12"-->
-                    <!--                                viewBox="0 0 8 12"-->
-                    <!--                            >-->
-                    <!--                                <path-->
-                    <!--                                    d="M0 10.5801L4.58 6.00012L0 1.41012L1.41 0.00012207L7.41 6.00012L1.41 12.0001L0 10.5801Z"-->
-                    <!--                                ></path>-->
-                    <!--                            </svg>-->
-                    <!--                        </template>-->
-                    <!--                    </slick>-->
-                    <div class="bkt-wrapper my-0 align-items-center w-100 bkt-nowrap">
-                        <div class="p-3" v-show="items_paths.length > 1" @click="showPrev">
-                            <svg
-                                width="8"
-                                height="12"
-                                viewBox="0 0 8 12"
-                                fill="#ffc515"
-                            >
-                                <path
-                                    d="M8 1.42L3.42 6L8 10.59L6.59 12L0.59 6L6.59 1.23266e-07L8 1.42Z"
-                                ></path>
-                            </svg>
-                        </div>
-                        <div class="bkt-monitoring__paths-list"
-                             :class="{'p-0' : items_paths.length==1}" v-if="items_paths.length>0">
-                            <slick v-bind="settings" ref="carousel" style="overflow: hidden">
-                                <div v-for="(path, index) in items_paths" :key="index">
-                                    <!--                                    <div-->
-                                    <!--                                        class="bkt-monitoring__path"-->
-                                    <!--                                        :class="[current_path === path.pathId && path.color ? 'bkt-bg-'+path.color : '',-->
-                                    <!--                                                {'bkt-bg-primary': current_path === path.pathId && !path.color,-->
-                                    <!--                                                'bkt-bg-white bkt-text-main': current_path !== path.pathId}]"-->
-                                    <!--                                    >-->
-                                    <!--                                        <span  v-if="path.pathId === 0"-->
-                                    <!--                                               @click="setCurrentMonitoringPath(path.pathId)"-->
-                                    <!--                                               class=" bkt-cursor-pointer"-->
-                                    <!--                                        >-->
-                                    <!--                                            {{path.name}}-->
-                                    <!--                                        </span>-->
-                                    <!--                                        <div class="d-flex bkt-gap h-100 align-items-center bkt-cursor-pointer" v-if="path.pathId !== 0"-->
-                                    <!--                                             @click="setCurrentMonitoringPath(path.pathId)"-->
-                                    <!--                                        >-->
-                                    <!--                                            <span>{{path.name}}</span>-->
-                                    <!--                                        </div>-->
-                                    <!--                                        <div class="bkt-icon-frame-small bkt-bg-primary-lighter bkt-cursor-pointer"-->
-                                    <!--                                             v-if="path.pathId !== 0"-->
-                                    <!--                                             @click="editMonitoringPath(path.pathId)"-->
-                                    <!--                                        >-->
-                                    <!--                                            <bkt-icon :name="'Settings'" :color="'primary'" class="bkt-icon"></bkt-icon>-->
-                                    <!--                                        </div>-->
-                                    <!--                                    </div>-->
-                                    <button
-                                        @click="setCurrentMonitoringPath(path.pathId)"
-                                        class="bkt-button bkt-favourites__path bkt-button_plump text-uppercase"
-                                        :class="[current_path === path.pathId && path.color ? 'bkt-bg-'+path.color : '',
+            <div class="d-md-block d-none">
+                <!--                    <slick v-bind="settings" v-if="items_paths.length>0">-->
+                <!--                        <div v-for="(path, index) in items_paths" :key="index">-->
+                <!--                            <button-->
+                <!--                                @click="setCurrentMonitoringPath(path.pathId)"-->
+                <!--                                class="bkt-button bkt-favourites__path bkt-button_plump text-uppercase"-->
+                <!--                                :class="[current_path === path.pathId && path.color ? 'bkt-bg-'+path.color : '',-->
+                <!--                                {'bkt-bg-primary': current_path === path.pathId && !path.color,-->
+                <!--                                'bkt-bg-white bkt-text-main': current_path !== path.pathId}]"-->
+                <!--                            >-->
+                <!--                                {{path.name}}-->
+                <!--                                <span class="bkt-badge" v-if="path.newLotCount>0"-->
+                <!--                                      :class="[-->
+                <!--                                          path.color ? 'bkt-text-'+path.color : 'bkt-text-primary',-->
+                <!--                                          current_path !== path.pathId && path.color ? 'bkt-bg-'+path.color+'-lighter' : '',-->
+                <!--                                          {-->
+                <!--                                              'bkt-bg-white': current_path === path.pathId,-->
+                <!--                                              'bkt-bg-primary-lighter': current_path !== path.pathId && !path.color-->
+                <!--                                          }-->
+                <!--                                      ]"-->
+                <!--                                >-->
+                <!--                                    {{path.newLotCount ? path.newLotCount : '0'}}-->
+                <!--                                </span>-->
+                <!--                            </button>-->
+                <!--                        </div>-->
+                <!--                        <template #prevArrow="arrowOption">-->
+                <!--                            <svg-->
+                <!--                                width="8"-->
+                <!--                                height="12"-->
+                <!--                                viewBox="0 0 8 12"-->
+                <!--                                fill="#ffc515"-->
+                <!--                            >-->
+                <!--                                <path-->
+                <!--                                    d="M8 1.42L3.42 6L8 10.59L6.59 12L0.59 6L6.59 1.23266e-07L8 1.42Z"-->
+                <!--                                ></path>-->
+                <!--                            </svg>-->
+                <!--                        </template>-->
+                <!--                        <template #nextArrow="arrowOption">-->
+                <!--                            <svg-->
+                <!--                                fill="#ffc515"-->
+                <!--                                width="8"-->
+                <!--                                height="12"-->
+                <!--                                viewBox="0 0 8 12"-->
+                <!--                            >-->
+                <!--                                <path-->
+                <!--                                    d="M0 10.5801L4.58 6.00012L0 1.41012L1.41 0.00012207L7.41 6.00012L1.41 12.0001L0 10.5801Z"-->
+                <!--                                ></path>-->
+                <!--                            </svg>-->
+                <!--                        </template>-->
+                <!--                    </slick>-->
+                <div class="bkt-wrapper my-0 align-items-center w-100 bkt-nowrap">
+                    <div class="py-3 pe-3" v-show="items_paths.length > 1" @click="showPrev">
+                        <svg
+                            width="20"
+                            height="20"
+                            viewBox="0 0 8 12"
+                            fill="#ffc515"
+                        >
+                            <path
+                                d="M8 1.42L3.42 6L8 10.59L6.59 12L0.59 6L6.59 1.23266e-07L8 1.42Z"
+                            ></path>
+                        </svg>
+                    </div>
+                    <div class="bkt-monitoring__paths-list"
+                         :class="{'p-0' : items_paths.length==1}" v-if="items_paths.length>0">
+                        <slick v-bind="settings" ref="carousel" style="overflow: hidden">
+                            <div v-for="(path, index) in items_paths" :key="index">
+                                <!--                                    <div-->
+                                <!--                                        class="bkt-monitoring__path"-->
+                                <!--                                        :class="[current_path === path.pathId && path.color ? 'bkt-bg-'+path.color : '',-->
+                                <!--                                                {'bkt-bg-primary': current_path === path.pathId && !path.color,-->
+                                <!--                                                'bkt-bg-white bkt-text-main': current_path !== path.pathId}]"-->
+                                <!--                                    >-->
+                                <!--                                        <span  v-if="path.pathId === 0"-->
+                                <!--                                               @click="setCurrentMonitoringPath(path.pathId)"-->
+                                <!--                                               class=" bkt-cursor-pointer"-->
+                                <!--                                        >-->
+                                <!--                                            {{path.name}}-->
+                                <!--                                        </span>-->
+                                <!--                                        <div class="d-flex bkt-gap h-100 align-items-center bkt-cursor-pointer" v-if="path.pathId !== 0"-->
+                                <!--                                             @click="setCurrentMonitoringPath(path.pathId)"-->
+                                <!--                                        >-->
+                                <!--                                            <span>{{path.name}}</span>-->
+                                <!--                                        </div>-->
+                                <!--                                        <div class="bkt-icon-frame-small bkt-bg-primary-lighter bkt-cursor-pointer"-->
+                                <!--                                             v-if="path.pathId !== 0"-->
+                                <!--                                             @click="editMonitoringPath(path.pathId)"-->
+                                <!--                                        >-->
+                                <!--                                            <bkt-icon :name="'Settings'" :color="'primary'" class="bkt-icon"></bkt-icon>-->
+                                <!--                                        </div>-->
+                                <!--                                    </div>-->
+                                <button
+                                    @click="setCurrentMonitoringPath(path.pathId)"
+                                    class="bkt-button bkt-monitoring__path bkt-button_plump text-uppercase"
+                                    :class="[current_path === path.pathId && path.color ? 'bkt-bg-'+path.color : '',
                                                                         {'bkt-bg-primary': current_path === path.pathId && !path.color,
                                                                         'bkt-bg-white bkt-text-main': current_path !== path.pathId}]"
-                                    >
-                                        {{path.name}}
-                                        <span class="bkt-badge" v-if="path.newLotCount>0"
-                                              :class="[path.color ? 'bkt-text-'+path.color : 'bkt-text-primary',
+                                >
+                                    {{path.name}}
+                                    <span class="bkt-badge" v-if="path.newLotCount>0"
+                                          :class="[path.color ? 'bkt-text-'+path.color : 'bkt-text-primary',
                                               current_path !== path.pathId && path.color ? 'bkt-bg-'+path.color+'-lighter' : '',
                                               {
                                                   'bkt-bg-white': current_path === path.pathId,
                                                   'bkt-bg-primary-lighter': current_path !== path.pathId && !path.color
                                               }
                                               ]"
-                                        >
+                                    >
                                             {{path.newLotCount ? path.newLotCount : '0'}}
                                         </span>
-                                    </button>
-                                </div>
-                            </slick>
-                        </div>
-                        <div class="p-3" v-show="items_paths.length > 1" @click="showNext">
-                            <svg
-                                fill="#ffc515"
-                                width="8"
-                                height="12"
-                                viewBox="0 0 8 12"
-                            >
-                                <path
-                                    d="M0 10.5801L4.58 6.00012L0 1.41012L1.41 0.00012207L7.41 6.00012L1.41 12.0001L0 10.5801Z"
-                                ></path>
-                            </svg>
-                        </div>
-                    </div>
-                </div>
-                <div class="d-block d-md-none">
-                    <bkt-collapse id="collapsePaths" main_class="bkt-favourites__path-collapse"
-                                  :header_class="current_path_object.color ? 'bkt-bg-'+current_path_object.color : 'bkt-bg-primary'"
-                                  :collapse_button_class="items_paths.length>1 ? 'bkt-bg-white' : 'd-none'"
-                    >
-                        <template #title v-if="items_paths.length>0">
-                            <h6 class="mx-auto">
-                                {{current_path_object.name}}
-                                <span class="bkt-badge bkt-bg-white" v-if="current_path_object.newLotCount>0"
-                                      :class="current_path_object.color ? 'bkt-text-'+current_path_object.color : 'bkt-text-primary'"
-                                >
-                                    {{current_path_object.newLotCount ? current_path_object.newLotCount : '0'}}
-                                </span>
-                            </h6>
-                        </template>
-                        <template #collapse v-if="items_paths.length>0">
-                            <div class="bkt-wrapper-column bkt-gap">
-                                <button v-for="(path, index) in items_paths" :key="index"
-                                        @click="setCurrentMonitoringPath(path.pathId)"
-                                        v-if="path.pathId !== current_path"
-                                        class="w-100 bkt-button bkt-button_plump text-uppercase bkt-bg-white bkt-text-main text-center"
-                                >
-                                    {{path.name}}
-                                    <span class="bkt-badge" v-if="path.newLotCount>0"
-                                          :class="path.color ? 'bkt-bg-'+path.color+'-lighter bkt-text-'+path.color
-                                      : 'bkt-text-primary bkt-bg-primary-lighter'"
-                                    >
-                                    {{path.newLotCount ? path.newLotCount : '0'}}
-                                </span>
                                 </button>
                             </div>
-                        </template>
-                    </bkt-collapse>
+                        </slick>
+                    </div>
+                    <div class="py-3 ps-3" v-show="items_paths.length > 1" @click="showNext">
+                        <svg
+                            fill="#ffc515"
+                            width="20"
+                            height="20"
+                            viewBox="0 0 8 12"
+                        >
+                            <path
+                                d="M0 10.5801L4.58 6.00012L0 1.41012L1.41 0.00012207L7.41 6.00012L1.41 12.0001L0 10.5801Z"
+                            ></path>
+                        </svg>
+                    </div>
                 </div>
+            </div>
+            <div class="d-block d-md-none">
+                <bkt-collapse id="collapsePaths" main_class="bkt-monitoring__paths-collapse"
+                              :header_class="current_path_object.color ? 'bkt-bg-'+current_path_object.color : 'bkt-bg-primary'"
+                              :collapse_button_class="items_paths.length>1 ? 'bkt-bg-white' : 'd-none'"
+                >
+                    <template #title v-if="items_paths.length>0">
+                        <h6 class="mx-auto">
+                            {{current_path_object.name}}
+                            <span class="bkt-badge bkt-bg-white" v-if="current_path_object.newLotCount>0"
+                                  :class="current_path_object.color ? 'bkt-text-'+current_path_object.color : 'bkt-text-primary'"
+                            >
+                                    {{current_path_object.newLotCount ? current_path_object.newLotCount : '0'}}
+                                </span>
+                        </h6>
+                    </template>
+                    <template #collapse v-if="items_paths.length>0">
+                        <div class="bkt-wrapper-column bkt-gap">
+                            <button v-for="(path, index) in items_paths" :key="index"
+                                    @click="setCurrentMonitoringPath(path.pathId)"
+                                    v-if="path.pathId !== current_path"
+                                    class="w-100 bkt-button bkt-button_plump text-uppercase bkt-bg-white bkt-text-main text-center"
+                            >
+                                {{path.name}}
+                                <span class="bkt-badge" v-if="path.newLotCount>0"
+                                      :class="path.color ? 'bkt-bg-'+path.color+'-lighter bkt-text-'+path.color
+                                      : 'bkt-text-primary bkt-bg-primary-lighter'"
+                                >
+                                    {{path.newLotCount ? path.newLotCount : '0'}}
+                                </span>
+                            </button>
+                        </div>
+                    </template>
+                </bkt-collapse>
             </div>
             <!--            <div class="row w-100 mx-auto">-->
             <!--                <div class="col-12 d-md-block d-none" :class="{'p-0' : items_paths.length==1}">-->
@@ -431,7 +429,8 @@
             <!--                    <bkt-icon :name="'Settings'" :color="'primary'" class=""></bkt-icon>-->
             <!--                </button>-->
             <!--            </div>-->
-            <bkt-card-list v-if="items_paths.length>0" :current_component="'BktCard'" :items="items" :loading="loading"
+            <bkt-card-list v-if="items_paths.length>0" :current_component="'BktCard'" :items="items"
+                           :loading="monitorings_loading"
                            :pagination_data="pagination_data" @change-page="getData"
                            :no_pagination="items_paths.length==0" @changeStatus="changeStatus"
             >
@@ -492,8 +491,6 @@
                         type: "publishDate"
                     }
                 },
-                signal: null,
-                controller: null,
             }
         },
         created() {
@@ -511,6 +508,9 @@
             },
             pagination_data() {
                 return this.$store.getters.monitorings_pagination;
+            },
+            monitorings_loading() {
+                return this.$store.getters.monitorings_loading || this.loading;
             },
             items_paths() {
                 // let monitorings_paths =  this.$store.getters.monitorings_paths;
@@ -541,8 +541,8 @@
                 this.loading = true;
                 this.params.page = page;
                 this.params.pathId = this.current_path;
-                sessionStorage.setItem('monitoring'+this.current_path+'_page', page+'');
-                this.$store.dispatch('getMonitorings', {params: this.params, signal:this.signal}).then(resp => {
+                sessionStorage.setItem('monitoring' + this.current_path + '_page', page + '');
+                this.$store.dispatch('getMonitorings', {params: this.params}).then(resp => {
                     this.loading = false;
                 }).catch(error => {
                     this.loading = false;
@@ -560,14 +560,11 @@
                     // this.getData(1, this.current_path)
                     if (this.items_paths.length > 0) {
                         this.params.pathId = this.current_path;
-                        this.params.page =  1;
-                        if(sessionStorage.getItem('monitoring'+this.current_path+'_page'))
-                        {
-                            this.params.page = sessionStorage.getItem('monitoring'+this.current_path+'_page')
+                        this.params.page = 1;
+                        if (sessionStorage.getItem('monitoring' + this.current_path + '_page')) {
+                            this.params.page = sessionStorage.getItem('monitoring' + this.current_path + '_page')
                         }
-                        this.controller = new AbortController();
-                        this.signal = this.controller.signal;
-                        this.$store.dispatch('getMonitorings', {pathId:this.current_path, params: this.params, signal: this.signal})
+                        this.$store.dispatch('getMonitorings', {pathId: this.current_path, params: this.params})
                             .finally(() => {
                                 this.loading = false;
                             });
@@ -577,24 +574,17 @@
                 });
             },
             async setCurrentMonitoringPath(value) {
-                if (this.signal) {
-                    this.controller.abort();
+                this.loading = true;
+                this.params.page = 1;
+                sessionStorage.setItem('monitoring_path_id', value);
+                if (sessionStorage.getItem('monitoring' + value + '_page')) {
+                    this.params.page = sessionStorage.getItem('monitoring' + value + '_page')
                 }
-                await setTimeout(() => {
-                    this.loading = true;
-                    this.params.page = 1;
-                    sessionStorage.setItem('monitoring_path_id', value);
-                    if (sessionStorage.getItem('monitoring' + value + '_page')) {
-                        this.params.page = sessionStorage.getItem('monitoring' + value + '_page')
-                    }
-                    this.params.pathId = value;
-                    this.controller = new AbortController();
-                    this.signal = this.controller.signal;
-                    this.$store.dispatch('setCurrentMonitoringPath', {pathId: value, params: this.params, signal:this.signal})
-                        .finally(() => {
-                            this.loading = false;
-                        });
-                }, 50)
+                this.params.pathId = value;
+                this.$store.dispatch('setCurrentMonitoringPath', {pathId: value, params: this.params,})
+                    .finally(() => {
+                        this.loading = false;
+                    });
             },
             async removeMonitoringPath() {
                 this.$swal.fire({
@@ -649,7 +639,6 @@
                             this.$store.dispatch('sendNotification',
                                 {self: this, message: 'Лот успешно удален из мониторинга'});
                         }).catch(error => {
-
                     })
                     this.getData(page)
                 }

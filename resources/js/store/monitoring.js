@@ -163,7 +163,7 @@ export default {
                     dispatch('saveDataProperty', {
                         module_key: 'monitoring',
                         state_key: 'monitorings',
-                        key: ''+response.data.pathId,
+                        key: '' + response.data.pathId,
                         value: null
                     }, {root: true});
                     dispatch('setCurrentMonitoringPath', response.data.pathId)
@@ -177,25 +177,37 @@ export default {
                 .delete('/api/monitoring/delete/path/' + payload
                 ).then((response) => {
                     commit('removeMonitoringPath', payload)
-                    if(state.monitorings_paths.length>0)
-                    {
+                    if (state.monitorings_paths.length > 0) {
                         dispatch('setCurrentMonitoringPath', state.monitorings_paths[0].pathId)
                     }
-
                 }).catch(error => {
                     console.log(error);
                     throw error
                 });
         },
-        async getMonitorings({commit, state}, payload) {
+        async getMonitorings({dispatch, commit, state}, payload) {
+            dispatch('checkAbort', 'getMonitorings');
+            let tmp_controller = new AbortController();
+            dispatch('setAborts', {
+                controller: tmp_controller,
+                signal: tmp_controller.signal,
+                method: 'getMonitorings'
+            });
+            commit('setMonitoringsLoading', true);
             await axios({
                 method: 'put',
                 url: '/api/monitoring?page=' + payload.params.page,
                 data: payload.params,
-                signal: payload.signal
+                signal: tmp_controller.signal
             })
                 .then((response) => {
                     commit('setMonitorings', {pathId: payload.params.pathId, data: response.data})
+                    commit('setMonitoringsLoading', false);
+                }).catch(error => {
+                    commit('setMonitoringsLoading', false);
+                    if (error.message === 'canceled') {
+                        commit('setMonitoringsLoading', true);
+                    }
                 });
 
         },
@@ -209,8 +221,8 @@ export default {
                     // dispatch('getMonitorings', {page: 1, pathId: response.data[0].pathId});
                     commit('setMonitoringPaths', response.data);
                     let pathId = response.data[0].pathId;
-                    if(sessionStorage.getItem('monitoring_path_id')){
-                        pathId = sessionStorage.getItem('monitoring_path_id')/1;
+                    if (sessionStorage.getItem('monitoring_path_id')) {
+                        pathId = sessionStorage.getItem('monitoring_path_id') / 1;
                     }
                     commit('setCurrentMonitoringPath', pathId);
                 });
@@ -231,10 +243,11 @@ export default {
             // if (state.monitorings[payload.pathId]) {
             //     commit('setCurrentMonitoringPath', payload.pathId);
             // } else {
-                await dispatch('getMonitorings', payload)
-                    .then(resp => {
-                        commit('setCurrentMonitoringPath', payload.pathId);
-                    })
+            commit('setCurrentMonitoringPath', payload.pathId);
+            await dispatch('getMonitorings', payload)
+            // .then(resp => {
+            //     commit('setCurrentMonitoringPath', payload.pathId);
+            // })
             // }
         }
     },

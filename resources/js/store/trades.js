@@ -9,8 +9,6 @@ export default {
         wins: [],
         wins_pagination: {},
         wins_loading: false,
-        controllers: [],
-        signals:[]
     },
 
     getters: {
@@ -41,13 +39,6 @@ export default {
         wins_loading(state) {
             return state.wins_loading;
         },
-        controllers(state) {
-            return state.controllers;
-        },
-        signals(state) {
-            return state.signals;
-        },
-
     },
     mutations: {
         setTrades(state, payload) {
@@ -80,7 +71,7 @@ export default {
         },
         saveTradeProperty(state, payload) {
             let trade = state.trades.findIndex(item => item.id == payload.id);
-        // && state.trades[trade].hasOwnProperty(payload.key)
+            // && state.trades[trade].hasOwnProperty(payload.key)
             if (trade >= 0) {
                 Vue.set(state.trades[trade], payload.key, payload.value)
             }
@@ -119,11 +110,10 @@ export default {
         setWinsLoading(state, payload) {
             return (state.wins_loading = payload);
         },
-        changeTradeFavouritePaths(state, payload)
-        {
+        changeTradeFavouritePaths(state, payload) {
             let lot = state.trades.findIndex(item => item.id === payload.lotId);
             if (lot >= 0) {
-                if(state.trades[lot].favouritePaths) {
+                if (state.trades[lot].favouritePaths) {
                     let lot_path = state.trades[lot].favouritePaths.findIndex(item => item.pathId === payload.currentPathId);
                     if (lot_path >= 0) {
                         state.trades[lot].favouritePaths.splice(lot_path, 1);
@@ -136,10 +126,6 @@ export default {
                     }
                 }
             }
-        },
-        setTradeAborts(state, payload) {
-            state.controllers[payload.method] = payload.controller;
-            state.signals[payload.method] = payload.signal;
         },
     },
     actions: {
@@ -159,91 +145,76 @@ export default {
                 throw error
             }
         },
-        async getFilteredTrades({commit, state}, payload) {
-            if (state.signals['getFilteredTrades']) {
-                state.controllers['getFilteredTrades'].abort();
-            }
-            await setTimeout(() => {
-                let tmp_controller = new AbortController();
-                commit('setTradeAborts', {
-                    controller: tmp_controller,
-                    signal: tmp_controller.signal,
-                    method: 'getFilteredTrades'
-                });
-                commit('setTradesLoading', true);
-                // let filters = JSON.parse(JSON.stringify(payload.filters));
-                // Object.keys(filters).forEach(key => {
-                //     if (Array.isArray(filters[key]))
-                //     {
-                //         if(filters[key].length==0) {
-                //             filters[key] = null;
-                //         }
-                //     }
-                //     if (typeof filters[key] === 'object' && filters[key] != null ) {
-                //         Object.keys(filters[key]).forEach(k => {
-                //             if (typeof filters[key][k] === 'string') {
-                //                 if (filters[key] === '') {
-                //                     filters[key] = null
-                //                 }
-                //             }
-                //             if (typeof filters[key][k] === 'object') {
-                //                 let total = Object.values(filters[key][k])
-                //                     .reduce((r, o) => {
-                //                         if (r && o) {
-                //                             Object.values(o).forEach(item => {
-                //                                 if (item) {
-                //                                     r++;
-                //                                 }
-                //                             });
-                //                             return r;
-                //                         }
-                //                         return 0;
-                //                     }, 0);
-                //                 if (total == 0) {
-                //                     filters[key][k] = null;
-                //                 }
-                //             }
-                //         });
-                //     }
-                //     if (typeof filters[key] === 'string') {
-                //         if (filters[key] === '') {
-                //             filters[key] = null
-                //         }
-                //     }
-                // });
-                axios({
-                    method: 'put',
-                    url: '/api/trades/filter',
-                    data: payload.filters,
-                    signal: tmp_controller.signal,
-                    params: {page: payload.page}
-                })
-                    .then((response) => {
-                        commit('setTrades', response.data);
-                    }).catch((error) => {
-                    console.log(error);
-                    commit('setTrades', {data: [], pagination: {}});
-
-                }).finally(() => {
-                    commit('setTradesLoading', false);
-                })
-            }, 100)
-            // await axios.put('/api/trades/filter?page=' + payload.page, filters, payload.options)
-            //     .then((response) => {
-            //         commit('setTrades', response.data);
-            //     }).catch((error) => {
-            //         if (axios.isCancel(error)) {
-            //             console.log('Request canceled');
-            //             console.log('Request canceled', error.message);
-            //         } else {
-            //             // handle errors
+        async getFilteredTrades({commit, state, dispatch}, payload) {
+            dispatch('checkAbort','getFilteredTrades');
+            let tmp_controller = new AbortController();
+            dispatch('setAborts', {
+                controller: tmp_controller,
+                signal: tmp_controller.signal,
+                method: 'getFilteredTrades'
+            });
+            commit('setTradesLoading', true);
+            // let filters = JSON.parse(JSON.stringify(payload.filters));
+            // Object.keys(filters).forEach(key => {
+            //     if (Array.isArray(filters[key]))
+            //     {
+            //         if(filters[key].length==0) {
+            //             filters[key] = null;
             //         }
-            //         console.log(error);
-            //         commit('setTrades', {data: [], pagination: {}});
-            //     }).finally(()=>{
-            //         commit('setTradesLoading', false);
-            //     })
-
+            //     }
+            //     if (typeof filters[key] === 'object' && filters[key] != null ) {
+            //         Object.keys(filters[key]).forEach(k => {
+            //             if (typeof filters[key][k] === 'string') {
+            //                 if (filters[key] === '') {
+            //                     filters[key] = null
+            //                 }
+            //             }
+            //             if (typeof filters[key][k] === 'object') {
+            //                 let total = Object.values(filters[key][k])
+            //                     .reduce((r, o) => {
+            //                         if (r && o) {
+            //                             Object.values(o).forEach(item => {
+            //                                 if (item) {
+            //                                     r++;
+            //                                 }
+            //                             });
+            //                             return r;
+            //                         }
+            //                         return 0;
+            //                     }, 0);
+            //                 if (total == 0) {
+            //                     filters[key][k] = null;
+            //                 }
+            //             }
+            //         });
+            //     }
+            //     if (typeof filters[key] === 'string') {
+            //         if (filters[key] === '') {
+            //             filters[key] = null
+            //         }
+            //     }
+            // });
+            await axios({
+                method: 'put',
+                url: '/api/trades/filter',
+                data: payload.filters,
+                signal: tmp_controller.signal,
+                params: {page: payload.page}
+            })
+                .then((response) => {
+                    commit('setTrades', response.data);
+                    commit('setTradesLoading', false);
+                }).catch((error) => {
+                    commit('setTrades', {data: [], pagination: {}});
+                    commit('setTradesLoading', false);
+                    if (error.message === 'canceled') {
+                        commit('setTradesLoading', true);
+                    }
+                    //         if (axios.isCancel(error)) {
+                    //             console.log('Request canceled');
+                    //             console.log('Request canceled', error.message);
+                    //         }
+                })
         },
         async getTradeLots({commit}, payload) {
             return await axios.put('/api/trades/' + payload.auctionId + '?page=' + payload.page);
@@ -267,39 +238,38 @@ export default {
             return await
                 axios({
                     method: 'put',
-                    url: '/api/trades/lot/toggle-'+payload.type+'/'+payload.lotId,
+                    url: '/api/trades/lot/toggle-' + payload.type + '/' + payload.lotId,
                     data: payload,
                 })
-                // .then((response) => {
-                //     console.log('changeTradeLotStatus;', response)
-                //     // commit('saveTradeProperty', {id: payload.lot_id, key: payload.key, value: payload.value})
-                // }).catch(error => {
-                //     console.log(error);
-                //     throw error
-                // });
+            // .then((response) => {
+            //     console.log('changeTradeLotStatus;', response)
+            //     // commit('saveTradeProperty', {id: payload.lot_id, key: payload.key, value: payload.value})
+            // }).catch(error => {
+            //     console.log(error);
+            //     throw error
+            // });
         },
-        async getNearestTrades({commit, state}, payload) {
-            if (state.signals['getNearestTrades']) {
-                state.controllers['getNearestTrades'].abort();
-            }
-            await setTimeout(() => {
-                let tmp_controller = new AbortController();
-                commit('setTradeAborts', {
-                    controller: tmp_controller,
-                    signal: tmp_controller.signal,
-                    method: 'getNearestTrades'
-                });
-                commit('setNearestLoading', true);
-                // let filters = JSON.parse(JSON.stringify(payload.filters));
-                 axios.put('/api/trades/nearest?page=' + payload.page, payload.filters, {signal: tmp_controller.signal})
-                    .then((response) => {
-                        commit('setNearestTrades', response.data);
-                        commit('setNearestLoading', false);
-                    }).catch((error) => {
-                        commit('setNearestTrades', {data: [], pagination: {}});
-                        commit('setNearestLoading', false);
-                    })
-            },100);
+        async getNearestTrades({commit, state, dispatch}, payload) {
+            dispatch('checkAbort','getNearestTrades');
+            let tmp_controller = new AbortController();
+            dispatch('setAborts', {
+                controller: tmp_controller,
+                signal: tmp_controller.signal,
+                method: 'getNearestTrades'
+            });
+            commit('setNearestLoading', true);
+            // let filters = JSON.parse(JSON.stringify(payload.filters));
+            await axios.put('/api/trades/nearest?page=' + payload.page, payload.filters, {signal: tmp_controller.signal})
+                .then((response) => {
+                    commit('setNearestTrades', response.data);
+                    commit('setNearestLoading', false);
+                }).catch((error) => {
+                    commit('setNearestTrades', {data: [], pagination: {}});
+                    commit('setNearestLoading', false);
+                    if (error.message === 'canceled') {
+                        commit('setNearestLoading', true);
+                    }
+                })
         },
         async getWins({commit, state}, payload) {
             commit('setWinsLoading', true);
@@ -310,7 +280,7 @@ export default {
                 }).catch((error) => {
                     console.log(error);
                     commit('setWins', {data: [], pagination: {}});
-                }).finally(()=>{
+                }).finally(() => {
                     commit('setWinsLoading', false);
                 })
 

@@ -17,7 +17,9 @@ export default {
         main_contacts: {
             phone:'',
             email:''
-        }
+        },
+        controllers: [],
+        signals: []
     },
 
     getters: {
@@ -29,6 +31,12 @@ export default {
         },
         main_contacts(state) {
             return state.main_contacts;
+        },
+        controllers(state) {
+            return state.controllers;
+        },
+        signals(state) {
+            return state.signals;
         },
     },
 
@@ -90,6 +98,15 @@ export default {
                     }
                     commit('setContacts', contacts)
             });
+        },
+        setAborts({commit, state}, payload) {
+            state.controllers[payload.method] = payload.controller;
+            state.signals[payload.method] = payload.signal;
+        },
+        checkAbort({commit, state}, payload) {
+            if (state.signals[payload]) {
+                state.controllers[payload].abort();
+            }
         },
     },
 

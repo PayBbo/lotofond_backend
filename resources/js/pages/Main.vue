@@ -291,10 +291,8 @@
                     <!--                    </div>-->
                 </div>
             </template>
-
         </transition-group>
-
-        <bkt-card-list ref="cardList" :current_component="'BktCard'" :items="items" :loading="loading"
+        <bkt-card-list :current_component="'BktCard'" :items="items" :loading="loading"
                        :pagination_data="pagination_data" @change-page="getData" @changeStatus="changeStatus">
         </bkt-card-list>
         <div v-if="!isLoggedIn && !loading" class="bkt-shadow-card bkt-shadow-card_primary mt-3">
@@ -429,8 +427,6 @@
                                     }, 0);
                             }
                         }
-
-
                     });
                 }
 
@@ -484,11 +480,12 @@
                 });
             },
             runSearch(search) {
-                this.getData();
-                let el = document.querySelector(".bkt-main-filters");
-                if(el) {
-                    el.scrollIntoView({ block: 'start', scrollBehavior: 'smooth' });
-                }
+                this.getData(1);
+                // let el = document.querySelector(".bkt-main-filters");
+                // if(el) {
+                //     el.scrollIntoView({ block: 'start', scrollBehavior: 'smooth' });
+                // }
+                this.$scrollTo('#cardList', 200);
             },
             toggleDirection() {
                 if (this.filters_sort.direction == 'asc') {
@@ -517,10 +514,10 @@
 <style scoped>
     .fade-enter-active,
     .fade-leave-active
-    {
-        opacity: 0;
-        transition: opacity 0.5s ease;
-    }
+                    {
+                        opacity: 0;
+                        transition: opacity 0.5s ease;
+                    }
     .fade-enter-to,
     .fade-leave-from {
         transition: opacity 0.5s ease-in;

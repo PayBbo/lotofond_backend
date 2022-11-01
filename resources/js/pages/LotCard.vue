@@ -1604,7 +1604,7 @@
             isLoggedIn: function (newVal, oldVal) {
                 if (oldVal == false && newVal == true) {
                     this.getLot();
-                    this.getLotFiles();
+                    // this.getLotFiles();
                     this.getLotNotifications();
                     // this.getLotMarks();
                     this.makeWatched();
@@ -1614,10 +1614,10 @@
         async mounted() {
             this.getLot();
             if (this.isLoggedIn) {
-                this.getLotFiles();
+                this.makeWatched();
+                // this.getLotFiles();
                 this.getLotNotifications();
                 // this.getLotMarks();
-                this.makeWatched();
             }
         },
         methods: {
@@ -1785,7 +1785,7 @@
             getMiniLot() {
                 this.getLot();
                 if (this.isLoggedIn) {
-                    this.getLotFiles();
+                    // this.getLotFiles();
                     this.getLotNotifications();
                     // this.getLotMarks();
                     this.makeWatched();

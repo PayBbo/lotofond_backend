@@ -193,6 +193,21 @@ Vue.use(VueSweetalert2);
 import VueSocialSharing from 'vue-social-sharing'
 Vue.use(VueSocialSharing);
 
+var VueScrollTo = require('vue-scrollto');
+Vue.use(VueScrollTo, {
+    container: "body",
+    duration: 500,
+    easing: "ease",
+    offset: -70,
+    force: true,
+    cancelable: false,
+    onStart: false,
+    onDone: false,
+    onCancel: false,
+    x: false,
+    y: true
+});
+
 Vue.component("App", require("./App.vue").default);
 Vue.component("Layout", require("./Layout.vue").default);
 Vue.component("Admin", require("./Admin.vue").default);
