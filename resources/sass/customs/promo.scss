@@ -359,6 +359,7 @@
             @media (max-width: 768px) {
                 gap: 4px;
             }
+
             & .bkt-button {
                 overflow: hidden;
                 width: 120px !important;
@@ -398,6 +399,7 @@
             @media (max-width: 768px) {
                 gap: 4px;
             }
+
             & .form-select {
                 border: none;
                 border-radius: 15px;
@@ -431,6 +433,7 @@
                 width: 36px;
                 height: 36px;
             }
+
             @media (max-width: 768px) {
                 & .bkt-check__label {
                     font-size: 8px;
@@ -443,8 +446,10 @@
             height: 70px;
             border-radius: 20px;
         }
+
         & .bkt-promo__block-wrapper {
             position: relative;
+
             & .bkt-close-button {
                 position: absolute;
                 right: 20px;
@@ -452,42 +457,46 @@
                 padding: 15px;
             }
         }
-
     }
 
-   &__lot {
-       &-wrapper {
-           width: 100%;
-           & .bkt-card__image {
-               max-height: 100px;
-               min-height: 20px;
-               height: 80px;
-               width: 110px;
-               flex-shrink: 0;
+    &__lot {
+        &-wrapper {
+            width: 100%;
 
-               &-category {
-                   padding: 10px;
-                   max-height: 100px;
-                   min-height: 20px;
-                   height: 80px;
-                   width: 110px;
-                   flex-shrink: 0;
-                   gap: 6px;
-                   & svg {
-                       max-width: 30px;
-                       max-height: 30px;
-                   }
-                   &_multiple {
-                       padding: 10px;
-                   }
-               }
-           }
-       }
-       &-title {
-           font-weight: 700;
-           //font-size: 15px;
-       }
-   }
+            & .bkt-card__image {
+                max-height: 100px;
+                min-height: 20px;
+                height: 80px;
+                width: 110px;
+                flex-shrink: 0;
+                object-fit: cover;
+
+                &-category {
+                    padding: 10px;
+                    max-height: 100px;
+                    min-height: 20px;
+                    height: 80px;
+                    width: 110px;
+                    flex-shrink: 0;
+                    gap: 6px;
+
+                    & svg {
+                        max-width: 30px;
+                        max-height: 30px;
+                    }
+
+                    &_multiple {
+                        padding: 10px;
+                    }
+                }
+            }
+        }
+
+        &-title {
+            font-weight: 700;
+            //font-size: 15px;
+        }
+    }
 
 }
 
@@ -588,7 +597,6 @@
         & .buy_sample {
             background-image: url("/images/buy_sample_mobile.png");
         }
-
     }
 }
 
@@ -608,6 +616,7 @@
                 gap: 12px;
             }
         }
+
         &__lot {
             &-wrapper {
                 & .bkt-card__image {
@@ -616,29 +625,44 @@
                     //min-height: 20px;
                     //height: 30px;
                     //width: 30px;
+                    width: 60px;
+                    height: 50px;
 
                     &-category {
                         border-radius: 5px;
                         padding: 10px;
-                        gap:6px;
+                        gap: 6px;
                         //max-height: 30px;
                         //min-height: 20px;
                         //height: 30px;
                         //width: 30px;
+                        width: 60px;
+                        height: 50px;
+
                         & svg {
                             max-width: 30px;
                             max-height: 30px;
                         }
+
                         &_multiple {
                             padding: 8px;
                         }
                     }
                 }
             }
+
             &-title {
                 font-size: 12px;
             }
         }
 
+        &__form {
+            & .bkt-promo__block-wrapper {
+                & .bkt-close-button {
+                    right: 0;
+                    top: 0;
+                }
+            }
+        }
     }
 }

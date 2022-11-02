@@ -20,6 +20,22 @@
                     Напоминание
                 </li>
             </ul>
+            <div v-if="event.lot_info" class="bkt-promo__lot-wrapper">
+                <label class="bkt-input__label bkt-form__label">
+                    лот
+                </label>
+                <a :href="'/lot/'+event.lot_info.lotId" @click="close">
+                    <div class="bkt-wrapper bkt-gap bkt-nowrap">
+                        <bkt-card-image-category :no_multiple="true"
+                            v-if="(!event.lot_info.photos || event.lot_info.photos.length==0) && event.lot_info && event.lot_info.categories"
+                            :categories="event.lot_info.categories"></bkt-card-image-category>
+                        <img v-if="event.lot_info.photos.length>0" v-lazy="event.lot_info.photos[0].preview" class="bkt-card__image"/>
+                        <h4 class="bkt-promo__lot-title bkt-text-truncate bkt-cursor-pointer">
+                            {{event.lot_info.description}}
+                        </h4>
+                    </div>
+                </a>
+            </div>
             <bkt-datepicker type="date" v-model="event.date" label="дата" name="date"
                             value_type="YYYY-MM-DD" format="D MMMM YYYY" rules="required"
             ></bkt-datepicker>
@@ -27,17 +43,22 @@
                             label="время" name="time" icon_name="Clock" rules="required"
             ></bkt-datepicker>
             <bkt-textarea rows="2" v-model="event.title" label="описание" name="description" rules="required" no_group_item/>
-            <a v-if="event.lot_info" :href="'/lot/'+event.lot_info.lotId" @click="close" class="bkt-text-primary ms-auto">
-                перейти к лоту
-                <bkt-icon name="ArrowDown" color="primary" height="14px" class="bkt-rotate-270"></bkt-icon>
-            </a>
+<!--            <a v-if="event.lot_info" :href="'/lot/'+event.lot_info.lotId" @click="close" class="bkt-text-primary ms-auto">-->
+<!--                перейти к лоту-->
+<!--                <bkt-icon name="ArrowDown" color="primary" height="14px" class="bkt-rotate-270"></bkt-icon>-->
+<!--            </a>-->
         </template>
     </bkt-modal>
 </template>
 
 <script>
+    import BktCardImageCategory from "../../components/CardImageCategory";
+
     export default {
         name: "EditEventModal",
+        components: {
+            BktCardImageCategory,
+        },
         data() {
             return {
                 event: {type: 'event', date: '', time: '00:00', title: ''},

@@ -116,10 +116,9 @@ export default {
                 if (favourite >= 0) {
                     if (state.favourites[payload.newPathId]) {
                         let new_lot_index = state.favourites[payload.newPathId].data.findIndex(item => item.id === payload.lotId);
-                        if(new_lot_index<0)
-                        {
+                        if (new_lot_index < 0) {
                             let item = state.favourites[payload.currentPathId].data[favourite];
-                            if(item.favouritePaths) {
+                            if (item.favouritePaths) {
                                 let item_path = item.favouritePaths.findIndex(item => item.pathId === payload.currentPathId)
                                 if (item_path >= 0) {
                                     item.favouritePaths.splice(item_path, 1);
@@ -143,10 +142,9 @@ export default {
             if (path >= 0) {
                 state.favourites_paths.splice(path, 1);
             }
-            if(state.trades && state.trades.length>0)
-            {
-                state.trades.forEach( item => {
-                    if(item.favouritePaths) {
+            if (state.trades && state.trades.length > 0) {
+                state.trades.forEach(item => {
+                    if (item.favouritePaths) {
                         let lot_path = item.favouritePaths.findIndex(item => item.pathId === payload);
                         if (lot_path >= 0) {
                             item.favouritePaths.splice(lot_path, 1);
@@ -163,6 +161,17 @@ export default {
             if (favourite >= 0 && state.favourites[favourite].hasOwnProperty(payload.key)) {
                 Vue.set(state.favourites[favourite], payload.key, payload.value)
             }
+        },
+        updateFavouriteItem(state, payload) {
+            let index = -1;
+            Object.keys(state.favourites).forEach(function (key) {
+                if (state.favourites[key].length > 0) {
+                    index = state.favourites[key].findIndex(el => el.id == payload.id)
+                    if (index >= 0) {
+                        Vue.set(state.favourites[key], payload.key, payload.value)
+                    }
+                }
+            });
         },
     },
     actions: {
@@ -222,21 +231,21 @@ export default {
         },
         async downloadFavouritePath({commit}, payload) {
             return await axios
-            // ({
-            //     method: "post",
-            //     url: "'/api/favourite/download/path",
-            //     data: payload,
-            //     // responseType: "arraybuffer"
-            // })
+                // ({
+                //     method: "post",
+                //     url: "'/api/favourite/download/path",
+                //     data: payload,
+                //     // responseType: "arraybuffer"
+                // })
                 .post('/api/favourite/download/path', payload)
-                // .then((response) => {
-                //
-                // }).catch(error => {
-                //     console.log(error);
-                // });
+            // .then((response) => {
+            //
+            // }).catch(error => {
+            //     console.log(error);
+            // });
         },
         async getFavourites({commit, state, dispatch}, payload) {
-            dispatch('checkAbort','getFavourites');
+            dispatch('checkAbort', 'getFavourites');
             let tmp_controller = new AbortController();
             dispatch('setAborts', {
                 controller: tmp_controller,
@@ -279,8 +288,8 @@ export default {
                     // dispatch('getFavourites', {page: 1, pathId: response.data[0].pathId});
                     commit('setFavouritePaths', response.data);
                     let pathId = response.data[0].pathId
-                    if(sessionStorage.getItem('favourite_path_id')){
-                        pathId = sessionStorage.getItem('favourite_path_id')/1;
+                    if (sessionStorage.getItem('favourite_path_id')) {
+                        pathId = sessionStorage.getItem('favourite_path_id') / 1;
                     }
                     commit('setCurrentPath', pathId)
                 });
@@ -312,14 +321,14 @@ export default {
             // if (state.favourites[payload.pathId]) {
             //     commit('setCurrentPath', payload.pathId);
             // } else {
-                let params = payload.params;
-                params.page = 1;
-                params.pathId = payload.pathId;
-                commit('setCurrentPath', payload.pathId);
-                await dispatch('getFavourites', params)
-                    // .then(resp => {
-                    //
-                    // })
+            let params = payload.params;
+            params.page = 1;
+            params.pathId = payload.pathId;
+            commit('setCurrentPath', payload.pathId);
+            await dispatch('getFavourites', params)
+            // .then(resp => {
+            //
+            // })
             // }
         }
     },

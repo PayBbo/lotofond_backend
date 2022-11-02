@@ -132,7 +132,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="bkt-wrapper-between bkt-nowrap d-md-none bkt-gap">
+                <div class="bkt-wrapper-between bkt-nowrap d-md-none bkt-gap bkt-gap-down-md-mini">
                     <button class="bkt-button-icon flex-shrink-0"
                             :class="search_mode ? 'bkt-bg-primary shadow': 'bkt-bg-white'"
                             @click="search_mode = !search_mode"
@@ -240,8 +240,8 @@
                                           :class="path.color ? 'bkt-bg-'+path.color+'-lighter bkt-text-'+path.color
                                       : 'bkt-text-primary bkt-bg-primary-lighter'"
                                     >
-                                    {{path.lotCount ? path.lotCount : '0'}}
-                                </span>
+                                        {{path.lotCount ? path.lotCount : '0'}}
+                                    </span>
                                 </button>
                             </div>
                         </template>

@@ -12,6 +12,7 @@
                 :disabled="in_process.indexOf(action.icon)>=0"
             >
                 <span v-if="in_process.indexOf(action.icon)>=0"
+                      :class="{'bkt-text-main' : type==='menu'}"
                       class="spinner-border spinner-border-sm flex-shrink-0" role="status">
                 </span>
                 <!--                <template v-if="action.status_icon">-->
@@ -323,7 +324,17 @@
                                 id: this.item.id,
                                 key: payload.status,
                                 value: !this.item[payload.status]
-                            })
+                            });
+                            this.$store.commit('updateMonitoringItem', {
+                                id: this.item.id,
+                                key: payload.status,
+                                value: !this.item[payload.status]
+                            });
+                            this.$store.commit('updateFavouriteItem', {
+                                id: this.item.id,
+                                key: payload.status,
+                                value: !this.item[payload.status]
+                            });
                             this.$emit('changeStatus', {
                                 key: payload.status,
                                 value: !this.item[payload.status],
@@ -346,12 +357,32 @@
                                 id: this.item.id,
                                 key: 'inFavourite',
                                 value: !this.item.inFavourite
-                            })
+                            });
                             this.$store.commit('saveTradeProperty', {
                                 id: this.item.id,
                                 key: 'favouritePaths',
                                 value: [this.favourites_paths[0]]
-                            })
+                            });
+                            this.$store.commit('updateMonitoringItem', {
+                                id: this.item.id,
+                                key: 'inFavourite',
+                                value: !this.item.inFavourite
+                            });
+                            this.$store.commit('updateFavouriteItem', {
+                                id: this.item.id,
+                                key: 'inFavourite',
+                                value: !this.item.inFavourite
+                            });
+                            this.$store.commit('updateMonitoringItem', {
+                                id: this.item.id,
+                                key: 'favouritePaths',
+                                value: [this.favourites_paths[0]]
+                            });
+                            this.$store.commit('updateFavouriteItem', {
+                                id: this.item.id,
+                                key: 'favouritePaths',
+                                value: [this.favourites_paths[0]]
+                            });
                             this.$store.dispatch('saveDataProperty', {
                                 module_key: 'lots', state_key: 'selected_lot',
                                 key: 'favouritePaths',
@@ -373,6 +404,16 @@
                     })
                         .then(resp => {
                             this.$store.commit('saveTradeProperty', {
+                                id: this.item.id,
+                                key: 'inFavourite',
+                                value: !this.item.inFavourite
+                            });
+                            this.$store.commit('updateMonitoringItem', {
+                                id: this.item.id,
+                                key: 'inFavourite',
+                                value: !this.item.inFavourite
+                            });
+                            this.$store.commit('updateFavouriteItem', {
                                 id: this.item.id,
                                 key: 'inFavourite',
                                 value: !this.item.inFavourite

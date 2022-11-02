@@ -102,7 +102,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="bkt-wrapper-between bkt-nowrap d-md-none bkt-gap">
+                <div class="bkt-wrapper-between bkt-nowrap d-md-none bkt-gap bkt-gap-down-md-mini">
                     <button class="bkt-button-icon flex-shrink-0"
                             :class="search_mode ? 'bkt-bg-primary shadow': 'bkt-bg-white'"
                             @click="search_mode = !search_mode"

@@ -1622,8 +1622,8 @@
         },
         methods: {
             goBack() {
-                this.$router.push('/')
-                // window.history.length > 1 ? this.$router.go(-1) : this.$router.push('/');
+                // this.$router.push('/')
+                window.history.length > 1 ? this.$router.go(-1) : this.$router.push('/');
                 // setTimeout(() => {
                 //     if (this.$route.params.id && this.item && this.$route.params.id != this.item.id) {
                 //         this.$nextTick(() => {
@@ -1863,6 +1863,16 @@
                                 value: true
                             });
                             this.$store.commit('saveTradeProperty', {
+                                id: this.$route.params.id,
+                                key: 'isWatched',
+                                value: true
+                            });
+                            this.$store.commit('updateMonitoringItem', {
+                                id: this.$route.params.id,
+                                key: 'isWatched',
+                                value: true
+                            });
+                            this.$store.commit('updateFavouriteItem', {
                                 id: this.$route.params.id,
                                 key: 'isWatched',
                                 value: true

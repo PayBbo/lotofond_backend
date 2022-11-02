@@ -54,7 +54,11 @@
                     <div class="col-12 col-lg-3">
                         <div class="bkt-footer__socials">
 <!--                            <h3 class="bkt-footer__socials-phone">+7 916 018-48-58</h3>-->
-                            <h5 class="bkt-footer__socials-email"><skeleton>{{contacts.email ? contacts.email : ''}}</skeleton></h5>
+                            <a :href="contacts.email ? 'mailto:'+contacts.email : ''" class="bkt-footer__socials-email">
+                                <skeleton>
+                                    {{contacts.email ? contacts.email : ''}}
+                                </skeleton>
+                            </a>
                             <div class="bkt-footer__socials-links">
                                 <a class="bkt-button-icon bkt-bg-main-light" href="/">
                                     <bkt-icon name="Vk" width="16px" height="16px"></bkt-icon>
@@ -84,7 +88,7 @@
         <div class="bkt-footer__politics">
             <div class="bkt-container">
                 <div class="bkt-wrapper-between bkt-wrapper-down-sm-column">
-                    <p class="bkt-footer__politics-copyright">Все права защищены © LotoFond, 2022</p>
+                    <p class="bkt-footer__politics-copyright">Все права защищены © LotoFond, {{new Date() | moment('YYYY')}}</p>
                     <div class="bkt-footer__politics-links">
                         <a class="bkt-footer__politics-link" href="/">Политика обработки персональных данных</a>
                         <a class="bkt-footer__politics-link" href="/">Пользовательское соглашение</a>

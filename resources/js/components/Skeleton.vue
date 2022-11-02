@@ -88,7 +88,7 @@
                 if(!this.$slots.default) return true;
                 const [firstNode] = this.$slots.default;
                 let children = firstNode.children;
-                let str = firstNode.text.trim();
+                let str = firstNode.text;
                 return !firstNode.elm && !children && !str;
             },
         },
@@ -97,7 +97,7 @@
             this.showSkeleton = this.loading !== null
                 ? this.loading
                 :  this.isEmpty();
-            if(this.$slots.default[0].text.trim()=='' || this.$slots.default[0].text.trim()) {
+            if(this.$slots.default[0].text=='' || this.$slots.default[0].text) {
                 this.showSkeleton = this.loading !== null
                     ? this.loading
                     : false;

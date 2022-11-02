@@ -121,6 +121,17 @@ export default {
         setMonitoringsLoading(state, payload) {
             return (state.monitorings_loading = payload);
         },
+        updateMonitoringItem(state, payload) {
+            let index= -1;
+            Object.keys(state.monitorings).forEach(function(key) {
+                if(state.monitorings[key].length > 0) {
+                    index = state.monitorings[key].findIndex(el => el.id == payload.id)
+                    if (index >= 0) {
+                        Vue.set(state.monitorings[key], payload.key, payload.value)
+                    }
+                }
+            });
+        },
     },
     actions: {
         /*
@@ -148,7 +159,7 @@ export default {
             await axios
                 .post('/api/monitoring/add/edit/path', payload
                 ).then((response) => {
-                    dispatch('setCurrentMonitoringPath', response.data.pathId)
+                    dispatch('setCurrentMonitoringPath', {pathId: response.data.pathId})
                     commit('saveMonitoringPath', response.data)
                 }).catch(error => {
                     console.log(error);
@@ -166,7 +177,7 @@ export default {
                         key: '' + response.data.pathId,
                         value: null
                     }, {root: true});
-                    dispatch('setCurrentMonitoringPath', response.data.pathId)
+                    dispatch('setCurrentMonitoringPath', {pathId: response.data.pathId})
                 }).catch(error => {
                     console.log(error);
                     throw error
@@ -177,9 +188,9 @@ export default {
                 .delete('/api/monitoring/delete/path/' + payload
                 ).then((response) => {
                     commit('removeMonitoringPath', payload)
-                    if (state.monitorings_paths.length > 0) {
-                        dispatch('setCurrentMonitoringPath', state.monitorings_paths[0].pathId)
-                    }
+                    // if (state.monitorings_paths.length > 0) {
+                    //     dispatch('setCurrentMonitoringPath', {pathId: state.monitorings_paths[0].pathId})
+                    // }
                 }).catch(error => {
                     console.log(error);
                     throw error
@@ -240,15 +251,25 @@ export default {
                 });
         },
         async setCurrentMonitoringPath({dispatch, commit, state}, payload) {
-            // if (state.monitorings[payload.pathId]) {
-            //     commit('setCurrentMonitoringPath', payload.pathId);
-            // } else {
             commit('setCurrentMonitoringPath', payload.pathId);
+            if(!payload.params) {
+                payload.params = {
+                    pathId: payload.pathId,
+                    page: 1,
+                    marks: [],
+                    searchField: '',
+                    includedWords: '',
+                    sort: {
+                        direction: "desc",
+                        type: "publishDate"
+                    }
+                }
+                sessionStorage.setItem('monitoring_path_id', payload.pathId);
+                if (!sessionStorage.getItem('monitoring' + payload.pathId + '_page')) {
+                    sessionStorage.setItem('monitoring' + payload.pathId + '_page', '1')
+                }
+            }
             await dispatch('getMonitorings', payload)
-            // .then(resp => {
-            //     commit('setCurrentMonitoringPath', payload.pathId);
-            // })
-            // }
         }
     },
 

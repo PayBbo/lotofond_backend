@@ -29,15 +29,14 @@
                     <label class="bkt-input__label bkt-form__label">
                         лот
                     </label>
-                    <div class="bkt-wrapper bkt-gap bkt-nowrap">
-                        <card-image-category
+                    <div class="bkt-wrapper bkt-gap bkt-nowrap" @click="navigate('/lot/'+selected_lot.id)">
+                        <card-image-category :no_multiple="true"
                             v-if="(!selected_lot.photos || selected_lot.photos.length==0) && selected_lot && selected_lot.categories"
                             :categories="selected_lot.categories"></card-image-category>
-                        <img v-if="selected_lot.photos.length>0" v-lazy="selected_lot.photos[0].main"
+                        <img v-if="selected_lot.photos.length>0" v-lazy="selected_lot.photos[0].preview"
                              class="bkt-card__image"
                         />
-                        <h4 class="bkt-promo__lot-title bkt-text-truncate bkt-cursor-pointer"
-                            @click="navigate('/lot/'+selected_lot.id)">
+                        <h4 class="bkt-promo__lot-title bkt-text-truncate bkt-cursor-pointer">
                             {{selected_lot.description}}
                         </h4>
                     </div>

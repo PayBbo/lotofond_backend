@@ -66,8 +66,9 @@
                 <div class="col-12 col-lg-9 bkt-gap-row-medium">
                     <div class="bkt-wrapper-column bkt-gap-row-medium">
                         <div v-show="!loading" class="bkt-wrapper-column bkt-gap-mini">
-                            <div class="bkt-message"
-                                 v-for="(message, index) in items" :key="index" v-if="message">
+                            <div class="bkt-message" :class="{'bkt-cursor-pointer': message.type !== 'platform'}"
+                                 v-for="(message, index) in items" :key="index" v-if="message" @click="navigate(message)"
+                            >
                                 <bkt-icon :name="'Check'" :color="message.isSeen ? 'primary' : 'main-lighter'"
                                           width="15px" height="15px" class="bkt-message__check"/>
 
@@ -114,7 +115,6 @@
                                             </div>
                                             <h5 v-if="message.type == 'monitoring'"
                                                 class="bkt-message__text bkt-cursor-pointer"
-                                                @click="navigate('/monitoring')"
                                             >
                                                 Появились новые лоты в мониторинге:
                                                 {{message.dataMonitoring ? message.dataMonitoring.newLotCount : '0'}}
@@ -127,16 +127,11 @@
                                             <h5 v-if="message.type == 'platform'" class="bkt-message__text">
                                                 {{message.dataPlatform ? message.dataPlatform.value : ''}}
                                             </h5>
-                                            <router-link v-if="message.type == 'favourite' && message.dataFavourite"
-                                                         :to="'/lot/'+message.dataFavourite.id"
-                                                         class="bkt-card__title bkt-text-truncate"
+                                            <h6 v-if="message.type == 'favourite' && message.dataFavourite"
+                                                class="bkt-message__title bkt-card__title bkt-text-truncate bkt-arrow-after bkt-cursor-pointer"
                                             >
-                                                <h6 v-if="message.type == 'favourite' && message.dataFavourite"
-                                                    class="bkt-message__title bkt-text-truncate bkt-arrow-after bkt-cursor-pointer"
-                                                >
-                                                    {{message.dataFavourite.description}}
-                                                </h6>
-                                            </router-link>
+                                                {{message.dataFavourite.description}}
+                                            </h6>
                                             <h5 v-if="message.type == 'favourite'" class="bkt-message__text">
                                                 {{message.dataFavourite ? message.dataFavourite.detail : ''}}
                                             </h5>
@@ -295,8 +290,18 @@
                     })
                 }, 50)
             },
-            navigate(path) {
-                this.$router.push(path);
+            navigate(message) {
+                if(message.type === 'monitoring')
+                {
+                    sessionStorage.setItem('monitoring_path_id', message.dataMonitoring.folderInfo.pathId);
+                    sessionStorage.setItem('monitoring' + message.dataMonitoring.folderInfo.pathId + '_page', '1')
+                    this.$router.push('/monitoring');
+                }
+                if(message.type ==='favourite')
+                {
+                    this.$router.push('/lot/'+message.dataFavourite.id);
+                }
+                // this.$router.push(path);
             }
         }
     }
