@@ -3372,20 +3372,27 @@ paths:
       security:
         - bearerAuth: []
   /payment/status:
-    get:
+    post:
       parameters:
         - name: Content-Language
           in: header
           description: Заголовок для определения локали (ru, en, zh_CN)
           required: true
-        - name: orderId
-          in: query
-          description: Номер транзакции, который вернул сбербанк при переадресации на нашу страницу
-          required: true
       tags:
         - Payments
       summary: запрос на проверку статуса платежа
       operationId: paymentStatus
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                orderId:
+                  type: string
+                  description: Номер транзакции, который вернул сбербанк при переадресации на нашу страницу
+              example:
+                orderId: 8f88b80a-cbfa-724d-9860-a69f28d7d042
       responses:
         "200":
           description: Статус платежа подтвержден, тариф для пользователя активирован

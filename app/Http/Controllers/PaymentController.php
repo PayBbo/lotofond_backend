@@ -37,7 +37,7 @@ class PaymentController extends Controller
 
     public function paymentStatus(Request $request){
 
-        $order_id = $request->query('orderId');
+        $order_id = $request->orderId;
         $payment = Payment::where('payment_id', $order_id)->first();
         if($payment){
             if(!$payment->is_confirmed){

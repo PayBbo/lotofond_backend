@@ -57,6 +57,7 @@ class PaymentService
                     'orderId' => $paymentId
                 ]
             ]);
+        logger($response->getBody());
         return json_decode($response->getBody(), true);
     }
 }
