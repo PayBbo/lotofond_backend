@@ -21,6 +21,7 @@ use App\Http\Controllers\MarkController;
 use App\Http\Controllers\MonitoringController;
 use App\Http\Controllers\NoteController;
 use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\StatisticsController;
 use Illuminate\Support\Facades\Route;
@@ -39,6 +40,8 @@ Route::group(['middleware' => ['json.response', 'localization']], function () {
 
 
     Route::post('login', [LoginController::class, 'login'])->name('login');
+
+    Route::get('/payment/status', [PaymentController::class, 'paymentStatus']);
 
     Route::group(['prefix' => 'registration'], function () {
 
@@ -285,6 +288,8 @@ Route::group(['middleware' => ['json.response', 'localization']], function () {
         Route::post('/events', [EventController::class, 'getEvents']);
 
         Route::get('/admin/check', [DashboardController::class, 'checkAdmin']);
+
+        Route::post('/payment', [PaymentController::class, 'payment']);
 
         Route::middleware("check.role:admin")->group(function () {
 

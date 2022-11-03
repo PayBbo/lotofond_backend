@@ -152,6 +152,7 @@ return [
     'user_not_found'=>'通过社交网络进行授权的数据不正确',
     'authorization_required'=>'您需要注册才能接收其余内容',
     'not_enough_credentials'=>'配置文件中没有足够的数据用于所选操作',
+    'payment_error'=> '出了点问题，再试一次',
     'attributes' => [
         'phone' => '电话号码',
         'surname'=> '姓',

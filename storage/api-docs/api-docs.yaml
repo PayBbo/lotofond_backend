@@ -3322,6 +3322,85 @@ paths:
                 $ref: '#/components/schemas/Error'
       security:
         - bearerAuth: [ ]
+  /payment:
+    post:
+      parameters:
+        - name: Content-Language
+          in: header
+          description: Заголовок для определения локали (ru, en, zh_CN)
+          required: true
+      tags:
+        - Payments
+      summary: запрос на создание платежа
+      operationId: payment
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                tariffId:
+                  type: integer
+                  format: int64
+                  description: Айдишник тарифа
+              example:
+                tariffId: 1
+      responses:
+        "200":
+          description: Создание платежа прошло успешно, в ответе ссылка для его подтверждения
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  redirectUrl:
+                    type: string
+              example:
+                redirectUrl: https://3dsec.sberbank.ru/payment/merchants/sbersafe_sberid/mobile_payment_en.html?mdOrder=b5012b69-a7b6-75c5-ac74-dc77280b7e77
+        403:
+          description: при создании платежа сбербанк вернул ошибку
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+        - bearerAuth: []
+  /payment/status:
+    get:
+      parameters:
+        - name: Content-Language
+          in: header
+          description: Заголовок для определения локали (ru, en, zh_CN)
+          required: true
+        - name: orderId
+          in: query
+          description: Номер транзакции, который вернул сбербанк при переадресации на нашу страницу
+          required: true
+      tags:
+        - Payments
+      summary: запрос на проверку статуса платежа
+      operationId: paymentStatus
+      responses:
+        "200":
+          description: Статус платежа подтвержден, тариф для пользователя активирован
+        422:
+          description: статус пплатежа не успешен
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
 components:
   schemas:
     Register:

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -161,6 +162,20 @@ class User extends Authenticatable
 
     public function changeCredentials(){
         return $this->hasMany(ChangeCredentials::class);
+    }
+
+    public function payments()
+    {
+        return $this->hasMany(\App\Models\Payment::class);
+    }
+
+    public function tariff()
+    {
+        return $this->hasOne(Payment::class)
+            ->where('tariff_id', '!=', null)
+            ->where('is_confirmed', true)
+            ->where('finished_at', '>=', Carbon::now())
+            ->latest();
     }
 
 }
