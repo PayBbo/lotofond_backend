@@ -53,7 +53,7 @@
                 background-color: transparent;
                 padding: 0;
                 row-gap: 10px;
-                height: 200px;
+                max-height: 200px;
                 overflow-y: scroll;
                 scrollbar-width: thin;
                 scrollbar-color: $primary-default #e9f3fc;

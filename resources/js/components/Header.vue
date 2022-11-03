@@ -206,15 +206,15 @@
             <div class="bkt-sidebar__footer">
                 <div v-if="isLoggedIn" class="bkt-sidebar__user">
                     <div class="bkt-sidebar__profile">
-                        <div class="bkt-sidebar__user-image d-flex align-items-center" style="padding:14px;">
-                            <bkt-icon name="User" color="white" width="22px" height="22px"></bkt-icon>
-                        </div>
-                        <div class="bkt-navbar__user text-truncate me-1">
-                            <div class="bkt-navbar__user-name text-truncate">
+<!--                        <div class="bkt-sidebar__user-image d-flex align-items-center" style="padding:14px;">-->
+<!--                            <bkt-icon name="User" color="white" width="22px" height="22px"></bkt-icon>-->
+<!--                        </div>-->
+                        <div class="text-truncate me-1">
+                            <div class="bkt-sidebar__user-name text-truncate">
                                 {{ auth_user ? auth_user.name : '' }} {{ auth_user ? auth_user.lastName : '' }}
                             </div>
-                            <div class="bkt-navbar__user-tarif">
-                                тариф: <span class="bkt-navbar__user-tarif-name">Базовый</span>
+                            <div class="bkt-sidebar__user-tarif">
+                                тариф: <span class="bkt-sidebar__user-tarif-name">Базовый</span>
                             </div>
                         </div>
                     </div>
