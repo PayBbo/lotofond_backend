@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\ContactsController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\TextDataController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\ApplePaymentController;
 use App\Http\Controllers\ApplicationController;
 use App\Http\Controllers\AuctionController;
 use App\Http\Controllers\Auth\LoginController;
@@ -289,7 +290,13 @@ Route::group(['middleware' => ['json.response', 'localization']], function () {
 
         Route::get('/admin/check', [DashboardController::class, 'checkAdmin']);
 
-        Route::post('/payment', [PaymentController::class, 'payment']);
+        Route::group(['prefix' => 'payment'], function () {
+
+            Route::post('/', [PaymentController::class, 'payment']);
+
+            Route::post('/validate/apple/transaction', [ApplePaymentController::class, 'validateTransaction']);
+
+        });
 
         Route::middleware("check.role:admin")->group(function () {
 

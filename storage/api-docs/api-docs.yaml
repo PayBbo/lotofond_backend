@@ -3408,6 +3408,40 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+  /payment/validate/apple/transaction:
+    post:
+      tags:
+        - Payments
+      summary: серверная валидация покупок с AppStore
+      operationId: validateTransaction
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                receiptData:
+                  type: string
+                  description: данные квитанции для отправки в App Store в формате base64
+              example:
+                receiptData: ewoJInF1YW50aXR5IjoiMSIsCgkicHJvZHVjdF9pZCI6ImJhc2ljX3N1YnNjcmlwdGlvbl8xX21vbnRoIiwKCSJ0cmFuc2FjdGlvbl9pZCI6IjEwMDAwMDA4MzEzNjA4NTMiLAoJIm9yaWdpbmFsX3RyYW5zYWN0aW9uX2lkIjoiMTAwMDAwMDgzMTM2MDg1MyIsCgkicHVyY2hhc2VfZGF0ZSI6IjIwMjEtMDQtMjggMTk6NDE6NTggRXRjL0dNVCIsCgkicHVyY2hhc2VfZGF0ZV9tcyI6IjE2MTk2Mzg5MTgwMDAiLAoJInB1cmNoYXNlX2RhdGVfcHN0IjoiMjAyMS0wNC0yOCAxMjo0MTo1OCBBbWVyaWNhL0xvc19BbmdlbGVzIiwKCSJvcmlnaW5hbF9wdXJjaGFzZV9kYXRlIjoiMjAyMS0wNC0yOCAxOTo0MTo1OCBFdGMvR01UIiwKCSJvcmlnaW5hbF9wdXJjaGFzZV9kYXRlX21zIjoiMTYxOTYzODkxODAwMCIsCgkib3JpZ2luYWxfcHVyY2hhc2VfZGF0ZV9wc3QiOiIyMDIxLTA0LTI4IDEyOjQxOjU4IEFtZXJpY2EvTG9zX0FuZ2VsZXMiLAoJImV4cGlyZXNfZGF0ZSI6IjIwMjEtMDUtMDUgMTk6NDE6NTggRXRjL0dNVCIsCgkiZXhwaXJlc19kYXRlX21zIjoiMTYyMDI0MzcxODAwMCIsCgkiZXhwaXJlc19kYXRlX3BzdCI6IjIwMjEtMDUtMDUgMTI6NDE6NTggQW1lcmljYS9Mb3NfQW5nZWxlcyIsCgkid2ViX29yZGVyX2xpbmVfaXRlbV9pZCI6IjIzMDAwMDM5NzIwMDc1MCIsCgkiaXNfdHJpYWxfcGVyaW9kIjoidHJ1ZSIsCgkiaXNfaW5faW50cm9fb2ZmZXJfcGVyaW9kIjoiZmFsc2UiLAoJImluX2FwcF9vd25lcnNoaXBfdHlwZSI6IlBVUkNIQVNFRCIsCgkic3Vic2NyaXB0aW9uX2dyb3VwX2lkZW50aWZpZXIiOiIyNzIzOTQ0MTAiCn0=
+      responses:
+        "200":
+          description: валидация транзакции прошла успешно,тариф для пользователя активирован
+        "500":
+          description: возвращение ошибки от сервера Apple
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "422":
+          description: возвращение ошибки при валидации данных (например, квитанция просрочена)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+        - bearerAuth: []
 components:
   schemas:
     Register:
