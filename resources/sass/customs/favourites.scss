@@ -21,7 +21,7 @@
             justify-content: center;
             flex-wrap: nowrap;
             gap: 6px;
-            border-radius: 15px;
+            border-radius: 13px;
             min-height: 50px;
             min-width: 50px;
         }
@@ -75,6 +75,8 @@
 
     & .bkt-search {
         background-color: white;
+        border-radius: 13px;
+        padding: 8px;
     }
 
     & .bkt-search__input {
@@ -117,7 +119,7 @@
             }
 
             &-action {
-                border-radius: 12px;
+                border-radius: 13px;
                 padding: 15px;
                 height: 47px;
                 //width: 47px;
@@ -138,23 +140,19 @@
             }
         }
 
-        & .bkt-search {
-            background-color: $body-bg;
-        }
+        //& .bkt-search {
+        //    background-color: $body-bg;
+        //}
 
         & .bkt-search__button {
             min-width: 44px;
             display: flex;
             justify-content: center;
             align-items: center;
-            margin-right: 7px;
+            //margin-right: 7px;
         }
 
     }
-}
-
-.bkt-cursor-pointer {
-    cursor: pointer;
 }
 
 /*AddFieldsToDocument*/

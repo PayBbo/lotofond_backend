@@ -28,7 +28,16 @@
                 </button>
             </div>
             <div v-if="selectedFilter === 1" class="bkt-monitoring-category">
-                <bkt-categories-control v-model="monitoring.filters.categories"></bkt-categories-control>
+                <bkt-categories-control v-model="monitoring.filters.categories" v-if="!categories_loading"></bkt-categories-control>
+                <div v-if="categories_loading" class="d-flex w-100 justify-content-center my-5">
+                    <slot name="loading">
+                        <div
+                            style="color: #2953ff;border-width: 2px;"
+                            class="spinner-border"
+                            role="status"
+                        ></div>
+                    </slot>
+                </div>
             </div>
             <div v-if="selectedFilter === 2" class="bkt-monitoring-date">
                 <bkt-dates-control v-model="monitoring.filters.dates"></bkt-dates-control>
@@ -247,8 +256,11 @@
             paths() {
                 return this.$store.getters.monitorings_paths;
             },
-            regions_loading() {
-                return this.$store.getters.regions_loading
+            categories() {
+                return this.$store.getters.categories
+                    .sort(function (one, other) {
+                        return other.subcategories.length - one.subcategories.length;
+                    });
             },
             categories_loading() {
                 return this.$store.getters.categories_loading

@@ -14,80 +14,6 @@
         }
     }
 
-    .bkt-bg-light-green {
-        background-color: rgb(229, 255, 234);
-    }
-
-    &__menu {
-        margin: 38px 0;
-    }
-
-    &__menu-buttons {
-        & button {
-            height: 60px;
-        }
-
-        & .bkt-button-menu:not(:last-child) {
-            margin-right: 0.3rem;
-        }
-
-        & .bkt-button-all {
-            background: white;
-
-            & span {
-                background: #eef9ff;
-                margin-left: 0.5rem;
-            }
-        }
-
-        & .bkt-button-all.active {
-            color: white;
-
-            & span {
-                background: white;
-            }
-        }
-
-        & .bkt-menu-button {
-            background-color: white;
-
-            & .bkt-count {
-                border-radius: 50rem;
-                background-color: #e5ffea;
-                color: #2fbb40;
-                height: 30px;
-                width: 30px;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                margin-left: 0.5rem;
-                margin-right: 2.5rem
-            }
-
-            & .bkt-btn-icon {
-                background: #dfe5ff;
-            }
-        }
-
-        & .bkt-menu-button.active {
-            background: #2fbb40 !important;
-            color: white;
-
-            & .bkt-count {
-                border-radius: 50%;
-                background-color: white;
-            }
-
-            .bkt-btn-icon {
-                background: #42c052;;
-            }
-
-            .bkt-icon {
-                fill: #fff !important;
-            }
-        }
-    }
-
     &__paths-list {
         //padding: 0 20px;
         width: calc(100% - 80px);
@@ -248,16 +174,16 @@
             }
         }
 
-        & .bkt-search {
-            background-color: $body-bg;
-        }
+        //& .bkt-search {
+        //    background-color: $body-bg;
+        //}
 
         & .bkt-search__button {
             min-width: 44px;
             display: flex;
             justify-content: center;
             align-items: center;
-            margin-right: 7px;
+            //margin-right: 7px;
         }
     }
 }

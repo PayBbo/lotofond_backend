@@ -68,6 +68,7 @@
 @import "./customs/messages.scss";
 @import "./customs/calendar.scss";
 @import "./customs/monitoring.scss";
+@import "./customs/collections.scss";
 @import "./customs/monitoring-modal.scss";
 
 
@@ -130,4 +131,7 @@ a:hover {
 
 .bkt-cursor-auto {
     cursor: auto !important;
+}
+.bkt-cursor-pointer {
+    cursor: pointer;
 }

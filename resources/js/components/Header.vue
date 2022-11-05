@@ -3,9 +3,9 @@
         <nav class="bkt-navbar">
             <div class="bkt-container bkt-navbar__wrapper">
                 <div class="bkt-navbar__logo flex-grow-1">
-                    <router-link custom to="/">
+                    <a href="/">
                         <img class="bkt-navbar__logo" src="/images/logo.png" alt="logo">
-                    </router-link>
+                    </a>
                 </div>
                 <ul class="bkt-navbar__nav d-none d-lg-flex">
                     <li class="bkt-navbar__nav-item">
@@ -99,11 +99,11 @@
                     Покупка без ЭЦП
                 </button>
                 <ul class="bkt-navbar__nav">
-<!--                    <li class="bkt-navbar__nav-item d-none d-lg-flex">-->
-<!--                        <router-link to="/agent" class="bkt-navbar__nav-link">-->
-<!--                            Купить через агента-->
-<!--                        </router-link>-->
-<!--                    </li>-->
+                    <!--                    <li class="bkt-navbar__nav-item d-none d-lg-flex">-->
+                    <!--                        <router-link to="/agent" class="bkt-navbar__nav-link">-->
+                    <!--                            Купить через агента-->
+                    <!--                        </router-link>-->
+                    <!--                    </li>-->
                     <li class="bkt-navbar__nav-item">
                         <router-link to="/auctions" class="bkt-navbar__nav-link">
                             <span class="bkt-navbar__nav-icon d-none d-sm-flex">
@@ -133,30 +133,31 @@
                         </router-link>
                     </li>
                 </ul>
-<!--                <div class="bkt-navbar__wrapper d-none d-lg-flex">-->
-<!--&lt;!&ndash;                    <router-link custom to="/">&ndash;&gt;-->
-<!--&lt;!&ndash;                        <button class="bkt-button primary-lighter">&ndash;&gt;-->
-<!--&lt;!&ndash;                            Торги&ndash;&gt;-->
-<!--&lt;!&ndash;                        </button>&ndash;&gt;-->
-<!--&lt;!&ndash;                    </router-link>&ndash;&gt;-->
-<!--                    <router-link custom to="/tariffs">-->
-<!--                        <button class="bkt-button blue-lighter">-->
-<!--                            Тарифы-->
-<!--                        </button>-->
-<!--                    </router-link>-->
+                <!--                <div class="bkt-navbar__wrapper d-none d-lg-flex">-->
+                <!--&lt;!&ndash;                    <router-link custom to="/">&ndash;&gt;-->
+                <!--&lt;!&ndash;                        <button class="bkt-button primary-lighter">&ndash;&gt;-->
+                <!--&lt;!&ndash;                            Торги&ndash;&gt;-->
+                <!--&lt;!&ndash;                        </button>&ndash;&gt;-->
+                <!--&lt;!&ndash;                    </router-link>&ndash;&gt;-->
+                <!--                    <router-link custom to="/tariffs">-->
+                <!--                        <button class="bkt-button blue-lighter">-->
+                <!--                            Тарифы-->
+                <!--                        </button>-->
+                <!--                    </router-link>-->
 
-<!--                </div>-->
+                <!--                </div>-->
                 <div class="bkt-navbar__wrapper flex-grow-1">
-<!--                    <button class="bkt-button red-outline d-none d-lg-flex">-->
-<!--                        <span class="bkt-button__icon mx-2">-->
-<!--                             <bkt-icon :name="'Law'" :width="'16px'" :height="'16px'"/>-->
-<!--                        </span>-->
-<!--                        Изменения в законах-->
-<!--                    </button>-->
+                    <!--                    <button class="bkt-button red-outline d-none d-lg-flex">-->
+                    <!--                        <span class="bkt-button__icon mx-2">-->
+                    <!--                             <bkt-icon :name="'Law'" :width="'16px'" :height="'16px'"/>-->
+                    <!--                        </span>-->
+                    <!--                        Изменения в законах-->
+                    <!--                    </button>-->
                     <router-link custom to="/tariffs" class=" w-100 bkt-button blue-lighter d-none d-lg-block">
-                            Тарифы
+                        Тарифы
                     </router-link>
-                    <button class="bkt-button-ellipse my-0 ms-auto me-0 d-block d-lg-none" type="button" data-bs-toggle="offcanvas"
+                    <button class="bkt-button-ellipse my-0 ms-auto me-0 d-block d-lg-none" type="button"
+                            data-bs-toggle="offcanvas"
                             data-bs-target="#offcanvasExample"
                     >
                         <span class="bkt-button__icon">
@@ -169,7 +170,9 @@
         <div class="offcanvas offcanvas-start bkt-sidebar" tabindex="-1" id="offcanvasExample"
              aria-labelledby="offcanvasExampleLabel">
             <div class="offcanvas-header bkt-sidebar__header">
-                <img class="logo" src="/images/logo.png" alt="logo">
+                <a href="/">
+                    <img class="logo" src="/images/logo.png" alt="logo">
+                </a>
                 <!--                <h4 class="offcanvas-title bkt-sidebar__title" id="offcanvasExampleLabel">LotoFond</h4>-->
 
                 <button type="button" class="bkt-button bkt-sidebar__button" data-bs-dismiss="offcanvas"
@@ -206,9 +209,9 @@
             <div class="bkt-sidebar__footer">
                 <div v-if="isLoggedIn" class="bkt-sidebar__user">
                     <div class="bkt-sidebar__profile">
-<!--                        <div class="bkt-sidebar__user-image d-flex align-items-center" style="padding:14px;">-->
-<!--                            <bkt-icon name="User" color="white" width="22px" height="22px"></bkt-icon>-->
-<!--                        </div>-->
+                        <!--                        <div class="bkt-sidebar__user-image d-flex align-items-center" style="padding:14px;">-->
+                        <!--                            <bkt-icon name="User" color="white" width="22px" height="22px"></bkt-icon>-->
+                        <!--                        </div>-->
                         <div class="text-truncate me-1">
                             <div class="bkt-sidebar__user-name text-truncate">
                                 {{ auth_user ? auth_user.name : '' }} {{ auth_user ? auth_user.lastName : '' }}
@@ -239,6 +242,7 @@
 <script>
     import BktResetPasswordModal from "../auth/ResetPasswordModal";
     import BktResetSuccessModal from "../auth/ResetSuccessModal";
+
     export default {
         name: "Header",
         components: {
@@ -366,7 +370,7 @@
                 this.loading = true;
                 await this.$store.dispatch('logout').then(resp => {
                     this.loading = false;
-                    if( this.$router.currentRoute.name != 'Main') {
+                    if (this.$router.currentRoute.name != 'Main') {
                         this.$router.push('/')
                     }
                 }).catch(error => {
@@ -377,10 +381,9 @@
                 this.$store.commit('openModal', '#authModal');
             },
             navigate(path) {
-                if(this.isLoggedIn) {
+                if (this.isLoggedIn) {
                     this.$router.push(path)
-                }
-                else {
+                } else {
                     this.$store.dispatch('sendAuthNotification', {self: this})
                 }
             },

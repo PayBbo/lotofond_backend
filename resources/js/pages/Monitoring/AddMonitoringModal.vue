@@ -248,14 +248,6 @@
                 }
             }
         },
-        computed: {
-            regions_loading() {
-                return this.$store.getters.regions_loading
-            },
-            categories_loading() {
-                return this.$store.getters.categories_loading
-            },
-        },
         methods: {
             save() {
                 this.loading = true;

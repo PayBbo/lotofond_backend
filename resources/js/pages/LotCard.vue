@@ -1073,7 +1073,7 @@
 <!--                </bkt-collapse>-->
 <!--            </div>-->
             <div v-if="item && isLoggedIn" class="col-12 col-lg-12 order-3 px-lg-0">
-                <bkt-collapse title="Связанные лоты" :count="related_lots_pagination.total"
+                <bkt-collapse title="Все лоты торга" :count="related_lots_pagination.total"
                               id="collapseRelatedLots" :loading="related_lots_loading||loading"
                               :disabled="related_lots.length==0&&!related_lots_loading"
                               class="bkt-lot__collapse"

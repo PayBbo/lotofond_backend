@@ -1,0 +1,195 @@
+.bkt-collection {
+    min-height: 50vh;
+    gap: 30px;
+    display: flex;
+    flex-direction: column;
+
+    &__title {
+        margin-bottom: 50px;
+        margin-top: 50px;
+
+        & span {
+            font-weight: 800;
+            font-size: 30px;
+        }
+    }
+
+    &__filters {
+        border-width: 2px;
+        border-color: rgb(41, 83, 255, 0.039);
+        border-style: solid;
+        border-radius: 25px;
+        min-height: 86px;
+        padding: 20px;
+        gap: 10px;
+
+        &-action {
+            background-color: white;
+            color: $main-default;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: nowrap;
+            gap: 6px;
+            border-radius: 13px;
+            min-height: 50px;
+            min-width: 50px;
+        }
+
+        &-card {
+            padding: 20px;
+        }
+    }
+
+    &__paths-list {
+        //padding: 0 20px;
+        width: calc(100% - 80px);
+
+        & .bkt-collection__path:first-child {
+            padding: 12px 30px 12px 30px;
+        }
+
+        & .bkt-collection__path {
+            margin-right: 10px;
+            border-radius: 20px;
+            height: 60px;
+            padding: 12px 12px 12px 30px;
+            font-size: 14px;
+            font-weight: 600;
+            line-height: 14px;
+            flex-wrap: nowrap;
+            display: flex;
+            align-items: center;
+            gap: 25px;
+            text-transform: uppercase;
+            color: white;
+        }
+    }
+
+    & .bkt-collection__paths-collapse {
+        width: 100%;
+        background-color: transparent;
+        gap: 10px;
+
+        & .bkt-collapse__header {
+            text-transform: uppercase;
+            color: white;
+            text-align: center;
+            padding: 5px;
+            border-radius: 13px;
+            min-height: 44px;
+
+            & h6 {
+                //font-size: 10px;
+                font-family: "Gilroy";
+                color: rgb(254, 254, 254);
+                font-weight: 600;
+                text-transform: uppercase;
+                line-height: 2;
+            }
+        }
+
+        & .bkt-collapse__body {
+            background-color: transparent;
+            padding: 0;
+            row-gap: 10px;
+            max-height: 200px;
+            overflow-y: scroll;
+            scrollbar-width: thin;
+            scrollbar-color: $primary-default #e9f3fc;
+            &::-webkit-scrollbar {
+                width: 7px;
+            }
+
+            &::-webkit-scrollbar-track {
+                background: transparent;
+            }
+
+            &::-webkit-scrollbar-thumb {
+                background-color: $primary-default;
+                border-radius: 5px;
+            }
+        }
+
+        & .bkt-collapse__button {
+            border-radius: 10px;
+            width: 34px;
+            height: 34px;
+            padding: 10px;
+        }
+    }
+
+    & .bkt-search {
+        background-color: white;
+        border-radius: 13px;
+        padding: 8px;
+        &__input {
+            background-color: transparent;
+        }
+    }
+
+    & .bkt-select__wrapper {
+        & .bkt-select {
+            background-color: white; //#f5f7fe;
+        }
+    }
+}
+@media (max-width: 768px) {
+    .bkt-collection {
+        &__filters {
+            &-card {
+                padding: 20px 0;
+            }
+        }
+        &__paths-list {
+            padding: 0;
+        }
+    }
+}
+@media (max-width: 576px) {
+    .bkt-collection {
+        gap: 15px;
+        &__filters {
+            border: none;
+            padding: 0;
+            gap: 10px;
+
+            &-inner {
+                padding: 15px 12px;
+                border-width: 2px;
+                border-color: rgb(41, 83, 255, 0.039);
+                border-style: solid;
+                border-radius: 18px;
+            }
+
+            &-action {
+                border-radius: 13px;
+                padding: 15px;
+                height: 47px;
+                //width: 47px;
+                min-height: 47px;
+                min-width: 47px;
+            }
+
+            &-card {
+                padding: 25px;
+                gap: 25px;
+                background-color: white;
+                border-radius: 18px;
+                & .bkt-select__wrapper {
+                    & .bkt-v-select .vs__dropdown-toggle {
+                        background-color: $body-bg;
+                    }
+                }
+            }
+        }
+        & .bkt-search__button {
+            min-width: 44px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            //margin-right: 7px;
+        }
+    }
+}

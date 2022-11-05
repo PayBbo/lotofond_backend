@@ -3,18 +3,12 @@
         <add-monitoring-modal/>
         <edit-monitoring-modal/>
         <h1 class="bkt-page__title">Мониторинг</h1>
-        <section class="bkt-monitoring">
-            <div class="bkt-favourites__filters bkt-wrapper-column bkt-wrapper-down-md-column-reverse">
-                <div class="bkt-favourites__filters-inner bkt-nowrap bkt-wrapper-between bkt-wrapper-down-md bkt-gap">
-                    <div class="d-flex bkt-wrapper-down-md-between bkt-w-md-100 bkt-gap-small bkt-gap-down-sm-mini">
-                        <button class="bkt-button-icon bkt-favourites__filters-action d-none d-md-block"
-                                :class="search_mode ? 'bkt-bg-primary shadow': 'bkt-bg-white'"
-                                @click="search_mode = !search_mode" :disabled="monitorings_loading">
-                            <bkt-icon class="bkt-button__icon" :name="'Search'"
-                                      :color="search_mode ? 'white': 'primary'"></bkt-icon>
-                        </button>
+        <section class="bkt-collection">
+            <div class="bkt-collection__filters bkt-wrapper-column bkt-wrapper-down-md-column-reverse bkt-gap-down-md-mini">
+                <div class="bkt-collection__filters-inner bkt-nowrap bkt-wrapper-between bkt-wrapper-down-md bkt-gap">
+                    <div class="d-flex bkt-wrapper-down-md-between w-100 bkt-gap bkt-gap-down-md-mini px-1">
                         <button
-                            class="bkt-button bkt-favourites__filters-action bkt-w-down-md-100"
+                            class="bkt-button bkt-collection__filters-action bkt-w-100"
                             data-bs-toggle="modal"
                             data-bs-target="#addMonitoringModal"
                             :disabled="monitorings_loading"
@@ -25,7 +19,7 @@
                             Создать мониторинг
                         </button>
                         <button
-                            class="bkt-button bkt-favourites__filters-action bkt-w-down-md-100"
+                            class="bkt-button bkt-collection__filters-action bkt-w-100"
                             data-bs-toggle="modal" data-bs-target="#editMonitoringModal"
                             :disabled="monitorings_loading"
                         >
@@ -35,7 +29,7 @@
                             Редактировать мониторинг
                         </button>
                         <button
-                            class="bkt-button bkt-favourites__filters-action bkt-w-down-md-100"
+                            class="bkt-button bkt-collection__filters-action bkt-w-100"
                             @click="removeMonitoringPath"
                             :disabled="monitorings_loading"
                         >
@@ -46,97 +40,82 @@
                         </button>
                     </div>
                 </div>
-                <div class="bkt-favourites__filters-card bkt-wrapper-column bkt-gap-large" v-if="search_mode">
-                    <div class="bkt-menu__search">
-                        <bkt-search v-model="params.includedWords" no_dropdown :loading="monitorings_loading" simple
-                                    @runSearch="getData(1)" search_class="bkt-register-collapse__search"
-                                    placeholder="Нужные слова через запятую" :disabled="monitorings_loading"
-                        >
-                        </bkt-search>
-                    </div>
-                    <div class="bkt-menu__group-fields">
-                        <div class="bkt-form">
-                            <div class="col-12 col-md-6 d-none d-md-block">
-                                <bkt-select
-                                    v-model="params.sort.type"
-                                    class="w-100"
-                                    select_class="white w-100 bkt-wrapper bkt-nowrap bkt-gap"
-                                    additional_class=" w-100 "
-                                    name="sort"
-                                    label="сортировать по"
-                                    label_class="bkt-form__label"
-                                    :option_label="'title'"
-                                    :options="sort"
-                                    :reduce="item => item.value"
-                                    :clearable="false"
-                                    @input="getData(1)"
-                                >
-                                    <template #subtitle>
-                                        <button class="bkt-button-icon bkt-bg-white flex-shrink-0 order-3"
-                                                :class="{'bkt-mirror-vertical' : params.sort.direction =='desc'}"
-                                                @click="toggleDirection"
-                                        >
-                                            <bkt-icon name="Bars"></bkt-icon>
-                                        </button>
-                                    </template>
-                                </bkt-select>
-                            </div>
-                            <div class="col-12 col-md-6">
-                                <bkt-select
-                                    multiple
-                                    v-model="params.marks"
-                                    class="w-100"
-                                    select_class="white w-100"
-                                    name="mark"
-                                    label="метки"
-                                    label_class="bkt-form__label"
-                                    :option_label="'title'"
-                                    :options="marks"
-                                    :reduce="item => item.id"
-                                    :clearable="false"
-                                    :method_name="'getMarks'"
-                                    @input="getData(1)"
-                                >
-                                </bkt-select>
-                            </div>
+                <div class="bkt-form">
+                    <div class="col-12">
+                        <div class="bkt-menu__search">
+                            <bkt-search v-model="params.includedWords" no_dropdown :loading="monitorings_loading" simple
+                                        @runSearch="getData(1)" search_class="bkt-register-collapse__search"
+                                        placeholder="Нужные слова через запятую" :disabled="monitorings_loading"
+                            >
+                            </bkt-search>
                         </div>
                     </div>
+                    <div class="col-12 col-md-6">
+                        <bkt-select
+                            v-model="params.sort.type"
+                            class="w-100"
+                            select_class="bkt-v-select_material white w-100"
+                            name="sort"
+                            subtitle="сортировать по"
+                            :option_label="'title'"
+                            :options="sort"
+                            :reduce="item => item.value"
+                            :clearable="false"
+                            @input="getData(1)"
+                        >
+                        </bkt-select>
+                    </div>
+                    <div class="col-12 col-md-6">
+                        <bkt-select
+                            v-model="params.sort.direction"
+                            class="w-100"
+                            select_class="bkt-v-select_material white w-100"
+                            name="sort"
+                            subtitle="направление сортировки"
+                            :option_label="'title'"
+                            :options="sort_directions"
+                            :reduce="item => item.value"
+                            :clearable="false"
+                            @input="getData(1)"
+                        >
+                        </bkt-select>
+                    </div>
                 </div>
-                <div class="bkt-wrapper-between bkt-nowrap d-md-none bkt-gap bkt-gap-down-md-mini">
-                    <button class="bkt-button-icon flex-shrink-0"
-                            :class="search_mode ? 'bkt-bg-primary shadow': 'bkt-bg-white'"
-                            @click="search_mode = !search_mode"
-                    >
-                        <bkt-icon class="bkt-button__icon" :name="'Search'"
-                                  :color="search_mode ? 'white': 'primary'"></bkt-icon>
-                    </button>
-                    <button class="bkt-button-icon bkt-bg-white flex-shrink-0"
-                            :class="{'bkt-mirror-vertical' : params.sort.direction =='desc'}"
-                            @click="toggleDirection"
-                    >
-                        <bkt-icon name="Bars"></bkt-icon>
-                    </button>
-                    <bkt-select
-                        v-model="params.sort.type"
-                        class="w-100"
-                        select_class="bkt-v-select_material w-100 main"
-                        name="sort"
-                        subtitle="сортировать по"
-                        :option_label="'title'"
-                        :options="sort"
-                        :reduce="item => item.value"
-                        :clearable="false"
-                        @input="getData(1)"
-                    >
-                    </bkt-select>
-                </div>
+                <!--                <div class="bkt-wrapper-column bkt-nowrap d-md-none bkt-gap bkt-gap-down-md-mini">-->
+                <!--&lt;!&ndash;                    <button class="bkt-button-icon flex-shrink-0"&ndash;&gt;-->
+                <!--&lt;!&ndash;                            :class="search_mode ? 'bkt-bg-primary shadow': 'bkt-bg-white'"&ndash;&gt;-->
+                <!--&lt;!&ndash;                            @click="search_mode = !search_mode"&ndash;&gt;-->
+                <!--&lt;!&ndash;                    >&ndash;&gt;-->
+                <!--&lt;!&ndash;                        <bkt-icon class="bkt-button__icon" :name="'Search'"&ndash;&gt;-->
+                <!--&lt;!&ndash;                                  :color="search_mode ? 'white': 'primary'"></bkt-icon>&ndash;&gt;-->
+                <!--&lt;!&ndash;                    </button>&ndash;&gt;-->
+                <!--&lt;!&ndash;                    <button class="bkt-button-icon bkt-bg-white flex-shrink-0"&ndash;&gt;-->
+                <!--&lt;!&ndash;                            :class="{'bkt-mirror-vertical' : params.sort.direction =='desc'}"&ndash;&gt;-->
+                <!--&lt;!&ndash;                            @click="toggleDirection"&ndash;&gt;-->
+                <!--&lt;!&ndash;                    >&ndash;&gt;-->
+                <!--&lt;!&ndash;                        <bkt-icon name="Bars"></bkt-icon>&ndash;&gt;-->
+                <!--&lt;!&ndash;                    </button>&ndash;&gt;-->
+                <!--                    <bkt-select-->
+                <!--                        v-model="params.sort.type"-->
+                <!--                        class="w-100"-->
+                <!--                        select_class="bkt-v-select_material w-100 main"-->
+                <!--                        name="sort"-->
+                <!--                        subtitle="сортировать по"-->
+                <!--                        :option_label="'title'"-->
+                <!--                        :options="sort"-->
+                <!--                        :reduce="item => item.value"-->
+                <!--                        :clearable="false"-->
+                <!--                        @input="getData(1)"-->
+                <!--                    >-->
+                <!--                    </bkt-select>-->
+                <!--                </div>-->
             </div>
             <div class="d-md-block d-none">
                 <!--                    <slick v-bind="settings" v-if="items_paths.length>0">-->
                 <!--                        <div v-for="(path, index) in items_paths" :key="index">-->
                 <!--                            <button-->
                 <!--                                @click="setCurrentMonitoringPath(path.pathId)"-->
-                <!--                                class="bkt-button bkt-favourites__path bkt-button_plump text-uppercase"-->
+                <!--                                class="bkt-button bkt-collection__path bkt-button_plump text-uppercase"-->
                 <!--                                :class="[current_path === path.pathId && path.color ? 'bkt-bg-'+path.color : '',-->
                 <!--                                {'bkt-bg-primary': current_path === path.pathId && !path.color,-->
                 <!--                                'bkt-bg-white bkt-text-main': current_path !== path.pathId}]"-->
@@ -194,12 +173,12 @@
                             ></path>
                         </svg>
                     </div>
-                    <div class="bkt-monitoring__paths-list"
+                    <div class="bkt-collection__paths-list"
                          :class="{'p-0' : items_paths.length==1}" v-if="items_paths.length>0">
                         <slick v-bind="settings" ref="carousel" style="overflow: hidden">
                             <div v-for="(path, index) in items_paths" :key="index">
                                 <!--                                    <div-->
-                                <!--                                        class="bkt-monitoring__path"-->
+                                <!--                                        class="bkt-collection__path"-->
                                 <!--                                        :class="[current_path === path.pathId && path.color ? 'bkt-bg-'+path.color : '',-->
                                 <!--                                                {'bkt-bg-primary': current_path === path.pathId && !path.color,-->
                                 <!--                                                'bkt-bg-white bkt-text-main': current_path !== path.pathId}]"-->
@@ -224,7 +203,7 @@
                                 <!--                                    </div>-->
                                 <button
                                     @click="setCurrentMonitoringPath(path.pathId)"
-                                    class="bkt-button bkt-monitoring__path bkt-button_plump text-uppercase"
+                                    class="bkt-button bkt-collection__path bkt-button_plump text-uppercase"
                                     :class="[current_path === path.pathId && path.color ? 'bkt-bg-'+path.color : '',
                                                                         {'bkt-bg-primary': current_path === path.pathId && !path.color,
                                                                         'bkt-bg-white bkt-text-main': current_path !== path.pathId}]"
@@ -260,7 +239,7 @@
                 </div>
             </div>
             <div class="d-block d-md-none">
-                <bkt-collapse id="collapsePaths" main_class="bkt-monitoring__paths-collapse"
+                <bkt-collapse id="collapsePaths" main_class="bkt-collection__paths-collapse"
                               :header_class="current_path_object.color ? 'bkt-bg-'+current_path_object.color : 'bkt-bg-primary'"
                               :collapse_button_class="items_paths.length>1 ? 'bkt-bg-white' : 'd-none'"
                 >
@@ -293,142 +272,142 @@
                     </template>
                 </bkt-collapse>
             </div>
-            <!--            <div class="row w-100 mx-auto">-->
-            <!--                <div class="col-12 d-md-block d-none" :class="{'p-0' : items_paths.length==1}">-->
-            <!--                    <div class="bkt-wrapper my-0 align-items-center w-100 bkt-nowrap">-->
-            <!--                        <div class="p-3" v-show="items_paths.length > 1" @click="showPrev">-->
-            <!--                            <svg-->
-            <!--                                width="8"-->
-            <!--                                height="12"-->
-            <!--                                viewBox="0 0 8 12"-->
-            <!--                                fill="#ffc515"-->
-            <!--                            >-->
-            <!--                                <path-->
-            <!--                                    d="M8 1.42L3.42 6L8 10.59L6.59 12L0.59 6L6.59 1.23266e-07L8 1.42Z"-->
-            <!--                                ></path>-->
-            <!--                            </svg>-->
-            <!--                        </div>-->
-            <!--                        <div class="bkt-monitoring__paths-list"-->
-            <!--                             :class="{'p-0' : items_paths.length==1}" v-if="items_paths.length>0">-->
-            <!--                            <slick v-bind="settings" ref="carousel" style="overflow: hidden">-->
-            <!--                                <div v-for="(path, index) in items_paths" :key="index">-->
-            <!--                                    <div-->
-            <!--                                        class="bkt-monitoring__path"-->
-            <!--                                        :class="[current_path === path.pathId && path.color ? 'bkt-bg-'+path.color : '',-->
-            <!--                                                {'bkt-bg-primary': current_path === path.pathId && !path.color,-->
-            <!--                                                'bkt-bg-white bkt-text-main': current_path !== path.pathId}]"-->
-            <!--                                    >-->
-            <!--                                        <span v-if="path.pathId === 0"-->
-            <!--                                              @click="setCurrentMonitoringPath(path.pathId)"-->
-            <!--                                              class=" bkt-cursor-pointer"-->
-            <!--                                        >-->
-            <!--                                            {{path.name}}-->
-            <!--                                        </span>-->
-            <!--                                        <div class="d-flex bkt-gap h-100 align-items-center bkt-cursor-pointer"-->
-            <!--                                             v-if="path.pathId !== 0"-->
-            <!--                                             @click="setCurrentMonitoringPath(path.pathId)"-->
-            <!--                                        >-->
-            <!--                                            <span>{{path.name}}</span>-->
-            <!--                                        </div>-->
-            <!--                                        <div class="bkt-icon-frame-small bkt-bg-primary-lighter bkt-cursor-pointer"-->
-            <!--                                             v-if="path.pathId !== 0"-->
-            <!--                                             @click="editMonitoringPath(path.pathId)"-->
-            <!--                                        >-->
-            <!--                                            <bkt-icon :name="'Settings'" :color="'primary'" class="bkt-icon"></bkt-icon>-->
-            <!--                                        </div>-->
-            <!--                                    </div>-->
-            <!--                                </div>-->
-            <!--                                &lt;!&ndash;                            <template #prevArrow="arrowOption">&ndash;&gt;-->
-            <!--                                &lt;!&ndash;                                <div class="custom-arrow">&ndash;&gt;-->
-            <!--                                &lt;!&ndash;                                    <div v-show="items_paths.length > 1">&ndash;&gt;-->
-            <!--                                &lt;!&ndash;                                        <svg&ndash;&gt;-->
-            <!--                                &lt;!&ndash;                                            width="8"&ndash;&gt;-->
-            <!--                                &lt;!&ndash;                                            height="12"&ndash;&gt;-->
-            <!--                                &lt;!&ndash;                                            viewBox="0 0 8 12"&ndash;&gt;-->
-            <!--                                &lt;!&ndash;                                            fill="#ffc515"&ndash;&gt;-->
-            <!--                                &lt;!&ndash;                                        >&ndash;&gt;-->
-            <!--                                &lt;!&ndash;                                            <path&ndash;&gt;-->
-            <!--                                &lt;!&ndash;                                                d="M8 1.42L3.42 6L8 10.59L6.59 12L0.59 6L6.59 1.23266e-07L8 1.42Z"&ndash;&gt;-->
-            <!--                                &lt;!&ndash;                                            ></path>&ndash;&gt;-->
-            <!--                                &lt;!&ndash;                                        </svg>&ndash;&gt;-->
-            <!--                                &lt;!&ndash;                                    </div>&ndash;&gt;-->
-            <!--                                &lt;!&ndash;                                </div>&ndash;&gt;-->
-            <!--                                &lt;!&ndash;                            </template>&ndash;&gt;-->
-            <!--                                &lt;!&ndash;                            <template #nextArrow="arrowOption">&ndash;&gt;-->
-            <!--                                &lt;!&ndash;                                <div class="custom-arrow">&ndash;&gt;-->
-            <!--                                &lt;!&ndash;                                    <div v-show="items_paths.length > 1">&ndash;&gt;-->
-            <!--                                &lt;!&ndash;                                        <svg&ndash;&gt;-->
-            <!--                                &lt;!&ndash;                                            fill="#ffc515"&ndash;&gt;-->
-            <!--                                &lt;!&ndash;                                            width="8"&ndash;&gt;-->
-            <!--                                &lt;!&ndash;                                            height="12"&ndash;&gt;-->
-            <!--                                &lt;!&ndash;                                            viewBox="0 0 8 12"&ndash;&gt;-->
-            <!--                                &lt;!&ndash;                                        >&ndash;&gt;-->
-            <!--                                &lt;!&ndash;                                            <path&ndash;&gt;-->
-            <!--                                &lt;!&ndash;                                                d="M0 10.5801L4.58 6.00012L0 1.41012L1.41 0.00012207L7.41 6.00012L1.41 12.0001L0 10.5801Z"&ndash;&gt;-->
-            <!--                                &lt;!&ndash;                                            ></path>&ndash;&gt;-->
-            <!--                                &lt;!&ndash;                                        </svg>&ndash;&gt;-->
-            <!--                                &lt;!&ndash;                                    </div>&ndash;&gt;-->
+<!--                        <div class="row w-100 mx-auto">-->
+<!--                            <div class="col-12 d-md-block d-none" :class="{'p-0' : items_paths.length==1}">-->
+<!--                                <div class="bkt-wrapper my-0 align-items-center w-100 bkt-nowrap">-->
+<!--                                    <div class="p-3" v-show="items_paths.length > 1" @click="showPrev">-->
+<!--                                        <svg-->
+<!--                                            width="8"-->
+<!--                                            height="12"-->
+<!--                                            viewBox="0 0 8 12"-->
+<!--                                            fill="#ffc515"-->
+<!--                                        >-->
+<!--                                            <path-->
+<!--                                                d="M8 1.42L3.42 6L8 10.59L6.59 12L0.59 6L6.59 1.23266e-07L8 1.42Z"-->
+<!--                                            ></path>-->
+<!--                                        </svg>-->
+<!--                                    </div>-->
+<!--                                    <div class="bkt-collection__paths-list"-->
+<!--                                         :class="{'p-0' : items_paths.length==1}" v-if="items_paths.length>0">-->
+<!--                                        <slick v-bind="settings" ref="carousel" style="overflow: hidden">-->
+<!--                                            <div v-for="(path, index) in items_paths" :key="index">-->
+<!--                                                <div-->
+<!--                                                    class="bkt-collection__path"-->
+<!--                                                    :class="[current_path === path.pathId && path.color ? 'bkt-bg-'+path.color : '',-->
+<!--                                                            {'bkt-bg-primary': current_path === path.pathId && !path.color,-->
+<!--                                                            'bkt-bg-white bkt-text-main': current_path !== path.pathId}]"-->
+<!--                                                >-->
+<!--                                                    <span v-if="path.pathId === 0"-->
+<!--                                                          @click="setCurrentMonitoringPath(path.pathId)"-->
+<!--                                                          class=" bkt-cursor-pointer"-->
+<!--                                                    >-->
+<!--                                                        {{path.name}}-->
+<!--                                                    </span>-->
+<!--                                                    <div class="d-flex bkt-gap h-100 align-items-center bkt-cursor-pointer"-->
+<!--                                                         v-if="path.pathId !== 0"-->
+<!--                                                         @click="setCurrentMonitoringPath(path.pathId)"-->
+<!--                                                    >-->
+<!--                                                        <span>{{path.name}}</span>-->
+<!--                                                    </div>-->
+<!--                                                    <div class="bkt-icon-frame-small bkt-bg-primary-lighter bkt-cursor-pointer"-->
+<!--                                                         v-if="path.pathId !== 0"-->
+<!--                                                         @click="editMonitoringPath(path.pathId)"-->
+<!--                                                    >-->
+<!--                                                        <bkt-icon :name="'Settings'" :color="'primary'" class="bkt-icon"></bkt-icon>-->
+<!--                                                    </div>-->
+<!--                                                </div>-->
+<!--                                            </div>-->
+<!--                                            &lt;!&ndash;                            <template #prevArrow="arrowOption">&ndash;&gt;-->
+<!--                                            &lt;!&ndash;                                <div class="custom-arrow">&ndash;&gt;-->
+<!--                                            &lt;!&ndash;                                    <div v-show="items_paths.length > 1">&ndash;&gt;-->
+<!--                                            &lt;!&ndash;                                        <svg&ndash;&gt;-->
+<!--                                            &lt;!&ndash;                                            width="8"&ndash;&gt;-->
+<!--                                            &lt;!&ndash;                                            height="12"&ndash;&gt;-->
+<!--                                            &lt;!&ndash;                                            viewBox="0 0 8 12"&ndash;&gt;-->
+<!--                                            &lt;!&ndash;                                            fill="#ffc515"&ndash;&gt;-->
+<!--                                            &lt;!&ndash;                                        >&ndash;&gt;-->
+<!--                                            &lt;!&ndash;                                            <path&ndash;&gt;-->
+<!--                                            &lt;!&ndash;                                                d="M8 1.42L3.42 6L8 10.59L6.59 12L0.59 6L6.59 1.23266e-07L8 1.42Z"&ndash;&gt;-->
+<!--                                            &lt;!&ndash;                                            ></path>&ndash;&gt;-->
+<!--                                            &lt;!&ndash;                                        </svg>&ndash;&gt;-->
+<!--                                            &lt;!&ndash;                                    </div>&ndash;&gt;-->
+<!--                                            &lt;!&ndash;                                </div>&ndash;&gt;-->
+<!--                                            &lt;!&ndash;                            </template>&ndash;&gt;-->
+<!--                                            &lt;!&ndash;                            <template #nextArrow="arrowOption">&ndash;&gt;-->
+<!--                                            &lt;!&ndash;                                <div class="custom-arrow">&ndash;&gt;-->
+<!--                                            &lt;!&ndash;                                    <div v-show="items_paths.length > 1">&ndash;&gt;-->
+<!--                                            &lt;!&ndash;                                        <svg&ndash;&gt;-->
+<!--                                            &lt;!&ndash;                                            fill="#ffc515"&ndash;&gt;-->
+<!--                                            &lt;!&ndash;                                            width="8"&ndash;&gt;-->
+<!--                                            &lt;!&ndash;                                            height="12"&ndash;&gt;-->
+<!--                                            &lt;!&ndash;                                            viewBox="0 0 8 12"&ndash;&gt;-->
+<!--                                            &lt;!&ndash;                                        >&ndash;&gt;-->
+<!--                                            &lt;!&ndash;                                            <path&ndash;&gt;-->
+<!--                                            &lt;!&ndash;                                                d="M0 10.5801L4.58 6.00012L0 1.41012L1.41 0.00012207L7.41 6.00012L1.41 12.0001L0 10.5801Z"&ndash;&gt;-->
+<!--                                            &lt;!&ndash;                                            ></path>&ndash;&gt;-->
+<!--                                            &lt;!&ndash;                                        </svg>&ndash;&gt;-->
+<!--                                            &lt;!&ndash;                                    </div>&ndash;&gt;-->
 
-            <!--                                &lt;!&ndash;                                </div>&ndash;&gt;-->
-            <!--                                &lt;!&ndash;                            </template>&ndash;&gt;-->
-            <!--                            </slick>-->
-            <!--                        </div>-->
-            <!--                        <div class="p-3" v-show="items_paths.length > 1" @click="showNext">-->
-            <!--                            <svg-->
-            <!--                                fill="#ffc515"-->
-            <!--                                width="8"-->
-            <!--                                height="12"-->
-            <!--                                viewBox="0 0 8 12"-->
-            <!--                            >-->
-            <!--                                <path-->
-            <!--                                    d="M0 10.5801L4.58 6.00012L0 1.41012L1.41 0.00012207L7.41 6.00012L1.41 12.0001L0 10.5801Z"-->
-            <!--                                ></path>-->
-            <!--                            </svg>-->
-            <!--                        </div>-->
-            <!--                    </div>-->
+<!--                                            &lt;!&ndash;                                </div>&ndash;&gt;-->
+<!--                                            &lt;!&ndash;                            </template>&ndash;&gt;-->
+<!--                                        </slick>-->
+<!--                                    </div>-->
+<!--                                    <div class="p-3" v-show="items_paths.length > 1" @click="showNext">-->
+<!--                                        <svg-->
+<!--                                            fill="#ffc515"-->
+<!--                                            width="8"-->
+<!--                                            height="12"-->
+<!--                                            viewBox="0 0 8 12"-->
+<!--                                        >-->
+<!--                                            <path-->
+<!--                                                d="M0 10.5801L4.58 6.00012L0 1.41012L1.41 0.00012207L7.41 6.00012L1.41 12.0001L0 10.5801Z"-->
+<!--                                            ></path>-->
+<!--                                        </svg>-->
+<!--                                    </div>-->
+<!--                                </div>-->
 
-            <!--                </div>-->
-            <!--                <div class="col px-0">-->
-            <!--                    <button class="bkt-button__new-monitoring bkt-button primary bkt-w-md-100"-->
-            <!--                            @click="openModal"-->
-            <!--                    >-->
-            <!--                        Новый мониторинг-->
-            <!--                    </button>-->
-            <!--                </div>-->
-            <!--            </div>-->
-            <!--            <div class="bkt-wrapper my-0 bkt-nowrap align-items-start bkt-gap d-md-none w-100"-->
-            <!--                 v-if="items_paths.length>0">-->
-            <!--                <bkt-collapse id="collapseMonitoringPaths" main_class="bkt-monitoring__paths-collapse"-->
-            <!--                              :header_class="current_path_object.color ? 'bkt-bg-'+current_path_object.color : 'bkt-bg-primary'"-->
-            <!--                              :collapse_button_class="items_paths.length>1 ? 'bkt-bg-white' : 'd-none'"-->
-            <!--                >-->
-            <!--                    <template #title v-if="items_paths.length>0">-->
-            <!--                        <h6 class="mx-auto">-->
-            <!--                            {{current_path_object.name}}-->
-            <!--                        </h6>-->
-            <!--                    </template>-->
-            <!--                    <template #collapse v-if="items_paths.length>0">-->
-            <!--                        <div class="bkt-wrapper-column bkt-gap">-->
-            <!--                            <button v-for="(path, index) in items_paths" :key="index"-->
-            <!--                                    @click="setCurrentMonitoringPath(path.pathId)"-->
-            <!--                                    v-if="path.pathId !== current_path"-->
-            <!--                                    class="w-100 bkt-button bkt-button_plump text-uppercase bkt-bg-white bkt-text-main text-center"-->
-            <!--                            >-->
-            <!--                                {{path.name}}-->
-            <!--                                &lt;!&ndash;                            <span class="bkt-badge"&ndash;&gt;-->
-            <!--                                &lt;!&ndash;                                  :class="path.color ? 'bkt-bg-'+path.color+'-lighter bkt-text-'+path.color&ndash;&gt;-->
-            <!--                                &lt;!&ndash;                                      : 'bkt-text-primary bkt-bg-primary-lighter'"&ndash;&gt;-->
-            <!--                                &lt;!&ndash;                            >&ndash;&gt;-->
-            <!--                                &lt;!&ndash;                                    {{path.lotCount ? path.lotCount : '0'}}&ndash;&gt;-->
-            <!--                                &lt;!&ndash;                                </span>&ndash;&gt;-->
-            <!--                            </button>-->
-            <!--                        </div>-->
-            <!--                    </template>-->
-            <!--                </bkt-collapse>-->
-            <!--                <button class="bkt-button-icon bkt-bg-primary-lighter" @click="editMonitoringPath(current_path)">-->
-            <!--                    <bkt-icon :name="'Settings'" :color="'primary'" class=""></bkt-icon>-->
-            <!--                </button>-->
-            <!--            </div>-->
+<!--                            </div>-->
+<!--                            <div class="col px-0">-->
+<!--                                <button class="bkt-button__new-monitoring bkt-button primary bkt-w-md-100"-->
+<!--                                        @click="openModal"-->
+<!--                                >-->
+<!--                                    Новый мониторинг-->
+<!--                                </button>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                        <div class="bkt-wrapper my-0 bkt-nowrap align-items-start bkt-gap d-md-none w-100"-->
+<!--                             v-if="items_paths.length>0">-->
+<!--                            <bkt-collapse id="collapseMonitoringPaths" main_class="bkt-collection__paths-collapse"-->
+<!--                                          :header_class="current_path_object.color ? 'bkt-bg-'+current_path_object.color : 'bkt-bg-primary'"-->
+<!--                                          :collapse_button_class="items_paths.length>1 ? 'bkt-bg-white' : 'd-none'"-->
+<!--                            >-->
+<!--                                <template #title v-if="items_paths.length>0">-->
+<!--                                    <h6 class="mx-auto">-->
+<!--                                        {{current_path_object.name}}-->
+<!--                                    </h6>-->
+<!--                                </template>-->
+<!--                                <template #collapse v-if="items_paths.length>0">-->
+<!--                                    <div class="bkt-wrapper-column bkt-gap">-->
+<!--                                        <button v-for="(path, index) in items_paths" :key="index"-->
+<!--                                                @click="setCurrentMonitoringPath(path.pathId)"-->
+<!--                                                v-if="path.pathId !== current_path"-->
+<!--                                                class="w-100 bkt-button bkt-button_plump text-uppercase bkt-bg-white bkt-text-main text-center"-->
+<!--                                        >-->
+<!--                                            {{path.name}}-->
+<!--                                            &lt;!&ndash;                            <span class="bkt-badge"&ndash;&gt;-->
+<!--                                            &lt;!&ndash;                                  :class="path.color ? 'bkt-bg-'+path.color+'-lighter bkt-text-'+path.color&ndash;&gt;-->
+<!--                                            &lt;!&ndash;                                      : 'bkt-text-primary bkt-bg-primary-lighter'"&ndash;&gt;-->
+<!--                                            &lt;!&ndash;                            >&ndash;&gt;-->
+<!--                                            &lt;!&ndash;                                    {{path.lotCount ? path.lotCount : '0'}}&ndash;&gt;-->
+<!--                                            &lt;!&ndash;                                </span>&ndash;&gt;-->
+<!--                                        </button>-->
+<!--                                    </div>-->
+<!--                                </template>-->
+<!--                            </bkt-collapse>-->
+<!--                            <button class="bkt-button-icon bkt-bg-primary-lighter" @click="editMonitoringPath(current_path)">-->
+<!--                                <bkt-icon :name="'Settings'" :color="'primary'" class=""></bkt-icon>-->
+<!--                            </button>-->
+<!--                        </div>-->
             <bkt-card-list v-if="items_paths.length>0" :current_component="'BktCard'" :items="items"
                            :loading="monitorings_loading"
                            :pagination_data="pagination_data" @change-page="getData"
@@ -479,6 +458,10 @@
                     {title: 'Дате окончания торгов', value: "eventEnd"},
                     {title: 'Дате начала приема заявок', value: "applicationStart"},
                     {title: 'Дате окончания приема заявок', value: "applicationEnd"},
+                ],
+                sort_directions: [
+                    {title: 'По возрастанию', value: "asc"},
+                    {title: 'По убыванию', value: "desc"},
                 ],
                 search_mode: false,
                 params: {
