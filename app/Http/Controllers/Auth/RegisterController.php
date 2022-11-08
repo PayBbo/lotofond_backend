@@ -121,12 +121,12 @@ class RegisterController extends Controller
     {
         switch ($request->grantType){
             case 'email':{
-                $verifyAccount = VerifyAccount::where('value', $request->email)->first();
+                $verifyAccount = VerifyAccount::where(['value'=> $request->email, 'is_delete'=>false])->first();
                 $username = $request->email;
                 break;
             }
             case 'phone':{
-                $verifyAccount = VerifyAccount::where('phone', $request->phone)->first();
+                $verifyAccount = VerifyAccount::where(['phone'=> $request->phone, 'is_delete'=>false])->first();
                 $username = $request->phone;
                 break;
             }

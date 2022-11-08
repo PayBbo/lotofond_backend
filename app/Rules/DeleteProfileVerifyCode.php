@@ -37,13 +37,13 @@ class DeleteProfileVerifyCode implements Rule
             case 'email':{
                 if(!is_null($user->email))
                 {
-                    $verifyAccount = VerifyAccount::where('value', $user->email)->where('created_at', '>', $currentDate)->first();
+                    $verifyAccount = VerifyAccount::where(['value'=> $user->email, 'is_delete'=>true])->where('created_at', '>', $currentDate)->first();
                 }
                 break;
             }
             case 'phone':{
                 if(!is_null($user->phone)) {
-                    $verifyAccount = VerifyAccount::where('phone', $user->phone)->where('created_at', '>', $currentDate)->first();
+                    $verifyAccount = VerifyAccount::where(['phone'=> $user->phone, 'is_delete'=>true])->where('created_at', '>', $currentDate)->first();
                 }
                 break;
             }
