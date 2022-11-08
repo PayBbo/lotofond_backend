@@ -177,6 +177,10 @@ Route::group(['middleware' => ['json.response', 'localization']], function () {
 
             Route::delete('change/credentials/delete/{changeCredentialsProcessId}', [ProfileController::class, 'changeCredentialsProcessDelete']);
 
+            Route::post('delete/code', [ProfileController::class, 'getDeleteProfileCode']);
+
+            Route::post('delete/code/verify', [ProfileController::class, 'verifyDeleteProfileCode']);
+
         });
 
         Route::group(['prefix' => 'trades'], function () {

@@ -17,10 +17,11 @@ class CreateVerifyAccountsTable extends Migration
             $table->id();
             $table->string('value')->unique()->nullable();
             $table->string('token');
-            $table->string('code');
-            $table->string('name');
-            $table->string('surname');
+            $table->string('code')->nullable();
+            $table->string('name')->nullable();
+            $table->string('surname')->nullable();
             $table->string('phone')->unique()->nullable();
+            $table->boolean('is_delete')->default(false);
             $table->timestamps();
         });
     }
