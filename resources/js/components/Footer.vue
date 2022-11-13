@@ -90,8 +90,8 @@
                 <div class="bkt-wrapper-between bkt-wrapper-down-sm-column">
                     <p class="bkt-footer__politics-copyright">Все права защищены © LotoFond, {{new Date() | moment('YYYY')}}</p>
                     <div class="bkt-footer__politics-links">
-                        <a class="bkt-footer__politics-link" href="/">Политика обработки персональных данных</a>
-                        <a class="bkt-footer__politics-link" href="/">Пользовательское соглашение</a>
+                        <a class="bkt-footer__politics-link" href="/privacy-policy">Политика обработки персональных данных</a>
+                        <a class="bkt-footer__politics-link" href="/terms">Пользовательское соглашение</a>
                     </div>
                 </div>
 

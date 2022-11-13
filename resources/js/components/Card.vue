@@ -23,8 +23,8 @@
             </div>
         </div>
         <div class="col-12 col-lg-11 p-0">
-            <div class="row h-100 w-100 mx-auto row-cols-1 row-cols-md-2 row-cols-lg-3 bkt-card-trade__wrapper">
-                <div class="col p-0 px-sm-2 order-2 order-lg-1">
+            <div class="row h-100 w-100 mx-auto row-cols-1 row-cols-md-2 row-cols-lg-4 bkt-card-trade__wrapper">
+                <div class="col-lg-3 p-0 pe-md-2 order-2 order-lg-1">
                     <div class="bkt-card__image-wrapper">
                         <div class="bkt-cursor-pointer" @click="navigate"
                              v-if="item && (!item.photos || item.photos.length==0) && item.categories"
@@ -48,9 +48,9 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-12 col-md-12 col-lg-4 p-0 px-sm-2 order-1 order-lg-2">
+                <div class="col-12 col-md-12 col-lg-6 p-0 px-sm-2 order-1 order-lg-2">
                     <div class="bkt-wrapper-between bkt-card__head bkt-nowrap bkt-gap-small">
-                        <router-link :to="'/lot/'+item.id" class="bkt-card__title bkt-text-truncate-3">
+                        <router-link :to="'/lot/'+item.id" class="bkt-card__title bkt-text-truncate-4 bkt-text-truncate-down-md">
                             {{item && item.description ? item.description:'Некоторое название торгов'}}
                         </router-link>
                         <div class="dropdown d-block d-lg-none">
@@ -113,7 +113,7 @@
                     <!--                        </div>-->
                     <!--                    </div>-->
                 </div>
-                <div class="col order-3 p-0 px-sm-2">
+                <div class="col-lg-3 order-3 p-0">
                     <div class="bkt-card-trade__wrapper bkt-wrapper-column">
                         <div class="bkt-wrapper-column bkt-gap-small order-2 order-md-1">
                             <div class="bkt-card-trade__price-wrapper bkt-button w-100"
@@ -191,9 +191,7 @@
                                                     {{$t('trades.tradeSubjectType.'+cadastralData.cadastralDataAreaType)}}
                                                 </h6>
                                             </div>
-                                            <span class="bkt-card__icon">
-                            <bkt-icon :name="'Tree'"></bkt-icon>
-                        </span>
+                                            <span class="bkt-card__icon"><bkt-icon :name="'Tree'"></bkt-icon></span>
                                         </div>
                                         <div class="bkt-card__row outline bkt-wrapper-between align-items-center"
                                              v-if="cadastralData.cadastralDataPrice">
@@ -201,9 +199,7 @@
                                                 <h4 class="bkt-card__title">{{cadastralData.cadastralDataPrice | priceFormat}} ₽</h4>
                                                 <h6 class="bkt-card__subtitle">кадастровая стоимость</h6>
                                             </div>
-                                            <span class="bkt-card__icon">
-                            <bkt-icon :name="'File'"></bkt-icon>
-                        </span>
+                                            <span class="bkt-card__icon"><bkt-icon :name="'File'"></bkt-icon></span>
                                         </div>
                                         <div class="bkt-card__row outline bkt-wrapper-between align-items-center"
                                              v-if="cadastralData.cadastralDataFractionalOwnership">
@@ -211,9 +207,7 @@
                                                 <h4 class="bkt-card__title">{{cadastralData.cadastralDataFractionalOwnership}}%</h4>
                                                 <h6 class="bkt-card__subtitle">доля в собственности</h6>
                                             </div>
-                                            <span class="bkt-card__icon">
-                                <bkt-icon :name="'Pie'"></bkt-icon>
-                            </span>
+                                            <span class="bkt-card__icon"><bkt-icon :name="'Pie'"></bkt-icon></span>
                                         </div>
                                     </div>
                                 </div>
@@ -444,14 +438,18 @@
                         if (index >= 0) {
                             cadastralData.cadastralDataAreaType = tmp[0].type;
                             cadastralData.cadastralDataArea = extracts[index].value;
-                            if (extracts[index].value <= 100) {
-                                cadastralData.cadastralDataAreaMeasure = 'кв. м.';
-                            } else if (extracts[index].value > 100 && extracts[index].value <= 10000) {
-                                cadastralData.cadastralDataArea = extracts[index].value / 100;
-                                cadastralData.cadastralDataAreaMeasure = this.$tc('trades.ar', this.pluralization(cadastralData.cadastralDataArea));
-                            } else {
-                                cadastralData.cadastralDataArea = extracts[index].value / 10000;
-                                cadastralData.cadastralDataAreaMeasure = 'га';
+                            cadastralData.cadastralDataAreaMeasure = 'кв. м.';
+                            if( cadastralData.cadastralDataAreaType === 'landPlot')
+                            {
+                                if (extracts[index].value <= 100) {
+                                    cadastralData.cadastralDataAreaMeasure = 'кв. м.';
+                                } else if (extracts[index].value > 100 && extracts[index].value <= 10000) {
+                                    cadastralData.cadastralDataArea = extracts[index].value / 100;
+                                    cadastralData.cadastralDataAreaMeasure = this.$tc('trades.ar', this.pluralization(cadastralData.cadastralDataArea));
+                                } else {
+                                    cadastralData.cadastralDataArea = extracts[index].value / 10000;
+                                    cadastralData.cadastralDataAreaMeasure = 'га';
+                                }
                             }
                         }
                         index = extracts.findIndex(item => item.type == 'cadastralDataFractionalOwnership')
