@@ -28,14 +28,19 @@
                         </thead>
 
                         <tbody>
-                        <slot name="tbody">
+                        <slot name="tbody" v-if="!loading">
                             <tr v-for="item in items">
                                 <slot name="tbody_tr" v-bind:item="item">
 
                                 </slot>
                             </tr>
                         </slot>
-                        <tr v-if="items.length==0 && no_data_slot">
+                        <tr v-for="n in 5" v-if="loading">
+                            <td colspan="5">
+                                <skeleton type_name="text"></skeleton>
+                            </td>
+                        </tr>
+                        <tr v-if="items.length==0 && no_data_slot && !loading">
                             <td colspan="5">
                                 <div class="bkt-wrapper w-100 mx-auto">
                                     <h5 class="mx-auto">Нет данных</h5>

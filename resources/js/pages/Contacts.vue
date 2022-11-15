@@ -1,6 +1,28 @@
 <template>
     <div class="container bkt-page bkt-container">
         <h1 class="bkt-page__title">Контакты</h1>
+        <bkt-modal :id="'details'" title="Реквизиты Исполнителя" modal_class="bkt-filters-modal">
+            <template #body>
+                <div>
+                    <p><strong>ИП Валигурский С.Д.</strong></p>
+                    <p><strong>ИНН:</strong> 502982976506 <strong>ОГРН:</strong> 318502900011975</p>
+                    <p>Российская Федерация, 141014, Московская область, г. Мытищи, ул. Трудовая, д. 32</p>
+                    <p><strong>Расчётный счёт:</strong> 40802810440000043320 в ПАО СБЕРБАНК, г. Москва</p>
+                    <p><strong>Кор. счёт:</strong> 30101810400000000225</p>
+                    <p><strong>БИК:</strong> 044525225</p>
+                    <strong><a :href="contacts.email ? 'mailto:'+contacts.email : ''" class="bkt-text-primary">
+                        <skeleton>
+                            {{contacts.email ? contacts.email : ''}}
+                        </skeleton>
+                    </a></strong>
+                </div>
+            </template>
+            <template #footer>
+                <button class="bkt-button primary bkt-modal-save" data-bs-dismiss="modal">
+                    Закрыть
+                </button>
+            </template>
+        </bkt-modal>
         <div class="bkt-form bkt-form_wide bkt-gap-row-large">
             <div class="col-12 col-lg-4 bkt-form__offset-right">
                 <div class="bkt-wrapper-column bkt-gap-large">
@@ -44,6 +66,29 @@
                             </div>
                         </div>
                     </div>
+<!--                    <div class="bkt-card__row">-->
+<!--                        <div class="col-12 col-lg-10">-->
+<!--                            <div class="bkt-card__row-column">-->
+<!--                                <h5 class="bkt-text-neutral-dark">-->
+<!--                                    реквизиты-->
+<!--                                </h5>-->
+<!--                                <h4 class="bkt-card__title">исполнителя</h4>-->
+<!--                                <button class="bkt-button primary bkt-text-white bkt-w-sm-100" data-bs-toggle="modal" data-bs-target="#details">-->
+<!--                                    Посмотреть-->
+<!--                                </button>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                        <div class="col-12 col-lg-2 d-none d-lg-block">-->
+<!--                            <div class="bkt-card__category ms-auto bkt-bg-green-lighter">-->
+<!--                                <span class="bkt-card__category-icon">-->
+<!--                                   <bkt-icon name="Email" color="green"></bkt-icon>-->
+<!--                                </span>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+                    <button class="bkt-button bkt-bg-white bkt-text-primary text-uppercase" data-bs-toggle="modal" data-bs-target="#details">
+                        реквизиты Исполнителя
+                    </button>
                     <div class="bkt-wrapper bkt-gap-small ms-lg-0">
                         <a class="bkt-button bkt-button-icon bkt-bg-white" href="#">
                             <bkt-icon name="Vk" color="primary"></bkt-icon>

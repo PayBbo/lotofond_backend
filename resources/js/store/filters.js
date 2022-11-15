@@ -1,3 +1,159 @@
+const initialState = {
+    filters: {
+        categories: [],
+        regions: [],
+        prices: {
+            currentPrice: {
+                min: '',
+                max: ''
+            },
+            startPrice: {
+                min: '',
+                max: ''
+            },
+            minPrice: {
+                min: '',
+                max: ''
+            },
+            percentageReduction: {
+                min: '',
+                max: ''
+            }
+        },
+        dates: {
+            eventTimeStart: {
+                start: "",
+                end: ""
+            },
+            eventTimeEnd: {
+                start: "",
+                end: ""
+            },
+            applicationTimeStart: {
+                start: "",
+                end: ""
+            },
+            applicationTimeEnd: {
+                start: "",
+                end: ""
+            }
+        },
+        extraOptions: {
+            debtorCategories: [
+            ],
+            debtors: [
+            ],
+            organizers: [
+            ],
+            arbitrationManagers: [
+            ],
+            other: {
+                period: 'periodAll',
+                hasPhotos: false,
+                isStopped: false,
+                isCompleted: false,
+                isHidden: false
+                // hasAnswer: false
+            }
+        },
+        mainParams: {
+            excludedWords: null,
+            includedWords:'',
+            tradePlaces: [],
+            tradeTypes:[]
+        },
+        sort: {
+            direction: "desc",
+            type: "publishDate"
+        },
+        searchString: ''
+    },
+    nearest_filters: {
+        categories: [],
+        regions: [],
+        prices: {
+            currentPrice: {
+                min: '',
+                max: ''
+            },
+            startPrice: {
+                min: '',
+                max: ''
+            },
+            minPrice: {
+                min: '',
+                max: ''
+            },
+            percentageReduction: {
+                min: '',
+                max: ''
+            }
+        },
+        dates: {
+            eventTimeStart: {
+                start: "",
+                end: ""
+            },
+            eventTimeEnd: {
+                start: "",
+                end: ""
+            },
+            applicationTimeStart: {
+                start: "",
+                end: ""
+            },
+            applicationTimeEnd: {
+                start: "",
+                end: ""
+            }
+        },
+        extraOptions: {
+            debtorCategories: [
+            ],
+            debtors: [
+            ],
+            organizers: [
+            ],
+            arbitrationManagers: [
+            ],
+            other: {
+                period: 'periodAll',
+                hasPhotos: false,
+                isStopped: false,
+                isCompleted: false,
+                isHidden: false
+                // hasAnswer: false
+            }
+        },
+        mainParams: {
+            excludedWords: '',
+            includedWords:'',
+            tradePlaces: [],
+            tradeTypes:[]
+        },
+        sort: {
+            direction: "desc",
+            type: "applicationEnd"
+        }
+    },
+    messages_filters: {
+        searchString:'',
+        debtor: '',
+        types: [],
+        regions: [],
+        publishDate: {
+            start: '',
+            end: ''
+        },
+        messageHasFiles: false,
+        sort: {
+            direction: "desc",
+            type: ""
+        },
+        perPage: 20,
+        page:1
+    }
+}
 export default {
     state: {
         filters: {
@@ -215,6 +371,17 @@ export default {
         saveFilterProperty(state, payload) {
             Vue.set(state.filters[payload.filter], payload.key, payload.value);
             localStorage.setItem(payload.filter, JSON.stringify(state.filters[payload.filter]));
+        },
+        resetFilters(state, payload) {
+            localStorage.removeItem('filters_categories');
+            localStorage.removeItem('filters_regions');
+            localStorage.removeItem('filters_prices');
+            localStorage.removeItem('filters_dates');
+            localStorage.removeItem('filters_extraOptions');
+            localStorage.removeItem('filters_mainParams');
+            localStorage.removeItem('filters_searchString');
+            return (state.filters = initialState.filters)
+
         }
     }
 };
