@@ -21,7 +21,7 @@ class VictoryResource extends JsonResource
             $percentageReduction = round(($startPrice / $endPrice) * 100 - 100, 1);
         }else{
             $direction = 'up';
-            $percentageReduction = round(($endPrice / $startPrice) * 100 - 100, 1);
+            $percentageReduction = abs(round(( $startPrice/$endPrice) * 100 - 100, 1));
         }
         return [
             'tradeId'=>$this->tradeMessage->lot->auction->trade_id,
