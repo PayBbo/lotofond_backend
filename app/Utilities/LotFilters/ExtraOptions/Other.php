@@ -19,7 +19,10 @@ class Other extends SortQuery implements SortContract
             $maxDate = $result[1];
         }
         if(!is_null($value) && isset($value['hasPhotos']) && $value['hasPhotos'] === true) {
-            $this->query->has('lotImages');
+            $this->query->whereHas('lotImages', function ($q) {
+                $q->where('user_id', null)
+                ->orWhere('user_id', auth()->guard('api')->id());
+            });
         }
         if(!is_null($value) && isset($value['isCompleted']) && $value['isCompleted'] === true) {
             $this->query->whereHas('status', function ($q)  {
