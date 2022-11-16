@@ -9,11 +9,14 @@ use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Queue\MaxAttemptsExceededException;
 use Illuminate\Queue\SerializesModels;
 
 class ClearHiddenLotsJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+
+    public $tries = 3;
 
     protected $user;
     protected $lots;
@@ -70,6 +73,23 @@ class ClearHiddenLotsJob implements ShouldQueue
                     }
                 }
             }
+        }
+    }
+
+    public function failed($exception)
+    {
+        if (
+            $exception instanceof MaxAttemptsExceededException
+        )
+        {
+            $this->delete();
+
+            $this->dispatch($this->user, $this->lots)
+                ->onConnection($this->connection)
+                ->onQueue($this->queue)
+                ->delay(180);
+
+            return;
         }
     }
 }

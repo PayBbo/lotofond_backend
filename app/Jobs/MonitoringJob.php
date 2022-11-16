@@ -11,12 +11,13 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Queue\MaxAttemptsExceededException;
 use Illuminate\Queue\SerializesModels;
 
 class MonitoringJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
-
+    public $tries = 3;
     /**
      * Create a new job instance.
      *
@@ -48,6 +49,23 @@ class MonitoringJob implements ShouldQueue
                     }
                 }
             }
+        }
+    }
+
+    public function failed($exception)
+    {
+        if (
+            $exception instanceof MaxAttemptsExceededException
+        )
+        {
+            $this->delete();
+
+            $this->dispatch()
+                ->onConnection($this->connection)
+                ->onQueue($this->queue)
+                ->delay(180);
+
+            return;
         }
     }
 }

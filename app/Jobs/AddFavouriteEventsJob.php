@@ -11,11 +11,14 @@ use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Queue\MaxAttemptsExceededException;
 use Illuminate\Queue\SerializesModels;
 
 class AddFavouriteEventsJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+
+    public $tries = 3;
 
     protected $lots;
     protected $user;
@@ -79,6 +82,23 @@ class AddFavouriteEventsJob implements ShouldQueue
                 }
 
             }
+        }
+    }
+
+    public function failed($exception)
+    {
+        if (
+            $exception instanceof MaxAttemptsExceededException
+        )
+        {
+            $this->delete();
+
+            $this->dispatch($this->lots, $this->user, $this->path)
+                ->onConnection($this->connection)
+                ->onQueue($this->queue)
+                ->delay(180);
+
+            return;
         }
     }
 }
