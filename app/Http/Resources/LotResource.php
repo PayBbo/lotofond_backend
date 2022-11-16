@@ -87,6 +87,7 @@ class LotResource extends JsonResource
                 'deposit' => null
             ]),
             'priceReduction' => $priceReductions,
+            'priceReductionHtml' => $this->price_reduction,
             'currentPrice' => $currentPrice,
             'minPrice' => (float)$this->min_price,
             'currentPriceState' => $currentPriceState,
@@ -94,9 +95,7 @@ class LotResource extends JsonResource
             'efrsbLink' => 'https://fedresurs.ru/bidding/' . $this->auction->guid,
             'marks' => $this->userMarks->makeHidden(['pivot']),
             'descriptionExtracts' => $this->description_extracts,
-            // $this->mergeWhen(!is_null($this->getNote()), [
             'note' => $this->getNote(),
-            // ]),
             $this->mergeWhen(($this->isLotInfo), [
                 'requirementsForParticipants' => $this->participants,
                 'paymentInfo' => $this->payment_info,

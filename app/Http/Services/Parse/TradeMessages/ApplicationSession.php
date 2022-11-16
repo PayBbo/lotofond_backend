@@ -37,7 +37,7 @@ class ApplicationSession extends TradeMessage implements TradeMessageContract
         try {
             $auction = Auction::where('trade_id', $invitation['@attributes']['TradeId'])->first();
             if ($auction) {
-                if (array_key_exists($prefix . 'LotList', $invitation)) {
+                if (array_key_exists($prefix . 'LotList', $invitation) && array_key_exists($prefix . 'LotInfo', $invitation[$prefix . 'LotList'])) {
                     if (count($invitation[$prefix . 'LotList'][$prefix . 'LotInfo']) > 1) {
                         foreach ($invitation[$prefix . 'LotList'][$prefix . 'LotInfo'] as $lot) {
                             $auction_lot = $auction->lots->where('number', $lot['@attributes']['LotNumber'])->first();

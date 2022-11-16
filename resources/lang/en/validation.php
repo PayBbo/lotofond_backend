@@ -149,6 +149,7 @@ return [
     'authorization_required'=>'You need to register to receive the rest of the content',
     'not_enough_credentials'=>'There is not enough data in the profile for the selected action',
     'payment_error'=> 'Something went wrong, try again',
+    'no_activated_tariff'=>'You do not have activated tariff',
     /*
     |--------------------------------------------------------------------------
     | Custom Validation Language Lines

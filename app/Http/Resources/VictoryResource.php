@@ -16,12 +16,12 @@ class VictoryResource extends JsonResource
     {
         $startPrice = (float)$this->tradeMessage->lot->start_price;
         $endPrice = (float)$this->end_price;
-        if($startPrice>=$endPrice) {
+        if($startPrice>$endPrice) {
             $direction = 'down';
-            $percentageReduction = round(($startPrice / $endPrice) * 100 - 100, 1);
+            $percentageReduction = round(($startPrice - $endPrice) / $startPrice * 100, 1);
         }else{
             $direction = 'up';
-            $percentageReduction = abs(round(( $startPrice/$endPrice) * 100 - 100, 1));
+            $percentageReduction =  round(($endPrice - $startPrice) / $startPrice * 100, 1);
         }
         return [
             'tradeId'=>$this->tradeMessage->lot->auction->trade_id,

@@ -168,6 +168,8 @@ class TradeService
         $this->savePriceReduction($lot->id, $lot->start_price, $lot->created_at, null, null, 0, 0, true);
         if (array_key_exists($prefix . 'PriceReduction', $value)) {
             $this->getPriceReduction($value[$prefix . 'PriceReduction'], $lot->id);
+            $lot->price_reduction = $value[$prefix . 'PriceReduction'];
+            $lot->save();
         }
 
         return $lot;
@@ -215,7 +217,8 @@ class TradeService
                 preg_match_all($pattern, $red, $matches);
                 if (count($matches[0]) > 0) {
                     unset($matches[0][0]);
-                    $i = 1;
+                    $this->getPriceReductionParams($matches, 0, 3, 6, $lot, 5);
+                 /*   $i = 1;
                     foreach ($matches[0] as $match) {
                         $new_pattern = '/<td[\s\S]*?<\/td>/';
                         preg_match_all($new_pattern, $match, $items);
@@ -243,7 +246,7 @@ class TradeService
                             $this->savePriceReduction($lot_id, $price, $start_time, $end_time, $prev_price, 0, $deposit);
                         }
                         $i++;
-                    }
+                    }*/
                 }
             } elseif (str_starts_with($red, '<table><thead><tr><td>')) {
                 $pattern = '/<tr[\s\S]*?<\/tr>/';
@@ -285,7 +288,8 @@ class TradeService
                 preg_match_all($pattern, $red, $matches);
                 if (count($matches[0]) > 0) {
                     unset($matches[0][0]);
-                    $i = 0;
+                    $this->getPriceReductionParams($matches, 0, 3, 5, $lot, 4);
+               /*     $i = 0;
                     foreach ($matches[0] as $match) {
                         $new_pattern = '/<td[\s\S]*?<\/td>/';
                         preg_match_all($new_pattern, $match, $items);
@@ -313,8 +317,41 @@ class TradeService
                             $this->savePriceReduction($lot_id, $price, $start_time, $end_time, $prev_price, 0, $deposit);
                         }
                         $i++;
+                    }*/
+                }
+                elseif(str_starts_with($red, '<table><tr><td>')){
+                    $pattern = '/<tr[\s\S]*?<\/tr>/';
+                    preg_match_all($pattern, $red, $matches);
+                    if (count($matches[0]) > 0) {
+                        $this->getPriceReductionParams($matches, 0, 1, 2, $lot);
+                      /*  $i = 0;
+                        foreach ($matches[0] as $match) {
+                            $new_pattern = '/<td[\s\S]*?<\/td>/';
+                            preg_match_all($new_pattern, $match, $items);
+                            $start_time = substr($items[0][0], 4, strlen($items[0][0]) - 9);
+                            $end_time = substr($items[0][1], 4, strlen($items[0][1]) - 9);
+                            $price = number_format((float)preg_replace("/[^,.0-9]/", '',
+                                str_replace(',', '.',
+                                    substr($items[0][2], 4, strlen($items[0][2]) - 9)
+                                )), 2, '.', '');
+                            if ($i > 1) {
+                                preg_match_all($new_pattern, $matches[0][$i - 1], $prev_item);
+                                $prev_price = (float)preg_replace("/[^,.0-9]/", '',
+                                    str_replace(',', '.',
+                                        substr($prev_item[0][2], 4, strlen($prev_item[0][2]) - 9))
+                                );
+                            } else {
+                                $prev_price = $lot->start_price;
+                            }
+                            if (date('Y-m-d H:i:s', strtotime($start_time) == $start_time) && $price > 0
+                                && date('Y-m-d H:i:s', strtotime($end_time) == $end_time)) {
+                                $this->savePriceReduction($lot_id, $price, $start_time, $end_time, $prev_price, 0, 0);
+                            }
+                            $i++;
+                        }*/
                     }
-                } else {
+                }
+                else {
                     try {
                         $values = explode('<br/>', $red);
                         $i = 1;
@@ -354,10 +391,44 @@ class TradeService
         }
     }
 
+    public function getPriceReductionParams($matches, $start_time_index, $end_time_index, $price_index, $lot, $deposit_index=null){
+        $i = 0;
+        foreach ($matches[0] as $match) {
+            $new_pattern = '/<td[\s\S]*?<\/td>/';
+            preg_match_all($new_pattern, $match, $items);
+            $start_time = substr($items[0][$start_time_index], 4, strlen($items[0][$start_time_index]) - 9);
+            $end_time = substr($items[0][$end_time_index], 4, strlen($items[0][$end_time_index]) - 9);
+            $price = array_key_exists((string)$price_index, $items[0]) ? number_format((float)preg_replace("/[^,.0-9]/", '',
+                str_replace(',', '.',
+                    substr($items[0][$price_index], 4, strlen($items[0][$price_index]) - 9)
+                )), 2, '.', '') : 0;
+            $deposit = null;
+            if(!is_null($deposit_index)){
+                $deposit =  array_key_exists((string)$deposit_index, $items[0]) ? number_format((float)preg_replace("/[^,.0-9]/", '',
+                    str_replace(',', '.',
+                        substr($items[0][$deposit_index], 4, strlen($items[0][$deposit_index]) - 9)
+                    )), 2, '.', '') : null;
+            }
+            if ($i > 1) {
+                preg_match_all($new_pattern, $matches[0][$i - 1], $prev_item);
+                $prev_price =  array_key_exists((string)$price_index, $items[0]) ? (float)preg_replace("/[^,.0-9]/", '',
+                    str_replace(',', '.',
+                        substr($prev_item[0][$price_index], 4, strlen($prev_item[0][$price_index]) - 9))) : 0;
+            } else {
+                $prev_price = $lot->start_price;
+            }
+            if (date('Y-m-d H:i:s', strtotime($start_time) == $start_time) && $price > 0
+                && date('Y-m-d H:i:s', strtotime($end_time) == $end_time)) {
+                $this->savePriceReduction($lot->id, $price, $start_time, $end_time, $prev_price, 0, $deposit);
+            }
+            $i++;
+        }
+    }
+
     public function savePriceReduction($lot_id, $price, $start_time, $end_time, $prev_price = null, $percent = 0, $deposit = 0, $is_system = false)
     {
         if (!is_null($prev_price)) {
-            $percent = ((float)$prev_price / (float)$price) * 100 - 100;
+            $percent = ((float)$prev_price - (float)$price) /(float)$prev_price * 100;
         }
         PriceReduction::create([
             'lot_id' => $lot_id,

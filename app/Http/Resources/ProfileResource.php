@@ -38,6 +38,24 @@ class ProfileResource extends JsonResource
             ]),
             $this->mergeWhen(is_null($changeCredentials), [
                 'changeCredentialsProcess' => null
+            ]),
+            $this->mergeWhen(is_null($this->tariff) &&
+                $this->email_verified_at->addDays(3)->format('d.m.Y H:i:s') >= Carbon::now()->setTimezone('Europe/Moscow')->format('d.m.Y H:i:s'), [
+                'tariff' => [
+                    'title'=>'Тестовый период',
+                    'expiredAt'=>$this->email_verified_at->addDays(3)->format('d.m.Y H:i:s')
+                ]
+            ]),
+            $this->mergeWhen(!is_null($this->tariff) &&
+                $this->email_verified_at->addDays(3)->format('d.m.Y H:i:s') < Carbon::now()->setTimezone('Europe/Moscow')->format('d.m.Y H:i:s'), [
+                'tariff' => [
+                    'title'=> !is_null($this->tariff) ? $this->tariff['tariff']->title : null,
+                    'expiredAt'=>!is_null($this->tariff) ? Carbon::parse($this->tariff->finished_at)->format('d.m.Y H:i:s') : null
+                ]
+            ]),
+            $this->mergeWhen(is_null($this->tariff) &&
+                $this->email_verified_at->addDays(3)->format('d.m.Y H:i:s') < Carbon::now()->setTimezone('Europe/Moscow')->format('d.m.Y H:i:s'), [
+                'tariff' => null
             ])
         ];
     }

@@ -3530,6 +3530,23 @@ paths:
                 $ref: '#/components/schemas/Error'
       security:
         - bearerAuth: []
+  /tariffs:
+    get:
+      tags:
+        - Tariffs
+      summary: получение данных о тарифах
+      operationId: getTariffs
+      responses:
+        "200":
+          description: валидация транзакции прошла успешно,тариф для пользователя активирован
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Tariff'
+      security:
+        - bearerAuth: []
 components:
   schemas:
     Register:
@@ -3702,6 +3719,16 @@ components:
             dateOfChange:
               type: string
               description: дата изменения данных
+        tariff:
+          type: object
+          description: может быть null, если у пользователя нет активного тарифа
+          properties:
+            title:
+              type: string
+              description: Заголовок тарифа
+            expiredAt:
+              type: stirng
+              description: дата истечения сркоа действия подписки
     NotificationsSettings:
       type: object
       properties:
@@ -4027,7 +4054,10 @@ components:
               "price": 0.0,
               "isCurrentStage": false
             } ]
-          description: цена или сумма залога могут быть нулевыми
+          description: массив с объектами данных о графике снижения цены
+        priceReductionHtml:
+          type: string
+          description: строка html графика снижения цены (отображаем в случае, если priceReduction пустой)
         currentPrice:
           type: number
         minPrice:
@@ -5176,8 +5206,6 @@ components:
               type: string
             fullName:
               type: string
-
-
     TextData:
       type: object
       properties:
@@ -5192,6 +5220,21 @@ components:
             - help
             - about
             - contacts
+    Tariff:
+      type: object
+      properties:
+        id:
+          type: integer
+        title:
+          type: string
+        period:
+          type: integer
+          description: длительность действия подписки в днях
+        price:
+          type: integer
+        isUserTariff:
+          type: boolean
+          description: флаг, обозначающий, является ли данный тариф действующим тарифом пользователя
   securitySchemes:
     bearerAuth:
       type: http

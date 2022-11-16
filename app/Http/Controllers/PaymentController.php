@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Exceptions\CustomExceptions\BaseException;
 use App\Http\Requests\PaymentRequest;
+use App\Http\Resources\TariffResource;
 use App\Http\Services\PaymentService;
 use App\Models\Payment;
 use App\Models\Tariff;
@@ -54,6 +55,11 @@ class PaymentController extends Controller
             }
         }
         throw new BaseException('ERR_VALIDATE_PAYMENT_FAILED', 422, __('validation.payment_error'));
+    }
+
+    public function getTariffs(){
+        $tariffs = Tariff::all();
+        return response(TariffResource::collection($tariffs), 200);
     }
 
 

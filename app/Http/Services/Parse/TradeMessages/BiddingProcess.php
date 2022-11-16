@@ -19,7 +19,7 @@ class BiddingProcess extends TradeMessage implements TradeMessageContract
                 $auction_lot = $auction->lots->where('number', $data['LotNumber'])->first();
                 if ($auction_lot) {
                     $price = $data['NewPrice'];
-                    $priceReduction = $auction_lot->currentPriceReduction->first();
+                    $priceReduction = $auction_lot->currentPriceReduction;
                     $new_id = null;
                     if($priceReduction) {
                         $old_price = $priceReduction->price;

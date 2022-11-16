@@ -15,9 +15,10 @@ class TariffSeeder extends Seeder
     public function run()
     {
         $tariffs = [
-            ['title'=>'1 месяц', 'description'=>'Расширенные возможности приложения на 1 месяц', 'price'=>749, 'admission_price'=>524, 'period'=>30, 'store_id'=>'1_month'],
-            ['title'=>'3 месяца', 'description'=>'Расширенные возможности приложения на 3 месяца', 'price'=> 1890, 'admission_price'=>1323, 'period'=>90, 'store_id'=>'3_months'],
-            ['title'=>'6 месяцев', 'description'=>'Расширенные возможности приложения на 6 месяцев', 'price'=>3490, 'admission_price'=>2443, 'period'=>180, 'store_id'=>'6_months']
+            ['title' => '1 месяц', 'description' => ' ', 'price' => 1000, 'admission_price' => 524, 'period' => 30, 'store_id' => '1_month'],
+            ['title' => '3 месяца', 'description' => ' ', 'price' => 2750, 'admission_price' => 1323, 'period' => 90, 'store_id' => '3_months'],
+            ['title' => '6 месяцев', 'description' => ' ', 'price' => 5400, 'admission_price' => 2443, 'period' => 180, 'store_id' => '6_months'],
+            ['title' => '12 месяцев', 'description' => ' ', 'price' => 10800, 'admission_price' => 2443, 'period' => 180, 'store_id' => '12_months']
         ];
         foreach ($tariffs as $tariff)
             Tariff::create([
@@ -26,7 +27,7 @@ class TariffSeeder extends Seeder
                 'price' => $tariff['price'],
                 'admission_price' => $tariff['admission_price'],
                 'period' => $tariff['period'],
-                'store_id'=>$tariff['store_id']
+                'store_id' => $tariff['store_id']
             ]);
     }
 }

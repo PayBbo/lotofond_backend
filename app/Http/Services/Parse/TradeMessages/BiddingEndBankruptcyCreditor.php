@@ -37,7 +37,11 @@ class BiddingEndBankruptcyCreditor extends TradeMessage implements TradeMessageC
     }
 
     public function changeStatus($auction, $lot, $invitation){
-        $auction_lot = $auction->lots->where('number', $lot['@attributes']['LotNumber'])->first();
+        if(array_key_exists('LotNumber', $lot['@attributes'])) {
+            $auction_lot = $auction->lots->where('number', $lot['@attributes']['LotNumber'])->first();
+        }else{
+            $auction_lot = $auction->lots->where('number', $lot['CreditorLotNumberList']['CreditorLotNumber']['@attributes']['LotNumber'])->first();
+        }
         if ($auction_lot) {
             $this->createNotification($auction_lot->id, $invitation['@attributes']['EventTime'], $auction_lot->status_id, 'status_id');
             $auction_lot->status_id = Status::where('code', 'finished')->first()['id'];

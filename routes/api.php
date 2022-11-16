@@ -141,6 +141,8 @@ Route::group(['middleware' => ['json.response', 'localization']], function () {
 
     Route::post('/send/contacts', [ApplicationController::class, 'sendContacts']);
 
+    Route::get('/tariffs', [PaymentController::class, 'getTariffs']);
+
     Route::middleware("auth.deny:api")->group(function () {
 
         Route::group(['prefix' => 'send'], function () {

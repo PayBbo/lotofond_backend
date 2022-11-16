@@ -55,7 +55,7 @@ class RegisterController extends Controller
                 if(!$social){
                     $user = User::create([
                         'password' => Hash::make($password),
-                        'email_verified_at' => Carbon::now(),
+                        'email_verified_at' => Carbon::now()->setTimezone('Europe/Moscow'),
                         'not_settings'=>[
                             'favouriteEventStart' => 1,
                             'favouriteEventEnd' => 1,
@@ -142,7 +142,7 @@ class RegisterController extends Controller
             'email' => $verifyAccount->value,
             'phone' => $verifyAccount->phone,
             'password' => Hash::make($password),
-            'email_verified_at' => Carbon::now(),
+            'email_verified_at' => Carbon::now()->setTimezone('Europe/Moscow'),
             'not_settings'=>[
                 'favouriteEventStart' => 1,
                 'favouriteEventEnd' => 1,

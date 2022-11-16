@@ -35,7 +35,8 @@ class Lot extends Model
         'payment_info',
         'sale_agreement',
         'concours',
-        'created_at'
+        'created_at',
+        'price_reduction'
 
     ];
 

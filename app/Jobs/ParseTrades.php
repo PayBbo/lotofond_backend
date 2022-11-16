@@ -7,15 +7,19 @@ use App\Http\Services\Parse\SoapWrapperService;
 use App\Models\TradePlace;
 use Artisaninweb\SoapWrapper\SoapWrapper;
 use Carbon\Carbon;
+use Exception;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Queue\MaxAttemptsExceededException;
 use Illuminate\Queue\SerializesModels;
 
 class ParseTrades implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+
+    public $tries = 3;
 
     protected $startFrom;
     protected $endTo;
@@ -51,6 +55,9 @@ class ParseTrades implements ShouldQueue
         $messages = $service->getTradeMessages($startFrom, $endTo);
         foreach ($messages as $value) {
             foreach ($value as $message) {
+                if(gettype($message) == 'string'){
+                   $message = $value;
+                }
                 if (!array_key_exists('INN', $message)) {
                     continue;
                 }
@@ -141,6 +148,23 @@ class ParseTrades implements ShouldQueue
                     $get_trade_message_content->switchMessageType($tradePlace->id, $message, $message->TradeMessage->ID);
                 }
             }
+        }
+    }
+
+    public function failed($exception)
+    {
+        if (
+            $exception instanceof MaxAttemptsExceededException
+        )
+        {
+            $this->delete();
+
+            $this->dispatch($this->startFrom, $this->endTo)
+                ->onConnection($this->connection)
+                ->onQueue($this->queue)
+                ->delay(180);
+
+            return;
         }
     }
 }

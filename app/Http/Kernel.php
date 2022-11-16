@@ -67,5 +67,6 @@ class Kernel extends HttpKernel
         'localization' => \App\Http\Middleware\Localization::class,
         'auth.deny' => \App\Http\Middleware\DenyIfNotAuthenticate::class,
         'check.role' => \App\Http\Middleware\CheckRole::class,
+        'check.tariff' => \App\Http\Middleware\CheckTariffMiddleware::class,
     ];
 }

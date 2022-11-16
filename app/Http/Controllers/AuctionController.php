@@ -26,7 +26,9 @@ class AuctionController extends Controller
     public function getTrades(Request $request)
     {
         $lots = Lot::with(['auction', 'showRegions', 'showPriceReductions', 'status', 'favouritePaths', 'monitoringPaths', 'lotImages', 'categories', 'lotParams'])
-            ->whereNotIn('lots.id', auth()->user()->hiddenLots->pluck('id'))
+            ->when(auth()->check(), function ($query) {
+                $query->whereNotIn('lots.id', auth()->user()->hiddenLots->pluck('id'));
+            })
             ->customSortBy($request)->paginate(20);
         return response(new LotCollection($lots), 200);
     }
@@ -101,9 +103,9 @@ class AuctionController extends Controller
         $end = Carbon::now()->setTimezone('Europe/Moscow');
         $victories = BiddingResult::has('winner')->whereBetween('created_at', [$start, $end])
             ->whereHas('tradeMessage.lot', function ($query) {
-                $query->whereBetween(DB::raw('abs((start_price/end_price)*100-100)'), [15, 100])
+                $query->where(DB::raw('(end_price - start_price)/start_price*100'), '>', 15)
                     ->orWhere(function ($query) {
-                        $query->whereBetween(DB::raw('(start_price/end_price)*100-100'), [35, 100]);
+                        $query->whereBetween(DB::raw('(start_price - end_price)/start_price*100'), [35, 100]);
                     });
             })->paginate(20);
         return response(new VictoryCollection($victories), 200);
