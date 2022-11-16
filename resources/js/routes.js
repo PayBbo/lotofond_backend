@@ -106,6 +106,16 @@ let router = new VueRouter({
             component: () => import(/* webpackChunkName: "week-winners" */ "./pages/WeekWinners.vue"),
         },
         {
+            path: '/privacy-policy',
+            name: 'PrivacyPolicy',
+            component: () => import(/* webpackChunkName: "privacy-policy" */ "./pages/PrivacyPolicy.vue"),
+        },
+        {
+            path: '/terms',
+            name: 'Terms',
+            component: () => import(/* webpackChunkName: "terms" */ "./pages/Terms.vue"),
+        },
+        {
             path: '/admin/dashboard',
             name: 'Dashboard',
             beforeEnter: guardAdminRoute,

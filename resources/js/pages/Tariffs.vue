@@ -4,21 +4,21 @@
         <div class="range">
             <div class="ticks">
                         <span class="tick current">1<span
-                            class="tick-price">1&nbsp;500&nbsp;<span>₽</span></span></span>
+                            class="tick-price">1&nbsp;000&nbsp;<span>₽</span></span></span>
                 <span class="tick">2</span>
-                <span class="tick">3<span class="tick-price">4&nbsp;050&nbsp;<span>₽</span></span></span>
+                <span class="tick">3<span class="tick-price">2&nbsp;750&nbsp;<span>₽</span></span></span>
                 <span class="tick">4</span>
                 <span class="tick">5</span>
-                <span class="tick">6<span class="tick-price">7&nbsp;200&nbsp;<span>₽</span></span></span>
+                <span class="tick">6<span class="tick-price">5&nbsp;400&nbsp;<span>₽</span></span></span>
                 <span class="tick">7</span>
                 <span class="tick">8</span>
                 <span class="tick">9</span>
                 <span class="tick">10</span>
                 <span class="tick">11</span>
-                <span class="tick">12<span class="tick-price">12&nbsp;600&nbsp;<span>₽</span></span></span>
+                <span class="tick">12<span class="tick-price">10&nbsp;800&nbsp;<span>₽</span></span></span>
             </div>
             <input type="range" min="1" max="12" value="1">
-            <span id="slider-label" class="slider-label">1 500</span>
+            <span id="slider-label" class="slider-label">1&nbsp;000</span>
         </div>
         <div class="row_div modes">
             <span class="bkt-bg-yellow mode">Платный</span>

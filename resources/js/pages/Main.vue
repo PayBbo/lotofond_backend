@@ -63,6 +63,11 @@
         <transition-group name="fade" tag="div" class="bkt-main-instruments">
             <template v-if="filters_mode">
                 <div key="bkt-main-categories" class="bkt-main-categories bkt-card__list">
+                        <div class="bkt-wrapper bkt-button bkt-bg-red-lighter w-100 bkt-text-red justify-content-center bkt-cursor-pointer"
+                             @click="removeFilters" v-if="filters_total>0"
+                        >
+                            <bkt-icon name="Trash" color="red" width="18px" class="me-2"></bkt-icon> Удалить все фильтры
+                        </div>
                     <bkt-filter-card
                         :icon="{name:'Category', color:'green'}" category_class="bkt-bg-green-lighter"
                         title="Категории" :count="filters.categories" modal_name="#categoryModal"
@@ -507,24 +512,14 @@
                     this.getData(page)
                 }
             },
+            removeFilters() {
+                this.$store.commit('resetFilters');
+                this.getData(1);
+                this.$scrollTo('#cardList', 200);
+            }
         }
     }
 </script>
 
 <style scoped>
-    .fade-enter-active,
-    .fade-leave-active
-                    {
-                        opacity: 0;
-                        transition: opacity 0.5s ease;
-                    }
-    .fade-enter-to,
-    .fade-leave-from {
-        transition: opacity 0.5s ease-in;
-        opacity: 0.9;
-    }
-    .fade-enter-from,
-    .fade-leave-to {
-        opacity: 0;
-    }
 </style>

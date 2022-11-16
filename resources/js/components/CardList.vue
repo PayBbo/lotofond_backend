@@ -27,8 +27,8 @@
                         </div>
                         <div class="col-12 col-lg-11 p-0">
                             <div
-                                class="row h-100 w-100 mx-auto row-cols-1 row-cols-md-2 row-cols-lg-3 bkt-card-trade__wrapper">
-                                <div class="col p-0 px-sm-2 order-2 order-lg-1">
+                                class="row h-100 w-100 mx-auto row-cols-1 row-cols-md-2 row-cols-lg-4 bkt-card-trade__wrapper">
+                                <div class="col-lg-3 p-0  pe-md-2 order-2 order-lg-1">
                                     <div class="bkt-card__image-wrapper">
                                         <skeleton type_name="item" skeleton_class="bkt-card__image-category"></skeleton>
                                         <div class="bkt-wrapper-between bkt-card-ecp-wrapper">
@@ -37,7 +37,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-12 col-md-12 col-lg-4 p-0 px-sm-2 order-1 order-lg-2">
+                                <div class="col-12 col-md-12 col-lg-6 p-0 px-sm-2 order-1 order-lg-2">
                                     <div class="bkt-wrapper-between bkt-card__head bkt-nowrap bkt-gap">
                                         <skeleton :type_name="'title'" skeleton_class="mb-0"></skeleton>
                                         <div class="dropdown d-block d-lg-none">
@@ -52,7 +52,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col order-3 p-0 px-sm-2">
+                                <div class="col-lg-3 order-3 p-0 px-sm-2">
                                     <div class="bkt-card-trade__wrapper bkt-wrapper-column">
                                         <div class="bkt-wrapper-column bkt-gap-small">
                                             <skeleton type_name="item"

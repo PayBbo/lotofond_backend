@@ -169,7 +169,7 @@
         </div>
         <bkt-collapse v-if="item_type !== 'trade-place'" title="Активные торги" main_class="bkt-registry-collapse"
                       :count="active_lots_pagination.total ? active_lots_pagination.total : 0"
-                      id="collapseBidderActiveLots" :loading="active_lots_loading"
+                      id="collapseBidderActiveLots" :loading="active_lots_loading||loading"
                       :disabled="active_lots.length===0&&!active_lots_loading"
         >
             <template #collapse v-if="active_lots.length>0">
@@ -208,7 +208,7 @@
         </bkt-collapse>
         <bkt-collapse v-if="item_type !== 'trade-place'" title="Завершённые торги" main_class="bkt-registry-collapse"
                       :count="completed_lots_pagination.total ? completed_lots_pagination.total : 0"
-                      id="collapseCompletedLots" :loading="completed_lots_loading"
+                      id="collapseCompletedLots" :loading="completed_lots_loading||loading"
                       :disabled="completed_lots.length==0&&!completed_lots_loading"
         >
             <template #collapse v-if="completed_lots.length>0">

@@ -614,38 +614,7 @@
                     </div>
                 </div>
             </div>
-            <div v-if="isLoggedIn" class="col-12 col-lg-12 order-3 px-lg-0">
-                <bkt-collapse title="Актуальное по лоту" :count="notifications_pagination.total"
-                              id="collapseActualInfo" :loading="notifications_loading"
-                              :disabled="notifications.length==0&&!notifications_loading"
-                              class="bkt-lot__collapse"
-                >
-                    <template #collapse v-if="notifications.length>0">
-                        <div class="row w-100 m-auto bkt-gap">
-                            <div class="col-12 px-0">
-                                <div
-                                    class="bkt-row outline bkt-wrapper-between bkt-nowrap bkt-gap bkt-wrapper-down-sm-column align-items-start mb-1"
-                                    v-for="notify in notifications"
-                                >
-                                    <h5 v-if="notify.type == 'favourite'" class="">
-                                        {{notify.dataFavourite ? notify.dataFavourite.detail : ''}}
-                                    </h5>
-                                    <h5 class="bkt-text-neutral-dark">
-                                        {{ notify.date | moment('D MMMM YYYY')}} в {{ notify.date | moment('HH:mm')}}
-                                    </h5>
-                                </div>
-                            </div>
-                            <div class="col-12 px-0" v-if="notifications_pagination">
-                                <bkt-pagination
-                                    :limit="1"
-                                    :data="notifications_pagination"
-                                    @change-page="getLotNotifications"
-                                ></bkt-pagination>
-                            </div>
-                        </div>
-                    </template>
-                </bkt-collapse>
-            </div>
+
 <!--                                    <div class="col-12 col-lg-5 order-3">-->
 <!--                                        <div class="bkt-card bkt-card__body bkt-lot-templates">-->
 <!--                                            <div class="bkt-card__header"><h3 class="bkt-card__title">Шаблоны запросов</h3></div>-->
@@ -1380,6 +1349,38 @@
                 </div>
             </div>
             <div v-if="isLoggedIn" class="col-12 col-lg-12 order-3 px-lg-0">
+                <bkt-collapse title="Актуальное по лоту" :count="notifications_pagination.total"
+                              id="collapseActualInfo" :loading="notifications_loading"
+                              :disabled="notifications.length==0&&!notifications_loading"
+                              class="bkt-lot__collapse"
+                >
+                    <template #collapse v-if="notifications.length>0">
+                        <div class="row w-100 m-auto bkt-gap">
+                            <div class="col-12 px-0">
+                                <div
+                                    class="bkt-row outline bkt-wrapper-between bkt-nowrap bkt-gap bkt-wrapper-down-sm-column align-items-start mb-1"
+                                    v-for="notify in notifications"
+                                >
+                                    <h5 v-if="notify.type == 'favourite'" class="">
+                                        {{notify.dataFavourite ? notify.dataFavourite.detail : ''}}
+                                    </h5>
+                                    <h5 class="bkt-text-neutral-dark">
+                                        {{ notify.date | moment('D MMMM YYYY')}} в {{ notify.date | moment('HH:mm')}}
+                                    </h5>
+                                </div>
+                            </div>
+                            <div class="col-12 px-0" v-if="notifications_pagination">
+                                <bkt-pagination
+                                    :limit="1"
+                                    :data="notifications_pagination"
+                                    @change-page="getLotNotifications"
+                                ></bkt-pagination>
+                            </div>
+                        </div>
+                    </template>
+                </bkt-collapse>
+            </div>
+            <div v-if="isLoggedIn" class="col-12 col-lg-12 order-3 px-lg-0">
                 <bkt-collapse title="Документы по торгам" :count="files.length" class="bkt-lot__collapse"
                               id="collapseDocuments" :loading="files_loading" :disabled="files.length==0"
                 >
@@ -1572,16 +1573,18 @@
                         if (index >= 0) {
                             cadastralData.cadastralDataAreaType = tmp[0].type;
                             cadastralData.cadastralDataArea = extracts[index].value;
-                            if (extracts[index].value <= 100) {
-                                cadastralData.cadastralDataAreaMeasure = 'кв. м.';
-                            } else if (extracts[index].value > 100 && extracts[index].value <= 10000) {
-                                cadastralData.cadastralDataArea = extracts[index].value / 100;
-                                // cadastralData.cadastralDataAreaMeasure = 'сотки';
-                                cadastralData.cadastralDataAreaMeasure = this.$tc('trades.ar', this.pluralization(cadastralData.cadastralDataArea));
-
-                            } else {
-                                cadastralData.cadastralDataArea = extracts[index].value / 10000;
-                                cadastralData.cadastralDataAreaMeasure = 'га';
+                            cadastralData.cadastralDataAreaMeasure = 'кв. м.';
+                            if( cadastralData.cadastralDataAreaType === 'landPlot')
+                            {
+                                if (extracts[index].value <= 100) {
+                                    cadastralData.cadastralDataAreaMeasure = 'кв. м.';
+                                } else if (extracts[index].value > 100 && extracts[index].value <= 10000) {
+                                    cadastralData.cadastralDataArea = extracts[index].value / 100;
+                                    cadastralData.cadastralDataAreaMeasure = this.$tc('trades.ar', this.pluralization(cadastralData.cadastralDataArea));
+                                } else {
+                                    cadastralData.cadastralDataArea = extracts[index].value / 10000;
+                                    cadastralData.cadastralDataAreaMeasure = 'га';
+                                }
                             }
                         }
                         index = extracts.findIndex(item => item.type == 'cadastralDataFractionalOwnership')

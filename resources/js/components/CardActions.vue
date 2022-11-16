@@ -301,7 +301,7 @@
                 {
                     this.short_description = '';
                     if (this.item && this.item.description && this.item.description.length > 0) {
-                        this.short_description = this.item.description.slice(0, 100) + '...';
+                        this.short_description = this.item.description.slice(0, 300) + '... Текущая цена: '+this.item.currentPrice+' ₽';
                     }
                 }
 

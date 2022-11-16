@@ -24,7 +24,6 @@
                               name="comment"
                               class="w-100"
                               rows="4"
-                              rules="required"
                               no_group_item
                 >
                 </bkt-textarea>
