@@ -108,20 +108,22 @@ class ContractSale extends TradeMessage implements TradeMessageContract
     }
 
     public function saveBidder($participantData, $biddingResult){
-        $bidder = Bidder::where('inn', $participantData['INN'])->first();
-        if (!$bidder) {
-            $bidder = Bidder::create([
-                'name' => $participantData['Name'],
-                'inn' => $participantData['INN']
-            ]);
-        }
-        if (!BiddingParticipant::where(['bidding_result_id' => $biddingResult->id, 'bidder_id' => $bidder->id])->exists()) {
-            BiddingParticipant::create([
-                'bidding_result_id' => $biddingResult->id,
-                'bidder_id' => $bidder->id,
-                'is_buyer' => $participantData['IsBuyer'] == 'true',
-                'is_winner' => $participantData['IsWinner'] == 'true'
-            ]);
+        if( array_key_exists('INN', $participantData)) {
+            $bidder = Bidder::where('inn', $participantData['INN'])->first();
+            if (!$bidder) {
+                $bidder = Bidder::create([
+                    'name' => $participantData['Name'],
+                    'inn' => $participantData['INN']
+                ]);
+            }
+            if (!BiddingParticipant::where(['bidding_result_id' => $biddingResult->id, 'bidder_id' => $bidder->id])->exists()) {
+                BiddingParticipant::create([
+                    'bidding_result_id' => $biddingResult->id,
+                    'bidder_id' => $bidder->id,
+                    'is_buyer' => $participantData['IsBuyer'] == 'true',
+                    'is_winner' => $participantData['IsWinner'] == 'true'
+                ]);
+            }
         }
     }
 }
