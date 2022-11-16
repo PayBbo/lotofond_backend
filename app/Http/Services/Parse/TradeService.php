@@ -218,70 +218,13 @@ class TradeService
                 if (count($matches[0]) > 0) {
                     unset($matches[0][0]);
                     $this->getPriceReductionParams($matches, 0, 3, 6, $lot, 5);
-                 /*   $i = 1;
-                    foreach ($matches[0] as $match) {
-                        $new_pattern = '/<td[\s\S]*?<\/td>/';
-                        preg_match_all($new_pattern, $match, $items);
-                        $start_time = substr($items[0][0], 4, strlen($items[0][0]) - 9);
-                        $end_time = substr($items[0][3], 4, strlen($items[0][3]) - 9);
-                        $price = array_key_exists('6', $items[0]) ? number_format((float)preg_replace("/[^,.0-9]/", '',
-                            str_replace(',', '.',
-                                substr($items[0][6], 4, strlen($items[0][6]) - 9)
-                            )), 2, '.', '') : 0;
-                        $deposit = array_key_exists('5', $items[0]) ? number_format((float)preg_replace("/[^,.0-9]/", '',
-                            str_replace(',', '.',
-                                substr($items[0][5], 4, strlen($items[0][5]) - 9)
-                            )), 2, '.', '') : null;
-                        if ($i > 1) {
-                            preg_match_all($new_pattern, $matches[0][$i - 1], $prev_item);
-                            $prev_price = array_key_exists('6', $prev_item[0]) ? (float)preg_replace("/[^,.0-9]/", '',
-                                str_replace(',', '.',
-                                    substr($prev_item[0][6], 4, strlen($prev_item[0][6]) - 9)
-                                )) : 0;
-                        } else {
-                            $prev_price = $lot->start_price;
-                        }
-                        if (date('Y-m-d H:i:s', strtotime($start_time) == $start_time) && $price > 0
-                            && date('Y-m-d H:i:s', strtotime($end_time) == $end_time)) {
-                            $this->savePriceReduction($lot_id, $price, $start_time, $end_time, $prev_price, 0, $deposit);
-                        }
-                        $i++;
-                    }*/
                 }
             } elseif (str_starts_with($red, '<table><thead><tr><td>')) {
                 $pattern = '/<tr[\s\S]*?<\/tr>/';
                 preg_match_all($pattern, $red, $matches);
                 if (count($matches[0]) > 0) {
                     unset($matches[0][0]);
-                    $i = 1;
-                    foreach ($matches[0] as $match) {
-                        $new_pattern = '/<td[\s\S]*?<\/td>/';
-                        preg_match_all($new_pattern, $match, $items);
-                        $start_time = substr($items[0][3], 4, strlen($items[0][3]) - 9);
-                        $end_time = substr($items[0][4], 4, strlen($items[0][4]) - 9);
-                        $price = number_format((float)preg_replace("/[^,.0-9]/", '',
-                            str_replace(',', '.',
-                                substr($items[0][1], 4, strlen($items[0][1]) - 9)
-                            )), 2, '.', '');
-                        $deposit = number_format((float)preg_replace("/[^,.0-9]/", '',
-                            str_replace(',', '.',
-                                substr($items[0][2], 4, strlen($items[0][2]) - 9)
-                            )), 2, '.', '');
-                        if ($i > 1) {
-                            preg_match_all($new_pattern, $matches[0][$i - 1], $prev_item);
-                            $prev_price = (float)preg_replace("/[^,.0-9]/", '',
-                                str_replace(',', '.',
-                                    substr($prev_item[0][1], 4, strlen($prev_item[0][1]) - 9))
-                            );
-                        } else {
-                            $prev_price = $lot->start_price;
-                        }
-                        if (date('Y-m-d H:i:s', strtotime($start_time) == $start_time) && $price > 0
-                            && date('Y-m-d H:i:s', strtotime($end_time) == $end_time)) {
-                            $this->savePriceReduction($lot_id, $price, $start_time, $end_time, $prev_price, 0, $deposit);
-                        }
-                        $i++;
-                    }
+                    $this->getPriceReductionParams($matches, 3, 4, 1, $lot, 2);
                 }
             } elseif (str_starts_with($red, '<table><thead><tr><th>')) {
                 $pattern = '/<tr[\s\S]*?<\/tr>/';
@@ -289,66 +232,12 @@ class TradeService
                 if (count($matches[0]) > 0) {
                     unset($matches[0][0]);
                     $this->getPriceReductionParams($matches, 0, 3, 5, $lot, 4);
-               /*     $i = 0;
-                    foreach ($matches[0] as $match) {
-                        $new_pattern = '/<td[\s\S]*?<\/td>/';
-                        preg_match_all($new_pattern, $match, $items);
-                        $start_time = substr($items[0][0], 4, strlen($items[0][0]) - 9);
-                        $end_time = substr($items[0][3], 4, strlen($items[0][3]) - 9);
-                        $price = number_format((float)preg_replace("/[^,.0-9]/", '',
-                            str_replace(',', '.',
-                                substr($items[0][5], 4, strlen($items[0][5]) - 9)
-                            )), 2, '.', '');
-                        $deposit = number_format((float)preg_replace("/[^,.0-9]/", '',
-                            str_replace(',', '.',
-                                substr($items[0][4], 4, strlen($items[0][4]) - 9)
-                            )), 2, '.', '');
-                        if ($i > 1) {
-                            preg_match_all($new_pattern, $matches[0][$i - 1], $prev_item);
-                            $prev_price = (float)preg_replace("/[^,.0-9]/", '',
-                                str_replace(',', '.',
-                                    substr($prev_item[0][5], 4, strlen($prev_item[0][5]) - 9))
-                            );
-                        } else {
-                            $prev_price = $lot->start_price;
-                        }
-                        if (date('Y-m-d H:i:s', strtotime($start_time) == $start_time) && $price > 0
-                            && date('Y-m-d H:i:s', strtotime($end_time) == $end_time)) {
-                            $this->savePriceReduction($lot_id, $price, $start_time, $end_time, $prev_price, 0, $deposit);
-                        }
-                        $i++;
-                    }*/
                 }
                 elseif(str_starts_with($red, '<table><tr><td>')){
                     $pattern = '/<tr[\s\S]*?<\/tr>/';
                     preg_match_all($pattern, $red, $matches);
                     if (count($matches[0]) > 0) {
                         $this->getPriceReductionParams($matches, 0, 1, 2, $lot);
-                      /*  $i = 0;
-                        foreach ($matches[0] as $match) {
-                            $new_pattern = '/<td[\s\S]*?<\/td>/';
-                            preg_match_all($new_pattern, $match, $items);
-                            $start_time = substr($items[0][0], 4, strlen($items[0][0]) - 9);
-                            $end_time = substr($items[0][1], 4, strlen($items[0][1]) - 9);
-                            $price = number_format((float)preg_replace("/[^,.0-9]/", '',
-                                str_replace(',', '.',
-                                    substr($items[0][2], 4, strlen($items[0][2]) - 9)
-                                )), 2, '.', '');
-                            if ($i > 1) {
-                                preg_match_all($new_pattern, $matches[0][$i - 1], $prev_item);
-                                $prev_price = (float)preg_replace("/[^,.0-9]/", '',
-                                    str_replace(',', '.',
-                                        substr($prev_item[0][2], 4, strlen($prev_item[0][2]) - 9))
-                                );
-                            } else {
-                                $prev_price = $lot->start_price;
-                            }
-                            if (date('Y-m-d H:i:s', strtotime($start_time) == $start_time) && $price > 0
-                                && date('Y-m-d H:i:s', strtotime($end_time) == $end_time)) {
-                                $this->savePriceReduction($lot_id, $price, $start_time, $end_time, $prev_price, 0, 0);
-                            }
-                            $i++;
-                        }*/
                     }
                 }
                 else {
