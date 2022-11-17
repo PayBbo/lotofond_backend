@@ -59,8 +59,8 @@ class TestCommand extends Command
         //    dispatch(new MonitoringJob);
         //  dispatch(new MonitoringNotificationJob('hourly'));
         //dispatch(new ParseArbitrManager);
-        $startDate = Carbon::parse('2022-10-19 00:00');
-        $endDate = Carbon::parse('2022-11-01 11:30');
+        $startDate = Carbon::parse('2022-11-16 00:30');
+        $endDate = Carbon::parse('2022-11-17 15:30');
         while ($startDate < $endDate) {
             $startFrom = $startDate->format('Y-m-d\TH:i:s');
             $startDate->addHours(2);

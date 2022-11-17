@@ -18,14 +18,23 @@ class MonitoringJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
     public $tries = 3;
+
+    protected $startFrom;
+    protected $endTo;
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($startFrom=null, $endTo=null)
     {
-        //
+        if(!is_null($startFrom) && !is_null($endTo)) {
+            $this->startFrom = $startFrom;
+            $this->endTo = $endTo;
+        }else{
+            $this->startFrom = Carbon::now()->setTimezone('Europe/Moscow')->subHour();
+            $this->endTo = Carbon::now()->setTimezone('Europe/Moscow');
+        }
     }
 
     /**
@@ -35,8 +44,8 @@ class MonitoringJob implements ShouldQueue
      */
     public function handle()
     {
-        $minDate = Carbon::now()->setTimezone('Europe/Moscow')->subHour();
-        $maxDate = Carbon::now()->setTimezone('Europe/Moscow');
+        $minDate = $this->startFrom;
+        $maxDate = $this->endTo;
         $monitorings = Monitoring::all();
         foreach ($monitorings as $monitoring) {
           //  $user = User::find($monitoring->user_id);
@@ -54,9 +63,7 @@ class MonitoringJob implements ShouldQueue
 
     public function failed($exception)
     {
-        if (
-            $exception instanceof MaxAttemptsExceededException
-        )
+        if ($exception instanceof MaxAttemptsExceededException)
         {
             $this->delete();
 

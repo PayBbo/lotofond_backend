@@ -29,10 +29,13 @@ class MonitoringNotificationJob implements ShouldQueue
      *
      * @return void
      */
-    public function __construct($notTime)
+    public function __construct($notTime, $endTo=null)
     {
         $this->notTime = $notTime;
         $this->endDate = Carbon::now()->setTimezone('Europe/Moscow');
+        if(!is_null($endTo)) {
+            $this->endDate = $endTo;
+        }
         switch ($notTime){
             case 'hourly':{
                 $this->startDate = $this->endDate->subHour();
@@ -91,9 +94,7 @@ class MonitoringNotificationJob implements ShouldQueue
 
     public function failed($exception)
     {
-        if (
-            $exception instanceof MaxAttemptsExceededException
-        )
+        if ($exception instanceof MaxAttemptsExceededException)
         {
             $this->delete();
 

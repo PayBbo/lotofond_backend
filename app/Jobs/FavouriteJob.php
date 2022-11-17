@@ -106,9 +106,7 @@ class FavouriteJob implements ShouldQueue
 
     public function failed($exception)
     {
-        if (
-            $exception instanceof MaxAttemptsExceededException
-        )
+        if ( $exception instanceof MaxAttemptsExceededException)
         {
             $this->delete();
 
