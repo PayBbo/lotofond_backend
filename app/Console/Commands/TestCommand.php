@@ -65,6 +65,9 @@ class TestCommand extends Command
             $startFrom = $startDate->format('Y-m-d\TH:i:s');
             $startDate->addHours(2);
             dispatch(new ParseTrades($startFrom, $startDate->format('Y-m-d\TH:i:s')));
+            dispatch(new MonitoringJob($startFrom, $startDate->format('Y-m-d\TH:i:s')));
+            dispatch(new MonitoringNotificationJob('hourly', $startDate->format('Y-m-d\TH:i:s')));
+            dispatch(new MonitoringNotificationJob('daily', $startDate->format('Y-m-d\TH:i:s')));
         }
         // dispatch(new ParseTrades);
         //$get_trade_message_content = new GetTradeMessageContent($xml, 'BiddingInvitation');
