@@ -101,7 +101,7 @@ class MonitoringNotificationJob implements ShouldQueue
             $this->dispatch($this->notTime)
                 ->onConnection($this->connection)
                 ->onQueue($this->queue)
-                ->delay(180);
+                ->delay(300);
 
             return;
         }

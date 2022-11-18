@@ -70,7 +70,7 @@ class MonitoringJob implements ShouldQueue
             $this->dispatch()
                 ->onConnection($this->connection)
                 ->onQueue($this->queue)
-                ->delay(180);
+                ->delay(600);
 
             return;
         }

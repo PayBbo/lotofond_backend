@@ -88,10 +88,15 @@ class ContractSale extends TradeMessage implements TradeMessageContract
     public function saveContractSale($data, $tradeMessage)
     {
         $biddingResult = new \App\Models\BiddingResult();
-        $biddingResult->contract_number =array_key_exists($this->prefix .'ContractNumber', $data[$this->prefix .'ContractInfo']) ?
-            $data[$this->prefix .'ContractInfo'][$this->prefix .'ContractNumber'] : null;
-        $biddingResult->contract_date = $data[$this->prefix .'ContractInfo'][$this->prefix .'DateContract'];
-        $biddingResult->end_price = $data[$this->prefix .'ContractInfo'][$this->prefix .'Price'];
+        if(array_key_exists(prefix .'ContractInfo', $data)) {
+            $biddingResult->contract_number = array_key_exists($this->prefix . 'ContractNumber', $data[$this->prefix . 'ContractInfo']) ?
+                $data[$this->prefix . 'ContractInfo'][$this->prefix . 'ContractNumber'] : null;
+            $biddingResult->contract_date = $data[$this->prefix . 'ContractInfo'][$this->prefix . 'DateContract'];
+            $biddingResult->end_price = $data[$this->prefix . 'ContractInfo'][$this->prefix . 'Price'];
+        }else{
+            $biddingResult->contract_date = $this->invitation['@attributes']['EventTime'];
+            $biddingResult->end_price = $tradeMessage->lotId;
+        }
         $biddingResult->trade_message_id = $tradeMessage->id;
         $biddingResult->save();
         if(count($data[$this->prefix .'ContractParticipantList'][$this->prefix .'ContractParticipant']) >1){
