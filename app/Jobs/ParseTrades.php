@@ -19,7 +19,7 @@ class ParseTrades implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    public $tries = 3;
+    public $tries = 1;
 
     protected $startFrom;
     protected $endTo;
