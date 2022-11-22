@@ -77,14 +77,14 @@ class SendLotsToChannel implements ShouldQueue
         Cache::put($type, $count, Carbon::now()->setTimezone('Europe/Moscow')->endOfDay());
         foreach ($lots as $lot) {
             $url = URL::to('/lot/' . $lot->id);
-            $lotDesc = mb_strimwidth($lot->description, 0, 100, "...");
+            $lotDesc = mb_strimwidth($lot->description, 0, 250, "...");
             $price = number_format($lot->start_price, 2);
             $category = $type == 'countRealtyLotsChannel' ? 'недвижимости' : 'транспорта';
             $html = "<strong>Лот из категорий $category</strong>
-            <strong> Описание лота:</strong>
-            <p>$lotDesc</p>
-            <strong> Начальная цена: $price ₽</strong>
-            <a href='$url'> Ссылка на лот </a>";
+<strong> Описание лота:</strong>
+<p>$lotDesc</p>
+<strong> Начальная цена: $price ₽</strong>
+<a href='$url'> Ссылка на лот </a>";
             $token = config('telegram.lots_bot_token');
             Notification::route('telegram', $token)
                 ->notify(new ApplicationTelegramNotification($html, true));
