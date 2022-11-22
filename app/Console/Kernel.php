@@ -11,6 +11,7 @@ use App\Jobs\ParseDebtor;
 use App\Jobs\ParseDebtorMessages;
 use App\Jobs\ParseSRORegister;
 use App\Jobs\ParseTrades;
+use App\Jobs\SendLotsToChannel;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -35,6 +36,7 @@ class Kernel extends ConsoleKernel
         $schedule->job(new ParseSRORegister)->hourly();
         $schedule->job(new ParseDebtor)->hourly();
         $schedule->job(new ParseDebtorMessages)->hourly();
+        $schedule->job(new SendLotsToChannel)->hourly();
     }
 
     /**

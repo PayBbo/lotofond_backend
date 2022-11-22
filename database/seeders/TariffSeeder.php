@@ -60,7 +60,7 @@ class TariffSeeder extends Seeder
             [
                 'title' => ['ru' => '12 месяцев', 'en' => '12 months', 'zh_CN' => '12个月'],
                 'description' => ['ru' => 'Основное описание тарифа', 'en' => 'Basic description of the tariff', 'zh_CN' => '关税的基本描述'],
-                'price' => 10800, 'admission_price' => 2443, 'period' => 180, 'store_id' => '12_months',
+                'price' => 10800, 'admission_price' => 2443, 'period' => 365, 'store_id' => '12_months',
                 'included_details' => [
                     'ru' => ['Включаемая возможность номер 1', 'Включаемая возможность номер 2', 'Включаемая возможность номер 3'],
                     'en' => ['Enabling Capability number 1', 'Enabling Capability number 2', 'Enabling Capability number 3'],

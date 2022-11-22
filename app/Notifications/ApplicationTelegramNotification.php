@@ -13,14 +13,16 @@ class ApplicationTelegramNotification extends Notification
     use Queueable;
 
     protected $html;
+    protected $is_lots_bot;
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct($html)
+    public function __construct($html, $is_lots_bot = false)
     {
         $this->html = $html;
+        $this->is_lots_bot = $is_lots_bot;
     }
     public function via($notifiable)
     {
@@ -29,7 +31,11 @@ class ApplicationTelegramNotification extends Notification
 
     public function toTelegram()
     {
-        $chat_id = config('telegram.chat_id');
+        if($this->is_lots_bot){
+            $chat_id = config('telegram.lots_chat_id');
+        }else {
+            $chat_id = config('telegram.chat_id');
+        }
         $html = str_replace('<br>', '',  str_replace('</p>', '', str_replace('<p>', '', $this->html)));
         return TelegramMessage::create()
             ->to($chat_id)
