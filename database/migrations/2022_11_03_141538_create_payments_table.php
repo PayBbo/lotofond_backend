@@ -27,7 +27,7 @@ class CreatePaymentsTable extends Migration
                 ->onDelete('CASCADE');
             $table->timestamp('finished_at')->nullable();
             $table->string('payment_id')->nullable();
-            $table->float('sum');
+            $table->float('sum')->nullable();
             $table->boolean('is_confirmed')->default(false);
             $table->timestamps();
         });

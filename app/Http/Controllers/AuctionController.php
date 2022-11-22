@@ -103,7 +103,7 @@ class AuctionController extends Controller
         $end = Carbon::now()->setTimezone('Europe/Moscow');
         $victories = BiddingResult::has('winner')->whereBetween('created_at', [$start, $end])
             ->whereHas('tradeMessage.lot', function ($query) {
-                $query->where(DB::raw('(end_price - start_price)/start_price*100'), '>', 15)
+                $query->whereBetween(DB::raw('(end_price - start_price)/start_price*100'), [0, 15])
                     ->orWhere(function ($query) {
                         $query->whereBetween(DB::raw('(start_price - end_price)/start_price*100'), [35, 100]);
                     });

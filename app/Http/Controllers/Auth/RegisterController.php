@@ -140,7 +140,7 @@ class RegisterController extends Controller
             'surname' => $verifyAccount->surname,
             'name' => $verifyAccount->name,
             'email' => $verifyAccount->value,
-            'phone' => $verifyAccount->phone,
+            'phone' => preg_replace('/\D/', '', $verifyAccount->phone),
             'password' => Hash::make($password),
             'email_verified_at' => Carbon::now()->setTimezone('Europe/Moscow'),
             'not_settings'=>[

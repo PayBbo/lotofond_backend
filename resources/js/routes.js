@@ -142,6 +142,32 @@ let router = new VueRouter({
             }
         },
         {
+            path: '/admin/users/add',
+            name: 'Users',
+            beforeEnter: guardAdminRoute,
+            component: () =>
+                import(
+                    /* webpackChunkName: "users-add" */ "./admin/users/AddUser.vue"
+                    ),
+            meta: {
+                auth: true,
+                layout: 'Admin'
+            }
+        },
+        {
+            path: '/admin/users/:id',
+            name: 'Users',
+            beforeEnter: guardAdminRoute,
+            component: () =>
+                import(
+                    /* webpackChunkName: "users-edit" */ "./admin/users/AddUser.vue"
+                    ),
+            meta: {
+                auth: true,
+                layout: 'Admin'
+            }
+        },
+        {
             path: '/admin/text-data',
             name: 'TextData',
             beforeEnter: guardAdminRoute,
@@ -200,6 +226,58 @@ let router = new VueRouter({
             component: () =>
                 import(
                     /* webpackChunkName: "text-data-edit" */ "./admin/Applications.vue"
+                    ),
+            meta: {
+                auth: true,
+                layout: 'Admin'
+            }
+        },
+        {
+            path: '/admin/lots',
+            name: 'Lots',
+            beforeEnter: guardAdminRoute,
+            component: () =>
+                import(
+                    /* webpackChunkName: "lots" */ "./admin/lots/Lots.vue"
+                    ),
+            meta: {
+                auth: true,
+                layout: 'Admin'
+            }
+        },
+        {
+            path: '/admin/lots/:id',
+            name: 'ShowLot',
+            beforeEnter: guardAdminRoute,
+            component: () =>
+                import(
+                    /* webpackChunkName: "text-data-edit" */ "./admin/lots/ShowLot.vue"
+                    ),
+            meta: {
+                auth: true,
+                layout: 'Admin'
+            }
+        },
+        {
+            path: '/admin/roles',
+            name: 'Roles',
+            beforeEnter: guardAdminRoute,
+            component: () =>
+                import(
+                    /* webpackChunkName: "roles" */ "./admin/roles/Roles.vue"
+                    ),
+            meta: {
+                auth: true,
+                layout: 'Admin'
+            }
+        },
+        {
+            path: '/admin/roles/:id',
+            name: 'Permissions',
+            beforeEnter: guardAdminRoute,
+            component: () =>
+                import(
+                    /* webpackChunkName: "permissions" */ "./admin/roles/Permissions.vue"
                     ),
             meta: {
                 auth: true,

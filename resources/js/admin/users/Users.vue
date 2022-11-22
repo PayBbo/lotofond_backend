@@ -1,6 +1,9 @@
 <template>
     <AdminTable header="Пользователи" :columns="columns" :pagination="pagination" :getData="getData">
         <template v-slot:inline-block>
+            <router-link :to="'/admin/users/add'" class="btn btn-success btn-sm">
+                <i class="fas fa-plus"></i>
+            </router-link>
             <div class="card-tools w-25">
                 <div class="input-group input-group-sm w-100">
                     <input type="text" v-model="param" name="table_search" class="form-control float-right"
@@ -17,16 +20,18 @@
             <tr v-for="user in dataItems">
                 <td>{{ user.id }}</td>
                 <td>{{ user.name }}</td>
-                <td>{{ user.lastName }}</td>
+                <td>{{ user.surname }}</td>
                 <td>{{ user.email ? user.email : "Не указано" }}</td>
-                <td>{{ user.phone ? user.phone : "Не указано" }}</td>
+                <td v-if="user.phone"><input style="border: none; background: white"  v-mask="['+# ### ### ####','+## ### ### ####', '+## ### #### ####',]" readonly disabled  v-model="user.phone"></td>
+                <td v-else >Не указано</td>
+                <td>{{ user.registrationDate }}</td>
                 <td>
-                    <button type="submit" class="btn"
-                            :class="user.isAdmin ? 'btn-danger' : 'btn-success' "
-                            :disabled="user.id === user.authId"
-                            @click="changeRole(user, user.isAdmin ? 'удалить' : 'добавить' )">
-                        <i v-if="user.isAdmin" class="fas fa-minus-circle"></i>
-                        <i v-else class="fas fa-plus-circle"></i>
+                    <router-link :to="'/admin/users/'+user.id" class="btn btn-primary btn-sm">
+                        <i class="fas fa-pencil-alt"> </i>
+                    </router-link>
+
+                    <button class="btn btn-danger  btn-sm" @click="deleteItem(user.id)">
+                        <i class="fas fa-trash-alt"> </i>
                     </button>
                 </td>
             </tr>
@@ -36,20 +41,18 @@
 
 <script>
 import AdminTable from "../AdminTable";
-import main, {changeRole} from "../mixins/main";
-
+import main from "../mixins/main";
+import {mask} from 'vue-the-mask'
 export default {
     name: "Users",
     components: {AdminTable},
     mixins: [main],
+    directives:{mask},
     data() {
         return {
-            columns: ['ID', 'Имя', 'Фамилия', 'Почта', 'Телефон', 'Администратор?'],
+            columns: ['ID', 'Имя', 'Фамилия', 'Почта', 'Телефон', 'Дата регистрации', 'Действия'],
             param: ''
         }
-    },
-    methods: {
-        changeRole,
     }
 }
 </script>

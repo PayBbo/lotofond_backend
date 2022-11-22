@@ -3531,6 +3531,11 @@ paths:
       security:
         - bearerAuth: []
   /tariffs:
+    parameters:
+      - name: Content-Language
+        in: header
+        description: Заголовок для определения локали (ru, en, zh_CN)
+        required: true
     get:
       tags:
         - Tariffs
@@ -5235,6 +5240,22 @@ components:
         isUserTariff:
           type: boolean
           description: флаг, обозначающий, является ли данный тариф действующим тарифом пользователя
+        description:
+          type: object
+          properties:
+            mainInfo:
+              type: string
+              description: основное описание тарифа
+            includedDetails:
+              type: array
+              items:
+                type: string
+                description: параметры, которые предоставляет тариф
+            excludedDetails:
+              type: array
+              items:
+                type: string
+                description: параметры, которые не предоставляет тариф
   securitySchemes:
     bearerAuth:
       type: http

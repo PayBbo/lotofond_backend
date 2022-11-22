@@ -24,6 +24,7 @@ class RegisterRequest extends FormRequest
      */
     public function rules()
     {
+        $this->request->set('phone', preg_replace('/\D/', '', $this->request->get('phone')));
         return [
             'grantType' => ['required', 'string'],
             'email' => ['sometimes', 'required', 'email', 'unique:users,email', 'unique:change_credentials,email'],

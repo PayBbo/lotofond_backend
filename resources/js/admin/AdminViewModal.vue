@@ -41,5 +41,8 @@ export default {
 </script>
 
 <style scoped>
-
+a {
+    color: var(--bs-link-color);
+    text-decoration: underline;
+}
 </style>

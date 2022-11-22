@@ -21,15 +21,13 @@
                 <td>{{ item.phone ? item.phone : "Не указано" }}</td>
                 <td>{{ item.type }}</td>
                 <td>
-                    <button type="submit" class="btn"
+                    <button type="submit" class="btn btn-sm"
                             :class="!item.isAnswered ? 'btn-danger' : 'btn-success' "
                             @click="updateData(item)">
                         <i v-if="!item.isAnswered" class="fas fa-minus-circle"></i>
                         <i v-else class="fas fa-plus-circle"></i>
                     </button>
-                </td>
-                <td>
-                    <button type="button" class="btn btn-info" data-toggle="modal" data-target="#modalView"
+                    <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#modalView"
                             @click="setModalData(index, modalColumns)">
                         <i class="fa fa-eye"></i>
                     </button>
@@ -52,7 +50,7 @@ export default {
     mixins: [main],
     data() {
         return {
-            columns: ['#', 'Имя пользователя', 'Почта', 'Телефон', 'Тип обращения', 'Заявка отвечена?', 'Просмотр'],
+            columns: ['#', 'Имя пользователя', 'Почта', 'Телефон', 'Тип обращения', 'Действия'],
             param: '',
 
             modalColumns: {'id':'Номер', 'name':'Имя пользователя', 'email':'Почта', 'phone':'Телефон',

@@ -82,6 +82,7 @@
 
     <!-- Styles -->
     <link href="{{ mix('css/app.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/vue-select@3.0.0/dist/vue-select.css">
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
 <div id="app" class="wrapper">

@@ -43,7 +43,7 @@ class CreateAuctionsTable extends Migration
                 ->on('auction_types')->cascadeOnDelete();
             $table->enum('price_form', ['open', 'close']);
             $table->string('case_number')->nullable();
-            $table->string('court')->nullable();
+            $table->mediumText('court')->nullable();
             $table->dateTime('date_publish_smi')->nullable();
             $table->dateTime('date_publish_efir')->nullable();
             $table->longText('application_rules')->nullable();

@@ -4,10 +4,14 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Translatable\HasTranslations;
 
 class Tariff extends Model
 {
     use HasFactory;
+    use HasTranslations;
+
+    public $translatable = ['title', 'description', 'included_details', 'excluded_details'];
     protected $table = 'tariffs';
     protected $fillable = [
         'title',
@@ -15,7 +19,9 @@ class Tariff extends Model
         'period',
         'price',
         'store_id',
-        'admission_price'
+        'admission_price',
+        'included_details',
+        'excluded_details'
     ];
 
     /**
@@ -26,6 +32,8 @@ class Tariff extends Model
     protected $casts = [
         'id' => 'integer',
         'period' => 'integer',
+        'excluded_details'=>'array',
+        'included_details'=>'array'
     ];
 
     public function payments()

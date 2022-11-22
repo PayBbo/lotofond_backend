@@ -19,7 +19,11 @@
     "/js/terms.js": "/js/terms.js",
     "/js/dashboard.js": "/js/dashboard.js",
     "/js/users.js": "/js/users.js",
+    "/js/users-add.js": "/js/users-add.js",
     "/js/text-data.js": "/js/text-data.js",
     "/js/text-data-edit.js": "/js/text-data-edit.js",
-    "/css/app.css": "/css/app.css"
+    "/js/lots.js": "/js/lots.js",
+    "/css/app.css": "/css/app.css",
+    "/js/roles.js": "/js/roles.js",
+    "/js/permissions.js": "/js/permissions.js"
 }

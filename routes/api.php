@@ -3,6 +3,9 @@
 use App\Http\Controllers\Admin\ApplicationsController;
 use App\Http\Controllers\Admin\ContactsController;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\LotController;
+use App\Http\Controllers\Admin\RoleController;
+use App\Http\Controllers\Admin\TariffController;
 use App\Http\Controllers\Admin\TextDataController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\ApplePaymentController;
@@ -314,7 +317,13 @@ Route::group(['middleware' => ['json.response', 'localization']], function () {
 
                     Route::get('/', [UserController::class, 'get']);
 
-                    Route::put('/update', [UserController::class, 'update']);
+                    Route::post('/add', [UserController::class, 'add']);
+
+                    Route::get('/{id}/edit', [UserController::class, 'edit']);
+
+                    Route::put('/{id}/update', [UserController::class, 'update']);
+
+                    Route::delete('/{id}', [UserController::class, 'delete']);
 
                 });
 
@@ -346,6 +355,44 @@ Route::group(['middleware' => ['json.response', 'localization']], function () {
                     Route::delete('/{id}', [TextDataController::class, 'delete']);
 
                     Route::put('/{id}/update', [TextDataController::class, 'update']);
+
+                });
+
+                Route::group(['prefix' => 'roles'], function () {
+
+                    Route::get('/', [RoleController::class, 'get']);
+
+                    Route::post('/', [RoleController::class, 'add']);
+
+                    Route::get('/{id}/edit', [RoleController::class, 'edit']);
+
+                    Route::put('/update', [RoleController::class, 'update']);
+
+                    Route::delete('/{id}', [RoleController::class, 'delete']);
+
+                    Route::get('/permissions', [RoleController::class, 'permissions']);
+
+                });
+
+                Route::group(['prefix' => 'tariffs'], function () {
+
+                    Route::get('/', [TariffController::class, 'get']);
+
+                    Route::get('/{id}/edit', [TariffController::class, 'edit']);
+
+                    Route::put('/update', [TariffController::class, 'update']);
+
+                    Route::delete('/{id}', [TariffController::class, 'delete']);
+
+                });
+
+                Route::group(['prefix' => 'lots'], function () {
+
+                    Route::get('/', [LotController::class, 'get']);
+
+                    Route::get('/{id}/show', [LotController::class, 'show']);
+
+                    Route::delete('/{id}', [LotController::class, 'delete']);
 
                 });
 

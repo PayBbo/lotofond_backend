@@ -24,6 +24,7 @@ class LoginRequest extends FormRequest
      */
     public function rules()
     {
+        $this->request->set('phone', preg_replace('/\D/', '', $this->request->get('phone')));
         return [
             'grantType' => ['required', 'string'],
             'email' => ['sometimes', 'required', 'email', 'exists:users'],

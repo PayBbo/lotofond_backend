@@ -32,6 +32,14 @@
                         </router-link>
                     </li>
                     <li class="nav-item">
+                        <router-link to="/admin/roles" class="nav-link">
+                            <i class="nav-icon fa fa-cubes"></i>
+                            <p>
+                                Роли
+                            </p>
+                        </router-link>
+                    </li>
+                    <li class="nav-item">
                         <router-link to="/admin/text-data" class="nav-link">
                             <i class="nav-icon fa fa-cogs"></i>
                             <p>
@@ -52,6 +60,14 @@
                             <i class="nav-icon fa fa-question-circle"></i>
                             <p>
                                 Заявки
+                            </p>
+                        </router-link>
+                    </li>
+                    <li class="nav-item">
+                        <router-link to="/admin/lots" class="nav-link">
+                            <i class="nav-icon fa fa-archive"></i>
+                            <p>
+                                Лоты
                             </p>
                         </router-link>
                     </li>

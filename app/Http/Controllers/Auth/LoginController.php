@@ -31,7 +31,7 @@ class LoginController extends Controller
             }
             case 'phone':
             {
-                $user = User::where('phone', $request->phone)->first();
+                $user = User::where('phone', preg_replace('/\D/', '',$request->phone))->first();
                 $username = $request->phone;
                 $password = $request->password;
                 break;

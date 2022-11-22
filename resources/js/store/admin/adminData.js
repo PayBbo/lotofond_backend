@@ -97,10 +97,10 @@ export default {
                     }
                 });
         },
-        async editItem({commit, state}) {
+        async editItem({commit, state}, method='edit') {
             await axios({
                 method: 'get',
-                url: '/api' + state.currentRoute + '/edit',
+                url: '/api' + state.currentRoute + '/' + method,
                 data: {},
             })
                 .then((response) => {

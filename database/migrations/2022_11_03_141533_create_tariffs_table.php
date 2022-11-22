@@ -21,6 +21,8 @@ class CreateTariffsTable extends Migration
             $table->integer('price');
             $table->string('store_id')->nullable();
             $table->integer('admission_price');
+            $table->json('included_details')->nullable();
+            $table->json('excluded_details')->nullable();
             $table->timestamps();
         });
     }

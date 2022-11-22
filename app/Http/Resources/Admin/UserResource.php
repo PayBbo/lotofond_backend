@@ -17,11 +17,15 @@ class UserResource extends JsonResource
         return [
             'id'=>$this->id,
             'name'=>$this->name,
-            'lastName'=>$this->surname,
+            'surname'=>$this->surname,
+            'middleName'=>$this->middle_name,
             'email'=>$this->email,
             'phone'=>$this->phone,
             'isAdmin'=> $this->hasRole('admin'),
-            'authId'=>auth()->id()
+            'authId'=>auth()->id(),
+            'registrationDate'=> is_null($this->email_verified_at) ? 'Не указано' : $this->email_verified_at->format('d.m.Y H:i'),
+            'roles'=> $this->roles->pluck('name'),
+            'tariff'=> $this->tariff ? $this->tariff->tariff->id : null
         ];
     }
 }
