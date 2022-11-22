@@ -11,6 +11,19 @@ use Illuminate\Http\Request;
 
 class LotController extends Controller
 {
+
+    /**
+     * Проверка прав на совершение действий
+     *
+     * @return \Illuminate\Http\Response
+     */
+    function __construct()
+    {
+        $this->middleware('permission:lot-list', ['only' => ['get', 'show']]);
+        $this->middleware('permission:lot-delete', ['only' => ['delete']]);
+    }
+
+
     public function get(Request $request)
     {
         $searchString = $request->query('param');

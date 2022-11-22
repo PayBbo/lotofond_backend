@@ -11,6 +11,17 @@ use Illuminate\Http\Request;
 
 class ApplicationsController extends Controller
 {
+    /**
+     * Проверка прав на совершение действий
+     *
+     * @return \Illuminate\Http\Response
+     */
+    function __construct()
+    {
+        $this->middleware('permission:application-list', ['only' => ['get']]);
+        $this->middleware('permission:application-edit', ['only' => ['update']]);
+    }
+
     public function get(Request $request){
         $search = $request->query('param');
         $applications = Application::when(isset($search), function($query) use ($search) {

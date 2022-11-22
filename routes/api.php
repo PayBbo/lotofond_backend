@@ -307,7 +307,7 @@ Route::group(['middleware' => ['json.response', 'localization']], function () {
 
         });
 
-        Route::middleware("check.role:admin")->group(function () {
+        Route::middleware("role:admin|manager")->group(function () {
 
             Route::group(['prefix' => 'admin'], function () {
 
@@ -366,7 +366,7 @@ Route::group(['middleware' => ['json.response', 'localization']], function () {
 
                     Route::get('/{id}/edit', [RoleController::class, 'edit']);
 
-                    Route::put('/update', [RoleController::class, 'update']);
+                    Route::put('/{id}/update', [RoleController::class, 'update']);
 
                     Route::delete('/{id}', [RoleController::class, 'delete']);
 

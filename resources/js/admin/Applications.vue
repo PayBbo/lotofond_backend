@@ -21,7 +21,7 @@
                 <td>{{ item.phone ? item.phone : "Не указано" }}</td>
                 <td>{{ item.type }}</td>
                 <td>
-                    <button type="submit" class="btn btn-sm"
+                    <button v-can="'application-edit'" type="submit" class="btn btn-sm"
                             :class="!item.isAnswered ? 'btn-danger' : 'btn-success' "
                             @click="updateData(item)">
                         <i v-if="!item.isAnswered" class="fas fa-minus-circle"></i>

@@ -1,3 +1,5 @@
+import permissions from "./admin/roles/Permissions";
+
 require('./bootstrap');
 
 window.Vue = require("vue").default;
@@ -280,6 +282,12 @@ Vue.filter('daysToDate', value => {
     const end = moment();
     return start.diff(end, "days");
 });
+
+Vue.directive('can', function (el, binding) {
+    if(store.getters.permissions !== undefined) {
+        el.hidden =  store.getters.permissions.indexOf(binding.value)=== -1;
+    }
+})
 
 const app = new Vue({
     el: "#app",

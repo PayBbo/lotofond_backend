@@ -1,7 +1,7 @@
 <template>
     <AdminTable header="Пользователи" :columns="columns" :pagination="pagination" :getData="getData">
         <template v-slot:inline-block>
-            <router-link :to="'/admin/users/add'" class="btn btn-success btn-sm">
+            <router-link v-can="'user-add'" :to="'/admin/users/add'" class="btn btn-success btn-sm">
                 <i class="fas fa-plus"></i>
             </router-link>
             <div class="card-tools w-25">
@@ -26,11 +26,11 @@
                 <td v-else >Не указано</td>
                 <td>{{ user.registrationDate }}</td>
                 <td>
-                    <router-link :to="'/admin/users/'+user.id" class="btn btn-primary btn-sm">
+                    <router-link v-can="'user-edit'" :to="'/admin/users/'+user.id" class="btn btn-primary btn-sm">
                         <i class="fas fa-pencil-alt"> </i>
                     </router-link>
 
-                    <button class="btn btn-danger  btn-sm" @click="deleteItem(user.id)">
+                    <button v-can="'user-delete'" class="btn btn-danger  btn-sm" @click="deleteItem(user.id)">
                         <i class="fas fa-trash-alt"> </i>
                     </button>
                 </td>

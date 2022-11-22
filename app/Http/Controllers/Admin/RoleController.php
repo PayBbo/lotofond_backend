@@ -11,6 +11,21 @@ use Spatie\Permission\Models\Role;
 
 class RoleController extends Controller
 {
+
+    /**
+     * Проверка прав на совершение действий
+     *
+     * @return \Illuminate\Http\Response
+     */
+    function __construct()
+    {
+        $this->middleware('permission:role-list', ['only' => ['get']]);
+        $this->middleware('permission:role-edit', ['only' => ['edit', 'update']]);
+        $this->middleware('permission:role-add', ['only' => ['add']]);
+        $this->middleware('permission:emails-delete', ['only' => ['delete']]);
+    }
+
+
     public function get(){
         $roles = Role::select(['id', 'name'])->get();
         return response(['data'=>$roles, 'pagination'=>[]], 200);
@@ -27,7 +42,11 @@ class RoleController extends Controller
     }
 
     public function update(UpdateRoleRequest $request){
-
+        $role = Role::find($request->id);
+        $role->name = $request->name;
+        $role->save();
+        $role->syncPermissions($request->permissions);
+        return response(null, 200);
     }
 
     public function delete($id){
@@ -43,7 +62,7 @@ class RoleController extends Controller
         $groups = Permission::groupBy('permission_group')->pluck('permission_group');
         $data = [];
         foreach ($groups as $group){
-            $data[] = ['group'=>$group, 'permissions'=>Permission::where('permission_group', $group)->select('id', 'visible_name')->get()];
+            $data[] = ['group'=>$group, 'permissions'=>Permission::where('permission_group', $group)->select('id', 'name', 'visible_name')->get()];
         }
         return response($data, 200);
     }

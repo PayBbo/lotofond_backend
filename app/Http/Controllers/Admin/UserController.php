@@ -19,6 +19,21 @@ use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
+
+    /**
+     * Проверка прав на совершение действий
+     *
+     * @return \Illuminate\Http\Response
+     */
+    function __construct()
+    {
+        $this->middleware('permission:user-list', ['only' => ['get']]);
+        $this->middleware('permission:user-edit', ['only' => ['edit', 'update']]);
+        $this->middleware('permission:user-add', ['only' => ['add']]);
+        $this->middleware('permission:user-delete', ['only' => ['delete']]);
+    }
+
+
     public function get(Request $request)
     {
         $searchString = $request->query('param');

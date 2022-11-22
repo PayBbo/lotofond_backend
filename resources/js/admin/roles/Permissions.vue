@@ -46,7 +46,9 @@
                                             <div :id="'collapse'+index" class="collapse" :data-parent="'#accordion'+index" style="">
                                                 <div class="card-body">
                                                     <div class="custom-control custom-checkbox" v-for="item in permission.permissions">
-                                                        <input class="custom-control-input" type="checkbox" :id="'customCheckbox'+item.id" name="customCheckbox">
+                                                        <input class="custom-control-input" type="checkbox" :id="'customCheckbox'+item.id" name="customCheckbox"
+                                                        :checked="rolePermissions.indexOf(item.name) !== -1 "
+                                                        @change="changePermission(item.name)">
                                                         <label :for="'customCheckbox'+item.id" class="custom-control-label">{{item.visible_name}}</label>
                                                     </div>
                                                 </div>
@@ -55,7 +57,7 @@
                                     </div>
                                 </div>
 
-                                <button type="submit" class="btn btn-success float-right" @click="updateData(item)">
+                                <button type="submit" class="btn btn-success float-right" @click="store()">
                                     Сохранить
                                 </button>
                             </div>
@@ -84,21 +86,25 @@ export default {
         this.$store.commit('setCurrentRoute', this.$route.path.replace(/(\/*$)/, ""))
         await this.editItem()
         await this.getPermissions()
-    },
-    mounted() {
-        window.onload = () => {
             setTimeout(() => {
                 $('[id*="collapse"]').each((index) => {
                     $('#collapse'+index).collapse()
                 });
             }, 400);
-        };
+
     },
     computed: {
-        ...mapGetters(['item', 'types'])
+        ...mapGetters(['item']),
+        rolePermissions(){
+            if(typeof(this.item.permissions[0]) === 'object') {
+                return this.item.permissions.map(permission => permission.name)
+            }else{
+                return this.item.permissions
+            }
+        }
     },
     methods: {
-        ...mapActions(['editItem', 'updateData']),
+        ...mapActions(['editItem', 'updateData', 'checkAdmin']),
         async getPermissions() {
             await axios({
                 method: 'get',
@@ -111,6 +117,19 @@ export default {
                 .catch((error) => {
                     console.log(error);
                 });
+        },
+        changePermission(name){
+            let index = this.rolePermissions.indexOf(name)
+            if(index !== -1 ){
+                this.rolePermissions.splice(index, 1)
+            }else{
+                this.rolePermissions.push(name)
+            }
+        },
+        async store(){
+            this.item.permissions = this.rolePermissions
+            await this.updateData(this.item)
+            await this.checkAdmin()
         }
     }
 }

@@ -1,7 +1,7 @@
 <template>
     <AdminTable header="Текстовые данные" :columns="columns" :pagination="pagination" :getData="getData">
         <template v-slot:inline-block>
-            <router-link :to="'/admin/text-data/add'" class="btn btn-success btn-sm">
+            <router-link v-can="'text-data-add'" :to="'/admin/text-data/add'" class="btn btn-success btn-sm">
                     <i class="fas fa-plus"></i>
             </router-link>
             <div class="card-tools w-25">
@@ -17,10 +17,10 @@
                 <td>{{ item.header }}</td>
                 <td>{{ item.value }}</td>
                 <td>
-                    <router-link :to="'/admin/text-data/'+item.id" class="btn btn-primary btn-sm">
+                    <router-link v-can="'text-data-edit'" :to="'/admin/text-data/'+item.id" class="btn btn-primary btn-sm">
                         <i class="fas fa-pencil-alt"> </i>
                     </router-link>
-                    <button  class="btn btn-danger btn-sm" @click="deleteItem(item.id)">
+                    <button v-can="'text-data-delete'" class="btn btn-danger btn-sm" @click="deleteItem(item.id)">
                         <i class="fas fa-trash-alt"> </i>
                     </button>
                 </td>

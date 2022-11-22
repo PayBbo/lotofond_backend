@@ -9,7 +9,9 @@ export default {
         usersCount: 0,
         newUsersCount: 0,
         lotsCount: 0,
-        newLotsCount: 0
+        newLotsCount: 0,
+        isAdmin: null,
+        permissions: []
     },
     mutations: {
         setDashboardData(state, payload) {
@@ -17,7 +19,10 @@ export default {
             state.newUsersCount = payload.newUsersCount
             state.lotsCount = payload.lotsCount
             state.newLotsCount = payload.newLotsCount
-
+        },
+        setAdminData(state, data) {
+            state.isAdmin = data.status
+            state.permissions = data.permissions
         }
 
     },
@@ -50,6 +55,11 @@ export default {
                     commit('setModal', {data: 'error', text: 'Произошла ошибка'})
                 });
         },
+        async checkAdmin({commit}) {
+            await axios.get('/api/admin/check').then(response => {
+                commit('setAdminData', response.data)
+            })
+        }
     },
     getters: {
         usersCount(state) {
@@ -66,6 +76,12 @@ export default {
         },
         contacts(state) {
             return state.contacts
+        },
+        isAdmin(state) {
+            return state.isAdmin
+        },
+        permissions(state) {
+            return state.permissions
         }
     }
 }

@@ -9,6 +9,18 @@ use Illuminate\Http\Request;
 
 class ContactsController extends Controller
 {
+    /**
+     * Проверка прав на совершение действий
+     *
+     * @return \Illuminate\Http\Response
+     */
+    function __construct()
+    {
+        $this->middleware('permission:emails-list', ['only' => ['get']]);
+        $this->middleware('permission:emails-add', ['only' => ['update']]);
+        $this->middleware('permission:emails-delete', ['only' => ['delete']]);
+    }
+
     public function update(ContactRequest $request){
         $contact = Contact::create([
             'contact'=>$request->contact,

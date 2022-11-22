@@ -12,6 +12,20 @@ use Illuminate\Http\Request;
 class TextDataController extends Controller
 {
 
+    /**
+     * Проверка прав на совершение действий
+     *
+     * @return \Illuminate\Http\Response
+     */
+    function __construct()
+    {
+        $this->middleware('permission:text-data-list', ['only' => ['get']]);
+        $this->middleware('permission:text-data-edit', ['only' => ['edit', 'update']]);
+        $this->middleware('permission:text-data-add', ['only' => ['add']]);
+        $this->middleware('permission:text-data-delete', ['only' => ['delete']]);
+    }
+
+
     public function get(Request $request)
     {
         $type = $request->query('param');

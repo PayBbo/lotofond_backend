@@ -6,13 +6,15 @@ use App\Http\Controllers\Controller;
 use App\Models\Lot;
 use App\Models\User;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 
 class DashboardController extends Controller
 {
     public function checkAdmin(){
         $user = User::find(auth()->id());
         $status = auth()->check() && $user->hasRole('admin');
-        return response(['status'=>$status], 200);
+        $permissions = auth()->user()->getAllPermissions()->pluck('name')->toArray();
+        return response(['status'=>$status, 'permissions'=>$permissions], 200);
     }
 
     public function getDashboardData(){

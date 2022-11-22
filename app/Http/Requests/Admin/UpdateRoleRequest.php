@@ -25,7 +25,9 @@ class UpdateRoleRequest extends FormRequest
     {
         return [
             'id' => ['required', 'numeric', 'exists:roles,id'],
-            'name'=>['required', 'string', 'unique:roles,name,'.$this->request->get('id')]
+            'name'=>['required', 'string', 'unique:roles,name,'.$this->request->get('id')],
+            'permissions'=>['required', 'array'],
+            'permissions.*'=>['required', 'string', 'exists:permissions,name']
         ];
     }
 }

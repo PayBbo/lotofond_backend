@@ -1,6 +1,6 @@
 <template>
     <fragment>
-        <div class="content-header">
+        <div v-can="'role-add'" class="content-header">
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
@@ -9,7 +9,7 @@
                 </div>
             </div>
         </div>
-        <section class="content">
+        <section v-can="'role-add'" class="content">
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-md-12">
@@ -38,10 +38,10 @@
                     <td>{{ role.id }}</td>
                     <td>{{ role.name }}</td>
                     <td>
-                        <router-link :to="'/admin/roles/'+role.id" class="btn btn-primary btn-sm">
+                        <router-link  v-can="'role-edit'" :to="'/admin/roles/'+role.id" class="btn btn-primary btn-sm">
                             <i class="fas fa-pencil-alt"> </i>
                         </router-link>
-                        <button v-if="role.name !== 'admin' && role.name !== 'user'" class="btn btn-danger btn-sm" @click="deleteItem(role.id)">
+                        <button v-can="'role-delete'" v-if="role.name !== 'admin' && role.name !== 'user'" class="btn btn-danger btn-sm" @click="deleteItem(role.id)">
                             <i class="fas fa-trash-alt"> </i>
                         </button>
                     </td>

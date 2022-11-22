@@ -1,6 +1,6 @@
 <template>
     <fragment>
-        <div class="content-header">
+        <div v-can="'emails-add'" class="content-header">
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
@@ -9,7 +9,7 @@
                 </div>
             </div>
         </div>
-        <section class="content">
+        <section v-can="'emails-add'" class="content">
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-md-12">
@@ -54,7 +54,7 @@
                     <td>{{ item.contact }}</td>
                     <td>{{ item.type }}</td>
                     <td>
-                        <button class="btn btn-danger btn-sm" @click="deleteItem(item.id)">
+                        <button v-can="'emails-delete'" class="btn btn-danger btn-sm" @click="deleteItem(item.id)">
                             <i class="fas fa-trash-alt"> </i>
                         </button>
                     </td>

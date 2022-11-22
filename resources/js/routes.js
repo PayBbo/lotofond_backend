@@ -138,7 +138,8 @@ let router = new VueRouter({
                     ),
             meta: {
                 auth: true,
-                layout: 'Admin'
+                layout: 'Admin',
+                permission: 'user-list'
             }
         },
         {
@@ -151,7 +152,8 @@ let router = new VueRouter({
                     ),
             meta: {
                 auth: true,
-                layout: 'Admin'
+                layout: 'Admin',
+                permission: 'user-add'
             }
         },
         {
@@ -164,7 +166,8 @@ let router = new VueRouter({
                     ),
             meta: {
                 auth: true,
-                layout: 'Admin'
+                layout: 'Admin',
+                permission: 'user-edit'
             }
         },
         {
@@ -177,7 +180,8 @@ let router = new VueRouter({
                     ),
             meta: {
                 auth: true,
-                layout: 'Admin'
+                layout: 'Admin',
+                permission: 'text-data-list'
             }
         },
         {
@@ -190,7 +194,8 @@ let router = new VueRouter({
                     ),
             meta: {
                 auth: true,
-                layout: 'Admin'
+                layout: 'Admin',
+                permission: 'text-data-edit'
             }
         },
         {
@@ -203,7 +208,8 @@ let router = new VueRouter({
                     ),
             meta: {
                 auth: true,
-                layout: 'Admin'
+                layout: 'Admin',
+                permission: 'text-data-add'
             }
         },
         {
@@ -216,7 +222,8 @@ let router = new VueRouter({
                     ),
             meta: {
                 auth: true,
-                layout: 'Admin'
+                layout: 'Admin',
+                permission: 'emails-list'
             }
         },
         {
@@ -229,7 +236,8 @@ let router = new VueRouter({
                     ),
             meta: {
                 auth: true,
-                layout: 'Admin'
+                layout: 'Admin',
+                permission: 'application-list'
             }
         },
         {
@@ -242,7 +250,8 @@ let router = new VueRouter({
                     ),
             meta: {
                 auth: true,
-                layout: 'Admin'
+                layout: 'Admin',
+                permission: 'lot-list'
             }
         },
         {
@@ -255,7 +264,8 @@ let router = new VueRouter({
                     ),
             meta: {
                 auth: true,
-                layout: 'Admin'
+                layout: 'Admin',
+                permission: 'lot-list'
             }
         },
         {
@@ -268,7 +278,8 @@ let router = new VueRouter({
                     ),
             meta: {
                 auth: true,
-                layout: 'Admin'
+                layout: 'Admin',
+                permission: 'role-list'
             }
         },
         {
@@ -281,7 +292,8 @@ let router = new VueRouter({
                     ),
             meta: {
                 auth: true,
-                layout: 'Admin'
+                layout: 'Admin',
+                permission: 'role-edit'
             }
         },
         // { path: '/:pathMatch(.*)*', component: EmptyView }
@@ -310,12 +322,29 @@ function guardAdminRoute(to, from, next) {
         next('/');
         return;
     }
-    axios.get('/api/admin/check').then(response => {
-        if (response.data.status !== true) {
+    if(store.getters.isAdmin === null){
+        axios.get('/api/admin/check').then(response => {
+              if (response.data.status !== true) {
+                  next('/');
+              }
+              if(to.meta.permission !== undefined){
+                  if( response.data.permissions.indexOf(to.meta.permission) === -1){
+                      next('/admin/dashboard');
+                  }
+              }
+            store.commit('setAdminData', response.data)
+        })
+    }else{
+        if(!store.getters.isAdmin){
             next('/');
-
         }
-    })
+        if(to.meta.permission !== undefined){
+            if( store.getters.permissions.indexOf(to.meta.permission) === -1){
+                next('/admin/dashboard');
+            }
+        }
+    }
+
     next();
 }
 
