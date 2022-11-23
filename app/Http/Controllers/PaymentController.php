@@ -51,12 +51,15 @@ class PaymentController extends Controller
                     $payment->status = $paymentStatus['status'];
                     $payment->is_confirmed = true;
                     $payment->save();
-                    return response(null, 200);
                 } else {
-                    $payment->status = $paymentStatus['status'];
-                    $payment->is_confirmed = false;
-                    $payment->save();
+                    logger($paymentStatus);
+                    if($paymentStatus['status'] != $payment->status) {
+                        $payment->status = $paymentStatus['status'];
+                        $payment->is_confirmed = false;
+                        $payment->save();
+                    }
                 }
+                return response(null, 200);
             }
 
         }
