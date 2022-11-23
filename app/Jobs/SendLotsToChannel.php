@@ -14,6 +14,8 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\URL;
+use GuzzleHttp\Client;
+use GuzzleHttp\RequestOptions;
 
 class SendLotsToChannel implements ShouldQueue
 {
@@ -80,15 +82,27 @@ class SendLotsToChannel implements ShouldQueue
             $lotDesc = mb_strimwidth($lot->description, 0, 250, "...");
             $price = number_format($lot->start_price, 2);
             $category = $type == 'countRealtyLotsChannel' ? 'недвижимости' : 'транспорта';
-            $html = "<strong>Лот из категорий $category</strong>
+            $html =  str_replace('<br>', '',  str_replace('</p>', '', str_replace('<p>', '',
+                "<strong>Лот из категорий $category</strong>
 <strong> Описание лота:</strong>
 <p>$lotDesc</p>
 <strong> Начальная цена: $price ₽</strong>
-<a href='$url'> Ссылка на лот </a>";
+<a href='$url'> Ссылка на лот </a>" )));
             $token = config('telegram.lots_bot_token');
-            logger($token);
-            Notification::route('telegram', $token)
-                ->notify(new ApplicationTelegramNotification($html, true));
+            $chat_id =  config('telegram.lots_chat_id');
+            $client = new Client();
+            try {
+                $client->post('https://api.telegram.org/bot'.$token.'/sendMessage', [
+                    RequestOptions::JSON => [
+                        'chat_id' => $chat_id,
+                        'text' => $html,
+                    ]
+                ]);
+            } catch (\Exception $e) {
+                logger($e->getMessage());
+            }
+           /* Notification::route('telegram', $token)
+                ->notify(new ApplicationTelegramNotification($html, true));*/
         }
     }
 }
