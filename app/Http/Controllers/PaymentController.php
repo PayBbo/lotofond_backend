@@ -37,9 +37,10 @@ class PaymentController extends Controller
     }
 
     public function paymentNotification(Request $request){
-
+        logger($request);
         $order_id = $request->id;
         $payment = Payment::where('payment_id', $order_id)->first();
+        logger($payment->id);
         if($payment && !$payment->is_confirmed && !$payment->status != 'Settled'){
                 $paymentService = new PaymentService();
                 $paymentStatus = $paymentService->getPaymentStatus($order_id);
