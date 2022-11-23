@@ -91,7 +91,6 @@ class PaymentService
 
                 ]
             ]);
-        logger($response->getBody());
         return json_decode($response->getBody(), true);
     }
 
