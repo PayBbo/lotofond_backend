@@ -104,6 +104,7 @@ class PaymentService
                     'Authorization'=> 'Bearer '.$this->token,
                 ]
             ]);
+        logger($response->getBody());
         return json_decode($response->getBody(), true);
     }
 }
