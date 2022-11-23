@@ -29,6 +29,7 @@ class CreatePaymentsTable extends Migration
             $table->string('payment_id')->nullable();
             $table->float('sum')->nullable();
             $table->boolean('is_confirmed')->default(false);
+            $table->enum('status', ['Authorized', 'Settled', 'Cancelled', 'Rejected', 'Confirmation', 'Pending'])->nullable();
             $table->timestamps();
         });
     }

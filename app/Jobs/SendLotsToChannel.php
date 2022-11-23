@@ -92,7 +92,7 @@ class SendLotsToChannel implements ShouldQueue
             }
             $html.="
 <a href='$url'>Ссылка на лот</a>";
-            $token = config('telegram.lots_bot_token');
+            $token = config('telegram.bot_token');
             $chat_id =  config('telegram.lots_chat_id');
             $client = new Client();
             try {

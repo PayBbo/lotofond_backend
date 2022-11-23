@@ -15,7 +15,8 @@ class Payment extends Model
         'sum',
         'tariff_id',
         'finished_at',
-        'is_confirmed'
+        'is_confirmed',
+        'status'
     ];
 
     protected $casts = [

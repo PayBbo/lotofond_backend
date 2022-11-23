@@ -36,21 +36,20 @@ class ApplicationController extends Controller
         }
         $username = $request->name ?? $user->surname . ' ' . $user->name;
         $lot = URL::to('/lot/' . $request->lotId);
-        $lotDesc = Lot::find($request->lotId)['description'];
-        $html = $request->lotId ? "
-            Пользователь $username оставил заявку на покупку без ЭЦП.
-            <strong> Описание лота:</strong>
-            <p>$lotDesc</p>
-            <a href='$lot'> Ссылка на лот </a>" : "Пользователь $username оставил заявку на покупку через агента.";
+        $lotDesc = mb_strimwidth(Lot::find($request->lotId)['description'], 0, 250, "...");
+        $html = $request->lotId ? "Пользователь $username оставил заявку на покупку без ЭЦП.
+<strong> Описание лота:</strong>
+<p>$lotDesc</p>
+<a href='$lot'> Ссылка на лот </a>" : "Пользователь $username оставил заявку на покупку через агента.";
         $html .= "<br>
-            <strong>Почта: $request->email</strong>
-             <br>
-            <strong>Телефон: $request->phone</strong>
-            <p>Социальные сети для ответа: $socials</p>";
+<strong>Почта: $request->email</strong>
+<br>
+<strong>Телефон: $request->phone</strong>
+<p>Социальные сети для ответа: $socials</p>";
         if (isset($request->dateForCallback) && strlen($request->dateForCallback) > 0) {
             $dateForCallback = Carbon::parse($request->dateForCallback)->format('d.m.Y H:i');
             $html .= "
-            <p>Дата и время для ответа: $dateForCallback</p>";
+<p>Дата и время для ответа: $dateForCallback</p>";
         }
         $subject = $request->lotId ? 'Новая заявка на покупку без ЭЦП' : 'Новая заявка на покупку через агента';
         if($request->lotId){

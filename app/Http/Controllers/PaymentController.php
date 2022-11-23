@@ -38,24 +38,26 @@ class PaymentController extends Controller
 
     public function paymentNotification(Request $request){
 
-        logger($request);
-       /* $order_id = $request->orderId;
+        $order_id = $request->id;
         $payment = Payment::where('payment_id', $order_id)->first();
-        if($payment){
-            if(!$payment->is_confirmed){
-                $paymentService = new PaymentService('ru');
-                $paymentStatus = $paymentService->getOrderStatus($order_id);
-                if($paymentStatus['orderStatus'] == 2 ){
-                    if(!is_null($payment->tariff_id)) {
-                        $payment->finished_at = Carbon::now()->addDays($payment->tariff->period);
-                    }
-                    $payment->is_confirmed = true;
+        if($payment && !$payment->is_confirmed && !$payment->status != 'Settled'){
+                $paymentService = new PaymentService();
+                $paymentStatus = $paymentService->getPaymentStatus($order_id);
+                if($paymentStatus['testMode'] == config('paymaster.test_mode') && $paymentStatus['merchantId'] == config('paymaster.merchant_id')){
+                    $payment->status = $paymentStatus['status'];
                     $payment->save();
-                    return response(null, 200);
+                    if($paymentStatus['status'] == 'Settled' && (int)$paymentStatus['amount']['value'] == (int)$payment->tariff->price){
+                        if(!is_null($payment->tariff_id)) {
+                            $payment->finished_at = Carbon::now()->addDays($payment->tariff->period);
+                        }
+                        $payment->is_confirmed = true;
+                        $payment->save();
+                        return response(null, 200);
+                    }
                 }
-            }
+
         }
-        throw new BaseException('ERR_VALIDATE_PAYMENT_FAILED', 422, __('validation.payment_error'));*/
+        throw new BaseException('ERR_VALIDATE_PAYMENT_FAILED', 422, __('validation.payment_error'));
     }
 
     public function getTariffs(){

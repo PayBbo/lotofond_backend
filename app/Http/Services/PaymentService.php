@@ -29,8 +29,8 @@ class PaymentService
 
     public function paymentRequest($paymentId, $tariff)
     {
-       // $client = new \GuzzleHttp\Client();
-        $logger = new Logger('GuzzleLogger');
+        $client = new \GuzzleHttp\Client();
+       /* $logger = new Logger('GuzzleLogger');
         $logger->pushHandler(new StreamHandler(storage_path('logs/guzzle.log')));
         $stack = HandlerStack::create();
         $stack->push(
@@ -43,7 +43,7 @@ class PaymentService
             [
                 'handler' => $stack,
             ]
-        );
+        );*/
         $user = User::find(auth()->id());
         $response = $client->request('POST', 'https://paymaster.ru/api/v2/invoices',
             [
@@ -95,18 +95,13 @@ class PaymentService
         return json_decode($response->getBody(), true);
     }
 
-    public function getOrderStatus($paymentId)
+    public function getPaymentStatus($paymentId)
     {
         $client = new \GuzzleHttp\Client();
-        $response = $client->request('POST', 'https://3dsec.sberbank.ru/payment/rest/getOrderStatusExtended.do',
+        $response = $client->request('GET', 'https://paymaster.ru/api/v2/payments/'.$paymentId,
             [
                 RequestOptions::HEADERS => [
-                    'Cache-Control' => 'no-cache'
-                ],
-                RequestOptions::QUERY => [
-                    'userName' => $this->username,
-                    'password' => $this->password,
-                    'orderId' => $paymentId
+                    'Authorization'=> 'Bearer '.$this->token,
                 ]
             ]);
         return json_decode($response->getBody(), true);
