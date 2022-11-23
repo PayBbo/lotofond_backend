@@ -41,13 +41,13 @@ class PaymentController extends Controller
         $order_id = $request->id;
         $payment = Payment::where('payment_id', $order_id)->first();
         logger($payment->id);
-        if($payment && !$payment->is_confirmed && !$payment->status != 'Settled'){
+        if($payment && !$payment->is_confirmed && $payment->status != 'Settled'){
                 $paymentService = new PaymentService();
                 $paymentStatus = $paymentService->getPaymentStatus($order_id);
                 if($paymentStatus['testMode'] == config('paymaster.test_mode') && $paymentStatus['merchantId'] == config('paymaster.merchant_id')){
                     $payment->status = $paymentStatus['status'];
                     $payment->save();
-                    if($paymentStatus['status'] == 'Settled' && (int)$paymentStatus['amount']['value'] == (int)$payment->tariff->price){
+                    if($paymentStatus['status'] == 'Settled'){
                         if(!is_null($payment->tariff_id)) {
                             $payment->finished_at = Carbon::now()->addDays($payment->tariff->period);
                         }
