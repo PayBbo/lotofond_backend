@@ -84,10 +84,10 @@ class SendLotsToChannel implements ShouldQueue
             $category = $type == 'countRealtyLotsChannel' ? 'недвижимости' : 'транспорта';
             $html =  str_replace('<br>', '',  str_replace('</p>', '', str_replace('<p>', '',
                 "<strong>Лот из категорий $category</strong>
-<strong> Описание лота:</strong>
+<strong>Описание лота:</strong>
 <p>$lotDesc</p>
-<strong> Начальная цена: $price ₽</strong>
-<a href='$url'> Ссылка на лот </a>" )));
+<strong>Начальная цена: $price ₽</strong>
+<a href='$url'>Ссылка на лот </a>" )));
             $token = config('telegram.lots_bot_token');
             $chat_id =  config('telegram.lots_chat_id');
             $client = new Client();
@@ -102,8 +102,6 @@ class SendLotsToChannel implements ShouldQueue
             } catch (\Exception $e) {
                 logger($e->getMessage());
             }
-           /* Notification::route('telegram', $token)
-                ->notify(new ApplicationTelegramNotification($html, true));*/
         }
     }
 }

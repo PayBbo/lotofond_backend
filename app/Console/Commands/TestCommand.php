@@ -57,9 +57,6 @@ class TestCommand extends Command
      */
     public function handle()
     {
-        Cache::forget('countRealtyLotsChannel');
-        Cache::forget('countTransportLotsChannel');
-        dispatch(new SendLotsToChannel);
         //dispatch(new FavouriteJob);
         //    dispatch(new MonitoringJob);
         //  dispatch(new MonitoringNotificationJob('hourly'));
