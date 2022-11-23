@@ -86,6 +86,7 @@ class SendLotsToChannel implements ShouldQueue
 <strong> Начальная цена: $price ₽</strong>
 <a href='$url'> Ссылка на лот </a>";
             $token = config('telegram.lots_bot_token');
+            logger($token);
             Notification::route('telegram', $token)
                 ->notify(new ApplicationTelegramNotification($html, true));
         }

@@ -36,6 +36,7 @@ class ApplicationTelegramNotification extends Notification
         }else {
             $chat_id = config('telegram.chat_id');
         }
+        logger($chat_id);
         $html = str_replace('<br>', '',  str_replace('</p>', '', str_replace('<p>', '', $this->html)));
         return TelegramMessage::create()
             ->to($chat_id)
