@@ -89,9 +89,11 @@ class SendLotsToChannel implements ShouldQueue
 <strong>Начальная цена: $price ₽</strong>" )));
             if($lot->auction->auctionType->title =='PublicOffer' || $lot->auction->auctionType->title =='ClosePublicOffer'){
                 $min_price = number_format($lot->min_price, 2);
-                $html .='<strong>Минимальная цена: $min_price ₽</strong>';
+                $html .="
+<strong>Минимальная цена: $min_price ₽</strong>";
             }
-            $html.="<a href='$url'>Ссылка на лот </a>";
+            $html.="
+<a href='$url'>Ссылка на лот</a>";
             $token = config('telegram.lots_bot_token');
             $chat_id =  config('telegram.lots_chat_id');
             $client = new Client();
