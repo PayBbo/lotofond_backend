@@ -2,44 +2,96 @@
 
 namespace App\Http\Services;
 
+use App\Models\User;
 use GuzzleHttp\RequestOptions;
+use GuzzleHttp\HandlerStack;
+use GuzzleHttp\Middleware;
+use GuzzleHttp\MessageFormatter;
+use Monolog\Logger;
+use Monolog\Handler\StreamHandler;
 
 class PaymentService
 {
-    protected $username;
-    protected $password;
+    protected $token;
+    protected $merchantId;
     protected $returnUrl;
-    protected $failUrl;
-    protected $language;
+    protected $callbackUrl;
+    protected $testMode;
 
-    public function __construct($language)
+    public function __construct()
     {
-        $this->username = config('sberbank.username');
-        $this->password = config('sberbank.password');
-        $this->returnUrl = config('sberbank.success_url');
-        $this->failUrl = config('sberbank.fail_url');
-        $this->language = $language;
+        $this->token = config('paymaster.token');
+        $this->merchantId = config('paymaster.merchant_id');
+        $this->returnUrl = config('paymaster.return_url');
+        $this->callbackUrl = config('paymaster.callback_url');
+        $this->testMode = config('paymaster.test_mode');
     }
 
-    public function paymentRequest($paymentId, $sum)
+    public function paymentRequest($paymentId, $tariff)
     {
-        $client = new \GuzzleHttp\Client();
-        $response = $client->request('POST', 'https://3dsec.sberbank.ru/payment/rest/register.do',
+       // $client = new \GuzzleHttp\Client();
+        $logger = new Logger('GuzzleLogger');
+        $logger->pushHandler(new StreamHandler(storage_path('logs/guzzle.log')));
+        $stack = HandlerStack::create();
+        $stack->push(
+            Middleware::log(
+                $logger,
+                new MessageFormatter('{req_body} - {res_body}')
+            )
+        );
+        $client = new \GuzzleHttp\Client(
+            [
+                'handler' => $stack,
+            ]
+        );
+        $user = User::find(auth()->id());
+        $response = $client->request('POST', 'https://paymaster.ru/api/v2/invoices',
             [
                 RequestOptions::HEADERS => [
-                    'Cache-Control' => 'no-cache'
+                    'Authorization'=> 'Bearer '.$this->token,
+                    'Content-Type'=>'application/json'
                 ],
-                RequestOptions::QUERY => [
-                    'userName' => $this->username,
-                    'password' => $this->password,
-                    'orderNumber' => $paymentId,
-                    'amount' => $sum * 100,
-                    'currency' => 643,
-                    'language' => $this->language,
-                    'returnUrl' => $this->returnUrl,
-                    'failUrl' => $this->failUrl
+                RequestOptions::JSON => [
+                    'merchantId' => $this->merchantId,
+                    'testMode'=>$this->testMode,
+                    'invoice'=>[
+                        'description'=>$tariff->description,
+                        'orderNo'=>(string)$paymentId
+                    ],
+                    'amount'=>[
+                        'value'=>$tariff->price,
+                        'currency'=>'RUB'
+                    ],
+                    'paymentMethod'=>'BankCard',
+                    'protocol'=>[
+                        'returnUrl' => $this->returnUrl,
+                        'callbackUrl' => $this->callbackUrl
+                    ],
+                    'customer'=>[
+                        'email'=>$user->email,
+                        'phone'=>$user->phone,
+                        'account'=>(string)$user->id
+                    ],
+                    'receipt'=>[
+                        'client'=>[
+                            'email'=>$user->email,
+                            'phone'=>$user->phone
+                        ],
+                        'items'=>[
+                            [
+                                'name'=>$tariff->title,
+                                'quantity'=>1,
+                                'price'=>$tariff->price,
+                                'vatType'=>'None',
+                                'paymentSubject'=>'Service',
+                                'paymentMethod'=>'FullPayment'
+                            ]
+                        ]
+                    ]
+
                 ]
             ]);
+        logger($response->getBody());
         return json_decode($response->getBody(), true);
     }
 

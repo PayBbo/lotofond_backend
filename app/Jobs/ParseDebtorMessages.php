@@ -52,6 +52,9 @@ class ParseDebtorMessages implements ShouldQueue
                     continue;
                 }
                 $messageType = $data['MessageInfo']['@attributes']['MessageType'];
+                if($messageType == 'Auction' || $messageType == 'Auction2'){
+                    logger($data);
+                }
                 $debtor = Bidder::where('bankrupt_id', $data['BankruptId'])->first();
                 $type = RegistryNotificationType::where('title', 'LIKE', '%' . $messageType . '%')->first();
                 if ($debtor && $type) {

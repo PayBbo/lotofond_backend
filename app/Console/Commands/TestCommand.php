@@ -10,6 +10,7 @@ use App\Jobs\FavouriteJob;
 use App\Jobs\MonitoringJob;
 use App\Jobs\MonitoringNotificationJob;
 use App\Jobs\ParseArbitrManager;
+use App\Jobs\ParseDebtorMessages;
 use App\Jobs\ParseTrades;
 use App\Jobs\SendLotsToChannel;
 use App\Models\Bidder;
@@ -57,13 +58,13 @@ class TestCommand extends Command
      */
     public function handle()
     {
-        Cache::forget('countRealtyLotsChannel');
+      /*  Cache::forget('countRealtyLotsChannel');
         Cache::forget('countTransportLotsChannel');
-        dispatch(new SendLotsToChannel);
+        dispatch(new SendLotsToChannel);*/
         //dispatch(new FavouriteJob);
         //    dispatch(new MonitoringJob);
         //  dispatch(new MonitoringNotificationJob('hourly'));
-        //dispatch(new ParseArbitrManager);
+        //dispatch(new ParseDebtorMessages);
      /*   $startDate = Carbon::parse('2022-11-18 00:00');
         $endDate = Carbon::parse('2022-11-18 14:00');
         while ($startDate < $endDate) {

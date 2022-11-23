@@ -3412,11 +3412,6 @@ paths:
         - bearerAuth: [ ]
   /payment:
     post:
-      parameters:
-        - name: Content-Language
-          in: header
-          description: Заголовок для определения локали (ru, en, zh_CN)
-          required: true
       tags:
         - Payments
       summary: запрос на создание платежа
@@ -3444,9 +3439,9 @@ paths:
                   redirectUrl:
                     type: string
               example:
-                redirectUrl: https://3dsec.sberbank.ru/payment/merchants/sbersafe_sberid/mobile_payment_en.html?mdOrder=b5012b69-a7b6-75c5-ac74-dc77280b7e77
+                redirectUrl: https://paymaster.ru/cpay/7ec1c57594b54d059713003128b60286
         403:
-          description: при создании платежа сбербанк вернул ошибку
+          description: при создании платежа paymaster вернул ошибку
           content:
             application/json:
               schema:
@@ -3459,43 +3454,6 @@ paths:
                 $ref: '#/components/schemas/Error'
       security:
         - bearerAuth: []
-  /payment/status:
-    post:
-      parameters:
-        - name: Content-Language
-          in: header
-          description: Заголовок для определения локали (ru, en, zh_CN)
-          required: true
-      tags:
-        - Payments
-      summary: запрос на проверку статуса платежа
-      operationId: paymentStatus
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                orderId:
-                  type: string
-                  description: Номер транзакции, который вернул сбербанк при переадресации на нашу страницу
-              example:
-                orderId: 8f88b80a-cbfa-724d-9860-a69f28d7d042
-      responses:
-        "200":
-          description: Статус платежа подтвержден, тариф для пользователя активирован
-        422:
-          description: статус пплатежа не успешен
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        default:
-          description: unexpected error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
   /payment/validate/apple/transaction:
     post:
       tags:

@@ -45,7 +45,7 @@ Route::group(['middleware' => ['json.response', 'localization']], function () {
 
     Route::post('login', [LoginController::class, 'login'])->name('login');
 
-    Route::post('/payment/status', [PaymentController::class, 'paymentStatus']);
+    Route::post('payment/notification', [PaymentController::class, 'paymentNotification']);
 
     Route::group(['prefix' => 'registration'], function () {
 

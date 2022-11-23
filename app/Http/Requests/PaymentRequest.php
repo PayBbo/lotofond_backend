@@ -25,7 +25,6 @@ class PaymentRequest extends FormRequest
     public function rules()
     {
         return [
-           // 'sum'=>['sometimes', 'required', 'integer', 'min:1'],
             'tariffId'=>['required', 'integer', 'exists:tariffs,id']
         ];
     }

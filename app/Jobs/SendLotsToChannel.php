@@ -80,15 +80,13 @@ class SendLotsToChannel implements ShouldQueue
         foreach ($lots as $lot) {
             $url = URL::to('/lot/' . $lot->id);
             $lotDesc = mb_strimwidth($lot->description, 0, 250, "...");
-            $price = number_format($lot->start_price, 2);
-            $category = $type == 'countRealtyLotsChannel' ? 'недвижимости' : 'транспорта';
+            $price = number_format($lot->start_price, 2, ',', ' ');
             $html =  str_replace('<br>', '',  str_replace('</p>', '', str_replace('<p>', '',
-                "<strong>Лот из категорий $category</strong>
-<strong>Описание лота:</strong>
+                "<strong>Описание лота:</strong>
 <p>$lotDesc</p>
 <strong>Начальная цена: $price ₽</strong>" )));
             if($lot->auction->auctionType->title =='PublicOffer' || $lot->auction->auctionType->title =='ClosePublicOffer'){
-                $min_price = number_format($lot->min_price, 2);
+                $min_price = number_format($lot->min_price, 2, ',', ' ');
                 $html .="
 <strong>Минимальная цена: $min_price ₽</strong>";
             }

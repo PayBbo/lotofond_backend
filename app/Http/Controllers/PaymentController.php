@@ -19,26 +19,27 @@ class PaymentController extends Controller
         $payment = new Payment();
         $payment->user_id = auth()->id();
         $payment->sum = $tariff->price;
+        $payment->tariff_id = $tariff->id;
         $payment->save();
-        $language = $request->header('Content-Language');
-        $paymentService = new PaymentService($language);
-        $paymentRequest = $paymentService->paymentRequest($payment->id, $tariff->price);
-        if (array_key_exists('orderId', $paymentRequest)) {
-            $orderId = $paymentRequest['orderId'];
-            $payment->payment_id = $orderId;
+        $paymentService = new PaymentService();
+        $paymentRequest = $paymentService->paymentRequest($payment->id, $tariff);
+        if (array_key_exists('paymentId', $paymentRequest)) {
+            $paymentId = $paymentRequest['paymentId'];
+            $payment->payment_id = $paymentId;
             $payment->save();
             return response([
-                'redirectUrl' => $paymentRequest['formUrl']
+                'redirectUrl' => $paymentRequest['url']
             ], 200);
 
         }
-        throw new BaseException('ERR_CREATE_PAYMENT_FAILED', 403, $paymentRequest['errorMessage']);
+        throw new BaseException('ERR_CREATE_PAYMENT_FAILED', 403, $paymentRequest);
 
     }
 
-    public function paymentStatus(Request $request){
+    public function paymentNotification(Request $request){
 
-        $order_id = $request->orderId;
+        logger(json_encode($request));
+       /* $order_id = $request->orderId;
         $payment = Payment::where('payment_id', $order_id)->first();
         if($payment){
             if(!$payment->is_confirmed){
@@ -54,7 +55,7 @@ class PaymentController extends Controller
                 }
             }
         }
-        throw new BaseException('ERR_VALIDATE_PAYMENT_FAILED', 422, __('validation.payment_error'));
+        throw new BaseException('ERR_VALIDATE_PAYMENT_FAILED', 422, __('validation.payment_error'));*/
     }
 
     public function getTariffs(){
