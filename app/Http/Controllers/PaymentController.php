@@ -38,7 +38,7 @@ class PaymentController extends Controller
 
     public function paymentNotification(Request $request){
 
-        logger(json_encode($request));
+        logger($request);
        /* $order_id = $request->orderId;
         $payment = Payment::where('payment_id', $order_id)->first();
         if($payment){
