@@ -96,6 +96,7 @@ class SendLotsToChannel implements ShouldQueue
                     RequestOptions::JSON => [
                         'chat_id' => $chat_id,
                         'text' => $html,
+                        'parse_mode'=>'html'
                     ]
                 ]);
             } catch (\Exception $e) {
