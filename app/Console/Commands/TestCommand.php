@@ -11,6 +11,7 @@ use App\Jobs\MonitoringJob;
 use App\Jobs\MonitoringNotificationJob;
 use App\Jobs\ParseArbitrManager;
 use App\Jobs\ParseTrades;
+use App\Jobs\SendLotsToChannel;
 use App\Models\Bidder;
 use App\Models\BiddingResult;
 use App\Models\Lot;
@@ -20,6 +21,7 @@ use App\Models\User;
 use Artisaninweb\SoapWrapper\SoapWrapper;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Cache;
 
 
 class TestCommand extends Command
@@ -55,17 +57,20 @@ class TestCommand extends Command
      */
     public function handle()
     {
+        Cache::forget('countRealtyLotsChannel');
+        Cache::forget('countTransportLotsChannel');
+        dispatch(new SendLotsToChannel);
         //dispatch(new FavouriteJob);
         //    dispatch(new MonitoringJob);
         //  dispatch(new MonitoringNotificationJob('hourly'));
         //dispatch(new ParseArbitrManager);
-        $startDate = Carbon::parse('2022-11-18 00:00');
+     /*   $startDate = Carbon::parse('2022-11-18 00:00');
         $endDate = Carbon::parse('2022-11-18 14:00');
         while ($startDate < $endDate) {
             $startFrom = $startDate->format('Y-m-d\TH:i:s');
             $startDate->addHours(2);
             dispatch(new ParseTrades($startFrom, $startDate->format('Y-m-d\TH:i:s')));
-        }
+        }*/
         // dispatch(new ParseTrades);
         //$get_trade_message_content = new GetTradeMessageContent($xml, 'BiddingInvitation');
         //$get_trade_message_content->switchMessageType(1, $xml, 13275260);
