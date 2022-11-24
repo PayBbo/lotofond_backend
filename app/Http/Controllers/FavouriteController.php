@@ -112,7 +112,7 @@ class FavouriteController extends Controller
         }
         $lots = Lot::whereIn('id', $request->lots)->get();
         $user = User::find(auth()->id());
-        dispatch(new AddFavouriteEventsJob($lots, $user, $path));
+        dispatch((new AddFavouriteEventsJob($lots, $user, $path))->onQueue('user'));
         return response(null, 200);
     }
 

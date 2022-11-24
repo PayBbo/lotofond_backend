@@ -177,7 +177,7 @@ class ProfileController extends Controller
         } elseif (!$request->haveAccessToOldCredentials && !$request->isOldCredentials) {
             $changeCredentials->is_submitted_new_credentials = true;
             $changeCredentials->save();
-            dispatch(new ChangeEmail($changeCredentials->id))->delay(now()->setTimezone('Europe/Moscow')->addWeeks(2));
+            dispatch((new ChangeEmail($changeCredentials->id))->delay(now()->setTimezone('Europe/Moscow')->addWeeks(2))->onQueue('credentials'));
         } else {
             throw new BaseException("ERR_VALIDATION_FAILED_CODE", 422, __('validation.credentials_submitted'));
         }

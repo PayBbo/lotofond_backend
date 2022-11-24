@@ -17,7 +17,6 @@ use Illuminate\Queue\SerializesModels;
 class MonitoringJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
-    public $tries = 1;
 
     protected $startFrom;
     protected $endTo;
@@ -61,18 +60,4 @@ class MonitoringJob implements ShouldQueue
         }
     }
 
-    public function failed($exception)
-    {
-        if ($exception instanceof MaxAttemptsExceededException)
-        {
-            $this->delete();
-
-            $this->dispatch()
-                ->onConnection($this->connection)
-                ->onQueue($this->queue)
-                ->delay(600);
-
-            return;
-        }
-    }
 }

@@ -18,7 +18,7 @@ class AddFavouriteEventsJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    public $tries = 1;
+  //  public $tries = 1;
 
     protected $lots;
     protected $user;
@@ -85,7 +85,7 @@ class AddFavouriteEventsJob implements ShouldQueue
         }
     }
 
-    public function failed($exception)
+  /*  public function failed($exception)
     {
         if (
             $exception instanceof MaxAttemptsExceededException
@@ -100,5 +100,5 @@ class AddFavouriteEventsJob implements ShouldQueue
 
             return;
         }
-    }
+    }*/
 }

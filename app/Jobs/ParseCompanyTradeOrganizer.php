@@ -33,7 +33,7 @@ class ParseCompanyTradeOrganizer implements ShouldQueue
      */
     public function handle()
     {
-        $startFrom = Carbon::now()->setTimezone('Europe/Moscow')->subDays(100)->format('Y-m-d\TH:i:s');
+        $startFrom = Carbon::now()->setTimezone('Europe/Moscow')->subDay()->format('Y-m-d\TH:i:s');
         $soapWrapper = new SoapWrapper();
         $service = new SoapWrapperService($soapWrapper);
         $organizers = get_object_vars($service->getCompanyTradeOrganizerRegister($startFrom));

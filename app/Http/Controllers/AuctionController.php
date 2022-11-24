@@ -201,7 +201,7 @@ class AuctionController extends Controller
             $user->hiddenLots()->detach($lot);
         } else {
             $lots[] = $lot;
-            dispatch(new ClearHiddenLotsJob($user, $lots));
+            dispatch((new ClearHiddenLotsJob($user, $lots))->onQueue('user'));
         }
         return response(null, 200);
     }
@@ -229,7 +229,7 @@ class AuctionController extends Controller
         }
         $user = User::find(auth()->id());
         $result = $auction->lots()->pluck('id');
-        dispatch(new ClearHiddenLotsJob($user, $auction->lots));
+        dispatch((new ClearHiddenLotsJob($user, $auction->lots))->onQueue('user'));
         return response()->json(['lotIds' => $result], 200);
     }
 

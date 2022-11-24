@@ -19,8 +19,6 @@ class ParseTrades implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    public $tries = 1;
-
     protected $startFrom;
     protected $endTo;
     /**
@@ -34,7 +32,7 @@ class ParseTrades implements ShouldQueue
             $this->startFrom = $startFrom;
             $this->endTo = $endTo;
         }else{
-            $this->startFrom = Carbon::now()->setTimezone('Europe/Moscow')->subHours(3)->format('Y-m-d\TH:i:s');
+            $this->startFrom = Carbon::now()->setTimezone('Europe/Moscow')->subHour()->format('Y-m-d\TH:i:s');
             $this->endTo = Carbon::now()->setTimezone('Europe/Moscow')->format('Y-m-d\TH:i:s');
         }
     }
@@ -148,21 +146,6 @@ class ParseTrades implements ShouldQueue
                     $get_trade_message_content->switchMessageType($tradePlace->id, $message, $message->TradeMessage->ID);
                 }
             }
-        }
-    }
-
-    public function failed($exception)
-    {
-        if ($exception instanceof MaxAttemptsExceededException)
-        {
-            $this->delete();
-
-            $this->dispatch($this->startFrom, $this->endTo)
-                ->onConnection($this->connection)
-                ->onQueue($this->queue)
-                ->delay(180);
-
-            return;
         }
     }
 }

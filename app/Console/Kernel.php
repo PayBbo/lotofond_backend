@@ -14,29 +14,32 @@ use App\Jobs\ParseTrades;
 use App\Jobs\SendLotsToChannel;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+use Illuminate\Support\Facades\Cache;
 
 class Kernel extends ConsoleKernel
 {
     /**
      * Define the application's command schedule.
      *
-     * @param  \Illuminate\Console\Scheduling\Schedule  $schedule
+     * @param \Illuminate\Console\Scheduling\Schedule $schedule
      * @return void
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->job(new ParseTrades)->hourly();
-        $schedule->job(new MonitoringJob)->hourly();
-        $schedule->job(new MonitoringNotificationJob('hourly'))->hourly();
-        $schedule->job(new MonitoringNotificationJob('daily'))->daily();
-        $schedule->job(new MonitoringNotificationJob('weekly'))->weekly();
-        $schedule->job(new FavouriteJob)->hourly();
-        $schedule->job(new ParseArbitrManager)->hourly();
-        $schedule->job(new ParseCompanyTradeOrganizer)->hourly();
-        $schedule->job(new ParseSRORegister)->hourly();
-        $schedule->job(new ParseDebtor)->hourly();
-        $schedule->job(new ParseDebtorMessages)->hourly();
-        $schedule->job(new SendLotsToChannel)->hourly();
+        $schedule->job((new ParseTrades)->onQueue('parse'))->hourly();
+        $schedule->job((new MonitoringJob)->onQueue('parse'))->hourly();
+        $schedule->job((new MonitoringNotificationJob('hourly'))->onQueue('parse'))->hourly();
+        $schedule->job((new MonitoringNotificationJob('daily'))->onQueue('parse'))->daily();
+        $schedule->job((new MonitoringNotificationJob('weekly'))->onQueue('parse'))->weekly();
+        $schedule->job((new FavouriteJob)->onQueue('parse'))->hourly();
+        $schedule->job((new ParseSRORegister)->onQueue('parse'))->daily();
+        $schedule->job((new ParseArbitrManager)->onQueue('parse'))->daily();
+        $schedule->job((new ParseCompanyTradeOrganizer)->onQueue('parse'))->daily();
+        $schedule->job((new ParseDebtor)->onQueue('parse'))->daily();
+        $schedule->job((new ParseDebtorMessages)->onQueue('parse'))->hourly();
+        if (Cache::get('countRealtyLotsChannel') < 10 || Cache::get('countTransportLotsChannel')) {
+            $schedule->job((new SendLotsToChannel)->onQueue('parse'))->hourly();
+        }
     }
 
     /**
@@ -46,7 +49,7 @@ class Kernel extends ConsoleKernel
      */
     protected function commands()
     {
-        $this->load(__DIR__.'/Commands');
+        $this->load(__DIR__ . '/Commands');
 
         require base_path('routes/console.php');
     }

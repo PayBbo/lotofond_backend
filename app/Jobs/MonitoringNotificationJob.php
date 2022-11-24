@@ -19,7 +19,6 @@ class MonitoringNotificationJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    public $tries = 1;
 
     protected $notTime;
     protected $startDate;
@@ -89,21 +88,6 @@ class MonitoringNotificationJob implements ShouldQueue
                     $sendNotification->sendEmailNotification($user->email, $title.'. '.$subtitle, $value, $notification);
                 }
             }
-        }
-    }
-
-    public function failed($exception)
-    {
-        if ($exception instanceof MaxAttemptsExceededException)
-        {
-            $this->delete();
-
-            $this->dispatch($this->notTime)
-                ->onConnection($this->connection)
-                ->onQueue($this->queue)
-                ->delay(300);
-
-            return;
         }
     }
 }
