@@ -105,7 +105,7 @@ class AuctionController extends Controller
             ->whereHas('tradeMessage.lot', function ($query) {
                 $query->whereBetween(DB::raw('(end_price - start_price)/start_price*100'), [0, 15])
                     ->orWhere(function ($query) {
-                        $query->whereBetween(DB::raw('(start_price - end_price)/start_price*100'), [35, 100]);
+                        $query->whereBetween(DB::raw('(start_price - end_price)/start_price*100'), [50, 100]);
                     });
             })->paginate(20);
         return response(new VictoryCollection($victories), 200);
