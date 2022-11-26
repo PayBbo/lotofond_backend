@@ -279,7 +279,7 @@
                 <div class="bkt-card bkt-lot__card bkt-lot-card bkt-lot__card" v-if="!loading">
                     <div class="bkt-card__body">
                         <div class="bkt-wrapper-between bkt-card__head bkt-nowrap d-flex d-lg-none">
-                            <h5 class="bkt-card__title bkt-text-truncate">
+                            <h5 class="bkt-card__title bkt-text-truncate" style="word-break: break-all">
                                 {{item && item.description ? item.description:'Некоторое название торгов'}}
                             </h5>
                             <div class="d-block d-lg-none">
@@ -316,9 +316,12 @@
                                 </slide>
                                 <hooper-navigation slot="hooper-addons"></hooper-navigation>
                             </hooper>
-                            <div class="bkt-wrapper-between bkt-card-ecp-wrapper">
+                            <div class="bkt-wrapper-column bkt-gap">
                                 <button @click="sendApplication" class="bkt-button primary bkt-card-ecp w-100">
-                                    Купить без ЭЦП
+                                    Купить
+                                </button>
+                                <button @click="sendApplication" class="bkt-button primary bkt-card-ecp w-100">
+                                    Заказать услугу
                                 </button>
                                 <!--                                <router-link custom v-slot="{ navigate }" to="/agent">-->
                                 <!--                                    <button @click="navigate" class="bkt-button primary bkt-card-ecp w-100">-->
@@ -377,7 +380,7 @@
                                     {{item && item.startPrice ? item.startPrice : '0' | priceFormat}} ₽
                                 </h4>
                             </div>
-                            <div class="bkt-card__row outline bkt-wrapper-between align-items-center" v-if="item&&item.trade.type!=='OpenAuction'">
+                            <div class="bkt-card__row outline bkt-wrapper-between align-items-center" v-if="item&&item.trade.type!=='OpenAuction'&& item.trade.type!=='CloseAuction'">
                                 <h5 class="bkt-card__subtitle">минимальная цена</h5>
                                 <h4 class="bkt-card__title bkt-text-red">
                                     {{item && item.minPrice ? item.minPrice : '0' | priceFormat}} ₽
@@ -936,6 +939,7 @@
                                                                     'bkt-text-red': reduction.price < item.startPrice }"-->
                                     </div>
                                 </template>
+                                <div v-else-if="item.priceReductionHtml" v-html="item.priceReductionHtml"></div>
                                 <div v-else
                                      class="bkt-wrapper-column my-auto justify-content-center align-items-center text-center"
                                      style="padding-bottom:54px;"

@@ -60,7 +60,7 @@
                 </div>
             </button>
         </div>
-        <transition-group name="fade" tag="div" class="bkt-main-instruments">
+        <transition-group name="fade" tag="div" class="bkt-main-instruments" >
             <template v-if="filters_mode">
                 <div key="bkt-main-categories" class="bkt-main-categories bkt-card__list">
                         <div class="bkt-wrapper bkt-button bkt-bg-red-lighter w-100 bkt-text-red justify-content-center bkt-cursor-pointer"

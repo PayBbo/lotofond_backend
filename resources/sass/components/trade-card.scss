@@ -20,6 +20,11 @@
             display: flex;
             align-items:flex-start;
             gap: 12px;
+            &-wrapper {
+                display: flex;
+                flex-direction: column;
+                gap:16px;
+            }
         }
         &__feature {
             margin-top: 0px;
@@ -29,27 +34,30 @@
                 max-height: 160px;
                 min-height: 130px;
                 & .hooper-prev, & .hooper-next {
-                    border-radius: 10px;
-                    background-color: rgb(255, 255, 255);
-                    width: 30px;
-                    height: 30px;
-                    display: flex;
-                    padding: 7px;
-                    align-items: center;
-                    justify-content: center;
-
-                    & svg {
-                        fill: $primary-default;
-                    }
+                    display: none !important;
                 }
-
-                & .hooper-next {
-                    right: 10px;
-                }
-
-                & .hooper-prev {
-                    left: 10px;
-                }
+                //& .hooper-prev, & .hooper-next {
+                //    border-radius: 10px;
+                //    background-color: rgb(255, 255, 255);
+                //    width: 30px;
+                //    height: 30px;
+                //    display: flex;
+                //    padding: 7px;
+                //    align-items: center;
+                //    justify-content: center;
+                //
+                //    & svg {
+                //        fill: $primary-default;
+                //    }
+                //}
+                //
+                //& .hooper-next {
+                //    right: 10px;
+                //}
+                //
+                //& .hooper-prev {
+                //    left: 10px;
+                //}
             }
             &-category {
                 max-height: 160px;
@@ -60,6 +68,19 @@
                 gap: 25px;
                 display: flex;
                 flex-flow: column;
+            }
+            &-status {
+                width: 100%;
+                border-radius: 0 0 15px 15px;
+                padding: 6px;
+                position: absolute;
+                left: 0px;
+                bottom: 0px;
+                background: rgba(20, 20, 43, 0.52);
+                color: white;
+                font-size: 12px;
+                font-weight: 500;
+                text-align: center;
             }
         }
         &.vertical {
@@ -503,44 +524,47 @@
     .bkt-card-trade {
         & .bkt-card__image-slider {
             & .hooper-prev, & .hooper-next {
-                border-radius: 10px;
-                width: 30px;
-                height: 30px;
-                display: flex;
-                padding: 7px;
-                top: auto;
-                bottom: 15px;
-                transform: none;
+                display: none !important;
             }
-
-            & .hooper-next {
-                right: 15px;
-            }
-
-            & .hooper-prev {
-                right: 61px;
-                left: auto;
-            }
-
-            & .slick-arrow {
-                border-radius: 10px;
-                width: 30px;
-                height: 30px;
-                display: flex;
-                padding: 7px;
-                top: auto;
-                bottom: 15px;
-                transform: none;
-            }
-
-            & .slick-next {
-                right: 15px;
-            }
-
-            & .slick-prev {
-                right: 61px;
-                left: auto;
-            }
+            //& .hooper-prev, & .hooper-next {
+            //    border-radius: 10px;
+            //    width: 30px;
+            //    height: 30px;
+            //    display: flex;
+            //    padding: 7px;
+            //    top: auto;
+            //    bottom: 15px;
+            //    transform: none;
+            //}
+            //
+            //& .hooper-next {
+            //    right: 15px;
+            //}
+            //
+            //& .hooper-prev {
+            //    right: 61px;
+            //    left: auto;
+            //}
+            //
+            //& .slick-arrow {
+            //    border-radius: 10px;
+            //    width: 30px;
+            //    height: 30px;
+            //    display: flex;
+            //    padding: 7px;
+            //    top: auto;
+            //    bottom: 15px;
+            //    transform: none;
+            //}
+            //
+            //& .slick-next {
+            //    right: 15px;
+            //}
+            //
+            //& .slick-prev {
+            //    right: 61px;
+            //    left: auto;
+            //}
         }
     }
     .bkt-card-trade-mini {
@@ -668,6 +692,7 @@
                 font-size: 15px;
             }
             &__image {
+                border-radius:8.4px;
                 height: 84px;
                 width: 84px;
                 &-category {
@@ -677,6 +702,24 @@
                 }
                 &-slider {
                     height: 84px;
+                    width: 84px;
+                    max-height: 84px;
+                    min-height: 84px;
+                    & .hooper-prev, & .hooper-next {
+                       display: none;
+                    }
+                }
+
+                &-status {
+                    width: 100%;
+                    border-radius: 0 0 8.4px 8.4px;
+                    padding: 3.6px;
+                    font-size: 10px;
+                }
+            }
+            &__features {
+                &-wrapper {
+                    gap:12px;
                 }
             }
         }
@@ -691,6 +734,12 @@
             padding: 7px !important;
         }
 
+        &__price {
+            & svg {
+                height: 16px;
+                width: 16px;
+            }
+        }
     }
 }
 
@@ -821,6 +870,7 @@
                 font-size: 12px;
             }
             &__image {
+                border-radius: 7px;
                 height: 70px;
                 width: 70px;
                 &-category {
@@ -830,6 +880,22 @@
                 }
                 &-slider {
                     height: 70px;
+                    width: 70px;
+                    max-height: 70px;
+                    min-height: 70px;
+                    & .hooper-prev, & .hooper-next {
+                        display: none;
+                    }
+                }
+                &-status {
+                    border-radius: 0 0 7px 7px;
+                    padding: 3px;
+                    font-size: 8px;
+                }
+            }
+            &__features {
+                &-wrapper {
+                    gap:16px;
                 }
             }
         }
@@ -911,6 +977,10 @@
             font-size:12px;
             padding:10px;
             width: 100%;
+        }
+        & .bkt-progress-bar {
+            border-radius: 8px;
+            height: 8px;
         }
 
     }

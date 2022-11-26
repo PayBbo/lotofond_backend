@@ -496,7 +496,7 @@
         }
 
         & .bkt-card__inner {
-            height: 296px;
+            max-height: 296px;
             overflow-y: scroll;
             scrollbar-width: thin;
             scrollbar-color: $primary-default #e9f3fc;
@@ -516,7 +516,17 @@
     }
     &-price-reduction {
         & .bkt-card__inner {
-            height: 350px;
+            max-height: 350px;
+            & p {
+                font-size: 14px;
+            }
+
+            & table {
+                @extend .bkt-simple-table;
+                & tr td {
+                    text-align: center;
+                }
+            }
         }
     }
 

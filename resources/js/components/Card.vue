@@ -10,21 +10,27 @@
             <div class="col-12 col-lg-11 p-0">
                 <div class="row h-100 w-100 mx-auto row-cols-1 row-cols-lg-4 bkt-card-trade__gap">
                     <div class="col-12 col-lg-2 p-0 pe-md-2">
-                        <div class="bkt-wrapper-down-lg bkt-nowrap bkt-gap">
+                        <div class="bkt-wrapper-down-lg bkt-nowrap bkt-gap align-items-start">
                             <div class="bkt-card__image-wrapper" :class="{'bkt-gap-none': !realEstate}">
-                                <div class="bkt-cursor-pointer" @click="navigate"
-                                     v-if="item && (!item.photos || item.photos.length==0) && item.categories"
-                                >
-                                    <card-image-category :categories="item.categories"></card-image-category>
+                                <div class="position-relative">
+                                    <div class="bkt-cursor-pointer" @click="navigate"
+                                         v-if="item && (!item.photos || item.photos.length==0) && item.categories"
+                                    >
+                                        <card-image-category :categories="item.categories"></card-image-category>
+                                    </div>
+                                    <hooper :itemsToShow="1" :centerMode="true" class="bkt-card__image-slider"
+                                            v-if="item.photos.length>0">
+                                        <slide v-for="photo in item.photos" :key="photo.id">
+                                            <img v-lazy="photo.preview" class="bkt-card__image bkt-cursor-pointer"
+                                                 @click="navigate"/>
+                                        </slide>
+                                        <hooper-navigation slot="hooper-addons"></hooper-navigation>
+                                    </hooper>
+                                    <div class="bkt-card__image-status bkt-cursor-pointer" v-if="item.isWatched">
+                                        Просмотрено
+                                    </div>
                                 </div>
-                                <hooper :itemsToShow="1" :centerMode="true" class="bkt-card__image-slider"
-                                        v-if="item.photos.length>0">
-                                    <slide v-for="photo in item.photos" :key="photo.id">
-                                        <img v-lazy="photo.preview" class="bkt-card__image bkt-cursor-pointer"
-                                             @click="navigate"/>
-                                    </slide>
-                                    <hooper-navigation slot="hooper-addons"></hooper-navigation>
-                                </hooper>
+
                                 <button class="bkt-button bkt-card-trade__button bkt-card-trade__button_egrn d-none d-lg-block"
                                         @click="navigate" v-if="realEstate"
                                 >
@@ -60,13 +66,19 @@
                     <div class="col-12 col-md-12 col-lg-5 p-0 px-lg-2">
                         <div class="bkt-card__head d-none d-lg-block">
                             <router-link :to="'/lot/'+item.id" class="bkt-card__title bkt-text-truncate-1">
-                            {{item && item.description ? item.description:'Некоторое название торгов'}}
-                        </router-link>
+                                {{item && item.description ? item.description:'Некоторое название торгов'}}
+                            </router-link>
                         </div>
                         <div class="bkt-card-trade__gap bkt-wrapper-column">
+                            <div class="bkt-card__feature" v-if="item.descriptionExtracts && item.descriptionExtracts.length>1">
+                                <h6 class="bkt-card__subtitle">объектов недвижимости</h6>
+                                <h5 class="bkt-card__text bkt-text-700">
+                                    {{item.descriptionExtracts.length}}
+                                </h5>
+                            </div>
                             <div class="bkt-card__features d-none d-sm-flex" v-if="cadastralData">
                                 <div class="bkt-card__feature" v-if="cadastralData.cadastralDataArea">
-                                    <h6 class="bkt-card__subtitle">{{$t('trades.tradeSubjectType.'+cadastralData.cadastralDataAreaType)}}</h6>
+                                    <h6 class="bkt-card__subtitle">площадь</h6>
                                     <h5 class="bkt-card__text bkt-text-700">
                                         {{cadastralData.cadastralDataArea | priceFormat}}
                                         {{cadastralData.cadastralDataAreaMeasure}}
@@ -91,7 +103,7 @@
                                     {{item.description}}
                                 </h5>
                             </div>
-                            <button class="bkt-button bkt-card-trade__button bkt-card-trade__button_more d-none d-md-block"
+                            <button class="bkt-button bkt-card-trade__button bkt-card-trade__button_more d-none d-lg-block"
                                     @click="navigate"
                             >
                                 Подробнее о лоте
@@ -109,7 +121,7 @@
                                 <bkt-icon :name="'Gavel'" :color="'neutral'" :width="'14px'" :height="'14px'"></bkt-icon>
                                 <h5 class="bkt-card__text">{{item.trade && item.trade.type ? $t('trades.type.'+item.trade.type) : ''}}</h5>
                             </div>
-                            <div>
+                            <div class="bkt-wrapper-column bkt-gap-mini">
                                 <div class="bkt-wrapper-between">
                                     <!--                                 v-if="(item.state == 'biddingDeclared' || item.state == 'biddingStart'
                                                                      || item.state == 'applicationSessionStarted') && dateStatus"-->
@@ -124,30 +136,12 @@
                                         <!--                                    <span v-else-if="dateStatus && dateStatus.status === 'bidding-result'">До объявления результатов торгов</span>-->
                                     </h5>
                                     <h5 class="bkt-card__text">
-                                <span v-if="item.trade.applicationTime.end && dateStatus && dateStatus.status === 'application'">
-                                    до {{item.trade.applicationTime.end | moment('DD.MM.YYYY')}}
-                                    <span class="bkt-text-blue">
-                                        {{item.trade.applicationTime.end | moment('HH:mm')}}
-                                    </span>
-                                </span>
+                                        <span v-if="item.trade.applicationTime.end && dateStatus && dateStatus.status === 'application'">
+                                            до {{item.trade.applicationTime.end | moment('DD.MM.YYYY')}}
+                                        </span>
                                         <span v-if="item.trade.applicationTime.start && (item.state==='BiddingDeclaration' || item.state==='biddingDeclaration')">
-                                    приём заявок с {{item.trade.applicationTime.start | moment('DD.MM.YYYY')}}
-                                    <span class="bkt-text-blue">
-                                        {{item.trade.applicationTime.start | moment('HH:mm')}}
-                                    </span>
-                                </span>
-                                        <!--                                    <span v-if="item.trade.eventTime.end && dateStatus.status === 'bidding-end'">-->
-                                        <!--                                        {{item.trade.eventTime.end | moment('DD.MM.YYYY')}}-->
-                                        <!--                                        <span class="bkt-text-blue">-->
-                                        <!--                                            {{item.trade.eventTime.end | moment('HH:mm')}}-->
-                                        <!--                                        </span>-->
-                                        <!--                                    </span>-->
-                                        <!--                                    <span v-if="item.trade.eventTime.result && dateStatus.status === 'bidding-result'">-->
-                                        <!--                                        {{item.trade.eventTime.result | moment('DD.MM.YYYY')}}-->
-                                        <!--                                        <span class="bkt-text-blue">-->
-                                        <!--                                            {{item.trade.eventTime.result | moment('HH:mm')}}-->
-                                        <!--                                        </span>-->
-                                        <!--                                    </span>-->
+                                            приём заявок с {{item.trade.applicationTime.start | moment('DD.MM.YYYY')}}
+                                        </span>
                                     </h5>
                                 </div>
                                 <div class="bkt-progress-bar" :class="progressColor">
@@ -156,58 +150,60 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="bkt-card__features">
-                                <div class="bkt-card__feature" v-if="item.minPrice">
-                                    <h6 class="bkt-card__subtitle">минимальная цена</h6>
-                                    <h5 class="bkt-card__text bkt-text-700">
-                                        {{ item.minPrice | priceFormat}} ₽
-                                    </h5>
+                            <div class="bkt-card__features-wrapper">
+                                <div class="bkt-card__features d-none d-sm-flex">
+                                    <div class="bkt-card__feature" v-if="item.minPrice && item.trade.type!=='CloseAuction' && item.trade.type!=='OpenAuction'">
+                                        <h6 class="bkt-card__subtitle">минимальная цена</h6>
+                                        <h5 class="bkt-card__text bkt-text-700">
+                                            {{ item.minPrice | priceFormat}} ₽
+                                        </h5>
+                                    </div>
+                                    <div class="bkt-card__feature"
+                                         v-if="item&&item.trade&&(item.trade.type==='CloseAuction' || item.trade.type==='OpenAuction')"
+                                    >
+                                        <h6 class="bkt-card__subtitle">шаг аукциона</h6>
+                                        <h5 class="bkt-card__text bkt-text-700">
+                                            {{item.stepPrice && item.stepPrice.value ? item.stepPrice.value : '0' |
+                                            priceFormat}}
+                                            {{item.stepPrice && item.stepPrice.type=='rubles' ? '₽' : '%'}}
+                                        </h5>
+                                    </div>
+                                    <div class="bkt-card__feature" v-if="item.deposit">
+                                        <h6 class="bkt-card__subtitle">задаток</h6>
+                                        <h5 class="bkt-card__text bkt-text-red bkt-text-700">
+                                            {{item.deposit && item.deposit.value ? item.deposit.value : '0' |
+                                            priceFormat}}
+                                            {{item.deposit && item.deposit.type=='rubles' ? '₽' : '%'}}
+                                        </h5>
+                                    </div>
                                 </div>
-                                <div class="bkt-card__feature"
-                                     v-if="item&&item.trade&&(item.trade.type==='CloseAuction' || item.trade.type==='OpenAuction')"
-                                >
-                                    <h6 class="bkt-card__subtitle">шаг аукциона</h6>
-                                    <h5 class="bkt-card__text bkt-text-700">
-                                        {{item.stepPrice && item.stepPrice.value ? item.stepPrice.value : '0' |
-                                        priceFormat}}
-                                        {{item.stepPrice && item.stepPrice.type=='rubles' ? '₽' : '%'}}
-                                    </h5>
-                                </div>
-                                <div class="bkt-card__feature" v-if="item.deposit">
-                                    <h6 class="bkt-card__subtitle">задаток</h6>
-                                    <h5 class="bkt-card__text bkt-text-red bkt-text-700">
-                                        {{item.deposit && item.deposit.value ? item.deposit.value : '0' |
-                                        priceFormat}}
-                                        {{item.deposit && item.deposit.type=='rubles' ? '₽' : '%'}}
-                                    </h5>
-                                </div>
-                            </div>
-                            <div class="bkt-wrapper-between bkt-nowrap bkt-gap-small">
-                                <div class="bkt-card__feature w-100 mt-0">
-                                    <h6 class="bkt-card__subtitle">текущая цена</h6>
-                                    <h3 class="bkt-text-700 d-flex align-items-center bkt-gap-mini bkt-card-trade__price"
-                                        :class="{'bkt-text-red': item.currentPriceState=='down',
+                                <div class="bkt-wrapper-between bkt-nowrap bkt-gap-small">
+                                    <div class="bkt-card__feature w-100 mt-0">
+                                        <h6 class="bkt-card__subtitle">текущая цена</h6>
+                                        <h3 class="bkt-text-700 d-flex align-items-center bkt-gap-mini bkt-card-trade__price"
+                                            :class="{'bkt-text-red': item.currentPriceState=='down',
                                 'bkt-text-green':item.currentPriceState=='up'} "
-                                    >
-                                        {{item && item.currentPrice ? item.currentPrice : '0' | priceFormat}} ₽
-                                        <bkt-icon  v-if="item.currentPriceState!=='hold'"
-                                                   :name="'ArrowTriple'" :width="'22px'" :height="'22px'"
-                                                   :color="item.currentPriceState=='down' ? 'red' : 'green'"
-                                                   :class="{'bkt-rotate-180': item.currentPriceState=='down'}"
                                         >
-                                        </bkt-icon>
-                                    </h3>
-                                </div>
-                                <button class="bkt-button primary bkt-card-trade__button bkt-card-trade__button_buy d-none d-lg-block"
-                                        @click="sendApplication"
-                                >
-                                    Купить
-                                </button>
-                                <div class="d-lg-none">
-                                    <card-actions :item="item"  button_type="-ellipse" place="dropdown"
-                                                  @changeStatus="changeStatus" main_bg="bkt-bg-body" icon_color="main"
+                                            {{item && item.currentPrice ? item.currentPrice : '0' | priceFormat}} ₽
+                                            <bkt-icon  v-if="item.currentPriceState!=='hold'"
+                                                       :name="'ArrowTriple'" :width="'22px'" :height="'22px'"
+                                                       :color="item.currentPriceState=='down' ? 'red' : 'green'"
+                                                       :class="{'bkt-rotate-180': item.currentPriceState=='down'}"
+                                            >
+                                            </bkt-icon>
+                                        </h3>
+                                    </div>
+                                    <button class="bkt-button primary bkt-card-trade__button bkt-card-trade__button_buy d-none d-lg-block"
+                                            @click="sendApplication"
                                     >
-                                    </card-actions>
+                                        Купить
+                                    </button>
+                                    <div class="d-lg-none">
+                                        <card-actions :item="item"  button_type="-ellipse m-0" place="dropdown"
+                                                      @changeStatus="changeStatus" main_bg="bkt-bg-body" icon_color="main"
+                                        >
+                                        </card-actions>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -270,7 +266,7 @@
         },
         computed: {
             cadastralData() {
-                if (this.item.descriptionExtracts && this.item.descriptionExtracts.length > 0) {
+                if (this.item.descriptionExtracts && this.item.descriptionExtracts.length >= 1) {
                     let tmp = this.item.descriptionExtracts.filter(el => {
                         if (el.extracts.length > 0) {
                             let index_price = el.extracts.findIndex(item => item.type == 'cadastralDataPrice' && item.value && item.value != 0);

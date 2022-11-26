@@ -6,7 +6,7 @@
              'd-lg-none': action.place !== 'dropdown' && type ==='menu'}"
              v-if="!action.condition || (action.condition && item[action.status]==true)"
         >
-            <div v-tooltip="item[action.status] && action.status_icon ? action.status_label : action.label"
+            <div v-tooltip="type ==='menu' ? '' : (item[action.status] && action.status_icon ? action.status_label : action.label)"
                  class="bkt-cursor-pointer"
                 :class="[
                      type ==='menu' ? '' : (item[action.status] ? 'bkt-bg-'+action.color : main_bg),
@@ -35,6 +35,7 @@
             </div>
             <div v-show="action.dropdown_id && ((action.status && item[action.status]) || !action.status)"
                  class="dropdown-menu dropdown-menu-end dropdown-menu-right bkt-dropdown__menu bkt-dropdown__menu_neutral"
+                 :class="{'bkt-dropdown__menu_pointed':type!=='menu'}"
                  aria-labelledby="dropdownMenuClickableOutside"
             >
                 <template v-if="action.dropdown_id==='inFavourite'">
@@ -60,7 +61,7 @@
                 <template v-if="action.dropdown_id==='shareDropdown'">
                     <skeleton :count="networks.length" v-if="!item.id" height="38px" skeleton_class="mb-1"></skeleton>
                     <div class="bkt-dropdown__menu-item bkt-wrapper-between bkt-cursor-pointer"
-                         v-for="network in networks" v-else
+                         :class="{'mb-1':type!=='menu'}" v-for="network in networks" v-else
                     >
                         <ShareNetwork
                             :network="network.network"
@@ -78,8 +79,8 @@
                             </span>
 <!--                    </div>-->
                             <div class="bkt-dropdown__menu-text">
-                            {{ network.name }}
-                        </div>
+                                {{ network.name }}
+                            </div>
                         </ShareNetwork>
                     </div>
                 </template>
@@ -92,7 +93,7 @@
                 <bkt-icon class="bkt-button__icon mx-auto" name="More" :color="icon_color"></bkt-icon>
             </button>
             <div class="dropdown-menu dropdown-menu-end bkt-dropdown__menu_menu bkt-dropdown__menu bkt-dropdown__menu_body">
-                <card-actions :item="item" type="menu" @changeStatus="changeStatus" icon_color="main"
+                <card-actions :item="item" type="menu" @changeStatus="emitChange" icon_color="main"
                 ></card-actions>
                 <hr class="dropdown-divider">
                 <div class="bkt-dropdown__menu-item" @click="changeStatus({icon:'Hide', type:'hide', status:'isHide'})">
@@ -388,7 +389,7 @@
                 if (this.isLoggedIn) {
                     let url = 'changeTradeLotStatus';
                     this.toggleProcess(payload.icon);
-                    if(payload.icon == 'HideAll') {
+                    if(payload.icon === 'HideAll') {
                         url = 'changeRelatedLotsStatus';
                     }
                     this.$store.dispatch(url, {lotId: this.item.id, type: payload.type})
@@ -411,7 +412,7 @@
                             this.$emit('changeStatus', {
                                 key: payload.status,
                                 value: !this.item[payload.status],
-                                lotId: this.item.id
+                                lotId: this.item.id,
                             })
                         })
                         .finally(() => {
@@ -461,7 +462,7 @@
                                 key: 'favouritePaths',
                                 value: [this.favourites_paths[0]]
                             }, {root: true});
-                            this.$emit('changeStatus', {key: 'inFavourite', value: !this.item.inFavourite});
+                            this.$emit('changeStatus', {key: 'inFavourite', value: !this.item.inFavourite, icon:payload.icon});
                             let index = this.actions.findIndex(item => item.icon ==='Star');
                             if (index>=0) {
                                 this.actions[index].color = this.favourite_color;
@@ -536,6 +537,9 @@
                     this.in_process.push(icon);
                 }
             },
+            emitChange(payload) {
+                this.$emit('changeStatus', payload)
+            }
         }
     }
 </script>

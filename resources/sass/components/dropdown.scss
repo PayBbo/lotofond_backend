@@ -106,7 +106,7 @@
             padding: 24px 0;
             width: 275px;
             border-radius: 16px;
-            & .bkt-dropdown__menu-item {
+            & div > .bkt-dropdown__menu-item, & > .bkt-dropdown__menu-item {
                 padding: 8px 24px;
                 font-size: 14px;
                 font-weight: 500;
@@ -115,10 +115,10 @@
             }
             & .bkt-dropdown__menu-icon {
                 border-radius: 50%;
-                width: initial;
+                width: 16px;
                 height: 16px;
                 padding: 0;
-                display: block;
+                display: flex;
                 & .bkt-button__icon {
                     display: flex;
                 }
