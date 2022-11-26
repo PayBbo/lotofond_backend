@@ -19,7 +19,7 @@
 
     &__label {
         font-size: 14px;
-        font-family: "Gilroy";
+        font-family: $font-family-sans-serif;
         color: rgb(45, 50, 68);
         font-weight: bold;
         line-height: 1.286;
@@ -49,7 +49,7 @@
 
         &__label {
             font-size: 10px;
-            font-family: "Gilroy";
+            font-family: $font-family-sans-serif;
             color: rgb(45, 50, 68);
             font-weight: bold;
             line-height: 2.2;

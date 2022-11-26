@@ -1,33 +1,90 @@
 .bkt-card-trade {
-    margin: 18px 0;
+    padding: 32px;
 
     &__wrapper {
-        gap: 25px 0;
+        margin: 25px 0;
     }
 
-    & .bkt-card__title {
-        font-size: 16px;
+    &__gap {
+        gap: 10px 0;
     }
 
-    & .bkt-card.vertical {
-        margin: 0;
-        width: 76px;
+    & .bkt-card {
+        &__head {
+            margin-bottom: 10px !important;
+        }
+        &__title {
+            font-size: 16px;
+        }
+        &__features {
+            display: flex;
+            align-items:flex-start;
+            gap: 12px;
+        }
+        &__feature {
+            margin-top: 0px;
+        }
+        &__image {
+            &-slider {
+                max-height: 160px;
+                min-height: 130px;
+                & .hooper-prev, & .hooper-next {
+                    border-radius: 10px;
+                    background-color: rgb(255, 255, 255);
+                    width: 30px;
+                    height: 30px;
+                    display: flex;
+                    padding: 7px;
+                    align-items: center;
+                    justify-content: center;
 
-        & .bkt-button-ellipse {
-            margin: 3px;
-            width: 44px;
-            height: 44px;
+                    & svg {
+                        fill: $primary-default;
+                    }
+                }
 
-            &:hover {
-                background: $yellow-default;
+                & .hooper-next {
+                    right: 10px;
+                }
+
+                & .hooper-prev {
+                    left: 10px;
+                }
             }
-
-            &:last-child:hover {
-                background: transparent;
+            &-category {
+                max-height: 160px;
+                min-height: 130px;
+                padding: 20px;
+            }
+            &-wrapper {
+                gap: 25px;
+                display: flex;
+                flex-flow: column;
             }
         }
-    }
+        &.vertical {
+            margin: 0;
+            width: 76px;
 
+            & .bkt-button-ellipse {
+                margin: 3px;
+                width: 44px;
+                height: 44px;
+
+                &:hover {
+                    background: $yellow-default;
+                }
+
+                &:last-child:hover {
+                    background: transparent;
+                }
+            }
+        }
+        &__subtitle {
+            font-weight: 400;
+            text-transform: lowercase;
+        }
+    }
     &__cadastral-info {
         gap: 6px;
 
@@ -110,8 +167,8 @@
     }
 
     &__price {
-        font-size: 25px;
-        font-family: "Gilroy";
+        font-size: 26px;
+        font-family: $font-family-sans-serif;
         font-weight: 700;
         color: inherit;
 
@@ -155,6 +212,23 @@
             line-height: 1.2;
             -webkit-box-shadow: 0px 11px 15px 0px rgba(13, 85, 21, 0.15);
             box-shadow: 0px 11px 15px 0px rgba(13, 85, 21, 0.15);
+        }
+    }
+
+    &__button {
+        border-radius: 8px;
+        font-weight: 700;
+        font-size: 14px;
+        &_more {
+            padding: 11px 9.5px;
+            max-width: 150px;
+            background: $primary-lighter;
+            color: $primary;
+        }
+        &_egrn {
+            padding: 14px 19px;
+            background: $primary-lighter;
+            color: $primary;
         }
     }
 
@@ -222,42 +296,6 @@
         }
     }
 
-    & .bkt-card__image-slider {
-        max-height: 160px;
-        min-height: 130px;
-        & .hooper-prev, & .hooper-next {
-            border-radius: 10px;
-            background-color: rgb(255, 255, 255);
-            width: 30px;
-            height: 30px;
-            display: flex;
-            padding: 7px;
-            align-items: center;
-            justify-content: center;
-
-            & svg {
-                fill: $primary-default;
-            }
-        }
-
-        & .hooper-next {
-            right: 10px;
-        }
-
-        & .hooper-prev {
-            left: 10px;
-        }
-    }
-    & .bkt-card__image-category {
-        max-height: 160px;
-        min-height: 130px;
-    }
-    & .bkt-card__image-wrapper {
-        gap: 25px;
-        display: flex;
-        flex-flow: column;
-    }
-
     & .bkt-card-ecp-wrapper {
         gap: 10px;
         flex-wrap: nowrap;
@@ -267,6 +305,18 @@
             flex-grow: 1;
         }
     }
+
+    & .bkt-progress-bar {
+        border-radius: 8px;
+        height: 10px;
+        width: 100%;
+        overflow: hidden;
+        &__progress {
+            background: $primary;
+            height: 100%;
+        }
+    }
+
 }
 
 .bkt-card-win {
@@ -282,7 +332,7 @@
 
     & .bkt-card__title {
         font-size: 22px;
-        font-family: "Gilroy";
+        font-family: $font-family-sans-serif;
         font-weight: bold;
         line-height: 1.182;
     }
@@ -292,7 +342,7 @@
 
         & .bkt-card-price__title {
             font-size: 30px;
-            font-family: "Gilroy";
+            font-family: $font-family-sans-serif;
             color: rgb(47, 187, 64);
             font-weight: bold;
             line-height: 1.2;
@@ -448,8 +498,341 @@
         }
     }
 }
+
+@media screen and (min-width: 1200px) {
+    .bkt-card-trade {
+        & .bkt-card__image-slider {
+            & .hooper-prev, & .hooper-next {
+                border-radius: 10px;
+                width: 30px;
+                height: 30px;
+                display: flex;
+                padding: 7px;
+                top: auto;
+                bottom: 15px;
+                transform: none;
+            }
+
+            & .hooper-next {
+                right: 15px;
+            }
+
+            & .hooper-prev {
+                right: 61px;
+                left: auto;
+            }
+
+            & .slick-arrow {
+                border-radius: 10px;
+                width: 30px;
+                height: 30px;
+                display: flex;
+                padding: 7px;
+                top: auto;
+                bottom: 15px;
+                transform: none;
+            }
+
+            & .slick-next {
+                right: 15px;
+            }
+
+            & .slick-prev {
+                right: 61px;
+                left: auto;
+            }
+        }
+    }
+    .bkt-card-trade-mini {
+        & .bkt-card__image-slider {
+            & .hooper-prev, & .hooper-next {
+                border-radius: 10px;
+                width: 30px;
+                height: 30px;
+                display: flex;
+                padding: 7px;
+                top: auto;
+                bottom: 15px;
+                transform: none;
+            }
+
+            & .hooper-next {
+                right: 15px;
+            }
+
+            & .hooper-prev {
+                right: 61px;
+                left: auto;
+            }
+
+            & .slick-arrow, & .custom-arrow {
+                border-radius: 10px;
+                width: 30px;
+                height: 30px;
+                display: flex;
+                padding: 7px;
+                top: auto;
+                bottom: 15px;
+                transform: none;
+            }
+
+            & .slick-next {
+                right: 15px;
+            }
+
+            & .slick-prev {
+                right: 61px;
+                left: auto;
+            }
+        }
+    }
+}
+
+@media screen and (max-width: 1200px) {
+    .bkt-card-trade {
+        &__price {
+            font-size: 18px;
+            font-family: $font-family-sans-serif, SansSerif;
+            font-weight: 700;
+            //padding: 15px 40px;
+            //position: relative;
+
+
+            //color: rgb(255, 255, 255);
+            line-height: 1;
+            text-align: center;
+
+            &-wrapper {
+                width: 230px;
+                height: 44px;
+                border-radius: 13px;
+            }
+
+            &-icon {
+                //position: absolute;
+                //right: 6px;
+                //top: 6px;
+                //bottom: 6px;
+                border-radius: 10px;
+                width: 46px;
+                height: 32px;
+                text-align: center;
+                line-height: 1.2;
+                -webkit-box-shadow: 0px 11px 15px 0px rgba(13, 85, 21, 0.15);
+                box-shadow: 0px 11px 15px 0px rgba(13, 85, 21, 0.15);
+
+            }
+        }
+
+        & .bkt-card.outline {
+            padding: 12px 20px;
+        }
+    }
+
+}
+
+@media screen and (max-width: 991px) {
+    .bkt-card-trade {
+        //border-top-left-radius: 0;
+        //border-top-right-radius: 0;
+        //border-bottom-left-radius: 18px;
+        //border-bottom-right-radius: 18px;
+        border-radius: 25px;
+        padding: 25px;
+        //margin: 10px 0 !important;
+        &__icon
+        {
+            width: 22px;
+            height: 22px;
+            min-width: 14px;
+            min-height: 14px;
+        }
+
+        & .bkt-card {
+            &__heading {
+                //border-top-left-radius: 18px;
+                //border-top-right-radius: 18px;
+                //background: $primary-default;
+                //color: white;
+                background: transparent;
+                color: #3E4959;
+                padding: 11px 24px;
+                font-size: 8px;
+
+                & h5 {
+                    font-size: 10px;
+                    margin: 0;
+                }
+            }
+            &__title {
+                font-size: 15px;
+            }
+            &__image {
+                height: 84px;
+                width: 84px;
+                &-category {
+                    min-height: 84px;
+                    max-height: 84px;
+                    width: 84px;
+                }
+                &-slider {
+                    height: 84px;
+                }
+            }
+        }
+
+        &.outline {
+            padding: 12px 20px;
+        }
+
+        & .bkt-card-menu-button {
+            width: 32px !important;
+            height: 32px !important;
+            padding: 7px !important;
+        }
+
+    }
+}
+
+@media screen and (min-width: 768px) {
+    .bkt-card-trade-mini {
+        & .bkt-card__image-slider {
+            & .hooper-prev, & .hooper-next {
+                border-radius: 10px;
+                width: 30px;
+                height: 30px;
+                display: flex;
+                padding: 7px;
+                top: auto;
+                bottom: 15px;
+                transform: none;
+            }
+
+            & .hooper-next {
+                right: 15px;
+            }
+
+            & .hooper-prev {
+                right: 61px;
+                left: auto;
+            }
+
+            & .slick-arrow, & .custom-arrow {
+                border-radius: 10px;
+                width: 30px;
+                height: 30px;
+                display: flex;
+                padding: 7px;
+                top: auto;
+                bottom: 15px;
+                transform: none;
+            }
+
+            & .slick-next {
+                right: 15px;
+            }
+
+            & .slick-prev {
+                right: 61px;
+                left: auto;
+            }
+        }
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .bkt-card-trade {
+        & .bkt-card__head {
+            margin-bottom: 0 !important;
+        }
+    }
+    .bkt-card-win {
+        & .bkt-card-price-wrapper {
+            text-align: left;
+        }
+    }
+    .bkt-card-trade-short {
+        & > * {
+            padding:0;
+        }
+        & .bkt-card-trade-mini__organizer, .bkt-card-trade-mini__image {
+            display: none;
+        }
+
+        & .bkt-card-trade-mini__price, .bkt-card-trade-mini__dates {
+            width: 50%;
+            & .bkt-card__subtitle {
+                display: none;
+            }
+        }
+        & .bkt-card-trade-mini__price {
+            & .bkt-card__title {
+                font-size: 12px;
+            }
+        }
+        .bkt-card-trade-mini__dates {
+            color: $green-default;
+            & h6 {
+                font-size: 10px;
+            }
+            & div h6:last-child {
+                display: none;
+            }
+        }
+    }
+    .bkt-card-trade-mini {
+        & .bkt-card__image {
+            height: 160px;
+            &-category {
+                height: 160px;
+            }
+            &-slider {
+                height: 160px;
+            }
+        }
+    }
+}
+
 @media screen and (max-width: 568px) {
     .bkt-card-trade {
+        border-radius: 12px;
+        padding: 16px;
+        & .bkt-card {
+            &__head {
+                flex-wrap: nowrap;
+
+                & .bkt-card__title {
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    white-space: nowrap;
+                    display: block;
+                }
+            }
+            &__heading {
+                padding: 11px 16px;
+            }
+            &__title {
+                font-size: 14px;
+            }
+            &__subtitle {
+                font-size: 10px;
+            }
+            &__text {
+                font-size: 12px;
+            }
+            &__image {
+                height: 70px;
+                width: 70px;
+                &-category {
+                    min-height: 70px;
+                    max-height: 70px;
+                    width: 70px;
+                }
+                &-slider {
+                    height: 70px;
+                }
+            }
+        }
         & .bkt-card-ecp-wrapper {
             //gap: 20px;
             width: 100%;
@@ -457,7 +840,7 @@
 
             & .bkt-card-ecp {
                 font-size: 10px;
-                font-family: "Gilroy";
+                font-family: $font-family-sans-serif;
                 color: rgb(255, 255, 255);
                 font-weight: 700;
                 line-height: 1.2;
@@ -466,33 +849,13 @@
             }
         }
 
-        & .bkt-card__head {
-            flex-wrap: nowrap;
-
-            & .bkt-card__title {
-                overflow: hidden;
-                text-overflow: ellipsis;
-                white-space: nowrap;
-                display: block;
-            }
+        &__gap {
+            gap: 8px 0;
         }
-
-        &__wrapper {
-            gap: 20px 0;
-        }
-
-        & .bkt-card__image {
-            height: 136px;
-            &-category {
-                min-height: 136px;
-                max-height: 136px;
-            }
-            &-slider {
-                height: 136px;
-            }
-            &-wrapper {
-                gap: 20px 0;
-            }
+        &__icon
+        {
+            max-width: 14px;
+            max-height: 14px;
         }
         & .bkt-card-infographics {
             & .bkt-card {
@@ -540,6 +903,14 @@
                     padding: 8px;
                 }
             }
+        }
+        &__price {
+            font-size: 20px;
+        }
+        &__button_buy {
+            font-size:12px;
+            padding:10px;
+            width: 100%;
         }
 
     }
@@ -634,273 +1005,4 @@
         }
     }
 
-}
-
-@media screen and (max-width: 768px) {
-    .bkt-card-trade {
-        & .bkt-card__head {
-           margin-bottom: 0 !important;
-        }
-    }
-    .bkt-card-win {
-        & .bkt-card-price-wrapper {
-            text-align: left;
-        }
-    }
-    .bkt-card-trade-short {
-        & > * {
-            padding:0;
-        }
-        & .bkt-card-trade-mini__organizer, .bkt-card-trade-mini__image {
-            display: none;
-        }
-
-        & .bkt-card-trade-mini__price, .bkt-card-trade-mini__dates {
-            width: 50%;
-            & .bkt-card__subtitle {
-                display: none;
-            }
-        }
-        & .bkt-card-trade-mini__price {
-            & .bkt-card__title {
-                font-size: 12px;
-            }
-        }
-        .bkt-card-trade-mini__dates {
-            color: $green-default;
-            & h6 {
-                font-size: 10px;
-            }
-            & div h6:last-child {
-                display: none;
-            }
-        }
-    }
-    .bkt-card-trade-mini {
-        & .bkt-card__image {
-            height: 160px;
-            &-category {
-                height: 160px;
-            }
-            &-slider {
-                height: 160px;
-            }
-        }
-    }
-}
-@media screen and (min-width: 768px) {
-    .bkt-card-trade-mini {
-        & .bkt-card__image-slider {
-            & .hooper-prev, & .hooper-next {
-                border-radius: 10px;
-                width: 30px;
-                height: 30px;
-                display: flex;
-                padding: 7px;
-                top: auto;
-                bottom: 15px;
-                transform: none;
-            }
-
-            & .hooper-next {
-                right: 15px;
-            }
-
-            & .hooper-prev {
-                right: 61px;
-                left: auto;
-            }
-
-            & .slick-arrow, & .custom-arrow {
-                border-radius: 10px;
-                width: 30px;
-                height: 30px;
-                display: flex;
-                padding: 7px;
-                top: auto;
-                bottom: 15px;
-                transform: none;
-            }
-
-            & .slick-next {
-                right: 15px;
-            }
-
-            & .slick-prev {
-                right: 61px;
-                left: auto;
-            }
-        }
-    }
-}
-
-@media screen and (max-width: 991px) {
-    .bkt-card-trade {
-        border-top-left-radius: 0;
-        border-top-right-radius: 0;
-        border-bottom-left-radius: 18px;
-        border-bottom-right-radius: 18px;
-        padding: 25px;
-        //margin: 10px 0 !important;
-        & .bkt-card__title {
-            font-size: 15px;
-        }
-
-        &.outline {
-            padding: 12px 20px;
-        }
-
-        & .bkt-card__heading {
-            border-top-left-radius: 18px;
-            border-top-right-radius: 18px;
-            background: $primary-default;
-            color: white;
-            padding: 11px 24px;
-            font-size: 8px;
-
-            & h5 {
-                font-size: 10px;
-                margin: 0;
-            }
-        }
-
-        & .bkt-card-menu-button {
-            width: 32px !important;
-            height: 32px !important;
-            padding: 7px !important;
-        }
-
-    }
-}
-
-@media screen and (max-width: 1200px) {
-    .bkt-card-trade {
-        &__price {
-            font-size: 18px;
-            font-family: "Gilroy", SansSerif;
-            font-weight: 700;
-            //padding: 15px 40px;
-            //position: relative;
-
-
-            //color: rgb(255, 255, 255);
-            line-height: 1;
-            text-align: center;
-
-            &-wrapper {
-                width: 230px;
-                height: 44px;
-                border-radius: 13px;
-            }
-
-            &-icon {
-                //position: absolute;
-                //right: 6px;
-                //top: 6px;
-                //bottom: 6px;
-                border-radius: 10px;
-                width: 46px;
-                height: 32px;
-                text-align: center;
-                line-height: 1.2;
-                -webkit-box-shadow: 0px 11px 15px 0px rgba(13, 85, 21, 0.15);
-                box-shadow: 0px 11px 15px 0px rgba(13, 85, 21, 0.15);
-
-            }
-        }
-
-        & .bkt-card.outline {
-            padding: 12px 20px;
-        }
-    }
-
-}
-
-@media screen and (min-width: 1200px) {
-    .bkt-card-trade {
-        & .bkt-card__image-slider {
-            & .hooper-prev, & .hooper-next {
-                border-radius: 10px;
-                width: 30px;
-                height: 30px;
-                display: flex;
-                padding: 7px;
-                top: auto;
-                bottom: 15px;
-                transform: none;
-            }
-
-            & .hooper-next {
-                right: 15px;
-            }
-
-            & .hooper-prev {
-                right: 61px;
-                left: auto;
-            }
-
-            & .slick-arrow {
-                border-radius: 10px;
-                width: 30px;
-                height: 30px;
-                display: flex;
-                padding: 7px;
-                top: auto;
-                bottom: 15px;
-                transform: none;
-            }
-
-            & .slick-next {
-                right: 15px;
-            }
-
-            & .slick-prev {
-                right: 61px;
-                left: auto;
-            }
-        }
-    }
-    .bkt-card-trade-mini {
-        & .bkt-card__image-slider {
-            & .hooper-prev, & .hooper-next {
-                border-radius: 10px;
-                width: 30px;
-                height: 30px;
-                display: flex;
-                padding: 7px;
-                top: auto;
-                bottom: 15px;
-                transform: none;
-            }
-
-            & .hooper-next {
-                right: 15px;
-            }
-
-            & .hooper-prev {
-                right: 61px;
-                left: auto;
-            }
-
-            & .slick-arrow, & .custom-arrow {
-                border-radius: 10px;
-                width: 30px;
-                height: 30px;
-                display: flex;
-                padding: 7px;
-                top: auto;
-                bottom: 15px;
-                transform: none;
-            }
-
-            & .slick-next {
-                right: 15px;
-            }
-
-            & .slick-prev {
-                right: 61px;
-                left: auto;
-            }
-        }
-    }
 }

@@ -23,7 +23,6 @@
     "/js/text-data.js": "/js/text-data.js",
     "/js/text-data-edit.js": "/js/text-data-edit.js",
     "/js/lots.js": "/js/lots.js",
-    "/css/app.css": "/css/app.css",
     "/js/roles.js": "/js/roles.js",
-    "/js/permissions.js": "/js/permissions.js"
+    "/css/app.css": "/css/app.css"
 }

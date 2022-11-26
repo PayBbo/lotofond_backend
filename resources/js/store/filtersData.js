@@ -190,11 +190,12 @@ export default {
                     data: {},
                 })
                     .then((response) => {
-                        commit('setCategories', response.data);
+                        commit('setCategories', response.data.sort(function (one, other) {
+                            return other.subcategories.length - one.subcategories.length;
+                        }))
                         commit('saveFilterDataProperty', {filter: 'categories', key: 'loading', value: false});
                     }).catch(error => {
                         commit('saveFilterDataProperty', {filter: 'categories', key: 'loading', value: false});
-
                     });
             }
         },

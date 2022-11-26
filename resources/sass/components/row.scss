@@ -24,14 +24,14 @@
         flex-direction: column;
         &-subtitle {
             //font-size: 12px;
-            font-family: "Gilroy", sans-serif;
+            font-family: $font-family-sans-serif;
             color: rgba(45, 50, 68, 0.4);
             line-height: 1.833;
             margin: 0;
         }
         &-title {
             //font-size: 18px;
-            font-family: "Gilroy", sans-serif;
+            font-family: $font-family-sans-serif;
             color: rgb(45, 50, 68);
             font-weight: 700;
             line-height: 1.222;
@@ -39,7 +39,7 @@
         }
         &-text {
             //font-size: 14px;
-            font-family: "Gilroy", sans-serif;
+            font-family: $font-family-sans-serif;
             color: $main-default;
             line-height: 1.571;
             margin: 0;

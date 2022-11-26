@@ -32,8 +32,8 @@
                     "transportAndEquipment": "orange",
                     "agriculturaProperty": "blue",
                     "tangibles": "yellow",
-                    "productionLines": "pink",
-                    "obligations": "purple",
+                    "productionLines": "purple",
+                    "obligations": "teal",
                     "accountsReceivable": "primary",
                 },
                 categories_icons: [
@@ -77,13 +77,13 @@
                         "label": "Производственные линии",
                         "key": "productionLines",
                         icon: 'MechanicalArm',
-                        color: 'pink'
+                        color: 'purple'
                     },
                     {
                         "label": "Ценные бумаги",
                         "key": "obligations",
                         icon: 'File',
-                        color: 'purple'
+                        color: 'teal'
                     },
                     {
                         "label": "Дебиторская задолженность",

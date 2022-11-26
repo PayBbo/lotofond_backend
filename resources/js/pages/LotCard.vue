@@ -282,20 +282,20 @@
                             <h5 class="bkt-card__title bkt-text-truncate">
                                 {{item && item.description ? item.description:'Некоторое название торгов'}}
                             </h5>
-                            <div class="dropdown d-block d-lg-none">
-                                <button class="bkt-button bkt-bg-primary-lighter bkt-card-menu-button" type="button"
-                                        id="dropdownMenuClickableOutside" data-bs-toggle="dropdown"
-                                        data-bs-offset="10,20" data-bs-display="static"
-                                        data-bs-auto-close="outside" aria-expanded="false">
-                                    <bkt-icon :name="'More'"></bkt-icon>
-                                </button>
-                                <div class="bkt-card-menu m-0 dropdown-menu dropdown-menu-end position-absolute"
-                                     aria-labelledby="dropdownMenuClickableOutside"
-                                >
-                                    <bkt-card-actions :item="item" type="menu" place="lot-card"
-                                                      @changeStatus="changeStatus"
-                                                      class="bkt-card-menu-inner"></bkt-card-actions>
-                                </div>
+                            <div class="d-block d-lg-none">
+<!--                                <button class="bkt-button bkt-bg-primary-lighter bkt-card-menu-button" type="button"-->
+<!--                                        id="dropdownMenuClickableOutside" data-bs-toggle="dropdown"-->
+<!--                                        data-bs-offset="10,20" data-bs-display="static"-->
+<!--                                        data-bs-auto-close="outside" aria-expanded="false">-->
+<!--                                    <bkt-icon :name="'More'"></bkt-icon>-->
+<!--                                </button>-->
+<!--                                <div class="bkt-card-menu m-0 dropdown-menu dropdown-menu-end position-absolute"-->
+<!--                                     aria-labelledby="dropdownMenuClickableOutside"-->
+<!--                                >-->
+                                    <bkt-card-actions :item="item" place="lot-card" @changeStatus="changeStatus"
+                                                      button_type="-ellipse" main_bg="bkt-bg-body" icon_color="main"
+                                    ></bkt-card-actions>
+<!--                                </div>-->
                             </div>
                             <!--                        <button class="bkt-button bkt-bg-primary-lighter bkt-card-menu-button">-->
                             <!--                            <bkt-icon :name="'More'"></bkt-icon>-->

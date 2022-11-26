@@ -57,7 +57,7 @@
 
         &-text {
             font-size: 14px;
-            font-family: "Gilroy", sans-serif;
+            font-family: $font-family-sans-serif;
             font-weight: 500;
             color: rgb(45, 50, 68);
             line-height: 1.571;
@@ -102,11 +102,46 @@
             }
         }
 
+        &_menu {
+            padding: 24px 0;
+            width: 275px;
+            border-radius: 16px;
+            & .bkt-dropdown__menu-item {
+                padding: 8px 24px;
+                font-size: 14px;
+                font-weight: 500;
+                line-height: 20px;
+                color: #3E4959;
+            }
+            & .bkt-dropdown__menu-icon {
+                border-radius: 50%;
+                width: initial;
+                height: 16px;
+                padding: 0;
+                display: block;
+                & .bkt-button__icon {
+                    display: flex;
+                }
+            }
+            & .dropdown-divider {
+                height: 2px;
+                background: #E2E5EE;
+            }
+        }
+
         &_neutral {
             background-color: #eff2fb;
 
             &::before {
                 border-color: transparent #eff2fb transparent transparent;
+            }
+        }
+
+        &_body {
+            background-color: $body-bg;
+
+            &::before {
+                border-color: transparent $body-bg transparent transparent;
             }
         }
     }

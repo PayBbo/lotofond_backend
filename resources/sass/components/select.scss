@@ -28,7 +28,7 @@
 
         &__label {
             font-size: 14px;
-            font-family: "Gilroy", sans-serif;
+            font-family: $font-family-sans-serif;
             color: rgb(45, 50, 68);
             font-weight: 600;
             line-height: 1.571;
@@ -783,7 +783,7 @@
         //}
 
         & .vs__dropdown-toggle {
-            font-family: 'Gilroy';
+            font-family: $font-family-sans-serif;
             color: $main-default;
             position: relative;
             width: 100%;
@@ -864,7 +864,7 @@
 }
 
 .bkt-v-select__wrapper-material {
-    font-family: 'Gilroy';
+    font-family: $font-family-sans-serif;
     position: relative;
     width: 100%;
     height: 60px;

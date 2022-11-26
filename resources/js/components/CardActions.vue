@@ -1,53 +1,40 @@
 <template>
     <div>
-        <div class="bkt-dropdown dropdown" v-for="action in actions"
+        <div class="bkt-dropdown dropdown" v-for="action in main_actions"
+             :class="{'bkt-dropdown__menu-item bkt-gap-small': type ==='menu',
+             'd-none d-lg-block': action.place !== 'dropdown' && type !=='menu',
+             'd-lg-none': action.place !== 'dropdown' && type ==='menu'}"
              v-if="!action.condition || (action.condition && item[action.status]==true)"
         >
-            <button
-                :class="['bkt-button'+button_type, item[action.status] ? 'bkt-bg-'+action.color : main_bg,
-                 action.color ? 'bkt-hover-'+action.color : 'bkt-hover-'+main_bg, action.class]"
+            <div v-tooltip="item[action.status] && action.status_icon ? action.status_label : action.label"
+                 class="bkt-cursor-pointer"
+                :class="[
+                     type ==='menu' ? '' : (item[action.status] ? 'bkt-bg-'+action.color : main_bg),
+                     type ==='menu' ? '' : (action.color ? 'bkt-hover-'+action.color : 'bkt-hover-'+main_bg),
+                     type ==='menu' ? 'd-flex bkt-gap-small align-items-center' : 'bkt-button'+button_type, action.class
+                ]"
                 @click="makeAction(action.method, action.method_params, action.icon)"
                 :id="action.dropdown_id ? action.dropdown_id : 'button-dropdown-'+action.icon"
                 :data-bs-toggle="action.dropdown_id && ((action.status && item[action.status]) || !action.status) ? 'dropdown' : ''"
                 :disabled="in_process.indexOf(action.icon)>=0"
             >
-                <span v-if="in_process.indexOf(action.icon)>=0"
-                      :class="{'bkt-text-main' : type==='menu'}"
-                      class="spinner-border spinner-border-sm flex-shrink-0" role="status">
-                </span>
-                <!--                <template v-if="action.status_icon">-->
-                <!--                    <bkt-icon v-show="in_process.indexOf(action.icon)<0 && item[action.status]"-->
-                <!--                              class="bkt-button__icon" :name="action.status_icon"-->
-                <!--                              :color="type==='menu' && !item[action.status] ? action.color : 'white'">-->
-                <!--                    </bkt-icon>-->
-                <!--                    <bkt-icon v-show="in_process.indexOf(action.icon)<0 && !item[action.status]"-->
-                <!--                              class="bkt-button__icon" :name="action.icon"-->
-                <!--                              :color="type==='menu' && !item[action.status] ? action.color : 'white'">-->
-                <!--                        -->
-                <!--                    </bkt-icon>-->
-                <!--                </template>-->
-                <!--                <template v-else>-->
-                <!--                    <bkt-icon v-show="in_process.indexOf(action.icon)<0"-->
-                <!--                              class="bkt-button__icon" :name="action.icon"-->
-                <!--                              :color="type==='menu' && !item[action.status] ? action.color : 'white'">-->
-                <!--                    </bkt-icon>-->
-                <!--                </template>-->
-                <bkt-icon v-if="in_process.indexOf(action.icon)<0 "
-                          class="bkt-button__icon"
-                          :name="item[action.status] && action.status_icon ? action.status_icon : action.icon"
-                          :color="type==='menu' && !item[action.status] ? action.color : (item[action.status] ? 'white' : icon_color)">
-                </bkt-icon>
-                <!--                    <bkt-icon v-show="in_process.indexOf(action.icon)<0 && !action.status_icon"-->
-                <!--                              class="bkt-button__icon" :name="action.icon"-->
-                <!--                              :color="type==='menu' && !item[action.status] ? action.color : 'white'">-->
-                <!--                    </bkt-icon>-->
-
-                <span v-if="type==='menu'">
+                <div :class="{'bkt-dropdown__menu-icon':type==='menu'}">
+                    <span v-if="in_process.indexOf(action.icon)>=0"
+                          :class="{'bkt-text-main' : type==='menu'}"
+                          class="spinner-border spinner-border-sm flex-shrink-0" role="status">
+                    </span>
+                    <bkt-icon v-if="in_process.indexOf(action.icon)<0 "
+                              class="bkt-button__icon"
+                              :name="item[action.status] && action.status_icon ? action.status_icon : action.icon"
+                              :color="type==='menu' ? 'main' : (item[action.status] ? 'white' : icon_color)">
+                    </bkt-icon>
+                </div>
+                <div class="bkt-dropdown__menu-text" v-if="type==='menu'">
                     {{item[action.status] && action.status_icon ? action.status_label : action.label}}
-                </span>
-            </button>
+                </div>
+            </div>
             <div v-show="action.dropdown_id && ((action.status && item[action.status]) || !action.status)"
-                 class="dropdown-menu dropdown-menu-end dropdown-menu-right bkt-dropdown__menu bkt-dropdown__menu_pointed bkt-dropdown__menu_neutral"
+                 class="dropdown-menu dropdown-menu-end dropdown-menu-right bkt-dropdown__menu bkt-dropdown__menu_neutral"
                  aria-labelledby="dropdownMenuClickableOutside"
             >
                 <template v-if="action.dropdown_id==='inFavourite'">
@@ -72,7 +59,7 @@
                 </template>
                 <template v-if="action.dropdown_id==='shareDropdown'">
                     <skeleton :count="networks.length" v-if="!item.id" height="38px" skeleton_class="mb-1"></skeleton>
-                    <div class="bkt-dropdown__menu-item bkt-wrapper-between bkt-cursor-pointer mb-1"
+                    <div class="bkt-dropdown__menu-item bkt-wrapper-between bkt-cursor-pointer"
                          v-for="network in networks" v-else
                     >
                         <ShareNetwork
@@ -98,15 +85,44 @@
                 </template>
             </div>
         </div>
-        <div class="dropdown">
-            <button :class="['bkt-hover-red bkt-button'+button_type, item.isHide ? 'bkt-bg-red' : '']"
-                    @click="changeStatus({icon:'Hide', type:'hide',  status:'isHide'})">
-                <span v-show="in_process.indexOf('Hide')>=0"
-                      class="spinner-border spinner-border-sm mx-auto"
-                      role="status"></span>
-                <bkt-icon v-if="in_process.indexOf('Hide')<0" class="bkt-button__icon mx-auto"
-                          :name="item.isHide ? 'Unhide' : 'Hide'" :color="item.isHide ? icon_color : 'red'"></bkt-icon>
+        <div class="bkt-dropdown" v-if="type!=='menu'">
+            <button :class="['bkt-hover-primary bkt-button'+button_type, main_bg]"
+                    v-tooltip="'Другое'" data-bs-toggle="dropdown" data-bs-auto-close="outside" id="moreDropdown"
+            >
+                <bkt-icon class="bkt-button__icon mx-auto" name="More" :color="icon_color"></bkt-icon>
             </button>
+            <div class="dropdown-menu dropdown-menu-end bkt-dropdown__menu_menu bkt-dropdown__menu bkt-dropdown__menu_body">
+                <card-actions :item="item" type="menu" @changeStatus="changeStatus" icon_color="main"
+                ></card-actions>
+                <hr class="dropdown-divider">
+                <div class="bkt-dropdown__menu-item" @click="changeStatus({icon:'Hide', type:'hide', status:'isHide'})">
+                    <div class="bkt-dropdown__menu-icon">
+                        <span v-show="in_process.indexOf('Hide')>=0"
+                              class="spinner-border spinner-border-sm mx-auto"
+                              role="status"></span>
+                        <bkt-icon v-if="in_process.indexOf('Hide')<0" class="bkt-button__icon mx-auto" :height="'14px'" :width="'14px'"
+                                  :name="item.isHide ? 'Unhide' : 'Hide'" :color="item.isHide ? icon_color : 'red'"></bkt-icon>
+                    </div>
+                    <div class="bkt-dropdown__menu-text">
+                        {{item['isHide'] ? 'Восстановить' : 'Скрыть'}}
+                    </div>
+                </div>
+                <div class="bkt-dropdown__menu-item"
+                     @click="changeStatus({icon:'HideAll', type: item['isHide'] ? 'delete': 'make', status:'isHide'})"
+                     v-if="item && item.trade && item.trade.lotCount>1"
+                >
+                    <div class="bkt-dropdown__menu-icon">
+                        <span v-show="in_process.indexOf('HideAll')>=0"
+                              class="spinner-border spinner-border-sm mx-auto"
+                              role="status"></span>
+                        <bkt-icon v-if="in_process.indexOf('HideAll')<0" class="bkt-button__icon mx-auto" :height="'14px'" :width="'14px'"
+                                  :name="item.isHide ? 'Unhide' : 'Hide'" :color="item.isHide ? icon_color : 'red'"></bkt-icon>
+                    </div>
+                    <div class="bkt-dropdown__menu-text">
+                        {{item['isHide'] ? 'Восстановить все лоты торга' : 'Скрыть все лоты торга'}}
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </template>
@@ -139,15 +155,25 @@
                 default: 'card'
             },
         },
-        created() {
-            this.actions = this.actions.filter(item => item.place === 'all' || item.place === this.place);
-        },
         data() {
             return {
                 loading: false,
                 // button_type: '',
                 in_process: [],
                 actions: [
+                    {
+                        icon: 'Pin',
+                        status_icon: 'Unpin',
+                        label: "Закрепить",
+                        status_label: "Открепить",
+                        color: 'primary',
+                        code: '',
+                        status: 'isPinned',
+                        method: this.changeStatus,
+                        method_params: {type: 'pin', icon: 'Pin', status: 'isPinned'},
+                        place: 'all',
+                        class: ''
+                    },
                     {
                         icon: 'Viewed',
                         status_icon: 'Unviewed',
@@ -158,7 +184,7 @@
                         status: 'isWatched',
                         method: this.changeStatus,
                         method_params: {type: 'seen', icon: 'Viewed', status: 'isWatched'},
-                        place: 'all',
+                        place: 'dropdown',
                         class: ''
                     },
                     // {
@@ -180,21 +206,21 @@
                         status: 'note',
                         method: this.addNote,
                         method_params: {icon: 'Edit'},
-                        place: 'all',
+                        place: 'dropdown',
                         class: ''
                     },
-                    {
-                        icon: 'Target',
-                        label: "В мониторинге",
-                        color: 'red',
-                        code: '',
-                        status: 'inMonitoring',
-                        method: this.navigate,
-                        method_params: {icon: 'Target', path: '/monitoring'},
-                        place: 'all',
-                        class: '',
-                        condition: true
-                    },
+                    // {
+                    //     icon: 'Target',
+                    //     label: "В мониторинге",
+                    //     color: 'red',
+                    //     code: '',
+                    //     status: 'inMonitoring',
+                    //     method: this.navigate,
+                    //     method_params: {icon: 'Target', path: '/monitoring'},
+                    //     place: 'all',
+                    //     class: '',
+                    //     condition: true
+                    // },
                     {
                         icon: 'Star',
                         status_icon: 'Unstar',
@@ -209,31 +235,18 @@
                         dropdown_id: 'inFavourite',
                         class: ''
                     },
-                    {
-                        icon: 'Bell',
-                        label: "Уведомления",
-                        color: 'green',
-                        code: '',
-                        status: 'hasNotSeenNotification',
-                        method: this.navigate,
-                        method_params: {icon: 'Bell', path: '/messages'},
-                        place: 'all',
-                        class: '',
-                        condition: true
-                    },
-                    {
-                        icon: 'Pin',
-                        status_icon: 'Unpin',
-                        label: "Закрепить",
-                        status_label: "Открепить",
-                        color: 'pink',
-                        code: '',
-                        status: 'isPinned',
-                        method: this.changeStatus,
-                        method_params: {type: 'pin', icon: 'Pin', status: 'isPinned'},
-                        place: 'all',
-                        class: ''
-                    },
+                    // {
+                    //     icon: 'Bell',
+                    //     label: "Уведомления",
+                    //     color: 'green',
+                    //     code: '',
+                    //     status: 'hasNotSeenNotification',
+                    //     method: this.navigate,
+                    //     method_params: {icon: 'Bell', path: '/messages'},
+                    //     place: 'all',
+                    //     class: '',
+                    //     condition: true
+                    // },
                     {
                         icon: 'Share',
                         label: "Поделиться",
@@ -247,6 +260,18 @@
                         class: '',
                     },
                     // {
+                    //     icon: 'More',
+                    //     label: "Поделиться",
+                    //     color: 'body',
+                    //     code: '',
+                    //     status: '',
+                    //     method: '',
+                    //     method_params: {icon: 'More'},
+                    //     place: 'all',
+                    //     dropdown_id: 'moreDropdown',
+                    //     class: '',
+                    // },
+                    // {
                     //     icon: 'Trash',
                     //     label: "Скрыть",
                     //     color: 'red',
@@ -254,12 +279,12 @@
                     //     status: 'no_status',
                     //     method: this.changeStatus,
                     //     method_params: {type: 'hidden', icon: 'Trash'},
-                    //     place: 'all'
+                    //     place: 'dropdown'
                     // },
                 ],
                 sharing: {
                     // url: 'https://news.vuejs.org/issues/180',
-                    title: 'Успей купить на Лотофонд',
+                    title: 'Лот №',
                     // description: '',
                     hashtags: 'lotofond,trade,lot',
                     // twitterUser: 'youyuxi',
@@ -282,6 +307,15 @@
                     // { network: 'xing', name: 'Xing', icon: 'fab fah fa-lg fa-xing', color: '#026466' },
                 ],
                 short_description: '',
+                details_description: '',
+            }
+        },
+        created() {
+            // this.actions = this.actions.filter(item => item.place === 'all' || item.place === this.place);
+
+            let index = this.actions.findIndex(item => item.icon ==='Star');
+            if (index>=0) {
+                this.actions[index].color = this.favourite_color;
             }
         },
         computed: {
@@ -291,17 +325,52 @@
             favourites_paths() {
                 return this.$store.getters.favourites_paths;
             },
+            favourite_color() {
+                let index = this.actions.findIndex(item => item.icon ==='Star');
+                if ( this.item && this.item.favouritePaths && this.item.favouritePaths.length>0 ) {
+                    if (this.item.favouritePaths[0].color) {
+                        if (index>=0) {
+                            this.actions[index].color = this.item.favouritePaths[0].color;
+                        }
+                        return this.item.favouritePaths[0].color;
+                    }
+                }
+                if (index>=0) {
+                    this.actions[index].color = 'yellow';
+                }
+                return 'yellow'
+            },
             isLoggedIn() {
                 return this.$store.getters.isLoggedIn
             },
+            main_actions() {
+                return this.actions.filter(item => {
+                    if(this.type!=='menu') { return item.place === 'all';}
+                    return true;
+                });
+            }
         },
         methods: {
             makeAction(method, method_params, icon) {
                 if(icon==='Share')
                 {
+                    this.sharing.title = 'Лот №'+this.item.lotNumber;
                     this.short_description = '';
+                    this.details_description = '';
+                    if(this.item && this.item.trade.applicationTime) {
+                        this.details_description = 'Приём заявок';
+                        if(this.item.trade.applicationTime.start) {
+                            this.details_description += ' c '+this.$moment(this.item.trade.applicationTime.start).format('DD MMMM YYYY HH:mm');
+                        }
+                        if(this.item.trade.applicationTime.end) {
+                            this.details_description += ' до '+this.$moment(this.item.trade.applicationTime.end).format('DD MMMM YYYY HH:mm');
+                        }
+                    }
+                    this.details_description += '\nНачальная цена: '+this.item.startPrice + ' ₽' +
+                        '\nТекущая цена: '+this.item.currentPrice + ' ₽';
                     if (this.item && this.item.description && this.item.description.length > 0) {
-                        this.short_description = this.item.description.slice(0, 300) + '... Текущая цена: '+this.item.currentPrice+' ₽';
+                        this.short_description = this.item.description.slice(0, 250) + '... \n' +
+                            this.details_description;
                     }
                 }
 
@@ -317,8 +386,12 @@
             },
             changeStatus(payload) {
                 if (this.isLoggedIn) {
+                    let url = 'changeTradeLotStatus';
                     this.toggleProcess(payload.icon);
-                    this.$store.dispatch('changeTradeLotStatus', {lotId: this.item.id, type: payload.type})
+                    if(payload.icon == 'HideAll') {
+                        url = 'changeRelatedLotsStatus';
+                    }
+                    this.$store.dispatch(url, {lotId: this.item.id, type: payload.type})
                         .then(resp => {
                             this.$store.commit('saveTradeProperty', {
                                 id: this.item.id,
@@ -388,7 +461,11 @@
                                 key: 'favouritePaths',
                                 value: [this.favourites_paths[0]]
                             }, {root: true});
-                            this.$emit('changeStatus', {key: 'inFavourite', value: !this.item.inFavourite})
+                            this.$emit('changeStatus', {key: 'inFavourite', value: !this.item.inFavourite});
+                            let index = this.actions.findIndex(item => item.icon ==='Star');
+                            if (index>=0) {
+                                this.actions[index].color = this.favourite_color;
+                            }
                         })
                         .finally(() => {
                             this.toggleProcess(payload.icon)

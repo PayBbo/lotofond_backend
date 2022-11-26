@@ -21,8 +21,11 @@
                                       @input="selectAll(index)"
                                       :indeterminate="isIndeterminate(index)"
                         ></bkt-checkbox>
+                        <bkt-icon :name="'categories/'+category.key" :color="categories_colors[category.key]"
+                                  :width="'20px'" :height="'20px'"></bkt-icon>
                         <h5 class="bkt-regions-tabs__title" data-bs-toggle="collapse"
-                            :data-bs-target="'#category-collapse-'+index">
+                            :data-bs-target="'#category-collapse-'+index"
+                        >
                             {{category.label}}
                         </h5>
                     </div>
@@ -83,7 +86,18 @@
         data() {
             return {
                 items:[],
-                model:[]
+                model:[],
+                categories_colors: {
+                    "realEstate": "green",
+                    "other": "main",
+                    "equipment": "red",
+                    "transportAndEquipment": "orange",
+                    "agriculturaProperty": "blue",
+                    "tangibles": "yellow",
+                    "productionLines": "purple",
+                    "obligations": "teal",
+                    "accountsReceivable": "primary",
+                },
             };
         },
         created() {
@@ -94,10 +108,7 @@
         },
         computed: {
             categories() {
-                return this.$store.getters.categories
-                    .sort(function (one, other) {
-                        return other.subcategories.length - one.subcategories.length;
-                    });
+                return this.$store.getters.categories;
             },
             loading() {
                 return this.$store.getters.categories_loading

@@ -6,7 +6,7 @@
     &__card-actions {
         & .bkt-trading-number {
             font-size: 14px;
-            font-family: "Gilroy", sans-serif;
+            font-family: $font-family-sans-serif;
             color: rgba(255, 255, 255, 0.4);
             text-align: left;
         }
@@ -43,7 +43,7 @@
     &__card {
         & .bkt-card__title {
             font-size: 22px;
-            font-family: "Gilroy", sans-serif;
+            font-family: $font-family-sans-serif;
             color: rgb(45, 50, 68);
             font-weight: 700;
             line-height: 1.182;
@@ -67,7 +67,7 @@
             border-color: rgb(45, 50, 68, 0.051);
             border-style: solid;
             border-radius: 15px;
-            font-family: 'Gilroy', sans-serif;
+            font-family: $font-family-sans-serif;
             //display: flex;
             //align-items: center;
             text-decoration: none;
@@ -131,7 +131,7 @@
 
         & .bkt-card-price {
             font-size: 30px;
-            font-family: "Gilroy", sans-serif;
+            font-family: $font-family-sans-serif;
             font-weight: 700;
             padding: 6px 46px;
             position: relative;
@@ -284,7 +284,7 @@
         }
 
         &__title {
-            font-family: "Gilroy", sans-serif;
+            font-family: $font-family-sans-serif;
             color: rgb(45, 50, 68);
             font-weight: 600;
             font-size: 14px;
@@ -327,7 +327,7 @@
         & .bkt-card__header {
             & .bkt-button {
                 font-size: 12px;
-                font-family: 'Gilroy', sans-serif;
+                font-family: $font-family-sans-serif;
                 font-weight: 500;
                 color: rgb(45, 50, 68);
                 text-transform: uppercase;
@@ -407,7 +407,7 @@
         //}
         .bkt-lot-request-label {
             font-size: 14px;
-            font-family: "Gilroy", sans-serif;
+            font-family: $font-family-sans-serif;
             color: rgb(45, 50, 68);
             font-weight: 600;
             text-align: left;
@@ -585,7 +585,7 @@
 
             & .bkt-card-ecp {
                 font-size: 10px;
-                font-family: "Gilroy", sans-serif;
+                font-family: $font-family-sans-serif;
                 color: rgb(255, 255, 255);
                 font-weight: 700;
                 line-height: 1.2;
@@ -677,7 +677,7 @@
     @media screen and (max-width: 1200px) {
         .bkt-card-price {
             font-size: 18px;
-            font-family: "Gilroy", sans-serif;
+            font-family: $font-family-sans-serif;
             font-weight: 700;
             padding: 6px 40px;
             position: relative;

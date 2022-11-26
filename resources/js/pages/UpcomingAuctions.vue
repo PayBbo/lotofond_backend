@@ -130,69 +130,18 @@
                 </div>
                 <div class="bkt-card bkt-card__body bkt-auctions__filters">
                     <div class="bkt-card__header bkt-auctions__filters-header d-lg-flex d-none">
-                        <button class="bkt-button bkt-bg-green-lighter"
-                                :class="isCategoryChecked('realEstate') ? 'bkt-border-primary' : 'bkt-border-green-lighter'"
-                                @click="toggleCategory('realEstate')" :disabled="categories_loading"
-                        >
-                            <bkt-icon :name="'categories/realEstate'" :color="'green'" :width="'30px'"
-                                      :height="'30px'"></bkt-icon>
-                        </button>
-                        <button class="bkt-button bkt-bg-blue-lighter"
-                                :class="isCategoryChecked('agriculturaProperty') ? 'bkt-border-primary' : 'bkt-border-blue-lighter'"
-                                @click="toggleCategory('agriculturaProperty')" :disabled="categories_loading"
-                        >
-                            <bkt-icon :name="'categories/agriculturaProperty'" :color="'blue'" :width="'30px'"
-                                      :height="'30px'"></bkt-icon>
-                        </button>
-                        <button class="bkt-button bkt-bg-red-lighter"
-                                :class="isCategoryChecked('equipment') ? 'bkt-border-primary' : 'bkt-border-red-lighter'"
-                                @click="toggleCategory('equipment')" :disabled="categories_loading"
-                        >
-                            <bkt-icon :name="'categories/equipment'" :color="'red'" :width="'30px'"
-                                      :height="'30px'"></bkt-icon>
-                        </button>
-                        <button class="bkt-button bkt-bg-yellow-lighter"
-                                :class="isCategoryChecked('tangibles') ? 'bkt-border-primary' : 'bkt-border-yellow-lighter'"
-                                @click="toggleCategory('tangibles')" :disabled="categories_loading"
-                        >
-                            <bkt-icon :name="'categories/tangibles'" :color="'yellow'" :width="'30px'"
-                                      :height="'30px'"></bkt-icon>
-                        </button>
-                        <button class="bkt-button bkt-bg-primary-lighter"
-                                :class="isCategoryChecked('accountsReceivable') ? 'bkt-border-primary' : 'bkt-border-primary-lighter'"
-                                @click="toggleCategory('accountsReceivable')" :disabled="categories_loading"
-                        >
-                            <bkt-icon :name="'categories/accountsReceivable'" :color="'primary'" :width="'30px'"
-                                      :height="'30px'"></bkt-icon>
-                        </button>
-                        <button class="bkt-button bkt-bg-pink-lighter"
-                                :class="isCategoryChecked('productionLines') ? 'bkt-border-primary' : 'bkt-border-pink-lighter'"
-                                @click="toggleCategory('productionLines')" :disabled="categories_loading"
-                        >
-                            <bkt-icon :name="'categories/productionLines'" :color="'pink'" :width="'30px'"
-                                      :height="'30px'"></bkt-icon>
-                        </button>
-                        <button class="bkt-button bkt-bg-orange-lighter"
-                                :class="isCategoryChecked('transportAndEquipment') ? 'bkt-border-primary' : 'bkt-border-orange-lighter'"
-                                @click="toggleCategory('transportAndEquipment')" :disabled="categories_loading"
-                        >
-                            <bkt-icon :name="'categories/transportAndEquipment'" :color="'orange'" :width="'30px'"
-                                      :height="'30px'"></bkt-icon>
-                        </button>
-                        <button class="bkt-button bkt-bg-teal-lighter"
-                                :class="isCategoryChecked('obligations') ? 'bkt-border-primary' : 'bkt-border-teal-lighter'"
-                                @click="toggleCategory('obligations')" :disabled="categories_loading"
-                        >
-                            <bkt-icon :name="'categories/obligations'" :color="'teal'" :width="'30px'"
-                                      :height="'30px'"></bkt-icon>
-                        </button>
-                        <button class="bkt-button bkt-bg-body"
-                                :class="isCategoryChecked('other') ? 'bkt-border-primary' : 'bkt-border-body'"
-                                @click="toggleCategory('other')" :disabled="categories_loading"
-                        >
-                            <bkt-icon :name="'categories/other'" :color="'main'" :width="'30px'"
-                                      :height="'30px'"></bkt-icon>
-                        </button>
+                        <template v-for="(category, index) in categories">
+                            <button class="bkt-button" v-tooltip="category.label" :key="index"
+                                    :class="[isCategoryChecked(category.key) ? 'bkt-border-primary' : 'bkt-border-'+categories_colors[category.key]+'-lighter',
+                                'bkt-bg-'+categories_colors[category.key]+'-lighter']"
+                                    @click="toggleCategory(category.key)" :disabled="categories_loading"
+                            >
+                                <bkt-icon :key="'icon'+index" :name="'categories/'+category.key" v-if="category.key"
+                                          :color="categories_colors[category.key]" :width="'30px'" :height="'30px'"
+                                >
+                                </bkt-icon>
+                            </button>
+                        </template>
                     </div>
                     <div class="bkt-auctions__filters-content d-lg-flex d-none">
                         <div class="row align-items-center bkt-gap-row">
@@ -455,6 +404,17 @@
                         direction: "desc",
                         type: "applicationEnd"
                     }
+                },
+                categories_colors: {
+                    "realEstate": "green",
+                    "other": "main",
+                    "equipment": "red",
+                    "transportAndEquipment": "orange",
+                    "agriculturaProperty": "blue",
+                    "tangibles": "yellow",
+                    "productionLines": "purple",
+                    "obligations": "teal",
+                    "accountsReceivable": "primary",
                 },
             };
         },

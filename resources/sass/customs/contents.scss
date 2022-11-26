@@ -6,7 +6,7 @@ ul.bkt-contents {
     & li {
         border-bottom: 2px dotted rgba(45, 50, 68, 0.4); /* Необязателен. Здесь задается толщина, тип и цвет точек */
         //font-size: 12px;
-        font-family: "Gilroy", sans-serif;
+        font-family: $font-family-sans-serif;
         //line-height: 2.5;
         position: relative;
         padding: 0;
@@ -33,7 +33,7 @@ ul.bkt-contents {
 
     & .bkt-contents__heading {
         font-size: 12px;
-        font-family: "Gilroy", sans-serif;
+        font-family: $font-family-sans-serif;
         color: rgba(45, 50, 68, 0.4);
         //line-height: 2.5;
         font-weight: 500;
@@ -45,7 +45,7 @@ ul.bkt-contents {
     & .bkt-contents__answer {
         word-break: break-word;
         font-size: 14px;
-        font-family: "Gilroy", sans-serif;
+        font-family: $font-family-sans-serif;
         color: rgb(45, 50, 68);
         font-weight: bold;
         //line-height: 1.571;

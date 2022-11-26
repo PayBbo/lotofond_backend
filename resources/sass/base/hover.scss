@@ -11,7 +11,7 @@
 @include setHoverColor('bkt-button', 'neutral', 'default', 'light', 'lighter','dark', 'darker');
 @include setHoverColor('bkt-button', 'white', '');
 @include setHoverColor('bkt-button-ellipse', 'main', 'default', 'light', 'lighter');
-@include setHoverColor('bkt-button-ellipse', 'primary', 'default', 'light', 'lighter', 'dark');
+@include setHoverColor('bkt-button-ellipse', 'primary', '', 'default', 'light', 'lighter', 'dark');
 @include setHoverColor('bkt-button-ellipse', 'green', 'default', 'light', 'lighter');
 @include setHoverColor('bkt-button-ellipse', 'red', 'default', 'light', 'lighter');
 @include setHoverColor('bkt-button-ellipse', 'blue', 'default', 'light', 'lighter');

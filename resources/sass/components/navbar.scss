@@ -186,7 +186,7 @@
                 & .bkt-tarif-button {
                     margin: 0 0 5px 0;
                     font-size: 14px;
-                    font-family: "Gilroy";
+                    font-family: $font-family-sans-serif;
                     color: rgb(45, 50, 68);
                     font-weight: 600;
                     line-height: 1.2;
@@ -203,7 +203,7 @@
 
                 &-text {
                     font-size: 14px;
-                    font-family: "Gilroy";
+                    font-family: $font-family-sans-serif;
                     font-weight: 500;
                     color: rgb(45, 50, 68);
                     line-height: 1.571;

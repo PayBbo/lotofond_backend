@@ -29,7 +29,7 @@
     <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon/apple-touch-icon.png">
     <link rel="manifest" href="/images/favicon/site.webmanifest">
     <link rel="mask-icon" href="/images/favicon/safari-pinned-tab.svg" color="#2953ff">
-    <meta property="og:title" content="Успей купить на Лотофонд" />
+    <meta property="og:title" content="" />
     <meta property="og:site_name" content="LotoFond"/>
     <meta property="og:description"
           content="Самая полная база торгов банкротного, залогового, арестованного, неликвидного, конфискованного и государственного имущества." />
