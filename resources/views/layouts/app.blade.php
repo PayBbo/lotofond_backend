@@ -31,8 +31,7 @@
     <link rel="mask-icon" href="/images/favicon/safari-pinned-tab.svg" color="#2953ff">
     <meta property="og:title" content="" />
     <meta property="og:site_name" content="LotoFond"/>
-    <meta property="og:description"
-          content="Самая полная база торгов банкротного, залогового, арестованного, неликвидного, конфискованного и государственного имущества." />
+    <meta property="og:description" content="Лотофонд - гипермаркет имущественных торгов" />
     <meta property="og:image" content="https://www.lotofond.ru/images/card-image1.png" />
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
