@@ -1,5 +1,5 @@
 <template>
-    <div class="bkt-card-trade bkt-card-win bkt-card__row w-100 mx-auto mx-0">
+    <div class="bkt-card-trade__wrapper bkt-card-win bkt-card__row w-100 mx-0">
         <div class="bkt-wrapper-between bkt-card__heading w-100">
             <h5>торги № {{item && item.tradeId ? item.tradeId : '0'}}</h5>
         </div>

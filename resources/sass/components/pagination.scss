@@ -122,7 +122,6 @@
             & .page-link {
                 border-radius: 13px;
                 min-width: 34px;
-                width: 34px;
                 height: 34px;
                 font-size: 14px;
                 font-family: $font-family-sans-serif;
@@ -130,6 +129,7 @@
                 color: $main-default;
                 line-height: 1.2;
                 text-align: center;
+                padding: 8px;
             }
             &.dots {
                 min-width: 15px;
@@ -144,6 +144,7 @@
                 & .page-link {
                     width: 15px;
                     min-width: 15px;
+                    padding: 0;
                 }
             }
         }

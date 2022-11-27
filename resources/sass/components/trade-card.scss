@@ -15,6 +15,7 @@
         }
         &__title {
             font-size: 16px;
+            word-break: break-all;
         }
         &__features {
             display: flex;
@@ -343,19 +344,29 @@
 .bkt-card-win {
     //margin: 0 auto;
     @extend .bkt-card-trade;
-
-    & .bkt-card__image-slider {
-        max-height: 325px;
+    &.bkt-card-trade__wrapper {
+        margin: 15px;
     }
-    & .bkt-card__image-category {
-        max-height: 325px;
-    }
-
-    & .bkt-card__title {
-        font-size: 22px;
-        font-family: $font-family-sans-serif;
-        font-weight: bold;
-        line-height: 1.182;
+    & .bkt-card {
+        &__heading {
+            top: -25px !important;
+        }
+        &__title {
+            font-size: 22px;
+            font-family: $font-family-sans-serif;
+            font-weight: bold;
+            line-height: 1.182;
+        }
+        &__image {
+            &-slider {
+                max-height: 325px !important;
+                width: 100% !important;
+            }
+            &-category {
+                max-height: 325px !important;
+                width: 100% !important;
+            }
+        }
     }
 
     & .bkt-card-price-wrapper {
@@ -410,10 +421,6 @@
                 }
             }
         }
-    }
-
-    & .bkt-card-winner {
-        font-size: 16px;
     }
 
     & .bkt-card-winner {
@@ -799,6 +806,11 @@
         & .bkt-card-price-wrapper {
             text-align: left;
         }
+        & .bkt-card {
+            &__heading {
+                top: -30px !important;
+            }
+        }
     }
     .bkt-card-trade-short {
         & > * {
@@ -986,6 +998,12 @@
     }
 
     .bkt-card-win {
+        & .bkt-card {
+            &__heading {
+                top: -15px !important;
+                padding: 0 16px;
+            }
+        }
         & .bkt-card-infographics {
             gap: 6px;
 
@@ -1001,6 +1019,7 @@
                     & .bkt-card__title {
                         font-size: 14px;
                         line-height: 14px;
+                        font-weight: 400;
                     }
 
                     & .bkt-card__subtitle {

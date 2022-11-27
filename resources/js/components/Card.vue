@@ -151,7 +151,7 @@
                                 </div>
                             </div>
                             <div class="bkt-card__features-wrapper">
-                                <div class="bkt-card__features d-none d-sm-flex">
+                                <div class="bkt-card__features">
                                     <div class="bkt-card__feature" v-if="item.minPrice && item.trade.type!=='CloseAuction' && item.trade.type!=='OpenAuction'">
                                         <h6 class="bkt-card__subtitle">минимальная цена</h6>
                                         <h5 class="bkt-card__text bkt-text-700">
