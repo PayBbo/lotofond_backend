@@ -86,22 +86,27 @@ class LotResource extends JsonResource
             $this->mergeWhen(is_null($this->deposit), [
                 'deposit' => null
             ]),
-            $this->mergeWhen($this->auction->auctionType->title =='PublicOffer' || $this->auction->auctionType->title =='ClosePublicOffer', [
+            $this->mergeWhen($this->auction->auctionType->title == 'PublicOffer' || $this->auction->auctionType->title == 'ClosePublicOffer', [
                 'priceReduction' => $priceReductions,
-                'priceReductionHtml' => '<!DOCTYPE HTML><html lang="ru">
+                $this->mergeWhen(strlen((string)$this->price_reduction) > 0 && $this->price_reduction != '<table></table>', [
+                    'priceReductionHtml' => '<!DOCTYPE HTML><html lang="ru">
   <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta charset="UTF-8"/>
     <style type="text/css">  p {font-size: max(1em, min(4em, calc(100vw * 4 / 75)));line-height: 2em;}</style>
   </head>
   <body>
-<p>'. $this->price_reduction . '</p>
+<p>' . $this->price_reduction . '</p>
     <script type="text/javascript">
       const resizeObserver = new ResizeObserver(entries =>Resize.postMessage("height" + (entries[0].target.clientHeight).toString()));
       resizeObserver.observe(document.body);
     </script>
 </body>
 </html>',
+                ]),
+                $this->mergeWhen(strlen((string)$this->price_reduction) == 0 || $this->price_reduction == '<table></table>', [
+                    'priceReductionHtml' => null
+                ]),
 
             ]),
             'currentPrice' => $currentPrice,

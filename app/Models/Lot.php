@@ -178,9 +178,9 @@ class Lot extends Model
         $currentDate = Carbon::now()->setTimezone('Europe/Moscow');
 
         return $this->hasOne(PriceReduction::class)
-            ->whereDate('start_time', '<', $currentDate)
+            ->where('start_time', '<', $currentDate)
             ->where(function ($query) use ($currentDate) {
-                $query->whereDate('end_time', '>=', $currentDate)
+                $query->where('end_time', '>=', $currentDate)
                     ->orWhere('end_time', '=', null);
             })
             ->orderBy('end_time', 'desc');
@@ -191,12 +191,12 @@ class Lot extends Model
         $currentDate = Carbon::now()->setTimezone('Europe/Moscow');
 
         return $this->hasOne(PriceReduction::class)
-            ->whereDate('start_time', '<', $currentDate)
+            ->where('start_time', '<', $currentDate)
             ->where(function ($query) use ($currentDate) {
-                $query->whereDate('end_time', '<', $currentDate)
+                $query->where('end_time', '<', $currentDate)
                     ->orWhere('end_time', '=', null);
             })
-            ->orderBy('id', 'desc');
+            ->orderBy('end_time', 'asc');
     }
 
     public function getMinPriceAttribute()

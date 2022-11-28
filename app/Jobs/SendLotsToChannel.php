@@ -81,8 +81,10 @@ class SendLotsToChannel implements ShouldQueue
             $url = URL::to('/lot/' . $lot->id);
             $lotDesc = mb_strimwidth($lot->description, 0, 250, "...");
             $price = number_format($lot->start_price, 2, ',', ' ');
+            $tradeType = $lot->auction->auctionType->description;
             $html =  str_replace('<br>', '',  str_replace('</p>', '', str_replace('<p>', '',
-                "<strong>Описание лота:</strong>
+                "<strong>Тип торгов: $tradeType</strong>
+<strong>Описание лота:</strong>
 <p>$lotDesc</p>
 <strong>Начальная цена: $price ₽</strong>" )));
             if($lot->auction->auctionType->title =='PublicOffer' || $lot->auction->auctionType->title =='ClosePublicOffer'){
