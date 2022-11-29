@@ -17,14 +17,14 @@
                             <div class="card-body">
                                 <div class="form-group">
                                     <label>Почта</label>
-                                    <input required name="title" type="text" class="form-control"
+                                    <input required name="contact" type="email" class="form-control"
                                            v-model="item.contact">
                                 </div>
                                 <div class="form-group">
                                     <label>Выберите назначение</label>
                                     <select class="form-control" v-model="item.type" required>
                                         <option value="">Выберите назначение новой почты</option>
-                                        <option v-for="type in types" :value="type">{{ type }}</option>
+                                        <option v-for="type in types" :value="type.id">{{ type.value }}</option>
                                     </select>
                                 </div>
                                 <button type="submit" class="btn btn-success float-right" @click="storeData(item)">
@@ -44,7 +44,7 @@
                     <div class="input-group input-group-sm w-100">
                         <select class="form-control" v-model="compParam">
                             <option value="">Выберите назначение почты</option>
-                            <option v-for="type in types" :value="type">{{ type }}</option>
+                            <option v-for="type in types" :value="type.id">{{ type.value }}</option>
                         </select>
                     </div>
                 </div>

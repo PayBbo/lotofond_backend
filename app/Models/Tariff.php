@@ -21,7 +21,10 @@ class Tariff extends Model
         'store_id',
         'admission_price',
         'included_details',
-        'excluded_details'
+        'excluded_details',
+        'price_prefix',
+        'type',
+        'code'
     ];
 
     /**
@@ -39,5 +42,10 @@ class Tariff extends Model
     public function payments()
     {
         return $this->hasMany(\App\Models\Payment::class);
+    }
+
+    public function contacts()
+    {
+        return $this->hasMany(\App\Models\Contact::class);
     }
 }

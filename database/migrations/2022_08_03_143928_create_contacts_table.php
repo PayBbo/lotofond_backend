@@ -16,7 +16,9 @@ class CreateContactsTable extends Migration
         Schema::create('contacts', function (Blueprint $table) {
             $table->id();
             $table->string('contact');
-            $table->enum('type', ['Отправка заявок на покупку без ЭЦП', 'Отправка заявок на покупки через агента', 'Отправка форм с вопросами', 'Отправка контактных форм']);
+            $table->unsignedBigInteger('tariff_id');
+            $table->foreign('tariff_id')->references('id')
+                ->on('tariffs')->cascadeOnDelete();
             $table->timestamps();
         });
     }

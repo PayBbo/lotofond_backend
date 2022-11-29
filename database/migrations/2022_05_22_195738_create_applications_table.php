@@ -25,13 +25,19 @@ class CreateApplicationsTable extends Migration
             $table->string('topic')->nullable();
             $table->string('question')->nullable();
             $table->json('files')->nullable();
-            $table->enum('type', ['Покупка без ЭЦП','Покупка через агента','Новый вопрос']);
+            $table->string('cadastral_number')->nullable();
+            $table->unsignedBigInteger('tariff_id');
+            $table->foreign('tariff_id')->references('id')
+                ->on('tariffs')->cascadeOnDelete();
+            $table->unsignedBigInteger('payment_id')->nullable();
+            $table->foreign('payment_id')->references('id')
+                ->on('payments')->cascadeOnDelete();
             $table->timestamp('answer_date')->nullable();
             $table->foreign('user_id')->references('id')
                 ->on('users')->cascadeOnDelete();
             $table->foreign('lot_id')->references('id')
                 ->on('lots')->cascadeOnDelete();
-            $table->boolean('is_answered')->default(false);
+            $table->enum('status', ['notProcessed', 'inProgress', 'rejectedBySystem', 'rejectedByUser', 'completed'])->default('notProcessed');
             $table->timestamps();
         });
         Schema::enableForeignKeyConstraints();

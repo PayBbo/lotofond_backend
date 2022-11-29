@@ -10,7 +10,12 @@ class Contact extends Model
     use HasFactory;
     protected $table = 'contacts';
     protected $fillable = [
-        'contact',
+        'tariff_id',
         'type'
     ];
+
+    public function tariff()
+    {
+        return $this->belongsTo(Tariff::class);
+    }
 }

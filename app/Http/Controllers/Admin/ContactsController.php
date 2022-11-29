@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\ContactRequest;
 use App\Models\Contact;
+use App\Models\Tariff;
 use Illuminate\Http\Request;
 
 class ContactsController extends Controller
@@ -22,19 +23,20 @@ class ContactsController extends Controller
     }
 
     public function update(ContactRequest $request){
-        $contact = Contact::create([
-            'contact'=>$request->contact,
-            'type'=>$request->type
-        ]);
+        $contact = new Contact();
+        $contact->contact = $request->contact;
+        $contact->tariff_id = $request->type;
+        $contact->save();
         return response(null, 200);
     }
 
     public function get(Request $request){
         $type = $request->query('param');
         $contacts = Contact::when(isset($type), function($query) use ($type) {
-            $query->where('type', $type);
-        })->get();
-        $types = ['Отправка заявок на покупку без ЕП', 'Отправка заявок на покупки через агента', 'Отправка форм с вопросами', 'Отправка контактных форм'];
+            $query->where('tariff_id', $type);
+        })  ->join('tariffs as tariff', 'tariff.id', '=', 'contacts.tariff_id')
+            ->select('contacts.id', 'tariff.title->ru as type', 'contact')->get();
+        $types = Tariff::whereIn('type', ['service', 'system'])->select('id', 'title->ru as value')->get();
         return response(['data'=>$contacts,'pagination'=>[], 'types'=>$types], 200);
     }
 

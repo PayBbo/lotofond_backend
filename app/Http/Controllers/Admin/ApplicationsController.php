@@ -22,32 +22,37 @@ class ApplicationsController extends Controller
         $this->middleware('permission:application-edit', ['only' => ['update']]);
     }
 
-    public function get(Request $request){
+    public function get(Request $request)
+    {
         $search = $request->query('param');
-        $applications = Application::when(isset($search), function($query) use ($search) {
-            $query->where('type', 'LIKE', '%'.$search.'%')
-                ->orWhere('email', 'LIKE', '%'.$search.'%')
-                ->orWhere('username', 'LIKE', '%'.$search.'%')
-                ->orWhere('phone', 'LIKE', '%'.$search.'%')
-                ->orWhere('topic', 'LIKE', '%'.$search.'%')
-                ->orWhere('question', 'LIKE', '%'.$search.'%');
+        $applications = Application::when(isset($search), function ($query) use ($search) {
+            $query
+                ->whereHas('tariff', function ($query) use ($search) {
+                    $query->where('title', 'LIKE', '%' . $search . '%');
+                })
+                ->orWhere('email', 'LIKE', '%' . $search . '%')
+                ->orWhere('username', 'LIKE', '%' . $search . '%')
+                ->orWhere('phone', 'LIKE', '%' . $search . '%')
+                ->orWhere('topic', 'LIKE', '%' . $search . '%')
+                ->orWhere('question', 'LIKE', '%' . $search . '%');
         })->paginate(20);
         return response(new ApplicationCollection($applications), 200);
     }
 
-    public function update(Request $request){
+    public function update(Request $request)
+    {
         $application = Application::find($request->id);
-        if($application){
-            if(!$application->is_answered && !is_null($application->user_id)){
+        if ($application) {
+            if ($request->status == 'completed' && !is_null($application->user_id)) {
                 Notification::create([
                     'user_id' => $application->user_id,
                     'date' => Carbon::now()->setTimezone('Europe/Moscow'),
-                    'label'=>'applicationAnswerTitle',
+                    'label' => 'applicationAnswerTitle',
                     'type_id' => 1,
-                    'message' =>  'applicationAnswerBody',
+                    'message' => 'applicationAnswerBody',
                 ]);
             }
-            $application->is_answered = !$application->is_answered;
+            $application->status = $request->status;
             $application->save();
             return response(null, 200);
         }

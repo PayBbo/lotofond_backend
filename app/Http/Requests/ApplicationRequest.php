@@ -31,6 +31,8 @@ class ApplicationRequest extends FormRequest
             'name'=>['sometimes', 'required', 'string'],
             'socialsForAnswer'=>['required', 'array'],
             'socialsForAnswer.*'=>['required', 'string'],
+            'paymentTradingTypes'=>['required', 'array'],
+            'paymentTradingTypes.*' => ['required', 'string', 'in:purchaseBidByAgent,infoAboutLot,consultation,accompanimentFAS']
         ];
     }
 }

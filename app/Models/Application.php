@@ -25,9 +25,11 @@ class Application extends Model
         'answer_date',
         'topic',
         'question',
-        'type',
-        'is_answered',
-        'files'
+        'files',
+        'cadastral_number',
+        'status',
+        'tariff_id',
+        'payment_id'
     ];
 
     /**
@@ -39,6 +41,8 @@ class Application extends Model
         'id' => 'integer',
         'user_id' => 'integer',
         'lot_id' => 'integer',
+        'tariff_id'=> 'integer',
+        'payment_id'=> 'integer',
         'answer_date' => 'timestamp',
         'is_answered'=>'boolean',
         'files'=>'array'
@@ -52,6 +56,16 @@ class Application extends Model
     public function lot()
     {
         return $this->belongsTo(Lot::class);
+    }
+
+    public function tariff()
+    {
+        return $this->belongsTo(Tariff::class);
+    }
+
+    public function payment()
+    {
+        return $this->belongsTo(Payment::class);
     }
 
     public function getFiles()

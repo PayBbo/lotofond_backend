@@ -44,7 +44,9 @@ export default {
             this.modalData = { ...this.dataItems[index] }
             Object.keys(this.dataItems[index]).forEach( (key) => {
                 if (this.modalData[key] === null || this.modalData[key].length === 0
-                    || this.modalData[key] === undefined || this.modalData[key] === '') {
+                    || this.modalData[key] === undefined || this.modalData[key] === ''
+                    || !this.mColumns[key]
+                ) {
                     delete this.modalData[key];
                     delete this.mColumns[key];
                 }

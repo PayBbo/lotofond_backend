@@ -51,4 +51,11 @@ return [
         'other' => 'Other',
 
     ],
+    'statuses'=>[
+        'notProcessed' => 'Not processed',
+        'inProgress'=> 'In progress',
+        'rejectedBySystem'=> 'Rejected by system',
+        'rejectedByUser'=> 'Rejected by user',
+        'completed'=> 'Completed',
+    ]
 ];

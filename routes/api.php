@@ -154,6 +154,10 @@ Route::group(['middleware' => ['json.response', 'localization']], function () {
 
             Route::post('/question', [ApplicationController::class, 'sendQuestion']);
 
+            Route::post('/purchase/instructions', [ApplicationController::class, 'purchaseInstructions']);
+
+            Route::post('/receipt/egrn', [ApplicationController::class, 'receiptEgrn']);
+
         });
 
         Route::group(['prefix' => 'account'], function () {

@@ -118,6 +118,9 @@ class LotResource extends JsonResource
             'descriptionExtracts' => $this->description_extracts,
             'note' => $this->getNote(),
             $this->mergeWhen(($this->isLotInfo), [
+                $this->mergeWhen(($authCheck), [
+                    'applications' => ApplicationResource::collection($this->userApplications),
+                ]),
                 'requirementsForParticipants' => $this->participants,
                 'paymentInfo' => $this->payment_info,
                 'saleAgreement' => $this->sale_agreement,

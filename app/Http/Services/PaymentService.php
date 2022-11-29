@@ -27,64 +27,63 @@ class PaymentService
         $this->testMode = config('paymaster.test_mode');
     }
 
-    public function paymentRequest($paymentId, $tariff)
+    public function paymentRequest($paymentId, $tariff, $customer=null)
     {
         $client = new \GuzzleHttp\Client();
-       /* $logger = new Logger('GuzzleLogger');
-        $logger->pushHandler(new StreamHandler(storage_path('logs/guzzle.log')));
-        $stack = HandlerStack::create();
-        $stack->push(
-            Middleware::log(
-                $logger,
-                new MessageFormatter('{req_body} - {res_body}')
-            )
-        );
-        $client = new \GuzzleHttp\Client(
-            [
-                'handler' => $stack,
-            ]
-        );*/
+        /* $logger = new Logger('GuzzleLogger');
+         $logger->pushHandler(new StreamHandler(storage_path('logs/guzzle.log')));
+         $stack = HandlerStack::create();
+         $stack->push(
+             Middleware::log(
+                 $logger,
+                 new MessageFormatter('{req_body} - {res_body}')
+             )
+         );
+         $client = new \GuzzleHttp\Client(
+             [
+                 'handler' => $stack,
+             ]
+         );*/
         $user = User::find(auth()->id());
+        if(is_null($customer)){
+            if(!is_null($user->email)){
+                $customer = ['email'=>$user->email];
+            }else{
+                $customer = ['phone'=>$user->phone];
+            }
+        }
         $response = $client->request('POST', 'https://paymaster.ru/api/v2/invoices',
             [
                 RequestOptions::HEADERS => [
-                    'Authorization'=> 'Bearer '.$this->token,
-                    'Content-Type'=>'application/json'
+                    'Authorization' => 'Bearer ' . $this->token,
+                    'Content-Type' => 'application/json'
                 ],
                 RequestOptions::JSON => [
                     'merchantId' => $this->merchantId,
-                    'testMode'=>$this->testMode,
-                    'invoice'=>[
-                        'description'=>$tariff->description,
-                        'orderNo'=>(string)$paymentId
+                    'testMode' => $this->testMode,
+                    'invoice' => [
+                        'description' => $tariff->description,
+                        'orderNo' => (string)$paymentId
                     ],
-                    'amount'=>[
-                        'value'=>$tariff->price,
-                        'currency'=>'RUB'
+                    'amount' => [
+                        'value' => $tariff->price,
+                        'currency' => 'RUB'
                     ],
-                    'paymentMethod'=>'BankCard',
-                    'protocol'=>[
+                    'paymentMethod' => 'BankCard',
+                    'protocol' => [
                         'returnUrl' => $this->returnUrl,
                         'callbackUrl' => $this->callbackUrl
                     ],
-                    'customer'=>[
-                        'email'=>$user->email,
-                        'phone'=>$user->phone,
-                        'account'=>(string)$user->id
-                    ],
-                    'receipt'=>[
-                        'client'=>[
-                            'email'=>$user->email,
-                            'phone'=>$user->phone
-                        ],
-                        'items'=>[
+                    'receipt' => [
+                        'client' => $customer,
+                        'items' => [
                             [
-                                'name'=>$tariff->title,
-                                'quantity'=>1,
-                                'price'=>$tariff->price,
-                                'vatType'=>'None',
-                                'paymentSubject'=>'Service',
-                                'paymentMethod'=>'FullPayment'
+                                'name' => $tariff->title,
+                                'quantity' => 1,
+                                'price' => $tariff->price,
+                                'vatType' => 'None',
+                                'paymentSubject' => 'Service',
+                                'paymentMethod' => 'FullPayment'
                             ]
                         ]
                     ]
@@ -97,10 +96,10 @@ class PaymentService
     public function getPaymentStatus($paymentId)
     {
         $client = new \GuzzleHttp\Client();
-        $response = $client->request('GET', 'https://paymaster.ru/api/v2/payments/'.$paymentId,
+        $response = $client->request('GET', 'https://paymaster.ru/api/v2/payments/' . $paymentId,
             [
                 RequestOptions::HEADERS => [
-                    'Authorization'=> 'Bearer '.$this->token,
+                    'Authorization' => 'Bearer ' . $this->token,
                 ]
             ]);
         return json_decode($response->getBody(), true);

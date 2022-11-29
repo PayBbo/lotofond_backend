@@ -46,7 +46,9 @@ class PaymentController extends Controller
             if ($paymentStatus['testMode'] == config('paymaster.test_mode') && $paymentStatus['merchantId'] == config('paymaster.merchant_id')) {
                 if (!$payment->is_confirmed && $payment->status != 'Settled' && $paymentStatus['status'] == 'Settled') {
                     if (!is_null($payment->tariff_id)) {
-                        $payment->finished_at = Carbon::now()->setTimezone('Europe/Moscow')->addDays($payment->tariff->period);
+                        if(!is_null($payment->tariff->period)) {
+                            $payment->finished_at = Carbon::now()->setTimezone('Europe/Moscow')->addDays($payment->tariff->period);
+                        }
                     }
                     $payment->status = $paymentStatus['status'];
                     $payment->is_confirmed = true;
@@ -70,7 +72,7 @@ class PaymentController extends Controller
 
     public function getTariffs()
     {
-        $tariffs = Tariff::all();
+        $tariffs = Tariff::where('type', 'tariff')->get();
         return response(TariffResource::collection($tariffs), 200);
     }
 

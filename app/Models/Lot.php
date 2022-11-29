@@ -433,4 +433,8 @@ class Lot extends Model
         return $this->belongsToMany(Monitoring::class, 'lot_monitoring')->where('user_id', auth()->guard('api')->id());
     }
 
+    public function userApplications(){
+        return $this->hasMany(Application::class)->where('user_id', auth()->id());
+    }
+
 }

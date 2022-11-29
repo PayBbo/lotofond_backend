@@ -51,4 +51,11 @@ return [
         'other' => '其他',
 
     ],
+    'statuses'=>[
+        'notProcessed' => '未处理',
+        'inProgress'=> '进行中',
+        'rejectedBySystem'=> '被系统拒绝',
+        'rejectedByUser'=> '被用户拒绝',
+        'completed'=> '已完成',
+    ]
 ];

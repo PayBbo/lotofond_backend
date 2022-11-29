@@ -25,7 +25,7 @@ class ContactRequest extends FormRequest
     {
         return [
             'contact'=>['required', 'string', 'email'],
-            'type'=>['required', 'string', 'in:Отправка заявок на покупку без ЕП,Отправка заявок на покупки через агента,Отправка форм с вопросами,Отправка контактных форм']
+            'type'=>['required', 'numeric', 'exists:tariffs,id']
         ];
     }
 

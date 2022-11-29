@@ -967,6 +967,10 @@ paths:
             type: integer
           required: true
           description: Айдишник лота, информацию о котором нужно получить
+        - name: Content-Language
+          in: header
+          description: Заголовок для определения локали (ru, en, zh_CN)
+          required: true
       tags:
         - Trades
       summary: Получение информации о лоте
@@ -3170,6 +3174,7 @@ paths:
               required:
                 - email
                 - phone
+                - paymentTradingTypes
               properties:
                 email:
                   type: string
@@ -3179,6 +3184,15 @@ paths:
                   type: string
                 phone:
                   type: string
+                paymentTradingTypes:
+                  type: array
+                  items:
+                    type: string
+                    enum:
+                      - purchaseBidByAgent
+                      - infoAboutLot
+                      - consultation,
+                      - accompanimentFAS
                 socialsForAnswer:
                   type: array
                   items:
@@ -3193,6 +3207,123 @@ paths:
       responses:
         "200":
           description: заявка успешно отправлена
+        "422":
+          description: Ошибка валидации данных
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+        - bearerAuth: [ ]
+  /send/purchase/instructions:
+    post:
+      parameters:
+        - name: Content-Language
+          in: header
+          description: Заголовок для определения локали (ru, en, zh_CN)
+          required: true
+      tags:
+        - Applications
+      summary: Оплата услуги "Покупка без ЭЦП - инструкция"
+      operationId: purchaseInstructions
+      requestBody:
+        description: данные для отправления заявки
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - email
+                - lotId
+              properties:
+                email:
+                  type: string
+                lotId:
+                  type: integer
+      responses:
+        "200":
+          description: Создание платежа прошло успешно, в ответе ссылка для его подтверждения
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  redirectUrl:
+                    type: string
+              example:
+                redirectUrl: https://paymaster.ru/cpay/7ec1c57594b54d059713003128b60286
+        403:
+          description: при создании платежа paymaster вернул ошибку
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "422":
+          description: Ошибка валидации данных
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+        - bearerAuth: [ ]
+  /send/receipt/egrn:
+    post:
+      parameters:
+        - name: Content-Language
+          in: header
+          description: Заголовок для определения локали (ru, en, zh_CN)
+          required: true
+      tags:
+        - Applications
+      summary: Оплата услуги "Выписка ЕГРН"
+      operationId: receiptEgrn
+      requestBody:
+        description: данные для отправления заявки
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - cadastralNumber
+                - lotId
+              properties:
+                lotId:
+                  type: integer
+                cadastralNumber:
+                  type: string
+                  example: 61:44:0071802:1786
+      responses:
+        "200":
+          description: Создание платежа прошло успешно, в ответе ссылка для его подтверждения
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  redirectUrl:
+                    type: string
+              example:
+                redirectUrl: https://paymaster.ru/cpay/7ec1c57594b54d059713003128b60286
+        403:
+          description: при создании платежа paymaster вернул ошибку
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
         "422":
           description: Ошибка валидации данных
           content:
@@ -4058,6 +4189,17 @@ components:
         applicationRules:
           type: string
           description: правила подачи заявок
+        applications:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: integer
+              title:
+                type: string
+              status:
+                type: string
     Pagination:
       type: object
       properties:
