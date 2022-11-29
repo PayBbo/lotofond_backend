@@ -139,9 +139,11 @@ class TradeService
             preg_match_all($cadastr_number, $value[$prefix . 'TradeObjectHtml'], $matches);
             if (count($matches[0]) > 0) {
                 foreach (array_unique($matches[0]) as $match) {
-                    $lot->params()->attach(Param::find(4), ['value' => $match, 'parent_id' => null]);
-                    $parseDataFromRosreestr = new ParseDataFromRosreestrService($match);
-                    $parseDataFromRosreestr->handle();
+                    if(!$lot->params()->where('value', $match)->exists()) {
+                        $lot->params()->attach(Param::find(4), ['value' => $match, 'parent_id' => null]);
+                        $parseDataFromRosreestr = new ParseDataFromRosreestrService($match);
+                        $parseDataFromRosreestr->handle();
+                    }
                 }
             }
             $avto_number = '/' . $this->getAvtoNumberRegex() . '/um';

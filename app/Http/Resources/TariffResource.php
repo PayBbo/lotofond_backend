@@ -24,7 +24,7 @@ class TariffResource extends JsonResource
                 'includedDetails' => $this->included_details,
                 'excludedDetails' => $this->excluded_details,
             ],
-            'isUserTariff' => auth()->guard('api')->check() && auth()->guard('api')->user()->tariff && auth()->guard('api')->user()->tariff->id == $this->id
+            'isUserTariff' => auth()->guard('api')->check() && auth()->guard('api')->user()->tariff && auth()->guard('api')->user()->tariff->tariff_id == $this->id
         ];
     }
 }
