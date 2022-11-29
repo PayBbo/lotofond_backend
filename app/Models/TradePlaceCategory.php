@@ -17,6 +17,6 @@ class TradePlaceCategory extends Model
     protected $fillable = ['title'];
 
     public function tradePlaces(){
-        return $this->hasMany(TradePlace::class);
+        return $this->hasMany(TradePlace::class, 'trade_place_category_id');
     }
 }

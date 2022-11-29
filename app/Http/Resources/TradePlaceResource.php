@@ -20,6 +20,8 @@ class TradePlaceResource extends JsonResource
             'id' => $this->id,
             $this->mergeWhen($this->isReestr || Route::getCurrentRoute()->getName() === 'trade-places', [
                 'site' => str_starts_with($this->site, 'http') ? $this->site : 'http://' . $this->site,
+                'email'=>$this->email,
+                'category'=>$this->tradePlaceCategory->title,
                 'ownerName' => $this->owner_name,
                 'inn' => $this->inn,
                 'note' => $this->getNote()

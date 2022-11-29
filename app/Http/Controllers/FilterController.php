@@ -11,6 +11,8 @@ use App\Models\PriceReduction;
 use App\Models\RegionGroup;
 use App\Models\RegistryNotificationGroup;
 use App\Models\TradePlace;
+use App\Models\TradePlaceCategory;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
@@ -43,12 +45,31 @@ class FilterController extends Controller
         if (isset($cachedTradePlaces)) {
             $tradePlaces = $cachedTradePlaces;
         } else {
+            $tradePlaces = TradePlace::has('auctionsWithLots')->orderBy('name', 'asc')->get();
             Cache::remember('tradePlaces', now()->addHour(),  function () {
                 $tradePlaces = TradePlace::has('auctionsWithLots')->orderBy('name', 'asc')->get();
                 return $tradePlaces;
             });
         }
         return response(TradePlaceResource::collection($tradePlaces), 200);
+
+    }
+
+    public function getTradePlacesForFilterV1()
+    {
+        $cachedTradePlaces = Cache::get('tradePlacesV1');
+        if (isset($cachedTradePlaces)) {
+            $tradePlaces = $cachedTradePlaces;
+        } else {
+            $tradePlaceCategories = TradePlaceCategory::all();
+            $tradePlaces = [];
+            foreach($tradePlaceCategories as $tradePlaceCategory){
+                $groupedTradePlaces = $tradePlaceCategory->tradePlaces()->select('id', 'name')->orderBy('name', 'asc')->get();
+                $tradePlaces[] = ['category'=>$tradePlaceCategory->title, 'tradePlaces'=>$groupedTradePlaces];
+            }
+            Cache::put('tradePlacesV1', $tradePlaces, Carbon::now()->setTimezone('Europe/Moscow')->addHour());
+        }
+        return response($tradePlaces, 200);
 
     }
 

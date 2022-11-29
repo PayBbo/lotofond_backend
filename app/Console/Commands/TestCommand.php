@@ -81,20 +81,9 @@ class TestCommand extends Command
           $service = new SoapWrapperService($soapWrapper);
           $xml = $service->getTradeMessageContent(13524515);
           logger($xml);*/
-        /* $soapWrapper = new SoapWrapper();
+   /*      $soapWrapper = new SoapWrapper();
          $service = new SoapWrapperService($soapWrapper);
-         $debtor_data = get_object_vars($service->searchDebtorByCode( 'CompanyInn', 5610112272));
-         if (array_key_exists('DebtorCompany', $debtor_data)) {
-             if(gettype($debtor_data['DebtorCompany']) == 'array'){
-                 $debtor = $debtor_data['DebtorCompany'];
-             }else {
-                 $debtor = get_object_vars($debtor_data['DebtorCompany']);
-             }
-         }
-         if(!array_key_exists('INN', $debtor)){
-             logger(get_object_vars(array_pop($debtor))['INN']);
-         }else {
-             logger($debtor['INN']);
-         }*/
+         logger(json_encode($service->getTradeMessagesByTrade( '140376', '1656057203', Carbon::parse('2022-09-06 13:00:00')->format('Y-m-d\TH:i:s'))));*/
+
     }
 }

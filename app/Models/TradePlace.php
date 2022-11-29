@@ -19,7 +19,8 @@ class TradePlace extends Model
         'owner_name',
         'inn',
         'site',
-        'trade_place_category_id'
+        'trade_place_category_id',
+        'email'
     ];
 
     /**

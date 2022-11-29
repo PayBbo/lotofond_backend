@@ -826,6 +826,38 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+  /trades/filter/trade-places/v1:
+    get:
+      parameters:
+      - name: Content-Language
+        in: header
+        description: Заголовок для определения локали (ru, en, zh_CN)
+        required: true
+      tags:
+        - FiltersData
+      summary: Получение информации о торговых площадках для отображения в фильтрах сгруппированных по категориям
+      operationId: getTradePlacesForFilterV1
+      responses:
+        "200":
+          description: Информация о торговых площадках
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    category:
+                      type: string
+                      example: Банкротство
+                    tradePlaces:
+                      $ref: '#/components/schemas/TradePlaces'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
   /trades/filter/categories:
     get:
       parameters:
@@ -2164,6 +2196,10 @@ paths:
       tags:
         - Bidders
       parameters:
+        - name: Content-Language
+          in: header
+          description: Заголовок для определения локали (ru, en, zh_CN)
+          required: true
         - in: path
           name: tradePlaceId
           schema:
@@ -4555,6 +4591,10 @@ components:
         ownerName:
           type: string
         inn:
+          type: string
+        email:
+          type: string
+        category:
           type: string
     TradePlaces:
       type: array

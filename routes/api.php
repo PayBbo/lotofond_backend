@@ -98,6 +98,8 @@ Route::group(['middleware' => ['json.response', 'localization']], function () {
 
             Route::get('/trade-places', [FilterController::class, 'getTradePlacesForFilter']);
 
+            Route::get('/trade-places/v1', [FilterController::class, 'getTradePlacesForFilterV1']);
+
             Route::get('/categories', [FilterController::class, 'getCategoriesForFilter']);
 
             Route::get('/regions', [FilterController::class, 'getRegionsForFilter']);
