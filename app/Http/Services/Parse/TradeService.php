@@ -139,7 +139,7 @@ class TradeService
             preg_match_all($cadastr_number, $value[$prefix . 'TradeObjectHtml'], $matches);
             if (count($matches[0]) > 0) {
                 foreach (array_unique($matches[0]) as $match) {
-                    if(!$lot->params()->where('value', $match)->exists()) {
+                    if (!$lot->params()->where('value', $match)->exists() && strlen((string)$match) > 0) {
                         $lot->params()->attach(Param::find(4), ['value' => $match, 'parent_id' => null]);
                         $parseDataFromRosreestr = new ParseDataFromRosreestrService($match);
                         $parseDataFromRosreestr->handle();
@@ -155,7 +155,9 @@ class TradeService
                 $mainParam->save();
                 foreach (array_unique($matches['licence_plate']) as $match) {
                     $res = str_replace('RUS', '', mb_strtoupper(str_replace(' ', '', $match)));
-                    $lot->params()->attach(Param::find(5), ['value' => $res, 'parent_id' => $mainParam->id]);
+                    if (!$lot->params()->where('value', $res)->exists() && strlen((string)$res) > 0) {
+                        $lot->params()->attach(Param::find(5), ['value' => $res, 'parent_id' => $mainParam->id]);
+                    }
                 }
             }
             $avto_vin = '/[A-HJ-NPR-Z0-9]{17}/ui';
@@ -234,15 +236,13 @@ class TradeService
                 if (count($matches[0]) > 0) {
                     unset($matches[0][0]);
                     $this->getPriceReductionParams($matches, 0, 3, 5, $lot, 4);
-                }
-                elseif(str_starts_with($red, '<table><tr><td>')){
+                } elseif (str_starts_with($red, '<table><tr><td>')) {
                     $pattern = '/<tr[\s\S]*?<\/tr>/';
                     preg_match_all($pattern, $red, $matches);
                     if (count($matches[0]) > 0) {
                         $this->getPriceReductionParams($matches, 0, 1, 2, $lot);
                     }
-                }
-                else {
+                } else {
                     try {
                         $values = explode('<br/>', $red);
                         $i = 1;
@@ -282,7 +282,8 @@ class TradeService
         }
     }
 
-    public function getPriceReductionParams($matches, $start_time_index, $end_time_index, $price_index, $lot, $deposit_index=null){
+    public function getPriceReductionParams($matches, $start_time_index, $end_time_index, $price_index, $lot, $deposit_index = null)
+    {
         $i = 0;
         foreach ($matches[0] as $match) {
             $new_pattern = '/<td[\s\S]*?<\/td>/';
@@ -294,15 +295,15 @@ class TradeService
                     substr($items[0][$price_index], 4, strlen($items[0][$price_index]) - 9)
                 )), 2, '.', '') : 0;
             $deposit = null;
-            if(!is_null($deposit_index)){
-                $deposit =  array_key_exists((string)$deposit_index, $items[0]) ? number_format((float)preg_replace("/[^,.0-9]/", '',
+            if (!is_null($deposit_index)) {
+                $deposit = array_key_exists((string)$deposit_index, $items[0]) ? number_format((float)preg_replace("/[^,.0-9]/", '',
                     str_replace(',', '.',
                         substr($items[0][$deposit_index], 4, strlen($items[0][$deposit_index]) - 9)
                     )), 2, '.', '') : null;
             }
             if ($i > 1) {
                 preg_match_all($new_pattern, $matches[0][$i - 1], $prev_item);
-                $prev_price =  array_key_exists((string)$price_index, $items[0]) ? (float)preg_replace("/[^,.0-9]/", '',
+                $prev_price = array_key_exists((string)$price_index, $items[0]) ? (float)preg_replace("/[^,.0-9]/", '',
                     str_replace(',', '.',
                         substr($prev_item[0][$price_index], 4, strlen($prev_item[0][$price_index]) - 9))) : 0;
             } else {
@@ -319,7 +320,7 @@ class TradeService
     public function savePriceReduction($lot_id, $price, $start_time, $end_time, $prev_price = null, $percent = 0, $deposit = 0, $is_system = false)
     {
         if (!is_null($prev_price)) {
-            $percent = ((float)$prev_price - (float)$price) /(float)$prev_price * 100;
+            $percent = ((float)$prev_price - (float)$price) / (float)$prev_price * 100;
         }
         PriceReduction::create([
             'lot_id' => $lot_id,
