@@ -41,6 +41,7 @@
             height: 100%;
             width: 100%;
         }
+
         & input:checked ~ .bkt-check__input-check {
             background: $primary-default;
             box-shadow: 0 3px 10px 0 rgba(41, 83, 255, 0.53);
@@ -69,6 +70,7 @@
             background: $primary-default;
             box-shadow: 0 3px 10px 0 rgba(41, 83, 255, 0.53);
         }
+
         & input:not(:indeterminate) ~ .bkt-check__input-check {
             background: transparent;
             box-shadow: none;
@@ -150,7 +152,7 @@
         }
 
         & input:checked ~ .bkt-check__input-check {
-            background: $primary-default ;
+            background: $primary-default;
             box-shadow: none;
         }
 
@@ -159,4 +161,31 @@
         }
     }
 
+}
+
+.bkt-check_radio-check {
+    margin: 0;
+
+    & .bkt-check__input {
+        border-radius: 50%;
+        background: white;
+        margin: 0;
+
+        & .bkt-check__input-check {
+            height: 100%;
+            width: 100%;
+        }
+    }
+
+    & input:checked ~ .bkt-check__input-check {
+        background-image: url("data:image/svg+xml, %3Csvg width='100%25' height='100%25' fill='%232953ff' stroke='%232953ff' stroke-width='1' stroke-linecap='round' xmlns='http://www.w3.org/2000/svg' viewBox='2 2 20 20'%3E%3Cpath d='M18.71,7.21a1,1,0,0,0-1.42,0L9.84,14.67,6.71,11.53A1,1,0,1,0,5.29,13l3.84,3.84a1,1,0,0,0,1.42,0l8.16-8.16A1,1,0,0,0,18.71,7.21Z'/%3E%3C/svg%3E") !important;
+        box-shadow: none !important;
+        //border: 2px solid $green-default;
+        background-color: transparent !important;
+    }
+
+    & input:disabled ~ .bkt-check__input-check {
+        background-color: transparent !important;
+        background-image: url("data:image/svg+xml, %3Csvg width='100%25' height='100%25' fill='%232953ff' stroke='%232953ff' stroke-width='1' stroke-linecap='round' xmlns='http://www.w3.org/2000/svg' viewBox='2 2 20 20'%3E%3Cpath d='M18.71,7.21a1,1,0,0,0-1.42,0L9.84,14.67,6.71,11.53A1,1,0,1,0,5.29,13l3.84,3.84a1,1,0,0,0,1.42,0l8.16-8.16A1,1,0,0,0,18.71,7.21Z'/%3E%3C/svg%3E") !important;
+    }
 }

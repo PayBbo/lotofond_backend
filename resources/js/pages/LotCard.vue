@@ -1611,21 +1611,11 @@
             isLoggedIn: function (newVal, oldVal) {
                 if (oldVal == false && newVal == true) {
                     this.getLot();
-                    // this.getLotFiles();
-                    this.getLotNotifications();
-                    // this.getLotMarks();
-                    this.makeWatched();
                 }
             }
         },
         async mounted() {
             this.getLot();
-            if (this.isLoggedIn) {
-                this.makeWatched();
-                // this.getLotFiles();
-                this.getLotNotifications();
-                // this.getLotMarks();
-            }
         },
         methods: {
             goBack() {
@@ -1660,6 +1650,11 @@
 
                         this.$store.commit('setSelectedLot', resp.data);
                         this.loading = false;
+                        if (this.isLoggedIn) {
+                            this.makeWatched();
+                            this.getLotNotifications();
+                            // this.getLotMarks();
+                        }
                         this.getRelatedLots();
                         this.getDebtorActiveLots();
                         this.getDebtorCompletedLots();
@@ -1789,15 +1784,6 @@
 
                 });
             },
-            getMiniLot() {
-                this.getLot();
-                if (this.isLoggedIn) {
-                    // this.getLotFiles();
-                    this.getLotNotifications();
-                    // this.getLotMarks();
-                    this.makeWatched();
-                }
-            },
             changeStatus(payload) {
                 this.$store.dispatch('saveDataProperty', {
                     module_key: 'lots', state_key: 'selected_lot',
@@ -1861,7 +1847,8 @@
                 this.$store.commit('openModal', '#applicationModal')
             },
             makeWatched() {
-                if (!this.item.isWatched) {
+                if (this.item.isWatched === false) {
+                    console.log('this.item.isWatched',this.item.isWatched, this.item)
                     this.$store.dispatch('changeTradeLotStatus', {lotId: this.$route.params.id, type: 'seen'})
                         .then(resp => {
                             this.$store.dispatch('saveDataProperty', {

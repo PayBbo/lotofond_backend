@@ -18,8 +18,12 @@ export default {
             phone:'',
             email:''
         },
+        help:[],
+        about: [],
+        info: [],
         controllers: [],
-        signals: []
+        signals: [],
+        tariffs:[]
     },
 
     getters: {
@@ -32,11 +36,23 @@ export default {
         main_contacts(state) {
             return state.main_contacts;
         },
+        help(state) {
+            return state.help;
+        },
+        about(state) {
+            return state.about;
+        },
+        info(state) {
+            return state.info;
+        },
         controllers(state) {
             return state.controllers;
         },
         signals(state) {
             return state.signals;
+        },
+        tariffs(state) {
+            return state.tariffs;
         },
     },
 
@@ -99,6 +115,24 @@ export default {
                     commit('setContacts', contacts)
             });
         },
+        getInfo({commit}, payload) {
+            axios.get('/api/text-data/info')
+                .then( resp => {
+                    commit('setInfo', resp.data)
+            });
+        },
+        getHelp({commit}, payload) {
+            axios.get('/api/text-data/help')
+                .then( resp => {
+                    commit('setHelp', resp.data)
+            });
+        },
+        getAbout({commit}, payload) {
+            axios.get('/api/text-data/about')
+                .then( resp => {
+                    commit('setAbout', resp.data)
+            });
+        },
         setAborts({commit, state}, payload) {
             state.controllers[payload.method] = payload.controller;
             state.signals[payload.method] = payload.signal;
@@ -107,6 +141,12 @@ export default {
             if (state.signals[payload]) {
                 state.controllers[payload].abort();
             }
+        },
+        getTariffs({commit}) {
+            axios.get('/api/tariffs')
+                .then( resp => {
+                    commit('setTariffs', resp.data)
+                });
         },
     },
 
@@ -144,6 +184,18 @@ export default {
         },
         setContacts(state, payload) {
             return (state.main_contacts = payload);
+        },
+        setHelp(state, payload) {
+            return (state.help = payload);
+        },
+        setAbout(state, payload) {
+            return (state.about = payload);
+        },
+        setInfo(state, payload) {
+            return (state.info = payload);
+        },
+        setTariffs(state, payload) {
+            return (state.tariffs = payload);
         },
     }
 };
