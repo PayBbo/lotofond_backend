@@ -87,136 +87,137 @@ class TestCommand extends Command
         /*      $soapWrapper = new SoapWrapper();
               $service = new SoapWrapperService($soapWrapper);
               logger(json_encode($service->getTradeMessagesByTrade( '140376', '1656057203', Carbon::parse('2022-09-06 13:00:00')->format('Y-m-d\TH:i:s'))));*/
-        $value = ['PublicOffer', 'ClosePublicOffer'];
-        $lots = Lot::whereHas('auction.auctionType', function ($q) use ($value) {
-            $q->whereIn('title', $value);
-        })->latest()->limit(1000)->get();
-        foreach ($lots as $lot) {
-            try {
-                $bidInv = $lot->tradeMessages()->where('value', 'biddingDeclared')->first();
-                $soapWrapper = new SoapWrapper();
-                $service = new SoapWrapperService($soapWrapper);
-                $xmlBid = $service->getTradeMessageContent($bidInv->number);
-                $xmlBid = Xml2Array::create($xmlBid)->toArray();
-                $type = 'BiddingInvitation';
-                $key = preg_grep('/:Body/', array_keys($xmlBid));
-                if (array_key_exists('ns1:Set' . $type, $xmlBid[$key[0]])) {
-                    $invitation = $xmlBid[$key[0]]['ns1:Set' . $type]['ns1:' . $type];
-                    $prefix = 'ns1:';
-                } else {
-                    $invitation = $xmlBid[$key[0]]['Set' . $type][$type];
-                    $prefix = '';
-                }
-                $id = $invitation[$prefix . 'IDEFRSB'];
-                $xml = $service->getMessageContent($id);
-                $xml = Xml2Array::create($xml)->toArray();
-                $test = new TestMessage();
-                $test->lot_id = $lot->id;
-                $test->message_id = $xml['Id'];
-                if (array_key_exists('Auction', $xml['MessageInfo'])) {
-                    if (strpos($xml['Publisher']['@attributes']['type'], 'ArbitrManager')) {
-                        $test->arbitration_manager = $xml['Publisher'];
-                        if (array_key_exists('Fio', $xml['Publisher'])) {
-                            $test->arbitr_fio = $xml['Publisher']['Fio']['LastName'] . ' ' . $xml['Publisher']['Fio']['FirstName'] . ' ' . $xml['Publisher']['Fio']['MiddleName'];
-                        } elseif (array_key_exists('Name', $xml['Publisher'])) {
-                            $test->arbitr_name = $xml['Publisher']['Name'];
-                        }
-                        $test->sro = $xml['Publisher']['Sro']['Name'];
-                    } else {
-                        $test->organizer = $xml['Publisher'];
-                        if (array_key_exists('Fio', $xml['Publisher'])) {
-                            $test->organizer_fio = $xml['Publisher']['Fio']['LastName'] . ' ' . $xml['Publisher']['Fio']['FirstName'] . ' ' . $xml['Publisher']['Fio']['MiddleName'];
-                        } elseif (array_key_exists('Name', $xml['Publisher'])) {
-                            $test->organizer_name = $xml['Publisher']['Name'];
-                        }
-                    }
-                    $test->trade_site = $xml['MessageInfo']['Auction']['TradeSite'];
-                    $test->text = $xml['MessageInfo']['Auction']['Text'];
-                    try {
-                        $lots = $xml['MessageInfo']['Auction']['LotTable']['AuctionLot'];
-                        if (array_key_exists('Order', $lots)) {
-                            $auctionLot = $lots;
-                            if ($auctionLot['Order'] != $lot->number) {
-                                $test->start_price = $auctionLot['StartPrice'];
-                                if (array_key_exists('Step', $auctionLot) && gettype($auctionLot['Step']) != 'array' && strlen((string)$auctionLot['Step']) > 0) {
-                                    $test->auction_step = $auctionLot['Step'];
-                                }
-                                if (array_key_exists('Advance', $auctionLot) && gettype($auctionLot['Advance']) != 'array' && strlen((string)$auctionLot['Advance']) > 0) {
-                                    $test->advance = $auctionLot['Advance'];
-                                }
-                                if (array_key_exists('AuctionStepUnit', $auctionLot) && gettype($auctionLot['AuctionStepUnit']) != 'array' && strlen((string)$auctionLot['AuctionStepUnit']) > 0) {
-                                    $test->auction_step_unit = $auctionLot['AuctionStepUnit'];
-                                }
-                                if (array_key_exists('AdvanceStepUnit', $auctionLot) && gettype($auctionLot['AdvanceStepUnit']) != 'array' && strlen((string)$auctionLot['AdvanceStepUnit']) > 0) {
-                                    $test->advance_step_unit = $auctionLot['AdvanceStepUnit'];
-                                }
-                                if (array_key_exists('PriceReduction', $auctionLot) && gettype($auctionLot['PriceReduction']) != 'array' && strlen((string)$auctionLot['PriceReduction']) > 0) {
-                                    $test->price_reduction = $auctionLot['PriceReduction'];
-                                }
-                                $test->save();
-                            }
-                        } else {
-                            foreach ($lots as $auctionLot) {
-                                if ($auctionLot['Order'] != $lot->number) {
-                                    continue;
-                                }
-                                $test->start_price = $auctionLot['StartPrice'];
-                                if (array_key_exists('Step', $auctionLot) && gettype($auctionLot['Step']) != 'array' && strlen((string)$auctionLot['Step']) > 0) {
-                                    $test->auction_step = $auctionLot['Step'];
-                                }
-                                if (array_key_exists('Advance', $auctionLot) && gettype($auctionLot['Advance']) != 'array' && strlen((string)$auctionLot['Advance']) > 0) {
-                                    $test->advance = $auctionLot['Advance'];
-                                }
-                                if (array_key_exists('AuctionStepUnit', $auctionLot) && gettype($auctionLot['AuctionStepUnit']) != 'array' && strlen((string)$auctionLot['AuctionStepUnit']) > 0) {
-                                    $test->auction_step_unit = $auctionLot['AuctionStepUnit'];
-                                }
-                                if (array_key_exists('AdvanceStepUnit', $auctionLot) && gettype($auctionLot['AdvanceStepUnit']) != 'array' && strlen((string)$auctionLot['AdvanceStepUnit']) > 0) {
-                                    $test->advance_step_unit = $auctionLot['AdvanceStepUnit'];
-                                }
-                                if (array_key_exists('PriceReduction', $auctionLot) && gettype($auctionLot['PriceReduction']) != 'array' && strlen((string)$auctionLot['PriceReduction']) > 0) {
-                                    $test->price_reduction = $auctionLot['PriceReduction'];
-                                }
-                                $test->save();
-                            }
-                        }
+           $value = ['PublicOffer', 'ClosePublicOffer'];
+           $lots = Lot::whereHas('auction.auctionType', function ($q) use ($value) {
+               $q->whereIn('title', $value);
+           })->latest()->limit(1000)->get();
+           foreach ($lots as $lot) {
+               try {
+                   $bidInv = $lot->tradeMessages()->where('value', 'biddingDeclared')->first();
+                   $soapWrapper = new SoapWrapper();
+                   $service = new SoapWrapperService($soapWrapper);
+                   $xmlBid = $service->getTradeMessageContent($bidInv->number);
+                   $xmlBid = Xml2Array::create($xmlBid)->toArray();
+                   $type = 'BiddingInvitation';
+                   $key = preg_grep('/:Body/', array_keys($xmlBid));
+                   if (array_key_exists('ns1:Set' . $type, $xmlBid[$key[0]])) {
+                       $invitation = $xmlBid[$key[0]]['ns1:Set' . $type]['ns1:' . $type];
+                       $prefix = 'ns1:';
+                   } else {
+                       $invitation = $xmlBid[$key[0]]['Set' . $type][$type];
+                       $prefix = '';
+                   }
+                   $id = $invitation[$prefix . 'IDEFRSB'];
+                   $xml = $service->getMessageContent($id);
+                   $xml = Xml2Array::create($xml)->toArray();
+                   $test = new TestMessage();
+                   $test->lot_id = $lot->id;
+                   $test->message_id = $xml['Id'];
+                  // if (array_key_exists('Auction', $xml['MessageInfo'])) {
+                       if (strpos($xml['Publisher']['@attributes']['type'], 'ArbitrManager')) {
+                           $test->arbitration_manager = $xml['Publisher'];
+                           if (array_key_exists('Fio', $xml['Publisher'])) {
+                               $test->arbitr_fio = $xml['Publisher']['Fio']['LastName'] . ' ' . $xml['Publisher']['Fio']['FirstName'] . ' ' . $xml['Publisher']['Fio']['MiddleName'];
+                           } elseif (array_key_exists('Name', $xml['Publisher'])) {
+                               $test->arbitr_name = $xml['Publisher']['Name'];
+                           }
+                           $test->sro = $xml['Publisher']['Sro']['Name'];
+                       } else {
+                           $test->organizer = $xml['Publisher'];
+                           if (array_key_exists('Fio', $xml['Publisher'])) {
+                               $test->organizer_fio = $xml['Publisher']['Fio']['LastName'] . ' ' . $xml['Publisher']['Fio']['FirstName'] . ' ' . $xml['Publisher']['Fio']['MiddleName'];
+                           } elseif (array_key_exists('Name', $xml['Publisher'])) {
+                               $test->organizer_name = $xml['Publisher']['Name'];
+                           }
+                       }
+                       $test->trade_site = $xml['MessageInfo']['Auction']['TradeSite'];
+                       $test->text = $xml['MessageInfo']['Auction']['Text'];
+                       try {
+                           $lots = $xml['MessageInfo']['Auction']['LotTable']['AuctionLot'];
+                           if (array_key_exists('Order', $lots)) {
+                               $auctionLot = $lots;
+                               if ($auctionLot['Order'] != $lot->number) {
+                                   $test->start_price = $auctionLot['StartPrice'];
+                                   if (array_key_exists('Step', $auctionLot) && gettype($auctionLot['Step']) != 'array' && strlen((string)$auctionLot['Step']) > 0) {
+                                       $test->auction_step = $auctionLot['Step'];
+                                   }
+                                   if (array_key_exists('Advance', $auctionLot) && gettype($auctionLot['Advance']) != 'array' && strlen((string)$auctionLot['Advance']) > 0) {
+                                       $test->advance = $auctionLot['Advance'];
+                                   }
+                                   if (array_key_exists('AuctionStepUnit', $auctionLot) && gettype($auctionLot['AuctionStepUnit']) != 'array' && strlen((string)$auctionLot['AuctionStepUnit']) > 0) {
+                                       $test->auction_step_unit = $auctionLot['AuctionStepUnit'];
+                                   }
+                                   if (array_key_exists('AdvanceStepUnit', $auctionLot) && gettype($auctionLot['AdvanceStepUnit']) != 'array' && strlen((string)$auctionLot['AdvanceStepUnit']) > 0) {
+                                       $test->advance_step_unit = $auctionLot['AdvanceStepUnit'];
+                                   }
+                                   if (array_key_exists('PriceReduction', $auctionLot) && gettype($auctionLot['PriceReduction']) != 'array' && strlen((string)$auctionLot['PriceReduction']) > 0) {
+                                       $test->price_reduction = $auctionLot['PriceReduction'];
+                                   }
+                                   $test->save();
+                               }
+                           } else {
+                               foreach ($lots as $auctionLot) {
+                                   if ($auctionLot['Order'] != $lot->number) {
+                                       continue;
+                                   }
+                                   $test->start_price = $auctionLot['StartPrice'];
+                                   if (array_key_exists('Step', $auctionLot) && gettype($auctionLot['Step']) != 'array' && strlen((string)$auctionLot['Step']) > 0) {
+                                       $test->auction_step = $auctionLot['Step'];
+                                   }
+                                   if (array_key_exists('Advance', $auctionLot) && gettype($auctionLot['Advance']) != 'array' && strlen((string)$auctionLot['Advance']) > 0) {
+                                       $test->advance = $auctionLot['Advance'];
+                                   }
+                                   if (array_key_exists('AuctionStepUnit', $auctionLot) && gettype($auctionLot['AuctionStepUnit']) != 'array' && strlen((string)$auctionLot['AuctionStepUnit']) > 0) {
+                                       $test->auction_step_unit = $auctionLot['AuctionStepUnit'];
+                                   }
+                                   if (array_key_exists('AdvanceStepUnit', $auctionLot) && gettype($auctionLot['AdvanceStepUnit']) != 'array' && strlen((string)$auctionLot['AdvanceStepUnit']) > 0) {
+                                       $test->advance_step_unit = $auctionLot['AdvanceStepUnit'];
+                                   }
+                                   if (array_key_exists('PriceReduction', $auctionLot) && gettype($auctionLot['PriceReduction']) != 'array' && strlen((string)$auctionLot['PriceReduction']) > 0) {
+                                       $test->price_reduction = $auctionLot['PriceReduction'];
+                                   }
+                                   $test->save();
+                               }
+                           }
 
-                    } catch (\Exception $e) {
-                        logger($e);
-                        logger($lots);
-                        logger($xml);
-                    }
-                }
+                       } catch (\Exception $e) {
+                           logger($e);
+                           logger($lots);
+                           logger($xml);
+                       }
+                  // }
 
-            } catch (\Exception $e) {
-                logger($e);
-                logger($lot->id);
-            }
-        }
-        /*  $table = TestMessage::select(
-              'lot_id',
-              'message_id',
-              'start_price',
-              'auction_step',
-              'auction_step_unit',
-              'advance',
-              'advance_step_unit',
-              'price_reduction',
-              'organizer_fio',
-              'arbitr_fio',
-              'sro',
-              'text',
-              'trade_site',
-              'arbitration_manager',
-              'organizer'
-          )->get();
-           $file = fopen('test_lots.csv', 'w');
-           fprintf($file, chr(0xEF).chr(0xBB).chr(0xBF));
-           fputcsv($file, ['Номер лота у нас', 'Номер сообщения', 'Начальная цена', 'Шаг цены', 'Единицы измерения шага аукциона', 'Задаток', 'Единицы измерения задатка', 'Снижение цены',
-               'ФИО Организатора','ФИО Арбитра', 'Название компании организатора','Название компании организатора', 'СРО АУ','Текст сообщения','Торговая площадка',  'Арбитр', 'Организатор'], ';');
-           foreach ($table as $row) {
-               fputcsv($file, $row->toArray(), ';');
+               } catch (\Exception $e) {
+                   logger($e);
+                   logger($lot->id);
+               }
            }
-           fclose($file);*/
+      /*  $table = TestMessage::select(
+            'lot_id',
+            'message_id',
+            'start_price',
+            'auction_step',
+            'auction_step_unit',
+            'advance',
+            'advance_step_unit',
+            'price_reduction',
+            'organizer_fio',
+            'arbitr_fio',
+            'organizer_name',
+            'sro',
+            'text',
+            'trade_site',
+            'arbitration_manager',
+            'organizer'
+        )->get();
+        $file = fopen('test_lots.csv', 'w');
+        fprintf($file, chr(0xEF) . chr(0xBB) . chr(0xBF));
+        fputcsv($file, ['Номер лота у нас', 'Номер сообщения', 'Начальная цена', 'Шаг цены', 'Единицы измерения шага аукциона', 'Задаток', 'Единицы измерения задатка', 'Снижение цены',
+            'ФИО Организатора', 'ФИО Арбитра', 'Название компании организатора', 'СРО АУ', 'Текст сообщения', 'Торговая площадка', 'Арбитр', 'Организатор'], ';');
+        foreach ($table as $row) {
+            fputcsv($file, $row->toArray(), ';');
+        }
+        fclose($file);*/
 
     }
 }
