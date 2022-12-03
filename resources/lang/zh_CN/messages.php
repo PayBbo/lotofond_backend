@@ -23,8 +23,8 @@ return [
     "favouritePriceReduction"=>"批次价格变化：值.",
     "welcome"=>"欢迎.",
     "gladToSeeYou"=>"我们很高兴在 Lotofond 见到你",
-    'applicationAnswerTitle'=>'检查你的电子邮件',
-    'applicationAnswerBody'=>'你的申请已被处理',
+    'applicationAnswerTitle'=>'申请 ":value" 地段没有。 :value2 已处理',
+    'applicationAnswerBody'=>'您的申请已被处理，回复已发送到邮件中',
 
     "Annulment"=>"废止信息",
     "biddingDeclared"=>"销售信息",

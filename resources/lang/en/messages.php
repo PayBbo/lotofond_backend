@@ -23,8 +23,8 @@ return [
     'favouritePriceReduction'=>'Lot price change :value.',
     'welcome'=>'Welcome!',
     'gladToSeeYou'=>'We are glad to see you at Lotofond',
-    'applicationAnswerTitle'=>'Check your email',
-    'applicationAnswerBody'=>'Your application has been processed',
+    'applicationAnswerTitle'=>'Application for ":value" of lot no. :value2 processed',
+    'applicationAnswerBody'=>'Your application has been processed, a response has been sent to the mail',
 
 
     'Annulment'=>'Cancellation Notice',
