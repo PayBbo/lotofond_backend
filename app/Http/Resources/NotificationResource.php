@@ -16,6 +16,10 @@ class NotificationResource extends JsonResource
     {
         $value = !is_null($this->value) ? __('messages.' . $this->message, ['value' => $this->value]) :
             __('messages.' . $this->message);
+        $label = null;
+        if($this->type_id == 1 && !is_null($this->application_id)){
+            $label =  __('messages.' . $this->label, ['value' => $this->application->tariff->title, 'value2'=>$this->application->lot_id]);
+        }
         return [
             'id' => $this->id,
             'isSeen' => $this->is_seen,
@@ -23,7 +27,7 @@ class NotificationResource extends JsonResource
             'date' => $this->date,
             $this->mergeWhen($this->type_id == 1, [
                 'dataPlatform' => [
-                    'label' => __('messages.' . $this->label),
+                    'label' => is_null($label) ?  __('messages.' . $this->label) : $label,
                     'value' => $value,
                     'action' => $this->platform_action
                 ]

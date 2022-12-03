@@ -296,6 +296,61 @@ let router = new VueRouter({
                 permission: 'role-edit'
             }
         },
+        {
+            path: '/admin/tariffs',
+            name: 'Tariffs',
+            beforeEnter: guardAdminRoute,
+            component: () =>
+                import(
+                    /* webpackChunkName: "tariffs" */ "./admin/tariffs/Tariffs.vue"
+                    ),
+            meta: {
+                auth: true,
+                layout: 'Admin',
+                permission: 'tariff-list'
+            }
+        },
+        {
+            path: '/admin/tariffs/add',
+            name: 'AddTariff',
+            beforeEnter: guardAdminRoute,
+            component: () =>
+                import(
+                    /* webpackChunkName: "tariffs-add" */ "./admin/tariffs/AddEditTariff.vue"
+                    ),
+            meta: {
+                auth: true,
+                layout: 'Admin',
+                permission: 'tariff-add'
+            }
+        },
+        {
+            path: '/admin/tariffs/:id',
+            name: 'EditTariff',
+            beforeEnter: guardAdminRoute,
+            component: () =>
+                import(
+                    /* webpackChunkName: "tariffs-edit" */ "./admin/tariffs/AddEditTariff.vue"
+                    ),
+            meta: {
+                auth: true,
+                layout: 'Admin',
+                permission: 'tariff-edit'
+            }
+        },
+        {
+            path: "/admin/404",
+
+            component: () =>
+                import(
+                    /* webpackChunkName: "error-404" */ "./admin/Error404.vue"
+                    ),
+            meta: {
+                auth: true,
+                layout: 'Admin',
+            }
+        },
+        { path: '/admin/*', beforeEnter: (to, from, next) => { next('/admin/404') } },
         // { path: '/:pathMatch(.*)*', component: EmptyView }
     ],
     scrollBehavior(to, from, savedPosition) {

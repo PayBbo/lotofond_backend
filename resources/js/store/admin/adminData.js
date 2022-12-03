@@ -107,8 +107,12 @@ export default {
                     commit('setItem', response.data)
                 })
                 .catch((error) => {
-                    console.log(error);
-                    commit('setModal', {data: 'error', text: 'Произошла ошибка'})
+                   // console.log(error);
+                    if(error.response.status === 404){
+                        window.location.href = '/admin/404'
+                    }else{
+                        commit('setModal', {data: 'error', text: 'Произошла ошибка'})
+                    }
                 });
         },
         async addData({commit, state}, item) {

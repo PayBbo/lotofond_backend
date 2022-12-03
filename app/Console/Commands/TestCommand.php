@@ -113,7 +113,8 @@ class TestCommand extends Command
                    $test = new TestMessage();
                    $test->lot_id = $lot->id;
                    $test->message_id = $xml['Id'];
-                  // if (array_key_exists('Auction', $xml['MessageInfo'])) {
+                   try {
+                       // if (array_key_exists('Auction', $xml['MessageInfo'])) {
                        if (strpos($xml['Publisher']['@attributes']['type'], 'ArbitrManager')) {
                            $test->arbitration_manager = $xml['Publisher'];
                            if (array_key_exists('Fio', $xml['Publisher'])) {
@@ -185,7 +186,12 @@ class TestCommand extends Command
                            logger($lots);
                            logger($xml);
                        }
-                  // }
+                       // }
+                   }catch (\Exception $e){
+                       logger($e);
+                       logger($lot->id);
+                       logger($xml);
+                   }
 
                } catch (\Exception $e) {
                    logger($e);
@@ -218,6 +224,7 @@ class TestCommand extends Command
             fputcsv($file, $row->toArray(), ';');
         }
         fclose($file);*/
+
 
     }
 }

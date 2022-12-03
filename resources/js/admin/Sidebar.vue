@@ -71,6 +71,14 @@
                             </p>
                         </router-link>
                     </li>
+                    <li class="nav-item">
+                        <router-link to="/admin/tariffs" class="nav-link">
+                            <i class="nav-icon fa fa-tags"></i>
+                            <p>
+                                Тарифы
+                            </p>
+                        </router-link>
+                    </li>
                 </ul>
             </nav>
             <!-- /.sidebar-menu -->

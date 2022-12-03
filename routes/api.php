@@ -382,11 +382,13 @@ Route::group(['middleware' => ['json.response', 'localization']], function () {
 
                 Route::group(['prefix' => 'tariffs'], function () {
 
-                    Route::get('/', [TariffController::class, 'get']);
+                    Route::get('/', [TariffController::class, 'get'])->name('admin-get-tariffs');
 
                     Route::get('/{id}/edit', [TariffController::class, 'edit']);
 
-                    Route::put('/update', [TariffController::class, 'update']);
+                    Route::post('/add', [TariffController::class, 'add']);
+
+                    Route::put('/{id}/update', [TariffController::class, 'update']);
 
                     Route::delete('/{id}', [TariffController::class, 'delete']);
 

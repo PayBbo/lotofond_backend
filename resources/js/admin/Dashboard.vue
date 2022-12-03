@@ -56,9 +56,10 @@
                             <div class="icon">
                                 <i class="fas fa-bookmark"></i>
                             </div>
-                            <a href="#" class="small-box-footer">
-                                Перейти <i class="fas fa-arrow-circle-right"></i>
-                            </a>
+                            <router-link to="/admin/lots"  class="small-box-footer">
+                                Перейти
+                                <i class="fas fa-arrow-circle-right"></i>
+                            </router-link>
                         </div>
                     </div>
                     <div class="col-lg-3 col-md-6 col-12">
@@ -70,9 +71,10 @@
                             <div class="icon">
                                 <i class="fas fa-bookmark"></i>
                             </div>
-                            <a href="#" class="small-box-footer">
-                                Перейти <i class="fas fa-arrow-circle-right"></i>
-                            </a>
+                            <router-link to="/admin/lots"  class="small-box-footer">
+                                Перейти
+                                <i class="fas fa-arrow-circle-right"></i>
+                            </router-link>
                         </div>
                     </div>
                 </div>

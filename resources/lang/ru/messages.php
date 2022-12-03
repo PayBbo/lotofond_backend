@@ -23,8 +23,8 @@ return [
     'favouritePriceReduction'=>'Изменение цены лота :value.',
     'welcome'=>'Добро пожаловать!',
     'gladToSeeYou'=>'Мы рады вас видеть в Lotofond',
-    'applicationAnswerTitle'=>'Проверьте почту',
-    'applicationAnswerBody'=>'Ваша заявка была обработана',
+    'applicationAnswerTitle'=>'Заявка на ":value" лота № :value2 обработана',
+    'applicationAnswerBody'=>'Ваша заявка была обработана, на почту отправлен ответ',
 
 
     'Annulment'=>'Сообщение об аннулировании',

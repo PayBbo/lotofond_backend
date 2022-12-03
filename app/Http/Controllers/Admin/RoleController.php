@@ -38,7 +38,11 @@ class RoleController extends Controller
 
     public function edit($id){
         $role = Role::where('id', $id)->with('permissions')->first();
-        return response($role, 200);
+        if($role) {
+            return response($role, 200);
+        }else{
+            return response(null, 404);
+        }
     }
 
     public function update(UpdateRoleRequest $request){

@@ -28,7 +28,8 @@ class Notification extends Model
         'is_seen',
         'message',
         'label',
-        'platform_action'
+        'platform_action',
+        'application_id'
     ];
 
     /**
@@ -43,7 +44,8 @@ class Notification extends Model
         'lot_id' => 'integer',
         'date' => 'datetime',
         'is_seen' => 'boolean',
-        'monitoring_id' => 'integer'
+        'monitoring_id' => 'integer',
+        'application_id'=>'integer'
 
     ];
 
@@ -58,10 +60,17 @@ class Notification extends Model
                     $value = __('messages.' . $notification->message, ['value' => $notification->value]);
                     $subtitle = 'Изменение лота';
                 } else {
-                    $title = 'Новое оповещение';
-                    $subtitle = '';
-                    $value = !is_null($notification->value) ? __('messages.' . $notification->message, ['value' => $notification->value]) :
-                        __('messages.' . $notification->message);
+                    if(is_null($notification->application_id)) {
+                        $title = 'Новое оповещение';
+                        $subtitle = '';
+                        $value = !is_null($notification->value) ? __('messages.' . $notification->message, ['value' => $notification->value]) :
+                            __('messages.' . $notification->message);
+                    }else{
+                        $title =   __('messages.' . $notification->label, ['value' => $notification->application->tariff->title, 'value2'=>$notification->application->lot_id]);
+                        $subtitle = '';
+                        $value = !is_null($notification->value) ? __('messages.' . $notification->message, ['value' => $notification->value]) :
+                            __('messages.' . $notification->message);
+                    }
                 }
                 $push = new PushNotificationService($title, $value, $notification->user_id, $notification->type->title);
                 $push->sendPushNotification();
@@ -98,6 +107,11 @@ class Notification extends Model
     public function notificationLots()
     {
         return $this->belongsToMany(Lot::class, 'notification_lot');
+    }
+
+    public function application()
+    {
+        return $this->belongsTo(Application::class);
     }
 
 }
