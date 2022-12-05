@@ -70,10 +70,10 @@ class PaymentService
                         'currency' => 'RUB'
                     ],
                     'paymentMethod' => 'BankCard',
-                 /*   'protocol' => [
+                    'protocol' => [
                         'returnUrl' => $this->returnUrl,
                         'callbackUrl' => $this->callbackUrl
-                    ],*/
+                    ],
                     'receipt' => [
                         'client' => $customer,
                         'items' => [
