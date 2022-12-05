@@ -4,6 +4,8 @@
             <bkt-move-favourite-modal v-if="isLoggedIn" @moveFavourite="moveFavourite"/>
             <bkt-note-modal v-if="isLoggedIn"/>
             <bkt-application-modal/>
+            <bkt-purchase-modal/>
+            <bkt-instruction-modal/>
         </slot>
         <slot name="filters">
         </slot>
@@ -172,6 +174,8 @@
     import MoveFavouriteModal from "../pages/Favourites/MoveFavouriteModal";
     import NoteModal from "./SharedModals/NoteModal";
     import BktApplicationModal from "./SharedModals/ApplicationModal";
+    import BktPurchaseModal from "./SharedModals/PurchaseModal"
+    import BktInstructionModal from "./SharedModals/InstructionModal"
 
     export default {
         name: "CardList",
@@ -230,7 +234,8 @@
         },
         components: {
             'bkt-move-favourite-modal': MoveFavouriteModal,
-            'bkt-note-modal': NoteModal, BktApplicationModal
+            'bkt-note-modal': NoteModal,
+            BktApplicationModal, BktPurchaseModal, BktInstructionModal
         },
         data() {
             return {

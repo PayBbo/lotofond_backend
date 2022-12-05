@@ -69,6 +69,12 @@
                     </div>
                     <span class="bkt-row__icon"><bkt-icon :name="'Pie'"></bkt-icon></span>
                 </div>
+                <button class="bkt-button bkt-card-trade__button bkt-card-trade__button_egrn" @click="buyEgrn(item.cadastralData.cadastralNumber)"
+                     v-if="item.cadastralData && item.cadastralData.cadastralNumber" :disabled="egrn_loading"
+                >
+                    <span v-show="egrn_loading" class="spinner-border spinner-border-sm"
+                          role="status"></span> Выписка ЕГРН
+                </button>
             </template>
         </bkt-collapse>
     </div>
@@ -85,6 +91,11 @@
                 default: function () {
                     return [];
                 }
+            }
+        },
+        data() {
+            return {
+                egrn_loading: false,
             }
         },
         computed: {
@@ -121,6 +132,10 @@
                             cadastralData.cadastralDataFractionalOwnership = extracts[index].value;
                             extracts.splice(index, 1);
                         }
+                        index = extracts.findIndex(el => el.type == 'cadastralNumber');
+                        if (index >= 0) {
+                            cadastralData.cadastralNumber = extracts[index].value;
+                        }
                         item.cadastralData = cadastralData;
                     })
                 }
@@ -144,6 +159,23 @@
                 //0 соток | {n} сотка | {n} сотки | {n} соток
                 return choicesLength < 4 ? 2 : 3
             },
+            buyEgrn(cadastralNumber) {
+                this.egrn_loading = true;
+                let data = {
+                    cadastralNumber: cadastralNumber,
+                    lotId: this.$route.params.id
+                }
+                axios.post('/api/send/receipt/egrn', data)
+                    .then(resp => {
+                        this.egrn_loading = false;
+                        window.location.replace(resp.data.redirectUrl)
+                    })
+                    .catch(error => {
+                        this.egrn_loading = false;
+                        this.$store.dispatch('sendNotification',
+                            {self: this, type: 'error', message: 'Произошла ошибка, попробуйте позже'});
+                    })
+            }
         }
     }
 </script>

@@ -32,8 +32,11 @@
                                 </div>
 
                                 <button class="bkt-button bkt-card-trade__button bkt-card-trade__button_egrn d-none d-lg-block"
-                                        @click="navigate" v-if="realEstate"
+                                        @click="buyEgrn" v-if="realEstate && cadastralData && cadastralData.cadastralNumber"
+                                        :disabled="loading"
                                 >
+                                    <span v-show="loading" class="spinner-border spinner-border-sm"
+                                          role="status"></span>
                                     Выписка ЕГРН
                                 </button>
                             </div>
@@ -77,6 +80,12 @@
                                 </h5>
                             </div>
                             <div class="bkt-card__features d-none d-sm-flex" v-if="cadastralData">
+                                <div class="bkt-card__feature" v-if="cadastralData.cadastralNumber">
+                                    <h6 class="bkt-card__subtitle">кадастровый номер</h6>
+                                    <h5 class="bkt-card__text bkt-text-700">
+                                        {{cadastralData.cadastralNumber}}
+                                    </h5>
+                                </div>
                                 <div class="bkt-card__feature" v-if="cadastralData.cadastralDataArea">
                                     <h6 class="bkt-card__subtitle">площадь</h6>
                                     <h5 class="bkt-card__text bkt-text-700">
@@ -194,7 +203,7 @@
                                         </h3>
                                     </div>
                                     <button class="bkt-button primary bkt-card-trade__button bkt-card-trade__button_buy d-none d-lg-block"
-                                            @click="sendApplication"
+                                            @click="callPurchaseModal"
                                     >
                                         Купить
                                     </button>
@@ -252,6 +261,7 @@
                 short_description: '',
                 realEstate: false,
                 read_more: false,
+                loading: false,
             }
         },
         mounted() {
@@ -266,20 +276,20 @@
         },
         computed: {
             cadastralData() {
-                if (this.item.descriptionExtracts && this.item.descriptionExtracts.length >= 1) {
-                    let tmp = this.item.descriptionExtracts.filter(el => {
-                        if (el.extracts.length > 0) {
-                            let index_price = el.extracts.findIndex(item => item.type == 'cadastralDataPrice' && item.value && item.value != 0);
-                            let index_area = el.extracts.findIndex(item => item.type == 'cadastralDataArea' && item.value && item.value != 0)
-                            if (index_price >= 0 && index_area >= 0) {
-                                return true
-                            }
-                        }
-                        return false
-                    })
-
-                    if (tmp.length > 0 && tmp[0].extracts.length > 0) {
-                        let extracts = tmp[0].extracts;
+                if (this.item.descriptionExtracts && this.item.descriptionExtracts.length == 1) {
+                    // let tmp = this.item.descriptionExtracts.filter(el => {
+                    //     if (el.extracts.length > 0) {
+                    //         let index_price = el.extracts.findIndex(item => item.type == 'cadastralDataPrice' && item.value && item.value != 0);
+                    //         let index_area = el.extracts.findIndex(item => item.type == 'cadastralDataArea' && item.value && item.value != 0)
+                    //         if (index_price >= 0 && index_area >= 0) {
+                    //             return true
+                    //         }
+                    //     }
+                    //     return false
+                    // })
+                    let tmp = this.item.descriptionExtracts[0];
+                    if (tmp.extracts.length > 0) {
+                        let extracts = tmp.extracts;
                         let cadastralData = {};
                         let index = extracts.findIndex(item => item.type == 'cadastralDataPrice')
                         if (index >= 0) {
@@ -287,7 +297,7 @@
                         }
                         index = extracts.findIndex(item => item.type == 'cadastralDataArea')
                         if (index >= 0) {
-                            cadastralData.cadastralDataAreaType = tmp[0].type;
+                            cadastralData.cadastralDataAreaType = tmp.type;
                             cadastralData.cadastralDataArea = extracts[index].value;
                             cadastralData.cadastralDataAreaMeasure = 'кв. м.';
                             if( cadastralData.cadastralDataAreaType === 'landPlot')
@@ -306,6 +316,10 @@
                         index = extracts.findIndex(item => item.type == 'cadastralDataFractionalOwnership')
                         if (index >= 0) {
                             cadastralData.cadastralDataFractionalOwnership = extracts[index].value;
+                        }
+                        index = extracts.findIndex(item => item.type == 'cadastralNumber')
+                        if (index >= 0) {
+                            cadastralData.cadastralNumber = extracts[index].value;
                         }
                         return cadastralData == {} ? null : cadastralData
                     }
@@ -358,6 +372,10 @@
                 this.$store.commit('setSelectedLot', this.item);
                 this.$store.commit('openModal', '#applicationModal')
             },
+            callPurchaseModal() {
+                this.$store.commit('setSelectedLot', this.item);
+                this.$store.commit('openModal', '#purchaseModal')
+            },
             dateIsFuture(date) {
                 if (date) {
                     const start = this.$moment(date);
@@ -398,6 +416,23 @@
             },
             navigate() {
                 this.$router.push('/lot/' + this.item.id)
+            },
+            buyEgrn() {
+                this.loading = true;
+                let data = {
+                    cadastralNumber: this.cadastralData.cadastralNumber,
+                    lotId: this.item.id
+                }
+                axios.post('/api/send/receipt/egrn', data)
+                    .then(resp => {
+                        this.loading = false;
+                        window.location.replace(resp.data.redirectUrl)
+                    })
+                    .catch(error => {
+                        this.loading = false;
+                        this.$store.dispatch('sendNotification',
+                            {self: this, type: 'error', message: 'Произошла ошибка, попробуйте позже'});
+                    })
             }
         }
     };

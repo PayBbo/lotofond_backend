@@ -24,8 +24,7 @@
     "/js/text-data-edit.js": "/js/text-data-edit.js",
     "/js/lots.js": "/js/lots.js",
     "/js/roles.js": "/js/roles.js",
-    "/css/app.css": "/css/app.css",
-    "/js/users-edit.js": "/js/users-edit.js",
     "/js/tariffs-add.js": "/js/tariffs-add.js",
-    "/js/error-404.js": "/js/error-404.js"
+    "/js/error-404.js": "/js/error-404.js",
+    "/css/app.css": "/css/app.css"
 }

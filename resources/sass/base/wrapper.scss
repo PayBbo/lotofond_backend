@@ -251,7 +251,7 @@
         &-column {
             display: flex;
             justify-content: space-between;
-            flex-direction: column;
+            flex-direction: column !important;
             width: 100%;
             gap: 10px 0;
         }

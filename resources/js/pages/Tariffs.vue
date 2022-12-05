@@ -55,14 +55,17 @@
                     <div class="bkt-wrapper-column bkt-gap">
                         <template v-if="!loading">
                             <div v-for="(tariff, index) in tariffs" class="bkt-card__row outline bkt-tariffs__item"
-                                 :class="{'active': choice==index}">
-                                <bkt-checkbox type="radio" v-model="choice" :val="index"
+                                 :class="{'current': choice==index, 'active': tariff.isUserTariff}" @click="choice=index">
+                                <bkt-checkbox v-if="!tariff.isUserTariff" type="radio" v-model="choice" :val="index"
+                                              wrapper_class="bkt-check_radio-check"></bkt-checkbox>
+                                <bkt-checkbox v-else :value="true" disabled
                                               wrapper_class="bkt-check_radio-check"></bkt-checkbox>
                                 <div class="bkt-wrapper-between w-100">
                                     <div
                                         class="bkt-wrapper-down-sm-between bkt-gap-down-sm-column bkt-w-down-sm-100 bkt-gap-row-mini">
                                         <h4 class="bkt-card__text">{{tariff.title}}</h4>
-                                        <div class="bkt-badge" v-if="index>0">Выгода {{getBenefit(tariff)}} %</div>
+                                        <div class="bkt-badge" v-if="index>0 && !tariff.isUserTariff">Выгода {{getBenefit(tariff)}} %</div>
+                                        <div class="bkt-badge" v-if="tariff.isUserTariff">Активен</div>
                                     </div>
                                     <h3 class="bkt-card__title">{{tariff.price}} ₽ <span class="bkt-card__subtitle"> / {{tariff.period}} дней</span>
                                     </h3>
@@ -178,7 +181,7 @@
                     })
             },
             getBenefit(tariff) {
-                let benefit = (100 - (tariff.price * 100 / (tariff.period * (this.tariffs[0].price / this.tariffs[0].period))))
+                let benefit = (100 - (tariff.price * 100 / (this.tariffs[0].price * (tariff.period/ this.tariffs[0].period ).toFixed())))
                 if (Number.isInteger(benefit)) {
                     return benefit
                 } else {

@@ -3,6 +3,8 @@
         <bkt-move-favourite-modal v-if="isLoggedIn"/>
         <bkt-note-modal v-if="isLoggedIn"/>
         <bkt-application-modal/>
+        <bkt-purchase-modal/>
+        <bkt-instruction-modal/>
         <bkt-add-mark-modal></bkt-add-mark-modal>
         <CoolLightBox
             v-if="item && item.photos && item.photos.length>0"
@@ -242,13 +244,6 @@
                             <h5 class="bkt-card__text">
                                 <skeleton :type_name="'text'" :count="5"></skeleton>
                             </h5>
-                            <div class="bkt-row outline bkt-wrapper-between align-items-center" v-for="(n,index) in 3">
-                                <div class="bkt-row__feature">
-                                    <skeleton :type_name="'text'" width="90px"></skeleton>
-                                    <skeleton :type_name="'text'" width="55px" height="8px"></skeleton>
-                                </div>
-                                <skeleton :type_name="'item'" width="25px" height="25px" circle></skeleton>
-                            </div>
                         </div>
 <!--                        <div class="bkt-card__footer d-flex flex-wrap bkt-gap">-->
 <!--                            <skeleton width="120px" height="38px" :count="7"></skeleton>-->
@@ -317,11 +312,8 @@
                                 <hooper-navigation slot="hooper-addons"></hooper-navigation>
                             </hooper>
                             <div class="bkt-wrapper-column bkt-gap">
-                                <button @click="sendApplication" class="bkt-button primary bkt-card-ecp w-100">
+                                <button @click="callPurchaseModal" class="bkt-button primary bkt-card-ecp w-100">
                                     Купить
-                                </button>
-                                <button @click="sendApplication" class="bkt-button primary bkt-card-ecp w-100">
-                                    Заказать услугу
                                 </button>
                                 <!--                                <router-link custom v-slot="{ navigate }" to="/agent">-->
                                 <!--                                    <button @click="navigate" class="bkt-button primary bkt-card-ecp w-100">-->
@@ -1494,6 +1486,8 @@
     import BktApplicationModal from "../components/SharedModals/ApplicationModal";
     import AddMarkModal from "./LotCard/AddMarkModal";
     import BktObjectsList from "./LotCard/ObjectsList";
+    import BktPurchaseModal from "../components/SharedModals/PurchaseModal";
+    import BktInstructionModal from "../components/SharedModals/InstructionModal";
     export default {
         name: "LotCard",
         components: {
@@ -1510,7 +1504,8 @@
             BktUploadFile,
             'bkt-move-favourite-modal': MoveFavouriteModal,
             'bkt-add-mark-modal': AddMarkModal,
-            'bkt-note-modal': NoteModal, BktApplicationModal,
+            'bkt-note-modal': NoteModal,
+            BktApplicationModal, BktPurchaseModal, BktInstructionModal,
             BktObjectsList,
         },
         data() {
@@ -1843,8 +1838,8 @@
                     }
                 });
             },
-            sendApplication() {
-                this.$store.commit('openModal', '#applicationModal')
+            callPurchaseModal() {
+                this.$store.commit('openModal', '#purchaseModal')
             },
             makeWatched() {
                 if (this.item.isWatched === false) {
@@ -1960,7 +1955,7 @@
                 this.marks=[];
                 this.short_description = '';
                 this.read_more = false;
-            }
+            },
         }
     }
 </script>
