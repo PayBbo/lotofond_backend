@@ -4,7 +4,7 @@
     >
         <template #body>
             <div class="bkt-wrapper-column bkt-gap-large" v-if="!loading">
-                <bkt-categories-control v-model="model"></bkt-categories-control>
+                <bkt-categories-control v-model="result"></bkt-categories-control>
             </div>
             <div v-if="loading" class="d-flex w-100 justify-content-center my-5">
                 <slot name="loading">
@@ -42,16 +42,17 @@
             return {
                 result: [],
                 items:[],
-                signal: null,
-                controller: null
             };
         },
         created() {
             this.getCategories();
         },
+        mounted() {
+            this.result = this.filters_categories;
+        },
         computed: {
             filters_categories() {
-                this.result = this.$store.getters[this.filter_name].categories;
+
                 return this.$store.getters[this.filter_name].categories
             },
             filters() {
@@ -70,14 +71,15 @@
             loading() {
                 return this.$store.getters.categories_loading
             },
-            model:{
-                get() {
-                    return JSON.parse(JSON.stringify(this.filters_categories));
-                },
-                set(value) {
-                    this.result = value
-                }
-            }
+            // model:{
+            //     get() {
+            //         return JSON.parse(JSON.stringify(this.filters_categories));
+            //     },
+            //     set(value) {
+            //         this.$emit('input', value)
+            //         this.result = value
+            //     }
+            // }
         },
         methods: {
             saveFilters() {
@@ -92,7 +94,7 @@
                 this.$store.dispatch(this.method_name, {page: 1, filters: tmp_filters});
             },
             clearFilters() {
-                this.model = [];
+                this.result = [];
                 this.$store.dispatch('saveDataProperty', {
                     module_key: 'filters', state_key: this.filter_name,
                     key: 'categories',
@@ -109,21 +111,16 @@
             },
             closeModal() {
                 let tmp_categories = JSON.parse(JSON.stringify(this.filters.categories));
-                this.model.splice(0);
-                tmp_categories.forEach( item => {
-                    this.model.push(item)
-                })
+                // this.model.splice(0);
+                // tmp_categories.forEach( item => {
+                //     this.model.push(item)
+                // })
+                this.result = tmp_categories;
+                console.log('close nodal', this.result)
             },
             callMethod() {
                 let tmp_filters = JSON.parse(JSON.stringify(this.filters));
-                if (this.signal) {
-                    this.controller.abort();
-                }
-                setTimeout(() => {
-                    this.controller = new AbortController();
-                    this.signal = this.controller.signal;
-                    this.$store.dispatch(this.method_name, {page: 1, filters: tmp_filters, signal:this.signal});
-                }, 100);
+                this.$store.dispatch(this.method_name, {page: 1, filters: tmp_filters});
             }
         }
     }

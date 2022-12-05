@@ -42,8 +42,6 @@
                 regionGroups: [],
                 selectedRegion: null,
                 result: [],
-                signal: null,
-                controller: null,
             }
         },
         created() {
@@ -109,14 +107,7 @@
             },
             callMethod() {
                 let tmp_filters = JSON.parse(JSON.stringify(this.filters));
-                if (this.signal) {
-                    this.controller.abort();
-                }
-                setTimeout(() => {
-                    this.controller = new AbortController();
-                    this.signal = this.controller.signal;
-                    this.$store.dispatch(this.method_name, {page: 1, filters: tmp_filters, signal:this.signal});
-                }, 100);
+                this.$store.dispatch(this.method_name, {page: 1, filters: tmp_filters});
             }
         },
     }

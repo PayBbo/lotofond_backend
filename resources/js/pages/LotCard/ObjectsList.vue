@@ -72,8 +72,8 @@
                 <button class="bkt-button bkt-card-trade__button bkt-card-trade__button_egrn" @click="buyEgrn(item.cadastralData.cadastralNumber)"
                      v-if="item.cadastralData && item.cadastralData.cadastralNumber" :disabled="egrn_loading"
                 >
-                    <span v-show="egrn_loading" class="spinner-border spinner-border-sm"
-                          role="status"></span> Выписка ЕГРН
+                    <span v-show="egrn_loading" class="spinner-border spinner-border-sm" role="status"></span>
+                    Выписка ЕГРН
                 </button>
             </template>
         </bkt-collapse>

@@ -55,7 +55,7 @@
                     <div class="bkt-wrapper-column bkt-gap">
                         <template v-if="!loading">
                             <div v-for="(tariff, index) in tariffs" class="bkt-card__row outline bkt-tariffs__item"
-                                 :class="{'current': choice==index, 'active': tariff.isUserTariff}" @click="choice=index">
+                                 :class="{'current': choice==index, 'active': tariff.isUserTariff}" @click="chooseTariff(index)">
                                 <bkt-checkbox v-if="!tariff.isUserTariff" type="radio" v-model="choice" :val="index"
                                               wrapper_class="bkt-check_radio-check"></bkt-checkbox>
                                 <bkt-checkbox v-else :value="true" disabled
@@ -64,10 +64,13 @@
                                     <div
                                         class="bkt-wrapper-down-sm-between bkt-gap-down-sm-column bkt-w-down-sm-100 bkt-gap-row-mini">
                                         <h4 class="bkt-card__text">{{tariff.title}}</h4>
-                                        <div class="bkt-badge" v-if="index>0 && !tariff.isUserTariff">Выгода {{getBenefit(tariff)}} %</div>
+                                        <div class="bkt-badge" v-if="index>0 && !tariff.isUserTariff">
+                                            Выгода {{getBenefit(tariff)}} %
+                                        </div>
                                         <div class="bkt-badge" v-if="tariff.isUserTariff">Активен</div>
                                     </div>
-                                    <h3 class="bkt-card__title">{{tariff.price}} ₽ <span class="bkt-card__subtitle"> / {{tariff.period}} дней</span>
+                                    <h3 class="bkt-card__title">{{tariff.price}} ₽
+                                        <span class="bkt-card__subtitle"> / {{tariff.period}} дней</span>
                                     </h3>
                                 </div>
                             </div>
@@ -141,7 +144,9 @@
                     <div class="d-flex">
                         <button
                             class="bkt-button primary bkt-tariffs__button bkt-w-down-sm-100 mx-auto ms-lg-auto me-lg-0"
-                            :disabled="!choice" v-if="!loading">
+                            :disabled="!choice||tariff_loading" v-if="!loading" @click="buyTariff"
+                        >
+                            <span v-show="tariff_loading" class="spinner-border spinner-border-sm" role="status"></span>
                             Купить
                         </button>
                         <skeleton v-if="loading" type_name="button"
@@ -159,7 +164,8 @@
         data() {
             return {
                 choice: '0',
-                loading: false
+                loading: false,
+                tariff_loading: false,
             }
         },
         computed: {
@@ -186,6 +192,24 @@
                     return benefit
                 } else {
                     return benefit.toFixed(1)
+                }
+            },
+            buyTariff() {
+                this.tariff_loading = true;
+                axios.post('/api/payment', {tariffId: this.tariffs[this.choice].id})
+                    .then(resp => {
+                        this.tariff_loading = false;
+                        window.location.replace(resp.data.redirectUrl)
+                    })
+                    .catch(error => {
+                        this.tariff_loading = false;
+                        this.$store.dispatch('sendNotification',
+                            {self: this, type: 'error', message: 'Произошла ошибка, попробуйте позже'});
+                    })
+            },
+            chooseTariff(index) {
+                if(!this.tariffs[index].isUserTariff) {
+                    this.choice = index;
                 }
             }
         }

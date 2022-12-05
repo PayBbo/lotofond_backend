@@ -106,19 +106,15 @@
         computed: {
             model: {
                 get() {
-                    // console.log('get', this.value)
-                    return this.value;
+                    return this.modelValue;
                 },
                 set(value) {
-                    // console.log('set', value)
                     this.$emit("input", value);
                 },
             },
-        },
-        watch:{
-            value: function(newValue, oldValue){
-                this.model = newValue;
-            },
+            modelValue() {
+                return this.value
+            }
         },
         methods: {
             saveValue() {
