@@ -117,7 +117,7 @@
         watch:{
             value: function(newValue, oldValue){
                 this.model = newValue;
-                this.saveValue()
+                // this.saveValue()
             },
         },
         methods: {
@@ -145,7 +145,8 @@
                             this.model.push(item)
                         }
                     })
-                } else {
+                }
+                else {
                     tmp.forEach(it => {
                         let item_index = this.model.findIndex(el => el == it);
                         if (item_index >= 0) {

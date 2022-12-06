@@ -116,6 +116,11 @@ let router = new VueRouter({
             component: () => import(/* webpackChunkName: "terms" */ "./pages/Terms.vue"),
         },
         {
+            path: '/pay-answer',
+            name: 'PayAnswer',
+            component: () => import(/* webpackChunkName: "pay-answer" */ "./pages/PayAnswer.vue"),
+        },
+        {
             path: '/admin/dashboard',
             name: 'Dashboard',
             beforeEnter: guardAdminRoute,

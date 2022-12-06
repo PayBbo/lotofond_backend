@@ -29,11 +29,11 @@
                             <h5 class="d-sm-none me-auto">{{user ? user.name+' '+user.lastName : ''}}</h5>
                             <div class="bkt-wrapper-between bkt-wrapper-sm-column">
                                 <h6 class="bkt-card__subtitle">тарифный план</h6>
-                                <h5 class="bkt-card__title">Базовый</h5>
+                                <h5 class="bkt-card__title">{{user.tariff ? user.tariff.title  :'Базовый'}}</h5>
                             </div>
-                            <button class="bkt-button bkt-tariff-button">
+                            <a class="bkt-button bkt-tariff-button" href="/tariff">
                                 Сменить тариф
-                            </button>
+                            </a>
                             <div class="bkt-card bkt-card__background-figure-1">
                             </div>
                             <div class="bkt-card bkt-card__background-figure-2 bkt-bg-primary">

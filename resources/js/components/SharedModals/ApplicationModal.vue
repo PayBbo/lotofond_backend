@@ -46,7 +46,7 @@
                     </div>
                 </div>
                 <ValidationProvider :name="'Услуги'" rules="required|min:1" v-slot="{ errors }" tag="div"
-                                    class="bkt-wrapper-column bkt-gap-medium"
+                                    class="bkt-wrapper-column bkt-gap-medium" ref="services"
                 >
                     <div class="bkt-card__row bkt-purchase__service bkt-wrapper-down-lg-column bkt-cursor-pointer"
                          :class="{'active': service.paymentTradingTypes.includes('purchaseBidByAgent')}"
@@ -103,7 +103,7 @@
                                           v-model="service.paymentTradingTypes" val="accompanimentFAS"></bkt-checkbox>
                             <div class="bkt-purchase__service__text-wrapper">
                                 <h4 class="bkt-card__title">Сопровождение в ФАС</h4>
-                                <h5 class="bkt-card__subtitle">Сопровождение в Федеральной Антимонопольной служюе</h5>
+                                <h5 class="bkt-card__subtitle">Сопровождение в Федеральной Антимонопольной службе</h5>
                             </div>
                         </div>
                         <hr class="d-lg-none w-100 m-0">
@@ -295,7 +295,7 @@
                 } else {
                     this.service.paymentTradingTypes.splice(index, 1);
                 }
-                this.$refs.con_check.saveValue();
+                this.$refs.services.validate();
             },
             close() {
                 this.promo=false;

@@ -58,8 +58,8 @@
                             <div class="bkt-navbar__user-name text-truncate">
                                 {{ auth_user ? auth_user.name : '' }} {{ auth_user ? auth_user.lastName : '' }}
                             </div>
-                            <div class="bkt-navbar__user-tarif">
-                                тариф: <span class="bkt-navbar__user-tarif-name">Базовый</span>
+                            <div class="bkt-navbar__user-tariff">
+                                тариф: <span class="bkt-navbar__user-tariff-name">{{auth_user.tariff ? auth_user.tariff.title  :'Базовый'}}</span>
                             </div>
                         </div>
                         <div class="bkt-navbar__user-icon">
@@ -69,7 +69,7 @@
                     <div class="dropdown-menu dropdown-menu-right bkt-navbar__user-dropdown"
                          aria-labelledby="navbarDropdown" v-if="!loading">
                         <div class="bkt-navbar__user-dropdown-menu">
-                            <button class="bkt-button bkt-tarif-button">Сменить тариф</button>
+                            <button class="bkt-button bkt-tariff-button" @click="navigate('/tariffs')">Сменить тариф</button>
                             <a class="bkt-navbar__user-dropdown-item" href="/profile">
                                 <div class="bkt-navbar__user-dropdown-item-icon bkt-bg-primary-lighter">
                                     <bkt-icon :name="'User'" :color="'primary'"></bkt-icon>
@@ -216,8 +216,8 @@
                             <div class="bkt-sidebar__user-name text-truncate">
                                 {{ auth_user ? auth_user.name : '' }} {{ auth_user ? auth_user.lastName : '' }}
                             </div>
-                            <div class="bkt-sidebar__user-tarif">
-                                тариф: <span class="bkt-sidebar__user-tarif-name">Базовый</span>
+                            <div class="bkt-sidebar__user-tariff">
+                                тариф: <span class="bkt-sidebar__user-tariff-name">{{auth_user.tariff ? auth_user.tariff.title  :'Базовый'}}</span>
                             </div>
                         </div>
                     </div>
