@@ -7,6 +7,7 @@ use GuzzleHttp\RequestOptions;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Middleware;
 use GuzzleHttp\MessageFormatter;
+use Illuminate\Support\Facades\Hash;
 use Monolog\Logger;
 use Monolog\Handler\StreamHandler;
 
@@ -52,6 +53,7 @@ class PaymentService
                 $customer = ['phone'=>$user->phone];
             }
         }
+        logger(hash('sha256', $paymentId));
         $response = $client->request('POST', 'https://paymaster.ru/api/v2/invoices',
             [
                 RequestOptions::HEADERS => [
@@ -71,7 +73,7 @@ class PaymentService
                     ],
                     'paymentMethod' => 'BankCard',
                     'protocol' => [
-                        'returnUrl' => $this->returnUrl,
+                        'returnUrl' => $this->returnUrl .hash('sha256', $paymentId),
                         'callbackUrl' => $this->callbackUrl
                     ],
                     'receipt' => [

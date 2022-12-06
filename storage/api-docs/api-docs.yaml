@@ -3621,6 +3621,56 @@ paths:
                 $ref: '#/components/schemas/Error'
       security:
         - bearerAuth: []
+  /payment/check/status:
+    post:
+      tags:
+        - Payments
+      summary: запрос на получение статуса платежа
+      operationId: checkStatus
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                paymentId:
+                  type: string
+                  description: захэшированный айдишник платежа, который приходит в ссылке при редиректе
+              example:
+                paymentId: 5f9c4ab08cac7457e9111a30e4664920607ea2c115a1433d7be98e97e64244ca
+      responses:
+        "200":
+          description: проверка платежа прошла успешно, в ответе его статус
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    enum:
+                      - Authorized
+                      - Settled
+                      - Cancelled
+                      - Rejected
+                      - Confirmation
+                      - Pending
+              example:
+                status: Settled
+        422:
+          description: платеж не прошел проверку на корректность
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+        - bearerAuth: []
   /payment/validate/apple/transaction:
     post:
       tags:

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Exceptions\CustomExceptions\BaseException;
+use App\Http\Requests\CheckPaymentRequest;
 use App\Http\Requests\PaymentRequest;
 use App\Http\Resources\TariffResource;
 use App\Http\Services\PaymentService;
@@ -26,6 +27,7 @@ class PaymentController extends Controller
         if (array_key_exists('paymentId', $paymentRequest)) {
             $paymentId = $paymentRequest['paymentId'];
             $payment->payment_id = $paymentId;
+            $payment->token = hash('sha256', $payment->id);
             $payment->save();
             return response([
                 'redirectUrl' => $paymentRequest['url']
@@ -38,7 +40,6 @@ class PaymentController extends Controller
 
     public function paymentNotification(Request $request)
     {
-        logger($request);
         $order_id = $request->id;
         $payment = Payment::where('payment_id', $order_id)->first();
         if ($payment) {
@@ -69,6 +70,43 @@ class PaymentController extends Controller
 
         }
         throw new BaseException('ERR_VALIDATE_PAYMENT_FAILED', 422, __('validation.payment_error'));
+    }
+
+    public function checkStatus(CheckPaymentRequest $request){
+        $paymentToken = $request->paymentId;
+        if(strpos($request->paymentId, "?")) {
+            $paymentToken = substr($request->paymentId, 0, strpos($request->paymentId, "?"));
+        }
+        $payment = Payment::where('token', $paymentToken)->first();
+        if($payment && $payment->is_confirmed && $payment->status == 'Settled'){
+            return response(['status'=> $payment->status], 200);
+        }
+        if ($payment) {
+            $paymentService = new PaymentService();
+            $paymentStatus = $paymentService->getPaymentStatus($payment->payment_id);
+            if ($paymentStatus['testMode'] == config('paymaster.test_mode') && $paymentStatus['merchantId'] == config('paymaster.merchant_id')) {
+                if ($paymentStatus['status'] == 'Settled') {
+                    if (!is_null($payment->tariff_id)) {
+                        if(!is_null($payment->tariff->period)) {
+                            $payment->finished_at = Carbon::now()->setTimezone('Europe/Moscow')->addDays($payment->tariff->period);
+                        }
+                    }
+                    $payment->status = $paymentStatus['status'];
+                    $payment->is_confirmed = true;
+                    $payment->save();
+                } else {
+                    if($paymentStatus['status'] != $payment->status) {
+                        $payment->status = $paymentStatus['status'];
+                        $payment->is_confirmed = false;
+                        $payment->save();
+                    }
+                }
+                return response(['status'=> $paymentStatus['status']], 200);
+            }
+
+        }
+        throw new BaseException('ERR_VALIDATE_PAYMENT_FAILED', 422, __('validation.payment_error'));
+
     }
 
     public function getTariffs()

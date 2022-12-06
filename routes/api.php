@@ -309,6 +309,8 @@ Route::group(['middleware' => ['json.response', 'localization']], function () {
 
             Route::post('/', [PaymentController::class, 'payment']);
 
+            Route::post('/check/status', [PaymentController::class, 'checkStatus']);
+
             Route::post('/validate/apple/transaction', [ApplePaymentController::class, 'validateTransaction']);
 
         });

@@ -156,25 +156,6 @@ class ApplicationController extends Controller
     public function purchaseInstructions(PurchaseRequest $request)
     {
         $url = $this->buyService($request, 'purchaseInstructions');
-        $lot = URL::to('/lot/' . $request->lotId);
-        $lotDesc = mb_strimwidth(Lot::find($request->lotId)['description'], 0, 250, "...");
-        $user = User::find(auth()->id());
-        $username =  $user->surname . ' ' . $user->name;
-        $service = Tariff::where('code', 'purchaseInstructions')->first();
-        $serviceName = $service->getTranslation('title', 'ru');
-        $html = "Пользователь $username оставил заявку на покупку услуги - $serviceName.
-<strong> Описание лота:</strong>
-<p>$lotDesc</p>
-<a href='$lot'>Ссылка на лот </a>";
-
-        $subject = 'Новая заявка на покупку услуги - ' . $serviceName;
-        $emails = Contact::where('tariff_id', $service->id)->pluck('contact')->toArray();
-        if (count($emails) > 0) {
-            dispatch((new SendApplication($html, $subject, $emails))->onQueue('credentials'));
-        }
-        $token = config('telegram.bot_token');
-        Notification::route('telegram', $token)
-            ->notify(new ApplicationTelegramNotification($html));
         return response([
             'redirectUrl' => $url
         ], 200);
@@ -209,6 +190,7 @@ class ApplicationController extends Controller
         if (array_key_exists('paymentId', $paymentRequest)) {
             $paymentId = $paymentRequest['paymentId'];
             $payment->payment_id = $paymentId;
+            $payment->token = hash('sha256', $payment->id);
             $payment->save();
             return $paymentRequest['url'];
 
