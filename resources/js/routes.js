@@ -116,7 +116,7 @@ let router = new VueRouter({
             component: () => import(/* webpackChunkName: "terms" */ "./pages/Terms.vue"),
         },
         {
-            path: '/pay-answer',
+            path: '/pay-answer/:id?',
             name: 'PayAnswer',
             component: () => import(/* webpackChunkName: "pay-answer" */ "./pages/PayAnswer.vue"),
         },

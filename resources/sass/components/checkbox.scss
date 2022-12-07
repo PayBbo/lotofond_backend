@@ -175,6 +175,10 @@
             height: 100%;
             width: 100%;
         }
+        & input:checked:disabled~.bkt-check__input-check {
+            background: transparent !important;
+            pointer-events: none;
+        }
     }
 
     & input:checked ~ .bkt-check__input-check {

@@ -54,7 +54,17 @@
                 <div class="col-12 col-lg-6">
                     <div class="bkt-wrapper-column bkt-gap">
                         <template v-if="!loading">
-                            <div v-for="(tariff, index) in tariffs" class="bkt-card__row outline bkt-tariffs__item"
+                            <template v-if="user_tariff">
+                                <div class="bkt-card bkt-tariffs__item bkt-border-none bkt-gap-mini align-items-start justify-content-center">
+                                    <h4 class="bkt-card__text bkt-text-700">Текущий тариф</h4>
+                                    <div class="d-flex bkt-gap-small">
+                                        <h4 class="bkt-card__text">{{user_tariff.title}}</h4>
+                                        <div class="bkt-badge bkt-bg-green">Активен</div>
+                                    </div>
+                                </div>
+                                <hr class="w-100 m-0">
+                            </template>
+                            <div v-for="(tariff, index) in available_tariffs" class="bkt-card__row outline bkt-tariffs__item"
                                  :class="{'current': choice==index, 'active': tariff.isUserTariff}" @click="chooseTariff(index)">
                                 <bkt-checkbox v-if="!tariff.isUserTariff" type="radio" v-model="choice" :val="index"
                                               wrapper_class="bkt-check_radio-check"></bkt-checkbox>
@@ -144,7 +154,7 @@
                     <div class="d-flex">
                         <button
                             class="bkt-button primary bkt-tariffs__button bkt-w-down-sm-100 mx-auto ms-lg-auto me-lg-0"
-                            :disabled="!choice||tariff_loading" v-if="!loading" @click="buyTariff"
+                            :disabled="tariff_loading" v-if="!loading" @click="buyTariff"
                         >
                             <span v-show="tariff_loading" class="spinner-border spinner-border-sm" role="status"></span>
                             Купить
@@ -171,11 +181,21 @@
         computed: {
             tariffs() {
                 return this.$store.getters.tariffs
+            },
+            available_tariffs() {
+                return this.tariffs.filter(item => item.isUserTariff === false);
+            },
+            user_tariff() {
+                let index = this.tariffs.findIndex(item => item.isUserTariff === true);
+                if(index>=0) {
+                    return this.tariffs[index];
+                }
+                return null;
             }
         },
         mounted() {
             if (this.tariffs.length === 0) {
-                this.getTariffs()
+                this.getTariffs();
             }
         },
         methods: {
@@ -196,7 +216,7 @@
             },
             buyTariff() {
                 this.tariff_loading = true;
-                axios.post('/api/payment', {tariffId: this.tariffs[this.choice].id})
+                axios.post('/api/payment', {tariffId: this.available_tariffs[this.choice].id})
                     .then(resp => {
                         this.tariff_loading = false;
                         window.location.replace(resp.data.redirectUrl)
@@ -208,7 +228,7 @@
                     })
             },
             chooseTariff(index) {
-                if(!this.tariffs[index].isUserTariff) {
+                if(!this.available_tariffs[index].isUserTariff) {
                     this.choice = index;
                 }
             }
