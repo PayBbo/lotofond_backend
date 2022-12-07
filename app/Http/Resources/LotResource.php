@@ -73,9 +73,16 @@ class LotResource extends JsonResource
 
             }
         }
+        $contentRules = null;
+        $monitoringLots = [];
+        if(auth()->check()){
+            $contentRules = $this->content['contentRules'];
+            $monitoringLots = $this->content['monitoringLots'];
+        }
+
         $lotData = [
             'id' => $this->id,
-            'trade' => (new TradeResource($this->auction))->contentRules($this->content['contentRules']),
+            'trade' => (new TradeResource($this->auction))->contentRules($contentRules),
             'lotNumber' => $this->isAvailable( 'lotNumber') ? $this->number : null,
             'photos' => $this->isAvailable( 'photos') ? $this->photos : null,
             'categories' => $this->isAvailable( 'categories') ?  $this->categoriesStructure() : null,
@@ -90,7 +97,7 @@ class LotResource extends JsonResource
             ]),
             'hasNotSeenNotification' => $authCheck && in_array($this->id, $this->content['notSeenNots']),
             'isHide' =>  $authCheck && in_array($this->id, $this->content['hiddenLots']),
-            'inMonitoring' =>$this->isAvailable( 'hasAccessToMonitoring') && in_array($this->id, $this->content['monitoringLots']),
+            'inMonitoring' =>$this->isAvailable( 'hasAccessToMonitoring') && in_array($this->id, $monitoringLots),
             'startPrice' => $this->isAvailable( 'startPrice') ?  (float)$this->start_price : null,
             $this->mergeWhen(!is_null($this->auction_step) && $this->isAvailable( 'stepPrice'), [
                 'stepPrice' =>  [
