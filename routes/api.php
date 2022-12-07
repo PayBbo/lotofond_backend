@@ -114,10 +114,10 @@ Route::group(['middleware' => ['json.response', 'localization']], function () {
 
     Route::get('/text-data/{type}', [DataController::class, 'getTextData']);
 
-    Route::group(['prefix' => 'bidders'], function () {
+    Route::put('/bidders/trades', [BidderController::class, 'getTradesByBidder'])
+        ->middleware('auth:api')->name('bidders-trades');
 
-        Route::put('/trades', [BidderController::class, 'getTradesByBidder'])
-            ->middleware('auth:api')->name('bidders-trades');
+    Route::group(['prefix' => 'bidders', 'middleware'=>['check.tariff:hasAccessToReestr']], function () {
 
         Route::get('/{bidderId}/{type}', [BidderController::class, 'getBidder'])->middleware('auth:api');
 
@@ -208,7 +208,7 @@ Route::group(['middleware' => ['json.response', 'localization']], function () {
 
         });
 
-        Route::group(['prefix' => 'favourite'], function () {
+        Route::group(['prefix' => 'favourite', 'middleware'=>['check.tariff:hasAccessToFavourite']], function () {
 
             Route::post('/add/edit/path', [FavouriteController::class, 'addEditFavouritePath']);
 
@@ -228,7 +228,7 @@ Route::group(['middleware' => ['json.response', 'localization']], function () {
 
         });
 
-        Route::group(['prefix' => 'monitoring'], function () {
+        Route::group(['prefix' => 'monitoring', 'middleware'=>['check.tariff:hasAccessToMonitoring']], function () {
 
             Route::post('/add/edit/path', [MonitoringController::class, 'addEditMonitoringPath']);
 
@@ -252,7 +252,7 @@ Route::group(['middleware' => ['json.response', 'localization']], function () {
         });
         Route::get('/marks', [MarkController::class, 'getMarks']);
 
-        Route::group(['prefix' => 'files'], function () {
+        Route::group(['prefix' => 'files', 'middleware'=>['check.tariff:hasAccessToTradeFiles']], function () {
 
             Route::post('/store', [FileController::class, 'storeFile']);
 

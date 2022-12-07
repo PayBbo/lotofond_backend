@@ -150,6 +150,7 @@ return [
     'not_enough_credentials'=>'There is not enough data in the profile for the selected action',
     'payment_error'=> 'Something went wrong, try again',
     'no_activated_tariff'=>'You do not have activated tariff',
+    'has_activated_tariff'=>'You already have an activated tariff',
     /*
     |--------------------------------------------------------------------------
     | Custom Validation Language Lines

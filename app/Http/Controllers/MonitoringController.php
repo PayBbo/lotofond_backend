@@ -6,6 +6,7 @@ use App\Exceptions\CustomExceptions\BaseException;
 use App\Http\Requests\MonitoringPathRequest;
 use App\Http\Resources\LotCollection;
 use App\Http\Resources\MonitoringPathResource;
+use App\Http\Services\ContentSettingsService;
 use App\Models\Lot;
 use App\Models\Monitoring;
 use App\Models\User;
@@ -51,11 +52,11 @@ class MonitoringController extends Controller
         ]);
         $path = Monitoring::find($request->pathId);
         $lotIds = $path->lots()->pluck('lots.id')->toArray();
-        $lots = Lot::whereIn('lots.id', $lotIds)
-            ->with(['auction', 'showPriceReductions', 'userMarks',
-                'showRegions', 'status', 'favouritePaths', 'monitoringPaths', 'lotImages', 'categories', 'lotParams'])
-            ->filterBy($request->request)->customSortBy($request)->paginate(20);
-        return response(new LotCollection($lots), 200);
+        $lots = Lot::with(['auction', 'showRegions', 'status', 'lotImages', 'categories', 'lotParams'])
+            ->whereIn('lots.id', $lotIds)->filterBy($request->request)->customSortBy($request)->paginate(20);
+        $settingsService = new ContentSettingsService();
+        $data = $settingsService->getUserData();
+        return response((new LotCollection($lots))->content($data), 200);
     }
 
     public function getMonitoringPaths(){

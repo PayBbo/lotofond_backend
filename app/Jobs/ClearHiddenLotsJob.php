@@ -43,7 +43,7 @@ class ClearHiddenLotsJob implements ShouldQueue
         foreach($lots as $lot) {
             if (!$user->hiddenLots->contains($lot)) {
                 $user->hiddenLots()->attach($lot);
-                $paths = Favourite::where('user_id', auth()->id())->get();
+                $paths = Favourite::where('user_id', $user->id)->get();
                 foreach ($paths as $path) {
                     if ($path->lots->contains($lot)) {
                         $path->lots()->detach($lot);
@@ -55,7 +55,7 @@ class ClearHiddenLotsJob implements ShouldQueue
                         }
                     }
                 }
-                $paths = Monitoring::where('user_id', auth()->id())->get();
+                $paths = Monitoring::where('user_id', $user->id)->get();
                 foreach ($paths as $path) {
                     if ($path->lots->contains($lot)) {
                         $path->lots()->detach($lot);

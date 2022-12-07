@@ -3,13 +3,32 @@
 namespace App\Http\Resources;
 
 use App\Models\Category;
+use App\Models\ContentRule;
 use App\Models\Note;
 use App\Models\PriceReduction;
+use Carbon\Carbon;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\URL;
 
 class LotResource extends JsonResource
 {
+
+    protected $content;
+
+    public function content($content=null)
+    {
+        $this->content = $content;
+        return $this;
+    }
+
+    public function isAvailable($code){
+        $authCheck = auth()->guard('api')->check();
+        if($authCheck){
+            return $this->content['contentRules'][$code];
+        }
+        return true;
+    }
+
     /**
      * Transform the resource into an array.
      *
@@ -18,78 +37,110 @@ class LotResource extends JsonResource
      */
     public function toArray($request)
     {
-        $user = auth()->guard('api')->user();
         $authCheck = auth()->guard('api')->check();
-        $inFavourite = $authCheck && $this->favouritePaths->count() > 0;
-        $this->auction->isLotInfo = $this->isLotInfo;
-        $regions = $this->showRegions;
-        $priceReductions = $this->showPriceReductions->makeHidden('lot_id');
-        $currentPrice = $this->start_price;
-        $currentPriceState = 'hold';
-        $currentPriceRed = $this->currentPriceReduction;
-        foreach ($priceReductions as $priceReduction) {
-            $priceReduction->isCurrentStage = false;
-            if ($currentPriceRed) {
-                if ($priceReduction->id == $currentPriceRed['id']) {
-                    $priceReduction->isCurrentStage = true;
+        $inFavourite = false;
+        $favouritePaths = [];
+        if ($authCheck && $this->isAvailable( 'hasAccessToFavourite')) {
+                foreach ($this->content['favouritesLots'] as $favourite) {
+                    if (in_array($this->id, $favourite['lotIds'])) {
+                        $inFavourite = true;
+                        $favouritePaths[] = (object)$favourite['path'];
+                    }
                 }
-            }
         }
-        if ($currentPriceRed) {
-            $currentPrice = (float)$currentPriceRed['price'];
-            $prev = $this->prevPrice;
-            $prevPrice = (float)$this->start_price;
-            if ($prev) {
-                $prevPrice = (float)$prev['price'];
-            }
-            if ($prevPrice > $currentPrice) {
-                $currentPriceState = 'down';
-            } elseif ($prevPrice < $currentPrice) {
-                $currentPriceState = 'up';
-            }
+        $this->auction->isLotInfo = $this->isLotInfo;
+        $regions = $this->isAvailable( 'location') ? $this->showRegions->makeHidden(['pivot']) : null;
+        $currentPrice = $this->isAvailable( 'currentPrice') ? $this->start_price : null;
+        $currentPriceState = $this->isAvailable( 'currentPriceState') ? 'hold' : null;
+        $currentPriceRed = $this->currentPriceReduction;
+        if($this->isAvailable( 'currentPrice') || $this->isAvailable( 'currentPriceState')) {
+            if ($currentPriceRed) {
+                if($this->isAvailable( 'currentPrice')) {
+                    $currentPrice = (float)$currentPriceRed['price'];
+                }
+                if($this->isAvailable( 'currentPriceState')) {
+                    $prev = $this->prevPrice;
+                    $prevPrice = (float)$this->start_price;
+                    if ($prev) {
+                        $prevPrice = (float)$prev['price'];
+                    }
+                    if ($prevPrice > $currentPrice) {
+                        $currentPriceState = 'down';
+                    } elseif ($prevPrice < $currentPrice) {
+                        $currentPriceState = 'up';
+                    }
+                }
 
+            }
         }
-        return [
+        $lotData = [
             'id' => $this->id,
-            'trade' => new TradeResource($this->auction),
-            'lotNumber' => $this->number,
-            'photos' => $this->photos,
-            'categories' => $this->categoriesStructure(),
+            'trade' => (new TradeResource($this->auction))->contentRules($this->content['contentRules']),
+            'lotNumber' => $this->isAvailable( 'lotNumber') ? $this->number : null,
+            'photos' => $this->isAvailable( 'photos') ? $this->photos : null,
+            'categories' => $this->isAvailable( 'categories') ?  $this->categoriesStructure() : null,
             'description' => $this->description,
-            'state' => $this->status->code,
-            'location' => $regions->makeHidden(['pivot']),
-            'isWatched' => $authCheck ? $user->seenLots->pluck('id')->contains($this->id) : false,
-            'isPinned' => $authCheck ? $user->fixedLots->pluck('id')->contains($this->id) : false,
+            'state' => $this->isAvailable( 'state') ? $this->status->code : null,
+            'location' => $regions,
+            'isWatched' => $authCheck && in_array($this->id, $this->content['seenLots']),
+            'isPinned' => $authCheck && in_array($this->id, $this->content['fixedLots']),
             'inFavourite' => $inFavourite,
-            'hasNotSeenNotification' => $authCheck ? $this->hasNotSeenNotification() : false,
             $this->mergeWhen($inFavourite, [
-                'favouritePaths' => FavouritePathResource::collection($this->favouritePaths),
+                'favouritePaths' => FavouritePathResource::collection($favouritePaths),
             ]),
-            'isHide' => $authCheck ? $user->hiddenLots->pluck('id')->contains($this->id) : false,
-            'inMonitoring' => $authCheck && $this->monitoringPaths->count() > 0,
-            'startPrice' => (float)$this->start_price,
-            $this->mergeWhen(!is_null($this->auction_step), [
-                'stepPrice' => [
+            'hasNotSeenNotification' => $authCheck && in_array($this->id, $this->content['notSeenNots']),
+            'isHide' =>  $authCheck && in_array($this->id, $this->content['hiddenLots']),
+            'inMonitoring' =>$this->isAvailable( 'hasAccessToMonitoring') && in_array($this->id, $this->content['monitoringLots']),
+            'startPrice' => $this->isAvailable( 'startPrice') ?  (float)$this->start_price : null,
+            $this->mergeWhen(!is_null($this->auction_step) && $this->isAvailable( 'stepPrice'), [
+                'stepPrice' =>  [
                     'type' => $this->is_step_rub ? 'rubles' : 'percent',
                     'value' => $this->auction_step
                 ],
             ]),
-            $this->mergeWhen(is_null($this->auction_step), [
+            $this->mergeWhen(is_null($this->auction_step) || !$this->isAvailable( 'stepPrice'), [
                 'stepPrice' => null
             ]),
-            $this->mergeWhen(!is_null($this->deposit), [
+            $this->mergeWhen(!is_null($this->deposit) && $this->isAvailable( 'deposit'), [
                 'deposit' => [
                     'type' => $this->is_deposit_rub ? 'rubles' : 'percent',
                     'value' => $this->deposit
                 ],
             ]),
-            $this->mergeWhen(is_null($this->deposit), [
+            $this->mergeWhen(is_null($this->deposit) || !$this->isAvailable( 'deposit'), [
                 'deposit' => null
             ]),
-            $this->mergeWhen($this->auction->auctionType->title == 'PublicOffer' || $this->auction->auctionType->title == 'ClosePublicOffer', [
-                'priceReduction' => $priceReductions,
-                $this->mergeWhen(strlen((string)$this->price_reduction) > 0 && $this->price_reduction != '<table></table>', [
-                    'priceReductionHtml' => '<!DOCTYPE HTML><html lang="ru">
+            'currentPrice' => $currentPrice,
+            'minPrice' => $this->isAvailable( 'minPrice') ? (float)$this->min_price : null,
+            'currentPriceState' => $currentPriceState,
+            'link' => URL::to('/lot/' . $this->id),
+            'efrsbLink' => $this->isAvailable( 'efrsbLink') ? 'https://fedresurs.ru/bidding/' . $this->auction->guid : null,
+            'descriptionExtracts' => $this->isAvailable( 'descriptionExtracts') ? $this->description_extracts : null,
+            /*  $this->mergeWhen(($this->isLotInfo), [
+           'requirementsForParticipants' => $this->participants,
+            'paymentInfo' => $this->payment_info,
+            'saleAgreement' => $this->sale_agreement,
+            'biddingInfo' => $this->concours,
+            'applicationRules' => $this->auction->application_rules
+      ])*/
+        ];
+        if ($this->isLotInfo) {
+            $priceReductions = null;
+            if($this->isAvailable( 'priceReduction')) {
+                $priceReductions = $this->showPriceReductions->makeHidden('lot_id');
+                foreach ($priceReductions as $priceReduction) {
+                    $priceReduction->isCurrentStage = false;
+                    if ($currentPriceRed) {
+                        if ($priceReduction->id == $currentPriceRed['id']) {
+                            $priceReduction->isCurrentStage = true;
+                        }
+                    }
+                }
+            }
+            if ($this->isAvailable( 'priceReduction') && ($this->auction->auctionType->title == 'PublicOffer' || $this->auction->auctionType->title == 'ClosePublicOffer')) {
+                $lotData['priceReduction'] = $priceReductions;
+                if (strlen((string)$this->price_reduction) > 0 && $this->price_reduction != '<table></table>') {
+                    $lotData['priceReductionHtml'] = '<!DOCTYPE HTML><html lang="ru">
   <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta charset="UTF-8"/>
@@ -102,32 +153,18 @@ class LotResource extends JsonResource
       resizeObserver.observe(document.body);
     </script>
 </body>
-</html>',
-                ]),
-                $this->mergeWhen(strlen((string)$this->price_reduction) == 0 || $this->price_reduction == '<table></table>', [
-                    'priceReductionHtml' => null
-                ]),
-
-            ]),
-            'currentPrice' => $currentPrice,
-            'minPrice' => (float)$this->min_price,
-            'currentPriceState' => $currentPriceState,
-            'link' => URL::to('/lot/' . $this->id),
-            'efrsbLink' => 'https://fedresurs.ru/bidding/' . $this->auction->guid,
-            'marks' => $this->userMarks->makeHidden(['pivot']),
-            'descriptionExtracts' => $this->description_extracts,
-            'note' => $this->getNote(),
-            $this->mergeWhen(($this->isLotInfo), [
-                $this->mergeWhen(($authCheck), [
-                    'applications' => ApplicationResource::collection($this->userApplications),
-                ]),
-                'requirementsForParticipants' => $this->participants,
-                'paymentInfo' => $this->payment_info,
-                'saleAgreement' => $this->sale_agreement,
-                'biddingInfo' => $this->concours,
-                'applicationRules' => $this->auction->application_rules
-            ])
-        ];
+</html>';
+                } else {
+                    $lotData['priceReductionHtml'] = null;
+                }
+            }
+            if ($authCheck) {
+                $lotData['applications'] = ApplicationResource::collection($this->userApplications);
+                $lotData['note'] = $this->getNote();
+                $lotData['marks'] = $this->userMarks->makeHidden(['pivot']);
+            }
+        }
+        return $lotData;
     }
 
 

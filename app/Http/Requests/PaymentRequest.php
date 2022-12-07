@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\CheckExistsTariff;
 use App\Rules\TariffRule;
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -25,7 +26,7 @@ class PaymentRequest extends FormRequest
     public function rules()
     {
         return [
-            'tariffId'=>['required', 'integer', 'exists:tariffs,id']
+            'tariffId'=>['required', 'integer', 'exists:tariffs,id', new CheckExistsTariff]
         ];
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use Carbon\Carbon;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class TariffResource extends JsonResource
@@ -14,6 +15,10 @@ class TariffResource extends JsonResource
      */
     public function toArray($request)
     {
+        $userTariff = null;
+        if (auth()->guard('api')->check()) {
+            $userTariff = auth()->guard('api')->user()->tariff;
+        }
         return [
             'id' => $this->id,
             'title' => $this->title,
@@ -24,7 +29,11 @@ class TariffResource extends JsonResource
                 'includedDetails' => $this->included_details,
                 'excludedDetails' => $this->excluded_details,
             ],
-            'isUserTariff' => auth()->guard('api')->check() && auth()->guard('api')->user()->tariff && auth()->guard('api')->user()->tariff->tariff_id == $this->id
+
+            'isUserTariff' => !is_null($userTariff) && $userTariff->tariff->id == $this->id,
+            'expiredAt' => !is_null($userTariff) && $userTariff->tariff->id == $this->id ? Carbon::parse($userTariff->finished_at)->format('d.m.Y H:i:s') : null
+
+
         ];
     }
 }

@@ -6,11 +6,14 @@ use App\Exceptions\CustomExceptions\BaseException;
 use App\Http\Resources\LotCollection;
 use App\Http\Resources\LotResource;
 use App\Http\Resources\LotShortCollection;
+use App\Http\Resources\LotShortResource;
 use App\Http\Resources\NotificationCollection;
 use App\Http\Resources\VictoryCollection;
+use App\Http\Services\ContentSettingsService;
 use App\Jobs\ClearHiddenLotsJob;
 use App\Models\Auction;
 use App\Models\BiddingResult;
+use App\Models\ContentRule;
 use App\Models\Favourite;
 use App\Models\FavouriteLot;
 use App\Models\Lot;
@@ -25,23 +28,29 @@ class AuctionController extends Controller
 {
     public function getTrades(Request $request)
     {
-        $lots = Lot::with(['auction', 'showRegions', 'showPriceReductions', 'status', 'favouritePaths', 'monitoringPaths', 'lotImages', 'categories', 'lotParams'])
+        $lots = Lot::with(['auction', 'showRegions', 'status', 'lotImages', 'categories', 'lotParams'])
             ->when(auth()->check(), function ($query) {
                 $query->whereNotIn('lots.id', auth()->user()->hiddenLots->pluck('id'));
             })
             ->customSortBy($request)->paginate(20);
-        return response(new LotCollection($lots), 200);
+        $data = null;
+        if (auth()->check()) {
+            $settingsService = new ContentSettingsService();
+            $data = $settingsService->getUserData();
+        }
+        return response((new LotCollection($lots))->content($data), 200);
     }
 
     public function getFilteredTrades(Request $request)
     {
         if (auth()->check()) {
-            $lots = Lot::with(['auction', 'showPriceReductions', 'userMarks',
-                'showRegions', 'status', 'favouritePaths', 'monitoringPaths', 'lotImages', 'categories', 'lotParams'])
+            $lots = Lot::with(['auction', 'showRegions', 'status', 'lotImages', 'categories', 'lotParams'])
                 ->filterBy($request->request)->customSortBy($request)->paginate(20);
-            return response(new LotCollection($lots), 200);
+            $settingsService = new ContentSettingsService();
+            $data = $settingsService->getUserData();
+            return response((new LotCollection($lots))->content($data), 200);
         } else {
-            $lots = Lot::with(['auction', 'showRegions', 'showPriceReductions', 'status', 'favouritePaths', 'monitoringPaths', 'lotImages', 'categories', 'lotParams'])
+            $lots = Lot::with(['auction', 'showRegions', 'status', 'lotImages', 'categories', 'lotParams'])
                 ->filterBy($request->request)->customSortBy($request)->limit(5)->get();
             return response([
                 'data' => LotResource::collection($lots),
@@ -64,19 +73,17 @@ class AuctionController extends Controller
         $start = Carbon::now()->setTimezone('Europe/Moscow');
         $end = Carbon::now()->setTimezone('Europe/Moscow')->addWeek();
         if (auth()->check()) {
-            $lots = Lot::with(['auction', 'showPriceReductions', 'userMarks',
-                'showRegions', 'status', 'favouritePaths', 'monitoringPaths', 'lotImages', 'categories', 'lotParams'])
-                ->filterBy($request->request)
-                ->whereHas('auction', function ($q) use ($start, $end) {
-                    $q->whereBetween('application_start_date', [$start, $end])
+            $lots = Lot::with(['auction', 'showRegions', 'status', 'lotImages', 'categories', 'lotParams'])
+                ->hasByNonDependentSubquery('auction', function ($q) use ($start, $end) {
+                    $q->where('application_start_date', [$start, $end])
                         ->where('application_end_date', '>', $end);
-                })->customSortBy($request)->paginate(20);
-            return response(new LotCollection($lots), 200);
+                })->filterBy($request->request)->customSortBy($request)->paginate(20);
+            $settingsService = new ContentSettingsService();
+            $data = $settingsService->getUserData();
+            return response((new LotCollection($lots))->content($data), 200);
         } else {
-            $lots = Lot::with(['auction', 'showPriceReductions',
-                'showRegions', 'status',  'lotImages', 'categories', 'lotParams'])
+            $lots = Lot::with(['auction', 'showRegions', 'status', 'lotImages', 'categories', 'lotParams'])
                 ->filterBy($request->request)
-                ->with(['auction', 'regions', 'showPriceReductions', 'currentPriceReduction'])
                 ->whereHas('auction', function ($q) use ($start, $end) {
                     $q->whereBetween('application_start_date', [$start, $end])
                         ->where('application_end_date', '>', $end);
@@ -115,8 +122,8 @@ class AuctionController extends Controller
     {
         $searchString = $request->searchString;
         $lots = Lot::with(['auction', 'lotImages', 'categories'])
-            ->when(auth()->guard('api')->check(), function ($query){
-                $query->whereNotIn('lots.id',auth()->guard('api')->user()->hiddenLots->pluck('id'));
+            ->when(auth()->guard('api')->check(), function ($query) {
+                $query->whereNotIn('lots.id', auth()->guard('api')->user()->hiddenLots->pluck('id'));
             })
             ->when(isset($searchString) && strlen((string)$searchString) > 0, function ($query) use ($searchString) {
                 $query->whereHas('auction', function ($q) use ($searchString) {
@@ -124,7 +131,12 @@ class AuctionController extends Controller
                 })
                     ->orWhere('description', 'like', '%' . $searchString . '%');
             })->paginate(5);
-        return response(new LotShortCollection($lots), 200);
+        $data = null;
+        if(auth()->check()) {
+            $settingsService = new ContentSettingsService();
+            $data = $settingsService->getUserContentRules();
+        }
+        return response((new LotShortCollection($lots))->contentRules($data), 200);
     }
 
 
@@ -134,10 +146,14 @@ class AuctionController extends Controller
         if (!$auction) {
             throw new BaseException("ERR_FIND_TRADE_FAILED", 404, "Trade with id= " . $auctionId . ' does not exist');
         }
-        $lots = $auction->lots()->with(['auction', 'showPriceReductions', 'userMarks',
-            'showRegions', 'status', 'favouritePaths', 'monitoringPaths', 'lotImages', 'categories', 'lotParams'])
+        $lots = $auction->lots()->with(['auction', 'showRegions', 'status', 'lotImages', 'categories', 'lotParams'])
             ->filterBy($request->request)->customSortBy($request)->paginate(20);
-        return response(new LotCollection($lots), 200);
+        $data = null;
+        if (auth()->check()) {
+            $settingsService = new ContentSettingsService();
+            $data = $settingsService->getUserData();
+        }
+        return response((new LotCollection($lots))->content($data), 200);
     }
 
     public function getLotInformation($lotId)
@@ -148,7 +164,12 @@ class AuctionController extends Controller
             throw new BaseException("ERR_FIND_LOT_FAILED", 404, "Lot with id= " . $lotId . ' does not exist');
         }
         $lot->isLotInfo = true;
-        return response(new LotResource($lot), 200);
+        $data = null;
+        if (auth()->check()) {
+            $settingsService = new ContentSettingsService();
+            $data = $settingsService->getUserData();
+        }
+        return response((new LotResource($lot))->content($data), 200);
     }
 
     public function getShortLotInformation($lotId)
@@ -157,7 +178,12 @@ class AuctionController extends Controller
         if (!$lot) {
             throw new BaseException("ERR_FIND_LOT_FAILED", 404, "Lot with id= " . $lotId . ' does not exist');
         }
-        return response(new LotResource($lot), 200);
+        $data = null;
+        if(auth()->check()) {
+            $settingsService = new ContentSettingsService();
+            $data = $settingsService->getUserContentRules();
+        }
+        return response((new LotShortResource($lot))->contentRules($data), 200);
     }
 
     public function getLotNotifications($lotId)

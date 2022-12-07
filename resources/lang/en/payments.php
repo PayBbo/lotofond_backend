@@ -17,5 +17,6 @@ return [
     'Cancelled'=>'Payment cancelled',
     'Rejected'=>'Payment rejected',
     'Confirmation'=>'Additional confirmation is required',
-    'Pending'=>'The payment is being made'
+    'Pending'=>'The payment is being made',
+    'test_period'=>'Test period'
 ];

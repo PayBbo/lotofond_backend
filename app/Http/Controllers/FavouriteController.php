@@ -11,6 +11,7 @@ use App\Http\Resources\ExportLotCollection;
 use App\Http\Resources\ExportLotResource;
 use App\Http\Resources\FavouritePathResource;
 use App\Http\Resources\LotCollection;
+use App\Http\Services\ContentSettingsService;
 use App\Jobs\AddFavouriteEventsJob;
 use App\Models\Favourite;
 use App\Models\Lot;
@@ -89,11 +90,12 @@ class FavouriteController extends Controller
             'pathId' => ['required', 'integer', new IsUserFavouritePath()]
         ]);
         $path = Favourite::find($request->pathId);
-        $lots = Lot::with(['auction', 'showPriceReductions', 'userMarks',
-            'showRegions', 'status', 'favouritePaths', 'monitoringPaths', 'lotImages', 'categories', 'lotParams'])
+        $lots = Lot::with(['auction', 'showRegions', 'status', 'lotImages', 'categories', 'lotParams'])
             ->whereIn('lots.id', $path->lots()->pluck('lots.id')->toArray())
             ->filterBy($request->request)->customSortBy($request)->paginate(20);
-        return response(new LotCollection($lots), 200);
+        $settingsService = new ContentSettingsService();
+        $data = $settingsService->getUserData();
+        return response((new LotCollection($lots))->content($data), 200);
 
     }
 

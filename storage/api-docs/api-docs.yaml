@@ -1320,6 +1320,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+        "406":
+          description: У пользователя нет доступа к данному функционалу (тариф не активирован)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
         default:
           description: unexpected error
           content:
@@ -1348,6 +1354,12 @@ paths:
           description: Ошибка при удалении папки "Общее"
         "422":
           description: Ошибка валидации данных (папка не существует)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "406":
+          description: У пользователя нет доступа к данному функционалу (тариф не активирован)
           content:
             application/json:
               schema:
@@ -1391,6 +1403,12 @@ paths:
                     description: ссылка для скачивания файла
         "422":
           description: Ошибка валидации данных (папка не существует)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "406":
+          description: У пользователя нет доступа к данному функционалу (тариф не активирован)
           content:
             application/json:
               schema:
@@ -1454,6 +1472,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+        "406":
+          description: У пользователя нет доступа к данному функционалу (тариф не активирован)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
         default:
           description: unexpected error
           content:
@@ -1503,6 +1527,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+        "406":
+          description: У пользователя нет доступа к данному функционалу (тариф не активирован)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
         default:
           description: unexpected error
           content:
@@ -1524,6 +1554,12 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/PathFavourite"
+        "406":
+          description: У пользователя нет доступа к данному функционалу (тариф не активирован)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
         default:
           description: unexpected error
           content:
@@ -1560,6 +1596,12 @@ paths:
           description: лот был успешно удален из избранного
         "422":
           description: Ошибка валидации данных (папка или лот не существует)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "406":
+          description: У пользователя нет доступа к данному функционалу (тариф не активирован)
           content:
             application/json:
               schema:
@@ -1613,6 +1655,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+        "406":
+          description: У пользователя нет доступа к данному функционалу (тариф не активирован)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
         default:
           description: unexpected error
           content:
@@ -1643,6 +1691,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+        "406":
+          description: У пользователя нет доступа к данному функционалу (тариф не активирован)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
         default:
           description: unexpected error
           content:
@@ -1669,6 +1723,12 @@ paths:
           description: Папка избранного успешно удалена
         "422":
           description: Ошибка валидации данных (папка не существует)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "406":
+          description: У пользователя нет доступа к данному функционалу (тариф не активирован)
           content:
             application/json:
               schema:
@@ -1728,6 +1788,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+        "406":
+          description: У пользователя нет доступа к данному функционалу (тариф не активирован)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
         default:
           description: unexpected error
           content:
@@ -1749,6 +1815,12 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/PathMonitoringData"
+        "406":
+          description: У пользователя нет доступа к данному функционалу (тариф не активирован)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
         default:
           description: unexpected error
           content:
@@ -1785,6 +1857,12 @@ paths:
           description: лот был успешно удален из мониторинга
         "422":
           description: Ошибка валидации данных (папка или лот не существует)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "406":
+          description: У пользователя нет доступа к данному функционалу (тариф не активирован)
           content:
             application/json:
               schema:
@@ -2095,6 +2173,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Files'
+        "406":
+          description: У пользователя нет доступа к данному функционалу (тариф не активирован)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
         default:
           description: unexpected error
           content:
@@ -2154,6 +2238,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+      security:
+        - bearerAuth: []
   /bidders/{bidderId}/{type}:
     get:
       tags:
@@ -2183,6 +2269,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/SingleBidderInfo'
+        "406":
+          description: У пользователя нет доступа к данному функционалу (тариф не активирован)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
         default:
           description: unexpected error
           content:
@@ -2215,6 +2307,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/TradePlace'
+        "406":
+          description: У пользователя нет доступа к данному функционалу (тариф не активирован)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
         default:
           description: unexpected error
           content:
@@ -2287,6 +2385,12 @@ paths:
                     $ref: '#/components/schemas/Bidder'
                   pagination:
                     $ref: '#/components/schemas/Pagination'
+        "406":
+          description: У пользователя нет доступа к данному функционалу (тариф не активирован)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
         default:
           description: unexpected error
           content:
@@ -2345,6 +2449,12 @@ paths:
                     $ref: '#/components/schemas/TradePlaces'
                   pagination:
                     $ref: '#/components/schemas/Pagination'
+        "406":
+          description: У пользователя нет доступа к данному функционалу (тариф не активирован)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
         default:
           description: unexpected error
           content:
@@ -2383,6 +2493,12 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Rating"
+        "406":
+          description: У пользователя нет доступа к данному функционалу (тариф не активирован)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
         default:
           description: unexpected error
           content:
@@ -2467,6 +2583,12 @@ paths:
                       $ref: "#/components/schemas/BidderMessage"
                   pagination:
                     $ref: "#/components/schemas/Pagination"
+        "406":
+          description: У пользователя нет доступа к данному функционалу (тариф не активирован)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
         default:
           description: unexpected error
           content:
@@ -2507,6 +2629,12 @@ paths:
                       isSetCookie:
                         type: boolean
                         description: флаг для обозначения, корректны ли кукисы при запросе, если false - необходимо сгенерировать куки и выполнить запрос во второй раз
+        "406":
+          description: У пользователя нет доступа к данному функционалу (тариф не активирован)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
         default:
           description: unexpected error
           content:
@@ -2531,6 +2659,12 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Files"
+        "406":
+          description: У пользователя нет доступа к данному функционалу (тариф не активирован)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
         default:
           description: unexpected error
           content:
@@ -2557,6 +2691,12 @@ paths:
           description: Файл был успешно удален
         "422":
           description: Ошибка валидации данных (файла не существует либо он не является пользовательским)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "406":
+          description: У пользователя нет доступа к данному функционалу (тариф не активирован)
           content:
             application/json:
               schema:
@@ -3864,6 +4004,7 @@ components:
         - notificationsFromFavourite
         - notificationsToEmail
         - notificationsSettings
+        - contentDisplayRules
       type: object
       properties:
         name:
@@ -3914,8 +4055,80 @@ components:
               type: string
               description: Заголовок тарифа
             expiredAt:
-              type: stirng
+              type: string
               description: дата истечения сркоа действия подписки
+        contentDisplayRules:
+            type: object
+            properties:
+              lot:
+                type: object
+                properties:
+                  lotNumber:
+                    type: boolean
+                  photos:
+                    type: boolean
+                  categories:
+                    type: boolean
+                  state:
+                    type: boolean
+                  location:
+                    type: boolean
+                  startPrice:
+                    type: boolean
+                  stepPrice:
+                    type: boolean
+                  deposit:
+                    type: boolean
+                  priceReduction:
+                    type: boolean
+                  priceReductionHtml:
+                    type: boolean
+                  currentPrice:
+                    type: boolean
+                  minPrice:
+                    type: boolean
+                  currentPriceState:
+                    type: boolean
+                  efrsbLink:
+                    type: boolean
+                  descriptionExtracts:
+                    type: boolean
+                  trade:
+                    type: object
+                    properties:
+                      externalId:
+                        type: boolean
+                      lotCount:
+                        type: boolean
+                      type:
+                        type: boolean
+                      publishDate:
+                        type: boolean
+                      eventTime:
+                        type: boolean
+                      applicationTime:
+                        type: boolean
+                      priceOfferForm:
+                        type: boolean
+                      organizer:
+                        type: boolean
+                      arbitrationManager:
+                        type: boolean
+                      debtor:
+                        type: boolean
+                      tradePlace:
+                        type: boolean
+              system:
+                type: object
+                properties:
+                  hasAccessToTradeFiles:
+                    type: boolean
+                  hasAccessToMonitoring:
+                    type: boolean
+                  hasAccessToReestr:
+                    type: boolean
+                  hasAccessToFavourite:
+                    type: boolean
     NotificationsSettings:
       type: object
       properties:
@@ -5342,6 +5555,8 @@ components:
         id:
           type: integer
           description: айди лота
+        trade:
+          $ref: '#/components/schemas/Trade'
         description:
           type: string
           description: описание лота
@@ -5354,26 +5569,6 @@ components:
           $ref: "#/components/schemas/Categories"
         currentPrice:
           type: number
-        externalId:
-          type: string
-          description: номер торгов
-        eventTime:
-          type: object
-          properties:
-            start:
-              type: string
-              description: дата и время начала торгов (null, если priceOfferForm = close)
-            end:
-              type: string
-              description: дата и время окончания торгов (null, если priceOfferForm = close)
-            result:
-              type: string
-              description: Дата и время объявления результатов торгов (null, если priceOfferForm = open)
-        organizer:
-          $ref: "#/components/schemas/BidderInfo"
-        tradePlaceSite:
-          type: string
-          description: сайт ЭТП
     Bidder:
       type: object
       properties:
@@ -5437,6 +5632,9 @@ components:
         isUserTariff:
           type: boolean
           description: флаг, обозначающий, является ли данный тариф действующим тарифом пользователя
+        expiredAt:
+          type: string
+          description: дата истечения срока действия тарифа
         description:
           type: object
           properties:

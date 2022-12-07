@@ -14,10 +14,17 @@ class LotShortCollection extends ResourceCollection
      */
     public $collects = 'App\Http\Resources\LotShortResource';
 
+    protected $contentRules;
+
+    public function contentRules($contentRules=null){
+        $this->contentRules = $contentRules;
+        return $this;
+    }
+
     public function toArray($request)
     {
         return [
-            'data' => $this->collection,
+            'data' => $this->collection->each->contentRules($this->contentRules),
             'pagination' => new PaginationResource($this)
         ];
     }

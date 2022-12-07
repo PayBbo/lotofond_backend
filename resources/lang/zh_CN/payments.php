@@ -17,5 +17,6 @@ return [
     'Cancelled'=>'取消付款',
     'Rejected'=>'拒绝付款',
     'Confirmation'=>'需要额外的确认',
-    'Pending'=>'付款正在进行中'
+    'Pending'=>'付款正在进行中',
+    'test_period'=>'测试期'
 ];

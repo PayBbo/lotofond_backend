@@ -20,10 +20,18 @@ class LotCollection extends ResourceCollection
      */
     public $collects = 'App\Http\Resources\LotResource';
 
+    protected $content;
+
+    public function content($content){
+        $this->content = $content;
+        return $this;
+    }
+
+
     public function toArray($request)
     {
         return [
-            'data' => $this->collection,
+            'data' => $this->collection->each->content($this->content),
             'pagination' => new PaginationResource($this)
          ];
     }

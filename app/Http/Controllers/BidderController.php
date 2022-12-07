@@ -11,6 +11,7 @@ use App\Http\Resources\ReestrBidderResource;
 use App\Http\Resources\ReestrDebtorMessageCollection;
 use App\Http\Resources\TradePlaceCollection;
 use App\Http\Resources\TradePlaceResource;
+use App\Http\Services\ContentSettingsService;
 use App\Models\Bidder;
 use App\Models\BidderEstimate;
 use App\Models\Lot;
@@ -34,28 +35,31 @@ class BidderController extends Controller
             $exceptionLots[] = $request->exceptionLotId;
         }
         if ($request->type == 'active') {
-            $lots = Lot::with(['auction', 'showPriceReductions', 'userMarks',
-                'showRegions', 'status', 'favouritePaths', 'monitoringPaths', 'lotImages', 'categories', 'lotParams'])
+            $lots = Lot::with(['auction', 'showRegions', 'status', 'lotImages', 'categories', 'lotParams'])
                 ->whereNotIn('id', $exceptionLots)->whereIn('status_id', $active_statuses)->whereHas('auction.' . $bidderType,
-                function ($q) use ($bidderId) {
-                    $q->where('id', $bidderId);
-                })->paginate(20);
+                    function ($q) use ($bidderId) {
+                        $q->where('id', $bidderId);
+                    })->paginate(20);
         } else {
-            $lots = Lot::with(['auction', 'showPriceReductions', 'userMarks',
-                'showRegions', 'status', 'favouritePaths', 'monitoringPaths', 'lotImages', 'categories', 'lotParams'])
-            ->whereNotIn('id', $exceptionLots)->whereNotIn('status_id', $active_statuses)->whereHas('auction.' . $bidderType,
-                function ($q) use ($bidderId) {
-                    $q->where('id', $bidderId);
-                })->paginate(20);
+            $lots = Lot::with(['auction', 'showRegions', 'status', 'lotImages', 'categories', 'lotParams'])
+                ->whereNotIn('id', $exceptionLots)->whereNotIn('status_id', $active_statuses)->whereHas('auction.' . $bidderType,
+                    function ($q) use ($bidderId) {
+                        $q->where('id', $bidderId);
+                    })->paginate(20);
         }
-        return response(new LotCollection($lots), 200);
+        $data = null;
+        if (auth()->check()) {
+            $settingsService = new ContentSettingsService();
+            $data = $settingsService->getUserData();
+        }
+        return response((new LotCollection($lots))->content($data), 200);
     }
 
     public function getBidder($bidderId, $type)
     {
         $bidder = Bidder::where('id', $bidderId)->first();
         if (!$bidder || !$bidder->types()->where('title', $type)->exists()) {
-            throw new BaseException("ERR_FIND_BIDDER_FAILED", 404, "Bidder with id = " . $bidderId . ' and type = '.$type.' does not exist');
+            throw new BaseException("ERR_FIND_BIDDER_FAILED", 404, "Bidder with id = " . $bidderId . ' and type = ' . $type . ' does not exist');
         }
         $bidder->role = $type;
         return response(new ReestrBidderResource($bidder), 200);
@@ -203,7 +207,7 @@ class BidderController extends Controller
         );
         curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
 
-        $data = "key=message&url=https%3A%2F%2Fold.bankrot.fedresurs.ru%2FMessageWindow.aspx%3FID%3D".$request->guid."&match_words=Array";
+        $data = "key=message&url=https%3A%2F%2Fold.bankrot.fedresurs.ru%2FMessageWindow.aspx%3FID%3D" . $request->guid . "&match_words=Array";
 
         curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
 

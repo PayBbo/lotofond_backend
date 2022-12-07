@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Models\ContentRule;
 use Carbon\Carbon;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -18,6 +19,19 @@ class ProfileResource extends JsonResource
         $changeCredentials = $this->changeCredentials()
             ->where(['is_old_credentials' => false, 'is_submitted_old_credentials' => false, 'is_submitted_new_credentials' => true])
             ->latest()->first();
+        $testPeriodInDays = 3;
+        $hasTariff = !is_null($this->tariff);
+        $hasTestPeriod =$this->email_verified_at->addDays($testPeriodInDays)->format('d.m.Y H:i:s') < Carbon::now()->setTimezone('Europe/Moscow')->format('d.m.Y H:i:s');
+        $contentDisplayRules = ['lot'=>['trade'=>[]], 'system'=>[]];
+        $rules = ContentRule::all();
+        foreach($rules as $rule){
+            if($rule->type == 'trade'){
+                $contentDisplayRules['lot'][$rule->type][$rule->code] = ($hasTariff || $hasTestPeriod) ? true : $rule->is_available;
+            }else{
+                $contentDisplayRules[$rule->type][$rule->code] = ($hasTariff || $hasTestPeriod) ? true : $rule->is_available;
+            }
+
+        }
         return [
             'email' => $this->email,
             'phone' => $this->phone,
@@ -39,24 +53,22 @@ class ProfileResource extends JsonResource
             $this->mergeWhen(is_null($changeCredentials), [
                 'changeCredentialsProcess' => null
             ]),
-            $this->mergeWhen(is_null($this->tariff) &&
-                $this->email_verified_at->addDays(3)->format('d.m.Y H:i:s') >= Carbon::now()->setTimezone('Europe/Moscow')->format('d.m.Y H:i:s'), [
+            $this->mergeWhen(!$hasTariff && $hasTestPeriod, [
                 'tariff' => [
-                    'title'=>'Тестовый период',
-                    'expiredAt'=>$this->email_verified_at->addDays(3)->format('d.m.Y H:i:s')
+                    'title'=>__('payments.test_period'),
+                    'expiredAt'=>$this->email_verified_at->addDays($testPeriodInDays)->format('d.m.Y H:i:s')
                 ]
             ]),
-            $this->mergeWhen(!is_null($this->tariff) &&
-                $this->email_verified_at->addDays(3)->format('d.m.Y H:i:s') < Carbon::now()->setTimezone('Europe/Moscow')->format('d.m.Y H:i:s'), [
+            $this->mergeWhen($hasTariff && !$hasTestPeriod, [
                 'tariff' => [
                     'title'=> !is_null($this->tariff) ? $this->tariff['tariff']->title : null,
                     'expiredAt'=>!is_null($this->tariff) ? Carbon::parse($this->tariff->finished_at)->format('d.m.Y H:i:s') : null
                 ]
             ]),
-            $this->mergeWhen(is_null($this->tariff) &&
-                $this->email_verified_at->addDays(3)->format('d.m.Y H:i:s') < Carbon::now()->setTimezone('Europe/Moscow')->format('d.m.Y H:i:s'), [
+            $this->mergeWhen(!$hasTariff && !$hasTestPeriod, [
                 'tariff' => null
-            ])
+            ]),
+            'contentDisplayRules'=>$contentDisplayRules,
         ];
     }
 }

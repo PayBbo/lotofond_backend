@@ -7,6 +7,21 @@ use Illuminate\Support\Facades\Route;
 
 class TradeResource extends JsonResource
 {
+    protected $contentRules;
+
+    public function contentRules($contentRules=null)
+    {
+        $this->contentRules = $contentRules;
+        return $this;
+    }
+
+    public function isAvailable($code){
+        $authCheck = auth()->guard('api')->check();
+        if($authCheck){
+            return $this->contentRules[$code];
+        }
+        return true;
+    }
     /**
      * Transform the resource into an array.
      *
@@ -15,42 +30,42 @@ class TradeResource extends JsonResource
      */
     public function toArray($request)
     {
-        return [
+        $trade = [
             'id' => $this->id,
-            'externalId' => $this->trade_id,
-            'lotCount' => $this->lots_count,
-            'type' => $this->auctionType->title,
-            'publishDate'=> $this->publish_date,
-            'eventTime' => [
+            'externalId' => $this->isAvailable( 'externalId') ? $this->trade_id : null,
+            'lotCount' => $this->isAvailable( 'lotCount') ? $this->lots_count : null,
+            'type' => $this->isAvailable( 'type') ? $this->auctionType->title : null,
+            'publishDate'=> $this->isAvailable( 'publishDate') ?  $this->publish_date : null,
+            'eventTime' => $this->isAvailable( 'eventTime') ? [
                 'start' => $this->event_start_date,
                 'end' => $this->event_end_date,
                 'result' => $this->result_date,
-            ],
-            'applicationTime' => [
+            ] : null,
+            'applicationTime' => $this->isAvailable( 'applicationTime') ? [
                 'start' => $this->application_start_date,
                 'end' => $this->application_end_date,
-            ],
-            $this->mergeWhen($this->isLotInfo === true, [
-                'publishDateSmi' => $this->date_publish_efir,
-                'publishDateEfir' => $this->date_publish_smi,
-                'priceOfferForm' => $this->price_form,
-                'organizer' => new BidderResource($this->companyTradeOrganizer),
-                'arbitrationManager' => new BidderResource($this->arbitrationManager),
-                'debtor' => new BidderResource($this->debtor),
-                'tradePlace' => [
-                    'name' => $this->tradePlace->name,
-                    'site' => str_starts_with($this->tradePlace->site, 'http') ? $this->tradePlace->site : 'http://'.$this->tradePlace->site
-                ]
-
-            ]),
-            $this->mergeWhen(Route::getCurrentRoute()->getName() === 'bidders-trades', [
-                'organizer' => new BidderResource($this->companyTradeOrganizer),
-                'tradePlace' => [
-                    'name' => $this->tradePlace->name,
-                    'site' => str_starts_with($this->tradePlace->site, 'http') ? $this->tradePlace->site : 'http://'.$this->tradePlace->site
-                ]
-
-            ]),
+            ] : null,
         ];
+        if($this->isLotInfo === true){
+            /*   $trade['publishDateSmi'] =  $this->date_publish_efir;
+           $trade['publishDateEfir'] = $this->date_publish_smi;*/
+            $trade['priceOfferForm'] =  $this->isAvailable( 'priceOfferForm') ? $this->price_form : null;
+            $trade['organizer'] = $this->isAvailable( 'organizer') ? new BidderResource($this->companyTradeOrganizer) : null;
+            $trade['arbitrationManager'] = $this->isAvailable( 'arbitrationManager') ? new BidderResource($this->arbitrationManager) : null;
+            $trade['debtor'] =  $this->isAvailable( 'debtor') ? new BidderResource($this->debtor) : null;
+            $trade['tradePlace'] =  $this->isAvailable( 'tradePlace') ? [
+                'name' => $this->tradePlace->name,
+                'site' => str_starts_with($this->tradePlace->site, 'http') ? $this->tradePlace->site : 'http://'.$this->tradePlace->site
+            ] : null;
+        }
+        if(Route::getCurrentRoute()->getName() === 'bidders-trades'){
+            $trade['organizer'] = $this->isAvailable( 'organizer') ? new BidderResource($this->companyTradeOrganizer) : null;
+            $trade['tradePlace'] =  $this->isAvailable( 'tradePlace') ? [
+                'name' => $this->tradePlace->name,
+                'site' => str_starts_with($this->tradePlace->site, 'http') ? $this->tradePlace->site : 'http://'.$this->tradePlace->site
+            ] : null;
+        }
+
+        return $trade;
     }
 }

@@ -6,6 +6,23 @@ use Illuminate\Http\Resources\Json\JsonResource;
 
 class LotShortResource extends JsonResource
 {
+    protected $contentRules;
+
+    public function contentRules($contentRules = null)
+    {
+        $this->contentRules = $contentRules;
+        return $this;
+    }
+
+    public function isAvailable($code)
+    {
+        $authCheck = auth()->guard('api')->check();
+        if ($authCheck) {
+            return $this->contentRules[$code];
+        }
+        return true;
+    }
+
     /**
      * Transform the resource into an array.
      *
@@ -14,24 +31,21 @@ class LotShortResource extends JsonResource
      */
     public function toArray($request)
     {
+        $currentPrice = $this->isAvailable('currentPrice') ? $this->start_price : null;
+        $currentPriceRed = $this->currentPriceReduction;
+        if ($currentPriceRed && $this->isAvailable('currentPrice')) {
+            $currentPrice = (float)$currentPriceRed['price'];
+        }
+
 
         return [
             'id' => $this->id,
-            'trade' => new TradeResource($this->auction),
-            'lotNumber' => $this->number,
-            'photos' => $this->photos,
-            'categories' => $this->categoriesStructure(),
+            'trade' => (new TradeResource($this->auction))->contentRules($this->contentRules),
+            'lotNumber' => $this->isAvailable('lotNumber') ? $this->number : null,
+            'photos' => $this->isAvailable('photos') ? $this->photos : null,
+            'categories' => $this->isAvailable('categories') ? $this->categoriesStructure() : null,
             'description' => stripslashes(preg_replace('/[\x00-\x1F\x7F]/u', ' ', $this->description)),
-            'currentPrice' => (float)$this->current_price,
-            'externalId' => $this->auction->trade_id,
-            'eventTime' => [
-                'start' => $this->auction->event_start_date,
-                'end' => $this->auction->event_end_date,
-                'result' => $this->auction->result_date,
-            ],
-            'organizer' => new BidderResource($this->auction->companyTradeOrganizer),
-            'tradePlaceSite' => str_starts_with($this->auction->tradePlace->site, 'http')
-                ? $this->auction->tradePlace->site : 'http://' . $this->auction->tradePlace->site
+            'currentPrice' => (float)$currentPrice
 
         ];
     }
