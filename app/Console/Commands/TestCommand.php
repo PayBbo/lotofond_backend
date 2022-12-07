@@ -6,6 +6,8 @@ namespace App\Console\Commands;
 use App\Http\Services\Parse\GetTradeMessageContent;
 use App\Http\Services\Parse\ParseDataFromRosreestrService;
 use App\Http\Services\Parse\SoapWrapperService;
+use App\Http\Services\ReestrApiService;
+use App\Http\Services\SendCodeService;
 use App\Jobs\ChangeEmail;
 use App\Jobs\FavouriteJob;
 use App\Jobs\MonitoringJob;
@@ -13,9 +15,12 @@ use App\Jobs\MonitoringNotificationJob;
 use App\Jobs\ParseArbitrManager;
 use App\Jobs\ParseDebtorMessages;
 use App\Jobs\ParseTrades;
+use App\Jobs\SendApplication;
 use App\Jobs\SendLotsToChannel;
 use App\Models\Bidder;
 use App\Models\BiddingResult;
+use App\Models\Contact;
+use App\Models\EgrnStatement;
 use App\Models\Lot;
 use App\Models\Notification;
 use App\Models\Param;
@@ -26,6 +31,9 @@ use Artisaninweb\SoapWrapper\SoapWrapper;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\URL;
 use Midnite81\Xml2Array\Xml2Array;
 
 
@@ -87,7 +95,7 @@ class TestCommand extends Command
         /*      $soapWrapper = new SoapWrapper();
               $service = new SoapWrapperService($soapWrapper);
               logger(json_encode($service->getTradeMessagesByTrade( '140376', '1656057203', Carbon::parse('2022-09-06 13:00:00')->format('Y-m-d\TH:i:s'))));*/
-           $value = ['PublicOffer', 'ClosePublicOffer'];
+        /*   $value = ['PublicOffer', 'ClosePublicOffer'];
            $lots = Lot::whereHas('auction.auctionType', function ($q) use ($value) {
                $q->whereIn('title', $value);
            })->latest()->limit(1000)->get();
@@ -197,33 +205,46 @@ class TestCommand extends Command
                    logger($e);
                    logger($lot->id);
                }
-           }
-      /*  $table = TestMessage::select(
-            'lot_id',
-            'message_id',
-            'start_price',
-            'auction_step',
-            'auction_step_unit',
-            'advance',
-            'advance_step_unit',
-            'price_reduction',
-            'organizer_fio',
-            'arbitr_fio',
-            'organizer_name',
-            'sro',
-            'text',
-            'trade_site',
-            'arbitration_manager',
-            'organizer'
-        )->get();
-        $file = fopen('test_lots.csv', 'w');
-        fprintf($file, chr(0xEF) . chr(0xBB) . chr(0xBF));
-        fputcsv($file, ['Номер лота у нас', 'Номер сообщения', 'Начальная цена', 'Шаг цены', 'Единицы измерения шага аукциона', 'Задаток', 'Единицы измерения задатка', 'Снижение цены',
-            'ФИО Организатора', 'ФИО Арбитра', 'Название компании организатора', 'СРО АУ', 'Текст сообщения', 'Торговая площадка', 'Арбитр', 'Организатор'], ';');
-        foreach ($table as $row) {
-            fputcsv($file, $row->toArray(), ';');
-        }
-        fclose($file);*/
+           }*/
+        /*  $table = TestMessage::select(
+              'lot_id',
+              'message_id',
+              'start_price',
+              'auction_step',
+              'auction_step_unit',
+              'advance',
+              'advance_step_unit',
+              'price_reduction',
+              'organizer_fio',
+              'arbitr_fio',
+              'organizer_name',
+              'sro',
+              'text',
+              'trade_site',
+              'arbitration_manager',
+              'organizer'
+          )->get();
+          $file = fopen('test_lots.csv', 'w');
+          fprintf($file, chr(0xEF) . chr(0xBB) . chr(0xBF));
+          fputcsv($file, ['Номер лота у нас', 'Номер сообщения', 'Начальная цена', 'Шаг цены', 'Единицы измерения шага аукциона', 'Задаток', 'Единицы измерения задатка', 'Снижение цены',
+              'ФИО Организатора', 'ФИО Арбитра', 'Название компании организатора', 'СРО АУ', 'Текст сообщения', 'Торговая площадка', 'Арбитр', 'Организатор'], ';');
+          foreach ($table as $row) {
+              fputcsv($file, $row->toArray(), ';');
+          }
+          fclose($file);*/
+        /*$minDate = Carbon::parse('2022-12-05 00:00');
+        $maxDate = Carbon::parse('2022-12-06 00:00');
+        $categories = [
+            "land",
+            "residentialProperty",
+            "commercialRealEstate"
+        ];
+        $lots = Lot::whereBetween('lots.created_at', [$minDate, $maxDate])
+            ->whereHas('categories', function ($query) use ($categories) {
+                $query->whereIn('title', $categories);
+            })->count();
+        logger($lots);*/
+
 
 
     }

@@ -43,17 +43,6 @@ class ApplicationsController extends Controller
     {
         $application = Application::find($request->id);
         if ($application) {
-            if ($request->status == 'completed' && !is_null($application->user_id) && $application->tariff->code != 'receiptEGRN' && $application->tariff->code != 'newQuestion') {
-                Notification::create([
-                    'user_id' => $application->user_id,
-                    'date' => Carbon::now()->setTimezone('Europe/Moscow'),
-                    'label' => 'applicationAnswerTitle',
-                    'type_id' => 1,
-                    'message' => 'applicationAnswerBody',
-                    'application_id'=>$application->id,
-                    'platform_action'=>'info'
-                ]);
-            }
             $application->status = $request->status;
             $application->save();
             return response(null, 200);

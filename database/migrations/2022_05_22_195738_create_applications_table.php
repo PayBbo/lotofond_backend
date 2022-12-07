@@ -38,6 +38,7 @@ class CreateApplicationsTable extends Migration
             $table->foreign('lot_id')->references('id')
                 ->on('lots')->cascadeOnDelete();
             $table->enum('status', ['notProcessed', 'inProgress', 'rejectedBySystem', 'rejectedByUser', 'completed'])->default('notProcessed');
+            $table->enum('format', ['pdf', 'html', 'zip'])->default('pdf');
             $table->timestamps();
         });
         Schema::enableForeignKeyConstraints();

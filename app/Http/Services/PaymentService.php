@@ -53,7 +53,6 @@ class PaymentService
                 $customer = ['phone'=>$user->phone];
             }
         }
-        logger(hash('sha256', $paymentId));
         $response = $client->request('POST', 'https://paymaster.ru/api/v2/invoices',
             [
                 RequestOptions::HEADERS => [

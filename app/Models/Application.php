@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\URL;
@@ -29,7 +30,8 @@ class Application extends Model
         'cadastral_number',
         'status',
         'tariff_id',
-        'payment_id'
+        'payment_id',
+        'format'
     ];
 
     /**
@@ -47,6 +49,26 @@ class Application extends Model
         'is_answered'=>'boolean',
         'files'=>'array'
     ];
+
+    public static function boot()
+    {
+        parent::boot();
+
+        static::updated(function ($application) {
+            if ($application->status == 'completed' && !is_null($application->user_id) && $application->tariff->code != 'newQuestion') {
+                Notification::create([
+                    'user_id' => $application->user_id,
+                    'date' => Carbon::now()->setTimezone('Europe/Moscow'),
+                    'label' => 'applicationAnswerTitle',
+                    'type_id' => 1,
+                    'message' => 'applicationAnswerBody',
+                    'application_id'=>$application->id,
+                    'platform_action'=>'info'
+                ]);
+            }
+        });
+
+    }
 
     public function user()
     {

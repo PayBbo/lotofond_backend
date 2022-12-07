@@ -3342,6 +3342,13 @@ paths:
                 cadastralNumber:
                   type: string
                   example: 61:44:0071802:1786
+                answerFormat:
+                  type: string
+                  enum:
+                    - pdf
+                    - html
+                    - zip
+                  description: формат файла, в котором пользователю прислать выписку. По умолчанию - pdf
       responses:
         "200":
           description: Создание платежа прошло успешно, в ответе ссылка для его подтверждения

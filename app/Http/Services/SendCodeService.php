@@ -3,10 +3,19 @@
 namespace App\Http\Services;
 
 use App\Exceptions\CustomExceptions\BaseException;
+use App\Jobs\SendApplication;
+use App\Models\Application;
+use App\Models\Contact;
+use App\Models\Lot;
 use App\Models\Notification;
+use App\Models\Tariff;
+use App\Models\User;
+use App\Notifications\ApplicationTelegramNotification;
+use Carbon\Carbon;
 use CodersStudio\SmsRu\Facades\SmsRu;
 use Exception;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\URL;
 
 class SendCodeService
@@ -88,15 +97,15 @@ class SendCodeService
                         }
                         if (count($lot->photos) > 0) {
                             $photo = $message->embed($lot->photos[0]['main']);
-                        }else{
+                        } else {
                             $category = $lot->categories()->first();
-                            if(!is_null($category->parent_id)){
+                            if (!is_null($category->parent_id)) {
                                 $photo = $message->embed(asset($category_icons[$category->parent()->title]));
-                            }else{
+                            } else {
                                 $photo = $message->embed(asset($category_icons[$category->title]));
                             }
                         }
-                        $desc =  mb_strimwidth($lot->description, 0, 100, "...");
+                        $desc = mb_strimwidth($lot->description, 0, 100, "...");
                         $url = asset('lot/' . $lot->id);
                         $details .= "<tr><td>$i</td><td><img width='150px' height='117px' src='$photo' alt=''/></td><td>$desc</td><td><a href='$url'>Подробнее</a></td></tr>";
                         $i++;
@@ -117,6 +126,116 @@ class SendCodeService
                 $html .= $details . "<p>С уважением, Lotofond</p>";
 
                 $message->from('bankr0t.t@yandex.ru', 'Lotofond');
+                $message->to($toEmail);
+                $message->subject($subject);
+                $message->setBody($html, 'text/html');
+            });
+        } catch (Exception $e) {
+            logger($e);
+        }
+    }
+
+    public function sendApplicationToManager($application)
+    {
+        try {
+            $serviceName = $application->tariff->getTranslation('title', 'ru');
+            $lot = URL::to('/lot/' . $application->lot_id);
+            $lotDesc = mb_strimwidth(Lot::find($application->lot_id)['description'], 0, 250, "...");
+            $html = $application->lot_id ? "Пользователь $application->username оставил заявку на покупку услуги - $serviceName.
+<p><strong>Описание лота:</strong>
+$lotDesc</p>
+<a href='$lot'>Ссылка на лот </a>" : "Пользователь $application->username оставил заявку на покупку услуги - $serviceName.";
+            $html .= "<br>
+<strong>Почта: $application->email</strong>";
+            if(!is_null($application->phone)){
+                $html .= "<br>
+<strong>Телефон: $application->phone</strong>";
+            }
+            if(!is_null($application->for_answer)){
+                $html .="
+<p>Социальные сети для ответа: $application->for_answer</p>";
+            }
+            if (isset($application->answer_date) && strlen($application->answer_date) > 0) {
+                $dateForCallback = Carbon::parse($application->answer_date)->format('d.m.Y H:i');
+                $html .= "
+<p>Дата и время для ответа: $dateForCallback</p>";
+            }
+            if(!is_null($application->payment_id)){
+                $paymentId = $application->payment->payment_id;
+                $paymentStatus = __('payments.' . $application->payment->status);
+                $html.="
+<p>Статус транзакции № $paymentId - $paymentStatus </p>";
+            }
+
+            $subject = 'Новая заявка на покупку услуги - ' . $serviceName;
+
+            $emails = Contact::where('tariff_id', $application->tariff_id)->pluck('contact')->toArray();
+
+            if (count($emails) > 0) {
+                dispatch((new SendApplication($html, $subject, $emails))->onQueue('credentials'));
+            }
+            $token = config('telegram.bot_token');
+            \Illuminate\Support\Facades\Notification::route('telegram', $token)
+                ->notify(new ApplicationTelegramNotification($html));
+        } catch (Exception $e) {
+            throw new BaseException("ERR_SEND_MESSAGE_FAILED", 550, __('validation.message_err'));
+        }
+    }
+
+    public function sendQuestionToManager($application)
+    {
+        try {
+            $html = "Пользователь $application->username  задал вопрос по теме:
+            <p>$application->topic</p>
+            <p>$application->question</p>
+            <strong>Почта: $application->email</strong>";
+            if ($application->files) {
+                foreach ($application->files as $file) {
+                    $path = URL::to('storage/' . $file);
+                    $html .= " <br><a href=$path> Прикрепленный файл </a>";
+                }
+            }
+            $subject = $application->tariff->getTranslation('title', 'ru');
+            $emails = Contact::where('tariff_id', $application->tariff_id)->pluck('contact')->toArray();
+            if (count($emails) > 0) {
+                dispatch((new SendApplication($html, $subject, $emails))->onQueue('credentials'));
+            }
+        } catch (Exception $e) {
+            throw new BaseException("ERR_SEND_MESSAGE_FAILED", 550, __('validation.message_err'));
+        }
+    }
+
+    public function sendContactsToManager($application){
+        try {
+            if(!is_null($application->email)){
+                $communication = 'Почта для ответа: ' . $application->email;
+            }else{
+                $communication = 'Телефон для ответа: ' . $application->phone;
+            }
+            $html = "У Вас новый вопрос:
+            <p>$application->question</p>
+            <strong>$communication</strong>";
+            $subject = $application->tariff->getTranslation('title', 'ru');
+            $emails = Contact::where('tariff_id', $application->tariff_id)->pluck('contact')->toArray();
+            if (count($emails) > 0) {
+                dispatch((new SendApplication($html, $subject, $emails))->onQueue('credentials'));
+            }
+        } catch (Exception $e) {
+            throw new BaseException("ERR_SEND_MESSAGE_FAILED", 550, __('validation.message_err'));
+        }
+    }
+
+    public function sendEGRNStatement($application, $fileLink){
+        try {
+            $lotUrl = URL::to('/lot/' . $application->lot_id);
+            $html = "<p>Добрый день!</p>
+<p>Ваша заявка № <strong>$application->id</strong> на получение выписки ЕГРН для кадастрового номера <strong>$application->cadastral_number</strong> в <a href='$lotUrl'>лоте</a> готова!</p>
+<a href='$fileLink'>Ссылка для скачивания файла выписки ЕГРН</a>
+<p>С уважением, Lotofond</p>";
+            $subject = 'Ответ на заявку "Выписка ЕГРН"';
+            $toEmail = $application->email;
+            Mail::send([], [], function ($message) use ($toEmail, $html, $subject) {
+                $message->from('bankr0t.t@yandex.ru', 'LotoFond');
                 $message->to($toEmail);
                 $message->subject($subject);
                 $message->setBody($html, 'text/html');
