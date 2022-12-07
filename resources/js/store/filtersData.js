@@ -200,7 +200,7 @@ export default {
             }
         },
         async getRegions({commit, state}) {
-            if (state.filters_data.regions.data.length == 0  && !state.filters_data.regions.loading) {
+            if (state.filters_data.regions.data.length == 0 && !state.filters_data.regions.loading) {
                 commit('saveFilterDataProperty', {filter: 'regions', key: 'loading', value: true});
                 await axios({
                     method: 'get',
@@ -224,7 +224,7 @@ export default {
                     data: payload
                 })
                     .then((response) => {
-                        commit('setFiltersBidders', {type: payload.type, data:response.data});
+                        commit('setFiltersBidders', {type: payload.type, data: response.data});
                         commit('saveFilterDataProperty', {
                             filter: 'bidders',
                             key: payload.type + '.loading',
@@ -237,20 +237,18 @@ export default {
             }
         },
         async getFiltersTradePlaces({commit, state}) {
-            if (state.filters_data.tradePlaces.length == 0) {
-                commit('saveFilterDataProperty', {filter: 'tradePlaces', key: 'loading', value: true});
-                await axios({
-                    method: 'get',
-                    url: '/api/trades/filter/trade-places',
-                    data: {},
-                })
-                    .then((response) => {
-                        commit('saveFilterDataProperty', {filter: 'tradePlaces', key: 'data', value: response.data});
-                        commit('saveFilterDataProperty', {filter: 'tradePlaces', key: 'loading', value: false});
-                    }).catch(error => {
-                        commit('saveFilterDataProperty', {filter: 'tradePlaces', key: 'loading', value: false});
-                    });
-            }
+            commit('saveFilterDataProperty', {filter: 'tradePlaces', key: 'loading', value: true});
+            await axios({
+                method: 'get',
+                url: '/api/trades/filter/trade-places',
+                data: {},
+            })
+                .then((response) => {
+                    commit('saveFilterDataProperty', {filter: 'tradePlaces', key: 'data', value: response.data});
+                    commit('saveFilterDataProperty', {filter: 'tradePlaces', key: 'loading', value: false});
+                }).catch(error => {
+                    commit('saveFilterDataProperty', {filter: 'tradePlaces', key: 'loading', value: false});
+                });
         },
         async getFiltersPrices({commit, state}) {
             if (!state.filters_data.prices) {
@@ -274,7 +272,7 @@ export default {
                     data: {},
                 })
                     .then((response) => {
-                        commit('setMessagesTypes',  response.data);
+                        commit('setMessagesTypes', response.data);
                     }).catch(error => {
                     });
 

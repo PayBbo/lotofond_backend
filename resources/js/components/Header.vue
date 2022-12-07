@@ -59,7 +59,8 @@
                                 {{ auth_user ? auth_user.name : '' }} {{ auth_user ? auth_user.lastName : '' }}
                             </div>
                             <div class="bkt-navbar__user-tariff">
-                                тариф: <span class="bkt-navbar__user-tariff-name">{{auth_user.tariff ? auth_user.tariff.title  :'Базовый'}}</span>
+                                тариф: <span class="bkt-navbar__user-tariff-name">
+                                {{auth_user && auth_user.tariff ? auth_user.tariff.title  :'Базовый'}}</span>
                             </div>
                         </div>
                         <div class="bkt-navbar__user-icon">
@@ -217,7 +218,8 @@
                                 {{ auth_user ? auth_user.name : '' }} {{ auth_user ? auth_user.lastName : '' }}
                             </div>
                             <div class="bkt-sidebar__user-tariff">
-                                тариф: <span class="bkt-sidebar__user-tariff-name">{{auth_user.tariff ? auth_user.tariff.title  :'Базовый'}}</span>
+                                тариф: <span class="bkt-sidebar__user-tariff-name">
+                                {{auth_user && auth_user.tariff ? auth_user.tariff.title  :'Базовый'}}</span>
                             </div>
                         </div>
                     </div>

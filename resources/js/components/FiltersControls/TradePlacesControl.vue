@@ -11,9 +11,8 @@
                 label_class="bkt-form__label"
                 :option_label="'name'"
                 :options="trade_places"
-                :pagination="trade_places_pagination"
                 :reduce="item => item.id"
-                :method_name="'getTradePlaces'"
+                :method_name="'getFiltersTradePlaces'"
                 :searchable="true"
                 @input="saveValue"
             >
@@ -135,13 +134,13 @@
                 }
             },
             trade_places() {
-                return this.$store.getters.trade_places
+                return this.$store.getters.filters_data.tradePlaces.data
             },
             trade_places_pagination() {
                 return this.$store.getters.trade_places_pagination
             },
             trade_places_loading() {
-                return this.$store.getters.trade_places_loading
+                return this.$store.getters.filters_data.tradePlaces.loading
             },
         },
         watch: {

@@ -14,7 +14,7 @@
         <section class="bkt-auctions">
             <div class="bkt-wrapper-column bkt-gap bkt-gap-down-sm-small">
                 <div class="bkt-auctions__filters bkt-wrapper-column bkt-gap-small d-lg-none d-flex">
-                    <div class="bkt-card__row bkt-auctions__filters-card" @click="openCategoryModal">
+                    <div class="bkt-card__row bkt-auctions__filters-card" @click="openModal('category')">
                         <div class="bkt-auctions__filters-card-header">
                             <div class="bkt-icon-frame bkt-bg-green-lighter">
                                 <bkt-icon :name="'Category'" :color="'green'" width="25px" height="25px"></bkt-icon>
@@ -28,7 +28,7 @@
                         </div>
                         <bkt-icon class="arrow bkt-rotate-270" :name="'ArrowDown'"></bkt-icon>
                     </div>
-                    <div class="bkt-card__row bkt-auctions__filters-card" @click="openRegionModal">
+                    <div class="bkt-card__row bkt-auctions__filters-card" @click="openModal('region')">
                         <div class="bkt-auctions__filters-card-header">
                             <div class="bkt-icon-frame bkt-bg-red-lighter">
                                 <bkt-icon :name="'Location'" :color="'red'" width="25px" height="25px"></bkt-icon>
@@ -42,7 +42,7 @@
                         </div>
                         <bkt-icon class="arrow bkt-rotate-270" :name="'ArrowDown'"></bkt-icon>
                     </div>
-                    <div class="bkt-card__row bkt-auctions__filters-card" @click="openParamsModal">
+                    <div class="bkt-card__row bkt-auctions__filters-card" @click="openModal('params')">
                         <div class="bkt-auctions__filters-card-header">
                             <div class="bkt-icon-frame bkt-bg-pink-lighter">
                                 <bkt-icon :name="'Options'" :color="'pink'" width="25px" height="25px"></bkt-icon>
@@ -56,7 +56,7 @@
                         </div>
                         <bkt-icon class="arrow bkt-rotate-270" :name="'ArrowDown'"></bkt-icon>
                     </div>
-                    <div class="bkt-card__row bkt-auctions__filters-card" @click="openPriceModal">
+                    <div class="bkt-card__row bkt-auctions__filters-card" @click="openModal('price')">
                         <div class="bkt-auctions__filters-card-header">
                             <div class="bkt-icon-frame bkt-bg-yellow-lighter">
                                 <bkt-icon :name="'Wallet'" :color="'yellow'" width="25px" height="25px"></bkt-icon>
@@ -70,7 +70,7 @@
                         </div>
                         <bkt-icon class="arrow bkt-rotate-270" :name="'ArrowDown'"></bkt-icon>
                     </div>
-                    <div class="bkt-card__row bkt-auctions__filters-card" @click="openDateModal">
+                    <div class="bkt-card__row bkt-auctions__filters-card" @click="openModal('date')">
                         <div class="bkt-auctions__filters-card-header">
                             <div class="bkt-icon-frame bkt-bg-blue-lighter">
                                 <bkt-icon :name="'Date'" :color="'blue'" width="25px" height="25px"></bkt-icon>
@@ -84,7 +84,7 @@
                         </div>
                         <bkt-icon class="arrow bkt-rotate-270" :name="'ArrowDown'"></bkt-icon>
                     </div>
-                    <div class="bkt-card__row bkt-auctions__filters-card" @click="openOptionsModal">
+                    <div class="bkt-card__row bkt-auctions__filters-card" @click="openModal('options')">
                         <div class="bkt-auctions__filters-card-header">
                             <div class="bkt-icon-frame bkt-bg-primary-lighter">
                                 <bkt-icon :name="'Clone'" :color="'primary'" width="25px" height="25px"></bkt-icon>
@@ -98,7 +98,7 @@
                         </div>
                         <bkt-icon class="arrow bkt-rotate-270" :name="'ArrowDown'"></bkt-icon>
                     </div>
-                    <div class="bkt-card__row bkt-auctions__filters-card" @click="openModal('tradePlacesModal')">
+                    <div class="bkt-card__row bkt-auctions__filters-card" @click="openModal('tradePlaces')">
                         <div class="bkt-auctions__filters-card-header">
                             <div class="bkt-icon-frame bkt-bg-purple-lighter">
                                 <bkt-icon :name="'ClipboardList'" :color="'purple'" width="25px"
@@ -113,7 +113,7 @@
                         </div>
                         <bkt-icon class="arrow bkt-rotate-270" :name="'ArrowDown'"></bkt-icon>
                     </div>
-                    <div class="bkt-card__row bkt-auctions__filters-card" @click="openModal('tradeTypesModal')">
+                    <div class="bkt-card__row bkt-auctions__filters-card" @click="openModal('tradeTypes')">
                         <div class="bkt-auctions__filters-card-header">
                             <div class="bkt-icon-frame bkt-bg-teal-lighter">
                                 <bkt-icon :name="'Clipboard'" :color="'teal'" width="25px" height="25px"></bkt-icon>
@@ -181,9 +181,9 @@
                                 <bkt-select v-model="current_trade_place" name="trading_platform"
                                             :option_label="'name'"
                                             :options="trade_places"
-                                            :pagination="trade_places_pagination"
-                                            :method_name="'getTradePlaces'"
+                                            :method_name="'getFiltersTradePlaces'"
                                             :searchable="true"
+                                            :loading="trade_places_loading"
                                             @input="getData(1)"
                                 ></bkt-select>
                                 <!--                        <div class="row">-->
@@ -231,7 +231,7 @@
                                 <div class="bkt-form bkt-wrapper bkt-auctions-types">
                                     <div class="bkt-auctions-type flex-fill" v-for="item in auctionTypes">
                                         <button
-                                            class="bkt-block-btn bkt-auctions-type__card bkt-auctions-type__title bkt-bg-body"
+                                            class="bkt-block-btn bkt-auctions-type__card bkt-auctions-type__title bkt-bg-body w-100"
                                             @click="toggleAuctionType(item.title)"
                                             :class="[filters.mainParams.tradeTypes.includes(item.title) ? 'bkt-border-primary': 'bkt-border-body']">
                                             {{item.description}}
@@ -426,6 +426,15 @@
             this.getData(page);
         },
         computed: {
+            items() {
+                return this.$store.getters.nearest_trades;
+            },
+            pagination_data() {
+                return this.$store.getters.nearest_trades_pagination;
+            },
+            loading() {
+                return this.$store.getters.nearest_trades_loading;
+            },
             filters: {
                 // return this.$store.getters.nearest_filters;
                 get() {
@@ -438,15 +447,6 @@
                         value: value
                     });
                 }
-            },
-            items() {
-                return this.$store.getters.nearest_trades;
-            },
-            pagination_data() {
-                return this.$store.getters.nearest_trades_pagination;
-            },
-            loading() {
-                return this.$store.getters.nearest_trades_loading;
             },
             current_trade_place: {
                 get: function () {
@@ -462,13 +462,13 @@
                 }
             },
             trade_places() {
-                return this.$store.getters.trade_places
-            },
-            trade_places_pagination() {
-                return this.$store.getters.trade_places_pagination
+                let places = this.$store.getters.filters_data.tradePlaces.data;
+                this.selected_trade_places = places
+                    .filter(item => this.filters.mainParams.tradePlaces.includes(item.id))
+                return places
             },
             trade_places_loading() {
-                return this.$store.getters.trade_places_loading
+                return this.$store.getters.filters_data.tradePlaces.loading
             },
             current_region: {
                 get: function () {
@@ -542,6 +542,14 @@
         },
         methods: {
             async getData(page = 1) {
+                this.$store.commit('saveFiltersProperty',
+                    {key: 'nearest_filters_mainParams', value: this.filters.mainParams});
+                this.$store.commit('saveFiltersProperty',
+                    {key: 'nearest_filters_prices', value: this.filters.prices});
+                this.$store.commit('saveFiltersProperty',
+                    {key: 'nearest_filters_regions', value: this.filters.regions});
+                this.$store.commit('saveFiltersProperty',
+                    {key: 'nearest_filters_categories', value: this.filters.categories});
                 sessionStorage.setItem('nearest_page', page + '');
                 await this.$store.dispatch('getNearestTrades', {
                     page: page,
@@ -549,31 +557,7 @@
                 });
             },
             openModal(name) {
-                this.$store.commit('openModal', '#' + name);
-            },
-            openCategoryModal() {
-                this.$store.commit('openModal', '#categoryModal');
-            },
-            openRegionModal() {
-                this.$store.commit('openModal', '#regionModal');
-            },
-            openParamsModal() {
-                this.$store.commit('openModal', '#paramsModal');
-            },
-            openPriceModal() {
-                this.$store.commit('openModal', '#priceModal');
-            },
-            openDateModal() {
-                this.$store.commit('openModal', '#dateModal');
-            },
-            openOptionsModal() {
-                this.$store.commit('openModal', '#optionsModal');
-            },
-            async getRegions() {
-                if (this.regions.length === 0) {
-                    await this.$store.dispatch('getRegions').then(resp => {
-                    });
-                }
+                this.$store.commit('openModal', '#' + name+'Modal');
             },
             toggleCategory(category) {
                 let index = this.categories.findIndex(item => item.key === category);
@@ -669,14 +653,8 @@
                     }, 0);
             },
             clearFilters() {
-                this.$store.dispatch('saveDataProperty', {
-                    module_key: 'filters',
-                    key: 'nearest_filters',
-                    value: this.nearest_filters_template
-                }, {root: true}).then(resp => {
-                    this.getData(1)
-                });
-
+                this.$store.commit('resetFilters', 'nearest_');
+                this.getData(1);
             },
             toggleAuctionType(title) {
                 let item_index = this.filters.mainParams.tradeTypes.findIndex(el => el == title);
@@ -698,7 +676,7 @@
                     }
                     this.getData(page)
                 }
-            }
+            },
         },
     }
 </script>

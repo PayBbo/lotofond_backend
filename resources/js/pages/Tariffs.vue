@@ -55,8 +55,8 @@
                     <div class="bkt-wrapper-column bkt-gap">
                         <template v-if="!loading">
                             <template v-if="user_tariff">
-                                <div class="bkt-card bkt-tariffs__item bkt-border-none bkt-gap-mini align-items-start justify-content-center">
-                                    <h4 class="bkt-card__text bkt-text-700">Текущий тариф</h4>
+                                <div class="bkt-card bkt-tariffs__item active">
+                                    <h4 class="bkt-card__title">Текущий тариф</h4>
                                     <div class="d-flex bkt-gap-small">
                                         <h4 class="bkt-card__text">{{user_tariff.title}}</h4>
                                         <div class="bkt-badge bkt-bg-green">Активен</div>
@@ -64,8 +64,10 @@
                                 </div>
                                 <hr class="w-100 m-0">
                             </template>
-                            <div v-for="(tariff, index) in available_tariffs" class="bkt-card__row outline bkt-tariffs__item"
-                                 :class="{'current': choice==index, 'active': tariff.isUserTariff}" @click="chooseTariff(index)">
+                            <div v-for="(tariff, index) in available_tariffs"
+                                 class="bkt-card__row outline bkt-tariffs__item"
+                                 :class="{'current': choice==index}" @click="chooseTariff(index)"
+                            >
                                 <bkt-checkbox v-if="!tariff.isUserTariff" type="radio" v-model="choice" :val="index"
                                               wrapper_class="bkt-check_radio-check"></bkt-checkbox>
                                 <bkt-checkbox v-else :value="true" disabled
@@ -187,7 +189,7 @@
             },
             user_tariff() {
                 let index = this.tariffs.findIndex(item => item.isUserTariff === true);
-                if(index>=0) {
+                if (index >= 0) {
                     return this.tariffs[index];
                 }
                 return null;
@@ -207,7 +209,7 @@
                     })
             },
             getBenefit(tariff) {
-                let benefit = (100 - (tariff.price * 100 / (this.tariffs[0].price * (tariff.period/ this.tariffs[0].period ).toFixed())))
+                let benefit = (100 - (tariff.price * 100 / (this.tariffs[0].price * (tariff.period / this.tariffs[0].period).toFixed())))
                 if (Number.isInteger(benefit)) {
                     return benefit
                 } else {
@@ -228,7 +230,7 @@
                     })
             },
             chooseTariff(index) {
-                if(!this.available_tariffs[index].isUserTariff) {
+                if (!this.available_tariffs[index].isUserTariff) {
                     this.choice = index;
                 }
             }

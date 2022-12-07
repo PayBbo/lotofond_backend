@@ -116,7 +116,6 @@
                 //     this.model.push(item)
                 // })
                 this.result = tmp_categories;
-                console.log('close nodal', this.result)
             },
             callMethod() {
                 let tmp_filters = JSON.parse(JSON.stringify(this.filters));
