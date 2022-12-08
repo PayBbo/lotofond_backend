@@ -127,6 +127,7 @@ export default {
                 .catch(error => {
                     // dispatch('sendNotification',
                     //     {self: payload.self, message: error.response.data.detail, type: 'error'})
+                    throw error
                 })
         },
 
