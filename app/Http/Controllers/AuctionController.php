@@ -74,10 +74,11 @@ class AuctionController extends Controller
         $end = Carbon::now()->setTimezone('Europe/Moscow')->addWeek();
         if (auth()->check()) {
             $lots = Lot::with(['auction', 'showRegions', 'status', 'lotImages', 'categories', 'lotParams'])
+                ->filterBy($request->request)
                 ->hasByNonDependentSubquery('auction', function ($q) use ($start, $end) {
-                    $q->where('application_start_date', [$start, $end])
+                    $q->whereBetween('application_start_date', [$start, $end])
                         ->where('application_end_date', '>', $end);
-                })->filterBy($request->request)->customSortBy($request)->paginate(20);
+                })->customSortBy($request)->paginate(20);
             $settingsService = new ContentSettingsService();
             $data = $settingsService->getUserData();
             return response((new LotCollection($lots))->content($data), 200);
