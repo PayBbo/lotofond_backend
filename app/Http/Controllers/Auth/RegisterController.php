@@ -32,6 +32,7 @@ class RegisterController extends Controller
         $verify->token = Hash::make($code);
         $verify->code = $request->password;
         $verify->created_at = Carbon::now()->setTimezone('Europe/Moscow')->addDay();
+        $verify->is_delete = false;
         switch ($request->grantType){
             case 'email':{
                 $verify->value = $request->email;
