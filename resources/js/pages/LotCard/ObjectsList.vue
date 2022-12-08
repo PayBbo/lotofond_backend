@@ -1,5 +1,6 @@
 <template>
     <div class="bkt-wrapper-column bkt-lot__cards w-100" v-if="!loading">
+        <bkt-egrn-modal/>
         <bkt-collapse v-for="(item, index) in list" :key="index"
             :title="item.tradeSubject ? item.tradeSubject : 'Объект № '+(index+1)" :id="'object'+index" :loading="loading"
             :disabled="loading" collapse_button_class="bkt-bg-body flex-shrink-0"
@@ -69,7 +70,7 @@
                     </div>
                     <span class="bkt-row__icon"><bkt-icon :name="'Pie'"></bkt-icon></span>
                 </div>
-                <button class="bkt-button bkt-card-trade__button bkt-card-trade__button_egrn" @click="buyEgrn(item.cadastralData.cadastralNumber)"
+                <button class="bkt-button bkt-card-trade__button bkt-card-trade__button_egrn" @click="buyEgrn(item.cadastralData)"
                      v-if="item.cadastralData && item.cadastralData.cadastralNumber" :disabled="egrn_loading"
                 >
                     <span v-show="egrn_loading" class="spinner-border spinner-border-sm" role="status"></span>
@@ -81,8 +82,10 @@
 </template>
 
 <script>
+    import BktEgrnModal from "../../components/SharedModals/EgrnModal";
     export default {
         name: "ObjectsList",
+        components: {BktEgrnModal},
         props:{
             loading: {
                 default: false
@@ -141,6 +144,9 @@
                 }
                 return list;
             },
+            item() {
+                return this.$store.getters.selected_lot
+            }
         },
         methods: {
             pluralization(choice, choicesLength=4) {
@@ -159,22 +165,26 @@
                 //0 соток | {n} сотка | {n} сотки | {n} соток
                 return choicesLength < 4 ? 2 : 3
             },
-            buyEgrn(cadastralNumber) {
-                this.egrn_loading = true;
-                let data = {
-                    cadastralNumber: cadastralNumber,
-                    lotId: this.$route.params.id
-                }
-                axios.post('/api/send/receipt/egrn', data)
-                    .then(resp => {
-                        this.egrn_loading = false;
-                        window.location.replace(resp.data.redirectUrl)
-                    })
-                    .catch(error => {
-                        this.egrn_loading = false;
-                        this.$store.dispatch('sendNotification',
-                            {self: this, type: 'error', message: 'Произошла ошибка, попробуйте позже'});
-                    })
+            buyEgrn(cadastralData) {
+                let tmp = JSON.parse(JSON.stringify(this.item));
+                tmp.cadastralData = cadastralData
+                this.$store.commit('setSelectedLot', tmp);
+                this.$store.commit('openModal', '#egrnModal')
+                // this.egrn_loading = true;
+                // let data = {
+                //     cadastralNumber: cadastralNumber,
+                //     lotId: this.$route.params.id
+                // }
+                // axios.post('/api/send/receipt/egrn', data)
+                //     .then(resp => {
+                //         this.egrn_loading = false;
+                //         window.location.replace(resp.data.redirectUrl)
+                //     })
+                //     .catch(error => {
+                //         this.egrn_loading = false;
+                //         this.$store.dispatch('sendNotification',
+                //             {self: this, type: 'error', message: 'Произошла ошибка, попробуйте позже'});
+                //     })
             }
         }
     }

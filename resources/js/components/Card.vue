@@ -418,21 +418,24 @@
                 this.$router.push('/lot/' + this.item.id)
             },
             buyEgrn() {
-                this.loading = true;
-                let data = {
-                    cadastralNumber: this.cadastralData.cadastralNumber,
-                    lotId: this.item.id
-                }
-                axios.post('/api/send/receipt/egrn', data)
-                    .then(resp => {
-                        this.loading = false;
-                        window.location.replace(resp.data.redirectUrl)
-                    })
-                    .catch(error => {
-                        this.loading = false;
-                        this.$store.dispatch('sendNotification',
-                            {self: this, type: 'error', message: 'Произошла ошибка, попробуйте позже'});
-                    })
+                this.item.cadastralData = this.cadastralData;
+                this.$store.commit('setSelectedLot', this.item);
+                this.$store.commit('openModal', '#egrnModal')
+                // this.loading = true;
+                // let data = {
+                //     cadastralNumber: this.cadastralData.cadastralNumber,
+                //     lotId: this.item.id
+                // }
+                // axios.post('/api/send/receipt/egrn', data)
+                //     .then(resp => {
+                //         this.loading = false;
+                //         window.location.replace(resp.data.redirectUrl)
+                //     })
+                //     .catch(error => {
+                //         this.loading = false;
+                //         this.$store.dispatch('sendNotification',
+                //             {self: this, type: 'error', message: 'Произошла ошибка, попробуйте позже'});
+                //     })
             }
         }
     };
