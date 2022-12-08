@@ -63,27 +63,36 @@
                 color: $primary-default;
             }
         }
+
         &.active {
-            background: $green-default;
-            border-color: $green-default;
-            cursor: auto !important;
+            //background: $green-default;
+            //border-color: $green-default;
+            align-items: flex-start;
+            justify-content: center;
+            border-color: white;
+            cursor: default !important;
+            gap: 5px;
+
             & .bkt-card {
                 &__title {
-                    color: white;
+                    font-size: 16px;
+                    //color: white;
                 }
 
-                &__text {
-                    color: white;
-                }
-
-                &__subtitle {
-                    color: #FFFFFFA3;
-                }
+                //&__text {
+                //    color: white;
+                //}
+                //
+                //&__subtitle {
+                //    color: #FFFFFFA3;
+                //}
             }
 
             & .bkt-badge {
-                background: rgba(255, 255, 255, 0.87);
-                color: $green-default;
+                //background: rgba(255, 255, 255, 0.87);
+                //color: $green-default;
+                background: $green-default;
+                color: white;
             }
         }
     }
@@ -99,6 +108,7 @@
                 margin-bottom: 12px;
             }
         }
+
         & svg {
             flex-shrink: 0;
         }
@@ -121,13 +131,14 @@
     }
 
     & .bkt-form {
-        gap:24px 0;
+        gap: 24px 0;
     }
 
     @media screen and (max-width: 568px) {
         & .bkt-card {
             padding: 16px;
             border-radius: 18px;
+
             &__title {
                 font-size: 20px;
             }
@@ -149,6 +160,14 @@
         &__item {
             gap: 6px;
             padding: 16px !important;
+
+            &.active {
+                & .bkt-card {
+                    &__title {
+                        font-size: 14px;
+                    }
+                }
+            }
         }
 
         &__services {

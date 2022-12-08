@@ -289,7 +289,7 @@ export default {
                     // hasAnswer: false
                 }
             },
-            mainParams: {
+            mainParams: JSON.parse(localStorage.getItem('nearest_filters_mainParams')) || {
                 excludedWords: '',
                 includedWords:'',
                 tradePlaces: [],
@@ -373,14 +373,14 @@ export default {
             localStorage.setItem(payload.filter, JSON.stringify(state.filters[payload.filter]));
         },
         resetFilters(state, payload) {
-            localStorage.removeItem('filters_categories');
-            localStorage.removeItem('filters_regions');
-            localStorage.removeItem('filters_prices');
-            localStorage.removeItem('filters_dates');
-            localStorage.removeItem('filters_extraOptions');
-            localStorage.removeItem('filters_mainParams');
-            localStorage.removeItem('filters_searchString');
-            return (state.filters = initialState.filters)
+            localStorage.removeItem(payload+'filters_categories');
+            localStorage.removeItem(payload+'filters_regions');
+            localStorage.removeItem(payload+'filters_prices');
+            localStorage.removeItem(payload+'filters_dates');
+            localStorage.removeItem(payload+'filters_extraOptions');
+            localStorage.removeItem(payload+'filters_mainParams');
+            localStorage.removeItem(payload+'filters_searchString');
+            return (state[payload+'filters'] = initialState[payload+'filters'])
 
         }
     }

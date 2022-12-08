@@ -37,6 +37,7 @@
                     organizers: [],
                     arbitrationManagers: [],
                     other: {
+                        period: 'periodAll',
                         hasPhotos: false,
                         isStopped: false,
                         isCompleted: false,
@@ -97,6 +98,7 @@
             },
             clearFilters() {
                 let tmp_filter = {...this.filters.extraOptions, ...this.template};
+                tmp_filter.other.period = this.filters.extraOptions.other.period
                 this.$store.commit('saveFiltersProperty', {key:this.filter_name +'_extraOptions', value: tmp_filter});
                 this.$store.dispatch('saveDataProperty', {
                     module_key: 'filters', state_key: this.filter_name,

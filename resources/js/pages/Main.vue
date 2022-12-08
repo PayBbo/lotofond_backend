@@ -513,7 +513,7 @@
                 }
             },
             removeFilters() {
-                this.$store.commit('resetFilters');
+                this.$store.commit('resetFilters', '');
                 this.getData(1);
                 this.$scrollTo('#cardList', 200);
             }
