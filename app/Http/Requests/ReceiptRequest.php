@@ -25,6 +25,7 @@ class ReceiptRequest extends FormRequest
     {
         return [
             'lotId'=>['required', 'integer', 'exists:lots,id'],
+            'email'=>['required', 'email'],
             'cadastralNumber'=>['required', 'string'],
             'answerFormat'=>['sometimes', 'in:pdf,html,zip']
         ];

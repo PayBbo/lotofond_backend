@@ -3476,9 +3476,12 @@ paths:
               required:
                 - cadastralNumber
                 - lotId
+                - email
               properties:
                 lotId:
                   type: integer
+                email:
+                  type: string
                 cadastralNumber:
                   type: string
                   example: 61:44:0071802:1786
