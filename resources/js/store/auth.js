@@ -99,7 +99,7 @@ export default {
                     commit('setUser', payload);
                     commit('closeModal', '#authModal');
                     commit('openModal', '#codeModal');
-                    dispatch('registrationCode', payload);
+                    // dispatch('registrationCode', payload);
                 })
                 .catch(error => {
                     commit('clearStorage');
