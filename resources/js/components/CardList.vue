@@ -6,6 +6,7 @@
             <bkt-application-modal/>
             <bkt-purchase-modal/>
             <bkt-instruction-modal/>
+            <bkt-egrn-modal/>
         </slot>
         <slot name="filters">
         </slot>
@@ -185,8 +186,9 @@
     import MoveFavouriteModal from "../pages/Favourites/MoveFavouriteModal";
     import NoteModal from "./SharedModals/NoteModal";
     import BktApplicationModal from "./SharedModals/ApplicationModal";
-    import BktPurchaseModal from "./SharedModals/PurchaseModal"
-    import BktInstructionModal from "./SharedModals/InstructionModal"
+    import BktPurchaseModal from "./SharedModals/PurchaseModal";
+    import BktInstructionModal from "./SharedModals/InstructionModal";
+    import BktEgrnModal from "./SharedModals/EgrnModal";
 
     export default {
         name: "CardList",
@@ -246,7 +248,7 @@
         components: {
             'bkt-move-favourite-modal': MoveFavouriteModal,
             'bkt-note-modal': NoteModal,
-            BktApplicationModal, BktPurchaseModal, BktInstructionModal
+            BktApplicationModal, BktPurchaseModal, BktInstructionModal, BktEgrnModal
         },
         data() {
             return {
