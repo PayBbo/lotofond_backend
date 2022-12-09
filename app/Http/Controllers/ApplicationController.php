@@ -129,6 +129,8 @@ class ApplicationController extends Controller
         $application = new Application();
         $application->user_id = auth()->id();
         $application->lot_id = $request->lotId;
+        $lotDesc = mb_strimwidth(Lot::find($request->lotId)['description'], 0, 100, "...");
+        $description = $service->description .' для лота - '.$lotDesc;
         $customer = null;
         if (isset($request->email)) {
             $application->email = $request->email;
@@ -145,7 +147,7 @@ class ApplicationController extends Controller
         $application->save();
 
         $paymentService = new PaymentService();
-        $paymentRequest = $paymentService->paymentRequest($payment->id, $service, $customer);
+        $paymentRequest = $paymentService->paymentRequest($payment->id, $service, $customer, $description);
         if (array_key_exists('paymentId', $paymentRequest)) {
             $paymentId = $paymentRequest['paymentId'];
             $payment->payment_id = $paymentId;

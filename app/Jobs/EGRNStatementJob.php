@@ -46,10 +46,10 @@ class EGRNStatementJob implements ShouldQueue
                 $statement->last_check_date = Carbon::now()->setTimezone('Europe/Moscow');
                 if($result['status'] == 'Завершен') {
                     $contents = file_get_contents('https://reestr-api.ru/v1/order/download?auth_token='.config('reestr.auth_token').'&order_id='.$statement->order_id.'&format='.$statement->application->format);
-                    Storage::disk('public')->put('statements/'.$statement->id.'/выписка_ЕГРН.'.$statement->application->format, $contents);
-                    $statement->file = 'storage/statemens/'.$statement->id.'/выписка_ЕГРН.'.$statement->application->format;
+                    Storage::disk('public')->put('statements/'.$statement->id.'/отчет-ЕГРН.'.$statement->application->format, $contents);
+                    $statement->file = 'storage/statemens/'.$statement->id.'/отчет-ЕГРН.'.$statement->application->format;
                     $application = $statement->application;
-                    $fileLink =  Storage::url('storage/statements/'.$statement->id.'/выписка_ЕГРН.'.$statement->application->format);
+                    $fileLink =  Storage::url('statements/'.$statement->id.'/отчет-ЕГРН.'.$statement->application->format);
                     $sendEmail = new SendCodeService();
                     $sendEmail->sendEGRNStatement($application, $fileLink);
                     $application->status = 'completed';

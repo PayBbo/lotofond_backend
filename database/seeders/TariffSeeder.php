@@ -127,8 +127,8 @@ class TariffSeeder extends Seeder
             ],
             [
                 'title' =>
-                    ['ru' => 'Выписка ЕГРН', 'en' => 'USRN statement', 'zh_CN' => 'USRN声明'],
-                'description' =>['ru' => 'Выписка ЕГРН', 'en' => 'USRN statement', 'zh_CN' => 'USRN声明'],
+                    ['ru' => 'Отчет ЕГРН', 'en' => 'USRN statement', 'zh_CN' => 'USRN声明'],
+                'description' =>['ru' => 'Отчет ЕГРН', 'en' => 'EGRN Report', 'zh_CN' => 'EGRN报告'],
                 'code' => 'receiptEGRN',
                 'price' => 70,
                 'price_prefix' => null,

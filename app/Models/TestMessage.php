@@ -16,21 +16,16 @@ class TestMessage extends Model
         'start_price',
         'auction_step',
         'auction_step_unit',
-        'advance',
-        'advance_step_unit',
         'price_reduction',
-        'organizer_fio',
-        'arbitr_fio',
-        'organizer_name',
-        'arbitr_name',
-        'sro',
         'text',
-        'organizer',
-        'arbitration_manager',
-        'trade_site'
+        'description',
+        'change_desc',
+        'period',
+        'min_price',
+        'price_red_json'
+
     ];
     protected $casts = [
-      'organizer'=>'array',
-      'arbitration_manager'=>'array'
+      'price_red_json'=>'array'
     ];
 }

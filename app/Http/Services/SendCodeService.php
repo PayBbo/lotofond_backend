@@ -229,10 +229,10 @@ $lotDesc</p>
         try {
             $lotUrl = URL::to('/lot/' . $application->lot_id);
             $html = "<p>Добрый день!</p>
-<p>Ваша заявка № <strong>$application->id</strong> на получение выписки ЕГРН для кадастрового номера <strong>$application->cadastral_number</strong> в <a href='$lotUrl'>лоте</a> готова!</p>
-<a href='$fileLink'>Ссылка для скачивания файла выписки ЕГРН</a>
+<p>Ваша заявка № <strong>$application->id</strong> на получение отчета ЕГРН для кадастрового номера <strong>$application->cadastral_number</strong> в <a href='$lotUrl'>лоте</a> готова!</p>
+<a href='$fileLink'>Ссылка для скачивания файла отчета ЕГРН</a>
 <p>С уважением, Lotofond</p>";
-            $subject = 'Ответ на заявку "Выписка ЕГРН"';
+            $subject = 'Ответ на заявку "Отчет ЕГРН"';
             $toEmail = $application->email;
             Mail::send([], [], function ($message) use ($toEmail, $html, $subject) {
                 $message->from('bankr0t.t@yandex.ru', 'LotoFond');

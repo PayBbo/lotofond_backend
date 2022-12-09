@@ -28,7 +28,7 @@ class PaymentService
         $this->testMode = config('paymaster.test_mode');
     }
 
-    public function paymentRequest($paymentId, $tariff, $customer=null)
+    public function paymentRequest($paymentId, $tariff, $customer=null, $description=null)
     {
         $client = new \GuzzleHttp\Client();
         /* $logger = new Logger('GuzzleLogger');
@@ -63,7 +63,7 @@ class PaymentService
                     'merchantId' => $this->merchantId,
                     'testMode' => $this->testMode,
                     'invoice' => [
-                        'description' => $tariff->description,
+                        'description' => is_null($description) ? $tariff->description : $description,
                         'orderNo' => (string)$paymentId
                     ],
                     'amount' => [

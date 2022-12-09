@@ -24,11 +24,13 @@ class Lot extends Model
      */
     protected $fillable = [
         'start_price',
+        'min_price',
         'auction_step',
         'is_step_rub',
         'deposit',
         'is_deposit_rub',
         'description',
+        'processed_description',
         'status_id',
         'auction_id',
         'participants',
@@ -48,6 +50,7 @@ class Lot extends Model
     protected $casts = [
         'id' => 'integer',
         'start_price' => 'float',
+        'min_price'=>'float',
         'auction_id' => 'integer',
         'auction_step' => 'float',
         'deposit' => 'float',

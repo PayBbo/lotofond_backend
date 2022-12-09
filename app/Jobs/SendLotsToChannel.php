@@ -3,6 +3,7 @@
 namespace App\Jobs;
 
 use App\Models\Lot;
+use App\Models\Region;
 use App\Notifications\ApplicationTelegramNotification;
 use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
@@ -71,10 +72,21 @@ class SendLotsToChannel implements ShouldQueue
         if (isset($cachedCount)) {
             $limit -= $cachedCount;
         }
-        $lots = Lot::whereBetween('lots.created_at', [$minDate, $maxDate])
+        $regions = Region::whereIn('region_group_id', [3, 7])->get()->pluck('code')->toArray();
+        $regions[] = 'PenzaRegion';
+        $this->query = Lot::whereBetween('lots.created_at', [$minDate, $maxDate])
             ->whereHas('categories', function ($query) use ($categories) {
                 $query->whereIn('title', $categories);
-            })->limit($limit)->get();
+            });
+        $lots = $this->query->where(function ($query) use ($regions){
+            $query->whereHas('objectRegions', function ($q) use ($regions) {
+                $q->whereIn('code', $regions);
+            })->orWhereDoesntHave('objectRegions', function () use ($regions) {
+                $this->query->whereHas('regions', function ($que) use ($regions) {
+                    $que->whereIn('code', $regions);
+                });
+            });
+        })->limit($limit)->get();
         $count = $lots->count() + $cachedCount;
         Cache::put($type, $count, Carbon::now()->setTimezone('Europe/Moscow')->endOfDay());
         foreach ($lots as $lot) {
@@ -82,27 +94,27 @@ class SendLotsToChannel implements ShouldQueue
             $lotDesc = mb_strimwidth($lot->description, 0, 250, "...");
             $price = number_format($lot->start_price, 2, ',', ' ');
             $tradeType = $lot->auction->auctionType->description;
-            $html =  str_replace('<br>', '',  str_replace('</p>', '', str_replace('<p>', '',
+            $html = str_replace('<br>', '', str_replace('</p>', '', str_replace('<p>', '',
                 "<strong>Тип торгов: $tradeType</strong>
 <strong>Описание лота:</strong>
 <p>$lotDesc</p>
-<strong>Начальная цена: $price ₽</strong>" )));
-            if($lot->auction->auctionType->title =='PublicOffer' || $lot->auction->auctionType->title =='ClosePublicOffer'){
+<strong>Начальная цена: $price ₽</strong>")));
+            if ($lot->auction->auctionType->title == 'PublicOffer' || $lot->auction->auctionType->title == 'ClosePublicOffer') {
                 $min_price = number_format($lot->min_price, 2, ',', ' ');
-                $html .="
+                $html .= "
 <strong>Минимальная цена: $min_price ₽</strong>";
             }
-            $html.="
+            $html .= "
 <a href='$url'>Ссылка на лот</a>";
             $token = config('telegram.bot_token');
-            $chat_id =  config('telegram.lots_chat_id');
+            $chat_id = config('telegram.lots_chat_id');
             $client = new Client();
             try {
-                $client->post('https://api.telegram.org/bot'.$token.'/sendMessage', [
+                $client->post('https://api.telegram.org/bot' . $token . '/sendMessage', [
                     RequestOptions::JSON => [
                         'chat_id' => $chat_id,
                         'text' => $html,
-                        'parse_mode'=>'html'
+                        'parse_mode' => 'html'
                     ]
                 ]);
             } catch (\Exception $e) {

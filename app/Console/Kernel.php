@@ -2,6 +2,7 @@
 
 namespace App\Console;
 
+use App\Jobs\EGRNStatementJob;
 use App\Jobs\FavouriteJob;
 use App\Jobs\MonitoringJob;
 use App\Jobs\MonitoringNotificationJob;
@@ -26,20 +27,21 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->job((new ParseTrades)->onQueue('parse'))->hourly();
-        $schedule->job((new MonitoringJob)->onQueue('parse'))->hourly();
-        $schedule->job((new MonitoringNotificationJob('hourly'))->onQueue('parse'))->hourly();
-        $schedule->job((new MonitoringNotificationJob('daily'))->onQueue('parse'))->daily();
-        $schedule->job((new MonitoringNotificationJob('weekly'))->onQueue('parse'))->weekly();
-        $schedule->job((new FavouriteJob)->onQueue('parse'))->hourly();
-        $schedule->job((new ParseSRORegister)->onQueue('parse'))->daily();
-        $schedule->job((new ParseArbitrManager)->onQueue('parse'))->daily();
-        $schedule->job((new ParseCompanyTradeOrganizer)->onQueue('parse'))->daily();
-        $schedule->job((new ParseDebtor)->onQueue('parse'))->daily();
-        $schedule->job((new ParseDebtorMessages)->onQueue('parse'))->hourly();
+        $schedule->job((new ParseTrades)->onQueue('parse'))->hourly()->timezone('Europe/Moscow');
+        $schedule->job((new MonitoringJob)->onQueue('parse'))->hourly()->timezone('Europe/Moscow');
+        $schedule->job((new MonitoringNotificationJob('hourly'))->onQueue('parse'))->hourly()->timezone('Europe/Moscow');
+        $schedule->job((new MonitoringNotificationJob('daily'))->onQueue('parse'))->daily()->timezone('Europe/Moscow');
+        $schedule->job((new MonitoringNotificationJob('weekly'))->onQueue('parse'))->weekly()->timezone('Europe/Moscow');
+        $schedule->job((new FavouriteJob)->onQueue('parse'))->hourly()->timezone('Europe/Moscow');
+        $schedule->job((new ParseSRORegister)->onQueue('parse'))->daily()->timezone('Europe/Moscow');
+        $schedule->job((new ParseArbitrManager)->onQueue('parse'))->daily()->timezone('Europe/Moscow');
+        $schedule->job((new ParseCompanyTradeOrganizer)->onQueue('parse'))->daily()->timezone('Europe/Moscow');
+        $schedule->job((new ParseDebtor)->onQueue('parse'))->daily()->timezone('Europe/Moscow');
+        $schedule->job((new ParseDebtorMessages)->onQueue('parse'))->hourly()->timezone('Europe/Moscow');
         if (Cache::get('countRealtyLotsChannel') < 10 || Cache::get('countTransportLotsChannel')) {
-            $schedule->job((new SendLotsToChannel)->onQueue('parse'))->hourly();
+            $schedule->job((new SendLotsToChannel)->onQueue('parse'))->hourly()->timezone('Europe/Moscow')->between('8:00', '20:00');
         }
+        $schedule->job((new EGRNStatementJob)->onQueue('user'))->dailyAt('08:30')->timezone('Europe/Moscow');
     }
 
     /**

@@ -15,20 +15,14 @@ class VerifyAccount extends Model
         parent::boot();
 
         static::creating(function ($item) {
-            logger($item);
-          if(VerifyAccount::where(['value'=> $item->value, 'is_delete'=>$item->is_delete])->exists()){
-              logger('yes');
+          if(VerifyAccount::where(['value'=> $item->value, 'is_delete'=>$item->is_delete])->exists()  && !is_null($item->value)){
               VerifyAccount::where(['value'=> $item->value, 'is_delete'=>$item->is_delete])->delete();
-          }
-          if(VerifyAccount::where(['phone'=> $item->phone, 'is_delete'=>$item->is_delete])->exists()){
+          }else if(VerifyAccount::where(['phone'=> $item->phone, 'is_delete'=>$item->is_delete])->exists() && !is_null($item->phone)){
               VerifyAccount::where(['phone'=> $item->phone, 'is_delete'=>$item->is_delete])->delete();
           }
 
         });
 
-        static::updated(function ($category) {
-
-        });
 
     }
 
