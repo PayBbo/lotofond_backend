@@ -18,12 +18,22 @@ let router = new VueRouter({
         {
             path: '/registries',
             name: 'Registries',
+            beforeEnter: guardMyRoute,
             component: () => import(/* webpackChunkName: "registries" */ "./pages/Registries.vue"),
+            meta: {
+                auth: true,
+                permission:'hasAccessToReestr'
+            },
         },
         {
             path: '/registries/:type/:id',
             name: 'RegistryCard',
+            beforeEnter: guardMyRoute,
             component: () => import(/* webpackChunkName: "registry" */ "./pages/RegistryCard.vue"),
+            meta: {
+                auth: true,
+                permission:'hasAccessToReestr'
+            },
         },
         {
             path: '/profile',
@@ -55,7 +65,8 @@ let router = new VueRouter({
             name: 'Favourites',
             component: () => import(/* webpackChunkName: "favourites" */ "./pages/Favourites.vue"),
             meta: {
-                auth: true
+                auth: true,
+                permission:'hasAccessToFavourite'
             },
         },
         {
@@ -64,7 +75,8 @@ let router = new VueRouter({
             name: 'Monitoring',
             component: () => import(/* webpackChunkName: "monitoring" */ "./pages/Monitoring.vue"),
             meta: {
-                auth: true
+                auth: true,
+                permission:'hasAccessToMonitoring'
             },
         },
         {
@@ -368,6 +380,14 @@ let router = new VueRouter({
 });
 
 function guardMyRoute(to, from, next) {
+    if (to.matched.some(record => record.meta.permission)) {
+        if (store.getters.isLoggedIn===true && store.getters.auth_user
+            && store.getters.auth_user.contentDisplayRules.system[to.meta.permission] === false)
+        {
+            next('/');
+            return;
+        }
+    }
     if (to.matched.some(record => record.meta.auth)) {
         if (store.getters.isLoggedIn === false) {
             next('/');

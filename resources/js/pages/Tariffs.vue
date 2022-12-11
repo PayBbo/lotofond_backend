@@ -10,8 +10,8 @@
                         </h3>
                         <template v-if="!loading">
                             <div class="d-flex bkt-gap align-items-center"
-                                 v-if="tariffs.length >0 && tariffs[choice] && tariffs[choice].description"
-                                 v-for="detail in tariffs[choice].description.includedDetails">
+                                 v-if="available_tariffs.length >0 && available_tariffs[choice] && available_tariffs[choice].description"
+                                 v-for="detail in available_tariffs[choice].description.includedDetails">
                                 <bkt-icon name="Check" color="green" height="16px" width="16px"></bkt-icon>
                                 <h4 class="bkt-card__text">
                                     {{detail}}
@@ -59,7 +59,9 @@
                                     <h4 class="bkt-card__title">Текущий тариф</h4>
                                     <div class="d-flex bkt-gap-small">
                                         <h4 class="bkt-card__text">{{user_tariff.title}}</h4>
-                                        <div class="bkt-badge bkt-bg-green">Активен</div>
+                                        <div class="bkt-badge bkt-bg-green">
+                                            Активен до {{user_tariff.expiredAt}}
+                                        </div>
                                     </div>
                                 </div>
                                 <hr class="w-100 m-0">
@@ -190,7 +192,9 @@
             user_tariff() {
                 let index = this.tariffs.findIndex(item => item.isUserTariff === true);
                 if (index >= 0) {
-                    return this.tariffs[index];
+                    let tmp = this.tariffs[index];
+                    tmp.expiredAt = this.$moment(this.tariffs[index].expiredAt, 'DD.MM.YYYY HH:mm:ss').format('DD.MM.YYYY HH:mm')
+                    return tmp;
                 }
                 return null;
             }

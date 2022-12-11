@@ -29,6 +29,21 @@
         height: 0.7rem;
         width: 30%;
     }
+    &__spoiler
+    {
+        animation: none;
+        &::before {
+            content: '░░░░░░░░░';
+            animation: spoiler-loading 1s linear infinite alternate;
+        }
+        &_mini {
+            animation: none;
+            &::before {
+                content: '░░';
+                animation: spoiler-loading 1s linear infinite alternate;
+            }
+        }
+    }
 }
 
 @keyframes skeleton-loading {
@@ -37,5 +52,13 @@
     }
     100% {
         background-color: hsl(200, 20%, 95%);
+    }
+}
+@keyframes spoiler-loading {
+    0% {
+        opacity: 0.4;
+    }
+    100% {
+        opacity: 1;
     }
 }

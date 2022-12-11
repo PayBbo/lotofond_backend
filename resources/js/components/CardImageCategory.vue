@@ -1,10 +1,14 @@
 <template>
-    <div class="bkt-card__image-category bkt-gap bkt-nowrap" v-if="icons.length>0"
-         :class="[{'bkt-card__image-category_multiple':icons.length>1}, 'bkt-bg-'+categories_colors[icons[0].key]+'-lighter']"
+    <div class="bkt-card__image-category bkt-gap bkt-nowrap"
+         :class="[{'bkt-card__image-category_multiple':(!rules || (rules && rules.categories)) && icons.length>1 },
+         (!rules || (rules && (rules.categories || rules.photos))) ? 'bkt-bg-'+categories_colors[icons[0].key]+'-lighter' : 'bkt-bg-neutral-light'
+        ]"
     >
-        <span v-for="category in icons">
-            <bkt-icon :name="'categories/'+category.key" :color="categories_colors[icons[0].key]"></bkt-icon>
-        </span>
+        <skeleton type_name="spoiler_mini" tag="h1" skeleton_class="bkt-text-neutral-dark" :loading="rules && (!rules.categories||!rules.photos)">
+             <span v-for="category in icons" v-if="icons.length>0">
+                <bkt-icon :name="'categories/'+category.key" :color="categories_colors[icons[0].key]"></bkt-icon>
+            </span>
+        </skeleton>
     </div>
 </template>
 
@@ -97,7 +101,9 @@
         computed: {
             icons() {
                 let tmp = [];
-                tmp = this.categories;
+                if (this.categories) {
+                    tmp = this.categories;
+                }
                 if (tmp.length == 0) {
                     tmp.push({key: 'other', color: 'primary'})
                 }
@@ -106,6 +112,42 @@
                 }
                 return tmp
             },
+            rules() {
+                if(this.$store.getters.auth_user)
+                {
+                    return this.auth_user.contentDisplayRules.lot
+                    // return {
+                    //     trade: {
+                    //         externalId: false,
+                    //         type: false,
+                    //         publishDate: false,
+                    //         eventTime: false,
+                    //         applicationTime: false,
+                    //         priceOfferForm: false,
+                    //         organizer: false,
+                    //         arbitrationManager: false,
+                    //         debtor: false,
+                    //         tradePlace: false,
+                    //         lotCount: false
+                    //     },
+                    //     lotNumber: false,
+                    //     photos: false,
+                    //     categories: false,
+                    //     state: false,
+                    //     location: false,
+                    //     startPrice: false,
+                    //     stepPrice: false,
+                    //     deposit: false,
+                    //     priceReduction: false,
+                    //     currentPrice: false,
+                    //     minPrice: false,
+                    //     currentPriceState: false,
+                    //     efrsbLink: false,
+                    //     descriptionExtracts: false
+                    // }
+                }
+                return null
+            }
         },
         mounted() {
             // this.icons = this.categories_icons.filter(value => this.categories.map(item => item.key).includes(value.key));

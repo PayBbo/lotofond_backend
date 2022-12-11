@@ -1,5 +1,5 @@
 <template>
-    <bkt-modal :id="'egrnModal'" title="Выписка ЕГРН" modal_class="bkt-filters-modal bkt-purchase"
+    <bkt-modal :id="'egrnModal'" title="Отчёт ЕГРН" modal_class="bkt-filters-modal bkt-purchase"
                left_button_class="d-none" @right_action="buy" :loading="loading"
                right_button="Купить - 70 ₽"
     >
@@ -27,7 +27,7 @@
                 </div>
                 <div class="bkt-card__row bkt-purchase__service bkt-wrapper-down-lg-column">
                     <div class="bkt-purchase__service__text-wrapper bkt-w-down-lg-100">
-                        <h4 class="bkt-card__title">Выписка ЕГРН</h4>
+                        <h4 class="bkt-card__title">Отчёт ЕГРН</h4>
                         <h5 class="bkt-card__subtitle">Официальная справка с информацией о собственнике и характеристиках объекта, наличии или отсутствии ограничений и обременений.</h5>
                     </div>
                     <hr class="d-lg-none w-100 m-0">
@@ -104,7 +104,6 @@
                 let data = JSON.parse(JSON.stringify(this.service));
                 data.lotId = this.selected_lot.id;
                 data.cadastralNumber = this.selected_lot.cadastralData.cadastralNumber;
-                console.log(data.cadastralNumber)
                 axios.post('/api/send/receipt/egrn', data)
                     .then(resp => {
                         this.loading = false;

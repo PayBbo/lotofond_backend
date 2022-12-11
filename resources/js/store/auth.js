@@ -115,12 +115,14 @@ export default {
             await axios.post('/api/registration/code/verify', payload)
                 .then(resp => {
                     commit('auth_success', {token: resp.data.accessToken, refreshToken: resp.data.refreshToken});
-                    commit('saveFiltersProperty', {key: 'filters_regions', value: [payload.region]});
-                    dispatch('saveDataProperty', {
-                        module_key: 'filters', state_key: 'filters',
-                        key: 'regions',
-                        value: [payload.region]
-                    }, {root: true});
+                    if(payload.region) {
+                        commit('saveFiltersProperty', {key: 'filters_regions', value: [payload.region]});
+                        dispatch('saveDataProperty', {
+                            module_key: 'filters', state_key: 'filters',
+                            key: 'regions',
+                            value: [payload.region]
+                        }, {root: true});
+                    }
                     dispatch('getAuthUser');
                     commit('closeModal', '#codeModal');
                 })
@@ -132,17 +134,20 @@ export default {
         },
 
         async logout({commit}) {
+            commit('setAuthUserLoading', true);
             await axios.post('/api/account/logout').then(resp => {
                 console.log(resp);
                 sessionStorage.clear();
                 commit('clearStorage');
                 commit('logout');
                 commit('setHasNotSeenNotifications', false);
+                commit('setAuthUserLoading', false);
 
             }).catch(error => {
                 console.log(error);
                 commit('clearStorage');
                 commit('logout');
+                commit('setAuthUserLoading', false);
             });
         },
         async refresh({commit, state}) {
@@ -166,11 +171,14 @@ export default {
             });
         },
         async updateAuthUser({commit}, payload) {
+            commit('setAuthUserLoading', true);
             await axios.put('/api/account/user/update', payload).then(resp => {
                 console.log(resp);
                 commit('updateAuthUser', payload)
+                commit('setAuthUserLoading', false);
             }).catch(error => {
                 console.log(error);
+                commit('setAuthUserLoading', false);
             });
         },
         async getPasswordCode({commit}, payload) {

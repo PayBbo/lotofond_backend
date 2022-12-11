@@ -25,16 +25,36 @@
                 </li>
                 <li class="breadcrumb-item bkt-breadcrumb__item">торги</li>
                 <li class="breadcrumb-item bkt-breadcrumb__item active" aria-current="page">
-                    торги № {{item && item.trade && item.trade.externalId ? item.trade.externalId : ''}} (лот
-                    {{item && item.lotNumber ? item.lotNumber : '0'}})
+                    <skeleton type_name="item" tag="div" skeleton_class="ms-3 my-sm-1"
+                              :loading="loading" width="65px" height="12px"
+                    >
+                        торги №
+                        <skeleton type_name="spoiler" tag="span" :loading="rules && !rules.trade.externalId">
+                            {{item && item.trade && item.trade.externalId ? item.trade.externalId : '0'}}
+                        </skeleton>
+                            (лот
+                        <skeleton type_name="spoiler_mini" tag="span" :loading="rules && !rules.lotNumber">
+                            {{item && item.lotNumber ? item.lotNumber : '0'}}
+                        </skeleton>
+                        )
+                    </skeleton>
                 </li>
             </ol>
         </nav>
 
         <div class="bkt-row bkt-bg-main bkt-wrapper-between bkt-lot__card-actions d-none d-lg-flex">
             <h5 class="bkt-trading-number">
-                торги № {{item && item.trade && item.trade.externalId ? item.trade.externalId : ''}} (лот
-                {{item && item.lotNumber ? item.lotNumber : '0'}})
+                <skeleton type_name="item" tag="div" :loading="loading" width="155px" height="14px">
+                    торги №
+                    <skeleton type_name="spoiler" tag="span" :loading="rules && !rules.trade.externalId">
+                        {{item && item.trade && item.trade.externalId ? item.trade.externalId : '0'}}
+                    </skeleton>
+                    (лот
+                    <skeleton type_name="spoiler_mini" tag="span" :loading="rules && !rules.lotNumber">
+                        {{item && item.lotNumber ? item.lotNumber : '0'}}
+                    </skeleton>
+                    )
+                </skeleton>
             </h5>
             <bkt-card-actions :item="item" class="bkt-actions" button_type="-icon" place="lot-card"
                               @changeStatus="changeStatus"
@@ -64,39 +84,57 @@
                                 </button>
                             </div>
                             <ul class="bkt-contents" v-if="isLoggedIn">
-                                <li v-if="item.trade && item.trade.type">
+                                <li v-if="item.trade || (rules && rules.trade.type && item.trade.type)">
                                     <div class="bkt-contents__heading">
                                         <span class="bkt-contents__heading">тип торгов</span>
                                     </div>
                                     <div class="bkt-contents__answer">
-                                        <span>{{ $t('trades.type.'+item.trade.type)}}</span>
+                                        <skeleton type_name="spoiler" tag="span" :loading="rules && !rules.trade.type">
+                                            <span>{{ $t('trades.type.'+item.trade.type)}}</span>
+                                        </skeleton>
                                     </div>
                                 </li>
-                                <li v-if="item.trade && item.trade.publishDate">
+                                <li v-if="item.trade || (rules && rules.trade.publishDate && item.trade.publishDate)">
                                     <div class="bkt-contents__heading">
                                         <span class="bkt-contents__heading">дата размещения</span>
                                     </div>
                                     <div class="bkt-contents__answer">
-                                        <span>{{item.trade.publishDate | moment('DD MMMM YYYY HH:mm')}}</span>
+                                        <skeleton type_name="spoiler" tag="span" :loading="rules && !rules.trade.publishDate">
+                                            <span>{{item.trade.publishDate | moment('DD MMMM YYYY HH:mm')}}</span>
+                                        </skeleton>
                                     </div>
                                 </li>
-                                <li v-if="item.state">
+                                <li v-if="!rules || (rules && !rules.state) || (rules && rules.state && item.state)">
                                     <div class="bkt-contents__heading">
                                         <span class="bkt-contents__heading">статус торгов</span>
                                     </div>
                                     <div class="bkt-contents__answer">
-                                        <span>{{$t('trades.state.'+item.state)}}</span>
+                                        <skeleton type_name="spoiler" tag="span" :loading="rules && !rules.state">
+                                            <span>{{$t('trades.state.'+item.state)}}</span>
+                                        </skeleton>
                                     </div>
                                 </li>
-                                <li v-if="item.trade && item.trade.priceOfferForm">
+                                <li v-if="item.trade || (rules && rules.trade.priceOfferForm && item.trade.priceOfferForm)">
                                     <div class="bkt-contents__heading">
                                         <span class="bkt-contents__heading">форма подачи предложения о цене</span>
                                     </div>
                                     <div class="bkt-contents__answer">
-                                        <span>{{$t('trades.priceOfferForm.'+item.trade.priceOfferForm)}}</span>
+                                        <skeleton type_name="spoiler" tag="span" :loading="rules && !rules.trade.priceOfferForm">
+                                            <span>{{$t('trades.priceOfferForm.'+item.trade.priceOfferForm)}}</span>
+                                        </skeleton>
                                     </div>
                                 </li>
-                                <template v-for="(category, index) in item.categories" v-if="item.categories.length>0">
+                                <li v-if="rules && !rules.categories">
+                                    <div class="bkt-contents__heading">
+                                        <span class="bkt-contents__heading">категория объекта</span>
+                                    </div>
+                                    <div class="bkt-contents__answer">
+                                        <skeleton type_name="spoiler" tag="span" :loading="rules && !rules.categories">
+                                        </skeleton>
+                                    </div>
+                                </li>
+                                <template v-for="(category, index) in item.categories"
+                                          v-if="(!rules || (rules && rules.categories)) && item.categories.length>0">
                                     <li>
                                         <div class="bkt-contents__heading">
                                             <span class="bkt-contents__heading">категория объекта</span>
@@ -116,7 +154,7 @@
                                         </div>
                                     </li>
                                 </template>
-                                <template v-if="item.location">
+                                <template v-if="item.location && (!rules || (rules && rules.location))">
                                     <li v-for="location in item.location">
                                         <div class="bkt-contents__heading">
                                             <span class="bkt-contents__heading">
@@ -128,6 +166,17 @@
                                         </div>
                                     </li>
                                 </template>
+                                <li v-if="rules && !rules.location">
+                                    <div class="bkt-contents__heading">
+                                        <span class="bkt-contents__heading">
+                                            регион
+                                        </span>
+                                    </div>
+                                    <div class="bkt-contents__answer">
+                                        <skeleton type_name="spoiler" tag="span" :loading="rules && !rules.location">
+                                        </skeleton>
+                                    </div>
+                                </li>
 <!--                                <template v-for="(subject, index) in item.descriptionExtracts">-->
 <!--                                    <li v-if="subject.tradeSubject">-->
 <!--                                        <div class="bkt-contents__heading">-->
@@ -199,7 +248,8 @@
 <!--                            </span>-->
 <!--                            </div>-->
                         </div>
-                        <div class="bkt-card__footer d-flex flex-wrap bkt-gap" v-if="item && item.efrsbLink && isLoggedIn">
+                        <div class="bkt-card__footer d-flex flex-wrap bkt-gap"
+                             v-if="item && item.efrsbLink && isLoggedIn && rules && rules.efrsbLink">
                             <a :href="item.efrsbLink" target="_blank" style="font-weight: 600"
                                class="bkt-button next bkt-text-primary py-1 ms-auto"
                             >
@@ -323,23 +373,31 @@
                             </div>
                         </div>
                         <div class="bkt-card-price bkt-button w-100"
-                             :class="{'bkt-bg-red': item.currentPriceState=='down',
-                                  'bkt-bg-green': item.currentPriceState=='up',
-                                  'bkt-bg-primary-lighter bkt-text-primary': item.currentPriceState=='hold'}"
+                             :class="{'bkt-bg-red': (!rules || (rules && rules.currentPriceState)) && item.currentPriceState=='down',
+                                  'bkt-bg-green': (!rules || (rules && rules.currentPriceState)) && item.currentPriceState=='up',
+                                  'bkt-bg-primary-lighter bkt-text-primary': (!rules || (rules && rules.currentPriceState)) && item.currentPriceState=='hold',
+                                  'bkt-border-neutral-light bkt-text-neutral-dark h-100': rules && ( !rules.currentPrice || !rules.currentPriceState) }"
                         >
                             <div>
                                 <h5 class="bkt-card__subtitle">текущая цена</h5>
-                                {{item.currentPrice ? item.currentPrice : '0' | priceFormat}} ₽
+                                <skeleton type_name="spoiler" tag="span" :loading="rules && !rules.currentPrice">
+                                    {{item.currentPrice ? item.currentPrice : '0' | priceFormat}} ₽
+                                </skeleton>
                             </div>
-                            <div class="bkt-card-price-icon" v-if="item.currentPriceState!=='hold'"
-                                 :class="{'bkt-bg-red-light': item.currentPriceState=='down',
-                                          'bkt-bg-green-light': item.currentPriceState=='up'}"
+                            <skeleton type_name="spoiler_mini" skeleton_class="bkt-card-price-icon shadow-none top-auto bottom-auto"
+                                      tag="div" :loading="rules && !rules.currentPriceState"
+                                      v-if="(!rules && item.currentPriceState!=='hold') || (rules && rules.currentPriceState && item.currentPriceState!=='hold')"
                             >
-                                <bkt-icon :name="'ArrowTriple'" :width="'22px'" :height="'22px'"
-                                          :class="{'bkt-rotate-180': item.currentPriceState=='down'}"
+                                <div class="bkt-card-price-icon"
+                                     :class="{'bkt-bg-red-light': item.currentPriceState=='down',
+                                              'bkt-bg-green-light': item.currentPriceState=='up'}"
                                 >
-                                </bkt-icon>
-                            </div>
+                                    <bkt-icon :name="'ArrowTriple'" :width="'22px'" :height="'22px'"
+                                              :class="{'bkt-rotate-180': item.currentPriceState=='down'}"
+                                    >
+                                    </bkt-icon>
+                                </div>
+                            </skeleton>
                         </div>
                         <div class="bkt-card-infographics bkt-gap bkt-wrapper-between bkt-nowrap">
                             <div class="bkt-card outline"
@@ -348,19 +406,25 @@
                                 <div class="bkt-card__feature text-center w-100 mt-0">
                                     <h5 class="bkt-card__subtitle">шаг аукциона</h5>
                                     <h4 class="bkt-card__title bkt-text-primary">
-                                        {{item.stepPrice && item.stepPrice.value ? item.stepPrice.value : '0' |
-                                        priceFormat}}
-                                        {{item.stepPrice && item.stepPrice.type=='rubles' ? '₽' : '%'}}
+                                        <skeleton type_name="spoiler" :loading="rules && !rules.stepPrice">
+                                            {{item.stepPrice && item.stepPrice.value ? item.stepPrice.value : '0' |
+                                            priceFormat}}
+                                            {{item.stepPrice && item.stepPrice.type=='rubles' ? '₽' : '%'}}
+                                        </skeleton>
                                     </h4>
                                 </div>
                             </div>
-                            <div class="bkt-card outline" v-if="item.deposit">
+                            <div class="bkt-card outline"
+                                 v-if="(item.deposit && (!rules || rules && rules.deposit))||(rules && !rules.deposit)"
+                            >
                                 <div class="bkt-card__feature text-center w-100 mt-0">
                                     <h5 class="bkt-card__subtitle">задаток</h5>
                                     <h4 class="bkt-card__title bkt-text-red">
-                                        {{item.deposit && item.deposit.value ? item.deposit.value : '0' |
-                                        priceFormat}}
-                                        {{item.deposit && item.deposit.type=='rubles' ? '₽' : '%'}}
+                                        <skeleton type_name="spoiler" :loading="rules && !rules.deposit">
+                                            {{item.deposit && item.deposit.value ? item.deposit.value : '0' |
+                                            priceFormat}}
+                                            {{item.deposit && item.deposit.type=='rubles' ? '₽' : '%'}}
+                                        </skeleton>
                                     </h4>
                                 </div>
                             </div>
@@ -369,13 +433,19 @@
                             <div class="bkt-card__row outline bkt-wrapper-between align-items-center">
                                 <h5 class="bkt-card__subtitle">начальная цена</h5>
                                 <h4 class="bkt-card__title bkt-text-primary">
-                                    {{item && item.startPrice ? item.startPrice : '0' | priceFormat}} ₽
+                                    <skeleton type_name="spoiler" :loading="rules && !rules.startPrice">
+                                        {{item && item.startPrice ? item.startPrice : '0' | priceFormat}} ₽
+                                    </skeleton>
                                 </h4>
                             </div>
-                            <div class="bkt-card__row outline bkt-wrapper-between align-items-center" v-if="item&&item.trade.type!=='OpenAuction'&& item.trade.type!=='CloseAuction'">
+                            <div class="bkt-card__row outline bkt-wrapper-between align-items-center"
+                                 v-if="item&&item.trade.type!=='OpenAuction'&& item.trade.type!=='CloseAuction'"
+                            >
                                 <h5 class="bkt-card__subtitle">минимальная цена</h5>
                                 <h4 class="bkt-card__title bkt-text-red">
-                                    {{item && item.minPrice ? item.minPrice : '0' | priceFormat}} ₽
+                                    <skeleton type_name="spoiler" :loading="rules && !rules.minPrice">
+                                        {{item && item.minPrice ? item.minPrice : '0' | priceFormat}} ₽
+                                    </skeleton>
                                 </h4>
                             </div>
                         </div>
@@ -439,58 +509,64 @@
                 <div class="bkt-card bkt-lot__card bkt-lot-tasks" v-if="!loading">
                     <div class="bkt-card__header bkt-wrapper-between bkt-wrapper-up-md-nowrap m-0 bkt-gap-large">
                         <div class="bkt-gap bkt-wrapper-column bkt-wrapper-down-md">
-                            <div class="bkt-lot__card-period bkt-wrapper" v-if="item.trade && item.trade.applicationTime
-                                 && (item.trade.applicationTime.start || item.trade.applicationTime.end)">
+                            <div class="bkt-lot__card-period bkt-wrapper" v-if="item.trade &&
+                            ((!rules || (rules && !rules.trade.applicationTime)) || (item.trade.applicationTime
+                             && (item.trade.applicationTime.start || item.trade.applicationTime.end)))">
                                 <div class="bkt-card__category bkt-bg-blue">
                                     <bkt-icon :name="'Alarm'" :width="'16px'" :height="'16px'"></bkt-icon>
                                 </div>
-                                <h5 class="bkt-card__text">прием заявок
-                                    <span v-if="item.trade.applicationTime.start">
+                                <h5 class="bkt-card__text">
+                                    <skeleton type_name="spoiler" :loading="rules && !rules.trade.applicationTime">
+                                        прием заявок
+                                        <span v-if="item.trade.applicationTime.start">
                                             <br class="d-md-none">
                                             с {{item.trade.applicationTime.start | moment('DD MMMM YYYY')}}
                                             <span class="bkt-text-blue">
                                                 {{item.trade.applicationTime.start | moment('HH:mm')}}
                                             </span>
                                         </span>
-                                    <span v-if="item.trade.applicationTime.end">
+                                        <span v-if="item.trade.applicationTime.end">
                                             <br class="d-md-none">
                                             до {{item.trade.applicationTime.end | moment('DD MMMM YYYY')}}
                                             <span class="bkt-text-blue">
                                                 {{item.trade.applicationTime.end | moment('HH:mm')}}
                                             </span>
                                         </span>
+                                    </skeleton>
                                 </h5>
                             </div>
                             <div class="bkt-lot__card-period bkt-wrapper"
-                                 v-if="item.trade && item.trade.eventTime
-                                 && (item.trade.eventTime.start || item.trade.eventTime.end || item.trade.eventTime.result)"
+                                 v-if="item.trade && ((!rules || (rules && !rules.trade.eventTime)) || (item.trade.eventTime
+                                 && (item.trade.eventTime.start || item.trade.eventTime.end || item.trade.eventTime.result)))"
                             >
                                 <div class="bkt-card__category bkt-bg-yellow">
                                     <bkt-icon :name="'Gavel'" :width="'22px'" :height="'22px'"></bkt-icon>
                                 </div>
                                 <h5 class="bkt-card__text">
-                                    {{item.trade.eventTime.result?'объявление результатов торгов':'проведение торгов'}}
-                                    <span v-if="item.trade.eventTime.start">
-                                        <br class="d-md-none">
-                                        с {{item.trade.eventTime.start | moment('DD MMMM YYYY')}}
-                                        <span class="bkt-text-yellow">
-                                            {{item.trade.eventTime.start | moment('HH:mm')}}
+                                    <skeleton type_name="spoiler" :loading="rules && !rules.trade.eventTime">
+                                        {{item.trade.eventTime.result?'объявление результатов торгов':'проведение торгов'}}
+                                        <span v-if="item.trade.eventTime.start">
+                                            <br class="d-md-none">
+                                            с {{item.trade.eventTime.start | moment('DD MMMM YYYY')}}
+                                            <span class="bkt-text-yellow">
+                                                {{item.trade.eventTime.start | moment('HH:mm')}}
+                                            </span>
                                         </span>
-                                    </span>
-                                    <span v-if="item.trade.eventTime.end">
-                                        <br class="d-md-none">
-                                        до {{item.trade.eventTime.end | moment('DD MMMM YYYY')}}
-                                        <span class="bkt-text-yellow">
-                                            {{item.trade.eventTime.end | moment('HH:mm')}}
+                                        <span v-if="item.trade.eventTime.end">
+                                            <br class="d-md-none">
+                                            до {{item.trade.eventTime.end | moment('DD MMMM YYYY')}}
+                                            <span class="bkt-text-yellow">
+                                                {{item.trade.eventTime.end | moment('HH:mm')}}
+                                            </span>
                                         </span>
-                                    </span>
-                                    <span v-if="item.trade.eventTime.result">
-                                        <br class="d-md-none">
-                                        {{item.trade.eventTime.result | moment('DD MMMM YYYY')}}
-                                        <span class="bkt-text-yellow">
-                                            {{item.trade.eventTime.result | moment('HH:mm')}}
+                                        <span v-if="item.trade.eventTime.result">
+                                            <br class="d-md-none">
+                                            {{item.trade.eventTime.result | moment('DD MMMM YYYY')}}
+                                            <span class="bkt-text-yellow">
+                                                {{item.trade.eventTime.result | moment('HH:mm')}}
+                                            </span>
                                         </span>
-                                    </span>
+                                    </skeleton>
                                 </h5>
                             </div>
                         </div>
@@ -510,7 +586,7 @@
                             </span>
                         </a>
                     </div>
-                    <div class="bkt-card__body">
+                    <div class="bkt-card__body" v-if="isLoggedIn">
                         <div class="bkt-wrapper-between bkt-nowrap">
                             <div class="bkt-wrapper bkt-nowrap m-0">
                                 <div class="bkt-card__category bkt-bg-primary-lighter">
@@ -911,7 +987,7 @@
 <!--                                            <button class="bkt-button primary">Добавить набор</button>-->
 <!--                                        </div>-->
 <!--                                    </div>-->
-            <div v-if="isLoggedIn" class="col-12 order-3 px-lg-0">
+            <div v-if="isLoggedIn && (rules && (rules.priceReduction || rules.priceReductionHtml))" class="col-12 order-3 px-lg-0">
                 <bkt-collapse title="График снижения цены" id="priceReduction" :loading="loading"
                               :disabled="loading" class="bkt-lot__collapse"
                 >
@@ -1346,8 +1422,8 @@
             </div>
             <div v-if="isLoggedIn" class="col-12 col-lg-12 order-3 px-lg-0">
                 <bkt-collapse title="Актуальное по лоту" :count="notifications_pagination.total"
-                              id="collapseActualInfo" :loading="notifications_loading"
-                              :disabled="notifications.length==0&&!notifications_loading"
+                              id="collapseActualInfo" :loading="loading || notifications_loading"
+                              :disabled="(notifications.length==0&&!notifications_loading) || notifications_loading || loading"
                               class="bkt-lot__collapse"
                 >
                     <template #collapse v-if="notifications.length>0">
@@ -1376,7 +1452,7 @@
                     </template>
                 </bkt-collapse>
             </div>
-            <div v-if="isLoggedIn" class="col-12 col-lg-12 order-3 px-lg-0">
+            <div v-if="isLoggedIn && system_rules && system_rules.hasAccessToTradeFiles" class="col-12 col-lg-12 order-3 px-lg-0">
                 <bkt-collapse title="Документы по торгам" :count="files.length" class="bkt-lot__collapse"
                               id="collapseDocuments" :loading="files_loading" :disabled="files.length==0"
                 >
@@ -1600,6 +1676,55 @@
                     return {}
                 }
                 return this.$store.getters.selected_lot
+            },
+            rules() {
+                if(this.auth_user)
+                {
+                    return this.auth_user.contentDisplayRules.lot
+                    // return {
+                    //     trade: {
+                    //         externalId: false,
+                    //         type: false,
+                    //         publishDate: false,
+                    //         eventTime: false,
+                    //         applicationTime: false,
+                    //         priceOfferForm: false,
+                    //         organizer: false,
+                    //         arbitrationManager: false,
+                    //         debtor: false,
+                    //         tradePlace: false,
+                    //         lotCount: false
+                    //     },
+                    //     lotNumber: false,
+                    //     photos: true,
+                    //     categories: true,
+                    //     state: false,
+                    //     location: false,
+                    //     startPrice: false,
+                    //     stepPrice: false,
+                    //     deposit: false,
+                    //     priceReduction: false,
+                    //     currentPrice: false,
+                    //     minPrice: false,
+                    //     currentPriceState: false,
+                    //     efrsbLink: false,
+                    //     descriptionExtracts: false
+                    // }
+                }
+                return null
+            },
+            system_rules() {
+                if(this.auth_user)
+                {
+                    return this.auth_user.contentDisplayRules.system
+                    // return {
+                    //     hasAccessToTradeFiles: false,
+                    //     hasAccessToMonitoring: false,
+                    //     hasAccessToReestr: false,
+                    //     hasAccessToFavourite: false,
+                    // }
+                }
+                return null
             }
         },
         watch: {

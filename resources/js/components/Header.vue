@@ -47,45 +47,58 @@
                 </div>
 
                 <div v-if="isLoggedIn" class="btn-group d-none d-md-block">
-                    <div class="bkt-navbar__user-wrapper"
-                         id="navbarDropdown"
-                         role="button"
-                         data-bs-toggle="dropdown"
-                         aria-haspopup="true"
-                         aria-expanded="false"
-                    >
-                        <div class="bkt-navbar__user text-truncate me-1">
-                            <div class="bkt-navbar__user-name text-truncate">
-                                {{ auth_user ? auth_user.name : '' }} {{ auth_user ? auth_user.lastName : '' }}
-                            </div>
-                            <div class="bkt-navbar__user-tariff">
-                                тариф: <span class="bkt-navbar__user-tariff-name">
+                    <template v-if="!loading">
+                        <div class="bkt-navbar__user-wrapper"
+                             id="navbarDropdown"
+                             role="button"
+                             data-bs-toggle="dropdown"
+                             aria-haspopup="true"
+                             aria-expanded="false"
+                        >
+                            <div class="bkt-navbar__user text-truncate me-1">
+                                <div class="bkt-navbar__user-name text-truncate">
+                                    {{ auth_user ? auth_user.name : '' }} {{ auth_user ? auth_user.lastName : '' }}
+                                </div>
+                                <div class="bkt-navbar__user-tariff">
+                                    тариф: <span class="bkt-navbar__user-tariff-name">
                                 {{auth_user && auth_user.tariff ? auth_user.tariff.title  :'Базовый'}}</span>
+                                </div>
+                            </div>
+                            <div class="bkt-navbar__user-icon">
+                                <bkt-icon :name="'ArrowDown'" color="primary"></bkt-icon>
                             </div>
                         </div>
-                        <div class="bkt-navbar__user-icon">
-                            <bkt-icon :name="'ArrowDown'" color="primary"></bkt-icon>
-                        </div>
-                    </div>
-                    <div class="dropdown-menu dropdown-menu-right bkt-navbar__user-dropdown"
-                         aria-labelledby="navbarDropdown" v-if="!loading">
-                        <div class="bkt-navbar__user-dropdown-menu">
-                            <button class="bkt-button bkt-tariff-button" @click="navigate('/tariffs')">Сменить тариф</button>
-                            <a class="bkt-navbar__user-dropdown-item" href="/profile">
-                                <div class="bkt-navbar__user-dropdown-item-icon bkt-bg-primary-lighter">
-                                    <bkt-icon :name="'User'" :color="'primary'"></bkt-icon>
+                        <div class="dropdown-menu dropdown-menu-right bkt-navbar__user-dropdown"
+                             aria-labelledby="navbarDropdown" v-if="!loading || !auth_user_loading">
+                            <div class="bkt-navbar__user-dropdown-menu">
+                                <button class="bkt-button bkt-tariff-button" @click="navigate('/tariffs')">Сменить тариф</button>
+                                <a class="bkt-navbar__user-dropdown-item" href="/profile">
+                                    <div class="bkt-navbar__user-dropdown-item-icon bkt-bg-primary-lighter">
+                                        <bkt-icon :name="'User'" :color="'primary'"></bkt-icon>
+                                    </div>
+                                    <div class="bkt-navbar__user-dropdown-item-text">Профиль</div>
+                                </a>
+                                <div class="bkt-navbar__user-dropdown-item" @click="logout" style="cursor: pointer">
+                                    <div class="bkt-navbar__user-dropdown-item-icon bkt-bg-red-lighter">
+                                        <bkt-icon name="LogOut"></bkt-icon>
+                                    </div>
+                                    <div class="bkt-navbar__user-dropdown-item-text">Выйти</div>
                                 </div>
-                                <div class="bkt-navbar__user-dropdown-item-text">Профиль</div>
-                            </a>
-                            <div class="bkt-navbar__user-dropdown-item" @click="logout" style="cursor: pointer">
-                                <div class="bkt-navbar__user-dropdown-item-icon bkt-bg-red-lighter">
-                                    <bkt-icon name="LogOut"></bkt-icon>
-                                </div>
-                                <div class="bkt-navbar__user-dropdown-item-text">Выйти</div>
                             </div>
-                        </div>
 
-                    </div>
+                        </div>
+                    </template>
+                   <template v-else>
+                       <div class="bkt-navbar__user-wrapper" role="button">
+                           <div class="bkt-navbar__user text-truncate me-1 w-100">
+                               <skeleton type_name="text" height="14px" skeleton_class="mb-1"></skeleton>
+                               <skeleton type_name="text" height="12px" skeleton_class="mb-0"></skeleton>
+                           </div>
+                           <div class="bkt-navbar__user-icon">
+                               <skeleton type_name="item" height="12px" width="10px"></skeleton>
+                           </div>
+                       </div>
+                   </template>
                 </div>
                 <button v-else class="bkt-button primary d-none d-md-block"
                         data-bs-toggle="modal" data-bs-target="#authModal"
@@ -118,7 +131,7 @@
                             Победы недели
                         </router-link>
                     </li>
-                    <li class="bkt-navbar__nav-item d-none d-md-flex">
+                    <li class="bkt-navbar__nav-item d-none d-md-flex" v-if="isLoggedIn">
                         <router-link to="/registries" class="bkt-navbar__nav-link">
                             Реестры
                         </router-link>
@@ -314,6 +327,7 @@
                         code: "Registries",
                         label: "Реестры",
                         color: 'green',
+                        meta: 'auth'
                     },
                     {
                         path: '/calendar',
@@ -343,10 +357,13 @@
             auth_user() {
                 return this.$store.getters.auth_user
             },
+            auth_user_loading() {
+                return this.$store.getters.auth_user_loading
+            },
             isLoggedIn() {
                 return this.$store.getters.isLoggedIn
             },
-            hasNotSeenNotifications(state) {
+            hasNotSeenNotifications() {
                 return this.$store.getters.hasNotSeenNotifications;
             },
         },
