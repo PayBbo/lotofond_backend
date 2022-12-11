@@ -40,8 +40,8 @@ class FilterBuilder
         if(auth()->check()) {
             if ($this->namespace == 'App\Utilities\LotFilters') {
                 if (!in_array('ExtraOptions', $names)) {
-                   // $this->query->whereNotIn('lots.id', auth()->user()->hiddenLots->pluck('id'));
-                    $this->query->doesntHave('userHiddenLot');
+                    $this->query->whereNotIn('lots.id', auth()->user()->hiddenLots->pluck('id'));
+                 //   $this->query->doesntHave('userHiddenLot');
                 }
             }
         }
