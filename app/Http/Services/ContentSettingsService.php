@@ -46,7 +46,7 @@ class ContentSettingsService
     public function getUserContentRules(){
         $user = auth()->user();
         $hasTariff = !is_null($user->tariff);
-        $hasTestPeriod = $user->email_verified_at->addDays(3)->format('d.m.Y H:i:s') > Carbon::now()->setTimezone('Europe/Moscow')->format('d.m.Y H:i:s');
+        $hasTestPeriod = $user->email_verified_at->addDays(3) > Carbon::now()->setTimezone('Europe/Moscow');
         $rules = ContentRule::all()->pluck( 'is_available', 'code');
         if ($hasTariff || $hasTestPeriod) {
             foreach ($rules as $key=>$value) {

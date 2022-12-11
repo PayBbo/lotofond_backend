@@ -120,15 +120,24 @@ class TradeService
             $category = Category::where('code', '99')->first();
             $lot->categories()->attach($category);
         }
+        if(!is_null($lot->description)){
+            $descriptionExtracts = new DescriptionExtractsService();
+            $descriptionExtracts->getDescriptionExtracts($lot, $lot->description);
+        }
         if ($lot->auction->auctionType->title == 'PublicOffer' || $lot->auction->auctionType->title == 'ClosePublicOffer') {
             $priceReduction = new PriceReductionService();
             $priceReduction->savePriceReduction($lot->id, $lot->start_price, $lot->created_at, null, null, 0, 0, true);
             if (array_key_exists($prefix . 'PriceReduction', $value)) {
                 $priceReduction->getPriceReduction($value[$prefix . 'PriceReduction'], $lot->id);
                 $lot->price_reduction = $value[$prefix . 'PriceReduction'];
-                $lot->save();
+                $prices = $lot->showPriceReductions->pluck('price')->toArray();
+                if (count($prices) > 0) {
+                    $lot->min_price = min($prices);
+                    $lot->save();
+                }
             }
         }
+        $lot->save();
         $id = $lot->auction->id_efrsb;
         if(!is_null($id)) {
             $soapWrapper = new SoapWrapper();

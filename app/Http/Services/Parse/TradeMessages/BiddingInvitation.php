@@ -35,7 +35,7 @@ class BiddingInvitation extends TradeMessage
                 $soapWrapper = new SoapWrapper();
                 $service = new SoapWrapperService($soapWrapper);
                 $debtor_data = get_object_vars($service->searchDebtorByCode($codeType, $debtor['INN']));
-                if (array_key_exists($prefix . 'DebtorPerson', $debtor_data)) {
+                if (array_key_exists('DebtorPerson', $debtor_data)) {
                     if(gettype($debtor_data['DebtorPerson']) == 'array'){
                         $debtor = $debtor_data['DebtorPerson'];
                     }else {
@@ -44,6 +44,9 @@ class BiddingInvitation extends TradeMessage
                 } elseif (array_key_exists('DebtorCompany', $debtor_data)) {
                     if(gettype($debtor_data['DebtorCompany']) == 'array'){
                         $debtor = $debtor_data['DebtorCompany'];
+                        if(gettype($debtor['DebtorCompany']) == 'array'){
+                            $debtor = $debtor[count($debtor)-1];
+                        }
                     }else {
                         $debtor = get_object_vars($debtor_data['DebtorCompany']);
                     }

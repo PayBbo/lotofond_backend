@@ -32,8 +32,10 @@ class DescriptionExtractsService
     {
         $cadastr_number = '/\d{2}:\d{2}:\d{1,7}:\d{1,}/';
         preg_match_all($cadastr_number, $description, $matches);
+        $changeDesc = $description;
         if (count($matches[0]) > 0) {
             foreach (array_unique($matches[0]) as $match) {
+                $changeDesc = str_replace($match, str_repeat('░', strlen($match) - 1), $changeDesc);
                 if (!$lot->params()->where('value', $match)->exists() && strlen((string)$match) > 0) {
                     $lot->params()->attach(Param::find(4), ['value' => $match, 'parent_id' => null]);
                     $parseDataFromRosreestr = new ParseDataFromRosreestrService($match);
@@ -47,10 +49,11 @@ class DescriptionExtractsService
         $mainParam->type = 'transport';
         $mainParam->lot_id = $lot->id;
         if (count($matches['licence_plate']) > 0) {
-            $mainParam->save();
             foreach (array_unique($matches['licence_plate']) as $match) {
+                $changeDesc = str_replace($match, str_repeat('░', strlen($match) - 1), $changeDesc);
                 $res = str_replace('RUS', '', mb_strtoupper(str_replace(' ', '', $match)));
                 if (!$lot->params()->where('value', $res)->exists() && strlen((string)$res) > 0) {
+                    $mainParam->save();
                     $lot->params()->attach(Param::find(5), ['value' => $res, 'parent_id' => $mainParam->id]);
                 }
             }
@@ -58,11 +61,16 @@ class DescriptionExtractsService
         $avto_vin = '/[A-HJ-NPR-Z0-9]{17}/ui';
         preg_match_all($avto_vin, $description, $matches);
         if (count($matches[0]) > 0) {
-            $mainParam->save();
             foreach (array_unique($matches[0]) as $match) {
-                $lot->params()->attach(Param::find(6), ['value' => $match, 'parent_id' => $mainParam->id]);
+                $changeDesc = str_replace($match, str_repeat('░', strlen($match) - 1), $changeDesc);
+                if (!$lot->params()->where('value', $match)->exists() && strlen((string)$match) > 0) {
+                    $mainParam->save();
+                    $lot->params()->attach(Param::find(6), ['value' => $match, 'parent_id' => $mainParam->id]);
+                }
             }
         }
+        $lot->processed_description = $changeDesc;
+        $lot->save();
     }
 
     public function getAvtoNumberRegex()
@@ -93,25 +101,12 @@ class DescriptionExtractsService
             }
             if (!is_null($description)) {
                 $lot->description = $description;
-                $lot->processed_description = $description;
                 $this->getDescriptionExtracts($lot, $description);
-                $params = $lot->params()->whereIn('param_id', [4, 5, 6])->pluck('value');
-                if (count($params) > 0) {
-                    $changeDesc = $description;
-                    foreach ($params as $param) {
-                        $changeDesc = str_replace($param, str_repeat('░', strlen($param) - 1), $changeDesc);
-                    }
-                    $lot->processed_description = $changeDesc;
-                }
             }
             $lot->save();
             if ($lot->auction->auctionType->title == 'PublicOffer' || $lot->auction->auctionType->title == 'ClosePublicOffer') {
                 $prices = $lot->showPriceReductions->pluck('price')->toArray();
-                if (count($prices) > 0) {
-                    $lot->min_price = min($prices);
-                    $lot->save();
-                    logger('min_price_from_invitation_for_lot = ' . $lot->id);
-                } else {
+                if (count($prices) == 0) {
                     $auctionStep = null;
                     $isStepPercent = false;
                     if (!is_null($lot->auction_step)) {
@@ -136,7 +131,7 @@ class DescriptionExtractsService
                     logger($matchesPrice);
                     if (count($matchesPrice['rubles']) > 0 || count($matchesPrice['percent']) > 0) {
                         $min_price = $this->getMinPrice($matchesPrice, $startPrice);
-                    }  else {
+                    } else {
                         $text = $fullText;
                         preg_match_all($regexMinPrice, $text, $matchesPrice);
                         logger($matchesPrice);
@@ -158,12 +153,10 @@ class DescriptionExtractsService
                         $lot->save();
                     }
                     $priceReduction = new PriceReductionService();
-                    logger($min_price);
-                    logger($step);
-                    logger($auctionStep);
-                    logger('---------------');
+                    logger('MinPrice: ' . $min_price);
+                    logger('PeriodDays: ' . $step);
+                    logger('AuctionStep: ' . $auctionStep);
                     if (!is_null($min_price) && $min_price > 0 && !is_null($step) && $step > 0 && !is_null($auctionStep) && $auctionStep > 0) {
-                        logger('calc_price_red_for_lot = ' . $lot->id);
                         if ($isStepPercent) {
                             $percent = $auctionStep;
                             $auctionStep = $startPrice / 100 * $auctionStep;
@@ -176,9 +169,9 @@ class DescriptionExtractsService
                             $previousEndPeriod = Carbon::parse($lot->auction->application_start_date)->addDays($step);
                             $priceReduction->savePriceReduction($lot->id, $startValue, $previousStartPeriod, $previousEndPeriod, null, $percent);
                             while ($startValue > $min_price) {
-                                if($startValue-$auctionStep>$min_price) {
+                                if ($startValue - $auctionStep > $min_price) {
                                     $startValue -= $auctionStep;
-                                }else{
+                                } else {
                                     $startValue = $min_price;
                                 }
                                 $startPeriodDate = $previousEndPeriod;
@@ -192,9 +185,9 @@ class DescriptionExtractsService
                             $previousEndPeriod = $this->checkIsWeekend($previousStartPeriod, $previousEndPeriod);
                             $priceReduction->savePriceReduction($lot->id, $startValue, $previousStartPeriod, $previousEndPeriod, null, $percent);
                             while ($startValue > $min_price) {
-                                if($startValue-$auctionStep>$min_price) {
+                                if ($startValue - $auctionStep > $min_price) {
                                     $startValue -= $auctionStep;
-                                }else{
+                                } else {
                                     $startValue = $min_price;
                                 }
                                 $startPeriodDate = $previousEndPeriod;
@@ -215,6 +208,9 @@ class DescriptionExtractsService
                             }
                         }
                     }
+                    logger('Final Price Red:');
+                    logger($lot->showPriceReductions->pluck('price')->toArray());
+                    logger('---------------');
                     $lot->save();
                 }
             }
@@ -226,12 +222,10 @@ class DescriptionExtractsService
     public function getMinPrice($matchesPrice, $startPrice)
     {
         $min_price = null;
-        if (count($matchesPrice['rubles']) == 1 ) {
+        if (count($matchesPrice['rubles']) == 1) {
             foreach ($matchesPrice['rubles'] as $ruble) {
                 if (strlen($ruble) > 0) {
                     $min_price = (double)str_replace(',', '.', str_replace(' ', '', $ruble));
-                    logger('min_price: ' . $min_price);
-                    logger($matchesPrice);
                     break;
                 }
             }
@@ -240,9 +234,7 @@ class DescriptionExtractsService
             foreach ($matchesPrice['percent'] as $percent) {
                 if (strlen($percent) > 0) {
                     $percent = (float)$percent;
-                    logger('percent: ' . $percent . ' startPrice:' . $startPrice);
                     $min_price = $startPrice / 100 * $percent;
-                    logger('min_price_calc: ' . $min_price);
                     break;
                 }
             }

@@ -21,7 +21,7 @@ class ProfileResource extends JsonResource
             ->latest()->first();
         $testPeriodInDays = 3;
         $hasTariff = !is_null($this->tariff);
-        $hasTestPeriod =$this->email_verified_at->addDays($testPeriodInDays)->format('d.m.Y H:i:s') > Carbon::now()->setTimezone('Europe/Moscow')->format('d.m.Y H:i:s');
+        $hasTestPeriod =$this->email_verified_at->addDays($testPeriodInDays) > Carbon::now()->setTimezone('Europe/Moscow');
         $contentDisplayRules = ['lot'=>['trade'=>[]], 'system'=>[]];
         $rules = ContentRule::all();
         foreach($rules as $rule){

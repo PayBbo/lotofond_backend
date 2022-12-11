@@ -15,7 +15,7 @@ class Lot extends Model
 
     protected $table = 'lots';
 
-    protected $appends = ['min_price', 'photos', 'description_extracts'];
+    protected $appends = ['photos', 'description_extracts'];
     protected $with = ['prevPrice', 'currentPriceReduction'];
     /**
      * The attributes that are mass assignable.
@@ -165,16 +165,6 @@ class Lot extends Model
             ->select(['id', 'start_time as time', 'price', 'lot_id']);
     }
 
-    public function priceReductionMin()
-    {
-        $lots = PriceReduction::groupBy('lot_id')->pluck('lot_id')->toArray();
-        $prices = [];
-        foreach ($lots as $lot) {
-            $price = PriceReduction::where('lot_id', $lot)->min('price');
-            $prices[] = PriceReduction::where(['lot_id' => $lot, 'price' => $price])->first()['id'];
-        }
-        return $this->hasMany(PriceReduction::class)->whereIn('id', $prices);
-    }
 
     public function currentPriceReduction()
     {
@@ -202,13 +192,6 @@ class Lot extends Model
             ->orderBy('end_time', 'asc');
     }
 
-    public function getMinPriceAttribute()
-    {
-        $prices = $this->hasMany(PriceReduction::class)->pluck('price')->toArray();
-        $prices[] = $this->start_price;
-        return min($prices);
-
-    }
 
     public function getPhotosAttribute()
     {
@@ -392,7 +375,7 @@ class Lot extends Model
 
     }
 
-    public function hasNotSeenNotification()
+  /*  public function hasNotSeenNotification()
     {
         $favourites = auth()->guard('api')->user()->favourites()->whereHas('lots', function ($query) {
             $query->where('lots.id', $this->id);
@@ -414,7 +397,7 @@ class Lot extends Model
         $result = preg_replace('/^(&#8220;)(.*)(&#8221;)$/', "$2", $result);
         $result = preg_replace('/^(&#39;)(.*)(&#39;)$/', "$2", $result);
         return stripslashes(html_entity_decode($result));
-    }
+    }*/
 
     public function notificationLots()
     {
