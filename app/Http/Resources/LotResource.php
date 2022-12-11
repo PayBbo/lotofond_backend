@@ -52,8 +52,10 @@ class LotResource extends JsonResource
         $regions = $this->isAvailable( 'location') ? $this->showRegions->makeHidden(['pivot']) : null;
         $currentPrice = $this->isAvailable( 'currentPrice') ? $this->start_price : null;
         $currentPriceState = $this->isAvailable( 'currentPriceState') ? 'hold' : null;
-        $currentPriceRed = $this->currentPriceReduction;
-        if($this->isAvailable( 'currentPrice') || $this->isAvailable( 'currentPriceState')) {
+        $currentPriceRed = null;
+        $isPublicOffer = $this->auction->auctionType->title == 'PublicOffer' || $this->auction->auctionType->title == 'ClosePublicOffer';
+        if(($this->isAvailable( 'currentPrice') || $this->isAvailable( 'currentPriceState')) && $isPublicOffer) {
+            $currentPriceRed = $this->currentPriceReduction;
             if ($currentPriceRed) {
                 if($this->isAvailable( 'currentPrice')) {
                     $currentPrice = (float)$currentPriceRed['price'];
@@ -86,7 +88,7 @@ class LotResource extends JsonResource
             'lotNumber' => $this->isAvailable( 'lotNumber') ? $this->number : null,
             'photos' => $this->isAvailable( 'photos') ? $this->photos : null,
             'categories' => $this->isAvailable( 'categories') ?  $this->categoriesStructure() : null,
-            'description' => $this->description,
+            'description' => $this->isAvailable( 'descriptionExtracts') ? $this->description :  $this->processed_description,
             'state' => $this->isAvailable( 'state') ? $this->status->code : null,
             'location' => $regions,
             'isWatched' => $authCheck && in_array($this->id, $this->content['seenLots']),
@@ -133,7 +135,7 @@ class LotResource extends JsonResource
         ];
         if ($this->isLotInfo) {
             $priceReductions = null;
-            if($this->isAvailable( 'priceReduction')) {
+            if($this->isAvailable( 'priceReduction') && $isPublicOffer) {
                 $priceReductions = $this->showPriceReductions->makeHidden('lot_id');
                 foreach ($priceReductions as $priceReduction) {
                     $priceReduction->isCurrentStage = false;
@@ -144,7 +146,7 @@ class LotResource extends JsonResource
                     }
                 }
             }
-            if ($this->isAvailable( 'priceReduction') && ($this->auction->auctionType->title == 'PublicOffer' || $this->auction->auctionType->title == 'ClosePublicOffer')) {
+            if ($this->isAvailable( 'priceReduction') && $isPublicOffer) {
                 $lotData['priceReduction'] = $priceReductions;
                 if (strlen((string)$this->price_reduction) > 0 && $this->price_reduction != '<table></table>') {
                     $lotData['priceReductionHtml'] = '<!DOCTYPE HTML><html lang="ru">

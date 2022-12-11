@@ -10,4 +10,8 @@ class HolidayDate extends Model
     use HasFactory;
     protected $table = 'holiday_dates';
     protected $fillable = ['date'];
+
+    protected $casts = [
+      'date'=>'datetime'
+    ];
 }

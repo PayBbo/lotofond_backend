@@ -153,7 +153,7 @@ class TestPriceReductionsCommand extends Command
                 $text = $auctionLot['PriceReduction'];
             }
             $test->text = $fullText;
-            preg_match_all($regexMinPrice, $text, $matchesPrice);
+            preg_match_all($regexMinPrice, $text, $matchesPrice, PREG_SET_ORDER, 0);
             $min_price = null;
             $step = null;
             $isWorkingDays = false;
@@ -162,7 +162,7 @@ class TestPriceReductionsCommand extends Command
                 $min_price = $this->getMinPrice($matchesPrice, $startPrice);
             } else {
                 $text = $fullText;
-                preg_match_all($regexMinPrice, $text, $matchesPrice);
+                preg_match_all($regexMinPrice, $text, $matchesPrice, PREG_SET_ORDER, 0);
                 $min_price = $this->getMinPrice($matchesPrice, $startPrice);
             }
             preg_match_all($regexStep, $text, $matchesStep);

@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 
+use App\Http\Services\Parse\DescriptionExtractsService;
 use App\Http\Services\Parse\GetTradeMessageContent;
 use App\Http\Services\Parse\ParseDataFromRosreestrService;
 use App\Http\Services\Parse\SoapWrapperService;
@@ -10,6 +11,7 @@ use App\Http\Services\ReestrApiService;
 use App\Http\Services\SendCodeService;
 use App\Jobs\ChangeEmail;
 use App\Jobs\FavouriteJob;
+use App\Jobs\MakeProcessedDescription;
 use App\Jobs\MonitoringJob;
 use App\Jobs\MonitoringNotificationJob;
 use App\Jobs\ParseArbitrManager;
@@ -81,13 +83,15 @@ class TestCommand extends Command
         //    dispatch(new MonitoringJob);
         //  dispatch(new MonitoringNotificationJob('hourly'));
         //dispatch(new ParseDebtorMessages);
-        /*   $startDate = Carbon::parse('2022-11-24 00:00');
-           $endDate = Carbon::parse('2022-11-24 12:00');
-           while ($startDate < $endDate) {
-               $startFrom = $startDate->format('Y-m-d\TH:i:s');
-               $startDate->addHours(3);
-               dispatch((new ParseTrades($startFrom, $startDate->format('Y-m-d\TH:i:s')))->onQueue('parse'));
-           }*/
+        /* $startDate = Carbon::parse('2022-12-01 06:00');
+         $endDate = Carbon::parse('2022-12-06 06:00');
+         while ($startDate < $endDate) {
+             $startFrom = $startDate->format('Y-m-d\TH:i:s');
+             $startDate->addHours(3);
+             dispatch((new ParseTrades($startFrom, $startDate->format('Y-m-d\TH:i:s')))->onQueue('parse'));
+         }
+*/
+
         // dispatch(new ParseTrades);
         //$get_trade_message_content = new GetTradeMessageContent($xml, 'BiddingInvitation');
         //$get_trade_message_content->switchMessageType(1, $xml, 13275260);
@@ -131,11 +135,25 @@ class TestCommand extends Command
             })->count();
         logger($lots);*/
 
-       /* $re = '/(?(DEFINE)(?\'rubles_pattern\'\d{1,3}(?:[ ]?\d{3})*(?:[,]\d{2})*))(?(DEFINE)(?\'rubles_name_pattern\' (?:(?:рублей)|(?:(?:(?:руб)|(?:р))[\.]?))))(?(DEFINE)(?\'percent_pattern\'\d+(?:,\d+)?))(?(DEFINE)(?\'percent_name_pattern\'[ ]?(?:\([а-яёА-ЯЁ]+\))?[ ]?(?:(?:%)|(?:процент(?:ов)?))))(?:(?:(?:(?:минимальн(?:(?:ая)|(?:ой)) цен(?:а|ы))|(?:цен(?:ы|а) отсечения))).*?(?\'new_sentence\'(?:\.[ ][А-ЯЁ]).*?)?(?:(?:(?\'rubles\'(?P>rubles_pattern))(?:(?P>rubles_name_pattern)))|(?:(?\'percent\'(?P>percent_pattern))(?P>percent_name_pattern)))(?![а-яёА-ЯЁ]))|(?:(?:(?:(?\'rubles\'(?P>rubles_pattern))(?:(?P>rubles_name_pattern)))|(?:(?\'percent\'(?P>percent_pattern))(?P>percent_name_pattern)))(?![а-яёА-ЯЁ])(?:[ ]?\((?:(?:цена отсечения)|(?:минимальная цена)).*?\)))/miuJ';
-        $str = 'В течение 5 календарных дней со дня публикации сообщения о продаже имущества, цена продажи имущества устанавливается в размере 198 900,00. Впоследствии цена имущества понижается каждые 7 календарных дней на 10%. При этом минимальная цена продажи имущества не может быть ниже 70 % начальной стоимости имущества.';
+        /* $re = '/(?(DEFINE)(?\'rubles_pattern\'\d{1,3}(?:[ ]?\d{3})*(?:[,]\d{2})*))(?(DEFINE)(?\'rubles_name_pattern\' (?:(?:рублей)|(?:(?:(?:руб)|(?:р))[\.]?))))(?(DEFINE)(?\'percent_pattern\'\d+(?:,\d+)?))(?(DEFINE)(?\'percent_name_pattern\'[ ]?(?:\([а-яёА-ЯЁ]+\))?[ ]?(?:(?:%)|(?:процент(?:ов)?))))(?:(?:(?:(?:минимальн(?:(?:ая)|(?:ой)) цен(?:а|ы))|(?:цен(?:ы|а) отсечения))).*?(?\'new_sentence\'(?:\.[ ][А-ЯЁ]).*?)?(?:(?:(?\'rubles\'(?P>rubles_pattern))(?:(?P>rubles_name_pattern)))|(?:(?\'percent\'(?P>percent_pattern))(?P>percent_name_pattern)))(?![а-яёА-ЯЁ]))|(?:(?:(?:(?\'rubles\'(?P>rubles_pattern))(?:(?P>rubles_name_pattern)))|(?:(?\'percent\'(?P>percent_pattern))(?P>percent_name_pattern)))(?![а-яёА-ЯЁ])(?:[ ]?\((?:(?:цена отсечения)|(?:минимальная цена)).*?\)))/miuJ';
+         $str = 'В течение 5 календарных дней со дня публикации сообщения о продаже имущества, цена продажи имущества устанавливается в размере 198 900,00. Впоследствии цена имущества понижается каждые 7 календарных дней на 10%. При этом минимальная цена продажи имущества не может быть ниже 70 % начальной стоимости имущества.';
 
-        preg_match_all($re, $str, $matches);
-        logger($matches);*/
+         preg_match_all($re, $str, $matches);
+         logger($matches);*/
+
+
+        /*  $soapWrapper = new SoapWrapper();
+          $service = new SoapWrapperService($soapWrapper);
+          $xml = $service->getMessageContent(10229781);
+          logger($xml);*/
+
+        dispatch((new MakeProcessedDescription())->onQueue('user'));
+
+
+      /*  $soapWrapper = new SoapWrapper();
+        $service = new SoapWrapperService($soapWrapper);
+        $debtor_data = get_object_vars($service->searchDebtorByCode('CompanyInn', 7707616245));
+        logger($debtor_data);*/
 
     }
 

@@ -88,7 +88,7 @@ class ContractSale extends TradeMessage implements TradeMessageContract
     public function saveContractSale($data, $tradeMessage)
     {
         $biddingResult = new \App\Models\BiddingResult();
-        if(array_key_exists(prefix .'ContractInfo', $data)) {
+        if(array_key_exists($this->prefix .'ContractInfo', $data)) {
             $biddingResult->contract_number = array_key_exists($this->prefix . 'ContractNumber', $data[$this->prefix . 'ContractInfo']) ?
                 $data[$this->prefix . 'ContractInfo'][$this->prefix . 'ContractNumber'] : null;
             $biddingResult->contract_date = $data[$this->prefix . 'ContractInfo'][$this->prefix . 'DateContract'];
