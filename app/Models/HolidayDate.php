@@ -11,7 +11,7 @@ class HolidayDate extends Model
     protected $table = 'holiday_dates';
     protected $fillable = ['date'];
 
-    protected $casts = [
+    /*protected $casts = [
       'date'=>'datetime'
-    ];
+    ];*/
 }
