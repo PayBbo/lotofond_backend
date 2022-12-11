@@ -74,6 +74,12 @@ class PriceReductionService
                 if (PriceReduction::where('lot_id', $lot->id)->count() == 0) {
                     $this->savePriceReduction($lot->id, $lot->start_price, $lot->auction->event_start_date, $lot->auction->event_end_date, null, 0, 0, true);
                 }
+            }elseif (str_starts_with($red, '<table><tr><td>')) {
+                $pattern = '/<tr[\s\S]*?<\/tr>/';
+                preg_match_all($pattern, $red, $matches);
+                if (count($matches[0]) > 0) {
+                    $this->getPriceReductionParams($matches, 0, 1, 2, $lot);
+                }
             }
         } catch
         (Exception $e) {

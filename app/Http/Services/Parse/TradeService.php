@@ -5,11 +5,10 @@ namespace App\Http\Services\Parse;
 use App\Models\Category;
 use App\Models\Lot;
 use App\Models\LotFile;
-use App\Models\LotParam;
-use App\Models\Param;
-use App\Models\PriceReduction;
+use Artisaninweb\SoapWrapper\SoapWrapper;
 use Carbon\Carbon;
 use Exception;
+use Midnite81\Xml2Array\Xml2Array;
 
 class TradeService
 {
@@ -19,6 +18,7 @@ class TradeService
     protected $images;
     protected $lot;
     protected $tradeMessageId;
+
 
     public function __construct($auction, $value, $prefix, $tradeMessageId, $files = null, $images = null)
     {
@@ -120,16 +120,48 @@ class TradeService
             $category = Category::where('code', '99')->first();
             $lot->categories()->attach($category);
         }
-        if (array_key_exists($prefix . 'TradeObjectHtml', $value)) {
-            $descriptionExtracts = new DescriptionExtractsService();
-            $descriptionExtracts->getDescriptionExtracts($lot, $value[$prefix . 'TradeObjectHtml']);
+        if ($lot->auction->auctionType->title == 'PublicOffer' || $lot->auction->auctionType->title == 'ClosePublicOffer') {
+            $priceReduction = new PriceReductionService();
+            $priceReduction->savePriceReduction($lot->id, $lot->start_price, $lot->created_at, null, null, 0, 0, true);
+            if (array_key_exists($prefix . 'PriceReduction', $value)) {
+                $priceReduction->getPriceReduction($value[$prefix . 'PriceReduction'], $lot->id);
+                $lot->price_reduction = $value[$prefix . 'PriceReduction'];
+                $lot->save();
+            }
         }
-        $priceReduction = new PriceReductionService();
-        $priceReduction->savePriceReduction($lot->id, $lot->start_price, $lot->created_at, null, null, 0, 0, true);
-        if (array_key_exists($prefix . 'PriceReduction', $value)) {
-            $priceReduction->getPriceReduction($value[$prefix . 'PriceReduction'], $lot->id);
-            $lot->price_reduction = $value[$prefix . 'PriceReduction'];
-            $lot->save();
+        $id = $lot->auction->id_efrsb;
+        if(!is_null($id)) {
+            $soapWrapper = new SoapWrapper();
+            $service = new SoapWrapperService($soapWrapper);
+            $xml = $service->getMessageContent($id);
+            $xml = Xml2Array::create($xml)->toArray();
+            try {
+                $text = null;
+                $lots = [];
+                if (array_key_exists('Auction', $xml['MessageInfo'])) {
+                    $lots = $xml['MessageInfo']['Auction']['LotTable']['AuctionLot'];
+                    $text = $xml['MessageInfo']['Auction']['Text'];
+                } elseif (array_key_exists('ChangeAuction', $xml['MessageInfo'])) {
+                    $lots = $xml['MessageInfo']['ChangeAuction']['LotTable']['AuctionLot'];
+                    $text = $xml['MessageInfo']['ChangeAuction']['Text'];
+                } elseif (array_key_exists('Auction2', $xml['MessageInfo'])) {
+                    $lots = $xml['MessageInfo']['Auction2']['LotTable']['AuctionLot'];
+                    $text = $xml['MessageInfo']['Auction2']['Text'];
+                }
+               $descriptionExtracts = new DescriptionExtractsService();
+                if (array_key_exists('Order', $lots)) {
+                    $auctionLot = $lots;
+                    $descriptionExtracts->processDescriptionFromAuction($auctionLot, $lot, $text);
+                } else {
+                    foreach ($lots as $auctionLot) {
+                        $descriptionExtracts->processDescriptionFromAuction($auctionLot, $lot, $text);
+                    }
+                }
+            } catch (\Exception $e) {
+                logger($e);
+                logger($lot->id);
+                logger($xml);
+            }
         }
 
         return $lot;

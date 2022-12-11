@@ -97,7 +97,7 @@ class BiddingInvitation extends TradeMessage
                 $auction = new Auction();
             }
             $data = $invitation[$prefix . 'TradeInfo'];
-            $auction->id_efrsb = array_key_exists('ID_EFRSB', $trade) ? $trade->ID_EFRSB : NULL;
+            $auction->id_efrsb = array_key_exists($prefix .'IDEFRSB', $invitation) ? $invitation[$prefix . 'IDEFRSB'] : NULL;
             $auction->id_external = array_key_exists('ID_External', $trade) ? $trade->ID_External : NULL;
             $auction->guid = array_key_exists('GUID', $trade) ? $trade->GUID : NULL;
             $auction->trade_place_id = $tradePlace;
