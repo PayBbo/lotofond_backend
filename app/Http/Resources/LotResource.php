@@ -15,15 +15,16 @@ class LotResource extends JsonResource
 
     protected $content;
 
-    public function content($content=null)
+    public function content($content = null)
     {
         $this->content = $content;
         return $this;
     }
 
-    public function isAvailable($code){
+    public function isAvailable($code)
+    {
         $authCheck = auth()->guard('api')->check();
-        if($authCheck){
+        if ($authCheck) {
             return $this->content['contentRules'][$code];
         }
         return true;
@@ -40,27 +41,25 @@ class LotResource extends JsonResource
         $authCheck = auth()->guard('api')->check();
         $inFavourite = false;
         $favouritePaths = [];
-        if ($authCheck && $this->isAvailable( 'hasAccessToFavourite')) {
-                foreach ($this->content['favouritesLots'] as $favourite) {
-                    if (in_array($this->id, $favourite['lotIds'])) {
-                        $inFavourite = true;
-                        $favouritePaths[] = (object)$favourite['path'];
-                    }
-                }
+        if ($authCheck && $this->isAvailable('hasAccessToFavourite')) {
+            if (in_array($this->id, $this->content['favouritesLots'])) {
+                $inFavourite = true;
+                $favouritePaths =  $this->content['favouritePaths'];
+            }
         }
         $this->auction->isLotInfo = $this->isLotInfo;
-        $regions = $this->isAvailable( 'location') ? $this->showRegions->makeHidden(['pivot']) : null;
-        $currentPrice = $this->isAvailable( 'currentPrice') ? $this->start_price : null;
-        $currentPriceState = $this->isAvailable( 'currentPriceState') ? 'hold' : null;
+        $regions = $this->isAvailable('location') ? $this->showRegions->makeHidden(['pivot']) : null;
+        $currentPrice = $this->isAvailable('currentPrice') ? $this->start_price : null;
+        $currentPriceState = $this->isAvailable('currentPriceState') ? 'hold' : null;
         $currentPriceRed = null;
         $isPublicOffer = $this->auction->auctionType->title == 'PublicOffer' || $this->auction->auctionType->title == 'ClosePublicOffer';
-        if(($this->isAvailable( 'currentPrice') || $this->isAvailable( 'currentPriceState')) && $isPublicOffer) {
+        if (($this->isAvailable('currentPrice') || $this->isAvailable('currentPriceState')) && $isPublicOffer) {
             $currentPriceRed = $this->currentPriceReduction;
             if ($currentPriceRed) {
-                if($this->isAvailable( 'currentPrice')) {
+                if ($this->isAvailable('currentPrice')) {
                     $currentPrice = (float)$currentPriceRed['price'];
                 }
-                if($this->isAvailable( 'currentPriceState')) {
+                if ($this->isAvailable('currentPriceState')) {
                     $prev = $this->prevPrice;
                     $prevPrice = (float)$this->start_price;
                     if ($prev) {
@@ -77,7 +76,7 @@ class LotResource extends JsonResource
         }
         $contentRules = null;
         $monitoringLots = [];
-        if(auth()->check()){
+        if (auth()->check()) {
             $contentRules = $this->content['contentRules'];
             $monitoringLots = $this->content['monitoringLots'];
         }
@@ -85,11 +84,11 @@ class LotResource extends JsonResource
         $lotData = [
             'id' => $this->id,
             'trade' => (new TradeResource($this->auction))->contentRules($contentRules),
-            'lotNumber' => $this->isAvailable( 'lotNumber') ? $this->number : null,
-            'photos' => $this->isAvailable( 'photos') ? $this->photos : null,
-            'categories' => $this->isAvailable( 'categories') ?  $this->categoriesStructure() : null,
-            'description' => $this->isAvailable( 'descriptionExtracts') ? $this->description : $this->processed_description,
-            'state' => $this->isAvailable( 'state') ? $this->status->code : null,
+            'lotNumber' => $this->isAvailable('lotNumber') ? $this->number : null,
+            'photos' => $this->isAvailable('photos') ? $this->photos : null,
+            'categories' => $this->isAvailable('categories') ? $this->categoriesStructure() : null,
+            'description' => $this->isAvailable('descriptionExtracts') ? $this->description : $this->processed_description,
+            'state' => $this->isAvailable('state') ? $this->status->code : null,
             'location' => $regions,
             'isWatched' => $authCheck && in_array($this->id, $this->content['seenLots']),
             'isPinned' => $authCheck && in_array($this->id, $this->content['fixedLots']),
@@ -98,33 +97,33 @@ class LotResource extends JsonResource
                 'favouritePaths' => FavouritePathResource::collection($favouritePaths),
             ]),
             'hasNotSeenNotification' => $authCheck && in_array($this->id, $this->content['notSeenNots']),
-            'isHide' =>  $authCheck && in_array($this->id, $this->content['hiddenLots']),
-            'inMonitoring' =>$this->isAvailable( 'hasAccessToMonitoring') && in_array($this->id, $monitoringLots),
-            'startPrice' => $this->isAvailable( 'startPrice') ?  (float)$this->start_price : null,
-            $this->mergeWhen(!is_null($this->auction_step) && $this->isAvailable( 'stepPrice'), [
-                'stepPrice' =>  [
+            'isHide' => $authCheck && in_array($this->id, $this->content['hiddenLots']),
+            'inMonitoring' => $this->isAvailable('hasAccessToMonitoring') && in_array($this->id, $monitoringLots),
+            'startPrice' => $this->isAvailable('startPrice') ? (float)$this->start_price : null,
+            $this->mergeWhen(!is_null($this->auction_step) && $this->isAvailable('stepPrice'), [
+                'stepPrice' => [
                     'type' => $this->is_step_rub ? 'rubles' : 'percent',
                     'value' => $this->auction_step
                 ],
             ]),
-            $this->mergeWhen(is_null($this->auction_step) || !$this->isAvailable( 'stepPrice'), [
+            $this->mergeWhen(is_null($this->auction_step) || !$this->isAvailable('stepPrice'), [
                 'stepPrice' => null
             ]),
-            $this->mergeWhen(!is_null($this->deposit) && $this->isAvailable( 'deposit'), [
+            $this->mergeWhen(!is_null($this->deposit) && $this->isAvailable('deposit'), [
                 'deposit' => [
                     'type' => $this->is_deposit_rub ? 'rubles' : 'percent',
                     'value' => $this->deposit
                 ],
             ]),
-            $this->mergeWhen(is_null($this->deposit) || !$this->isAvailable( 'deposit'), [
+            $this->mergeWhen(is_null($this->deposit) || !$this->isAvailable('deposit'), [
                 'deposit' => null
             ]),
             'currentPrice' => $currentPrice,
-            'minPrice' => $this->isAvailable( 'minPrice') ? (float)$this->min_price : null,
+            'minPrice' => $this->isAvailable('minPrice') ? (float)$this->min_price : null,
             'currentPriceState' => $currentPriceState,
             'link' => URL::to('/lot/' . $this->id),
-            'efrsbLink' => $this->isAvailable( 'efrsbLink') ? 'https://fedresurs.ru/bidding/' . $this->auction->guid : null,
-            'descriptionExtracts' => $this->isAvailable( 'descriptionExtracts') ? $this->description_extracts : null,
+            'efrsbLink' => $this->isAvailable('efrsbLink') ? 'https://fedresurs.ru/bidding/' . $this->auction->guid : null,
+            'descriptionExtracts' => $this->isAvailable('descriptionExtracts') ? $this->description_extracts : null,
             /*  $this->mergeWhen(($this->isLotInfo), [
            'requirementsForParticipants' => $this->participants,
             'paymentInfo' => $this->payment_info,
@@ -135,7 +134,7 @@ class LotResource extends JsonResource
         ];
         if ($this->isLotInfo) {
             $priceReductions = null;
-            if($this->isAvailable( 'priceReduction') && $isPublicOffer) {
+            if ($this->isAvailable('priceReduction') && $isPublicOffer) {
                 $priceReductions = $this->showPriceReductions->makeHidden('lot_id');
                 foreach ($priceReductions as $priceReduction) {
                     $priceReduction->isCurrentStage = false;
@@ -146,7 +145,7 @@ class LotResource extends JsonResource
                     }
                 }
             }
-            if ($this->isAvailable( 'priceReduction') && $isPublicOffer) {
+            if ($this->isAvailable('priceReduction') && $isPublicOffer) {
                 $lotData['priceReduction'] = $priceReductions;
                 if (strlen((string)$this->price_reduction) > 0 && $this->price_reduction != '<table></table>') {
                     $lotData['priceReductionHtml'] = '<!DOCTYPE HTML><html lang="ru">
