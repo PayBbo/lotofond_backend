@@ -5,6 +5,7 @@ namespace App\Utilities\LotFilters\ExtraOptions;
 use App\Utilities\SortContract;
 use App\Utilities\SortQuery;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 
 class Other extends SortQuery implements SortContract
 {
@@ -43,10 +44,11 @@ class Other extends SortQuery implements SortContract
             //$this->query->whereNotIn('lots.id', auth()->user()->hiddenLots->pluck('id'));
            // $this->query->doesntHave('userHiddenLot');
             $this->query->whereNotExists(function ($query) {
-                $query->select('*')
+                $query->select(DB::raw(1))
                     ->from('hidden_lots')
                     ->whereRaw('hidden_lots.lot_id = lots.id AND user_id ='.auth()->id());
             });
+
         }
         if(isset($minDate) && isset($maxDate)){
             $this->query->whereHas('auction', function ($q) use ($minDate, $maxDate) {
