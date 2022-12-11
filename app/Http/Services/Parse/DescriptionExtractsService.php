@@ -128,13 +128,11 @@ class DescriptionExtractsService
                     }
                     preg_match_all($regexMinPrice, $text, $matchesPrice);
                     $startPrice = $lot->start_price;
-                    logger($matchesPrice);
                     if (count($matchesPrice['rubles']) > 0 || count($matchesPrice['percent']) > 0) {
                         $min_price = $this->getMinPrice($matchesPrice, $startPrice);
                     } else {
                         $text = $fullText;
                         preg_match_all($regexMinPrice, $text, $matchesPrice);
-                        logger($matchesPrice);
                         $min_price = $this->getMinPrice($matchesPrice, $startPrice);
                     }
                     preg_match_all($regexStep, $text, $matchesStep);
@@ -153,9 +151,6 @@ class DescriptionExtractsService
                         $lot->save();
                     }
                     $priceReduction = new PriceReductionService();
-                    logger('MinPrice: ' . $min_price);
-                    logger('PeriodDays: ' . $step);
-                    logger('AuctionStep: ' . $auctionStep);
                     if (!is_null($min_price) && $min_price > 0 && !is_null($step) && $step > 0 && !is_null($auctionStep) && $auctionStep > 0) {
                         if ($isStepPercent) {
                             $percent = $auctionStep;
@@ -208,9 +203,6 @@ class DescriptionExtractsService
                             }
                         }
                     }
-                    logger('Final Price Red:');
-                    logger($lot->showPriceReductions->pluck('price')->toArray());
-                    logger('---------------');
                     $lot->save();
                 }
             }
