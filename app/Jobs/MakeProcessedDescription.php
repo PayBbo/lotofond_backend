@@ -32,17 +32,22 @@ class MakeProcessedDescription implements ShouldQueue
      */
     public function handle()
     {
-        $lots = Lot::where('processed_description', null)->get();
-        foreach($lots as $lot){
-            $descriptionExtracts = new DescriptionExtractsService();
-            $descriptionExtracts->getDescriptionExtracts($lot, $lot->description);
-            if(is_null($lot->min_price) && ($lot->auction->auctionType->title == 'PublicOffer' || $lot->auction->auctionType->title == 'ClosePublicOffer')){
-                $prices = $lot->showPriceReductions->pluck('price')->toArray();
-                if (count($prices) > 0) {
-                    $lot->min_price = min($prices);
-                    $lot->save();
+        $lotCount = Lot::count();
+        $maxValue = 100;
+        while($maxValue < $lotCount) {
+            $lots = Lot::where('processed_description', null)->limit($maxValue)->get();
+            foreach ($lots as $lot) {
+                $descriptionExtracts = new DescriptionExtractsService();
+                $descriptionExtracts->getDescriptionExtracts($lot, $lot->description);
+                if (is_null($lot->min_price) && ($lot->auction->auctionType->title == 'PublicOffer' || $lot->auction->auctionType->title == 'ClosePublicOffer')) {
+                    $prices = $lot->showPriceReductions->pluck('price')->toArray();
+                    if (count($prices) > 0) {
+                        $lot->min_price = min($prices);
+                        $lot->save();
+                    }
                 }
             }
+            $maxValue+=100;
         }
     }
 }
