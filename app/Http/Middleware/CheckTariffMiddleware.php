@@ -20,7 +20,7 @@ class CheckTariffMiddleware
      */
     public function handle(Request $request, Closure $next, $contentRule=null)
     {
-        $user = User::find(auth()->id());
+        $user = User::find(auth()->guard('api')->id());
         $isAvailable = false;
         if(!is_null($contentRule)){
             $isAvailable = ContentRule::where('code', $contentRule)->first()['is_available'];
