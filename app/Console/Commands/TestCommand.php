@@ -147,7 +147,7 @@ class TestCommand extends Command
           $xml = $service->getMessageContent(10229781);
           logger($xml);*/
 
-        dispatch((new MakeProcessedDescription())->onQueue('user'));
+      //  dispatch((new MakeProcessedDescription())->onQueue('user'));
 
 
       /*  $soapWrapper = new SoapWrapper();

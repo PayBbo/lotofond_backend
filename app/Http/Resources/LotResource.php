@@ -88,7 +88,7 @@ class LotResource extends JsonResource
             'lotNumber' => $this->isAvailable( 'lotNumber') ? $this->number : null,
             'photos' => $this->isAvailable( 'photos') ? $this->photos : null,
             'categories' => $this->isAvailable( 'categories') ?  $this->categoriesStructure() : null,
-            'description' => $this->isAvailable( 'descriptionExtracts') ? $this->description :  $this->processed_description,
+            'description' => $this->isAvailable( 'descriptionExtracts') ? $this->description : $this->processed_description,
             'state' => $this->isAvailable( 'state') ? $this->status->code : null,
             'location' => $regions,
             'isWatched' => $authCheck && in_array($this->id, $this->content['seenLots']),

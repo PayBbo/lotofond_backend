@@ -387,17 +387,19 @@ class Lot extends Model
             }
         }
         return false;
-    }
+    }*/
+
+
 
     public function getDescriptionAttribute($value)
     {
-        $result = htmlentities($value);
-        $result = preg_replace('/^(&quot;)(.*)(&quot;)$/', "$2", $value);
-        $result = preg_replace('/^(&laquo;)(.*)(&raquo;)$/', "$2", $result);
-        $result = preg_replace('/^(&#8220;)(.*)(&#8221;)$/', "$2", $result);
-        $result = preg_replace('/^(&#39;)(.*)(&#39;)$/', "$2", $result);
-        return stripslashes(html_entity_decode($result));
-    }*/
+        return preg_replace("/&#?[a-z0-9]{2,8};/i","", $value);
+    }
+
+    public function getProcessedDescriptionAttribute($value)
+    {
+        return preg_replace("/&#?[a-z0-9]{2,8};/i","", $value);
+    }
 
     public function notificationLots()
     {
