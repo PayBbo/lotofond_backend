@@ -33,9 +33,9 @@ class MakeProcessedDescription implements ShouldQueue
     public function handle()
     {
         $lotCount = Lot::count();
-        $maxValue = 100;
+        $maxValue = 0;
         while($maxValue < $lotCount) {
-            $lots = Lot::where('processed_description', null)->limit($maxValue)->get();
+            $lots = Lot::where('processed_description', null)->skip($maxValue)->limit(100)->get();
             foreach ($lots as $lot) {
                 $descriptionExtracts = new DescriptionExtractsService();
                 $descriptionExtracts->getDescriptionExtracts($lot, $lot->description);
