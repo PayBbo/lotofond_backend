@@ -32,7 +32,7 @@ class MakeProcessedDescription implements ShouldQueue
      */
     public function handle()
     {
-        $lotCount = Lot::count();
+        $lotCount = 55900;
         $maxValue = 0;
         while($maxValue < $lotCount) {
             $lots = Lot::where('processed_description', null)->skip($maxValue)->limit(100)->get();
