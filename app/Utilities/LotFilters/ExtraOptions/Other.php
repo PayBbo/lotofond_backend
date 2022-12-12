@@ -20,39 +20,37 @@ class Other extends SortQuery implements SortContract
             $maxDate = $result[1];
         }
         if(!is_null($value) && isset($value['hasPhotos']) && $value['hasPhotos'] === true) {
-            $this->query->whereHas('lotImages', function ($q) {
+            $this->query->hasByNonDependentSubquery('lotImages', function ($q) {
                 $q->where('user_id', null)
                 ->orWhere('user_id', auth()->guard('api')->id());
             });
         }
         if(!is_null($value) && isset($value['isCompleted']) && $value['isCompleted'] === true) {
-            $this->query->whereHas('status', function ($q)  {
+            $this->query->hasByNonDependentSubquery('status', function ($q)  {
                 $q->where('id', 6);
             });
         }
         if(!is_null($value) && isset($value['isStopped']) && $value['isStopped'] === true) {
-            $this->query->whereHas('status', function ($q)  {
+            $this->query->hasByNonDependentSubquery('status', function ($q)  {
                 $q->where('id', 10);
             });
         }
-        if(!is_null($value) && isset($value['isHidden']) && $value['isHidden'] === true && auth()->check()) {
-           $this->query->whereIn('lots.id', DB::table('hidden_lots')->where('user_id', auth()->id())->pluck('lot_id')->toArray());
-          //  $this->query->has('userHiddenLot');
+       if(!is_null($value) && isset($value['isHidden']) && $value['isHidden'] === true && auth()->check()) {
+            $userId = auth()->id();
+            $this->query->whereHas("hiddenLots", function($subQuery) use($userId){
+                $subQuery->where("user_id", "=", $userId);
+            });
         }
 
-        if(!$value['isHidden'] && auth()->check()) {
-            $this->query->whereNotIn('lots.id', DB::table('hidden_lots')->where('user_id', auth()->id())->pluck('lot_id')->toArray());
-           // $this->query->doesntHave('userHiddenLot');
-       /*   $this->query->whereNotExists(function ($query) {
-                $query->select(DB::raw(1))
-                    ->from('hidden_lots')
-                    ->whereRaw('hidden_lots.lot_id = lots.id AND user_id ='.auth()->id());
-            });*/
-
+       if(!$value['isHidden'] && auth()->check()) {
+           $userId = auth()->id();
+           $this->query->whereDoesntHave("hiddenLots", function($subQuery) use($userId){
+               $subQuery->where("user_id", "=", $userId);
+           });
 
         }
         if(isset($minDate) && isset($maxDate)){
-            $this->query->whereHas('auction', function ($q) use ($minDate, $maxDate) {
+            $this->query->hasByNonDependentSubquery('auction', function ($q) use ($minDate, $maxDate) {
                 $q->whereBetween('publish_date',
                     [$minDate, $maxDate]);
             });

@@ -8,16 +8,17 @@ use Illuminate\Support\Facades\Route;
 class TradeResource extends JsonResource
 {
     protected $contentRules;
+    protected $authCheck;
 
     public function contentRules($contentRules=null)
     {
         $this->contentRules = $contentRules;
+        $this->authCheck = auth()->guard('api')->check();
         return $this;
     }
 
     public function isAvailable($code){
-        $authCheck = auth()->guard('api')->check();
-        if($authCheck){
+        if($this->authCheck){
             return $this->contentRules[$code];
         }
         return true;
@@ -33,7 +34,7 @@ class TradeResource extends JsonResource
         $trade = [
             'id' => $this->id,
             'externalId' => $this->isAvailable( 'externalId') ? $this->trade_id : null,
-            'lotCount' => $this->isAvailable( 'lotCount') ? $this->lots_count : null,
+          //  'lotCount' => $this->isAvailable( 'lotCount') ? $this->lots_count : null,
             'type' => $this->isAvailable( 'type') ? $this->auctionType->title : null,
             'publishDate'=> $this->isAvailable( 'publishDate') ?  $this->publish_date : null,
             'eventTime' => $this->isAvailable( 'eventTime') ? [
@@ -53,6 +54,7 @@ class TradeResource extends JsonResource
             $trade['organizer'] = $this->isAvailable( 'organizer') ? new BidderResource($this->companyTradeOrganizer) : null;
             $trade['arbitrationManager'] = $this->isAvailable( 'arbitrationManager') ? new BidderResource($this->arbitrationManager) : null;
             $trade['debtor'] =  $this->isAvailable( 'debtor') ? new BidderResource($this->debtor) : null;
+            $trade['lotCount'] = $this->isAvailable( 'lotCount') ? $this->lots->count() : null;
             $trade['tradePlace'] =  $this->isAvailable( 'tradePlace') ? [
                 'name' => $this->tradePlace->name,
                 'site' => str_starts_with($this->tradePlace->site, 'http') ? $this->tradePlace->site : 'http://'.$this->tradePlace->site

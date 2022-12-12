@@ -39,11 +39,13 @@ class FilterBuilder
             }
 
         }
-        if(auth()->check()) {
+       if(auth()->check()) {
             if ($this->namespace == 'App\Utilities\LotFilters') {
                 if (!in_array('ExtraOptions', $names)) {
-                    $this->query->whereNotIn('lots.id', DB::table('hidden_lots')->where('user_id', auth()->id())->pluck('lot_id')->toArray());
-                 //   $this->query->doesntHave('userHiddenLot');
+                    $userId = auth()->id();
+                    $this->query->whereDoesntHave("hiddenLots", function($subQuery) use($userId){
+                        $subQuery->where("user_id", "=", $userId);
+                    });
                 }
             }
         }

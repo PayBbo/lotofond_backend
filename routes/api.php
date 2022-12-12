@@ -72,11 +72,11 @@ Route::group(['middleware' => ['json.response', 'localization']], function () {
 
         Route::group(['middleware' => ['auth:api']], function () {
 
-            Route::put('/', [AuctionController::class, 'getTrades']);
+            Route::put('/', [AuctionController::class, 'getTrades'])->name('trades');
 
             Route::put('/nearest', [AuctionController::class, 'getNearestTrades']);
 
-            Route::put('/filter', [AuctionController::class, 'getFilteredTrades']);
+            Route::put('/filter', [AuctionController::class, 'getFilteredTrades'])->name('lots-filter');
 
             Route::put('/{auctionId}', [AuctionController::class, 'getLotsByAuction']);
 

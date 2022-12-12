@@ -24,7 +24,9 @@ class ContentSettingsService
             $lotIds = $favourite->lots()->pluck('lots.id')->toArray();
             if (count($lotIds) > 0) {
                 $lots = array_merge($lots, $favourite->lots()->pluck('favourite_lot.id')->toArray());
-                $favouritesLots[] = ['path' => $favourite->only('id', 'title', 'color', 'lots_count'), 'lotIds' => $lotIds];
+                $favourite = $favourite->only('id', 'title', 'color');
+                $favourite['lots_count'] = count($lotIds);
+                $favouritesLots[] = ['path' => $favourite, 'lotIds' => $lotIds];
             }
 
         }

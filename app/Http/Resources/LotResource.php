@@ -14,17 +14,18 @@ class LotResource extends JsonResource
 {
 
     protected $content;
+    protected $authCheck;
 
     public function content($content = null)
     {
         $this->content = $content;
+        $this->authCheck = auth()->guard('api')->check();
         return $this;
     }
 
     public function isAvailable($code)
     {
-        $authCheck = auth()->guard('api')->check();
-        if ($authCheck) {
+        if ($this->authCheck) {
             return $this->content['contentRules'][$code];
         }
         return true;
@@ -38,7 +39,7 @@ class LotResource extends JsonResource
      */
     public function toArray($request)
     {
-        $authCheck = auth()->guard('api')->check();
+        $authCheck = $this->authCheck;
         $inFavourite = false;
         $favouritePaths = [];
         if ($authCheck && $this->isAvailable('hasAccessToFavourite')) {

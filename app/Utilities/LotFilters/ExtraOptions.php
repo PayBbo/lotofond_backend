@@ -4,6 +4,7 @@ namespace App\Utilities\LotFilters;
 
 use App\Utilities\SortContract;
 use App\Utilities\SortQuery;
+use Illuminate\Support\Facades\DB;
 
 class ExtraOptions  extends SortQuery implements SortContract
 {
@@ -21,7 +22,10 @@ class ExtraOptions  extends SortQuery implements SortContract
             (new $class($this->query))->handle($item);
         }
         if(!in_array('Other', $names)){
-            $this->query->doesntHave('userHiddenLot');
+            $userId = auth()->id();
+            $this->query->whereDoesntHave("hiddenLots", function($subQuery) use($userId){
+                $subQuery->where("user_id", "=", $userId);
+            });
         }
     }
 
