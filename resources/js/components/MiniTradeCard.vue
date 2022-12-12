@@ -26,7 +26,7 @@
             <h6 class="bkt-card__subtitle">
                 №
                 <skeleton type_name="spoiler" tag="span" :loading="rules && !rules.trade.externalId">{{item.trade.externalId}}</skeleton>
-                , лот <skeleton type_name="spoiler_mini" tag="span" :loading="rules && !rules.trade.lotNumber">{{item.lotNumber}}</skeleton>
+                , лот <skeleton type_name="spoiler_mini" tag="span" :loading="rules && !rules.lotNumber">{{item.lotNumber}}</skeleton>
             </h6>
             <h5 class="bkt-text-truncate bkt-card-trade-mini__title bkt-cursor-pointer" @click="navigate">
                 {{item.description}}
@@ -121,7 +121,7 @@
             rules() {
                 if(this.$store.getters.auth_user)
                 {
-                    return this.auth_user.contentDisplayRules.lot
+                    return this.$store.getters.auth_user.contentDisplayRules.lot
                     // return {
                     //     trade: {
                     //         externalId: false,

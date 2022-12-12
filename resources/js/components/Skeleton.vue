@@ -97,7 +97,7 @@
             this.showSkeleton = this.loading !== null
                 ? this.loading
                 :  this.isEmpty();
-            if(this.$slots.default[0].text=='' || this.$slots.default[0].text) {
+            if(!this.$slots.default || this.$slots.default[0].text=='' || this.$slots.default[0].text) {
                 this.showSkeleton = this.loading !== null
                     ? this.loading
                     : false;

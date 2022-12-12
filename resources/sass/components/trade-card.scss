@@ -28,6 +28,7 @@
             display: flex;
             align-items:flex-start;
             gap: 12px;
+            flex-wrap: wrap;
             &-wrapper {
                 display: flex;
                 flex-direction: column;
@@ -38,9 +39,12 @@
             margin-top: 0px;
         }
         &__image {
+            height: 140px;
+            width: 140px;
             &-slider {
-                max-height: 160px;
-                min-height: 130px;
+                height: 140px;
+                max-height: 140px;
+                min-height: 140px;
                 & .hooper-prev, & .hooper-next {
                     display: none !important;
                 }
@@ -68,8 +72,9 @@
                 //}
             }
             &-category {
-                max-height: 160px;
-                min-height: 130px;
+                max-height: 140px;
+                min-height: 140px;
+                height: 140px;
                 padding: 20px;
             }
             &-wrapper {

@@ -4,11 +4,16 @@
          (!rules || (rules && (rules.categories || rules.photos))) ? 'bkt-bg-'+categories_colors[icons[0].key]+'-lighter' : 'bkt-bg-neutral-light'
         ]"
     >
-        <skeleton type_name="spoiler_mini" tag="h1" skeleton_class="bkt-text-neutral-dark" :loading="rules && (!rules.categories||!rules.photos)">
-             <span v-for="category in icons" v-if="icons.length>0">
-                <bkt-icon :name="'categories/'+category.key" :color="categories_colors[icons[0].key]"></bkt-icon>
-            </span>
+        <skeleton type_name="spoiler_mini" tag="h1" skeleton_class="bkt-text-neutral-dark"
+                  v-if="rules && (!rules.categories||!rules.photos)"
+                  :loading="rules && (!rules.categories||!rules.photos)"
+        >
         </skeleton>
+        <template v-if="icons.length>0 && ((rules&&rules.categories) || !rules)">
+            <span v-for="(category, index) in icons" :key="category.key+'-'+index">
+                <bkt-icon :name="'categories/'+category.key" :color="categories_colors[icons[0].key]" :key="category.key+'-'+index"></bkt-icon>
+            </span>
+        </template>
     </div>
 </template>
 
@@ -101,7 +106,7 @@
         computed: {
             icons() {
                 let tmp = [];
-                if (this.categories) {
+                if (this.categories != null) {
                     tmp = this.categories;
                 }
                 if (tmp.length == 0) {
@@ -115,7 +120,7 @@
             rules() {
                 if(this.$store.getters.auth_user)
                 {
-                    return this.auth_user.contentDisplayRules.lot
+                    return this.$store.getters.auth_user.contentDisplayRules.lot
                     // return {
                     //     trade: {
                     //         externalId: false,

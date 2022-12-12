@@ -103,7 +103,38 @@
             }
         }
     }
+    &__object {
+        gap: 16px;
+        align-items: center;
+        justify-content: space-between;
+        padding-top: 0;
+        padding-bottom: 0;
 
+        &__image {
+            height: 80px;
+            width: 80px;
+            border-radius: 14px;
+            background: $body-bg;
+            padding: 20px;
+            flex-shrink: 0;
+            display: flex;
+            & svg {
+                fill: #728BE3 !important;
+                height: 39px;
+                width: 39px;
+            }
+        }
+        & .bkt-card__title {
+            font-weight: 700;
+            font-size: 16px;
+        }
+
+        & .bkt-card__subtitle {
+            font-weight: 600;
+            font-size: 14px;
+            color: #6E7A91;
+        }
+    }
     &__button {
         padding: 12px 22px;
         border-radius: 8px;
@@ -158,6 +189,34 @@
 
             & .bkt-card__subtitle {
                 font-size: 12px;
+            }
+        }
+        &__object {
+            gap: 8px;
+            align-items: center;
+            justify-content: space-between;
+
+            &__image {
+                height: 40px;
+                width: 40px;
+                border-radius: 7px;
+                padding: 10px;
+                & svg {
+                    height: 19px;
+                    width: 19px;
+                }
+
+            }
+            & .bkt-purchase__service__text-wrapper {
+                gap: 0;
+            }
+
+            & .bkt-card__title {
+                font-size: 11px;
+            }
+
+            & .bkt-card__subtitle {
+                font-size: 9px;
             }
         }
         & .bkt-promo__lot {

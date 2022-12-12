@@ -16,7 +16,7 @@
                 <div class="row h-100 w-100 mx-auto row-cols-1 row-cols-lg-4 bkt-card-trade__gap">
                     <div class="col-12 col-lg-2 p-0 pe-md-2">
                         <div class="bkt-wrapper-down-lg bkt-nowrap bkt-gap align-items-start">
-                            <div class="bkt-card__image-wrapper" :class="{'bkt-gap-none': !realEstate}">
+                            <div class="bkt-card__image-wrapper" :class="{'bkt-gap-none': cadastralData=={}||(cadastralData && !cadastralData.cadastralNumber)}">
                                 <div class="position-relative">
                                     <div class="bkt-cursor-pointer" @click="navigate"
                                          v-if="item &&((rules && (!rules.categories || !rules.photos)) ||
@@ -38,7 +38,7 @@
                                 </div>
 
                                 <button class="bkt-button bkt-card-trade__button bkt-card-trade__button_egrn d-none d-lg-block"
-                                        @click="buyEgrn" v-if="realEstate && cadastralData && cadastralData.cadastralNumber"
+                                        @click="buyEgrn" v-if="cadastralData && cadastralData.cadastralNumber"
                                         :disabled="loading"
                                 >
                                     <span v-show="loading" class="spinner-border spinner-border-sm"
@@ -96,7 +96,7 @@
                                     {{item.descriptionExtracts.length}}
                                 </h5>
                             </div>
-                            <div class="bkt-card__features d-none d-sm-flex" v-if="cadastralData">
+                            <div class="bkt-card__features d-none d-sm-flex" v-if="item.descriptionExtracts && cadastralData">
                                 <div class="bkt-card__feature" v-if="cadastralData.cadastralNumber">
                                     <h6 class="bkt-card__subtitle">кадастровый номер</h6>
                                     <h5 class="bkt-card__text bkt-text-700">
@@ -210,7 +210,9 @@
                                         </h5>
                                     </div>
                                     <div class="bkt-card__feature"
-                                         v-if="item&&item.trade&&(item.trade.type==='CloseAuction' || item.trade.type==='OpenAuction')"
+                                         v-if="(item.stepPrice && item && item.trade && item.trade.type &&
+                                         (item.trade.type==='CloseAuction' || item.trade.type==='OpenAuction')
+                                         && (!rules || rules && rules.stepPrice))||(rules && !rules.stepPrice)"
                                     >
                                         <h6 class="bkt-card__subtitle">шаг аукциона</h6>
                                         <h5 class="bkt-card__text bkt-text-700">
@@ -221,7 +223,9 @@
                                             </skeleton>
                                         </h5>
                                     </div>
-                                    <div class="bkt-card__feature">
+                                    <div class="bkt-card__feature"
+                                         v-if="(item.deposit && (!rules || rules && rules.deposit))||(rules && !rules.deposit)"
+                                    >
                                         <h6 class="bkt-card__subtitle">задаток</h6>
                                         <skeleton type_name="spoiler" tag="h5" :loading="rules && !rules.deposit">
                                             <h5 class="bkt-card__text bkt-text-red bkt-text-700">
@@ -235,7 +239,6 @@
                                 <div class="bkt-wrapper-between bkt-nowrap bkt-gap-small">
                                     <div class="bkt-card__feature w-100 mt-0">
                                         <h6 class="bkt-card__subtitle">текущая цена</h6>
-
                                             <h3 class="bkt-text-700 d-flex align-items-center bkt-gap-mini bkt-card-trade__price"
                                                 :class="{'bkt-text-red': (!rules || (rules && rules.currentPriceState)) && item.currentPriceState=='down',
                                                 'bkt-text-green':(!rules || (rules && rules.currentPriceState)) && item.currentPriceState=='up'}"
@@ -245,13 +248,17 @@
                                                 </skeleton>
                                                 <skeleton type_name="spoiler_mini" tag="div"
                                                           :loading="rules && !rules.currentPriceState"
+                                                          v-if="(item.currentPriceState!=='hold'
+                                                          && (!rules || (rules && rules.currentPriceState)))
+                                                          ||(rules && !rules.currentPriceState)"
                                                 >
-                                                    <bkt-icon  v-if="item.currentPriceState!=='hold'"
-                                                               :name="'ArrowTriple'" :width="'22px'" :height="'22px'"
-                                                               :color="item.currentPriceState=='down' ? 'red' : 'green'"
-                                                               :class="{'bkt-rotate-180': item.currentPriceState=='down'}"
-                                                    >
-                                                    </bkt-icon>
+                                                    <span>
+                                                        <bkt-icon :name="'ArrowTriple'" :width="'22px'" :height="'22px'"
+                                                                  :color="item.currentPriceState==='down' ? 'red' : 'green'"
+                                                                  :class="{'bkt-rotate-180': item.currentPriceState==='down'}"
+                                                        >
+                                                        </bkt-icon>
+                                                    </span>
                                                 </skeleton>
                                             </h3>
                                     </div>
@@ -312,7 +319,7 @@
         data() {
             return {
                 short_description: '',
-                realEstate: false,
+                // realEstate: false,
                 read_more: false,
                 loading: false,
             }
@@ -322,10 +329,10 @@
             if (this.item.description.length > 0 && this.item.description.length > 500) {
                 this.short_description = this.item.description.slice(0, 500) + '...';
             }
-            let index = this.item.categories.findIndex( item => item.key === 'realEstate');
-            if(index >= 0) {
-                this.realEstate = true;
-            }
+            // let index = this.item.categories.findIndex( item => item.key === 'realEstate');
+            // if(index >= 0) {
+            //     this.realEstate = true;
+            // }
         },
         computed: {
             cadastralData() {
@@ -346,29 +353,36 @@
                         let cadastralData = {};
                         let index = extracts.findIndex(item => item.type == 'cadastralDataPrice')
                         if (index >= 0) {
-                            cadastralData.cadastralDataPrice = extracts[index].value;
+                            if(extracts[index].value > 0) {
+                                cadastralData.cadastralDataPrice = extracts[index].value;
+                            }
                         }
                         index = extracts.findIndex(item => item.type == 'cadastralDataArea')
                         if (index >= 0) {
-                            cadastralData.cadastralDataAreaType = tmp.type;
-                            cadastralData.cadastralDataArea = extracts[index].value;
-                            cadastralData.cadastralDataAreaMeasure = 'кв. м.';
-                            if( cadastralData.cadastralDataAreaType === 'landPlot')
-                            {
-                                if (extracts[index].value <= 100) {
-                                    cadastralData.cadastralDataAreaMeasure = 'кв. м.';
-                                } else if (extracts[index].value > 100 && extracts[index].value <= 10000) {
-                                    cadastralData.cadastralDataArea = extracts[index].value / 100;
-                                    cadastralData.cadastralDataAreaMeasure = this.$tc('trades.ar', this.pluralization(cadastralData.cadastralDataArea));
-                                } else {
-                                    cadastralData.cadastralDataArea = extracts[index].value / 10000;
-                                    cadastralData.cadastralDataAreaMeasure = 'га';
+                            if(extracts[index].value > 0) {
+                                cadastralData.cadastralDataAreaType = tmp.type;
+                                cadastralData.cadastralDataArea = extracts[index].value;
+                                cadastralData.cadastralDataAreaMeasure = 'кв. м.';
+                                if( cadastralData.cadastralDataAreaType === 'landPlot')
+                                {
+                                    if (extracts[index].value <= 100) {
+                                        cadastralData.cadastralDataAreaMeasure = 'кв. м.';
+                                    } else if (extracts[index].value > 100 && extracts[index].value <= 10000) {
+                                        cadastralData.cadastralDataArea = extracts[index].value / 100;
+                                        cadastralData.cadastralDataAreaMeasure = this.$tc('trades.ar', this.pluralization(cadastralData.cadastralDataArea));
+                                    } else {
+                                        cadastralData.cadastralDataArea = extracts[index].value / 10000;
+                                        cadastralData.cadastralDataAreaMeasure = 'га';
+                                    }
                                 }
                             }
+
                         }
                         index = extracts.findIndex(item => item.type == 'cadastralDataFractionalOwnership')
                         if (index >= 0) {
-                            cadastralData.cadastralDataFractionalOwnership = extracts[index].value;
+                            if(extracts[index].value > 0) {
+                                cadastralData.cadastralDataFractionalOwnership = extracts[index].value;
+                            }
                         }
                         index = extracts.findIndex(item => item.type == 'cadastralNumber')
                         if (index >= 0) {
@@ -508,6 +522,7 @@
             },
             buyEgrn() {
                 this.item.cadastralData = this.cadastralData;
+                this.item.cadastralObject = this.item.descriptionExtracts[0];
                 this.$store.commit('setSelectedLot', this.item);
                 this.$store.commit('openModal', '#egrnModal')
                 // this.loading = true;

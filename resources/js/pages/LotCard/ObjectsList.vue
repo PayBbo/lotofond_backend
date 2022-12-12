@@ -70,11 +70,11 @@
                     </div>
                     <span class="bkt-row__icon"><bkt-icon :name="'Pie'"></bkt-icon></span>
                 </div>
-                <button class="bkt-button bkt-card-trade__button bkt-card-trade__button_egrn" @click="buyEgrn(item.cadastralData)"
+                <button class="bkt-button bkt-card-trade__button bkt-card-trade__button_egrn" @click="buyEgrn(item)"
                      v-if="item.cadastralData && item.cadastralData.cadastralNumber" :disabled="egrn_loading"
                 >
                     <span v-show="egrn_loading" class="spinner-border spinner-border-sm" role="status"></span>
-                    Выписка ЕГРН
+                    Отчёт ЕГРН
                 </button>
             </template>
         </bkt-collapse>
@@ -165,9 +165,10 @@
                 //0 соток | {n} сотка | {n} сотки | {n} соток
                 return choicesLength < 4 ? 2 : 3
             },
-            buyEgrn(cadastralData) {
+            buyEgrn(cadastralObject) {
                 let tmp = JSON.parse(JSON.stringify(this.item));
-                tmp.cadastralData = cadastralData
+                tmp.cadastralData = cadastralObject.cadastralData;
+                tmp.cadastralObject = cadastralObject;
                 this.$store.commit('setSelectedLot', tmp);
                 this.$store.commit('openModal', '#egrnModal')
                 // this.egrn_loading = true;

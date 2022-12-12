@@ -8,7 +8,8 @@
                 <div v-if="selected_lot" class="bkt-promo__lot-wrapper">
                     <div class="bkt-wrapper bkt-gap bkt-nowrap bkt-cursor-pointer" @click="navigate('/lot/'+selected_lot.id)">
                         <card-image-category :no_multiple="true"
-                                             v-if="(!selected_lot.photos || selected_lot.photos.length==0) && selected_lot && selected_lot.categories"
+                                             v-if="(!selected_lot.photos || selected_lot.photos.length==0)
+                                             && selected_lot && selected_lot.categories"
                                              :categories="selected_lot.categories"></card-image-category>
                         <img v-if="selected_lot.photos.length>0" v-lazy="selected_lot.photos[0].preview"
                              class="bkt-card__image"
@@ -23,6 +24,20 @@
                                 {{selected_lot.description}}
                             </h5>
                         </div>
+                    </div>
+                </div>
+                <div v-if="selected_lot && selected_lot.cadastralObject" class="bkt-card__row bkt-purchase__object">
+                    <div class="bkt-purchase__object__image">
+                        <bkt-icon name="categories/realEstate"></bkt-icon>
+                    </div>
+                    <div class="bkt-purchase__service__text-wrapper bkt-w-down-lg-100">
+                        <h4 class="bkt-card__title bkt-text-truncate">
+                            {{selected_lot.cadastralObject && selected_lot.cadastralObject.tradeSubject ?
+                            selected_lot.cadastralObject.tradeSubject : 'Объект'}}
+                        </h4>
+                        <h5 class="bkt-card__subtitle">Кадастровый номер:
+                            {{selected_lot.cadastralData && selected_lot.cadastralData.cadastralNumber}}
+                        </h5>
                     </div>
                 </div>
                 <div class="bkt-card__row bkt-purchase__service bkt-wrapper-down-lg-column">

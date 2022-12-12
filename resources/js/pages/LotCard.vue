@@ -72,9 +72,10 @@
 <!--                                </h3>-->
 <!--                            </div>-->
                             <div v-if="item && item.description">
-                                <h5 class="bkt-card__text">
-                                    {{read_more && short_description ? item.description : short_description}}
-                                    {{!short_description ? item.description : ''}}
+                                <h5 class="bkt-card__text" v-if="item.description || short_description"
+                                    v-html="read_more && short_description ? item.description : short_description">
+                                </h5>
+                                <h5 class="bkt-card__text" v-if="!short_description" v-html="item.description">
                                 </h5>
                                 <button class="bkt-button bkt-text-primary float-end px-0 text-uppercase"
                                         @click="read_more = !read_more" v-if="short_description">
@@ -84,7 +85,7 @@
                                 </button>
                             </div>
                             <ul class="bkt-contents" v-if="isLoggedIn">
-                                <li v-if="item.trade || (rules && rules.trade.type && item.trade.type)">
+                                <li v-if="item && item.trade || (rules && rules.trade.type && item.trade.type)">
                                     <div class="bkt-contents__heading">
                                         <span class="bkt-contents__heading">тип торгов</span>
                                     </div>
@@ -94,7 +95,7 @@
                                         </skeleton>
                                     </div>
                                 </li>
-                                <li v-if="item.trade || (rules && rules.trade.publishDate && item.trade.publishDate)">
+                                <li v-if="item && item.trade || (rules && rules.trade.publishDate && item.trade.publishDate)">
                                     <div class="bkt-contents__heading">
                                         <span class="bkt-contents__heading">дата размещения</span>
                                     </div>
