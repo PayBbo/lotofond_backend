@@ -136,18 +136,27 @@ export default {
         async logout({commit}) {
             commit('setAuthUserLoading', true);
             await axios.post('/api/account/logout').then(resp => {
-                console.log(resp);
+                // sessionStorage.clear();
+                // commit('clearStorage');
+                // commit('logout');
+                // commit('setHasNotSeenNotifications', false);
+                commit('setAuthUserLoading', false);
+                // commit('setFilteredTrades', {data: [], pagination: {}});
+                // commit('setNearestTrades', {data: [], pagination: {}});
+
+            }).catch(error => {
+                console.log(error);
+                // commit('clearStorage');
+                // commit('logout');
+                commit('setAuthUserLoading', false);
+            }).finally(() => {
                 sessionStorage.clear();
                 commit('clearStorage');
                 commit('logout');
                 commit('setHasNotSeenNotifications', false);
                 commit('setAuthUserLoading', false);
-
-            }).catch(error => {
-                console.log(error);
-                commit('clearStorage');
-                commit('logout');
-                commit('setAuthUserLoading', false);
+                commit('setTrades', {data: [], pagination: {}});
+                commit('setNearestTrades', {data: [], pagination: {}});
             });
         },
         async refresh({commit, state}) {
