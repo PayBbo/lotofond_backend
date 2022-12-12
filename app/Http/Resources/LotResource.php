@@ -14,17 +14,18 @@ class LotResource extends JsonResource
 {
 
     protected $content;
+    protected $authCheck;
 
     public function content($content = null)
     {
         $this->content = $content;
+        $this->authCheck = auth()->guard('api')->check();
         return $this;
     }
 
     public function isAvailable($code)
     {
-        $authCheck = auth()->guard('api')->check();
-        if ($authCheck) {
+        if ($this->authCheck) {
             return $this->content['contentRules'][$code];
         }
         return true;
@@ -38,13 +39,15 @@ class LotResource extends JsonResource
      */
     public function toArray($request)
     {
-        $authCheck = auth()->guard('api')->check();
+        $authCheck = $this->authCheck;
         $inFavourite = false;
         $favouritePaths = [];
         if ($authCheck && $this->isAvailable('hasAccessToFavourite')) {
-            if (in_array($this->id, $this->content['favouritesLots'])) {
-                $inFavourite = true;
-                $favouritePaths =  $this->content['favouritePaths'];
+            foreach ($this->content['favouritesLots'] as $favourite) {
+                if (in_array($this->id, $favourite['lotIds'])) {
+                    $inFavourite = true;
+                    $favouritePaths[] = (object)$favourite['path'];
+                }
             }
         }
         $this->auction->isLotInfo = $this->isLotInfo;
@@ -94,7 +97,7 @@ class LotResource extends JsonResource
             'isPinned' => $authCheck && in_array($this->id, $this->content['fixedLots']),
             'inFavourite' => $inFavourite,
             $this->mergeWhen($inFavourite, [
-                'favouritePaths' => FavouritePathResource::collection($favouritePaths),
+                'favouritePaths' => FavouritePathResource::collection($favouritePaths)
             ]),
             'hasNotSeenNotification' => $authCheck && in_array($this->id, $this->content['notSeenNots']),
             'isHide' => $authCheck && in_array($this->id, $this->content['hiddenLots']),
@@ -119,7 +122,7 @@ class LotResource extends JsonResource
                 'deposit' => null
             ]),
             'currentPrice' => $currentPrice,
-            'minPrice' => $this->isAvailable('minPrice') ? (float)$this->min_price : null,
+            'minPrice' => $this->isAvailable('minPrice') && $isPublicOffer ? $this->min_price : null,
             'currentPriceState' => $currentPriceState,
             'link' => URL::to('/lot/' . $this->id),
             'efrsbLink' => $this->isAvailable('efrsbLink') ? 'https://fedresurs.ru/bidding/' . $this->auction->guid : null,

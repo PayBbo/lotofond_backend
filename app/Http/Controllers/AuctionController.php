@@ -30,7 +30,7 @@ class AuctionController extends Controller
     {
         $lots = Lot::with(['auction', 'showRegions', 'status', 'lotImages', 'categories', 'lotParams'])
             ->when(auth()->check(), function ($query) {
-                $query->whereNotIn('lots.id', auth()->user()->hiddenLots->pluck('id'));
+                $query->whereNotIn('lots.id', DB::table('hidden_lots')->where('user_id', auth()->id())->pluck('lot_id')->toArray());
             })
             ->customSortBy($request)->paginate(20);
         $data = null;

@@ -62,7 +62,7 @@ class Auction extends Model
 
    protected $with = ['debtor', 'arbitrationManager', 'tradePlace', 'companyTradeOrganizer', 'auctionType'];
 
-    protected $withCount = ['lots'];
+   protected $withCount = ['lots'];
 
     public function debtor()
     {

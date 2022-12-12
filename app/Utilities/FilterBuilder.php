@@ -2,6 +2,8 @@
 
 namespace App\Utilities;
 
+use Illuminate\Support\Facades\DB;
+
 class FilterBuilder
 {
     protected $query;
@@ -37,11 +39,13 @@ class FilterBuilder
             }
 
         }
-        if(auth()->check()) {
+       if(auth()->check()) {
             if ($this->namespace == 'App\Utilities\LotFilters') {
                 if (!in_array('ExtraOptions', $names)) {
-                    $this->query->whereNotIn('lots.id', auth()->user()->hiddenLots->pluck('id'));
-                 //   $this->query->doesntHave('userHiddenLot');
+                    $userId = auth()->id();
+                    $this->query->whereDoesntHave("hiddenLots", function($subQuery) use($userId){
+                        $subQuery->where("user_id", "=", $userId);
+                    });
                 }
             }
         }

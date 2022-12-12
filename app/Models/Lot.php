@@ -8,6 +8,7 @@ use App\Utilities\SortBuilder;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class Lot extends Model
 {
@@ -224,9 +225,9 @@ class Lot extends Model
             $namespace = 'App\Utilities\LotSorts';
             $sort = new SortBuilder($query->isFixed(), $request->sort, $namespace);
 
-            return $sort->apply()->groupBy('lots.id');
+            return $sort->apply();
         }
-        return $query->isFixed()->groupBy('lots.id');
+        return $query->isFixed();
 
     }
 
@@ -234,7 +235,7 @@ class Lot extends Model
     {
         $namespace = 'App\Utilities\LotFilters';
         $filters = new FilterBuilder($query, $request, $namespace);
-        return $filters->apply()->groupBy('lots.id');
+        return $filters->apply();
 
     }
 

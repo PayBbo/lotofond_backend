@@ -24,9 +24,9 @@ class FilterController extends Controller
     {
         $searchString = $request->searchString;
         $type = substr_replace($type, "", -1);
-        $bidders = Bidder::has($type . 'AuctionsWithLots')
+        $bidders = Bidder::hasByNonDependentSubquery($type . 'AuctionsWithLots')
             ->with('region')
-            ->whereHas('types', function ($query) use ($type) {
+            ->hasByNonDependentSubquery('types', function ($query) use ($type) {
             $query->where('title', $type);
         })
             ->when(isset($searchString) && strlen($searchString) > 0, function ($query) use ($searchString) {
@@ -45,9 +45,9 @@ class FilterController extends Controller
         if (isset($cachedTradePlaces)) {
             $tradePlaces = $cachedTradePlaces;
         } else {
-            $tradePlaces = TradePlace::has('auctionsWithLots')->orderBy('name', 'asc')->get();
+            $tradePlaces = TradePlace::hasByNonDependentSubquery('auctionsWithLots')->orderBy('name', 'asc')->get();
             Cache::remember('tradePlaces', now()->addHour(),  function () {
-                $tradePlaces = TradePlace::has('auctionsWithLots')->orderBy('name', 'asc')->get();
+                $tradePlaces = TradePlace::hasByNonDependentSubquery('auctionsWithLots')->orderBy('name', 'asc')->get();
                 return $tradePlaces;
             });
         }

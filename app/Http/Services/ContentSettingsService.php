@@ -12,23 +12,27 @@ class ContentSettingsService
     public function getUserData()
     {
         $user = auth()->user();
-        $seenLots = $user->seenLots->pluck('id')->toArray();
-        $fixedLots = $user->fixedLots->pluck('id')->toArray();
-        $hiddenLots = $user->hiddenLots->pluck('id')->toArray();
-        $monitorings = $user->monitorings->pluck('id')->toArray();
+        $seenLots = DB::table('seen_lots')->where('user_id', $user->id)->pluck('lot_id')->toArray();
+        $fixedLots = DB::table('fixed_lots')->where('user_id', $user->id)->pluck('lot_id')->toArray();
+        $hiddenLots = DB::table('hidden_lots')->where('user_id', $user->id)->pluck('lot_id')->toArray();
+        $monitorings = DB::table('monitorings')->where('user_id', $user->id)->pluck('id')->toArray();
         $monitoringLots = DB::table('lot_monitoring')->whereIn('monitoring_id', $monitorings)->pluck('lot_id')->toArray();
-        $favouritesPaths = $user->favourites;
-        $userId = $user->id;
-        $favourites = DB::table('favourite_lot')->whereIn('favourite_id', $favouritesPaths->pluck('id')->toArray())->pluck('id')->toArray();
-        $favouritesLots = DB::table('favourite_lot')->whereIn('favourite_id', function($query) use ($userId)
-        {
-            $query->select('id')
-                ->from('favourites')
-                ->where("favourites.user_id", $userId);
-        })->pluck('lot_id')->toArray();
-        $notifications = Notification::whereIn('lot_id', $favourites)->where('is_seen', false)->pluck('lot_id')->toArray();
-        $favNotSeen = array_intersect($notifications, $favourites);
+        $favourites = $user->favourites;
+        $favouritesLots = [];
+        $lots = [];
+        foreach ($favourites as $favourite) {
+            $lotIds = $favourite->lots()->pluck('lots.id')->toArray();
+            if (count($lotIds) > 0) {
+                $lots = array_merge($lots, $favourite->lots()->pluck('favourite_lot.id')->toArray());
+                $favourite = $favourite->only('id', 'title', 'color');
+                $favourite['lots_count'] = count($lotIds);
+                $favouritesLots[] = ['path' => $favourite, 'lotIds' => $lotIds];
+            }
+
+        }
+        $favNotSeen = Notification::whereIn('lot_id', $lots)->where('is_seen', false)->pluck('lot_id')->toArray();
         $notSeenNots = DB::table('favourite_lot')->whereIn('id', $favNotSeen)->pluck('lot_id')->toArray();
+
         $rules = $this->getUserContentRules();
         return array(
             'seenLots' => $seenLots,
@@ -37,8 +41,7 @@ class ContentSettingsService
             'monitoringLots' => $monitoringLots,
             'favouritesLots' => $favouritesLots,
             'notSeenNots' => $notSeenNots,
-            'contentRules' => $rules,
-            'favouritePaths'=>$favouritesPaths
+            'contentRules' => $rules
         );
     }
 
