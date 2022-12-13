@@ -117,16 +117,21 @@
                         if (index >= 0) {
                             cadastralData.cadastralDataAreaType = item.type;
                             cadastralData.cadastralDataArea = extracts[index].value;
-                            if (extracts[index].value <= 100) {
-                                cadastralData.cadastralDataAreaMeasure = 'кв. м.';
-                            } else if (extracts[index].value > 100 && extracts[index].value <= 10000) {
-                                cadastralData.cadastralDataArea = extracts[index].value / 100;
-                                // cadastralData.cadastralDataAreaMeasure = 'сотки';
-                                cadastralData.cadastralDataAreaMeasure = this.$tc('trades.ar', this.pluralization(cadastralData.cadastralDataArea));
+                            cadastralData.cadastralDataAreaMeasure = 'кв. м.';
+                            if( cadastralData.cadastralDataAreaType === 'landPlot') {
+                                if (extracts[index].value <= 100) {
+                                    cadastralData.cadastralDataAreaMeasure = 'кв. м.';
+                                }
+                                else if (extracts[index].value > 100 && extracts[index].value <= 10000) {
+                                    cadastralData.cadastralDataArea = extracts[index].value / 100;
+                                    // cadastralData.cadastralDataAreaMeasure = 'сотки';
+                                    cadastralData.cadastralDataAreaMeasure = this.$tc('trades.ar', this.pluralization(cadastralData.cadastralDataArea));
 
-                            } else {
-                                cadastralData.cadastralDataArea = extracts[index].value / 10000;
-                                cadastralData.cadastralDataAreaMeasure = 'га';
+                                }
+                                else {
+                                    cadastralData.cadastralDataArea = extracts[index].value / 10000;
+                                    cadastralData.cadastralDataAreaMeasure = 'га';
+                                }
                             }
                             extracts.splice(index, 1);
                         }
