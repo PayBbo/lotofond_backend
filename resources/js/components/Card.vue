@@ -211,7 +211,7 @@
                                         </h5>
                                     </div>
                                     <div class="bkt-card__feature"
-                                         v-if="(item && item.stepPrice && item.stepPrice>0
+                                         v-if="(item && item.stepPrice && item.stepPrice.value>0
                                          && (!rules || rules && rules.stepPrice))||(rules && !rules.stepPrice)"
                                     >
                                         <h6 class="bkt-card__subtitle">шаг аукциона</h6>
