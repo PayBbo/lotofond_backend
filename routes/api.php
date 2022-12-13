@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\ApplicationsController;
 use App\Http\Controllers\Admin\ContactsController;
+use App\Http\Controllers\Admin\ContentRulesController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\LotController;
 use App\Http\Controllers\Admin\RoleController;
@@ -405,6 +406,14 @@ Route::group(['middleware' => ['json.response', 'localization']], function () {
                     Route::delete('/{id}', [LotController::class, 'delete']);
 
                 });
+
+           /*     Route::group(['prefix' => 'content-rules'], function () {
+
+                    Route::get('/', [ContentRulesController::class, 'get']);
+
+                    Route::put('/update', [ContentRulesController::class, 'update']);
+
+                });*/
 
             });
 
