@@ -389,7 +389,7 @@
                 this.loading = true;
                 await this.$store.dispatch('logout').then(resp => {
                     this.loading = false;
-                    if (this.$router.currentRoute.name != 'Main') {
+                    if (this.$router.currentRoute.meta.auth) {
                         this.$router.push('/')
                     }
                 }).catch(error => {

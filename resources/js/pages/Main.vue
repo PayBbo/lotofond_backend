@@ -467,13 +467,7 @@
         },
         watch: {
             isLoggedIn: function (newVal, oldVal) {
-                // if (oldVal == false && newVal == true) {
-                // if (this.pagination_data && this.pagination_data.currentPage) {
-                //     this.getData(this.pagination_data.currentPage);
-                // } else {
-                    this.getData(1);
-                // }
-                // }
+                this.getData(1);
             }
         },
         methods: {

@@ -348,15 +348,19 @@
                             <!--                        </button>-->
                         </div>
                         <div class="bkt-card__image-wrapper">
-                            <bkt-card-image-category :categories="item.categories"
-                                                     v-if="item && (!item.photos || item.photos.length==0) && item.categories"
+                            <bkt-card-image-category
+                                :categories="item.categories"
+                                v-if="item && ((rules && (!rules.categories || !rules.photos)) ||
+                                ((!item.photos || item.photos.length==0) && item.categories &&
+                                (!rules || rules && rules.categories)))"
                             >
                             </bkt-card-image-category>
                             <!--                            <div class="bkt-card__image-category" v-if="!item.photos || item.photos.length==0">-->
                             <!--                                <bkt-icon name="Cow" color="neutral-dark"></bkt-icon>-->
                             <!--                            </div>-->
                             <hooper :itemsToShow="1" :centerMode="true" class="bkt-card__image-slider"
-                                    v-if="item && item.photos && item.photos.length>0">
+                                    v-if="item && item.photos && item.photos.length>0 && ((rules && rules.photos) || !rules)"
+                            >
                                 <slide v-for="(photo, index) in item.photos" :key="photo.id">
                                     <img v-lazy="photo.main" class="bkt-card__image" @click="photo_index = index"/>
                                 </slide>
@@ -440,7 +444,9 @@
                                 </h4>
                             </div>
                             <div class="bkt-card__row outline bkt-wrapper-between align-items-center"
-                                 v-if="item&&item.trade.type!=='OpenAuction'&& item.trade.type!=='CloseAuction'"
+                                 v-if="((item.minPrice && item.minPrice>=0) && item && item.trade && item.trade.type &&
+                                         (item.trade.type!=='CloseAuction' && item.trade.type!=='OpenAuction')
+                                         && (!rules || rules && rules.minPrice))||(rules && !rules.minPrice)"
                             >
                                 <h5 class="bkt-card__subtitle">минимальная цена</h5>
                                 <h4 class="bkt-card__title bkt-text-red">
@@ -1114,7 +1120,7 @@
 <!--                    </template>-->
 <!--                </bkt-collapse>-->
 <!--            </div>-->
-            <div v-if="item && isLoggedIn" class="col-12 col-lg-12 order-3 px-lg-0">
+            <div v-if="item && isLoggedIn && item.trade && item.trade.lotCount>1" class="col-12 col-lg-12 order-3 px-lg-0">
                 <bkt-collapse title="Все лоты торга" :count="related_lots_pagination.total"
                               id="collapseRelatedLots" :loading="related_lots_loading||loading"
                               :disabled="related_lots.length==0&&!related_lots_loading"
@@ -1730,9 +1736,7 @@
         },
         watch: {
             isLoggedIn: function (newVal, oldVal) {
-                if (oldVal == false && newVal == true) {
-                    this.getLot();
-                }
+                this.getLot();
             }
         },
         async mounted() {
@@ -1776,7 +1780,10 @@
                             this.getLotNotifications();
                             // this.getLotMarks();
                         }
-                        this.getRelatedLots();
+                        if(this.item.trade && this.item.trade.lotCount>1) {
+                            this.getRelatedLots();
+                        }
+
                         this.getDebtorActiveLots();
                         this.getDebtorCompletedLots();
                     })

@@ -19,13 +19,13 @@
                             <div class="bkt-card__image-wrapper" :class="{'bkt-gap-none': cadastralData=={}||(cadastralData && !cadastralData.cadastralNumber)}">
                                 <div class="position-relative">
                                     <div class="bkt-cursor-pointer" @click="navigate"
-                                         v-if="item &&((rules && (!rules.categories || !rules.photos)) ||
-                                         (!item.photos || item.photos.length==0) && item.categories && rules && rules.categories)"
+                                         v-if="item && ((rules && (!rules.categories || !rules.photos)) ||
+                                         ((!item.photos || item.photos.length==0) && item.categories && (!rules || rules && rules.categories)))"
                                     >
                                         <card-image-category :categories="item.categories"></card-image-category>
                                     </div>
                                     <hooper :itemsToShow="1" :centerMode="true" class="bkt-card__image-slider"
-                                            v-if="item && item.photos && item.photos.length>0 && rules && rules.photos">
+                                            v-if="item && item.photos && item.photos.length>0 && ((rules && rules.photos) || !rules)">
                                         <slide v-for="photo in item.photos" :key="photo.id">
                                             <img v-lazy="photo.preview" class="bkt-card__image bkt-cursor-pointer"
                                                  @click="navigate"/>
@@ -177,11 +177,13 @@
                                     </h5>
                                     <h5 class="bkt-card__text">
                                         <skeleton type_name="spoiler" :loading="rules && !rules.trade.applicationTime">
-                                            <span v-if="item.trade.applicationTime.end && dateStatus && dateStatus.status === 'application'">
+                                            <span>
+                                                 <span v-if="item.trade.applicationTime.end && dateStatus && dateStatus.status === 'application'">
                                                 до {{item.trade.applicationTime.end | moment('DD.MM.YYYY')}}
                                             </span>
                                             <span v-if="item.trade.applicationTime.start && (item.state==='BiddingDeclaration' || item.state==='biddingDeclaration')">
                                                 приём заявок с {{item.trade.applicationTime.start | moment('DD.MM.YYYY')}}
+                                            </span>
                                             </span>
                                         </skeleton>
                                     </h5>
@@ -195,12 +197,11 @@
                             <div class="bkt-card__features-wrapper">
                                 <div class="bkt-card__features">
                                     <div class="bkt-card__feature"
-                                         v-if="(rules && !rules.minPice) ||
-                                         (rules && rules.minPrice && item.minPrice && item.trade.type!=='CloseAuction'
-                                         && item.trade.type!=='OpenAuction')"
+                                         v-if="((item.minPrice && item.minPrice>=0) && item && item.trade && item.trade.type &&
+                                         (item.trade.type!=='CloseAuction' && item.trade.type!=='OpenAuction')
+                                         && (!rules || rules && rules.minPrice))||(rules && !rules.minPrice)"
                                     >
-                                        <h6 class="bkt-card__subtitle"
-                                            v-if="(rules && !rules.minPice) || (rules.minPrice&&item.minPrice)">
+                                        <h6 class="bkt-card__subtitle">
                                             минимальная цена
                                         </h6>
                                         <h5 class="bkt-card__text bkt-text-700">

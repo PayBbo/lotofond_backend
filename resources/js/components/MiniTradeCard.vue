@@ -2,11 +2,14 @@
     <div class="bkt-form w-100 mx-auto bkt-row outline bkt-card-trade-mini">
         <div class="col-12 col-lg-2 ps-sm-0 bkt-card-trade-mini__image">
             <div @click="navigate" class="bkt-cursor-pointer"
-                 v-if="item && (!item.photos || item.photos.length==0) && item.categories"
+                 v-if="item && ((rules && (!rules.categories || !rules.photos)) ||
+                 ((!item.photos || item.photos.length==0) && item.categories && (!rules || rules && rules.categories)))"
             >
                 <card-image-category :categories="item.categories"></card-image-category>
             </div>
-            <slick v-bind="settings" class="w-100 bkt-card__image-slider" v-if="item && item.photos.length>0">
+            <slick v-bind="settings" class="w-100 bkt-card__image-slider"
+                   v-if="item && item.photos && item.photos.length>0 && ((rules && rules.photos) || !rules)"
+            >
                 <div v-for="photo in item.photos" :key="photo.id">
                     <img v-lazy="photo.preview" class="bkt-card__image bkt-cursor-pointer" @click="navigate"/>
                 </div>
@@ -28,8 +31,9 @@
                 <skeleton type_name="spoiler" tag="span" :loading="rules && !rules.trade.externalId">{{item.trade.externalId}}</skeleton>
                 , лот <skeleton type_name="spoiler_mini" tag="span" :loading="rules && !rules.lotNumber">{{item.lotNumber}}</skeleton>
             </h6>
-            <h5 class="bkt-text-truncate bkt-card-trade-mini__title bkt-cursor-pointer" @click="navigate">
-                {{item.description}}
+            <h5 class="bkt-text-truncate bkt-card-trade-mini__title bkt-cursor-pointer"
+                v-html="item.description" @click="navigate"
+            >
             </h5>
         </div>
         <div class="col-12 col-lg-2 bkt-card-trade-mini__price">
@@ -57,43 +61,46 @@
             </skeleton>
         </div>
         <div class="col-12 col-lg-3 bkt-card-trade-mini__organizer">
-            <h6 class="bkt-card__subtitle d-md-none">ЭТП и организатор</h6>
-            <skeleton type_name="spoiler" tag="h6" :loading="rules && !rules.trade.tradePlace">
-                <h6 class="bkt-card__title bkt-text-main text-uppercase" v-if="item.trade && item.trade.tradePlace">
-                    {{item.trade && item.trade.tradePlace
-                    && item.trade.tradePlace.name ?
-                    item.trade.tradePlace.name : ''}}
-                </h6>
-                <h6 v-else-if="item.tradePlaceSite">{{item.tradePlaceSite}}</h6>
-            </skeleton>
-            <skeleton type_name="spoiler" tag="h5" :loading="rules && !rules.trade.organizer">
-                <h5 class="" v-if="item.trade.organizer">
+            <template v-if="item && item.trade && item.trade.hasOwnProperty('organizer')">
+                <h6 class="bkt-card__subtitle d-md-none">ЭТП и организатор</h6>
+                <skeleton type_name="spoiler" tag="h6" :loading="rules && !rules.trade.tradePlace">
+                    <h6 class="bkt-card__title bkt-text-main text-uppercase" v-if="item.trade && item.trade.tradePlace">
+                        {{item.trade && item.trade.tradePlace
+                        && item.trade.tradePlace.name ?
+                        item.trade.tradePlace.name : ''}}
+                    </h6>
+                    <h6 v-else-if="item.tradePlaceSite">{{item.tradePlaceSite}}</h6>
+                </skeleton>
+                <skeleton type_name="spoiler" tag="h5" :loading="rules && !rules.trade.organizer">
+                    <h5 class="" v-if="item.trade.organizer">
                     <span v-if="item.trade.organizer.type=='person'">
                         <template
                             v-for="(value, key, index) in item.trade.organizer.person">
                              {{value ? value+' ' : ''}}
                         </template>
                     </span>
-                    <span v-else>
+                        <span v-else>
                         {{item.trade.organizer.company.shortName ?
                         item.trade.organizer.company.shortName :
                         item.trade.organizer.company.fullName}}
                     </span>
-                </h5>
-                <h5 v-else-if="item.organizer">
+                    </h5>
+                    <h5 v-else-if="item.organizer">
                     <span v-if="item.organizer.type=='person'">
                         <template
                             v-for="(value, key, index) in item.organizer.person">
                              {{value ? value+' ' : ''}}
                         </template>
                     </span>
-                    <span v-else>
+                        <span v-else>
                         {{item.organizer.company.shortName ?
                         item.organizer.company.shortName :
                         item.organizer.company.fullName}}
                     </span>
-                </h5>
-            </skeleton>
+                    </h5>
+                </skeleton>
+            </template>
+
         </div>
     </div>
 </template>
