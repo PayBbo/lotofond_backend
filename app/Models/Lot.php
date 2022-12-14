@@ -376,22 +376,6 @@ class Lot extends Model
 
     }
 
-  /*  public function hasNotSeenNotification()
-    {
-        $favourites = auth()->guard('api')->user()->favourites()->whereHas('lots', function ($query) {
-            $query->where('lots.id', $this->id);
-        })->get();
-        foreach ($favourites as $favourite) {
-            if (Notification::whereIn('lot_id', $favourite->lots()->where('lots.id', $this->id)->pluck('favourite_lot.id'))
-                ->where(['user_id' => auth()->guard('api')->id(), 'is_seen' => false])->exists()) {
-                return true;
-            }
-        }
-        return false;
-    }*/
-
-
-
     public function getDescriptionAttribute($value)
     {
         return preg_replace("/&#?[a-z0-9]{2,8};/i","", $value);
@@ -400,6 +384,25 @@ class Lot extends Model
     public function getProcessedDescriptionAttribute($value)
     {
         return preg_replace("/&#?[a-z0-9]{2,8};/i","", $value);
+    }
+
+    public function getStartPriceAttribute($value)
+    {
+        return $value == 0 ? null : (float)$value;
+    }
+
+    public function getMinPriceAttribute($value)
+    {
+        return $value == 0 ? null : (float)$value;
+    }
+    public function getAuctionStepAttribute($value)
+    {
+        return $value == 0 ? null : (float)$value;
+    }
+
+    public function getDepositAttribute($value)
+    {
+        return $value == 0 ? null : (float)$value;
     }
 
     public function notificationLots()

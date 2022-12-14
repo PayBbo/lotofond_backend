@@ -83,14 +83,13 @@ class TestCommand extends Command
         //    dispatch(new MonitoringJob);
         //  dispatch(new MonitoringNotificationJob('hourly'));
         //dispatch(new ParseDebtorMessages);
-        /* $startDate = Carbon::parse('2022-12-01 06:00');
-         $endDate = Carbon::parse('2022-12-06 06:00');
+      /*   $startDate = Carbon::parse('2022-12-12 03:00');
+         $endDate = Carbon::parse('2022-12-13 00:00');
          while ($startDate < $endDate) {
              $startFrom = $startDate->format('Y-m-d\TH:i:s');
              $startDate->addHours(3);
              dispatch((new ParseTrades($startFrom, $startDate->format('Y-m-d\TH:i:s')))->onQueue('parse'));
-         }
-*/
+         }*/
 
         // dispatch(new ParseTrades);
         //$get_trade_message_content = new GetTradeMessageContent($xml, 'BiddingInvitation');
@@ -122,7 +121,7 @@ class TestCommand extends Command
               fputcsv($file, $row->toArray(), ';');
           }
           fclose($file);*/
-        /*$minDate = Carbon::parse('2022-12-05 00:00');
+       /* $minDate = Carbon::parse('2022-12-05 00:00');
         $maxDate = Carbon::parse('2022-12-06 00:00');
         $categories = [
             "land",
@@ -147,15 +146,45 @@ class TestCommand extends Command
           $xml = $service->getMessageContent(10229781);
           logger($xml);*/
 
-      //  dispatch((new MakeProcessedDescription())->onQueue('user'));
+        //  dispatch((new MakeProcessedDescription())->onQueue('user'));
 
 
-      /*  $soapWrapper = new SoapWrapper();
-        $service = new SoapWrapperService($soapWrapper);
-        $debtor_data = get_object_vars($service->searchDebtorByCode('CompanyInn', 7707616245));
-        logger($debtor_data);*/
+        /*  $soapWrapper = new SoapWrapper();
+          $service = new SoapWrapperService($soapWrapper);
+          $debtor_data = get_object_vars($service->searchDebtorByCode('CompanyInn', 7707616245));
+          logger($debtor_data);*/
+
+   /*    $re = '/(?(DEFINE)(?\'rubles_pattern\'\d{1,3}(?:[ ]?\d{3})*(?:[,]\d{2})*)(?\'rubles_name_pattern\'[ ]?(?:(?:рублей)|(?:(?:(?:руб)|(?:р))[\.]?)))(?\'percent_pattern\'\d+(?:,\d+)?)(?\'percent_name_pattern\'[ ]?(?:\([а-яёА-ЯЁ]+\))?[ ]?(?:(?:%)|(?:процент(?:ов)?))))(?:(?:(?:(?:мин(?:имальн(?:(?:ая)|(?:ой)))?[\.]?(?: [А-ЯЁа-яё]+)?[ ](?:(?:цен(?:а|ы))|(?:стоимост(?:ь|и))))|(?:цен(?:ы|а|е) отсечения)|(?:прекращается при достижении))).*?(?\'new_sentence\'(?:\.[ ][А-ЯЁ]).*?(*SKIP))?(?:(?:(?\'rubles\'(?P>rubles_pattern))(?:(?P>rubles_name_pattern)))|(?:(?\'percent\'(?P>percent_pattern))(?P>percent_name_pattern)))(?![а-яёА-ЯЁ]))|(?:(?:(?:(?\'rubles\'(?P>rubles_pattern))(?:(?P>rubles_name_pattern)))|(?:(?\'percent\'(?P>percent_pattern))(?P>percent_name_pattern)))(?![а-яёА-ЯЁ])(?:.?[ ]?\((?:(?:цена отсечения)|(?:мин(?:имальная)?[\.]?[ ](?:(?:цена)|(?:стоимость)))).*?\)))/miuJ';
+        $str = 'В течение 5 календарных дней со дня публикации сообщения о продаже имущества, цена продажи имущества устанавливается в размере 198 900,00. Впоследствии цена имущества понижается каждые 7 календарных дней на 10%. При этом минимальная цена продажи имущества не может быть ниже 70 % начальной стоимости имущества. В течение 5 календарных дней со дня публикации сообщения о продаже имущества, цена продажи имущества устанавливается в размере 198 900,00. Впоследствии цена имущества понижается каждые 7 календарных дней на 10%. При этом минимальная цена продажи имущества не может быть ниже 70 % начальной стоимости имущества. В течение 5 календарных дней со дня публикации сообщения о продаже имущества, цена продажи имущества устанавливается в размере 198 900,00. Впоследствии цена имущества понижается каждые 7 календарных дней на 10%. При этом минимальная цена продажи имущества не может быть ниже 70 % начальной стоимости имущества. В течение 5 календарных дней со дня публикации сообщения о продаже имущества, цена продажи имущества устанавливается в размере 198 900,00. Впоследствии цена имущества понижается каждые 7 календарных дней на 10%. При этом минимальная цена продажи имущества не может быть ниже 70 % начальной стоимости имущества. В течение 5 календарных дней со дня публикации сообщения о продаже имущества, цена продажи имущества устанавливается в размере 198 900,00. Впоследствии цена имущества понижается каждые 7 календарных дней на 10%. При этом минимальная цена продажи имущества не может быть ниже 70 % начальной стоимости имущества.';
+
+        preg_match_all($re, $str, $matchesPrice, PREG_SET_ORDER, 0);
+        logger($matchesPrice);
+        if (count((array)$matchesPrice) > 1 && (array_key_exists('rubles', $matchesPrice[0]) || array_key_exists('percent', $matchesPrice[0]))) {
+            $min_price = $this->getMinPrice($matchesPrice, 5600);
+            logger($min_price);
+        }*/
 
     }
+
+   /* public function getMinPrice($matchesPrices, $startPrice)
+    {
+        $min_price = null;
+        $result = [];
+        foreach($matchesPrices as $matchesPrice) {
+            if (array_key_exists('rubles', $matchesPrice) && strlen($matchesPrice['rubles']) > 0) {
+                $result[] = (double)str_replace(',', '.', str_replace(' ', '', $matchesPrice['rubles']));
+            }
+            if (array_key_exists('percent', $matchesPrice) && strlen($matchesPrice['percent']) > 0) {
+                $percent = (float)$matchesPrice['percent'];
+                $result[] = $startPrice / 100 * $percent;
+            }
+        }
+        $result = array_unique($result);
+        if(count($result) == 1){
+            $min_price = $result[0];
+        }
+        return $min_price;
+    }*/
 
 
 }
