@@ -406,7 +406,7 @@
                         </div>
                         <div class="bkt-card-infographics bkt-gap bkt-wrapper-between bkt-nowrap">
                             <div class="bkt-card outline"
-                                 v-if="item&&item.trade&&(item.trade.type==='CloseAuction' || item.trade.type==='OpenAuction')"
+                                 v-if="item&&item.stepPrice&&item.stepPrice.value>0"
                             >
                                 <div class="bkt-card__feature text-center w-100 mt-0">
                                     <h5 class="bkt-card__subtitle">шаг аукциона</h5>
