@@ -39,7 +39,8 @@ class Lot extends Model
         'sale_agreement',
         'concours',
         'created_at',
-        'price_reduction'
+        'price_reduction',
+        'is_processed'
 
     ];
 
@@ -58,7 +59,8 @@ class Lot extends Model
         'is_parse_ecp' => 'boolean',
         'is_auction_step_rub' => 'boolean',
         'is_deposit_rub' => 'boolean',
-        'status_id' => 'integer'
+        'status_id' => 'integer',
+        'is_processed' => 'boolean',
     ];
 
     public function applications()

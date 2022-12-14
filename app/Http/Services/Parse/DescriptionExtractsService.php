@@ -43,17 +43,24 @@ class DescriptionExtractsService
                 }
             }
         }
-        $avto_number = '/' . $this->getAvtoNumberRegex() . '/um';
-        preg_match_all($avto_number, $description, $matches);
         $mainParam = new LotParam();
         $mainParam->type = 'transport';
         $mainParam->lot_id = $lot->id;
+        $avto_number = '/' . $this->getAvtoNumberRegex() . '/um';
+        preg_match_all($avto_number, $description, $matches);
         if (count($matches['licence_plate']) > 0) {
             foreach (array_unique($matches['licence_plate']) as $match) {
                 $changeDesc = str_replace($match, str_repeat('░', strlen($match) - 1), $changeDesc);
                 $res = str_replace('RUS', '', mb_strtoupper(str_replace(' ', '', $match)));
                 if (!$lot->params()->where('value', $res)->exists() && strlen((string)$res) > 0) {
-                    $mainParam->save();
+                    if(count(array_unique($matches['licence_plate']))>1) {
+                        $mainParam = new LotParam();
+                        $mainParam->type = 'transport';
+                        $mainParam->lot_id = $lot->id;
+                        $mainParam->save();
+                    }else {
+                        $mainParam->save();
+                    }
                     $lot->params()->attach(Param::find(5), ['value' => $res, 'parent_id' => $mainParam->id]);
                 }
             }
@@ -64,7 +71,14 @@ class DescriptionExtractsService
             foreach (array_unique($matches[0]) as $match) {
                 $changeDesc = str_replace($match, str_repeat('░', strlen($match) - 1), $changeDesc);
                 if (!$lot->params()->where('value', $match)->exists() && strlen((string)$match) > 0) {
-                    $mainParam->save();
+                    if(count(array_unique($matches[0]))>1){
+                        $mainParam = new LotParam();
+                        $mainParam->type = 'transport';
+                        $mainParam->lot_id = $lot->id;
+                        $mainParam->save();
+                    }else {
+                        $mainParam->save();
+                    }
                     $lot->params()->attach(Param::find(6), ['value' => $match, 'parent_id' => $mainParam->id]);
                 }
             }
