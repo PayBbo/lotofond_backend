@@ -170,7 +170,7 @@ class TestCommand extends Command
          $descriptionExtracts = new DescriptionExtractsService();
          $descriptionExtracts->getDescriptionExtracts($lot, $description);*/
 
-        $filesService = new FilesService::class();
+        $filesService = new FilesService();
         $name_file = 'фотографии-ТС.pdf';
         $path = 'auction-files/auction-3163/15-12-2022-09-12';
         $dest = 'app/public/auction-files/auction-3163/15-12-2022-09-12';
