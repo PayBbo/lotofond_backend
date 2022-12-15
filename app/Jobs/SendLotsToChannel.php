@@ -99,7 +99,7 @@ class SendLotsToChannel implements ShouldQueue
 <strong>Описание лота:</strong>
 <p>$lotDesc</p>
 <strong>Начальная цена: $price ₽</strong>")));
-            if ($lot->auction->auctionType->title == 'PublicOffer' || $lot->auction->auctionType->title == 'ClosePublicOffer') {
+            if ($lot->auction->auctionType->title == 'PublicOffer' || $lot->auction->auctionType->title == 'ClosePublicOffer' && !is_null($lot->min_price)) {
                 $min_price = number_format($lot->min_price, 2, ',', ' ');
                 $html .= "
 <strong>Минимальная цена: $min_price ₽</strong>";
