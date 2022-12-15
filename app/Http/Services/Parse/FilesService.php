@@ -60,6 +60,8 @@ class FilesService
 
     public function getImagesFromDocOrPdf($filename, $path, $s_path)
     {
+        $this->myLoggerFiles('getImagesFromDocOrPdf', $filename, $path, $s_path);
+
         $imageAssets = array();
         $document = \storage_path($s_path . '/' . $filename);
         $full_path = \storage_path($s_path . '/');
@@ -99,6 +101,8 @@ class FilesService
 
     public function getImagesFromDocx($filename, $path, $s_path)
     {
+        $this->myLoggerFiles('getImagesFromDocx', $filename, $path, $s_path);
+
         $imageAssets = array();
         $filename = \storage_path($s_path . '/' . $filename);
         $full_path = \storage_path($s_path . '/');
@@ -142,6 +146,8 @@ class FilesService
 
     public function getImagesFromZipOrRar($filename, $path, $s_path)
     {
+        $this->myLoggerFiles('getImagesFromZipOrRar', $filename, $path, $s_path);
+
         $filename = \storage_path($s_path . '/' . $filename);
         $destination = \storage_path($s_path . '/');
         $files = array();
@@ -204,9 +210,22 @@ class FilesService
                 }
             }
             if ($dir !== $s_path && $dir !== $s_path . '/previews') {
+                //File::cleanDirectory( $dir );
+                //Storage::deleteDirectory( $dir );
                 rmdir($dir);
             }
         }
+    }
+
+    public function myLoggerFiles($method, $filename, $path, $s_path) {
+        logger('--------------------------------------------------');
+        logger($method);
+        logger('START IMAGE');
+        logger($filename);
+        logger($path);
+        logger($s_path);
+        logger('END IMAGE');
+        logger('--------------------------------------------------');
     }
 
 }

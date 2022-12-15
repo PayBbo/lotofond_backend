@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 
 use App\Http\Services\Parse\DescriptionExtractsService;
+use App\Http\Services\Parse\FilesService;
 use App\Http\Services\Parse\GetTradeMessageContent;
 use App\Http\Services\Parse\ParseDataFromRosreestrService;
 use App\Http\Services\Parse\SoapWrapperService;
@@ -37,6 +38,7 @@ use Carbon\CarbonPeriod;
 use Exception;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
@@ -168,7 +170,11 @@ class TestCommand extends Command
          $descriptionExtracts = new DescriptionExtractsService();
          $descriptionExtracts->getDescriptionExtracts($lot, $description);*/
 
-
+        $filesService = new FilesService::class();
+        $name_file = 'фотографии-ТС.pdf';
+        $path = 'auction-files/auction-3163/15-12-2022-09-12';
+        $dest = 'app/public/auction-files/auction-3163/15-12-2022-09-12';
+        $filesService->getImagesFromDocOrPdf($name_file, $path, $dest);;
     }
 
     public function getMinPrice($matchesPrices, $startPrice)
