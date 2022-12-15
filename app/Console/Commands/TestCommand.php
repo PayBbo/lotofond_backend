@@ -170,11 +170,16 @@ class TestCommand extends Command
          $descriptionExtracts = new DescriptionExtractsService();
          $descriptionExtracts->getDescriptionExtracts($lot, $description);*/
 
-        $filesService = new FilesService();
+      /*  $filesService = new FilesService();
         $name_file = 'фотографии-ТС.pdf';
         $path = 'auction-files/auction-3163/15-12-2022-09-12';
         $dest = 'app/public/auction-files/auction-3163/15-12-2022-09-12';
-        $filesService->getImagesFromDocOrPdf($name_file, $path, $dest);;
+        $filesService->getImagesFromDocOrPdf($name_file, $path, $dest);;*/
+
+        $full_path = 'app/public/test';
+        $document = $full_path . '/' . 'document.pdf';
+        $comm = "binwalk --dd 'jpeg image:jpeg' --dd 'png image:png' --dd 'jpg image:jpg' --dd 'bmp image:bmp' " . $document . " --directory " . $full_path . " --rm";
+        exec(`$comm`);
     }
 
     public function getMinPrice($matchesPrices, $startPrice)
