@@ -16,20 +16,25 @@ class DatabaseSeeder extends Seeder
     {
         $this->call([
             AuctionTypeSeeder::class,
-            DebtorCategorySeeder::class,
-            RegistryNotificationGroupSeeder::class,
-            NotificationTypeSeeder::class,
-            RegistryNotificationTypeSeeder::class,
-            StatusSeeder::class,
             CategorySeeder::class,
-            RegionSeeder::class,
-            ParamSeeder::class,
-            UserSeeder::class,
-            RoleSeeder::class,
-            TextDataSeeder::class,
             ContactSeeder::class,
+            ContentRuleSeeder::class,
+            DebtorCategorySeeder::class,
+            HolidayDateSeeder::class,
+            NotificationTypeSeeder::class,
+            ParamSeeder::class,
+            PermissionSeeder::class,
+            RegionSeeder::class,
+            RegistryNotificationGroupSeeder::class,
+            RegistryNotificationTypeSeeder::class,
+            RoleSeeder::class,
+            StatusSeeder::class,
+            TariffSeeder::class,
+            TextDataSeeder::class,
             TradePlaceCategorySeeder::class,
-            TradePlaceSeeder::class
+            TradePlaceSeeder::class,
+            UserSeeder::class
+
         ]);
     }
 }

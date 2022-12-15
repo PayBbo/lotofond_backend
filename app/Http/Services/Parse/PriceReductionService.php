@@ -128,15 +128,17 @@ class PriceReductionService
         if (!is_null($prev_price)) {
             $percent = ((float)$prev_price - (float)$price) / (float)$prev_price * 100;
         }
-        PriceReduction::create([
-            'lot_id' => $lot_id,
-            'price' => $price,
-            'start_time' => $start_time,
-            'end_time' => $end_time,
-            'percent' => $percent,
-            'deposit' => $deposit,
-            'is_system' => $is_system
-        ]);
+        if(!is_null($price)) {
+            PriceReduction::create([
+                'lot_id' => $lot_id,
+                'price' => $price,
+                'start_time' => $start_time,
+                'end_time' => $end_time,
+                'percent' => $percent,
+                'deposit' => $deposit,
+                'is_system' => $is_system
+            ]);
+        }
     }
 
 

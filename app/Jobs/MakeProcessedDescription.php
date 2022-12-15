@@ -50,7 +50,7 @@ class MakeProcessedDescription implements ShouldQueue
              }
              $maxValue+=100;
          }*/
-
+/*
         $lotCount = Lot::where('is_processed', false)->count() + 100;
         $maxValue = 0;
         while ($maxValue < $lotCount) {
@@ -74,7 +74,7 @@ class MakeProcessedDescription implements ShouldQueue
                 $lot->save();
             }
             $maxValue += 100;
-        }
+        }*/
 
     }
 }

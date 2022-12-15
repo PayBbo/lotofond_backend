@@ -19,8 +19,8 @@ class CreateUsersTable extends Migration
             $table->string('name')->nullable();
             $table->string('surname')->nullable();
             $table->string('middle_name')->nullable();
-            $table->string('email')->unique()->nullable();
-            $table->string('phone')->unique()->nullable();
+            $table->string('email')->nullable();
+            $table->string('phone')->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->boolean('not_from_favourite')->default(true);

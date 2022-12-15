@@ -21,7 +21,7 @@ class ParamSeeder extends Seeder
                 'title'=>'Кадастровые данные о площади'],
             ['type' => 'cadastralDataFractionalOwnership',
                 'title'=>'Кадастровые данные о частичном владении'],
-            ['type' => 'other',
+            ['type' => 'cadastralNumber',
                 'title'=>'Кадастровый номер'],
             ['type' => 'other',
                 'title'=>'Государственный номер транспорта'],

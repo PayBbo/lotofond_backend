@@ -84,13 +84,13 @@ class TestCommand extends Command
         //    dispatch(new MonitoringJob);
         //  dispatch(new MonitoringNotificationJob('hourly'));
         //dispatch(new ParseDebtorMessages);
-           $startDate = Carbon::parse('2022-11-15 00:00');
+         /*  $startDate = Carbon::parse('2022-09-02 00:00');
            $endDate = Carbon::parse('2022-12-15 04:00');
            while ($startDate < $endDate) {
                $startFrom = $startDate->format('Y-m-d\TH:i:s');
                $startDate->addHours(2);
                dispatch((new ParseTrades($startFrom, $startDate->format('Y-m-d\TH:i:s')))->onQueue('parse'));
-           }
+           }*/
 
         // dispatch(new ParseTrades);
         //$get_trade_message_content = new GetTradeMessageContent($xml, 'BiddingInvitation');
@@ -146,8 +146,6 @@ class TestCommand extends Command
           $service = new SoapWrapperService($soapWrapper);
           $xml = $service->getMessageContent(10229781);
           logger($xml);*/
-
-        // dispatch((new MakeProcessedDescription())->onQueue('user'));
 
 
         /*  $soapWrapper = new SoapWrapper();
