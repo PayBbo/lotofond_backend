@@ -204,6 +204,10 @@ class FilesService
             $objects = scandir($dir);
             foreach ($objects as $object) {
                 if ($object != "." && $object != "..") {
+                    logger('-----------');
+                    logger('OBJECT');
+                    logger($object);
+                    logger('-----------');
                     if (is_dir($dir . DIRECTORY_SEPARATOR . $object) && !is_link($dir . "/" . $object)) {
                         $this->deleteAllFilesForExtractDocx($dir . DIRECTORY_SEPARATOR . $object, $s_path);
                     } else {
