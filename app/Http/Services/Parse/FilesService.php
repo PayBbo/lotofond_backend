@@ -63,9 +63,14 @@ class FilesService
         $this->myLoggerFiles('getImagesFromDocOrPdf', $filename, $path, $s_path);
 
         $imageAssets = array();
-        $document = \storage_path($s_path . '/' . $filename);
+        $document_old = \storage_path($s_path . '/' . $filename);
         $full_path = \storage_path($s_path . '/');
         try {
+            $extension = substr($filename, strrpos($filename, '.') + 1, strlen($filename));
+            $document = $full_path . 'document'  . '.' . $extension;
+            copy($document_old, $document);
+
+
             $comm = "binwalk --dd 'jpeg image:jpeg' --dd 'png image:png' --dd 'jpg image:jpg' --dd 'bmp image:bmp' " . $document . " --directory " . $full_path . " --rm";
             exec(`$comm`);
             $results = scandir($full_path);
@@ -83,6 +88,9 @@ class FilesService
                 }
             }
             $this->deleteAllFilesForExtractDocx(\storage_path($s_path), \storage_path($s_path));
+
+            unlink($document);
+
             $result_files = File::files($full_path);
             foreach ($result_files as $key => $f) {
                 $name = substr($f, strrpos($f, '/') + 1, strlen($f));
@@ -164,7 +172,7 @@ class FilesService
                     $file = 'storage/' . $path . '/' . 'image-' . $key . '.' . $extension;
                     $filePrev = 'storage/app/public/' . $path . '/' . 'image-' . $key . '.' . $extension;
                     $this->generatePreview($filePrev, $path . '/previews/' . 'image-' . $key . '.' . $extension);
-                    $preview = 'storage/' . $path . '/previews/' . 'image-' . $key . '.' . $extension;;
+                    $preview = 'storage/' . $path . '/previews/' . 'image-' . $key . '.' . $extension;
                     $files[] = ['main' => $file, 'preview' => $preview];
                 }
             }
