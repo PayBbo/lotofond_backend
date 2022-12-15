@@ -380,21 +380,27 @@ let router = new VueRouter({
 });
 
 function guardMyRoute(to, from, next) {
-    if (to.matched.some(record => record.meta.permission)) {
-        if (store.getters.isLoggedIn===true && store.getters.auth_user
-            && store.getters.auth_user.contentDisplayRules.system[to.meta.permission] === false)
-        {
-            next('/');
-            return;
+    if (to.matched.some(record => record.meta.auth) && store.getters.isLoggedIn === false) {
+        next({ name: 'Main' });
+        if(from.name !== 'Main') {
+            next({ name: 'Main' });
         }
     }
-    if (to.matched.some(record => record.meta.auth)) {
-        if (store.getters.isLoggedIn === false) {
-            next('/');
-            return;
+    else if (store.getters.isLoggedIn===true && to.matched.some(record => record.meta.permission)
+        && store.getters.system_rules[to.meta.permission] === false)
+    {
+        if(from.name !== 'Main') {
+            next({ name: 'Main' });
         }
+        store.dispatch('sendNotification', {message: 'У Вас не активирован тариф', type: 'error'})
+        setTimeout(() => {
+            NProgress.done();
+        }, progressShowDelay);
+        return false;
     }
-    next()
+    else {
+        next()
+    }
 }
 
 function guardAdminRoute(to, from, next) {
@@ -435,7 +441,9 @@ router.beforeEach((to, from, next) => {
             NProgress.start();
         }
     }, progressShowDelay);
+    // guardMyRoute(to, from, next);
     next();
+    return false;
 });
 router.afterEach(() => {
     routeResolved = true;

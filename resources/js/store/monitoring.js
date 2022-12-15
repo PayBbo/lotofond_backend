@@ -231,11 +231,13 @@ export default {
                 .then((response) => {
                     // dispatch('getMonitorings', {page: 1, pathId: response.data[0].pathId});
                     commit('setMonitoringPaths', response.data);
-                    let pathId = response.data[0].pathId;
-                    if (sessionStorage.getItem('monitoring_path_id')) {
-                        pathId = sessionStorage.getItem('monitoring_path_id') / 1;
+                    if(response.data.length>0) {
+                        let pathId = response.data[0].pathId;
+                        if (sessionStorage.getItem('monitoring_path_id')) {
+                            pathId = sessionStorage.getItem('monitoring_path_id') / 1;
+                        }
+                        commit('setCurrentMonitoringPath', pathId);
                     }
-                    commit('setCurrentMonitoringPath', pathId);
                 });
         },
         async removeMonitoring({dispatch, commit}, payload) {

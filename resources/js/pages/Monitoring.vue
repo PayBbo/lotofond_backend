@@ -239,7 +239,7 @@
                 </div>
             </div>
             <div class="d-block d-md-none">
-                <bkt-collapse id="collapsePaths" main_class="bkt-collection__paths-collapse"
+                <bkt-collapse id="collapsePaths" main_class="bkt-collection__paths-collapse" v-if="items_paths.length>0"
                               :header_class="current_path_object.color ? 'bkt-bg-'+current_path_object.color : 'bkt-bg-primary'"
                               :collapse_button_class="items_paths.length>1 ? 'bkt-bg-white' : 'd-none'"
                 >
@@ -249,8 +249,8 @@
                             <span class="bkt-badge bkt-bg-white" v-if="current_path_object.newLotCount>0"
                                   :class="current_path_object.color ? 'bkt-text-'+current_path_object.color : 'bkt-text-primary'"
                             >
-                                    {{current_path_object.newLotCount ? current_path_object.newLotCount : '0'}}
-                                </span>
+                                {{current_path_object.newLotCount ? current_path_object.newLotCount : '0'}}
+                            </span>
                         </h6>
                     </template>
                     <template #collapse v-if="items_paths.length>0">
@@ -427,6 +427,17 @@
                     </div>
                 </template>
             </bkt-card-list>
+            <div class="bkt-shadow-card bkt-shadow-card_primary w-100">
+                <div class="bkt-shadow-card__inner bkt-gap">
+                    <h3 class="bkt-shadow-card__title bkt-text-white">
+                        Пока ничего нет. Создайте новый мониторинг.
+                    </h3>
+                    <div class="bkt-shadow-card__shadow-1">
+                    </div>
+                    <div class="bkt-shadow-card__shadow-2">
+                    </div>
+                </div>
+            </div>
         </section>
     </div>
 </template>

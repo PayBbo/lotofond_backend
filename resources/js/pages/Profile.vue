@@ -31,7 +31,7 @@
                                 <h6 class="bkt-card__subtitle">тарифный план</h6>
                                 <h5 class="bkt-card__title">{{user.tariff ? user.tariff.title  :'Базовый'}}</h5>
                             </div>
-                            <a class="bkt-button bkt-tariff-button" href="/tariff">
+                            <a class="bkt-button bkt-tariff-button" href="/tariffs">
                                 Сменить тариф
                             </a>
                             <div class="bkt-card bkt-card__background-figure-1">

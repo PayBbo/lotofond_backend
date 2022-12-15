@@ -12,11 +12,54 @@ export default {
         // is_client: localStorage.getItem('is_client') || false,
         auth_user: null,
         error: '',
-        auth_user_loading: false
+        auth_user_loading: false,
+        rules: JSON.parse(localStorage.getItem('rules')) || {
+            trade: {
+                externalId: true,
+                type: true,
+                publishDate: true,
+                eventTime: true,
+                applicationTime: true,
+                priceOfferForm: true,
+                organizer: true,
+                arbitrationManager: true,
+                debtor: true,
+                tradePlace: true,
+                lotCount: true
+            },
+            lotNumber: true,
+            photos: true,
+            categories: true,
+            state: true,
+            location: true,
+            startPrice: true,
+            stepPrice: true,
+            deposit: true,
+            priceReduction: true,
+            currentPrice: true,
+            minPrice: true,
+            currentPriceState: true,
+            efrsbLink: true,
+            descriptionExtracts: true
+        },
+        system_rules: JSON.parse(localStorage.getItem('system_rules')) || {
+            hasAccessToTradeFiles: false,
+            hasAccessToMonitoring: false,
+            hasAccessToReestr: false,
+            hasAccessToFavourite: false,
+        }
     },
     mutations: {
         setAuthUser(state, payload) {
             state.auth_user = payload;
+            if(payload.contentDisplayRules.lot) {
+                state.rules = state.auth_user.contentDisplayRules.lot;
+                localStorage.setItem('rules', JSON.stringify(state.rules));
+            }
+            if(payload.contentDisplayRules.system) {
+                state.system_rules = state.auth_user.contentDisplayRules.system;
+                localStorage.setItem('system_rules', JSON.stringify(state.system_rules));
+            }
         },
         updateAuthUser(state, payload) {
             state.auth_user.lastName = payload.lastName;
@@ -240,5 +283,7 @@ export default {
         isLoggedIn: state => !!state.token,
         auth_user: state => state.auth_user,
         auth_user_loading: state => state.auth_user_loading,
+        system_rules: state => state.system_rules,
+        rules: state => state.rules,
     }
 };
