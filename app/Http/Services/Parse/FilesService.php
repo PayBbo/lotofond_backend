@@ -195,6 +195,11 @@ class FilesService
 
     public function deleteAllFilesForExtractDocx($dir, $s_path)
     {
+        logger('----------------------');
+        logger('deleteAllFilesForExtractDocx');
+        logger($dir);
+        logger($s_path);
+        logger('----------------------');
         if (is_dir($dir)) {
             $objects = scandir($dir);
             foreach ($objects as $object) {
