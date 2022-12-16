@@ -47,7 +47,7 @@ class EGRNStatementJob implements ShouldQueue
                 if($result['status'] == 'Завершен') {
                     $contents = file_get_contents('https://reestr-api.ru/v1/order/download?auth_token='.config('reestr.auth_token').'&order_id='.$statement->order_id.'&format='.$statement->application->format);
                     Storage::disk('public')->put('statements/'.$statement->id.'/отчет-ЕГРН.'.$statement->application->format, $contents);
-                    $statement->file = 'storage/statemens/'.$statement->id.'/отчет-ЕГРН.'.$statement->application->format;
+                    $statement->file = 'storage/statements/'.$statement->id.'/отчет-ЕГРН.'.$statement->application->format;
                     $application = $statement->application;
                     $fileLink =  Storage::url('statements/'.$statement->id.'/отчет-ЕГРН.'.$statement->application->format);
                     $sendEmail = new SendCodeService();

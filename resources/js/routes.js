@@ -314,6 +314,48 @@ let router = new VueRouter({
             }
         },
         {
+            path: '/admin/content-rules',
+            name: 'ContentRules',
+            beforeEnter: guardAdminRoute,
+            component: () =>
+                import(
+                    /* webpackChunkName: "roles" */ "./admin/ContentRules.vue"
+                    ),
+            meta: {
+                auth: true,
+                layout: 'Admin',
+                permission: 'content-rules-list'
+            }
+        },
+        {
+            path: '/admin/egrn-statements',
+            name: 'EgrnStatements',
+            beforeEnter: guardAdminRoute,
+            component: () =>
+                import(
+                    /* webpackChunkName: "roles" */ "./admin/Statements.vue"
+                    ),
+            meta: {
+                auth: true,
+                layout: 'Admin',
+                permission: 'egrn-statements-list'
+            }
+        },
+        {
+            path: '/admin/holidays-dates',
+            name: 'HolidaysDates',
+            beforeEnter: guardAdminRoute,
+            component: () =>
+                import(
+                    /* webpackChunkName: "roles" */ "./admin/HolidaysDates.vue"
+                    ),
+            meta: {
+                auth: true,
+                layout: 'Admin',
+                permission: 'holidays-list'
+            }
+        },
+        {
             path: '/admin/tariffs',
             name: 'Tariffs',
             beforeEnter: guardAdminRoute,

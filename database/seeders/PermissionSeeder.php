@@ -45,6 +45,15 @@ class PermissionSeeder extends Seeder
             ['name' => 'tariff-edit', 'visible_name' => 'Редактирование тарифов', 'permission_group' => 'Тарифы'],
             ['name' => 'tariff-add', 'visible_name' => 'Добавление тарифов', 'permission_group' => 'Тарифы'],
             ['name' => 'tariff-delete', 'visible_name' => 'Удаление тарифов', 'permission_group' => 'Тарифы'],
+
+            ['name' => 'holidays-list', 'visible_name' => 'Просмотр выходных дней', 'permission_group' => 'Выходные дни'],
+            ['name' => 'holidays-add', 'visible_name' => 'Добавление выходных дней', 'permission_group' => 'Выходные дни'],
+            ['name' => 'holidays-delete', 'visible_name' => 'Удаление выходных дней', 'permission_group' => 'Выходные дни'],
+
+            ['name' => 'content-rules-list', 'visible_name' => 'Просмотр ограничений контента', 'permission_group' => 'Ограничения контента'],
+            ['name' => 'content-rules-edit', 'visible_name' => 'Удаление ограничений контента', 'permission_group' => 'Ограничения контента'],
+
+            ['name' => 'egrn-statements-list', 'visible_name' => 'Просмотр отчетов ЕГРН', 'permission_group' => 'Отчеты ЕГРН'],
         ];
         foreach ($permissions as $permission) {
             Permission::create([

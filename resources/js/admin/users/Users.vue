@@ -22,7 +22,9 @@
                 <td>{{ user.name }}</td>
                 <td>{{ user.surname }}</td>
                 <td>{{ user.email ? user.email : "Не указано" }}</td>
-                <td v-if="user.phone"><input style="border: none; background: white"  v-mask="['+# ### ### ####','+## ### ### ####', '+## ### #### ####',]" readonly disabled  v-model="user.phone"></td>
+                <td v-if="user.phone"><input style="border: none; background: transparent"
+                                             v-mask="['+# ### ### ####','+## ### ### ####', '+## ### #### ####',]"
+                                             readonly disabled  v-model="user.phone"></td>
                 <td v-else >Не указано</td>
                 <td>{{ user.registrationDate }}</td>
                 <td>

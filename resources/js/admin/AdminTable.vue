@@ -3,7 +3,7 @@
         <div class="content-header">
             <div class="container-fluid">
                 <div class="row mb-2">
-                    <div class="col-sm-6">
+                    <div class="col-12">
                         <h1 class="m-0">{{ header }}</h1>
                     </div>
                 </div>
@@ -19,8 +19,8 @@
                                 <slot name="inline-block"></slot>
                             </div>
 
-                            <div class="card-body table-responsive p-0">
-                                <table class="table table-hover text-nowrap">
+                            <div class="card-body table-responsive p-0" style="max-height: 600px">
+                                <table class="table table-hover table-head-fixed text-nowrap">
                                     <thead>
                                     <tr>
                                         <th v-for="column in columns">{{ column }}</th>

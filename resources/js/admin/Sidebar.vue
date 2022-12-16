@@ -79,6 +79,23 @@
                             </p>
                         </router-link>
                     </li>
+
+                    <li class="nav-item">
+                        <router-link to="/admin/content-rules" class="nav-link">
+                            <i class="nav-icon fa fa-ban"></i>
+                            <p>
+                                Ограничения контента
+                            </p>
+                        </router-link>
+                    </li>
+                    <li class="nav-item">
+                        <router-link to="/admin/egrn-statements" class="nav-link">
+                            <i class="nav-icon fa fa-book"></i>
+                            <p>
+                                Отчеты ЕГРН
+                            </p>
+                        </router-link>
+                    </li>
                 </ul>
             </nav>
             <!-- /.sidebar-menu -->

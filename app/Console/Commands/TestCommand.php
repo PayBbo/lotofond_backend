@@ -26,6 +26,7 @@ use App\Models\Contact;
 use App\Models\EgrnStatement;
 use App\Models\HolidayDate;
 use App\Models\Lot;
+use App\Models\LotParam;
 use App\Models\Notification;
 use App\Models\Param;
 use App\Models\PriceReduction;
@@ -71,6 +72,21 @@ class TestCommand extends Command
     {
         parent::__construct();
     }
+
+    protected $regexs = [
+        '([АВЕКМНОРСТУХавекмнорстухABEKMHOPCTYXaeopcyx][ ]?\d{3}(?<!000)[ ]?[АВЕКМНОРСТУХавекмнорстухABEKMHOPCTYXaeopcyx]{2})', //Обычные
+        '(?:(?:([АВЕКМНОРСТУХавекмнорстухABEKMHOPCTYXaeopcyx]{2}[ ]?\d{4}(?<!0000)))|(?:(\d{4}[ ]?(?<!0000)[АВЕКМНОРСТУХавекмнорстухABEKMHOPCTYXaeopcyx]{2})))', //Прицеп/мотоциклы/внедорожные мототранспортные средства
+        '([АВЕКМНОРСТУХавекмнорстухABEKMHOPCTYXaeopcyx]{2}[ ]?\d{2}(?<!00)[ ]?[АВЕКМНОРСТУХавекмнорстухABEKMHOPCTYXaeopcyx]{2})', //Мопеды
+        '([АВЕКМНОРСТУХавекмнорстухABEKMHOPCTYXaeopcyx]{2}[ ]?\d{3}(?<!000))', //Такси
+        '(\d{4}[ ]?(?<!0000)[АВЕКМНОРСТУХавекмнорстухABEKMHOPCTYXaeopcyx]{2})', //Военные
+        '(([TtТт])([АВЕКМНОРСТУХавекмнорстухABEKMHOPCTYXaeopcyx]{2}[ ]?\d{3}(?<!000)))', //Окончательно выезжающие за пределы РФ
+        '(?:(?:(?:([АВЕКМНОРСТУХавекмнорстухABEKMHOPCTYXaeopcyx][ ]?\d{4}(?<!0000)))|(?:((?:(?:\d{3}(?<!000))|(?:\d{4}(?<!0000)))[ ]?(?:[АВЕКМНОРСТУавекмнорстуABEKMHOPCTYaeopcy]|(?<maybe_size>[ХхXx]))))))', //МВД
+        '(([KkКк])([АВЕКМНОРСТУХавекмнорстухABEKMHOPCTYXaeopcyx]{2}[ ]?\d{3}(?<!000)))', //Ретро
+        '(([CcСс])([АВЕКМНОРСТУХавекмнорстухABEKMHOPCTYXaeopcyx]{2}[ ]?\d{3}(?<!000)))',//Спорт
+        '(?:(?:((\d{3})(?<!000)[ ]?((?:[cCсС]{2})|(?:[cCсС][dD]))[ ]?(\d)))|(?:((\d{3})(?<!000)[ ]?([Dd]|[TtТт])[ ]?(\d{3})))|(?:(([Dd]|[TtТт])[ ]?(\d{3})(?<!000)[ ]?(\d{2}))))' //Дипломаты
+    ];
+    protected $regexStart = '(?:(?:(?:(?:[Рр][Ее][Гг][Ии][Сс][Тт][Рр][Аа][Цц][Ии][Оо][Нн][Нн][Ыы][Йй][ ]?[Зз][Нн][Аа][Кк])|(?:[Гг][\/\\. ]?[ ]?[Нн][.]?)|(?:[Рр][Ее][Гг][.]?[ ]?[Зз][Нн][Аа][Кк][.]?)|(?:[Гг][Оо][Сс][.]?(?:[Уу][Дд][Аа][Рр][Сс][Тт][Вв][Ее][Нн][Нн][Ыы][Йй])?[ ]?[Нн][.]?(?:[Оо][Мм])?[.]?(?:[Ее][Рр])?)|(?:[Гг][.]?[ ]?[Рр][.]?[ ]?[Зз][.]?)|(?:№))[ ]?[:\-–]?[ ]?)|(?:№)|(?<year>(?:19|20)\d\d )|(?<parenthesis>\()|(?<comma>,[ ]?))';
+    protected $regexEnd = '(?(parenthesis)(?(maybe_size)(*FAIL))\))(?(comma)(?(maybe_size)(*FAIL))(?:,|\.|\n|\z))(?(year)(?(maybe_size)(*FAIL))(?:,|\.| |\n|\z))';
 
     /**
      * Execute the console command.
@@ -165,12 +181,57 @@ class TestCommand extends Command
             logger($min_price);
         }*/
 
-        /* $lot = Lot::find(4);
-         $description = 'Автомобиль РЕНО ЛОГАН год выпуска 2014 VIN X7LLSRB2HEH742941 госномер K 980 EM 70.';
-         $descriptionExtracts = new DescriptionExtractsService();
-         $descriptionExtracts->getDescriptionExtracts($lot, $description);*/
+     /*    $lot = Lot::find(12737);
+         $this->getDescriptionExtracts($lot, $lot->description);*/
 
        // $filesService = new(FilesService::class);
+    }
+
+    public function getDescriptionExtracts($lot, $description)
+    {
+        $cadastr_number = '/\d{2}:\d{2}:\d{1,7}:\d{1,}/';
+        preg_match_all($cadastr_number, $description, $matches);
+        $changeDesc = $description;
+        if (count($matches[0]) > 0) {
+            foreach (array_unique($matches[0]) as $match) {
+                $changeDesc = str_replace($match, str_repeat('░', strlen($match) - 1), $changeDesc);
+            }
+        }
+        $mainParam = new LotParam();
+        $mainParam->type = 'transport';
+        $mainParam->lot_id = $lot->id;
+        $avto_number = '/' . $this->getAvtoNumberRegex() . '/um';
+        preg_match_all($avto_number, $description, $matches);
+        if (count($matches['licence_plate']) > 0) {
+            foreach (array_unique($matches['licence_plate']) as $match) {
+                $changeDesc = str_replace($match, str_repeat('░', strlen($match) - 1), $changeDesc);
+            }
+        }
+        $avto_vin = '/[A-HJ-NPR-Z0-9]{17}/ui';
+        preg_match_all($avto_vin, $description, $matches);
+        if (count($matches[0]) > 0) {
+            foreach (array_unique($matches[0]) as $match) {
+                $changeDesc = str_replace($match, str_repeat('░', strlen($match) - 1), $changeDesc);
+            }
+        }
+        $lot->processed_description = $changeDesc;
+        $lot->save();
+    }
+
+    public function getAvtoNumberRegex()
+    {
+        $result = $this->regexStart . '(?<licence_plate>(?:';
+        $regexs = $this->regexs;
+        $last_regex = end($regexs);
+        foreach ($regexs as $regex) {
+            if ($regex !== $last_regex) {
+                $result .= '(?:' . $regex . ')|';
+            } else {
+                $result .= '(?:' . $regex . ')';
+            }
+        }
+        $result .= ')(?:[ ]?(\d{2,3}(?<!(00)|(000)))(?:[ \/\\\\]?(RUS|rus))?))' . $this->regexEnd;
+        return $result;
     }
 
     public function getMinPrice($matchesPrices, $startPrice)
