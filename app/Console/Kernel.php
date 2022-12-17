@@ -4,6 +4,7 @@ namespace App\Console;
 
 use App\Jobs\EGRNStatementJob;
 use App\Jobs\FavouriteJob;
+use App\Jobs\FixDescription;
 use App\Jobs\MonitoringJob;
 use App\Jobs\MonitoringNotificationJob;
 use App\Jobs\ParseArbitrManager;
@@ -38,10 +39,9 @@ class Kernel extends ConsoleKernel
         $schedule->job((new ParseCompanyTradeOrganizer)->onQueue('parse'))->daily()->timezone('Europe/Moscow');
         $schedule->job((new ParseDebtor)->onQueue('parse'))->daily()->timezone('Europe/Moscow');
         $schedule->job((new ParseDebtorMessages)->onQueue('parse'))->hourly()->timezone('Europe/Moscow');
-        if (Cache::get('countRealtyLotsChannel') < 10 || Cache::get('countTransportLotsChannel')) {
-            $schedule->job((new SendLotsToChannel)->onQueue('parse'))->hourly()->timezone('Europe/Moscow')->between('8:00', '20:00');
-        }
+        $schedule->job((new SendLotsToChannel)->onQueue('parse'))->hourly()->timezone('Europe/Moscow')->between('8:00', '20:00');
         $schedule->job((new EGRNStatementJob)->onQueue('user'))->dailyAt('08:30')->timezone('Europe/Moscow');
+        $schedule->job((new FixDescription)->onQueue('parse'))->dailyAt('03:30')->timezone('Europe/Moscow');
     }
 
     /**
