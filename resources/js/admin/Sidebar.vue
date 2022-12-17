@@ -23,7 +23,7 @@
                             </p>
                         </router-link>
                     </li>
-                    <li class="nav-item">
+                    <li v-can="'user-list'" class="nav-item">
                         <router-link to="/admin/users" class="nav-link">
                             <i class="nav-icon fas fa-users"></i>
                             <p>
@@ -31,7 +31,7 @@
                             </p>
                         </router-link>
                     </li>
-                    <li class="nav-item">
+                    <li v-can="'role-list'" class="nav-item">
                         <router-link to="/admin/roles" class="nav-link">
                             <i class="nav-icon fa fa-cubes"></i>
                             <p>
@@ -39,7 +39,7 @@
                             </p>
                         </router-link>
                     </li>
-                    <li class="nav-item">
+                    <li v-can="'text-data-list'" class="nav-item">
                         <router-link to="/admin/text-data" class="nav-link">
                             <i class="nav-icon fa fa-cogs"></i>
                             <p>
@@ -47,7 +47,7 @@
                             </p>
                         </router-link>
                     </li>
-                    <li class="nav-item">
+                    <li v-can="'emails-list'" class="nav-item">
                         <router-link to="/admin/contacts" class="nav-link">
                             <i class="nav-icon fa fa-envelope"></i>
                             <p>
@@ -55,7 +55,7 @@
                             </p>
                         </router-link>
                     </li>
-                    <li class="nav-item">
+                    <li  v-can="'application-list'" class="nav-item">
                         <router-link to="/admin/applications" class="nav-link">
                             <i class="nav-icon fa fa-question-circle"></i>
                             <p>
@@ -63,7 +63,7 @@
                             </p>
                         </router-link>
                     </li>
-                    <li class="nav-item">
+                    <li v-can="'lot-list'" class="nav-item">
                         <router-link to="/admin/lots" class="nav-link">
                             <i class="nav-icon fa fa-archive"></i>
                             <p>
@@ -71,7 +71,7 @@
                             </p>
                         </router-link>
                     </li>
-                    <li class="nav-item">
+                    <li v-can="'tariff-list'" class="nav-item">
                         <router-link to="/admin/tariffs" class="nav-link">
                             <i class="nav-icon fa fa-tags"></i>
                             <p>
@@ -80,7 +80,7 @@
                         </router-link>
                     </li>
 
-                    <li class="nav-item">
+                    <li v-can="'content-rules-list'" class="nav-item">
                         <router-link to="/admin/content-rules" class="nav-link">
                             <i class="nav-icon fa fa-ban"></i>
                             <p>
@@ -88,11 +88,19 @@
                             </p>
                         </router-link>
                     </li>
-                    <li class="nav-item">
+                    <li v-can="'egrn-statements-list'" class="nav-item">
                         <router-link to="/admin/egrn-statements" class="nav-link">
                             <i class="nav-icon fa fa-book"></i>
                             <p>
                                 Отчеты ЕГРН
+                            </p>
+                        </router-link>
+                    </li>
+                    <li v-can="'holidays-list'" class="nav-item">
+                        <router-link to="/admin/holiday-days" class="nav-link">
+                            <i class="nav-icon fa fa-calendar"></i>
+                            <p>
+                                Праздничные дни
                             </p>
                         </router-link>
                     </li>

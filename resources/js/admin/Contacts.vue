@@ -40,12 +40,14 @@
         </section>
         <AdminTable header="Почты для рассылки" :columns="columns" :pagination="pagination" :getData="getData">
             <template v-slot:inline-block>
-                <div class="card-tools w-25">
-                    <div class="input-group input-group-sm w-100">
-                        <select class="form-control" v-model="compParam">
-                            <option value="">Выберите назначение почты</option>
-                            <option v-for="type in types" :value="type.id">{{ type.value }}</option>
-                        </select>
+                <div class="row justify-content-end">
+                    <div class="col-4">
+                        <div class="input-group input-group-sm w-100">
+                            <select class="form-control" v-model="compParam">
+                                <option value="">Выберите назначение почты</option>
+                                <option v-for="type in types" :value="type.id">{{ type.value }}</option>
+                            </select>
+                        </div>
                     </div>
                 </div>
             </template>
@@ -90,7 +92,7 @@ export default {
     },
     methods: {
         ...mapActions(['addData', 'getData']),
-        storeData(item){
+        storeData(item) {
             this.addData(item)
             this.getData()
             this.$store.commit('setItem', {contact: '', type: ''})

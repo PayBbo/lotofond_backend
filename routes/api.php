@@ -425,7 +425,7 @@ Route::group(['middleware' => ['json.response', 'localization']], function () {
 
                     Route::get('/', [HolidayDayController::class, 'get']);
 
-                    Route::post('/add', [HolidayDayController::class, 'add']);
+                    Route::post('/', [HolidayDayController::class, 'add']);
 
                     Route::delete('/{id}', [HolidayDayController::class, 'delete']);
 

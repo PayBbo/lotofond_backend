@@ -27,19 +27,18 @@ class ApplicationsController extends Controller
     {
         $search = $request->query('param');
         $applications = Application::when(isset($search), function ($query) use ($search) {
-            $query->whereHas('tariff', function ($query) use ($search) {
-                    $query->where('title', 'LIKE', '%' . $search . '%');
-                })
-                ->orWhere('email', 'LIKE', '%' . $search . '%')
+            $query->where('email', 'LIKE', '%' . $search . '%')
                 ->orWhere('username', 'LIKE', '%' . $search . '%')
                 ->orWhere('phone', 'LIKE', '%' . $search . '%')
                 ->orWhere('topic', 'LIKE', '%' . $search . '%')
-                ->orWhere('question', 'LIKE', '%' . $search . '%');
-        })->paginate(20);
+                ->orWhere('question', 'LIKE', '%' . $search . '%')
+                ->orWhere('cadastral_number', 'LIKE', '%' . $search . '%');
+        })->orderBy('created_at', 'desc')->paginate(20);
         return response(new ApplicationCollection($applications), 200);
     }
 
-    public function update(Request $request)
+    public
+    function update(Request $request)
     {
         $application = Application::find($request->id);
         if ($application) {
@@ -50,9 +49,11 @@ class ApplicationsController extends Controller
         return response(null, 404);
     }
 
-    public function show($id){
+    public
+    function show($id)
+    {
         $application = Application::find($id);
-        if(!$application){
+        if (!$application) {
             return response(null, 404);
         }
         return response(new ApplicationResource($application), 200);

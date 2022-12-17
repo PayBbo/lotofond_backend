@@ -1,14 +1,16 @@
 <template>
     <AdminTable header="Заявки" :columns="columns" :pagination="pagination" :getData="getData">
         <template v-slot:inline-block>
-            <div class="card-tools w-25">
-                <div class="input-group input-group-sm w-100">
-                    <input type="text" v-model="param" name="table_search" class="form-control float-right"
-                           placeholder="Поиск">
-                    <div class="input-group-append">
-                        <button type="submit" class="btn btn-default" @click="searchParam(param)">
-                            <i class="fas fa-search"></i>
-                        </button>
+            <div class="row justify-content-end">
+                <div class="col-4">
+                    <div class="input-group input-group-sm w-100">
+                        <input type="text" v-model="param" name="table_search" class="form-control float-right"
+                               placeholder="Поиск">
+                        <div class="input-group-append">
+                            <button type="submit" class="btn btn-default" @click="searchParam(param)">
+                                <i class="fas fa-search"></i>
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -22,13 +24,16 @@
                 <td>{{ item.type }}</td>
                 <td>{{ item.paymentId ? item.paymentId : "Отсутствует" }}</td>
                 <td>
-                    <select v-can="'application-edit'" class="form-control" v-model="item.status"
+                    <select v-if="item.tariffId !== 7" v-can="'application-edit'" class="form-control"
+                            v-model="item.status"
                             @change="updateData(item)">
                         <option v-for="status in statuses" :value="status.code">{{ status.title }}</option>
                     </select>
+                    <p v-if="item.tariffId === 7">{{ statuses.find(status => status.code === item.status).title }}</p>
                 </td>
                 <td>
-                    <button :id="'button-'+item.id" type="button" class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#modalView"
+                    <button :id="'button-'+item.id" type="button" class="btn btn-info btn-sm" data-bs-toggle="modal"
+                            data-bs-target="#modalView"
                             @click="showModal(index, modalColumns)">
                         <i class="fa fa-eye"></i>
                     </button>
@@ -64,7 +69,7 @@ export default {
             statuses: [
                 {'title': 'Не обработана', 'code': 'notProcessed'},
                 {'title': 'В процессе', 'code': 'inProgress'},
-                {'title': 'Отлонена системой', 'code': 'rejectedBySystem'},
+                {'title': 'Отклонена системой', 'code': 'rejectedBySystem'},
                 {'title': 'Отклонена пользователем', 'code': 'rejectedByUser'},
                 {'title': 'Завершена', 'code': 'completed'}
             ]

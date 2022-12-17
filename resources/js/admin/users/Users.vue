@@ -1,17 +1,21 @@
 <template>
     <AdminTable header="Пользователи" :columns="columns" :pagination="pagination" :getData="getData">
         <template v-slot:inline-block>
-            <router-link v-can="'user-add'" :to="'/admin/users/add'" class="btn btn-success btn-sm">
-                <i class="fas fa-plus"></i>
-            </router-link>
-            <div class="card-tools w-25">
-                <div class="input-group input-group-sm w-100">
-                    <input type="text" v-model="param" name="table_search" class="form-control float-right"
-                           placeholder="Поиск">
-                    <div class="input-group-append">
-                        <button type="submit" class="btn btn-default" @click="searchParam(param)">
-                            <i class="fas fa-search"></i>
-                        </button>
+            <div class="row">
+                <div class="col">
+                    <router-link v-can="'user-add'" :to="'/admin/users/add'" class="btn btn-success btn-sm">
+                        <i class="fas fa-plus"></i>
+                    </router-link>
+                </div>
+                <div class="col-4">
+                    <div class="input-group input-group-sm w-100">
+                        <input type="text" v-model="param" name="table_search" class="form-control float-right"
+                               placeholder="Поиск">
+                        <div class="input-group-append">
+                            <button type="submit" class="btn btn-default" @click="searchParam(param)">
+                                <i class="fas fa-search"></i>
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>

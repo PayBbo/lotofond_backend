@@ -1,14 +1,18 @@
 <template>
     <AdminTable header="Текстовые данные" :columns="columns" :pagination="pagination" :getData="getData">
         <template v-slot:inline-block>
-            <router-link v-can="'text-data-add'" :to="'/admin/text-data/add'" class="btn btn-success btn-sm">
-                    <i class="fas fa-plus"></i>
-            </router-link>
-            <div class="card-tools w-25">
-                <div class="input-group input-group-sm w-100">
-                    <select class="form-control" v-model="compParam">
-                        <option v-for="type in types" :value="type.type">{{ type.screen }}</option>
-                    </select>
+            <div class="row">
+                <div class="col">
+                    <router-link v-can="'text-data-add'" :to="'/admin/text-data/add'" class="btn btn-success btn-sm">
+                        <i class="fas fa-plus"></i>
+                    </router-link>
+                </div>
+                <div class="col-4">
+                    <div class="input-group input-group-sm w-100">
+                        <select class="form-control" v-model="compParam">
+                            <option v-for="type in types" :value="type.type">{{ type.screen }}</option>
+                        </select>
+                    </div>
                 </div>
             </div>
         </template>
@@ -17,7 +21,8 @@
                 <td>{{ item.header }}</td>
                 <td>{{ item.value }}</td>
                 <td>
-                    <router-link v-can="'text-data-edit'" :to="'/admin/text-data/'+item.id" class="btn btn-primary btn-sm">
+                    <router-link v-can="'text-data-edit'" :to="'/admin/text-data/'+item.id"
+                                 class="btn btn-primary btn-sm">
                         <i class="fas fa-pencil-alt"> </i>
                     </router-link>
                     <button v-can="'text-data-delete'" class="btn btn-danger btn-sm" @click="deleteItem(item.id)">

@@ -2,14 +2,16 @@
     <AdminTable header="Ограничения доступа к контенту на бесплатном тарифе"
                 :columns="columns" :pagination="pagination" :getData="getData">
         <template v-slot:inline-block>
-            <div class="card-tools w-25">
-                <div class="input-group input-group-sm w-100">
-                    <input type="text" v-model="param" name="table_search" class="form-control float-right"
-                           placeholder="Поиск">
-                    <div class="input-group-append">
-                        <button type="submit" class="btn btn-default" @click="searchParam(param)">
-                            <i class="fas fa-search"></i>
-                        </button>
+            <div class="row justify-content-end">
+                <div class="col-4">
+                    <div class="input-group input-group-sm w-100">
+                        <input type="text" v-model="param" name="table_search" class="form-control float-right"
+                               placeholder="Поиск">
+                        <div class="input-group-append">
+                            <button type="submit" class="btn btn-default" @click="searchParam(param)">
+                                <i class="fas fa-search"></i>
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -18,11 +20,12 @@
             <tr v-for="(item, index) in dataItems">
                 <td>{{ item.title }}</td>
                 <td>
-                    <div  v-can="'content-rules-edit'" class="switchToggle">
+                    <div v-can="'content-rules-edit'" class="switchToggle">
                         <input type="checkbox" :id="'contentRuleTitle'+index"
                                v-model="item.isAvailable" @change="updateData(item)">
                         <label :for="'contentRuleTitle'+index">Toggle</label>
                     </div>
+                    <p v-cannot="'content-rules-edit'">{{ item.isAvailable ? 'Да' : 'Нет' }}</p>
                 </td>
             </tr>
         </template>

@@ -4,7 +4,10 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\HolidayAddRequest;
+use App\Http\Resources\Admin\HolidayCollection;
+use App\Http\Resources\PaginationResource;
 use App\Models\HolidayDate;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class HolidayDayController extends Controller
@@ -24,16 +27,22 @@ class HolidayDayController extends Controller
     public function get(Request $request)
     {
         $searchString = $request->query('param');
-        $holidays = HolidayDate::when(isset($searchString), function ($query) use ($searchString) {
-            $query->where('date', $searchString);
-        })->select('id', 'date')->paginate(20);
-        return response($holidays, 200);
+        if ($searchString === "null") {
+            $searchString = null;
+        }
+        if(!is_null($searchString)){
+            $searchString = Carbon::parse($searchString)->format('Y-m-d');
+        }
+        $holidays = HolidayDate::when(!is_null($searchString), function ($query) use ($searchString) {
+            $query->where('date', 'LIKE', '%'.$searchString.'%');
+        })->orderBy('date', 'desc')->paginate(20);
+        return response(new HolidayCollection($holidays),  200);
     }
 
     public function add(HolidayAddRequest $request)
     {
         HolidayDate::create([
-            'date' => $request->date
+            'date' => Carbon::parse($request->date)
         ]);
         return response(null, 200);
     }

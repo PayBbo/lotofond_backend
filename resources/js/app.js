@@ -289,6 +289,12 @@ Vue.directive('can', function (el, binding) {
     }
 })
 
+Vue.directive('cannot', function (el, binding) {
+    if(store.getters.permissions !== undefined) {
+        el.hidden =  store.getters.permissions.indexOf(binding.value) !== -1;
+    }
+})
+
 const app = new Vue({
     el: "#app",
     router,

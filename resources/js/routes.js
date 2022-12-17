@@ -342,7 +342,7 @@ let router = new VueRouter({
             }
         },
         {
-            path: '/admin/holidays-dates',
+            path: '/admin/holiday-days',
             name: 'HolidaysDates',
             beforeEnter: guardAdminRoute,
             component: () =>

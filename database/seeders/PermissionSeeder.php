@@ -46,12 +46,12 @@ class PermissionSeeder extends Seeder
             ['name' => 'tariff-add', 'visible_name' => 'Добавление тарифов', 'permission_group' => 'Тарифы'],
             ['name' => 'tariff-delete', 'visible_name' => 'Удаление тарифов', 'permission_group' => 'Тарифы'],
 
-            ['name' => 'holidays-list', 'visible_name' => 'Просмотр выходных дней', 'permission_group' => 'Выходные дни'],
-            ['name' => 'holidays-add', 'visible_name' => 'Добавление выходных дней', 'permission_group' => 'Выходные дни'],
-            ['name' => 'holidays-delete', 'visible_name' => 'Удаление выходных дней', 'permission_group' => 'Выходные дни'],
+            ['name' => 'holidays-list', 'visible_name' => 'Просмотр праздничных дней', 'permission_group' => 'Праздничные дни'],
+            ['name' => 'holidays-add', 'visible_name' => 'Добавление праздничных дней', 'permission_group' => 'Праздничные дни'],
+            ['name' => 'holidays-delete', 'visible_name' => 'Удаление праздничных дней', 'permission_group' => 'Праздничные дни'],
 
             ['name' => 'content-rules-list', 'visible_name' => 'Просмотр ограничений контента', 'permission_group' => 'Ограничения контента'],
-            ['name' => 'content-rules-edit', 'visible_name' => 'Удаление ограничений контента', 'permission_group' => 'Ограничения контента'],
+            ['name' => 'content-rules-edit', 'visible_name' => 'Изменение ограничений контента', 'permission_group' => 'Ограничения контента'],
 
             ['name' => 'egrn-statements-list', 'visible_name' => 'Просмотр отчетов ЕГРН', 'permission_group' => 'Отчеты ЕГРН'],
         ];

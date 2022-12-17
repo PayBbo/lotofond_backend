@@ -54,12 +54,10 @@ class SendLotsToChannel implements ShouldQueue
             "mototechnics"
         ];
         $transportType = 'countTransportLotsChannel';
-        if (Cache::get($realtyType) < 10) {
-            $this->sendLots($realtyCategories, $realtyType);
-        }
         if (Cache::get($transportType) < 10) {
             $this->sendLots($transportCategories, $transportType);
         }
+        $this->sendLots($realtyCategories, $realtyType);
 
     }
 
@@ -67,11 +65,6 @@ class SendLotsToChannel implements ShouldQueue
     {
         $minDate = Carbon::now()->setTimezone('Europe/Moscow')->subHour();
         $maxDate = Carbon::now()->setTimezone('Europe/Moscow');
-        $cachedCount = Cache::get($type);
-        $limit = 10;
-        if (isset($cachedCount)) {
-            $limit -= $cachedCount;
-        }
         $regions = Region::whereIn('region_group_id', [3, 7])->get()->pluck('code')->toArray();
         $regions[] = 'PenzaRegion';
         $this->query = Lot::whereBetween('lots.created_at', [$minDate, $maxDate])
@@ -86,9 +79,19 @@ class SendLotsToChannel implements ShouldQueue
                     $que->whereIn('code', $regions);
                 });
             });
-        })->limit($limit)->get();
-        $count = $lots->count() + $cachedCount;
-        Cache::put($type, $count, Carbon::now()->setTimezone('Europe/Moscow')->endOfDay());
+        });
+        if($type == 'countTransportLotsChannel'){
+            $cachedCount = Cache::get($type);
+            $limit = 10;
+            if (isset($cachedCount)) {
+                $limit -= $cachedCount;
+            }
+            $lots = $lots->limit($limit)->get();
+            $count = $lots->count() + $cachedCount;
+            Cache::put($type, $count, Carbon::now()->setTimezone('Europe/Moscow')->endOfDay());
+        }else{
+            $lots = $lots->get();
+        }
         foreach ($lots as $lot) {
             $url = URL::to('/lot/' . $lot->id);
             $lotDesc = mb_strimwidth($lot->description, 0, 250, "...");
@@ -99,7 +102,7 @@ class SendLotsToChannel implements ShouldQueue
 <strong>Описание лота:</strong>
 <p>$lotDesc</p>
 <strong>Начальная цена: $price ₽</strong>")));
-            if ($lot->auction->auctionType->title == 'PublicOffer' || $lot->auction->auctionType->title == 'ClosePublicOffer' && !is_null($lot->min_price)) {
+            if (($lot->auction->auctionType->title == 'PublicOffer' || $lot->auction->auctionType->title == 'ClosePublicOffer') && !is_null($lot->min_price)) {
                 $min_price = number_format($lot->min_price, 2, ',', ' ');
                 $html .= "
 <strong>Минимальная цена: $min_price ₽</strong>";

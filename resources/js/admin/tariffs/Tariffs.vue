@@ -1,15 +1,19 @@
 <template>
     <AdminTable header="Тарифы" :columns="columns" :pagination="pagination" :getData="getData">
         <template v-slot:inline-block>
-            <router-link v-can="'tariff-add'" :to="'/admin/tariffs/add'" class="btn btn-success btn-sm">
-                <i class="fas fa-plus"></i>
-            </router-link>
+            <div class="row">
+                <div class="col">
+                    <router-link v-can="'tariff-add'" :to="'/admin/tariffs/add'" class="btn btn-success btn-sm">
+                        <i class="fas fa-plus"></i>
+                    </router-link>
+                </div>
+            </div>
         </template>
         <template v-slot:raws-block>
             <tr v-for="item in dataItems">
                 <td>{{ item.title }}</td>
                 <td>{{ item.period + ' дн.' }}</td>
-                <td>{{ item.price  | priceFormat}} ₽</td>
+                <td>{{ item.price  | priceFormat }} ₽</td>
                 <td>{{ item.description }}</td>
                 <td>
                     <router-link v-can="'tariff-edit'" :to="'/admin/tariffs/'+item.id" class="btn btn-primary btn-sm">

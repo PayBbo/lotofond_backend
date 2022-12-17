@@ -25,7 +25,7 @@ class EgrnStatementsController extends Controller
             $query->whereHas('application', function($que) use ($cadastralNumber){
                 $que->where('cadastral_number', 'LIKE', '%'.$cadastralNumber.'%');
             });
-        })->paginate(20);
+        })->orderBy('created_at', 'desc')->paginate(20);
         return response(new EgrnStatementCollection($statements), 200);
     }
 }
