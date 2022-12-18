@@ -186,6 +186,20 @@ class TestCommand extends Command
 
        // $filesService = new(FilesService::class);
 
+        $lots = Lot::where('processed_description', null)->get();
+        foreach ($lots as $lot) {
+            $descriptionExtracts = new DescriptionExtractsService();
+            $descriptionExtracts->getDescriptionExtracts($lot, $lot->description);
+            if (is_null($lot->min_price) && ($lot->auction->auctionType->title == 'PublicOffer' || $lot->auction->auctionType->title == 'ClosePublicOffer')) {
+                $prices = $lot->showPriceReductions->pluck('price')->toArray();
+                if (count($prices) > 0) {
+                    $lot->min_price = min($prices);
+                    $lot->save();
+                }
+            }
+        }
+
+
     }
 
     public function getDescriptionExtracts($lot, $description)
