@@ -60,8 +60,18 @@
                                     {{ auth_user ? auth_user.name : '' }} {{ auth_user ? auth_user.lastName : '' }}
                                 </div>
                                 <div class="bkt-navbar__user-tariff">
-                                    тариф: <span class="bkt-navbar__user-tariff-name">
-                                {{auth_user && auth_user.tariff ? auth_user.tariff.title  :'Базовый'}}</span>
+                                    тариф:
+                                    <span class="bkt-navbar__user-tariff-name">
+                                        {{auth_user && auth_user.tariff ? auth_user.tariff.title  :'Базовый'}}
+                                    </span>
+                                </div>
+                                <div class="bkt-navbar__user-tariff"
+                                     v-if="auth_user && auth_user.tariff && auth_user.tariff.expiredAt"
+                                >
+                                    до:
+                                    <span class="bkt-navbar__user-tariff-name">
+                                        {{auth_user && auth_user.tariff ? auth_user.tariff.expiredAt  :''}}
+                                    </span>
                                 </div>
                             </div>
                             <div class="bkt-navbar__user-icon">
@@ -234,6 +244,13 @@
                                 тариф: <span class="bkt-sidebar__user-tariff-name">
                                 {{auth_user && auth_user.tariff ? auth_user.tariff.title  :'Базовый'}}</span>
                             </div>
+                            <div class="bkt-sidebar__user-tariff">
+                                истекает:
+                                <span class="bkt-sidebar__user-tariff-name">
+                                    {{auth_user && auth_user.tariff ? auth_user.tariff.expiredAt  :''}}
+                                </span>
+                            </div>
+
                         </div>
                     </div>
                     <div class="bkt-sidebar__button" @click="logout" data-bs-dismiss="offcanvas">

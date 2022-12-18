@@ -5,6 +5,11 @@ require('./bootstrap');
 window.Vue = require("vue").default;
 import router from './routes';
 import store from './store/index.js';
+// import firebaseMessaging from './firebase'
+// Vue.prototype.$messaging = firebaseMessaging
+import firebaseInitialize from './firebase'
+const firebaseInit = firebaseInitialize();
+
 const token = localStorage.getItem('token');
 if (token) {
     axios.defaults.headers.common['Authorization'] = "Bearer " + token;

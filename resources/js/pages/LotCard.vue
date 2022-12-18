@@ -63,7 +63,7 @@
         <div class="row bkt-lot__cards w-100 p-0">
             <div class="col-12 col-lg-7 order-2 order-lg-1 ps-lg-0">
                 <div class="bkt-wrapper-column bkt-lot__cards">
-                    <div class="bkt-card bkt-lot__card" v-if="!loading">
+                    <div class="bkt-card bkt-lot__card" v-if="!loading&&item">
                         <div class="bkt-card__body">
 <!--                            <div class="d-none d-lg-block">-->
 <!--                                <h3 class="bkt-card__title bkt-text-truncate">-->
@@ -85,7 +85,7 @@
                                 </button>
                             </div>
                             <ul class="bkt-contents" v-if="isLoggedIn">
-                                <li v-if="item && item.trade || (rules && rules.trade.type && item.trade.type)">
+                                <li v-if="!rules.trade.type || (rules.trade.type && item && item.trade && item.trade.type)">
                                     <div class="bkt-contents__heading">
                                         <span class="bkt-contents__heading">тип торгов</span>
                                     </div>
@@ -95,7 +95,7 @@
                                         </skeleton>
                                     </div>
                                 </li>
-                                <li v-if="item && item.trade || (rules && rules.trade.publishDate && item.trade.publishDate)">
+                                <li v-if="!rules.trade.publishDate||(item && item.trade && rules.trade.publishDate && item.trade.publishDate)">
                                     <div class="bkt-contents__heading">
                                         <span class="bkt-contents__heading">дата размещения</span>
                                     </div>
@@ -105,7 +105,7 @@
                                         </skeleton>
                                     </div>
                                 </li>
-                                <li v-if="!rules || (rules && !rules.state) || (rules && rules.state && item.state)">
+                                <li v-if="!rules.state||(rules && rules.state && item && item.state)">
                                     <div class="bkt-contents__heading">
                                         <span class="bkt-contents__heading">статус торгов</span>
                                     </div>
@@ -115,7 +115,7 @@
                                         </skeleton>
                                     </div>
                                 </li>
-                                <li v-if="item.trade || (rules && rules.trade.priceOfferForm && item.trade.priceOfferForm)">
+                                <li v-if="!rules.trade.priceOfferForm || (rules.trade.priceOfferForm && item && item.trade && item.trade.priceOfferForm)">
                                     <div class="bkt-contents__heading">
                                         <span class="bkt-contents__heading">форма подачи предложения о цене</span>
                                     </div>
@@ -134,28 +134,31 @@
                                         </skeleton>
                                     </div>
                                 </li>
-                                <template v-for="(category, index) in item.categories"
-                                          v-if="(!rules || (rules && rules.categories)) && item.categories.length>0">
-                                    <li>
-                                        <div class="bkt-contents__heading">
-                                            <span class="bkt-contents__heading">категория объекта</span>
-                                        </div>
-                                        <div class="bkt-contents__answer">
-                                            <!--                                        <span>{{$t('categories.'+category.key)}}</span>-->
-                                            <span>{{category.label}}</span>
-                                        </div>
-                                    </li>
-                                    <li v-for="subcategory in category.subcategories">
-                                        <div class="bkt-contents__heading">
-                                            <span class="bkt-contents__heading">подкатегория объекта</span>
-                                        </div>
-                                        <div class="bkt-contents__answer">
-                                            <!--                                        <span>{{$t('categories.'+subcategory)}}</span>-->
-                                            <span>{{subcategory.label}}</span>
-                                        </div>
-                                    </li>
+                                <template v-if="item && item.categories && item.categories.length>0">
+                                    <template v-for="(category, index) in item.categories"
+                                    >
+                                        <li>
+                                            <div class="bkt-contents__heading">
+                                                <span class="bkt-contents__heading">категория объекта</span>
+                                            </div>
+                                            <div class="bkt-contents__answer">
+                                                <!--                                        <span>{{$t('categories.'+category.key)}}</span>-->
+                                                <span>{{category.label}}</span>
+                                            </div>
+                                        </li>
+                                        <li v-for="subcategory in category.subcategories">
+                                            <div class="bkt-contents__heading">
+                                                <span class="bkt-contents__heading">подкатегория объекта</span>
+                                            </div>
+                                            <div class="bkt-contents__answer">
+                                                <!--                                        <span>{{$t('categories.'+subcategory)}}</span>-->
+                                                <span>{{subcategory.label}}</span>
+                                            </div>
+                                        </li>
+                                    </template>
                                 </template>
-                                <template v-if="item.location && (!rules || (rules && rules.location))">
+
+                                <template v-if="item && item.location && (!rules || (rules && rules.location))">
                                     <li v-for="location in item.location">
                                         <div class="bkt-contents__heading">
                                             <span class="bkt-contents__heading">
@@ -276,7 +279,7 @@
 <!--                            </ShareNetwork>-->
                         </div>
                     </div>
-                    <div class="bkt-card bkt-lot__card" v-if="loading">
+                    <div class="bkt-card bkt-lot__card" v-if="loading||!item">
                         <div class="bkt-card__body">
                             <div class="d-none d-lg-block">
                                 <h3 class="bkt-card__title bkt-text-truncate">
@@ -378,9 +381,9 @@
                             </div>
                         </div>
                         <div class="bkt-card-price bkt-button w-100"
-                             :class="{'bkt-bg-red': (!rules || (rules && rules.currentPriceState)) && item.currentPriceState=='down',
-                                  'bkt-bg-green': (!rules || (rules && rules.currentPriceState)) && item.currentPriceState=='up',
-                                  'bkt-bg-primary-lighter bkt-text-primary': (!rules || (rules && rules.currentPriceState)) && item.currentPriceState=='hold',
+                             :class="{'bkt-bg-red': (!rules || (rules && rules.currentPriceState)) && item && item.currentPriceState=='down',
+                                  'bkt-bg-green': (!rules || (rules && rules.currentPriceState)) && item && item.currentPriceState=='up',
+                                  'bkt-bg-primary-lighter bkt-text-primary': (!rules || (rules && rules.currentPriceState)) && item && item.currentPriceState=='hold',
                                   'bkt-border-neutral-light bkt-text-neutral-dark h-100': rules && ( !rules.currentPrice || !rules.currentPriceState) }"
                         >
                             <div>
@@ -391,7 +394,7 @@
                             </div>
                             <skeleton type_name="spoiler_mini" skeleton_class="bkt-card-price-icon shadow-none top-auto bottom-auto"
                                       tag="div" :loading="rules && !rules.currentPriceState"
-                                      v-if="(!rules && item.currentPriceState!=='hold') || (rules && rules.currentPriceState && item.currentPriceState!=='hold')"
+                                      v-if="rules.currentPriceState && item && item.currentPriceState!=='hold'"
                             >
                                 <div class="bkt-card-price-icon"
                                      :class="{'bkt-bg-red-light': item.currentPriceState=='down',
@@ -994,7 +997,8 @@
 <!--                                            <button class="bkt-button primary">Добавить набор</button>-->
 <!--                                        </div>-->
 <!--                                    </div>-->
-            <div v-if="isLoggedIn && (rules && (rules.priceReduction || rules.priceReductionHtml))" class="col-12 order-3 px-lg-0">
+            <div v-if="isLoggedIn && (item && item.trade && (item.trade.type === 'PublicOffer' || item.trade.type === 'ClosePublicOffer'))
+            && (rules && (rules.priceReduction || rules.priceReductionHtml))" class="col-12 order-3 px-lg-0">
                 <bkt-collapse title="График снижения цены" id="priceReduction" :loading="loading"
                               :disabled="loading" class="bkt-lot__collapse"
                 >
@@ -1157,14 +1161,14 @@
                                 <bkt-pagination
                                     :limit="1"
                                     :data="related_lots_pagination"
-                                    @change-page="getRelatedLots"
+                                    @change-page="changePageInCollapse($event, 'RelatedLots')"
                                 ></bkt-pagination>
                             </div>
                         </div>
                     </template>
                 </bkt-collapse>
             </div>
-            <div v-if="item.trade && item.trade.debtor && isLoggedIn" class="col-12 col-lg-12 order-3 px-lg-0">
+            <div v-if="item && item.trade && item.trade.debtor && isLoggedIn" class="col-12 col-lg-12 order-3 px-lg-0">
                 <div class="bkt-card bkt-card__body bkt-lot__card">
                     <div class="bkt-card__header bkt-wrapper-between pb-0">
                         <h3 class="bkt-card__title">Информация по должнику</h3>
@@ -1222,7 +1226,7 @@
                     </ul>
                 </div>
             </div>
-            <div v-if="item.trade && item.trade.debtor && isLoggedIn" class="col-12 col-lg-12 order-3 px-lg-0">
+            <div v-if="item && item.trade && item.trade.debtor && isLoggedIn" class="col-12 col-lg-12 order-3 px-lg-0">
                 <bkt-collapse title="Другие активные лоты должника" :count="debtor_active_lots_pagination.total"
                               id="collapseDebtorActiveLots" :loading="debtor_active_lots_loading"
                               :disabled="debtor_active_lots.length==0&&!debtor_active_lots_loading"
@@ -1256,16 +1260,16 @@
                                 <bkt-pagination
                                     :limit="1"
                                     :data="debtor_active_lots_pagination"
-                                    @change-page="getDebtorActiveLots"
+                                    @change-page="changePageInCollapse($event,'DebtorActiveLots')"
                                 ></bkt-pagination>
                             </div>
                         </div>
                     </template>
                 </bkt-collapse>
             </div>
-            <div v-if="item.trade && item.trade.debtor && isLoggedIn" class="col-12 col-lg-12 order-3 px-lg-0">
+            <div v-if="item && item.trade && item.trade.debtor && isLoggedIn" class="col-12 col-lg-12 order-3 px-lg-0">
                 <bkt-collapse title="Завершённые лоты должника " :count="debtor_completed_lots_pagination.total"
-                              id="collapseCompletedLots" :loading="debtor_completed_lots_loading"
+                              id="collapseDebtorCompletedLots" :loading="debtor_completed_lots_loading"
                               :disabled="debtor_completed_lots.length==0&&!debtor_completed_lots_loading"
                               class="bkt-lot__collapse"
                 >
@@ -1300,14 +1304,14 @@
                                 <bkt-pagination
                                     :limit="1"
                                     :data="debtor_completed_lots_pagination"
-                                    @change-page="getDebtorCompletedLots"
+                                    @change-page="changePageInCollapse($event,'DebtorCompletedLots')"
                                 ></bkt-pagination>
                             </div>
                         </div>
                     </template>
                 </bkt-collapse>
             </div>
-            <div v-if="item.trade && item.trade.organizer && isLoggedIn" class="col-12 col-lg-8 order-3 ps-lg-0">
+            <div v-if="item && item.trade && item.trade.organizer && isLoggedIn" class="col-12 col-lg-8 order-3 ps-lg-0">
                 <div class="bkt-card bkt-card__body bkt-lot__card">
                     <div class="bkt-card__header pb-0">
                         <h3 class="bkt-card__title">Информация по организатору</h3>
@@ -1378,7 +1382,7 @@
                     <!--                    </div>-->
                 </div>
             </div>
-            <div v-if="isLoggedIn && item.trade && item.trade.arbitrationManager"
+            <div v-if="item && isLoggedIn && item.trade && item.trade.arbitrationManager"
                  class="col-12 col-lg-4 order-3 pe-lg-0">
                 <div class=" bkt-card bkt-card__body bkt-lot__card">
                     <div class="bkt-card__header pb-0">
@@ -1491,7 +1495,7 @@
                     </template>
                 </bkt-collapse>
             </div>
-            <div v-if="isLoggedIn && item.biddingInfo" class="col-12 col-lg-12 order-3 px-lg-0">
+            <div v-if="isLoggedIn && item && item.biddingInfo" class="col-12 col-lg-12 order-3 px-lg-0">
                 <bkt-collapse title="Информация о торгах" class="bkt-lot__collapse"
                               id="biddingInfo"
                 >
@@ -1513,7 +1517,7 @@
 <!--                    </template>-->
 <!--                </bkt-collapse>-->
 <!--            </div>-->
-            <div v-if="isLoggedIn && item.requirementsForParticipants" class="col-12 col-lg-12 order-3 px-lg-0">
+            <div v-if="isLoggedIn && item &&item.requirementsForParticipants" class="col-12 col-lg-12 order-3 px-lg-0">
                 <bkt-collapse title="Требования к участникам" class="bkt-lot__collapse"
                               id="requirementsForParticipants"
                 >
@@ -1685,53 +1689,10 @@
                 return this.$store.getters.selected_lot
             },
             rules() {
-                if(this.auth_user)
-                {
-                    return this.auth_user.contentDisplayRules.lot
-                    // return {
-                    //     trade: {
-                    //         externalId: false,
-                    //         type: false,
-                    //         publishDate: false,
-                    //         eventTime: false,
-                    //         applicationTime: false,
-                    //         priceOfferForm: false,
-                    //         organizer: false,
-                    //         arbitrationManager: false,
-                    //         debtor: false,
-                    //         tradePlace: false,
-                    //         lotCount: false
-                    //     },
-                    //     lotNumber: false,
-                    //     photos: true,
-                    //     categories: true,
-                    //     state: false,
-                    //     location: false,
-                    //     startPrice: false,
-                    //     stepPrice: false,
-                    //     deposit: false,
-                    //     priceReduction: false,
-                    //     currentPrice: false,
-                    //     minPrice: false,
-                    //     currentPriceState: false,
-                    //     efrsbLink: false,
-                    //     descriptionExtracts: false
-                    // }
-                }
-                return null
+                return this.$store.getters.rules
             },
             system_rules() {
-                if(this.auth_user)
-                {
-                    return this.auth_user.contentDisplayRules.system
-                    // return {
-                    //     hasAccessToTradeFiles: false,
-                    //     hasAccessToMonitoring: false,
-                    //     hasAccessToReestr: false,
-                    //     hasAccessToFavourite: false,
-                    // }
-                }
-                return null
+                return this.$store.getters.system_rules
             }
         },
         watch: {
@@ -1976,7 +1937,6 @@
             },
             makeWatched() {
                 if (this.item.isWatched === false) {
-                    console.log('this.item.isWatched',this.item.isWatched, this.item)
                     this.$store.dispatch('changeTradeLotStatus', {lotId: this.$route.params.id, type: 'seen'})
                         .then(resp => {
                             this.$store.dispatch('saveDataProperty', {
@@ -2089,6 +2049,10 @@
                 this.short_description = '';
                 this.read_more = false;
             },
+            changePageInCollapse(page, method) {
+                this.$scrollTo('#collapse'+method, 300);
+                this['get'+method](page);
+            }
         }
     }
 </script>

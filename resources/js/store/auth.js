@@ -119,6 +119,7 @@ export default {
             DELETE /account/change/credentials/delete/{changeCredentialsProcessId} Отмена изменения почты/телефона аккаунта
             POST /account/apple/callback          Получение данных после авторизации через соц.сеть
             POST /account/socials/link            Привязка социальной сети к аккаунту
+            PUT  /account/update/token            Обновление токена устройства пользователя
 
         */
 
@@ -277,6 +278,9 @@ export default {
         },
         async deleteCredentialsProcess({commit}, payload) {
             return await axios.delete('/api/account/change/credentials/delete/'+payload)
+        },
+        async updateDeviceToken({commit}, payload) {
+            return await axios.put('/api/account/update/token', payload)
         },
     },
     getters: {

@@ -12,28 +12,28 @@ export default {
             bidders: {
                 debtors: {
                     data: [],
-                    pagination: {},
+                    pagination: null,
                     loading: false
                 },
                 organizers: {
                     data: [],
-                    pagination: {},
+                    pagination: null,
                     loading: false
                 },
                 arbitrationManagers: {
                     data: [],
-                    pagination: {},
+                    pagination: null,
                     loading: false
                 },
                 tradePlaces: {
                     data: [],
-                    pagination: {},
+                    pagination: null,
                     loading: false
                 },
             },
             tradePlaces: {
                 data: [],
-                pagination: {},
+                pagination: null,
                 loading: false
             },
             prices: null,
