@@ -50,6 +50,7 @@ class PaymentController extends Controller
                     if (!is_null($payment->tariff_id)) {
                         if(!is_null($payment->tariff->period)) {
                             $payment->finished_at = Carbon::now()->setTimezone('Europe/Moscow')->addDays($payment->tariff->period);
+                            $paymentService->checkPreviousActiveTariff($payment->user_id, $payment->tariff->period);
                         }
                     }
                     $payment->status = $paymentStatus['status'];
@@ -89,6 +90,7 @@ class PaymentController extends Controller
                     if (!is_null($payment->tariff_id)) {
                         if(!is_null($payment->tariff->period)) {
                             $payment->finished_at = Carbon::now()->setTimezone('Europe/Moscow')->addDays($payment->tariff->period);
+                            $paymentService->checkPreviousActiveTariff($payment->user_id, $payment->tariff->period);
                         }
                     }
                     $payment->status = $paymentStatus['status'];
@@ -97,7 +99,7 @@ class PaymentController extends Controller
                 } else {
                     if($paymentStatus['status'] != $payment->status) {
                         $payment->status = $paymentStatus['status'];
-                        $payment->is_confirmed = false;
+                        $payment->is_confirmed = true;
                         $payment->save();
                     }
                 }

@@ -26,7 +26,9 @@ class PaymentRequest extends FormRequest
     public function rules()
     {
         return [
-            'tariffId'=>['required', 'integer', 'exists:tariffs,id', new CheckExistsTariff]
+            'tariffId'=>['required', 'integer', 'exists:tariffs,id',
+                //new CheckExistsTariff
+            ]
         ];
     }
 }

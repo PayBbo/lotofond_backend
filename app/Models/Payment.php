@@ -6,6 +6,7 @@ use App\Http\Services\ReestrApiService;
 use App\Http\Services\SendCodeService;
 use App\Jobs\SendApplication;
 use App\Notifications\ApplicationTelegramNotification;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Notification;
@@ -58,9 +59,9 @@ class Payment extends Model
                         $sendEmail->sendApplicationToManager($application);
                     }
                     if ($payment->tariff->code == 'receiptEGRN') {
-                        if(!is_null($application->cadastral_number)){
-                           $reestrApi = new ReestrApiService();
-                           $reestrApi->createEgrnOrder($application);
+                        if (!is_null($application->cadastral_number)) {
+                            $reestrApi = new ReestrApiService();
+                            $reestrApi->createEgrnOrder($application);
                         }
                     }
                 }

@@ -37,6 +37,7 @@ use Artisaninweb\SoapWrapper\SoapWrapper;
 use Carbon\Carbon;
 use Carbon\CarbonPeriod;
 use Exception;
+use GuzzleHttp\RequestOptions;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\File;
@@ -45,6 +46,11 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\URL;
 use Midnite81\Xml2Array\Xml2Array;
+use GuzzleHttp\HandlerStack;
+use GuzzleHttp\Middleware;
+use GuzzleHttp\MessageFormatter;
+use Monolog\Logger;
+use Monolog\Handler\StreamHandler;
 
 
 class TestCommand extends Command
@@ -185,20 +191,6 @@ class TestCommand extends Command
          $this->getDescriptionExtracts($lot, $lot->description);*/
 
        // $filesService = new(FilesService::class);
-
-        $lots = Lot::where('processed_description', null)->get();
-        foreach ($lots as $lot) {
-            $descriptionExtracts = new DescriptionExtractsService();
-            $descriptionExtracts->getDescriptionExtracts($lot, $lot->description);
-            if (is_null($lot->min_price) && ($lot->auction->auctionType->title == 'PublicOffer' || $lot->auction->auctionType->title == 'ClosePublicOffer')) {
-                $prices = $lot->showPriceReductions->pluck('price')->toArray();
-                if (count($prices) > 0) {
-                    $lot->min_price = min($prices);
-                    $lot->save();
-                }
-            }
-        }
-
 
     }
 

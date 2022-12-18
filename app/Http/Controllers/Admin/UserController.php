@@ -8,6 +8,7 @@ use App\Http\Requests\Admin\UpdateUserRequest;
 use App\Http\Resources\Admin\UserCollection;
 use App\Http\Resources\Admin\UserResource;
 use App\Http\Resources\TextDataResource;
+use App\Http\Services\PaymentService;
 use App\Models\Payment;
 use App\Models\Tariff;
 use App\Models\TextData;
@@ -102,16 +103,19 @@ class UserController extends Controller
         $user->syncRoles($request->role);
         $user->assignRole($request->roles);
         $userTariff = $user->tariff;
+        $paymentService = new PaymentService();
         if (isset($request->tariff)) {
             $tariff = Tariff::find($request->tariff);
             if ($userTariff) {
                 if ($userTariff->tariff_id != $request->tariff) {
+                    $paymentService->checkPreviousActiveTariff($user->id, $userTariff->tariff->period, false);
                     $userTariff->delete();
                     Payment::create([
                         'user_id' => $user->id,
                         'tariff_id' => $request->tariff,
                         'finished_at' => Carbon::now()->setTimezone('Europe/Moscow')->addDays($tariff->period),
-                        'is_confirmed' => true
+                        'is_confirmed' => true,
+                        'status'=>'Settled'
                     ]);
                 }
             }else {
@@ -119,11 +123,13 @@ class UserController extends Controller
                     'user_id' => $user->id,
                     'tariff_id' => $request->tariff,
                     'finished_at' => Carbon::now()->setTimezone('Europe/Moscow')->addDays($tariff->period),
-                    'is_confirmed' => true
+                    'is_confirmed' => true,
+                    'status'=>'Settled'
                 ]);
             }
         } else {
             if ($userTariff) {
+                $paymentService->checkPreviousActiveTariff($user->id, $userTariff->tariff->period, false);
                 $userTariff->delete();
             }
         }

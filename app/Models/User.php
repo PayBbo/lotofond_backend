@@ -175,8 +175,18 @@ class User extends Authenticatable
         return $this->hasOne(Payment::class)
             ->where('tariff_id', '!=', null)
             ->where('is_confirmed', true)
-            ->where('finished_at', '>=', Carbon::now())
+            ->where('status', 'Settled')
+            ->where('finished_at', '>=', Carbon::now()->setTimezone('Europe/Moscow'))
             ->latest();
+    }
+
+    public function userTariffs()
+    {
+        return $this->hasMany(Payment::class)
+            ->where('tariff_id', '!=', null)
+            ->where('is_confirmed', true)
+            ->where('status', 'Settled')
+            ->where('finished_at', '>=', Carbon::now()->setTimezone('Europe/Moscow'));
     }
 
 }

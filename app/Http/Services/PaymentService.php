@@ -3,6 +3,7 @@
 namespace App\Http\Services;
 
 use App\Models\User;
+use Carbon\Carbon;
 use GuzzleHttp\RequestOptions;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Middleware;
@@ -28,7 +29,7 @@ class PaymentService
         $this->testMode = config('paymaster.test_mode');
     }
 
-    public function paymentRequest($paymentId, $tariff, $customer=null, $description=null)
+    public function paymentRequest($paymentId, $tariff, $customer = null, $description = null)
     {
         $client = new \GuzzleHttp\Client();
         /* $logger = new Logger('GuzzleLogger');
@@ -46,11 +47,11 @@ class PaymentService
              ]
          );*/
         $user = User::find(auth()->id());
-        if(is_null($customer)){
-            if(!is_null($user->email)){
-                $customer = ['email'=>$user->email];
-            }else{
-                $customer = ['phone'=>$user->phone];
+        if (is_null($customer)) {
+            if (!is_null($user->email)) {
+                $customer = ['email' => $user->email];
+            } else {
+                $customer = ['phone' => $user->phone];
             }
         }
         $response = $client->request('POST', 'https://paymaster.ru/api/v2/invoices',
@@ -72,7 +73,7 @@ class PaymentService
                     ],
                     'paymentMethod' => 'BankCard',
                     'protocol' => [
-                        'returnUrl' => $this->returnUrl .hash('sha256', $paymentId),
+                        'returnUrl' => $this->returnUrl . hash('sha256', $paymentId),
                         'callbackUrl' => $this->callbackUrl
                     ],
                     'receipt' => [
@@ -104,5 +105,21 @@ class PaymentService
                 ]
             ]);
         return json_decode($response->getBody(), true);
+    }
+
+    public function checkPreviousActiveTariff($user_id, $days, $is_extension=true)
+    {
+        $user = User::with('userTariffs')->where('id', $user_id)->first();
+        $userTariffs = $user->userTariffs;
+        foreach ($userTariffs as $userTariff) {
+            $finishedAt = Carbon::parse($userTariff->finished_at);
+            if($is_extension) {
+                $userTariff->finished_at = $finishedAt->addDays($days);
+            }else{
+                $userTariff->finished_at = $finishedAt->subDays($days);
+            }
+            $userTariff->save();
+
+        }
     }
 }

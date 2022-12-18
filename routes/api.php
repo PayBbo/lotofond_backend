@@ -50,6 +50,8 @@ Route::group(['middleware' => ['json.response', 'localization']], function () {
 
     Route::post('payment/notification', [PaymentController::class, 'paymentNotification']);
 
+    Route::post('payment/check/status', [PaymentController::class, 'checkStatus']);
+
     Route::group(['prefix' => 'registration'], function () {
 
         Route::post('/', [RegisterController::class, 'register']);
@@ -311,8 +313,6 @@ Route::group(['middleware' => ['json.response', 'localization']], function () {
         Route::group(['prefix' => 'payment'], function () {
 
             Route::post('/', [PaymentController::class, 'payment']);
-
-            Route::post('/check/status', [PaymentController::class, 'checkStatus']);
 
             Route::post('/validate/apple/transaction', [ApplePaymentController::class, 'validateTransaction']);
 
