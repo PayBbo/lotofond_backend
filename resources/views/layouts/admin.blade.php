@@ -102,6 +102,8 @@
 <script src="{{asset('assets/admin_lte/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js')}}"></script>
 <!-- AdminLTE App -->
 <script src="{{asset('assets/admin_lte/dist/js/adminlte.js')}}"></script>
+<script src="https://unpkg.com/vuejs-datepicker"></script>
+<script src="https://unpkg.com/vuejs-datepicker/dist/locale/translations/ru.js"></script>
 <script src="{{ asset('js/app.js') }}" defer></script>
 </body>
 </html>
