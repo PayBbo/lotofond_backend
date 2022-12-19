@@ -26,26 +26,26 @@
         <div class="bkt-form bkt-form_wide bkt-gap-row-large">
             <div class="col-12 col-lg-4 bkt-form__offset-right">
                 <div class="bkt-wrapper-column bkt-gap-large">
-<!--                    <div class="bkt-card__row">-->
-<!--                        <div class="col-12 col-lg-10">-->
-<!--                            <div class="bkt-card__row-column">-->
-<!--                                <h5 class="bkt-text-neutral-dark">-->
-<!--                                    телефон-->
-<!--                                </h5>-->
-<!--                                <h4 class="bkt-card__title">+7 916 018-48-58</h4>-->
-<!--                                <a class="bkt-button primary bkt-text-white bkt-w-sm-100" href="tel:+79160184858">-->
-<!--                                    Перезвонить мне-->
-<!--                                </a>-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                        <div class="col-12 col-lg-2 d-none d-lg-block">-->
-<!--                            <div class="bkt-card__category ms-auto bkt-bg-green-lighter">-->
-<!--                                <span class="bkt-card__category-icon">-->
-<!--                                    <bkt-icon name="Smartphone" color="green" height="22px"></bkt-icon>-->
-<!--                                </span>-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                    </div>-->
+                    <div class="bkt-card__row">
+                        <div class="col-12 col-lg-10">
+                            <div class="bkt-card__row-column">
+                                <h5 class="bkt-text-neutral-dark">
+                                    телефон
+                                </h5>
+                                <h4 class="bkt-card__title"><skeleton>{{contacts.phone ? contacts.phone : ''}}</skeleton></h4>
+                                <a class="bkt-button primary bkt-text-white bkt-w-sm-100" :href="'tel:'+contacts.phone" v-if="contacts.phone">
+                                    Позвонить
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-12 col-lg-2 d-none d-lg-block">
+                            <div class="bkt-card__category ms-auto bkt-bg-green-lighter">
+                                <span class="bkt-card__category-icon">
+                                    <bkt-icon name="Smartphone" color="green" height="22px"></bkt-icon>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
                     <div class="bkt-card__row">
                         <div class="col-12 col-lg-10">
                             <div class="bkt-card__row-column">
@@ -89,17 +89,17 @@
                     <button class="bkt-button bkt-bg-white bkt-text-primary text-uppercase" data-bs-toggle="modal" data-bs-target="#details">
                         реквизиты Исполнителя
                     </button>
-                    <div class="bkt-wrapper bkt-gap-small ms-lg-0">
-                        <a class="bkt-button bkt-button-icon bkt-bg-white" href="#">
+                    <div class="bkt-wrapper bkt-gap-small w-100">
+                        <a class="bkt-button bkt-button-icon bkt-bg-white flex-fill" href="#">
                             <bkt-icon name="Vk" color="primary"></bkt-icon>
                         </a>
-                        <a class="bkt-button bkt-button-icon bkt-bg-white" href="#">
+                        <a class="bkt-button bkt-button-icon bkt-bg-white flex-fill" href="#">
                             <bkt-icon name="Instagram" color="gradient"></bkt-icon>
                         </a>
-                        <a class="bkt-button bkt-button-icon bkt-bg-white" href="#">
+                        <a class="bkt-button bkt-button-icon bkt-bg-white flex-fill" href="#">
                             <bkt-icon name="Telegram" color="blue"></bkt-icon>
                         </a>
-                        <a class="bkt-button bkt-button-icon bkt-bg-white" href="#">
+                        <a class="bkt-button bkt-button-icon bkt-bg-white flex-fill" href="#">
                             <bkt-icon name="Youtube" color="red"></bkt-icon>
                         </a>
                     </div>

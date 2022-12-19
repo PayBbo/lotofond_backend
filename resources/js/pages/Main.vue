@@ -10,7 +10,7 @@
         <bkt-trade-type-modal></bkt-trade-type-modal>
         <div class="bkt-page__title">
             <h1>Единый реестр имущественных торгов</h1>
-            <h4 class="bkt-text-neutral-dark">банкротство • залоги • аресты • государство • неликвид • конфискат</h4>
+            <h4 class="bkt-text-neutral-dark d-none d-md-block">банкротство • залоги • аресты • государство • неликвид • конфискат</h4>
         </div>
 
         <!--        <bkt-search v-model="searchString" method_name="searchTrades" :method_params="{}" immediate_search-->
