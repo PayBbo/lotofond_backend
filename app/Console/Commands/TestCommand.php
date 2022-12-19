@@ -8,6 +8,7 @@ use App\Http\Services\Parse\FilesService;
 use App\Http\Services\Parse\GetTradeMessageContent;
 use App\Http\Services\Parse\ParseDataFromRosreestrService;
 use App\Http\Services\Parse\SoapWrapperService;
+use App\Http\Services\PushNotificationService;
 use App\Http\Services\ReestrApiService;
 use App\Http\Services\SendCodeService;
 use App\Jobs\ChangeEmail;
@@ -191,7 +192,10 @@ class TestCommand extends Command
          $this->getDescriptionExtracts($lot, $lot->description);*/
 
        // $filesService = new(FilesService::class);
-
+   /*
+       $push = new PushNotificationService('Hello', 'It is test', 23,'system');
+        $push->sendPushNotificationToHuawei(['d-9rEG1JTxSw4YoWs9TqBl:APA91bGi_pNsScqSBh5KhPBg8NxvbH-63XjXfM1a8DhJpIZTn2BnBpUyIN8CjUT-sJwb4IDGyawC75QskZAxAHs5IaitZeO0TD9Mt2hot3h9TY7ksQP_IaxD02o-2YWVIy0T_UdD7b4H']);
+*/
     }
 
     public function getDescriptionExtracts($lot, $description)

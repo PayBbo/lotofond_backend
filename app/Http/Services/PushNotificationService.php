@@ -97,7 +97,7 @@ class PushNotificationService
                 [
                     RequestOptions::HEADERS => [
                         'Content-Type' => 'application/json',
-                        'Authorization'=>'Bearer  '.$accessToken
+                        'Authorization'=>'Bearer  '. $accessToken
                     ],
                     RequestOptions::FORM_PARAMS => [
                         'validate_only' => true,
@@ -155,7 +155,7 @@ class PushNotificationService
             $res = json_decode($response->getBody(), true);
             logger($res);
             if (array_key_exists('access_token', $res)) {
-                Cache::put('huawei_access_token', $res['access_token'], Carbon::now()->setTimezone('Europe/Moscow')->addSeconds($res['expires_in']) - 60);
+                Cache::put('huawei_access_token', $res['access_token'], Carbon::now()->setTimezone('Europe/Moscow')->addSeconds($res['expires_in']  - 60));
             }
         }
         return Cache::get('huawei_access_token');
