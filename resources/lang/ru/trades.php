@@ -16,6 +16,8 @@ return [
         'biddingFail' => 'Торги не состоялись',
         'biddingPause' => 'Торги приостановлены',
         'biddingResume' => 'Торги возобновлены',
+        'biddingPaused' => 'Торги приостановлены',
+        'biddingResumed' => 'Торги возобновлены',
         'BiddingInvitation' => 'Сообщение о продаже',
         'BiddingDeclaration' => 'Объявлены торги',
         'ApplicationSessionStart' => 'Начат прием заявок',

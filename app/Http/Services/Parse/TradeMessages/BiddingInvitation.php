@@ -38,13 +38,16 @@ class BiddingInvitation extends TradeMessage
                 if (array_key_exists('DebtorPerson', $debtor_data)) {
                     if(gettype($debtor_data['DebtorPerson']) == 'array'){
                         $debtor = $debtor_data['DebtorPerson'];
+                        if(gettype($debtor) == 'array'){
+                            $debtor = $debtor[count($debtor)-1];
+                        }
                     }else {
                         $debtor = get_object_vars($debtor_data['DebtorPerson']);
                     }
                 } elseif (array_key_exists('DebtorCompany', $debtor_data)) {
                     if(gettype($debtor_data['DebtorCompany']) == 'array'){
                         $debtor = $debtor_data['DebtorCompany'];
-                        if(gettype($debtor['DebtorCompany']) == 'array'){
+                        if(gettype($debtor) == 'array'){
                             $debtor = $debtor[count($debtor)-1];
                         }
                     }else {

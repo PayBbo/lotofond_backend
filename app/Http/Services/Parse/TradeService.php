@@ -111,8 +111,10 @@ class TradeService
             }
         } else {
             $category = Category::where('code', $value[$prefix . 'Classification'][$prefix . 'IDClass'])->first();
-            if (!$lot->categories()->where('title', $category->title)->exists()) {
-                $lot->categories()->attach($category);
+            if($category) {
+                if (!$lot->categories()->where('title', $category->title)->exists()) {
+                    $lot->categories()->attach($category);
+                }
             }
         }
 

@@ -32,6 +32,15 @@ class BiddingEndBankruptcyCreditor extends TradeMessage implements TradeMessageC
                     } else {
                         $this->changeStatus($auction, $lotList, $invitation[$prefix .'BankruptcyCreditorList']);
                     }
+                }elseif (array_key_exists($prefix . 'BankruptcyCreditor', $invitation[$prefix .'BankruptcyCreditorList']) && array_key_exists($prefix . 'CreditorLotNumberList', $invitation[$prefix .'BankruptcyCreditorList'][$prefix . 'BankruptcyCreditor']) ){
+                    $lotList = $invitation[$prefix .'BankruptcyCreditorList'][$prefix . 'BankruptcyCreditor'][$prefix . 'CreditorLotNumberList'][$prefix . 'CreditorLotNumber'];
+                    if (count($lotList) > 1) {
+                        foreach ($lotList as $lot) {
+                            $this->changeStatus($auction, $lot, $invitation[$prefix .'BankruptcyCreditorList']);
+                        }
+                    } else {
+                        $this->changeStatus($auction, $lotList, $invitation[$prefix .'BankruptcyCreditorList']);
+                    }
                 }
                 else {
                     foreach ($auction->lots as $lot) {

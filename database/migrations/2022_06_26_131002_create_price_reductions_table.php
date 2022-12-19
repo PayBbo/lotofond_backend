@@ -20,7 +20,7 @@ class CreatePriceReductionsTable extends Migration
                 ->on('lots')->cascadeOnDelete();
             $table->dateTime('start_time')->nullable();
             $table->dateTime('end_time')->nullable();
-            $table->decimal('price', 15,2)->default(0.00);
+            $table->decimal('price', 15,2)->nullable()->default(0.00);
             $table->decimal('deposit', 15,2)->default(0.00);
             $table->bigInteger('percent')->default(0);
             $table->boolean('is_system')->default(false);

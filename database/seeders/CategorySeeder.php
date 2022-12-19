@@ -195,7 +195,7 @@ class CategorySeeder extends Seeder
                 'label'=>['ru'=>'Товарно-материальные ценности', 'en'=>'Tangibles', 'zh_CN'=>'存货项目']],
             ['title'=>'tangibles', 'code'=>'0109002', 'parent_id'=>NULL,
                 'label'=>['ru'=>'Товарно-материальные ценности', 'en'=>'Tangibles', 'zh_CN'=>'存货项目']],
-            ['title'=>'tangibles', 'code'=>'0109002', 'parent_id'=>NULL,
+            ['title'=>'tangibles', 'code'=>'0109003', 'parent_id'=>NULL,
                 'label'=>['ru'=>'Товарно-материальные ценности', 'en'=>'Tangibles', 'zh_CN'=>'存货项目']],
             ['title'=>'tangibles', 'code'=>'0109004', 'parent_id'=>NULL,
                 'label'=>['ru'=>'Товарно-материальные ценности', 'en'=>'Tangibles', 'zh_CN'=>'存货项目']],

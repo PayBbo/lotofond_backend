@@ -16,6 +16,8 @@ return [
         'biddingFail' => '投标失败',
         'biddingPause' => '投标暂停',
         'biddingResume' => '投标已恢复',
+        'biddingPaused' => '投标暂停',
+        'biddingResumed' => '投标已恢复',
         'BiddingInvitation' => '投标邀请',
         'BiddingDeclaration' => '投标声明',
         'ApplicationSessionStart' => '应用程序已启动',

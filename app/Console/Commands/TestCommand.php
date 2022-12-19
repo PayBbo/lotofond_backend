@@ -120,15 +120,15 @@ class TestCommand extends Command
         // dispatch(new ParseTrades);
         //$get_trade_message_content = new GetTradeMessageContent($xml, 'BiddingInvitation');
         //$get_trade_message_content->switchMessageType(1, $xml, 13275260);
-        /*  $soapWrapper = new SoapWrapper();
+     /*     $soapWrapper = new SoapWrapper();
            $service = new SoapWrapperService($soapWrapper);
            //10210474
-           $xml = $service->getTradeMessageContent( 13669916);
+           $xml = $service->getTradeMessageContent( 13672686);
            logger($xml);*/
-        /*      $soapWrapper = new SoapWrapper();
+    /*    $soapWrapper = new SoapWrapper();
               $service = new SoapWrapperService($soapWrapper);
-              logger(json_encode($service->getTradeMessagesByTrade( '140376', '1656057203', Carbon::parse('2022-09-06 13:00:00')->format('Y-m-d\TH:i:s'))));*/
-
+              logger(json_encode($service->getTradeMessagesByTrade( '100000090', '5610149787', Carbon::parse('2022-09-06 13:00:00')->format('Y-m-d\TH:i:s'))));
+*/
         /*  $table = TestMessage::select(
               'message_id',
               'start_price',
@@ -173,10 +173,6 @@ class TestCommand extends Command
           logger($xml);*/
 
 
-        /*  $soapWrapper = new SoapWrapper();
-          $service = new SoapWrapperService($soapWrapper);
-          $debtor_data = get_object_vars($service->searchDebtorByCode('CompanyInn', 7707616245));
-          logger($debtor_data);*/
 
      //   $regexMinPrice = "/(?(DEFINE)(?'rubles_pattern'\d{1,3}(?:[ ]?\d{3})*(?:[,.]\d{2}))(?'rubles_name_pattern'[ ]?(?:(?:рублей)|(?:(?:(?:руб)|(?:р))[\.]?)))(?'percent_pattern'\d+(?:,\d+)?)(?'percent_name_pattern'[ ]?(?:\([а-яёА-ЯЁ]+\))?[ ]?(?:(?:%)|(?:процент(?:ов)?))))(?:(?:(?:(?:мин(?:имальн(?:(?:ая)|(?:ой)))?[\.]?(?: [А-ЯЁа-яё]+)?[ ](?:(?:цен(?:а|ы))|(?:стоимост(?:ь|и))))|(?:цен(?:ы|а|е) отсечения)|(?:прекращается при достижении))).*?(?'new_sentence'(?:\.[ ](?=[А-ЯЁ])).*?(*SKIP))?(?:(?:(?'rubles'(?P>rubles_pattern))(?:(?P>rubles_name_pattern)))|(?:(?'percent'(?P>percent_pattern))(?P>percent_name_pattern)))(?![а-яёА-ЯЁ]))|(?:(?:(?:(?'rubles'(?P>rubles_pattern))(?:(?P>rubles_name_pattern)))|(?:(?'percent'(?P>percent_pattern))(?P>percent_name_pattern)))(?![а-яёА-ЯЁ])(?:.?[ ]?\((?:(?:цена отсечения)|(?:мин(?:имальная)?[\.]?[ ](?:(?:цена)|(?:стоимость)))).*?\)))/muiJ";
       /*  $regexMinPrice = "/(?(DEFINE)(?'rubles_pattern'\d{1,3}(?:[ ]?\d{3})*(?:[,.]\d{2}))(?'rubles_name_pattern'[ ]?(?:(?:рублей)|(?:(?:(?:руб)|(?:р))[\.]?)))(?'percent_pattern'\d+(?:,\d+)?)(?'percent_name_pattern'[ ]?(?:\([а-яёА-ЯЁ]+\))?[ ]?(?:(?:%)|(?:процент(?:ов)?))))(?:(?:(?:(?:мин(?:имальн(?:(?:ая)|(?:ой)))?[\.]?(?: [А-ЯЁа-яё]+)?[ ](?:(?:цен(?:а|ы))|(?:стоимост(?:ь|и))))|(?:цен(?:ы|а|е) отсечения)|(?:прекращается при достижении))).*?(?'new_sentence'(?:\.[ ](?=[А-ЯЁ])).*?(*SKIP))?(?:(?:(?'rubles'(?P>rubles_pattern))(?:(?P>rubles_name_pattern)))|(?:(?'percent'(?P>percent_pattern))(?P>percent_name_pattern)))(?![а-яёА-ЯЁ]))|(?:(?:(?:(?'rubles'(?P>rubles_pattern))(?:(?P>rubles_name_pattern)))|(?:(?'percent'(?P>percent_pattern))(?P>percent_name_pattern)))(?![а-яёА-ЯЁ])(?:.?[ ]?\((?:(?:цена отсечения)|(?:мин(?:имальная)?[\.]?[ ](?:(?:цена)|(?:стоимость)))).*?\)))/muiJ";

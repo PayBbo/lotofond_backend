@@ -94,7 +94,6 @@ class BiddingStatusInfo extends TradeMessage implements TradeMessageContract
                 $lastTradeMessage = \App\Models\TradeMessage::where(['lot_id' => $lot->id, 'param_type' => 'status_id'])->latest()->first();
                 $lot->status_id = $lastTradeMessage->param;
             }
-            $lot->status_id = Status::where('code', $type)->first()['id'];
             $lot->save();
         }
     }

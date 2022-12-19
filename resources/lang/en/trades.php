@@ -16,6 +16,8 @@ return [
         'biddingFail' => 'Bidding failed',
         'biddingPause' => 'Bidding paused',
         'biddingResume' => 'Bidding resumed',
+        'biddingPaused' => 'Bidding paused',
+        'biddingResumed' => 'Bidding resumed',
         'BiddingInvitation' => 'Bidding Invitation',
         'BiddingDeclaration' => 'Bidding Declared',
         'ApplicationSessionStart' => 'Application Started',

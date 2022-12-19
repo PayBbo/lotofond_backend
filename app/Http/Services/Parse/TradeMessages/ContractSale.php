@@ -24,7 +24,15 @@ class ContractSale extends TradeMessage implements TradeMessageContract
                             $this->saveBiddingResult($lot, $invitation, $prefix);
                         }
                     }
-                } else {
+                } elseif(array_key_exists('0',$invitation[$prefix . 'LotContractSaleList'][$prefix . 'LotContractSale'])){
+                    foreach ($invitation[$prefix . 'LotContractSaleList'][$prefix . 'LotContractSale'] as $item) {
+                        $lot = $auction->lots->where('number', $item['@attributes']['LotNumber'])->first();
+                        if ($lot) {
+                            $this->saveBiddingResult($lot, $invitation, $prefix, $item);
+                        }
+                    }
+                }
+                else {
                     $lot = $auction->lots->where('number', $invitation[$prefix . 'LotContractSaleList'][$prefix . 'LotContractSale']['@attributes']['LotNumber'])->first();
                     if ($lot) {
                         $this->saveBiddingResult($lot, $invitation, $prefix);
@@ -38,15 +46,17 @@ class ContractSale extends TradeMessage implements TradeMessageContract
         }
     }
 
-    public function saveBiddingResult($lot, $invitation, $prefix)
+    public function saveBiddingResult($lot, $invitation, $prefix, $data=null)
     {
         $tradeMessage = $this->createNotification($lot->id, $invitation['@attributes']['EventTime']);
-        $data = $invitation[$prefix . 'LotContractSaleList'][$prefix . 'LotContractSale'];
-        if(array_key_exists('@attributes', $data[$prefix . 'ContractParticipantList'][$prefix . 'ContractParticipant'])) {
+        if(is_null($data)) {
+            $data = $invitation[$prefix . 'LotContractSaleList'][$prefix . 'LotContractSale'];
+        }
+        if (array_key_exists('@attributes', $data[$prefix . 'ContractParticipantList'][$prefix . 'ContractParticipant'])) {
             $participantData = $data[$prefix . 'ContractParticipantList'][$prefix . 'ContractParticipant']['@attributes'];
             $this->saveParticipant($lot, $participantData, $data, $tradeMessage);
-        }else{
-            foreach($data[$prefix . 'ContractParticipantList'][$prefix . 'ContractParticipant'] as $item){
+        } else {
+            foreach ($data[$prefix . 'ContractParticipantList'][$prefix . 'ContractParticipant'] as $item) {
                 $participantData = $item['@attributes'];
                 $this->saveParticipant($lot, $participantData, $data, $tradeMessage);
             }
@@ -54,32 +64,34 @@ class ContractSale extends TradeMessage implements TradeMessageContract
 
     }
 
-    public function saveParticipant($lot, $participantData, $data, $tradeMessage){
+    public function saveParticipant($lot, $participantData, $data, $tradeMessage)
+    {
         if (BiddingResult::whereIn('trade_message_id', $lot->tradeMessages()->pluck('id'))->count() > 0) {
-            $inn = $participantData['INN'];
-            $isExists = false;
-            foreach ($lot->tradeMessages as $message){
-                foreach ($message->biddingResults as $result) {
-                    $biddingResult = $result->biddingParticipants()->whereHas('bidder', function ($q) use ($inn) {
-                        $q->where('inn', $inn);
-                    })
-                        ->where(['is_winner' => $participantData['IsWinner'], 'is_buyer' => $participantData['IsBuyer']])
-                        ->first();
-                    if ($biddingResult) {
-                        $biddingResult->contract_number = array_key_exists($this->prefix . 'ContractNumber', $data[$this->prefix . 'ContractInfo']) ?
-                            $data[$this->prefix . 'ContractInfo'][$this->prefix . 'ContractNumber'] : null;
-                        $biddingResult->contract_date = $this->parseDate($data[$this->prefix . 'ContractInfo'][$this->prefix . 'DateContract']);
-                        $biddingResult->end_price = $data[$this->prefix . 'ContractInfo'][$this->prefix . 'Price'];
-                        $biddingResult->save();
-                        $isExists = true;
-                        break;
+            if (array_key_exists('INN', $participantData)) {
+                $inn = $participantData['INN'];
+                $isExists = false;
+                foreach ($lot->tradeMessages as $message) {
+                    foreach ($message->biddingResults as $result) {
+                        $biddingResult = $result->biddingParticipants()->whereHas('bidder', function ($q) use ($inn) {
+                            $q->where('inn', $inn);
+                        })
+                            ->where(['is_winner' => $participantData['IsWinner'], 'is_buyer' => $participantData['IsBuyer']])
+                            ->first();
+                        if ($biddingResult) {
+                            $biddingResult->contract_number = array_key_exists($this->prefix . 'ContractNumber', $data[$this->prefix . 'ContractInfo']) ?
+                                $data[$this->prefix . 'ContractInfo'][$this->prefix . 'ContractNumber'] : null;
+                            $biddingResult->contract_date = $this->parseDate($data[$this->prefix . 'ContractInfo'][$this->prefix . 'DateContract']);
+                            $biddingResult->end_price = $data[$this->prefix . 'ContractInfo'][$this->prefix . 'Price'];
+                            $biddingResult->save();
+                            $isExists = true;
+                            break;
+                        }
                     }
                 }
-        }
-            if(!$isExists){
-                $this->saveContractSale($data, $tradeMessage);
+                if (!$isExists) {
+                    $this->saveContractSale($data, $tradeMessage);
+                }
             }
-
         } else {
             $this->saveContractSale($data, $tradeMessage);
         }
@@ -88,32 +100,33 @@ class ContractSale extends TradeMessage implements TradeMessageContract
     public function saveContractSale($data, $tradeMessage)
     {
         $biddingResult = new \App\Models\BiddingResult();
-        if(array_key_exists($this->prefix .'ContractInfo', $data)) {
+        if (array_key_exists($this->prefix . 'ContractInfo', $data)) {
             $biddingResult->contract_number = array_key_exists($this->prefix . 'ContractNumber', $data[$this->prefix . 'ContractInfo']) ?
                 $data[$this->prefix . 'ContractInfo'][$this->prefix . 'ContractNumber'] : null;
-            $biddingResult->contract_date = $data[$this->prefix . 'ContractInfo'][$this->prefix . 'DateContract'];
-            $biddingResult->end_price = $data[$this->prefix . 'ContractInfo'][$this->prefix . 'Price'];
-        }else{
+            $biddingResult->contract_date = array_key_exists($this->prefix . 'DateContract', $data[$this->prefix . 'ContractInfo']) ? $data[$this->prefix . 'ContractInfo'][$this->prefix . 'DateContract'] : null;
+            $biddingResult->end_price =array_key_exists($this->prefix . 'Price', $data[$this->prefix . 'ContractInfo']) ?   $data[$this->prefix . 'ContractInfo'][$this->prefix . 'Price'] : null;
+        } else {
             $biddingResult->contract_date = $this->invitation['@attributes']['EventTime'];
             $biddingResult->end_price = $tradeMessage->lotId;
         }
         $biddingResult->trade_message_id = $tradeMessage->id;
         $biddingResult->save();
-        if(count($data[$this->prefix .'ContractParticipantList'][$this->prefix .'ContractParticipant']) >1){
-            foreach($data[$this->prefix .'ContractParticipantList'][$this->prefix .'ContractParticipant'] as $participant){
+        if (count($data[$this->prefix . 'ContractParticipantList'][$this->prefix . 'ContractParticipant']) > 1) {
+            foreach ($data[$this->prefix . 'ContractParticipantList'][$this->prefix . 'ContractParticipant'] as $participant) {
                 $participantData = $participant['@attributes'];
                 $this->saveBidder($participantData, $biddingResult);
             }
-        }else{
-            $participantData = $data[$this->prefix .'ContractParticipantList'][$this->prefix .'ContractParticipant']['@attributes'];
+        } else {
+            $participantData = $data[$this->prefix . 'ContractParticipantList'][$this->prefix . 'ContractParticipant']['@attributes'];
             $this->saveBidder($participantData, $biddingResult);
         }
 
 
     }
 
-    public function saveBidder($participantData, $biddingResult){
-        if( array_key_exists('INN', $participantData)) {
+    public function saveBidder($participantData, $biddingResult)
+    {
+        if (array_key_exists('INN', $participantData)) {
             $bidder = Bidder::where('inn', $participantData['INN'])->first();
             if (!$bidder) {
                 $bidder = Bidder::create([
