@@ -47,9 +47,8 @@ class MonitoringJob implements ShouldQueue
         $maxDate = $this->endTo;
         $monitorings = Monitoring::all();
         foreach ($monitorings as $monitoring) {
-          //  $user = User::find($monitoring->user_id);
             $lots = Lot::whereNotIn('lots.id', $monitoring->user->hiddenLots->pluck('id'))->filterBy($monitoring->filters)
-                ->whereBetween('lots.created_at', [$minDate, $maxDate])->groupBy('lots.id')->get();
+                ->whereBetween('lots.created_at', [$minDate, $maxDate])->get();
             if ($lots->count() > 0) {
                 foreach ($lots as $lot) {
                     if (!$monitoring->lots->contains($lot)) {
