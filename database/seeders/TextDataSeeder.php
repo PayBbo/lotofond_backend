@@ -44,9 +44,9 @@ class TextDataSeeder extends Seeder
             ['header'=>'Заголовок2', 'value'=>'Наше приложение предоставляет возможность мониторинга динамики торгов и  своевременного отслеживания различных этапов аукциона', 'type'=>'about', 'screen'=>'О нас'],
             ['header'=>'Заголовок3', 'value'=>'Наше приложение предоставляет возможность мониторинга динамики торгов и  своевременного отслеживания различных этапов аукциона', 'type'=>'about', 'screen'=>'О нас'],
             ['header'=>'Заголовок4', 'value'=>'Наше приложение предоставляет возможность мониторинга динамики торгов и  своевременного отслеживания различных этапов аукциона', 'type'=>'about', 'screen'=>'О нас'],
-            ['header'=>'Телефон', 'value'=>'+79492222222', 'type'=>'contacts', 'screen'=>'Контакты'],
-            ['header'=>'Почта', 'value'=>'test@mail.ru', 'type'=>'contacts', 'screen'=>'Контакты'],
-            ['header'=>'Сайт', 'value'=>'http://lotofond.ru', 'type'=>'contacts', 'screen'=>'Контакты'],
+            ['header'=>'Телефон', 'value'=>'+7 916 018-48-58', 'type'=>'contacts', 'screen'=>'Контакты'],
+            ['header'=>'Почта', 'value'=>'vicemine@mail.ru', 'type'=>'contacts', 'screen'=>'Контакты'],
+            ['header'=>'Сайт', 'value'=>'https://www.lotofond.ru', 'type'=>'contacts', 'screen'=>'Контакты'],
 
         ];
 
