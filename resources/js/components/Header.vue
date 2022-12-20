@@ -41,13 +41,13 @@
                     <button class="bkt-button-icon">
                         <bkt-icon name="GooglePlay" color="main"></bkt-icon>
                     </button>
-                    <button class="bkt-button-icon">
+                    <a class="bkt-button-icon" href="https://apps.rustore.ru/app/ru.lotofond">
                         <bkt-icon name="Rustore" color="main"></bkt-icon>
-                    </button>
+                    </a>
                 </div>
 
                 <div v-if="isLoggedIn" class="btn-group d-none d-md-block">
-                    <template v-if="!loading">
+                    <template v-if="!loading && !auth_user_loading">
                         <div class="bkt-navbar__user-wrapper"
                              id="navbarDropdown"
                              role="button"
@@ -79,7 +79,7 @@
                             </div>
                         </div>
                         <div class="dropdown-menu dropdown-menu-right bkt-navbar__user-dropdown"
-                             aria-labelledby="navbarDropdown" v-if="!loading || !auth_user_loading">
+                             aria-labelledby="navbarDropdown" v-if="!loading && !auth_user_loading">
                             <div class="bkt-navbar__user-dropdown-menu">
                                 <button class="bkt-button bkt-tariff-button" @click="navigate('/tariffs')">Сменить тариф</button>
                                 <a class="bkt-navbar__user-dropdown-item" href="/profile">
@@ -95,10 +95,9 @@
                                     <div class="bkt-navbar__user-dropdown-item-text">Выйти</div>
                                 </div>
                             </div>
-
                         </div>
                     </template>
-                   <template v-else>
+                    <template v-else>
                        <div class="bkt-navbar__user-wrapper" role="button">
                            <div class="bkt-navbar__user text-truncate me-1 w-100">
                                <skeleton type_name="text" height="14px" skeleton_class="mb-1"></skeleton>
@@ -108,7 +107,7 @@
                                <skeleton type_name="item" height="12px" width="10px"></skeleton>
                            </div>
                        </div>
-                   </template>
+                    </template>
                 </div>
                 <button v-else class="bkt-button primary d-none d-md-block"
                         data-bs-toggle="modal" data-bs-target="#authModal"
@@ -236,7 +235,7 @@
                         <!--                        <div class="bkt-sidebar__user-image d-flex align-items-center" style="padding:14px;">-->
                         <!--                            <bkt-icon name="User" color="white" width="22px" height="22px"></bkt-icon>-->
                         <!--                        </div>-->
-                        <div class="text-truncate me-1">
+                        <div class="text-truncate me-1" v-if="!loading&&!auth_user_loading">
                             <div class="bkt-sidebar__user-name text-truncate">
                                 {{ auth_user ? auth_user.name : '' }} {{ auth_user ? auth_user.lastName : '' }}
                             </div>
@@ -250,7 +249,11 @@
                                     {{auth_user && auth_user.tariff ? auth_user.tariff.expiredAt  :''}}
                                 </span>
                             </div>
-
+                        </div>
+                        <div class="text-truncate me-1" v-else>
+                            <skeleton type_name="text" height="14px" skeleton_class="mb-1"></skeleton>
+                            <skeleton type_name="text" height="12px" skeleton_class="mb-1"></skeleton>
+                            <skeleton type_name="text" height="12px" skeleton_class="mb-0"></skeleton>
                         </div>
                     </div>
                     <div class="bkt-sidebar__button" @click="logout" data-bs-dismiss="offcanvas">
@@ -407,8 +410,15 @@
                 await this.$store.dispatch('logout').then(resp => {
                     this.loading = false;
                     if (this.$router.currentRoute.meta.auth) {
-                        this.$router.push('/')
+                        if(this.$router.currentRoute.name !== 'Main') {
+                            this.$router.push('/')
+                        }
                     }
+                    this.$store.dispatch('saveDataProperty', {
+                        module_key: 'auth',
+                        key: 'auth_check.'+ this.$router.currentRoute.name,
+                        value: false
+                    }, {root: true});
                 }).catch(error => {
                     this.loading = false;
                 })

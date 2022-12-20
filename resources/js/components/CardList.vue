@@ -142,10 +142,10 @@
                     <div class="bkt-shadow-card bkt-shadow-card_primary w-100" key="no_results">
                         <div class="bkt-shadow-card__inner bkt-gap">
                             <h3 class="bkt-shadow-card__title bkt-text-white">
-                                Странно, но ничего нет
+                                <slot name="no_results_title_inner">Странно, но ничего нет</slot>
                             </h3>
                             <h5 class="bkt-shadow-card__subtitle bkt-text-white">
-                                Попробуйте изменить критерии поиска
+                                <slot name="no_results_subtitle_inner">Попробуйте изменить критерии поиска</slot>
                             </h5>
                             <div class="bkt-shadow-card__shadow-1">
                             </div>

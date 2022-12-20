@@ -3,6 +3,9 @@
         <h1 class="bkt-page__title">Победы недели</h1>
         <bkt-card-list :current_component="'BktWinCard'" :items="items" :loading="loading"
                        :pagination_data="pagination_data" @change-page="getData" no_modals>
+            <template #no_results_subtitle_inner>
+                Побед недели пока нет, попробуйте позже.
+            </template>
         </bkt-card-list>
     </div>
 </template>

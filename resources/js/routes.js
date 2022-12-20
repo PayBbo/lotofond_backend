@@ -483,11 +483,10 @@ router.beforeEach((to, from, next) => {
             NProgress.start();
         }
     }, progressShowDelay);
-    // guardMyRoute(to, from, next);
     next();
     return false;
 });
-router.afterEach(() => {
+router.afterEach((to, from) => {
     routeResolved = true;
     NProgress.done();
 });

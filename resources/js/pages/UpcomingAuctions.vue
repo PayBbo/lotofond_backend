@@ -419,11 +419,29 @@
             };
         },
         mounted() {
-            let page = 1;
-            if (sessionStorage.getItem('nearest_page')) {
-                page = sessionStorage.getItem('nearest_page')
+            if (this.items.length == 0) {
+                let page = 1;
+                if (sessionStorage.getItem('nearest_page')) {
+                    page = sessionStorage.getItem('nearest_page')
+                }
+                this.getData(page);
             }
-            this.getData(page);
+            else {
+                if (this.isLoggedIn === false) {
+                    this.$store.dispatch('saveDataProperty', {
+                        module_key: 'auth',
+                        key: 'auth_check.'+ this.$route.name,
+                        value: false
+                    }, {root: true});
+                }
+                else {
+                    this.$store.dispatch('saveDataProperty', {
+                        module_key: 'auth',
+                        key: 'auth_check.'+ this.$route.name,
+                        value: true
+                    }, {root: true});
+                }
+            }
         },
         computed: {
             items() {
@@ -534,10 +552,21 @@
             isLoggedIn() {
                 return this.$store.getters.isLoggedIn
             },
+            auth_check() {
+                return this.$store.getters.auth_check
+            },
         },
         watch: {
             isLoggedIn: function (newVal, oldVal) {
                 this.getData(1);
+            },
+            auth_check: {
+                handler(newVal, oldVal) {
+                    if((this.isLoggedIn && newVal[this.$route.name]===true) || (!this.isLoggedIn && newVal[this.$route.name]===false)) {
+                        this.getData(1);
+                    }
+                },
+                deep: true
             }
         },
         methods: {

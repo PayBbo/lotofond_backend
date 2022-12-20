@@ -11,7 +11,10 @@ export default {
         // is_admin: localStorage.getItem('is_admin') || false,
         // is_client: localStorage.getItem('is_client') || false,
         auth_user: null,
-        error: '',
+        auth_check: {
+            Main: !!localStorage.getItem('token'),
+            Auctions: !!localStorage.getItem('token')
+        },
         auth_user_loading: false,
         rules: JSON.parse(localStorage.getItem('rules')) || {
             trade: {
@@ -89,6 +92,8 @@ export default {
         clearStorage() {
             localStorage.removeItem('token');
             localStorage.removeItem('refreshToken');
+            localStorage.removeItem('rules');
+            localStorage.removeItem('system_rules');
             // localStorage.removeItem('is_admin');
             // localStorage.removeItem('is_client');
             delete axios.defaults.headers.common['Authorization'];
@@ -285,6 +290,7 @@ export default {
     },
     getters: {
         isLoggedIn: state => !!state.token,
+        auth_check: state => state.auth_check,
         auth_user: state => state.auth_user,
         auth_user_loading: state => state.auth_user_loading,
         system_rules: state => state.system_rules,

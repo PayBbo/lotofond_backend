@@ -417,7 +417,7 @@
                     <div class="bkt-shadow-card bkt-shadow-card_primary w-100">
                         <div class="bkt-shadow-card__inner bkt-gap">
                             <h3 class="bkt-shadow-card__title bkt-text-white">
-                                Пока ничего нет
+                                В этом мониторинге пока ничего нет.
                             </h3>
                             <div class="bkt-shadow-card__shadow-1">
                             </div>
@@ -427,7 +427,7 @@
                     </div>
                 </template>
             </bkt-card-list>
-            <div class="bkt-shadow-card bkt-shadow-card_primary w-100">
+            <div class="bkt-shadow-card bkt-shadow-card_primary w-100" v-if="items_paths.length===0 && !monitorings_loading">
                 <div class="bkt-shadow-card__inner bkt-gap">
                     <h3 class="bkt-shadow-card__title bkt-text-white">
                         Пока ничего нет. Создайте новый мониторинг.
@@ -563,6 +563,9 @@
                                 this.loading = false;
                             });
                     }
+                    else {
+                        this.loading = false;
+                    }
                 }).catch(err => {
                     this.loading = false;
                 });
@@ -633,7 +636,7 @@
                             this.$store.dispatch('sendNotification',
                                 {self: this, message: 'Лот успешно удален из мониторинга'});
                         }).catch(error => {
-                    })
+                    });
                     this.getData(page)
                 }
             }

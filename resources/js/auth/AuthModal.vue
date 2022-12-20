@@ -45,7 +45,7 @@
                     @click="changeTab('registration')">
                     Регистрация
                 </li>
-                <li class="bkt-navbar__nav-item" :class="{active: tab==='login'}" @click="changeTab(tab='login')">
+                <li class="bkt-navbar__nav-item" :class="{active: tab==='login'}" @click="changeTab('login')">
                     Вход
                 </li>
             </ul>
@@ -284,6 +284,13 @@
                         this.$store.dispatch('sendNotification',
                             {self: this, message:'Код подтверждения был отправлен на указанный контакт'})
                     }
+                    else {
+                        this.$store.dispatch('saveDataProperty', {
+                            module_key: 'auth',
+                            key: 'auth_check.'+this.$route.name,
+                            value: true
+                        }, {root: true});
+                    }
                 }).catch(error => {
                     this.error = error.response.data;
                     if(error.response.data.title === 'ERR_VALIDATION_FAILED_EMAIL')
@@ -308,12 +315,14 @@
 
             },
             changeTab(tab) {
-                this.user = JSON.parse(JSON.stringify(this.shared_user));
-                this.terms = false;
-                if(this.$refs.authModal) {
-                    this.$refs.authModal.resetForm();
+                if(!this.loading) {
+                    this.user = JSON.parse(JSON.stringify(this.shared_user));
+                    this.terms = false;
+                    if(this.$refs.authModal) {
+                        this.$refs.authModal.resetForm();
+                    }
+                    this.tab = tab;
                 }
-                this.tab = tab;
             },
             resetPassword() {
                 this.$store.commit('closeModal', '#authModal');
