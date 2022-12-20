@@ -43,7 +43,7 @@ class Other extends SortQuery implements SortContract
         }
 
        if(!$value['isHidden'] && auth()->check()) {
-           $userId = auth()->id();
+          $userId = auth()->id();
            $this->query->whereDoesntHave("hiddenLots", function($subQuery) use($userId){
                $subQuery->where("user_id", "=", $userId);
            });

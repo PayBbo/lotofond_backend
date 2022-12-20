@@ -28,8 +28,8 @@ class MonitoringJob implements ShouldQueue
     public function __construct($startFrom=null, $endTo=null)
     {
         if(!is_null($startFrom) && !is_null($endTo)) {
-            $this->startFrom = $startFrom;
-            $this->endTo = $endTo;
+            $this->startFrom = Carbon::parse($startFrom);
+            $this->endTo = Carbon::parse($endTo);
         }else{
             $this->startFrom = Carbon::now()->setTimezone('Europe/Moscow')->subHour();
             $this->endTo = Carbon::now()->setTimezone('Europe/Moscow');
@@ -45,7 +45,9 @@ class MonitoringJob implements ShouldQueue
     {
         $minDate = $this->startFrom;
         $maxDate = $this->endTo;
-        $monitorings = Monitoring::all();
+        $monitorings = Monitoring::whereHas('user', function ($query){
+            $query->hasByNonDependentSubquery('tariff');
+        })->get();
         foreach ($monitorings as $monitoring) {
             $lots = Lot::whereNotIn('lots.id', $monitoring->user->hiddenLots->pluck('id'))->filterBy($monitoring->filters)
                 ->whereBetween('lots.created_at', [$minDate, $maxDate])->get();

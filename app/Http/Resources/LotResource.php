@@ -103,13 +103,13 @@ class LotResource extends JsonResource
             'isHide' => $authCheck && in_array($this->id, $this->content['hiddenLots']),
             'inMonitoring' => $this->isAvailable('hasAccessToMonitoring') && in_array($this->id, $monitoringLots),
             'startPrice' => $this->isAvailable('startPrice') ? (float)$this->start_price : null,
-            $this->mergeWhen(!is_null($this->auction_step) && $this->isAvailable('stepPrice'), [
+            $this->mergeWhen(!is_null($this->auction_step) && $this->isAvailable('stepPrice') && !$isPublicOffer, [
                 'stepPrice' => [
                     'type' => $this->is_step_rub ? 'rubles' : 'percent',
                     'value' => $this->auction_step
                 ],
             ]),
-            $this->mergeWhen(is_null($this->auction_step) || !$this->isAvailable('stepPrice'), [
+            $this->mergeWhen(is_null($this->auction_step) || !$this->isAvailable('stepPrice') ||  $isPublicOffer, [
                 'stepPrice' => null
             ]),
             $this->mergeWhen(!is_null($this->deposit) && $this->isAvailable('deposit'), [
