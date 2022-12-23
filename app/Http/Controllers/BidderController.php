@@ -47,9 +47,7 @@ class BidderController extends Controller
                         $q->where('id', $bidderId);
                     })->paginate(20);
         }
-        $authCheck = auth()->guard('api')->check();
-        $settingsService = new ContentSettingsService();
-        return response((new LotCollection($lots))->content($settingsService, $authCheck), 200);
+        return response(new LotCollection($lots), 200);
     }
 
     public function getBidder($bidderId, $type)

@@ -93,8 +93,7 @@ class FavouriteController extends Controller
         $lots = Lot::with(['auction', 'showRegions', 'status', 'lotImages', 'categories', 'lotParams'])
             ->whereIn('lots.id', $path->lots()->pluck('lots.id')->toArray())
             ->filterBy($request->request)->customSortBy($request)->paginate(20);
-        $settingsService = new ContentSettingsService();
-        return response((new LotCollection($lots))->content($settingsService, true), 200);
+        return response(new LotCollection($lots), 200);
 
     }
 

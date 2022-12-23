@@ -33,24 +33,22 @@ class AuctionController extends Controller
                 $query->whereNotIn('lots.id', DB::table('hidden_lots')->where('user_id', auth()->id())->pluck('lot_id')->toArray());
             })
             ->customSortBy($request)->paginate(20);
-        $authCheck = auth()->guard('api')->check();
-        $settingsService = new ContentSettingsService();
-        return response((new LotCollection($lots))->content($settingsService, $authCheck), 200);
+        return response(new LotCollection($lots), 200);
     }
 
     public function getFilteredTrades(Request $request)
     {
         $authCheck = auth()->guard('api')->check();
-        $settingsService = new ContentSettingsService();
         if ($authCheck) {
             $lots = Lot::with(['auction', 'showRegions', 'status', 'lotImages', 'categories', 'lotParams'])
                 ->filterBy($request->request)->customSortBy($request)->paginate(20);
-            return response((new LotCollection($lots))->content($settingsService, $authCheck), 200);
+            return response(new LotCollection($lots), 200);
         } else {
             $lots = Lot::with(['auction', 'showRegions', 'status', 'lotImages', 'categories', 'lotParams'])
                 ->filterBy($request->request)->customSortBy($request)->limit(5)->get();
+            $settingsService = new ContentSettingsService();
             return response([
-                'data' => LotResource::collection($lots)->each->content($settingsService, false),
+                'data' => LotResource::collection($lots)->each->content($settingsService, $authCheck),
                 'pagination' => [
                     'total' => 5,
                     'count' => 5,
@@ -70,7 +68,6 @@ class AuctionController extends Controller
         $start = Carbon::now()->setTimezone('Europe/Moscow');
         $end = Carbon::now()->setTimezone('Europe/Moscow')->addWeek();
         $authCheck = auth()->guard('api')->check();
-        $settingsService = new ContentSettingsService();
         if ($authCheck) {
             $lots = Lot::with(['auction', 'showRegions', 'status', 'lotImages', 'categories', 'lotParams'])
                 ->filterBy($request->request)
@@ -78,7 +75,7 @@ class AuctionController extends Controller
                     $q->whereBetween('application_start_date', [$start, $end])
                         ->where('application_end_date', '>', $end);
                 })->customSortBy($request)->paginate(20);
-            return response((new LotCollection($lots))->content($settingsService, $authCheck), 200);
+            return response(new LotCollection($lots), 200);
         } else {
             $lots = Lot::with(['auction', 'showRegions', 'status', 'lotImages', 'categories', 'lotParams'])
                 ->filterBy($request->request)
@@ -86,8 +83,9 @@ class AuctionController extends Controller
                     $q->whereBetween('application_start_date', [$start, $end])
                         ->where('application_end_date', '>', $end);
                 })->customSortBy($request)->limit(5)->get();
+            $settingsService = new ContentSettingsService();
             return response([
-                'data' => LotResource::collection($lots)->each->content($settingsService, false),
+                'data' => LotResource::collection($lots)->each->content($settingsService, $authCheck),
                 'pagination' => [
                     'total' => 5,
                     'count' => 5,
@@ -141,9 +139,7 @@ class AuctionController extends Controller
         }
         $lots = $auction->lots()->with(['auction', 'showRegions', 'status', 'lotImages', 'categories', 'lotParams'])
             ->filterBy($request->request)->customSortBy($request)->paginate(20);
-        $authCheck = auth()->guard('api')->check();
-        $settingsService = new ContentSettingsService();
-        return response((new LotCollection($lots))->content($settingsService, $authCheck), 200);
+        return response(new LotCollection($lots), 200);
     }
 
     public function getLotInformation($lotId)
