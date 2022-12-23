@@ -133,6 +133,12 @@ export default {
                     commit('setAbout', resp.data)
             });
         },
+        getRules({commit}, payload) {
+            axios.get('/api/text-data/content-rules')
+                .then( resp => {
+                    commit('setRules', resp.data)
+            });
+        },
         setAborts({commit, state}, payload) {
             state.controllers[payload.method] = payload.controller;
             state.signals[payload.method] = payload.signal;

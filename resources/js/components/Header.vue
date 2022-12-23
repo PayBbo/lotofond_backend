@@ -404,6 +404,9 @@
                         this.loading = false;
                     })
                 }
+                else {
+                    await this.$store.dispatch('getRules')
+                }
             },
             async logout() {
                 this.loading = true;

@@ -97,7 +97,17 @@ export default {
             // localStorage.removeItem('is_admin');
             // localStorage.removeItem('is_client');
             delete axios.defaults.headers.common['Authorization'];
-        }
+        },
+        setRules(state, payload) {
+            if(payload.lot) {
+                state.rules = payload.lot;
+                localStorage.setItem('rules', JSON.stringify(state.rules));
+            }
+            if(payload.system) {
+                state.system_rules = payload.system;
+                localStorage.setItem('system_rules', JSON.stringify(state.system_rules));
+            }
+        },
     },
     actions: {
         /*

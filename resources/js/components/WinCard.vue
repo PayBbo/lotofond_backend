@@ -1,7 +1,11 @@
 <template>
     <div class="bkt-card-trade__wrapper bkt-card-win bkt-card__row w-100 mx-0">
         <div class="bkt-wrapper-between bkt-card__heading w-100">
-            <h5>торги № {{item && item.tradeId ? item.tradeId : '0'}}</h5>
+            <h5>торги №
+                <skeleton type_name="spoiler" tag="span" :loading="rules && !rules.trade.externalId">
+                    {{item && item.tradeId ? item.tradeId : '0'}}
+                </skeleton>
+            </h5>
         </div>
         <div class="col-12 p-0">
             <div class="row h-100 w-100 mx-auto row-cols-1 row-cols-md-2 bkt-gap-row-large">
