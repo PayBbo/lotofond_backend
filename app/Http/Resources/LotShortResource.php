@@ -20,7 +20,7 @@ class LotShortResource extends JsonResource
         if ($authCheck) {
             return $this->contentRules[$code];
         }
-        return true;
+        return false;
     }
 
     /**

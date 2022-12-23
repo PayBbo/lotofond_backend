@@ -28,7 +28,7 @@ class LotResource extends JsonResource
         if ($this->authCheck) {
             return $this->content['contentRules'][$code];
         }
-        return true;
+        return false;
     }
 
     /**

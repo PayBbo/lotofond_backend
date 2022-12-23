@@ -21,7 +21,7 @@ class TradeResource extends JsonResource
         if($this->authCheck){
             return $this->contentRules[$code];
         }
-        return true;
+        return false;
     }
     /**
      * Transform the resource into an array.
