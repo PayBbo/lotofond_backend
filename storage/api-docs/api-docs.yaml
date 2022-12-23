@@ -430,6 +430,25 @@ paths:
                 $ref: '#/components/schemas/Error'
       security:
         - bearerAuth: [ ]
+  /text-data/content-rules:
+    get:
+      tags:
+        - TextData
+      summary: Получение информации об ограничениях контента для неавторизованного пользователя
+      operationId: getContentRules
+      responses:
+        "200":
+          description: Информация об ограничениях контента для неавторизованного пользователя
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ContentDisplayRules'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
   /account/notifications:
     get:
       tags:
@@ -714,6 +733,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+      security:
+        - bearerAuth: [ ]
   /trades/victories:
     get:
       parameters:
@@ -4061,77 +4082,79 @@ components:
               type: string
               description: дата истечения сркоа действия подписки
         contentDisplayRules:
-            type: object
-            properties:
-              lot:
-                type: object
-                properties:
-                  lotNumber:
-                    type: boolean
-                  photos:
-                    type: boolean
-                  categories:
-                    type: boolean
-                  state:
-                    type: boolean
-                  location:
-                    type: boolean
-                  startPrice:
-                    type: boolean
-                  stepPrice:
-                    type: boolean
-                  deposit:
-                    type: boolean
-                  priceReduction:
-                    type: boolean
-                  priceReductionHtml:
-                    type: boolean
-                  currentPrice:
-                    type: boolean
-                  minPrice:
-                    type: boolean
-                  currentPriceState:
-                    type: boolean
-                  efrsbLink:
-                    type: boolean
-                  descriptionExtracts:
-                    type: boolean
-                  trade:
-                    type: object
-                    properties:
-                      externalId:
-                        type: boolean
-                      lotCount:
-                        type: boolean
-                      type:
-                        type: boolean
-                      publishDate:
-                        type: boolean
-                      eventTime:
-                        type: boolean
-                      applicationTime:
-                        type: boolean
-                      priceOfferForm:
-                        type: boolean
-                      organizer:
-                        type: boolean
-                      arbitrationManager:
-                        type: boolean
-                      debtor:
-                        type: boolean
-                      tradePlace:
-                        type: boolean
-              system:
-                type: object
-                properties:
-                  hasAccessToTradeFiles:
-                    type: boolean
-                  hasAccessToMonitoring:
-                    type: boolean
-                  hasAccessToReestr:
-                    type: boolean
-                  hasAccessToFavourite:
-                    type: boolean
+            $ref: "#/components/schemas/ContentDisplayRules"
+    ContentDisplayRules:
+      type: object
+      properties:
+        lot:
+          type: object
+          properties:
+            lotNumber:
+              type: boolean
+            photos:
+              type: boolean
+            categories:
+              type: boolean
+            state:
+              type: boolean
+            location:
+              type: boolean
+            startPrice:
+              type: boolean
+            stepPrice:
+              type: boolean
+            deposit:
+              type: boolean
+            priceReduction:
+              type: boolean
+            priceReductionHtml:
+              type: boolean
+            currentPrice:
+              type: boolean
+            minPrice:
+              type: boolean
+            currentPriceState:
+              type: boolean
+            efrsbLink:
+              type: boolean
+            descriptionExtracts:
+              type: boolean
+            trade:
+              type: object
+              properties:
+                externalId:
+                  type: boolean
+                lotCount:
+                  type: boolean
+                type:
+                  type: boolean
+                publishDate:
+                  type: boolean
+                eventTime:
+                  type: boolean
+                applicationTime:
+                  type: boolean
+                priceOfferForm:
+                  type: boolean
+                organizer:
+                  type: boolean
+                arbitrationManager:
+                  type: boolean
+                debtor:
+                  type: boolean
+                tradePlace:
+                  type: boolean
+        system:
+          type: object
+          properties:
+            hasAccessToTradeFiles:
+              type: boolean
+            hasAccessToMonitoring:
+              type: boolean
+            hasAccessToReestr:
+              type: boolean
+            hasAccessToFavourite:
+              type: boolean
     NotificationsSettings:
       type: object
       properties:

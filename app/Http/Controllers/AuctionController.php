@@ -33,27 +33,24 @@ class AuctionController extends Controller
                 $query->whereNotIn('lots.id', DB::table('hidden_lots')->where('user_id', auth()->id())->pluck('lot_id')->toArray());
             })
             ->customSortBy($request)->paginate(20);
-        $data = null;
-        if (auth()->check()) {
-            $settingsService = new ContentSettingsService();
-            $data = $settingsService->getUserData();
-        }
-        return response((new LotCollection($lots))->content($data), 200);
+        $authCheck = auth()->guard('api')->check();
+        $settingsService = new ContentSettingsService();
+        return response((new LotCollection($lots))->content($settingsService, $authCheck), 200);
     }
 
     public function getFilteredTrades(Request $request)
     {
-        if (auth()->check()) {
+        $authCheck = auth()->guard('api')->check();
+        $settingsService = new ContentSettingsService();
+        if ($authCheck) {
             $lots = Lot::with(['auction', 'showRegions', 'status', 'lotImages', 'categories', 'lotParams'])
                 ->filterBy($request->request)->customSortBy($request)->paginate(20);
-            $settingsService = new ContentSettingsService();
-            $data = $settingsService->getUserData();
-            return response((new LotCollection($lots))->content($data), 200);
+            return response((new LotCollection($lots))->content($settingsService, $authCheck), 200);
         } else {
             $lots = Lot::with(['auction', 'showRegions', 'status', 'lotImages', 'categories', 'lotParams'])
                 ->filterBy($request->request)->customSortBy($request)->limit(5)->get();
             return response([
-                'data' => LotResource::collection($lots),
+                'data' => LotResource::collection($lots)->each->content($settingsService, false),
                 'pagination' => [
                     'total' => 5,
                     'count' => 5,
@@ -72,16 +69,16 @@ class AuctionController extends Controller
     {
         $start = Carbon::now()->setTimezone('Europe/Moscow');
         $end = Carbon::now()->setTimezone('Europe/Moscow')->addWeek();
-        if (auth()->check()) {
+        $authCheck = auth()->guard('api')->check();
+        $settingsService = new ContentSettingsService();
+        if ($authCheck) {
             $lots = Lot::with(['auction', 'showRegions', 'status', 'lotImages', 'categories', 'lotParams'])
                 ->filterBy($request->request)
                 ->hasByNonDependentSubquery('auction', function ($q) use ($start, $end) {
                     $q->whereBetween('application_start_date', [$start, $end])
                         ->where('application_end_date', '>', $end);
                 })->customSortBy($request)->paginate(20);
-            $settingsService = new ContentSettingsService();
-            $data = $settingsService->getUserData();
-            return response((new LotCollection($lots))->content($data), 200);
+            return response((new LotCollection($lots))->content($settingsService, $authCheck), 200);
         } else {
             $lots = Lot::with(['auction', 'showRegions', 'status', 'lotImages', 'categories', 'lotParams'])
                 ->filterBy($request->request)
@@ -90,7 +87,7 @@ class AuctionController extends Controller
                         ->where('application_end_date', '>', $end);
                 })->customSortBy($request)->limit(5)->get();
             return response([
-                'data' => LotResource::collection($lots),
+                'data' => LotResource::collection($lots)->each->content($settingsService, false),
                 'pagination' => [
                     'total' => 5,
                     'count' => 5,
@@ -132,12 +129,7 @@ class AuctionController extends Controller
                 })
                     ->orWhere('description', 'like', '%' . $searchString . '%');
             })->paginate(5);
-        $data = null;
-        if(auth()->check()) {
-            $settingsService = new ContentSettingsService();
-            $data = $settingsService->getUserContentRules();
-        }
-        return response((new LotShortCollection($lots))->contentRules($data), 200);
+        return response(new LotShortCollection($lots), 200);
     }
 
 
@@ -149,12 +141,9 @@ class AuctionController extends Controller
         }
         $lots = $auction->lots()->with(['auction', 'showRegions', 'status', 'lotImages', 'categories', 'lotParams'])
             ->filterBy($request->request)->customSortBy($request)->paginate(20);
-        $data = null;
-        if (auth()->check()) {
-            $settingsService = new ContentSettingsService();
-            $data = $settingsService->getUserData();
-        }
-        return response((new LotCollection($lots))->content($data), 200);
+        $authCheck = auth()->guard('api')->check();
+        $settingsService = new ContentSettingsService();
+        return response((new LotCollection($lots))->content($settingsService, $authCheck), 200);
     }
 
     public function getLotInformation($lotId)
@@ -166,11 +155,12 @@ class AuctionController extends Controller
         }
         $lot->isLotInfo = true;
         $data = null;
-        if (auth()->check()) {
-            $settingsService = new ContentSettingsService();
+        $authCheck = auth()->guard('api')->check();
+        $settingsService = new ContentSettingsService();
+        if ($authCheck) {
             $data = $settingsService->getUserData();
         }
-        return response((new LotResource($lot))->content($data), 200);
+        return response((new LotResource($lot))->content($settingsService, $authCheck, $data), 200);
     }
 
     public function getShortLotInformation($lotId)
@@ -179,12 +169,8 @@ class AuctionController extends Controller
         if (!$lot) {
             throw new BaseException("ERR_FIND_LOT_FAILED", 404, "Lot with id= " . $lotId . ' does not exist');
         }
-        $data = null;
-        if(auth()->check()) {
-            $settingsService = new ContentSettingsService();
-            $data = $settingsService->getUserContentRules();
-        }
-        return response((new LotShortResource($lot))->contentRules($data), 200);
+        $settingsService = new ContentSettingsService();
+        return response((new LotShortResource($lot))->contentRules($settingsService), 200);
     }
 
     public function getLotNotifications($lotId)

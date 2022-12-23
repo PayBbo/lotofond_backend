@@ -2,25 +2,17 @@
 
 namespace App\Http\Resources;
 
+use App\Http\Services\ContentSettingsService;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class LotShortResource extends JsonResource
 {
-    protected $contentRules;
+    protected $contentSettings;
 
-    public function contentRules($contentRules = null)
+    public function contentRules($settings)
     {
-        $this->contentRules = $contentRules;
+        $this->contentSettings = $settings;
         return $this;
-    }
-
-    public function isAvailable($code)
-    {
-        $authCheck = auth()->guard('api')->check();
-        if ($authCheck) {
-            return $this->contentRules[$code];
-        }
-        return false;
     }
 
     /**
@@ -31,19 +23,19 @@ class LotShortResource extends JsonResource
      */
     public function toArray($request)
     {
-        $currentPrice = $this->isAvailable('currentPrice') ? $this->start_price : null;
+        $currentPrice =  $this->contentSettings->isAvailable('currentPrice') ? $this->start_price : null;
         $currentPriceRed = $this->currentPriceReduction;
-        if ($currentPriceRed && $this->isAvailable('currentPrice')) {
+        if ($currentPriceRed &&  $this->contentSettings->isAvailable('currentPrice')) {
             $currentPrice = (float)$currentPriceRed['price'];
         }
 
 
         return [
             'id' => $this->id,
-            'trade' => (new TradeResource($this->auction))->contentRules($this->contentRules),
-            'lotNumber' => $this->isAvailable('lotNumber') ? $this->number : null,
-            'photos' => $this->isAvailable('photos') ? $this->photos : null,
-            'categories' => $this->isAvailable('categories') ? $this->categoriesStructure() : null,
+            'trade' => (new TradeResource($this->auction))->content($this->contentSettings),
+            'lotNumber' =>  $this->contentSettings->isAvailable('lotNumber') ? $this->number : null,
+            'photos' =>  $this->contentSettings->isAvailable('photos') ? $this->photos : null,
+            'categories' =>  $this->contentSettings->isAvailable('categories') ? $this->categoriesStructure() : null,
             'description' => stripslashes(preg_replace('/[\x00-\x1F\x7F]/u', ' ', $this->description)),
             'currentPrice' => (float)$currentPrice
 

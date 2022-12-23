@@ -117,7 +117,13 @@ Route::group(['middleware' => ['json.response', 'localization']], function () {
 
     Route::get('/messages/filter/types', [FilterController::class, 'getRegistryTypesForFilter']);
 
-    Route::get('/text-data/{type}', [DataController::class, 'getTextData']);
+    Route::group(['prefix' => 'text-data'], function () {
+
+        Route::get('/content-rules', [DataController::class, 'getContentRules']);
+
+        Route::get('/{type}', [DataController::class, 'getTextData']);
+
+    });
 
     Route::put('/bidders/trades', [BidderController::class, 'getTradesByBidder'])
         ->middleware('auth:api')->name('bidders-trades');

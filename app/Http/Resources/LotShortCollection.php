@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Http\Services\ContentSettingsService;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 
 class LotShortCollection extends ResourceCollection
@@ -14,17 +15,20 @@ class LotShortCollection extends ResourceCollection
      */
     public $collects = 'App\Http\Resources\LotShortResource';
 
-    protected $contentRules;
+    protected $contentSettings;
 
-    public function contentRules($contentRules=null){
-        $this->contentRules = $contentRules;
-        return $this;
+    public function __construct($resource)
+    {
+        $this->contentSettings = new ContentSettingsService();
+        parent::__construct($resource);
     }
+
+
 
     public function toArray($request)
     {
         return [
-            'data' => $this->collection->each->contentRules($this->contentRules),
+            'data' => $this->collection->each->contentRules($this->contentSettings),
             'pagination' => new PaginationResource($this)
         ];
     }

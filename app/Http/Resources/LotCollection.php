@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Http\Services\ContentSettingsService;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 use Illuminate\Support\Facades\DB;
 
@@ -22,9 +23,13 @@ class LotCollection extends ResourceCollection
     public $collects = 'App\Http\Resources\LotResource';
 
     protected $content;
+    protected $contentSettings;
+    protected $authCheck;
 
-    public function content($content){
-        $this->content = $content;
+    public function content($contentSettings, $authCheck){
+        $this->content = $authCheck ? $contentSettings->getUserData() : null;
+        $this->contentSettings = $contentSettings;
+        $this->authCheck = $authCheck;
         return $this;
     }
 
@@ -32,7 +37,7 @@ class LotCollection extends ResourceCollection
     public function toArray($request)
     {
         return [
-            'data' => $this->collection->each->content($this->content),
+            'data' => $this->collection->each->content($this->contentSettings, $this->authCheck, $this->content),
             'pagination' => new PaginationResource($this)
          ];
     }

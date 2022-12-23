@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Http\Services\ContentSettingsService;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 
 class VictoryCollection extends ResourceCollection
@@ -14,10 +15,19 @@ class VictoryCollection extends ResourceCollection
      */
     public $collects = 'App\Http\Resources\VictoryResource';
 
+    protected $contentSettings;
+
+    public function __construct($resource)
+    {
+        $this->contentSettings = new ContentSettingsService();
+        parent::__construct($resource);
+    }
+
+
     public function toArray($request)
     {
         return [
-            'data' => $this->collection,
+            'data' => $this->collection->each->content($this->contentSettings),
             'pagination' => new PaginationResource($this)
         ];
     }

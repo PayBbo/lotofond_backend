@@ -9,9 +9,21 @@ use Illuminate\Support\Facades\DB;
 
 class ContentSettingsService
 {
+    protected $contentRules;
+    protected $authCheck;
+    protected $user;
+
+    public function __construct(){
+
+        $this->authCheck = auth()->guard('api')->check();
+        $this->user = auth()->user();
+        $this->contentRules = $this->getUserContentRules();
+
+    }
+
     public function getUserData()
     {
-        $user = auth()->user();
+        $user = $this->user;
         $seenLots = DB::table('seen_lots')->where('user_id', $user->id)->pluck('lot_id')->toArray();
         $fixedLots = DB::table('fixed_lots')->where('user_id', $user->id)->pluck('lot_id')->toArray();
         $hiddenLots = DB::table('hidden_lots')->where('user_id', $user->id)->pluck('lot_id')->toArray();
@@ -33,23 +45,25 @@ class ContentSettingsService
         $favNotSeen = Notification::whereIn('lot_id', $lots)->where('is_seen', false)->pluck('lot_id')->toArray();
         $notSeenNots = DB::table('favourite_lot')->whereIn('id', $favNotSeen)->pluck('lot_id')->toArray();
 
-        $rules = $this->getUserContentRules();
         return array(
             'seenLots' => $seenLots,
             'fixedLots' => $fixedLots,
             'hiddenLots' => $hiddenLots,
             'monitoringLots' => $monitoringLots,
             'favouritesLots' => $favouritesLots,
-            'notSeenNots' => $notSeenNots,
-            'contentRules' => $rules
+            'notSeenNots' => $notSeenNots
         );
     }
 
     public function getUserContentRules()
     {
-        $user = auth()->user();
-        $hasTariff = !is_null($user->tariff);
-        $hasTestPeriod = $user->email_verified_at->addDays(3) > Carbon::now()->setTimezone('Europe/Moscow');
+        $hasTariff = false;
+        $hasTestPeriod = false;
+        if($this->authCheck) {
+            $user = $this->user;
+            $hasTariff = !is_null($user->tariff);
+            $hasTestPeriod = $user->email_verified_at->addDays(3) > Carbon::now()->setTimezone('Europe/Moscow');
+        }
         $rules = ContentRule::all()->pluck('is_available', 'code');
         if ($hasTariff || $hasTestPeriod) {
             foreach ($rules as $key => $value) {
@@ -57,5 +71,10 @@ class ContentSettingsService
             }
         }
         return $rules;
+    }
+
+    public function isAvailable($code)
+    {
+        return $this->contentRules[$code];
     }
 }

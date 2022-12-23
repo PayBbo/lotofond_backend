@@ -6,6 +6,13 @@ use Illuminate\Http\Resources\Json\JsonResource;
 
 class VictoryResource extends JsonResource
 {
+    protected $contentSettings;
+
+    public function content($settings)
+    {
+        $this->contentSettings = $settings;
+        return $this;
+    }
     /**
      * Transform the resource into an array.
      *
@@ -24,11 +31,11 @@ class VictoryResource extends JsonResource
             $percentageReduction =  round(($endPrice - $startPrice) / $startPrice * 100, 1);
         }
         return [
-            'tradeId'=>$this->tradeMessage->lot->auction->trade_id,
-            'description'=>stripslashes(preg_replace('/[\x00-\x1F\x7F]/u', ' ', $this->tradeMessage->lot->description)),
-            'photos'=>$this->tradeMessage->lot->photos,
-            'categories' => $this->tradeMessage->lot->categoriesStructure(),
-            'startPrice'=>$startPrice,
+            'tradeId'=> $this->contentSettings->isAvailable( 'externalId') ? $this->tradeMessage->lot->auction->trade_id : null,
+            'description'=> $this->contentSettings->isAvailable('descriptionExtracts') ? $this->tradeMessage->lot->description : $this->tradeMessage->lot->processed_description,
+            'photos'=>$this->contentSettings->isAvailable('photos') ? $this->tradeMessage->lot->photos : null,
+            'categories' => $this->contentSettings->isAvailable('categories') ?  $this->tradeMessage->lot->categoriesStructure() : null,
+            'startPrice'=> $this->contentSettings->isAvailable('startPrice') ? $startPrice : null,
             'endPrice'=>$endPrice,
             'percentageDirection'=>$direction,
             'percentageReduction'=>$percentageReduction ?? 0,
