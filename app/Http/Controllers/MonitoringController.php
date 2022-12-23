@@ -55,8 +55,7 @@ class MonitoringController extends Controller
         $lots = Lot::with(['auction', 'showRegions', 'status', 'lotImages', 'categories', 'lotParams'])
             ->whereIn('lots.id', $lotIds)->filterBy($request->request)->customSortBy($request)->paginate(20);
         $settingsService = new ContentSettingsService();
-        $data = $settingsService->getUserData();
-        return response((new LotCollection($lots))->content($data), 200);
+        return response((new LotCollection($lots))->content($settingsService, true), 200);
     }
 
     public function getMonitoringPaths(){

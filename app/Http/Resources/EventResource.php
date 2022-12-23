@@ -6,6 +6,13 @@ use Illuminate\Http\Resources\Json\JsonResource;
 
 class EventResource extends JsonResource
 {
+    protected $contentSettings;
+
+    public function content($settings)
+    {
+        $this->contentSettings = $settings;
+        return $this;
+    }
     /**
      * Transform the resource into an array.
      *
@@ -25,7 +32,7 @@ class EventResource extends JsonResource
                     'favouritePaths' => is_null($this->favourite_lot_id) ? null : $this->favouriteLot->lot->getLotFavouritePaths(),
                     'lotId'=>is_null($this->favourite_lot_id) ? null : $this->favouriteLot->lot->id,
                     'photos' => is_null($this->favourite_lot_id) ? null : $this->favouriteLot->lot->photos,
-                    'description' => is_null($this->favourite_lot_id) ? null : stripslashes(preg_replace('/[\x00-\x1F\x7F]/u', ' ', $this->favouriteLot->lot->description)),
+                    'description' => is_null($this->favourite_lot_id) ? null : ($this->contentSettings->isAvailable('descriptionExtracts') ? $this->favouriteLot->lot->description : $this->favouriteLot->lot->processed_description),
                     'categories'=>is_null($this->favourite_lot_id) ? [] : $this->favouriteLot->lot->categoriesStructure(),
                 ]
             ])

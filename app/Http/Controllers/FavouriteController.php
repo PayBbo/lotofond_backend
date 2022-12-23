@@ -94,8 +94,7 @@ class FavouriteController extends Controller
             ->whereIn('lots.id', $path->lots()->pluck('lots.id')->toArray())
             ->filterBy($request->request)->customSortBy($request)->paginate(20);
         $settingsService = new ContentSettingsService();
-        $data = $settingsService->getUserData();
-        return response((new LotCollection($lots))->content($data), 200);
+        return response((new LotCollection($lots))->content($settingsService, true), 200);
 
     }
 
