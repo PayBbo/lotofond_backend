@@ -155,10 +155,13 @@
                 type: String,
                 default: 'card'
             },
+            loading: {
+                type: Boolean,
+                default: false
+            }
         },
         data() {
             return {
-                loading: false,
                 // button_type: '',
                 in_process: [],
                 actions: [

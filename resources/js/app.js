@@ -7,8 +7,8 @@ import router from './routes';
 import store from './store/index.js';
 // import firebaseMessaging from './firebase'
 // Vue.prototype.$messaging = firebaseMessaging
-import firebaseInitialize from './firebase'
-const firebaseInit = firebaseInitialize();
+// import firebaseInitialize from './firebase'
+// const firebaseInit = firebaseInitialize();
 
 const token = localStorage.getItem('token');
 if (token) {

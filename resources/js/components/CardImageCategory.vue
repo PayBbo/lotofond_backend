@@ -118,40 +118,7 @@
                 return tmp
             },
             rules() {
-                if(this.$store.getters.auth_user)
-                {
-                    return this.$store.getters.auth_user.contentDisplayRules.lot
-                    // return {
-                    //     trade: {
-                    //         externalId: false,
-                    //         type: false,
-                    //         publishDate: false,
-                    //         eventTime: false,
-                    //         applicationTime: false,
-                    //         priceOfferForm: false,
-                    //         organizer: false,
-                    //         arbitrationManager: false,
-                    //         debtor: false,
-                    //         tradePlace: false,
-                    //         lotCount: false
-                    //     },
-                    //     lotNumber: false,
-                    //     photos: false,
-                    //     categories: false,
-                    //     state: false,
-                    //     location: false,
-                    //     startPrice: false,
-                    //     stepPrice: false,
-                    //     deposit: false,
-                    //     priceReduction: false,
-                    //     currentPrice: false,
-                    //     minPrice: false,
-                    //     currentPriceState: false,
-                    //     efrsbLink: false,
-                    //     descriptionExtracts: false
-                    // }
-                }
-                return null
+                return this.$store.getters.rules
             }
         },
         mounted() {

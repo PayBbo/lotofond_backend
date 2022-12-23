@@ -56,8 +56,14 @@
                     )
                 </skeleton>
             </h5>
+            <div class="bkt-actions" v-if="loading">
+                <skeleton type_name="item" tag="div" skeleton_class="bkt-button-icon" :loading="loading"
+                          :count="4" width="44px" height="44px"
+                >
+                </skeleton>
+            </div>
             <bkt-card-actions :item="item" class="bkt-actions" button_type="-icon" place="lot-card"
-                              @changeStatus="changeStatus"
+                              @changeStatus="changeStatus" v-if="!loading"
             ></bkt-card-actions>
         </div>
         <div class="row bkt-lot__cards w-100 p-0">

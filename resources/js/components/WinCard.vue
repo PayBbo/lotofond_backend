@@ -11,11 +11,15 @@
                     </h3>
                 </div>
                 <div class="col-12 col-md-12 col-lg-4 p-0 pe-sm-2">
-                    <card-image-category v-if="(!item.photos || item.photos.length==0) && item.categories"
+                    <card-image-category v-if="item && ((rules && (!rules.categories || !rules.photos)) ||
+                               ((!item.photos || (item.photos && item.photos.length==0))
+                               && item.categories && (!rules || rules && rules.categories)))"
                                          :categories="item.categories"
                     >
                     </card-image-category>
-                    <hooper :itemsToShow="1" :centerMode="true" class="bkt-card__image-slider h-100 w-100" v-if="item.photos.length>0">
+                    <hooper :itemsToShow="1" :centerMode="true" class="bkt-card__image-slider h-100 w-100"
+                            v-if="item && item.photos && item.photos.length>0 && ((rules && rules.photos) || !rules)"
+                    >
                         <slide v-for="photo in item.photos" :key="photo.id">
                             <img v-lazy="photo.main" class="bkt-card__image"/>
                         </slide>
@@ -42,7 +46,11 @@
                                 <div class="bkt-card__row outline bkt-wrapper-between align-items-center">
                                     <div class="bkt-card__feature">
                                         <h6 class="bkt-card__subtitle">начальная цена</h6>
-                                        <h4 class="bkt-card__title">{{item.startPrice | priceFormat}} ₽</h4>
+                                        <h4 class="bkt-card__title">
+                                            <skeleton type_name="spoiler" tag="div" :loading="rules && !rules.startPrice">
+                                                {{item.startPrice | priceFormat}} ₽
+                                            </skeleton>
+                                        </h4>
                                     </div>
                                     <span class="bkt-card__icon">
                                     <bkt-icon :name="'Activity'" color="primary"></bkt-icon>
@@ -141,6 +149,11 @@
         },
         data() {
             return {}
+        },
+        computed: {
+            rules() {
+                return this.$store.getters.rules
+            }
         },
         methods: {}
     };
