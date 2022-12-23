@@ -6,6 +6,14 @@ use Illuminate\Http\Resources\Json\JsonResource;
 
 class NotificationResource extends JsonResource
 {
+
+    protected $contentSettings;
+
+    public function content($settings)
+    {
+        $this->contentSettings = $settings;
+        return $this;
+    }
     /**
      * Transform the resource into an array.
      *
@@ -35,7 +43,7 @@ class NotificationResource extends JsonResource
             $this->mergeWhen($this->type_id == 2, [
                 'dataFavourite' => [
                     'photos' => is_null($this->lot_id) ? null : $this->lot->lot->photos,
-                    'description' => is_null($this->lot_id) ? null : stripslashes(preg_replace('/[\x00-\x1F\x7F]/u', ' ', $this->lot->lot->description)),
+                    'description' => is_null($this->lot_id) ? null : ($this->contentSettings->isAvailable('descriptionExtracts') ? $this->lot->lot->description : $this->lot->lot->processed_description),
                     'detail' => $value,
                     'favouritePaths' => is_null($this->lot_id) ? null : $this->lot->lot->getLotFavouritePaths(),
                     'id'=>is_null($this->lot_id) ? null : $this->lot->lot->id,
