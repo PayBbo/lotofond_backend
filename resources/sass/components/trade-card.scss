@@ -197,7 +197,7 @@
     }
 
     &__price {
-        font-size: 26px;
+        font-size: 24px !important;
         font-family: $font-family-sans-serif;
         font-weight: 700;
         color: inherit;
@@ -244,7 +244,9 @@
             box-shadow: 0px 11px 15px 0px rgba(13, 85, 21, 0.15);
         }
     }
-
+    &__subprice {
+        font-size: 26px !important;
+    }
     &__button {
         border-radius: 8px;
         font-weight: 700;
@@ -999,7 +1001,10 @@
             }
         }
         &__price {
-            font-size: 20px;
+            font-size: 17px !important;
+        }
+        &__subprice {
+            font-size: 19px !important;
         }
         &__button_buy {
             font-size:12px;

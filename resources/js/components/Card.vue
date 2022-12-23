@@ -204,7 +204,7 @@
                                         <h6 class="bkt-card__subtitle">
                                             минимальная цена
                                         </h6>
-                                        <h5 class="bkt-card__text bkt-text-700">
+                                        <h5 class="bkt-card__text bkt-text-700 bkt-card-trade__subprice">
                                             <skeleton type_name="spoiler" :loading="rules && !rules.minPrice">
                                                     {{ item.minPrice | priceFormat}} ₽
                                             </skeleton>
@@ -215,7 +215,7 @@
                                          && (!rules || rules && rules.stepPrice))||(rules && !rules.stepPrice)"
                                     >
                                         <h6 class="bkt-card__subtitle">шаг аукциона</h6>
-                                        <h5 class="bkt-card__text bkt-text-700">
+                                        <h5 class="bkt-card__text bkt-text-700 bkt-card-trade__price">
                                             <skeleton type_name="spoiler" :loading="rules && !rules.stepPrice">
                                                 {{item.stepPrice && item.stepPrice.value ? item.stepPrice.value : '0' |
                                                 priceFormat}}
@@ -228,7 +228,7 @@
                                     >
                                         <h6 class="bkt-card__subtitle">задаток</h6>
                                         <skeleton type_name="spoiler" tag="h5" :loading="rules && !rules.deposit">
-                                            <h5 class="bkt-card__text bkt-text-red bkt-text-700">
+                                            <h5 class="bkt-card__text bkt-text-red bkt-text-700 bkt-card-trade__price">
                                                 {{item.deposit && item.deposit.value ? item.deposit.value : '0' |
                                                 priceFormat}}
                                                 {{item.deposit && item.deposit.type=='rubles' ? '₽' : '%'}}
