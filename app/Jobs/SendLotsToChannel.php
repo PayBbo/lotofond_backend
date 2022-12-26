@@ -99,7 +99,6 @@ class SendLotsToChannel implements ShouldQueue
             $tradeType = $lot->auction->auctionType->description;
             $html = str_replace('<br>', '', str_replace('</p>', '', str_replace('<p>', '',
                 "<strong>Тип торгов: $tradeType</strong>
-<strong>Описание лота:</strong>
 <p>$lotDesc</p>
 <strong>Начальная цена: $price ₽</strong>")));
             if (($lot->auction->auctionType->title == 'PublicOffer' || $lot->auction->auctionType->title == 'ClosePublicOffer') && !is_null($lot->min_price)) {
