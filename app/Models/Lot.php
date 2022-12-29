@@ -282,7 +282,8 @@ class Lot extends Model
 
     public function lotParams()
     {
-        return $this->hasMany(LotParam::class)->where('parent_id', null)->with(['param', 'childParams']);
+        \DB::statement("SET SQL_MODE=''");
+        return $this->hasMany(LotParam::class)->where('parent_id', null)->groupBy('value')->with(['param', 'childParams']);
     }
 
     public function getDescriptionExtractsAttribute()
