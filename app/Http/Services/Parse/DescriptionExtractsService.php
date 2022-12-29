@@ -117,6 +117,8 @@ class DescriptionExtractsService
                 $lot->description = $description;
                 $this->getDescriptionExtracts($lot, $description);
             }
+            $auctionStep = null;
+            $isStepPercent = false;
             if (array_key_exists('Step', $auctionLot) && gettype($auctionLot['Step']) != 'array' && strlen((string)$auctionLot['Step']) > 0) {
                 $auctionStep = $auctionLot['Step'];
                 $lot->auction_step = $auctionStep;
