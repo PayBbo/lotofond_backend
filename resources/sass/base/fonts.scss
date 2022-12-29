@@ -8,7 +8,7 @@
         font-style: $font-style;
         font-weight: $font-weight;
         font-display: swap;
-        src: url('/fonts/Gilroy-'+ $font-file +'.woff2') format('woff2'),
+        src: url('/fonts/Gilroy-' + $font-file + '.woff2') format('woff2'),
     }
 }
 //@include font('Thin', 100);

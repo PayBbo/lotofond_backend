@@ -192,49 +192,46 @@ export default {
                 })
         },
 
-        async logout({commit}) {
+        async logout({dispatch, commit}) {
             commit('setAuthUserLoading', true);
             await axios.post('/api/account/logout').then(resp => {
-                // sessionStorage.clear();
-                // commit('clearStorage');
-                // commit('logout');
-                // commit('setHasNotSeenNotifications', false);
                 commit('setAuthUserLoading', false);
-                // commit('setFilteredTrades', {data: [], pagination: {}});
-                // commit('setNearestTrades', {data: [], pagination: {}});
-
             }).catch(error => {
                 console.log(error);
                 // commit('clearStorage');
                 // commit('logout');
                 commit('setAuthUserLoading', false);
             }).finally(() => {
-                sessionStorage.clear();
-                commit('clearStorage');
-                commit('logout');
-                commit('setHasNotSeenNotifications', false);
-                commit('setAuthUserLoading', false);
-                commit('setTrades', {data: [], pagination: {}});
-                commit('setNearestTrades', {data: [], pagination: {}});
+                dispatch('simpleLogout');
             });
         },
-        async refresh({commit, state}) {
+        async simpleLogout({dispatch, commit}) {
+            commit('setAuthUserLoading', true);
+            sessionStorage.clear();
+            commit('clearStorage');
+            commit('logout');
+            commit('setHasNotSeenNotifications', false);
+            commit('setAuthUserLoading', false);
+            dispatch('getRules');
+            commit('setTrades', {data: [], pagination: {}});
+            commit('setNearestTrades', {data: [], pagination: {}});
+        },
+        async refresh({dispatch, commit, state}) {
             await axios.post('/api/account/refresh/token', {refreshToken: state.refreshToken}).then(resp => {
                 commit('auth_success', {token: resp.data.accessToken, refreshToken: resp.data.refreshToken});
             }).catch(error => {
-                commit('clearStorage');
-                commit('logout');
+                dispatch('simpleLogout');
             });
         },
-        async getAuthUser({commit}) {
+        async getAuthUser({dispatch, commit}) {
             commit('setAuthUserLoading', true);
             await axios.get('/api/account/user').then(resp => {
                 commit('setAuthUser', resp.data);
+                dispatch('checkNotifications')
                 commit('setAuthUserLoading', false);
             }).catch(error => {
                 console.log(error);
-                commit('clearStorage');
-                commit('logout');
+                dispatch('logout');
                 commit('setAuthUserLoading', false);
             });
         },

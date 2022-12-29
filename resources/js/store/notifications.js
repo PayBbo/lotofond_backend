@@ -86,6 +86,7 @@ export default {
                 .then(resp => {
                     commit('setHasNotSeenNotifications', resp.data.hasNotSeenNotifications);
                 }).catch(error => {
+                    commit('setHasNotSeenNotifications', false);
                 });
         },
         getNotifications({dispatch, commit}, payload) {

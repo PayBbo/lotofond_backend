@@ -133,7 +133,7 @@ export default {
                     commit('setAbout', resp.data)
             });
         },
-        getRules({commit}, payload) {
+        getRules({commit}) {
             axios.get('/api/text-data/content-rules')
                 .then( resp => {
                     commit('setRules', resp.data)

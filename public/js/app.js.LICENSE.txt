@@ -2,7 +2,7 @@
  * @license MIT */
 
 /*!
-  * Bootstrap v5.2.0 (https://getbootstrap.com/)
+  * Bootstrap v5.2.3 (https://getbootstrap.com/)
   * Copyright 2011-2022 The Bootstrap Authors (https://github.com/twbs/bootstrap/graphs/contributors)
   * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
   */
@@ -23,7 +23,7 @@
  */
 
 /*!
- * Vue.js v2.7.10
+ * Vue.js v2.7.14
  * (c) 2014-2022 Evan You
  * Released under the MIT License.
  */
@@ -55,12 +55,6 @@
     */
 
 /**
-  * vee-validate v3.4.14
-  * (c) 2021 Abdelrahman Awad
-  * @license MIT
-  */
-
-/**
  * @license
  * Lodash <https://lodash.com/>
  * Copyright OpenJS Foundation and other contributors <https://openjsf.org/>
@@ -81,4 +75,4 @@
 
 //! moment.js locale configuration
 
-//! version : 0.5.37
+//! version : 0.5.40

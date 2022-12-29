@@ -3,7 +3,7 @@
         <notifications position="top right" classes="bkt-notification"/>
         <bkt-header></bkt-header>
         <main class="wrapper">
-            <router-view :key="$route.fullPath"></router-view>
+            <router-view :key="$route.fullPath" ref="view"></router-view>
         </main>
         <bkt-footer></bkt-footer>
     </div>
@@ -12,13 +12,47 @@
 <script>
     export default {
         name: "App",
-        computed: {
-            isLoggedIn() {
-                return this.$store.getters.isLoggedIn
-            }
+        created() {
+            let callback = (val, oldVal, uri) => {
+                if (val && !oldVal) {
+                    this.$store.commit('auth_success',
+                        {token: localStorage.getItem('token'), refreshToken: localStorage.getItem('refreshToken')});
+                    this.getUser();
+                } else if (!val && oldVal) {
+                    this.$store.dispatch('simpleLogout');
+                    if (this.$router.currentRoute.meta.auth) {
+                        if (this.$router.currentRoute.name !== 'Main') {
+                            this.$router.push('/')
+                        }
+                    }
+                }
+                this.$nextTick(() => {
+                    if(this.$refs.view.getData) {
+                        this.$refs.view.getData(1)
+                    }
+                })
+            };
+            Vue.ls.on('token', callback);
+            this.getUser();
         },
         mounted() {
             this.$store.dispatch('getContacts');
+        },
+        computed: {
+            isLoggedIn() {
+                return this.$store.getters.isLoggedIn
+            },
+        },
+        methods: {
+            async getUser() {
+                if (this.isLoggedIn) {
+                    await this.$store.dispatch('getAuthUser').then(resp => {
+                    }).catch(error => {
+                    })
+                } else {
+                    await this.$store.dispatch('getRules')
+                }
+            }
         }
     }
 </script>

@@ -9,6 +9,13 @@ import store from './store/index.js';
 // Vue.prototype.$messaging = firebaseMessaging
 // import firebaseInitialize from './firebase'
 // const firebaseInit = firebaseInitialize();
+import Storage from 'vue-ls';
+const options = {
+    namespace: '', // key prefix
+    name: 'ls', // name variable Vue.[ls] or this.[$ls],
+    storage: 'local', // storage name session, local, memory
+};
+Vue.use(Storage, options);
 
 const token = localStorage.getItem('token');
 if (token) {
@@ -20,8 +27,10 @@ axios.interceptors.response.use(
     },
     async function (error) {
         const originalRequest = error.config;
-        if (error.response && error.config && error.config.url !== '/api/account/refresh/token') {
-            console.log('interceptors have error.response');
+        if (error.response && error.config && error.config.url !== '/api/account/refresh/token'
+            && error.config.url !== '/api/account/logout')
+        {
+            console.log('interceptors have error.response', error , error.response);
             if (error.response.data) {
                 // if(error.response.data.code == 401)
                 // {
@@ -45,11 +54,11 @@ axios.interceptors.response.use(
 
             }
 
-            if ( error.config.url == '/api/account/user' && error.response.status === 401
+            if ((error.response.status === 401 || error.response.status === 419)
                 && !originalRequest._retry && !error.response.config.__isRetryRequest) {
+                // && error.response.data.title==="ERR_AUTHORIZATION_CHECK_FAILED"
                 console.log('interceptors have error.response.status === 403');
-                // store.commit('clearStorage');
-                if (localStorage.getItem('token')) {
+                if (localStorage.getItem('token') || store.getters.isLoggedIn) {
                     console.log('interceptors have token in localStorage');
                     originalRequest._retry = true;
                     await store.dispatch('refresh')
@@ -62,13 +71,16 @@ axios.interceptors.response.use(
                                 console.log('interceptors refresh token is successful');
                                 console.log('originalRequest', originalRequest);
                                 return axios(originalRequest);
-                            } else {
+                            }
+                            else {
                                 console.log('interceptors refresh token catch error');
-                                store.commit('clearStorage');
-                                store.commit('logout');
+                                store.dispatch('simpleLogout');
                                 return Promise.reject(error);
                             }
                         })
+                }
+                else {
+                    store.dispatch('simpleLogout');
                 }
             }
         }

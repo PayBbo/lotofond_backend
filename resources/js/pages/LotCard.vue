@@ -521,6 +521,41 @@
                     </div>
                 </div>
             </div>
+            <div v-if="isLoggedIn && (item && item.trade && (item.trade.type === 'PublicOffer' || item.trade.type === 'ClosePublicOffer'))
+            && (rules && (rules.priceReduction || rules.priceReductionHtml))" class="col-12 order-3 px-lg-0">
+                <bkt-collapse title="График снижения цены" id="priceReduction" :loading="loading"
+                              :disabled="loading" class="bkt-lot__collapse"
+                >
+                    <template #collapse>
+                        <div class="bkt-lot-my-files bkt-lot-price-reduction">
+                            <!--                            <div class="bkt-card__header">-->
+                            <!--                                <h3 class="bkt-card__title">График снижения цены</h3>-->
+                            <!--                            </div>-->
+                            <div class="bkt-card__inner bkt-wrapper-column bkt-gap">
+                                <template v-if="item.priceReduction && item.priceReduction.length>0">
+                                    <div class="bkt-card__row outline bkt-wrapper-between bkt-nowrap align-items-center"
+                                         v-for="reduction in item.priceReduction">
+                                        <h6 class="bkt-text-neutral-dark">{{reduction.time | moment('DD.MM.YYYY HH:mm')}}</h6>
+                                        <h5>{{reduction.price | priceFormat}} ₽</h5>
+                                        <!--                            :class="{'bkt-text-green': reduction.price > item.startPrice,
+                                                                    'bkt-text-primary': reduction.price == item.startPrice,
+                                                                    'bkt-text-red': reduction.price < item.startPrice }"-->
+                                    </div>
+                                </template>
+                                <div v-else-if="item.priceReductionHtml" v-html="item.priceReductionHtml"></div>
+                                <div v-else
+                                     class="bkt-wrapper-column my-auto justify-content-center align-items-center text-center"
+                                     style="padding-bottom:54px;"
+                                >
+                                    <bkt-icon name="ArrowDownCircle" color="neutral-light" class="mx-auto" width="80%"
+                                              height="200px"></bkt-icon>
+                                    <h5 class="bkt-text-neutral">Измений ещё не было</h5>
+                                </div>
+                            </div>
+                        </div>
+                    </template>
+                </bkt-collapse>
+            </div>
             <div v-if="isLoggedIn" class="col-12 col-lg-12 order-3 px-lg-0">
                 <div class="bkt-card bkt-lot__card bkt-lot-tasks" v-if="!loading">
                     <div class="bkt-card__header bkt-wrapper-between bkt-wrapper-up-md-nowrap m-0 bkt-gap-large">
@@ -1003,41 +1038,6 @@
 <!--                                            <button class="bkt-button primary">Добавить набор</button>-->
 <!--                                        </div>-->
 <!--                                    </div>-->
-            <div v-if="isLoggedIn && (item && item.trade && (item.trade.type === 'PublicOffer' || item.trade.type === 'ClosePublicOffer'))
-            && (rules && (rules.priceReduction || rules.priceReductionHtml))" class="col-12 order-3 px-lg-0">
-                <bkt-collapse title="График снижения цены" id="priceReduction" :loading="loading"
-                              :disabled="loading" class="bkt-lot__collapse"
-                >
-                    <template #collapse>
-                        <div class="bkt-lot-my-files bkt-lot-price-reduction">
-<!--                            <div class="bkt-card__header">-->
-<!--                                <h3 class="bkt-card__title">График снижения цены</h3>-->
-<!--                            </div>-->
-                            <div class="bkt-card__inner bkt-wrapper-column bkt-gap">
-                                <template v-if="item.priceReduction && item.priceReduction.length>0">
-                                    <div class="bkt-card__row outline bkt-wrapper-between bkt-nowrap align-items-center"
-                                         v-for="reduction in item.priceReduction">
-                                        <h6 class="bkt-text-neutral-dark">{{reduction.time | moment('DD.MM.YYYY HH:mm')}}</h6>
-                                        <h5>{{reduction.price | priceFormat}} ₽</h5>
-                                        <!--                            :class="{'bkt-text-green': reduction.price > item.startPrice,
-                                                                    'bkt-text-primary': reduction.price == item.startPrice,
-                                                                    'bkt-text-red': reduction.price < item.startPrice }"-->
-                                    </div>
-                                </template>
-                                <div v-else-if="item.priceReductionHtml" v-html="item.priceReductionHtml"></div>
-                                <div v-else
-                                     class="bkt-wrapper-column my-auto justify-content-center align-items-center text-center"
-                                     style="padding-bottom:54px;"
-                                >
-                                    <bkt-icon name="ArrowDownCircle" color="neutral-light" class="mx-auto" width="80%"
-                                              height="200px"></bkt-icon>
-                                    <h5 class="bkt-text-neutral">Измений ещё не было</h5>
-                                </div>
-                            </div>
-                        </div>
-                    </template>
-                </bkt-collapse>
-            </div>
 <!--            <div v-if="isLoggedIn" class="col-12 col-lg-6 order-3 pe-lg-0">-->
 <!--                <bkt-collapse title="Мои файлы" id="myFiles" :loading="files_loading"-->
 <!--                              :disabled="files_loading" class="bkt-lot__collapse"-->

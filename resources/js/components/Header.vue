@@ -27,7 +27,7 @@
                     <li class="bkt-navbar__nav-item">
                         <div @click="navigate('/messages')" class="bkt-navbar__nav-link">
                             <span class="bkt-button-ellipse bkt-bg-body">
-                                <span class="info" v-if="hasNotSeenNotifications"></span>
+                                <span class="info" v-if="hasNotSeenNotifications&&isLoggedIn"></span>
                                 <bkt-icon :name="'Bell'" :color="'green'"/>
                             </span>
                             Сообщения
@@ -81,7 +81,9 @@
                         <div class="dropdown-menu dropdown-menu-right bkt-navbar__user-dropdown"
                              aria-labelledby="navbarDropdown" v-if="!loading && !auth_user_loading">
                             <div class="bkt-navbar__user-dropdown-menu">
-                                <button class="bkt-button bkt-tariff-button" @click="navigate('/tariffs')">Сменить тариф</button>
+                                <button class="bkt-button bkt-tariff-button" @click="navigate('/tariffs')">Сменить
+                                    тариф
+                                </button>
                                 <a class="bkt-navbar__user-dropdown-item" href="/profile">
                                     <div class="bkt-navbar__user-dropdown-item-icon bkt-bg-primary-lighter">
                                         <bkt-icon :name="'User'" :color="'primary'"></bkt-icon>
@@ -98,15 +100,15 @@
                         </div>
                     </template>
                     <template v-else>
-                       <div class="bkt-navbar__user-wrapper" role="button">
-                           <div class="bkt-navbar__user text-truncate me-1 w-100">
-                               <skeleton type_name="text" height="14px" skeleton_class="mb-1"></skeleton>
-                               <skeleton type_name="text" height="12px" skeleton_class="mb-0"></skeleton>
-                           </div>
-                           <div class="bkt-navbar__user-icon">
-                               <skeleton type_name="item" height="12px" width="10px"></skeleton>
-                           </div>
-                       </div>
+                        <div class="bkt-navbar__user-wrapper" role="button">
+                            <div class="bkt-navbar__user text-truncate me-1 w-100">
+                                <skeleton type_name="text" height="14px" skeleton_class="mb-1"></skeleton>
+                                <skeleton type_name="text" height="12px" skeleton_class="mb-0"></skeleton>
+                            </div>
+                            <div class="bkt-navbar__user-icon">
+                                <skeleton type_name="item" height="12px" width="10px"></skeleton>
+                            </div>
+                        </div>
                     </template>
                 </div>
                 <button v-else class="bkt-button primary d-none d-md-block"
@@ -367,12 +369,6 @@
                 ],
             }
         },
-        created() {
-            this.getUser();
-            if (this.isLoggedIn) {
-                this.checkNotifications();
-            }
-        },
         computed: {
             auth_user() {
                 return this.$store.getters.auth_user
@@ -387,39 +383,19 @@
                 return this.$store.getters.hasNotSeenNotifications;
             },
         },
-        watch: {
-            isLoggedIn: function (newVal, oldVal) {
-                if (oldVal == false && newVal == true) {
-                    this.checkNotifications();
-                }
-            }
-        },
         methods: {
-            async getUser() {
-                if (this.isLoggedIn) {
-                    this.loading = true;
-                    await this.$store.dispatch('getAuthUser').then(resp => {
-                        this.loading = false;
-                    }).catch(error => {
-                        this.loading = false;
-                    })
-                }
-                else {
-                    await this.$store.dispatch('getRules')
-                }
-            },
             async logout() {
                 this.loading = true;
                 await this.$store.dispatch('logout').then(resp => {
                     this.loading = false;
                     if (this.$router.currentRoute.meta.auth) {
-                        if(this.$router.currentRoute.name !== 'Main') {
+                        if (this.$router.currentRoute.name !== 'Main') {
                             this.$router.push('/')
                         }
                     }
                     this.$store.dispatch('saveDataProperty', {
                         module_key: 'auth',
-                        key: 'auth_check.'+ this.$router.currentRoute.name,
+                        key: 'auth_check.' + this.$router.currentRoute.name,
                         value: false
                     }, {root: true});
                 }).catch(error => {

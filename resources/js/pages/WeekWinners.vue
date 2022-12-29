@@ -43,9 +43,6 @@
                 // pagination_data: {}
             };
         },
-        created() {
-
-        },
         mounted() {
             this.getData();
         },
