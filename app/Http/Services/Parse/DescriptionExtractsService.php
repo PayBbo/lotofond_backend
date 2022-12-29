@@ -125,6 +125,12 @@ class DescriptionExtractsService
                 $isStepPercent = $auctionLot['AuctionStepUnit'] == 'Percent';
                 $lot->is_step_rub = !$isStepPercent;
             }
+            if (array_key_exists('Advance', $auctionLot) && gettype($auctionLot['Advance']) != 'array' && strlen((string)$auctionLot['Advance']) > 0) {
+                $lot->deposit = $auctionLot['Advance'];
+            }
+            if (array_key_exists('AdvanceStepUnit', $auctionLot) && gettype($auctionLot['AdvanceStepUnit']) != 'array' && strlen((string)$auctionLot['AdvanceStepUnit']) > 0) {
+                $lot->is_deposit_rub = $auctionLot['AdvanceStepUnit'] != 'Percent';
+            }
             if ($lot->auction->auctionType->title == 'PublicOffer' || $lot->auction->auctionType->title == 'ClosePublicOffer') {
                 $prices = $lot->showPriceReductions->pluck('price')->toArray();
                 if (count($prices) == 0) {
