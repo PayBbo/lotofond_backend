@@ -83,6 +83,20 @@ class DescriptionExtractsService
                 }
             }
         }
+        $emailRegex = "/[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,3})/i";
+        preg_match_all($emailRegex, $description, $matches);
+        if (count($matches[0]) > 0) {
+            foreach (array_unique($matches[0]) as $match) {
+                $changeDesc = str_replace($match, str_repeat('░', strlen($match) - 1), $changeDesc);
+            }
+        }
+        $phoneRegex = "/(?:\+|\d)[\d\-\(\) ]{9,}\d/";
+        preg_match_all($phoneRegex, $description, $matches);
+        if (count($matches[0]) > 0) {
+            foreach (array_unique($matches[0]) as $match) {
+                $changeDesc = str_replace($match, str_repeat('░', strlen($match) - 1), $changeDesc);
+            }
+        }
         $lot->processed_description = $changeDesc;
         $lot->save();
     }
