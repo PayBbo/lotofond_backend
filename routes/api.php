@@ -72,6 +72,8 @@ Route::group(['middleware' => ['json.response', 'localization']], function () {
 
         Route::post('apple/callback', [SocialController::class, 'appleCallback']);
 
+        Route::post('refresh/token', [LoginController::class, 'refreshToken']);
+
     });
     Route::group(['prefix' => 'trades'], function () {
 
@@ -186,8 +188,6 @@ Route::group(['middleware' => ['json.response', 'localization']], function () {
             Route::put('update/token', [ProfileController::class, 'updateDeviceToken']);
 
             Route::post('logout', [LoginController::class, 'logout']);
-
-            Route::post('refresh/token', [LoginController::class, 'refreshToken']);
 
             Route::post('credentials/code', [ProfileController::class, 'getCredentialsCode']);
 
