@@ -30,9 +30,9 @@
                         </div>
                     </div>
                     <div class="bkt-promo__block-price">
-                        <h2>3000 ₽</h2>
-                        <button class="bkt-button bkt-button_yellow bkt-button_plump" @click="scrollToElement">Купить
-                        </button>
+<!--                        <h2>3000 ₽</h2>-->
+<!--                        <button class="bkt-button bkt-button_yellow bkt-button_plump" @click="scrollToElement">Купить-->
+<!--                        </button>-->
                     </div>
                 </div>
                 <div class="bkt-promo__block-shadow"
@@ -213,128 +213,128 @@
                 увеличиваются до
             </h2><span class="bkt-promo__block-title bkt-text-yellow bkt-promo__block-percentage">80%</span>
         </div>
-        <section ref="form">
-            <h2 class="bkt-page__subtitle">Как получить услугу?</h2>
-            <ValidationObserver v-slot="{ invalid }" tag="div" class="bkt-card bkt-promo__form bkt-form">
-                <div v-if="selected_lot" class="bkt-promo__lot-wrapper">
-                    <label class="bkt-input__label bkt-form__label">
-                        лот
-                    </label>
-                    <div class="bkt-wrapper bkt-gap bkt-nowrap">
-                        <card-image-category :no_multiple="true"
-                                             v-if="(!selected_lot.photos || selected_lot.photos.length==0) && selected_lot && selected_lot.categories"
-                                             :categories="selected_lot.categories"></card-image-category>
-                        <img v-if="selected_lot.photos.length>0" v-lazy="selected_lot.photos[0].preview" class="bkt-card__image"/>
-                        <router-link :to="'/lot/'+selected_lot.id">
-                            <h4 class="bkt-promo__lot-title bkt-text-truncate bkt-cursor-pointer">
-                                {{selected_lot.description}}
-                            </h4>
-                        </router-link>
-                    </div>
-                </div>
-                <bkt-input
-                    v-model="service.name"
-                    name="name"
-                    type="text"
-                    :rules="'required|alpha_spaces|min:2'"
-                    label="имя фамилия <span class='bkt-text-red'>*</span>"
-                    label_class="bkt-form__label"
-                    field_name="Имя Фамилия"
-                    placeholder="Иванов Иван"
-                    icon_name="User"
-                />
-                <bkt-input
-                    v-model="service.email"
-                    :name="'email'"
-                    type="email"
-                    label="email <span class='bkt-text-red'>*</span>"
-                    label_class="bkt-form__label"
-                    field_name="Email"
-                    :rules="'required'"
-                    placeholder="pochta@gmail.com"
-                    icon_name="Email"
-                />
-                <bkt-input
-                    v-model="service.phone"
-                    :name="'phone'"
-                    type="tel"
-                    label="номер телефона <span class='bkt-text-red'>*</span>"
-                    label_class="bkt-form__label"
-                    field_name="Номер телефона"
-                    :rules="'required|phone'"
-                    :placeholder="'+7 495 000-00-00'"
-                    icon_name="Smartphone"
-                    :mask="['+# ### ### ####','+## ### ### ####', '+## ### #### ####',]"
-                />
-                <div class="bkt-input__wrapper">
-                    <label class="bkt-input__label bkt-form__label" style="margin-bottom: 10px;">
-                        где вам удобнее общаться <span class="bkt-text-red">*</span>
-                    </label>
-                    <ValidationProvider :name="'Мессенджеры'" rules="required|min:1" v-slot="{ errors }">
-                        <div class="communications">
-                            <bkt-checkbox wrapper_class="flex-fill"
-                                input_class="bkt-button bkt-bg-body flex-fill" name="Viber"
-                                v-model="service.socialsForAnswer" val="Viber"
-                                :border_color="service.socialsForAnswer.includes('Viber') ? 'primary': 'body'"
-                            >
-                                <template #input-check>
-                                    <bkt-icon name="Viber" color="purple" class="bkt-button__icon"></bkt-icon>
-                                </template>
-                            </bkt-checkbox>
-                            <bkt-checkbox wrapper_class="flex-fill"
-                                input_class="bkt-button bkt-bg-body flex-fill" name="Vk"
-                                v-model="service.socialsForAnswer" val="Vk"
-                                :border_color="service.socialsForAnswer.includes('Vk') ? 'primary': 'body'"
-                            >
-                                <template #input-check>
-                                    <bkt-icon name="Vk" color="primary" class="bkt-button__icon"></bkt-icon>
-                                </template>
-                            </bkt-checkbox>
-                            <bkt-checkbox wrapper_class="flex-fill"
-                                input_class="bkt-button bkt-bg-body flex-fill" name="Telegram"
-                                v-model="service.socialsForAnswer" val="Telegram"
-                                :border_color="service.socialsForAnswer.includes('Telegram') ? 'primary': 'body'"
-                            >
-                                <template #input-check>
-                                    <bkt-icon name="Telegram" color="blue" class="bkt-button__icon"></bkt-icon>
-                                </template>
-                            </bkt-checkbox>
-                            <bkt-checkbox wrapper_class="flex-fill"
-                                input_class="bkt-button bkt-bg-body flex-fill" name="WhatsApp"
-                                v-model="service.socialsForAnswer" val="WhatsApp"
-                                :border_color="service.socialsForAnswer.includes('WhatsApp') ? 'primary': 'body'"
-                            >
-                                <template #input-check>
-                                    <bkt-icon name="WhatsApp" color="green" class="bkt-button__icon"></bkt-icon>
-                                </template>
-                            </bkt-checkbox>
-                            <div class="bkt-button bkt-bg-body bkt-text-main">перезвоним в течение 10 минут</div>
-                        </div>
-                        <p class="bkt-input-error" v-if="errors.length>0">{{errors[0]}}</p>
-                    </ValidationProvider>
-                </div>
-                <div class="bkt-input__wrapper">
-                    <label class="bkt-form__label">
-                        позвоните лучше
-                    </label>
-                    <div class="time_to_call">
-                        <bkt-datepicker v-model="service.dateForCallback" type="datetime" name="dateForCallback"
-                                        field_name="'позвоните лучше'"
-                        >
-                        </bkt-datepicker>
-                    </div>
-                </div>
-                <bkt-checkbox name="'Условия'" v-model="service.terms" id="terms" :rules="'required_boolean'">
-                    <template #label>
-                        Согласен с условиями пользовательского соглашения, политики сайта, обработки персональных
-                        данных. <span class="bkt-text-red" style="font-size: 14px;">*</span>
-                    </template>
-                </bkt-checkbox>
-                <button class="bkt-button primary" :disabled="invalid || loading" @click="sendApplication">
-                    Получить услугу
-                </button>
-            </ValidationObserver>
-        </section>
+<!--        <section ref="form">-->
+<!--            <h2 class="bkt-page__subtitle">Как получить услугу?</h2>-->
+<!--            <ValidationObserver v-slot="{ invalid }" tag="div" class="bkt-card bkt-promo__form bkt-form">-->
+<!--                <div v-if="selected_lot" class="bkt-promo__lot-wrapper">-->
+<!--                    <label class="bkt-input__label bkt-form__label">-->
+<!--                        лот-->
+<!--                    </label>-->
+<!--                    <div class="bkt-wrapper bkt-gap bkt-nowrap">-->
+<!--                        <card-image-category :no_multiple="true"-->
+<!--                                             v-if="(!selected_lot.photos || selected_lot.photos.length==0) && selected_lot && selected_lot.categories"-->
+<!--                                             :categories="selected_lot.categories"></card-image-category>-->
+<!--                        <img v-if="selected_lot.photos.length>0" v-lazy="selected_lot.photos[0].preview" class="bkt-card__image"/>-->
+<!--                        <router-link :to="'/lot/'+selected_lot.id">-->
+<!--                            <h4 class="bkt-promo__lot-title bkt-text-truncate bkt-cursor-pointer">-->
+<!--                                {{selected_lot.description}}-->
+<!--                            </h4>-->
+<!--                        </router-link>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--                <bkt-input-->
+<!--                    v-model="service.name"-->
+<!--                    name="name"-->
+<!--                    type="text"-->
+<!--                    :rules="'required|alpha_spaces|min:2'"-->
+<!--                    label="имя фамилия <span class='bkt-text-red'>*</span>"-->
+<!--                    label_class="bkt-form__label"-->
+<!--                    field_name="Имя Фамилия"-->
+<!--                    placeholder="Иванов Иван"-->
+<!--                    icon_name="User"-->
+<!--                />-->
+<!--                <bkt-input-->
+<!--                    v-model="service.email"-->
+<!--                    :name="'email'"-->
+<!--                    type="email"-->
+<!--                    label="email <span class='bkt-text-red'>*</span>"-->
+<!--                    label_class="bkt-form__label"-->
+<!--                    field_name="Email"-->
+<!--                    :rules="'required'"-->
+<!--                    placeholder="pochta@gmail.com"-->
+<!--                    icon_name="Email"-->
+<!--                />-->
+<!--                <bkt-input-->
+<!--                    v-model="service.phone"-->
+<!--                    :name="'phone'"-->
+<!--                    type="tel"-->
+<!--                    label="номер телефона <span class='bkt-text-red'>*</span>"-->
+<!--                    label_class="bkt-form__label"-->
+<!--                    field_name="Номер телефона"-->
+<!--                    :rules="'required|phone'"-->
+<!--                    :placeholder="'+7 495 000-00-00'"-->
+<!--                    icon_name="Smartphone"-->
+<!--                    :mask="['+# ### ### ####','+## ### ### ####', '+## ### #### ####',]"-->
+<!--                />-->
+<!--                <div class="bkt-input__wrapper">-->
+<!--                    <label class="bkt-input__label bkt-form__label" style="margin-bottom: 10px;">-->
+<!--                        где вам удобнее общаться <span class="bkt-text-red">*</span>-->
+<!--                    </label>-->
+<!--                    <ValidationProvider :name="'Мессенджеры'" rules="required|min:1" v-slot="{ errors }">-->
+<!--                        <div class="communications">-->
+<!--                            <bkt-checkbox wrapper_class="flex-fill"-->
+<!--                                input_class="bkt-button bkt-bg-body flex-fill" name="Viber"-->
+<!--                                v-model="service.socialsForAnswer" val="Viber"-->
+<!--                                :border_color="service.socialsForAnswer.includes('Viber') ? 'primary': 'body'"-->
+<!--                            >-->
+<!--                                <template #input-check>-->
+<!--                                    <bkt-icon name="Viber" color="purple" class="bkt-button__icon"></bkt-icon>-->
+<!--                                </template>-->
+<!--                            </bkt-checkbox>-->
+<!--                            <bkt-checkbox wrapper_class="flex-fill"-->
+<!--                                input_class="bkt-button bkt-bg-body flex-fill" name="Vk"-->
+<!--                                v-model="service.socialsForAnswer" val="Vk"-->
+<!--                                :border_color="service.socialsForAnswer.includes('Vk') ? 'primary': 'body'"-->
+<!--                            >-->
+<!--                                <template #input-check>-->
+<!--                                    <bkt-icon name="Vk" color="primary" class="bkt-button__icon"></bkt-icon>-->
+<!--                                </template>-->
+<!--                            </bkt-checkbox>-->
+<!--                            <bkt-checkbox wrapper_class="flex-fill"-->
+<!--                                input_class="bkt-button bkt-bg-body flex-fill" name="Telegram"-->
+<!--                                v-model="service.socialsForAnswer" val="Telegram"-->
+<!--                                :border_color="service.socialsForAnswer.includes('Telegram') ? 'primary': 'body'"-->
+<!--                            >-->
+<!--                                <template #input-check>-->
+<!--                                    <bkt-icon name="Telegram" color="blue" class="bkt-button__icon"></bkt-icon>-->
+<!--                                </template>-->
+<!--                            </bkt-checkbox>-->
+<!--                            <bkt-checkbox wrapper_class="flex-fill"-->
+<!--                                input_class="bkt-button bkt-bg-body flex-fill" name="WhatsApp"-->
+<!--                                v-model="service.socialsForAnswer" val="WhatsApp"-->
+<!--                                :border_color="service.socialsForAnswer.includes('WhatsApp') ? 'primary': 'body'"-->
+<!--                            >-->
+<!--                                <template #input-check>-->
+<!--                                    <bkt-icon name="WhatsApp" color="green" class="bkt-button__icon"></bkt-icon>-->
+<!--                                </template>-->
+<!--                            </bkt-checkbox>-->
+<!--                            <div class="bkt-button bkt-bg-body bkt-text-main">перезвоним в течение 10 минут</div>-->
+<!--                        </div>-->
+<!--                        <p class="bkt-input-error" v-if="errors.length>0">{{errors[0]}}</p>-->
+<!--                    </ValidationProvider>-->
+<!--                </div>-->
+<!--                <div class="bkt-input__wrapper">-->
+<!--                    <label class="bkt-form__label">-->
+<!--                        позвоните лучше-->
+<!--                    </label>-->
+<!--                    <div class="time_to_call">-->
+<!--                        <bkt-datepicker v-model="service.dateForCallback" type="datetime" name="dateForCallback"-->
+<!--                                        field_name="'позвоните лучше'"-->
+<!--                        >-->
+<!--                        </bkt-datepicker>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--                <bkt-checkbox name="'Условия'" v-model="service.terms" id="terms" :rules="'required_boolean'">-->
+<!--                    <template #label>-->
+<!--                        Согласен с условиями пользовательского соглашения, политики сайта, обработки персональных-->
+<!--                        данных. <span class="bkt-text-red" style="font-size: 14px;">*</span>-->
+<!--                    </template>-->
+<!--                </bkt-checkbox>-->
+<!--                <button class="bkt-button primary" :disabled="invalid || loading" @click="sendApplication">-->
+<!--                    Получить услугу-->
+<!--                </button>-->
+<!--            </ValidationObserver>-->
+<!--        </section>-->
     </div>
 </template>
 
@@ -352,6 +352,7 @@
                     phone: '',
                     socialsForAnswer: [],
                     dateForCallback: '',
+                    paymentTradingTypes:['purchaseBidByAgent'],
                     terms: false,
                 }
             }

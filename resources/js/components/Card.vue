@@ -440,6 +440,9 @@
             },
             rules() {
                 return this.$store.getters.rules
+            },
+            isLoggedIn() {
+                return this.$store.getters.isLoggedIn
             }
         },
         methods: {
@@ -448,8 +451,14 @@
                 this.$store.commit('openModal', '#applicationModal')
             },
             callPurchaseModal() {
-                this.$store.commit('setSelectedLot', this.item);
-                this.$store.commit('openModal', '#purchaseModal')
+                if(this.isLoggedIn) {
+                    this.$store.commit('setSelectedLot', this.item);
+                    this.$store.commit('openModal', '#purchaseModal')
+                }
+                else {
+                    this.$store.dispatch('sendAuthNotification')
+                }
+
             },
             dateIsFuture(date) {
                 if (date) {

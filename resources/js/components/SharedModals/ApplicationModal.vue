@@ -5,42 +5,53 @@
     >
         <template #body>
             <div class="bkt-form bkt-wrapper-column bkt-promo__form p-0 w-100">
-<!--                <div class="bkt-promo__block-wrapper" v-if="promo == true">-->
-<!--                    <div class="bkt-promo__block">-->
-<!--                        <div class="bkt-promo__block-body">-->
-<!--                            <h1 class="bkt-promo__block-title">Новичок?<br><span-->
-<!--                                class="bkt-text-yellow">сэкономьте до 50%</span></h1>-->
-<!--                            <h5 class="bkt-promo__block-subtitle">на торгах с нашей помощью</h5>-->
-<!--                            <h4 class="bkt-promo__block-text">-->
-<!--                                Воспользуйтесь нашим опытом побед, чтобы избежать ошибок и сэкономить время, деньги и-->
-<!--                                нервы.-->
-<!--                            </h4>-->
-<!--                        </div>-->
-<!--                        <button class="bkt-button bkt-button_yellow bkt-button_plump" @click="navigate('/agent')">-->
-<!--                            Подробнее о покупке без ЭЦП-->
-<!--                        </button>-->
-<!--                        <span type="button" class="bkt-close-button" @click="close"-->
-<!--                                aria-label="Close">-->
-<!--                            <bkt-icon :name="'Cancel'" :width="'20px'" :height="'20px'" color="white"></bkt-icon>-->
-<!--                        </span>-->
-<!--                    </div>-->
-<!--                </div>-->
+                <!--                <div class="bkt-promo__block-wrapper" v-if="promo == true">-->
+                <!--                    <div class="bkt-promo__block">-->
+                <!--                        <div class="bkt-promo__block-body">-->
+                <!--                            <h1 class="bkt-promo__block-title">Новичок?<br><span-->
+                <!--                                class="bkt-text-yellow">сэкономьте до 50%</span></h1>-->
+                <!--                            <h5 class="bkt-promo__block-subtitle">на торгах с нашей помощью</h5>-->
+                <!--                            <h4 class="bkt-promo__block-text">-->
+                <!--                                Воспользуйтесь нашим опытом побед, чтобы избежать ошибок и сэкономить время, деньги и-->
+                <!--                                нервы.-->
+                <!--                            </h4>-->
+                <!--                        </div>-->
+                <!--                        <button class="bkt-button bkt-button_yellow bkt-button_plump" @click="navigate('/agent')">-->
+                <!--                            Подробнее о покупке без ЭЦП-->
+                <!--                        </button>-->
+                <!--                        <span type="button" class="bkt-close-button" @click="close"-->
+                <!--                                aria-label="Close">-->
+                <!--                            <bkt-icon :name="'Cancel'" :width="'20px'" :height="'20px'" color="white"></bkt-icon>-->
+                <!--                        </span>-->
+                <!--                    </div>-->
+                <!--                </div>-->
                 <div v-if="selected_lot" class="bkt-promo__lot-wrapper">
-                    <div class="bkt-wrapper bkt-gap bkt-nowrap bkt-cursor-pointer" @click="navigate('/lot/'+selected_lot.id)">
+                    <div class="bkt-wrapper bkt-gap bkt-nowrap bkt-cursor-pointer"
+                         @click="navigate('/lot/'+selected_lot.id)">
                         <card-image-category :no_multiple="true"
-                            v-if="(!selected_lot.photos || selected_lot.photos.length==0) && selected_lot && selected_lot.categories"
-                            :categories="selected_lot.categories"></card-image-category>
-                        <img v-if="selected_lot.photos.length>0" v-lazy="selected_lot.photos[0].preview"
-                             class="bkt-card__image"
+                                             v-if="selected_lot && ((rules && (!rules.categories || !rules.photos)) ||
+                                         ((!selected_lot.photos || (selected_lot.photos && selected_lot.photos.length==0))
+                                         && selected_lot.categories && (!rules || rules && rules.categories)))"
+                                             :categories="selected_lot.categories"></card-image-category>
+                        <img
+                            v-if="selected_lot && selected_lot.photos && selected_lot.photos.length>0
+                            && ((rules && rules.photos) || !rules)"
+                            class="bkt-card__image"
                         />
                         <div class="bkt-wrapper-column bkt-gap bkt-gap-down-sm-mini">
                             <h4 class="bkt-promo__lot-title">Торги №
-                                {{selected_lot && selected_lot.trade && selected_lot.trade.externalId ?
-                                selected_lot.trade.externalId : ''}}
-                                (лот {{selected_lot && selected_lot.lotNumber ? selected_lot.lotNumber : '0'}})
+                                <skeleton type_name="spoiler" tag="span" :loading="rules && !rules.trade.externalId">
+                                    {{selected_lot && selected_lot.trade && selected_lot.trade.externalId ?
+                                    selected_lot.trade.externalId : ''}}
+                                </skeleton>
+                                (лот
+                                <skeleton type_name="spoiler" tag="span" :loading="rules && !rules.lotNumber">
+                                    {{selected_lot && selected_lot.lotNumber ? selected_lot.lotNumber : '0'}}
+                                </skeleton>
+                                )
                             </h4>
-                            <h5 class="bkt-promo__lot-subtitle bkt-text-truncate-5 bkt-text-truncate-down-sm-4">
-                                {{selected_lot.description}}
+                            <h5 class="bkt-promo__lot-subtitle bkt-text-truncate-5 bkt-text-truncate-down-sm-4"
+                                v-html="selected_lot.description">
                             </h5>
                         </div>
                     </div>
@@ -73,7 +84,8 @@
                             <div class="bkt-purchase__service__text-wrapper">
                                 <h4 class="bkt-card__title">Подробная информация о лоте</h4>
                                 <h5 class="bkt-card__subtitle">Оценка ликвидности выбранного лота нашими
-                                    сотрудниками</h5>
+                                    сотрудниками
+                                </h5>
                             </div>
                         </div>
                         <hr class="d-lg-none w-100 m-0">
@@ -216,8 +228,8 @@
             }
         },
         mounted() {
-            if(this.user && this.isLoggedIn) {
-                this.service.name = this.user.name +' '+this.user.lastName;
+            if (this.user && this.isLoggedIn) {
+                this.service.name = this.user.name + ' ' + this.user.lastName;
                 this.service.email = this.user.email;
                 this.service.phone = this.user.phone;
             }
@@ -232,15 +244,17 @@
             isLoggedIn() {
                 return this.$store.getters.isLoggedIn
             },
+            rules() {
+                return this.$store.getters.rules
+            }
         },
         watch: {
             isLoggedIn: function (newVal, oldVal) {
                 if (oldVal == false && newVal == true && this.user) {
-                    this.service.name = this.user.name +' '+this.user.lastName;
+                    this.service.name = this.user.name + ' ' + this.user.lastName;
                     this.service.email = this.user.email;
                     this.service.phone = this.user.phone;
-                }
-                else if (oldVal == true && newVal == false) {
+                } else if (oldVal == true && newVal == false) {
                     this.service.name = '';
                     this.service.email = '';
                     this.service.phone = '';
@@ -248,7 +262,7 @@
             },
             user: function (newVal, oldVal) {
                 if (newVal !== null) {
-                    this.service.name = this.user.name +' '+this.user.lastName;
+                    this.service.name = this.user.name + ' ' + this.user.lastName;
                     this.service.email = this.user.email;
                     this.service.phone = this.user.phone;
                 }
@@ -298,7 +312,7 @@
                 this.$refs.services.validate();
             },
             close() {
-                this.promo=false;
+                this.promo = false;
                 localStorage.setItem('bkt_application_promo', 'false')
             },
         }

@@ -19,7 +19,7 @@
                         {token: localStorage.getItem('token'), refreshToken: localStorage.getItem('refreshToken')});
                     this.getUser();
                 } else if (!val && oldVal) {
-                    this.$store.dispatch('simpleLogout');
+                    this.$store.dispatch('simpleLogout', true);
                     if (this.$router.currentRoute.meta.auth) {
                         if (this.$router.currentRoute.name !== 'Main') {
                             this.$router.push('/')

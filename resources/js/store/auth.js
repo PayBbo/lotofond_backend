@@ -202,10 +202,10 @@ export default {
                 // commit('logout');
                 commit('setAuthUserLoading', false);
             }).finally(() => {
-                dispatch('simpleLogout');
+                dispatch('simpleLogout', true);
             });
         },
-        async simpleLogout({dispatch, commit}) {
+        async simpleLogout({dispatch, commit}, payload) {
             commit('setAuthUserLoading', true);
             sessionStorage.clear();
             commit('clearStorage');
@@ -213,8 +213,11 @@ export default {
             commit('setHasNotSeenNotifications', false);
             commit('setAuthUserLoading', false);
             dispatch('getRules');
-            commit('setTrades', {data: [], pagination: {}});
-            commit('setNearestTrades', {data: [], pagination: {}});
+            if(payload) {
+                commit('setTrades', {data: [], pagination: {}});
+                commit('setNearestTrades', {data: [], pagination: {}});
+            }
+
         },
         async refresh({dispatch, commit, state}) {
             await axios.post('/api/account/refresh/token', {refreshToken: state.refreshToken}).then(resp => {
