@@ -33,7 +33,7 @@
                     />
                     <bkt-input
                         v-model="edit_user.middleName"
-                        name="name"
+                        name="middleName"
                         type="text"
                         :rules="'alpha|min:2'"
                         label="отчество"
@@ -196,7 +196,7 @@
                     ></bkt-select>
                     <bkt-input v-if="passwords.grantType==='email'"
                                v-model="edit_user.email"
-                               :name="'email'"
+                               :name="'edit_email'"
                                type="email"
                                label="e-mail"
                                :rules="'required'"
@@ -205,7 +205,7 @@
                     />
                     <bkt-input v-if="passwords.grantType==='phone'"
                                v-model="edit_user.phone"
-                               :name="'phone'"
+                               :name="'edit_phone'"
                                type="tel"
                                label="номер телефона"
                                :rules="'required|phone'"

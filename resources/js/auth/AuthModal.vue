@@ -78,6 +78,7 @@
                 type="email"
                 label="e-mail"
                 field_name="'e-mail'"
+                key="e-mail"
                 :rules="'required'"
                 placeholder="pochta@gmail.com"
                 icon_name="Email"
@@ -91,12 +92,14 @@
                 v-model="contact.phone"
                 v-if="grantType === 'phone'"
                 :name="'phone'"
+                key="phone"
                 type="tel"
                 label="номер телефона"
                 :rules="'required|phone'"
                 :placeholder="'+7 495 000-00-00'"
                 icon_name="Smartphone"
                 :mask="['+# ### ### ####','+## ### ### ####', '+## ### #### ####',]"
+                :masked="false"
             >
                 <template #errors="{errors}" v-if="phone_error">
                     <p class="bkt-input-error" v-if="errors.length>0">{{errors[0]}}</p>
@@ -273,6 +276,7 @@
                 let data = JSON.parse(JSON.stringify(this.user));
                 data.grantType = this.grantType;
                 data[this.grantType] = this.contact[this.grantType];
+                this.$store.commit('saveUserProperty', {key:'grantType', value:this.grantType});
                 this.loading = true;
                 this.error = null;
                 this.email_error=false;

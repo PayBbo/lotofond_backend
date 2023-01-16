@@ -49,6 +49,7 @@
                 :placeholder="'+7 495 000-00-00'"
                 icon_name="Smartphone"
                 :mask="['+# ### ### ####','+## ### ### ####', '+## ### #### ####',]"
+                :masked="false"
             >
                 <template #group-item-inner>
                     <button class="bkt-button primary bkt-button_code" @click="sendCode" :disabled="code_loading">
@@ -151,8 +152,9 @@
                 this.loading = true;
                 this.$store.dispatch('registrationCodeVerify', {
                     region: this.region,
-                    grantType: 'email',
+                    grantType: data.grantType,
                     email: data.email,
+                    phone: data.phone,
                     code: data.code
                 })
                     .then((resp) => {

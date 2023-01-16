@@ -6,7 +6,6 @@
                 <label :for="name" class="bkt-input__label" :class="status_class">{{ status }}</label>
             </slot>
         </div>
-
         <div class="bkt-input__group">
             <slot name="group-text">
             </slot>
@@ -16,10 +15,11 @@
                 :name="name"
                 :key="name"
                 :id="name"
-                :value="value"
+                :value="display"
                 :placeholder="placeholder"
                 :disabled="disabled"
                 @input="saveValue"
+                v-mask="config"
             />
             <slot name="group-item"  v-if="!no_group_item">
                 <div class="bkt-input__group-item"
@@ -46,6 +46,7 @@
 </template>
 
 <script>
+    import mask from "../mask";
     export default {
         props: {
             type: {
@@ -140,6 +141,10 @@
                 type: [String, Array],
                 default: "",
             },
+            masked: {
+                type: Boolean,
+                default: false,
+            },
         },
         data: function() {
             return {
@@ -152,9 +157,27 @@
                     a: { pattern: /[a-zA-Z]/, transform: v => v.toLocaleLowerCase() },
                     '!': { escape: true }
                 },
+                display: this.value
             };
         },
-        mounted() {
+        computed: {
+            config () {
+                return {
+                    mask: this.mask,
+                    tokens: this.tokens,
+                    masked: this.masked
+                }
+            }
+        },
+        watch : {
+            value (newValue) {
+                if (newValue !== this.lastValue) {
+                    this.display = newValue
+                }
+            },
+            masked () {
+                this.refresh(this.display)
+            }
         },
         methods: {
             saveValue(e) {
@@ -163,6 +186,7 @@
                     this.refresh(e.target.value)
                 }
                 else {
+                    this.display = e.target.value;
                     this.$emit('input', e.target.value);
                 }
                 // this.$emit('input', event.target.value);
@@ -174,8 +198,8 @@
                 }
             },
             refresh (value) {
-                // this.value = value;
-                value = this.masker(value, this.mask, this.masked)
+                this.display = value
+                var value = this.masker(value, this.mask, this.masked, this.tokens)
                 if (value !== this.lastValue) {
                     this.lastValue = value;
                     this.$emit('input', value)
@@ -243,7 +267,10 @@
                 }
 
                 return output + restOutput
-            }
+            },
+        },
+        directives: {
+            mask
         }
     };
 </script>
