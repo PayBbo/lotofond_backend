@@ -24,12 +24,23 @@ class LoginRequest extends FormRequest
      */
     public function rules()
     {
-        $this->request->set('phone', preg_replace('/\D/', '', $this->request->get('phone')));
         return [
             'grantType' => ['required', 'string'],
             'email' => ['sometimes', 'required', 'email', 'exists:users'],
             'phone' => ['sometimes', 'required', new Phone, 'exists:users'],
             'password' => ['sometimes', 'required', 'string']
         ];
+    }
+
+    /**
+     * Prepare the data for validation.
+     *
+     * @return void
+     */
+    protected function prepareForValidation()
+    {
+        $this->merge([
+            'phone' =>  preg_replace('/\D/', '', $this->phone)
+        ]);
     }
 }

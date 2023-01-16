@@ -34,7 +34,7 @@ class ProfileResource extends JsonResource
         }
         return [
             'email' => $this->email,
-            'phone' => $this->phone,
+            'phone' => strlen($this->phone) > 0 ? $this->phone : null,
             'name' => $this->name,
             'middleName' => $this->middle_name,
             'lastName' => $this->surname,

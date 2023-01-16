@@ -24,7 +24,6 @@ class RegisterRequest extends FormRequest
      */
     public function rules()
     {
-        $this->request->set('phone', preg_replace('/\D/', '', $this->request->get('phone')));
         return [
             'grantType' => ['required', 'string'],
             'email' => ['sometimes', 'required', 'email', 'unique:users,email', 'unique:change_credentials,email'],
@@ -33,5 +32,17 @@ class RegisterRequest extends FormRequest
             'name'=>['sometimes','required', 'string', 'max:255'],
             'password'=>['sometimes','required', 'string', 'min:8'],
         ];
+    }
+
+    /**
+     * Prepare the data for validation.
+     *
+     * @return void
+     */
+    protected function prepareForValidation()
+    {
+        $this->merge([
+            'phone' =>  preg_replace('/\D/', '', $this->phone)
+        ]);
     }
 }

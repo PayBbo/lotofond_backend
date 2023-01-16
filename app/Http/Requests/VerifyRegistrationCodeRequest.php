@@ -31,4 +31,16 @@ class VerifyRegistrationCodeRequest extends FormRequest
             'code'=>['required', 'string', 'max:6', 'min:6']
         ];
     }
+
+    /**
+     * Prepare the data for validation.
+     *
+     * @return void
+     */
+    protected function prepareForValidation()
+    {
+        $this->merge([
+            'phone' =>  preg_replace('/\D/', '', $this->phone)
+        ]);
+    }
 }

@@ -30,4 +30,16 @@ class ResendRegistrationCodeRequest extends FormRequest
             'phone'=>['sometimes','required', new Phone, 'exists:verify_accounts,phone'],
         ];
     }
+
+    /**
+     * Prepare the data for validation.
+     *
+     * @return void
+     */
+    protected function prepareForValidation()
+    {
+        $this->merge([
+            'phone' =>  preg_replace('/\D/', '', $this->phone)
+        ]);
+    }
 }

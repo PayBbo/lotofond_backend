@@ -33,13 +33,15 @@ class RegisterController extends Controller
         $verify->code = $request->password;
         $verify->created_at = Carbon::now()->setTimezone('Europe/Moscow')->addDay();
         $verify->is_delete = false;
-        switch ($request->grantType){
-            case 'email':{
+        switch ($request->grantType) {
+            case 'email':
+            {
                 $verify->value = $request->email;
                 $sendCode->sendEmailCode($request->email, $code);
                 break;
             }
-            case 'phone':{
+            case 'phone':
+            {
                 $verify->phone = $request->phone;
                 $sendCode->sendPhoneCode($request->phone, $code);
                 break;
@@ -53,11 +55,11 @@ class RegisterController extends Controller
                 $sub = $socialService->getSub();
                 $social = SocialAccount::where(['provider_id' => $sub, 'provider' => $request->grantType])->first();
                 $userPassword = null;
-                if(!$social){
+                if (!$social) {
                     $user = User::create([
                         'password' => Hash::make($password),
                         'email_verified_at' => Carbon::now()->setTimezone('Europe/Moscow'),
-                        'not_settings'=>[
+                        'not_settings' => [
                             'favouriteEventStart' => 1,
                             'favouriteEventEnd' => 1,
                             'favouriteApplicationStart' => 1,
@@ -67,30 +69,30 @@ class RegisterController extends Controller
                         ]
                     ]);
                     $social = SocialAccount::create([
-                        'user_id'=>$user->id,
-                        'provider_id'=>$sub,
-                        'provider'=>$request->grantType
+                        'user_id' => $user->id,
+                        'provider_id' => $sub,
+                        'provider' => $request->grantType
                     ]);
-                }else{
+                } else {
                     $user = User::find($social->user_id);
                     $userPassword = $user->password;
                 }
-                $username = $sub . ' '.$request->grantType;
-                $user->password=Hash::make($password);
+                $username = $sub . ' ' . $request->grantType;
+                $user->password = Hash::make($password);
                 $user->save();
                 $generateToken = new GenerateAccessTokenService();
                 $token = $generateToken->generateToken($request, $username, $password);
-                if(!is_null($userPassword)){
+                if (!is_null($userPassword)) {
                     $user->password = $userPassword;
                     $user->save();
                 }
                 return response($token, 200);
                 break;
             }
-           /* case 'gosuslugi':{
-                //
-                break;
-            }*/
+            /* case 'gosuslugi':{
+                 //
+                 break;
+             }*/
         }
         $verify->save();
         return response(null, 200);
@@ -100,13 +102,15 @@ class RegisterController extends Controller
     {
         $code = strval(mt_rand(100000, 999999));
         $sendCode = new SendCodeService();
-        switch ($request->grantType){
-            case 'email':{
+        switch ($request->grantType) {
+            case 'email':
+            {
                 $verifyAccount = VerifyAccount::where('value', $request->email)->first();
                 $sendCode->sendEmailCode($request->email, $code);
                 break;
             }
-            case 'phone':{
+            case 'phone':
+            {
                 $verifyAccount = VerifyAccount::where('phone', $request->phone)->first();
                 $sendCode->sendPhoneCode($request->phone, $code);
                 break;
@@ -120,14 +124,16 @@ class RegisterController extends Controller
 
     public function verifyRegistrationCode(VerifyRegistrationCodeRequest $request)
     {
-        switch ($request->grantType){
-            case 'email':{
-                $verifyAccount = VerifyAccount::where(['value'=> $request->email, 'is_delete'=>false])->first();
+        switch ($request->grantType) {
+            case 'email':
+            {
+                $verifyAccount = VerifyAccount::where(['value' => $request->email, 'is_delete' => false])->first();
                 $username = $request->email;
                 break;
             }
-            case 'phone':{
-                $verifyAccount = VerifyAccount::where(['phone'=> $request->phone, 'is_delete'=>false])->first();
+            case 'phone':
+            {
+                $verifyAccount = VerifyAccount::where(['phone' => $request->phone, 'is_delete' => false])->first();
                 $username = $request->phone;
                 break;
             }
@@ -141,10 +147,10 @@ class RegisterController extends Controller
             'surname' => $verifyAccount->surname,
             'name' => $verifyAccount->name,
             'email' => $verifyAccount->value,
-            'phone' => preg_replace('/\D/', '', $verifyAccount->phone),
+            'phone' => $verifyAccount->phone,
             'password' => Hash::make($password),
             'email_verified_at' => Carbon::now()->setTimezone('Europe/Moscow'),
-            'not_settings'=>[
+            'not_settings' => [
                 'favouriteEventStart' => 1,
                 'favouriteEventEnd' => 1,
                 'favouriteApplicationStart' => 1,
@@ -160,24 +166,25 @@ class RegisterController extends Controller
         return response($token, 200);
     }
 
-     public function saveUser($user, $request){
-         Favourite::create([
-             'user_id'=>$user->id,
-             'title'=>'Общее'
-         ]);
-         Notification::create([
-             'user_id' => $user->id,
-             'date' => Carbon::now()->setTimezone('Europe/Moscow'),
-             'type_id' => 1,
-             'message' => 'gladToSeeYou',
-             'label'=> 'welcome',
-             'platform_action'=>'info'
-         ]);
-         if(isset($request->deviceToken)){
-             $deviceTokenService = new DeviceTokenService($user, $request->deviceToken);
-             $deviceTokenService->saveDeviceToken();
-         }
-     }
+    public function saveUser($user, $request)
+    {
+        Favourite::create([
+            'user_id' => $user->id,
+            'title' => 'Общее'
+        ]);
+        Notification::create([
+            'user_id' => $user->id,
+            'date' => Carbon::now()->setTimezone('Europe/Moscow'),
+            'type_id' => 1,
+            'message' => 'gladToSeeYou',
+            'label' => 'welcome',
+            'platform_action' => 'info'
+        ]);
+        if (isset($request->deviceToken)) {
+            $deviceTokenService = new DeviceTokenService($user, $request->deviceToken);
+            $deviceTokenService->saveDeviceToken();
+        }
+    }
 
 
 }
