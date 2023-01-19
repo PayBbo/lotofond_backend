@@ -41,8 +41,10 @@ class RegisterRequest extends FormRequest
      */
     protected function prepareForValidation()
     {
-        $this->merge([
-            'phone' =>  preg_replace('/\D/', '', $this->phone)
-        ]);
+        if(isset($this->phone)) {
+            $this->merge([
+                'phone' => preg_replace('/\D/', '', $this->phone)
+            ]);
+        }
     }
 }
