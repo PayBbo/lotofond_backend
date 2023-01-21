@@ -28,7 +28,7 @@ class VerifyRegistrationCodeRequest extends FormRequest
             'grantType' => ['required', 'string'],
             'email'=>['sometimes','required', 'email', 'exists:verify_accounts,value'],
             'phone'=>['sometimes','required', new Phone, 'exists:verify_accounts,phone'],
-            'code'=>['required', 'string', 'max:6', 'min:6']
+            'code'=>['required', 'string', 'max:6', 'min:4']
         ];
     }
 

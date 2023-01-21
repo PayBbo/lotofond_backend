@@ -5,14 +5,14 @@ return [
     'documentations' => [
         'default' => [
             'api' => [
-                'title' => 'BankrotMP API',
+                'title' => 'Lotofond API',
             ],
 
             'routes' => [
                 /*
                  * Route for accessing api documentation interface
                 */
-                'api' => 'api/documentation',
+                'api' => 'api/documentation'
             ],
             'paths' => [
                 /*

@@ -26,7 +26,7 @@ class VerifyDeleteProfileCodeRequest extends FormRequest
     {
         return [
             'grantType'=>['required', 'string'],
-            'code'=>['required', 'string', 'max:6', new DeleteProfileVerifyCode($this->request->get('grantType'))]
+            'code'=>['required', 'string', 'max:6', 'min:4', new DeleteProfileVerifyCode($this->request->get('grantType'))]
         ];
     }
 }

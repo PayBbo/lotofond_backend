@@ -41,6 +41,8 @@ return [
 
     'debug' => (bool) env('APP_DEBUG', false),
 
+    'api_latest'  => '1',
+
     /*
     |--------------------------------------------------------------------------
     | Application URL

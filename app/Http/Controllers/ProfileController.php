@@ -102,6 +102,7 @@ class ProfileController extends Controller
                 } elseif ($request->haveAccessToOldCredentials && $request->isOldCredentials) {
                     $sendCode->sendPhoneCode($user->phone, $code);
                     $changeCredentials->phone = $user->phone;
+                    $changeCredentials->value = $request->phone;
                 } elseif (!$request->haveAccessToOldCredentials && $request->isOldCredentials) {
                     if (is_null($user->email)) {
                         throw new BaseException("ERR_VALIDATION_FAILED_EMAIL", 422, __('validation.exists', ['attribute' => 'email']));
@@ -120,13 +121,8 @@ class ProfileController extends Controller
             case 'google':
             case 'apple':
             {
-                $socialService = new SocialsService();
-                $socialService->setToken($request->token);
-                $sub = $socialService->getSub();
-                $social = SocialAccount::where(['user_id' => auth()->id(), 'provider' => $request->grantType, 'provider_id' => $sub])->first();
-                if (!$social) {
-                    throw new BaseException("ERR_VALIDATION_FAILED_SOCIALS", 422, __('validation.user_not_found'));
-                }
+                $socialService = new SocialsService($request->token);
+                $socialService->checkIfExists($request->grantType);
                 if (isset($request->email)) {
                     $user->email = $request->email;
                 }
@@ -214,13 +210,9 @@ class ProfileController extends Controller
 
     public function linkSocials(LinkSocialsRequest $request)
     {
-        $socialService = new SocialsService();
-        $socialService->setToken($request->token);
+        $socialService = new SocialsService($request->token);
+        $socialService->checkIfExists($request->grantType);
         $sub = $socialService->getSub();
-        $social = SocialAccount::where(['provider_id' => $sub, 'provider' => $request->grantType])->first();
-        if ($social) {
-            throw new BaseException("ERR_VALIDATION_FAILED_SOCIALS", 422, __('validation.user_not_found'));
-        }
         SocialAccount::create([
             'user_id' => auth()->id(),
             'provider_id' => $sub,
@@ -281,13 +273,8 @@ class ProfileController extends Controller
             case 'google':
             case 'apple':
             {
-                $socialService = new SocialsService();
-                $socialService->setToken($request->token);
-                $sub = $socialService->getSub();
-                $social = SocialAccount::where(['user_id' => auth()->id(), 'provider' => $request->grantType, 'provider_id' => $sub])->first();
-                if (!$social) {
-                    throw new BaseException("ERR_VALIDATION_FAILED_SOCIALS", 422, __('validation.user_not_found'));
-                }
+                $socialService = new SocialsService($request->token);
+                $socialService->checkIfExists($request->grantType);
                 $user->delete();
                 break;
             }

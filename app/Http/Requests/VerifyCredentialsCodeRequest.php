@@ -33,7 +33,7 @@ class VerifyCredentialsCodeRequest extends FormRequest
                 new IsUserCredentials($this->request->get('isOldCredentials'), $this->request->get('haveAccessToOldCredentials'))],
             'isOldCredentials'=>['required', 'boolean'],
             'haveAccessToOldCredentials'=>['required', 'boolean'],
-            'code'=>['required', 'string', 'max:6', 'min:6']
+            'code'=>['required', 'string', 'max:6', 'min:4']
         ];
     }
 }

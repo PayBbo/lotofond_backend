@@ -29,7 +29,7 @@ class VerifyResetPasswordRequest extends FormRequest
             'email' => ['sometimes', 'required', 'email', 'exists:users', 'exists:password_resets,email'],
             'phone' => ['sometimes', 'required', new Phone, 'exists:users', 'exists:password_resets,email'],
             'password' => ['sometimes', 'required', 'string'],
-            'code' => ['required', 'string']
+            'code' => ['required', 'string', 'max:6', 'min:4']
         ];
     }
 }

@@ -20,6 +20,7 @@ class LoginController extends Controller
 {
     public function login(LoginRequest $request)
     {
+        logger(logger(request()->getClientIp()));
         $userPassword = null;
         switch ($request->grantType) {
             case 'email':
@@ -45,8 +46,7 @@ class LoginController extends Controller
             case 'apple':
             {
                 $password = strval(mt_rand(10000000, 99999999));
-                $socialService = new SocialsService();
-                $socialService->setToken($request->token);
+                $socialService = new SocialsService($request->token);
                 $sub = $socialService->getSub();
                 $social = SocialAccount::where(['provider_id' => $sub, 'provider' => $request->grantType])->first();
                 if(!$social){

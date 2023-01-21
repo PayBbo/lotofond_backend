@@ -49,43 +49,8 @@ class RegisterController extends Controller
             case 'google':
             case 'apple':
             {
-                $password = strval(mt_rand(10000000, 99999999));
-                $socialService = new SocialsService();
-                $socialService->setToken($request->token);
-                $sub = $socialService->getSub();
-                $social = SocialAccount::where(['provider_id' => $sub, 'provider' => $request->grantType])->first();
-                $userPassword = null;
-                if (!$social) {
-                    $user = User::create([
-                        'password' => Hash::make($password),
-                        'email_verified_at' => Carbon::now()->setTimezone('Europe/Moscow'),
-                        'not_settings' => [
-                            'favouriteEventStart' => 1,
-                            'favouriteEventEnd' => 1,
-                            'favouriteApplicationStart' => 1,
-                            'favouriteApplicationEnd' => 1,
-                            'favouriteResult' => 1,
-                            'favouritePriceReduction' => 1
-                        ]
-                    ]);
-                    $social = SocialAccount::create([
-                        'user_id' => $user->id,
-                        'provider_id' => $sub,
-                        'provider' => $request->grantType
-                    ]);
-                } else {
-                    $user = User::find($social->user_id);
-                    $userPassword = $user->password;
-                }
-                $username = $sub . ' ' . $request->grantType;
-                $user->password = Hash::make($password);
-                $user->save();
-                $generateToken = new GenerateAccessTokenService();
-                $token = $generateToken->generateToken($request, $username, $password);
-                if (!is_null($userPassword)) {
-                    $user->password = $userPassword;
-                    $user->save();
-                }
+                $socialService = new SocialsService($request->token);
+                $token = $socialService->saveUser($request);
                 return response($token, 200);
                 break;
             }

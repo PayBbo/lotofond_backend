@@ -14,6 +14,9 @@ use App\Notifications\ApplicationTelegramNotification;
 use Carbon\Carbon;
 use CodersStudio\SmsRu\Facades\SmsRu;
 use Exception;
+use GuzzleHttp\Client;
+use GuzzleHttp\Psr7\Request;
+use GuzzleHttp\RequestOptions;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\URL;
@@ -60,6 +63,25 @@ class SendCodeService
         if (!$isSent) {
             throw new BaseException("ERR_SEND_MESSAGE_FAILED", 550, __('validation.message_err'));
         }
+    }
+
+
+    public function sendPhoneCall($toPhone)
+    {
+        $client = new Client();
+        $response = $client->request('GET', 'https://sms.ru/code/call',
+            [
+                RequestOptions::QUERY => [
+                    "phone" => $toPhone, // номер телефона пользователя
+                    "ip" => request()->getClientIp(), // ip адрес пользователя
+                    "api_id" => config("sms-ru.api_key")
+                ]
+            ]);
+        $result = json_decode($response->getBody(), true);
+        if ($result['status'] != 'OK') {
+            throw new BaseException("ERR_SEND_MESSAGE_FAILED", 550, __('validation.message_err'));
+        }
+        return $result['code'];
     }
 
     public function sendPhoneWarning($toPhone, $newPhone)
@@ -147,12 +169,12 @@ $lotDesc</p>
 <a href='$lot'>Ссылка на лот </a>" : "Пользователь $application->username оставил заявку на покупку услуги - $serviceName.";
             $html .= "<br>
 <strong>Почта: $application->email</strong>";
-            if(!is_null($application->phone)){
+            if (!is_null($application->phone)) {
                 $html .= "<br>
 <strong>Телефон: $application->phone</strong>";
             }
-            if(!is_null($application->for_answer)){
-                $html .="
+            if (!is_null($application->for_answer)) {
+                $html .= "
 <p>Социальные сети для ответа: $application->for_answer</p>";
             }
             if (isset($application->answer_date) && strlen($application->answer_date) > 0) {
@@ -160,10 +182,10 @@ $lotDesc</p>
                 $html .= "
 <p>Дата и время для ответа: $dateForCallback</p>";
             }
-            if(!is_null($application->payment_id)){
+            if (!is_null($application->payment_id)) {
                 $paymentId = $application->payment->payment_id;
                 $paymentStatus = __('payments.' . $application->payment->status);
-                $html.="
+                $html .= "
 <p>Статус транзакции № $paymentId - $paymentStatus </p>";
             }
 
@@ -205,11 +227,12 @@ $lotDesc</p>
         }
     }
 
-    public function sendContactsToManager($application){
+    public function sendContactsToManager($application)
+    {
         try {
-            if(!is_null($application->email)){
+            if (!is_null($application->email)) {
                 $communication = 'Почта для ответа: ' . $application->email;
-            }else{
+            } else {
                 $communication = 'Телефон для ответа: ' . $application->phone;
             }
             $html = "У Вас новый вопрос:
@@ -225,7 +248,8 @@ $lotDesc</p>
         }
     }
 
-    public function sendEGRNStatement($application, $fileLink){
+    public function sendEGRNStatement($application, $fileLink)
+    {
         try {
             $lotUrl = URL::to('/lot/' . $application->lot_id);
             $html = "<p>Добрый день!</p>
