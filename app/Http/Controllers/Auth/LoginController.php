@@ -20,7 +20,6 @@ class LoginController extends Controller
 {
     public function login(LoginRequest $request)
     {
-        logger(logger(request()->getClientIp()));
         $userPassword = null;
         switch ($request->grantType) {
             case 'email':
