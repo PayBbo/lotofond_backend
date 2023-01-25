@@ -12,6 +12,7 @@ use function public_path;
 
 class FilesService
 {
+    protected $slash = '/';
 
     public function parseFiles($invitation, $auction, $prefix, $isImages = false)
     {
@@ -61,36 +62,32 @@ class FilesService
     public function getImagesFromDocOrPdf($filename, $path, $s_path)
     {
         $imageAssets = array();
-        $document = \storage_path($s_path . '/' . $filename);
-        $full_path = \storage_path($s_path . '/');
+        $document = \storage_path($s_path . $this->slash . $filename);
+        $full_path = \storage_path($s_path . $this->slash);
         try {
             $comm = "binwalk --dd 'jpeg image:jpeg' --dd 'png image:png' --dd 'jpg image:jpg' --dd 'bmp image:bmp' " . $document . " --directory " . $full_path . " --rm";
             exec(`$comm`);
             $results = scandir($full_path);
             foreach ($results as $result) {
-                if ($result === '.' or $result === '..') continue;
+                if ($result == '.' or $result == '..') continue;
                 if (is_dir($full_path . $result) || preg_match("([^\s]+(\.(?i)extracted)$)", $result)) {
-                    $result_files = File::files($full_path . $result);
-                    foreach ($result_files as $key => $f) {
-                        $name = substr($f, strrpos($f, '/') + 1, strlen($f));
-                        $extension = substr($name, strrpos($name, '.') + 1, strlen($name));
-                        if (preg_match("([^\s]+(\.(?i)(jpg|jpeg|png|bmp))$)", $name) && $this->is_image($f)) {
-                            rename(\storage_path($s_path . '/' . $result . '/' . $name), \storage_path($s_path . '/' . 'image-' . $key . '.' . $extension));
+                    $result_files = scandir($full_path . $result);
+                    foreach ($result_files as $key => $file) {
+                        if ($file == '.' or $file == '..') continue;
+                        if(pathinfo($file, PATHINFO_EXTENSION) == null || pathinfo($file,PATHINFO_EXTENSION) == '') {
+                            $file = $this->get_mime_image_file($full_path . $result, $file);
                         }
+                        $name = pathinfo($file, PATHINFO_FILENAME);
+                        $extension = pathinfo($file, PATHINFO_EXTENSION);
+                        if (($extension == 'jpeg' || $extension == 'bmp' || $extension == 'png' || $extension == 'jpg') && $this->is_image($full_path . $result, $file)) {
+                            rename(\storage_path($s_path . $this->slash . $result . $this->slash . $name . '.' . $extension), \storage_path($s_path . $this->slash . 'image-' . $key . '.' . $extension));
+                        }
+
                     }
                 }
             }
-            $this->deleteAllFilesForExtractDocx(\storage_path($s_path), \storage_path($s_path));
-            $result_files = File::files($full_path);
-            foreach ($result_files as $key => $f) {
-                $name = substr($f, strrpos($f, '/') + 1, strlen($f));
-                $extension = substr($name, strrpos($name, '.') + 1, strlen($name));
-                $file = 'storage/' . $path . '/' . 'image-' . $key . '.' . $extension;
-                $filePrev = 'storage/app/public/' . $path . '/' . 'image-' . $key . '.' . $extension;
-                $this->generatePreview($filePrev, $path . '/previews/' . 'image-' . $key . '.' . $extension);
-                $preview = 'storage/' . $path . '/previews/' . 'image-' . $key . '.' . $extension;;
-                $imageAssets[$key] = ['main' => $file, 'preview' => $preview];
-            }
+            $this->deleteAllFilesForExtract(\storage_path($s_path), \storage_path($s_path));
+            $imageAssets = $this->createPreview($full_path, $path, $imageAssets);
         } catch (\Exception $exception) {
             logger($exception);
         }
@@ -100,40 +97,29 @@ class FilesService
     public function getImagesFromDocx($filename, $path, $s_path)
     {
         $imageAssets = array();
-        $filename = \storage_path($s_path . '/' . $filename);
-        $full_path = \storage_path($s_path . '/');
+        $document = \storage_path($s_path . $this->slash . $filename);
+        $full_path = \storage_path($s_path . $this->slash);
         try {
-            $comm = 'unar -D ' . $filename . ' -o ' . $full_path;
+            $comm = 'unar -D ' . $document . ' -o ' . $full_path;
             exec(`$comm`);
-            if (is_dir($full_path . 'word/')) {
-                $results = scandir($full_path . 'word/');
+            if (is_dir($full_path . 'word' . $this->slash)) {
+                $results = scandir($full_path . 'word' . $this->slash);
                 foreach ($results as $result) {
                     if ($result === '.' or $result === '..') continue;
-                    if (is_dir($full_path . 'word/' . $result) || preg_match("(^media$)", $result)) {
-                        $resurl_files = File::files($full_path . 'word/' . $result);
-                        foreach ($resurl_files as $key => $f) {
-                            $name = substr($f, strrpos($f, '/') + 1, strlen($f));
-                            $extension = substr($name, strrpos($name, '.') + 1, strlen($name));
-                            if (preg_match("([^\s]+(\.(?i)(jpg|jpeg|png|bmp))$)", $name) && $this->is_image($f)) {
-                                rename(\storage_path($s_path . '/word/' . $result . '/' . $name), \storage_path($s_path . '/' . 'image-' . $key . '.' . $extension));
+                    if (is_dir($full_path . 'word' . $this->slash . $result) && $result == "media") {
+                        $result_files = scandir($full_path . 'word' . $this->slash . $result);
+                        foreach ($result_files as $key => $f) {
+                            $name = pathinfo($f, PATHINFO_FILENAME);
+                            $extension = pathinfo($f, PATHINFO_EXTENSION);
+                            if (($extension == 'jpeg' || $extension == 'bmp' || $extension == 'png' || $extension == 'jpg') && $this->is_image($full_path . 'word' . $this->slash . $result, $f)) {
+                                rename(\storage_path($s_path . $this->slash . 'word' . $this->slash . $result . $this->slash . $name . '.' . $extension), \storage_path($s_path  . $this->slash . 'image-' . $key . '.' . $extension));
                             }
                         }
                     }
                 }
             }
-            $this->deleteAllFilesForExtractDocx(\storage_path($s_path), \storage_path($s_path));
-            $all_files = File::files($full_path);
-            foreach ($all_files as $key => $f) {
-                $name = substr($f, strrpos($f, '/') + 1, strlen($f));
-                $extension = substr($name, strrpos($name, '.') + 1, strlen($name));
-                if (preg_match("([^\s]+(\.(?i)(jpg|jpeg|png|bmp))$)", $name) && $this->is_image($f)) {
-                    $file = 'storage/' . $path . '/' . 'image-' . $key . '.' . $extension;
-                    $filePrev = 'storage/app/public/' . $path . '/' . 'image-' . $key . '.' . $extension;
-                    $this->generatePreview($filePrev, $path . '/previews/' . 'image-' . $key . '.' . $extension);
-                    $preview = 'storage/' . $path . '/previews/' . 'image-' . $key . '.' . $extension;
-                    $imageAssets[] = ['main' => $file, 'preview' => $preview];
-                }
-            }
+            $this->deleteAllFilesForExtract(\storage_path($s_path), \storage_path($s_path));
+            $imageAssets = $this->createPreview($full_path, $path, $imageAssets);
         } catch (\Exception $exception) {
             logger($exception);
         }
@@ -142,40 +128,39 @@ class FilesService
 
     public function getImagesFromZipOrRar($filename, $path, $s_path)
     {
-        $filename = \storage_path($s_path . '/' . $filename);
-        $destination = \storage_path($s_path . '/');
-        $files = array();
+        $imageAssets = array();
+        $document = \storage_path($s_path . $this->slash . $filename);
+        $full_path = \storage_path($s_path . $this->slash);
         try {
-            $comm = "unar -D " . $filename . " -o " . $destination;
+            $comm = "unar -D " . $document . " -o " . $full_path;
             exec(`$comm`);
-            $this->deleteAllFilesForExtractDocx(\storage_path($s_path), \storage_path($s_path));
-            $all_files = File::files($destination);
-            foreach ($all_files as $key => $f) {
-                $name = substr($f, strrpos($f, '/') + 1, strlen($f));
-                $extension = substr($name, strrpos($name, '.') + 1, strlen($name));
-                if (preg_match("([^\s]+(\.(?i)(jpg|jpeg|png|bmp))$)", $name) && $this->is_image($f)) {
-                    rename($destination . $name, $destination . 'image-' . $key . '.' . $extension);
-                    $file = 'storage/' . $path . '/' . 'image-' . $key . '.' . $extension;
-                    $filePrev = 'storage/app/public/' . $path . '/' . 'image-' . $key . '.' . $extension;
-                    $this->generatePreview($filePrev, $path . '/previews/' . 'image-' . $key . '.' . $extension);
-                    $preview = 'storage/' . $path . '/previews/' . 'image-' . $key . '.' . $extension;
-                    $files[] = ['main' => $file, 'preview' => $preview];
+            $results = scandir($full_path);
+            foreach ($results as $key => $f) {
+                $name = pathinfo($f, PATHINFO_FILENAME);
+                $extension = pathinfo($f, PATHINFO_EXTENSION);
+                if (($extension == 'jpeg' || $extension == 'bmp' || $extension == 'png' || $extension == 'jpg') && $this->is_image($full_path, $f)) {
+                    rename(\storage_path($s_path . $this->slash . $name . '.' . $extension), \storage_path($s_path  . $this->slash . 'image-' . $key . '.' . $extension));
                 }
             }
+            $this->deleteAllFilesForExtract(\storage_path($s_path), \storage_path($s_path));
+            $imageAssets = $this->createPreview($full_path, $path, $imageAssets);
         } catch (\Exception $exception) {
             logger($exception);
         }
-        return $files;
+        return $imageAssets;
     }
 
-    public function is_image($path)
-    {
-        $finfo = finfo_open(FILEINFO_MIME_TYPE);
-        $image_type = finfo_file($finfo, $path);
-        if (mb_substr($image_type, 0, 6) == "image/") {
-            return true;
+    public function createPreview($full_path, $path, $imageAssets) {
+        $result_files = File::files($full_path);
+        foreach ($result_files as $key => $f) {
+            $name = substr($f, strrpos($f, $this->slash) + 1, strlen($f));
+            $extension = substr($name, strrpos($name, '.') + 1, strlen($name));
+            $file = 'storage' . $this->slash . $path . $this->slash . 'image-' . $key . '.' . $extension;
+            $this->generatePreview($f, $path . $this->slash . 'previews' . $this->slash . 'image-' . $key . '.' . $extension);
+            $preview = 'storage' . $this->slash . $path . $this->slash . 'previews' . $this->slash . 'image-' . $key . '.' . $extension;
+            $imageAssets[$key] = ['main' => $file, 'preview' => $preview];
         }
-        return false;
+        return $imageAssets;
     }
 
     public function generatePreview($image, $path)
@@ -183,29 +168,55 @@ class FilesService
         $thumbnail = Image::make($image);
         $thumbnail->fit(960, 480);
         Storage::disk('public')->put($path, $thumbnail);
-        $thumbnail->save(public_path('storage/' . $path));
+        $thumbnail->save(public_path('storage' . $this->slash . $path));
 
     }
 
-    public function deleteAllFilesForExtractDocx($dir, $s_path)
+    public function deleteAllFilesForExtract($dir, $s_path)
     {
         if (is_dir($dir)) {
             $objects = scandir($dir);
             foreach ($objects as $object) {
                 if ($object != "." && $object != "..") {
-                    if (is_dir($dir . DIRECTORY_SEPARATOR . $object) && !is_link($dir . "/" . $object)) {
-                        $this->deleteAllFilesForExtractDocx($dir . DIRECTORY_SEPARATOR . $object, $s_path);
+                    if (is_dir($dir . DIRECTORY_SEPARATOR . $object) && !is_link($dir . $this->slash . $object)) {
+                        $this->deleteAllFilesForExtract($dir . DIRECTORY_SEPARATOR . $object, $s_path);
                     } else {
-                        $name = substr($dir . DIRECTORY_SEPARATOR . $object, strrpos($dir . DIRECTORY_SEPARATOR . $object, '/') + 1, strlen($dir . DIRECTORY_SEPARATOR . $object));
-                        if (!preg_match("([^\s]+(\.(?i)(jpg|jpeg|png|bmp))$)", $name) && !$this->is_image($dir . DIRECTORY_SEPARATOR . $object)) {
+                        $extension = pathinfo($dir . DIRECTORY_SEPARATOR . $object, PATHINFO_EXTENSION);
+                        if ($dir != $s_path) {
                             unlink($dir . DIRECTORY_SEPARATOR . $object);
+                        } else {
+                            if($extension != 'jpeg' && $extension != 'bmp' && $extension != 'png' && $extension != 'jpg') {
+                                unlink($dir . DIRECTORY_SEPARATOR . $object);
+                            }
                         }
                     }
                 }
             }
-            if ($dir !== $s_path && $dir !== $s_path . '/previews') {
+            if ($dir !== $s_path && $dir !== $s_path . $this->slash .'previews') {
                 rmdir($dir);
             }
         }
+    }
+
+    public function is_image($full_path, $file) {
+        $mime = mime_content_type($full_path.$this->slash.$file);
+        if(strpos($mime, "image/jpeg") !== false || strpos($mime, "image/png") !== false || strpos($mime, "image/bmp") !== false)
+            return true;
+        return false;
+    }
+    public function get_mime_image_file($full_path, $file) {
+        $mime = mime_content_type($full_path.$this->slash.$file);
+        $new_file = $file;
+        if(strpos($mime, "jpeg") !== false) {
+            $new_file .='.jpeg';
+            rename($full_path.$this->slash.$file, $full_path.$this->slash.$new_file);
+        } elseif (strpos($mime, "png") !== false) {
+            $new_file .='.png';
+            rename($full_path.$this->slash.$file, $full_path.$this->slash.$new_file);
+        } elseif (strpos($mime, "bmp") !== false) {
+            $new_file .='.bmp';
+            rename($full_path.$this->slash.$file, $full_path.$this->slash.$new_file);
+        }
+        return $new_file;
     }
 }

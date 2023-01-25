@@ -187,11 +187,16 @@ class TestCommand extends Command
      /*    $lot = Lot::find(12737);
          $this->getDescriptionExtracts($lot, $lot->description);*/
 
-       // $filesService = new(FilesService::class);
    /*
        $push = new PushNotificationService('Hello', 'It is test', 23,'system');
         $push->sendPushNotificationToHuawei(['d-9rEG1JTxSw4YoWs9TqBl:APA91bGi_pNsScqSBh5KhPBg8NxvbH-63XjXfM1a8DhJpIZTn2BnBpUyIN8CjUT-sJwb4IDGyawC75QskZAxAHs5IaitZeO0TD9Mt2hot3h9TY7ksQP_IaxD02o-2YWVIy0T_UdD7b4H']);
 */
+
+       /* $name_file = 'ФОТО.pdf';
+        $path = 'auction-files\auction-1\10-09-2022-17-12';
+        $dest = 'app\public\auction-files\auction-1\10-09-2022-17-12';
+        $filesService = new FilesService();
+        $filesService->getImagesFromZipOrRar($name_file, $path, $dest);*/
     }
 
     public function getDescriptionExtracts($lot, $description)
