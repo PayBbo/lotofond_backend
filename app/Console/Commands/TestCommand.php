@@ -196,7 +196,7 @@ class TestCommand extends Command
         $path = 'auction-files\auction-1\10-09-2022-17-12';
         $dest = 'app\public\auction-files\auction-1\10-09-2022-17-12';
         $filesService = new FilesService();
-        $filesService->getImagesFromZipOrRar($name_file, $path, $dest);*/
+        $filesService->getImagesFromDocOrPdf($name_file, $path, $dest);*/
     }
 
     public function getDescriptionExtracts($lot, $description)

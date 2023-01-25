@@ -31,25 +31,35 @@ class FilesService
         $dest = 'app/public/auction-files/auction-' . $auction->id . '/' . $time;
         $files = null;
         if ($isImages) {
+            $document = \storage_path($dest . $this->slash . $name_file);
+            $full_path = \storage_path($dest);
+            $comm = null;
+            logger('Images from type '. $invitation[$prefix . 'Attach'][$prefix . 'Type']);
             switch ($invitation[$prefix . 'Attach'][$prefix . 'Type']) {
                 case 'doc':
                 case 'pdf':
                 {
-                    $files = $this->getImagesFromDocOrPdf($name_file, $path, $dest);
+                    $comm = "binwalk --dd 'jpeg image:jpeg' --dd 'png image:png' --dd 'jpg image:jpg' --dd 'bmp image:bmp' " . $document . " --directory " . $full_path . $this->slash . " --rm";
                     break;
                 }
                 case 'docx':
-                {
-                    $files = $this->getImagesFromDocx($name_file, $path, $dest);
-                    break;
-                }
                 case 'zip':
                 case 'rar':
                 {
-                    $files = $this->getImagesFromZipOrRar($name_file, $path, $dest);
+                    $comm = "unar -D " . $document . " -o " . $full_path . $this->slash;
                     break;
                 }
 
+            }
+            if (!is_null($comm)) {
+                try {
+                    exec(`$comm`);
+                    $files = $this->getImagesFrom($full_path, $path);
+                    logger('Auction id: '.$auction->id);
+                    logger('----------------------');
+                } catch (\Exception $exception) {
+                    logger($exception);
+                }
             }
         } else {
             $files = ['storage/' . $path . '/' . $name_file];
@@ -58,107 +68,29 @@ class FilesService
 
     }
 
-
-    public function getImagesFromDocOrPdf($filename, $path, $s_path)
+    public function getImagesFrom($full_path, $path)
     {
-        $imageAssets = array();
-        $document = \storage_path($s_path . $this->slash . $filename);
-        $full_path = \storage_path($s_path . $this->slash);
-        try {
-            $comm = "binwalk --dd 'jpeg image:jpeg' --dd 'png image:png' --dd 'jpg image:jpg' --dd 'bmp image:bmp' " . $document . " --directory " . $full_path . " --rm";
-            exec(`$comm`);
-            $results = scandir($full_path);
-            foreach ($results as $result) {
-                if ($result == '.' or $result == '..') continue;
-                if (is_dir($full_path . $result) || preg_match("([^\s]+(\.(?i)extracted)$)", $result)) {
-                    $result_files = scandir($full_path . $result);
-                    foreach ($result_files as $key => $file) {
-                        if ($file == '.' or $file == '..') continue;
-                        if(pathinfo($file, PATHINFO_EXTENSION) == null || pathinfo($file,PATHINFO_EXTENSION) == '') {
-                            $file = $this->get_mime_image_file($full_path . $result, $file);
-                        }
-                        $name = pathinfo($file, PATHINFO_FILENAME);
-                        $extension = pathinfo($file, PATHINFO_EXTENSION);
-                        if (($extension == 'jpeg' || $extension == 'bmp' || $extension == 'png' || $extension == 'jpg') && $this->is_image($full_path . $result, $file)) {
-                            rename(\storage_path($s_path . $this->slash . $result . $this->slash . $name . '.' . $extension), \storage_path($s_path . $this->slash . 'image-' . $key . '.' . $extension));
-                        }
-
-                    }
-                }
-            }
-            $this->deleteAllFilesForExtract(\storage_path($s_path), \storage_path($s_path));
-            $imageAssets = $this->createPreview($full_path, $path, $imageAssets);
-        } catch (\Exception $exception) {
-            logger($exception);
-        }
-        return $imageAssets;
+        $this->searchAllFilesImagesForExtract($full_path, $full_path);
+        $this->copyAllFilesImagesForExtract($full_path);
+        $this->deleteAllFilesForExtract($full_path, $full_path);
+        return $this->createPreview($full_path, $path);
     }
 
-    public function getImagesFromDocx($filename, $path, $s_path)
+    public function createPreview($full_path, $path)
     {
         $imageAssets = array();
-        $document = \storage_path($s_path . $this->slash . $filename);
-        $full_path = \storage_path($s_path . $this->slash);
-        try {
-            $comm = 'unar -D ' . $document . ' -o ' . $full_path;
-            exec(`$comm`);
-            if (is_dir($full_path . 'word' . $this->slash)) {
-                $results = scandir($full_path . 'word' . $this->slash);
-                foreach ($results as $result) {
-                    if ($result === '.' or $result === '..') continue;
-                    if (is_dir($full_path . 'word' . $this->slash . $result) && $result == "media") {
-                        $result_files = scandir($full_path . 'word' . $this->slash . $result);
-                        foreach ($result_files as $key => $f) {
-                            $name = pathinfo($f, PATHINFO_FILENAME);
-                            $extension = pathinfo($f, PATHINFO_EXTENSION);
-                            if (($extension == 'jpeg' || $extension == 'bmp' || $extension == 'png' || $extension == 'jpg') && $this->is_image($full_path . 'word' . $this->slash . $result, $f)) {
-                                rename(\storage_path($s_path . $this->slash . 'word' . $this->slash . $result . $this->slash . $name . '.' . $extension), \storage_path($s_path  . $this->slash . 'image-' . $key . '.' . $extension));
-                            }
-                        }
-                    }
-                }
-            }
-            $this->deleteAllFilesForExtract(\storage_path($s_path), \storage_path($s_path));
-            $imageAssets = $this->createPreview($full_path, $path, $imageAssets);
-        } catch (\Exception $exception) {
-            logger($exception);
-        }
-        return $imageAssets;
-    }
-
-    public function getImagesFromZipOrRar($filename, $path, $s_path)
-    {
-        $imageAssets = array();
-        $document = \storage_path($s_path . $this->slash . $filename);
-        $full_path = \storage_path($s_path . $this->slash);
-        try {
-            $comm = "unar -D " . $document . " -o " . $full_path;
-            exec(`$comm`);
-            $results = scandir($full_path);
-            foreach ($results as $key => $f) {
-                $name = pathinfo($f, PATHINFO_FILENAME);
-                $extension = pathinfo($f, PATHINFO_EXTENSION);
-                if (($extension == 'jpeg' || $extension == 'bmp' || $extension == 'png' || $extension == 'jpg') && $this->is_image($full_path, $f)) {
-                    rename(\storage_path($s_path . $this->slash . $name . '.' . $extension), \storage_path($s_path  . $this->slash . 'image-' . $key . '.' . $extension));
-                }
-            }
-            $this->deleteAllFilesForExtract(\storage_path($s_path), \storage_path($s_path));
-            $imageAssets = $this->createPreview($full_path, $path, $imageAssets);
-        } catch (\Exception $exception) {
-            logger($exception);
-        }
-        return $imageAssets;
-    }
-
-    public function createPreview($full_path, $path, $imageAssets) {
-        $result_files = File::files($full_path);
+        $result_files = File::files($full_path . $this->slash);
         foreach ($result_files as $key => $f) {
-            $name = substr($f, strrpos($f, $this->slash) + 1, strlen($f));
-            $extension = substr($name, strrpos($name, '.') + 1, strlen($name));
-            $file = 'storage' . $this->slash . $path . $this->slash . 'image-' . $key . '.' . $extension;
-            $this->generatePreview($f, $path . $this->slash . 'previews' . $this->slash . 'image-' . $key . '.' . $extension);
-            $preview = 'storage' . $this->slash . $path . $this->slash . 'previews' . $this->slash . 'image-' . $key . '.' . $extension;
-            $imageAssets[$key] = ['main' => $file, 'preview' => $preview];
+            $name = pathinfo($f, PATHINFO_FILENAME);
+            $extension = pathinfo($f, PATHINFO_EXTENSION);
+            if ($this->is_image_extension($name . '.' . $extension) && $this->is_image($full_path, $name . '.' . $extension)) {
+                $object_time = Carbon::now()->valueOf();
+                $object_time_new = $object_time * 3;
+                $file = 'storage' . $this->slash . $path . $this->slash . 'image-' . $key . $object_time_new . '.' . $extension;
+                $this->generatePreview($f, $path . $this->slash . 'previews' . $this->slash . 'image-' . $key . $object_time_new . '.' . $extension);
+                $preview = 'storage' . $this->slash . $path . $this->slash . 'previews' . $this->slash . 'image-' . $key . $object_time_new . '.' . $extension;
+                $imageAssets[$key] = ['main' => $file, 'preview' => $preview];
+            }
         }
         return $imageAssets;
     }
@@ -169,7 +101,6 @@ class FilesService
         $thumbnail->fit(960, 480);
         Storage::disk('public')->put($path, $thumbnail);
         $thumbnail->save(public_path('storage' . $this->slash . $path));
-
     }
 
     public function deleteAllFilesForExtract($dir, $s_path)
@@ -178,45 +109,117 @@ class FilesService
             $objects = scandir($dir);
             foreach ($objects as $object) {
                 if ($object != "." && $object != "..") {
-                    if (is_dir($dir . DIRECTORY_SEPARATOR . $object) && !is_link($dir . $this->slash . $object)) {
-                        $this->deleteAllFilesForExtract($dir . DIRECTORY_SEPARATOR . $object, $s_path);
+                    if (is_dir($dir . $this->slash . $object) && !is_link($dir . "/" . $object)) {
+                        $this->deleteAllFilesForExtract($dir . $this->slash . $object, $s_path);
                     } else {
-                        $extension = pathinfo($dir . DIRECTORY_SEPARATOR . $object, PATHINFO_EXTENSION);
+                        $extension = pathinfo($dir . $this->slash . $object, PATHINFO_EXTENSION);
                         if ($dir != $s_path) {
-                            unlink($dir . DIRECTORY_SEPARATOR . $object);
+                            unlink($dir . $this->slash . $object);
                         } else {
-                            if($extension != 'jpeg' && $extension != 'bmp' && $extension != 'png' && $extension != 'jpg') {
-                                unlink($dir . DIRECTORY_SEPARATOR . $object);
+                            if ($extension != 'jpeg' && $extension != 'bmp' && $extension != 'png' && $extension != 'jpg') {
+                                unlink($dir . $this->slash . $object);
                             }
                         }
                     }
                 }
             }
-            if ($dir !== $s_path && $dir !== $s_path . $this->slash .'previews') {
+            if ($dir !== $s_path && $dir !== $s_path . $this->slash . 'previews') {
                 rmdir($dir);
             }
         }
     }
 
-    public function is_image($full_path, $file) {
-        $mime = mime_content_type($full_path.$this->slash.$file);
-        if(strpos($mime, "image/jpeg") !== false || strpos($mime, "image/png") !== false || strpos($mime, "image/bmp") !== false)
+    public function searchAllFilesImagesForExtract($current_dir, $root_path)
+    {
+        $temp_dir = $root_path . $this->slash . 'searchAllFilesImagesForExtract';
+        if ($current_dir === $root_path)
+            $this->createTempDir($temp_dir);
+        if (is_dir($current_dir)) {
+            $all_objects = scandir($current_dir);
+            foreach ($all_objects as $key => $object) {
+                if ($object === '.' or $object === '..') continue;
+                if (is_dir($current_dir . $this->slash . $object) && !is_link($current_dir . "/" . $object)) {
+                    if ($current_dir . $this->slash . $object != $temp_dir && $current_dir . $this->slash . $object != $current_dir . $this->slash . 'previews')
+                        $this->searchAllFilesImagesForExtract($current_dir . $this->slash . $object, $root_path);
+                } else {
+                    $object = $this->addNewExtension($current_dir, $object);
+                    $object_extension = pathinfo($object, PATHINFO_EXTENSION);
+                    $object_time = Carbon::now()->valueOf();
+                    $object_time_new = $object_time * 3;
+                    if ($this->is_image_extension($object) && $this->is_image($current_dir, $object))
+                        rename($current_dir . $this->slash . $object, $temp_dir . $this->slash . 'image-' . $key . $object_time_new . '.' . $object_extension);
+                }
+            }
+        }
+    }
+
+    public function copyAllFilesImagesForExtract($root_path)
+    {
+        $temp_dir = $root_path . $this->slash . 'searchAllFilesImagesForExtract';
+        if (is_dir($temp_dir)) {
+            $all_objects = scandir($temp_dir);
+            foreach ($all_objects as $key => $object) {
+                if ($object === '.' or $object === '..') continue;
+                if ($this->is_image_extension($object) && $this->is_image($temp_dir, $object))
+                    rename($temp_dir . $this->slash . $object, $root_path . $this->slash . $object);
+            }
+        }
+    }
+
+    public function createTempDir($temp_dir)
+    {
+        if (file_exists($temp_dir)) {
+            if (is_dir($temp_dir))
+                $this->deleteAllFilesForExtract($temp_dir, $temp_dir);
+            else
+                unlink($temp_dir);
+        }
+        if (!file_exists($temp_dir))
+            mkdir($temp_dir);
+    }
+
+    public function is_image($full_path, $file)
+    {
+        $object_mime_type = mime_content_type($full_path . $this->slash . $file);
+        if (strpos($object_mime_type, "image") !== false)
             return true;
         return false;
     }
-    public function get_mime_image_file($full_path, $file) {
-        $mime = mime_content_type($full_path.$this->slash.$file);
-        $new_file = $file;
-        if(strpos($mime, "jpeg") !== false) {
-            $new_file .='.jpeg';
-            rename($full_path.$this->slash.$file, $full_path.$this->slash.$new_file);
-        } elseif (strpos($mime, "png") !== false) {
-            $new_file .='.png';
-            rename($full_path.$this->slash.$file, $full_path.$this->slash.$new_file);
-        } elseif (strpos($mime, "bmp") !== false) {
-            $new_file .='.bmp';
-            rename($full_path.$this->slash.$file, $full_path.$this->slash.$new_file);
+
+    public function is_image_extension($file)
+    {
+        $object_extension = pathinfo($file, PATHINFO_EXTENSION);
+        if ($object_extension == 'jpeg' || $object_extension == 'png' || $object_extension == 'bmp' || $object_extension == 'jpg')
+            return true;
+        return false;
+    }
+
+    public function get_image_extension($full_path, $file)
+    {
+        $extension = '';
+        if ($this->is_image($full_path, $file)) {
+            $object_mime_type = mime_content_type($full_path . $this->slash . $file);
+            if (strpos($object_mime_type, "jpeg") !== false)
+                $extension = '.jpeg';
+            elseif (strpos($object_mime_type, "png") !== false)
+                $extension = '.png';
+            elseif (strpos($object_mime_type, "bmp") !== false)
+                $extension = '.bmp';
         }
-        return $new_file;
+        return $extension;
+    }
+
+    public function addNewExtension($current_dir, $object)
+    {
+        $object_name = pathinfo($object, PATHINFO_FILENAME);
+        $object_extension = pathinfo($object, PATHINFO_EXTENSION);
+        $new_extension = $this->get_image_extension($current_dir, $object);
+        if ($this->is_image($current_dir, $object) || $this->is_image_extension($object)) {
+            rename($current_dir . $this->slash . $object, $current_dir . $this->slash . $object_name . $new_extension);
+            return $object_name . $new_extension;
+        }
+        if ($object_extension == null || $object_extension == '')
+            return $object_name;
+        return $object_name . '.' . $object_extension;
     }
 }
