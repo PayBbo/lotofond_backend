@@ -40,6 +40,9 @@ class FilesService
                 case 'pdf':
                 {
                     $comm = "binwalk --dd 'jpeg image:jpeg' --dd 'png image:png' --dd 'jpg image:jpg' --dd 'bmp image:bmp' " . $document . " --directory " . $full_path . $this->slash . " --rm";
+                    logger($full_path . $this->slash);
+                    logger($document);
+                    logger($comm);
                     break;
                 }
                 case 'docx':
@@ -84,11 +87,9 @@ class FilesService
             $name = pathinfo($f, PATHINFO_FILENAME);
             $extension = pathinfo($f, PATHINFO_EXTENSION);
             if ($this->is_image_extension($name . '.' . $extension) && $this->is_image($full_path, $name . '.' . $extension)) {
-                $object_time = Carbon::now()->valueOf();
-                $object_time_new = $object_time * 3;
-                $file = 'storage' . $this->slash . $path . $this->slash . 'image-' . $key . $object_time_new . '.' . $extension;
-                $this->generatePreview($f, $path . $this->slash . 'previews' . $this->slash . 'image-' . $key . $object_time_new . '.' . $extension);
-                $preview = 'storage' . $this->slash . $path . $this->slash . 'previews' . $this->slash . 'image-' . $key . $object_time_new . '.' . $extension;
+                $file = 'storage' . $this->slash . $path . $this->slash . $name . '.' . $extension;
+                $this->generatePreview($f, $path . $this->slash . 'previews' . $this->slash . $name . '.' . $extension);
+                $preview = 'storage' . $this->slash . $path . $this->slash . 'previews' . $this->slash . $name . '.' . $extension;
                 $imageAssets[$key] = ['main' => $file, 'preview' => $preview];
             }
         }

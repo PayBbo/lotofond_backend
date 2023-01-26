@@ -109,14 +109,27 @@ class TestCommand extends Command
         //    dispatch(new MonitoringJob);
         //  dispatch(new MonitoringNotificationJob('hourly'));
         //dispatch(new ParseDebtorMessages);
-      /*     $startDate = Carbon::parse('2022-12-14 11:00');
+        /*   $startDate = Carbon::parse('2022-12-14 11:00');
            $endDate = Carbon::parse('2022-12-16 03:00');
            while ($startDate < $endDate) {
                $startFrom = $startDate->format('Y-m-d\TH:i:s');
                $startDate->addHours(2);
                dispatch((new ParseTrades($startFrom, $startDate->format('Y-m-d\TH:i:s')))->onQueue('parse'));
            }*/
+        $startDate = Carbon::parse('2022-12-19 20:00');
+        $startFrom = $startDate->format('Y-m-d\TH:i:s');
+        $startDate->addHour();
+        dispatch((new ParseTrades($startFrom, $startDate->format('Y-m-d\TH:i:s')))->onQueue('parse'));
 
+        $startDate = Carbon::parse('2022-12-19 23:00');
+        $startFrom = $startDate->format('Y-m-d\TH:i:s');
+        $startDate->addHour();
+        dispatch((new ParseTrades($startFrom, $startDate->format('Y-m-d\TH:i:s')))->onQueue('parse'));
+
+        $startDate = Carbon::parse('2022-12-22 17:00');
+        $startFrom = $startDate->format('Y-m-d\TH:i:s');
+        $startDate->addHour();
+        dispatch((new ParseTrades($startFrom, $startDate->format('Y-m-d\TH:i:s')))->onQueue('parse'));
         // dispatch(new ParseTrades);
         //$get_trade_message_content = new GetTradeMessageContent($xml, 'BiddingInvitation');
         //$get_trade_message_content->switchMessageType(1, $xml, 13275260);
@@ -192,11 +205,9 @@ class TestCommand extends Command
         $push->sendPushNotificationToHuawei(['d-9rEG1JTxSw4YoWs9TqBl:APA91bGi_pNsScqSBh5KhPBg8NxvbH-63XjXfM1a8DhJpIZTn2BnBpUyIN8CjUT-sJwb4IDGyawC75QskZAxAHs5IaitZeO0TD9Mt2hot3h9TY7ksQP_IaxD02o-2YWVIy0T_UdD7b4H']);
 */
 
-       /* $name_file = 'ФОТО.pdf';
-        $path = 'auction-files\auction-1\10-09-2022-17-12';
-        $dest = 'app\public\auction-files\auction-1\10-09-2022-17-12';
-        $filesService = new FilesService();
-        $filesService->getImagesFromDocOrPdf($name_file, $path, $dest);*/
+      /*   $soapWrapper = new SoapWrapper();
+            $service = new SoapWrapperService($soapWrapper);
+            logger($service->getMessageContent(10595978));*/
     }
 
     public function getDescriptionExtracts($lot, $description)
