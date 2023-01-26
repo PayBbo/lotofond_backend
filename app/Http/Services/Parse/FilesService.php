@@ -40,9 +40,6 @@ class FilesService
                 case 'pdf':
                 {
                     $comm = "binwalk --dd 'jpeg image:jpeg' --dd 'png image:png' --dd 'jpg image:jpg' --dd 'bmp image:bmp' " . $document . " --directory " . $full_path . $this->slash . " --rm  --run-as=root";
-                    logger($full_path . $this->slash);
-                    logger($document);
-                    logger($comm);
                     break;
                 }
                 case 'docx':
