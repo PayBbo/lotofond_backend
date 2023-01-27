@@ -119,7 +119,7 @@ class FilesService
             if (count(scandir($temp_dir_search)) == 2){
                 $comm = "pdfimages -q -png ".$document." ".$temp_dir.$this->slash;
                 logger($comm);
-                exec(`$comm`);
+                shell_exec(`$comm`);
             }
         }
     }
