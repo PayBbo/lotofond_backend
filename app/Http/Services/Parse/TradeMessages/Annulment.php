@@ -25,7 +25,11 @@ class Annulment extends TradeMessage implements TradeMessageContract
                             PriceReduction::find($param['new_id'])->delete();
                         }
                         $priceReduction = PriceReduction::find($param['id']);
-                        $priceReduction->price =$param['price'];
+                        if($priceReduction->is_system){
+                            $priceReduction->end_time =null;
+                        }else{
+                            $priceReduction->price =$param['price'];
+                        }
                         $priceReduction->save();
                     } else {
                         $auction = $lot->auction;

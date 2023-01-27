@@ -149,15 +149,17 @@ class TradeService
             try {
                 $text = null;
                 $lots = [];
+                $tmp_type = null;
                 if (array_key_exists('Auction', $xml['MessageInfo'])) {
-                    $lots = $xml['MessageInfo']['Auction']['LotTable']['AuctionLot'];
-                    $text = $xml['MessageInfo']['Auction']['Text'];
+                    $tmp_type = 'Auction';
                 } elseif (array_key_exists('ChangeAuction', $xml['MessageInfo'])) {
-                    $lots = $xml['MessageInfo']['ChangeAuction']['LotTable']['AuctionLot'];
-                    $text = $xml['MessageInfo']['ChangeAuction']['Text'];
+                    $tmp_type = 'ChangeAuction';
                 } elseif (array_key_exists('Auction2', $xml['MessageInfo'])) {
-                    $lots = $xml['MessageInfo']['Auction2']['LotTable']['AuctionLot'];
-                    $text = $xml['MessageInfo']['Auction2']['Text'];
+                    $tmp_type = 'Auction2';
+                }
+                if(!is_null($tmp_type)){
+                    $lots = $xml['MessageInfo'][$tmp_type]['LotTable']['AuctionLot'];
+                    $text = $xml['MessageInfo'][$tmp_type]['Text'];
                 }
                $descriptionExtracts = new DescriptionExtractsService();
                 if (array_key_exists('Order', $lots)) {

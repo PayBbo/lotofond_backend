@@ -109,17 +109,17 @@ class TestCommand extends Command
         //    dispatch(new MonitoringJob);
         //  dispatch(new MonitoringNotificationJob('hourly'));
         //dispatch(new ParseDebtorMessages);
-        /*   $startDate = Carbon::parse('2022-12-14 11:00');
-           $endDate = Carbon::parse('2022-12-16 03:00');
+           $startDate = Carbon::parse('2023-01-26 20:00');
+           $endDate = Carbon::parse('2023-01-27 00:00');
            while ($startDate < $endDate) {
                $startFrom = $startDate->format('Y-m-d\TH:i:s');
                $startDate->addHours(2);
                dispatch((new ParseTrades($startFrom, $startDate->format('Y-m-d\TH:i:s')))->onQueue('parse'));
-           }*/
-        $startDate = Carbon::parse('2022-12-22 17:00');
+           }
+       /* $startDate = Carbon::parse('2022-12-22 17:00');
         $startFrom = $startDate->format('Y-m-d\TH:i:s');
         $startDate->addHour();
-        dispatch((new ParseTrades($startFrom, $startDate->format('Y-m-d\TH:i:s')))->onQueue('parse'));
+        dispatch((new ParseTrades($startFrom, $startDate->format('Y-m-d\TH:i:s')))->onQueue('parse'));*/
         // dispatch(new ParseTrades);
         //$get_trade_message_content = new GetTradeMessageContent($xml, 'BiddingInvitation');
         //$get_trade_message_content->switchMessageType(1, $xml, 13275260);
@@ -198,6 +198,11 @@ class TestCommand extends Command
       /*   $soapWrapper = new SoapWrapper();
             $service = new SoapWrapperService($soapWrapper);
             logger($service->getMessageContent(10595978));*/
+
+        /*$path = 'test-virtual\auction-files';
+        $fullpath = 'C:\Users\valer\Desktop\test-virtual\auction-files';
+        $testimage = new FilesService();
+        $testimage->getImagesFrom($fullpath, $path);*/
     }
 
     public function getDescriptionExtracts($lot, $description)

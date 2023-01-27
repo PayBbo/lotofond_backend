@@ -39,14 +39,14 @@ class FilesService
                 case 'doc':
                 case 'pdf':
                 {
-                    $comm = "binwalk --dd 'jpeg image:jpeg' --dd 'png image:png' --dd 'jpg image:jpg' --dd 'bmp image:bmp' " . $document . " --directory " . $full_path . $this->slash . " --rm  --run-as=root";
+                    $comm = "binwalk --dd 'jpeg image:jpeg' --dd 'png image:png' --dd 'jpg image:jpg' --dd 'bmp image:bmp' '" . $document . "' --directory " . $full_path . $this->slash . " --rm  --run-as=root";
                     break;
                 }
                 case 'docx':
                 case 'zip':
                 case 'rar':
                 {
-                    $comm = "unar -D " . $document . " -o " . $full_path . $this->slash;
+                    $comm = "unar -D '" . $document . "' -o " . $full_path . $this->slash;
                     break;
                 }
 
@@ -54,7 +54,7 @@ class FilesService
             if (!is_null($comm)) {
                 try {
                     exec(`$comm`);
-                    $files = $this->getImagesFrom($full_path, $path);
+                    $files = $this->getImagesFrom($full_path, $path, $invitation[$prefix . 'Attach'][$prefix . 'Type'], $document);
                     logger('Auction id: '.$auction->id);
                     logger('----------------------');
                 } catch (\Exception $exception) {
@@ -68,10 +68,14 @@ class FilesService
 
     }
 
-    public function getImagesFrom($full_path, $path)
+    public function getImagesFrom($full_path, $path, $type, $document)
     {
         $this->searchAllFilesImagesForExtract($full_path, $full_path);
         $this->copyAllFilesImagesForExtract($full_path);
+        if($type === 'pdf') {
+            $this->binwalkNotFindImages($full_path, $document);
+            $this->searchAllFilesImagesForExtract($full_path, $full_path);
+        }
         $this->deleteAllFilesForExtract($full_path, $full_path);
         return $this->createPreview($full_path, $path);
     }
@@ -91,6 +95,18 @@ class FilesService
             }
         }
         return $imageAssets;
+    }
+
+    public function binwalkNotFindImages($full_path, $document) {
+        $temp_dir_search = $full_path . $this->slash . 'searchAllFilesImagesForExtract';
+        $temp_dir = $full_path . $this->slash . 'pdfimagesAllFilesImagesForExtract';
+        $this->createTempDir($temp_dir);
+        if (is_dir($temp_dir_search)) {
+            if (count(scandir($temp_dir_search)) == 2){
+                $comm = "pdfimages -png '" . $document . "' " . $temp_dir . $this->slash;
+                exec(`$comm`);
+            }
+        }
     }
 
     public function generatePreview($image, $path)
