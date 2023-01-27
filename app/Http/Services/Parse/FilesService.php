@@ -117,7 +117,7 @@ class FilesService
         $this->createTempDir($temp_dir);
         if (is_dir($temp_dir_search)) {
             if (count(scandir($temp_dir_search)) == 2){
-                $comm = "pdfimages -png ".$document." ".$temp_dir;
+                $comm = "pdfimages -q -png ".$document." ".$temp_dir.$this->slash;
                 logger($comm);
                 exec(`$comm`);
             }
