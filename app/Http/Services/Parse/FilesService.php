@@ -87,11 +87,9 @@ class FilesService
     {
         $this->searchAllFilesImagesForExtract($full_path, $full_path);
         $this->copyAllFilesImagesForExtract($full_path);
-        if($type === 'pdf') {
+        if($type === 'pdf')
             $this->binwalkNotFindImages($full_path, $document);
-            $this->searchAllFilesImagesForExtract($full_path, $full_path);
-        }
-        //$this->deleteAllFilesForExtract($full_path, $full_path);
+        $this->deleteAllFilesForExtract($full_path, $full_path);
         return $this->createPreview($full_path, $path);
     }
 
@@ -118,16 +116,15 @@ class FilesService
         $this->createTempDir($temp_dir);
         if (is_dir($temp_dir_search)) {
             if (count(scandir($temp_dir_search)) == 2){
-                $comm = "pdfimages -q -png ".$document." ".$temp_dir.$this->slash;
+                $comm = "pdfimages -png ".$document." ".$temp_dir.$this->slash;
                 logger($comm);
                 try {
-                    exec(`$comm`, $output, $code);
-                } catch (\Exception $e) {
-                    logger($output);
-                    logger($code);
+                    exec(`$comm`);
+                } catch (\Exception $exception) {
+                    logger($exception);
                 }
-
-
+                $this->searchAllFilesImagesForExtract($full_path, $full_path);
+                $this->copyAllFilesImagesForExtract($full_path);
             }
         }
     }
