@@ -31,22 +31,24 @@ class FilesService
         $dest = 'app/public/auction-files/auction-' . $auction->id . '/' . $time;
         $files = null;
         if ($isImages) {
-            $document = \storage_path($dest . $this->slash . $name_file);
             $full_path = \storage_path($dest);
+            $name_file = $this->renameRootFile($full_path, $name_file);
+            $document = \storage_path($dest . $this->slash . $name_file);
             $comm = null;
             logger('Images from type '. $invitation[$prefix . 'Attach'][$prefix . 'Type']);
+            logger('Auction id: '.$auction->id);
             switch ($invitation[$prefix . 'Attach'][$prefix . 'Type']) {
                 case 'doc':
                 case 'pdf':
                 {
-                    $comm = "binwalk --dd 'jpeg image:jpeg' --dd 'png image:png' --dd 'jpg image:jpg' --dd 'bmp image:bmp' '" . $document . "' --directory " . $full_path . $this->slash . " --rm  --run-as=root";
+                    $comm = "binwalk --dd 'jpeg image:jpeg' --dd 'png image:png' --dd 'jpg image:jpg' --dd 'bmp image:bmp' "."'". $document ."'"." --directory " ."'". $full_path . $this->slash ."'"." --rm  --run-as=root";
                     break;
                 }
                 case 'docx':
                 case 'zip':
                 case 'rar':
                 {
-                    $comm = "unar -D '" . $document . "' -o " . $full_path . $this->slash;
+                    $comm = "unar -D " ."'". $document ."'". " -o " ."'". $full_path . $this->slash ."'";
                     break;
                 }
 
@@ -55,7 +57,6 @@ class FilesService
                 try {
                     exec(`$comm`);
                     $files = $this->getImagesFrom($full_path, $path, $invitation[$prefix . 'Attach'][$prefix . 'Type'], $document);
-                    logger('Auction id: '.$auction->id);
                     logger('----------------------');
                 } catch (\Exception $exception) {
                     logger($exception);
@@ -66,6 +67,15 @@ class FilesService
         }
         return $files;
 
+    }
+
+    public function renameRootFile($full_path, $file_name) {
+        if (file_exists("'".$full_path . $this->slash . $file_name."'")) {
+            $extension = pathinfo($full_path . $this->slash . $file_name, PATHINFO_EXTENSION);
+            rename("'".$full_path . $this->slash . $file_name."'", "'".$full_path . $this->slash . "tempfile".$extension."'");
+            return "tempfile".$extension;
+        }
+        return $file_name;
     }
 
     public function getImagesFrom($full_path, $path, $type, $document)
@@ -103,7 +113,7 @@ class FilesService
         $this->createTempDir($temp_dir);
         if (is_dir($temp_dir_search)) {
             if (count(scandir($temp_dir_search)) == 2){
-                $comm = "pdfimages -png '" . $document . "' " . $temp_dir . $this->slash;
+                $comm = "pdfimages -png " ."'". $document ."'". " " ."'". $temp_dir . $this->slash ."'";
                 exec(`$comm`);
             }
         }

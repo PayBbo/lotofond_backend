@@ -116,10 +116,10 @@ class TestCommand extends Command
                $startDate->addHours(2);
                dispatch((new ParseTrades($startFrom, $startDate->format('Y-m-d\TH:i:s')))->onQueue('parse'));
            }
-       /* $startDate = Carbon::parse('2022-12-22 17:00');
+        $startDate = Carbon::parse('2023-01-27 14:00');
         $startFrom = $startDate->format('Y-m-d\TH:i:s');
         $startDate->addHour();
-        dispatch((new ParseTrades($startFrom, $startDate->format('Y-m-d\TH:i:s')))->onQueue('parse'));*/
+        dispatch((new ParseTrades($startFrom, $startDate->format('Y-m-d\TH:i:s')))->onQueue('parse'));
         // dispatch(new ParseTrades);
         //$get_trade_message_content = new GetTradeMessageContent($xml, 'BiddingInvitation');
         //$get_trade_message_content->switchMessageType(1, $xml, 13275260);
