@@ -109,7 +109,7 @@ class TestCommand extends Command
         //    dispatch(new MonitoringJob);
         //  dispatch(new MonitoringNotificationJob('hourly'));
         //dispatch(new ParseDebtorMessages);
-        $startDate = Carbon::parse('2023-01-26 20:00');
+      /*  $startDate = Carbon::parse('2023-01-26 20:00');
         $endDate = Carbon::parse('2023-01-27 00:00');
         while ($startDate < $endDate) {
             $startFrom = $startDate->format('Y-m-d\TH:i:s');
@@ -119,7 +119,7 @@ class TestCommand extends Command
         $startDate = Carbon::parse('2023-01-27 14:00');
         $startFrom = $startDate->format('Y-m-d\TH:i:s');
         $startDate->addHour();
-        dispatch((new ParseTrades($startFrom, $startDate->format('Y-m-d\TH:i:s')))->onQueue('parse'));
+        dispatch((new ParseTrades($startFrom, $startDate->format('Y-m-d\TH:i:s')))->onQueue('parse'));*/
         // dispatch(new ParseTrades);
         //$get_trade_message_content = new GetTradeMessageContent($xml, 'BiddingInvitation');
         //$get_trade_message_content->switchMessageType(1, $xml, 13275260);

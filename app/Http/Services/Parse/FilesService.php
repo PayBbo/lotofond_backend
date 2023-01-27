@@ -6,7 +6,6 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Facades\Image;
-use mysql_xdevapi\Exception;
 use function logger;
 use function public_path;
 
@@ -34,13 +33,10 @@ class FilesService
         if ($isImages) {
             logger('Images from type '. $invitation[$prefix . 'Attach'][$prefix . 'Type']);
             logger('Auction id: '.$auction->id);
-            logger($name_file);
             $full_path = \storage_path($dest);
             $name_file = $this->renameRootFile($full_path, $name_file);
             $document = \storage_path($dest . $this->slash . $name_file);
             $comm = null;
-            logger($name_file);
-            logger($document);
             switch ($invitation[$prefix . 'Attach'][$prefix . 'Type']) {
                 case 'doc':
                 case 'pdf':
@@ -52,7 +48,7 @@ class FilesService
                 case 'zip':
                 case 'rar':
                 {
-                    $comm = "unar -D ".$document." -o ".$full_path . $this->slash;
+                    $comm = "unar -no-directory ".$document." -output-directory ".$full_path . $this->slash;
                     break;
                 }
 
@@ -117,11 +113,10 @@ class FilesService
         if (is_dir($temp_dir_search)) {
             if (count(scandir($temp_dir_search)) == 2){
                 $comm = "pdfimages -png ".$document." ".$temp_dir.$this->slash;
-                logger($comm);
                 try {
                     exec(`$comm`);
                 } catch (\Exception $exception) {
-                    logger($exception);
+                    //logger($exception);
                 }
                 $this->searchAllFilesImagesForExtract($full_path, $full_path);
                 $this->copyAllFilesImagesForExtract($full_path);
