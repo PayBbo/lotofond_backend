@@ -115,7 +115,7 @@ class TestCommand extends Command
                $startFrom = $startDate->format('Y-m-d\TH:i:s');
                $startDate->addHours(2);
                dispatch((new ParseTrades($startFrom, $startDate->format('Y-m-d\TH:i:s')))->onQueue('parse'));
-           }*/
+           }
         $startDate = Carbon::parse('2023-01-27 14:00');
         $startFrom = $startDate->format('Y-m-d\TH:i:s');
         $startDate->addHour();
