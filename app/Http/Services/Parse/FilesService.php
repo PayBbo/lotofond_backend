@@ -41,14 +41,14 @@ class FilesService
                 case 'doc':
                 case 'pdf':
                 {
-                    $comm = "binwalk --dd 'jpeg image:jpeg' --dd 'png image:png' --dd 'jpg image:jpg' --dd 'bmp image:bmp' "."'". $document ."'"." --directory " ."'". $full_path . $this->slash ."'"." --rm  --run-as=root";
+                    $comm = "binwalk --dd 'jpeg image:jpeg' --dd 'png image:png' --dd 'jpg image:jpg' --dd 'bmp image:bmp' ".$document." --directory ".$full_path.$this->slash." --rm  --run-as=root";
                     break;
                 }
                 case 'docx':
                 case 'zip':
                 case 'rar':
                 {
-                    $comm = "unar -D " ."'". $document ."'". " -o " ."'". $full_path . $this->slash ."'";
+                    $comm = "unar -D ".$document." -o ".$full_path . $this->slash;
                     break;
                 }
 
@@ -70,10 +70,11 @@ class FilesService
     }
 
     public function renameRootFile($full_path, $file_name) {
-        if (file_exists("'".$full_path . $this->slash . $file_name."'")) {
+        if (file_exists($full_path . $this->slash . $file_name)) {
             $extension = pathinfo($full_path . $this->slash . $file_name, PATHINFO_EXTENSION);
-            rename("'".$full_path . $this->slash . $file_name."'", "'".$full_path . $this->slash . "tempfile".$extension."'");
-            return "tempfile".$extension;
+            $new_name = "tempfile.".$extension;
+            rename($full_path . $this->slash . $file_name, $full_path . $this->slash . $new_name);
+            return $new_name;
         }
         return $file_name;
     }
@@ -113,7 +114,7 @@ class FilesService
         $this->createTempDir($temp_dir);
         if (is_dir($temp_dir_search)) {
             if (count(scandir($temp_dir_search)) == 2){
-                $comm = "pdfimages -png " ."'". $document ."'". " " ."'". $temp_dir . $this->slash ."'";
+                $comm = "pdfimages -png ".$document." ".$temp_dir;
                 exec(`$comm`);
             }
         }
