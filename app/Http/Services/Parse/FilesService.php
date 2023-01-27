@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Facades\Image;
+use mysql_xdevapi\Exception;
 use function logger;
 use function public_path;
 
@@ -119,9 +120,14 @@ class FilesService
             if (count(scandir($temp_dir_search)) == 2){
                 $comm = "pdfimages -q -png ".$document." ".$temp_dir.$this->slash;
                 logger($comm);
-                exec(`$comm`, $output, $code);
-                logger($output);
-                logger($code);
+                try {
+                    exec(`$comm`, $output, $code);
+                } catch (\Exception $e) {
+                    logger($output);
+                    logger($code);
+                }
+
+
             }
         }
     }
