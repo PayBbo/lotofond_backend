@@ -31,12 +31,15 @@ class FilesService
         $dest = 'app/public/auction-files/auction-' . $auction->id . '/' . $time;
         $files = null;
         if ($isImages) {
+            logger('Images from type '. $invitation[$prefix . 'Attach'][$prefix . 'Type']);
+            logger('Auction id: '.$auction->id);
+            logger($name_file);
             $full_path = \storage_path($dest);
             $name_file = $this->renameRootFile($full_path, $name_file);
             $document = \storage_path($dest . $this->slash . $name_file);
             $comm = null;
-            logger('Images from type '. $invitation[$prefix . 'Attach'][$prefix . 'Type']);
-            logger('Auction id: '.$auction->id);
+            logger($name_file);
+            logger($document);
             switch ($invitation[$prefix . 'Attach'][$prefix . 'Type']) {
                 case 'doc':
                 case 'pdf':
@@ -87,7 +90,7 @@ class FilesService
             $this->binwalkNotFindImages($full_path, $document);
             $this->searchAllFilesImagesForExtract($full_path, $full_path);
         }
-        $this->deleteAllFilesForExtract($full_path, $full_path);
+        //$this->deleteAllFilesForExtract($full_path, $full_path);
         return $this->createPreview($full_path, $path);
     }
 
@@ -115,6 +118,7 @@ class FilesService
         if (is_dir($temp_dir_search)) {
             if (count(scandir($temp_dir_search)) == 2){
                 $comm = "pdfimages -png ".$document." ".$temp_dir;
+                logger($comm);
                 exec(`$comm`);
             }
         }
