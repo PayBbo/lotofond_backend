@@ -4,11 +4,12 @@
             <div class="bkt-container">
                 <div class="row w-100 mx-auto bkt-gap-row-large">
                     <div class="col-6 col-lg-3">
-                        <router-link to="/"><img class="bkt-footer__logo" v-lazy="'/images/logo.png'" alt="logo"></router-link>
+                        <router-link to="/"><img class="bkt-footer__logo" v-lazy="'/images/logo.png'" alt="logo">
+                        </router-link>
                         <p class="bkt-footer__description">Самая полная база торгов банкротного, залогового,
                             арестованного, неликвидного, конфискованного и государственного имущества.</p>
                         <div class="bkt-footer__buttons bkt-gap-small">
-<!--                            <router-link to="/" class="bkt-button primary">Торги</router-link>-->
+                            <!--                            <router-link to="/" class="bkt-button primary">Торги</router-link>-->
                             <router-link to="/tariffs" class="bkt-button blue">Тарифы</router-link>
                         </div>
                     </div>
@@ -46,14 +47,15 @@
                                     </router-link>
                                 </li>
                                 <li class="bkt-footer__link bkt-cursor-pointer" @click="navigate('/calendar')">
-                                    Календарь <strong style="color:rgb(216, 43, 30); margin-left: 5px;">&#10095;</strong>
+                                    Календарь <strong
+                                    style="color:rgb(216, 43, 30); margin-left: 5px;">&#10095;</strong>
                                 </li>
                             </ul>
                         </div>
                     </div>
                     <div class="col-12 col-lg-3">
                         <div class="bkt-footer__socials">
-<!--                            <h3 class="bkt-footer__socials-phone">+7 916 018-48-58</h3>-->
+                            <!--                            <h3 class="bkt-footer__socials-phone">+7 916 018-48-58</h3>-->
                             <a :href="contacts.email ? 'mailto:'+contacts.email : ''" class="bkt-footer__socials-email">
                                 <skeleton>
                                     {{contacts.email ? contacts.email : ''}}
@@ -72,13 +74,39 @@
                                 <a class="bkt-button-icon bkt-bg-main-light" href="/">
                                     <bkt-icon name="Youtube" width="16px" height="16px"></bkt-icon>
                                 </a>
-<!--                                <button class="bkt-button-icon bkt-bg-main-light">-->
-<!--                                    <bkt-icon name="AppleStore"></bkt-icon>-->
-<!--                                </button>-->
-<!--                                <button class="bkt-button-icon bkt-bg-main-light">-->
-<!--                                    <bkt-icon name="GooglePlay"></bkt-icon>-->
-<!--                                </button>-->
+                                <!--                                <button class="bkt-button-icon bkt-bg-main-light">-->
+                                <!--                                    <bkt-icon name="AppleStore"></bkt-icon>-->
+                                <!--                                </button>-->
+                                <!--                                <button class="bkt-button-icon bkt-bg-main-light">-->
+                                <!--                                    <bkt-icon name="GooglePlay"></bkt-icon>-->
+                                <!--                                </button>-->
                             </div>
+                            <ul class="bkt-footer__socials-list">
+                                <li class="bkt-footer__socials__item" data-wba-footer-name="GooglePlay">
+                                    <a class="google-play" rel="nofollow noopener" target="_blank"
+                                       href="https://play.google.com/store/apps/details?id=ru.lotofond">
+                                        Загрузить из Google Play
+                                    </a>
+                                </li>
+<!--                                <li class="bkt-footer__socials__item" data-wba-footer-name="AppStore">-->
+<!--                                    <a-->
+<!--                                    class="app-store" rel="nofollow noopener" target="_blank"-->
+<!--                                    href="https://apps.apple.com/ru/app/wildberries/id597880187">Загрузить из-->
+<!--                                    AppStore</a>-->
+<!--                                </li>-->
+                                <li class="bkt-footer__socials__item" data-wba-footer-name="AppGallery">
+                                    <a class="app-gallery" rel="nofollow noopener"
+                                       target="_blank" href="https://appgallery.huawei.ru/app/C107494421">
+                                        Загрузить из AppGallery
+                                    </a>
+                                </li>
+                                <li class="bkt-footer__socials__item" data-wba-footer-name="AppStore">
+                                    <a class="ru-store" rel="nofollow noopener" target="_blank"
+                                       href="https://apps.rustore.ru/app/ru.lotofond">
+                                        Загрузить из RuStore
+                                    </a>
+                                </li>
+                            </ul>
                         </div>
                     </div>
                 </div>
@@ -88,9 +116,11 @@
         <div class="bkt-footer__politics">
             <div class="bkt-container">
                 <div class="bkt-wrapper-between bkt-wrapper-down-sm-column">
-                    <p class="bkt-footer__politics-copyright">Все права защищены © LotoFond, {{new Date() | moment('YYYY')}}</p>
+                    <p class="bkt-footer__politics-copyright">Все права защищены © LotoFond, {{new Date() |
+                        moment('YYYY')}}</p>
                     <div class="bkt-footer__politics-links">
-                        <a class="bkt-footer__politics-link" href="/privacy-policy">Политика обработки персональных данных</a>
+                        <a class="bkt-footer__politics-link" href="/privacy-policy">Политика обработки персональных
+                            данных</a>
                         <a class="bkt-footer__politics-link" href="/terms">Пользовательское соглашение</a>
                     </div>
                 </div>
@@ -113,10 +143,9 @@
         },
         methods: {
             navigate(path) {
-                if(this.isLoggedIn) {
+                if (this.isLoggedIn) {
                     this.$router.push(path)
-                }
-                else {
+                } else {
                     this.$store.dispatch('sendAuthNotification', {self: this})
                 }
             }
