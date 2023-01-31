@@ -109,17 +109,17 @@ class TestCommand extends Command
         //    dispatch(new MonitoringJob);
         //  dispatch(new MonitoringNotificationJob('hourly'));
         //dispatch(new ParseDebtorMessages);
-      /*  $startDate = Carbon::parse('2023-01-26 20:00');
-        $endDate = Carbon::parse('2023-01-27 00:00');
-        while ($startDate < $endDate) {
-            $startFrom = $startDate->format('Y-m-d\TH:i:s');
-            $startDate->addHours(2);
-            dispatch((new ParseTrades($startFrom, $startDate->format('Y-m-d\TH:i:s')))->onQueue('parse'));
-        }
-        $startDate = Carbon::parse('2023-01-27 14:00');
-        $startFrom = $startDate->format('Y-m-d\TH:i:s');
-        $startDate->addHour();
-        dispatch((new ParseTrades($startFrom, $startDate->format('Y-m-d\TH:i:s')))->onQueue('parse'));*/
+        /*  $startDate = Carbon::parse('2023-01-26 20:00');
+          $endDate = Carbon::parse('2023-01-27 00:00');
+          while ($startDate < $endDate) {
+              $startFrom = $startDate->format('Y-m-d\TH:i:s');
+              $startDate->addHours(2);
+              dispatch((new ParseTrades($startFrom, $startDate->format('Y-m-d\TH:i:s')))->onQueue('parse'));
+          }
+          $startDate = Carbon::parse('2023-01-27 14:00');
+          $startFrom = $startDate->format('Y-m-d\TH:i:s');
+          $startDate->addHour();
+          dispatch((new ParseTrades($startFrom, $startDate->format('Y-m-d\TH:i:s')))->onQueue('parse'));*/
         // dispatch(new ParseTrades);
         //$get_trade_message_content = new GetTradeMessageContent($xml, 'BiddingInvitation');
         //$get_trade_message_content->switchMessageType(1, $xml, 13275260);
@@ -170,10 +170,14 @@ class TestCommand extends Command
          logger($matches);*/
 
 
-        /*  $soapWrapper = new SoapWrapper();
-          $service = new SoapWrapperService($soapWrapper);
-          $xml = $service->getMessageContent(10229781);
-          logger($xml);*/
+        /* $soapWrapper = new SoapWrapper();
+         $service = new SoapWrapperService($soapWrapper);
+         $xml = $service->getMessageContent(10595401);
+         logger($xml);*/
+   /*     $soapWrapper = new SoapWrapper();
+        $service = new SoapWrapperService($soapWrapper);
+        $xml = $service->getTradeMessageContent(13929124);
+        logger($xml);*/
 
 
         //   $regexMinPrice = "/(?(DEFINE)(?'rubles_pattern'\d{1,3}(?:[ ]?\d{3})*(?:[,.]\d{2}))(?'rubles_name_pattern'[ ]?(?:(?:рублей)|(?:(?:(?:руб)|(?:р))[\.]?)))(?'percent_pattern'\d+(?:,\d+)?)(?'percent_name_pattern'[ ]?(?:\([а-яёА-ЯЁ]+\))?[ ]?(?:(?:%)|(?:процент(?:ов)?))))(?:(?:(?:(?:мин(?:имальн(?:(?:ая)|(?:ой)))?[\.]?(?: [А-ЯЁа-яё]+)?[ ](?:(?:цен(?:а|ы))|(?:стоимост(?:ь|и))))|(?:цен(?:ы|а|е) отсечения)|(?:прекращается при достижении))).*?(?'new_sentence'(?:\.[ ](?=[А-ЯЁ])).*?(*SKIP))?(?:(?:(?'rubles'(?P>rubles_pattern))(?:(?P>rubles_name_pattern)))|(?:(?'percent'(?P>percent_pattern))(?P>percent_name_pattern)))(?![а-яёА-ЯЁ]))|(?:(?:(?:(?'rubles'(?P>rubles_pattern))(?:(?P>rubles_name_pattern)))|(?:(?'percent'(?P>percent_pattern))(?P>percent_name_pattern)))(?![а-яёА-ЯЁ])(?:.?[ ]?\((?:(?:цена отсечения)|(?:мин(?:имальная)?[\.]?[ ](?:(?:цена)|(?:стоимость)))).*?\)))/muiJ";

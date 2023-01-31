@@ -47,10 +47,6 @@ class GetTradeMessageContent
 
     public function switchMessageType($tradePlace, $trade, $id)
     {
-        $ids = [13163910, 13163130, 13163913, 13163371, 13163174, 13159915, 13162169, 13162620, 13162723, 13163741, 13163871, 13159915];
-        if(in_array($id, $ids)){
-            logger('--------------------------------------'.$id);
-        }
         if (!TradeMessage::where('number', $id)->exists()) {
             if ($this->messageType == 'BiddingInvitation') {
                 $biddingInvitation = new BiddingInvitation($this->invitation, $this->prefix, 'biddingDeclared', $id);

@@ -147,6 +147,22 @@ class DescriptionExtractsService
             if (array_key_exists('AdvanceStepUnit', $auctionLot) && gettype($auctionLot['AdvanceStepUnit']) != 'array' && strlen((string)$auctionLot['AdvanceStepUnit']) > 0) {
                 $lot->is_deposit_rub = $auctionLot['AdvanceStepUnit'] != 'Percent';
             }
+
+            if (array_key_exists('StartPrice', $auctionLot) && gettype($auctionLot['StartPrice']) != 'array' && strlen((string)$auctionLot['StartPrice']) > 0) {;
+                $lot->start_price = $auctionLot['StartPrice'];
+                $lot->save();
+                if (PriceReduction::where('lot_id', $lot->id)->count() == 0) {
+                    PriceReduction::create([
+                        'lot_id' => $lot->id,
+                        'price' => $auctionLot['StartPrice'],
+                        'start_time' => $lot->auction->event_start_date,
+                        'end_time' => null,
+                        'percent' => 0,
+                        'deposit' => 0,
+                        'is_system' => true
+                    ]);
+                }
+            }
             if ($lot->auction->auctionType->title == 'PublicOffer' || $lot->auction->auctionType->title == 'ClosePublicOffer') {
                 $prices = $lot->showPriceReductions->pluck('price')->toArray();
                 if (count($prices) == 0) {
