@@ -38,11 +38,11 @@
 <!--                    <button class="bkt-button-icon">-->
 <!--                        <bkt-icon name="AppleStore" color="main"></bkt-icon>-->
 <!--                    </button>-->
-                    <a class="bkt-button-icon" href="https://appgallery.huawei.ru/app/C107494421">
-                        <bkt-icon name="AppGallery" color="main"></bkt-icon>
-                    </a>
                     <a class="bkt-button-icon" href="https://play.google.com/store/apps/details?id=ru.lotofond">
                         <bkt-icon name="GooglePlay" color="main"></bkt-icon>
+                    </a>
+                    <a class="bkt-button-icon" href="https://appgallery.huawei.ru/app/C107494421">
+                        <bkt-icon name="AppGallery" color="main"></bkt-icon>
                     </a>
                     <a class="bkt-button-icon" href="https://apps.rustore.ru/app/ru.lotofond">
                         <bkt-icon name="Rustore" color="main"></bkt-icon>
