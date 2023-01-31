@@ -7,6 +7,7 @@ use App\Http\Services\Parse\DescriptionExtractsService;
 use App\Http\Services\Parse\FilesService;
 use App\Http\Services\Parse\GetTradeMessageContent;
 use App\Http\Services\Parse\ParseDataFromRosreestrService;
+use App\Http\Services\Parse\PriceReductionService;
 use App\Http\Services\Parse\SoapWrapperService;
 use App\Http\Services\PushNotificationService;
 use App\Http\Services\ReestrApiService;
@@ -174,10 +175,10 @@ class TestCommand extends Command
          $service = new SoapWrapperService($soapWrapper);
          $xml = $service->getMessageContent(10595401);
          logger($xml);*/
-   /*     $soapWrapper = new SoapWrapper();
-        $service = new SoapWrapperService($soapWrapper);
-        $xml = $service->getTradeMessageContent(13929124);
-        logger($xml);*/
+        /*     $soapWrapper = new SoapWrapper();
+             $service = new SoapWrapperService($soapWrapper);
+             $xml = $service->getTradeMessageContent(13929124);
+             logger($xml);*/
 
 
         //   $regexMinPrice = "/(?(DEFINE)(?'rubles_pattern'\d{1,3}(?:[ ]?\d{3})*(?:[,.]\d{2}))(?'rubles_name_pattern'[ ]?(?:(?:рублей)|(?:(?:(?:руб)|(?:р))[\.]?)))(?'percent_pattern'\d+(?:,\d+)?)(?'percent_name_pattern'[ ]?(?:\([а-яёА-ЯЁ]+\))?[ ]?(?:(?:%)|(?:процент(?:ов)?))))(?:(?:(?:(?:мин(?:имальн(?:(?:ая)|(?:ой)))?[\.]?(?: [А-ЯЁа-яё]+)?[ ](?:(?:цен(?:а|ы))|(?:стоимост(?:ь|и))))|(?:цен(?:ы|а|е) отсечения)|(?:прекращается при достижении))).*?(?'new_sentence'(?:\.[ ](?=[А-ЯЁ])).*?(*SKIP))?(?:(?:(?'rubles'(?P>rubles_pattern))(?:(?P>rubles_name_pattern)))|(?:(?'percent'(?P>percent_pattern))(?P>percent_name_pattern)))(?![а-яёА-ЯЁ]))|(?:(?:(?:(?'rubles'(?P>rubles_pattern))(?:(?P>rubles_name_pattern)))|(?:(?'percent'(?P>percent_pattern))(?P>percent_name_pattern)))(?![а-яёА-ЯЁ])(?:.?[ ]?\((?:(?:цена отсечения)|(?:мин(?:имальная)?[\.]?[ ](?:(?:цена)|(?:стоимость)))).*?\)))/muiJ";
@@ -206,6 +207,16 @@ class TestCommand extends Command
         $fullpath = 'C:\Users\valer\Desktop\test-virtual\auction-files';
         $testimage = new FilesService();
         $testimage->getImagesFrom($fullpath, $path);*/
+
+       /* $biddingResults = BiddingResult::where('end_price', '!=', null)
+            ->whereHas('tradeMessage', function ($query) {
+                $query->where('value', 'BiddingResult');
+            })
+            ->get();
+        foreach ($biddingResults as $biddingResult) {
+            $priceReduction = new PriceReductionService();
+            $priceReduction->saveFinalPrice($biddingResult);
+        }*/
     }
 
     public function getDescriptionExtracts($lot, $description)

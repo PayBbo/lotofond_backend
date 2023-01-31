@@ -4,6 +4,8 @@ namespace App\Http\Services\Parse;
 
 use App\Models\Lot;
 use App\Models\PriceReduction;
+use App\Models\TradeMessage;
+use Carbon\Carbon;
 use Exception;
 
 class PriceReductionService
@@ -74,7 +76,7 @@ class PriceReductionService
                 if (PriceReduction::where('lot_id', $lot->id)->count() == 0) {
                     $this->savePriceReduction($lot->id, $lot->start_price, $lot->auction->event_start_date, $lot->auction->event_end_date, null, 0, 0, true);
                 }
-            }elseif (str_starts_with($red, '<table><tr><td>')) {
+            } elseif (str_starts_with($red, '<table><tr><td>')) {
                 $pattern = '/<tr[\s\S]*?<\/tr>/';
                 preg_match_all($pattern, $red, $matches);
                 if (count($matches[0]) > 0) {
@@ -128,7 +130,7 @@ class PriceReductionService
         if (!is_null($prev_price)) {
             $percent = ((float)$prev_price - (float)$price) / (float)$prev_price * 100;
         }
-        if(!is_null($price)) {
+        if (!is_null($price)) {
             PriceReduction::create([
                 'lot_id' => $lot_id,
                 'price' => $price,
@@ -139,6 +141,38 @@ class PriceReductionService
                 'is_system' => $is_system
             ]);
         }
+    }
+
+    public function saveFinalPrice($biddingResult)
+    {
+        $tradeMessage = \App\Models\TradeMessage::find($biddingResult->trade_message_id);
+        $lot = $tradeMessage->lot;
+        $currentPriceRed = $lot->currentPriceReduction;
+        if ($currentPriceRed) {
+            $old_price = $currentPriceRed->price;
+            $currentPriceRed->price = $biddingResult->end_price;
+            $currentPriceRed->save();
+        } else {
+            $old_price = $lot->start_price;
+            $currentPriceRed = \App\Models\PriceReduction::create([
+                'lot_id' => $lot->id,
+                'start_time' => Carbon::now()->setTimezone('Europe/Moscow'),
+                'end_time' => null,
+                'price' => $biddingResult->end_price,
+                'percent' => ((float)$old_price / (float)$$biddingResult->end_price - 1) * 100,
+                'is_system' => true
+            ]);
+        }
+
+        $param = ['price' => $old_price, 'id' => $currentPriceRed->id, 'new_id' => null];
+        if (!is_null($tradeMessage->param)) {
+            $param[$tradeMessage->param_type] = $tradeMessage->param;
+        }
+        $tradeMessage->param = json_encode($param);
+        $tradeMessage->param_type = 'current_price';
+        $tradeMessage->save();
+       // logger($biddingResult->id);
+
     }
 
 

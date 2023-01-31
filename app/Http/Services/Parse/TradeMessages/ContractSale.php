@@ -111,14 +111,6 @@ class ContractSale extends TradeMessage implements TradeMessageContract
         }
         $biddingResult->trade_message_id = $tradeMessage->id;
         $biddingResult->save();
-       /* if(!is_null($biddingResult->price)){
-            //json_encode(['price'=>$old_price, 'id'=>$priceReduction->id, 'new_id'=>$new_id]),
-            //                        'current_price'
-            $tradeMessage->param = '';
-            $tradeMessage->param_type = '';
-            $tradeMessage->save();
-
-        }*/
         if (count($data[$this->prefix . 'ContractParticipantList'][$this->prefix . 'ContractParticipant']) > 1) {
             foreach ($data[$this->prefix . 'ContractParticipantList'][$this->prefix . 'ContractParticipant'] as $participant) {
                 $participantData = $participant['@attributes'];

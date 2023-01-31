@@ -3,6 +3,7 @@
 namespace App\Http\Services\Parse\TradeMessages;
 
 use App\Http\Services\Parse\BidderService;
+use App\Http\Services\Parse\PriceReductionService;
 use App\Models\Auction;
 use App\Models\Bidder;
 use App\Models\BiddingParticipant;
@@ -64,12 +65,16 @@ class BiddingResult extends TradeMessage implements TradeMessageContract
                 ]);
                 $this->parseParticipants($item, $biddingResult, 'Winner');
             }
-            if (array_key_exists('Participants', $item) && !is_null($biddingResult)
-                && array_key_exists('Participant', $item['Participants'])) {
-                foreach ($item['Participants']['Participant'] as $participant) {
-                    $this->parseParticipants($participant, $biddingResult, 'Participant');
+            if(!is_null($biddingResult)){
+                if(!is_null($biddingResult->end_price)){
+                    $priceReduction = new PriceReductionService();
+                    $priceReduction->saveFinalPrice($biddingResult);
                 }
-
+                if (array_key_exists('Participants', $item) && array_key_exists('Participant', $item['Participants'])) {
+                    foreach ($item['Participants']['Participant'] as $participant) {
+                        $this->parseParticipants($participant, $biddingResult, 'Participant');
+                    }
+                }
             }
         }
     }
