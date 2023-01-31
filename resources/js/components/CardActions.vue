@@ -359,6 +359,9 @@
                 if(icon==='Share')
                 {
                     this.sharing.title = 'Лот №'+this.item.lotNumber;
+                    if(!this.item.lotNumber) {
+                        this.sharing.title = 'Лот c Lotofond';
+                    }
                     this.short_description = '';
                     this.details_description = '';
                     if(this.item && this.item.trade.applicationTime) {
@@ -370,12 +373,16 @@
                             this.details_description += ' до '+this.$moment(this.item.trade.applicationTime.end).format('DD MMMM YYYY HH:mm');
                         }
                     }
-                    this.details_description += '\nНачальная цена: '+this.item.startPrice + ' ₽' +
-                        '\nТекущая цена: '+this.item.currentPrice + ' ₽';
-                    if (this.item && this.item.description && this.item.description.length > 0) {
-                        this.short_description = this.item.description.slice(0, 250) + '... \n' +
-                            this.details_description;
+                    this.details_description += '\nНачальная цена: '+this.$options.filters.priceFormat(this.item.startPrice) + ' ₽' +
+                        '\nТекущая цена: '+this.$options.filters.priceFormat(this.item.currentPrice) + ' ₽';
+                    if(this.item && (this.item.minPrice && this.item.minPrice>=0) && this.item.trade && this.item.trade.type &&
+                        (this.item.trade.type!=='CloseAuction' && this.item.trade.type!=='OpenAuction')) {
+                        this.details_description += '\nМинимальная цена: ' + this.$options.filters.priceFormat(this.item.minPrice) + ' ₽' ;
                     }
+                    if (this.item && this.item.description && this.item.description.length > 0) {
+                        this.short_description = this.item.description.slice(0, 250) + '... \n';
+                    }
+                    this.short_description += this.details_description;
                 }
 
                 if (method) {
