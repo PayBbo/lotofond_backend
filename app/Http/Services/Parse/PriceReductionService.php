@@ -159,7 +159,7 @@ class PriceReductionService
                 'start_time' => Carbon::now()->setTimezone('Europe/Moscow'),
                 'end_time' => null,
                 'price' => $biddingResult->end_price,
-                'percent' => ((float)$old_price / (float)$$biddingResult->end_price - 1) * 100,
+                'percent' => ((float)$old_price / (float)$biddingResult->end_price - 1) * 100,
                 'is_system' => true
             ]);
         }
@@ -171,7 +171,8 @@ class PriceReductionService
         $tradeMessage->param = json_encode($param);
         $tradeMessage->param_type = 'current_price';
         $tradeMessage->save();
-       // logger($biddingResult->id);
+        logger($biddingResult->id);
+        logger('---------------------------');
 
     }
 

@@ -208,15 +208,15 @@ class TestCommand extends Command
         $testimage = new FilesService();
         $testimage->getImagesFrom($fullpath, $path);*/
 
-       /* $biddingResults = BiddingResult::where('end_price', '!=', null)
+        $biddingResults = BiddingResult::where('end_price', '!=', null)
             ->whereHas('tradeMessage', function ($query) {
                 $query->where('value', 'BiddingResult');
-            })
+            })->where('id', '>', 5152)
             ->get();
         foreach ($biddingResults as $biddingResult) {
             $priceReduction = new PriceReductionService();
             $priceReduction->saveFinalPrice($biddingResult);
-        }*/
+        }
     }
 
     public function getDescriptionExtracts($lot, $description)
