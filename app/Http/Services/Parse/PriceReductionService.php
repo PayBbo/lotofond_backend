@@ -171,8 +171,6 @@ class PriceReductionService
         $tradeMessage->param = json_encode($param);
         $tradeMessage->param_type = 'current_price';
         $tradeMessage->save();
-        logger($biddingResult->id);
-        logger('---------------------------');
 
     }
 

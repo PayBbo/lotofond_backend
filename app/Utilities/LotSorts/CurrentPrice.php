@@ -2,11 +2,9 @@
 
 namespace App\Utilities\LotSorts;
 
-use App\Models\PriceReduction;
 use App\Utilities\SortContract;
 use App\Utilities\SortQuery;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\DB;
 
 class CurrentPrice extends SortQuery implements SortContract
 {
@@ -14,7 +12,7 @@ class CurrentPrice extends SortQuery implements SortContract
     {
         $currentDate = Carbon::now()->setTimezone('Europe/Moscow');
         \DB::statement("SET SQL_MODE=''");
-        $this->query->with('priceReductions')
+         $this->query->with('priceReductions')
             ->join('price_reductions as i', 'lots.id', '=', 'i.lot_id')
             ->select('lots.*')
             ->where(function ($query) use ($currentDate) {

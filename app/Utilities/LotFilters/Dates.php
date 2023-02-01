@@ -60,10 +60,11 @@ class Dates extends SortQuery
         $this->start = null;
         $this->end = null;
         if (!is_null($value) && isset($value['start']) && strlen((string)$value['start']) > 0) {
-            $this->start = Carbon::parse($value['start']);
+            $this->start = Carbon::parse($value['start'])->startOfDay();
         }
         if (!is_null($value) && isset($value['end']) && strlen((string)$value['end']) > 0) {
-            $this->end = Carbon::parse($value['end']);
+            $this->end = Carbon::parse($value['end'])->endOfDay();
         }
+
     }
 }

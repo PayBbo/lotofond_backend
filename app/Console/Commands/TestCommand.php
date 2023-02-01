@@ -208,7 +208,7 @@ class TestCommand extends Command
         $testimage = new FilesService();
         $testimage->getImagesFrom($fullpath, $path);*/
 
-        $biddingResults = BiddingResult::where('end_price', '!=', null)
+       /* $biddingResults = BiddingResult::where('end_price', '!=', null)
             ->whereHas('tradeMessage', function ($query) {
                 $query->where('value', 'BiddingResult');
             })->where('id', '>', 5152)
@@ -216,6 +216,13 @@ class TestCommand extends Command
         foreach ($biddingResults as $biddingResult) {
             $priceReduction = new PriceReductionService();
             $priceReduction->saveFinalPrice($biddingResult);
+        }*/
+       /* $lots = Lot::whereDoesntHave('priceReductions')->pluck('id')->toArray();
+        logger(join(',', $lots));*/
+        $lots = Lot::whereDoesntHave('priceReductions')->get();
+        $priceReduction = new PriceReductionService();
+        foreach ($lots as $lot){
+            $priceReduction->savePriceReduction($lot->id, $lot->start_price, $lot->created_at, null, null, 0, 0, true);
         }
     }
 

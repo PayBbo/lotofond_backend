@@ -126,9 +126,9 @@ class TradeService
             $descriptionExtracts = new DescriptionExtractsService();
             $descriptionExtracts->getDescriptionExtracts($lot, $lot->description);
         }
+        $priceReduction = new PriceReductionService();
+        $priceReduction->savePriceReduction($lot->id, $lot->start_price, $lot->created_at, null, null, 0, 0, true);
         if ($lot->auction->auctionType->title == 'PublicOffer' || $lot->auction->auctionType->title == 'ClosePublicOffer') {
-            $priceReduction = new PriceReductionService();
-            $priceReduction->savePriceReduction($lot->id, $lot->start_price, $lot->created_at, null, null, 0, 0, true);
             if (array_key_exists($prefix . 'PriceReduction', $value)) {
                 $priceReduction->getPriceReduction($value[$prefix . 'PriceReduction'], $lot->id);
                 $lot->price_reduction = $value[$prefix . 'PriceReduction'];
