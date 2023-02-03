@@ -22,6 +22,7 @@ use App\Jobs\ParseDebtorMessages;
 use App\Jobs\ParseTrades;
 use App\Jobs\SendApplication;
 use App\Jobs\SendLotsToChannel;
+use App\Models\Auction;
 use App\Models\Bidder;
 use App\Models\BiddingResult;
 use App\Models\Contact;
@@ -170,11 +171,31 @@ class TestCommand extends Command
          preg_match_all($re, $str, $matches);
          logger($matches);*/
 
+        $auctions = Auction::get();
+        $soapWrapper = new SoapWrapper();
+        $service = new SoapWrapperService($soapWrapper);
+        foreach($auctions as $auction) {
+            try {
+                $xml = $service->getMessageContent($auction->id_efrsb);
+                $xml = Xml2Array::create($xml)->toArray();
+                logger($xml);
+                $publisher = $xml['Publisher'];
+                if (array_key_exists('Email', $publisher) && isset($publisher['Email'])) {
+                    $email = $publisher['Email'];
+                    if (str_contains($publisher['@attributes']['type'], 'ArbitrManager')) {
+                        logger('ArbitrManager email - ' . $email);
+                    } else if (str_contains($publisher['@attributes']['type'], 'Organizer')) {
+                        logger('Organizer email - ' . $email);
+                    } else {
+                        logger($publisher['@attributes']['type']);
+                    }
 
-        /* $soapWrapper = new SoapWrapper();
-         $service = new SoapWrapperService($soapWrapper);
-         $xml = $service->getMessageContent(10595401);
-         logger($xml);*/
+                }
+                logger('------------------------');
+            }catch (Exception $e){
+
+            }
+        }
         /*     $soapWrapper = new SoapWrapper();
              $service = new SoapWrapperService($soapWrapper);
              $xml = $service->getTradeMessageContent(13929124);
@@ -208,22 +229,22 @@ class TestCommand extends Command
         $testimage = new FilesService();
         $testimage->getImagesFrom($fullpath, $path);*/
 
-       /* $biddingResults = BiddingResult::where('end_price', '!=', null)
-            ->whereHas('tradeMessage', function ($query) {
-                $query->where('value', 'BiddingResult');
-            })->where('id', '>', 5152)
-            ->get();
-        foreach ($biddingResults as $biddingResult) {
-            $priceReduction = new PriceReductionService();
-            $priceReduction->saveFinalPrice($biddingResult);
-        }*/
-       /* $lots = Lot::whereDoesntHave('priceReductions')->pluck('id')->toArray();
+        /* $biddingResults = BiddingResult::where('end_price', '!=', null)
+             ->whereHas('tradeMessage', function ($query) {
+                 $query->where('value', 'BiddingResult');
+             })->where('id', '>', 5152)
+             ->get();
+         foreach ($biddingResults as $biddingResult) {
+             $priceReduction = new PriceReductionService();
+             $priceReduction->saveFinalPrice($biddingResult);
+         }*/
+        /*$lots = Lot::whereDoesntHave('priceReductions')->pluck('id')->toArray();
         logger(join(',', $lots));*/
-        $lots = Lot::whereDoesntHave('priceReductions')->get();
-        $priceReduction = new PriceReductionService();
-        foreach ($lots as $lot){
-            $priceReduction->savePriceReduction($lot->id, $lot->start_price, $lot->created_at, null, null, 0, 0, true);
-        }
+        /* $lots = Lot::whereDoesntHave('priceReductions')->get();
+         $priceReduction = new PriceReductionService();
+         foreach ($lots as $lot){
+             $priceReduction->savePriceReduction($lot->id, $lot->start_price, $lot->created_at, null, null, 0, 0, true);
+         }*/
     }
 
     public function getDescriptionExtracts($lot, $description)
