@@ -81,7 +81,7 @@
                                 <!--                                    <bkt-icon name="GooglePlay"></bkt-icon>-->
                                 <!--                                </button>-->
                             </div>
-                            <ul class="bkt-footer__socials-list">
+                            <ul class="bkt-footer__socials-list mt-2">
                                 <li class="bkt-footer__socials__item" data-wba-footer-name="GooglePlay">
                                     <a class="google-play" rel="nofollow noopener" target="_blank"
                                        href="https://play.google.com/store/apps/details?id=ru.lotofond">

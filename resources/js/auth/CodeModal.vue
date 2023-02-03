@@ -28,15 +28,9 @@
                 label="e-mail"
                 :rules="'required|email'"
                 placeholder="pochta@gmail.com"
+                no_group_item
                 disabled
             >
-                <template #group-item-inner>
-                    <button class="bkt-button primary bkt-button_code" @click="sendCode" :disabled="code_loading">
-                         <span v-if="code_loading" class="spinner-border spinner-border-sm"
-                               role="status"></span>
-                        Выслать код
-                    </button>
-                </template>
             </bkt-input>
             <bkt-input
                 v-model="user.phone"
@@ -52,7 +46,7 @@
                 :masked="false"
             >
                 <template #group-item-inner>
-                    <button class="bkt-button primary bkt-button_code" @click="sendCode" :disabled="code_loading">
+                    <button class="bkt-button primary bkt-button_code" @click="sendCode" :disabled="code_loading||timer">
                          <span v-if="code_loading" class="spinner-border spinner-border-sm"
                                role="status"></span>
                         Выслать код
@@ -66,13 +60,20 @@
                 label="код"
                 :rules="'required|digits:6'"
                 v-mask="'######'"
-                no_group_item
+                :subtitle="subtitle"
             >
                 <!--                <template #group-item-inner>-->
                 <!--                    <button class="bkt-button primary">-->
                 <!--                        Выслать код-->
                 <!--                    </button>-->
                 <!--                </template>-->
+                <template #group-item-inner>
+                    <button class="bkt-button primary bkt-button_code" @click="sendCode" :disabled="code_loading||timer">
+                         <span v-if="code_loading" class="spinner-border spinner-border-sm"
+                               role="status"></span>
+                        Выслать код
+                    </button>
+                </template>
             </bkt-input>
             <bkt-select name="regions"
                         v-model="region"
@@ -117,8 +118,15 @@
                 region: '',
                 loading: false,
                 code_loading: false,
+                timer:true,
+                timeout:'',
+                countDown:59,
+                subtitle:'Повторная отправка кода подтвержедения возможна через ',
                 // user:''
             }
+        },
+        mounted() {
+            this.setTimer()
         },
         computed: {
             shared_user() {
@@ -175,6 +183,7 @@
                         this.code_loading = false;
                         this.$store.dispatch('sendNotification',
                             {self: this, message:'Код подтверждения был отправлен повторно'})
+                        this.setTimer();
                     })
                     .catch(err => {
                         this.code_loading = false;
@@ -184,6 +193,25 @@
             },
             skip() {
                 this.$store.commit('closeModal', '#codeModal');
+            },
+            setTimer() {
+                this.timer = true;
+                this.countDownTimer()
+            },
+            countDownTimer () {
+                if (this.countDown > 0 && this.timer === true) {
+                    this.timeout = setTimeout(() => {
+                        this.countDown -= 1;
+                        this.subtitle = 'Повторная отправка кода подтвержедения возможна через ' + this.countDown + ' сек.';
+                        this.countDownTimer()
+                    }, 1000)
+                }
+                else {
+                    clearTimeout(this.timeout);
+                    this.timer = false;
+                    this.subtitle = '';
+                    this.countDown = 59;
+                }
             }
         }
     }

@@ -30,6 +30,11 @@
 <script>
     export default {
         name: "PurchaseModal",
+        data() {
+            return {
+                loading: false,
+            }
+        },
         methods: {
             sendApplication() {
                 this.$store.commit('closeModal', '#purchaseModal');
