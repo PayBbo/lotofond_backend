@@ -5,7 +5,7 @@
         <bkt-application-modal/>
         <bkt-purchase-modal/>
         <bkt-instruction-modal/>
-        <bkt-add-mark-modal></bkt-add-mark-modal>
+<!--        <bkt-add-mark-modal></bkt-add-mark-modal>-->
         <CoolLightBox
             v-if="item && item.photos && item.photos.length>0"
             :items="item.photos"
@@ -1577,14 +1577,14 @@
     import MoveFavouriteModal from "./Favourites/MoveFavouriteModal";
     import NoteModal from "../components/SharedModals/NoteModal";
     import BktApplicationModal from "../components/SharedModals/ApplicationModal";
-    import AddMarkModal from "./LotCard/AddMarkModal";
+    // import AddMarkModal from "./LotCard/AddMarkModal";
     import BktObjectsList from "./LotCard/ObjectsList";
     import BktPurchaseModal from "../components/SharedModals/PurchaseModal";
     import BktInstructionModal from "../components/SharedModals/InstructionModal";
     export default {
         name: "LotCard",
         components: {
-            AddMarkModal,
+            // AddMarkModal,
             MiniTradeCard,
             Hooper,
             Slide,
@@ -1596,7 +1596,7 @@
             BktDropdown,
             BktUploadFile,
             'bkt-move-favourite-modal': MoveFavouriteModal,
-            'bkt-add-mark-modal': AddMarkModal,
+            // 'bkt-add-mark-modal': AddMarkModal,
             'bkt-note-modal': NoteModal,
             BktApplicationModal, BktPurchaseModal, BktInstructionModal,
             BktObjectsList,
@@ -1750,9 +1750,10 @@
                         if(this.item.trade && this.item.trade.lotCount>1) {
                             this.getRelatedLots();
                         }
-
-                        this.getDebtorActiveLots();
-                        this.getDebtorCompletedLots();
+                        if (this.isLoggedIn) {
+                            this.getDebtorActiveLots();
+                            this.getDebtorCompletedLots();
+                        }
                     })
                     .catch(error => {
                         this.loading = false;

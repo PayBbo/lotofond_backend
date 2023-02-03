@@ -64,7 +64,7 @@
                          @click="toggleService('purchaseBidByAgent')"
                     >
                         <div class="bkt-purchase__service__check-wrapper">
-                            <bkt-checkbox type="checkbox" wrapper_class="bkt-check_check"
+                            <bkt-checkbox type="checkbox" wrapper_class="bkt-check_check" name="purchaseBidByAgent"
                                           v-model="service.paymentTradingTypes" val="purchaseBidByAgent"></bkt-checkbox>
                             <div class="bkt-purchase__service__text-wrapper">
                                 <h4 class="bkt-card__title">Покупка без ЭЦП - проведение торгов</h4>
@@ -79,7 +79,7 @@
                          @click="toggleService('infoAboutLot')"
                     >
                         <div class="bkt-purchase__service__check-wrapper">
-                            <bkt-checkbox type="checkbox" wrapper_class="bkt-check_check"
+                            <bkt-checkbox type="checkbox" wrapper_class="bkt-check_check" name="infoAboutLot"
                                           :value="service.paymentTradingTypes" val="infoAboutLot"></bkt-checkbox>
                             <div class="bkt-purchase__service__text-wrapper">
                                 <h4 class="bkt-card__title">Подробная информация о лоте</h4>
@@ -96,7 +96,7 @@
                          @click="toggleService('consultation')"
                     >
                         <div class="bkt-purchase__service__check-wrapper">
-                            <bkt-checkbox type="checkbox" wrapper_class="bkt-check_check" ref="con_check"
+                            <bkt-checkbox type="checkbox" wrapper_class="bkt-check_check" ref="con_check" name="consultation"
                                           v-model="service.paymentTradingTypes" val="consultation"></bkt-checkbox>
                             <div class="bkt-purchase__service__text-wrapper">
                                 <h4 class="bkt-card__title">Консультация по лоту</h4>
@@ -111,7 +111,7 @@
                          @click="toggleService('accompanimentFAS')"
                     >
                         <div class="bkt-purchase__service__check-wrapper">
-                            <bkt-checkbox type="checkbox" wrapper_class="bkt-check_check"
+                            <bkt-checkbox type="checkbox" wrapper_class="bkt-check_check" name="accompanimentFAS"
                                           v-model="service.paymentTradingTypes" val="accompanimentFAS"></bkt-checkbox>
                             <div class="bkt-purchase__service__text-wrapper">
                                 <h4 class="bkt-card__title">Сопровождение в ФАС</h4>
