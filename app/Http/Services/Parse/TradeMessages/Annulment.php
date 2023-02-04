@@ -20,7 +20,7 @@ class Annulment extends TradeMessage implements TradeMessageContract
                         $lot[$message->param_type] = $message->param;
                         $lot->save();
                     } elseif ($message->param_type === 'current_price') {
-                        $param = json_decode($message->param);
+                        $param = json_decode($message->param, true);
                         if(!is_null($param['new_id'])){
                             PriceReduction::find($param['new_id'])->delete();
                         }

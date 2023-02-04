@@ -5,10 +5,7 @@ namespace App\Http\Services\Parse;
 use App\Models\Category;
 use App\Models\Lot;
 use App\Models\LotFile;
-use Artisaninweb\SoapWrapper\SoapWrapper;
 use Carbon\Carbon;
-use Exception;
-use Midnite81\Xml2Array\Xml2Array;
 
 class TradeService
 {
@@ -111,7 +108,7 @@ class TradeService
             }
         } else {
             $category = Category::where('code', $value[$prefix . 'Classification'][$prefix . 'IDClass'])->first();
-            if($category) {
+            if ($category) {
                 if (!$lot->categories()->where('title', $category->title)->exists()) {
                     $lot->categories()->attach($category);
                 }
@@ -122,7 +119,7 @@ class TradeService
             $category = Category::where('code', '99')->first();
             $lot->categories()->attach($category);
         }
-        if(!is_null($lot->description)){
+        if (!is_null($lot->description)) {
             $descriptionExtracts = new DescriptionExtractsService();
             $descriptionExtracts->getDescriptionExtracts($lot, $lot->description);
         }
@@ -140,43 +137,6 @@ class TradeService
             }
         }
         $lot->save();
-        $id = $lot->auction->id_efrsb;
-        if(!is_null($id)) {
-            $soapWrapper = new SoapWrapper();
-            $service = new SoapWrapperService($soapWrapper);
-            $xml = $service->getMessageContent($id);
-            $xml = Xml2Array::create($xml)->toArray();
-            try {
-                $text = null;
-                $lots = [];
-                $tmp_type = null;
-                if (array_key_exists('Auction', $xml['MessageInfo'])) {
-                    $tmp_type = 'Auction';
-                } elseif (array_key_exists('ChangeAuction', $xml['MessageInfo'])) {
-                    $tmp_type = 'ChangeAuction';
-                } elseif (array_key_exists('Auction2', $xml['MessageInfo'])) {
-                    $tmp_type = 'Auction2';
-                }
-                if(!is_null($tmp_type)){
-                    $lots = $xml['MessageInfo'][$tmp_type]['LotTable']['AuctionLot'];
-                    $text = $xml['MessageInfo'][$tmp_type]['Text'];
-                }
-               $descriptionExtracts = new DescriptionExtractsService();
-                if (array_key_exists('Order', $lots)) {
-                    $auctionLot = $lots;
-                    $descriptionExtracts->processDescriptionFromAuction($auctionLot, $lot, $text);
-                } else {
-                    foreach ($lots as $auctionLot) {
-                        $descriptionExtracts->processDescriptionFromAuction($auctionLot, $lot, $text);
-                    }
-                }
-            } catch (\Exception $e) {
-                logger($e);
-                logger($lot->id);
-                logger($xml);
-            }
-        }
-
         return $lot;
 
     }

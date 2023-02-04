@@ -117,9 +117,15 @@ class DescriptionExtractsService
         return $result;
     }
 
-    public function processDescriptionFromAuction($auctionLot, $lot, $fullText)
+    public function processDescriptionFromAuction($auctionLot, $fullText, $auction, $isSingle=false)
     {
-        if ($auctionLot['Order'] == $lot->number) {
+        $lot = $auction->lots->where('number', $auctionLot['Order'])->first();
+        if(!$lot){
+            if($auction->lots->count() == 1 && $isSingle){
+                $lot = $auction->lots->first();
+            }
+        }
+        if ($lot) {
             $description = $lot->description;
             if (array_key_exists('Description', $auctionLot) && gettype($auctionLot['Description']) != 'array' && strlen((string)$auctionLot['Description']) > 0) {
                 $description = $auctionLot['Description'];

@@ -20,7 +20,9 @@ class SroAu extends Model
         'reg_num',
         'sro_id',
         'date_of_last_modifier',
-        'phone'
+        'phone',
+        'ogrn',
+        'address'
     ];
 
     /**

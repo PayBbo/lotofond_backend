@@ -30,7 +30,7 @@ class Bidder extends Model
         'region_id',
         'debtor_category_id',
         'reg_num',
-        'sro_reg_num',
+        'correspondence_address',
         'sro_au_id',
         'reg_date',
         'bankrupt_id'

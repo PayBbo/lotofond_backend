@@ -12,7 +12,7 @@ use function public_path;
 
 class FilesService
 {
-    protected $slash = '/';
+    protected $slash = DIRECTORY_SEPARATOR;
 
     public function parseFiles($invitation, $auction, $prefix, $isImages = false)
     {
@@ -23,12 +23,12 @@ class FilesService
             $name_file = str_replace(' ', '-', $filename . '.' . $invitation[$prefix . 'Attach'][$prefix . 'Type']);
         }
         $time = Carbon::now()->format('d-m-Y-H-i');
-        $path = 'auction-files/auction-' . $auction->id . '/' . $time;
-        if (!Storage::disk('public')->exists($path . '/' . $name_file)) {
-            Storage::disk('public')->put($path . '/' . $name_file,
+        $path = 'auction-files'.$this->slash.'auction-' . $auction->id . $this->slash . $time;
+        if (!Storage::disk('public')->exists($path . $this->slash . $name_file)) {
+            Storage::disk('public')->put($path . $this->slash . $name_file,
                 base64_decode($invitation[$prefix . 'Attach'][$prefix . 'Blob']));
         }
-        $dest = 'app/public/auction-files/auction-' . $auction->id . '/' . $time;
+        $dest = 'app'.$this->slash.'public'.$this->slash.'auction-files'.$this->slash.'auction-' . $auction->id . $this->slash . $time;
         $files = null;
         if ($isImages) {
             logger('Images from type '. $invitation[$prefix . 'Attach'][$prefix . 'Type']);
@@ -36,37 +36,86 @@ class FilesService
             $full_path = \storage_path($dest);
             $name_file = $this->renameRootFile($full_path, $name_file);
             $document = \storage_path($dest . $this->slash . $name_file);
-            $comm = null;
-            switch ($invitation[$prefix . 'Attach'][$prefix . 'Type']) {
-                case 'doc':
-                case 'pdf':
-                {
-                    $comm = "binwalk --dd 'jpeg image:jpeg' --dd 'png image:png' --dd 'jpg image:jpg' --dd 'bmp image:bmp' ".$document." --directory ".$full_path.$this->slash." --rm  --run-as=root";
-                    break;
-                }
-                case 'docx':
-                case 'zip':
-                case 'rar':
-                {
-                    $comm = "unar -no-directory ".$document." -output-directory ".$full_path . $this->slash;
-                    break;
-                }
 
-            }
-            if (!is_null($comm)) {
-                try {
-                    exec(`$comm`);
-                    $files = $this->getImagesFrom($full_path, $path, $invitation[$prefix . 'Attach'][$prefix . 'Type'], $document);
-                    logger('----------------------');
-                } catch (\Exception $exception) {
-                    logger($exception);
-                }
-            }
+            $this->execCommand($full_path, $document, $invitation[$prefix . 'Attach'][$prefix . 'Type']);
+            $files = $this->getImagesFrom($full_path, $path, $invitation[$prefix . 'Attach'][$prefix . 'Type'], $document);
+
+            logger('----------------------');
         } else {
-            $files = ['storage/' . $path . '/' . $name_file];
+            $files = ['storage'.$this->slash . $path . $this->slash . $name_file];
         }
         return $files;
 
+    }
+
+    public function downloadFileByLink($files, $auctionId){
+        $cookieService = new CookieService();
+        $options = $cookieService->getFedresursHeadersOptions();
+        $time = Carbon::now()->format('d-m-Y-H-i');
+        $path = 'auction-files'.$this->slash.'auction-' . $auctionId . $this->slash . $time;
+        $dest = 'app'.$this->slash.'public'.$this->slash.'auction-files'.$this->slash.'auction-' . $auctionId . $this->slash . $time;
+        $full_path = \storage_path($dest);
+        $images = [];
+        $assets_files = [];
+        foreach($files as $file) {
+            $filename = str_replace(' ', '-', $file['filename']);
+            $ch = curl_init($file['link']);
+            curl_setopt_array($ch, $options);
+            $content = curl_exec($ch);
+            curl_close($ch);
+            if (mb_stripos($filename, 'фото') !== false || $this->is_image_extension($filename)) {
+                logger('LINKS. Images from type '. pathinfo($filename, PATHINFO_EXTENSION));
+                logger('Auction id: '.$auctionId);
+                $extension = pathinfo($filename, PATHINFO_EXTENSION);
+                $temp_dir = $full_path . $this->slash . 'TEMP-DIR';
+                $this->createTempDir($temp_dir.$this->slash);
+                $path_1 = $path . $this->slash . 'TEMP-DIR';
+                Storage::disk('public')->put($path_1. $this->slash . $filename, $content);
+                $document = $temp_dir.$this->slash.$filename;
+                if($extension === 'doc' || $extension === 'pdf' || $extension === 'docx' || $extension === 'zip' || $extension === 'rar') {
+                    $filename = $this->renameRootFile($full_path . $this->slash . 'TEMP-DIR', $filename);
+                    $document = $temp_dir.$this->slash.$filename;
+                    $this->execCommand($temp_dir, $document, $extension);
+                }
+                $this->getImagesFrom($temp_dir.$this->slash, $path_1, $extension, $document, true);
+                logger('----------------------');
+                $this->copyAllFilesImagesForExtract($full_path, $temp_dir.$this->slash);
+                rmdir($temp_dir.$this->slash);
+                $images = array_merge($this->createPreview($full_path, $path), $images);
+            }else{
+                Storage::disk('public')->put($path . $this->slash . $filename, $content);
+                $assets_files[] = 'storage' . $this->slash . $path . $this->slash . $filename;
+            }
+        }
+
+        return ['images'=>$images, 'files'=>$assets_files];
+    }
+
+    public function execCommand($path, $document, $extension) {
+        $comm = null;
+        switch ($extension) {
+            case 'doc':
+            case 'pdf':
+            {
+                $comm = "binwalk --dd 'jpeg image:jpeg' --dd 'png image:png' --dd 'jpg image:jpg' --dd 'bmp image:bmp' ".$document." --directory ".$path.$this->slash." --rm  --run-as=root";
+                break;
+            }
+            case 'docx':
+            case 'zip':
+            case 'rar':
+            {
+                $comm = "unar -no-directory ".$document." -output-directory ".$path . $this->slash;
+                break;
+            }
+
+        }
+        if (!is_null($comm)) {
+            try {
+                exec(`$comm`);
+            } catch (\Exception $exception) {
+                //logger($exception);
+            }
+        }
     }
 
     public function renameRootFile($full_path, $file_name) {
@@ -79,13 +128,15 @@ class FilesService
         return $file_name;
     }
 
-    public function getImagesFrom($full_path, $path, $type, $document)
+    public function getImagesFrom($full_path, $path, $type, $document, $is_array = false)
     {
         $this->searchAllFilesImagesForExtract($full_path, $full_path);
-        $this->copyAllFilesImagesForExtract($full_path);
+        $this->copyAllFilesImagesForExtract($full_path, $full_path . $this->slash . 'searchAllFilesImagesForExtract');
         if($type === 'pdf')
             $this->binwalkNotFindImages($full_path, $document);
         $this->deleteAllFilesForExtract($full_path, $full_path);
+        if ($is_array)
+            return true;
         return $this->createPreview($full_path, $path);
     }
 
@@ -119,7 +170,7 @@ class FilesService
                     //logger($exception);
                 }
                 $this->searchAllFilesImagesForExtract($full_path, $full_path);
-                $this->copyAllFilesImagesForExtract($full_path);
+                $this->copyAllFilesImagesForExtract($full_path, $full_path . $this->slash . 'searchAllFilesImagesForExtract');
             }
         }
     }
@@ -138,7 +189,7 @@ class FilesService
             $objects = scandir($dir);
             foreach ($objects as $object) {
                 if ($object != "." && $object != "..") {
-                    if (is_dir($dir . $this->slash . $object) && !is_link($dir . "/" . $object)) {
+                    if (is_dir($dir . $this->slash . $object) && !is_link($dir . $this->slash . $object)) {
                         $this->deleteAllFilesForExtract($dir . $this->slash . $object, $s_path);
                     } else {
                         $extension = pathinfo($dir . $this->slash . $object, PATHINFO_EXTENSION);
@@ -167,7 +218,7 @@ class FilesService
             $all_objects = scandir($current_dir);
             foreach ($all_objects as $key => $object) {
                 if ($object === '.' or $object === '..') continue;
-                if (is_dir($current_dir . $this->slash . $object) && !is_link($current_dir . "/" . $object)) {
+                if (is_dir($current_dir . $this->slash . $object) && !is_link($current_dir . $this->slash . $object)) {
                     if ($current_dir . $this->slash . $object != $temp_dir && $current_dir . $this->slash . $object != $current_dir . $this->slash . 'previews')
                         $this->searchAllFilesImagesForExtract($current_dir . $this->slash . $object, $root_path);
                 } else {
@@ -182,9 +233,8 @@ class FilesService
         }
     }
 
-    public function copyAllFilesImagesForExtract($root_path)
+    public function copyAllFilesImagesForExtract($root_path, $temp_dir)
     {
-        $temp_dir = $root_path . $this->slash . 'searchAllFilesImagesForExtract';
         if (is_dir($temp_dir)) {
             $all_objects = scandir($temp_dir);
             foreach ($all_objects as $key => $object) {

@@ -22,6 +22,8 @@ class CreateSroAusTable extends Migration
             $table->string('inn', 10)->nullable();
             $table->string('phone', 50)->nullable();
             $table->dateTime('date_of_last_modifier')->nullable();
+            $table->string('ogrn')->nullable();
+            $table->string('address')->nullable();
             $table->timestamps();
         });
         Schema::enableForeignKeyConstraints();

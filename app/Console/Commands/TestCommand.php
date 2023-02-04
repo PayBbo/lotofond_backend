@@ -34,6 +34,7 @@ use App\Models\Notification;
 use App\Models\Param;
 use App\Models\PriceReduction;
 use App\Models\Region;
+use App\Models\SroAu;
 use App\Models\TestMessage;
 use App\Models\User;
 use Artisaninweb\SoapWrapper\SoapWrapper;
@@ -111,17 +112,19 @@ class TestCommand extends Command
         //    dispatch(new MonitoringJob);
         //  dispatch(new MonitoringNotificationJob('hourly'));
         //dispatch(new ParseDebtorMessages);
-        /*  $startDate = Carbon::parse('2023-01-26 20:00');
-          $endDate = Carbon::parse('2023-01-27 00:00');
-          while ($startDate < $endDate) {
-              $startFrom = $startDate->format('Y-m-d\TH:i:s');
-              $startDate->addHours(2);
-              dispatch((new ParseTrades($startFrom, $startDate->format('Y-m-d\TH:i:s')))->onQueue('parse'));
-          }
-          $startDate = Carbon::parse('2023-01-27 14:00');
-          $startFrom = $startDate->format('Y-m-d\TH:i:s');
-          $startDate->addHour();
-          dispatch((new ParseTrades($startFrom, $startDate->format('Y-m-d\TH:i:s')))->onQueue('parse'));*/
+      /*  $startDate = Carbon::parse('2022-11-01 00:00');
+        $endDate = Carbon::parse('2022-11-31 00:00');
+        while ($startDate < $endDate) {
+            $startFrom = $startDate->format('Y-m-d\TH:i:s');
+            $startDate->addHours(2);
+            dispatch((new ParseTrades($startFrom, $startDate->format('Y-m-d\TH:i:s')))->onQueue('parse'));
+        }*/
+
+
+        /*$startDate = Carbon::parse('2023-01-27 14:00');
+        $startFrom = $startDate->format('Y-m-d\TH:i:s');
+        $startDate->addHour();
+        dispatch((new ParseTrades($startFrom, $startDate->format('Y-m-d\TH:i:s')))->onQueue('parse'));*/
         // dispatch(new ParseTrades);
         //$get_trade_message_content = new GetTradeMessageContent($xml, 'BiddingInvitation');
         //$get_trade_message_content->switchMessageType(1, $xml, 13275260);
@@ -171,31 +174,7 @@ class TestCommand extends Command
          preg_match_all($re, $str, $matches);
          logger($matches);*/
 
-        $auctions = Auction::get();
-        $soapWrapper = new SoapWrapper();
-        $service = new SoapWrapperService($soapWrapper);
-        foreach($auctions as $auction) {
-            try {
-                $xml = $service->getMessageContent($auction->id_efrsb);
-                $xml = Xml2Array::create($xml)->toArray();
-                logger($xml);
-                $publisher = $xml['Publisher'];
-                if (array_key_exists('Email', $publisher) && isset($publisher['Email'])) {
-                    $email = $publisher['Email'];
-                    if (str_contains($publisher['@attributes']['type'], 'ArbitrManager')) {
-                        logger('ArbitrManager email - ' . $email);
-                    } else if (str_contains($publisher['@attributes']['type'], 'Organizer')) {
-                        logger('Organizer email - ' . $email);
-                    } else {
-                        logger($publisher['@attributes']['type']);
-                    }
 
-                }
-                logger('------------------------');
-            }catch (Exception $e){
-
-            }
-        }
         /*     $soapWrapper = new SoapWrapper();
              $service = new SoapWrapperService($soapWrapper);
              $xml = $service->getTradeMessageContent(13929124);
@@ -223,11 +202,6 @@ class TestCommand extends Command
         /*   $soapWrapper = new SoapWrapper();
               $service = new SoapWrapperService($soapWrapper);
               logger($service->getMessageContent(10595978));*/
-
-        /*$path = 'test-virtual\auction-files';
-        $fullpath = 'C:\Users\valer\Desktop\test-virtual\auction-files';
-        $testimage = new FilesService();
-        $testimage->getImagesFrom($fullpath, $path);*/
 
         /* $biddingResults = BiddingResult::where('end_price', '!=', null)
              ->whereHas('tradeMessage', function ($query) {

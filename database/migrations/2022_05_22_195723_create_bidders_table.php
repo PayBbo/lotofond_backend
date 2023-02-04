@@ -26,6 +26,7 @@ class CreateBiddersTable extends Migration
             $table->unsignedBigInteger('region_id')->nullable();
             $table->foreign('region_id')->references('id')
                 ->on('regions')->nullOnDelete();
+            $table->string('correspondence_address', 255)->nullable();
             /*only person*/
             $table->string('middle_name')->nullable();
             $table->string('last_name')->nullable();

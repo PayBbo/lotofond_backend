@@ -79,7 +79,6 @@ class BidderService
         $this->bidder->phone = array_key_exists('Phone', $person) ? $person['Phone'] : $this->bidder->phone;
         $this->bidder->email = array_key_exists('Email', $person) ? $person['Email'] : $this->bidder->email;
         $this->bidder->reg_num = array_key_exists('RegNum', $person) ? $person['RegNum'] :  $this->bidder->reg_num;
-        $this->bidder->sro_reg_num = array_key_exists('SRORegNum', $person) ? $person['SRORegNum'] : $this->bidder->sro_reg_num;
         $this->bidder->sro_au_id = $sro;
         $this->bidder->reg_date = array_key_exists('DateReg', $person) ? $person['DateReg'] : $this->bidder->reg_date;
 
