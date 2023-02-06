@@ -12,7 +12,7 @@ use function public_path;
 
 class FilesService
 {
-    protected $slash = DIRECTORY_SEPARATOR;
+    protected $slash = "\\";
 
     public function parseFiles($invitation, $auction, $prefix, $isImages = false)
     {
@@ -57,16 +57,19 @@ class FilesService
         $full_path = \storage_path($dest);
         $images = [];
         $assets_files = [];
+        $hasImages = false;
         foreach($files as $file) {
             $filename = str_replace(' ', '-', $file['filename']);
+            $extension = pathinfo($filename, PATHINFO_EXTENSION);
+            $filename = substr(pathinfo($filename, PATHINFO_FILENAME), 0, 200);
+            $filename = $filename . '.' . $extension;
             $ch = curl_init($file['link']);
             curl_setopt_array($ch, $options);
             $content = curl_exec($ch);
             curl_close($ch);
             if (mb_stripos($filename, 'фото') !== false || $this->is_image_extension($filename)) {
-                logger('LINKS. Images from type '. pathinfo($filename, PATHINFO_EXTENSION));
+                logger('LINKS. Images from type '. $extension);
                 logger('Auction id: '.$auctionId);
-                $extension = pathinfo($filename, PATHINFO_EXTENSION);
                 $temp_dir = $full_path . $this->slash . 'TEMP-DIR';
                 $this->createTempDir($temp_dir.$this->slash);
                 $path_1 = $path . $this->slash . 'TEMP-DIR';
@@ -77,24 +80,19 @@ class FilesService
                     $document = $temp_dir.$this->slash.$filename;
                     $this->execCommand($temp_dir, $document, $extension);
                 }
-                logger($temp_dir.$this->slash);
-                logger($path_1);
-                logger($extension);
-                logger($document);
                 $this->getImagesFrom($temp_dir.$this->slash, $path_1, $extension, $document, true);
                 logger('----------------------');
                 $this->copyAllFilesImagesForExtract($full_path, $temp_dir.$this->slash);
                 //rmdir($temp_dir.$this->slash);
-                $temp_arr = $this->createPreview($full_path, $path);
-                logger($temp_arr);
-                $images = array_merge($temp_arr, $images);
+                $hasImages = true;
             }else{
-                // file_put_contents(/var/www/bankrot.mp.back/storage/app/public/auction-files/auction-71703/05-02-2023-21-02/Предложение-о-порядке,-сроках-и-условиях-проведения-торгов-по-одновременной-реализации-залогового-имущества-и-незалогового-имущества-Т.Д.-Белый-фрегат.pdf): failed to open stream: File name too long
                 Storage::disk('public')->put($path . $this->slash . $filename, $content);
                 $assets_files[] = 'storage' . $this->slash . $path . $this->slash . $filename;
             }
         }
-
+        if($hasImages) {
+            $images = $this->createPreview($full_path, $path);
+        }
         return ['images'=>$images, 'files'=>$assets_files];
     }
 
@@ -232,7 +230,8 @@ class FilesService
                     $object = $this->addNewExtension($current_dir, $object);
                     $object_extension = pathinfo($object, PATHINFO_EXTENSION);
                     $object_time = Carbon::now()->valueOf();
-                    $object_time_new = $object_time * 3;
+                    $random = rand(0,10000);
+                    $object_time_new = $object_time . $random;
                     if ($this->is_image_extension($object) && $this->is_image($current_dir, $object))
                         rename($current_dir . $this->slash . $object, $temp_dir . $this->slash . 'image-' . $key . $object_time_new . '.' . $object_extension);
                 }
