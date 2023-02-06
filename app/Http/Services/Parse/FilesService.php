@@ -17,11 +17,10 @@ class FilesService
     public function parseFiles($invitation, $auction, $prefix, $isImages = false)
     {
         $filename = $invitation[$prefix . 'Attach'][$prefix . 'FileName'];
-        if (strpos($filename, '.')) {
+        if (strpos($filename, '.'))
             $name_file = str_replace(' ', '-', $filename);
-        } else {
+        else
             $name_file = str_replace(' ', '-', $filename . '.' . $invitation[$prefix . 'Attach'][$prefix . 'Type']);
-        }
         $time = Carbon::now()->format('d-m-Y-H-i');
         $path = 'auction-files'.$this->slash.'auction-' . $auction->id . $this->slash . $time;
         if (!Storage::disk('public')->exists($path . $this->slash . $name_file)) {
@@ -29,7 +28,6 @@ class FilesService
                 base64_decode($invitation[$prefix . 'Attach'][$prefix . 'Blob']));
         }
         $dest = 'app'.$this->slash.'public'.$this->slash.'auction-files'.$this->slash.'auction-' . $auction->id . $this->slash . $time;
-        $files = null;
         if ($isImages) {
             logger('Images from type '. $invitation[$prefix . 'Attach'][$prefix . 'Type']);
             logger('Auction id: '.$auction->id);
@@ -45,7 +43,6 @@ class FilesService
             $files = ['storage'.$this->slash . $path . $this->slash . $name_file];
         }
         return $files;
-
     }
 
     public function downloadFileByLink($files, $auctionId){
@@ -57,24 +54,12 @@ class FilesService
         $assets_files = [];
         $hasImages = false;
         foreach($files as $file) {
-            $cookieService = new CookieService('8b3d7f4e9ab55daee9fb89016f8a76a9',  'a9ee0b0a96986edc98bfe6a739b457a6',  '535a97a4d149ee29ac533ad1ebf746d4');
-            $options = $cookieService->getFedresursHeadersOptions();
-            $ch = curl_init($file['link']);
-            curl_setopt_array($ch, $options);
-            $content = curl_exec($ch);
-            $pattern = '/(?<=a=toNumbers\(").*(?="\),b)|(?<=b=toNumbers\(").*(?="\),c)|(?<=c=toNumbers\(").*(?="\),now)/';
-            preg_match_all($pattern, $content, $matches);
-            $cookieService = new CookieService($matches[0][0],$matches[0][1], $matches[0][2]);
-            $options = $cookieService->getFedresursHeadersOptions();
+            $content = $this->getContentWithCookiesFile($file['link']);
             $filename = str_replace(' ', '-', $file['filename']);
             $extension = pathinfo($filename, PATHINFO_EXTENSION);
-            $filename = substr(pathinfo($filename, PATHINFO_FILENAME), 0, 200);
-            $filename = $filename . '.' . $extension;
-            $ch = curl_init($file['link']);
-            curl_setopt_array($ch, $options);
-            $content = curl_exec($ch);
-            curl_close($ch);
-            if (mb_stripos($filename, 'фото') !== false || $this->is_image_extension($filename)) {
+            $filename = substr(pathinfo($filename, PATHINFO_FILENAME), 0, 200) . '.' . $extension;
+            $this->createTempDir($full_path.$this->slash);
+            if(mb_stripos($filename, 'фото') !== false || $this->is_image_extension($filename)) {
                 logger('LINKS. Images from type '. $extension);
                 logger('Auction id: '.$auctionId);
                 $temp_dir = $full_path . $this->slash . 'TEMP-DIR';
@@ -87,12 +72,12 @@ class FilesService
                     $document = $temp_dir.$this->slash.$filename;
                     $this->execCommand($temp_dir, $document, $extension);
                 }
-                $this->getImagesFrom($temp_dir.$this->slash, $path_1, $extension, $document, true);
+                $this->getImagesFrom($temp_dir, $path_1, $extension, $document, true);
                 logger('----------------------');
                 $this->copyAllFilesImagesForExtract($full_path, $temp_dir.$this->slash);
                 rmdir($temp_dir.$this->slash);
                 $hasImages = true;
-            }else{
+            } else {
                 Storage::disk('public')->put($path . $this->slash . $filename, $content);
                 $assets_files[] = 'storage' . $this->slash . $path . $this->slash . $filename;
             }
@@ -101,6 +86,23 @@ class FilesService
             $images = $this->createPreview($full_path, $path);
         }
         return ['images'=>$images, 'files'=>$assets_files];
+    }
+
+    public function getContentWithCookiesFile($file) {
+        $content = $this->getContentFile($file);
+        $pattern = '/(?<=a=toNumbers\(").*(?="\),b)|(?<=b=toNumbers\(").*(?="\),c)|(?<=c=toNumbers\(").*(?="\),now)/';
+        preg_match_all($pattern, $content, $matches);
+        return $this->getContentFile($file, $matches[0][0],$matches[0][1], $matches[0][2]);
+    }
+
+    public function getContentFile($file, $a = '8b3d7f4e9ab55daee9fb89016f8a76a9', $b = 'a9ee0b0a96986edc98bfe6a739b457a6', $c = '535a97a4d149ee29ac533ad1ebf746d4') {
+        $cookieService = new CookieService($a, $b, $c);
+        $options = $cookieService->getFedresursHeadersOptions();
+        $ch = curl_init($file);
+        curl_setopt_array($ch, $options);
+        $content = curl_exec($ch);
+        curl_close($ch);
+        return $content;
     }
 
     public function execCommand($path, $document, $extension) {
@@ -140,16 +142,29 @@ class FilesService
         return $file_name;
     }
 
-    public function getImagesFrom($full_path, $path, $type, $document, $is_array = false)
-    {
+    public function getImagesFrom($full_path, $path, $type, $document, $is_array = false) {
         $this->searchAllFilesImagesForExtract($full_path, $full_path);
-        $this->copyAllFilesImagesForExtract($full_path, $full_path . $this->slash . 'searchAllFilesImagesForExtract');
+        $this->deleteAllFilesForExtract($full_path. $this->slash . 'searchAllFilesImagesForExtract', $full_path. $this->slash . 'searchAllFilesImagesForExtract');
         if($type === 'pdf')
             $this->binwalkNotFindImages($full_path, $document);
+        $this->copyAllFilesImagesForExtract($full_path, $full_path . $this->slash . 'searchAllFilesImagesForExtract');
         $this->deleteAllFilesForExtract($full_path, $full_path);
         if ($is_array)
             return true;
         return $this->createPreview($full_path, $path);
+    }
+
+    function is_dir_empty($dir) {
+        if (!is_readable($dir)) return null;
+        $handle = opendir($dir);
+        while (false !== ($entry = readdir($handle))) {
+            if ($entry !== '.' && $entry !== '..') {
+                closedir($handle);
+                return false;
+            }
+        }
+        closedir($handle);
+        return true;
     }
 
     public function createPreview($full_path, $path)
@@ -173,17 +188,11 @@ class FilesService
         $temp_dir_search = $full_path . $this->slash . 'searchAllFilesImagesForExtract';
         $temp_dir = $full_path . $this->slash . 'pdfimagesAllFilesImagesForExtract';
         $this->createTempDir($temp_dir);
-        if (is_dir($temp_dir_search)) {
-            if (count(scandir($temp_dir_search)) == 2){
-                $comm = "pdfimages -png ".$document." ".$temp_dir.$this->slash;
-                try {
-                    exec(`$comm`);
-                } catch (\Exception $exception) {
-                    //logger($exception);
-                }
-                $this->searchAllFilesImagesForExtract($full_path, $full_path);
-                $this->copyAllFilesImagesForExtract($full_path, $full_path . $this->slash . 'searchAllFilesImagesForExtract');
-            }
+        if (is_dir($temp_dir_search) && $this->is_dir_empty($temp_dir_search)) {
+            $comm = "pdfimages -png ".$document." ".$temp_dir.$this->slash;
+            try {exec(`$comm`);} catch (\Exception $exception) {}
+            $this->searchAllFilesImagesForExtract($full_path, $full_path);
+            $this->copyAllFilesImagesForExtract($full_path, $full_path . $this->slash . 'searchAllFilesImagesForExtract');
         }
     }
 
@@ -267,7 +276,6 @@ class FilesService
                 unlink($temp_dir);
         }
         if (!file_exists($temp_dir))
-            //ErrorException: mkdir(): No such file or directory
             mkdir($temp_dir);
     }
 
