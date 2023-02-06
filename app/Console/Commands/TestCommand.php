@@ -101,9 +101,9 @@ class TestCommand extends Command
         //    dispatch(new MonitoringJob);
         //  dispatch(new MonitoringNotificationJob('hourly'));
         //dispatch(new ParseDebtorMessages);
-        /* $auctionIds = Lot::whereBetween('created_at', ['2023-02-04 00:00', '2023-02-06 16:00'])->pluck('auction_id')->toArray();
+         $auctionIds = Lot::whereBetween('created_at', ['2023-02-04 00:00', '2023-02-06 16:00'])->pluck('auction_id')->toArray();
         logger(join(',', $auctionIds));
-        foreach($auctionIds as $id){
+       /* foreach($auctionIds as $id){
             $path = 'auction-files'.DIRECTORY_SEPARATOR.'auction-' . $id;
             $this->deleteAllFilesForExtract($path, $path);
             rmdir($path);
@@ -161,15 +161,8 @@ class TestCommand extends Command
              logger($xml);*/
        // $id = 10709933;
 
-        $files = [
-            ['filename'=>'Фото Лот №2.pdf', 'link'=>'https://old.bankrot.fedresurs.ru/Download/file.fo?guid=bfef5c63-f49a-497a-9f59-0cea83e2f57b&type=MessageDocument'],
-            ['filename'=>'Фото Лот №1.pdf', 'link'=>'https://old.bankrot.fedresurs.ru/Download/file.fo?guid=db253a82-8c63-4dbf-ab5e-ad26661323f3&type=MessageDocument']
-        ];
-        $fileService = new FilesService();
-        $parsedFiles = $fileService->downloadFileByLink($files, 1);
-        logger($parsedFiles);
     }
-    
+
 
     public function deleteAllFilesForExtract($dir, $s_path)
     {
