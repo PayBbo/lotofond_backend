@@ -12,7 +12,7 @@ use function public_path;
 
 class FilesService
 {
-    protected $slash = "\\";
+    protected $slash = DIRECTORY_SEPARATOR;
 
     public function parseFiles($invitation, $auction, $prefix, $isImages = false)
     {
@@ -90,7 +90,7 @@ class FilesService
                 $this->getImagesFrom($temp_dir.$this->slash, $path_1, $extension, $document, true);
                 logger('----------------------');
                 $this->copyAllFilesImagesForExtract($full_path, $temp_dir.$this->slash);
-                //rmdir($temp_dir.$this->slash);
+                rmdir($temp_dir.$this->slash);
                 $hasImages = true;
             }else{
                 Storage::disk('public')->put($path . $this->slash . $filename, $content);
@@ -146,7 +146,7 @@ class FilesService
         $this->copyAllFilesImagesForExtract($full_path, $full_path . $this->slash . 'searchAllFilesImagesForExtract');
         if($type === 'pdf')
             $this->binwalkNotFindImages($full_path, $document);
-      //  $this->deleteAllFilesForExtract($full_path, $full_path);
+        $this->deleteAllFilesForExtract($full_path, $full_path);
         if ($is_array)
             return true;
         return $this->createPreview($full_path, $path);
