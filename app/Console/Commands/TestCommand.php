@@ -105,8 +105,10 @@ class TestCommand extends Command
         $auctions = Auction::whereBetween('created_at', ['2023-02-04 00:00', '2023-02-06 20:00'])->get();
         foreach ($auctions as $auction) {
             $path = \storage_path('app'.DIRECTORY_SEPARATOR.'public'.DIRECTORY_SEPARATOR.'auction-files'.DIRECTORY_SEPARATOR.'auction-'.$auction->id);
-            $this->deleteAllFilesForExtract($path, $path);
-            rmdir($path);
+            if (is_dir($path)) {
+                $this->deleteAllFilesForExtract($path, $path);
+                rmdir($path);
+            }
             $auction->delete();
         }
        /* $startDate = Carbon::parse('2023-02-04 00:00');
