@@ -2,62 +2,7 @@
 
 namespace App\Console\Commands;
 
-
-use App\Http\Services\Parse\CookieService;
-use App\Http\Services\Parse\DescriptionExtractsService;
-use App\Http\Services\Parse\FilesService;
-use App\Http\Services\Parse\GetTradeMessageContent;
-use App\Http\Services\Parse\ParseDataFromRosreestrService;
-use App\Http\Services\Parse\PriceReductionService;
-use App\Http\Services\Parse\SoapWrapperService;
-use App\Http\Services\PushNotificationService;
-use App\Http\Services\ReestrApiService;
-use App\Http\Services\SendCodeService;
-use App\Jobs\ChangeEmail;
-use App\Jobs\FavouriteJob;
-use App\Jobs\MakeProcessedDescription;
-use App\Jobs\MonitoringJob;
-use App\Jobs\MonitoringNotificationJob;
-use App\Jobs\ParseArbitrManager;
-use App\Jobs\ParseDebtorMessages;
-use App\Jobs\ParseTrades;
-use App\Jobs\SendApplication;
-use App\Jobs\SendLotsToChannel;
-use App\Models\Auction;
-use App\Models\Bidder;
-use App\Models\BiddingResult;
-use App\Models\Contact;
-use App\Models\EgrnStatement;
-use App\Models\HolidayDate;
-use App\Models\Lot;
-use App\Models\LotFile;
-use App\Models\LotParam;
-use App\Models\Notification;
-use App\Models\Param;
-use App\Models\PriceReduction;
-use App\Models\Region;
-use App\Models\SroAu;
-use App\Models\TestMessage;
-use App\Models\User;
-use Artisaninweb\SoapWrapper\SoapWrapper;
-use Carbon\Carbon;
-use Carbon\CarbonPeriod;
-use Exception;
-use GuzzleHttp\RequestOptions;
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\URL;
-use Midnite81\Xml2Array\Xml2Array;
-use GuzzleHttp\HandlerStack;
-use GuzzleHttp\Middleware;
-use GuzzleHttp\MessageFormatter;
-use Monolog\Logger;
-use Monolog\Handler\StreamHandler;
-
 
 class TestCommand extends Command
 {
@@ -85,7 +30,6 @@ class TestCommand extends Command
         parent::__construct();
     }
 
-
     protected $slash = DIRECTORY_SEPARATOR;
 
     /**
@@ -102,17 +46,8 @@ class TestCommand extends Command
         //    dispatch(new MonitoringJob);
         //  dispatch(new MonitoringNotificationJob('hourly'));
         //dispatch(new ParseDebtorMessages);
-        $auctions = Auction::whereBetween('created_at', ['2023-02-04 00:00', '2023-02-06 20:00'])->get();
-        foreach ($auctions as $auction) {
-            $path = \storage_path('app'.DIRECTORY_SEPARATOR.'public'.DIRECTORY_SEPARATOR.'auction-files'.DIRECTORY_SEPARATOR.'auction-'.$auction->id);
-            if (is_dir($path)) {
-                $this->deleteAllFilesForExtract($path, $path);
-                rmdir($path);
-            }
-            $auction->delete();
-        }
-       /* $startDate = Carbon::parse('2023-02-04 00:00');
-        $endDate = Carbon::parse('2022-02-06 16:00');
+      /*  $startDate = Carbon::parse('2023-02-04 00:00');
+        $endDate = Carbon::parse('2023-02-06 16:00');
         while ($startDate < $endDate) {
             $startFrom = $startDate->format('Y-m-d\TH:i:s');
             $startDate->addHours(2);
@@ -162,25 +97,5 @@ class TestCommand extends Command
               logger($xml);*/
         // $id = 10709933;
 
-    }
-
-
-    public function deleteAllFilesForExtract($dir, $s_path)
-    {
-        if (is_dir($dir)) {
-            $objects = scandir($dir);
-            foreach ($objects as $object) {
-                if ($object != "." && $object != "..") {
-                    if (is_dir($dir . $this->slash . $object) && !is_link($dir . $this->slash . $object)) {
-                        $this->deleteAllFilesForExtract($dir . $this->slash . $object, $s_path);
-                    } else {
-                        unlink($dir . $this->slash . $object);
-                    }
-                }
-            }
-            if ($dir !== $s_path) {
-                rmdir($dir);
-            }
-        }
     }
 }

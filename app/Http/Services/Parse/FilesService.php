@@ -58,12 +58,10 @@ class FilesService
             $filename = str_replace(' ', '-', $file['filename']);
             $extension = pathinfo($filename, PATHINFO_EXTENSION);
             $filename = substr(pathinfo($filename, PATHINFO_FILENAME), 0, 200) . '.' . $extension;
-            $this->createTempDir($full_path.$this->slash);
             if(mb_stripos($filename, 'фото') !== false || $this->is_image_extension($filename)) {
                 logger('LINKS. Images from type '. $extension);
                 logger('Auction id: '.$auctionId);
                 $temp_dir = $full_path . $this->slash . 'TEMP-DIR';
-                $this->createTempDir($temp_dir.$this->slash);
                 $path_1 = $path . $this->slash . 'TEMP-DIR';
                 Storage::disk('public')->put($path_1. $this->slash . $filename, $content);
                 $document = $temp_dir.$this->slash.$filename;
@@ -143,10 +141,10 @@ class FilesService
     }
 
     public function getImagesFrom($full_path, $path, $type, $document, $is_array = false) {
-        $this->searchAllFilesImagesForExtract($full_path, $full_path);
+        $this->searchAllFilesImagesForExtract($full_path, $full_path, $path);
         $this->deleteAllFilesForExtract($full_path. $this->slash . 'searchAllFilesImagesForExtract', $full_path. $this->slash . 'searchAllFilesImagesForExtract');
         if($type === 'pdf')
-            $this->binwalkNotFindImages($full_path, $document);
+            $this->binwalkNotFindImages($full_path, $document, $path);
         $this->copyAllFilesImagesForExtract($full_path, $full_path . $this->slash . 'searchAllFilesImagesForExtract');
         $this->deleteAllFilesForExtract($full_path, $full_path);
         if ($is_array)
@@ -184,14 +182,14 @@ class FilesService
         return $imageAssets;
     }
 
-    public function binwalkNotFindImages($full_path, $document) {
+    public function binwalkNotFindImages($full_path, $document, $path) {
         $temp_dir_search = $full_path . $this->slash . 'searchAllFilesImagesForExtract';
-        $temp_dir = $full_path . $this->slash . 'pdfimagesAllFilesImagesForExtract';
-        $this->createTempDir($temp_dir);
+        $temp_dir = $path.$this->slash.'pdfimagesAllFilesImagesForExtract';
+        Storage::disk('public')->makeDirectory($temp_dir);
         if (is_dir($temp_dir_search) && $this->is_dir_empty($temp_dir_search)) {
             $comm = "pdfimages -png ".$document." ".$temp_dir.$this->slash;
             try {exec(`$comm`);} catch (\Exception $exception) {}
-            $this->searchAllFilesImagesForExtract($full_path, $full_path);
+            $this->searchAllFilesImagesForExtract($full_path, $full_path, $path);
             $this->copyAllFilesImagesForExtract($full_path, $full_path . $this->slash . 'searchAllFilesImagesForExtract');
         }
     }
@@ -230,18 +228,18 @@ class FilesService
         }
     }
 
-    public function searchAllFilesImagesForExtract($current_dir, $root_path)
+    public function searchAllFilesImagesForExtract($current_dir, $root_path, $path)
     {
         $temp_dir = $root_path . $this->slash . 'searchAllFilesImagesForExtract';
         if ($current_dir === $root_path)
-            $this->createTempDir($temp_dir);
+            Storage::disk('public')->makeDirectory($path. $this->slash . 'searchAllFilesImagesForExtract');
         if (is_dir($current_dir)) {
             $all_objects = scandir($current_dir);
             foreach ($all_objects as $key => $object) {
                 if ($object === '.' or $object === '..') continue;
                 if (is_dir($current_dir . $this->slash . $object) && !is_link($current_dir . $this->slash . $object)) {
                     if ($current_dir . $this->slash . $object != $temp_dir && $current_dir . $this->slash . $object != $current_dir . $this->slash . 'previews')
-                        $this->searchAllFilesImagesForExtract($current_dir . $this->slash . $object, $root_path);
+                        $this->searchAllFilesImagesForExtract($current_dir . $this->slash . $object, $root_path, $path);
                 } else {
                     $object = $this->addNewExtension($current_dir, $object);
                     $object_extension = pathinfo($object, PATHINFO_EXTENSION);
@@ -267,7 +265,7 @@ class FilesService
         }
     }
 
-    public function createTempDir($temp_dir)
+   /* public function createTempDir($temp_dir)
     {
         if (file_exists($temp_dir)) {
             if (is_dir($temp_dir))
@@ -277,7 +275,7 @@ class FilesService
         }
         if (!file_exists($temp_dir))
             mkdir($temp_dir);
-    }
+    }*/
 
     public function is_image($full_path, $file)
     {
