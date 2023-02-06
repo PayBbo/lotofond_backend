@@ -102,12 +102,12 @@ class TestCommand extends Command
         //    dispatch(new MonitoringJob);
         //  dispatch(new MonitoringNotificationJob('hourly'));
         //dispatch(new ParseDebtorMessages);
-        $auctionIds = Lot::whereBetween('created_at', ['2023-02-04 00:00', '2023-02-06 20:00'])->where('auction_id', '!=', 43605)->pluck('auction_id')->toArray();
-        foreach ($auctionIds as $id) {
-            $path = 'auction-files' . DIRECTORY_SEPARATOR . 'auction-' . $id;
+        $auctions = Auction::whereBetween('created_at', ['2023-02-03 21:00', '2023-02-06 20:00'])->get();
+        logger(join(',', $auctions->pluck('id')->toArray()));
+      /*  foreach ($auctions as $auction) {
+            $path = 'auction-files' . DIRECTORY_SEPARATOR . 'auction-' . $auction->id;
             $this->deleteAllFilesForExtract($path, $path);
             rmdir($path);
-            $auction = Auction::find($id);
             $auction->delete();
         }
         $startDate = Carbon::parse('2023-02-04 00:00');
@@ -116,7 +116,7 @@ class TestCommand extends Command
             $startFrom = $startDate->format('Y-m-d\TH:i:s');
             $startDate->addHours(2);
             dispatch((new ParseTrades($startFrom, $startDate->format('Y-m-d\TH:i:s')))->onQueue('parse'));
-        }
+        }*/
 
 
         /*$startDate = Carbon::parse('2023-01-27 14:00');
