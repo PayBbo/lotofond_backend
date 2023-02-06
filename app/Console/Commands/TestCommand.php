@@ -87,6 +87,7 @@ class TestCommand extends Command
 
 
     protected $slash = DIRECTORY_SEPARATOR;
+
     /**
      * Execute the console command.
      *
@@ -101,10 +102,9 @@ class TestCommand extends Command
         //    dispatch(new MonitoringJob);
         //  dispatch(new MonitoringNotificationJob('hourly'));
         //dispatch(new ParseDebtorMessages);
-         $auctionIds = Lot::whereBetween('created_at', ['2023-02-04 00:00', '2023-02-06 16:00'])->pluck('auction_id')->toArray();
-        logger(join(',', $auctionIds));
-       /* foreach($auctionIds as $id){
-            $path = 'auction-files'.DIRECTORY_SEPARATOR.'auction-' . $id;
+        $auctionIds = Lot::whereBetween('created_at', ['2023-02-04 00:00', '2023-02-06 20:00'])->where('auction_id', '!=', 43605)->pluck('auction_id')->toArray();
+        foreach ($auctionIds as $id) {
+            $path = 'auction-files' . DIRECTORY_SEPARATOR . 'auction-' . $id;
             $this->deleteAllFilesForExtract($path, $path);
             rmdir($path);
             $auction = Auction::find($id);
@@ -116,7 +116,7 @@ class TestCommand extends Command
             $startFrom = $startDate->format('Y-m-d\TH:i:s');
             $startDate->addHours(2);
             dispatch((new ParseTrades($startFrom, $startDate->format('Y-m-d\TH:i:s')))->onQueue('parse'));
-        }*/
+        }
 
 
         /*$startDate = Carbon::parse('2023-01-27 14:00');
@@ -155,11 +155,11 @@ class TestCommand extends Command
           fclose($file);*/
 
 
-       /*      $soapWrapper = new SoapWrapper();
-             $service = new SoapWrapperService($soapWrapper);
-             $xml = $service->getMessageContent(10709933);
-             logger($xml);*/
-       // $id = 10709933;
+        /*      $soapWrapper = new SoapWrapper();
+              $service = new SoapWrapperService($soapWrapper);
+              $xml = $service->getMessageContent(10709933);
+              logger($xml);*/
+        // $id = 10709933;
 
     }
 
