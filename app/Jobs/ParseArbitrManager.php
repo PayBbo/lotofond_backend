@@ -41,19 +41,26 @@ class ParseArbitrManager implements ShouldQueue
         if(!array_key_exists('ArbitrManager', $managers)){
             return;
         }
-        foreach ($managers['ArbitrManager'] as $person) {
-            try {
-                $bidder = get_object_vars($person);
-                if (array_key_exists('INN', $bidder) && $bidder['INN'] != "" && !is_null($bidder['INN'])) {
-                    $bidderParse = new BidderService('arbitrationManager', $bidder['INN'], 'person');
-                    $bidderParse->saveBidder($bidder);
-                } else {
-                    continue;
-                }
+        if(array_key_exists('INN', $managers['ArbitrManager'])){
+            if ( $managers['ArbitrManager']['INN'] != "" && !is_null($managers['ArbitrManager']['INN'])) {
+                $bidderParse = new BidderService('organizer', $managers['ArbitrManager']['INN'], 'company');
+                $bidderParse->saveBidder($managers['ArbitrManager']);
+            }
+        }else {
+            foreach ($managers['ArbitrManager'] as $person) {
+                try {
+                    $bidder = get_object_vars($person);
+                    if (array_key_exists('INN', $bidder) && $bidder['INN'] != "" && !is_null($bidder['INN'])) {
+                        $bidderParse = new BidderService('arbitrationManager', $bidder['INN'], 'person');
+                        $bidderParse->saveBidder($bidder);
+                    } else {
+                        continue;
+                    }
 
-            } catch (\Exception $e) {
-                logger('ParseArbitrManagerExc: ' . $e);
-                logger($person);
+                } catch (\Exception $e) {
+                    logger('ParseArbitrManagerExc: ' . $e);
+                    logger($person);
+                }
             }
         }
 

@@ -42,7 +42,6 @@ class CreateBiddersTable extends Migration
                 ->on('debtor_categories')->nullOnDelete();
             /*only arbitr manager*/
             $table->string('reg_num', 30)->nullable();
-            $table->string('sro_reg_num', 30)->nullable();
             $table->unsignedBigInteger('sro_au_id')->nullable();
             $table->foreign('sro_au_id')->references('id')
                 ->on('sro_aus')->nullOnDelete();

@@ -77,12 +77,19 @@ class FilesService
                     $document = $temp_dir.$this->slash.$filename;
                     $this->execCommand($temp_dir, $document, $extension);
                 }
+                logger($temp_dir.$this->slash);
+                logger($path_1);
+                logger($extension);
+                logger($document);
                 $this->getImagesFrom($temp_dir.$this->slash, $path_1, $extension, $document, true);
                 logger('----------------------');
                 $this->copyAllFilesImagesForExtract($full_path, $temp_dir.$this->slash);
-                rmdir($temp_dir.$this->slash);
-                $images = array_merge($this->createPreview($full_path, $path), $images);
+                //rmdir($temp_dir.$this->slash);
+                $temp_arr = $this->createPreview($full_path, $path);
+                logger($temp_arr);
+                $images = array_merge($temp_arr, $images);
             }else{
+                // file_put_contents(/var/www/bankrot.mp.back/storage/app/public/auction-files/auction-71703/05-02-2023-21-02/Предложение-о-порядке,-сроках-и-условиях-проведения-торгов-по-одновременной-реализации-залогового-имущества-и-незалогового-имущества-Т.Д.-Белый-фрегат.pdf): failed to open stream: File name too long
                 Storage::disk('public')->put($path . $this->slash . $filename, $content);
                 $assets_files[] = 'storage' . $this->slash . $path . $this->slash . $filename;
             }
@@ -134,7 +141,7 @@ class FilesService
         $this->copyAllFilesImagesForExtract($full_path, $full_path . $this->slash . 'searchAllFilesImagesForExtract');
         if($type === 'pdf')
             $this->binwalkNotFindImages($full_path, $document);
-        $this->deleteAllFilesForExtract($full_path, $full_path);
+      //  $this->deleteAllFilesForExtract($full_path, $full_path);
         if ($is_array)
             return true;
         return $this->createPreview($full_path, $path);
@@ -254,6 +261,7 @@ class FilesService
                 unlink($temp_dir);
         }
         if (!file_exists($temp_dir))
+            //ErrorException: mkdir(): No such file or directory
             mkdir($temp_dir);
     }
 

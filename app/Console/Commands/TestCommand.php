@@ -112,13 +112,13 @@ class TestCommand extends Command
         //    dispatch(new MonitoringJob);
         //  dispatch(new MonitoringNotificationJob('hourly'));
         //dispatch(new ParseDebtorMessages);
-      /*  $startDate = Carbon::parse('2022-11-01 00:00');
-        $endDate = Carbon::parse('2022-11-31 00:00');
-        while ($startDate < $endDate) {
-            $startFrom = $startDate->format('Y-m-d\TH:i:s');
-            $startDate->addHours(2);
-            dispatch((new ParseTrades($startFrom, $startDate->format('Y-m-d\TH:i:s')))->onQueue('parse'));
-        }*/
+        /*  $startDate = Carbon::parse('2022-11-01 00:00');
+          $endDate = Carbon::parse('2022-11-31 00:00');
+          while ($startDate < $endDate) {
+              $startFrom = $startDate->format('Y-m-d\TH:i:s');
+              $startDate->addHours(2);
+              dispatch((new ParseTrades($startFrom, $startDate->format('Y-m-d\TH:i:s')))->onQueue('parse'));
+          }*/
 
 
         /*$startDate = Carbon::parse('2023-01-27 14:00');
@@ -203,25 +203,62 @@ class TestCommand extends Command
               $service = new SoapWrapperService($soapWrapper);
               logger($service->getMessageContent(10595978));*/
 
-        /* $biddingResults = BiddingResult::where('end_price', '!=', null)
-             ->whereHas('tradeMessage', function ($query) {
-                 $query->where('value', 'BiddingResult');
-             })->where('id', '>', 5152)
-             ->get();
-         foreach ($biddingResults as $biddingResult) {
+        $auction = Auction::find(71935);
+        $lotOrders = [1];
+        $id = $auction->id_efrsb;
+        if (!is_null($id)) {
+            $soapWrapper = new SoapWrapper();
+            $service = new SoapWrapperService($soapWrapper);
+            $xml = $service->getMessageContent($id);
+            $xml = Xml2Array::create($xml)->toArray();
+            $lots = null;
+            if (count($lotOrders) > 1) {
+                $lots = $auction->lots->whereIn('number', $lotOrders);
+            } else {
+                if (count($lotOrders) == 1 && $auction->lots->count() == 1) {
+                    $lots = $auction->lots;
+                }
+            }
+            if (!is_null($lots)) {
+                $files = [];
+                $parsedFiles = null;
+                if (array_key_exists('MessageURLList', $xml) && array_key_exists('MessageURL', $xml['MessageURLList'])) {
+                    $urls = $xml['MessageURLList']['MessageURL'];
+                    if (array_key_exists('@attributes', $urls)) {
+                        $files[] = ['filename' => $urls['@attributes']['URLName'], 'link' => $urls['@attributes']['URL']];
+                    } else {
+                        foreach ($urls as $url) {
+                            $files[] = ['filename' => $url['@attributes']['URLName'], 'link' => $url['@attributes']['URL']];
+                        }
+                    }
+                    $fileService = new FilesService();
+                    $parsedFiles = $fileService->downloadFileByLink($files, $auction->id);
+                    logger($parsedFiles);
+                }
+
+            }
+
+            /* $biddingResults = BiddingResult::where('end_price', '!=', null)
+                 ->whereHas('tradeMessage', function ($query) {
+                     $query->where('value', 'BiddingResult');
+                 })->where('id', '>', 5152)
+                 ->get();
+             foreach ($biddingResults as $biddingResult) {
+                 $priceReduction = new PriceReductionService();
+                 $priceReduction->saveFinalPrice($biddingResult);
+             }*/
+            /*$lots = Lot::whereDoesntHave('priceReductions')->pluck('id')->toArray();
+            logger(join(',', $lots));*/
+            /* $lots = Lot::whereDoesntHave('priceReductions')->get();
              $priceReduction = new PriceReductionService();
-             $priceReduction->saveFinalPrice($biddingResult);
-         }*/
-        /*$lots = Lot::whereDoesntHave('priceReductions')->pluck('id')->toArray();
-        logger(join(',', $lots));*/
-        /* $lots = Lot::whereDoesntHave('priceReductions')->get();
-         $priceReduction = new PriceReductionService();
-         foreach ($lots as $lot){
-             $priceReduction->savePriceReduction($lot->id, $lot->start_price, $lot->created_at, null, null, 0, 0, true);
-         }*/
+             foreach ($lots as $lot){
+                 $priceReduction->savePriceReduction($lot->id, $lot->start_price, $lot->created_at, null, null, 0, 0, true);
+             }*/
+        }
     }
 
-    public function getDescriptionExtracts($lot, $description)
+    public
+    function getDescriptionExtracts($lot, $description)
     {
         $cadastr_number = '/\d{2}:\d{2}:\d{1,7}:\d{1,}/';
         preg_match_all($cadastr_number, $description, $matches);
@@ -252,7 +289,8 @@ class TestCommand extends Command
         $lot->save();
     }
 
-    public function getAvtoNumberRegex()
+    public
+    function getAvtoNumberRegex()
     {
         $result = $this->regexStart . '(?<licence_plate>(?:';
         $regexs = $this->regexs;
@@ -268,7 +306,8 @@ class TestCommand extends Command
         return $result;
     }
 
-    public function getMinPrice($matchesPrices, $startPrice)
+    public
+    function getMinPrice($matchesPrices, $startPrice)
     {
         $min_price = null;
         $result = [];
