@@ -49,8 +49,6 @@ class FilesService
     }
 
     public function downloadFileByLink($files, $auctionId){
-        $cookieService = new CookieService();
-        $options = $cookieService->getFedresursHeadersOptions();
         $time = Carbon::now()->format('d-m-Y-H-i');
         $path = 'auction-files'.$this->slash.'auction-' . $auctionId . $this->slash . $time;
         $dest = 'app'.$this->slash.'public'.$this->slash.'auction-files'.$this->slash.'auction-' . $auctionId . $this->slash . $time;
@@ -59,6 +57,15 @@ class FilesService
         $assets_files = [];
         $hasImages = false;
         foreach($files as $file) {
+            $cookieService = new CookieService('8b3d7f4e9ab55daee9fb89016f8a76a9',  'a9ee0b0a96986edc98bfe6a739b457a6',  '535a97a4d149ee29ac533ad1ebf746d4');
+            $options = $cookieService->getFedresursHeadersOptions();
+            $ch = curl_init($file['link']);
+            curl_setopt_array($ch, $options);
+            $content = curl_exec($ch);
+            $pattern = '/(?<=a=toNumbers\(").*(?="\),b)|(?<=b=toNumbers\(").*(?="\),c)|(?<=c=toNumbers\(").*(?="\),now)/';
+            preg_match_all($pattern, $content, $matches);
+            $cookieService = new CookieService($matches[0][0],$matches[0][1], $matches[0][2]);
+            $options = $cookieService->getFedresursHeadersOptions();
             $filename = str_replace(' ', '-', $file['filename']);
             $extension = pathinfo($filename, PATHINFO_EXTENSION);
             $filename = substr(pathinfo($filename, PATHINFO_FILENAME), 0, 200);

@@ -441,7 +441,6 @@ class AES {
 	}
 
 	private static function numberOfRounds($size){
-			$nbrRounds;
 			switch ($size) /* set the number of rounds */
 			{
 				case self::keySize_128:

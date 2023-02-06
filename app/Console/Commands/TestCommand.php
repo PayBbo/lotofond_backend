@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 
+use App\Http\Services\Parse\CookieService;
 use App\Http\Services\Parse\DescriptionExtractsService;
 use App\Http\Services\Parse\FilesService;
 use App\Http\Services\Parse\GetTradeMessageContent;
@@ -206,6 +207,11 @@ class TestCommand extends Command
         $auction = Auction::find(71935);
         $lotOrders = [1];
         $id = $auction->id_efrsb;
+
+       /* $auction = Auction::find(1);
+        $lotOrders = [1];
+        $id = 10702250;*/
+
         if (!is_null($id)) {
             $soapWrapper = new SoapWrapper();
             $service = new SoapWrapperService($soapWrapper);
@@ -237,7 +243,7 @@ class TestCommand extends Command
                 }
 
             }
-
+        }
             /* $biddingResults = BiddingResult::where('end_price', '!=', null)
                  ->whereHas('tradeMessage', function ($query) {
                      $query->where('value', 'BiddingResult');
@@ -254,7 +260,7 @@ class TestCommand extends Command
              foreach ($lots as $lot){
                  $priceReduction->savePriceReduction($lot->id, $lot->start_price, $lot->created_at, null, null, 0, 0, true);
              }*/
-        }
+
     }
 
     public
