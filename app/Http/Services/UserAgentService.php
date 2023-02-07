@@ -39,7 +39,7 @@ class UserAgentService
                 $device .=' '.$model;
             }
         }
-        $value = 'device is not defined';
+        $value = null;
         if(!is_null($device)){
             $value=$device;
         }
@@ -50,15 +50,17 @@ class UserAgentService
                 $value=$browser;
             }
         }
-        Notification::create([
-            'user_id' => $user->id,
-            'date' => Carbon::now()->setTimezone('Europe/Moscow'),
-            'type_id' => 1,
-            'message' => 'logInToYourAccountBody',
-            'label' => 'logInToYourAccountTitle',
-            'value'=>$value,
-            'platform_action' => 'info'
-        ]);
+        if(!is_null($value)) {
+            Notification::create([
+                'user_id' => $user->id,
+                'date' => Carbon::now()->setTimezone('Europe/Moscow'),
+                'type_id' => 1,
+                'message' => 'logInToYourAccountBody',
+                'label' => 'logInToYourAccountTitle',
+                'value' => $value,
+                'platform_action' => 'info'
+            ]);
+        }
 
 
 
