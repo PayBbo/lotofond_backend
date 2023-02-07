@@ -2,7 +2,7 @@
 
 namespace App\Http\Services;
 
-use Jenssegers\Agent\Facades\Agent;
+use Jenssegers\Agent\Agent;
 
 class UserAgentService
 {
