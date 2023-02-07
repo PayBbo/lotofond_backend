@@ -25,6 +25,9 @@ return [
     'gladToSeeYou'=>'Мы рады вас видеть в Lotofond',
     'applicationAnswerTitle'=>'Заявка на ":value" лота № :value2 обработана',
     'applicationAnswerBody'=>'Ваша заявка была обработана, на почту отправлен ответ',
+    'logInToYourAccountTitle'=>'Вход в Ваш аккаунт',
+    'logInToYourAccountBody'=>'В Ваш аккаунт был совершен вход с :value',
+    'logInToYourAccountBodyPush'=>'В Ваш аккаунт был совершен вход с :value в :date',
 
 
     'Annulment'=>'Сообщение об аннулировании',

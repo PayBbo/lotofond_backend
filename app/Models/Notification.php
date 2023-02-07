@@ -61,7 +61,7 @@ class Notification extends Model
                     $subtitle = 'Изменение лота';
                 } else {
                     if(is_null($notification->application_id)) {
-                        $title = 'Новое оповещение';
+                        $title = is_null($notification->title) ? 'Новое оповещение' : __('messages.' . $notification->label);
                         $subtitle = '';
                         $value = !is_null($notification->value) ? __('messages.' . $notification->message, ['value' => $notification->value]) :
                             __('messages.' . $notification->message);
@@ -75,7 +75,7 @@ class Notification extends Model
                 $push = new PushNotificationService($title, $value, $notification->user_id, $notification->type->title);
                 $push->sendPushNotification();
                 $user = User::find($notification->user_id);
-                if (!is_null($user->email) && $user->not_to_email) {
+                if (!is_null($user->email) && $user->not_to_email && $notification->type->title != 'platform') {
                     $sendNotification = new SendCodeService();
                     $sendNotification->sendEmailNotification($user->email, $title . '. ' . $subtitle, $value, $notification);
                 }

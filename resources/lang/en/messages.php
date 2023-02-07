@@ -25,6 +25,9 @@ return [
     'gladToSeeYou'=>'We are glad to see you at Lotofond',
     'applicationAnswerTitle'=>'Application for ":value" of lot no. :value2 processed',
     'applicationAnswerBody'=>'Your application has been processed, a response has been sent to the mail',
+    'logInToYourAccountTitle'=>'Log in to your account',
+    'logInToYourAccountBody'=>'Your account was logged in with :value',
+    'logInToYourAccountPush'=>'Your account was logged in with :value at :date',
 
 
     'Annulment'=>'Cancellation Notice',

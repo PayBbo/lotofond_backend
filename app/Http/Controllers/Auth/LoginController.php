@@ -77,7 +77,7 @@ class LoginController extends Controller
             $user->save();
         }
         $userAgentService = new UserAgentService();
-        $userAgentService->getUserAgent();
+        $userAgentService->getUserAgent($request->userAgent(), $user);
         return response($token, 200);
     }
 

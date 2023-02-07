@@ -29,7 +29,7 @@ class PushNotificationService
     public function sendPushNotification(){
         $user = User::find($this->user_id);
         $date = Carbon::now()->setTimezone('Europe/Moscow');
-        $tokens = $user->deviceTokens->where('created_at', '>', $date->subMonths(2))->pluck('token')->all();
+        $tokens = $user->deviceTokens->where('created_at', '>', $date->subMonths(2)->format('Y-m-d H:i'))->pluck('token')->toArray();
         if(count($tokens)>0) {
             try {
                 $SERVER_API_KEY = config('larafirebase.authentication_key');

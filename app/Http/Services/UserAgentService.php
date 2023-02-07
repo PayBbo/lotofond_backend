@@ -2,28 +2,69 @@
 
 namespace App\Http\Services;
 
-use Jenssegers\Agent\Agent;
+use App\Models\Notification;
+use Carbon\Carbon;
+use DeviceDetector\DeviceDetector;
 
 class UserAgentService
 {
 
-    public function getUserAgent(){
-        $agent = new Agent();
-        logger('DESKTOP: '.$agent->isDesktop());
-        logger('MOBILE: '.$agent->isMobile());
-        logger('TABLET: '.$agent->isTablet());
-        logger('DEVICE: '. $agent->device());
-        logger('DEVICE2: '. $agent->device(request()->userAgent()));
-        logger(request()->userAgent());
-        logger('BROWSER: '.$agent->browser() . 'VERSION - '. $agent->version($agent->browser()));
-        logger($this->ipInfo(request()->getClientIp(), 'address'));
-        logger('ANDROID: '.$agent->isAndroidOS());
-        logger('PLATFORM: '.$agent->platform());
-        logger('IOS: '.$agent->isiOS());
-        logger('ipad '.$agent->isiPad());
+    public function getUserAgent($userAgent, $user, $ip=null){
 
-        logger('-----------------------');
+        $dd = new DeviceDetector($userAgent, null);
+        $dd->parse();
+        $clientInfo = $dd->getClient();
+        $browser = null;
+        $device =null;
+        $osInfo = $dd->getOs();
+        if(!is_null($osInfo)) {
+            if (array_key_exists('name', $osInfo) && $osInfo['name']) {
+                $device = 'OS '. $osInfo['name'];
+                if (array_key_exists('version', $osInfo) && $osInfo['version']) {
+                    $device .= ' ' . $osInfo['version'];
+                }
+            }
+        }
+        if($dd->isBrowser()){
+            $browser = $clientInfo['name'] . ' '. $clientInfo['version'];
+        }
+
+        if($dd->isMobile()){
+            $brand = $dd->getBrandName();
+            if($brand){
+                $device = $brand;
+            }
+            $model = $dd->getModel();
+            if($model){
+                $device .=' '.$model;
+            }
+        }
+        $value = 'device is not defined';
+        if(!is_null($device)){
+            $value=$device;
+        }
+        if(!is_null($browser)){
+            if(!is_null($device)) {
+                $value .= ', ' . $browser;
+            }else{
+                $value=$browser;
+            }
+        }
+        Notification::create([
+            'user_id' => $user->id,
+            'date' => Carbon::now()->setTimezone('Europe/Moscow'),
+            'type_id' => 1,
+            'message' => 'logInToYourAccountBody',
+            'label' => 'logInToYourAccountTitle',
+            'value'=>$value,
+            'platform_action' => 'info'
+        ]);
+
+
+
     }
+
+    //метод для определения местоположения по ip
 
     public function ipInfo($ip = NULL, $purpose = "location", $deep_detect = TRUE)
     {

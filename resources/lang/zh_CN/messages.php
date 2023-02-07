@@ -26,6 +26,10 @@ return [
     'applicationAnswerTitle'=>'申请 ":value" 地段没有。 :value2 已处理',
     'applicationAnswerBody'=>'您的申请已被处理，回复已发送到邮件中',
 
+    'logInToYourAccountTitle'=>'登入您的帐户',
+    'logInToYourAccountBody'=>'您的帐户已从:value登录',
+    'logInToYourAccountBodyPush'=>'您的帐户已于:value至:date年登入',
+
     "Annulment"=>"废止信息",
     "biddingDeclared"=>"销售信息",
     "ApplicationSessionStart"=>"关于开始接受申请的消息",

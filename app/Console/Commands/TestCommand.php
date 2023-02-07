@@ -2,8 +2,11 @@
 
 namespace App\Console\Commands;
 
+use App\Http\Services\PushNotificationService;
+use App\Http\Services\UserAgentService;
 use App\Jobs\NewUsersNotificationsJob;
 use App\Models\Monitoring;
+use App\Models\Notification;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
 
