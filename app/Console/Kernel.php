@@ -7,6 +7,7 @@ use App\Jobs\FavouriteJob;
 use App\Jobs\FixDescription;
 use App\Jobs\MonitoringJob;
 use App\Jobs\MonitoringNotificationJob;
+use App\Jobs\NewUsersNotificationsJob;
 use App\Jobs\ParseArbitrManager;
 use App\Jobs\ParseCompanyTradeOrganizer;
 use App\Jobs\ParseDebtor;
@@ -42,6 +43,7 @@ class Kernel extends ConsoleKernel
         $schedule->job((new SendLotsToChannel)->onQueue('parse'))->hourly()->timezone('Europe/Moscow')->between('8:00', '20:00');
         $schedule->job((new EGRNStatementJob)->onQueue('user'))->dailyAt('08:30')->timezone('Europe/Moscow');
         $schedule->job((new FixDescription)->onQueue('parse'))->dailyAt('03:30')->timezone('Europe/Moscow');
+        $schedule->job((new NewUsersNotificationsJob)->onQueue('user'))->dailyAt('20:00')->timezone('Europe/Moscow');
     }
 
     /**

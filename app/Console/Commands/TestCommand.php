@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Jobs\NewUsersNotificationsJob;
 use Illuminate\Console\Command;
 
 class TestCommand extends Command
@@ -53,7 +54,6 @@ class TestCommand extends Command
             $startDate->addHours(2);
             dispatch((new ParseTrades($startFrom, $startDate->format('Y-m-d\TH:i:s')))->onQueue('parse'));
         }*/
-
 
         /*$startDate = Carbon::parse('2023-01-27 14:00');
         $startFrom = $startDate->format('Y-m-d\TH:i:s');

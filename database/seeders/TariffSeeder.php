@@ -418,6 +418,20 @@ class TariffSeeder extends Seeder
                 'included_details' => null,
                 'excluded_details' => null,
                 'type' => 'system'
+            ],
+            [
+                'title' =>
+                    ['ru' => 'Новые пользователи', 'en' => 'New users', 'zh_CN' => '新用户'],
+                'description' => null,
+                'code' => 'newUsers',
+                'price' => null,
+                'price_prefix' => null,
+                'admission_price' => null,
+                'period' => null,
+                'store_id' => null,
+                'included_details' => null,
+                'excluded_details' => null,
+                'type' => 'system'
             ]
 
         ];

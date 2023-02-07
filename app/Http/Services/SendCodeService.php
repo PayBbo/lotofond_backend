@@ -268,4 +268,40 @@ $lotDesc</p>
             logger($e);
         }
     }
+
+
+    public function sendNewUserEmailNotification($users, $toEmail, $startTime, $endTime)
+    {
+        try {
+
+            $subject = 'Новые пользователи в Lotofond';
+            $html = "<p>В период с $startTime по $endTime в Lotofond зарегистрировались пользователи:</p>";
+            Mail::send([], [], function ($message) use ($toEmail, $subject, $users, $html) {
+                $details = '<table style="text-align: center"><thead style="line-height: 3"><tr><td style="width: 5%">№</td><td style="width: 65%">ФИО</td><td style="width: 30%">Дата регистрации</td></tr></thead><tbody>';
+                foreach ($users as $key=>$user) {
+                    if(is_null( $user->surname) && is_null($user->name)){
+                        $fio = 'Данные не заполнены';
+                    }else {
+                        $fio = $user->surname . ' ' . $user->name;
+                        if (!is_null($user->middle_name)) {
+                            $fio .= ' ' . $user->middle_name;
+                        }
+                    }
+                    $regDate = Carbon::parse($user->email_verified_at)->format('d.m.Y H:i');
+                    $key+=1;
+                    $details .= "<tr style='line-height: 3'><td>$key</td><td>$fio</td><td>$regDate</td></tr>";
+                }
+                $details .= "</tbody></table>";
+
+                $html .= $details . "<p>С уважением, Lotofond</p>";
+
+                $message->from('bankr0t.t@yandex.ru', 'Lotofond');
+                $message->to($toEmail);
+                $message->subject($subject);
+                $message->setBody($html, 'text/html');
+            });
+        } catch (Exception $e) {
+            logger($e);
+        }
+    }
 }
