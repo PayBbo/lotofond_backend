@@ -14,6 +14,7 @@ class UserAgentService
         logger('TABLET: '.$agent->isTablet());
         logger('DEVICE: '. $agent->device());
         logger('DEVICE2: '. $agent->device(request()->userAgent()));
+        logger(request()->userAgent());
         logger('BROWSER: '.$agent->browser() . 'VERSION - '. $agent->version($agent->browser()));
         logger($this->ipInfo(request()->getClientIp(), 'address'));
         logger('ANDROID: '.$agent->isAndroidOS());
