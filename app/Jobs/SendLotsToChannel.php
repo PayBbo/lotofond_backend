@@ -119,6 +119,7 @@ class SendLotsToChannel implements ShouldQueue
                         'parse_mode' => 'html'
                     ]
                 ]);
+                sleep(1);
             } catch (\Exception $e) {
                 logger($e->getMessage());
             }

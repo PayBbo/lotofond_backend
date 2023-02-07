@@ -39,11 +39,11 @@ class ParseCompanyTradeOrganizer implements ShouldQueue
         $organizers = get_object_vars($service->getCompanyTradeOrganizerRegister($startFrom));
         try {
             if (array_key_exists('TradeOrganizer', $organizers)) {
-                if(array_key_exists('INN', $organizers['TradeOrganizer'])){
-                    if ( $organizers['TradeOrganizer']['INN'] != "" && !is_null($organizers['TradeOrganizer']['INN'])) {
-                        $bidderParse = new BidderService('organizer', $organizers['TradeOrganizer']['INN'], 'company');
-                        $bidderParse->saveBidder($organizers['TradeOrganizer']);
-                    }
+                $bidder = get_object_vars($organizers['TradeOrganizer']);
+                if(array_key_exists('INN', $organizers['TradeOrganizer'])){ if ($bidder['INN'] != "" && !is_null($bidder['INN'])) {
+                    $bidderParse = new BidderService('organizer', $bidder['INN'], 'company');
+                    $bidderParse->saveBidder($bidder);
+                }
                 }else {
                     foreach ($organizers['TradeOrganizer'] as $company) {
                         $bidder = get_object_vars($company);

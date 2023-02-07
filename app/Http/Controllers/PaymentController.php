@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Exceptions\CustomExceptions\BaseException;
 use App\Http\Requests\CheckPaymentRequest;
 use App\Http\Requests\PaymentRequest;
+use App\Http\Resources\ServiceResource;
 use App\Http\Resources\TariffResource;
 use App\Http\Services\PaymentService;
 use App\Models\Payment;
@@ -115,6 +116,14 @@ class PaymentController extends Controller
     {
         $tariffs = Tariff::where('type', 'tariff')->get();
         return response(TariffResource::collection($tariffs), 200);
+    }
+
+    public function getServices(Request $request){
+        $servicesTypes = $request->serviceTypes ?? [];
+        $services = Tariff::when(count($servicesTypes)>0, function ($query) use ($servicesTypes){
+            $query->whereIn('code', $servicesTypes);
+        })->where('type', 'service')->get();
+        return response(ServiceResource::collection($services), 200);
     }
 
 

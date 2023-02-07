@@ -4144,13 +4144,61 @@ paths:
       operationId: getTariffs
       responses:
         "200":
-          description: валидация транзакции прошла успешно,тариф для пользователя активирован
+          description: данные о тарифах
           content:
             application/json:
               schema:
                 type: array
                 items:
                   $ref: '#/components/schemas/Tariff'
+      security:
+        - bearerAuth: []
+  /services:
+    parameters:
+      - name: Content-Language
+        in: header
+        description: Заголовок для определения локали (ru, en, zh_CN)
+        required: true
+    post:
+      tags:
+        - Tariffs
+      summary: Получение списка услуг
+      operationId: getServices
+      requestBody:
+        description: данные для получения списка услуг по типам (если массив с типами пустой, или null, или отсутствует в запросе - присылаются все услуги)
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                serviceTypes:
+                  type: array
+                  items:
+                    type: string
+                    enum:
+                      - purchaseBidByAgent
+                      - infoAboutLot
+                      - consultation
+                      - accompanimentFAS
+                      - purchaseInstructions
+                      - receiptEGRN
+            examples:
+              certainServices:
+                value:
+                  serviceTypes: [purchaseBidByAgent, infoAboutLot]
+              allServices:
+                value:
+                  serviceTypes: []
+      responses:
+        "200":
+          description: Данные об услугах
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Service'
       security:
         - bearerAuth: []
 components:
@@ -5932,6 +5980,29 @@ components:
               items:
                 type: string
                 description: параметры, которые не предоставляет тариф
+    Service:
+      type: object
+      properties:
+        id:
+          type: integer
+        header:
+          type: string
+          description: заголовок услуги
+        description:
+          type: string
+          description: описание услугим
+        price:
+          type: integer
+        type:
+          type: string
+          description: тип услуги
+          enum:
+            - purchaseBidByAgent
+            - infoAboutLot
+            - consultation
+            - accompanimentFAS
+            - purchaseInstructions
+            - receiptEGRN
   securitySchemes:
     bearerAuth:
       type: http

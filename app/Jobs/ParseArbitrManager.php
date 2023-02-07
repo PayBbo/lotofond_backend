@@ -38,15 +38,16 @@ class ParseArbitrManager implements ShouldQueue
         $soapWrapper = new SoapWrapper();
         $service = new SoapWrapperService($soapWrapper);
         $managers = get_object_vars($service->getArbitrManagerRegister($startFrom));
-        if(!array_key_exists('ArbitrManager', $managers)){
+        if (!array_key_exists('ArbitrManager', $managers)) {
             return;
         }
-        if(array_key_exists('INN', $managers['ArbitrManager'])){
-            if ( $managers['ArbitrManager']['INN'] != "" && !is_null($managers['ArbitrManager']['INN'])) {
-                $bidderParse = new BidderService('organizer', $managers['ArbitrManager']['INN'], 'company');
-                $bidderParse->saveBidder($managers['ArbitrManager']);
+        if (array_key_exists('INN', $managers['ArbitrManager'])) {
+            $bidder = get_object_vars($managers['ArbitrManager']);
+            if ($bidder['INN'] != "" && !is_null($bidder['INN'])) {
+                $bidderParse = new BidderService('arbitrationManager', $bidder['INN'], 'person');
+                $bidderParse->saveBidder($bidder);
             }
-        }else {
+        } else {
             foreach ($managers['ArbitrManager'] as $person) {
                 try {
                     $bidder = get_object_vars($person);
