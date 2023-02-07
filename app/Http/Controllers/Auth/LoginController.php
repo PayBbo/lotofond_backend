@@ -8,6 +8,7 @@ use App\Http\Requests\LoginRequest;
 use App\Http\Services\DeviceTokenService;
 use App\Http\Services\GenerateAccessTokenService;
 use App\Http\Services\SocialsService;
+use App\Http\Services\UserAgentService;
 use App\Models\SocialAccount;
 use App\Models\User;
 use Exception;
@@ -75,6 +76,8 @@ class LoginController extends Controller
             $user->password = $userPassword;
             $user->save();
         }
+        $userAgentService = new UserAgentService();
+        $userAgentService->getUserAgent();
         return response($token, 200);
     }
 
