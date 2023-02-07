@@ -46,7 +46,8 @@ class MonitoringJob implements ShouldQueue
         $minDate = $this->startFrom;
         $maxDate = $this->endTo;
         $monitorings = Monitoring::whereHas('user', function ($query){
-            $query->hasByNonDependentSubquery('tariff');
+            $query->hasByNonDependentSubquery('tariff')
+            ->orWhere('email_verified_at', '>=', Carbon::now()->setTimezone('Europe/Moscow')->subDays(config('paymaster.trial_period')));
         })->get();
         foreach ($monitorings as $monitoring) {
             $lots = Lot::whereNotIn('lots.id', $monitoring->user->hiddenLots->pluck('id'))->filterBy($monitoring->filters)

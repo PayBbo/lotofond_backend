@@ -59,10 +59,11 @@ class ContentSettingsService
     {
         $hasTariff = false;
         $hasTestPeriod = false;
+        $trialPeriod = config('paymaster.trial_period');
         if($this->authCheck) {
             $user = $this->user;
             $hasTariff = !is_null($user->tariff);
-            $hasTestPeriod = $user->email_verified_at->addDays(3) > Carbon::now()->setTimezone('Europe/Moscow');
+            $hasTestPeriod = $user->email_verified_at->addDays($trialPeriod)->format('Y-m-d H:i') >= Carbon::now()->setTimezone('Europe/Moscow')->format('Y-m-d H:i');
         }
         $rules = ContentRule::all()->pluck('is_available', 'code');
         if ($hasTariff || $hasTestPeriod) {

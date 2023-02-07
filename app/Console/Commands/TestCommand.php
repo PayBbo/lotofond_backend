@@ -3,6 +3,8 @@
 namespace App\Console\Commands;
 
 use App\Jobs\NewUsersNotificationsJob;
+use App\Models\Monitoring;
+use Carbon\Carbon;
 use Illuminate\Console\Command;
 
 class TestCommand extends Command

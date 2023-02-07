@@ -26,6 +26,13 @@ use Illuminate\Support\Facades\DB;
 
 class AuctionController extends Controller
 {
+    protected $numberOfLotsForUnauthorizedUsers;
+
+    public function __construct()
+    {
+        $this->numberOfLotsForUnauthorizedUsers = config('auth.numberOfLotsForUnauthorizedUsers');
+    }
+
     public function getTrades(Request $request)
     {
         $lots = Lot::with(['auction', 'showRegions', 'status', 'lotImages', 'categories', 'lotParams'])
@@ -45,21 +52,9 @@ class AuctionController extends Controller
             return response(new LotCollection($lots), 200);
         } else {
             $lots = Lot::with(['auction', 'showRegions', 'status', 'lotImages', 'categories', 'lotParams'])
-                ->filterBy($request->request)->customSortBy($request)->limit(5)->get();
-            $settingsService = new ContentSettingsService();
-            return response([
-                'data' => LotResource::collection($lots)->each->content($settingsService, $authCheck),
-                'pagination' => [
-                    'total' => 5,
-                    'count' => 5,
-                    'perPage' => 5,
-                    'currentPage' => 1,
-                    'lastPage' => 1,
-                    'from' => 1,
-                    'nextPageUrl' => null,
-                    'to' => 5,
-                    'prevPageUrl' => null
-                ]], 200);
+                ->filterBy($request->request)->customSortBy($request)
+                ->limit($this->numberOfLotsForUnauthorizedUsers)->get();
+            return response(new LotCollection($lots), 200);
         }
     }
 
@@ -82,21 +77,9 @@ class AuctionController extends Controller
                 ->whereHas('auction', function ($q) use ($start, $end) {
                     $q->whereBetween('application_start_date', [$start, $end])
                         ->where('application_end_date', '>', $end);
-                })->customSortBy($request)->limit(5)->get();
-            $settingsService = new ContentSettingsService();
-            return response([
-                'data' => LotResource::collection($lots)->each->content($settingsService, $authCheck),
-                'pagination' => [
-                    'total' => 5,
-                    'count' => 5,
-                    'perPage' => 5,
-                    'currentPage' => 1,
-                    'lastPage' => 1,
-                    'from' => 1,
-                    'nextPageUrl' => null,
-                    'to' => 5,
-                    'prevPageUrl' => null
-                ]], 200);
+                })->customSortBy($request)
+                ->limit($this->numberOfLotsForUnauthorizedUsers)->get();
+            return response(new LotCollection($lots), 200);
         }
     }
 

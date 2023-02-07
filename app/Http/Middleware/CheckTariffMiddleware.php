@@ -26,7 +26,8 @@ class CheckTariffMiddleware
             $isAvailable = ContentRule::where('code', $contentRule)->first()['is_available'];
         }
         if(auth()->guard('api')->check() && !$isAvailable) {
-            if (Carbon::parse($user->email_verified_at)->addDays(3) < Carbon::now()->setTimezone('Europe/Moscow') && is_null($user->tariff)) {
+            $trialPeriod = config('paymaster.trial_period');
+            if (Carbon::parse($user->email_verified_at)->addDays($trialPeriod)->format('Y-m-d H:i') < Carbon::now()->setTimezone('Europe/Moscow')->format('Y-m-d H:i') && is_null($user->tariff)) {
                 throw new BaseException('ERR_CHECK_TARIFF_FAILED', 406, __('validation.no_activated_tariff'));
             }
         }

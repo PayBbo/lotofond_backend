@@ -2,6 +2,8 @@
 
 return [
 
+    'numberOfLotsForUnauthorizedUsers'=>env('UNAUTHORIZED_LOTS_NUMBER', 20),
+
     /*
     |--------------------------------------------------------------------------
     | Authentication Defaults

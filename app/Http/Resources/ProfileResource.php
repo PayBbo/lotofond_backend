@@ -19,9 +19,9 @@ class ProfileResource extends JsonResource
         $changeCredentials = $this->changeCredentials()
             ->where(['is_old_credentials' => false, 'is_submitted_old_credentials' => false, 'is_submitted_new_credentials' => true])
             ->latest()->first();
-        $testPeriodInDays = 3;
+        $testPeriodInDays = config('paymaster.trial_period');
         $hasTariff = !is_null($this->tariff);
-        $hasTestPeriod =$this->email_verified_at->addDays($testPeriodInDays) > Carbon::now()->setTimezone('Europe/Moscow');
+        $hasTestPeriod =$this->email_verified_at->addDays($testPeriodInDays)->format('Y-m-d H:i') >= Carbon::now()->setTimezone('Europe/Moscow')->format('Y-m-d H:i');
         $contentDisplayRules = ['lot'=>['trade'=>[]], 'system'=>[]];
         $rules = ContentRule::all();
         foreach($rules as $rule){
