@@ -2,8 +2,8 @@
     <div>
         <div class="bkt-dropdown dropdown" v-for="action in main_actions"
              :class="{'bkt-dropdown__menu-item bkt-gap-small': type ==='menu',
-             'd-none d-lg-block': action.place !== 'dropdown' && type !=='menu',
-             'd-lg-none': action.place !== 'dropdown' && type ==='menu'}"
+             'd-none d-lg-block': action.place !== 'dropdown' && action.place !== 'permanent' && type !=='menu',
+             'd-lg-none': action.place !== 'dropdown' && action.place !== 'permanent' && type ==='menu'}"
              v-if="!action.condition || (action.condition && item[action.status]==true)"
         >
             <div v-tooltip="type ==='menu' ? '' : (item[action.status] && action.status_icon ? action.status_label : action.label)"
@@ -88,12 +88,12 @@
         </div>
         <div class="bkt-dropdown" v-if="type!=='menu'">
             <button :class="['bkt-hover-primary bkt-button'+button_type, main_bg]"
-                    v-tooltip="'Другое'" data-bs-toggle="dropdown" data-bs-auto-close="outside" id="moreDropdown"
+                    v-tooltip="'Другое'" data-bs-toggle="dropdown" data-bs-auto-close="outside" :id="'moreDropdown'+item.id"
             >
                 <bkt-icon class="bkt-button__icon mx-auto" name="More" :color="icon_color"></bkt-icon>
             </button>
             <div class="dropdown-menu dropdown-menu-end bkt-dropdown__menu_menu bkt-dropdown__menu bkt-dropdown__menu_body">
-                <card-actions :item="item" type="menu" @changeStatus="emitChange" icon_color="main"
+                <card-actions :item="item" type="menu" @changeStatus="emitChange" icon_color="main" :place="place"
                 ></card-actions>
                 <hr class="dropdown-divider">
                 <div class="bkt-dropdown__menu-item" @click="changeStatus({icon:'Hide', type:'hide', status:'isHide'})">
@@ -259,7 +259,7 @@
                         status: '',
                         method: '',
                         method_params: {icon: 'Share'},
-                        place: 'all',
+                        place: this.place==='lot-card' ? 'all':'permanent',
                         dropdown_id: 'shareDropdown',
                         class: '',
                     },
@@ -349,8 +349,8 @@
             },
             main_actions() {
                 return this.actions.filter(item => {
-                    if(this.type!=='menu') { return item.place === 'all';}
-                    return true;
+                    if(this.type!=='menu') { return item.place === 'all' || item.place === 'permanent';}
+                    return item.place !== 'permanent';
                 });
             }
         },

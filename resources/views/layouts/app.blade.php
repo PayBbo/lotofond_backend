@@ -39,14 +39,14 @@
     <title>LotoFond</title>
 
     <!-- Styles -->
-    <link href="{{ mix('css/app.css') }}" rel="stylesheet">
+    <link href="{{ mix('css/app.min.css') }}" rel="stylesheet">
 </head>
 <body>
 <div id="app">
     @yield('content')
 </div>
 <!-- Scripts -->
-<script src="{{ mix('js/app.js') }}" defer async></script>
+<script src="{{ mix('js/app.min.js') }}" defer async></script>
 <script type="text/javascript" >
     (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
         m[i].l=1*new Date();

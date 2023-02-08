@@ -206,12 +206,36 @@
             font-size: 18px !important;
             line-height: 24px;
             text-align: start;
+            &-arrow {
+                display: flex;
+                align-items: center;
+                height: 24px;
+                justify-content: center;
+            }
         }
         & .bkt-card-trade__subprice {
             font-family: $font-family-sans-serif;
             font-style: normal;
             font-weight: 700;
             font-size: 14px !important;
+            &-percent {
+                font-size: 12px;
+                margin-left: 5px;
+            }
+        }
+        & .bkt-badge {
+            max-height: 24px;
+            height: 24px;
+            line-height: 24px;
+            font-family: $font-family-sans-serif;
+            font-style: normal;
+            font-weight: 700;
+            font-size: 12px;
+            padding: 0 4px;
+            border-radius: 30px;
+        }
+        & .bkt-card-trade__button {
+            width: fit-content;
         }
     }
     &__price {
@@ -837,6 +861,24 @@
         & .bkt-card__head {
             margin-bottom: 0 !important;
         }
+        &__price-info {
+            & .bkt-card-trade__price {
+                font-size: 16px !important;
+                line-height: 22px;
+                &-arrow {
+                    height: 22px;
+                }
+            }
+            & .bkt-badge {
+                max-height: 22px;
+                height: 22px;
+                line-height: 22px;
+                font-size: 10px;
+                padding: 0 2px;
+                border-radius: 30px;
+            }
+        }
+
     }
     .bkt-card-win {
         & .bkt-card-price-wrapper {
@@ -1016,6 +1058,30 @@
                     border-radius: 8px;
                     padding: 8px;
                 }
+            }
+        }
+        &__price-info {
+            & .bkt-card-trade__price {
+                font-size: 12px !important;
+                line-height: 18px;
+                &-arrow {
+                    height: 18px;
+                }
+            }
+            & .bkt-card-trade__subprice {
+                font-size: 10px !important;
+                &-percent {
+                    font-size: 8px;
+                    margin-left: 5px;
+                }
+            }
+            & .bkt-badge {
+                max-height: 18px;
+                height: 18px;
+                line-height: 18px;
+                font-size: 8px;
+                padding: 0 2px;
+                border-radius: 30px;
             }
         }
         &__price {

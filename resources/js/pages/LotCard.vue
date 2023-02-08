@@ -387,8 +387,8 @@
                             </div>
                         </div>
                         <div class="bkt-card-price bkt-button w-100"
-                             :class="{'bkt-bg-red': (!rules || (rules && rules.currentPriceState)) && item && item.currentPriceState=='down',
-                                  'bkt-bg-green': (!rules || (rules && rules.currentPriceState)) && item && item.currentPriceState=='up',
+                             :class="{'bkt-bg-red': (!rules || (rules && rules.currentPriceState)) && item && item.currentPriceState=='up',
+                                  'bkt-bg-green': (!rules || (rules && rules.currentPriceState)) && item && item.currentPriceState=='down',
                                   'bkt-bg-primary-lighter bkt-text-primary': (!rules || (rules && rules.currentPriceState)) && item && item.currentPriceState=='hold',
                                   'bkt-border-neutral-light bkt-text-neutral-dark h-100': rules && ( !rules.currentPrice || !rules.currentPriceState) }"
                         >
@@ -403,8 +403,8 @@
                                       v-if="rules.currentPriceState && item && item.currentPriceState!=='hold'"
                             >
                                 <div class="bkt-card-price-icon"
-                                     :class="{'bkt-bg-red-light': item.currentPriceState=='down',
-                                              'bkt-bg-green-light': item.currentPriceState=='up'}"
+                                     :class="{'bkt-bg-red-light': item.currentPriceState=='up',
+                                              'bkt-bg-green-light': item.currentPriceState=='down'}"
                                 >
                                     <bkt-icon :name="'ArrowTriple'" :width="'22px'" :height="'22px'"
                                               :class="{'bkt-rotate-180': item.currentPriceState=='down'}"

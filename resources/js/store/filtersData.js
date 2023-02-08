@@ -1,3 +1,42 @@
+// const initialState = {
+//     categories: {
+//         data: [],
+//         loading: false
+//     },
+//     regions: {
+//         data: [],
+//         loading: false
+//     },
+//     bidders: {
+//         debtors: {
+//             data: [],
+//             pagination: null,
+//             loading: false
+//         },
+//         organizers: {
+//             data: [],
+//             pagination: null,
+//             loading: false
+//         },
+//         arbitrationManagers: {
+//             data: [],
+//             pagination: null,
+//             loading: false
+//         },
+//         tradePlaces: {
+//             data: [],
+//             pagination: null,
+//             loading: false
+//         },
+//     },
+//     tradePlaces: {
+//         data: [],
+//         pagination: null,
+//         loading: false
+//     },
+//     prices: null,
+//     messages_types: []
+// }
 export default {
     state: {
         filters_data: {
@@ -38,7 +77,8 @@ export default {
             },
             prices: null,
             messages_types: []
-        }
+        },
+        // cache_filters_data: JSON.parse(localStorage.getItem('cache_filters_data'))||initialState
     },
 
     getters: {
@@ -111,21 +151,47 @@ export default {
             payload.data.data.forEach(item => {
                 let bidder = state.filters_data.bidders[payload.type].data.findIndex(el => el.id === item.id);
                 if (bidder < 0) {
-                    let tmp_item = item;
+                    const tmp_item = item;
                     if (item.type === 'person') {
-                        tmp_item.fullName = Object.values(tmp_item.person).reduce((prev, cur) => {
-                            if (cur) {
-                                prev += cur + ' '
-                            }
-                            return prev;
-                        }, '').trim();
-                        tmp_item.shortName = item.person.firstName + ' ' + item.person.lastName;
+                        Object.defineProperty(tmp_item, 'fullName', {
+                            // Отмечаем поле как "не-реактивное"
+                            configurable: false,
+                            value: Object.values(tmp_item.person).reduce((prev, cur) => {
+                                if (cur) {
+                                    prev += cur + ' '
+                                }
+                                return prev;
+                            }, '').trim()
+                        })
+                        Object.defineProperty(tmp_item, 'shortName', {
+                            // Отмечаем поле как "не-реактивное"
+                            configurable: false,
+                            value: item.person.firstName + ' ' + item.person.lastName
+                        })
+                        // tmp_item.fullName = Object.values(tmp_item.person).reduce((prev, cur) => {
+                        //     if (cur) {
+                        //         prev += cur + ' '
+                        //     }
+                        //     return prev;
+                        // }, '').trim();
+                        // tmp_item.shortName = item.person.firstName + ' ' + item.person.lastName;
 
-                    } else {
-                        tmp_item.fullName = item.company.fullName;
-                        tmp_item.shortName = item.company.shortName;
                     }
-                    state.filters_data.bidders[payload.type].data.push(tmp_item)
+                    else {
+                        // tmp_item.fullName = item.company.fullName;
+                        // tmp_item.shortName = item.company.shortName;
+                        Object.defineProperty(tmp_item, 'fullName', {
+                            // Отмечаем поле как "не-реактивное"
+                            configurable: false,
+                            value: item.company.fullName
+                        })
+                        Object.defineProperty(tmp_item, 'shortName', {
+                            // Отмечаем поле как "не-реактивное"
+                            configurable: false,
+                            value: item.company.shortName
+                        })
+                    }
+                    state.filters_data.bidders[payload.type].data.push(Object.freeze(tmp_item))
                 }
             });
             state.filters_data.bidders[payload.type].pagination = payload.data.pagination;
@@ -181,59 +247,99 @@ export default {
         /trades/filter/bidders/{type}
         Получение информации о должниках/организаторах торгов/арбитражных управляющих
          */
-        async getCategories({commit, state}, payload) {
-            if (state.filters_data.categories.data.length == 0 && !state.filters_data.categories.loading) {
-                commit('saveFilterDataProperty', {filter: 'categories', key: 'loading', value: true});
-                await axios({
-                    method: 'get',
-                    url: '/api/trades/filter/categories',
-                    data: {},
-                })
-                    .then((response) => {
-                        commit('setCategories', response.data.sort(function (one, other) {
-                            return other.subcategories.length - one.subcategories.length;
-                        }))
-                        commit('saveFilterDataProperty', {filter: 'categories', key: 'loading', value: false});
-                    }).catch(error => {
-                        commit('saveFilterDataProperty', {filter: 'categories', key: 'loading', value: false});
-                    });
-            }
-        },
-        async getRegions({commit, state}) {
-            if (state.filters_data.regions.data.length == 0 && !state.filters_data.regions.loading) {
-                commit('saveFilterDataProperty', {filter: 'regions', key: 'loading', value: true});
-                await axios({
-                    method: 'get',
-                    url: '/api/trades/filter/regions',
-                    data: {},
-                })
-                    .then((response) => {
-                        commit('setRegions', response.data);
-                        commit('saveFilterDataProperty', {filter: 'regions', key: 'loading', value: false});
-                    }).catch(error => {
-                        commit('saveFilterDataProperty', {filter: 'regions', key: 'loading', value: false});
-                    });
-            }
-        },
-        async getFiltersBidders({commit, state}, payload) {
-            commit('saveFilterDataProperty', {filter: 'bidders', key: payload.type + '.loading', value: true});
-            try {
-                await axios({
-                    method: 'put',
-                    url: '/api/trades/filter/bidders/' + payload.type + '?page=' + payload.page,
-                    data: payload
-                })
-                    .then((response) => {
-                        commit('setFiltersBidders', {type: payload.type, data: response.data});
-                        commit('saveFilterDataProperty', {
-                            filter: 'bidders',
-                            key: payload.type + '.loading',
-                            value: false
+        async getCategories({dispatch, commit, state}, payload) {
+            let result = await dispatch('getCache', {key:'categories', return_value: {
+                    data: [],
+                    loading: false
+                }
+            });
+            commit('setCategories', result.data.sort(function (one, other) {
+                return other.subcategories.length - one.subcategories.length;
+            }));
+            // if(state.cache_filters_data.categories.data.length === 0) {
+            if(result.data.length === 0) {
+                if (state.filters_data.categories.data.length === 0 && !state.filters_data.categories.loading)
+                {
+                    commit('saveFilterDataProperty', {filter: 'categories', key: 'loading', value: true});
+                    await axios({
+                        method: 'get',
+                        url: '/api/trades/filter/categories',
+                        data: {},
+                    })
+                        .then((response) => {
+                            commit('setCategories', response.data.sort(function (one, other) {
+                                return other.subcategories.length - one.subcategories.length;
+                            }))
+                            commit('saveFilterDataProperty', {filter: 'categories', key: 'loading', value: false});
+                            commit('setCache', {key:'categories', value: state.filters_data.categories})
+                        }).catch(error => {
+                            // commit('setCategories', state.cache_filters_data.categories.data.sort(function (one, other) {
+                            //     return other.subcategories.length - one.subcategories.length;
+                            // }))
+                            commit('setCategories', result.data.sort(function (one, other) {
+                                return other.subcategories.length - one.subcategories.length;
+                            }))
+                            commit('saveFilterDataProperty', {filter: 'categories', key: 'loading', value: false});
                         });
-                    });
-            } catch (error) {
-                commit('saveFilterDataProperty', {filter: 'bidders', key: payload.type + '.loading', value: false});
-                throw error
+                }
+            }
+        },
+        async getRegions({dispatch, commit, state}) {
+            let result = await dispatch('getCache', {key:'regions', return_value: {
+                    data: [],
+                    loading: false
+                }
+            });
+            commit('setRegions', result.data);
+            if(result.data.length === 0) {
+                if (state.filters_data.regions.data.length === 0 && !state.filters_data.regions.loading) {
+                    commit('saveFilterDataProperty', {filter: 'regions', key: 'loading', value: true});
+                    await axios({
+                        method: 'get',
+                        url: '/api/trades/filter/regions',
+                        data: {},
+                    })
+                        .then((response) => {
+                            commit('setRegions', response.data);
+                            commit('saveFilterDataProperty', {filter: 'regions', key: 'loading', value: false});
+                            commit('setCache', {key:'regions', value: state.filters_data.regions})
+                        }).catch(error => {
+                            commit('saveFilterDataProperty', {filter: 'regions', key: 'loading', value: false});
+                            commit('setRegions', result.data)
+                        });
+                }
+            }
+        },
+        async getFiltersBidders({dispatch, commit, state}, payload) {
+            let result = await dispatch('getCache', {key: 'filters_data_'+payload.type, return_value: {
+                    data: [],
+                    pagination: null,
+                    loading: false
+                }
+            });
+            commit('setFiltersBidders', {type: payload.type, data: result});
+            if(result.data.length === 0) {
+                commit('saveFilterDataProperty', {filter: 'bidders', key: payload.type + '.loading', value: true});
+                try {
+                    await axios({
+                        method: 'put',
+                        url: '/api/trades/filter/bidders/' + payload.type + '?page=' + payload.page,
+                        data: payload
+                    })
+                        .then((response) => {
+                            commit('setFiltersBidders', {type: payload.type, data: response.data});
+                            commit('saveFilterDataProperty', {
+                                filter: 'bidders',
+                                key: payload.type + '.loading',
+                                value: false
+                            });
+                            commit('setCache', {key:'filters_data_'+payload.type, value: state.filters_data.bidders[payload.type]})
+                        });
+                } catch (error) {
+                    commit('saveFilterDataProperty', {filter: 'bidders', key: payload.type + '.loading', value: false});
+                    commit('setFiltersBidders', {type: payload.type, data: result.data});
+                    throw error
+                }
             }
         },
         async getFiltersTradePlaces({commit, state}) {

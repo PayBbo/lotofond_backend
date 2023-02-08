@@ -23,7 +23,7 @@ export default {
         info: [],
         controllers: [],
         signals: [],
-        tariffs:[]
+        tariffs:[],
     },
 
     getters: {
@@ -95,7 +95,46 @@ export default {
                     Vue.set(schema, pList[len - 1], payload.value);
                 // }
             }
-
+        },
+        checkDataProperty({commit, rootState}, payload) {
+            let schema = rootState[payload.module_key];
+            if(payload.state_key) {
+                schema = rootState[payload.module_key][payload.state_key]
+            }
+            if(schema) {
+                let pList = payload.key.split('.');
+                let len = pList.length;
+                for (let i = 0; i < len - 1; i++) {
+                    let elem = pList[i];
+                    if (!schema[elem]) schema[elem] = {};
+                    schema = schema[elem];
+                }
+                // schema[pList[len-1]] = payload.value;
+                // if (pList[len - 1]) {
+                // }
+                return !!schema[pList[len - 1]]
+            }
+            return false;
+        },
+        getDataProperty({commit, rootState}, payload) {
+            let schema = rootState[payload.module_key];
+            if(payload.state_key) {
+                schema = rootState[payload.module_key][payload.state_key]
+            }
+            if(schema) {
+                let pList = payload.key.split('.');
+                let len = pList.length;
+                for (let i = 0; i < len - 1; i++) {
+                    let elem = pList[i];
+                    if (!schema[elem]) schema[elem] = {};
+                    schema = schema[elem];
+                }
+                // schema[pList[len-1]] = payload.value;
+                // if (pList[len - 1]) {
+                // }
+                return schema[pList[len - 1]]
+            }
+            return null;
         },
         getContacts({commit}, payload) {
             axios.get('/api/text-data/contacts')
@@ -154,6 +193,51 @@ export default {
                     commit('setTariffs', resp.data)
                 });
         },
+        getCache({dispatch, commit, state}, payload) {
+            // const check = dispatch('checkDataProperty', {
+            //     module_key: 'shared',
+            //     key: 'cached_data.'+ payload.key,
+            // });
+            let return_value = null;
+            if(payload.return_value != null) {
+                return_value = payload.return_value;
+            }
+            const itemStr = localStorage.getItem('lotofond_cached_'+payload.key);
+            // if the item doesn't exist, return null
+            if (!itemStr) {
+                return return_value;
+            }
+
+            const item = JSON.parse(itemStr);
+            // const item = dispatch('getDataProperty', {
+            //     module_key: 'shared',
+            //     key: 'cached_data.'+ payload.key,
+            // });
+
+            const now = new Date();
+
+            // compare the expiry time of the item with the current time
+            if (now.getTime() > item.expiry) {
+                // If the item is expired, delete the item from storage
+                // and return null
+                localStorage.removeItem('lotofond_cached_'+payload.key);
+                return return_value;
+            }
+            return item.value;
+        },
+        // setCache({dispatch, commit, state}, payload) {
+        //     const now = new Date();
+        //     const item = {
+        //         value: payload.value,
+        //         expiry: now.getTime() + 5000,
+        //     }
+        //     dispatch('saveDataProperty', {
+        //         module_key: 'shared',
+        //         key: 'cached_data.'+ payload.key,
+        //         value: item
+        //     }, {root: true});
+        //     localStorage.setItem('cached_data', JSON.stringify(state.cached_data))
+        // },
     },
 
     mutations: {
@@ -202,6 +286,14 @@ export default {
         },
         setTariffs(state, payload) {
             return (state.tariffs = payload);
+        },
+        setCache(state, payload) {
+            const now = new Date();
+            const item = {
+                value: payload.value,
+                expiry: now.getTime() + 2629800000,
+            }
+            localStorage.setItem('lotofond_cached_'+payload.key, JSON.stringify(item))
         },
     }
 };

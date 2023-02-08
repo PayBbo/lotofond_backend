@@ -207,9 +207,12 @@
                 }
             }
             this.makeSearchOptions();
-            if(this.options.length ==0 && this.value) {
-                this.infiniteHandler();
-            }
+            this.$nextTick(() => {
+                let tmp_value = JSON.parse(JSON.stringify(this.value));
+                if(this.options.length === 0 && tmp_value && ((this.multiple && tmp_value.length>0) || (!this.multiple && tmp_value !== null))) {
+                    this.infiniteHandler();
+                }
+            })
             // this.select_value = this.value;
         },
         computed: {

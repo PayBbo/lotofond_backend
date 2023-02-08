@@ -161,7 +161,7 @@ let router = new VueRouter({
         },
         {
             path: '/admin/users/add',
-            name: 'Users',
+            name: 'AddUser',
             beforeEnter: guardAdminRoute,
             component: () =>
                 import(
@@ -175,7 +175,7 @@ let router = new VueRouter({
         },
         {
             path: '/admin/users/:id',
-            name: 'Users',
+            name: 'EditUser',
             beforeEnter: guardAdminRoute,
             component: () =>
                 import(
@@ -231,7 +231,7 @@ let router = new VueRouter({
         },
         {
             path: '/admin/contacts',
-            name: 'Contacts',
+            name: 'AdminContacts',
             beforeEnter: guardAdminRoute,
             component: () =>
                 import(
@@ -357,7 +357,7 @@ let router = new VueRouter({
         },
         {
             path: '/admin/tariffs',
-            name: 'Tariffs',
+            name: 'AdminTariffs',
             beforeEnter: guardAdminRoute,
             component: () =>
                 import(
