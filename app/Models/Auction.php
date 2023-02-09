@@ -16,7 +16,6 @@ class Auction extends Model
      */
     protected $fillable = [
         'id_efrsb',
-        'id_external',
         'trade_id',
         'publish_date',
         'debtor_id',

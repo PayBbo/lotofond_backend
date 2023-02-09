@@ -18,6 +18,7 @@ class CreateTradeMessagesTable extends Migration
             $table->id();
             $table->unsignedBigInteger('lot_id');
             $table->string('number', 255);
+            $table->string('guid', 255)->nullable();
             $table->longText('value');
             $table->longText('text')->nullable();
             $table->foreign('lot_id')->references('id')

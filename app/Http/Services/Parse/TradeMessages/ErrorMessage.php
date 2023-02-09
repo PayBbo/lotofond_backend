@@ -10,13 +10,11 @@ class ErrorMessage extends TradeMessage implements TradeMessageContract
     {
         $invitation = $this->invitation;
         $prefix = $this->prefix;
+        $auction = $this->auction;
         try {
-            $auction = Auction::where('trade_id', $invitation['@attributes']['TradeId'])->first();
-            if ($auction) {
-                foreach ($auction->lots as $lot) {
-                    $tradeMessage = $this->createNotification($lot->id, $invitation['@attributes']['EventTime'],
-                        null, null, $invitation['Text']);
-                }
+            foreach ($auction->lots as $lot) {
+                $tradeMessage = $this->createNotification($lot->id, $invitation['@attributes']['EventTime'],
+                    null, null, $invitation['Text']);
             }
 
         } catch (\Exception $e) {

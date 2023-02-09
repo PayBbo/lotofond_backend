@@ -11,6 +11,7 @@ class TradeMessage extends Model
     protected $table = 'trade_messages';
     protected $fillable = [
         'number',
+        'guid',
         'lot_id',
         'value',
         'text',

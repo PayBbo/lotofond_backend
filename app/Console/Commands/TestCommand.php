@@ -2,11 +2,19 @@
 
 namespace App\Console\Commands;
 
+use App\Http\Services\Parse\GetTradeMessageContent;
+use App\Http\Services\Parse\GetTradeMessages;
+use App\Http\Services\Parse\SoapWrapperService;
 use App\Http\Services\PushNotificationService;
 use App\Http\Services\UserAgentService;
 use App\Jobs\NewUsersNotificationsJob;
+use App\Jobs\ParseTrades;
+use App\Models\Auction;
 use App\Models\Monitoring;
 use App\Models\Notification;
+use App\Models\TradeMessage;
+use App\Models\TradePlace;
+use Artisaninweb\SoapWrapper\SoapWrapper;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
 
@@ -52,8 +60,8 @@ class TestCommand extends Command
         //    dispatch(new MonitoringJob);
         //  dispatch(new MonitoringNotificationJob('hourly'));
         //dispatch(new ParseDebtorMessages);
-        /*  $startDate = Carbon::parse('2023-02-04 00:00');
-          $endDate = Carbon::parse('2023-02-06 16:00');
+       /*  $startDate = Carbon::parse('2023-01-10 00:00');
+          $endDate = Carbon::parse('2023-02-09 20:00');
           while ($startDate < $endDate) {
               $startFrom = $startDate->format('Y-m-d\TH:i:s');
               $startDate->addHours(2);
@@ -95,11 +103,6 @@ class TestCommand extends Command
           }
           fclose($file);*/
 
-
-        /*      $soapWrapper = new SoapWrapper();
-              $service = new SoapWrapperService($soapWrapper);
-              $xml = $service->getMessageContent(10709933);
-              logger($xml);*/
         // $id = 10709933;
 
     }

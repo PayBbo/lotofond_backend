@@ -11,41 +11,38 @@ class BiddingEndBankruptcyCreditor extends TradeMessage implements TradeMessageC
     {
         $invitation = $this->invitation;
         $prefix = $this->prefix;
+        $auction = $this->auction;
         try {
-            $auction = Auction::where('trade_id', $invitation['@attributes']['TradeId'])->first();
-            if ($auction) {
-                if (array_key_exists($prefix . 'CreditorLotNumberList', $invitation)) {
-                    $lotList = $invitation[$prefix . 'CreditorLotNumberList'][$prefix . 'CreditorLotNumber'];
-                    if (count($lotList) > 1) {
-                        foreach ($lotList as $lot) {
-                            $this->changeStatus($auction, $lot);
-                        }
-                    } else {
-                        $this->changeStatus($auction, $lotList);
-                    }
-                } elseif (array_key_exists($prefix . 'CreditorLotNumberList', $invitation[$prefix .'BankruptcyCreditorList'])){
-                    $lotList = $invitation[$prefix .'BankruptcyCreditorList'][$prefix . 'CreditorLotNumberList'][$prefix . 'CreditorLotNumber'];
-                    if (count($lotList) > 1) {
-                        foreach ($lotList as $lot) {
-                            $this->changeStatus($auction, $lot);
-                        }
-                    } else {
-                        $this->changeStatus($auction, $lotList);
-                    }
-                }elseif (array_key_exists($prefix . 'BankruptcyCreditor', $invitation[$prefix .'BankruptcyCreditorList']) && array_key_exists($prefix . 'CreditorLotNumberList', $invitation[$prefix .'BankruptcyCreditorList'][$prefix . 'BankruptcyCreditor']) ){
-                    $lotList = $invitation[$prefix .'BankruptcyCreditorList'][$prefix . 'BankruptcyCreditor'][$prefix . 'CreditorLotNumberList'][$prefix . 'CreditorLotNumber'];
-                    if (count($lotList) > 1) {
-                        foreach ($lotList as $lot) {
-                            $this->changeStatus($auction, $lot);
-                        }
-                    } else {
-                        $this->changeStatus($auction, $lotList);
-                    }
-                }
-                else {
-                    foreach ($auction->lots as $lot) {
+            if (array_key_exists($prefix . 'CreditorLotNumberList', $invitation)) {
+                $lotList = $invitation[$prefix . 'CreditorLotNumberList'][$prefix . 'CreditorLotNumber'];
+                if (count($lotList) > 1) {
+                    foreach ($lotList as $lot) {
                         $this->changeStatus($auction, $lot);
                     }
+                } else {
+                    $this->changeStatus($auction, $lotList);
+                }
+            } elseif (array_key_exists($prefix . 'CreditorLotNumberList', $invitation[$prefix . 'BankruptcyCreditorList'])) {
+                $lotList = $invitation[$prefix . 'BankruptcyCreditorList'][$prefix . 'CreditorLotNumberList'][$prefix . 'CreditorLotNumber'];
+                if (count($lotList) > 1) {
+                    foreach ($lotList as $lot) {
+                        $this->changeStatus($auction, $lot);
+                    }
+                } else {
+                    $this->changeStatus($auction, $lotList);
+                }
+            } elseif (array_key_exists($prefix . 'BankruptcyCreditor', $invitation[$prefix . 'BankruptcyCreditorList']) && array_key_exists($prefix . 'CreditorLotNumberList', $invitation[$prefix . 'BankruptcyCreditorList'][$prefix . 'BankruptcyCreditor'])) {
+                $lotList = $invitation[$prefix . 'BankruptcyCreditorList'][$prefix . 'BankruptcyCreditor'][$prefix . 'CreditorLotNumberList'][$prefix . 'CreditorLotNumber'];
+                if (count($lotList) > 1) {
+                    foreach ($lotList as $lot) {
+                        $this->changeStatus($auction, $lot);
+                    }
+                } else {
+                    $this->changeStatus($auction, $lotList);
+                }
+            } else {
+                foreach ($auction->lots as $lot) {
+                    $this->changeStatus($auction, $lot);
                 }
             }
         } catch (\Exception $e) {
@@ -55,10 +52,11 @@ class BiddingEndBankruptcyCreditor extends TradeMessage implements TradeMessageC
 
     }
 
-    public function changeStatus($auction, $lot){
-        if(array_key_exists('@attributes', $lot) && array_key_exists('LotNumber', $lot['@attributes'])) {
+    private function changeStatus($auction, $lot)
+    {
+        if (array_key_exists('@attributes', $lot) && array_key_exists('LotNumber', $lot['@attributes'])) {
             $auction_lot = $auction->lots->where('number', $lot['@attributes']['LotNumber'])->first();
-        }else{
+        } else {
             $auction_lot = $auction->lots->where('number', $lot['CreditorLotNumberList']['CreditorLotNumber']['@attributes']['LotNumber'])->first();
         }
         if ($auction_lot) {

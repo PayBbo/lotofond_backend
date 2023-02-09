@@ -11,15 +11,13 @@ class ApplicationSessionStatistic extends TradeMessage implements TradeMessageCo
     {
         $invitation = $this->invitation;
         $prefix = $this->prefix;
+        $auction = $this->auction;
         try {
-            $auction = Auction::where('trade_id', $invitation['@attributes']['TradeId'])->first();
-            if ($auction && array_key_exists($prefix . 'LotList', $invitation)) {
+            if (array_key_exists($prefix . 'LotList', $invitation)) {
                 $lot = $invitation[$prefix . 'LotList'][$prefix . 'LotStatistic'];
                 if (array_key_exists('@attributes', $lot)) {
                     $this->saveStatistics($auction, $lot, $prefix, $invitation);
                 }
-
-
             }
         } catch (\Exception $e) {
             logger('applicationSessionStatistic: ' . $e);
@@ -28,7 +26,7 @@ class ApplicationSessionStatistic extends TradeMessage implements TradeMessageCo
 
     }
 
-    public function saveStatistics($auction, $lot, $prefix, $invitation)
+    private function saveStatistics($auction, $lot, $prefix, $invitation)
     {
         $auction_lot = $auction->lots->where('number', $lot['@attributes']['LotNumber'])->first();
         if ($auction_lot) {

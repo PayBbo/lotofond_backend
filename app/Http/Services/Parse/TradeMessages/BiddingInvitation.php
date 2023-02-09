@@ -17,7 +17,7 @@ use Midnite81\Xml2Array\Xml2Array;
 
 class BiddingInvitation extends TradeMessage
 {
-    public function response($tradePlace, $trade)
+    public function response($tradePlace)
     {
         try {
             $invitation = $this->invitation;
@@ -61,7 +61,7 @@ class BiddingInvitation extends TradeMessage
                 if(!array_key_exists('INN', $debtor)){
                     $bidderParse = new BidderService('debtor', get_object_vars(array_pop($debtor))['INN'], $debtor_type);
                 }else {
-                    $bidderParse = new BidderService('debtor', $debtor['INN'], $debtor_type);
+                    $bidderParse = new BidderService('debtor', get_object_vars($debtor['INN']), $debtor_type);
                 }
                 $debtor = $bidderParse->saveBidder($debtor);
             } else {
@@ -101,15 +101,13 @@ class BiddingInvitation extends TradeMessage
                 }
             }
 
-
-            $auction = Auction::where('trade_id', $invitation['@attributes']['TradeId'])->first();
+            $auction = Auction::where(['trade_id'=> $invitation['@attributes']['TradeId'], 'guid'=>$this->guid])->first();
             if (!$auction) {
                 $auction = new Auction();
             }
             $data = $invitation[$prefix . 'TradeInfo'];
             $auction->id_efrsb = array_key_exists($prefix .'IDEFRSB', $invitation) ? $invitation[$prefix . 'IDEFRSB'] : NULL;
-            $auction->id_external = array_key_exists('ID_External', $trade) ? $trade->ID_External : NULL;
-            $auction->guid = array_key_exists('GUID', $trade) ? $trade->GUID : NULL;
+            $auction->guid = $this->guid;
             $auction->trade_place_id = $tradePlace;
             $auction->trade_id = $invitation['@attributes']['TradeId'];
             $auction->publish_date =$this->parseDate($invitation['@attributes']['EventTime']);
@@ -170,7 +168,7 @@ class BiddingInvitation extends TradeMessage
 
     }
 
-    public function parseDataFromAuction($auction){
+    private function parseDataFromAuction($auction){
         $id = $auction->id_efrsb;
         if (!is_null($id)) {
             $soapWrapper = new SoapWrapper();
@@ -213,7 +211,7 @@ class BiddingInvitation extends TradeMessage
         }
     }
 
-    public function parseBiddersAndFilesFromAuction($xml, $auction, $lotOrders)
+    private function parseBiddersAndFilesFromAuction($xml, $auction, $lotOrders)
     {
         $publisher = $xml['Publisher'];
         $bidder = Bidder::where('inn', $publisher['Inn'])->first();
@@ -295,7 +293,7 @@ class BiddingInvitation extends TradeMessage
         }
     }
 
-    public function saveFiles($file, $type, $lot)
+    private function saveFiles($file, $type, $lot)
     {
         if (!LotFile::where(['url' => json_encode($file), 'lot_id' => $lot->id, 'type' => $type])->exists()) {
             LotFile::create([

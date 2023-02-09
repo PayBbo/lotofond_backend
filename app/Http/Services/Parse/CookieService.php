@@ -18,7 +18,7 @@ class CookieService
         $this->c = $c;
     }
 
-    public function getFedresursCookies() {
+    private function getFedresursCookies() {
         $arr = array('a' =>  $this->a, 'b' => $this->b, 'c' => $this->c);
         $cryptoHelpers = new cryptoHelpers();
         $aes = new AES();

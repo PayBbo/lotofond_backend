@@ -15,21 +15,19 @@ class BiddingResult extends TradeMessage implements TradeMessageContract
     {
         $invitation = $this->invitation;
         $prefix = $this->prefix;
+        $auction = $this->auction;
         try {
-            $auction = Auction::where('trade_id', $invitation['@attributes']['TradeId'])->first();
-            if ($auction) {
-               if(count($invitation[$prefix . 'LotList'][$prefix . 'LotTradeResult']) > 1) {
-                   if(array_key_exists('@attributes', $invitation[$prefix . 'LotList'][$prefix . 'LotTradeResult'])){
-                       $this->getBiddingResult($invitation[$prefix . 'LotList'][$prefix . 'LotTradeResult'], $auction, $invitation, $prefix);
-                   }else {
-                       foreach ($invitation[$prefix . 'LotList'][$prefix . 'LotTradeResult'] as $item) {
-                           $this->getBiddingResult($item, $auction, $invitation, $prefix);
-                       }
-                   }
-                }else{
-                    $item = $invitation[$prefix . 'LotList'][$prefix . 'LotTradeResult'];
-                    $this->getBiddingResult($item, $auction, $invitation, $prefix);
+            if (count($invitation[$prefix . 'LotList'][$prefix . 'LotTradeResult']) > 1) {
+                if (array_key_exists('@attributes', $invitation[$prefix . 'LotList'][$prefix . 'LotTradeResult'])) {
+                    $this->getBiddingResult($invitation[$prefix . 'LotList'][$prefix . 'LotTradeResult'], $auction, $invitation, $prefix);
+                } else {
+                    foreach ($invitation[$prefix . 'LotList'][$prefix . 'LotTradeResult'] as $item) {
+                        $this->getBiddingResult($item, $auction, $invitation, $prefix);
+                    }
                 }
+            } else {
+                $item = $invitation[$prefix . 'LotList'][$prefix . 'LotTradeResult'];
+                $this->getBiddingResult($item, $auction, $invitation, $prefix);
             }
         } catch (\Exception $e) {
             logger('biddingResultMessageExc: ' . $e);
@@ -37,7 +35,8 @@ class BiddingResult extends TradeMessage implements TradeMessageContract
         }
     }
 
-    public function getBiddingResult($item, $auction, $invitation, $prefix){
+    private function getBiddingResult($item, $auction, $invitation, $prefix)
+    {
         $lot = $auction->lots->where('number', $item['@attributes']['LotNumber'])->first();
         if ($lot) {
             if (array_key_exists('FailureTradeResult', $item) || array_key_exists('SuccessTradeResult', $item)) {
@@ -65,8 +64,8 @@ class BiddingResult extends TradeMessage implements TradeMessageContract
                 ]);
                 $this->parseParticipants($item, $biddingResult, 'Winner');
             }
-            if(!is_null($biddingResult)){
-                if(!is_null($biddingResult->end_price)){
+            if (!is_null($biddingResult)) {
+                if (!is_null($biddingResult->end_price)) {
                     $priceReduction = new PriceReductionService();
                     $priceReduction->saveFinalPrice($biddingResult);
                 }
@@ -79,7 +78,7 @@ class BiddingResult extends TradeMessage implements TradeMessageContract
         }
     }
 
-    public function parseParticipants($item, $biddingResult, $type)
+    private function parseParticipants($item, $biddingResult, $type)
     {
         $participantData = null;
         $participantType = 'person';
