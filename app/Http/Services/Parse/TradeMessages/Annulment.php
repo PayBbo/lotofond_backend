@@ -29,12 +29,14 @@ class Annulment extends TradeMessage implements TradeMessageContract
                             $lot->save();
                         }
                         $priceReduction = PriceReduction::find($param['id']);
-                        if($priceReduction->is_system){
-                            $priceReduction->end_time =null;
-                        }else{
-                            $priceReduction->price =$param['price'];
+                        if($priceReduction) {
+                            if ($priceReduction->is_system) {
+                                $priceReduction->end_time = null;
+                            } else {
+                                $priceReduction->price = $param['price'];
+                            }
+                            $priceReduction->save();
                         }
-                        $priceReduction->save();
                     } else {
                         $auction = $lot->auction;
                         $auction->update(json_decode($message->param));
