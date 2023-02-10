@@ -69,7 +69,7 @@ class GetTradeMessageContent
                         $soapWrapper = new SoapWrapper();
                         $service = new SoapWrapperService($soapWrapper);
                         $messages = $service->getTradeMessagesByTrade($auction->trade_id, $auction->tradePlace->inn, Carbon::parse($auction->publish_date)->format('Y-m-d\TH:i:s'));
-                        $getMessages = new GetTradeMessages($messages);
+                        $getMessages = new GetTradeMessages($messages, $service);
                         $isAuctionMessage = $getMessages->checkIsAuctionMessage($id);
                         if ($isAuctionMessage) {
                             $searchAuction = $auction;

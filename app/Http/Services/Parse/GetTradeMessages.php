@@ -10,10 +10,12 @@ class GetTradeMessages
 {
 
     protected $messages;
+    protected $service;
 
-    public function __construct($messages)
+    public function __construct($messages, $service)
     {
         $this->messages = $messages;
+        $this->service = $service;
     }
 
     public function getMessages()
@@ -98,9 +100,7 @@ class GetTradeMessages
     {
         try {
             if (!TradeMessage::where('number', $messageId)->exists()) {
-                $soapWrapper = new SoapWrapper();
-                $service = new SoapWrapperService($soapWrapper);
-                $xml = $service->getTradeMessageContent($messageId);
+                $xml = $this->service->getTradeMessageContent($messageId);
                 $getTradeMessageContent = new GetTradeMessageContent($xml, $messageType);
                 $getTradeMessageContent->switchMessageType($tradePlaceId, $messageId, $messageGUID, $mustCheck);
             }

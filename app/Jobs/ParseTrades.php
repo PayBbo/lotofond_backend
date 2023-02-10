@@ -53,7 +53,7 @@ class ParseTrades implements ShouldQueue
         $soapWrapper = new SoapWrapper();
         $service = new SoapWrapperService($soapWrapper);
         $messages = $service->getTradeMessages($startFrom, $endTo);
-        $getMessages = new GetTradeMessages($messages);
+        $getMessages = new GetTradeMessages($messages, $service);
         $getMessages->getMessages();
     }
 }
