@@ -53,9 +53,8 @@ class ParseTrades implements ShouldQueue
         $startFrom = $this->startFrom;
         $endTo = $this->endTo;
         $soapWrapper = new SoapWrapper();
-        $service = new SoapWrapperService($soapWrapper);
-        $messages = $service->getTradeMessages($startFrom, $endTo);
-        $this->service = $service;
+        $this->service = new SoapWrapperService($soapWrapper);
+        $messages = $this->service->getTradeMessages($startFrom, $endTo);
         foreach ($messages as $value) {
             foreach ($value as $message) {
                 if (gettype($message) == 'string') {
