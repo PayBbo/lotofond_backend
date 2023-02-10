@@ -128,9 +128,9 @@ class GetTradeMessages
                                 foreach ($tradeMessages as $tradeMessage) {
                                     if ($tradeMessage->ID == $messageId) {
                                         $isExists = true;
-                                    } else {
+                                    } /*else {
                                         $this->getMessageContent($tradeMessage->ID, $tradeMessage->Type, $tradePlace->id, $tradeMessage->GUID, false);
-                                    }
+                                    }*/
                                 }
                             }
                         } else {

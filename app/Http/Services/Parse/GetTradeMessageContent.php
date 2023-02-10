@@ -8,6 +8,7 @@ use App\Http\Services\Parse\TradeMessages\BiddingInvitation;
 use App\Http\Services\Parse\TradeMessages\BiddingStatusInfo;
 use App\Models\Auction;
 use App\Models\TradeMessage;
+use App\Models\TradePlace;
 use Artisaninweb\SoapWrapper\SoapWrapper;
 use Carbon\Carbon;
 use Midnite81\Xml2Array\Xml2Array;
@@ -49,7 +50,7 @@ class GetTradeMessageContent
         }
     }
 
-    public function switchMessageType($tradePlace, $id, $messageGUID,  $mustCheck)
+    public function switchMessageType($tradePlace, $id, $messageGUID)
     {
         if ($this->messageType == 'BiddingInvitation') {
             $biddingInvitation = new BiddingInvitation($this->invitation, $this->prefix, 'biddingDeclared', $id, $messageGUID);
@@ -60,27 +61,22 @@ class GetTradeMessageContent
             $annulment->response();
         } else {
             $searchAuction = null;
-            if(!$mustCheck){
-                $searchAuction = Auction::where(['trade_id'=> $this->invitation['@attributes']['TradeId'], 'trade_place_id'=>$tradePlace])->first();
-            }else {
-                $auctions = Auction::where('trade_id', $this->invitation['@attributes']['TradeId'])->get();
-                foreach ($auctions as $auction) {
-                    try {
-                        $soapWrapper = new SoapWrapper();
-                        $service = new SoapWrapperService($soapWrapper);
-                        $messages = $service->getTradeMessagesByTrade($auction->trade_id, $auction->tradePlace->inn, Carbon::parse($auction->publish_date)->format('Y-m-d\TH:i:s'));
-                        $getMessages = new GetTradeMessages($messages, $service);
-                        $isAuctionMessage = $getMessages->checkIsAuctionMessage($id);
-                        if ($isAuctionMessage) {
-                            $searchAuction = $auction;
-                            break;
-                        }
-                    } catch (\Exception $e) {
-                        logger('getTradeMessagesByTrade');
-                        logger($e);
+            $auctions = Auction::where('trade_id', $this->invitation['@attributes']['TradeId'])->get();
+            foreach ($auctions as $auction) {
+                try {
+                    $soapWrapper = new SoapWrapper();
+                    $service = new SoapWrapperService($soapWrapper);
+                    $messages = $service->getTradeMessagesByTrade($auction->trade_id, $auction->tradePlace->inn, Carbon::parse($auction->publish_date)->format('Y-m-d\TH:i:s'));
+                    $isAuctionMessage = $this->checkIsAuctionMessage($messages, $id);
+                    if ($isAuctionMessage) {
+                        $searchAuction = $auction;
+                        break;
                     }
-
+                } catch (\Exception $e) {
+                    logger('getTradeMessagesByTrade');
+                    logger($e);
                 }
+
             }
             if ($searchAuction) {
                 if ($this->messageType == 'BiddingEnd' || $this->messageType == 'BiddingStart' ||
@@ -96,6 +92,52 @@ class GetTradeMessageContent
                     (new $class($this->invitation, $this->prefix, $this->messageType, $id, $messageGUID, $searchAuction))->response();
                 }
             }
+        }
+    }
+
+    public function checkIsAuctionMessage($messages, $messageId)
+    {
+        $isExists = false;
+        try {
+            if (property_exists( $messages->TradePlace, 'TradeList')) {
+                $tradeList = $messages->TradePlace->TradeList;
+                if (property_exists( $tradeList, 'Trade')) {
+                    $trade = $tradeList->Trade;
+                    if (property_exists( $trade, 'MessageList')) {
+                        $messageList = $trade->MessageList;
+                        if (property_exists( $messageList, 'TradeMessage')) {
+                            $tradeMessages = $messageList->TradeMessage;
+                            if (gettype($tradeMessages) == 'array') {
+                                foreach ($tradeMessages as $tradeMessage) {
+                                    if ($tradeMessage->ID == $messageId) {
+                                        $isExists = true;
+                                    }
+                                }
+                            }
+                        } else {
+                            logger('TradeMessage not exists');
+                            logger(json_encode($messageList));
+                        }
+
+                    } else {
+                        logger('MessageList not exists');
+                        logger(json_encode($trade));
+                    }
+
+                } else {
+                    logger('Trade not exists');
+                    logger(json_encode($tradeList));
+                }
+
+            } else {
+                logger('TradeList not exists');
+                logger(json_encode($messages));
+
+            }
+            return $isExists;
+        }catch (\Exception $e){
+            logger($e);
+            logger(json_encode($messages));
         }
     }
 
