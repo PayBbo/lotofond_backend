@@ -1,7 +1,7 @@
 <template>
     <div class="bkt-card-trade__wrapper w-100"
          :class="{'bkt-shadow-card bkt-shadow-card_white': item && item.trade && item.trade.lotCount>1}">
-        <div class="bkt-card-trade bkt-card__row w-100 mx-auto mx-0">
+        <div class="bkt-card-trade bkt-card__row w-100 mx-auto mx-0" @touchstart.self="navigate">
             <div class="bkt-wrapper-between bkt-card__heading w-100" v-if="item && item.trade">
                 <h5 class="me-auto">торги №
                     <skeleton type_name="spoiler" tag="span" :loading="rules && !rules.trade.externalId">
@@ -16,7 +16,7 @@
             </div>
             <div class="col-12 col-lg-11 p-0">
                 <div class="row h-100 w-100 mx-auto row-cols-1 row-cols-lg-4 bkt-card-trade__gap">
-                    <div class="col-12 col-lg-2 p-0 pe-md-2">
+                    <div class="col-12 col-lg-2 p-0 pe-md-2" @touchstart="navigate">
                         <div class="bkt-wrapper-down-lg bkt-nowrap bkt-gap align-items-start">
                             <div class="bkt-card__image-wrapper"
                                  :class="{'bkt-gap-none': cadastralData=={}||(cadastralData && !cadastralData.cadastralNumber)}">
@@ -96,7 +96,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-12 col-md-12 col-lg-5 p-0 px-lg-2">
+                    <div class="col-12 col-md-12 col-lg-5 p-0 px-lg-2" @touchstart="navigate">
                         <div class="bkt-card__head d-none d-lg-block">
                             <router-link :to="'/lot/'+item.id" class="bkt-card__title bkt-text-truncate-1">
                                 {{item && item.description ? item.description:'Некоторое название торгов'}}
@@ -155,7 +155,9 @@
                     <div class="col-12 col-lg-5 p-0">
                         <div class="bkt-card-trade__gap bkt-wrapper-column bkt-wrapper-down-md-column-reverse">
                             <div class="bkt-gap-small bkt-wrapper-between bkt-nowrap align-items-end">
-                                <div class="bkt-wrapper-column bkt-bg-body bkt-card-trade__price-info bkt-wrapper-down-lg-column-reverse">
+                                <div class="bkt-wrapper-column bkt-bg-body bkt-card-trade__price-info bkt-wrapper-down-lg-column-reverse"
+                                     @touchstart="navigate"
+                                >
                                     <div class="d-flex align-items-end bkt-nowrap bkt-gap-small">
                                         <div class="bkt-card__feature">
                                             <h6 class="bkt-card__subtitle">текущая цена</h6>
@@ -328,7 +330,7 @@
                                     </skeleton>
                                 </h5>
                             </div>
-                            <div class="bkt-wrapper-column bkt-gap-mini">
+                            <div class="bkt-wrapper-column bkt-gap-mini" @touchstart="navigate">
                                 <div class="bkt-wrapper-between">
                                     <!--                                 v-if="(item.state == 'biddingDeclared' || item.state == 'biddingStart'
                                                                      || item.state == 'applicationSessionStarted') && dateStatus"-->

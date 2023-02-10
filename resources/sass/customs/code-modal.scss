@@ -90,6 +90,47 @@
             }
         }
     }
+    & .bkt-input {
+        background: #f1f3f9;
+    }
+
+    & .bkt-input__group {
+        background: #f1f3f9;
+    }
+
+    & .bkt-select__wrapper {
+        & .bkt-select {
+            background: #f1f3f9;
+        }
+
+        &.body {
+            & .bkt-select {
+                background: #f1f3f9;
+            }
+
+            & .bkt-v-select {
+                & .vs__dropdown-menu {
+                    background-color: #f1f3f9;
+                }
+
+                & .vs__dropdown-toggle {
+                    background-color: #f1f3f9;
+                }
+
+                & .vs__dropdown-option--highlight {
+                    background-color: #f1f3f9 !important;
+                }
+
+                & .vs__dropdown-option--selected {
+                    background-color: #f1f3f9 !important;
+                }
+
+                & .vs__dropdown-option {
+                    background-color: #f1f3f9 !important;
+                }
+            }
+        }
+    }
 }
 
 @media (max-width: 576px) {

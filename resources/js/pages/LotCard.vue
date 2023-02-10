@@ -1940,7 +1940,11 @@
                 });
             },
             callPurchaseModal() {
-                this.$store.commit('openModal', '#purchaseModal')
+                if (this.isLoggedIn) {
+                    this.$store.commit('openModal', '#purchaseModal')
+                } else {
+                    this.$store.dispatch('sendAuthNotification')
+                }
             },
             makeWatched() {
                 if (this.item.isWatched === false) {
