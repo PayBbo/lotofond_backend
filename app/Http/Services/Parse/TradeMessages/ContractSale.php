@@ -98,7 +98,8 @@ class ContractSale extends TradeMessage implements TradeMessageContract
     {
         $biddingResult = new \App\Models\BiddingResult();
         if (array_key_exists($this->prefix . 'ContractInfo', $data)) {
-            $biddingResult->contract_number = array_key_exists($this->prefix . 'ContractNumber', $data[$this->prefix . 'ContractInfo']) ?
+            $biddingResult->contract_number = (array_key_exists($this->prefix . 'ContractNumber', $data[$this->prefix . 'ContractInfo'])
+                && gettype($data[$this->prefix . 'ContractInfo'][$this->prefix . 'ContractNumber']) == 'string') ?
                 $data[$this->prefix . 'ContractInfo'][$this->prefix . 'ContractNumber'] : null;
             $biddingResult->contract_date = array_key_exists($this->prefix . 'DateContract', $data[$this->prefix . 'ContractInfo']) ? $data[$this->prefix . 'ContractInfo'][$this->prefix . 'DateContract'] : null;
             $biddingResult->end_price = array_key_exists($this->prefix . 'Price', $data[$this->prefix . 'ContractInfo']) ? $data[$this->prefix . 'ContractInfo'][$this->prefix . 'Price'] : null;

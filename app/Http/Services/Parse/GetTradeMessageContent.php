@@ -60,6 +60,9 @@ class GetTradeMessageContent
             $annulment = new Annulment($this->invitation, $this->prefix, $this->messageType, $id, $messageGUID);
             $annulment->response();
         } else {
+            if($this->messageType == 'ContractSale'){
+                logger($this->invitation);
+            }
             $searchAuction = null;
             $auctions = Auction::where('trade_id', $this->invitation['@attributes']['TradeId'])->get();
             foreach ($auctions as $auction) {

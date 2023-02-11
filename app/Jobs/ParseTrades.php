@@ -131,7 +131,7 @@ class ParseTrades implements ShouldQueue
         }
     }
 
-    private function getMessageContent($messageId, $messageType, $tradePlaceId, $messageGUID, $mustCheck = true)
+    public function getMessageContent($messageId, $messageType, $tradePlaceId, $messageGUID)
     {
         try {
             if (!TradeMessage::where('number', $messageId)->exists()) {
@@ -140,8 +140,14 @@ class ParseTrades implements ShouldQueue
                 $getTradeMessageContent->switchMessageType($tradePlaceId, $messageId, $messageGUID);
             }
         } catch (\Exception $e) {
-            logger('ParseTrades. Error = ' . $e->getMessage() .' '. $e->getLine(). ' for MessageId = ' . $messageId);
-            logger($e);
+            if($e->getMessage() == 'Access Denied'){
+                dispatch((new AccessDeniedJob($messageId, $messageType, $messageGUID, $tradePlaceId))
+                    ->delay(now()->setTimezone('Europe/Moscow')->addMinutes(5))
+                    ->onQueue('parse'));
+            }else {
+                logger('ParseTrades. Error = ' . $e->getMessage() . ' ' . $e->getLine() . ' for MessageId = ' . $messageId);
+                logger($e);
+            }
         }
     }
 }
