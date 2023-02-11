@@ -395,7 +395,7 @@
                             <div>
                                 <h5 class="bkt-card__subtitle">текущая цена</h5>
                                 <skeleton type_name="spoiler" tag="span" :loading="rules && !rules.currentPrice">
-                                    {{item.currentPrice ? item.currentPrice : '0' | priceFormat}} ₽
+                                    {{item && item.currentPrice ? item.currentPrice : '0' | priceFormat}} ₽
                                 </skeleton>
                             </div>
                             <skeleton type_name="spoiler_mini" skeleton_class="bkt-card-price-icon shadow-none top-auto bottom-auto"
@@ -421,23 +421,23 @@
                                     <h5 class="bkt-card__subtitle">шаг аукциона</h5>
                                     <h4 class="bkt-card__title bkt-text-primary">
                                         <skeleton type_name="spoiler" :loading="rules && !rules.stepPrice">
-                                            {{item.stepPrice && item.stepPrice.value ? item.stepPrice.value : '0' |
+                                            {{item && item.stepPrice && item.stepPrice.value ? item.stepPrice.value : '0' |
                                             priceFormat}}
-                                            {{item.stepPrice && item.stepPrice.type=='rubles' ? '₽' : '%'}}
+                                            {{item && item.stepPrice && item.stepPrice.type=='rubles' ? '₽' : '%'}}
                                         </skeleton>
                                     </h4>
                                 </div>
                             </div>
                             <div class="bkt-card outline"
-                                 v-if="(item.deposit && (!rules || rules && rules.deposit))||(rules && !rules.deposit)"
+                                 v-if="(item && item.deposit && (!rules || rules && rules.deposit))||(rules && !rules.deposit)"
                             >
                                 <div class="bkt-card__feature text-center w-100 mt-0">
                                     <h5 class="bkt-card__subtitle">задаток</h5>
                                     <h4 class="bkt-card__title bkt-text-red">
                                         <skeleton type_name="spoiler" :loading="rules && !rules.deposit">
-                                            {{item.deposit && item.deposit.value ? item.deposit.value : '0' |
+                                            {{item && item.deposit && item.deposit.value ? item.deposit.value : '0' |
                                             priceFormat}}
-                                            {{item.deposit && item.deposit.type=='rubles' ? '₽' : '%'}}
+                                            {{item && item.deposit && item.deposit.type=='rubles' ? '₽' : '%'}}
                                         </skeleton>
                                     </h4>
                                 </div>
@@ -453,7 +453,7 @@
                                 </h4>
                             </div>
                             <div class="bkt-card__row outline bkt-wrapper-between align-items-center"
-                                 v-if="((item.minPrice && item.minPrice>=0) && item && item.trade && item.trade.type &&
+                                 v-if="(item &&(item.minPrice && item.minPrice>=0) &&  item.trade && item.trade.type &&
                                          (item.trade.type!=='CloseAuction' && item.trade.type!=='OpenAuction')
                                          && (!rules || rules && rules.minPrice))||(rules && !rules.minPrice)"
                             >

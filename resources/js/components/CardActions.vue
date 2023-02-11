@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div v-if="item">
         <div class="bkt-dropdown dropdown" v-for="action in main_actions"
              :class="{'bkt-dropdown__menu-item bkt-gap-small': type ==='menu',
              'd-none d-lg-block': action.place !== 'dropdown' && action.place !== 'permanent' && type !=='menu',
