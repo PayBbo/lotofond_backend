@@ -371,7 +371,7 @@
             this.$store.dispatch('getLotsStatistic');
         },
         mounted() {
-            if (this.items.length == 0) {
+            if (this.items.length === 0) {
                 let page = 1;
                 if (sessionStorage.getItem('main_page')) {
                     page = sessionStorage.getItem('main_page')

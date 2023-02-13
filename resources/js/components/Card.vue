@@ -526,10 +526,10 @@
                     tmp_state = this.item.state.toLowerCase();
                 }
 
-                if (tmp_state === 'biddingcanceled' || tmp_state === 'finished' || tmp_state === 'annulment' || tmp_state === 'biddingpause') {
+                if ( tmp_state === 'biddingpause') {
                     return 'bkt-bg-neutral-lighter'
                 }
-                if (tmp_state === 'biddingfail') {
+                if (tmp_state === 'biddingcanceled' || tmp_state === 'finished' || tmp_state === 'annulment' ||tmp_state === 'biddingfail') {
                     return 'bkt-bg-red-lighter'
                 }
                 return 'bkt-bg-main-lighter'
@@ -557,6 +557,12 @@
                         if (this.item.deposit.type === 'rubles') {
                             deposit.money = this.item.deposit.value;
                             deposit.percent = deposit.money * 100 / prime_price;
+                            if(deposit.percent<=0.01) {
+                                deposit.percent = 0.01;
+                            }
+                            if(deposit.percent>=99.99 && deposit.percent<100) {
+                                deposit.percent = 99.99;
+                            }
                         } else {
                             deposit.percent = this.item.deposit.value;
                             deposit.money = prime_price * deposit.percent / 100;
