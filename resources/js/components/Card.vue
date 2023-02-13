@@ -158,147 +158,148 @@
                                     class="bkt-wrapper-column bkt-bg-body bkt-card-trade__price-info bkt-wrapper-down-lg-column-reverse"
                                     @click="navigate('mobile')"
                                 >
-                                    <div class="d-flex align-items-end bkt-nowrap bkt-gap-small">
-                                        <div class="bkt-card__feature">
-                                            <h6 class="bkt-card__subtitle">текущая цена</h6>
-                                            <h5 class="bkt-text-700 d-flex align-items-center bkt-gap-mini bkt-card-trade__price"
-                                                :class="{
-                                                    'bkt-text-red': (!rules || (rules && rules.currentPriceState))
-                                                    && item.currentPriceState==='up',
-                                                    'bkt-text-green':(!rules || (rules && rules.currentPriceState))
-                                                    && item.currentPriceState==='down'
-                                                }"
-                                            >
-                                                <skeleton type_name="spoiler" tag="div"
-                                                          :loading="rules && !rules.currentPrice"
-                                                >
-                                                    {{item && item.currentPrice ? item.currentPrice : '0' |
-                                                    priceFormat}} ₽
-                                                </skeleton>
-                                                <skeleton type_name="spoiler_mini" tag="div"
-                                                          :loading="rules && !rules.currentPriceState"
-                                                          v-if="(item.currentPriceState!=='hold'
-                                                          && (!rules || (rules && rules.currentPriceState)))
-                                                          ||(rules && !rules.currentPriceState)"
-                                                >
-                                                    <span>
-                                                        <bkt-icon :name="'ArrowTriple'" :width="'22px'" :height="'22px'"
-                                                                  :color="item.currentPriceState==='down' ? 'green' : 'red'"
-                                                                  :class="{'bkt-rotate-180': item.currentPriceState==='down'}"
-                                                        >
-                                                        </bkt-icon>
-                                                    </span>
-                                                </skeleton>
-                                            </h5>
-                                        </div>
-                                        <div class="bkt-card-trade__price-arrow"
-                                             :class="{'bkt-rotate-180' : item.trade && (item.trade.type!=='ClosePublicOffer' && item.trade.type!=='PublicOffer')}">
-                                            <svg width="10" height="10" viewBox="0 0 10 10" fill="none"
-                                                 xmlns="http://www.w3.org/2000/svg">
-                                                <path
-                                                    d="M5.24982 9.47727L4.26119 8.49716L6.85636 5.90199H0.775391V4.46165H6.85636L4.26119 1.87074L5.24982 0.886364L9.54528 5.18182L5.24982 9.47727Z"
-                                                    fill="black"/>
-                                            </svg>
-                                        </div>
-                                        <!--                                        <template v-if="item && item.trade && item.trade.type">-->
-                                        <div class="bkt-card__feature"
-                                             v-if="((item.minPrice && item.minPrice>=0) && item && item.trade && item.trade.type &&
-                                         (item.trade.type==='ClosePublicOffer' || item.trade.type==='PublicOffer')
-                                         && (!rules || rules && rules.minPrice))||(rules && !rules.minPrice)"
-                                        >
-                                            <h6 class="bkt-card__subtitle">
-                                                минимальная цена
-                                            </h6>
-                                            <h5 class="bkt-card__text bkt-text-700 bkt-card-trade__price d-flex flex-wrap">
-                                                <skeleton type_name="spoiler" :loading="rules && !rules.minPrice">
-                                                    {{ item.minPrice | priceFormat}} ₽
-                                                    <div class="bkt-badge bkt-bg-green" v-if="priceInfo.percent > 0">
-                                                        -{{priceInfo.percent | priceFormat}} %
-                                                    </div>
-                                                </skeleton>
-                                            </h5>
-                                        </div>
-                                        <div class="bkt-card__feature"
-                                             v-if="((item.startPrice && item.startPrice>=0) && item && item.trade && item.trade.type &&
-                                         (item.trade.type!=='ClosePublicOffer' && item.trade.type!=='PublicOffer')
-                                         && (!rules || rules && rules.startPrice))||(rules && !rules.startPrice)"
-                                        >
-                                            <h6 class="bkt-card__subtitle">
-                                                начальная цена
-                                            </h6>
-                                            <h5 class="bkt-card__text bkt-text-700 bkt-card-trade__price d-flex flex-wrap">
-                                                <skeleton type_name="spoiler" :loading="rules && !rules.startPrice">
-                                                    {{ item.startPrice | priceFormat}} ₽
-                                                    <span class="bkt-badge bkt-bg-red" v-if="priceInfo.percent > 0">
-                                                            +{{priceInfo.percent | priceFormat}} %
-                                                        </span>
-                                                </skeleton>
-                                            </h5>
-                                        </div>
-                                        <!--                                        <div class="bkt-badge" v-if="priceInfo.percent !== 0"-->
-                                        <!--                                             :class="item.trade && (item.trade.type!=='ClosePublicOffer' && item.trade.type!=='PublicOffer') ? 'bkt-bg-red' : 'bkt-bg-green'"-->
-                                        <!--                                        >-->
-                                        <!--                                            {{item.trade && (item.trade.type!=='ClosePublicOffer' && item.trade.type!=='PublicOffer')? '+':'-'}}-->
-                                        <!--                                            {{priceInfo.percent | numberFormat}} %-->
-                                        <!--                                        </div>-->
-                                        <!--                                        </template>-->
-                                    </div>
-                                    <div
-                                        class="bkt-card__features bkt-wrapper-column bkt-wrapper-down-lg-column-reverse bkt bkt-gap-small">
-                                        <div class="bkt-card__feature"
-                                             v-if="(item.deposit && (!rules || rules && rules.deposit))||(rules && !rules.deposit)"
-                                        >
-                                            <h6 class="bkt-card__subtitle">задаток
-                                                <span v-if="item && item.trade && item.trade.type">
-                                                     {{(item.trade.type==='CloseAuction' || item.trade.type==='OpenAuction'
-                                                || item.trade.type==='OpenConcours' || item.trade.type==='CloseConcours')
-                                                    ? '(от начальной цены)' : '(от текущей цены)'}}
-                                                </span>
-                                            </h6>
-                                            <h5 class="bkt-card__text bkt-text-700 bkt-card-trade__subprice">
-                                                <skeleton type_name="spoiler" skeleton_class="bkt-text-main"
-                                                          :loading="rules && !rules.deposit">
-                                                    <template v-if="item.deposit">
-                                                        {{priceInfo.deposit.money | priceFormat}} ₽
-                                                        <span
-                                                            class="bkt-text-neutral-dark bkt-card-trade__subprice-percent">
-                                                            {{priceInfo.deposit.percent | priceFormat}} %
-                                                        </span>
-                                                    </template>
-                                                    <template v-else>
-                                                        без задатка
-                                                    </template>
-                                                    <!--                                                    {{item.deposit && item.deposit.value ? item.deposit.value : '0' | priceFormat}}-->
-                                                    <!--                                                    {{item.deposit && item.deposit.type=='rubles' ? '₽' : '%'}}-->
-                                                </skeleton>
-                                            </h5>
-                                        </div>
-                                        <div class="bkt-card__feature"
-                                             v-if="(item && item.stepPrice && item.stepPrice.value>0 && item.trade && item.trade.type &&
-                                         (item.trade.type==='CloseAuction' || item.trade.type==='OpenAuction'
-                                         || item.trade.type==='OpenConcours' || item.trade.type==='CloseConcours')
-                                         && (!rules || rules && rules.stepPrice))||(rules && !rules.stepPrice)"
-                                        >
-                                            <h6 class="bkt-card__subtitle">шаг аукциона (от начальной цены)</h6>
-                                            <h5 class="bkt-card__text bkt-text-700 bkt-card-trade__subprice">
-                                                <skeleton type_name="spoiler" :loading="rules && !rules.stepPrice">
-                                                    <template v-if="item.stepPrice">
-                                                        {{priceInfo.auction_step.money | priceFormat}} ₽
-                                                        <span
-                                                            class="bkt-text-neutral-dark bkt-card-trade__subprice-percent">
-                                                            {{priceInfo.auction_step.percent | priceFormat}} %
-                                                        </span>
-                                                    </template>
-                                                    <template v-else>
-                                                        без шага аукциона
-                                                    </template>
-                                                    <!--                                                    {{item.stepPrice && item.stepPrice.value ? item.stepPrice.value :-->
-                                                    <!--                                                    '0' | priceFormat}}-->
-                                                    <!--                                                    {{item.stepPrice && item.stepPrice.type=='rubles' ? '₽' : '%'}}-->
-                                                </skeleton>
-                                            </h5>
-                                        </div>
-                                    </div>
+<!--                                    <div class="d-flex align-items-end bkt-nowrap bkt-gap-small">-->
+<!--                                        <div class="bkt-card__feature">-->
+<!--                                            <h6 class="bkt-card__subtitle">текущая цена</h6>-->
+<!--                                            <h5 class="bkt-text-700 d-flex align-items-center bkt-gap-mini bkt-card-trade__price"-->
+<!--                                                :class="{-->
+<!--                                                    'bkt-text-red': (!rules || (rules && rules.currentPriceState))-->
+<!--                                                    && item.currentPriceState==='up',-->
+<!--                                                    'bkt-text-green':(!rules || (rules && rules.currentPriceState))-->
+<!--                                                    && item.currentPriceState==='down'-->
+<!--                                                }"-->
+<!--                                            >-->
+<!--                                                <skeleton type_name="spoiler" tag="div"-->
+<!--                                                          :loading="rules && !rules.currentPrice"-->
+<!--                                                >-->
+<!--                                                    {{item && item.currentPrice ? item.currentPrice : '0' |-->
+<!--                                                    priceFormat}} ₽-->
+<!--                                                </skeleton>-->
+<!--                                                <skeleton type_name="spoiler_mini" tag="div"-->
+<!--                                                          :loading="rules && !rules.currentPriceState"-->
+<!--                                                          v-if="(item.currentPriceState!=='hold'-->
+<!--                                                          && (!rules || (rules && rules.currentPriceState)))-->
+<!--                                                          ||(rules && !rules.currentPriceState)"-->
+<!--                                                >-->
+<!--                                                    <span>-->
+<!--                                                        <bkt-icon :name="'ArrowTriple'" :width="'22px'" :height="'22px'"-->
+<!--                                                                  :color="item.currentPriceState==='down' ? 'green' : 'red'"-->
+<!--                                                                  :class="{'bkt-rotate-180': item.currentPriceState==='down'}"-->
+<!--                                                        >-->
+<!--                                                        </bkt-icon>-->
+<!--                                                    </span>-->
+<!--                                                </skeleton>-->
+<!--                                            </h5>-->
+<!--                                        </div>-->
+<!--                                        <div class="bkt-card-trade__price-arrow"-->
+<!--                                             :class="{'bkt-rotate-180' : item.trade && (item.trade.type!=='ClosePublicOffer' && item.trade.type!=='PublicOffer')}">-->
+<!--                                            <svg width="10" height="10" viewBox="0 0 10 10" fill="none"-->
+<!--                                                 xmlns="http://www.w3.org/2000/svg">-->
+<!--                                                <path-->
+<!--                                                    d="M5.24982 9.47727L4.26119 8.49716L6.85636 5.90199H0.775391V4.46165H6.85636L4.26119 1.87074L5.24982 0.886364L9.54528 5.18182L5.24982 9.47727Z"-->
+<!--                                                    fill="black"/>-->
+<!--                                            </svg>-->
+<!--                                        </div>-->
+<!--                                        &lt;!&ndash;                                        <template v-if="item && item.trade && item.trade.type">&ndash;&gt;-->
+<!--                                        <div class="bkt-card__feature"-->
+<!--                                             v-if="((item.minPrice && item.minPrice>=0) && item && item.trade && item.trade.type &&-->
+<!--                                         (item.trade.type==='ClosePublicOffer' || item.trade.type==='PublicOffer')-->
+<!--                                         && (!rules || rules && rules.minPrice))||(rules && !rules.minPrice)"-->
+<!--                                        >-->
+<!--                                            <h6 class="bkt-card__subtitle">-->
+<!--                                                минимальная цена-->
+<!--                                            </h6>-->
+<!--                                            <h5 class="bkt-card__text bkt-text-700 bkt-card-trade__price d-flex flex-wrap">-->
+<!--                                                <skeleton type_name="spoiler" :loading="rules && !rules.minPrice">-->
+<!--                                                    {{ item.minPrice | priceFormat}} ₽-->
+<!--                                                    <div class="bkt-badge bkt-bg-green" v-if="priceInfo.percent > 0">-->
+<!--                                                        -{{priceInfo.percent | priceFormat}} %-->
+<!--                                                    </div>-->
+<!--                                                </skeleton>-->
+<!--                                            </h5>-->
+<!--                                        </div>-->
+<!--                                        <div class="bkt-card__feature"-->
+<!--                                             v-if="((item.startPrice && item.startPrice>=0) && item && item.trade && item.trade.type &&-->
+<!--                                         (item.trade.type!=='ClosePublicOffer' && item.trade.type!=='PublicOffer')-->
+<!--                                         && (!rules || rules && rules.startPrice))||(rules && !rules.startPrice)"-->
+<!--                                        >-->
+<!--                                            <h6 class="bkt-card__subtitle">-->
+<!--                                                начальная цена-->
+<!--                                            </h6>-->
+<!--                                            <h5 class="bkt-card__text bkt-text-700 bkt-card-trade__price d-flex flex-wrap">-->
+<!--                                                <skeleton type_name="spoiler" :loading="rules && !rules.startPrice">-->
+<!--                                                    {{ item.startPrice | priceFormat}} ₽-->
+<!--                                                    <span class="bkt-badge bkt-bg-red" v-if="priceInfo.percent > 0">-->
+<!--                                                            +{{priceInfo.percent | priceFormat}} %-->
+<!--                                                        </span>-->
+<!--                                                </skeleton>-->
+<!--                                            </h5>-->
+<!--                                        </div>-->
+<!--                                        &lt;!&ndash;                                        <div class="bkt-badge" v-if="priceInfo.percent !== 0"&ndash;&gt;-->
+<!--                                        &lt;!&ndash;                                             :class="item.trade && (item.trade.type!=='ClosePublicOffer' && item.trade.type!=='PublicOffer') ? 'bkt-bg-red' : 'bkt-bg-green'"&ndash;&gt;-->
+<!--                                        &lt;!&ndash;                                        >&ndash;&gt;-->
+<!--                                        &lt;!&ndash;                                            {{item.trade && (item.trade.type!=='ClosePublicOffer' && item.trade.type!=='PublicOffer')? '+':'-'}}&ndash;&gt;-->
+<!--                                        &lt;!&ndash;                                            {{priceInfo.percent | numberFormat}} %&ndash;&gt;-->
+<!--                                        &lt;!&ndash;                                        </div>&ndash;&gt;-->
+<!--                                        &lt;!&ndash;                                        </template>&ndash;&gt;-->
+<!--                                    </div>-->
+<!--                                    <div-->
+<!--                                        class="bkt-card__features bkt-wrapper-column bkt-wrapper-down-lg-column-reverse bkt bkt-gap-small">-->
+<!--                                        <div class="bkt-card__feature"-->
+<!--                                             v-if="(item.deposit && (!rules || rules && rules.deposit))||(rules && !rules.deposit)"-->
+<!--                                        >-->
+<!--                                            <h6 class="bkt-card__subtitle">задаток-->
+<!--                                                <span v-if="item && item.trade && item.trade.type">-->
+<!--                                                     {{(item.trade.type==='CloseAuction' || item.trade.type==='OpenAuction'-->
+<!--                                                || item.trade.type==='OpenConcours' || item.trade.type==='CloseConcours')-->
+<!--                                                    ? '(от начальной цены)' : '(от текущей цены)'}}-->
+<!--                                                </span>-->
+<!--                                            </h6>-->
+<!--                                            <h5 class="bkt-card__text bkt-text-700 bkt-card-trade__subprice">-->
+<!--                                                <skeleton type_name="spoiler" skeleton_class="bkt-text-main"-->
+<!--                                                          :loading="rules && !rules.deposit">-->
+<!--                                                    <template v-if="item.deposit">-->
+<!--                                                        {{priceInfo.deposit.money | priceFormat}} ₽-->
+<!--                                                        <span-->
+<!--                                                            class="bkt-text-neutral-dark bkt-card-trade__subprice-percent">-->
+<!--                                                            {{priceInfo.deposit.percent | priceFormat}} %-->
+<!--                                                        </span>-->
+<!--                                                    </template>-->
+<!--                                                    <template v-else>-->
+<!--                                                        без задатка-->
+<!--                                                    </template>-->
+<!--                                                    &lt;!&ndash;                                                    {{item.deposit && item.deposit.value ? item.deposit.value : '0' | priceFormat}}&ndash;&gt;-->
+<!--                                                    &lt;!&ndash;                                                    {{item.deposit && item.deposit.type=='rubles' ? '₽' : '%'}}&ndash;&gt;-->
+<!--                                                </skeleton>-->
+<!--                                            </h5>-->
+<!--                                        </div>-->
+<!--                                        <div class="bkt-card__feature"-->
+<!--                                             v-if="(item && item.stepPrice && item.stepPrice.value>0 && item.trade && item.trade.type &&-->
+<!--                                         (item.trade.type==='CloseAuction' || item.trade.type==='OpenAuction'-->
+<!--                                         || item.trade.type==='OpenConcours' || item.trade.type==='CloseConcours')-->
+<!--                                         && (!rules || rules && rules.stepPrice))||(rules && !rules.stepPrice)"-->
+<!--                                        >-->
+<!--                                            <h6 class="bkt-card__subtitle">шаг аукциона (от начальной цены)</h6>-->
+<!--                                            <h5 class="bkt-card__text bkt-text-700 bkt-card-trade__subprice">-->
+<!--                                                <skeleton type_name="spoiler" :loading="rules && !rules.stepPrice">-->
+<!--                                                    <template v-if="item.stepPrice">-->
+<!--                                                        {{priceInfo.auction_step.money | priceFormat}} ₽-->
+<!--                                                        <span-->
+<!--                                                            class="bkt-text-neutral-dark bkt-card-trade__subprice-percent">-->
+<!--                                                            {{priceInfo.auction_step.percent | priceFormat}} %-->
+<!--                                                        </span>-->
+<!--                                                    </template>-->
+<!--                                                    <template v-else>-->
+<!--                                                        без шага аукциона-->
+<!--                                                    </template>-->
+<!--                                                    &lt;!&ndash;                                                    {{item.stepPrice && item.stepPrice.value ? item.stepPrice.value :&ndash;&gt;-->
+<!--                                                    &lt;!&ndash;                                                    '0' | priceFormat}}&ndash;&gt;-->
+<!--                                                    &lt;!&ndash;                                                    {{item.stepPrice && item.stepPrice.type=='rubles' ? '₽' : '%'}}&ndash;&gt;-->
+<!--                                                </skeleton>-->
+<!--                                            </h5>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+                                    <card-price-info :item="item"></card-price-info>
                                     <button
                                         class="bkt-button primary bkt-card-trade__button bkt-card-trade__button_buy d-none d-lg-block"
                                         @click="callPurchaseModal"
@@ -316,18 +317,15 @@
                             </div>
                             <div class="d-flex bkt-gap d-none d-lg-flex"
                                  v-if="(item.location && item.location.length>0) || (rules && !rules.location)">
-                                <bkt-icon :name="'Location'" :color="'neutral'" :width="'14px'" :height="'14px'">
-                                </bkt-icon>
+                                <bkt-icon :name="'Location'" :color="'neutral'" :width="'14px'" :height="'14px'"/>
                                 <h5 class="bkt-card__text">
                                     <skeleton type_name="spoiler" tag="span" :loading="rules && !rules.location">
-                                        {{item.location && item.location[0] ? $t('regions.'+item.location[0].code) :
-                                        ''}}
+                                        {{item.location && item.location[0]?$t('regions.'+item.location[0].code):''}}
                                     </skeleton>
                                 </h5>
                             </div>
                             <div class="d-flex bkt-gap d-none d-lg-flex">
-                                <bkt-icon :name="'Gavel'" :color="'neutral'" :width="'14px'"
-                                          :height="'14px'"></bkt-icon>
+                                <bkt-icon :name="'Gavel'" :color="'neutral'" :width="'14px'" :height="'14px'"/>
                                 <h5 class="bkt-card__text">
                                     <skeleton type_name="spoiler" tag="span" :loading="rules && !rules.trade.type">
                                         {{item.trade && item.trade.type ? $t('trades.type.'+item.trade.type) : ''}}
@@ -403,6 +401,7 @@
     import 'hooper/dist/hooper.css';
     import CardActions from "./CardActions";
     import CardImageCategory from "./CardImageCategory";
+    import CardPriceInfo from "./CardPriceInfo";
 
     export default {
         props: {
@@ -416,6 +415,7 @@
             HooperNavigation,
             CardActions,
             CardImageCategory,
+            CardPriceInfo
         },
         data() {
             return {

@@ -413,35 +413,38 @@
                                 </div>
                             </skeleton>
                         </div>
-                        <div class="bkt-card-infographics bkt-gap bkt-wrapper-between bkt-nowrap">
-                            <div class="bkt-card outline"
-                                 v-if="item&&item.stepPrice&&item.stepPrice.value>0"
-                            >
-                                <div class="bkt-card__feature text-center w-100 mt-0">
-                                    <h5 class="bkt-card__subtitle">шаг аукциона</h5>
-                                    <h4 class="bkt-card__title bkt-text-primary">
-                                        <skeleton type_name="spoiler" :loading="rules && !rules.stepPrice">
-                                            {{item && item.stepPrice && item.stepPrice.value ? item.stepPrice.value : '0' |
-                                            priceFormat}}
-                                            {{item && item.stepPrice && item.stepPrice.type=='rubles' ? '₽' : '%'}}
-                                        </skeleton>
-                                    </h4>
-                                </div>
-                            </div>
-                            <div class="bkt-card outline"
-                                 v-if="(item && item.deposit && (!rules || rules && rules.deposit))||(rules && !rules.deposit)"
-                            >
-                                <div class="bkt-card__feature text-center w-100 mt-0">
-                                    <h5 class="bkt-card__subtitle">задаток</h5>
-                                    <h4 class="bkt-card__title bkt-text-red">
-                                        <skeleton type_name="spoiler" :loading="rules && !rules.deposit">
-                                            {{item && item.deposit && item.deposit.value ? item.deposit.value : '0' |
-                                            priceFormat}}
-                                            {{item && item.deposit && item.deposit.type=='rubles' ? '₽' : '%'}}
-                                        </skeleton>
-                                    </h4>
-                                </div>
-                            </div>
+<!--                        <div class="bkt-card-infographics bkt-gap bkt-wrapper-between bkt-nowrap">-->
+<!--                            <div class="bkt-card outline"-->
+<!--                                 v-if="item&&item.stepPrice&&item.stepPrice.value>0"-->
+<!--                            >-->
+<!--                                <div class="bkt-card__feature text-center w-100 mt-0">-->
+<!--                                    <h5 class="bkt-card__subtitle">шаг аукциона</h5>-->
+<!--                                    <h4 class="bkt-card__title bkt-text-primary">-->
+<!--                                        <skeleton type_name="spoiler" :loading="rules && !rules.stepPrice">-->
+<!--                                            {{item && item.stepPrice && item.stepPrice.value ? item.stepPrice.value : '0' |-->
+<!--                                            priceFormat}}-->
+<!--                                            {{item && item.stepPrice && item.stepPrice.type=='rubles' ? '₽' : '%'}}-->
+<!--                                        </skeleton>-->
+<!--                                    </h4>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                            <div class="bkt-card outline"-->
+<!--                                 v-if="(item && item.deposit && (!rules || rules && rules.deposit))||(rules && !rules.deposit)"-->
+<!--                            >-->
+<!--                                <div class="bkt-card__feature text-center w-100 mt-0">-->
+<!--                                    <h5 class="bkt-card__subtitle">задаток</h5>-->
+<!--                                    <h4 class="bkt-card__title bkt-text-red">-->
+<!--                                        <skeleton type_name="spoiler" :loading="rules && !rules.deposit">-->
+<!--                                            {{item && item.deposit && item.deposit.value ? item.deposit.value : '0' |-->
+<!--                                            priceFormat}}-->
+<!--                                            {{item && item.deposit && item.deposit.type=='rubles' ? '₽' : '%'}}-->
+<!--                                        </skeleton>-->
+<!--                                    </h4>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </div>-->
+                        <div class="bkt-wrapper-column bkt-card-trade__price-info p-0 bkt-wrapper-down-lg-column-reverse">
+                            <bkt-card-price-info :item="item" :main_prices="false" deposit_class="bkt-card outline" step_class="bkt-card outline"></bkt-card-price-info>
                         </div>
                         <div class="bkt-card-infographics bkt-gap">
                             <div class="bkt-card__row outline bkt-wrapper-between align-items-center">
@@ -1581,6 +1584,7 @@
     import BktObjectsList from "./LotCard/ObjectsList";
     import BktPurchaseModal from "../components/SharedModals/PurchaseModal";
     import BktInstructionModal from "../components/SharedModals/InstructionModal";
+    import BktCardPriceInfo from "../components/CardPriceInfo";
     export default {
         name: "LotCard",
         components: {
@@ -1599,7 +1603,7 @@
             // 'bkt-add-mark-modal': AddMarkModal,
             'bkt-note-modal': NoteModal,
             BktApplicationModal, BktPurchaseModal, BktInstructionModal,
-            BktObjectsList,
+            BktObjectsList,BktCardPriceInfo
         },
         data() {
             return {

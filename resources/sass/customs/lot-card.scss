@@ -128,6 +128,13 @@
             margin-top: 10px !important;
             margin-bottom: 0 !important;
         }
+        & .bkt-card-infographics  {
+            display: flex;
+            flex-direction: column;
+            & .bkt-card__row {
+                margin-top: 0 !important;
+            }
+        }
 
         & .bkt-card-price {
             font-size: 30px;
