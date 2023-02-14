@@ -58,7 +58,8 @@ class PaymentController extends Controller
                     $payment->is_confirmed = true;
                     $payment->save();
                 } else {
-                    logger('FailPaymentNot:'.$paymentStatus);
+                    logger('FailPaymentNot:');
+                    logger($paymentStatus);
                     if($paymentStatus['status'] != $payment->status) {
                         $payment->status = $paymentStatus['status'];
                         if($paymentStatus['status'] != 'Settled') {

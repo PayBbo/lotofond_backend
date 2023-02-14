@@ -112,14 +112,17 @@ class SendLotsToChannel implements ShouldQueue
             $chat_id = config('telegram.lots_chat_id');
             $client = new Client();
             try {
-                $client->post('https://api.telegram.org/bot' . $token . '/sendMessage', [
+                $response = $client->post('https://api.telegram.org/bot' . $token . '/sendMessage', [
                     RequestOptions::JSON => [
                         'chat_id' => $chat_id,
                         'text' => $html,
                         'parse_mode' => 'html'
                     ]
                 ]);
-                sleep(1);
+                $response = json_decode($response->getBody());
+                if(!$response->ok && $response->error_code == 429){
+                    sleep($response->parameters->retry_after);
+                }
             } catch (\Exception $e) {
                 logger($e->getMessage());
             }

@@ -140,7 +140,7 @@ class ParseTrades implements ShouldQueue
                 $getTradeMessageContent->switchMessageType($tradePlaceId, $messageId, $messageGUID);
             }
         } catch (\Exception $e) {
-            if($e->getMessage() == 'Access Denied'){
+            if(str_contains($e->getMessage(), 'Access Denied')){
                 dispatch((new AccessDeniedJob($messageId, $messageType, $messageGUID, $tradePlaceId))
                     ->delay(now()->setTimezone('Europe/Moscow')->addMinutes(5))
                     ->onQueue('parse'));

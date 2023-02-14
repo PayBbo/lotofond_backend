@@ -6,6 +6,7 @@ use App\Http\Services\Parse\TradeMessages\Annulment;
 use App\Http\Services\Parse\TradeMessages\ApplicationSession;
 use App\Http\Services\Parse\TradeMessages\BiddingInvitation;
 use App\Http\Services\Parse\TradeMessages\BiddingStatusInfo;
+use App\Jobs\AccessDeniedJob;
 use App\Models\Auction;
 use App\Models\TradeMessage;
 use App\Models\TradePlace;
@@ -60,15 +61,12 @@ class GetTradeMessageContent
             $annulment = new Annulment($this->invitation, $this->prefix, $this->messageType, $id, $messageGUID);
             $annulment->response();
         } else {
-            if($this->messageType == 'ContractSale'){
-                logger($this->invitation);
-            }
             $searchAuction = null;
             $auctions = Auction::where('trade_id', $this->invitation['@attributes']['TradeId'])->get();
+            $soapWrapper = new SoapWrapper();
+            $service = new SoapWrapperService($soapWrapper);
             foreach ($auctions as $auction) {
                 try {
-                    $soapWrapper = new SoapWrapper();
-                    $service = new SoapWrapperService($soapWrapper);
                     $messages = $service->getTradeMessagesByTrade($auction->trade_id, $auction->tradePlace->inn, Carbon::parse($auction->publish_date)->format('Y-m-d\TH:i:s'));
                     $isAuctionMessage = $this->checkIsAuctionMessage($messages, $id);
                     if ($isAuctionMessage) {
@@ -76,8 +74,14 @@ class GetTradeMessageContent
                         break;
                     }
                 } catch (\Exception $e) {
-                    logger('getTradeMessagesByTrade');
-                    logger($e);
+                    if(str_contains($e->getMessage(), 'Access Denied')){
+                        dispatch((new AccessDeniedJob($id, $this->messageType, $messageGUID, $tradePlace))
+                            ->delay(now()->setTimezone('Europe/Moscow')->addMinutes(5))
+                            ->onQueue('parse'));
+                    }else {
+                        logger('getTradeMessagesByTrade');
+                        logger($e);
+                    }
                 }
 
             }
