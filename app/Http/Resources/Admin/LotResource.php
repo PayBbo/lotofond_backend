@@ -49,7 +49,8 @@ class LotResource extends JsonResource
                 'applicationTimeStart' => is_null($this->auction->application_start_date) ? null : $this->auction->application_start_date->format('d.m.Y H:i'),
                 'applicationTimeEnd' => is_null($this->auction->publish_date) ? null : $this->auction->application_end_date->format('d.m.Y H:i'),
                 'lotNumber' => $this->number,
-                'photos' => $this->photos,
+                'images'=>$this->lotFiles()->where('type', 'image')->where('user_id', null)->select('id', 'url')->get(),
+                'files'=> $this->lotFiles()->where('type', 'file')->select('id', 'url')->get(),
                 'categories' => $this->categoriesStructure(),
                 'location' => $regions->makeHidden(['pivot']),
                 $this->mergeWhen(!is_null($this->auction_step), [

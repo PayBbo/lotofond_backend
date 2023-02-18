@@ -398,6 +398,48 @@ let router = new VueRouter({
             }
         },
         {
+            path: '/admin/additions',
+            name: 'AdminAdditions',
+            beforeEnter: guardAdminRoute,
+            component: () =>
+                import(
+                    /* webpackChunkName: "admin-additions" */ "./admin/lots/additions/Additions.vue"
+                    ),
+            meta: {
+                auth: true,
+                layout: 'Admin',
+                permission: 'additions-list'
+            }
+        },
+        {
+            path: '/admin/additions/store',
+            name: 'AddAdditions',
+            beforeEnter: guardAdminRoute,
+            component: () =>
+                import(
+                    /* webpackChunkName: "addition-add" */ "./admin/lots/additions/AddEditAdditions.vue"
+                    ),
+            meta: {
+                auth: true,
+                layout: 'Admin',
+                permission: 'additions-add'
+            }
+        },
+        {
+            path: '/admin/additions/:id',
+            name: 'EditAdditions',
+            beforeEnter: guardAdminRoute,
+            component: () =>
+                import(
+                    /* webpackChunkName: "addition-edit" */ "./admin/lots/additions/AddEditAdditions.vue"
+                    ),
+            meta: {
+                auth: true,
+                layout: 'Admin',
+                permission: 'additions-edit'
+            }
+        },
+        {
             path: "/admin/404",
 
             component: () =>

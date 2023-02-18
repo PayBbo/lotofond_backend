@@ -26,8 +26,8 @@
                 <td>{{ lot.tradeNumber }}</td>
                 <td>{{ $t('trades.type.' + lot.tradeType) }}</td>
                 <td>
-                    <router-link :to="'/admin/lots/'+lot.id" class="btn btn-info btn-sm">
-                        <i class="fa fa-eye"> </i>
+                    <router-link v-can="'lot-edit'" :to="'/admin/lots/'+lot.id" class="btn btn-primary btn-sm">
+                        <i class="fas fa-pencil-alt"> </i>
                     </router-link>
                     <button v-can="'lot-delete'" class="btn btn-danger  btn-sm" @click="deleteItem(lot.id)">
                         <i class="fas fa-trash-alt"> </i>

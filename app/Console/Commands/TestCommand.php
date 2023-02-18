@@ -2,14 +2,21 @@
 
 namespace App\Console\Commands;
 
+use App\Http\Services\Parse\FilesService;
 use App\Http\Services\Parse\GetTradeMessageContent;
 use App\Http\Services\Parse\GetTradeMessages;
 use App\Http\Services\Parse\SoapWrapperService;
 use App\Http\Services\PushNotificationService;
 use App\Http\Services\UserAgentService;
+use App\Jobs\AdditionalLotInfoParseJob;
 use App\Jobs\NewUsersNotificationsJob;
 use App\Jobs\ParseTrades;
+use App\Jobs\SendApplication;
+use App\Models\AdditionalLotInfo;
 use App\Models\Auction;
+use App\Models\Bidder;
+use App\Models\Lot;
+use App\Models\LotFile;
 use App\Models\Monitoring;
 use App\Models\Notification;
 use App\Models\TradeMessage;
@@ -17,6 +24,9 @@ use App\Models\TradePlace;
 use Artisaninweb\SoapWrapper\SoapWrapper;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
 
 class TestCommand extends Command
 {
@@ -103,7 +113,7 @@ class TestCommand extends Command
           }
           fclose($file);*/
 
-        // $id = 10709933;
+        dispatch((new AdditionalLotInfoParseJob)->onQueue('parse'));
 
     }
 }

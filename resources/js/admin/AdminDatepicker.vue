@@ -1,19 +1,19 @@
 <template>
-    <vuejs-datepicker format="dd.MM.yyyy"
+    <datepicker format="dd.MM.yyyy"
                       calendar-button-icon="fa fa-calendar"
                       :calendar-button="true"
                       :bootstrap-styling="true"
                       :clear-button="true"
                       clear-button-icon="fa fa-times"
                       v-model="param"
-    ></vuejs-datepicker>
+    ></datepicker>
 </template>
 
 <script>
-
+import Datepicker from 'vuejs-datepicker';
 export default {
-    name: "Datepicker",
-    components: {vuejsDatepicker},
+    name: "AdminDatepicker",
+    components: {Datepicker},
     props: ['model'],
     computed: {
         param: {

@@ -17,7 +17,7 @@
                             <div class="card-body">
                                 <div class="form-group">
                                     <label>Дата праздничного дня</label>
-                                    <datepicker v-model="item.date"></datepicker>
+                                    <admin-datepicker v-model="item.date"></admin-datepicker>
                                 </div>
                                 <button type="submit" class="btn btn-success float-right" @click="storeData(item)">
                                     Сохранить
@@ -35,7 +35,7 @@
                 <div class="row justify-content-end">
                     <div class="col-4">
                         <div class="input-group input-group-sm w-100 justify-content-end">
-                            <datepicker v-model="param"></datepicker>
+                            <admin-datepicker v-model="param"></admin-datepicker>
                             <div class="input-group-append">
                                 <button type="submit" class="btn btn-default" @click="searchParam(param)">
                                     <i class="fas fa-search"></i>
@@ -63,11 +63,11 @@
 import AdminTable from "./AdminTable";
 import main from "./mixins/main";
 import {mapActions, mapGetters} from "vuex";
-import Datepicker from "./Datepicker";
+import AdminDatepicker from "./AdminDatepicker";
 
 export default {
     name: "HolidaysDates",
-    components: {AdminTable, Datepicker},
+    components: {AdminTable, AdminDatepicker},
     mixins: [main],
     data() {
         return {

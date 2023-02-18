@@ -3,11 +3,13 @@
 namespace App\Models;
 
 use App\Http\Resources\FavouritePathResource;
+use App\Jobs\SendApplication;
 use App\Utilities\FilterBuilder;
 use App\Utilities\SortBuilder;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 
 class Lot extends Model
@@ -43,6 +45,40 @@ class Lot extends Model
 
     ];
 
+    public static function boot()
+    {
+        parent::boot();
+
+       /* static::created(function ($lot) {
+            $contacts = [$lot->auction->arbitrationManager->email];
+            if ($lot->auction->arbitr_manager_id != $lot->auction->company_trade_organizer_id) {
+                $contacts[] = $lot->auction->companyTradeOrganizer->email;
+            }
+            foreach ($contacts as $email) {
+                if (is_null($email)) {
+                    continue;
+                }
+                logger('Sent emails to organizers');
+                logger($lot->id);
+                logger($email);
+                $subject = "Дополнительная информация по лоту";
+                $link = 'https://fedresurs.ru/bidding/' . $lot->auction->guid;
+                $html = "Здравствуйте!
+Предоставьте, пожалуйста, дополнительную информацию и, при наличии, фотографии к лоту №" . $lot->number . " в торге из объявления по ссылке <a href='$link'>$link</a> <p class='lot-id' style='display:none'>$lot->id</p>";
+                $emails = Cache::get('contactEmails') ?? [];
+                $counts = array_count_values($emails);
+                $count = array_key_exists($email, $counts) ? $counts[$email] : 0;
+                $delay = random_int(60, 360) * $count;
+                logger($delay . ' sec');
+                dispatch((new SendApplication($html, $subject, $email))->onQueue('additional')->delay($delay));
+                $emails[] = $email;
+                Cache::put('contactEmails', $emails, Carbon::now()->setTimezone('Europe/Moscow')->addHour());
+                logger('-----------------------');
+            }
+        });*/
+
+    }
+
     /**
      * The attributes that should be cast to native types.
      *
@@ -51,7 +87,7 @@ class Lot extends Model
     protected $casts = [
         'id' => 'integer',
         'start_price' => 'float',
-        'min_price'=>'float',
+        'min_price' => 'float',
         'auction_id' => 'integer',
         'auction_step' => 'float',
         'deposit' => 'float',
@@ -262,7 +298,7 @@ class Lot extends Model
         if (auth()->guard('api')->check()) {
             $existsNote = Note::where(['user_id' => auth()->guard('api')->id(),
                 'item_type' => 'lot', 'item_id' => $this->id])->first();
-            if($existsNote){
+            if ($existsNote) {
                 $note = $existsNote->only('id', 'title', 'date');
             }
         }
@@ -331,7 +367,7 @@ class Lot extends Model
     public function scopeIsFixed($query)
     {
         if (auth()->guard('api')->check()) {
-           $query->orderBy(FixedLot::select('created_at')
+            $query->orderBy(FixedLot::select('created_at')
                 ->whereColumn('lots.id', 'fixed_lots.lot_id')
                 ->where('fixed_lots.user_id', auth()->guard('api')->id())
                 ->take(1),
@@ -379,12 +415,12 @@ class Lot extends Model
 
     public function getDescriptionAttribute($value)
     {
-        return preg_replace("/&#?[a-z0-9]{2,8};/i","", $value);
+        return preg_replace("/&#?[a-z0-9]{2,8};/i", "", $value);
     }
 
     public function getProcessedDescriptionAttribute($value)
     {
-        return preg_replace("/&#?[a-z0-9]{2,8};/i","", $value);
+        return preg_replace("/&#?[a-z0-9]{2,8};/i", "", $value);
     }
 
     public function getStartPriceAttribute($value)
@@ -396,6 +432,7 @@ class Lot extends Model
     {
         return $value == 0 ? null : (float)$value;
     }
+
     public function getAuctionStepAttribute($value)
     {
         return $value == 0 ? null : (float)$value;
@@ -426,7 +463,8 @@ class Lot extends Model
         return $this->belongsToMany(Monitoring::class, 'lot_monitoring')->where('user_id', auth()->guard('api')->id());
     }
 
-    public function userApplications(){
+    public function userApplications()
+    {
         return $this->hasMany(Application::class)->where('user_id', auth()->id());
     }
 

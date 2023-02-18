@@ -39,6 +39,7 @@ class PermissionSeeder extends Seeder
             ['name' => 'application-edit', 'visible_name' => 'Редактирование заявок', 'permission_group' => 'Заявки'],
 
             ['name' => 'lot-list', 'visible_name' => 'Просмотр лотов', 'permission_group' => 'Лоты'],
+            ['name' => 'lot-edit', 'visible_name' => 'Редактирование лотов', 'permission_group' => 'Лоты'],
             ['name' => 'lot-delete', 'visible_name' => 'Удаление лотов', 'permission_group' => 'Лоты'],
 
             ['name' => 'tariff-list', 'visible_name' => 'Просмотр тарифов', 'permission_group' => 'Тарифы'],
@@ -54,6 +55,11 @@ class PermissionSeeder extends Seeder
             ['name' => 'content-rules-edit', 'visible_name' => 'Изменение ограничений контента', 'permission_group' => 'Ограничения контента'],
 
             ['name' => 'egrn-statements-list', 'visible_name' => 'Просмотр отчетов ЕГРН', 'permission_group' => 'Отчеты ЕГРН'],
+
+            ['name' => 'additions-list', 'visible_name' => 'Просмотр ответов на запросы доп. информации по лотам', 'permission_group' => 'Запросы доп. информации'],
+            ['name' => 'additions-edit', 'visible_name' => 'Редактирование ответов на запросы доп. информации по лотам', 'permission_group' => 'Запросы доп. информации'],
+            ['name' => 'additions-add', 'visible_name' => 'Добавление ответов на запросы доп. информации по лотам', 'permission_group' => 'Запросы доп. информации'],
+            ['name' => 'additions-delete', 'visible_name' => 'Удаление ответов на запросы доп. информации по лотам', 'permission_group' => 'Запросы доп. информации'],
         ];
         foreach ($permissions as $permission) {
             Permission::create([

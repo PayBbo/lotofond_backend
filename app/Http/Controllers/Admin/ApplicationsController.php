@@ -37,8 +37,7 @@ class ApplicationsController extends Controller
         return response(new ApplicationCollection($applications), 200);
     }
 
-    public
-    function update(Request $request)
+    public function update(Request $request)
     {
         $application = Application::find($request->id);
         if ($application) {
@@ -49,8 +48,7 @@ class ApplicationsController extends Controller
         return response(null, 404);
     }
 
-    public
-    function show($id)
+    public function show($id)
     {
         $application = Application::find($id);
         if (!$application) {

@@ -9,6 +9,7 @@ use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Queue\Middleware\WithoutOverlapping;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Mail;
 
@@ -19,6 +20,16 @@ class SendApplication implements ShouldQueue
     protected $html;
     protected $emails;
     protected $subject;
+
+    /**
+     * Get the middleware the job should pass through.
+     *
+     * @return array
+     */
+    public function middleware()
+    {
+        return [(new WithoutOverlapping($this->emails))->releaseAfter(random_int(60, 300))];
+    }
 
     /**
      * Create a new job instance.
@@ -42,15 +53,12 @@ class SendApplication implements ShouldQueue
         $toEmail = $this->emails;
         $html = $this->html;
         $subject = $this->subject;
-        try {
-            Mail::send([], [], function ($message) use ($toEmail, $html, $subject) {
-                $message->from('bankr0t.t@yandex.ru', 'LotoFond');
-                $message->to($toEmail);
-                $message->subject($subject);
-                $message->setBody($html, 'text/html');
-            });
-        }catch (Exception $e) {
-            throw new BaseException("ERR_SEND_MESSAGE_FAILED", 550, __('validation.message_err'));
-        }
+
+        Mail::send([], [], function ($message) use ($toEmail, $html, $subject) {
+            $message->from('bankr0t.t@yandex.ru', 'LotoFond');
+            $message->to($toEmail);
+            $message->subject($subject);
+            $message->setBody($html, 'text/html');
+        });
     }
 }

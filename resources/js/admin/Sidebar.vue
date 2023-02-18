@@ -97,6 +97,14 @@
                         </router-link>
                     </li>
                     <li v-can="'holidays-list'" class="nav-item">
+                        <router-link to="/admin/additions" class="nav-link">
+                            <i class="nav-icon fa fa-envelope"></i>
+                            <p>
+                                Ответы на запросы
+                            </p>
+                        </router-link>
+                    </li>
+                    <li v-can="'holidays-list'" class="nav-item">
                         <router-link to="/admin/holiday-days" class="nav-link">
                             <i class="nav-icon fa fa-calendar"></i>
                             <p>

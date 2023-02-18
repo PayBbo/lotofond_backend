@@ -166,6 +166,22 @@ export default {
             })
         },
 
+        async changeStatusAdmin({commit,dispatch, state}, route) {
+            await axios({
+                method: 'put',
+                url: '/api/admin/' + route
+            })
+                .then((response) => {
+                    if (response.status === 200) {
+                        dispatch('getData')
+                        commit('setModal', {data: 'success', text: 'Операция прошла успешно'})
+                    }
+                })
+                .catch((error) => {
+                    commit('setModal', {data: 'error', text: 'Произошла ошибка'})
+                });
+        }
+
     },
     getters: {
         dataItems(state) {

@@ -53,6 +53,9 @@ export default {
             })
         },
         searchParam(value) {
+            if(typeof(value) === 'object'){
+                value = JSON.stringify(value)
+            }
             this.$store.commit('setParam', value);
             this.getData()
         }

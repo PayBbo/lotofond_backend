@@ -2,6 +2,7 @@
 
 namespace App\Console;
 
+use App\Jobs\AdditionalLotInfoParseJob;
 use App\Jobs\EGRNStatementJob;
 use App\Jobs\FavouriteJob;
 use App\Jobs\FixDescription;
@@ -39,11 +40,12 @@ class Kernel extends ConsoleKernel
         $schedule->job((new ParseArbitrManager)->onQueue('parse'))->daily()->timezone('Europe/Moscow');
         $schedule->job((new ParseCompanyTradeOrganizer)->onQueue('parse'))->daily()->timezone('Europe/Moscow');
         $schedule->job((new ParseDebtor)->onQueue('parse'))->daily()->timezone('Europe/Moscow');
-        $schedule->job((new ParseDebtorMessages)->onQueue('parse'))->hourly()->timezone('Europe/Moscow');
+        //$schedule->job((new ParseDebtorMessages)->onQueue('parse'))->hourly()->timezone('Europe/Moscow');
         $schedule->job((new SendLotsToChannel)->onQueue('parse'))->hourly()->timezone('Europe/Moscow')->between('8:00', '20:00');
         $schedule->job((new EGRNStatementJob)->onQueue('user'))->dailyAt('08:30')->timezone('Europe/Moscow');
         $schedule->job((new FixDescription)->onQueue('parse'))->dailyAt('03:30')->timezone('Europe/Moscow');
         $schedule->job((new NewUsersNotificationsJob)->onQueue('user'))->dailyAt('20:00')->timezone('Europe/Moscow');
+        //$schedule->job((new AdditionalLotInfoParseJob)->onQueue('parse'))->dailyAt('03:20')->timezone('Europe/Moscow');
     }
 
     /**

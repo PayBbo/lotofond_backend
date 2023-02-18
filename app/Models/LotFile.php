@@ -18,13 +18,15 @@ class LotFile extends Model
         'type',
         'user_id',
         'lot_id',
-        'trade_message_id'
+        'trade_message_id',
+        'additional_lot_info_id'
     ];
 
     protected $casts = [
         'user_id' => 'integer',
         'lot_id' => 'integer',
         'trade_message_id' => 'integer',
+        'additional_lot_info_id'=> 'integer',
     ];
 
     public static function boot()
@@ -32,12 +34,12 @@ class LotFile extends Model
         parent::boot();
 
         static::deleting(function ($file) {
-          if($file->type == 'file'){
-              Storage::delete($file);
-          }else{
-              Storage::delete($file->url[0]);
-              Storage::delete($file->url[1]);
-          }
+            if($file->type == 'file'){
+                Storage::disk('public')->delete(substr($file->url, strpos($file->url, 'storage/') +8));
+            }else{
+                Storage::disk('public')->delete(substr($file->url[0],  strpos($file->url[0], 'storage/') +8));
+                Storage::disk('public')->delete(substr($file->url[1],  strpos($file->url[1], 'storage/') +8));
+            }
         });
 
     }
