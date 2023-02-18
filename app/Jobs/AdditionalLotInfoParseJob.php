@@ -100,7 +100,7 @@ class AdditionalLotInfoParseJob implements ShouldQueue
                         $file = null;
                         $isImage = false;
                         $filename = str_replace(' ', '-', $oAttachment->getName());
-                        $oAttachment->save($full_path, $filename);
+                        $oAttachment->save($full_path . $this->slash, $filename);
                         if($oAttachment->getExtension() == 'jpg' || $oAttachment->getExtension() == 'png' || $oAttachment->getExtension() == 'jpeg' || $oAttachment->getExtension() == 'bmp') {
                             $fileService = new FilesService();
                             $fileService->generatePreview(Storage::get($dest.$this->slash. $filename),
