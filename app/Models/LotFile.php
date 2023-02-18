@@ -12,7 +12,6 @@ class LotFile extends Model
 {
     use HasFactory;
 
-    protected $slash = DIRECTORY_SEPARATOR;
     protected $table = 'lot_files';
 
     protected $fillable = [
@@ -36,13 +35,14 @@ class LotFile extends Model
         parent::boot();
 
         static::deleting(function ($file) {
+            $slash = DIRECTORY_SEPARATOR;
             if($file->type == 'file'){
-                $path = \storage_path('app'.$this->slash.'public'.$this->slash.stristr($file->url, 'auction-files'));
+                $path = \storage_path('app'.$slash.'public'.$slash.stristr($file->url, 'auction-files'));
                 File::delete($path);
             }else{
-                $main = \storage_path('app'.$this->slash.'public'.$this->slash.stristr($file->url[0], 'auction-files'));
-                $preview = \storage_path('app'.$this->slash.'public'.$this->slash.stristr($file->url[1], 'auction-files'));
-                File::delete($main, $preview);
+                $main = \storage_path('app'.$slash.'public'.$slash.stristr($file->url[0], 'auction-files'));
+                $preview = \storage_path('app'.$slash.'public'.$slash.stristr($file->url[1], 'auction-files'));
+                File::delete([$main, $preview]);
             }
         });
 
