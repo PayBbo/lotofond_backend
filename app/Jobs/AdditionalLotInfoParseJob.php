@@ -109,7 +109,7 @@ class AdditionalLotInfoParseJob implements ShouldQueue
                             $file = ['main' => 'storage'.$this->slash. $dest .$this->slash. $filename, 'preview' => $preview];
                             $isImage = true;
                         }else{
-                            $file =  'storage'.$this->slash. $dest . $filename;
+                            $file =  'storage'.$this->slash. $dest . $this->slash . $filename;
                         }
                         LotFile::create([
                             'url' => json_encode($file),
