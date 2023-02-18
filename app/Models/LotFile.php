@@ -35,10 +35,9 @@ class LotFile extends Model
 
         static::deleting(function ($file) {
             if($file->type == 'file'){
-                Storage::disk('public')->delete(substr($file->url, strpos($file->url, 'storage/') +8));
+                Storage::disk('public')->delete(stristr($file->url, 'auction-files'));
             }else{
-                Storage::disk('public')->delete(substr($file->url[0],  strpos($file->url[0], 'storage/') +8));
-                Storage::disk('public')->delete(substr($file->url[1],  strpos($file->url[1], 'storage/') +8));
+                Storage::disk('public')->delete([stristr($file->url[0], 'auction-files'), stristr($file->url[1], 'auction-files')]);
             }
         });
 

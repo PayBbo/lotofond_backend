@@ -30,7 +30,7 @@ class LotController extends Controller
     public function get(Request $request)
     {
         $searchString = $request->query('param');
-        $lots = Lot::with('auction')
+        $lots = Lot::with((['auction', 'showRegions', 'status', 'lotImages', 'categories', 'lotParams']))
             ->when(isset($searchString) && strlen((string)$searchString) > 0, function ($query) use ($searchString) {
                 $query->whereHas('auction', function ($q) use ($searchString) {
                     $q->where('trade_id', 'like', '%' . $searchString . '%');
