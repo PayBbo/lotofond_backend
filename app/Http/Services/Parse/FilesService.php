@@ -321,15 +321,4 @@ class FilesService
             return $object_name;
         return $object_name . '.' . $object_extension;
     }
-
-    public function deleteFile($file){
-        if($file->type == 'file'){
-            $path = \storage_path('app'.$this->slash.'public'.$this->slash.stristr($file->url, 'auction-files'));
-            File::delete($path);
-        }else{
-            $main = \storage_path('app'.$this->slash.'public'.$this->slash.stristr($file->url[0], 'auction-files'));
-            $preview = \storage_path('app'.$this->slash.'public'.$this->slash.stristr($file->url[1], 'auction-files'));
-            File::delete([$main, $preview]);
-        }
-    }
 }
