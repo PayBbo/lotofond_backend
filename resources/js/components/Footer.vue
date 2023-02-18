@@ -62,18 +62,18 @@
                                 </skeleton>
                             </a>
                             <div class="bkt-footer__socials-links">
-                                <a class="bkt-button-icon bkt-bg-main-light" href="/">
+                                <a class="bkt-button-icon bkt-bg-main-light" href="https://vk.com/id741448020" rel="nofollow noopener" target="_blank">
                                     <bkt-icon name="Vk" width="16px" height="16px"></bkt-icon>
                                 </a>
-                                <a class="bkt-button-icon bkt-bg-main-light" href="/">
-                                    <bkt-icon name="Instagram" width="16px" height="16px"></bkt-icon>
-                                </a>
-                                <a class="bkt-button-icon bkt-bg-main-light" href="/">
+<!--                                <a class="bkt-button-icon bkt-bg-main-light" href="/">-->
+<!--                                    <bkt-icon name="Instagram" width="16px" height="16px"></bkt-icon>-->
+<!--                                </a>-->
+                                <a class="bkt-button-icon bkt-bg-main-light" href="https://t.me/lotofond" rel="nofollow noopener" target="_blank">
                                     <bkt-icon name="Telegram" width="16px" height="16px"></bkt-icon>
                                 </a>
-                                <a class="bkt-button-icon bkt-bg-main-light" href="/">
-                                    <bkt-icon name="Youtube" width="16px" height="16px"></bkt-icon>
-                                </a>
+<!--                                <a class="bkt-button-icon bkt-bg-main-light" href="/">-->
+<!--                                    <bkt-icon name="Youtube" width="16px" height="16px"></bkt-icon>-->
+<!--                                </a>-->
                                 <!--                                <button class="bkt-button-icon bkt-bg-main-light">-->
                                 <!--                                    <bkt-icon name="AppleStore"></bkt-icon>-->
                                 <!--                                </button>-->
