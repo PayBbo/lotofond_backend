@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\URL;
 
@@ -11,6 +12,7 @@ class LotFile extends Model
 {
     use HasFactory;
 
+    protected $slash = DIRECTORY_SEPARATOR;
     protected $table = 'lot_files';
 
     protected $fillable = [
@@ -35,9 +37,12 @@ class LotFile extends Model
 
         static::deleting(function ($file) {
             if($file->type == 'file'){
-                Storage::disk('public')->delete(stristr($file->url, 'auction-files'));
+                $path = \storage_path('app'.$this->slash.'public'.$this->slash.stristr($file->url, 'auction-files'));
+                File::delete($path);
             }else{
-                Storage::disk('public')->delete([stristr($file->url[0], 'auction-files'), stristr($file->url[1], 'auction-files')]);
+                $main = \storage_path('app'.$this->slash.'public'.$this->slash.stristr($file->url[0], 'auction-files'));
+                $preview = \storage_path('app'.$this->slash.'public'.$this->slash.stristr($file->url[1], 'auction-files'));
+                File::delete($main, $preview);
             }
         });
 

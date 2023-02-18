@@ -17,12 +17,11 @@ class LotResource extends JsonResource
      */
     public function toArray($request)
     {
-        $this->auction->isLotInfo = $this->isLotInfo;
         $lotData = [
             'id' => $this->id,
             'tradeNumber' => $this->auction->trade_id,
             'tradeType' => $this->auction->auctionType->title,
-            'description' => stripslashes(preg_replace('/[\x00-\x1F\x7F]/u', ' ', $this->description)),
+            'description' => $this->description,
             'startPrice' => $this->start_price,
             'status' => $this->status->value
         ];
