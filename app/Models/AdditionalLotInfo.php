@@ -16,7 +16,8 @@ class AdditionalLotInfo extends Model
         'message',
         'is_moderated',
         'bidder_id',
-        'lot_id'
+        'lot_id',
+        'created_at'
     ];
 
     protected $casts = [

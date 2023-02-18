@@ -85,20 +85,22 @@ class AdditionalLotInfoParseJob implements ShouldQueue
                         'uid'=>$uid,
                         'message'=>$html,
                         'bidder_id'=> $bidder->id,
-                        'lot_id'=>$lotId
+                        'lot_id'=>$lotId,
+                        'created_at'=>Carbon::now()->setTimezone('Europe/Moscow')
                     ]);
                     $attachments = $message->getAttachments();
                     foreach ($attachments as $oAttachment){
                         $time = Carbon::now()->format('d-m-Y-H-i');
-                        $dest = 'auction-files' . $this->slash . 'auction-' . $lot->auction_id . $this->slash . $time;
-                        $dir = 'storage'.$this->slash.'app'.$this->slash.'public'.$this->slash.$dest.$this->slash;
-                        if (!file_exists($dir)) {
-                            mkdir($dir, 0777, true);
+                        $dest = 'auction-files'.$this->slash.'auction-' . $lot->auction_id . $this->slash . $time;
+                        $dir = 'app'.$this->slash.'public'.$this->slash.'auction-files'.$this->slash.'auction-' . $lot->auction_id . $this->slash . $time;
+                        $full_path = \storage_path($dir);
+                        if (!file_exists($full_path)) {
+                            mkdir($full_path, 0777, true);
                         }
                         $file = null;
                         $isImage = false;
                         $filename = str_replace(' ', '-', $oAttachment->getName());
-                        $oAttachment->save($dir, $filename);
+                        $oAttachment->save($full_path, $filename);
                         if($oAttachment->getExtension() == 'jpg' || $oAttachment->getExtension() == 'png' || $oAttachment->getExtension() == 'jpeg' || $oAttachment->getExtension() == 'bmp') {
                             $fileService = new FilesService();
                             $fileService->generatePreview(Storage::get($dest.$this->slash. $filename),
