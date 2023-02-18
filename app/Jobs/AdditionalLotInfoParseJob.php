@@ -46,83 +46,83 @@ class AdditionalLotInfoParseJob implements ShouldQueue
 
         foreach ($messages as $message) {
             $uid = $message->getUid();
-            if(AdditionalLotInfo::where('uid', $uid)->exists()){
-                continue;
-            }
-            if(!$message->hasHTMLBody()){
+            if (AdditionalLotInfo::where('uid', $uid)->exists() || !$message->hasHTMLBody()) {
+                logger('continue 1');
                 continue;
             }
             $html = $message->getHTMLBody(true);
             $pattern = '/<blockquote[\s\S]*?<\/blockquote>/';
             preg_match_all($pattern, $html, $matches);
-            if(count($matches[0]) >0){
-                $mail = $matches[0][0];
-                $pattern = '/<p style="display:none" class="lot-id_mr_css_attr">[0-9]*?<\/p>/';
-                preg_match($pattern, $mail, $match);
-                if(count($match)>0){
-                    $lotId = preg_replace('/\D/', '', $match[0]);
-                    logger($lotId);
-                    $lot = Lot::find($lotId);
-                    if(!$lot){
-                        continue;
-                    }
-                    $html = str_replace($mail, '', $html);
-                    $html = str_replace('&nbsp;', '', $html);
-                    $pattern = '/<img[\s\S]*?>/';
-                    preg_match_all($pattern, $html, $matches);
-                    if(count($matches[0]) >0){
-                        foreach ($matches[0] as $img){
-                            $html =  str_replace($img, '', $html);
-                        }
-                    }
-                    $pattern = '/<div data-signature-widget="container"[\s\S]*? /';
-                    preg_match($pattern, $html, $match);
-                    if(count($match)>0){
-                        $html = str_replace($match[0], '<div data-signature-widget="container" style="display:none"><div ', $html);
-                    }
-                    $html =  str_replace('div', 'p', $html);
-                    $bidder = Bidder::where('email',$message->getFrom()[0]->mail)->first();
-                    logger($html);
-                    logger($bidder->id);
-                    $additional = AdditionalLotInfo::create([
-                        'uid'=>$uid,
-                        'message'=>$html,
-                        'bidder_id'=> $bidder->id,
-                        'lot_id'=>$lotId
-                    ]);
-                    logger($additional->id);
-                    $attachments = $message->getAttachments();
-                    foreach ($attachments as $oAttachment){
-                        $time = Carbon::now()->format('d-m-Y-H-i');
-                        $dest = 'auction-files'.$this->slash.'auction-' . $lot->auction_id . $this->slash . $time;
-                        $dir = 'app'.$this->slash.'public'.$this->slash.'auction-files'.$this->slash.'auction-' . $lot->auction_id . $this->slash . $time;
-                        $full_path = \storage_path($dir);
-                        if (!file_exists($full_path)) {
-                            mkdir($full_path, 0777, true);
-                        }
-                        $file = null;
-                        $isImage = false;
-                        $filename = str_replace(' ', '-', $oAttachment->getName());
-                        $oAttachment->save($full_path . $this->slash, $filename);
-                        if($oAttachment->getExtension() == 'jpg' || $oAttachment->getExtension() == 'png' || $oAttachment->getExtension() == 'jpeg' || $oAttachment->getExtension() == 'bmp') {
-                            $fileService = new FilesService();
-                            $fileService->generatePreview(Storage::get($dest.$this->slash. $filename),
-                                $dest .$this->slash. 'previews' .$this->slash. $filename);
-                            $preview = 'storage'.$this->slash.$dest.$this->slash.'previews'.$this->slash.$filename;
-                            $file = ['main' => 'storage'.$this->slash. $dest .$this->slash. $filename, 'preview' => $preview];
-                            $isImage = true;
-                        }else{
-                            $file =  'storage'.$this->slash. $dest . $this->slash . $filename;
-                        }
-                        LotFile::create([
-                            'url' => json_encode($file),
-                            'type' => $isImage ?  'image' : 'file',
-                            'lot_id' => $lotId,
-                            'additional_lot_info_id'=>$additional->id
-                        ]);
-
-                    }
+            if (count($matches[0]) == 0) {
+                logger('continue 2');
+                continue;
+            }
+            $mail = $matches[0][0];
+            $pattern = '/<p style="display:none" class="lot-id_mr_css_attr">[0-9]*?<\/p>/';
+            preg_match($pattern, $mail, $match);
+            if (count($match) == 0) {
+                logger('continue 3');
+                continue;
+            }
+            $lotId = preg_replace('/\D/', '', $match[0]);
+            $lot = Lot::find($lotId);
+            if (!$lot) {
+                logger('continue 4');
+                continue;
+            }
+            $html = str_replace($mail, '', $html);
+            $html = str_replace('&nbsp;', '', $html);
+            $pattern = '/<img[\s\S]*?>/';
+            preg_match_all($pattern, $html, $matches);
+            if (count($matches[0]) > 0) {
+                foreach ($matches[0] as $img) {
+                    $html = str_replace($img, '', $html);
                 }
+            }
+            $pattern = '/<div data-signature-widget="container"[\s\S]*? /';
+            preg_match($pattern, $html, $match);
+            if (count($match) > 0) {
+                $html = str_replace($match[0], '<div data-signature-widget="container" style="display:none"><div ', $html);
+            }
+            $html = str_replace('div', 'p', $html);
+            $bidder = Bidder::where('email', $message->getFrom()[0]->mail)->first();
+            logger($bidder->id);
+            $additional = AdditionalLotInfo::create([
+                'uid' => $uid,
+                'message' => $html,
+                'bidder_id' => $bidder->id,
+                'lot_id' => $lotId
+            ]);
+            $attachments = $message->getAttachments();
+            foreach ($attachments as $oAttachment) {
+                $time = Carbon::now()->format('d-m-Y-H-i');
+                $dest = 'auction-files' . $this->slash . 'auction-' . $lot->auction_id . $this->slash . $time;
+                $dir = 'app' . $this->slash . 'public' . $this->slash . 'auction-files' . $this->slash . 'auction-' . $lot->auction_id . $this->slash . $time;
+                $full_path = \storage_path($dir);
+                if (!file_exists($full_path)) {
+                    mkdir($full_path, 0777, true);
+                }
+                $file = null;
+                $isImage = false;
+                $filename = str_replace(' ', '-', $oAttachment->getName());
+                $oAttachment->save($full_path . $this->slash, $filename);
+                if ($oAttachment->getExtension() == 'jpg' || $oAttachment->getExtension() == 'png' || $oAttachment->getExtension() == 'jpeg' || $oAttachment->getExtension() == 'bmp') {
+                    $fileService = new FilesService();
+                    $fileService->generatePreview(Storage::get($dest . $this->slash . $filename),
+                        $dest . $this->slash . 'previews' . $this->slash . $filename);
+                    $preview = 'storage' . $this->slash . $dest . $this->slash . 'previews' . $this->slash . $filename;
+                    $file = ['main' => 'storage' . $this->slash . $dest . $this->slash . $filename, 'preview' => $preview];
+                    $isImage = true;
+                } else {
+                    $file = 'storage' . $this->slash . $dest . $this->slash . $filename;
+                }
+                LotFile::create([
+                    'url' => json_encode($file),
+                    'type' => $isImage ? 'image' : 'file',
+                    'lot_id' => $lotId,
+                    'additional_lot_info_id' => $additional->id
+                ]);
+
             }
 
             $message->setFlag('Seen');
