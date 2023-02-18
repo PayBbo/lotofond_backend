@@ -47,9 +47,11 @@ class AdditionalLotInfoParseJob implements ShouldQueue
         foreach ($messages as $message) {
             $uid = $message->getUid();
             if(AdditionalLotInfo::where('uid', $uid)->exists()){
+                logger('exists');
                 continue;
             }
             if(!$message->hasHTMLBody()){
+                logger('no html body');
                 continue;
             }
             $html = $message->getHTMLBody(true);
@@ -61,6 +63,7 @@ class AdditionalLotInfoParseJob implements ShouldQueue
                 preg_match($pattern, $mail, $match);
                 if(count($match)>0){
                     $lotId = preg_replace('/\D/', '', $match[0]);
+                    logger($lotId);
                     $lot = Lot::find($lotId);
                     if(!$lot){
                         continue;
