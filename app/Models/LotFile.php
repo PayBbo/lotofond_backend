@@ -39,13 +39,14 @@ class LotFile extends Model
             if($file->type == 'file'){
                 $path = \storage_path('app'.$slash.'public'.$slash.stristr($file->url, 'auction-files'));
                 logger($path);
-                File::delete($path);
+                unlink($path);
             }else{
                 $main = \storage_path('app'.$slash.'public'.$slash.stristr($file->url[0], 'auction-files'));
                 $preview = \storage_path('app'.$slash.'public'.$slash.stristr($file->url[1], 'auction-files'));
                 logger($main);
                 logger($preview);
-                File::delete([$main, $preview]);
+                unlink($main);
+                unlink($preview);
             }
         });
 
