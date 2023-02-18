@@ -90,18 +90,22 @@
                         реквизиты Исполнителя
                     </button>
                     <div class="bkt-wrapper bkt-gap-small w-100">
-                        <a class="bkt-button bkt-button-icon bkt-bg-white flex-fill" href="#">
+                        <a class="bkt-button bkt-button-icon bkt-bg-white flex-fill" href="https://vk.com/id741448020"
+                           rel="nofollow noopener" target="_blank"
+                        >
                             <bkt-icon name="Vk" color="primary"></bkt-icon>
                         </a>
-                        <a class="bkt-button bkt-button-icon bkt-bg-white flex-fill" href="#">
-                            <bkt-icon name="Instagram" color="gradient"></bkt-icon>
-                        </a>
-                        <a class="bkt-button bkt-button-icon bkt-bg-white flex-fill" href="#">
+<!--                        <a class="bkt-button bkt-button-icon bkt-bg-white flex-fill" href="#">-->
+<!--                            <bkt-icon name="Instagram" color="gradient"></bkt-icon>-->
+<!--                        </a>-->
+                        <a class="bkt-button bkt-button-icon bkt-bg-white flex-fill" href="https://t.me/lotofond"
+                           rel="nofollow noopener" target="_blank"
+                        >
                             <bkt-icon name="Telegram" color="blue"></bkt-icon>
                         </a>
-                        <a class="bkt-button bkt-button-icon bkt-bg-white flex-fill" href="#">
-                            <bkt-icon name="Youtube" color="red"></bkt-icon>
-                        </a>
+<!--                        <a class="bkt-button bkt-button-icon bkt-bg-white flex-fill" href="#">-->
+<!--                            <bkt-icon name="Youtube" color="red"></bkt-icon>-->
+<!--                        </a>-->
                     </div>
                 </div>
             </div>
