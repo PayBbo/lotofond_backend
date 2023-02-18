@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Http\Services\Parse\FilesService;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\File;
@@ -35,19 +36,8 @@ class LotFile extends Model
         parent::boot();
 
         static::deleting(function ($file) {
-            $slash = DIRECTORY_SEPARATOR;
-            if($file->type == 'file'){
-                $path = \storage_path('app'.$slash.'public'.$slash.stristr($file->url, 'auction-files'));
-                logger($path);
-                unlink($path);
-            }else{
-                $main = \storage_path('app'.$slash.'public'.$slash.stristr($file->url[0], 'auction-files'));
-                $preview = \storage_path('app'.$slash.'public'.$slash.stristr($file->url[1], 'auction-files'));
-                logger($main);
-                logger($preview);
-                unlink($main);
-                unlink($preview);
-            }
+            $fileService = new FilesService();
+            $fileService->deleteFile($file);
         });
 
     }
