@@ -45,13 +45,12 @@ class AdditionalLotInfoParseJob implements ShouldQueue
         $messages = $imapClient->getFolderByName('INBOX')->messages()->unseen()->get();
 
         foreach ($messages as $message) {
+            logger(json_encode($message));
             $uid = $message->getUid();
             if(AdditionalLotInfo::where('uid', $uid)->exists()){
-                logger('exists');
                 continue;
             }
             if(!$message->hasHTMLBody()){
-                logger('no html body');
                 continue;
             }
             $html = $message->getHTMLBody(true);
@@ -84,6 +83,8 @@ class AdditionalLotInfoParseJob implements ShouldQueue
                     }
                     $html =  str_replace('div', 'p', $html);
                     $bidder = Bidder::where('email',$message->getFrom()[0]->mail)->first();
+                    logger($html);
+                    logger($bidder->id);
                     $additional = AdditionalLotInfo::create([
                         'uid'=>$uid,
                         'message'=>$html,
@@ -91,6 +92,7 @@ class AdditionalLotInfoParseJob implements ShouldQueue
                         'lot_id'=>$lotId,
                         'created_at'=>Carbon::now()->setTimezone('Europe/Moscow')
                     ]);
+                    logger($additional->id);
                     $attachments = $message->getAttachments();
                     foreach ($attachments as $oAttachment){
                         $time = Carbon::now()->format('d-m-Y-H-i');
