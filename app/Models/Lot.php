@@ -49,8 +49,8 @@ class Lot extends Model
     {
         parent::boot();
 
-       /* static::created(function ($lot) {
-            $contacts = [$lot->auction->arbitrationManager->email];
+        static::created(function ($lot) {
+         /*   $contacts = [$lot->auction->arbitrationManager->email];
             if ($lot->auction->arbitr_manager_id != $lot->auction->company_trade_organizer_id) {
                 $contacts[] = $lot->auction->companyTradeOrganizer->email;
             }
@@ -69,13 +69,18 @@ class Lot extends Model
                 $counts = array_count_values($emails);
                 $count = array_key_exists($email, $counts) ? $counts[$email] : 0;
                 $delay = random_int(60, 360) * $count;
+                $dateTime = Carbon::now();
+                if($dateTime->between(Carbon::now()->subDay()->setTime('22','00'), Carbon::now()->setTime('06','00'))){
+                    $diff = Carbon::now()->setTime('06', '00')->diffInSeconds($dateTime);
+                    $delay+=$diff;
+                }
                 logger($delay . ' sec');
                 dispatch((new SendApplication($html, $subject, $email))->onQueue('additional')->delay($delay));
                 $emails[] = $email;
                 Cache::put('contactEmails', $emails, Carbon::now()->setTimezone('Europe/Moscow')->addHour());
                 logger('-----------------------');
-            }
-        });*/
+            }*/
+        });
 
     }
 

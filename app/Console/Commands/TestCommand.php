@@ -70,13 +70,13 @@ class TestCommand extends Command
         //    dispatch(new MonitoringJob);
         //  dispatch(new MonitoringNotificationJob('hourly'));
         //dispatch(new ParseDebtorMessages);
-        /* $startDate = Carbon::parse('2023-02-10 00:00');
-          $endDate = Carbon::parse('2023-02-11 02:00');
-          while ($startDate < $endDate) {
-              $startFrom = $startDate->format('Y-m-d\TH:i:s');
-              $startDate->addHours(2);
-              dispatch((new ParseTrades($startFrom, $startDate->format('Y-m-d\TH:i:s')))->onQueue('parse'));
-          }*/
+        $startDate = Carbon::parse('2023-02-09 00:00');
+        $endDate = Carbon::parse('2023-02-19 02:00');
+        while ($startDate < $endDate) {
+            $startFrom = $startDate->format('Y-m-d\TH:i:s');
+            $startDate->addHours(2);
+            dispatch((new ParseTrades($startFrom, $startDate->format('Y-m-d\TH:i:s')))->onQueue('parse'));
+        }
 
         /*$startDate = Carbon::parse('2023-01-27 14:00');
         $startFrom = $startDate->format('Y-m-d\TH:i:s');
@@ -113,6 +113,7 @@ class TestCommand extends Command
           }
           fclose($file);*/
 
-        dispatch((new AdditionalLotInfoParseJob)->onQueue('parse'));
+        // dispatch((new AdditionalLotInfoParseJob)->onQueue('parse'));
+
     }
 }

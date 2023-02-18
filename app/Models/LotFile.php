@@ -36,7 +36,7 @@ class LotFile extends Model
         parent::boot();
 
         static::deleting(function ($file) {
-          dispatch((new DeleteFileJob($file))->onQueue('parse'));
+          dispatch((new DeleteFileJob($file->type, $file->url))->onQueue('parse'));
         });
 
     }

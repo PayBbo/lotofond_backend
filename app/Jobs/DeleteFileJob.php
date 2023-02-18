@@ -14,16 +14,18 @@ class DeleteFileJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    protected $file;
+    protected $type;
+    protected $url;
 
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct($file)
+    public function __construct($type, $url)
     {
-        $this->file = $file;
+        $this->type = $type;
+        $this->url = $url;
     }
 
     /**
@@ -34,12 +36,12 @@ class DeleteFileJob implements ShouldQueue
     public function handle()
     {
         $slash = DIRECTORY_SEPARATOR;
-        if($this->file->type == 'file'){
-            $path = \storage_path('app'.$slash.'public'.$slash.stristr($this->file->url, 'auction-files'));
+        if($this->type == 'file'){
+            $path = \storage_path('app'.$slash.'public'.$slash.stristr($this->url, 'auction-files'));
             File::delete($path);
         }else{
-            $main = \storage_path('app'.$slash.'public'.$slash.stristr($this->file->url[0], 'auction-files'));
-            $preview = \storage_path('app'.$slash.'public'.$slash.stristr($this->file->url[1], 'auction-files'));
+            $main = \storage_path('app'.$slash.'public'.$slash.stristr($this->url[0], 'auction-files'));
+            $preview = \storage_path('app'.$slash.'public'.$slash.stristr($this->url[1], 'auction-files'));
             File::delete([$main, $preview]);
         }
     }

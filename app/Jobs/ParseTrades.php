@@ -88,17 +88,17 @@ class ParseTrades implements ShouldQueue
                                         $this->getMessageContent($item->ID, $item->Type, $tradePlace->id, $item->GUID);
                                     }
                                 } else {
-                                    $this->getMessageContent($val->MessageList->TradeMessage->ID, $val->MessageList->TradeMessage->Type, $tradePlace->id, $val->MessageList->TradeMessage->GUID);
+                                    $this->getMessageContent($val->MessageList->TradeMessage->ID, $val->MessageList->TradeMessage->Type, $tradePlace->id, $val->GUID);
                                 }
                                 continue;
                             }
                             foreach ($val as $trade) {
                                 if (array_key_exists('TradeMessage', $trade)) {
                                     if (gettype($trade->TradeMessage) == 'object') {
-                                        $this->getMessageContent($trade->TradeMessage->ID, $trade->TradeMessage->Type, $tradePlace->id, $trade->TradeMessage->GUID);
+                                        $this->getMessageContent($trade->TradeMessage->ID, $trade->TradeMessage->Type, $tradePlace->id, $trade->GUID);
                                     } else {
                                         foreach ($trade->TradeMessage as $message) {
-                                            $this->getMessageContent($message->ID, $message->Type, $tradePlace->id, $message->GUID);
+                                            $this->getMessageContent($message->ID, $message->Type, $tradePlace->id, $trade->GUID);
                                         }
                                     }
                                 } else {
@@ -107,11 +107,11 @@ class ParseTrades implements ShouldQueue
                                             $item = json_decode($item);
                                         }
                                         if (gettype($item) == 'object') {
-                                            $this->getMessageContent($item->ID, $item->Type, $tradePlace->id, $item->GUID);
+                                            $this->getMessageContent($item->ID, $item->Type, $tradePlace->id, $trade->GUID);
                                         }
                                         if (gettype($item) == 'array') {
                                             foreach ($item as $i) {
-                                                $this->getMessageContent($i->ID, $i->Type, $tradePlace->id, $i->GUID);
+                                                $this->getMessageContent($i->ID, $i->Type, $tradePlace->id, $trade->GUID);
                                             }
                                         }
 
@@ -125,7 +125,10 @@ class ParseTrades implements ShouldQueue
                         logger($e);
                     }
                 } else {
-                    $this->getMessageContent($message->TradeMessage->ID, $message->TradeMessage->Type, $tradePlace->id, $message->TradeMessage->GUID);
+                    logger('2');
+                    logger(json_encode($message));
+                    logger('----------------');
+                    $this->getMessageContent($message->TradeMessage->ID, $message->TradeMessage->Type, $tradePlace->id, $message->GUID);
                 }
             }
         }
@@ -134,10 +137,17 @@ class ParseTrades implements ShouldQueue
     public function getMessageContent($messageId, $messageType, $tradePlaceId, $messageGUID)
     {
         try {
-            if (!TradeMessage::where('number', $messageId)->exists()) {
+            $tradeMessage = TradeMessage::where('number', $messageId)->first();
+            if (!$tradeMessage) {
                 $xml = $this->service->getTradeMessageContent($messageId);
                 $getTradeMessageContent = new GetTradeMessageContent($xml, $messageType);
                 $getTradeMessageContent->switchMessageType($tradePlaceId, $messageId, $messageGUID);
+            }else{
+                if($messageType == 'BiddingInvitation') {
+                    $auction = $tradeMessage->lot->auction;
+                    $auction->guid = $messageGUID;
+                    $auction->save();
+                }
             }
         } catch (\Exception $e) {
             if(str_contains($e->getMessage(), 'Access Denied')){
