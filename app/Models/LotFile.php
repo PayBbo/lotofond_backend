@@ -2,12 +2,12 @@
 
 namespace App\Models;
 
+use App\Jobs\DeleteFileJob;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\URL;
-use Symfony\Component\Process\Process;
 
 class LotFile extends Model
 {
@@ -36,17 +36,7 @@ class LotFile extends Model
         parent::boot();
 
         static::deleting(function ($file) {
-            $slash = DIRECTORY_SEPARATOR;
-            if($file->type == 'file'){
-                $path = \storage_path('app'.$slash.'public'.$slash.stristr($file->url, 'auction-files'));
-                $process = new Process(['rm', $path]);
-                $process->run();
-            }else{
-                $main = \storage_path('app'.$slash.'public'.$slash.stristr($file->url[0], 'auction-files'));
-                $preview = \storage_path('app'.$slash.'public'.$slash.stristr($file->url[1], 'auction-files'));
-                $process = new Process(['rm', $main .' '.$preview]);
-                $process->run();
-            }
+          dispatch((new DeleteFileJob($file))->onQueue('parse'));
         });
 
     }
