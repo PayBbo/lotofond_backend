@@ -113,6 +113,21 @@ class TestCommand extends Command
           }
           fclose($file);*/
 
-        dispatch((new AdditionalLotInfoParseJob)->onQueue('parse'));
+       // dispatch((new AdditionalLotInfoParseJob)->onQueue('parse'));
+        $files = LotFile::whereIn('id', [146632, 146633])->get();
+        $slash = DIRECTORY_SEPARATOR;
+        foreach ($files as $file) {
+            if ($file->type == 'file') {
+                $path = \storage_path('app' . $slash . 'public' . $slash . stristr($file->url, 'auction-files'));
+                logger($path);
+                File::delete($path);
+            } else {
+                $main = \storage_path('app' . $slash . 'public' . $slash . stristr($file->url[0], 'auction-files'));
+                $preview = \storage_path('app' . $slash . 'public' . $slash . stristr($file->url[1], 'auction-files'));
+                logger($main);
+                logger($preview);
+                File::delete([$main, $preview]);
+            }
+        }
     }
 }
