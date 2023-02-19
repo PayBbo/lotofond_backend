@@ -344,7 +344,7 @@
                                                 {{ dateStatus.days }} {{$tc('trades.days', pluralization( dateStatus.days))}}
                                             </skeleton>
                                         </span>
-                                        <span v-else>
+                                        <span v-else class="bkt-text-700" :class="{'bkt-text-red': item.state==='biddingEnd' || item.state==='finished'}">
                                             <skeleton type_name="spoiler" :loading="rules && !rules.state">
                                                 {{item.state ? $t('trades.state.'+item.state) : ''}}
                                             </skeleton>
@@ -530,7 +530,7 @@
                     return 'bkt-bg-neutral-lighter'
                 }
                 if (tmp_state === 'biddingcanceled' || tmp_state === 'finished' || tmp_state === 'annulment' ||tmp_state === 'biddingfail') {
-                    return 'bkt-bg-red-lighter'
+                    return 'bkt-bg-red'
                 }
                 return 'bkt-bg-main-lighter'
             },
@@ -539,47 +539,6 @@
             },
             isLoggedIn() {
                 return this.$store.getters.isLoggedIn
-            },
-            priceInfo() {
-                if (this.item && this.item.trade && this.item.trade.type) {
-                    let prime_price = this.item.startPrice;
-                    let percent = ((this.item.currentPrice - this.item.startPrice) / this.item.startPrice) * 100;
-
-                    if (this.item.trade.type === 'ClosePublicOffer' || this.item.trade.type === 'PublicOffer') {
-                        prime_price = this.item.currentPrice;
-                        percent = ((this.item.startPrice - this.item.minPrice) / this.item.startPrice) * 100;
-                    }
-
-                    let deposit = {money: 0, percent: 0, type: ''};
-                    let auction_step = {money: 0, percent: 0, type: ''};
-                    if (this.item.deposit) {
-                        deposit.type = this.item.deposit.type;
-                        if (this.item.deposit.type === 'rubles') {
-                            deposit.money = this.item.deposit.value;
-                            deposit.percent = deposit.money * 100 / prime_price;
-                            if(deposit.percent<=0.01) {
-                                deposit.percent = 0.01;
-                            }
-                            if(deposit.percent>=99.99 && deposit.percent<100) {
-                                deposit.percent = 99.99;
-                            }
-                        } else {
-                            deposit.percent = this.item.deposit.value;
-                            deposit.money = prime_price * deposit.percent / 100;
-                        }
-                    }
-                    if (this.item.stepPrice) {
-                        auction_step.type = this.item.stepPrice.type;
-                        if (this.item.stepPrice.type === 'rubles') {
-                            auction_step.money = this.item.stepPrice.value;
-                            auction_step.percent = auction_step.money * 100 / prime_price;
-                        } else {
-                            auction_step.percent = this.item.stepPrice.value;
-                            auction_step.money = prime_price * auction_step.percent / 100;
-                        }
-                    }
-                    return {percent: percent, deposit: deposit, auction_step: auction_step}
-                }
             },
             isMobile() {
                 return this.$store.getters.isMobile

@@ -460,7 +460,7 @@
                                          (item.trade.type!=='CloseAuction' && item.trade.type!=='OpenAuction')
                                          && (!rules || rules && rules.minPrice))||(rules && !rules.minPrice)"
                             >
-                                <h5 class="bkt-card__subtitle">минимальная цена</h5>
+                                <h5 class="bkt-card__subtitle bkt-text-700">минимальная цена</h5>
                                 <h4 class="bkt-card__title bkt-text-red">
                                     <skeleton type_name="spoiler" :loading="rules && !rules.minPrice">
                                         {{item && item.minPrice ? item.minPrice : '0' | priceFormat}} ₽

@@ -45,10 +45,10 @@
                  (item.trade.type==='ClosePublicOffer' || item.trade.type==='PublicOffer')
                  && (!rules || rules && rules.minPrice))||(rules && !rules.minPrice)"
             >
-                <h6 class="bkt-card__subtitle">
+                <h6 class="bkt-card__subtitle bkt-text-700">
                     минимальная цена
                 </h6>
-                <h5 class="bkt-card__text bkt-text-700 bkt-card-trade__price d-flex flex-wrap">
+                <h5 class="bkt-card__text bkt-text-700 bkt-card-trade__price d-flex flex-wrap bkt-text-red">
                     <skeleton type_name="spoiler" :loading="rules && !rules.minPrice">
                         {{ item.minPrice | priceFormat}} ₽
                         <div class="bkt-badge bkt-bg-green" v-if="priceInfo.percent > 0">
