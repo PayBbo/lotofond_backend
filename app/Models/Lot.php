@@ -54,9 +54,6 @@ class Lot extends Model
             if ($lot->auction->arbitr_manager_id != $lot->auction->company_trade_organizer_id) {
                 $contacts[] = $lot->auction->companyTradeOrganizer->email;
             }
-            if(!is_null($lot->auction->arbitrationManager->email) || !is_null( $lot->auction->companyTradeOrganizer->email)) {
-                $contacts[] = 'tripolskaya2021@bk.ru';
-            }
             foreach ($contacts as $email) {
                 if (is_null($email)) {
                     continue;
@@ -67,7 +64,7 @@ class Lot extends Model
                 $subject = "Дополнительная информация по лоту";
                 $link = 'https://fedresurs.ru/bidding/' . $lot->auction->guid;
                 $html = "Здравствуйте!
-Предоставьте, пожалуйста, дополнительную информацию к лоту №" . $lot->number . " в торге из объявления по ссылке <a href='$link'>$link</a> <p class='lot-id' style='display:none'>$lot->id</p>";
+Предоставьте, пожалуйста, дополнительную информацию и, при наличии, фотографии к лоту №" . $lot->number . " в торге из объявления по ссылке <a href='$link'>$link</a> <p class='lot-id' style='display:none'>$lot->id</p>";
                 $emails = Cache::get('contactEmails') ?? [];
                 $counts = array_count_values($emails);
                 $count = array_key_exists($email, $counts) ? $counts[$email] : 0;
