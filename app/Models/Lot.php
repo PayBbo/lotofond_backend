@@ -72,7 +72,7 @@ class Lot extends Model
                 $counts = array_count_values($emails);
                 $count = array_key_exists($email, $counts) ? $counts[$email] : 0;
                 $delay = random_int(60, 360) * $count;
-                
+
                 $dateTime = Carbon::now();
                 $time = $dateTime->addSeconds($delay)->format('H');
                 if((int)$time > 20){

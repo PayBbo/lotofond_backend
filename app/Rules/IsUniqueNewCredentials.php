@@ -59,7 +59,7 @@ class IsUniqueNewCredentials implements Rule
         } else {
             $this->message = 'exists';
             return !User::where($attribute, $value)->exists() &&
-                !ChangeCredentials::where($attribute, $user[$attribute])->exists();
+                !ChangeCredentials::where($attribute, $value)->exists();
         }
     }
 
