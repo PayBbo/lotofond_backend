@@ -72,11 +72,17 @@ class Lot extends Model
                 $counts = array_count_values($emails);
                 $count = array_key_exists($email, $counts) ? $counts[$email] : 0;
                 $delay = random_int(60, 360) * $count;
+                
                 $dateTime = Carbon::now();
-                if($dateTime->addSeconds($delay)->between(Carbon::now()->subDay()->setTime('20','00'), Carbon::now()->setTime('06','00'))){
-                    $diff = Carbon::now()->setTime('06', '00')->diffInSeconds($dateTime);
-                    $delay+=$diff;
+                $time = $dateTime->addSeconds($delay)->format('H');
+                if((int)$time > 20){
+                    $nextDay = Carbon::now()->addDay()->setTime('06', '00');
+                    $delay += $nextDay->diffInSeconds($dateTime);
                 }
+                if((int)$time < 6){
+                    $delay += Carbon::now()->setTime('06', '00')->diffInSeconds($dateTime);
+                }
+
                 logger($delay . ' sec');
                 dispatch((new SendApplication($html, $subject, $email))->onQueue('additional')->delay($delay));
                 $emails[] = $email;
