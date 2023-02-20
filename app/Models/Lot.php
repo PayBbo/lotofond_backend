@@ -67,13 +67,13 @@ class Lot extends Model
                 $subject = "Дополнительная информация по лоту";
                 $link = 'https://fedresurs.ru/bidding/' . $lot->auction->guid;
                 $html = "Здравствуйте!
-Предоставьте, пожалуйста, дополнительную информацию и, при наличии, фотографии к лоту №" . $lot->number . " в торге из объявления по ссылке <a href='$link'>$link</a> <p class='lot-id' style='display:none'>$lot->id</p>";
+Предоставьте, пожалуйста, дополнительную информацию к лоту №" . $lot->number . " в торге из объявления по ссылке <a href='$link'>$link</a> <p class='lot-id' style='display:none'>$lot->id</p>";
                 $emails = Cache::get('contactEmails') ?? [];
                 $counts = array_count_values($emails);
                 $count = array_key_exists($email, $counts) ? $counts[$email] : 0;
                 $delay = random_int(60, 360) * $count;
 
-                $dateTime = Carbon::now();
+               /* $dateTime = Carbon::now();
                 $time = $dateTime->addSeconds($delay)->format('H');
                 if((int)$time > 20){
                     $nextDay = Carbon::now()->addDay()->setTime('06', '00');
@@ -81,7 +81,7 @@ class Lot extends Model
                 }
                 if((int)$time < 6){
                     $delay += Carbon::now()->setTime('06', '00')->diffInSeconds($dateTime);
-                }
+                }*/
 
                 logger($delay . ' sec');
                 dispatch((new SendApplication($html, $subject, $email))->onQueue('additional')->delay($delay));
