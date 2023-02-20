@@ -95,10 +95,11 @@
         </template>
         <template #footer="{ invalid }">
             <button type="button" class="bkt-button next ms-auto" v-if="!code_mode"
-                    :disabled="invalid || same_contact" @click="sendCode"
+                    :disabled="invalid || same_contact ||loading||code_loading" @click="sendCode"
             >
                 Далее
-                <bkt-icon name="ArrowDown"></bkt-icon>
+                <bkt-icon name="ArrowDown" v-show="!loading && !code_loading"></bkt-icon>
+                <span v-if="loading" class="spinner-border spinner-border-sm bkt-border-primary" role="status"></span>
             </button>
             <button type="button" class="bkt-button next me-auto" v-if="code_mode" :disabled="loading||code_loading" @click="back">
                 <bkt-icon name="ArrowDown" class="bkt-rotate-90"></bkt-icon>
@@ -219,6 +220,7 @@
             async sendCode(type) {
                 // if(type ==='repeat') {
                     this.code_loading = true;
+                    this.loading = true;
                 // }
                 if (!this.contact.haveAccessToOldCredentials) {
                     if (this.contact.grantType === 'email' && this.edit_user.email && !this.edit_user.phone) {
@@ -231,19 +233,22 @@
                 let data = JSON.parse(JSON.stringify(this.contact));
                 data[data.grantType] = this[data.grantType];
                 // if(this.mode !== 'no_contact') {
-                    this.code_mode = true;
+                //     this.code_mode = true;
                 // }
                 if (this.mode == 'old') {
-                    data[data.grantType] = this.user[data.grantType];
+                    if(this.contact.haveAccessToOldCredentials === false) {
+                        data[data.grantType] = this.user[data.grantType];
+                    }
                 }
                 if (this.mode == 'new') {
                     this.new_code = true;
                 }
-
+                console.log('mode', this.mode, this[data.grantType], this.email)
                 await this.$store.dispatch('getCredentialsCode', data)
                     .then((resp) => {
                         this.code_loading = false;
                         this.loading = false;
+                        this.code_mode = true;
                         if(type ==='repeat') {
                             this.$store.dispatch('sendNotification',
                                 {self: this, message:'Код подтверждения был отправлен повторно'})
@@ -255,6 +260,7 @@
                     .catch(err => {
                         this.code_loading = false;
                         this.loading = false;
+                        this.code_mode = false;
                         // this.$store.dispatch('sendNotification',
                         //     {self: this, message:'Ошибка', type: 'error'})
                     });
