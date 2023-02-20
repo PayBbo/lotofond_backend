@@ -121,25 +121,9 @@ class GetTradeMessageContent
                                     }
                                 }
                             }
-                        } else {
-                            logger('TradeMessage not exists');
-                            logger(json_encode($messageList));
                         }
-
-                    } else {
-                        logger('MessageList not exists');
-                        logger(json_encode($trade));
                     }
-
-                } else {
-                    logger('Trade not exists');
-                    logger(json_encode($tradeList));
                 }
-
-            } else {
-                logger('TradeList not exists');
-                logger(json_encode($messages));
-
             }
             return $isExists;
         }catch (\Exception $e){

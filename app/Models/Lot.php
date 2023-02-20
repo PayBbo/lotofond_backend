@@ -54,7 +54,9 @@ class Lot extends Model
             if ($lot->auction->arbitr_manager_id != $lot->auction->company_trade_organizer_id) {
                 $contacts[] = $lot->auction->companyTradeOrganizer->email;
             }
-            $contacts[]='tripolskaya2021@bk.ru';
+            if(!is_null($lot->auction->arbitrationManager->email) || !is_null( $lot->auction->companyTradeOrganizer->email)) {
+                $contacts[] = 'tripolskaya2021@bk.ru';
+            }
             foreach ($contacts as $email) {
                 if (is_null($email)) {
                     continue;
@@ -71,7 +73,7 @@ class Lot extends Model
                 $count = array_key_exists($email, $counts) ? $counts[$email] : 0;
                 $delay = random_int(60, 360) * $count;
                 $dateTime = Carbon::now();
-                if($dateTime->between(Carbon::now()->subDay()->setTime('21','00'), Carbon::now()->setTime('06','00'))){
+                if($dateTime->addSeconds($delay)->between(Carbon::now()->subDay()->setTime('20','00'), Carbon::now()->setTime('06','00'))){
                     $diff = Carbon::now()->setTime('06', '00')->diffInSeconds($dateTime);
                     $delay+=$diff;
                 }
