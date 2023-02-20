@@ -1,5 +1,5 @@
 <template>
-    <bkt-modal :id="'editContactModal'" v-if="user" :title="'Привязать контакт'"
+    <bkt-modal :id="'editContactModal'" ref="editContactModal" v-if="user" :title="'Привязать контакт'"
                :modal_class="'bkt-code-modal'" :loading="loading" @close-modal="back"
     >
         <template #body="{ invalid }">
@@ -7,9 +7,11 @@
                 <bkt-input
                     v-if="contact.grantType=='email'"
                     v-model="email"
+                    key="contact_email"
                     name="contact_email"
                     type="email"
                     label="новая эл.почта"
+                    field_name="'новая эл.почта'"
                     :rules="'required|email'"
                     placeholder="pochta@gmail.com"
                     no_group_item
@@ -18,12 +20,15 @@
                 <bkt-input
                     v-if="contact.grantType=='phone'"
                     v-model="phone"
+                    key="contact_phone"
                     name="contact_phone"
                     type="tel"
                     label="новый номер телефона"
+                    field_name="'новый номер телефона'"
                     :rules="'required|phone'"
                     :placeholder="'+7 495 000-00-00'"
                     :mask="['+# ### ### ####','+## ### ### ####', '+## ### #### ####',]"
+                    :masked="false"
                     no_group_item
                 />
                 <div class="bkt-wrapper-column" v-if="user[contact.grantType]">
@@ -301,6 +306,7 @@
                 this.code_mode = false;
                 this.new_code = false;
                 this.contact.code = '';
+                this.$refs.editContactModal.resetForm();
                 this.setType(this.contact.grantType);
             },
             cancel() {
