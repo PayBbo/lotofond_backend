@@ -150,11 +150,11 @@ class ProfileController extends Controller
             {
                 $changeCredentials = ChangeCredentials::where('phone', $request->phone)->first();
                 $isOldCredentials = $user->phone == $request->phone;
-                break;
-            }
-        }
-        $currentDate = Carbon::now()->setTimezone('Europe/Moscow')->addDay();
-        if (!Hash::check($request->code, $changeCredentials->token) || $changeCredentials->created_at < $currentDate) {
+        break;
+    }
+}
+$currentDate = Carbon::now()->setTimezone('Europe/Moscow')->addDay();
+        if (!Hash::check($request->code, $changeCredentials->token) || Carbon::parse($changeCredentials->created_at)->format('Y-m-d h:i') > $currentDate->format('Y-m-d h:i') ) {
             throw new BaseException("ERR_VALIDATION_FAILED_CODE", 422, __('validation.verification_code'));
         }
         if ($request->isOldCredentials && $request->haveAccessToOldCredentials && $isOldCredentials) {

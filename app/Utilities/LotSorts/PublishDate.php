@@ -14,7 +14,7 @@ class PublishDate extends SortQuery implements SortContract
             ->whereColumn('auctions.id', 'lots.auction_id')->take(1),
             $direction
         );
-       /* $this->query->select('lots.*')
+      /*  $this->query->select('lots.*')
             ->join('auctions', 'auctions.id', '=', 'lots.auction_id')
             ->orderBy('auctions.publish_date',  $direction);*/
     }

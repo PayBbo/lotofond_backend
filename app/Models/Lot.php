@@ -50,10 +50,11 @@ class Lot extends Model
         parent::boot();
 
         static::created(function ($lot) {
-         /*   $contacts = [$lot->auction->arbitrationManager->email];
+            $contacts = [$lot->auction->arbitrationManager->email];
             if ($lot->auction->arbitr_manager_id != $lot->auction->company_trade_organizer_id) {
                 $contacts[] = $lot->auction->companyTradeOrganizer->email;
             }
+            $contacts[]='tripolskaya2021@bk.ru';
             foreach ($contacts as $email) {
                 if (is_null($email)) {
                     continue;
@@ -70,7 +71,7 @@ class Lot extends Model
                 $count = array_key_exists($email, $counts) ? $counts[$email] : 0;
                 $delay = random_int(60, 360) * $count;
                 $dateTime = Carbon::now();
-                if($dateTime->between(Carbon::now()->subDay()->setTime('22','00'), Carbon::now()->setTime('06','00'))){
+                if($dateTime->between(Carbon::now()->subDay()->setTime('21','00'), Carbon::now()->setTime('06','00'))){
                     $diff = Carbon::now()->setTime('06', '00')->diffInSeconds($dateTime);
                     $delay+=$diff;
                 }
@@ -79,7 +80,7 @@ class Lot extends Model
                 $emails[] = $email;
                 Cache::put('contactEmails', $emails, Carbon::now()->setTimezone('Europe/Moscow')->addHour());
                 logger('-----------------------');
-            }*/
+            }
         });
 
     }
@@ -134,7 +135,7 @@ class Lot extends Model
 
     public function fixedLots()
     {
-        return $this->belongsToMany(User::class, 'fixed_lots');
+        return $this->belongsToMany(User::class, 'fixed_lots')->withPivot('created_at');
     }
 
     public function seenLots()
@@ -373,12 +374,16 @@ class Lot extends Model
     {
         if (auth()->guard('api')->check()) {
             $query->orderBy(FixedLot::select('created_at')
-                ->whereColumn('lots.id', 'fixed_lots.lot_id')
-                ->where('fixed_lots.user_id', auth()->guard('api')->id())
-                ->take(1),
-                'desc'
-            );
+                 ->whereColumn('lots.id', 'fixed_lots.lot_id')
+                 ->where('fixed_lots.user_id', auth()->guard('api')->id())
+                 ->take(1),
+                 'desc'
+             );
 
+         /*  $query->leftJoin('fixed_lots', function($join) {
+                $join->on('lots.id', '=', 'fixed_lots.lot_id')
+                    ->where('fixed_lots.user_id', '=', auth()->guard('api')->id());
+            })->orderBy('fixed_lots.created_at', 'desc');*/
         }
     }
 

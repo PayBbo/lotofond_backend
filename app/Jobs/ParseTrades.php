@@ -125,9 +125,6 @@ class ParseTrades implements ShouldQueue
                         logger($e);
                     }
                 } else {
-                    logger('2');
-                    logger(json_encode($message));
-                    logger('----------------');
                     $this->getMessageContent($message->TradeMessage->ID, $message->TradeMessage->Type, $tradePlace->id, $message->GUID);
                 }
             }
@@ -142,12 +139,6 @@ class ParseTrades implements ShouldQueue
                 $xml = $this->service->getTradeMessageContent($messageId);
                 $getTradeMessageContent = new GetTradeMessageContent($xml, $messageType);
                 $getTradeMessageContent->switchMessageType($tradePlaceId, $messageId, $messageGUID);
-            }else{
-                if($messageType == 'BiddingInvitation') {
-                    $auction = $tradeMessage->lot->auction;
-                    $auction->guid = $messageGUID;
-                    $auction->save();
-                }
             }
         } catch (\Exception $e) {
             if(str_contains($e->getMessage(), 'Access Denied')){
