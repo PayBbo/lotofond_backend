@@ -150,11 +150,11 @@ class ProfileController extends Controller
             {
                 $changeCredentials = ChangeCredentials::where('phone', $request->phone)->first();
                 $isOldCredentials = $user->phone == $request->phone;
-        break;
-    }
-}
-$currentDate = Carbon::now()->setTimezone('Europe/Moscow')->addDay();
-        if (!Hash::check($request->code, $changeCredentials->token) || Carbon::parse($changeCredentials->created_at)->format('Y-m-d h:i') > $currentDate->format('Y-m-d h:i') ) {
+                break;
+            }
+        }
+        $currentDate = Carbon::now()->setTimezone('Europe/Moscow')->addDay();
+        if (!Hash::check($request->code, $changeCredentials->token) || Carbon::parse($changeCredentials->created_at)->format('Y-m-d h:i') > $currentDate->format('Y-m-d h:i')) {
             throw new BaseException("ERR_VALIDATION_FAILED_CODE", 422, __('validation.verification_code'));
         }
         if ($request->isOldCredentials && $request->haveAccessToOldCredentials && $isOldCredentials) {
@@ -174,10 +174,19 @@ $currentDate = Carbon::now()->setTimezone('Europe/Moscow')->addDay();
             $changeCredentials->is_submitted_new_credentials = true;
             $changeCredentials->save();
             dispatch((new ChangeEmail($changeCredentials->id))->delay(now()->setTimezone('Europe/Moscow')->addWeeks(2))->onQueue('credentials'));
+            return response(
+                [
+                    'changeCredentialsProcess' => [
+                        'changeCredentialsProcessId' => $changeCredentials->id,
+                        'newValueType' => (is_null($changeCredentials->email) ? 'phone' : 'email'),
+                        'newValue' => (is_null($changeCredentials->email) ? $changeCredentials->phone : $changeCredentials->email),
+                        'dateOfChange' => Carbon::parse($changeCredentials->created_at)->addDays(14)
+                    ]
+                ], 200);
         } else {
             throw new BaseException("ERR_VALIDATION_FAILED_CODE", 422, __('validation.credentials_submitted'));
         }
-        return response(null, 200);
+        return response(['changeCredentialsProcess' => null], 200);
     }
 
     public function changePassword(ChangePasswordRequest $request)
@@ -285,9 +294,9 @@ $currentDate = Carbon::now()->setTimezone('Europe/Moscow')->addDay();
     public function verifyDeleteProfileCode(VerifyDeleteProfileCodeRequest $request)
     {
         $user = User::find(auth()->id());
-        if($request->grantType == 'email') {
+        if ($request->grantType == 'email') {
             VerifyAccount::where('value', $user[$request->grantType])->where('is_delete', true)->delete();
-        }else{
+        } else {
             VerifyAccount::where('phone', $user->phone)->where('is_delete', true)->delete();
         }
         $accessToken = auth()->user()->token();

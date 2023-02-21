@@ -3405,7 +3405,22 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
         "200":
-          description: 'Successful response'
+          description: Объект о смене учетных данных будет возвращен в случае, если был запрос на смену поты/телефона без доступа к старым данным (haveAccessToOldCredentials= false, isOldCredentials = false), в ином случае ответ будет пустым
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ChangeCredentialsProcess"
+              examples:
+                hasChangeCredentialsProcess:
+                  value:
+                    changeCredentialsProcess:
+                      changeCredentialsProcessId: 1
+                      newValueType: "email/phone"
+                      newValue: "string"
+                      dateOfChange: "string"
+                doesntHasChangeCredentialsProcess:
+                  value:
+                    changeCredentialsProcess: null
       security:
         - bearerAuth: [ ]
   /account/delete/code:
@@ -4359,21 +4374,7 @@ components:
         notificationsSettings:
           $ref: "#/components/schemas/NotificationsSettings"
         changeCredentialsProcess:
-          type: object
-          description: присылается объект только в том случае, если у пользователя было оформление смены почты/телефона без подтверждения прежних данных телефона/почты. В ином случае придет null
-          properties:
-            changeCredentialsProcessId:
-              type: integer
-              description: айдишник процесса изменения данных учетной записи
-            newValueType:
-              type: string
-              description: тип изменяемых данных - почта/телефон
-            newValue:
-              type: string
-              description: значение, на которое поменяется почта/телефон
-            dateOfChange:
-              type: string
-              description: дата изменения данных
+          $ref: "#/components/schemas/ChangeCredentialsProcess"
         tariff:
           type: object
           description: может быть null, если у пользователя нет активного тарифа
@@ -4386,6 +4387,22 @@ components:
               description: дата истечения сркоа действия подписки
         contentDisplayRules:
             $ref: "#/components/schemas/ContentDisplayRules"
+    ChangeCredentialsProcess:
+      type: object
+      description: присылается объект только в том случае, если у пользователя было оформление смены почты/телефона без подтверждения прежних данных телефона/почты. В ином случае придет null
+      properties:
+        changeCredentialsProcessId:
+          type: integer
+          description: айдишник процесса изменения данных учетной записи
+        newValueType:
+          type: string
+          description: тип изменяемых данных - почта/телефон
+        newValue:
+          type: string
+          description: значение, на которое поменяется почта/телефон
+        dateOfChange:
+          type: string
+          description: дата изменения данных
     ContentDisplayRules:
       type: object
       properties:
