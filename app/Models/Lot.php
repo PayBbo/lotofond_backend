@@ -50,7 +50,7 @@ class Lot extends Model
         parent::boot();
 
         static::created(function ($lot) {
-            $contacts = [$lot->auction->arbitrationManager->email];
+          /*  $contacts = [$lot->auction->arbitrationManager->email];
             if ($lot->auction->arbitr_manager_id != $lot->auction->company_trade_organizer_id) {
                 $contacts[] = $lot->auction->companyTradeOrganizer->email;
             }
@@ -61,31 +61,37 @@ class Lot extends Model
                 logger('Sent emails to organizers');
                 logger($lot->id);
                 logger($email);
-                $subject = "Дополнительная информация по лоту";
-                $link = 'https://fedresurs.ru/bidding/' . $lot->auction->guid;
-                $html = "Здравствуйте!
-Предоставьте, пожалуйста, дополнительную информацию и, при наличии, фотографии к лоту №" . $lot->number . " в торге из объявления по ссылке <a href='$link'>$link</a> <p class='lot-id' style='display:none'>$lot->id</p>";
+                $debtor = $lot->auction->debtor;
+                $debtorName = $debtor->name;
+                if (!is_null($debtor->last_name)) {
+                    $debtorName = $debtor->last_name . ' ' . $debtor->name;
+                }
+                if (!is_null($debtor->last_name)) {
+                    $debtorName .= ' ' . $debtor->middle_name;
+                }
+
+                $subject = "Запрос информации по торгу должника: " . $debtorName;
+                $tradeId = $lot->auction->trade_id;
+                $idEfrsb = '. </p> <p> Ссылка на торги на федресурсе: https://fedresurs.ru/bidding/' . $lot->auction->guid .'</p>';
+                if (!is_null($lot->auction->id_efrsb)) {
+                    $idEfrsb = ". </p> <p>Номер сообщения в ЕФРСБ: " . $lot->auction->id_efrsb .'</p>';
+                }
+                $html = "Добрый день, просим предоставить все имеющиеся документы и информацию по торгам № " . $tradeId . ", лоту № " . $lot->number .
+".<p>Должник: " . $debtorName . ",  ИНН: " . $debtor->inn . $idEfrsb . "<p class='lot-id' style='display:none'>$lot->id</p>
+<br>
+<p> С уважением,</p>
+<p>ООО «Русвопрос»</p>";
                 $emails = Cache::get('contactEmails') ?? [];
                 $counts = array_count_values($emails);
                 $count = array_key_exists($email, $counts) ? $counts[$email] : 0;
                 $delay = random_int(60, 360) * $count;
-
-               /* $dateTime = Carbon::now();
-                $time = $dateTime->addSeconds($delay)->format('H');
-                if((int)$time > 20){
-                    $nextDay = Carbon::now()->addDay()->setTime('06', '00');
-                    $delay += $nextDay->diffInSeconds($dateTime);
-                }
-                if((int)$time < 6){
-                    $delay += Carbon::now()->setTime('06', '00')->diffInSeconds($dateTime);
-                }*/
-
+                logger('count '.$count);
                 logger($delay . ' sec');
-                dispatch((new SendApplication($html, $subject, $email))->onQueue('additional')->delay($delay));
+                dispatch((new SendApplication($html, $subject, $email))->onQueue('credentials')->delay($delay));
                 $emails[] = $email;
-                Cache::put('contactEmails', $emails, Carbon::now()->setTimezone('Europe/Moscow')->addHour());
+                Cache::put('contactEmails', $emails, Carbon::now()->setTimezone('Europe/Moscow')->addDay());
                 logger('-----------------------');
-            }
+            }*/
         });
 
     }

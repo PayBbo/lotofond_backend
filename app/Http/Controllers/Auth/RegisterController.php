@@ -104,7 +104,7 @@ class RegisterController extends Controller
             }
         }
         $currentDate = Carbon::now()->setTimezone('Europe/Moscow')->addDay();
-        if (!Hash::check($request->code, $verifyAccount->token) || $verifyAccount->created_at < $currentDate) {
+        if (!Hash::check($request->code, $verifyAccount->token) || Carbon::parse($verifyAccount->created_at)->format('Y-m-d h:i') > $currentDate->format('Y-m-d h:i')) {
             throw new BaseException("ERR_VALIDATION_FAILED_CODE", 422, __('validation.verification_code'));
         }
         $password = $verifyAccount->code;

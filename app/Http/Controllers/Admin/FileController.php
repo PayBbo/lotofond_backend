@@ -38,8 +38,7 @@ class FileController extends Controller
         if ($request->hasFile('image')) {
             $path = Storage::disk('public')->put($dest, $request->image);
             $fileService = new FilesService();
-            $fileService->generatePreview($request->file('image'),
-                $dest. '/previews/' . basename($path));
+            $fileService->generatePreview($dest, basename($path));
             $preview = 'storage/' . $dest. '/previews/' . basename($path);
             $imageAssets = ['main' => 'storage/' . $path, 'preview' => $preview];
             $lotFile->type = 'image';

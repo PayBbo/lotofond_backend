@@ -5,122 +5,122 @@ namespace App\Http\Services\Parse;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 use Intervention\Image\Facades\Image;
 use function logger;
-use function public_path;
 
 
 class FilesService
 {
     protected $slash = DIRECTORY_SEPARATOR;
 
-    public function parseFiles($invitation, $auction, $prefix, $isImages = false)
+    /*
+     * Путь относительно storage public
+     * 'auction-files/auction-id/time';
+     */
+
+    public function parseFiles($invitation, $auction, $prefix, $isImages = false): array
     {
         $filename = $invitation[$prefix . 'Attach'][$prefix . 'FileName'];
+        $extension = $invitation[$prefix . 'Attach'][$prefix . 'Type'];
         if (strpos($filename, '.'))
-            $name_file = str_replace(' ', '-', $filename);
+            $filename = str_replace(' ', '-', $filename);
         else
-            $name_file = str_replace(' ', '-', $filename . '.' . $invitation[$prefix . 'Attach'][$prefix . 'Type']);
-        $time = Carbon::now()->format('d-m-Y-H-i');
-        $path = 'auction-files'.$this->slash.'auction-' . $auction->id . $this->slash . $time;
-        if (!Storage::disk('public')->exists($path . $this->slash . $name_file)) {
-            Storage::disk('public')->put($path . $this->slash . $name_file,
-                base64_decode($invitation[$prefix . 'Attach'][$prefix . 'Blob']));
-        }
-        $dest = 'app'.$this->slash.'public'.$this->slash.'auction-files'.$this->slash.'auction-' . $auction->id . $this->slash . $time;
+            $filename = str_replace(' ', '-', $filename . '.' . $extension);
+        $filename = substr(File::name($filename), 0, 200) . '.' .  $extension;
+        $time = $this->getTimeNow();
+        $root_path = 'auction-files' . $this->slash . 'auction-' . $auction->id . $this->slash . $time;
+        if (!File::exists(Storage::disk('public')->path($root_path . $this->slash . $filename)))
+            Storage::disk('public')->put($root_path . $this->slash . $filename, base64_decode($invitation[$prefix . 'Attach'][$prefix . 'Blob']));
         if ($isImages) {
-            logger('Images from type '. $invitation[$prefix . 'Attach'][$prefix . 'Type']);
+            logger('Images from type '. $extension);
             logger('Auction id: '.$auction->id);
-            $full_path = \storage_path($dest);
-            $name_file = $this->renameRootFile($full_path, $name_file);
-            $document = \storage_path($dest . $this->slash . $name_file);
-
-            $this->execCommand($full_path, $document, $invitation[$prefix . 'Attach'][$prefix . 'Type']);
-            $files = $this->getImagesFrom($full_path, $path, $invitation[$prefix . 'Attach'][$prefix . 'Type'], $document);
-
+            $this->parseImages($root_path, $filename, $extension);
+            $files = $this->createPreview($root_path);
             logger('----------------------');
-        } else {
-            $files = ['storage'.$this->slash . $path . $this->slash . $name_file];
         }
+        else
+            $files = ['storage' . $this->slash . $root_path . $this->slash . $filename];
         return $files;
     }
-
-    public function downloadFileByLink($files, $auctionId){
-        $time = Carbon::now()->format('d-m-Y-H-i');
-        $path = 'auction-files'.$this->slash.'auction-' . $auctionId . $this->slash . $time;
-        $dest = 'app'.$this->slash.'public'.$this->slash.'auction-files'.$this->slash.'auction-' . $auctionId . $this->slash . $time;
-        $full_path = \storage_path($dest);
-        $images = [];
-        $assets_files = [];
+    public function downloadFileByLink($arrayFiles, $auctionId): array
+    {
+        $time = $this->getTimeNow();
+        $root_path = 'auction-files' . $this->slash . 'auction-' . $auctionId . $this->slash . $time;
+        $images = array();
+        $files = array();
         $hasImages = false;
-        foreach($files as $file) {
+        foreach($arrayFiles as $file) {
             $content = $this->getContentWithCookiesFile($file['link']);
             $filename = str_replace(' ', '-', $file['filename']);
-            $extension = pathinfo($filename, PATHINFO_EXTENSION);
-            $filename = substr(pathinfo($filename, PATHINFO_FILENAME), 0, 200) . '.' . $extension;
+            $filenameExtension = File::extension($filename) ? '.'.File::extension($filename) : File::extension($filename);
+            $extension = File::extension($filename);
+            $filename = substr(File::name($filename), 0, 200) . $filenameExtension;
             if(mb_stripos($filename, 'фото') !== false || $this->is_image_extension($filename)) {
                 logger('LINKS. Images from type '. $extension);
                 logger('Auction id: '.$auctionId);
-                $temp_dir = $full_path . $this->slash . 'TEMP-DIR';
-                $path_1 = $path . $this->slash . 'TEMP-DIR';
-                Storage::disk('public')->put($path_1. $this->slash . $filename, $content);
-                $document = $temp_dir.$this->slash.$filename;
-                if($extension === 'doc' || $extension === 'pdf' || $extension === 'docx' || $extension === 'zip' || $extension === 'rar') {
-                    $filename = $this->renameRootFile($full_path . $this->slash . 'TEMP-DIR', $filename);
-                    $document = $temp_dir.$this->slash.$filename;
-                    $this->execCommand($temp_dir, $document, $extension);
-                }
-                $this->getImagesFrom($temp_dir, $path_1, $extension, $document, true);
-                logger('----------------------');
-                $this->copyAllFilesImagesForExtract($full_path, $temp_dir.$this->slash);
-                rmdir($temp_dir.$this->slash);
+                Storage::disk('public')->put($root_path. $this->slash . $filename, $content);
+                $this->parseImages($root_path, $filename, $extension);
                 $hasImages = true;
+                logger('----------------------');
             } else {
-                Storage::disk('public')->put($path . $this->slash . $filename, $content);
-                $assets_files[] = 'storage' . $this->slash . $path . $this->slash . $filename;
+                Storage::disk('public')->put($root_path . $this->slash . $filename, $content);
+                $files[] = 'storage' . $this->slash . $root_path . $this->slash . $filename;
             }
         }
-        if($hasImages) {
-            $images = $this->createPreview($full_path, $path);
+        if($hasImages)
+            $images = $this->createPreview($root_path);
+        return ['images'=>$images, 'files'=>$files];
+    }
+
+    public function parseImages($root_path, $filename, $extension)  {
+        $temp_dir = $this->createTempDir($root_path.$this->slash."TempDir");
+        if (File::exists(Storage::disk('public')->path($root_path . $this->slash . $filename)))
+            Storage::disk('public')->move($root_path . $this->slash . $filename, $temp_dir . $this->slash . $filename);
+        $filename = $this->renameRootFile($temp_dir, $filename);
+        if($extension === 'doc' || $extension === 'pdf' || $extension === 'docx' || $extension === 'zip' || $extension === 'rar')
+            $this->setExecCommand($temp_dir, $filename, $extension);
+        $this->getImagesFrom($root_path, $temp_dir, $filename, $extension);
+    }
+
+    private function getImagesFrom($root_path, $temp_dir, $filename, $type) {
+        $this->searchAllFilesImagesForExtract($temp_dir);
+        $this->deleteAllFilesForExtract($temp_dir, null, $filename);
+        if($type === 'pdf')
+            $this->binwalkNotFindImages($temp_dir, $filename);
+        $this->copyAllFilesImagesForExtract($temp_dir, $root_path);
+        $this->deleteAllFilesForExtract($temp_dir, 'yes');
+    }
+
+    private function binwalkNotFindImages($temp_dir, $filename) {
+        $allFiles = Storage::disk('public')->allFiles($temp_dir);
+        if (count($allFiles) <= 1) {
+            $filename = Storage::disk('public')->path($temp_dir.$this->slash.$filename);
+            $comm_dir = Storage::disk('public')->path($temp_dir) . $this->slash;
+            $comm = "pdfimages -png ".$filename." ".$comm_dir;
+            $this->execCommand($comm);
+            $this->searchAllFilesImagesForExtract($temp_dir);
         }
-        return ['images'=>$images, 'files'=>$assets_files];
     }
 
-    public function getContentWithCookiesFile($file) {
-        $content = $this->getContentFile($file);
-        $pattern = '/(?<=a=toNumbers\(").*(?="\),b)|(?<=b=toNumbers\(").*(?="\),c)|(?<=c=toNumbers\(").*(?="\),now)/';
-        preg_match_all($pattern, $content, $matches);
-        return $this->getContentFile($file, $matches[0][0],$matches[0][1], $matches[0][2]);
-    }
-
-    public function getContentFile($file, $a = '8b3d7f4e9ab55daee9fb89016f8a76a9', $b = 'a9ee0b0a96986edc98bfe6a739b457a6', $c = '535a97a4d149ee29ac533ad1ebf746d4') {
-        $cookieService = new CookieService($a, $b, $c);
-        $options = $cookieService->getFedresursHeadersOptions();
-        $ch = curl_init($file);
-        curl_setopt_array($ch, $options);
-        $content = curl_exec($ch);
-        curl_close($ch);
-        return $content;
-    }
-
-    public function execCommand($path, $document, $extension) {
-        $comm = null;
+    private function setExecCommand($temp_dir, $filename, $extension, $comm = null) {
+        $filename = Storage::disk('public')->path($temp_dir.$this->slash.$filename);
+        $temp_dir = Storage::disk('public')->path($temp_dir) . $this->slash;
         switch ($extension) {
             case 'doc':
             case 'pdf':
-            {
-                $comm = "binwalk --dd 'jpeg image:jpeg' --dd 'png image:png' --dd 'jpg image:jpg' --dd 'bmp image:bmp' ".$document." --directory ".$path.$this->slash." --rm  --run-as=root";
+                $comm = "binwalk --dd 'jpeg image:jpeg' --dd 'png image:png' --dd 'jpg image:jpg' --dd 'bmp image:bmp' " . $filename . " --directory " . $temp_dir . " --rm  --run-as=root";
                 break;
-            }
             case 'docx':
             case 'zip':
             case 'rar':
-            {
-                $comm = "unar -no-directory ".$document." -output-directory ".$path . $this->slash;
+                $comm = "unar -no-directory " . $filename . " -output-directory " . $temp_dir;
                 break;
-            }
-
         }
+        $this->execCommand($comm);
+    }
+
+    private function execCommand($comm = null) {
         if (!is_null($comm)) {
             try {
                 exec(`$comm`);
@@ -130,195 +130,139 @@ class FilesService
         }
     }
 
-    public function renameRootFile($full_path, $file_name) {
-        if (file_exists($full_path . $this->slash . $file_name)) {
-            $extension = pathinfo($full_path . $this->slash . $file_name, PATHINFO_EXTENSION);
-            $new_name = "tempfile.".$extension;
-            rename($full_path . $this->slash . $file_name, $full_path . $this->slash . $new_name);
-            return $new_name;
-        }
-        return $file_name;
-    }
-
-    public function getImagesFrom($full_path, $path, $type, $document, $is_array = false) {
-        $this->searchAllFilesImagesForExtract($full_path, $full_path, $path);
-        $this->deleteAllFilesForExtract($full_path. $this->slash . 'searchAllFilesImagesForExtract', $full_path. $this->slash . 'searchAllFilesImagesForExtract');
-        if($type === 'pdf')
-            $this->binwalkNotFindImages($full_path, $document, $path);
-        $this->copyAllFilesImagesForExtract($full_path, $full_path . $this->slash . 'searchAllFilesImagesForExtract');
-        $this->deleteAllFilesForExtract($full_path, $full_path);
-        if ($is_array)
-            return true;
-        return $this->createPreview($full_path, $path);
-    }
-
-    function is_dir_empty($dir) {
-        if (!is_readable($dir)) return null;
-        $handle = opendir($dir);
-        while (false !== ($entry = readdir($handle))) {
-            if ($entry !== '.' && $entry !== '..') {
-                closedir($handle);
-                return false;
+    private function searchAllFilesImagesForExtract($temp_dir)
+    {
+        foreach (Storage::disk('public')->allFiles($temp_dir) as $key => $object) {
+            $path = str_replace($this->slash.File::basename($object),'', $object);
+            $filename = $this->addNewExtension($path, File::basename($object));
+            $filenameExtension = File::extension($filename) ? '.'.File::extension($filename) : File::extension($filename);
+            $newName = 'image-'.$key.$this->getRandomNameWithTime().$filenameExtension;
+            if ($this->is_image_extension($filename) && $this->is_image($path, $filename)){
+                if (File::exists(Storage::disk('public')->path($temp_dir.$this->slash.$newName)))
+                    $newName = 'image-'.$key.$this->getRandomNameWithTime().$filenameExtension;
+                Storage::disk('public')->move($path.$this->slash.$filename, $temp_dir.$this->slash.$newName);
             }
         }
-        closedir($handle);
-        return true;
     }
 
-    public function createPreview($full_path, $path)
+    private function copyAllFilesImagesForExtract($temp_dir, $root_path)
+    {
+        foreach (Storage::disk('public')->allFiles($temp_dir) as $object) {
+            if ($this->is_image_extension(File::basename($object)) && $this->is_image(str_replace($this->slash.File::basename($object),'', $object), File::basename($object)))
+                Storage::disk('public')->move($object, $root_path.$this->slash.File::basename($object));
+        }
+    }
+
+    private function deleteAllFilesForExtract($temp_dir, $delRootPath = null, $file = null)
+    {
+        foreach (Storage::disk('public')->allFiles($temp_dir) as $object) {
+            $path = str_replace($this->slash.File::basename($object),'', $object);
+            $filename = File::basename($object);
+            if (!$this->is_image($path, $filename) && !$this->is_image_extension($filename) && $object !== $temp_dir.$this->slash.$file)
+                Storage::disk('public')->delete($object);
+        }
+        foreach (Storage::disk('public')->allDirectories($temp_dir) as $object)
+            Storage::disk('public')->deleteDirectory($object);
+        if (is_null($file) && !is_null($delRootPath))
+            Storage::disk('public')->deleteDirectory($temp_dir);
+    }
+
+    public function createPreview($path): array
     {
         $imageAssets = array();
-        $result_files = File::files($full_path . $this->slash);
-        foreach ($result_files as $key => $f) {
-            $name = pathinfo($f, PATHINFO_FILENAME);
-            $extension = pathinfo($f, PATHINFO_EXTENSION);
-            if ($this->is_image_extension($name . '.' . $extension) && $this->is_image($full_path, $name . '.' . $extension)) {
-                $file = 'storage' . $this->slash . $path . $this->slash . $name . '.' . $extension;
-                $this->generatePreview($f, $path . $this->slash . 'previews' . $this->slash . $name . '.' . $extension);
-                $preview = 'storage' . $this->slash . $path . $this->slash . 'previews' . $this->slash . $name . '.' . $extension;
-                $imageAssets[$key] = ['main' => $file, 'preview' => $preview];
+        foreach (Storage::disk('public')->files($path) as $key => $object) {
+            $path = str_replace($this->slash.File::basename($object),'', $object);
+            $filename = File::basename($object);
+            if ($this->is_image($path, $filename) && $this->is_image_extension($filename)) {
+                $imageAssets[$key] = [
+                    'main' => 'storage'.$this->slash.$path.$this->slash.$filename,
+                    'preview' => 'storage'.$this->slash.$this->generatePreview($path, $filename)
+                ];
             }
         }
         return $imageAssets;
     }
 
-    public function binwalkNotFindImages($full_path, $document, $path) {
-        $temp_dir_search = $full_path . $this->slash . 'searchAllFilesImagesForExtract';
-        $temp_dir = $path.$this->slash.'pdfimagesAllFilesImagesForExtract';
-        Storage::disk('public')->makeDirectory($temp_dir);
-        if (is_dir($temp_dir_search) && $this->is_dir_empty($temp_dir_search)) {
-            $comm = "pdfimages -png ".$document." ".$temp_dir.$this->slash;
-            try {exec(`$comm`);} catch (\Exception $exception) {}
-            $this->searchAllFilesImagesForExtract($full_path, $full_path, $path);
-            $this->copyAllFilesImagesForExtract($full_path, $full_path . $this->slash . 'searchAllFilesImagesForExtract');
+    public function generatePreview($path, $filename): string
+    {
+        $previewPath = $path . $this->slash . 'previews' . $this->slash;
+        $thumbnail = Image::make(Storage::disk('public')->get($path . $this->slash . $filename))->fit(960, 480);
+        Storage::disk('public')->put($previewPath . $filename, $thumbnail);
+        $thumbnail->save(Storage::disk('public')->path($previewPath . $filename));
+        return $previewPath . $filename;
+    }
+
+    private function renameRootFile($path, $filename): string
+    {
+        if (File::exists(Storage::disk('public')->path($path.$this->slash.$filename))) {
+            $extension = File::extension($filename) ? '.'.File::extension($filename) : File::extension($filename);
+            $newFilename = "file-".$this->getRandomNameWithTime().$extension;
+            if (File::exists(Storage::disk('public')->path($path.$this->slash.$newFilename)))
+                $newFilename = "file-".$this->getRandomNameWithTime().$extension;
+            Storage::disk('public')->move($path.$this->slash.$filename, $path.$this->slash.$newFilename);
+            return $newFilename;
         }
+        return $filename;
     }
 
-    public function generatePreview($image, $path)
+    private function getTimeNow(): string
     {
-        $thumbnail = Image::make($image);
-        $thumbnail->fit(960, 480);
-        Storage::disk('public')->put($path, $thumbnail);
-        $thumbnail->save(public_path('storage' . $this->slash . $path));
+        return Carbon::now()->format('d-m-Y-H-i');
     }
 
-    public function deleteAllFilesForExtract($dir, $s_path)
+    private function getRandomNameWithTime(): string
     {
-        if (is_dir($dir)) {
-            $objects = scandir($dir);
-            foreach ($objects as $object) {
-                if ($object != "." && $object != "..") {
-                    if (is_dir($dir . $this->slash . $object) && !is_link($dir . $this->slash . $object)) {
-                        $this->deleteAllFilesForExtract($dir . $this->slash . $object, $s_path);
-                    } else {
-                        $extension = pathinfo($dir . $this->slash . $object, PATHINFO_EXTENSION);
-                        if ($dir != $s_path) {
-                            unlink($dir . $this->slash . $object);
-                        } else {
-                            if ($extension != 'jpeg' && $extension != 'bmp' && $extension != 'png' && $extension != 'jpg') {
-                                unlink($dir . $this->slash . $object);
-                            }
-                        }
-                    }
-                }
-            }
-            if ($dir !== $s_path && $dir !== $s_path . $this->slash . 'previews') {
-                rmdir($dir);
-            }
+        return Carbon::now()->valueOf().rand(0,100000);
+    }
+
+    public function is_image($path, $filename): bool
+    {
+        return Str::contains(Storage::disk('public')->mimeType($path.$this->slash.$filename), 'image');
+    }
+
+    public function is_image_extension($filename): bool
+    {
+        return in_array(strtolower(File::extension($filename)), array_map('strtolower', array("jpeg", "jpg", "png", "bmp")));
+    }
+
+    private function addNewExtension($path, $filename): string
+    {
+        $fullPath = Storage::disk('public')->path($path . $this->slash . $filename);
+        $filenameWithoutExtension = File::name($filename);
+        $fileGuessExtension = File::guessExtension($fullPath) ? '.'.File::guessExtension($fullPath) : File::guessExtension($fullPath);
+        if ($filename !== $filenameWithoutExtension . $fileGuessExtension) {
+            if (File::exists(Storage::disk('public')->path($path.$this->slash.$filenameWithoutExtension.$fileGuessExtension)))
+                $filenameWithoutExtension .= $this->getRandomNameWithTime();
+            Storage::disk('public')->move($path . $this->slash . $filename, $path . $this->slash . $filenameWithoutExtension . $fileGuessExtension);
         }
+        return $filenameWithoutExtension . $fileGuessExtension;
     }
-
-    public function searchAllFilesImagesForExtract($current_dir, $root_path, $path)
-    {
-        $temp_dir = $root_path . $this->slash . 'searchAllFilesImagesForExtract';
-        if ($current_dir === $root_path)
-            Storage::disk('public')->makeDirectory($path. $this->slash . 'searchAllFilesImagesForExtract');
-        if (is_dir($current_dir)) {
-            $all_objects = scandir($current_dir);
-            foreach ($all_objects as $key => $object) {
-                if ($object === '.' or $object === '..') continue;
-                if (is_dir($current_dir . $this->slash . $object) && !is_link($current_dir . $this->slash . $object)) {
-                    if ($current_dir . $this->slash . $object != $temp_dir && $current_dir . $this->slash . $object != $current_dir . $this->slash . 'previews')
-                        $this->searchAllFilesImagesForExtract($current_dir . $this->slash . $object, $root_path, $path);
-                } else {
-                    $object = $this->addNewExtension($current_dir, $object);
-                    $object_extension = pathinfo($object, PATHINFO_EXTENSION);
-                    $object_time = Carbon::now()->valueOf();
-                    $random = rand(0,10000);
-                    $object_time_new = $object_time . $random;
-                    if ($this->is_image_extension($object) && $this->is_image($current_dir, $object))
-                        rename($current_dir . $this->slash . $object, $temp_dir . $this->slash . 'image-' . $key . $object_time_new . '.' . $object_extension);
-                }
-            }
-        }
-    }
-
-    public function copyAllFilesImagesForExtract($root_path, $temp_dir)
-    {
-        if (is_dir($temp_dir)) {
-            $all_objects = scandir($temp_dir);
-            foreach ($all_objects as $key => $object) {
-                if ($object === '.' or $object === '..') continue;
-                if ($this->is_image_extension($object) && $this->is_image($temp_dir, $object))
-                    rename($temp_dir . $this->slash . $object, $root_path . $this->slash . $object);
-            }
-        }
-    }
-
-   /* public function createTempDir($temp_dir)
-    {
-        if (file_exists($temp_dir)) {
-            if (is_dir($temp_dir))
-                $this->deleteAllFilesForExtract($temp_dir, $temp_dir);
+    public function createTempDir($path) {
+        if (Storage::disk('public')->exists($path)) {
+            if (File::isDirectory(Storage::disk('public')->path($path)))
+                $this->deleteAllFilesForExtract($path, 'yes');
             else
-                unlink($temp_dir);
+                Storage::disk('public')->delete($path);
         }
-        if (!file_exists($temp_dir))
-            mkdir($temp_dir);
-    }*/
-
-    public function is_image($full_path, $file)
-    {
-        $object_mime_type = mime_content_type($full_path . $this->slash . $file);
-        if (strpos($object_mime_type, "image") !== false)
-            return true;
-        return false;
+        if (!Storage::disk('public')->exists($path))
+            File::makeDirectory(Storage::disk('public')->path($path));
+        return $path;
     }
 
-    public function is_image_extension($file)
-    {
-        $object_extension = pathinfo($file, PATHINFO_EXTENSION);
-        if ($object_extension == 'jpeg' || $object_extension == 'png' || $object_extension == 'bmp' || $object_extension == 'jpg')
-            return true;
-        return false;
+    private function getContentWithCookiesFile($file) {
+        $content = $this->getContentFile($file);
+        preg_match_all('/(?<=a=toNumbers\(").*(?="\),b)|(?<=b=toNumbers\(").*(?="\),c)|(?<=c=toNumbers\(").*(?="\),now)/', $content, $matches);
+        return $this->getContentFile($file, $matches[0][0],$matches[0][1], $matches[0][2]);
     }
 
-    public function get_image_extension($full_path, $file)
-    {
-        $extension = '';
-        if ($this->is_image($full_path, $file)) {
-            $object_mime_type = mime_content_type($full_path . $this->slash . $file);
-            if (strpos($object_mime_type, "jpeg") !== false)
-                $extension = '.jpeg';
-            elseif (strpos($object_mime_type, "png") !== false)
-                $extension = '.png';
-            elseif (strpos($object_mime_type, "bmp") !== false)
-                $extension = '.bmp';
-        }
-        return $extension;
-    }
-
-    public function addNewExtension($current_dir, $object)
-    {
-        $object_name = pathinfo($object, PATHINFO_FILENAME);
-        $object_extension = pathinfo($object, PATHINFO_EXTENSION);
-        $new_extension = $this->get_image_extension($current_dir, $object);
-        if ($this->is_image($current_dir, $object) || $this->is_image_extension($object)) {
-            rename($current_dir . $this->slash . $object, $current_dir . $this->slash . $object_name . $new_extension);
-            return $object_name . $new_extension;
-        }
-        if ($object_extension == null || $object_extension == '')
-            return $object_name;
-        return $object_name . '.' . $object_extension;
+    private function getContentFile($file, $a = '8b3d7f4e9ab55daee9fb89016f8a76a9', $b = 'a9ee0b0a96986edc98bfe6a739b457a6', $c = '535a97a4d149ee29ac533ad1ebf746d4') {
+        $cookieService = new CookieService($a, $b, $c);
+        $options = $cookieService->getFedresursHeadersOptions();
+        $ch = curl_init($file);
+        curl_setopt_array($ch, $options);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true); // added to return the response instead of printing it
+        $content = curl_exec($ch);
+        curl_close($ch);
+        return $content;
     }
 }
