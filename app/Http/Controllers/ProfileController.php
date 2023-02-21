@@ -73,8 +73,8 @@ class ProfileController extends Controller
             case 'email':
             {
                 if (!$request->haveAccessToOldCredentials && !$request->isOldCredentials) {
-                    $sendCode->sendEmailWarning($user->email, $request->email);
                     $sendCode->sendEmailCode($request->email, $code);
+                    $sendCode->sendEmailWarning($user->email, $request->email);
                     $changeCredentials->email = $request->email;
                 } elseif ($request->haveAccessToOldCredentials && $request->isOldCredentials) {
                     $sendCode->sendEmailCode($user->email, $code);
