@@ -5,7 +5,7 @@
             <div class="bkt-form bkt-gap-down-sm-row-medium align-items-end">
                 <div class="col-12 col-md-8">
                     <bkt-input
-                        v-model="edit_user.email"
+                        v-model="user.email"
                         :name="'email'"
                         type="email"
                         :rules="'required|email'"
@@ -22,8 +22,8 @@
                 <div class="col-12 col-md-4">
                     <button class="bkt-button primary bkt-button_plump float-end bkt-w-down-sm-100"
                             @click="editContact('email')" v-if="!status.email">
-                        {{edit_user.email ? 'Изменить' : 'Привязать'}}
-                        {{edit_user.email && status.email ? 'Отменить изменение' : ''}}
+                        {{user.email ? 'Изменить' : 'Привязать'}}
+                        {{user.email && status.email ? 'Отменить изменение' : ''}}
                     </button>
                     <button class="bkt-button primary bkt-button_plump float-end bkt-w-down-sm-100"
                             @click="cancelChange('email')" v-if="status.email" :disabled="email_change_loading">
@@ -38,7 +38,7 @@
             <div class="bkt-form bkt-gap-down-sm-row-medium">
                 <div class="col-12 col-md-8">
                     <bkt-input
-                        v-model="edit_user.phone"
+                        v-model="user.phone"
                         :name="'phone'"
                         type="tel"
                         :rules="'required|phone'"
@@ -55,7 +55,7 @@
                 <div class="col-12 col-md-4">
                     <button class="bkt-button primary bkt-button_plump float-end bkt-w-down-sm-100"
                             @click="editContact('phone')" v-if="!status.phone">
-                        {{edit_user.phone ? 'Изменить' : 'Привязать'}}
+                        {{user.phone ? 'Изменить' : 'Привязать'}}
                     </button>
                     <button class="bkt-button primary bkt-button_plump float-end bkt-w-down-sm-100"
                             @click="cancelChange('phone')" v-if="status.phone" :disabled="phone_change_loading">

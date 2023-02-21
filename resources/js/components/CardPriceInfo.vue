@@ -52,7 +52,7 @@
                     <skeleton type_name="spoiler" :loading="rules && !rules.minPrice">
                         {{ item.minPrice | priceFormat}} ₽
                         <div class="bkt-badge bkt-bg-green" v-if="priceInfo.percent > 0">
-                            -{{priceInfo.percent | priceFormat}} %
+                            -{{priceInfo.percent | numberFormat}} %
                         </div>
                     </skeleton>
                 </h5>
@@ -69,7 +69,7 @@
                     <skeleton type_name="spoiler" :loading="rules && !rules.startPrice">
                         {{ item.startPrice | priceFormat}} ₽
                         <span class="bkt-badge bkt-bg-red" v-if="priceInfo.percent > 0">
-                            +{{priceInfo.percent | priceFormat}} %
+                            +{{priceInfo.percent | numberFormat}} %
                         </span>
                     </skeleton>
                 </h5>
@@ -99,7 +99,7 @@
                         <template v-if="item.deposit">
                             {{priceInfo.deposit.money | priceFormat}} ₽
                             <span class="bkt-text-neutral-dark bkt-card-trade__subprice-percent">
-                                {{priceInfo.deposit.percent | priceFormat}} %
+                                {{priceInfo.deposit.percent | numberFormat}} %
                             </span>
                         </template>
                         <template v-else>
@@ -122,7 +122,7 @@
                         <template v-if="item.stepPrice">
                             {{priceInfo.auction_step.money | priceFormat}} ₽
                             <span class="bkt-text-neutral-dark bkt-card-trade__subprice-percent">
-                                {{priceInfo.auction_step.percent | priceFormat}} %
+                                {{priceInfo.auction_step.percent | numberFormat}} %
                             </span>
                         </template>
                         <template v-else>
@@ -173,6 +173,13 @@
                         percent = ((this.item.startPrice - this.item.minPrice) / this.item.startPrice) * 100;
                     }
 
+                    if (percent > 0 && percent <= 0.01) {
+                        percent = 0.01;
+                    }
+                    if (percent >= 99.99 && percent < 100) {
+                        percent = 99.99;
+                    }
+
                     let deposit = {money: 0, percent: 0, type: ''};
                     let auction_step = {money: 0, percent: 0, type: ''};
                     if (this.item.deposit) {
@@ -180,7 +187,7 @@
                         if (this.item.deposit.type === 'rubles') {
                             deposit.money = this.item.deposit.value;
                             deposit.percent = deposit.money * 100 / prime_price;
-                            if (deposit.percent <= 0.01) {
+                            if (deposit.percent > 0 && deposit.percent <= 0.01) {
                                 deposit.percent = 0.01;
                             }
                             if (deposit.percent >= 99.99 && deposit.percent < 100) {
@@ -196,6 +203,12 @@
                         if (this.item.stepPrice.type === 'rubles') {
                             auction_step.money = this.item.stepPrice.value;
                             auction_step.percent = auction_step.money * 100 / prime_price;
+                            if (auction_step.percent > 0 && auction_step.percent <= 0.01) {
+                                auction_step.percent = 0.01;
+                            }
+                            if (auction_step.percent >= 99.99 && auction_step.percent < 100) {
+                                auction_step.percent = 99.99;
+                            }
                         } else {
                             auction_step.percent = this.item.stepPrice.value;
                             auction_step.money = prime_price * auction_step.percent / 100;

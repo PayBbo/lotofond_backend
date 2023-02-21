@@ -290,7 +290,8 @@ Vue.filter('priceFormat', value => {
 });
 Vue.filter('numberFormat', value => {
     if (value) {
-        return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+        let val = parseFloat((value/1).toFixed(2));
+        return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
     }
     return '0';
 });
