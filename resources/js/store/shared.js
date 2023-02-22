@@ -10,7 +10,8 @@ export default {
             code:'',
             password:'',
             confirm_password:'',
-            grantType:'email'
+            grantType:'email',
+            region:''
         },
         locale: localStorage.getItem('locale') || 'ru',
         selected_item: null,

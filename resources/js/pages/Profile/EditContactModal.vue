@@ -99,7 +99,7 @@
             >
                 Далее
                 <bkt-icon name="ArrowDown" v-show="!loading && !code_loading"></bkt-icon>
-                <span v-if="loading" class="spinner-border spinner-border-sm bkt-border-primary" role="status"></span>
+                <span v-if="loading||code_loading" class="spinner-border spinner-border-sm bkt-border-primary" role="status"></span>
             </button>
             <button type="button" class="bkt-button next me-auto" v-if="code_mode" :disabled="loading||code_loading" @click="back">
                 <bkt-icon name="ArrowDown" class="bkt-rotate-90"></bkt-icon>
@@ -220,7 +220,7 @@
             async sendCode(type) {
                 // if(type ==='repeat') {
                     this.code_loading = true;
-                    this.loading = true;
+                    // this.loading = true;
                 // }
                 if (!this.contact.haveAccessToOldCredentials) {
                     if (this.contact.grantType === 'email' && this.edit_user.email && !this.edit_user.phone) {
@@ -243,7 +243,7 @@
                 if (this.mode == 'new') {
                     this.new_code = true;
                 }
-                console.log('mode', this.mode, this[data.grantType], this.email)
+
                 await this.$store.dispatch('getCredentialsCode', data)
                     .then((resp) => {
                         this.code_loading = false;
@@ -300,6 +300,15 @@
                             else {
                                 this.$store.dispatch('sendNotification',
                                     {self: this, message: 'Ваш контакт будет изменен через 14 дней'});
+                                console.log(resp.data, resp, resp.data.changeCredentialsProcess)
+                                if(resp.data.changeCredentialsProcess) {
+                                    this.$store.dispatch('saveDataProperty', {
+                                        module_key: 'auth', state_key: 'auth_user',
+                                        key: 'changeCredentialsProcess',
+                                        value: resp.data.changeCredentialsProcess
+                                    }, {root: true});
+                                }
+                                console.log(this.user)
                             }
                             this.cancel()
                         }

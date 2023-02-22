@@ -6,7 +6,7 @@
                 <label :for="name" class="bkt-input__label" :class="status_class">{{ status }}</label>
             </slot>
         </div>
-        <div class="bkt-input__group">
+        <div class="bkt-input__group" :class="[errors && errors.length>0 && !no_errors ? 'error':'']">
             <slot name="group-text">
             </slot>
             <input

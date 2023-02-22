@@ -83,6 +83,10 @@
             //right: 30px;
         }
     }
+
+    &.error {
+        outline: 1px solid $red-default;
+    }
 }
 
 @media (max-width: 576px) {

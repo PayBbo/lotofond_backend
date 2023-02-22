@@ -5,7 +5,7 @@
             <v-select
                 :multiple="multiple"
                 class="bkt-v-select order-2"
-                :class="[model ?'vs--selected' : '', errors && errors.length>0 ? 'error':'', additional_class]"
+                :class="[model ?'vs--selected' : '', errors && errors.length>0 && !no_errors ? 'error':'', additional_class]"
                 :placeholder="placeholder"
                 v-model="model"
                 :label="option_label"
@@ -66,6 +66,9 @@
             </v-select>
             <slot name="subtitle">
                 <label class="bkt-select__subtitle" v-if="subtitle">{{subtitle}}</label>
+            </slot>
+            <slot name="errors" :errors="errors">
+                <p class="bkt-select__error" :class="errors_class" v-if="errors.length>0 && !no_errors">{{errors[0]}}</p>
             </slot>
         </div>
     </ValidationProvider>
@@ -181,6 +184,14 @@
             subtitle: {
                 type: String,
                 default: "",
+            },
+            no_errors: {
+                type: Boolean,
+                default: false,
+            },
+            errors_class: {
+                type: String,
+                default: '',
             },
         },
         model: {

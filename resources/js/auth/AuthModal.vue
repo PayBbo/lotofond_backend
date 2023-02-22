@@ -106,6 +106,20 @@
                     <p class="bkt-input-error" v-else>{{error.detail}}</p>
                 </template>
             </bkt-input>
+            <bkt-select
+                v-if="tab=='registration'"
+                name="regions"
+                v-model="user.region"
+                :options="region_options"
+                label="регион"
+                label_class="bkt-input__label"
+                option_label="label"
+                :reduce="option => option.value"
+                :method_name="'getRegions'"
+                :loading="regions_loading"
+                :rules="'required'"
+            >
+            </bkt-select>
             <bkt-input
                 v-model="user.password"
                 name="password"
@@ -263,6 +277,17 @@
         computed: {
             shared_user() {
                 return this.$store.getters.user
+            },
+            region_options() {
+                let tmp = [].concat.apply([], this.$store.getters.regions.map(item => item.regions));
+                let result =[];
+                tmp.forEach(item => {
+                    result.push({label: this.$t('regions.'+item), value: item});
+                });
+                return result.sort((a, b) => a.label.localeCompare(b.label))
+            },
+            regions_loading() {
+                return this.$store.getters.regions_loading
             },
         },
         mounted() {

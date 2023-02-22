@@ -87,10 +87,10 @@
                     lastName: "",
                 },
                 loading: false,
-                status: {
-                    email: '',
-                    phone: ''
-                },
+                // status: {
+                //     email: '',
+                //     phone: ''
+                // },
                 email_change_loading: false,
                 phone_change_loading: false,
             }
@@ -120,6 +120,18 @@
             isLoggedIn() {
                 return this.$store.getters.isLoggedIn
             },
+            status() {
+                let s = {
+                    email: '',
+                    phone: ''
+                };
+                if (this.user.changeCredentialsProcess) {
+                    s[this.user.changeCredentialsProcess.newValueType] = 'изменится на '
+                        + this.user.changeCredentialsProcess.newValue + ' '
+                        + this.$moment(this.user.changeCredentialsProcess.dateOfChange).format('DD MMMM YYYY HH:mm');
+                }
+                return s
+            }
             // profile_user: {
             //     get() {
             //         return JSON.parse(JSON.stringify(this.user));
@@ -136,10 +148,10 @@
             },
             cancelChange(type) {
                 this[type + '_change_loading'] = true;
-                this.$store.dispatch('deleteCredentialsProcess', this.edit_user.changeCredentialsProcess.changeCredentialsProcessId)
+                this.$store.dispatch('deleteCredentialsProcess', this.user.changeCredentialsProcess.changeCredentialsProcessId)
                     .then(resp => {
-                        this.edit_user.changeCredentialsProcess = null;
-                        this.status[type] = '';
+                        // this.edit_user.changeCredentialsProcess = null;
+                        // this.status[type] = '';
                         this.$store.dispatch('saveDataProperty', {
                             module_key: 'auth', state_key: 'auth_user',
                             key: 'changeCredentialsProcess',
@@ -150,6 +162,8 @@
                             { message:'Изменение успешно отменено'})
                     }).catch(error => {
                     this[type + '_change_loading'] = false;
+                    this.$store.dispatch('sendNotification',
+                        { message:'Произошла ошибка', type: 'error'})
                 })
             },
         }
