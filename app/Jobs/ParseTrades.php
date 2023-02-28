@@ -2,6 +2,7 @@
 
 namespace App\Jobs;
 
+use App\Http\Services\CacheService;
 use App\Http\Services\Parse\GetTradeMessageContent;
 use App\Http\Services\Parse\GetTradeMessages;
 use App\Http\Services\Parse\SoapWrapperService;
@@ -16,6 +17,7 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\MaxAttemptsExceededException;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Cache;
 
 class ParseTrades implements ShouldQueue
 {
@@ -129,9 +131,10 @@ class ParseTrades implements ShouldQueue
                 }
             }
         }
+        $this->finishJob();
     }
 
-    public function getMessageContent($messageId, $messageType, $tradePlaceId, $messageGUID)
+    private function getMessageContent($messageId, $messageType, $tradePlaceId, $messageGUID)
     {
         try {
             $tradeMessage = TradeMessage::where('number', $messageId)->first();
@@ -151,4 +154,13 @@ class ParseTrades implements ShouldQueue
             }
         }
     }
+
+    private function finishJob(){
+        $cacheService = new CacheService();
+        $cacheService->cacheCategoriesStatistics();
+        $cacheService->cacheLotsStatistics();
+        $cacheService->cachePricesForFilter();
+    }
+
+
 }

@@ -8,6 +8,7 @@ use App\Models\User;
 use Carbon\Carbon;
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 
 class CheckTariffMiddleware
 {
@@ -23,7 +24,7 @@ class CheckTariffMiddleware
         $user = User::find(auth()->guard('api')->id());
         $isAvailable = false;
         if(!is_null($contentRule)){
-            $isAvailable = ContentRule::where('code', $contentRule)->first()['is_available'];
+            $isAvailable = Cache::get('contentRules')[$contentRule];
         }
         if(auth()->guard('api')->check() && !$isAvailable) {
             $trialPeriod = config('paymaster.trial_period');

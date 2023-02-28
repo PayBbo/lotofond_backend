@@ -3,42 +3,31 @@
 namespace App\Http\Controllers;
 
 
-use App\Models\Category;
-use App\Models\Lot;
-use Carbon\Carbon;
+use App\Http\Services\CacheService;
+use Illuminate\Support\Facades\Cache;
 
 class StatisticsController extends Controller
 {
+
     public function getStatisticsByCategories(){
-        $categories = Category::where('parent_id', null)->get();
-        $data = [];
-        $active_statuses = [1, 2];
-        foreach($categories as $category){
-            $ids = $category->subcategories()->pluck('title');
-            $ids[] = $category->title;
-            $data[$category->title] = [
-                'allLotsCount'=> Lot::whereHas('categories', function ($q) use ($ids) {
-                    $q->whereIn('categories.title', $ids);
-                })->count(),
-                'activeLotsCount'=>Lot::whereIn('status_id', $active_statuses)
-                    ->whereHas('categories', function ($q) use ($ids) {
-                    $q->whereIn('categories.title', $ids);
-                })->count()
-            ];
+
+        if (!Cache::has('categoriesStatistics')) {
+            $cacheService = new CacheService();
+            $cacheService->cacheCategoriesStatistics();
         }
-        $data['all'] = ['allLotsCount'=>Lot::count(), 'activeLotsCount'=>Lot::whereIn('status_id',[1, 2])->count()];
+
+        $data = Cache::get('categoriesStatistics');
         return response($data, 200);
     }
 
     public function getStatisticsByLots(){
-        $active_statuses = [1, 2];
-        $date = Carbon::now()->setTimezone('Europe/Moscow');
-        $data = [
-            'activeLotsCount'=>Lot::whereIn('status_id', $active_statuses)->count(),
-            'nonactiveLotsCount'=>Lot::whereNotIn('status_id', $active_statuses)->count(),
-            'allLotsCount'=>Lot::count(),
-            'newLotsCount'=>Lot::whereDate('created_at',$date)->count()
-        ];
+
+        if (!Cache::has('lotsStatistics')) {
+            $cacheService = new CacheService();
+            $cacheService->cacheLotsStatistics();
+        }
+
+        $data = Cache::get('lotsStatistics');
         return response($data, 200);
 
     }

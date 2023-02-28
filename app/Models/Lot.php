@@ -44,58 +44,6 @@ class Lot extends Model
         'price_reduction'
 
     ];
-
-    public static function boot()
-    {
-        parent::boot();
-
-        static::created(function ($lot) {
-          /*  $contacts = [$lot->auction->arbitrationManager->email];
-            if ($lot->auction->arbitr_manager_id != $lot->auction->company_trade_organizer_id) {
-                $contacts[] = $lot->auction->companyTradeOrganizer->email;
-            }
-            foreach ($contacts as $email) {
-                if (is_null($email)) {
-                    continue;
-                }
-                logger('Sent emails to organizers');
-                logger($lot->id);
-                logger($email);
-                $debtor = $lot->auction->debtor;
-                $debtorName = $debtor->name;
-                if (!is_null($debtor->last_name)) {
-                    $debtorName = $debtor->last_name . ' ' . $debtor->name;
-                }
-                if (!is_null($debtor->last_name)) {
-                    $debtorName .= ' ' . $debtor->middle_name;
-                }
-
-                $subject = "Запрос информации по торгу должника: " . $debtorName;
-                $tradeId = $lot->auction->trade_id;
-                $idEfrsb = '. </p> <p> Ссылка на торги на федресурсе: https://fedresurs.ru/bidding/' . $lot->auction->guid .'</p>';
-                if (!is_null($lot->auction->id_efrsb)) {
-                    $idEfrsb = ". </p> <p>Номер сообщения в ЕФРСБ: " . $lot->auction->id_efrsb .'</p>';
-                }
-                $html = "Добрый день, просим предоставить все имеющиеся документы и информацию по торгам № " . $tradeId . ", лоту № " . $lot->number .
-".<p>Должник: " . $debtorName . ",  ИНН: " . $debtor->inn . $idEfrsb . "<p class='lot-id' style='display:none'>$lot->id</p>
-<br>
-<p> С уважением,</p>
-<p>ООО «Русвопрос»</p>";
-                $emails = Cache::get('contactEmails') ?? [];
-                $counts = array_count_values($emails);
-                $count = array_key_exists($email, $counts) ? $counts[$email] : 0;
-                $delay = random_int(60, 360) * $count;
-                logger('count '.$count);
-                logger($delay . ' sec');
-                dispatch((new SendApplication($html, $subject, $email))->onQueue('credentials')->delay($delay));
-                $emails[] = $email;
-                Cache::put('contactEmails', $emails, Carbon::now()->setTimezone('Europe/Moscow')->addDay());
-                logger('-----------------------');
-            }*/
-        });
-
-    }
-
     /**
      * The attributes that should be cast to native types.
      *
@@ -324,55 +272,48 @@ class Lot extends Model
 
     public function getLotFavouritePaths()
     {
-        if (auth()->guard('api')->check()) {
-            $user = auth()->guard('api')->user();
-            return FavouritePathResource::collection($user->favourites()->whereHas('lots', function ($query) {
-                $query->where('lot_id', $this->id);
-            })->get());
+        if (!auth()->guard('api')->check()) {
+            return null;
         }
-        return null;
+        return FavouritePathResource::collection( auth()->guard('api')->user()
+            ->favourites()
+            ->whereHas('lots', function ($query) {
+                $query->where('lot_id', $this->id);
+            })
+            ->with('lots', 'paths')
+            ->get());
     }
 
     public function lotParams()
     {
-        \DB::statement("SET SQL_MODE=''");
-        return $this->hasMany(LotParam::class)->where('parent_id', null)->groupBy('value')->with(['param', 'childParams']);
+        return $this->hasMany(LotParam::class)->where('parent_id', null)->with(['param', 'childParams']);
     }
 
     public function getDescriptionExtractsAttribute()
     {
-        $result = [];
-        $params = $this->lotParams;
-        foreach ($params as $param) {
-            $extracts = [];
-            foreach ($param->childParams as $sub) {
-                $extracts[] = [
-                    'title' => $sub->param->title,
-                    'type' => $sub->param->type,
-                    'value' => $sub->value
-                ];
-            }
-            if (count($extracts) > 0) {
-                $result[] = [
-                    'tradeSubject' => $param->value,
-                    'type' => is_null($param->type) ? 'other' : $param->type,
-                    'extracts' => $extracts
-                ];
-
-            } else {
-                $extracts[] = [
-                    'title' => $param->param->title,
-                    'type' => $param->param->type,
-                    'value' => $param->value
-                ];
-                $result[] = [
-                    'tradeSubject' => null,
-                    'type' => 'other',
-                    'extracts' => $extracts
-                ];
-            }
-        }
-
+         $result = [];
+          foreach ($this->lotParams->unique('value') as $param) {
+              $extracts = [];
+              foreach ($param->childParams as $sub) {
+                  $extracts[] = [
+                      'title' => $sub->param->title,
+                      'type' => $sub->param->type,
+                      'value' => $sub->value
+                  ];
+              }
+              $tradeSubject = $param->value;
+              $type = is_null($param->type) ? 'other' : $param->type;
+              if (count($extracts) == 0) {
+                  $extracts[] = [
+                      'title' => $param->param->title,
+                      'type' => $param->param->type,
+                      'value' => $param->value
+                  ];
+                  $tradeSubject = null;
+                  $type = 'other';
+              }
+              $result[] = compact('tradeSubject', 'type', 'extracts');
+          }
         return $result;
     }
 
@@ -385,16 +326,11 @@ class Lot extends Model
     {
         if (auth()->guard('api')->check()) {
             $query->orderBy(FixedLot::select('created_at')
-                 ->whereColumn('lots.id', 'fixed_lots.lot_id')
-                 ->where('fixed_lots.user_id', auth()->guard('api')->id())
-                 ->take(1),
-                 'desc'
-             );
-
-         /*  $query->leftJoin('fixed_lots', function($join) {
-                $join->on('lots.id', '=', 'fixed_lots.lot_id')
-                    ->where('fixed_lots.user_id', '=', auth()->guard('api')->id());
-            })->orderBy('fixed_lots.created_at', 'desc');*/
+                ->whereColumn('lots.id', 'fixed_lots.lot_id')
+                ->where('fixed_lots.user_id', auth()->guard('api')->id())
+                ->take(1),
+                'desc'
+            );
         }
     }
 
@@ -406,32 +342,18 @@ class Lot extends Model
     public function categoriesStructure()
     {
         $categories = [];
-        $parents = [];
-        foreach ($this->categories as $category) {
-            if (!is_null($category->parent_id)) {
-                $parents[] = $category->parentRelated;
-            } else {
-                $parents[] = $category;
-            }
-        }
-        $categoriesIds = $this->categories->pluck('id')->toArray();
-        $serialized = array_map('serialize', $parents);
-        $unique = array_unique($serialized);
-        $parents = array_intersect_key($parents, $unique);
-        foreach ($parents as $category) {
-            $subs = $category->subcategories->whereIn('id', array_unique($categoriesIds));
-            $subcategories = [];
-            foreach ($subs as $sub) {
-                $value = ['label' => $sub->label, 'key' => $sub->title];
-                if (!in_array($value, $subcategories)) {
-                    $subcategories[] = $value;
-                }
-            }
-            $categories[] = ['label' => $category->label, 'key' => $category->title, 'subcategories' => $subcategories];
+        $parents = $this->categories->map(function ($category) {
+            return !is_null($category->parent_id) ? $category->parentRelated : $category;
+        });
+        $categoriesIds = $this->categories->pluck('id')->unique()->toArray();
+        foreach ($parents->unique('label') as $parent) {
+            $subs = $parent->subcategories->whereIn('id', $categoriesIds);
+            $subcategories = $subs->unique('label')->map(function ($sub) {
+                return ['label' => $sub->label, 'key' => $sub->title];
+            })->all();
+            $categories[] = ['label' => $parent->label, 'key' => $parent->title, 'subcategories' => $subcategories];
         }
         return $categories;
-
-
     }
 
     public function getDescriptionAttribute($value)

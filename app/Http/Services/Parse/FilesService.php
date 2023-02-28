@@ -133,7 +133,7 @@ class FilesService
     private function searchAllFilesImagesForExtract($temp_dir)
     {
         foreach (Storage::disk('public')->allFiles($temp_dir) as $key => $object) {
-            $path = str_replace($this->slash.File::basename($object),'', $object);
+            $path = dirname($object);
             $filename = $this->addNewExtension($path, File::basename($object));
             $filenameExtension = File::extension($filename) ? '.'.File::extension($filename) : File::extension($filename);
             $newName = 'image-'.$key.$this->getRandomNameWithTime().$filenameExtension;
@@ -148,7 +148,7 @@ class FilesService
     private function copyAllFilesImagesForExtract($temp_dir, $root_path)
     {
         foreach (Storage::disk('public')->allFiles($temp_dir) as $object) {
-            if ($this->is_image_extension(File::basename($object)) && $this->is_image(str_replace($this->slash.File::basename($object),'', $object), File::basename($object)))
+            if ($this->is_image_extension(File::basename($object)) && $this->is_image(dirname($object), File::basename($object)))
                 Storage::disk('public')->move($object, $root_path.$this->slash.File::basename($object));
         }
     }
@@ -156,7 +156,7 @@ class FilesService
     private function deleteAllFilesForExtract($temp_dir, $delRootPath = null, $file = null)
     {
         foreach (Storage::disk('public')->allFiles($temp_dir) as $object) {
-            $path = str_replace($this->slash.File::basename($object),'', $object);
+            $path = dirname($object);
             $filename = File::basename($object);
             if (!$this->is_image($path, $filename) && !$this->is_image_extension($filename) && $object !== $temp_dir.$this->slash.$file)
                 Storage::disk('public')->delete($object);
@@ -171,7 +171,7 @@ class FilesService
     {
         $imageAssets = array();
         foreach (Storage::disk('public')->files($path) as $key => $object) {
-            $path = str_replace($this->slash.File::basename($object),'', $object);
+            $path = dirname($object);
             $filename = File::basename($object);
             if ($this->is_image($path, $filename) && $this->is_image_extension($filename)) {
                 $imageAssets[$key] = [
@@ -245,7 +245,7 @@ class FilesService
                 Storage::disk('public')->delete($path);
         }
         if (!Storage::disk('public')->exists($path))
-            File::makeDirectory(Storage::disk('public')->path($path));
+            File::makeDirectory(Storage::disk('public')->path($path), 0755, true);
         return $path;
     }
 

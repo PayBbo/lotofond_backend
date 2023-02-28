@@ -5,6 +5,7 @@ namespace App\Http\Services;
 use App\Models\ContentRule;
 use App\Models\Notification;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 
 class ContentSettingsService
@@ -65,7 +66,7 @@ class ContentSettingsService
             $hasTariff = !is_null($user->tariff);
             $hasTestPeriod = $user->email_verified_at->addDays($trialPeriod)->format('Y-m-d H:i') >= Carbon::now()->setTimezone('Europe/Moscow')->format('Y-m-d H:i');
         }
-        $rules = ContentRule::all()->pluck('is_available', 'code');
+        $rules = Cache::get('contentRules');
         if ($hasTariff || $hasTestPeriod) {
             foreach ($rules as $key => $value) {
                 $rules[$key] = true;

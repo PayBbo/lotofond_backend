@@ -13,6 +13,8 @@ class Category extends Model
 
     public $translatable = ['label'];
 
+    protected $with = ['subcategories'];
+
     /**
      * The attributes that are mass assignable.
      *

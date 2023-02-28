@@ -30,8 +30,6 @@ class Favourite extends Model
         'user_id' => 'integer'
     ];
 
-    protected $withCount = ['lots'];
-
     public function lots()
     {
         return $this->belongsToMany(Lot::class);

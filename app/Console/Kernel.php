@@ -3,6 +3,7 @@
 namespace App\Console;
 
 use App\Jobs\AdditionalLotInfoParseJob;
+use App\Jobs\CacheJob;
 use App\Jobs\EGRNStatementJob;
 use App\Jobs\FavouriteJob;
 use App\Jobs\FixDescription;

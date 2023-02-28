@@ -59,7 +59,7 @@ class Auction extends Model
         'date_publish_efir'=>'datetime',
     ];
 
-   protected $with = ['debtor', 'arbitrationManager', 'tradePlace', 'companyTradeOrganizer', 'auctionType'];
+   protected $with = ['auctionType'];
 
    protected $withCount = ['lots'];
 
