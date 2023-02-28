@@ -106,59 +106,6 @@ class TestCommand extends Command
           }
           fclose($file);*/
       // dispatch(new AdditionalLotInfoParseJob());
-       /* $connection = imap_open("{imap.yandex.ru:993/imap/ssl}INBOX", "bankr0t.t@yandex.ru", "onwnghtagopxqgsx");
-        $mails_numbers = imap_search($connection, 'UNSEEN');
-
-        foreach ($mails_numbers as $mail_number) {
-            $message = imap_body($connection, $mail_number);
-            logger($message);
-            $structure = imap_fetchstructure($connection, $mail_number);
-            logger(json_decode(json_encode($structure), true));
-            $attachments = array();
-            if(isset($structure->parts) && count($structure->parts)) {
-
-                for($i = 0; $i < count($structure->parts); $i++) {
-
-                    $attachments[$i] = array(
-                        'is_attachment' => false,
-                        'filename' => '',
-                        'name' => '',
-                        'attachment' => ''
-                    );
-
-                    if($structure->parts[$i]->ifdparameters) {
-                        foreach($structure->parts[$i]->dparameters as $object) {
-                            if(strtolower($object->attribute) == 'filename') {
-                                $attachments[$i]['is_attachment'] = true;
-                                $attachments[$i]['filename'] = $object->value;
-                                logger(utf8_decode( $object->value));
-                            }
-                        }
-                    }
-
-                    if($structure->parts[$i]->ifparameters) {
-                        foreach($structure->parts[$i]->parameters as $object) {
-                            if(strtolower($object->attribute) == 'name') {
-                                $attachments[$i]['is_attachment'] = true;
-                                $attachments[$i]['name'] = $object->value;
-                                logger(utf8_encode( $object->value));
-                            }
-                        }
-                    }
-
-                    if($attachments[$i]['is_attachment']) {
-                        $attachments[$i]['attachment'] = imap_fetchbody($connection, $mail_number, $i+1);
-                        if($structure->parts[$i]->encoding == 3) { // 3 = BASE64
-                            $attachments[$i]['attachment'] = base64_decode($attachments[$i]['attachment']);
-                        }
-                        elseif($structure->parts[$i]->encoding == 4) { // 4 = QUOTED-PRINTABLE
-                            $attachments[$i]['attachment'] = quoted_printable_decode($attachments[$i]['attachment']);
-                        }
-                    }
-                }
-            }
-
-        }*/
 
     }
 }

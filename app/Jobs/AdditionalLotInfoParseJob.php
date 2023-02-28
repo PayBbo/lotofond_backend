@@ -40,7 +40,7 @@ class AdditionalLotInfoParseJob implements ShouldQueue
      */
     public function handle()
     {
-        $imapClient = \Webklex\IMAP\Facades\Client::account('default');
+       /* $imapClient = \Webklex\IMAP\Facades\Client::account('default');
         $imapClient->connect();
 
         $folder = $imapClient->getFolderByName('INBOX');
@@ -49,7 +49,7 @@ class AdditionalLotInfoParseJob implements ShouldQueue
                 logger($chunk);
                 $messages->each(function ($message) {
                     $uid = $message->getUid();
-                    logger($uid);
+                    logger($uid);*/
                     /* if (AdditionalLotInfo::where('uid', $uid)->exists() || !$message->hasHTMLBody()) {
                          return true;
                      }
@@ -166,11 +166,11 @@ class AdditionalLotInfoParseJob implements ShouldQueue
                   ]);
 
               }*/
-                });
+          /*      });
             }, $chunk_size = 5, $start_chunk = 1);
         }catch (\Exception $e){
 
-        }
+        }*/
 
     }
 }

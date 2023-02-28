@@ -3,7 +3,6 @@
 namespace App\Console;
 
 use App\Jobs\AdditionalLotInfoParseJob;
-use App\Jobs\CacheJob;
 use App\Jobs\EGRNStatementJob;
 use App\Jobs\FavouriteJob;
 use App\Jobs\FixDescription;
@@ -19,7 +18,6 @@ use App\Jobs\ParseTrades;
 use App\Jobs\SendLotsToChannel;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
-use Illuminate\Support\Facades\Cache;
 
 class Kernel extends ConsoleKernel
 {
