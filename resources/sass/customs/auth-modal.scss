@@ -272,6 +272,10 @@
 
     & .bkt-input {
         background: #f1f3f9;
+        color: #575857;
+        &::placeholder {
+            color: #575857;
+        }
     }
 
     & .bkt-input__group {
@@ -283,33 +287,36 @@
             background: #f1f3f9;
         }
 
-        &.body {
-            & .bkt-select {
-                background: #f1f3f9;
+        & .bkt-select {
+            background: #f1f3f9;
+        }
+
+        & .bkt-v-select {
+            & .vs__dropdown-menu {
+                background-color: #f1f3f9;
             }
 
-            & .bkt-v-select {
-                & .vs__dropdown-menu {
-                    background-color: #f1f3f9;
-                }
+            & .vs__dropdown-toggle {
+                background-color: #f1f3f9;
+                color: #575857;
+            }
 
-                & .vs__dropdown-toggle {
-                    background-color: #f1f3f9;
-                }
+            & .vs__dropdown-option--highlight {
+                background-color: #f1f3f9 !important;
+            }
 
-                & .vs__dropdown-option--highlight {
-                    background-color: #f1f3f9 !important;
-                }
+            & .vs__dropdown-option--selected {
+                background-color: #f1f3f9 !important;
+            }
 
-                & .vs__dropdown-option--selected {
-                    background-color: #f1f3f9 !important;
-                }
-
-                & .vs__dropdown-option {
-                    background-color: #f1f3f9 !important;
-                }
+            & .vs__dropdown-option {
+                background-color: #f1f3f9 !important;
             }
         }
+    }
+
+    & .bkt-navbar__nav-pills {
+        background: #f1f3f9;
     }
 }
 
