@@ -35,9 +35,12 @@ class AuctionController extends Controller
 
     public function getTrades(Request $request)
     {
+        $userId = auth()->id();
         $lots = Lot::with(['auction', 'showRegions', 'status', 'lotImages', 'categories', 'lotParams'])
-            ->when(auth()->check(), function ($query) {
-                $query->whereNotIn('lots.id', DB::table('hidden_lots')->where('user_id', auth()->id())->pluck('lot_id')->toArray());
+            ->when($userId, function ($query) use ($userId) {
+                $query->whereDoesntHave("hiddenLots",  function ($subQuery) use ($userId) {
+                    $subQuery->where("user_id", "=", $userId);
+                });
             })
             ->customSortBy($request)->paginate(20);
         return response(new LotCollection($lots), 200);
