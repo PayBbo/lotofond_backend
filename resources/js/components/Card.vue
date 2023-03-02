@@ -21,7 +21,7 @@
                             <div class="bkt-card__image-wrapper"
                                  :class="{'bkt-gap-none': cadastralData=={}||(cadastralData && !cadastralData.cadastralNumber)}">
                                 <div class="position-relative">
-                                    <div class="bkt-cursor-pointer" @click="navigate"
+                                    <div class="bkt-cursor-pointer" @click="navigate('desktop')"
                                          v-if="item && ((rules && (!rules.categories || !rules.photos)) ||
                                          ((!item.photos || (item.photos && item.photos.length==0))
                                          && item.categories && (!rules || rules && rules.categories)))"
@@ -34,7 +34,7 @@
                                     >
                                         <slide v-for="photo in item.photos" :key="photo.id">
                                             <img v-lazy="photo.preview" class="bkt-card__image bkt-cursor-pointer"
-                                                 @click="navigate"/>
+                                                 @click="navigate('desktop')"/>
                                         </slide>
                                         <hooper-navigation slot="hooper-addons"></hooper-navigation>
                                     </hooper>
@@ -145,7 +145,7 @@
                             </div>
                             <button
                                 class="bkt-button bkt-card-trade__button bkt-card-trade__button_more d-none d-lg-block"
-                                @click="navigate"
+                                @click="navigate('desktop')"
                             >
                                 Подробнее о лоте
                             </button>
@@ -596,7 +596,7 @@
                 //0 соток | {n} сотка | {n} сотки | {n} соток
                 return choicesLength < 4 ? 2 : 3
             },
-            navigate(type = 'desktop') {
+            navigate(type='desktop') {
                 if ((this.isMobile && type === 'mobile') || type === 'desktop') {
                     this.$router.push('/lot/' + this.item.id)
                 }

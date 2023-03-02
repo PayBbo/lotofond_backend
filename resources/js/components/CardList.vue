@@ -81,16 +81,6 @@
                                 </div>
                                 <div class="col-12 col-lg-5 p-0">
                                     <div class="bkt-card-trade__gap bkt-wrapper-column">
-                                        <div class="d-flex bkt-gap d-none d-lg-flex" v-for="n in 2">
-                                            <skeleton skeleton_class="mb-1" :type_name="'item'" height="14px"
-                                                      width="14px"></skeleton>
-                                            <skeleton :type_name="'text'" height="14px" width="150px"></skeleton>
-                                        </div>
-                                        <div>
-                                            <skeleton skeleton_class="mb-1" :type_name="'item'" height="14px"
-                                                      width="150px"></skeleton>
-                                            <skeleton skeleton_class="bkt-progress-bar"></skeleton>
-                                        </div>
                                         <div class="bkt-card__features">
                                             <div class="bkt-card__feature" v-for=" n in 2">
                                                 <skeleton skeleton_class="mb-1" :type_name="'item'" height="12px"
@@ -110,6 +100,16 @@
                                                 <skeleton :type_name="'item'" width="40px" height="40px" circle>
                                                 </skeleton>
                                             </div>
+                                        </div>
+                                        <div class="d-flex bkt-gap d-none d-lg-flex" v-for="n in 2">
+                                            <skeleton skeleton_class="mb-1" :type_name="'item'" height="14px"
+                                                      width="14px"></skeleton>
+                                            <skeleton :type_name="'text'" height="14px" width="150px"></skeleton>
+                                        </div>
+                                        <div>
+                                            <skeleton skeleton_class="mb-1" :type_name="'item'" height="14px"
+                                                      width="150px"></skeleton>
+                                            <skeleton skeleton_class="bkt-progress-bar"></skeleton>
                                         </div>
                                     </div>
                                 </div>
