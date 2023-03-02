@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class VerifyAccount extends Model
 {
     use HasFactory;
-    protected $fillable = ['value', 'token', 'code', 'surname', 'name', 'phone', 'is_delete'];
+    protected $fillable = ['value', 'token', 'code', 'surname', 'name', 'phone', 'region', 'is_delete'];
 
     public static function boot()
     {

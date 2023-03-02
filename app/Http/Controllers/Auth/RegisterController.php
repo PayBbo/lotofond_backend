@@ -14,6 +14,7 @@ use App\Http\Services\SendCodeService;
 use App\Http\Services\SocialsService;
 use App\Models\Favourite;
 use App\Models\Notification;
+use App\Models\Region;
 use App\Models\SocialAccount;
 use App\Models\User;
 use App\Models\VerifyAccount;
@@ -33,6 +34,7 @@ class RegisterController extends Controller
         $verify->code = $request->password;
         $verify->created_at = Carbon::now()->setTimezone('Europe/Moscow')->addDay();
         $verify->is_delete = false;
+        $verify->region = $request->region;
         switch ($request->grantType) {
             case 'email':
             {
@@ -115,6 +117,7 @@ class RegisterController extends Controller
             'phone' => $verifyAccount->phone,
             'password' => Hash::make($password),
             'email_verified_at' => Carbon::now()->setTimezone('Europe/Moscow'),
+            'region_id'=>!is_null( $verifyAccount->region) ? Region::where('code', $verifyAccount->region)->first()->id : null,
             'not_settings' => [
                 'favouriteEventStart' => 1,
                 'favouriteEventEnd' => 1,

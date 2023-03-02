@@ -277,7 +277,7 @@ $lotDesc</p>
             $subject = 'Новые пользователи в Lotofond';
             $html = "<p>В период с $startTime по $endTime в Lotofond зарегистрировались пользователи:</p>";
             Mail::send([], [], function ($message) use ($toEmail, $subject, $users, $html) {
-                $details = '<table style="text-align: center"><thead style="line-height: 3"><tr><td style="width: 5%">№</td><td style="width: 65%">ФИО</td><td style="width: 30%">Дата регистрации</td></tr></thead><tbody>';
+                $details = '<table style="text-align: center"><thead style="line-height: 3"><tr><td style="width: 5%">№</td><td style="width: 35%">ФИО</td><td style="width: 30%">Регион</td><td style="width: 30%">Дата регистрации</td></tr></thead><tbody>';
                 foreach ($users as $key=>$user) {
                     if(is_null( $user->surname) && is_null($user->name)){
                         $fio = 'Данные не заполнены';
@@ -287,9 +287,10 @@ $lotDesc</p>
                             $fio .= ' ' . $user->middle_name;
                         }
                     }
+                    $region = is_null($user->region_id) ? 'Данные не заполнены' : $user->region->title;
                     $regDate = Carbon::parse($user->email_verified_at)->format('d.m.Y H:i');
                     $key+=1;
-                    $details .= "<tr style='line-height: 3'><td>$key</td><td>$fio</td><td>$regDate</td></tr>";
+                    $details .= "<tr style='line-height: 3'><td>$key</td><td>$fio</td><td>$region</td><td>$regDate</td></tr>";
                 }
                 $details .= "</tbody></table>";
 

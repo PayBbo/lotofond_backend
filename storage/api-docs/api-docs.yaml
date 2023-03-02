@@ -31,6 +31,7 @@ paths:
                   password: ne6Jo$zi
                   name: Ivan
                   surname: Ivanov
+                  region: AmurRegion
               phone:
                 value:
                   grantType: phone
@@ -4249,6 +4250,9 @@ components:
         surname:
           type: string
           example: Ivanov
+        region:
+          type: string
+          description: регион пользователя (необязательный параметр)
     Auth:
       required:
         - grantType

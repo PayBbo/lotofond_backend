@@ -31,6 +31,7 @@ class RegisterRequest extends FormRequest
             'surname'=>['sometimes','required', 'string', 'max:255'],
             'name'=>['sometimes','required', 'string', 'max:255'],
             'password'=>['sometimes','required', 'string', 'min:8'],
+            'region'=>['sometimes', 'required', 'string', 'exists:regions,code']
         ];
     }
 

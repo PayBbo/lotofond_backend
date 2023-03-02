@@ -29,7 +29,8 @@ class User extends Authenticatable
         'email',
         'password',
         'not_to_email',
-        'email_verified_at'
+        'email_verified_at',
+        'region_id'
     ];
 
     /**
@@ -187,6 +188,11 @@ class User extends Authenticatable
             ->where('is_confirmed', true)
             ->where('status', 'Settled')
             ->where('finished_at', '>=', Carbon::now()->setTimezone('Europe/Moscow'));
+    }
+
+    public function region(){
+
+        return $this->belongsTo(Region::class);
     }
 
 }
