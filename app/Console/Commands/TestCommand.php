@@ -12,6 +12,7 @@ use App\Jobs\AdditionalLotInfoParseJob;
 use App\Jobs\NewUsersNotificationsJob;
 use App\Jobs\ParseTrades;
 use App\Jobs\SendApplication;
+use App\Models\AdditionalLotInfo;
 use App\Models\Auction;
 use App\Models\Bidder;
 use App\Models\Lot;
@@ -27,6 +28,7 @@ use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
+use Webklex\PHPIMAP\ClientManager;
 
 class TestCommand extends Command
 {
@@ -105,7 +107,7 @@ class TestCommand extends Command
               fputcsv($file, $row->toArray(), ';');
           }
           fclose($file);*/
-      // dispatch(new AdditionalLotInfoParseJob());
+        dispatch((new AdditionalLotInfoParseJob())->onQueue('parse'));
 
     }
 }

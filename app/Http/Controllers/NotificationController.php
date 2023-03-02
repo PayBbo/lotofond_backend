@@ -16,7 +16,7 @@ class NotificationController extends Controller
             $notifications = Notification::where('user_id', auth()->id())->orderBy('is_seen', 'asc')->orderBy('date', 'desc')->paginate(20);
         }else{
             $notifications = Notification::where('user_id', auth()->id())
-                ->whereHas('type', function ($q) use ($type) {
+                ->hasByNonDependentSubquery('type', function ($q) use ($type) {
                 $q->where('title', $type);
                 })
                 ->orderBy('is_seen', 'asc')

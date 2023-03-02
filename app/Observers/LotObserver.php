@@ -3,7 +3,10 @@
 namespace App\Observers;
 
 use App\Http\Services\CacheService;
+use App\Jobs\SendApplication;
 use App\Models\Lot;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Cache;
 
 class LotObserver
 {
@@ -15,14 +18,8 @@ class LotObserver
      */
     public function created(Lot $lot)
     {
-        /*$contacts = [$lot->auction->arbitrationManager->email];
-        if ($lot->auction->arbitr_manager_id != $lot->auction->company_trade_organizer_id) {
-            $contacts[] = $lot->auction->companyTradeOrganizer->email;
-        }
-        foreach ($contacts as $email) {
-            if (is_null($email)) {
-                continue;
-            }
+        $email = $lot->auction->arbitrationManager->email;
+        if (!is_null($email)) {
             logger('Sent emails to organizers');
             logger($lot->id);
             logger($email);
@@ -46,7 +43,8 @@ class LotObserver
                 "<br>
 <p> С уважением,</p>
 <p>ООО «Русвопрос»</p>";
-            $emails = Cache::get('contactEmails') ?? [];
+            logger($html);
+            /*$emails = Cache::get('contactEmails') ?? [];
             $counts = array_count_values($emails);
             $count = array_key_exists($email, $counts) ? $counts[$email] : 0;
             $delay = random_int(60, 360) * $count;
@@ -54,9 +52,10 @@ class LotObserver
             logger($delay . ' sec');
             dispatch((new SendApplication($html, $subject, $email))->onQueue('credentials')->delay($delay));
             $emails[] = $email;
-            Cache::put('contactEmails', $emails, Carbon::now()->setTimezone('Europe/Moscow')->addDay());
+            Cache::put('contactEmails', $emails, Carbon::now()->setTimezone('Europe/Moscow')->addDay());*/
             logger('-----------------------');
-        }*/
+        }
+
     }
 
     /**

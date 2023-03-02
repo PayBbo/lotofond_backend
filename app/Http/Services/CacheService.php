@@ -27,7 +27,7 @@ class CacheService
                 "min" => (float)Lot::min('min_price'),
                 "max" => (float)Lot::max('min_price'),
             ]
-        ], Carbon::now()->addHour());
+        ], Carbon::now()->addHours(2));
     }
 
     public function cacheCategoriesStatistics(){
@@ -56,7 +56,7 @@ class CacheService
             'allLotsCount' => Lot::count(),
             'activeLotsCount' => Lot::whereIn('status_id', $active_statuses)->count()
         ];
-        Cache::put('categoriesStatistics', $data, Carbon::now()->addHour());
+        Cache::put('categoriesStatistics', $data, Carbon::now()->addHours(2));
     }
 
     public function cacheLotsStatistics(){
@@ -68,7 +68,7 @@ class CacheService
             'allLotsCount'=>Lot::count(),
             'newLotsCount'=>Lot::whereDate('created_at',$date)->count()
         ];
-        Cache::put('lotsStatistics', $data, Carbon::now()->addHour());
+        Cache::put('lotsStatistics', $data, Carbon::now()->addHours(2));
     }
 
     public function cacheTradePlacesForFilter(){
@@ -103,10 +103,6 @@ class CacheService
             $regions[] = ['regionGroup' => $group->title, 'regions' => $group->regions()->pluck('code')->toArray()];
         }
         Cache::forever('regions', $regions);
-    }
-
-    public function cacheUserFavouritePaths($userId){
-
     }
 
 }

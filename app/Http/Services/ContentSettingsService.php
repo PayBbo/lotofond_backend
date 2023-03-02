@@ -30,11 +30,12 @@ class ContentSettingsService
         $hiddenLots = DB::table('hidden_lots')->where('user_id', $user->id)->pluck('lot_id')->toArray();
         $monitorings = DB::table('monitorings')->where('user_id', $user->id)->pluck('id')->toArray();
         $monitoringLots = DB::table('lot_monitoring')->whereIn('monitoring_id', $monitorings)->pluck('lot_id')->toArray();
-        $favourites = $user->favourites;
+        $favourites = $user->favourites()->with('lots');
         $favouritesLots = [];
         $lots = [];
         foreach ($favourites as $favourite) {
-            $lotIds = $favourite->lots()->pluck('lots.id')->toArray();
+            $lotIds = $favourite->lots->pluck('lots.id')->toArray();
+
             if (count($lotIds) > 0) {
                 $lots = array_merge($lots, $favourite->lots()->pluck('favourite_lot.id')->toArray());
                 $favourite = $favourite->only('id', 'title', 'color');
@@ -65,6 +66,9 @@ class ContentSettingsService
             $user = $this->user;
             $hasTariff = !is_null($user->tariff);
             $hasTestPeriod = $user->email_verified_at->addDays($trialPeriod)->format('Y-m-d H:i') >= Carbon::now()->setTimezone('Europe/Moscow')->format('Y-m-d H:i');
+        }
+        if(!Cache::has('contentRules')){
+            Cache::forever('contentRules', ContentRule::all()->pluck('is_available', 'code'));
         }
         $rules = Cache::get('contentRules');
         if ($hasTariff || $hasTestPeriod) {

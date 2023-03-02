@@ -174,11 +174,11 @@ class Lot extends Model
 
         return $this->hasOne(PriceReduction::class)
             ->where('start_time', '<', $currentDate)
-            ->where(function ($query) use ($currentDate) {
-                $query->where('end_time', '>=', $currentDate)
-                    ->orWhere('end_time', '=', null);
+            ->where(function ($query) {
+                $query->where('end_time', '>=', Carbon::now()->setTimezone('Europe/Moscow'))
+                    ->orWhereNull('end_time');
             })
-            ->orderBy('end_time', 'desc');
+            ->orderByDesc('end_time');
     }
 
     public function prevPrice()
@@ -189,24 +189,28 @@ class Lot extends Model
             ->where('start_time', '<', $currentDate)
             ->where(function ($query) use ($currentDate) {
                 $query->where('end_time', '<', $currentDate)
-                    ->orWhere('end_time', '=', null);
+                    ->orWhereNull('end_time');
             })
-            ->orderBy('end_time', 'asc');
+            ->orderBy('end_time');
+
     }
 
 
     public function getPhotosAttribute()
     {
-        $photos = [];
-        foreach ($this->lotImages->where('user_id', null) as $image) {
-            $photos[] = ['type' => 'system', 'main' => $image->url[0], 'preview' => $image->url[1], 'id' => $image->id];
-        }
-        if (auth()->check()) {
-            foreach ($this->lotImages->where('user_id', auth()->guard('api')->id()) as $image) {
-                $photos[] = ['type' => 'user', 'main' => $image->url[0], 'preview' => $image->url[1], 'id' => $image->id];
-            }
-        }
-        return $photos;
+        return $this->lotImages
+            ->filter(function ($image) {
+                return $image->user_id === null || $image->user_id === auth()->guard('api')->id();
+            })
+            ->map(function ($image) {
+                return [
+                    'type' => $image->user_id === null ? 'system' : 'user',
+                    'main' => $image->url[0],
+                    'preview' => $image->url[1],
+                    'id' => $image->id
+                ];
+            })
+            ->toArray();
     }
 
     public function userMarks()
@@ -277,10 +281,10 @@ class Lot extends Model
         }
         return FavouritePathResource::collection( auth()->guard('api')->user()
             ->favourites()
-            ->whereHas('lots', function ($query) {
+            ->withCount('lots')
+            ->hasByNonDependentSubquery('lots', function ($query) {
                 $query->where('lot_id', $this->id);
             })
-            ->with('lots', 'paths')
             ->get());
     }
 
