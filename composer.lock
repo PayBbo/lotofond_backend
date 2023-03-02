@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "2dfd2eb41261f315d4f3a533b421be56",
+    "content-hash": "a521974fdf638dd97fd8ea82b2738c48",
     "packages": [
         {
             "name": "artisaninweb/laravel-soap",
@@ -1023,6 +1023,7 @@
                     "type": "github"
                 }
             ],
+            "abandoned": true,
             "time": "2022-02-23T14:25:13+00:00"
         },
         {
@@ -2944,6 +2945,10 @@
             },
             "funding": [
                 {
+                    "url": "https://github.com/maennchen",
+                    "type": "github"
+                },
+                {
                     "url": "https://opencollective.com/zipstream",
                     "type": "open_collective"
                 }
@@ -3427,6 +3432,7 @@
                 "issues": "https://github.com/mpyw/eloquent-has-by-non-dependent-subquery/issues",
                 "source": "https://github.com/mpyw/eloquent-has-by-non-dependent-subquery/tree/v2.0.3"
             },
+            "abandoned": true,
             "time": "2022-07-14T19:22:41+00:00"
         },
         {
@@ -11340,7 +11346,6 @@
         "php": "^7.3|^8.0",
         "ext-curl": "*",
         "ext-fileinfo": "*",
-        "ext-imap": "*",
         "ext-json": "*",
         "ext-mbstring": "*",
         "ext-soap": "*",
