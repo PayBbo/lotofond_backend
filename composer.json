@@ -8,7 +8,6 @@
         "php": "^7.3|^8.0",
         "ext-curl": "*",
         "ext-fileinfo": "*",
-        "ext-imap": "*",
         "ext-json": "*",
         "ext-mbstring": "*",
         "ext-soap": "*",
