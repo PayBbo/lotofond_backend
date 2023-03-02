@@ -55,7 +55,7 @@ class TradeService
             $lot->auction_step = gettype($value[$prefix . 'StepPrice']) == 'array' ? NULL : $value[$prefix . 'StepPrice'];
         }
         $lot->status_id = 1;
-        if (array_key_exists($prefix . 'Participants', $value)) {
+      /*  if (array_key_exists($prefix . 'Participants', $value)) {
             if (gettype($value[$prefix . 'Participants']) == 'array' && count($value[$prefix . 'Participants']) > 0) {
                 if (gettype($value[$prefix . 'Participants'][$prefix . 'PaymentInfo']) == 'string') {
                     $lot->payment_info = stripslashes(preg_replace('/[\x00-\x1F\x7F]/u', ' ', $value[$prefix . 'Participants'][$prefix . 'PaymentInfo']));
@@ -77,7 +77,7 @@ class TradeService
 
         if (array_key_exists($prefix . 'Concours', $value) && gettype($value[$prefix . 'Concours']) == 'string') {
             $lot->payment_info = $value[$prefix . 'Concours'];
-        }
+        }*/
         $lot->created_at = Carbon::now()->setTimezone('Europe/Moscow');
         $lot->description = array_key_exists($prefix . 'TradeObjectHtml', $value) ? stripslashes(preg_replace('/[\x00-\x1F\x7F]/u', ' ', $value[$prefix . 'TradeObjectHtml'])) : NULL;
         $lot->save();

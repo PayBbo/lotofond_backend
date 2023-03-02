@@ -5,8 +5,10 @@ namespace App\Console\Commands;
 use App\Http\Services\Parse\FilesService;
 use App\Http\Services\Parse\GetTradeMessageContent;
 
+use App\Http\Services\Parse\ParseDataFromRosreestrService;
 use App\Http\Services\Parse\SoapWrapperService;
 use App\Http\Services\PushNotificationService;
+use App\Http\Services\ReestrApiService;
 use App\Http\Services\UserAgentService;
 use App\Jobs\AdditionalLotInfoParseJob;
 use App\Jobs\NewUsersNotificationsJob;

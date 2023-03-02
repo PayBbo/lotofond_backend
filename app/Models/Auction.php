@@ -34,7 +34,7 @@ class Auction extends Model
         'date_publish_smi',
         'date_publish_efir',
         'guid',
-        'application_rules'
+       // 'application_rules'
     ];
 
     /**

@@ -3,18 +3,13 @@
 namespace App\Http\Services\Parse\TradeMessages;
 
 use App\Http\Services\Parse\BidderService;
-use App\Http\Services\Parse\DescriptionExtractsService;
 use App\Http\Services\Parse\FilesService;
+use App\Http\Services\Parse\ParseAuctionService;
 use App\Http\Services\Parse\SoapWrapperService;
 use App\Http\Services\Parse\TradeService;
-use App\Http\Services\ParseAuctionService;
 use App\Models\Auction;
 use App\Models\AuctionType;
-use App\Models\Bidder;
-use App\Models\LotFile;
-use App\Models\SroAu;
 use Artisaninweb\SoapWrapper\SoapWrapper;
-use Midnite81\Xml2Array\Xml2Array;
 
 class BiddingInvitation extends TradeMessage
 {
@@ -124,7 +119,7 @@ class BiddingInvitation extends TradeMessage
             $auction->event_end_date = array_key_exists($prefix . 'OpenForm', $data) && array_key_exists('TimeEnd', $data[$prefix . 'OpenForm']) ? $this->parseDate($data[$prefix . 'OpenForm']['TimeEnd']) : NULL;
             $auction->application_start_date = $this->parseDate($data[$prefix . 'Application']['@attributes']['TimeBegin']);
             $auction->application_end_date = $this->parseDate($data[$prefix . 'Application']['@attributes']['TimeEnd']);
-            $auction->application_rules = $data[$prefix . 'Application'][$prefix.'Rules'];
+           // $auction->application_rules = $data[$prefix . 'Application'][$prefix.'Rules'];
             if(array_key_exists($prefix . 'DatePublishSMI', $data) && gettype($data[$prefix . 'DatePublishSMI'] ) !== 'array') {
                 $auction->date_publish_smi =  $data[$prefix . 'DatePublishSMI'];
             }

@@ -1,10 +1,7 @@
 <?php
 
-namespace App\Http\Services;
+namespace App\Http\Services\Parse;
 
-use App\Http\Services\Parse\DescriptionExtractsService;
-use App\Http\Services\Parse\FilesService;
-use App\Http\Services\Parse\SoapWrapperService;
 use App\Jobs\RetryParseAuctionJob;
 use App\Models\Bidder;
 use App\Models\LotFile;
@@ -49,7 +46,7 @@ class ParseAuctionService
             }
             $this->parseBiddersAndFilesFromAuction($xml, $auction, $lotOrders);
         } catch (\Exception $e) {
-            if(str_contains($e->getMessage(), 'Access Denied')){
+            if(strpos($e->getMessage(), 'Access Denied') !== false){
                 dispatch((new RetryParseAuctionJob($auction))
                     ->delay(now()->setTimezone('Europe/Moscow')->addMinutes(5))
                     ->onQueue('parse'));

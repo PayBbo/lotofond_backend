@@ -36,10 +36,10 @@ class Lot extends Model
         'processed_description',
         'status_id',
         'auction_id',
-        'participants',
+        /*'participants',
         'payment_info',
         'sale_agreement',
-        'concours',
+        'concours',*/
         'created_at',
         'price_reduction'
 

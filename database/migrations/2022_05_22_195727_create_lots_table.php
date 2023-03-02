@@ -26,10 +26,10 @@ class CreateLotsTable extends Migration
             $table->decimal('deposit', 15, 2)->nullable();
             $table->longText('description')->nullable();
             $table->longText('processed_description')->nullable();
-            $table->longText('participants')->nullable();
+           /* $table->longText('participants')->nullable();
             $table->longText('payment_info')->nullable();
             $table->longText('sale_agreement')->nullable();
-            $table->longText('concours')->nullable();
+            $table->longText('concours')->nullable();*/
             $table->longText('price_reduction')->nullable();
             $table->unsignedBigInteger('status_id');
             $table->foreign('status_id')->references('id')
