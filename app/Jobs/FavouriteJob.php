@@ -41,29 +41,31 @@ class FavouriteJob implements ShouldQueue
         })->get();
         $date = Carbon::now()->setTimezone('Europe/Moscow');
         foreach ($favourites as $favourite){
-            $lots = $favourite->lots;
+            $lots = $favourite->lots->whereIn('status_id', [1,2,3,4]);
             foreach($lots as $lot){
                 $eventStart = $lot->auction->event_start_date;
                 $eventEnd = $lot->auction->event_end_date;
                 $applicationStart = $lot->auction->application_start_date;
                 $applicationEnd = $lot->auction->application_end_date;
                 $resultDate = $lot->auction->result_date;
-                $changePriceDate = null;
-                $currentPriceReduction = $lot->currentPriceReduction;
-                if($currentPriceReduction){
-                    $nextPrice = PriceReduction::where(['lot_id'=>$lot->id, 'start_time'=>$currentPriceReduction->end_time])->first();
-                    if($nextPrice){
-                        $changePriceDate = $nextPrice->start_time;
-                    }
-                }
                 $data = [
                     'favouriteEventStart' => $eventStart,
                     'favouriteEventEnd' => $eventEnd,
                     'favouriteApplicationStart' => $applicationStart,
                     'favouriteApplicationEnd' => $applicationEnd,
-                    'favouriteResult' => $resultDate,
-                    'favouritePriceReduction' => $changePriceDate
+                    'favouriteResult' => $resultDate
                 ];
+                if($lot->auction->auctionType->title == 'PublicOffer' || $lot->auction->auctionType->title == 'ClosePublicOffer'){
+                    $changePriceDate = null;
+                    $currentPriceReduction = $lot->currentPriceReduction;
+                    if($currentPriceReduction){
+                        $nextPrice = PriceReduction::where(['lot_id'=>$lot->id, 'start_time'=>$currentPriceReduction->end_time])->first();
+                        if($nextPrice){
+                            $changePriceDate = $nextPrice->start_time;
+                        }
+                    }
+                    $data['favouritePriceReduction'] = $changePriceDate;
+                }
                 foreach($data as $key=>$value){
                     if(!is_null($value)) {
                         $value = Carbon::parse($value);
