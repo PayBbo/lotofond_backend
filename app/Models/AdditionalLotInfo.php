@@ -15,12 +15,10 @@ class AdditionalLotInfo extends Model
         'uid',
         'message',
         'is_moderated',
-        'bidder_id',
         'lot_id'
     ];
 
     protected $casts = [
-        'bidder_id' => 'integer',
         'lot_id' => 'integer',
         'is_moderated' => 'boolean'
     ];
@@ -28,11 +26,6 @@ class AdditionalLotInfo extends Model
     public function lot()
     {
         return $this->belongsTo(Lot::class);
-    }
-
-    public function bidder()
-    {
-        return $this->belongsTo(Bidder::class);
     }
 
     public function files()

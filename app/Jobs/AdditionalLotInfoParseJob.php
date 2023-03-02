@@ -4,7 +4,6 @@ namespace App\Jobs;
 
 use App\Http\Services\Parse\FilesService;
 use App\Models\AdditionalLotInfo;
-use App\Models\Bidder;
 use App\Models\Lot;
 use App\Models\LotFile;
 use Carbon\Carbon;
@@ -110,11 +109,9 @@ class AdditionalLotInfoParseJob implements ShouldQueue
                         }
                     }
                     $html = str_replace('div', 'p', $html);
-                    $bidder = Bidder::where('email', $message->getFrom()[0]->mail)->first();
                     $additional = AdditionalLotInfo::create([
                         'uid' => $uid,
                         'message' => $html,
-                        'bidder_id' => $bidder ? $bidder->id : null,
                         'lot_id' => $lot->id
                     ]);
                     $attachments = $message->getAttachments();

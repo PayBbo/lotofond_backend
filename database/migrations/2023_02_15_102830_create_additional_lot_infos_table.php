@@ -18,9 +18,6 @@ class CreateAdditionalLotInfosTable extends Migration
             $table->string('uid')->nullable();
             $table->longText('message');
             $table->boolean('is_moderated')->default(false);
-            $table->unsignedBigInteger('bidder_id')->nullable();
-            $table->foreign('bidder_id')->references('id')
-                ->on('bidders')->cascadeOnDelete();
             $table->unsignedBigInteger('lot_id');
             $table->foreign('lot_id')->references('id')
                 ->on('lots')->cascadeOnDelete();
