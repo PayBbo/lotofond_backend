@@ -56,7 +56,6 @@ class Lot extends Model
         'auction_id' => 'integer',
         'auction_step' => 'float',
         'deposit' => 'float',
-        'is_parse_ecp' => 'boolean',
         'is_auction_step_rub' => 'boolean',
         'is_deposit_rub' => 'boolean',
         'status_id' => 'integer'

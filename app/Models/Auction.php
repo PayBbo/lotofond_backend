@@ -29,10 +29,10 @@ class Auction extends Model
         'application_start_date',
         'application_end_date',
         'price_form',
-        'case_number',
-        'court',
-        'date_publish_smi',
-        'date_publish_efir',
+      //  'case_number',
+      //  'court',
+      //  'date_publish_smi',
+       // 'date_publish_efir',
         'guid',
        // 'application_rules'
     ];
@@ -55,8 +55,8 @@ class Auction extends Model
         'application_start_date'=>'datetime',
         'application_end_date'=>'datetime',
         'result_date' =>'datetime',
-        'date_publish_smi'=>'datetime',
-        'date_publish_efir'=>'datetime',
+      //  'date_publish_smi'=>'datetime',
+      //  'date_publish_efir'=>'datetime',
     ];
 
    protected $with = ['auctionType'];

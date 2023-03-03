@@ -120,17 +120,17 @@ class BiddingInvitation extends TradeMessage
             $auction->application_start_date = $this->parseDate($data[$prefix . 'Application']['@attributes']['TimeBegin']);
             $auction->application_end_date = $this->parseDate($data[$prefix . 'Application']['@attributes']['TimeEnd']);
            // $auction->application_rules = $data[$prefix . 'Application'][$prefix.'Rules'];
-            if(array_key_exists($prefix . 'DatePublishSMI', $data) && gettype($data[$prefix . 'DatePublishSMI'] ) !== 'array') {
+          /*  if(array_key_exists($prefix . 'DatePublishSMI', $data) && gettype($data[$prefix . 'DatePublishSMI'] ) !== 'array') {
                 $auction->date_publish_smi =  $data[$prefix . 'DatePublishSMI'];
             }
             if(array_key_exists($prefix . 'DatePublishEFIR', $data) && gettype($data[$prefix . 'DatePublishEFIR'] ) !== 'array') {
                 $auction->date_publish_efir =  $data[$prefix . 'DatePublishEFIR'];
-            }
+            }*/
             $auction->price_form = $data['@attributes']['FormPrice'] == 'OpenForm' ? 'open' : 'close';
-            if (array_key_exists($prefix . 'LegalCase', $invitation)) {
+           /* if (array_key_exists($prefix . 'LegalCase', $invitation)) {
                 $auction->case_number = $invitation[$prefix . 'LegalCase']['@attributes']['CaseNumber'];
                 $auction->court = $invitation[$prefix . 'LegalCase']['@attributes']['CourtName'];
-            }
+            }*/
             $auction->save();
             $files = null;
             $images = null;

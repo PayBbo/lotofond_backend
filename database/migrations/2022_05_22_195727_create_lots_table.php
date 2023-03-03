@@ -17,7 +17,6 @@ class CreateLotsTable extends Migration
         Schema::create('lots', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('number');
-            $table->boolean('is_parse_ecp')->default(false);
             $table->decimal('start_price', 15,2);
             $table->decimal('min_price', 15,2)->nullable();
             $table->decimal('auction_step', 15, 2)->nullable();
