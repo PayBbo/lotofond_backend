@@ -32,6 +32,10 @@ class LotObserver
         //
     }
 
+    public function deleting(Lot $lot){
+        $lot->lotFiles->each(function ($file) { $file->delete(); });
+    }
+
     /**
      * Handle the Lot "deleted" event.
      *

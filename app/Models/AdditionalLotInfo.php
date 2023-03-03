@@ -23,6 +23,16 @@ class AdditionalLotInfo extends Model
         'is_moderated' => 'boolean'
     ];
 
+    public static function boot()
+    {
+        parent::boot();
+
+        static::deleting(function ($additional) {
+            $additional->files->each(function ($file) { $file->delete(); });
+        });
+
+    }
+
     public function lot()
     {
         return $this->belongsTo(Lot::class);

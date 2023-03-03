@@ -91,7 +91,6 @@ class AdditionalLotInfoParseJob implements ShouldQueue
                     continue;
                 } else {
                     $lotNumber = preg_replace('/\D/', '', $match[0]);
-                    logger($lotNumber);
                     $lot = Lot::where('number', $lotNumber)
                         ->whereHas('auction', function ($query) use ($idEfrsb, $guid) {
                             $query->when(!is_null($idEfrsb), function ($q) use ($idEfrsb) {
@@ -182,7 +181,7 @@ class AdditionalLotInfoParseJob implements ShouldQueue
                 $additional = AdditionalLotInfo::create([
                     'uid' => $uid,
                     'message' => $html,
-                    'auction_id' => $lot->id
+                    'lot_id' => $lot->id
                 ]);
                 foreach ($files as $file) {
                     LotFile::create([

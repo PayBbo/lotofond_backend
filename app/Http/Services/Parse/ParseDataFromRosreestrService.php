@@ -77,7 +77,7 @@ class ParseDataFromRosreestrService
                         }
                     } elseif ($data['type'] == 'premises') {
                         $objectName = 'Помещение';
-                        $type = 'premises';
+                        $type = 'premise';
                     }
                     $mainLotParam = LotParam::create([
                         'param_id' => 7,

@@ -28,29 +28,9 @@ class LotFile extends Model
         'user_id' => 'integer',
         'lot_id' => 'integer',
         'trade_message_id' => 'integer',
-        'additional_lot_info_id'=> 'integer',
+        'additional_lot_info_id' => 'integer',
     ];
 
-    public static function boot()
-    {
-        parent::boot();
-
-        static::deleting(function ($file) {
-            if(LotFile::where('url', $file->url)->count() == 0) {
-              //  dispatch((new DeleteFileJob($file->type, $file->url))->onQueue('parse'));
-                $slash = DIRECTORY_SEPARATOR;
-                if($file->type == 'file'){
-                    $path = \storage_path('app'.$slash.'public'.$slash.stristr($file->url, 'auction-files'));
-                    File::delete($path);
-                }else{
-                    $main = \storage_path('app'.$slash.'public'.$slash.stristr($file->url[0], 'auction-files'));
-                    $preview = \storage_path('app'.$slash.'public'.$slash.stristr($file->url[1], 'auction-files'));
-                    File::delete([$main, $preview]);
-                }
-            }
-        });
-
-    }
 
     public function lot()
     {
@@ -67,19 +47,20 @@ class LotFile extends Model
         return $this->belongsTo(TradeMessage::class);
     }
 
-    public function getUrlAttribute($value) {
-        $urls = json_decode( $value, true);
-        if(gettype($urls) == 'array'){
+    public function getUrlAttribute($value)
+    {
+        $urls = json_decode($value, true);
+        if (gettype($urls) == 'array') {
             $result = [];
-            foreach($urls as $url){
-                $result[] =  URL::to('/').'/'.$url;
+            foreach ($urls as $url) {
+                $result[] = URL::to('/') . '/' . $url;
             }
             return $result;
-        }else{
+        } else {
             $val = json_decode($value);
-            if($val) {
+            if ($val) {
                 return URL::to('/') . '/' . $val;
-            }else{
+            } else {
                 return URL::to('/') . '/' . $value;
             }
         }
