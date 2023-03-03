@@ -3,10 +3,7 @@
 namespace App\Observers;
 
 use App\Http\Services\CacheService;
-use App\Jobs\SendApplication;
 use App\Models\Lot;
-use Carbon\Carbon;
-use Illuminate\Support\Facades\Cache;
 
 class LotObserver
 {

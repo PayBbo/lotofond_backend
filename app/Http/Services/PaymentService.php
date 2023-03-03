@@ -64,7 +64,7 @@ class PaymentService
                     'merchantId' => $this->merchantId,
                     'testMode' => $this->testMode,
                     'invoice' => [
-                        'description' => is_null($description) ? $tariff->description : $description,
+                        'description' => is_null($description) ? 'Покупка тарифа '.$tariff->title : $description,
                         'orderNo' => (string)$paymentId
                     ],
                     'amount' => [

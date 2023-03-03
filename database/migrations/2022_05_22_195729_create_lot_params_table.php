@@ -18,7 +18,7 @@ class CreateLotParamsTable extends Migration
             $table->id();
             $table->unsignedBigInteger('param_id')->nullable();
             $table->unsignedBigInteger('lot_id');
-            $table->string('value', 255)->nullable();
+            $table->longText('value')->nullable();
             $table->foreign('param_id')->references('id')
                 ->on('params')->cascadeOnDelete();
             $table->foreign('lot_id')->references('id')

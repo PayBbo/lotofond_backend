@@ -52,7 +52,6 @@ class AccessDeniedJob implements ShouldQueue
      */
     public function handle()
     {
-        logger('AccessDeniedJob');
         if (!TradeMessage::where('number', $this->messageId)->exists()) {
             $soapWrapper = new SoapWrapper();
             $service = new SoapWrapperService($soapWrapper);
@@ -60,7 +59,5 @@ class AccessDeniedJob implements ShouldQueue
             $getTradeMessageContent = new GetTradeMessageContent($xml, $this->messageType);
             $getTradeMessageContent->switchMessageType($this->tradePlaceId, $this->messageId, $this->messageGUID);
         }
-        logger('success');
-        logger('-----------------------');
     }
 }

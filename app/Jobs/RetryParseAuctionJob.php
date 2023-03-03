@@ -31,9 +31,7 @@ class RetryParseAuctionJob implements ShouldQueue
      */
     public function handle()
     {
-        logger('Retry Parse Auction');
         $parseAuction = new ParseAuctionService();
         $parseAuction->parseDataFromAuction($this->auction);
-        logger('success');
     }
 }

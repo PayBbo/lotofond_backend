@@ -2,7 +2,10 @@
 
 namespace App\Observers;
 
+use App\Jobs\SendApplication;
 use App\Models\Auction;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Cache;
 
 class AuctionObserver
 {
@@ -40,7 +43,7 @@ class AuctionObserver
 <p> С уважением,</p>
 <p>ООО «Русвопрос»</p>";
             logger($html);
-            /*$emails = Cache::get('contactEmails') ?? [];
+            $emails = Cache::get('contactEmails') ?? [];
             $counts = array_count_values($emails);
             $count = array_key_exists($email, $counts) ? $counts[$email] : 0;
             $delay = random_int(60, 360) * $count;
@@ -48,7 +51,7 @@ class AuctionObserver
             logger($delay . ' sec');
             dispatch((new SendApplication($html, $subject, $email))->onQueue('credentials')->delay($delay));
             $emails[] = $email;
-            Cache::put('contactEmails', $emails, Carbon::now()->setTimezone('Europe/Moscow')->addDay());*/
+            Cache::put('contactEmails', $emails, Carbon::now()->setTimezone('Europe/Moscow')->addDay());
             logger('-----------------------');
         }
 

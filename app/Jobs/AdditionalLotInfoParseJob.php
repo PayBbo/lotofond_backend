@@ -85,7 +85,7 @@ class AdditionalLotInfoParseJob implements ShouldQueue
                     continue;
                 }
                 // для парсинга письма для конкретного лота
-                $pattern = '/лоту №[0-9]*./';
+               /* $pattern = '/лоту №[0-9]*./';
                 preg_match($pattern, $htmlMail, $match);
                 if (count($match) == 0) {
                     continue;
@@ -100,17 +100,17 @@ class AdditionalLotInfoParseJob implements ShouldQueue
                             });
                         })
                         ->first();
-                }
+                }*/
 
 
-               /* $auction = Auction::when(!is_null($idEfrsb), function ($q) use ($idEfrsb) {
+                $auction = Auction::when(!is_null($idEfrsb), function ($q) use ($idEfrsb) {
                     $q->where('id_efrsb', $idEfrsb);
                 })->when(!is_null($guid), function ($q) use ($guid) {
                     $q->where('guid', $guid);
                 })->first();
                 if (!$auction) {
                     continue;
-                }*/
+                }
 
                 $html = str_replace($htmlMail, '', $html);
                 $html = str_replace('&nbsp;', '', $html);
@@ -127,10 +127,10 @@ class AdditionalLotInfoParseJob implements ShouldQueue
                 $hasImages = false;
                 $fileService = new FilesService();
                 $time = Carbon::now()->format('d-m-Y-H-i');
-               // $dest = 'auction-files' . $this->slash . 'auction-' . $auction->id . $this->slash . $time;
-                $dest = 'auction-files' . $this->slash . 'auction-' . $lot->auction->id . $this->slash . $time;
-               // $dir = 'app' . $this->slash . 'public' . $this->slash . 'auction-files' . $this->slash . 'auction-' . $auction->id . $this->slash . $time;
-                $dir = 'app' . $this->slash . 'public' . $this->slash . 'auction-files' . $this->slash . 'auction-' . $lot->auction->id . $this->slash . $time;
+                $dest = 'auction-files' . $this->slash . 'auction-' . $auction->id . $this->slash . $time;
+                //$dest = 'auction-files' . $this->slash . 'auction-' . $lot->auction->id . $this->slash . $time;
+                $dir = 'app' . $this->slash . 'public' . $this->slash . 'auction-files' . $this->slash . 'auction-' . $auction->id . $this->slash . $time;
+                //$dir = 'app' . $this->slash . 'public' . $this->slash . 'auction-files' . $this->slash . 'auction-' . $lot->auction->id . $this->slash . $time;
                 $full_path = \storage_path($dir);
                 if (!file_exists($full_path)) {
                     $fileService->createTempDir($dest);
@@ -163,7 +163,7 @@ class AdditionalLotInfoParseJob implements ShouldQueue
                         $files[] = ['url' => $image, 'type' => 'image'];
                     }
                 }
-               /* foreach ($auction->lots as $lot) {
+                foreach ($auction->lots as $lot) {
                     $additional = AdditionalLotInfo::create([
                         'uid' => $uid,
                         'message' => $html,
@@ -177,8 +177,8 @@ class AdditionalLotInfoParseJob implements ShouldQueue
                             'additional_lot_info_id' => $additional->id
                         ]);
                     }
-                }*/
-                $additional = AdditionalLotInfo::create([
+                }
+                /*$additional = AdditionalLotInfo::create([
                     'uid' => $uid,
                     'message' => $html,
                     'lot_id' => $lot->id
@@ -190,7 +190,7 @@ class AdditionalLotInfoParseJob implements ShouldQueue
                         'lot_id' => $lot->id,
                         'additional_lot_info_id' => $additional->id
                     ]);
-                }
+                }*/
             }
             $limit -= 10;
         }
