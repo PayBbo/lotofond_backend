@@ -30,6 +30,7 @@ use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 use Webklex\PHPIMAP\ClientManager;
 
 class TestCommand extends Command
@@ -109,7 +110,10 @@ class TestCommand extends Command
               fputcsv($file, $row->toArray(), ';');
           }
           fclose($file);*/
+
         dispatch((new AdditionalLotInfoParseJob())->onQueue('parse'));
+
+
 
     }
 }

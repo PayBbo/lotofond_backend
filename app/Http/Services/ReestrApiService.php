@@ -30,6 +30,7 @@ class ReestrApiService
         $request = new Request('POST', 'https://reestr-api.ru/v1/search/cadastr?auth_token=' . $this->auth_token);
         $res = $client->sendAsync($request, $options)->wait();
         $response = json_decode($res->getBody(), true);
+        logger($response);
         if ($response['query'] != 'success' || $response['found'] < 1) {
             return false;
         }

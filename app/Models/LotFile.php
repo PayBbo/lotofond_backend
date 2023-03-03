@@ -36,7 +36,18 @@ class LotFile extends Model
         parent::boot();
 
         static::deleting(function ($file) {
-          dispatch((new DeleteFileJob($file->type, $file->url))->onQueue('parse'));
+            if(LotFile::where('url', $file->url)->count() == 0) {
+              //  dispatch((new DeleteFileJob($file->type, $file->url))->onQueue('parse'));
+                $slash = DIRECTORY_SEPARATOR;
+                if($file->type == 'file'){
+                    $path = \storage_path('app'.$slash.'public'.$slash.stristr($file->url, 'auction-files'));
+                    File::delete($path);
+                }else{
+                    $main = \storage_path('app'.$slash.'public'.$slash.stristr($file->url[0], 'auction-files'));
+                    $preview = \storage_path('app'.$slash.'public'.$slash.stristr($file->url[1], 'auction-files'));
+                    File::delete([$main, $preview]);
+                }
+            }
         });
 
     }

@@ -2,9 +2,11 @@
 
 namespace App\Providers;
 
+use App\Models\Auction;
 use App\Models\ContentRule;
 use App\Models\Lot;
 use App\Models\Notification;
+use App\Observers\AuctionObserver;
 use App\Observers\ContentRuleObserver;
 use App\Observers\LotObserver;
 use App\Observers\NotificationObserver;
@@ -31,6 +33,7 @@ class AppServiceProvider extends ServiceProvider
     {
         ContentRule::observe(ContentRuleObserver::class);
         Lot::observe(LotObserver::class);
+        Auction::observe(AuctionObserver::class);
         Notification::observe(NotificationObserver::class);
     }
 }

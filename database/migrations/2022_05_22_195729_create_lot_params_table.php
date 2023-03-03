@@ -26,6 +26,7 @@ class CreateLotParamsTable extends Migration
             $table->bigInteger('parent_id')->nullable();
             $table->string('type', 70)->nullable();
             $table->timestamps();
+            $table->index('parent_id');
         });
         Schema::enableForeignKeyConstraints();
     }

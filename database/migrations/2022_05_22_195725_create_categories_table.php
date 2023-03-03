@@ -21,6 +21,7 @@ class CreateCategoriesTable extends Migration
             $table->string('code', 8);
             $table->unsignedBigInteger('parent_id')->nullable();
             $table->timestamps();
+            $table->index('parent_id');
         });
         Schema::enableForeignKeyConstraints();
     }
