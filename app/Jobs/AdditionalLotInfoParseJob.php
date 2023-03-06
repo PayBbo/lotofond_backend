@@ -109,10 +109,8 @@ class AdditionalLotInfoParseJob implements ShouldQueue
                     $q->where('guid', $guid);
                 })->first();
                 if (!$auction) {
-                    logger('auction not exists');
                     continue;
                 }
-                logger('auction '.$auction->id);
 
                 $html = str_replace($htmlMail, '', $html);
                 $html = str_replace('&nbsp;', '', $html);

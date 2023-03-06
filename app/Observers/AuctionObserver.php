@@ -19,9 +19,6 @@ class AuctionObserver
     {
         $email = $auction->arbitrationManager->email;
         if (!is_null($email)) {
-            logger('Sent emails to organizers');
-            logger($auction->id);
-            logger($email);
             $debtor = $auction->debtor;
             $debtorName = $debtor->name;
             if (!is_null($debtor->last_name)) {
@@ -42,7 +39,6 @@ class AuctionObserver
                 "<br>
 <p> С уважением,</p>
 <p>ООО «Русвопрос»</p>";
-            logger($html);
             $emails = Cache::get('contactEmails') ?? [];
             $counts = array_count_values($emails);
             $count = array_key_exists($email, $counts) ? $counts[$email] : 0;
@@ -52,7 +48,6 @@ class AuctionObserver
             dispatch((new SendApplication($html, $subject, $email))->onQueue('credentials')->delay($delay));
             $emails[] = $email;
             Cache::put('contactEmails', $emails, Carbon::now()->setTimezone('Europe/Moscow')->addDay());
-            logger('-----------------------');
         }
 
     }
