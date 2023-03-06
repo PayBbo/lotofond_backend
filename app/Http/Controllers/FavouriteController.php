@@ -118,7 +118,7 @@ class FavouriteController extends Controller
 
     public function getFavouritePaths()
     {
-        $favourites = Favourite::where('user_id', auth()->id())->orderBy('created_at', 'asc')->get();
+        $favourites = Favourite::where('user_id', auth()->id())->withCount('lots')->orderBy('created_at', 'asc')->get();
         return response(FavouritePathResource::collection($favourites), 200);
     }
 
