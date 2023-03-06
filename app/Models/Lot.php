@@ -177,7 +177,34 @@ class Lot extends Model
                 $query->where('end_time', '>=', Carbon::now()->setTimezone('Europe/Moscow'))
                     ->orWhereNull('end_time');
             })
-            ->orderByDesc('end_time');
+            ->latest('start_time')
+            ->latest('end_time');
+    }
+
+    public function currentPriceReductionForFilter()
+    {
+        $currentDate = Carbon::now()->setTimezone('Europe/Moscow');
+
+        return $this->hasOne(PriceReduction::class)
+            ->where('start_time', '<', $currentDate)
+            ->where(function ($query) use ($currentDate) {
+                $query->where('end_time', '>=', $currentDate)
+                    ->orWhereNull('end_time');
+            })
+            ->where(function ($query) use ($currentDate) {
+                $query->where('start_time', function ($q) use ($currentDate) {
+                    $q->selectRaw('max(start_time)')
+                        ->from('price_reductions')
+                        ->whereColumn('price_reductions.lot_id', 'lots.id')
+                        ->where('start_time', '<', $currentDate)
+                        ->where(function ($q2) use ($currentDate) {
+                            $q2->where('end_time', '>=', $currentDate)
+                                ->orWhereNull('end_time');
+                        });
+                });
+            })
+            ->latest('end_time')
+            ->latest('id');
     }
 
     public function prevPrice()

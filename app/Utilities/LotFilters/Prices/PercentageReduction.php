@@ -14,7 +14,7 @@ class PercentageReduction  extends SortQuery implements SortContract
         $value = json_decode(json_encode($value), true);
 
         if(!is_null($value)) {
-            $this->query->when(!is_null($value['min']) && strlen((string)$value['min']) > 0, function($query) use($value){
+           /* $this->query->when(!is_null($value['min']) && strlen((string)$value['min']) > 0, function($query) use($value){
                 $query->whereHas('currentPriceReduction', function ($q) use ($value) {
                     $q->where('percent', '>=', $value['min']);
                 });
@@ -22,7 +22,20 @@ class PercentageReduction  extends SortQuery implements SortContract
                 $query->whereHas('currentPriceReduction', function ($q) use ($value) {
                     $q->where('percent', '<=', $value['max']);
                 });
-            });
+            });*/
+
+            $minPercent = (!is_null($value['min']) && strlen((string)$value['min']) > 0) ? $value['min'] : null;
+            $maxPercent = (!is_null($value['max']) && strlen((string)$value['max']) > 0) ? $value['max'] : null;
+            if($minPercent || $maxPercent) {
+                $this->query->whereHas('currentPriceReductionForFilter', function ($q) use ($minPercent, $maxPercent) {
+                    if ($minPercent) {
+                        $q->where('percent', '>=', $minPercent);
+                    }
+                    if ($maxPercent) {
+                        $q->where('percent', '<=', $maxPercent);
+                    }
+                });
+            }
         }
     }
 }

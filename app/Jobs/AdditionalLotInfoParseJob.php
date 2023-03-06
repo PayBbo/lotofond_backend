@@ -109,8 +109,10 @@ class AdditionalLotInfoParseJob implements ShouldQueue
                     $q->where('guid', $guid);
                 })->first();
                 if (!$auction) {
+                    logger('auction not exists');
                     continue;
                 }
+                logger('auction '.$auction->id);
 
                 $html = str_replace($htmlMail, '', $html);
                 $html = str_replace('&nbsp;', '', $html);
@@ -167,7 +169,7 @@ class AdditionalLotInfoParseJob implements ShouldQueue
                     $additional = AdditionalLotInfo::create([
                         'uid' => $uid,
                         'message' => $html,
-                        'auction_id' => $lot->id
+                        'lot_id' => $lot->id
                     ]);
                     foreach ($files as $file) {
                         LotFile::create([

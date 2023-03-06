@@ -21,12 +21,14 @@ use App\Models\Lot;
 use App\Models\LotFile;
 use App\Models\Monitoring;
 use App\Models\Notification;
+use App\Models\PriceReduction;
 use App\Models\TradeMessage;
 use App\Models\TradePlace;
 use Artisaninweb\SoapWrapper\SoapWrapper;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
@@ -111,8 +113,7 @@ class TestCommand extends Command
           }
           fclose($file);*/
 
-       // dispatch((new AdditionalLotInfoParseJob())->onQueue('parse'));
-
+        dispatch((new AdditionalLotInfoParseJob())->onQueue('parse'));
 
 
     }
