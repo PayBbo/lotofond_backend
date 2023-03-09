@@ -26,7 +26,7 @@
         <div class="bkt-form bkt-form_wide bkt-gap-row-large">
             <div class="col-12 col-lg-4 bkt-form__offset-right">
                 <div class="bkt-wrapper-column bkt-gap-large">
-                    <div class="bkt-card__row">
+                    <div class="bkt-card__row" v-if="contacts.loading||contacts.phone">
                         <div class="col-12 col-lg-10">
                             <div class="bkt-card__row-column">
                                 <h5 class="bkt-text-neutral-dark">
@@ -46,7 +46,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="bkt-card__row">
+                    <div class="bkt-card__row" v-if="contacts.loading||contacts.email">
                         <div class="col-12 col-lg-10">
                             <div class="bkt-card__row-column">
                                 <h5 class="bkt-text-neutral-dark">
