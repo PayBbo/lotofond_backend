@@ -113,7 +113,7 @@ class TestCommand extends Command
           }
           fclose($file);*/
 
-        dispatch((new SendApplication('test', 'test', 'tripolskaya2021@bk.ru'))->onQueue('parse'));
+        //dispatch((new AdditionalLotInfoParseJob())->onQueue('parse'));
 
 
     }

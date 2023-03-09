@@ -53,6 +53,9 @@ class SendApplication implements ShouldQueue
         $toEmail = $this->emails;
         $html = $this->html;
         $subject = $this->subject;
+        logger('send mail');
+        logger($html);
+        logger('----------------');
 
         Mail::send([], [], function ($message) use ($toEmail, $html, $subject) {
             $message->from('bankr0t.t@yandex.ru', 'LotoFond');
