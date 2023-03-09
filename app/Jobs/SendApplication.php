@@ -26,10 +26,10 @@ class SendApplication implements ShouldQueue
      *
      * @return array
      */
-    public function middleware()
+   /* public function middleware()
     {
         return [(new WithoutOverlapping($this->emails))->releaseAfter(random_int(60, 300))];
-    }
+    }*/
 
     /**
      * Create a new job instance.
