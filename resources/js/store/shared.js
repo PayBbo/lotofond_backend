@@ -17,7 +17,8 @@ export default {
         selected_item: null,
         main_contacts: {
             phone:'',
-            email:''
+            email:'',
+            loading:false
         },
         help:[],
         about: [],
@@ -144,12 +145,14 @@ export default {
             return null;
         },
         getContacts({commit}, payload) {
+            let contacts = {
+                phone:'',
+                email:'',
+                loading: true
+            }
+            commit('setContacts', contacts);
             axios.get('/api/text-data/contacts')
                 .then( resp => {
-                    let contacts = {
-                        phone:'',
-                        email:''
-                    }
                     let index = resp.data.findIndex( item => item.header=='Почта')
                     if ( index >= 0) {
                         contacts.email = resp.data[index].value;
@@ -158,7 +161,11 @@ export default {
                     if ( index >= 0) {
                         contacts.phone = resp.data[index].value;
                     }
+                    contacts.loading = false;
                     commit('setContacts', contacts)
+            }).catch(error => {
+                contacts.loading = false;
+                commit('setContacts', contacts)
             });
         },
         getInfo({commit}, payload) {
