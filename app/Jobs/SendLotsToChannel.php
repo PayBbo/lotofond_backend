@@ -6,6 +6,7 @@ use App\Models\Lot;
 use App\Models\Region;
 use App\Notifications\ApplicationTelegramNotification;
 use Carbon\Carbon;
+use GuzzleHttp\Exception\ClientException;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -71,7 +72,7 @@ class SendLotsToChannel implements ShouldQueue
             ->whereHas('categories', function ($query) use ($categories) {
                 $query->whereIn('title', $categories);
             });
-        $lots = $this->query->where(function ($query) use ($regions){
+        $lots = $this->query->where(function ($query) use ($regions) {
             $query->whereHas('objectRegions', function ($q) use ($regions) {
                 $q->whereIn('code', $regions);
             })->orWhereDoesntHave('objectRegions', function () use ($regions) {
@@ -80,7 +81,7 @@ class SendLotsToChannel implements ShouldQueue
                 });
             });
         });
-        if($type == 'countTransportLotsChannel'){
+        if ($type == 'countTransportLotsChannel') {
             $cachedCount = Cache::get($type);
             $limit = 10;
             if (isset($cachedCount)) {
@@ -89,7 +90,7 @@ class SendLotsToChannel implements ShouldQueue
             $lots = $lots->limit($limit)->get();
             $count = $lots->count() + $cachedCount;
             Cache::put($type, $count, Carbon::now()->setTimezone('Europe/Moscow')->endOfDay());
-        }else{
+        } else {
             $lots = $lots->get();
         }
         foreach ($lots as $lot) {
@@ -112,16 +113,19 @@ class SendLotsToChannel implements ShouldQueue
             $chat_id = config('telegram.lots_chat_id');
             $client = new Client();
             try {
-                $response = $client->post('https://api.telegram.org/bot' . $token . '/sendMessage', [
+                $client->post('https://api.telegram.org/bot' . $token . '/sendMessage', [
                     RequestOptions::JSON => [
                         'chat_id' => $chat_id,
                         'text' => $html,
                         'parse_mode' => 'html'
                     ]
                 ]);
-                $response = json_decode($response->getBody());
-                if(!$response->ok && $response->error_code == 429){
-                    sleep($response->parameters->retry_after);
+            } catch (ClientException $e) {
+                if ($e->getResponse()->getStatusCode() === 429) {
+                    $retryAfter = $e->getResponse()->getHeader('retry-after')[0] ?? 60;
+                    sleep($retryAfter);
+                } else {
+                    logger($e->getMessage());
                 }
             } catch (\Exception $e) {
                 logger($e->getMessage());

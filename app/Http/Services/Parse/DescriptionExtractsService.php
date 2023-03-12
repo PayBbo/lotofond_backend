@@ -41,7 +41,7 @@ class DescriptionExtractsService
                     $lot->params()->attach(Param::find(4), ['value' => $match, 'parent_id' => null]);
                     $reestrApiService = new ReestrApiService();
                     $success = $reestrApiService->searchByCadastralNumber($match);
-                    if(!$success){
+                    if (!$success) {
                         $parseDataFromRosreestr = new ParseDataFromRosreestrService($match);
                         $parseDataFromRosreestr->handle();
                     }
@@ -122,15 +122,83 @@ class DescriptionExtractsService
         return $result;
     }
 
-    public function processDescriptionFromAuction($auctionLot, $fullText, $auction, $isSingle=false)
+    public function processDescriptionFromAuction($auctionLots, $fullText, $auction)
     {
-        $lot = $auction->lots->where('number', $auctionLot['Order'])->first();
-        if(!$lot){
-            if($auction->lots->count() == 1 && $isSingle){
-                $lot = $auction->lots->first();
+        $lotNumbers = [];
+        foreach ($auction->lots as $lot) {
+            $auctionLot = null;
+            preg_match_all(
+                '/лот\s*№?\s*(\d+)/iu',
+                $lot->description,
+                $matchNumber
+            );
+            $prices = [];
+            $similarPercents = [];
+            foreach ($auctionLots as $item) {
+                if (count($matchNumber[1]) > 0) {
+                    $number = $matchNumber[1][0];
+                    if ($number == $item['Order']) {
+                        $auctionLot = $item;
+                        $lotNumbers[] = $lot->number;
+                        break;
+                    } else {
+                        continue;
+                    }
+                }
+                $prices[] = (integer)$item['StartPrice'];
+                $similarPrice = false;
+                if ($lot->start_price == $item['StartPrice']) {
+                    $similarPrice = true;
+                }
+                $params = $lot->paramsLot->whereIn('param_id', [4, 5, 6])->pluck('value')->toArray();
+                $paramsCount = count($params);
+                if ($paramsCount > 0) {
+                    $numberOfMatches = 0;
+                    foreach ($params as $param) {
+                        if (strpos(mb_strtoupper(str_replace(' ', '', $item['Description'])), $param) !== false) {
+                            $numberOfMatches += 1;
+                        }
+                    }
+                    if ($numberOfMatches == $paramsCount) {
+                        if ($similarPrice) {
+                            $auctionLot = $item;
+                            $lotNumbers[] = $lot->number;
+                            break;
+                        } else {
+                            continue;
+                        }
+                    }
+                }
+                $sim = similar_text($lot->description, $item['Description'], $simPercent);
+                if ($similarPrice) {
+                    $similarPercents[] = $simPercent;
+                } else {
+                    $similarPercents[] = 0;
+                }
+
             }
-        }
-        if ($lot) {
+
+            if (!$auctionLot) {
+                $counts = array_count_values($prices);
+                $start_price = (integer)$lot->start_price;
+                $count = array_key_exists($start_price, $counts) ? $counts[$start_price] : 0;
+                if ($count == 1 || count($prices) == 1) {
+                    $key = array_search($start_price, $prices);
+                    $auctionLot = $auctionLots[$key];
+                    $lotNumbers[] = $lot->number;
+                } else {
+                    $maxSimilar = max($similarPercents);
+                    if ($maxSimilar > 50) {
+                        $key = array_search($maxSimilar, $similarPercents);
+                        $auctionLot = $auctionLots[$key];
+                        $lotNumbers[] = $lot->number;
+                    }
+                }
+            }
+
+            if (!$auctionLot) {
+                continue;
+            }
             $description = $lot->description;
             if (array_key_exists('Description', $auctionLot) && gettype($auctionLot['Description']) != 'array' && strlen((string)$auctionLot['Description']) > 0) {
                 $description = $auctionLot['Description'];
@@ -147,21 +215,19 @@ class DescriptionExtractsService
             if (array_key_exists('Step', $auctionLot) && gettype($auctionLot['Step']) != 'array' && strlen((string)$auctionLot['Step']) > 0) {
                 $auctionStep = $auctionLot['Step'];
                 $lot->auction_step = $auctionStep;
-            }
-            if (array_key_exists('AuctionStepUnit', $auctionLot) && gettype($auctionLot['AuctionStepUnit']) != 'array' && strlen((string)$auctionLot['AuctionStepUnit']) > 0) {
-                $isStepPercent = $auctionLot['AuctionStepUnit'] == 'Percent';
-                $lot->is_step_rub = !$isStepPercent;
+                if (array_key_exists('AuctionStepUnit', $auctionLot) && gettype($auctionLot['AuctionStepUnit']) != 'array' && strlen((string)$auctionLot['AuctionStepUnit']) > 0) {
+                    $isStepPercent = $auctionLot['AuctionStepUnit'] == 'Percent';
+                    $lot->is_step_rub = !$isStepPercent;
+                }
             }
             if (array_key_exists('Advance', $auctionLot) && gettype($auctionLot['Advance']) != 'array' && strlen((string)$auctionLot['Advance']) > 0) {
                 $lot->deposit = $auctionLot['Advance'];
+                if (array_key_exists('AdvanceStepUnit', $auctionLot) && gettype($auctionLot['AdvanceStepUnit']) != 'array' && strlen((string)$auctionLot['AdvanceStepUnit']) > 0) {
+                    $lot->is_deposit_rub = $auctionLot['AdvanceStepUnit'] != 'Percent';
+                }
             }
-            if (array_key_exists('AdvanceStepUnit', $auctionLot) && gettype($auctionLot['AdvanceStepUnit']) != 'array' && strlen((string)$auctionLot['AdvanceStepUnit']) > 0) {
-                $lot->is_deposit_rub = $auctionLot['AdvanceStepUnit'] != 'Percent';
-            }
-
-            if (array_key_exists('StartPrice', $auctionLot) && gettype($auctionLot['StartPrice']) != 'array' && strlen((string)$auctionLot['StartPrice']) > 0) {;
+            if (array_key_exists('StartPrice', $auctionLot) && gettype($auctionLot['StartPrice']) != 'array' && strlen((string)$auctionLot['StartPrice']) > 0) {
                 $lot->start_price = $auctionLot['StartPrice'];
-                $lot->save();
                 if (PriceReduction::where('lot_id', $lot->id)->count() == 0) {
                     PriceReduction::create([
                         'lot_id' => $lot->id,
@@ -174,102 +240,101 @@ class DescriptionExtractsService
                     ]);
                 }
             }
-            if ($lot->auction->auctionType->title == 'PublicOffer' || $lot->auction->auctionType->title == 'ClosePublicOffer') {
-                $prices = $lot->showPriceReductions->pluck('price')->toArray();
-                if (count($prices) == 0) {
-                    $regexStep = '/(?:(?:(?:снижается)|(?:понижается)|(?:снижения)|(?:уменьшается)|(?:кажды(?:х|е))).*?)(?\'step_number\'\d+)?(?:[ ]?\(?(?\'step_words\'(?:(?:(?:(?<![а-яёА-ЯЁ])(?:(?\'quantitative_0\'н[оу]л)|(?\'quantitative_1\'од)|(?\'quantitative_2\'дв)|(?\'quantitative_3\'тр)|(?\'quantitative_4\'четыр)|(?\'quantitative_5\'пят)|(?\'quantitative_6\'шест)|(?\'quantitative_7\'сем)|(?\'quantitative_8\'вос)|(?\'quantitative_9\'девя)|(?\'quantitative_10\'десят)|(?\'quantitative_40\'соро)|(?\'quantitative_100\'ст))(?=[а-яёА-ЯЁ])(?:((?(quantitative_0)(?:(?:[её]м)|(?:ях)|(?:ями)|(?:ям)|(?:ей)|ь|и|я|ю|е))|(?(quantitative_1)(?:(?:ин)|(?:н(?:(?:ими)|(?:ому)|(?:ого)|(?:ой)|(?:ою)|(?:их)|(?:им)|(?:ом)|о|а|и|у))))|(?(quantitative_2)(?:(?:умя)|(?:ух)|(?:ум)|е|а))|(?(quantitative_3)(?:(?:емя)|(?:[её]х)|(?:[её]м)|и))|(?(quantitative_4)(?:(?:ьмя)|(?:[её]х)|(?:[её]м)|е))|(?(quantitative_5)(?:(?:ью)|ь|и))|(?(quantitative_6)(?:(?:ью)|ь|и))|(?(quantitative_7)(?:(?:ью)|ь|и))|(?(quantitative_8)(?:(?:емь)|(?:[еь]мью)|(?:ьми)))|(?(quantitative_9)(?:(?:тью)|(?:ть)|(?:ти)))|(?(quantitative_10)(?:(?:ью)|ь|и))|(?(quantitative_40)(?:к|(?:ка)))|(?(quantitative_100)(?:о|а)))|(?\'quantitative_second_tens\'(?(quantitative_1)ин(?:надцат(?:(?:ь)|(?:и)|(?:ью))))|(?(quantitative_2)е(?:надцат(?:(?:ь)|(?:и)|(?:ью))))|(?(quantitative_3)и(?:надцат(?:(?:ь)|(?:и)|(?:ью))))|(?(quantitative_4)(?:надцат(?:(?:ь)|(?:и)|(?:ью))))|(?(quantitative_5)(?:надцат(?:(?:ь)|(?:и)|(?:ью))))|(?(quantitative_6)(?:надцат(?:(?:ь)|(?:и)|(?:ью))))|(?(quantitative_7)(?:надцат(?:(?:ь)|(?:и)|(?:ью))))|(?(quantitative_8)ем(?:надцат(?:(?:ь)|(?:и)|(?:ью))))|(?(quantitative_9)т(?:надцат(?:(?:ь)|(?:и)|(?:ью)))))|(?\'quantitative_tens\'(?(quantitative_2)адцат(?:(?:ь)|(?:и)|(?:ью)))|(?(quantitative_3)идцат(?:(?:ь)|(?:и)|(?:ью)))|(?(quantitative_5)(?:(?:ьдесят)|(?:идесяти)|(?:ьюдесятью)))|(?(quantitative_6)(?:(?:ьдесят)|(?:идесяти)|(?:ьюдесятью)))|(?(quantitative_7)(?:(?:ьдесят)|(?:идесяти)|(?:ьюдесятью)))|(?(quantitative_8)(?:(?:емьдесят)|(?:ьмидесяти)|(?:ьмьюдесятью)))|(?(quantitative_9)(?:(?:носто)|(?:носта))))|(?\'quantitative_hundreds\'(?(quantitative_2)(?:(?:ести)|(?:ухсот)|(?:умстам)|(?:умястами)|(?:ухстах)))|(?(quantitative_3)(?:(?:иста)|(?:[её]хсот)|(?:[её]мстам)|(?:емястами)|(?:[её]хстах)))|(?(quantitative_4)(?:(?:еста)|(?:[её]хсот)|(?:[её]мстам)|(?:ьмястами)|(?:[её]хстах)))|(?(quantitative_5)(?:(?:ьсот)|(?:исот)|(?:истам)|(?:ьюстами)|(?:истах)))|(?(quantitative_6)(?:(?:ьсот)|(?:исот)|(?:истам)|(?:ьюстами)|(?:истах)))|(?(quantitative_7)(?:(?:ьсот)|(?:исот)|(?:истам)|(?:ьюстами)|(?:истах)))|(?(quantitative_8)(?:(?:емьсот)|(?:ьмисот)|(?:ьмистам)|(?:емьюстами)|(?:ьмистах)))|(?(quantitative_9)(?:(?:тьсот)|(?:тисот)|(?:тистам)|(?:тьюстами)|(?:тистах)))))(?![а-яёА-ЯЁ]))|(?:(?<![а-яёА-ЯЁ])(?:(?\'ordinal_0\'н[оу]лев)|(?\'ordinal_1\'(?:(?\'ordinal_1_variant_1\'перв)|(?\'ordinal_1_variant_2\'од)))|(?\'ordinal_2\'(?:(?\'ordinal_2_variant_1\'втор)|(?\'ordinal_2_variant_2\'дв)))|(?\'ordinal_3\'(?:(?\'ordinal_3_variant_1\'трет)|(?\'ordinal_3_variant_2\'тр)))|(?\'ordinal_4\'(?:(?\'ordinal_4_variant_1\'четв[её]рт)|(?\'ordinal_4_variant_2\'четыр)))|(?\'ordinal_5\'пят)|(?\'ordinal_6\'шест)|(?\'ordinal_7\'(?:(?\'ordinal_7_variant_1\'седьм)|(?\'ordinal_7_variant_2\'сем)))|(?\'ordinal_8\'(?:(?\'ordinal_8_variant_1\'восьм)|(?\'ordinal_8_variant_2\'восем)))|(?\'ordinal_9\'(?:(?\'ordinal_9_variant_1\'девят)|(?\'ordinal_9_variant_2\'девя)))|(?\'ordinal_10\'десят)|(?\'ordinal_40\'сороков)|(?\'ordinal_100\'сот))(?=[а-яёА-ЯЁ])(?:((?:(?(ordinal_0)|(?(ordinal_2_variant_1)|(?(ordinal_6)|(?(ordinal_7_variant_1)|(?(ordinal_8_variant_1)|(?(ordinal_40)|(*FAIL)))))))(?:(?:ой)|(?:ая)|(?:ое)|(?:ые)|(?:ого)|(?:ых)|(?:ому)|(?:ым)|(?:ую)|(?:ыми)|(?:ом)))|(?:(?(ordinal_1_variant_1)|(?(ordinal_4_variant_1)|(?(ordinal_5)|(?(ordinal_9_variant_1)|(?(ordinal_10)|(?(ordinal_100)|(*FAIL)))))))(?:(?:ый)|(?:ая)|(?:ое)|(?:ые)|(?:ого)|(?:ой)|(?:ых)|(?:ому)|(?:ым)|(?:ую)|(?:ыми)|(?:ом)))|(?:(?(ordinal_3_variant_1)(?:(?:ий)|(?:ья)|(?:ье)|(?:ьи)|(?:ьего)|(?:ьей)|(?:ьею)|(?:ьих)|(?:ьему)|(?:ьим)|(?:ью)|(?:ьими)|(?:ьем))|(*FAIL))))|(?\'ordinal_second_tens\'(?:(?(ordinal_1_variant_2)ин|(?(ordinal_2_variant_2)е|(?(ordinal_3_variant_2)и|(?(ordinal_4_variant_2)|(?(ordinal_5)|(?(ordinal_6)|(?(ordinal_7_variant_2)|(?(ordinal_8_variant_2)|(?(ordinal_9_variant_1)|(*FAIL))))))))))(?:надцат(?:(?:ый)|(?:ая)|(?:ое)|(?:ые)|(?:ого)|(?:ой)|(?:ых)|(?:ому)|(?:ым)|(?:ую)|(?:ыми)|(?:ом)))))|(?\'ordinal_tens\'(?:(?(ordinal_2_variant_2)адцат|(?(ordinal_3_variant_2)идцат|(?(ordinal_5)идесят|(?(ordinal_6)идесят|(?(ordinal_7_variant_2)идесят|(?(ordinal_8_variant_1)идесят|(?(ordinal_9_variant_2)ност|(*FAIL))))))))(?:(?:ый)|(?:ая)|(?:ое)|(?:ые)|(?:ого)|(?:ой)|(?:ых)|(?:ому)|(?:ым)|(?:ую)|(?:ыми)|(?:ом))))|(?\'ordinal_hundreds\'(?:(?(ordinal_2_variant_2)ухсот|(?(ordinal_3_variant_2)[её]хсот|(?(ordinal_4_variant_2)[её]хсот|(?(ordinal_5)исот|(?(ordinal_6)исот|(?(ordinal_7_variant_2)исот|(?(ordinal_8_variant_1)исот|(?(ordinal_9_variant_1)исот|(*FAIL)))))))))(?:(?:ый)|(?:ая)|(?:ое)|(?:ые)|(?:ого)|(?:ой)|(?:ых)|(?:ому)|(?:ым)|(?:ую)|(?:ыми)|(?:ом)))))(?![а-яёА-ЯЁ])))(?:[ ])?)+)\)?)?(?:(?: (?\'calendar_day\'календарн(?:(?:ых)|(?:ый))))|(?: (?\'working_day\'рабоч(?:(?:их)|(?:ий)))))? дн(?:(?:ей)|(?:я))(?(step_number)(*ACCEPT)|(?(step_words)(*ACCEPT)|(*FAIL)))/miu';
-                    $regexMinPrice = "/(?(DEFINE)(?'rubles_pattern'\d{1,3}(?:[ ]?\d{3})*(?:[,.]\d{2}))(?'rubles_name_pattern'[ ]?(?:(?:рублей)|(?:(?:(?:руб)|(?:р))[\.]?)))(?'percent_pattern'\d+(?:,\d+)?)(?'percent_name_pattern'[ ]?(?:\([а-яёА-ЯЁ]+\))?[ ]?(?:(?:%)|(?:процент(?:ов)?))))(?:(?:(?:(?:мин(?:имальн(?:(?:ая)|(?:ой)))?[\.]?(?: [А-ЯЁа-яё]+)?[ ](?:(?:цен(?:а|ы))|(?:стоимост(?:ь|и))))|(?:цен(?:ы|а|е) отсечения)|(?:прекращается при достижении))).*?(?'new_sentence'(?:\.[ ](?=[А-ЯЁ])).*?(*SKIP))?(?:(?:(?'rubles'(?P>rubles_pattern))(?:(?P>rubles_name_pattern)))|(?:(?'percent'(?P>percent_pattern))(?P>percent_name_pattern)))(?![а-яёА-ЯЁ]))|(?:(?:(?:(?'rubles'(?P>rubles_pattern))(?:(?P>rubles_name_pattern)))|(?:(?'percent'(?P>percent_pattern))(?P>percent_name_pattern)))(?![а-яёА-ЯЁ])(?:.?[ ]?\((?:(?:цена отсечения)|(?:мин(?:имальная)?[\.]?[ ](?:(?:цена)|(?:стоимость)))).*?\)))/muiJ";
-                    $text = '';
-                    $min_price = null;
-                    if (array_key_exists('PriceReduction', $auctionLot) && gettype($auctionLot['PriceReduction']) != 'array' && strlen((string)$auctionLot['PriceReduction']) > 0) {
-                        $text = $auctionLot['PriceReduction'];
-                    }
-                    preg_match_all($regexMinPrice, $text, $matchesPrice, PREG_SET_ORDER, 0);
-                    $startPrice = $lot->start_price;
-                    if (count((array)$matchesPrice) > 0 && (array_key_exists('rubles', $matchesPrice[0]) || array_key_exists('percent', $matchesPrice[0]))) {
-                        $min_price = $this->getMinPrice($matchesPrice, $startPrice);
-                    } else {
-                        $text = $fullText;
-                        preg_match_all($regexMinPrice, $text, $matchesPrice);
-                        if (count((array)$matchesPrice) > 0 && (array_key_exists('rubles', $matchesPrice[0]) || array_key_exists('percent', $matchesPrice[0]))) {
-                            $min_price = $this->getMinPrice($matchesPrice, $startPrice);
-                        }
-                    }
-                    preg_match_all($regexStep, $text, $matchesStep);
-                    if (count($matchesStep['step_number']) > 0 || count($matchesStep['step_words']) > 0) {
-                        $step = $this->getPeriod($matchesStep);
-                        $isWorkingDays = count($matchesStep['working_day']) > 0 && strlen($matchesStep['working_day'][0]) > 0;
-                    } else {
-                        $text = $fullText;
-                        $step = preg_match_all($regexStep, $text, $matchesStep);
-                        $this->getPeriod($matchesStep);
-                        $isWorkingDays = count($matchesStep['working_day']) > 0 && strlen($matchesStep['working_day'][0]) > 0;
+            $lot->save();
+            if ($lot->auction->auctionType->title != 'PublicOffer' && $lot->auction->auctionType->title != 'ClosePublicOffer') {
+                return $lotNumbers;
+            }
+            $prices = $lot->showPriceReductions->pluck('price')->toArray();
+            if (count($prices) > 0) {
+                return $lotNumbers;
+            }
+            $regexStep = '/(?:(?:(?:снижается)|(?:понижается)|(?:снижения)|(?:уменьшается)|(?:кажды(?:х|е))).*?)(?\'step_number\'\d+)?(?:[ ]?\(?(?\'step_words\'(?:(?:(?:(?<![а-яёА-ЯЁ])(?:(?\'quantitative_0\'н[оу]л)|(?\'quantitative_1\'од)|(?\'quantitative_2\'дв)|(?\'quantitative_3\'тр)|(?\'quantitative_4\'четыр)|(?\'quantitative_5\'пят)|(?\'quantitative_6\'шест)|(?\'quantitative_7\'сем)|(?\'quantitative_8\'вос)|(?\'quantitative_9\'девя)|(?\'quantitative_10\'десят)|(?\'quantitative_40\'соро)|(?\'quantitative_100\'ст))(?=[а-яёА-ЯЁ])(?:((?(quantitative_0)(?:(?:[её]м)|(?:ях)|(?:ями)|(?:ям)|(?:ей)|ь|и|я|ю|е))|(?(quantitative_1)(?:(?:ин)|(?:н(?:(?:ими)|(?:ому)|(?:ого)|(?:ой)|(?:ою)|(?:их)|(?:им)|(?:ом)|о|а|и|у))))|(?(quantitative_2)(?:(?:умя)|(?:ух)|(?:ум)|е|а))|(?(quantitative_3)(?:(?:емя)|(?:[её]х)|(?:[её]м)|и))|(?(quantitative_4)(?:(?:ьмя)|(?:[её]х)|(?:[её]м)|е))|(?(quantitative_5)(?:(?:ью)|ь|и))|(?(quantitative_6)(?:(?:ью)|ь|и))|(?(quantitative_7)(?:(?:ью)|ь|и))|(?(quantitative_8)(?:(?:емь)|(?:[еь]мью)|(?:ьми)))|(?(quantitative_9)(?:(?:тью)|(?:ть)|(?:ти)))|(?(quantitative_10)(?:(?:ью)|ь|и))|(?(quantitative_40)(?:к|(?:ка)))|(?(quantitative_100)(?:о|а)))|(?\'quantitative_second_tens\'(?(quantitative_1)ин(?:надцат(?:(?:ь)|(?:и)|(?:ью))))|(?(quantitative_2)е(?:надцат(?:(?:ь)|(?:и)|(?:ью))))|(?(quantitative_3)и(?:надцат(?:(?:ь)|(?:и)|(?:ью))))|(?(quantitative_4)(?:надцат(?:(?:ь)|(?:и)|(?:ью))))|(?(quantitative_5)(?:надцат(?:(?:ь)|(?:и)|(?:ью))))|(?(quantitative_6)(?:надцат(?:(?:ь)|(?:и)|(?:ью))))|(?(quantitative_7)(?:надцат(?:(?:ь)|(?:и)|(?:ью))))|(?(quantitative_8)ем(?:надцат(?:(?:ь)|(?:и)|(?:ью))))|(?(quantitative_9)т(?:надцат(?:(?:ь)|(?:и)|(?:ью)))))|(?\'quantitative_tens\'(?(quantitative_2)адцат(?:(?:ь)|(?:и)|(?:ью)))|(?(quantitative_3)идцат(?:(?:ь)|(?:и)|(?:ью)))|(?(quantitative_5)(?:(?:ьдесят)|(?:идесяти)|(?:ьюдесятью)))|(?(quantitative_6)(?:(?:ьдесят)|(?:идесяти)|(?:ьюдесятью)))|(?(quantitative_7)(?:(?:ьдесят)|(?:идесяти)|(?:ьюдесятью)))|(?(quantitative_8)(?:(?:емьдесят)|(?:ьмидесяти)|(?:ьмьюдесятью)))|(?(quantitative_9)(?:(?:носто)|(?:носта))))|(?\'quantitative_hundreds\'(?(quantitative_2)(?:(?:ести)|(?:ухсот)|(?:умстам)|(?:умястами)|(?:ухстах)))|(?(quantitative_3)(?:(?:иста)|(?:[её]хсот)|(?:[её]мстам)|(?:емястами)|(?:[её]хстах)))|(?(quantitative_4)(?:(?:еста)|(?:[её]хсот)|(?:[её]мстам)|(?:ьмястами)|(?:[её]хстах)))|(?(quantitative_5)(?:(?:ьсот)|(?:исот)|(?:истам)|(?:ьюстами)|(?:истах)))|(?(quantitative_6)(?:(?:ьсот)|(?:исот)|(?:истам)|(?:ьюстами)|(?:истах)))|(?(quantitative_7)(?:(?:ьсот)|(?:исот)|(?:истам)|(?:ьюстами)|(?:истах)))|(?(quantitative_8)(?:(?:емьсот)|(?:ьмисот)|(?:ьмистам)|(?:емьюстами)|(?:ьмистах)))|(?(quantitative_9)(?:(?:тьсот)|(?:тисот)|(?:тистам)|(?:тьюстами)|(?:тистах)))))(?![а-яёА-ЯЁ]))|(?:(?<![а-яёА-ЯЁ])(?:(?\'ordinal_0\'н[оу]лев)|(?\'ordinal_1\'(?:(?\'ordinal_1_variant_1\'перв)|(?\'ordinal_1_variant_2\'од)))|(?\'ordinal_2\'(?:(?\'ordinal_2_variant_1\'втор)|(?\'ordinal_2_variant_2\'дв)))|(?\'ordinal_3\'(?:(?\'ordinal_3_variant_1\'трет)|(?\'ordinal_3_variant_2\'тр)))|(?\'ordinal_4\'(?:(?\'ordinal_4_variant_1\'четв[её]рт)|(?\'ordinal_4_variant_2\'четыр)))|(?\'ordinal_5\'пят)|(?\'ordinal_6\'шест)|(?\'ordinal_7\'(?:(?\'ordinal_7_variant_1\'седьм)|(?\'ordinal_7_variant_2\'сем)))|(?\'ordinal_8\'(?:(?\'ordinal_8_variant_1\'восьм)|(?\'ordinal_8_variant_2\'восем)))|(?\'ordinal_9\'(?:(?\'ordinal_9_variant_1\'девят)|(?\'ordinal_9_variant_2\'девя)))|(?\'ordinal_10\'десят)|(?\'ordinal_40\'сороков)|(?\'ordinal_100\'сот))(?=[а-яёА-ЯЁ])(?:((?:(?(ordinal_0)|(?(ordinal_2_variant_1)|(?(ordinal_6)|(?(ordinal_7_variant_1)|(?(ordinal_8_variant_1)|(?(ordinal_40)|(*FAIL)))))))(?:(?:ой)|(?:ая)|(?:ое)|(?:ые)|(?:ого)|(?:ых)|(?:ому)|(?:ым)|(?:ую)|(?:ыми)|(?:ом)))|(?:(?(ordinal_1_variant_1)|(?(ordinal_4_variant_1)|(?(ordinal_5)|(?(ordinal_9_variant_1)|(?(ordinal_10)|(?(ordinal_100)|(*FAIL)))))))(?:(?:ый)|(?:ая)|(?:ое)|(?:ые)|(?:ого)|(?:ой)|(?:ых)|(?:ому)|(?:ым)|(?:ую)|(?:ыми)|(?:ом)))|(?:(?(ordinal_3_variant_1)(?:(?:ий)|(?:ья)|(?:ье)|(?:ьи)|(?:ьего)|(?:ьей)|(?:ьею)|(?:ьих)|(?:ьему)|(?:ьим)|(?:ью)|(?:ьими)|(?:ьем))|(*FAIL))))|(?\'ordinal_second_tens\'(?:(?(ordinal_1_variant_2)ин|(?(ordinal_2_variant_2)е|(?(ordinal_3_variant_2)и|(?(ordinal_4_variant_2)|(?(ordinal_5)|(?(ordinal_6)|(?(ordinal_7_variant_2)|(?(ordinal_8_variant_2)|(?(ordinal_9_variant_1)|(*FAIL))))))))))(?:надцат(?:(?:ый)|(?:ая)|(?:ое)|(?:ые)|(?:ого)|(?:ой)|(?:ых)|(?:ому)|(?:ым)|(?:ую)|(?:ыми)|(?:ом)))))|(?\'ordinal_tens\'(?:(?(ordinal_2_variant_2)адцат|(?(ordinal_3_variant_2)идцат|(?(ordinal_5)идесят|(?(ordinal_6)идесят|(?(ordinal_7_variant_2)идесят|(?(ordinal_8_variant_1)идесят|(?(ordinal_9_variant_2)ност|(*FAIL))))))))(?:(?:ый)|(?:ая)|(?:ое)|(?:ые)|(?:ого)|(?:ой)|(?:ых)|(?:ому)|(?:ым)|(?:ую)|(?:ыми)|(?:ом))))|(?\'ordinal_hundreds\'(?:(?(ordinal_2_variant_2)ухсот|(?(ordinal_3_variant_2)[её]хсот|(?(ordinal_4_variant_2)[её]хсот|(?(ordinal_5)исот|(?(ordinal_6)исот|(?(ordinal_7_variant_2)исот|(?(ordinal_8_variant_1)исот|(?(ordinal_9_variant_1)исот|(*FAIL)))))))))(?:(?:ый)|(?:ая)|(?:ое)|(?:ые)|(?:ого)|(?:ой)|(?:ых)|(?:ому)|(?:ым)|(?:ую)|(?:ыми)|(?:ом)))))(?![а-яёА-ЯЁ])))(?:[ ])?)+)\)?)?(?:(?: (?\'calendar_day\'календарн(?:(?:ых)|(?:ый))))|(?: (?\'working_day\'рабоч(?:(?:их)|(?:ий)))))? дн(?:(?:ей)|(?:я))(?(step_number)(*ACCEPT)|(?(step_words)(*ACCEPT)|(*FAIL)))/miu';
+            $regexMinPrice = "/(?(DEFINE)(?'rubles_pattern'\d{1,3}(?:[ ]?\d{3})*(?:[,.]\d{2}))(?'rubles_name_pattern'[ ]?(?:(?:рублей)|(?:(?:(?:руб)|(?:р))[\.]?)))(?'percent_pattern'\d+(?:,\d+)?)(?'percent_name_pattern'[ ]?(?:\([а-яёА-ЯЁ]+\))?[ ]?(?:(?:%)|(?:процент(?:ов)?))))(?:(?:(?:(?:мин(?:имальн(?:(?:ая)|(?:ой)))?[\.]?(?: [А-ЯЁа-яё]+)?[ ](?:(?:цен(?:а|ы))|(?:стоимост(?:ь|и))))|(?:цен(?:ы|а|е) отсечения)|(?:прекращается при достижении))).*?(?'new_sentence'(?:\.[ ](?=[А-ЯЁ])).*?(*SKIP))?(?:(?:(?'rubles'(?P>rubles_pattern))(?:(?P>rubles_name_pattern)))|(?:(?'percent'(?P>percent_pattern))(?P>percent_name_pattern)))(?![а-яёА-ЯЁ]))|(?:(?:(?:(?'rubles'(?P>rubles_pattern))(?:(?P>rubles_name_pattern)))|(?:(?'percent'(?P>percent_pattern))(?P>percent_name_pattern)))(?![а-яёА-ЯЁ])(?:.?[ ]?\((?:(?:цена отсечения)|(?:мин(?:имальная)?[\.]?[ ](?:(?:цена)|(?:стоимость)))).*?\)))/muiJ";
+            $text = '';
+            $min_price = null;
+            if (array_key_exists('PriceReduction', $auctionLot) && gettype($auctionLot['PriceReduction']) != 'array' && strlen((string)$auctionLot['PriceReduction']) > 0) {
+                $text = $auctionLot['PriceReduction'];
+            }
+            preg_match_all($regexMinPrice, $text, $matchesPrice, PREG_SET_ORDER, 0);
+            $startPrice = $lot->start_price;
+            if (count((array)$matchesPrice) > 0 && (array_key_exists('rubles', $matchesPrice[0]) || array_key_exists('percent', $matchesPrice[0]))) {
+                $min_price = $this->getMinPrice($matchesPrice, $startPrice);
+            } else {
+                $text = $fullText;
+                preg_match_all($regexMinPrice, $text, $matchesPrice);
+                if (count((array)$matchesPrice) > 0 && (array_key_exists('rubles', $matchesPrice[0]) || array_key_exists('percent', $matchesPrice[0]))) {
+                    $min_price = $this->getMinPrice($matchesPrice, $startPrice);
+                }
+            }
+            preg_match_all($regexStep, $text, $matchesStep);
+            if (count($matchesStep['step_number']) > 0 || count($matchesStep['step_words']) > 0) {
+                $step = $this->getPeriod($matchesStep);
+                $isWorkingDays = count($matchesStep['working_day']) > 0 && strlen($matchesStep['working_day'][0]) > 0;
+            } else {
+                $text = $fullText;
+                $step = preg_match_all($regexStep, $text, $matchesStep);
+                $this->getPeriod($matchesStep);
+                $isWorkingDays = count($matchesStep['working_day']) > 0 && strlen($matchesStep['working_day'][0]) > 0;
 
-                    }
-                    if (!is_null($min_price) && $min_price > 0) {
-                        $lot->min_price = $min_price;
-                        $lot->save();
-                    }
-                    $priceReduction = new PriceReductionService();
-                    if (!is_null($min_price) && $min_price > 0 && !is_null($step) && $step > 0 && !is_null($auctionStep) && $auctionStep > 0) {
-                        if ($isStepPercent) {
-                            $percent = $auctionStep;
-                            $auctionStep = $startPrice / 100 * $auctionStep;
+            }
+            if (!is_null($min_price) && $min_price > 0) {
+                $lot->min_price = $min_price;
+            }
+            $priceReduction = new PriceReductionService();
+            if (!is_null($min_price) && $min_price > 0 && !is_null($step) && $step > 0 && !is_null($auctionStep) && $auctionStep > 0) {
+                if ($isStepPercent) {
+                    $percent = $auctionStep;
+                    $auctionStep = $startPrice / 100 * $auctionStep;
+                } else {
+                    $percent = $auctionStep * 100 / $startPrice;
+                }
+                $startValue = $startPrice;
+                if (!$isWorkingDays) {
+                    $previousStartPeriod = $lot->auction->application_start_date;
+                    $previousEndPeriod = Carbon::parse($lot->auction->application_start_date)->addDays($step);
+                    $priceReduction->savePriceReduction($lot->id, $startValue, $previousStartPeriod, $previousEndPeriod, null, $percent);
+                    while ($startValue > $min_price) {
+                        if ($startValue - $auctionStep > $min_price) {
+                            $startValue -= $auctionStep;
                         } else {
-                            $percent = $auctionStep * 100 / $startPrice;
+                            $startValue = $min_price;
                         }
-                        $startValue = $startPrice;
-                        if (!$isWorkingDays) {
-                            $previousStartPeriod = $lot->auction->application_start_date;
-                            $previousEndPeriod = Carbon::parse($lot->auction->application_start_date)->addDays($step);
-                            $priceReduction->savePriceReduction($lot->id, $startValue, $previousStartPeriod, $previousEndPeriod, null, $percent);
-                            while ($startValue > $min_price) {
-                                if ($startValue - $auctionStep > $min_price) {
-                                    $startValue -= $auctionStep;
-                                } else {
-                                    $startValue = $min_price;
-                                }
-                                $startPeriodDate = $previousEndPeriod;
-                                $endPeriodDate = Carbon::parse($previousEndPeriod)->addDays($step);
-                                $priceReduction->savePriceReduction($lot->id, $startValue, $startPeriodDate, $endPeriodDate, null, $percent);
-                                $previousEndPeriod = $endPeriodDate;
-                            }
+                        $startPeriodDate = $previousEndPeriod;
+                        $endPeriodDate = Carbon::parse($previousEndPeriod)->addDays($step);
+                        $priceReduction->savePriceReduction($lot->id, $startValue, $startPeriodDate, $endPeriodDate, null, $percent);
+                        $previousEndPeriod = $endPeriodDate;
+                    }
+                } else {
+                    $previousStartPeriod = $lot->auction->application_start_date;
+                    $previousEndPeriod = Carbon::parse($lot->auction->application_start_date)->addDays($step);
+                    $previousEndPeriod = $this->checkIsWeekend($previousStartPeriod, $previousEndPeriod);
+                    $priceReduction->savePriceReduction($lot->id, $startValue, $previousStartPeriod, $previousEndPeriod, null, $percent);
+                    while ($startValue > $min_price) {
+                        if ($startValue - $auctionStep > $min_price) {
+                            $startValue -= $auctionStep;
                         } else {
-                            $previousStartPeriod = $lot->auction->application_start_date;
-                            $previousEndPeriod = Carbon::parse($lot->auction->application_start_date)->addDays($step);
-                            $previousEndPeriod = $this->checkIsWeekend($previousStartPeriod, $previousEndPeriod);
-                            $priceReduction->savePriceReduction($lot->id, $startValue, $previousStartPeriod, $previousEndPeriod, null, $percent);
-                            while ($startValue > $min_price) {
-                                if ($startValue - $auctionStep > $min_price) {
-                                    $startValue -= $auctionStep;
-                                } else {
-                                    $startValue = $min_price;
-                                }
-                                $startPeriodDate = $previousEndPeriod;
-                                $endPeriodDate = Carbon::parse($previousEndPeriod)->addDays($step);
-                                $endPeriodDate = $this->checkIsWeekend($startPeriodDate, $endPeriodDate);
-                                $priceReduction->savePriceReduction($lot->id, $startValue, $startPeriodDate, $endPeriodDate, null, $percent);
-                                $previousEndPeriod = $endPeriodDate;
-                            }
+                            $startValue = $min_price;
                         }
+                        $startPeriodDate = $previousEndPeriod;
+                        $endPeriodDate = Carbon::parse($previousEndPeriod)->addDays($step);
+                        $endPeriodDate = $this->checkIsWeekend($startPeriodDate, $endPeriodDate);
+                        $priceReduction->savePriceReduction($lot->id, $startValue, $startPeriodDate, $endPeriodDate, null, $percent);
+                        $previousEndPeriod = $endPeriodDate;
+                    }
+                }
 
-                    } else {
-                        if (array_key_exists('PriceReduction', $auctionLot) && gettype($auctionLot['PriceReduction']) != 'array' && strlen((string)$auctionLot['PriceReduction']) > 0) {
-                            $priceReduction->getPriceReduction($auctionLot['PriceReduction'], $lot->id);
-                            $prices = $lot->showPriceReductions->pluck('price')->toArray();
-                            if (count($prices) > 0) {
-                                $lot->min_price = min($prices);
-                                $lot->save();
-                            }
-                        }
+            } else {
+                if (array_key_exists('PriceReduction', $auctionLot) && gettype($auctionLot['PriceReduction']) != 'array' && strlen((string)$auctionLot['PriceReduction']) > 0) {
+                    $priceReduction->getPriceReduction($auctionLot['PriceReduction'], $lot->id);
+                    $prices = $lot->showPriceReductions->pluck('price')->toArray();
+                    if (count($prices) > 0) {
+                        $lot->min_price = min($prices);
                     }
-                    $lot->save();
                 }
             }
             $lot->save();
         }
-
-
+        return $lotNumbers;
     }
 
     public function getMinPrice($matchesPrices, $startPrice)

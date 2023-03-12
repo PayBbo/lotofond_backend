@@ -35,22 +35,17 @@ class ParseAuctionService
             $descriptionExtracts = new DescriptionExtractsService();
             $lotOrders = [];
             if (array_key_exists('Order', $lots)) {
-                $auctionLot = $lots;
-                $lotOrders[] = $auctionLot['Order'];
-                $descriptionExtracts->processDescriptionFromAuction($auctionLot, $text, $auction, true);
+                $lotOrders = $descriptionExtracts->processDescriptionFromAuction([$lots], $text, $auction);
             } else {
-                foreach ($lots as $auctionLot) {
-                    $lotOrders[] = $auctionLot['Order'];
-                    $descriptionExtracts->processDescriptionFromAuction($auctionLot, $text, $auction);
-                }
+                $lotOrders = $descriptionExtracts->processDescriptionFromAuction($lots, $text, $auction);
             }
             $this->parseBiddersAndFilesFromAuction($xml, $auction, $lotOrders);
         } catch (\Exception $e) {
-            if(strpos($e->getMessage(), 'Access Denied') !== false){
+            if (strpos($e->getMessage(), 'Access Denied') !== false) {
                 dispatch((new RetryParseAuctionJob($auction))
                     ->delay(now()->setTimezone('Europe/Moscow')->addMinutes(5))
                     ->onQueue('parse'));
-            }else {
+            } else {
                 logger('ParseAuctionService. Error = ' . $e->getMessage() . ' ' . $e->getLine() . ' for auction = ' . $auction->id);
                 logger($e);
             }
@@ -107,36 +102,36 @@ class ParseAuctionService
                 $lots = $auction->lots;
             }
         }
-        if (!is_null($lots)) {
-            $files = [];
-            $parsedFiles = null;
-            if (array_key_exists('MessageURLList', $xml) && array_key_exists('MessageURL', $xml['MessageURLList'])) {
-                $urls = $xml['MessageURLList']['MessageURL'];
-                if (array_key_exists('@attributes', $urls)) {
-                    $files[] = ['filename' => $urls['@attributes']['URLName'], 'link' => $urls['@attributes']['URL']];
-                } else {
-                    foreach ($urls as $url) {
-                        $files[] = ['filename' => $url['@attributes']['URLName'], 'link' => $url['@attributes']['URL']];
-                    }
-                }
-                $fileService = new FilesService();
-                $parsedFiles = $fileService->downloadFileByLink($files, $auction->id);
-            }
-            if (!is_null($parsedFiles)) {
-                foreach ($lots as $lot) {
-                    if (count($parsedFiles['files']) > 0) {
-                        foreach ($parsedFiles['files'] as $file) {
-                            $this->saveFiles($file, 'file', $lot);
-                        }
-                    }
-                    if (count($parsedFiles['images']) > 0) {
-                        foreach ($parsedFiles['images'] as $image) {
-                            $this->saveFiles($image, 'image', $lot);
-                        }
-                    }
-                }
-            }
-        }
+          if (!is_null($lots)) {
+              $files = [];
+              $parsedFiles = null;
+              if (array_key_exists('MessageURLList', $xml) && array_key_exists('MessageURL', $xml['MessageURLList'])) {
+                  $urls = $xml['MessageURLList']['MessageURL'];
+                  if (array_key_exists('@attributes', $urls)) {
+                      $files[] = ['filename' => $urls['@attributes']['URLName'], 'link' => $urls['@attributes']['URL']];
+                  } else {
+                      foreach ($urls as $url) {
+                          $files[] = ['filename' => $url['@attributes']['URLName'], 'link' => $url['@attributes']['URL']];
+                      }
+                  }
+                  $fileService = new FilesService();
+                  $parsedFiles = $fileService->downloadFileByLink($files, $auction->id);
+              }
+              if (!is_null($parsedFiles)) {
+                  foreach ($lots as $lot) {
+                      if (count($parsedFiles['files']) > 0) {
+                          foreach ($parsedFiles['files'] as $file) {
+                              $this->saveFiles($file, 'file', $lot);
+                          }
+                      }
+                      if (count($parsedFiles['images']) > 0) {
+                          foreach ($parsedFiles['images'] as $image) {
+                              $this->saveFiles($image, 'image', $lot);
+                          }
+                      }
+                  }
+              }
+          }
     }
 
     private function saveFiles($file, $type, $lot)

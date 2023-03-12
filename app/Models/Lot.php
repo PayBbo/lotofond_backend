@@ -112,6 +112,11 @@ class Lot extends Model
         return $this->belongsToMany(Param::class, 'lot_params')->withPivot('value', 'parent_id');
     }
 
+    public function paramsLot()
+    {
+        return $this->hasMany(LotParam::class);
+    }
+
     public function regions()
     {
         return $this->belongsToMany(Region::class, 'lot_regions')->withPivot('is_debtor_region');

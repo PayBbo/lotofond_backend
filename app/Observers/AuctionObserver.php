@@ -43,8 +43,6 @@ class AuctionObserver
             $counts = array_count_values($emails);
             $count = array_key_exists($email, $counts) ? $counts[$email] : 0;
             $delay = random_int(60, 360) * $count;
-            logger('count ' . $count);
-            logger($delay . ' sec');
             dispatch((new SendApplication($html, $subject, $email))->onQueue('credentials')->delay($delay));
             $emails[] = $email;
             Cache::put('contactEmails', $emails, Carbon::now()->setTimezone('Europe/Moscow')->addDay());
