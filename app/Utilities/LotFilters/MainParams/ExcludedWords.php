@@ -11,13 +11,19 @@ class ExcludedWords extends SortQuery implements SortContract
     {
         $words = null;
         if (!is_null($value) && strlen((string)$value) > 0) {
-            $words = explode(',', $value);
+            if(strpos($value, ',') !== false){
+                $words = explode(',', $value);
+            }else {
+                $words = explode(' ', $value);
+            }
         }
         $conditions_desc = [];
         $conditions_type = [];
         if (!is_null($words)) {
             foreach ($words as $word) {
-
+                if(str_starts_with($word, ' ')){
+                    $word = substr($word, 1, strlen($word));
+                }
                 $conditions_desc[] = ['description', 'not like', "%$word%"];
                 $conditions_type[] = ['trade_id', 'not like', "%$word%"];
             }
