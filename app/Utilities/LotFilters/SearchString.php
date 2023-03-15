@@ -10,9 +10,9 @@ class SearchString extends SortQuery implements SortContract
     public function handle($value): void
     {
         if (!is_null($value) && strlen((string)$value) > 0) {
-            $escapedSearchTerm = preg_replace('/[\p{P}|\p{Z}]/u', '', $value);
-            $escapedSearchTerm = str_replace(' ', '', $escapedSearchTerm);
-            $this->query->where(function ($query) use ($value, $escapedSearchTerm) {
+           /* $escapedSearchTerm = preg_replace('/[\p{P}|\p{Z}]/u', '', $value);
+            $escapedSearchTerm = str_replace(' ', '', $escapedSearchTerm);*/
+            $this->query->where(function ($query) use ($value) {
                 $query->whereHas('auction', function ($q) use ($value) {
                     $q->where('trade_id', 'like', '%' . $value . '%');
                 })
