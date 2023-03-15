@@ -88,7 +88,7 @@ class ReestrApiService
 
             return true;
         }catch (\Exception $e){
-            logger('reestr api exception '.$e);
+            logger('reestr api exception '.$e->getMessage());
             return false;
         }
     }
