@@ -3,6 +3,7 @@
 namespace App\Http\Services\Parse\TradeMessages;
 
 use App\Http\Services\Parse\BidderService;
+use App\Http\Services\Parse\FilesService;
 use App\Http\Services\Parse\ParseAuctionService;
 use App\Http\Services\Parse\TradeService;
 use App\Jobs\RetryParseDebtor;
