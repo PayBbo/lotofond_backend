@@ -2,42 +2,14 @@
 
 namespace App\Console\Commands;
 
-use App\Http\Services\Parse\FilesService;
-use App\Http\Services\Parse\GetTradeMessageContent;
-
-use App\Http\Services\Parse\ParseDataFromRosreestrService;
-use App\Http\Services\Parse\SoapWrapperService;
-use App\Http\Services\PushNotificationService;
-use App\Http\Services\ReestrApiService;
-use App\Http\Services\UserAgentService;
-use App\Jobs\AdditionalLotInfoParseJob;
-use App\Jobs\NewUsersNotificationsJob;
 use App\Jobs\ParseTrades;
-use App\Jobs\SendApplication;
-use App\Models\AdditionalLotInfo;
-use App\Models\Auction;
-use App\Models\Bidder;
-use App\Models\Lot;
-use App\Models\LotFile;
-use App\Models\Monitoring;
-use App\Models\Notification;
-use App\Models\PriceReduction;
-use App\Models\TradeMessage;
-use App\Models\TradePlace;
-use Artisaninweb\SoapWrapper\SoapWrapper;
+
 use Carbon\Carbon;
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
-use Midnite81\Xml2Array\Xml2Array;
-use Webklex\PHPIMAP\ClientManager;
 
 class TestCommand extends Command
 {
+
     /**
      * The name and signature of the console command.
      *
@@ -79,13 +51,13 @@ class TestCommand extends Command
         //  dispatch(new MonitoringNotificationJob('hourly'));
         //dispatch(new ParseDebtorMessages);
 
-      /*  $startDate = Carbon::parse('2023-03-06 00:00');
-        $endDate = Carbon::parse('2023-03-07 00:00');
-        while ($startDate < $endDate) {
-            $startFrom = $startDate->format('Y-m-d\TH:i:s');
-            $startDate->addHours(2);
-            dispatch((new ParseTrades($startFrom, $startDate->format('Y-m-d\TH:i:s')))->onQueue('parse'));
-        }*/
+           $startDate = Carbon::parse('2023-03-15 12:00');
+           $endDate = Carbon::parse('2023-03-15 13:00');
+           while ($startDate < $endDate) {
+               $startFrom = $startDate->format('Y-m-d\TH:i:s');
+               $startDate->addMinutes(30);
+               dispatch((new ParseTrades($startFrom, $startDate->format('Y-m-d\TH:i:s')))->onQueue('parse'));
+           }
 
 
         // dispatch(new ParseTrades);
@@ -120,7 +92,6 @@ class TestCommand extends Command
           fclose($file);*/
 
         //dispatch((new AdditionalLotInfoParseJob())->onQueue('parse'));
-
 
     }
 }

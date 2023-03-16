@@ -7,18 +7,21 @@ use App\Models\DebtorCategory;
 use App\Models\Region;
 use App\Models\SroAu;
 use App\Models\Type;
+use Artisaninweb\SoapWrapper\SoapWrapper;
 
 class BidderService
 {
     protected $bidder_type;
     protected $bidder;
     protected $type;
+    protected $inn;
 
     public function __construct($bidder_type, $inn, $type)
     {
 
         $this->bidder_type = Type::where('title', $bidder_type)->first();
         $this->type = $type;
+        $this->inn = $inn;
         $bidder = Bidder::where('inn', $inn)->first();
         if ($bidder) {
             $this->bidder = $bidder;
@@ -34,7 +37,7 @@ class BidderService
         if (array_key_exists('Region', $person)) {
             $tmp = $person['Region'];
             $region = Region::where('title', 'LIKE', '%' . $tmp . '%')->first();
-            if($region){
+            if ($region) {
                 $region = $region['id'];
             }
         }
@@ -78,7 +81,7 @@ class BidderService
         $this->bidder->type = $this->type;
         $this->bidder->phone = array_key_exists('Phone', $person) ? $person['Phone'] : $this->bidder->phone;
         $this->bidder->email = array_key_exists('Email', $person) ? $person['Email'] : $this->bidder->email;
-        $this->bidder->reg_num = array_key_exists('RegNum', $person) ? $person['RegNum'] :  $this->bidder->reg_num;
+        $this->bidder->reg_num = array_key_exists('RegNum', $person) ? $person['RegNum'] : $this->bidder->reg_num;
         $this->bidder->sro_au_id = $sro;
         $this->bidder->reg_date = array_key_exists('DateReg', $person) ? $person['DateReg'] : $this->bidder->reg_date;
 
@@ -87,6 +90,36 @@ class BidderService
             $this->bidder->types()->attach($this->bidder_type);
         }
         return $this->bidder;
+    }
+
+    public function parseDebtor($codeType)
+    {
+        $soapWrapper = new SoapWrapper();
+        $service = new SoapWrapperService($soapWrapper);
+        $debtor_data = get_object_vars($service->searchDebtorByCode($codeType, $this->inn));
+        if (array_key_exists('DebtorPerson', $debtor_data)) {
+            if (gettype($debtor_data['DebtorPerson']) == 'array') {
+                $debtor = $debtor_data['DebtorPerson'];
+                if (gettype($debtor) == 'array') {
+                    $debtor = $debtor[count($debtor) - 1];
+                }
+            } else {
+                $debtor = get_object_vars($debtor_data['DebtorPerson']);
+            }
+        } elseif (array_key_exists('DebtorCompany', $debtor_data)) {
+            if (gettype($debtor_data['DebtorCompany']) == 'array') {
+                $debtor = $debtor_data['DebtorCompany'];
+                if (gettype($debtor) == 'array') {
+                    $debtor = $debtor[count($debtor) - 1];
+                }
+            } else {
+                $debtor = get_object_vars($debtor_data['DebtorCompany']);
+            }
+        }
+        if (gettype($debtor) == 'object') {
+            $debtor = get_object_vars($debtor);
+        }
+        return $this->saveBidder($debtor);
     }
 
 }

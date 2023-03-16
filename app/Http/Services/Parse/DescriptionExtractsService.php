@@ -125,6 +125,7 @@ class DescriptionExtractsService
     public function processDescriptionFromAuction($auctionLots, $fullText, $auction)
     {
         $lotNumbers = [];
+        $matchAllParams = [];
         foreach ($auction->lots as $lot) {
             $auctionLot = null;
             preg_match_all(
@@ -134,8 +135,10 @@ class DescriptionExtractsService
             );
             $prices = [];
             $similarPercents = [];
-            foreach ($auctionLots as $item) {
-                if (count($matchNumber[1]) > 0) {
+            $params = $lot->paramsLot->whereIn('param_id', [4, 5, 6])->pluck('value')->toArray();
+            $paramsCount = count($params);
+            foreach ($auctionLots as $key => $item) {
+                if (count(array_unique($matchNumber[1])) == 1) {
                     $number = $matchNumber[1][0];
                     if ($number == $item['Order']) {
                         $auctionLot = $item;
@@ -150,8 +153,6 @@ class DescriptionExtractsService
                 if ($lot->start_price == $item['StartPrice']) {
                     $similarPrice = true;
                 }
-                $params = $lot->paramsLot->whereIn('param_id', [4, 5, 6])->pluck('value')->toArray();
-                $paramsCount = count($params);
                 if ($paramsCount > 0) {
                     $numberOfMatches = 0;
                     foreach ($params as $param) {
@@ -165,6 +166,7 @@ class DescriptionExtractsService
                             $lotNumbers[] = $lot->number;
                             break;
                         } else {
+                            $matchAllParams[] = $key;
                             continue;
                         }
                     }
@@ -187,8 +189,11 @@ class DescriptionExtractsService
                     $auctionLot = $auctionLots[$key];
                     $lotNumbers[] = $lot->number;
                 } else {
-                    $maxSimilar = max($similarPercents);
-                    if ($maxSimilar > 50) {
+                    if (count($matchAllParams) == 1) {
+                        $auctionLot = $auctionLots[$matchAllParams[0]];
+                        $lotNumbers[] = $lot->number;
+                    } elseif (count($similarPercents) > 0) {
+                        $maxSimilar = max($similarPercents);
                         $key = array_search($maxSimilar, $similarPercents);
                         $auctionLot = $auctionLots[$key];
                         $lotNumbers[] = $lot->number;
@@ -201,7 +206,21 @@ class DescriptionExtractsService
             }
             $description = $lot->description;
             if (array_key_exists('Description', $auctionLot) && gettype($auctionLot['Description']) != 'array' && strlen((string)$auctionLot['Description']) > 0) {
-                $description = $auctionLot['Description'];
+                if ($paramsCount == 0) {
+                    $description = $auctionLot['Description'];
+                } else {
+                    $numberOfMatches = 0;
+                    foreach ($params as $param) {
+                        if (strpos(mb_strtoupper(str_replace(' ', '', $auctionLot['Description'])), $param) !== false) {
+                            $numberOfMatches += 1;
+                        }
+                    }
+                    if ($numberOfMatches == $paramsCount) {
+                        $description = $auctionLot['Description'];
+                    } else {
+                        $description = null;
+                    }
+                }
             }
             if (array_key_exists('PriceReduction', $auctionLot) && gettype($auctionLot['PriceReduction']) != 'array' && strlen((string)$auctionLot['PriceReduction']) > 0) {
                 $lot->price_reduction = $auctionLot['PriceReduction'];

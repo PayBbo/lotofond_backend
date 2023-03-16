@@ -3,13 +3,11 @@
 namespace App\Http\Services\Parse\TradeMessages;
 
 use App\Http\Services\Parse\BidderService;
-use App\Http\Services\Parse\FilesService;
 use App\Http\Services\Parse\ParseAuctionService;
-use App\Http\Services\Parse\SoapWrapperService;
 use App\Http\Services\Parse\TradeService;
+use App\Jobs\RetryParseDebtor;
 use App\Models\Auction;
 use App\Models\AuctionType;
-use Artisaninweb\SoapWrapper\SoapWrapper;
 
 class BiddingInvitation extends TradeMessage
 {
@@ -32,37 +30,15 @@ class BiddingInvitation extends TradeMessage
                 $codeType = 'CompanyInn';
             }
             if (array_key_exists('INN', $debtor) && $debtor['INN'] !== "" && !is_null($debtor['INN'])) {
-                $soapWrapper = new SoapWrapper();
-                $service = new SoapWrapperService($soapWrapper);
-                $debtor_data = get_object_vars($service->searchDebtorByCode($codeType, $debtor['INN']));
-                if (array_key_exists('DebtorPerson', $debtor_data)) {
-                    if(gettype($debtor_data['DebtorPerson']) == 'array'){
-                        $debtor = $debtor_data['DebtorPerson'];
-                        if(gettype($debtor) == 'array'){
-                            $debtor = $debtor[count($debtor)-1];
-                        }
-                    }else {
-                        $debtor = get_object_vars($debtor_data['DebtorPerson']);
-                    }
-                } elseif (array_key_exists('DebtorCompany', $debtor_data)) {
-                    if(gettype($debtor_data['DebtorCompany']) == 'array'){
-                        $debtor = $debtor_data['DebtorCompany'];
-                        if(gettype($debtor) == 'array'){
-                            $debtor = $debtor[count($debtor)-1];
-                        }
-                    }else {
-                        $debtor = get_object_vars($debtor_data['DebtorCompany']);
-                    }
-                }
-                if(!array_key_exists('INN', $debtor)){
-                    $bidderParse = new BidderService('debtor', get_object_vars(array_pop($debtor))['INN'], $debtor_type);
-                }else {
-                    if(gettype($debtor) == 'object'){
-                        $debtor = get_object_vars($debtor);
-                    }
+                try {
                     $bidderParse = new BidderService('debtor', $debtor['INN'], $debtor_type);
+                    $debtor = $bidderParse->parseDebtor($codeType);
+                } catch (\Exception $exception) {
+                    $inn = $debtor['INN'];
+                    $bidderParse = new BidderService('debtor', $inn, $debtor_type);
+                    $debtor = $bidderParse->saveBidder($debtor);
+                    dispatch((new RetryParseDebtor($inn, $codeType, $debtor_type))->onQueue('parse'));
                 }
-                $debtor = $bidderParse->saveBidder($debtor);
             } else {
                 return null;
             }
@@ -100,16 +76,16 @@ class BiddingInvitation extends TradeMessage
                 }
             }
 
-            $auction = Auction::where(['trade_id'=> $invitation['@attributes']['TradeId'], 'guid'=>$this->guid])->first();
+            $auction = Auction::where(['trade_id' => $invitation['@attributes']['TradeId'], 'guid' => $this->guid])->first();
             if (!$auction) {
                 $auction = new Auction();
             }
             $data = $invitation[$prefix . 'TradeInfo'];
-            $auction->id_efrsb = array_key_exists($prefix .'IDEFRSB', $invitation) ? $invitation[$prefix . 'IDEFRSB'] : NULL;
+            $auction->id_efrsb = array_key_exists($prefix . 'IDEFRSB', $invitation) ? $invitation[$prefix . 'IDEFRSB'] : NULL;
             $auction->guid = $this->guid;
             $auction->trade_place_id = $tradePlace;
             $auction->trade_id = $invitation['@attributes']['TradeId'];
-            $auction->publish_date =$this->parseDate($invitation['@attributes']['EventTime']);
+            $auction->publish_date = $this->parseDate($invitation['@attributes']['EventTime']);
             $auction->debtor_id = $debtor->id;
             $auction->arbitr_manager_id = is_null($arbitr_manager) ?: $arbitr_manager->id;
             $auction->company_trade_organizer_id = is_null($trade_organizer) ?: $trade_organizer->id;
@@ -119,18 +95,18 @@ class BiddingInvitation extends TradeMessage
             $auction->event_end_date = array_key_exists($prefix . 'OpenForm', $data) && array_key_exists('TimeEnd', $data[$prefix . 'OpenForm']) ? $this->parseDate($data[$prefix . 'OpenForm']['TimeEnd']) : NULL;
             $auction->application_start_date = $this->parseDate($data[$prefix . 'Application']['@attributes']['TimeBegin']);
             $auction->application_end_date = $this->parseDate($data[$prefix . 'Application']['@attributes']['TimeEnd']);
-           // $auction->application_rules = $data[$prefix . 'Application'][$prefix.'Rules'];
-          /*  if(array_key_exists($prefix . 'DatePublishSMI', $data) && gettype($data[$prefix . 'DatePublishSMI'] ) !== 'array') {
-                $auction->date_publish_smi =  $data[$prefix . 'DatePublishSMI'];
-            }
-            if(array_key_exists($prefix . 'DatePublishEFIR', $data) && gettype($data[$prefix . 'DatePublishEFIR'] ) !== 'array') {
-                $auction->date_publish_efir =  $data[$prefix . 'DatePublishEFIR'];
-            }*/
+            // $auction->application_rules = $data[$prefix . 'Application'][$prefix.'Rules'];
+            /*  if(array_key_exists($prefix . 'DatePublishSMI', $data) && gettype($data[$prefix . 'DatePublishSMI'] ) !== 'array') {
+                  $auction->date_publish_smi =  $data[$prefix . 'DatePublishSMI'];
+              }
+              if(array_key_exists($prefix . 'DatePublishEFIR', $data) && gettype($data[$prefix . 'DatePublishEFIR'] ) !== 'array') {
+                  $auction->date_publish_efir =  $data[$prefix . 'DatePublishEFIR'];
+              }*/
             $auction->price_form = $data['@attributes']['FormPrice'] == 'OpenForm' ? 'open' : 'close';
-           /* if (array_key_exists($prefix . 'LegalCase', $invitation)) {
-                $auction->case_number = $invitation[$prefix . 'LegalCase']['@attributes']['CaseNumber'];
-                $auction->court = $invitation[$prefix . 'LegalCase']['@attributes']['CourtName'];
-            }*/
+            /* if (array_key_exists($prefix . 'LegalCase', $invitation)) {
+                 $auction->case_number = $invitation[$prefix . 'LegalCase']['@attributes']['CaseNumber'];
+                 $auction->court = $invitation[$prefix . 'LegalCase']['@attributes']['CourtName'];
+             }*/
             $auction->save();
             $files = null;
             $images = null;
@@ -145,20 +121,20 @@ class BiddingInvitation extends TradeMessage
 
             }
             foreach ($data[$prefix . 'LotList'] as $lot) {
-                if (array_key_exists('0', $lot) || array_key_exists($prefix.'Lot', $lot)) {
+                if (array_key_exists('0', $lot) || array_key_exists($prefix . 'Lot', $lot)) {
                     foreach ($lot as $value) {
                         $tradeService = new TradeService($auction, $value, $prefix, null, $files, $images);
                         $newLot = $tradeService->saveLot();
                         $tradeMessage = $this->createNotification($newLot->id, $invitation['@attributes']['EventTime']);
                     }
                 } else {
-                    $tradeService = new TradeService($auction, $lot, $prefix, null,  $files, $images);
+                    $tradeService = new TradeService($auction, $lot, $prefix, null, $files, $images);
                     $newLot = $tradeService->saveLot();
                     $tradeMessage = $this->createNotification($newLot->id, $invitation['@attributes']['EventTime']);
                 }
             }
             $auction = Auction::find($auction->id);
-            if(!is_null($auction->id_efrsb)) {
+            if (!is_null($auction->id_efrsb)) {
                 $parseAuction = new ParseAuctionService();
                 $parseAuction->parseDataFromAuction($auction);
             }
@@ -169,7 +145,6 @@ class BiddingInvitation extends TradeMessage
         }
 
     }
-
 
 
 }
