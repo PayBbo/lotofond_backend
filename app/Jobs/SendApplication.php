@@ -3,6 +3,7 @@
 namespace App\Jobs;
 
 use App\Exceptions\CustomExceptions\BaseException;
+use Carbon\Carbon;
 use Exception;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
@@ -53,12 +54,15 @@ class SendApplication implements ShouldQueue
         $toEmail = $this->emails;
         $html = $this->html;
         $subject = $this->subject;
-
-        Mail::send([], [], function ($message) use ($toEmail, $html, $subject) {
-            $message->from('bankr0t.t@yandex.ru', 'LotoFond');
-            $message->to($toEmail);
-            $message->subject($subject);
-            $message->setBody($html, 'text/html');
-        });
+        try {
+            Mail::send([], [], function ($message) use ($toEmail, $html, $subject) {
+                $message->from('bankr0t.t@yandex.ru', 'LotoFond');
+                $message->to($toEmail);
+                $message->subject($subject);
+                $message->setBody($html, 'text/html');
+            });
+        }catch (Exception $exception){
+            dispatch((new SendApplication($html, $subject, $toEmail))->onQueue('credentials')->delay(Carbon::now()->setTimezone('Europe/Moscow')->addHour()));
+        }
     }
 }
