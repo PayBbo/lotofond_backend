@@ -75,11 +75,11 @@ class ContractSale extends TradeMessage implements TradeMessageContract
                             ->where(['is_winner' => $participantData['IsWinner'], 'is_buyer' => $participantData['IsBuyer']])
                             ->first();
                         if ($biddingResult) {
-                            $biddingResult->contract_number = array_key_exists($this->prefix . 'ContractNumber', $data[$this->prefix . 'ContractInfo']) ?
+                           /* $biddingResult->contract_number = array_key_exists($this->prefix . 'ContractNumber', $data[$this->prefix . 'ContractInfo']) ?
                                 $data[$this->prefix . 'ContractInfo'][$this->prefix . 'ContractNumber'] : null;
                             $biddingResult->contract_date = $this->parseDate($data[$this->prefix . 'ContractInfo'][$this->prefix . 'DateContract']);
                             $biddingResult->end_price = $data[$this->prefix . 'ContractInfo'][$this->prefix . 'Price'];
-                            $biddingResult->save();
+                            $biddingResult->save();*/
                             $isExists = true;
                             break;
                         }
