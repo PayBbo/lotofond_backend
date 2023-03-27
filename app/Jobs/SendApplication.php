@@ -21,6 +21,7 @@ class SendApplication implements ShouldQueue
     protected $html;
     protected $emails;
     protected $subject;
+    protected $isMailing;
 
     /**
      * Get the middleware the job should pass through.
@@ -37,11 +38,12 @@ class SendApplication implements ShouldQueue
      *
      * @return void
      */
-    public function __construct($html, $subject, $emails)
+    public function __construct($html, $subject, $emails, $isMailing=false)
     {
         $this->html = $html;
         $this->subject = $subject;
         $this->emails = $emails;
+        $this->isMailing = $isMailing;
     }
 
     /**
@@ -54,9 +56,16 @@ class SendApplication implements ShouldQueue
         $toEmail = $this->emails;
         $html = $this->html;
         $subject = $this->subject;
+        $mailer = 'user_smtp';
+        $mail_from_address = config('mail.from.user_address');
+        $mail_from_name = config('mail.from.name');
+        if($this->isMailing){
+            $mailer = 'mailing_smtp';
+            $mail_from_address = config('mail.from.mailing_address');
+        }
         try {
-            Mail::send([], [], function ($message) use ($toEmail, $html, $subject) {
-                $message->from('bankr0t.t@yandex.ru', 'LotoFond');
+            Mail::mailer($mailer)->send([], [], function ($message) use ($toEmail, $html, $subject, $mail_from_address, $mail_from_name) {
+                $message->from($mail_from_address, $mail_from_name);
                 $message->to($toEmail);
                 $message->subject($subject);
                 $message->setBody($html, 'text/html');

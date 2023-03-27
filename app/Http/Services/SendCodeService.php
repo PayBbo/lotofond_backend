@@ -29,8 +29,8 @@ class SendCodeService
             $html = "Здравствуйте, подтвердите Ваш адрес электронной почты для Lotofond с помощью кода проверки из данного сообщения
             <strong> $code </strong>
             <p>Если Вы не запрашивали код подтверждения для выполнения операции в Lotofond, проигнорируйте данное сообщение.</p>";
-            Mail::send([], [], function ($message) use ($toEmail, $html) {
-                $message->from('bankr0t.t@yandex.ru', 'Lotofond');
+            Mail::mailer('user_smtp')->send([], [], function ($message) use ($toEmail, $html) {
+                $message->from(config('mail.from.user_address'), config('mail.from.name'));
                 $message->to($toEmail);
                 $message->subject('Подтверждение электронной почты');
                 $message->setBody($html, 'text/html');
@@ -46,8 +46,8 @@ class SendCodeService
             $html = "Здравствуйте, уведомляем Вас, что ваша электронная почта в аккаунте Lotofond через 14 дней будет изменена на
             <strong> $newEmail</strong>
             <p>Если Вы не запрашивали выполнение данной операции в Lotofond, отмените запрос на смену почты в личном кабинете.</p>";
-            Mail::send([], [], function ($message) use ($toEmail, $html) {
-                $message->from('bankr0t.t@yandex.ru', 'Lotofond');
+            Mail::mailer('user_smtp')->send([], [], function ($message) use ($toEmail, $html) {
+                $message->from(config('mail.from.user_address'), config('mail.from.name'));
                 $message->to($toEmail);
                 $message->subject('Уведомление о смене электронной почты');
                 $message->setBody($html, 'text/html');
@@ -95,7 +95,7 @@ class SendCodeService
     public function sendEmailNotification($toEmail, $subject, $value, $notification)
     {
         try {
-            Mail::send([], [], function ($message) use ($toEmail, $subject, $value, $notification) {
+            Mail::mailer('user_smtp')->send([], [], function ($message) use ($toEmail, $subject, $value, $notification) {
                 $html = "<p>$value</p>";
                 $details = '';
                 if (!is_null($notification->monitoring_id)) {
@@ -147,7 +147,7 @@ class SendCodeService
                 }
                 $html .= $details . "<p>С уважением, Lotofond</p>";
 
-                $message->from('bankr0t.t@yandex.ru', 'Lotofond');
+                $message->from(config('mail.from.user_address'), config('mail.from.name'));
                 $message->to($toEmail);
                 $message->subject($subject);
                 $message->setBody($html, 'text/html');
@@ -258,8 +258,8 @@ $lotDesc</p>
 <p>С уважением, Lotofond</p>";
             $subject = 'Ответ на заявку "Отчет ЕГРН"';
             $toEmail = $application->email;
-            Mail::send([], [], function ($message) use ($toEmail, $html, $subject) {
-                $message->from('bankr0t.t@yandex.ru', 'LotoFond');
+            Mail::mailer('user_smtp')->send([], [], function ($message) use ($toEmail, $html, $subject) {
+                $message->from(config('mail.from.user_address'), config('mail.from.name'));
                 $message->to($toEmail);
                 $message->subject($subject);
                 $message->setBody($html, 'text/html');
@@ -276,7 +276,7 @@ $lotDesc</p>
 
             $subject = 'Новые пользователи в Lotofond';
             $html = "<p>В период с $startTime по $endTime в Lotofond зарегистрировались пользователи:</p>";
-            Mail::send([], [], function ($message) use ($toEmail, $subject, $users, $html) {
+            Mail::mailer('user_smtp')->send([], [], function ($message) use ($toEmail, $subject, $users, $html) {
                 $details = '<table style="text-align: center"><thead style="line-height: 3"><tr><td style="width: 5%">№</td><td style="width: 35%">ФИО</td><td style="width: 30%">Регион</td><td style="width: 30%">Дата регистрации</td></tr></thead><tbody>';
                 foreach ($users as $key=>$user) {
                     if(is_null( $user->surname) && is_null($user->name)){
@@ -296,7 +296,7 @@ $lotDesc</p>
 
                 $html .= $details . "<p>С уважением, Lotofond</p>";
 
-                $message->from('bankr0t.t@yandex.ru', 'Lotofond');
+                $message->from(config('mail.from.user_address'), config('mail.from.name'));
                 $message->to($toEmail);
                 $message->subject($subject);
                 $message->setBody($html, 'text/html');
