@@ -63,6 +63,7 @@ class SendApplication implements ShouldQueue
             $mailer = 'mailing_smtp';
             $mail_from_address = config('mail.from.mailing_address');
         }
+        logger($mailer);
         try {
             Mail::mailer($mailer)->send([], [], function ($message) use ($toEmail, $html, $subject, $mail_from_address, $mail_from_name) {
                 $message->from($mail_from_address, $mail_from_name);
@@ -73,5 +74,7 @@ class SendApplication implements ShouldQueue
         }catch (Exception $exception){
             dispatch((new SendApplication($html, $subject, $toEmail))->onQueue('credentials')->delay(Carbon::now()->setTimezone('Europe/Moscow')->addHour()));
         }
+        logger('success');
+        logger('---------------------');
     }
 }
