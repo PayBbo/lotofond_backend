@@ -6132,7 +6132,12 @@ components:
           description: заголовок услуги
         description:
           type: string
-          description: описание услугим
+          description: описание услуги
+        detailedDescription:
+          type: array
+          items:
+            type: string
+            description: расширенное описание услуги (по пунктам)
         price:
           type: integer
         type:
