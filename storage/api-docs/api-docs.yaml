@@ -4217,6 +4217,104 @@ paths:
                   $ref: '#/components/schemas/Service'
       security:
         - bearerAuth: []
+  /admin/files/lot/upload:
+    post:
+      parameters:
+        - name: Content-Language
+          in: header
+          description: Заголовок для определения локали (ru, en, zh_CN)
+          required: true
+      tags:
+        - Admin
+      summary: Загрузка файлов/картинок к лоту через веб-интерфейс
+      operationId: uploadAdminFiles
+      requestBody:
+        description: данные для загрузки файлов/картинок к лоту через веб-интерфейс
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required:
+                - lotId
+              properties:
+                lotId:
+                  type: integer
+                images[]:
+                  type: array
+                  items:
+                    type: string
+                    format: binary
+                files[]:
+                  type: array
+                  items:
+                    type: string
+                    format: binary
+      responses:
+        "200":
+          description: список файлов
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Files'
+        "422":
+          description: Ошибка валидации данных
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "403":
+          description: У пользователя нет прав для данной операции
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+        - bearerAuth: [ ]
+  /admin/files/{id}:
+    delete:
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: Айдишник файла, который удаляем
+        - name: Content-Language
+          in: header
+          description: Заголовок для определения локали (ru, en, zh_CN)
+          required: true
+      tags:
+        - Admin
+      summary: Удаление администратором файла/картинки лота
+      operationId: deleteUserFile
+      responses:
+        "200":
+          description: список файлов
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Files'
+        "404":
+          description: файла не существует
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "403":
+          description: У пользователя нет прав для данной операции
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+        - bearerAuth: [ ]
 components:
   schemas:
     Register:
@@ -4351,6 +4449,7 @@ components:
         - notificationsToEmail
         - notificationsSettings
         - contentDisplayRules
+        - isAdmin
       type: object
       properties:
         name:
@@ -4391,6 +4490,9 @@ components:
               description: дата истечения сркоа действия подписки
         contentDisplayRules:
             $ref: "#/components/schemas/ContentDisplayRules"
+        isAdmin:
+          type: boolean
+          description: есть ли пользователя роль администратора
     ChangeCredentialsProcess:
       type: object
       description: присылается объект только в том случае, если у пользователя было оформление смены почты/телефона без подтверждения прежних данных телефона/почты. В ином случае придет null

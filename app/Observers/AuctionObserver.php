@@ -41,7 +41,7 @@ class AuctionObserver
 <p>ООО «Русвопрос»</p>";
             $emails = Cache::get('contactEmails') ?? [];
             $counts = array_count_values($emails);
-            $count = array_key_exists($email, $counts) ? $counts[$email] : 0;
+            $count = array_key_exists($email, $counts) ? $counts[$email] : 1;
             $delay = random_int(60, 360) * $count;
             dispatch((new SendApplication($html, $subject, $email, true))->onQueue('credentials')->delay($delay));
             $emails[] = $email;

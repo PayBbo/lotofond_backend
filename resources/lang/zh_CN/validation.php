@@ -155,6 +155,7 @@ return [
     'payment_error'=> '出了点问题，再试一次',
     'no_activated_tariff'=>'您尚未激活关税',
     'has_activated_tariff'=>'你已经有一个激活的关税',
+    'forbidden'=>'操作权限不足',
     'attributes' => [
         'phone' => '电话号码',
         'surname'=> '姓',

@@ -69,6 +69,7 @@ class ProfileResource extends JsonResource
                 'tariff' => null
             ]),
             'contentDisplayRules'=>$contentDisplayRules,
+            'isAdmin'=>$this->hasRole('admin')
         ];
     }
 }

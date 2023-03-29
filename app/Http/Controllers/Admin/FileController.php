@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\LotUploadFileRequest;
 use App\Http\Requests\Admin\UploadFileRequest;
+use App\Http\Resources\FileResource;
 use App\Http\Services\Parse\FilesService;
 use App\Models\AdditionalLotInfo;
 use App\Models\Lot;
@@ -36,23 +38,59 @@ class FileController extends Controller
             $dest = 'auction-files/auction-' . $lot->auction_id .'/' . $time;
         }
         if ($request->hasFile('image')) {
-            $path = Storage::disk('public')->put($dest, $request->image);
-            $fileService = new FilesService();
-            $fileService->generatePreview($dest, basename($path));
-            $preview = 'storage/' . $dest. '/previews/' . basename($path);
-            $imageAssets = ['main' => 'storage/' . $path, 'preview' => $preview];
-            $lotFile->type = 'image';
-            $lotFile->url = json_encode($imageAssets);
-            $lotFile->save();
+            $this->saveImage($dest, $request->image, $lotFile);
         }
         if ($request->hasFile('file')) {
-            $path = Storage::disk('public')->put($dest, $request->file);
-            $lotFile->type = 'file';
-            $lotFile->url = 'storage/' . $path;
-            $lotFile->save();
+            $this->saveFile($dest, $request->file, $lotFile);
 
         }
         return response(null, 200);
+    }
+
+    public function uploadLotFiles(LotUploadFileRequest $request){
+        $lot = Lot::find($request->lotId);
+        if($request->hasFile('images'))
+        {
+            $files = $request->file('images');
+            foreach ($files as $file) {
+                $lotFile = new LotFile();
+                $lotFile->lot_id = $request->lotId;
+                $time = Carbon::now()->format('d-m-Y-H-i');
+                $dest = 'auction-files/auction-' . $lot->auction_id .'/' . $time;
+                $this->saveImage($dest, $file, $lotFile);
+            }
+        }
+
+        if($request->hasFile('files'))
+        {
+            $files = $request->file('files');
+            foreach ($files as $file) {
+                $lotFile = new LotFile();
+                $lotFile->lot_id = $request->lotId;
+                $time = Carbon::now()->format('d-m-Y-H-i');
+                $dest = 'auction-files/auction-' . $lot->auction_id .'/' . $time;
+                $this->saveFile($dest, $file, $lotFile);
+            }
+        }
+        return response(new FileResource($lot), 200);
+    }
+
+    private function saveImage($dest, $image, $lotFile){
+        $path = Storage::disk('public')->put($dest, $image);
+        $fileService = new FilesService();
+        $fileService->generatePreview($dest, basename($path));
+        $preview = 'storage/' . $dest. '/previews/' . basename($path);
+        $imageAssets = ['main' => 'storage/' . $path, 'preview' => $preview];
+        $lotFile->type = 'image';
+        $lotFile->url = json_encode($imageAssets);
+        $lotFile->save();
+    }
+
+    private function saveFile($dest, $file, $lotFile){
+        $path = Storage::disk('public')->put($dest, $file);
+        $lotFile->type = 'file';
+        $lotFile->url = 'storage/' . $path;
+        $lotFile->save();
     }
 
     public function delete($id){

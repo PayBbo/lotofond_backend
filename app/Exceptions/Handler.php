@@ -74,6 +74,11 @@ class Handler extends ExceptionHandler
                     $response['detail'] = $e->validator->errors()->first();
                 }
             }
+            if ($e instanceof \Spatie\Permission\Exceptions\UnauthorizedException) {
+                $response['code'] = 403;
+                $response['title'] = 'ERR_ROLE_EXCEPTION';
+                $response['detail'] = __('validation.forbidden');
+            }
 
             if (count($response) > 0) {
                 return response()->json([

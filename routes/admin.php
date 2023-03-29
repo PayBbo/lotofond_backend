@@ -16,7 +16,7 @@ use App\Http\Controllers\Admin\UserController;
 use Illuminate\Support\Facades\Route;
 
 
-Route::group(['middleware' =>['role:admin|manager', 'json.response', 'auth.deny:api']], function () {
+Route::group(['middleware' =>['localization', 'role:admin|manager', 'json.response', 'auth.deny:api']], function () {
 
     Route::get('/dashboard', [DashboardController::class, 'getDashboardData']);
 
@@ -128,6 +128,8 @@ Route::group(['middleware' =>['role:admin|manager', 'json.response', 'auth.deny:
     Route::group(['prefix' => 'files'], function () {
 
         Route::post('/upload', [FileController::class, 'upload'])->name('admin.file.upload');
+
+        Route::post('/lot/upload', [FileController::class, 'uploadLotFiles']);
 
         Route::delete('/{id}', [FileController::class, 'delete']);
 

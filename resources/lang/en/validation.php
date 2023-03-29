@@ -151,6 +151,7 @@ return [
     'payment_error'=> 'Something went wrong, try again',
     'no_activated_tariff'=>'You do not have activated tariff',
     'has_activated_tariff'=>'You already have an activated tariff',
+    'forbidden'=>'Insufficient rights for the operation',
     /*
     |--------------------------------------------------------------------------
     | Custom Validation Language Lines
