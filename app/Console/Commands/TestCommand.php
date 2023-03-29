@@ -2,8 +2,10 @@
 
 namespace App\Console\Commands;
 
+use App\Jobs\AdditionalLotInfoParseJob;
 use App\Jobs\ParseTrades;
 
+use App\Jobs\SendApplication;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
 
@@ -91,7 +93,7 @@ class TestCommand extends Command
           }
           fclose($file);*/
 
-        //dispatch((new AdditionalLotInfoParseJob())->onQueue('parse'));
+        dispatch((new AdditionalLotInfoParseJob())->onQueue('parse'));
 
     }
 }

@@ -56,14 +56,18 @@ class SendApplication implements ShouldQueue
         $toEmail = $this->emails;
         $html = $this->html;
         $subject = $this->subject;
-        $mailer = 'user_smtp';
-        $mail_from_address = config('mail.from.user_address');
         $mail_from_name = config('mail.from.name');
         if($this->isMailing){
+            logger('mailing!!!');
             $mailer = 'mailing_smtp';
             $mail_from_address = config('mail.from.mailing_address');
+        }else{
+            logger('user!!!');
+            $mailer = 'user_smtp';
+            $mail_from_address = config('mail.from.user_address');
         }
-        logger($mailer);
+        logger($subject);
+        logger('----------------------');
         try {
             Mail::mailer($mailer)->send([], [], function ($message) use ($toEmail, $html, $subject, $mail_from_address, $mail_from_name) {
                 $message->from($mail_from_address, $mail_from_name);
@@ -72,9 +76,8 @@ class SendApplication implements ShouldQueue
                 $message->setBody($html, 'text/html');
             });
         }catch (Exception $exception){
-            dispatch((new SendApplication($html, $subject, $toEmail))->onQueue('credentials')->delay(Carbon::now()->setTimezone('Europe/Moscow')->addHour()));
+            logger($exception->getMessage());
+           // dispatch((new SendApplication($html, $subject, $toEmail, $this->isMailing))->onQueue('credentials')->delay(Carbon::now()->setTimezone('Europe/Moscow')->addHour()));
         }
-        logger('success');
-        logger('---------------------');
     }
 }
