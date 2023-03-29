@@ -3,7 +3,7 @@
         <slot name="modals" v-if="!no_modals">
             <bkt-move-favourite-modal v-if="isLoggedIn" @moveFavourite="moveFavourite"/>
             <bkt-note-modal v-if="isLoggedIn"/>
-            <bkt-application-modal/>
+            <bkt-application-modal ref="applicationModal"/>
             <bkt-purchase-modal/>
             <bkt-instruction-modal/>
             <bkt-egrn-modal/>

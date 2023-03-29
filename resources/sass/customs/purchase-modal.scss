@@ -42,6 +42,38 @@
                 }
             }
         }
+        &-info {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+        &-features {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        &-feature {
+            color: white;
+            font-family: Inter, sans-serif;
+            font-size: 14px;
+            font-weight: 600;
+            line-height: 20px;
+            letter-spacing: 0.02em;
+            text-align: left;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+
+            & .check_mark {
+                width: 30px;
+                height: 30px;
+                border-radius: 12px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                flex-shrink: 0;
+            }
+        }
     }
 
     &__service {

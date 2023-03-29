@@ -332,11 +332,13 @@
                                     </skeleton>
                                 </h5>
                             </div>
-                            <div class="bkt-wrapper-column bkt-gap-mini" @click="navigate('mobile')">
-                                <div class="bkt-wrapper-between">
-                                    <!--                                 v-if="(item.state == 'biddingDeclared' || item.state == 'biddingStart'
-                                                                     || item.state == 'applicationSessionStarted') && dateStatus"-->
-                                    <h5 class="bkt-card__text">
+                            <div class="d-flex align-items-center bkt-gap-mini" @click="navigate('mobile')">
+                                <bkt-icon name="Stop" v-if="progressColor==='bkt-bg-red'"></bkt-icon>
+                                <div class="bkt-wrapper-column bkt-gap-mini">
+                                    <div class="bkt-wrapper-between">
+                                        <!--                                 v-if="(item.state == 'biddingDeclared' || item.state == 'biddingStart'
+                                                                         || item.state == 'applicationSessionStarted') && dateStatus"-->
+                                        <h5 class="bkt-card__text">
                                         <span v-if="dateStatus && dateStatus.status === 'application'">
                                             Приём заявок ещё
                                             <skeleton type_name="spoiler"
@@ -344,16 +346,16 @@
                                                 {{ dateStatus.days }} {{$tc('trades.days', pluralization( dateStatus.days))}}
                                             </skeleton>
                                         </span>
-                                        <span v-else class="bkt-text-700" :class="{'bkt-text-red': item.state==='biddingEnd' || item.state==='finished'}">
+                                            <span v-else class="bkt-text-700" :class="{'bkt-text-red': item.state==='biddingEnd' || item.state==='finished'}">
                                             <skeleton type_name="spoiler" :loading="rules && !rules.state">
                                                 {{item.state ? $t('trades.state.'+item.state) : ''}}
                                             </skeleton>
                                         </span>
-                                        <!--                                    <span v-else-if="dateStatus && dateStatus.status === 'bidding-end'">Торги</span>-->
-                                        <!--                                    <span v-else-if="dateStatus && dateStatus.status === 'bidding-result'">До объявления результатов торгов</span>-->
-                                    </h5>
-                                    <h5 class="bkt-card__text">
-                                        <skeleton type_name="spoiler" :loading="rules && !rules.trade.applicationTime">
+                                            <!--                                    <span v-else-if="dateStatus && dateStatus.status === 'bidding-end'">Торги</span>-->
+                                            <!--                                    <span v-else-if="dateStatus && dateStatus.status === 'bidding-result'">До объявления результатов торгов</span>-->
+                                        </h5>
+                                        <h5 class="bkt-card__text">
+                                            <skeleton type_name="spoiler" :loading="rules && !rules.trade.applicationTime">
                                             <span>
                                                  <span
                                                      v-if="item.trade.applicationTime && item.trade.applicationTime.end && dateStatus && dateStatus.status === 'application'">
@@ -364,13 +366,14 @@
                                                 приём заявок с {{item.trade.applicationTime.start | moment('DD.MM.YYYY')}}
                                             </span>
                                             </span>
-                                        </skeleton>
-                                    </h5>
-                                </div>
-                                <div class="bkt-progress-bar" :class="progressColor">
-                                    <div v-if="dateStatus && dateStatus.percent && dateStatus.percent>0"
-                                         class="bkt-progress-bar__progress"
-                                         :style="'width: '+dateStatus.percent+'%;'">
+                                            </skeleton>
+                                        </h5>
+                                    </div>
+                                    <div class="bkt-progress-bar" :class="progressColor">
+                                        <div v-if="dateStatus && dateStatus.percent && dateStatus.percent>0"
+                                             class="bkt-progress-bar__progress"
+                                             :style="'width: '+dateStatus.percent+'%;'">
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -526,10 +529,11 @@
                     tmp_state = this.item.state.toLowerCase();
                 }
 
-                if ( tmp_state === 'biddingpause') {
-                    return 'bkt-bg-neutral-lighter'
-                }
-                if (tmp_state === 'biddingcanceled' || tmp_state === 'finished' || tmp_state === 'annulment' ||tmp_state === 'biddingfail') {
+                // if ( tmp_state === 'biddingpause') {
+                //     return 'bkt-bg-neutral-lighter'
+                // }
+                if (tmp_state === 'biddingcanceled' || tmp_state === 'finished' || tmp_state === 'annulment'
+                    ||tmp_state === 'biddingfail' || tmp_state === 'biddingpause' || tmp_state === 'biddingcancel') {
                     return 'bkt-bg-red'
                 }
                 return 'bkt-bg-main-lighter'

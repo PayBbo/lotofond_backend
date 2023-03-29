@@ -133,6 +133,11 @@
                     <!--                        </router-link>-->
                     <!--                    </li>-->
                     <li class="bkt-navbar__nav-item">
+                        <router-link to="/" class="bkt-navbar__nav-link">
+                            Все торги
+                        </router-link>
+                    </li>
+                    <li class="bkt-navbar__nav-item">
                         <router-link to="/auctions" class="bkt-navbar__nav-link">
                             <span class="bkt-navbar__nav-icon d-none d-sm-flex">
                                  <bkt-icon :name="'Fire'"/>
