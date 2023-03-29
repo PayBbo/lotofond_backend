@@ -6,6 +6,7 @@ use App\Jobs\AdditionalLotInfoParseJob;
 use App\Jobs\ParseTrades;
 
 use App\Jobs\SendApplication;
+use App\Models\AdditionalLotInfo;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
 
@@ -93,7 +94,32 @@ class TestCommand extends Command
           }
           fclose($file);*/
 
-        dispatch((new AdditionalLotInfoParseJob())->onQueue('parse'));
+        //dispatch((new AdditionalLotInfoParseJob())->onQueue('parse'));
+
+       /* $texts = AdditionalLotInfo::select('uid', 'message')->groupBy('uid', 'message')->get();
+        $result = [];
+        foreach ($texts as $text) {
+            $text = $text->message;
+            //remove html tags
+            $sayilacak_metin = str_replace("&nbsp;", " ", $text);
+            $sayilacak_metin = preg_replace("/<([^>]*(<|$))/", "&lt;$1", $sayilacak_metin);
+            $sayilacak_metin = strip_tags($sayilacak_metin);
+            $sayilacak_metin = str_replace(chr(194), " ", $sayilacak_metin);
+            $sayilacak_metin = str_replace(chr(160), " ", $sayilacak_metin);
+            $sayilacak_metin = preg_replace(array('/\s{2,}/', '/[\r\t\n]/', '/\r/', '/\t/', '/\n/'), ' ', $sayilacak_metin);
+       //end remove html tags
+            $parca = explode(" ", $sayilacak_metin);
+            foreach ($parca as $item) {
+                if($item != "") {
+                    if (!array_key_exists($item, $result)) {
+                        $result[$item] = substr_count($text, $item);
+                    } else {
+                        $result[$item] += substr_count($text, $item);
+                    }
+                }
+            }
+        }*/
+
 
     }
 }

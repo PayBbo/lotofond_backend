@@ -446,4 +446,9 @@ class Lot extends Model
         return $this->hasMany(Application::class)->where('user_id', auth()->id());
     }
 
+
+    public function additionalLotInfo()
+    {
+        return $this->hasOne(AdditionalLotInfo::class);
+    }
 }

@@ -165,6 +165,23 @@ class LotResource extends JsonResource
                 $lotData['applications'] = ApplicationResource::collection($this->userApplications);
                 $lotData['note'] = $this->getNote();
                 $lotData['marks'] = $this->userMarks->makeHidden(['pivot']);
+               /* $additionalInfo = $this->additionalLotInfo();
+                if($additionalInfo){
+                    $lotData['organizerAnswer'] = '<!DOCTYPE HTML><html lang="ru">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8"/>
+    <style type="text/css">  p {font-size: max(1em, min(4em, calc(100vw * 4 / 75)));line-height: 2em;}</style>
+  </head>
+  <body>
+<p>' . $additionalInfo->message . '</p>
+    <script type="text/javascript">
+      const resizeObserver = new ResizeObserver(entries =>Resize.postMessage("height" + (entries[0].target.clientHeight).toString()));
+      resizeObserver.observe(document.body);
+    </script>
+</body>
+</html>';
+                }*/
             }
         }
         return $lotData;
