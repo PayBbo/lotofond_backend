@@ -1,5 +1,5 @@
 <template>
-    <AdminTable header="Тарифы" :columns="columns" :pagination="pagination" :getData="getData">
+    <AdminTable header="Тарифы и услуги" :columns="columns" :pagination="pagination" :getData="getData">
         <template v-slot:inline-block>
             <div class="row">
                 <div class="col">
@@ -12,7 +12,7 @@
         <template v-slot:raws-block>
             <tr v-for="item in dataItems">
                 <td>{{ item.title }}</td>
-                <td>{{ item.period + ' дн.' }}</td>
+                <td>{{ item.period === null ? 'Не задано' : item.period + ' дн.' }}</td>
                 <td>{{ item.price  | priceFormat }} ₽</td>
                 <td>{{ item.description }}</td>
                 <td>

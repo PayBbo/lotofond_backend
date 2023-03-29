@@ -29,7 +29,7 @@ class AddEditTariffRequest extends FormRequest
             'title.*'=>['required', 'string'],
             'description.*'=>['required', 'string'],
             'price'=>['required', 'numeric'],
-            'period'=>['required', 'numeric'],
+            'period'=>['sometimes', 'nullable', 'numeric'],
             'includedDetails'=>['nullable', 'array'],
             'includedDetails.*'=>['nullable', 'array'],
             'includedDetails.*.*'=>['required', 'string'],

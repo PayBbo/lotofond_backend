@@ -139,6 +139,21 @@
                                 </div>
 
                                 <div class="form-group">
+                                    <label>Выберите регион для пользователя</label>
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i class="fa fa-location-arrow"></i></span>
+                                        </div>
+                                    <v-select
+                                        class="my-v-select"
+                                        v-model="item.region"
+                                        :options="regions"
+                                    >
+                                    </v-select>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
                                     <label>Роли</label>
                                     <div class="input-group">
                                         <div class="input-group-prepend">
@@ -179,7 +194,8 @@ export default {
     data() {
         return {
             roles: [],
-            tariffs: []
+            tariffs: [],
+            regions: []
         }
     },
     directives:{mask},
@@ -190,7 +206,7 @@ export default {
         } else {
             this.$store.commit('setItem',
                 {
-                    name: '', surname: '', middleName: '', email: null,
+                    name: '', surname: '', middleName: '', email: null, region: null,
                     phone: null, password: '', notificationsFromFavourite: true, notificationsFromMonitoring: true,
                     notificationsToEmail: true, roles: ['user'], tariff: null
                 }
@@ -198,6 +214,7 @@ export default {
         }
         await this.getRoles()
         await this.getTariffs()
+        await this.getRegions()
     },
     computed: {
         ...mapGetters(['item', 'types']),
@@ -241,6 +258,19 @@ export default {
             })
                 .then((response) => {
                     this.tariffs = response.data.data
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
+        },
+        async getRegions() {
+            await axios({
+                method: 'get',
+                url: '/api/admin/regions',
+                data: {},
+            })
+                .then((response) => {
+                    this.regions = response.data
                 })
                 .catch((error) => {
                     console.log(error);

@@ -75,7 +75,7 @@
                         <router-link to="/admin/tariffs" class="nav-link">
                             <i class="nav-icon fa fa-tags"></i>
                             <p>
-                                Тарифы
+                                Тарифы и услуги
                             </p>
                         </router-link>
                     </li>

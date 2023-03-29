@@ -96,7 +96,7 @@
                                             :is-images="false"
                                             type="lot"
                                             :id="item.id"
-                                            @change="editItem">
+                                            @change="changeItem">
                                         </files-table>
                                     </div>
                                 </div>
@@ -107,7 +107,7 @@
                                             :is-images="true"
                                             type="lot"
                                             :id="item.id"
-                                            @change="editItem">
+                                            @change="changeItem">
                                         </files-table>
                                     </div>
                                 </div>
@@ -234,6 +234,9 @@ export default {
     },
     methods: {
         ...mapActions(['editItem']),
+        async changeItem(){
+            await this.editItem('show')
+        }
     },
     async created() {
         this.$store.commit('setCurrentRoute', this.$route.path.replace(/(\/*$)/, ""))

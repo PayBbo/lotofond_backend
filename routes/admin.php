@@ -20,6 +20,8 @@ Route::group(['middleware' =>['localization', 'role:admin|manager', 'json.respon
 
     Route::get('/dashboard', [DashboardController::class, 'getDashboardData']);
 
+    Route::get('/regions', [DashboardController::class, 'getRegions']);
+
     Route::group(['prefix' => 'users'], function () {
 
         Route::get('/', [UserController::class, 'get']);

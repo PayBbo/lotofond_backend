@@ -38,7 +38,8 @@ class AddUserRequest extends FormRequest
             'notificationsToEmail'=>['required', 'boolean'],
             'roles'=>['nullable', 'array'],
             'roles.*'=>['string', 'exists:roles,name'],
-            'tariff'=>['nullable', 'integer', 'exists:tariffs,id']
+            'tariff'=>['nullable', 'integer', 'exists:tariffs,id'],
+            'region'=>['nullable', 'string', 'exists:regions,title']
         ];
     }
 }

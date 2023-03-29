@@ -10,6 +10,7 @@ use App\Http\Resources\Admin\UserResource;
 use App\Http\Resources\TextDataResource;
 use App\Http\Services\PaymentService;
 use App\Models\Payment;
+use App\Models\Region;
 use App\Models\Tariff;
 use App\Models\TextData;
 use App\Models\User;
@@ -69,6 +70,7 @@ class UserController extends Controller
             'phone' => preg_replace('/\D/', '', $request->phone),
             'password' => Hash::make($request->password),
             'email_verified_at' => Carbon::now()->setTimezone('Europe/Moscow'),
+            'region_id'=>!is_null($request->region) ? Region::where('title', $request->region)->first()['id'] : null,
             'not_settings' => [
                 'favouriteEventStart' => 1,
                 'favouriteEventEnd' => 1,
@@ -99,6 +101,7 @@ class UserController extends Controller
         $user->middle_name = $request->middleName;
         $user->email = $request->email;
         $user->phone = preg_replace('/\D/', '', $request->phone);
+        $user->region_id = !is_null($request->region) ? Region::where('title', $request->region)->first()['id'] : null;
         $user->save();
         $user->syncRoles($request->role);
         $user->assignRole($request->roles);

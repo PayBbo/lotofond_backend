@@ -26,7 +26,7 @@ class TariffController extends Controller
 
     public function get()
     {
-        $tariffs = Tariff::where('type', 'tariff')->get();
+        $tariffs = Tariff::whereIn('type', ['tariff', 'service'])->get();
         return response(['data'=>TariffResource::collection($tariffs), 'pagination'=>[]], 200);
     }
 

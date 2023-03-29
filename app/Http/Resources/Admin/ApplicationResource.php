@@ -30,7 +30,8 @@ class ApplicationResource extends JsonResource
             'tariffId'=> $this->tariff_id,
             'lotUrl' => URL::to('/lot/' . $this->lot_id),
             'status' => $this->status,
-            'paymentId' => $this->payment_id . ( !is_null($this->payment_id) ? ($this->payment->status == 'Settled' ? ' - подтвержден': ' - не подтвержден') : '')
+            'paymentId' => $this->payment_id . ( !is_null($this->payment_id) ? ($this->payment->status == 'Settled' ? ' - подтвержден': ' - не подтвержден') : ''),
+            'publishDate'=> $this->created_at->format('d.m.Y H:i')
         ];
     }
 }

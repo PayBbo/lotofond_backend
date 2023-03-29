@@ -4,14 +4,14 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1 class="m-0">{{ isEdit ? 'Редактирование тарифа' : 'Добавление нового тарифа' }}</h1>
+                        <h1 class="m-0">{{ isEdit ? 'Редактирование ' + (item.type === 'tariff' ? 'тарифа' : 'услуги') : 'Добавление нового тарифа' }}</h1>
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
                             <li class="breadcrumb-item">
                                 <router-link to="/admin/tariffs"
                                              style="color: #007bff; text-decoration: none; background-color: transparent;">
-                                    Тарифы
+                                    Тарифы и услуги
                                 </router-link>
                             </li>
                             <li class="breadcrumb-item active">{{ isEdit ? 'Редактирование' : 'Добавление' }}</li>
@@ -28,7 +28,7 @@
                         <div class="card card-primary">
                             <div class="card-body">
                                 <div class="form-group">
-                                    <label>Название тарифа</label>
+                                    <label>Название {{ (item.type === 'tariff'  || !isEdit ? 'тарифа' : 'услуги') }}</label>
                                     <div class="table-responsive max-h-350px">
                                         <table class="table table-hover table-head-fixed text-nowrap mb-0">
                                             <thead>
@@ -49,7 +49,7 @@
                                         </table>
                                     </div>
                                 </div>
-                                <div class="form-group">
+                                <div class="form-group" v-if="item.type === 'tariff' || !isEdit">
                                     <label>Период действия тарифа (в днях)</label>
                                     <div class="input-group">
                                         <input required name="period" class="form-control"
@@ -72,7 +72,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label>Описание тарифа</label>
+                                    <label>Описание {{ (item.type === 'tariff'  || !isEdit ? 'тарифа' : 'услуги') }}</label>
                                     <div class="table-responsive max-h-350px">
                                         <table class="table table-hover table-head-fixed text-nowrap mb-0">
                                             <thead>
@@ -94,7 +94,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label>Возможности, которые предоставляет тариф</label>
+                                    <label> {{ (item.type === 'tariff'  || !isEdit ? 'Возможности, которые предоставляет тариф' : 'Детальное описание услуги по пунктам') }}</label>
                                     <div class="table-responsive max-h-350px">
                                         <table class="table table-hover table-head-fixed text-nowrap mb-0">
                                             <thead>
@@ -137,7 +137,7 @@
                                         </table>
                                     </div>
                                 </div>
-                                <div class="form-group">
+                                <div class="form-group" v-if="item.type === 'tariff' || !isEdit" >
                                     <label>Возможности, которых нет в тарифе</label>
                                     <div class="table-responsive max-h-350px">
                                         <table class="table table-hover table-head-fixed text-nowrap mb-0">

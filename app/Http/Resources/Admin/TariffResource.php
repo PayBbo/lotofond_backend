@@ -31,6 +31,7 @@ class TariffResource extends JsonResource
             $this->mergeWhen(Route::getCurrentRoute()->getName() != 'admin-get-tariffs', [
                 'description' => $this->getTranslations('description'),
             ]),
+            'type'=> $this->type,
             'includedDetails' => $this->getTranslations('included_details'),
             'excludedDetails' => $this->getTranslations('excluded_details')
         ];

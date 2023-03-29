@@ -31,6 +31,7 @@
                     </select>
                     <p v-if="item.tariffId === 7">{{ statuses.find(status => status.code === item.status).title }}</p>
                 </td>
+                <td>{{ item.publishDate }}</td>
                 <td>
                     <button :id="'button-'+item.id" type="button" class="btn btn-info btn-sm" data-bs-toggle="modal"
                             data-bs-target="#modalView"
@@ -57,14 +58,14 @@ export default {
     mixins: [main],
     data() {
         return {
-            columns: ['#', 'Имя пользователя', 'Почта', 'Телефон', 'Тип обращения', 'Номер платежа', 'Статус', 'Действия'],
+            columns: ['#', 'Имя пользователя', 'Почта', 'Телефон', 'Тип обращения', 'Номер платежа', 'Статус', 'Дата заявки', 'Действия'],
             param: '',
 
             modalColumns: {
                 'id': 'Номер', 'name': 'Имя пользователя', 'email': 'Почта', 'phone': 'Телефон',
                 'socials': 'Социальные сети для ответа', 'files': 'Прикрепленные файлы', 'topic': 'Тема',
                 'question': 'Вопрос', 'dateForAnswer': 'Время для ответа', 'type': 'Тип заявки',
-                'lotUrl': 'Ссылка на лот', 'paymentId': 'Номер платежа', 'showStatus': 'Статус заявки'
+                'lotUrl': 'Ссылка на лот', 'paymentId': 'Номер платежа', 'showStatus': 'Статус заявки', 'publishDate': 'Дата заявки'
             },
             statuses: [
                 {'title': 'Не обработана', 'code': 'notProcessed'},

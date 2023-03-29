@@ -34,7 +34,8 @@ class UpdateUserRequest extends FormRequest
             'phone'=>['sometimes', 'nullable', 'required_without:email', new Phone, 'unique:users,phone,'.$this->request->get('id')],
             'roles'=>['nullable', 'array'],
             'roles.*'=>['string', 'exists:roles,name'],
-            'tariff'=>['nullable', 'integer', 'exists:tariffs,id']
+            'tariff'=>['nullable', 'integer', 'exists:tariffs,id'],
+            'region'=>['nullable', 'string', 'exists:regions,title']
         ];
     }
 }

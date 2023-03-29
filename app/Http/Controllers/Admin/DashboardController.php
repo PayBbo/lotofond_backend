@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Lot;
+use App\Models\Region;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
@@ -30,6 +31,11 @@ class DashboardController extends Controller
                 'lotsCount'=>$lotsCount,
                 'newLotsCount'=>$newLotsCount
             ], 200);
+    }
+
+    public function getRegions(){
+        $regions = Region::orderBy('title')->get()->pluck('title');
+        return response($regions, 200);
     }
 
 }

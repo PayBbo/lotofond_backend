@@ -30,6 +30,7 @@
                                              v-mask="['+# ### ### ####','+## ### ### ####', '+## ### #### ####',]"
                                              readonly disabled  v-model="user.phone"></td>
                 <td v-else >Не указано</td>
+                <td>{{ user.region ? user.region : "Не указано" }}</td>
                 <td>{{ user.registrationDate }}</td>
                 <td>
                     <router-link v-can="'user-edit'" :to="'/admin/users/'+user.id" class="btn btn-primary btn-sm">
@@ -56,7 +57,7 @@ export default {
     directives:{mask},
     data() {
         return {
-            columns: ['ID', 'Имя', 'Фамилия', 'Почта', 'Телефон', 'Дата регистрации', 'Действия'],
+            columns: ['ID', 'Имя', 'Фамилия', 'Почта', 'Телефон', 'Регион', 'Дата регистрации', 'Действия'],
             param: ''
         }
     }

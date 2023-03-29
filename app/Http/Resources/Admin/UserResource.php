@@ -25,7 +25,8 @@ class UserResource extends JsonResource
             'authId'=>auth()->id(),
             'registrationDate'=> is_null($this->email_verified_at) ? 'Не указано' : $this->email_verified_at->format('d.m.Y H:i'),
             'roles'=> $this->roles->pluck('name'),
-            'tariff'=> $this->tariff ? $this->tariff->tariff->id : null
+            'tariff'=> $this->tariff ? $this->tariff->tariff->id : null,
+            'region'=>!is_null($this->region_id) ? $this->region->title : null
         ];
     }
 }

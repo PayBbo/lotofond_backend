@@ -327,7 +327,11 @@ class TariffSeeder extends Seeder
                 'admission_price' => null,
                 'period' => null,
                 'store_id' => null,
-                'included_details' => null,
+                'included_details' => [
+                    'ru' => [],
+                    'en' => [],
+                    'zh_CN' => []
+                ],
                 'excluded_details' => null,
                 'type' => 'service'
             ],
@@ -359,7 +363,11 @@ class TariffSeeder extends Seeder
                 'admission_price' => null,
                 'period' => null,
                 'store_id' => null,
-                'included_details' => null,
+                'included_details' => [
+                    'ru' => [],
+                    'en' => [],
+                    'zh_CN' => []
+                ],
                 'excluded_details' => null,
                 'type' => 'service'
             ],
@@ -373,7 +381,11 @@ class TariffSeeder extends Seeder
                 'admission_price' => null,
                 'period' => null,
                 'store_id' => null,
-                'included_details' => null,
+                'included_details' => [
+                    'ru' => [],
+                    'en' => [],
+                    'zh_CN' => []
+                ],
                 'excluded_details' => null,
                 'type' => 'service'
             ],
@@ -387,7 +399,11 @@ class TariffSeeder extends Seeder
                 'admission_price' => null,
                 'period' => null,
                 'store_id' => null,
-                'included_details' => null,
+                'included_details' => [
+                    'ru' => [],
+                    'en' => [],
+                    'zh_CN' => []
+                ],
                 'excluded_details' => null,
                 'type' => 'service'
             ],
@@ -401,7 +417,11 @@ class TariffSeeder extends Seeder
                 'admission_price' => null,
                 'period' => null,
                 'store_id' => null,
-                'included_details' => null,
+                'included_details' => [
+                    'ru' => [],
+                    'en' => [],
+                    'zh_CN' => []
+                ],
                 'excluded_details' => null,
                 'type' => 'service'
             ],
