@@ -4315,6 +4315,25 @@ paths:
                 $ref: '#/components/schemas/Error'
       security:
         - bearerAuth: [ ]
+  /information-message:
+    get:
+      tags:
+        - InformationMessage
+      summary: получение информационного сообщения
+      operationId: getInformationMessage
+      responses:
+        "200":
+          description: данные информационного сообщения  (если информ. сообщения нет - shortNewsItem будет null вместо объекта)
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  shortNewsItem:
+                    $ref: '#/components/schemas/InformationMessage'
+
+      security:
+        - bearerAuth: [ ]
 components:
   schemas:
     Register:
@@ -6126,6 +6145,22 @@ components:
             - accompanimentFAS
             - purchaseInstructions
             - receiptEGRN
+    InformationMessage:
+      type: object
+      required:
+        - id
+        - publishDate
+      properties:
+        id:
+          type: integer
+        description:
+          type: string
+          description: обязательным является хотя бы один параметр - description или image (могут присутсвовать оба)
+        image:
+          type: string
+          description: обязательным является хотя бы один параметр - description или image (могут присутсвовать оба)
+        publishDate:
+          type: string
   securitySchemes:
     bearerAuth:
       type: http

@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\NewsResource;
 use App\Http\Resources\TextDataResource;
 use App\Models\ContentRule;
+use App\Models\News;
 use App\Models\TextData;
 use Illuminate\Http\Request;
 
@@ -29,5 +31,14 @@ class DataController extends Controller
 
         }
         return response($contentDisplayRules, 200);
+    }
+
+    public function getInformationMessage(){
+        $news = News::where('is_banner', true)->first();
+        $shortNewsItem = null;
+        if($news){
+            $shortNewsItem = new NewsResource($news);
+        }
+        return response(['shortNewsItem'=>$shortNewsItem], 200);
     }
 }

@@ -16,7 +16,7 @@ class PermissionSeeder extends Seeder
     public function run()
     {
         $permissions = [
-            ['name' => 'role-list', 'visible_name' => 'Просмотр ролей', 'permission_group' => 'Роли'],
+           /* ['name' => 'role-list', 'visible_name' => 'Просмотр ролей', 'permission_group' => 'Роли'],
             ['name' => 'role-edit', 'visible_name' => 'Редактирование ролей', 'permission_group' => 'Роли'],
             ['name' => 'role-add', 'visible_name' => 'Добавление ролей', 'permission_group' => 'Роли'],
             ['name' => 'role-delete', 'visible_name' => 'Удаление ролей', 'permission_group' => 'Роли'],
@@ -59,7 +59,12 @@ class PermissionSeeder extends Seeder
             ['name' => 'additions-list', 'visible_name' => 'Просмотр ответов на запросы доп. информации по лотам', 'permission_group' => 'Запросы доп. информации'],
             ['name' => 'additions-edit', 'visible_name' => 'Редактирование ответов на запросы доп. информации по лотам', 'permission_group' => 'Запросы доп. информации'],
             ['name' => 'additions-add', 'visible_name' => 'Добавление ответов на запросы доп. информации по лотам', 'permission_group' => 'Запросы доп. информации'],
-            ['name' => 'additions-delete', 'visible_name' => 'Удаление ответов на запросы доп. информации по лотам', 'permission_group' => 'Запросы доп. информации'],
+            ['name' => 'additions-delete', 'visible_name' => 'Удаление ответов на запросы доп. информации по лотам', 'permission_group' => 'Запросы доп. информации'],*/
+
+            ['name' => 'news-list', 'visible_name' => 'Просмотр информационных сообщений', 'permission_group' => 'Информационные сообщения'],
+            ['name' => 'news-edit', 'visible_name' => 'Редактирование информационных сообщений', 'permission_group' => 'Информационные сообщения'],
+            ['name' => 'news-add', 'visible_name' => 'Добавление информационных сообщений', 'permission_group' => 'Информационные сообщения'],
+            ['name' => 'news-delete', 'visible_name' => 'Удаление информационных сообщений', 'permission_group' => 'Информационные сообщения'],
         ];
         foreach ($permissions as $permission) {
             Permission::create([

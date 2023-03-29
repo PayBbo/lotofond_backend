@@ -440,6 +440,48 @@ let router = new VueRouter({
             }
         },
         {
+            path: '/admin/news',
+            name: 'AdminNews',
+            beforeEnter: guardAdminRoute,
+            component: () =>
+                import(
+                    /* webpackChunkName: "news" */ "./admin/news/News.vue"
+                    ),
+            meta: {
+                auth: true,
+                layout: 'Admin',
+                permission: 'news-list'
+            }
+        },
+        {
+            path: '/admin/news/add',
+            name: 'AddNews',
+            beforeEnter: guardAdminRoute,
+            component: () =>
+                import(
+                    /* webpackChunkName: "news-add" */ "./admin/news/AddEditNews.vue"
+                    ),
+            meta: {
+                auth: true,
+                layout: 'Admin',
+                permission: 'news-add'
+            }
+        },
+        {
+            path: '/admin/news/:id',
+            name: 'EditNews',
+            beforeEnter: guardAdminRoute,
+            component: () =>
+                import(
+                    /* webpackChunkName: "news-edit" */ "./admin/news/AddEditNews.vue"
+                    ),
+            meta: {
+                auth: true,
+                layout: 'Admin',
+                permission: 'news-edit'
+            }
+        },
+        {
             path: "/admin/404",
 
             component: () =>
