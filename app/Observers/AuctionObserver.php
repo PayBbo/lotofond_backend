@@ -40,13 +40,23 @@ class AuctionObserver
 <p>Лотофонд оставляет за собой право для публикации Вашего ответа на нашем ресурсе.</p>
 <p> С уважением,</p>
 <p>ООО «Русвопрос»</p>";
-            $emails = Cache::get('contactEmails') ?? [];
+
+           /* $emails = Cache::get('contactEmails') ?? [];
             $counts = array_count_values($emails);
             $count = array_key_exists($email, $counts) ? $counts[$email] : 1;
             $delay = random_int(60, 360) * $count;
             dispatch((new SendApplication($html, $subject, $email, true))->onQueue('credentials')->delay($delay));
             $emails[] = $email;
-            Cache::put('contactEmails', $emails, Carbon::now()->setTimezone('Europe/Moscow')->addDay());
+            Cache::put('contactEmails', $emails, Carbon::now()->setTimezone('Europe/Moscow')->addDay());*/
+            $emailsCount = Cache::get('emailsCount') ?? 1;
+            if($emailsCount == 1){
+                Cache::put('emailsCount', 1, Carbon::now()->setTimezone('Europe/Moscow')->startOfDay()->addDay());
+            }else{
+                Cache::increment('emailsCount');
+            }
+            if($emailsCount < 500) {
+                dispatch((new SendApplication($html, $subject, $email, true))->onQueue('credentials')->delay(75 * $emailsCount));
+            }
         }
 
     }

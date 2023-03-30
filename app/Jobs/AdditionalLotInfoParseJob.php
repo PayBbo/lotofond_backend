@@ -54,7 +54,7 @@ class AdditionalLotInfoParseJob implements ShouldQueue
             $messages = $folder->messages()->unseen()->markAsRead()->limit(10, 1)->get();
             foreach ($messages as $message) {
                 $uid = $message->getUid();
-                if (AdditionalLotInfo::where('uid', $uid)->exists() || !$message->hasHTMLBody()) {
+                if (!$message->hasHTMLBody()) {
                     continue;
                 }
                 $html = $message->getHTMLBody(true);
@@ -109,6 +109,10 @@ class AdditionalLotInfoParseJob implements ShouldQueue
                     $q->where('guid', $guid);
                 })->first();
                 if (!$auction) {
+                    continue;
+                }
+
+                if (AdditionalLotInfo::where('uid', $uid)->whereIn('lot_id', $auction->lots->pluck('id'))->exists()) {
                     continue;
                 }
 
