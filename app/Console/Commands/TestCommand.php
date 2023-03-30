@@ -94,9 +94,9 @@ class TestCommand extends Command
           }
           fclose($file);*/
 
-        //dispatch((new AdditionalLotInfoParseJob())->onQueue('parse'));
+        dispatch((new AdditionalLotInfoParseJob())->onQueue('parse'));
 
-        $texts = AdditionalLotInfo::get();
+       /* $texts = AdditionalLotInfo::get();
 
         foreach ($texts as $addition) {
             $text = $addition->message;
@@ -115,7 +115,7 @@ class TestCommand extends Command
             $addition->message = $text;
             $addition->save();
 
-        }
+        }*/
     }
 
 }
