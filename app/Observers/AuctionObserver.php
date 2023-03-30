@@ -48,19 +48,18 @@ class AuctionObserver
             dispatch((new SendApplication($html, $subject, $email, true))->onQueue('credentials')->delay($delay));
             $emails[] = $email;
             Cache::put('contactEmails', $emails, Carbon::now()->setTimezone('Europe/Moscow')->addDay());*/
-            $emailsCount = Cache::get('emailsCount') ?? 1;
-            $emailsHourCount = Cache::get('emailsHourCount') ?? 1;
-            logger($emailsCount);
-            if($emailsCount == 1){
+            if(!Cache::has('emailsCount')){
                 Cache::put('emailsCount', 1, Carbon::now()->setTimezone('Europe/Moscow')->startOfDay()->addDay());
             }else{
                 Cache::increment('emailsCount');
             }
-            if($emailsHourCount == 1){
+            if(!Cache::has('emailsHourCount')){
                 Cache::put('emailsHourCount', 1, Carbon::now()->setTimezone('Europe/Moscow')->startOfDay()->addDay());
             }else{
                 Cache::increment('emailsHourCount');
             }
+            $emailsCount = Cache::get('emailsCount');
+            $emailsHourCount = Cache::get('emailsHourCount');
             if($emailsCount < 500) {
                 $delay = 75 * $emailsHourCount;
                 logger('day '.$emailsCount);
