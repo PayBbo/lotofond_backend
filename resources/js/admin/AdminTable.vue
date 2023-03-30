@@ -20,7 +20,7 @@
                             </div>
 
                             <div class="card-body table-responsive p-0" style="max-height: 600px">
-                                <table class="table table-hover table-head-fixed text-nowrap">
+                                <table class="table table-hover table-head-fixed">
                                     <thead>
                                     <tr>
                                         <th v-for="column in columns">{{ column }}</th>

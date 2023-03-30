@@ -4564,6 +4564,8 @@ components:
               type: boolean
             descriptionExtracts:
               type: boolean
+            showOrganizerAnswer:
+              type: boolean
             trade:
               type: object
               properties:
@@ -4843,6 +4845,7 @@ components:
           $ref: "#/components/schemas/DescriptionExtracts"
     Lot:
       type: object
+      description: если данные отсутсвуют или для их просмотра необходим тариф - присылается null
       properties:
         id:
           type: integer
@@ -4977,6 +4980,21 @@ components:
                 type: string
               status:
                 type: string
+        organizerAnswer:
+          type: object
+          properties:
+            message:
+              type: string
+              description: текст ответа организатора
+            files:
+              type: array
+              items:
+                type: string
+                description: на файл
+            images:
+              $ref: "#/components/schemas/Images"
+            publishDate:
+              type: string
     Pagination:
       type: object
       properties:

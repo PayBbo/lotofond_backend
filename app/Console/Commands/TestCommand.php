@@ -96,30 +96,26 @@ class TestCommand extends Command
 
         //dispatch((new AdditionalLotInfoParseJob())->onQueue('parse'));
 
-       /* $texts = AdditionalLotInfo::select('uid', 'message')->groupBy('uid', 'message')->get();
-        $result = [];
-        foreach ($texts as $text) {
-            $text = $text->message;
-            //remove html tags
-            $sayilacak_metin = str_replace("&nbsp;", " ", $text);
-            $sayilacak_metin = preg_replace("/<([^>]*(<|$))/", "&lt;$1", $sayilacak_metin);
-            $sayilacak_metin = strip_tags($sayilacak_metin);
-            $sayilacak_metin = str_replace(chr(194), " ", $sayilacak_metin);
-            $sayilacak_metin = str_replace(chr(160), " ", $sayilacak_metin);
-            $sayilacak_metin = preg_replace(array('/\s{2,}/', '/[\r\t\n]/', '/\r/', '/\t/', '/\n/'), ' ', $sayilacak_metin);
-       //end remove html tags
-            $parca = explode(" ", $sayilacak_metin);
-            foreach ($parca as $item) {
-                if($item != "") {
-                    if (!array_key_exists($item, $result)) {
-                        $result[$item] = substr_count($text, $item);
-                    } else {
-                        $result[$item] += substr_count($text, $item);
-                    }
-                }
-            }
-        }*/
+        $texts = AdditionalLotInfo::get();
 
+        foreach ($texts as $addition) {
+            $text = $addition->message;
 
+            $text = str_replace('</p>', ' </p>', $text);
+            $text = str_replace('<br>', ' ', $text);
+            $text = str_replace("&nbsp;", " ", $text);
+            $text = preg_replace("/<([^>]*(<|$))/", "&lt;$1 ", $text);
+            $text = strip_tags($text);
+            $text = str_replace(chr(194), " ", $text);
+            $text = str_replace(chr(160), " ", $text);
+            $text = preg_replace(array('/\s{2,}/', '/[\r\t\n]/', '/\r/', '/\t/', '/\n/'), ' ', $text);
+            $text = str_replace("&lt;", "", str_replace("&gt;", "", $text));
+            $text = iconv('utf-8//IGNORE', 'windows-1251//IGNORE', $text);
+            $text = iconv('windows-1251//IGNORE', 'utf-8//IGNORE', $text);
+            $addition->message = $text;
+            $addition->save();
+
+        }
     }
+
 }

@@ -20,7 +20,7 @@
         </template>
         <template v-slot:raws-block>
             <tr v-for="(item, index) in dataItems">
-                <td v-html="item.message"></td>
+                <td>{{item.message}}</td>
                 <td>{{ item.filesCount }}</td>
                 <td>
                     <admin-switch v-can="'additions-edit'" :index="index" :model="item.isModerated"
