@@ -54,7 +54,7 @@ class AuctionObserver
                 Cache::increment('emailsCount');
             }
             if(!Cache::has('emailsHourCount')){
-                Cache::put('emailsHourCount', 1, Carbon::now()->setTimezone('Europe/Moscow')->startOfDay()->addDay());
+                Cache::put('emailsHourCount', 1, Carbon::now()->addHour());
             }else{
                 Cache::increment('emailsHourCount');
             }
