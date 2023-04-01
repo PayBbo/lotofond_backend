@@ -28,6 +28,8 @@
     "/js/tariffs-add.js": "/js/tariffs-add.js",
     "/js/admin-additions.js": "/js/admin-additions.js",
     "/js/addition-add.js": "/js/addition-add.js",
+    "/js/news.js": "/js/news.js",
+    "/js/news-add.js": "/js/news-add.js",
     "/js/error-404.js": "/js/error-404.js",
     "/css/app.css": "/css/app.css",
     "/css/app.min.css": "/css/app.min.css",

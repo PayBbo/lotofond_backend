@@ -245,7 +245,7 @@ class DescriptionExtractsService
                     $lot->is_deposit_rub = $auctionLot['AdvanceStepUnit'] != 'Percent';
                 }
             }
-            if (array_key_exists('StartPrice', $auctionLot) && gettype($auctionLot['StartPrice']) != 'array' && strlen((string)$auctionLot['StartPrice']) > 0) {
+           /* if (array_key_exists('StartPrice', $auctionLot) && gettype($auctionLot['StartPrice']) != 'array' && strlen((string)$auctionLot['StartPrice']) > 0) {
                 $lot->start_price = $auctionLot['StartPrice'];
                 if (PriceReduction::where('lot_id', $lot->id)->count() == 0) {
                     PriceReduction::create([
@@ -258,7 +258,7 @@ class DescriptionExtractsService
                         'is_system' => true
                     ]);
                 }
-            }
+            }*/
             $lot->save();
             if ($lot->auction->auctionType->title != 'PublicOffer' && $lot->auction->auctionType->title != 'ClosePublicOffer') {
                 return $lotNumbers;

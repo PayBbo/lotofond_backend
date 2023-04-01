@@ -15,7 +15,7 @@ class ContentRuleSeeder extends Seeder
     public function run()
     {
         $rules = [
-            ['title' => 'Номер лота в торге', 'code' => 'lotNumber', 'is_available' => true, 'type' => 'lot'],
+           /* ['title' => 'Номер лота в торге', 'code' => 'lotNumber', 'is_available' => true, 'type' => 'lot'],
             ['title' => 'Картинки', 'code' => 'photos', 'is_available' => true, 'type' => 'lot'],
             ['title' => 'Категории', 'code' => 'categories', 'is_available' => true, 'type' => 'lot'],
             ['title' => 'Статус лота', 'code' => 'state', 'is_available' => true, 'type' => 'lot'],
@@ -43,7 +43,8 @@ class ContentRuleSeeder extends Seeder
             ['title' => 'Документы по торгам', 'code' => 'hasAccessToTradeFiles', 'is_available' => false, 'type' => 'system'],
             ['title' => 'Доступ к мониторингу', 'code' => 'hasAccessToMonitoring', 'is_available' => false, 'type' => 'system'],
             ['title' => 'Доступ к реестру', 'code' => 'hasAccessToReestr', 'is_available' => false, 'type' => 'system'],
-            ['title' => 'Доступ к избранному', 'code' => 'hasAccessToFavourite', 'is_available' => true, 'type' => 'system']
+            ['title' => 'Доступ к избранному', 'code' => 'hasAccessToFavourite', 'is_available' => true, 'type' => 'system'],*/
+            ['title' => 'Ответ организатора торгов', 'code' => 'showOrganizerAnswer', 'is_available' => false, 'type' => 'lot'],
         ];
 
         foreach ($rules as $rule) {

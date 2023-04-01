@@ -112,6 +112,14 @@
                             </p>
                         </router-link>
                     </li>
+                    <li v-can="'holidays-list'" class="nav-item">
+                        <router-link to="/admin/news" class="nav-link">
+                            <i class="nav-icon fa fa-info"></i>
+                            <p>
+                                Информ. сообщения
+                            </p>
+                        </router-link>
+                    </li>
                 </ul>
             </nav>
             <!-- /.sidebar-menu -->

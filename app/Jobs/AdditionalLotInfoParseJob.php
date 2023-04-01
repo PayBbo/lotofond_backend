@@ -54,7 +54,7 @@ class AdditionalLotInfoParseJob implements ShouldQueue
             $messages = $folder->messages()->unseen()->markAsRead()->limit(10, 1)->get();
             foreach ($messages as $message) {
                 $uid = $message->getUid();
-                if (AdditionalLotInfo::where('uid', $uid)->exists() || !$message->hasHTMLBody()) {
+                if (!$message->hasHTMLBody()) {
                     continue;
                 }
                 $html = $message->getHTMLBody(true);
@@ -112,6 +112,10 @@ class AdditionalLotInfoParseJob implements ShouldQueue
                     continue;
                 }
 
+                if (AdditionalLotInfo::where('uid', $uid)->whereIn('lot_id', $auction->lots->pluck('id'))->exists()) {
+                    continue;
+                }
+
                 $html = str_replace($htmlMail, '', $html);
                 $html = str_replace('&nbsp;', '', $html);
                 $pattern = '/<img[\s\S]*?>/';
@@ -122,6 +126,19 @@ class AdditionalLotInfoParseJob implements ShouldQueue
                     }
                 }
                 $html = str_replace('div', 'p', $html);
+                /*START Удаление всех html-тегов и искаженных символов*/
+                $text = str_replace('</p>', ' </p>', $html);
+                $text = str_replace('<br>', ' ', $text);
+                $text = str_replace("&nbsp;", " ", $text);
+                $text = preg_replace("/<([^>]*(<|$))/", "&lt;$1 ", $text);
+                $text = strip_tags($text);
+                $text = str_replace(chr(194), " ", $text);
+                $text = str_replace(chr(160), " ", $text);
+                $text = preg_replace(array('/\s{2,}/', '/[\r\t\n]/', '/\r/', '/\t/', '/\n/'), ' ', $text);
+                $text =str_replace("&lt;","",str_replace("&gt;","",$text));
+                $text = iconv('utf-8//IGNORE', 'windows-1251//IGNORE', $text);
+                $text = iconv('windows-1251//IGNORE', 'utf-8//IGNORE', $text);
+                /*END Удаление всех html-тегов и искаженных символов*/
                 $attachments = $message->getAttachments();
                 $files = [];
                 $hasImages = false;
@@ -166,7 +183,7 @@ class AdditionalLotInfoParseJob implements ShouldQueue
                 foreach ($auction->lots as $lot) {
                     $additional = AdditionalLotInfo::create([
                         'uid' => $uid,
-                        'message' => $html,
+                        'message' => $text,
                         'lot_id' => $lot->id
                     ]);
                     foreach ($files as $file) {

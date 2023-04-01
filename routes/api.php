@@ -36,6 +36,7 @@ use Illuminate\Support\Facades\Route;
 */
 Route::group(['middleware' => ['json.response', 'localization']], function () {
 
+    Route::get('/information-message', [DataController::class, 'getInformationMessage']);
 
     Route::post('login', [LoginController::class, 'login'])->name('login');
 

@@ -58,13 +58,13 @@ class SendApplication implements ShouldQueue
         $subject = $this->subject;
         $mail_from_name = config('mail.from.name');
         if($this->isMailing){
-            logger('mailing!!!');
             $mailer = 'mailing_smtp';
             $mail_from_address = config('mail.from.mailing_address');
+            logger('mailing!!! '. $mail_from_address);
         }else{
-            logger('user!!!');
             $mailer = 'user_smtp';
             $mail_from_address = config('mail.from.user_address');
+            logger('user!!!  ' .$mail_from_address);
         }
         logger($subject);
         logger('----------------------');

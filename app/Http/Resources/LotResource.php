@@ -101,7 +101,7 @@ class LotResource extends JsonResource
                     'value' => $this->auction_step
                 ],
             ]),
-            $this->mergeWhen(is_null($this->auction_step) || !$this->contentSettings->isAvailable('stepPrice') ||  $isPublicOffer, [
+            $this->mergeWhen(is_null($this->auction_step) || !$this->contentSettings->isAvailable('stepPrice') || $isPublicOffer, [
                 'stepPrice' => null
             ]),
             $this->mergeWhen(!is_null($this->deposit) && $this->contentSettings->isAvailable('deposit'), [
@@ -165,23 +165,27 @@ class LotResource extends JsonResource
                 $lotData['applications'] = ApplicationResource::collection($this->userApplications);
                 $lotData['note'] = $this->getNote();
                 $lotData['marks'] = $this->userMarks->makeHidden(['pivot']);
-               /* $additionalInfo = $this->additionalLotInfo();
-                if($additionalInfo){
-                    $lotData['organizerAnswer'] = '<!DOCTYPE HTML><html lang="ru">
-  <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta charset="UTF-8"/>
-    <style type="text/css">  p {font-size: max(1em, min(4em, calc(100vw * 4 / 75)));line-height: 2em;}</style>
-  </head>
-  <body>
-<p>' . $additionalInfo->message . '</p>
-    <script type="text/javascript">
-      const resizeObserver = new ResizeObserver(entries =>Resize.postMessage("height" + (entries[0].target.clientHeight).toString()));
-      resizeObserver.observe(document.body);
-    </script>
-</body>
-</html>';
-                }*/
+                $additionalInfo = $this->additionalLotInfo;
+                if ($this->contentSettings->isAvailable('showOrganizerAnswer') && $additionalInfo) {
+                    $imagesDB = $additionalInfo->files()->where(['type' => 'image', 'lot_id' => $this->id])->get();
+                    $images = [];
+                    foreach ($imagesDB as $image) {
+                        $images[] = [
+                            'id' => $image->id,
+                            'type' => $image->type,
+                            'main' => $image->url[0],
+                            'preview' => $image->url[1]
+                        ];
+                    }
+                    $lotData['organizerAnswer'] = [
+                        'message' => $additionalInfo->message,
+                        'files' => $additionalInfo->files()->where(['type' => 'file', 'lot_id' => $this->id])->pluck('url')->toArray(),
+                        'images' => $images,
+                        'publishDate' => $this->created_at
+                    ];
+                } else {
+                    $lotData['organizerAnswer'] = null;
+                }
             }
         }
         return $lotData;

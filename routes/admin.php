@@ -9,6 +9,7 @@ use App\Http\Controllers\Admin\EgrnStatementsController;
 use App\Http\Controllers\Admin\FileController;
 use App\Http\Controllers\Admin\HolidayDayController;
 use App\Http\Controllers\Admin\LotController;
+use App\Http\Controllers\Admin\NewsController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\TariffController;
 use App\Http\Controllers\Admin\TextDataController;
@@ -154,6 +155,22 @@ Route::group(['middleware' =>['localization', 'role:admin|manager', 'json.respon
         Route::post('/', [HolidayDayController::class, 'add']);
 
         Route::delete('/{id}', [HolidayDayController::class, 'delete']);
+
+    });
+
+    Route::group(['prefix' => 'news'], function () {
+
+        Route::get('/', [NewsController::class, 'get']);
+
+        Route::get('/{id}/edit', [NewsController::class, 'edit']);
+
+        Route::post('/add', [NewsController::class, 'add']);
+
+        Route::post('/{id}', [NewsController::class, 'update']);
+
+        Route::delete('/{id}', [NewsController::class, 'delete']);
+
+        Route::put('/change/status/{id}', [NewsController::class, 'changeStatus']);
 
     });
 

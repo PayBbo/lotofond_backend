@@ -41,10 +41,11 @@
                                 </div>
                                 <div class="form-group">
                                     <label>Текст сообщения</label>
-                                    <vue-editor v-model="item.message"
+                                   <!--- <vue-editor v-model="item.message"
                                                 :editor-toolbar="customToolbar"
                                                 :editorOptions="editorOptions">
-                                    </vue-editor>
+                                    </vue-editor> ----->
+                                    <textarea v-model="item.message" class="form-control" required rows="10" name="message"></textarea>
                                 </div>
                                 <div class="form-group" v-if="isEdit">
                                     <files-table
@@ -95,13 +96,14 @@ import FilesTable from "../../FilesTable";
 import {VueEditor} from "vue2-editor";
 import AdminSelect from "../../AdminSelect";
 import axios from "axios";
+import Textarea from "../../../components/Textarea";
 
 export default {
     name: "AddEditAdditions",
-    components: {AdminSelect, VueEditor, FilesTable, AdminSwitch},
+    components: {Textarea, AdminSelect, VueEditor, FilesTable, AdminSwitch},
     data() {
         return {
-            customToolbar: [
+           /* customToolbar: [
                 [{'header': [1, 2, 3, 4, 5, 6, false]}, 'bold', 'italic', 'underline', 'strike'],
                 ['blockquote', 'link', 'code-block'],
                 [{'header': 1}, {'header': 2},],
@@ -129,7 +131,7 @@ export default {
                     'align',
                     'code-block'
                 ]
-            },
+            },*/
             lot: null,
             lots: []
         }

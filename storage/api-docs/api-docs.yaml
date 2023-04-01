@@ -4315,6 +4315,25 @@ paths:
                 $ref: '#/components/schemas/Error'
       security:
         - bearerAuth: [ ]
+  /information-message:
+    get:
+      tags:
+        - InformationMessage
+      summary: получение информационного сообщения
+      operationId: getInformationMessage
+      responses:
+        "200":
+          description: данные информационного сообщения  (если информ. сообщения нет - shortNewsItem будет null вместо объекта)
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  shortNewsItem:
+                    $ref: '#/components/schemas/InformationMessage'
+
+      security:
+        - bearerAuth: [ ]
 components:
   schemas:
     Register:
@@ -4544,6 +4563,8 @@ components:
             efrsbLink:
               type: boolean
             descriptionExtracts:
+              type: boolean
+            showOrganizerAnswer:
               type: boolean
             trade:
               type: object
@@ -4824,6 +4845,7 @@ components:
           $ref: "#/components/schemas/DescriptionExtracts"
     Lot:
       type: object
+      description: если данные отсутсвуют или для их просмотра необходим тариф - присылается null
       properties:
         id:
           type: integer
@@ -4958,6 +4980,21 @@ components:
                 type: string
               status:
                 type: string
+        organizerAnswer:
+          type: object
+          properties:
+            message:
+              type: string
+              description: текст ответа организатора
+            files:
+              type: array
+              items:
+                type: string
+                description: на файл
+            images:
+              $ref: "#/components/schemas/Images"
+            publishDate:
+              type: string
     Pagination:
       type: object
       properties:
@@ -6113,7 +6150,12 @@ components:
           description: заголовок услуги
         description:
           type: string
-          description: описание услугим
+          description: описание услуги
+        detailedDescription:
+          type: array
+          items:
+            type: string
+            description: расширенное описание услуги (по пунктам)
         price:
           type: integer
         type:
@@ -6126,6 +6168,22 @@ components:
             - accompanimentFAS
             - purchaseInstructions
             - receiptEGRN
+    InformationMessage:
+      type: object
+      required:
+        - id
+        - publishDate
+      properties:
+        id:
+          type: integer
+        description:
+          type: string
+          description: обязательным является хотя бы один параметр - description или image (могут присутсвовать оба)
+        image:
+          type: string
+          description: обязательным является хотя бы один параметр - description или image (могут присутсвовать оба)
+        publishDate:
+          type: string
   securitySchemes:
     bearerAuth:
       type: http
