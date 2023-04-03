@@ -37,6 +37,7 @@
         },
         mounted() {
             this.$store.dispatch('getContacts');
+            this.$store.dispatch('getInformationMessage');
         },
         computed: {
             isLoggedIn() {

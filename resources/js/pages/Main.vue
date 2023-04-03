@@ -8,6 +8,8 @@
         <bkt-region-modal></bkt-region-modal>
         <bkt-trade-place-modal></bkt-trade-place-modal>
         <bkt-trade-type-modal></bkt-trade-type-modal>
+
+        <bkt-information-message></bkt-information-message>
         <div class="bkt-page__title">
             <h1>Единый реестр имущественных торгов</h1>
             <h4 class="bkt-text-neutral-dark d-none d-md-block">банкротство • залоги • аресты • государство • неликвид • конфискат</h4>
@@ -333,6 +335,7 @@
     import BktSelect from "../components/Select";
     import BktFilterCard from "../components/FilterCard";
     import MiniTradeCard from "../components/MiniTradeCard";
+    import BktInformationMessage from "../components/InformationMessage";
 
     export default {
         name: "Main",
@@ -340,7 +343,7 @@
             BktDateModal, BktPriceModal, BktOptionsModal,
             BktParamsModal, BktRegionModal, BktCategoryModal,
             BktTradePlaceModal, BktTradeTypeModal,
-            BktSelect, BktFilterCard, MiniTradeCard
+            BktSelect, BktFilterCard, MiniTradeCard, BktInformationMessage
         },
         data() {
             return {

@@ -59,70 +59,86 @@
                 <ValidationProvider :name="'Услуги'" rules="required|min:1" v-slot="{ errors }" tag="div"
                                     class="bkt-wrapper-column bkt-gap-medium" ref="services"
                 >
-                    <div v-if="mode==='ECP'||mode===''" class="bkt-card__row bkt-purchase__service bkt-wrapper-down-lg-column bkt-cursor-pointer"
-                         :class="{'active': service.paymentTradingTypes.includes('purchaseBidByAgent')}"
-                         @click="toggleService('purchaseBidByAgent')"
+                    <div v-for="item in filtered_services"
+                         class="bkt-card__row bkt-purchase__service bkt-wrapper-down-lg-column bkt-cursor-pointer"
+                         :class="{'active': service.paymentTradingTypes.includes(item.type)}"
+                         @click="toggleService(item.type)"
                     >
                         <div class="bkt-purchase__service__check-wrapper">
-                            <bkt-checkbox type="checkbox" wrapper_class="bkt-check_check" name="purchaseBidByAgent"
-                                          v-model="service.paymentTradingTypes" val="purchaseBidByAgent"></bkt-checkbox>
+                            <bkt-checkbox type="checkbox" wrapper_class="bkt-check_check" :name="item.type"
+                                          v-model="service.paymentTradingTypes" :val="item.type"></bkt-checkbox>
                             <div class="bkt-purchase__service__text-wrapper">
-                                <h4 class="bkt-card__title">Покупка без ЭЦП - проведение торгов</h4>
-                                <h5 class="bkt-card__subtitle">Проведение торгов нашими специалистами за вас</h5>
+                                <h4 class="bkt-card__title">{{item.header}}</h4>
+                                <h5 class="bkt-card__subtitle">{{item.description}}</h5>
                             </div>
                         </div>
                         <hr class="d-lg-none w-100 m-0">
-                        <h3 class="bkt-purchase__service__price">от 10 000 ₽</h3>
+                        <h3 class="bkt-purchase__service__price">от {{item.price | priceFormat}} ₽</h3>
                     </div>
-                    <template v-if="mode!=='ECP'||mode===''">
-                        <div class="bkt-card__row bkt-purchase__service bkt-wrapper-down-lg-column bkt-cursor-pointer"
-                             :class="{'active': service.paymentTradingTypes.includes('infoAboutLot')}"
-                             @click="toggleService('infoAboutLot')"
-                        >
-                            <div class="bkt-purchase__service__check-wrapper">
-                                <bkt-checkbox type="checkbox" wrapper_class="bkt-check_check" name="infoAboutLot"
-                                              :value="service.paymentTradingTypes" val="infoAboutLot"></bkt-checkbox>
-                                <div class="bkt-purchase__service__text-wrapper">
-                                    <h4 class="bkt-card__title">Подробная информация о лоте</h4>
-                                    <h5 class="bkt-card__subtitle">Оценка ликвидности выбранного лота нашими
-                                        сотрудниками
-                                    </h5>
-                                </div>
-                            </div>
-                            <hr class="d-lg-none w-100 m-0">
-                            <h3 class="bkt-purchase__service__price">от 3 000 ₽</h3>
-                        </div>
-                        <div class="bkt-card__row bkt-purchase__service bkt-wrapper-down-lg-column bkt-cursor-pointer"
-                             :class="{'active': service.paymentTradingTypes.includes('consultation')}"
-                             @click="toggleService('consultation')"
-                        >
-                            <div class="bkt-purchase__service__check-wrapper">
-                                <bkt-checkbox type="checkbox" wrapper_class="bkt-check_check" ref="con_check" name="consultation"
-                                              v-model="service.paymentTradingTypes" val="consultation"></bkt-checkbox>
-                                <div class="bkt-purchase__service__text-wrapper">
-                                    <h4 class="bkt-card__title">Консультация по лоту</h4>
-                                    <h5 class="bkt-card__subtitle">Юридическая консультация по выбранному лоту</h5>
-                                </div>
-                            </div>
-                            <hr class="d-lg-none w-100 m-0">
-                            <h3 class="bkt-purchase__service__price">от 5 000 ₽</h3>
-                        </div>
-                        <div class="bkt-card__row bkt-purchase__service bkt-wrapper-down-lg-column bkt-cursor-pointer"
-                             :class="{'active': service.paymentTradingTypes.includes('accompanimentFAS')}"
-                             @click="toggleService('accompanimentFAS')"
-                        >
-                            <div class="bkt-purchase__service__check-wrapper">
-                                <bkt-checkbox type="checkbox" wrapper_class="bkt-check_check" name="accompanimentFAS"
-                                              v-model="service.paymentTradingTypes" val="accompanimentFAS"></bkt-checkbox>
-                                <div class="bkt-purchase__service__text-wrapper">
-                                    <h4 class="bkt-card__title">Сопровождение в ФАС</h4>
-                                    <h5 class="bkt-card__subtitle">Сопровождение в Федеральной Антимонопольной службе</h5>
-                                </div>
-                            </div>
-                            <hr class="d-lg-none w-100 m-0">
-                            <h3 class="bkt-purchase__service__price">от 9 000 ₽</h3>
-                        </div>
-                    </template>
+<!--                    <div v-if="mode==='ECP'||mode===''" class="bkt-card__row bkt-purchase__service bkt-wrapper-down-lg-column bkt-cursor-pointer"-->
+<!--                         :class="{'active': service.paymentTradingTypes.includes('purchaseBidByAgent')}"-->
+<!--                         @click="toggleService('purchaseBidByAgent')"-->
+<!--                    >-->
+<!--                        <div class="bkt-purchase__service__check-wrapper">-->
+<!--                            <bkt-checkbox type="checkbox" wrapper_class="bkt-check_check" name="purchaseBidByAgent"-->
+<!--                                          v-model="service.paymentTradingTypes" val="purchaseBidByAgent"></bkt-checkbox>-->
+<!--                            <div class="bkt-purchase__service__text-wrapper">-->
+<!--                                <h4 class="bkt-card__title">Покупка без ЭЦП - проведение торгов</h4>-->
+<!--                                <h5 class="bkt-card__subtitle">Проведение торгов нашими специалистами за вас</h5>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                        <hr class="d-lg-none w-100 m-0">-->
+<!--                        <h3 class="bkt-purchase__service__price">от 10 000 ₽</h3>-->
+<!--                    </div>-->
+<!--                    <template v-if="mode!=='ECP'||mode===''">-->
+<!--                        <div class="bkt-card__row bkt-purchase__service bkt-wrapper-down-lg-column bkt-cursor-pointer"-->
+<!--                             :class="{'active': service.paymentTradingTypes.includes('infoAboutLot')}"-->
+<!--                             @click="toggleService('infoAboutLot')"-->
+<!--                        >-->
+<!--                            <div class="bkt-purchase__service__check-wrapper">-->
+<!--                                <bkt-checkbox type="checkbox" wrapper_class="bkt-check_check" name="infoAboutLot"-->
+<!--                                              :value="service.paymentTradingTypes" val="infoAboutLot"></bkt-checkbox>-->
+<!--                                <div class="bkt-purchase__service__text-wrapper">-->
+<!--                                    <h4 class="bkt-card__title">Подробная информация о лоте</h4>-->
+<!--                                    <h5 class="bkt-card__subtitle">Оценка ликвидности выбранного лота нашими-->
+<!--                                        сотрудниками-->
+<!--                                    </h5>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                            <hr class="d-lg-none w-100 m-0">-->
+<!--                            <h3 class="bkt-purchase__service__price">от 3 000 ₽</h3>-->
+<!--                        </div>-->
+<!--                        <div class="bkt-card__row bkt-purchase__service bkt-wrapper-down-lg-column bkt-cursor-pointer"-->
+<!--                             :class="{'active': service.paymentTradingTypes.includes('consultation')}"-->
+<!--                             @click="toggleService('consultation')"-->
+<!--                        >-->
+<!--                            <div class="bkt-purchase__service__check-wrapper">-->
+<!--                                <bkt-checkbox type="checkbox" wrapper_class="bkt-check_check" ref="con_check" name="consultation"-->
+<!--                                              v-model="service.paymentTradingTypes" val="consultation"></bkt-checkbox>-->
+<!--                                <div class="bkt-purchase__service__text-wrapper">-->
+<!--                                    <h4 class="bkt-card__title">Консультация по лоту</h4>-->
+<!--                                    <h5 class="bkt-card__subtitle">Юридическая консультация по выбранному лоту</h5>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                            <hr class="d-lg-none w-100 m-0">-->
+<!--                            <h3 class="bkt-purchase__service__price">от 5 000 ₽</h3>-->
+<!--                        </div>-->
+<!--                        <div class="bkt-card__row bkt-purchase__service bkt-wrapper-down-lg-column bkt-cursor-pointer"-->
+<!--                             :class="{'active': service.paymentTradingTypes.includes('accompanimentFAS')}"-->
+<!--                             @click="toggleService('accompanimentFAS')"-->
+<!--                        >-->
+<!--                            <div class="bkt-purchase__service__check-wrapper">-->
+<!--                                <bkt-checkbox type="checkbox" wrapper_class="bkt-check_check" name="accompanimentFAS"-->
+<!--                                              v-model="service.paymentTradingTypes" val="accompanimentFAS"></bkt-checkbox>-->
+<!--                                <div class="bkt-purchase__service__text-wrapper">-->
+<!--                                    <h4 class="bkt-card__title">Сопровождение в ФАС</h4>-->
+<!--                                    <h5 class="bkt-card__subtitle">Сопровождение в Федеральной Антимонопольной службе</h5>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                            <hr class="d-lg-none w-100 m-0">-->
+<!--                            <h3 class="bkt-purchase__service__price">от 9 000 ₽</h3>-->
+<!--                        </div>-->
+<!--                    </template>-->
                     <p class="bkt-input-error" v-if="errors.length>0">{{errors[0]}}</p>
                 </ValidationProvider>
                 <bkt-input
@@ -226,11 +242,17 @@
                     socialsForAnswer: [],
                     lotId: 0,
                 },
-                mode: ''
+                mode: '',
+                filtered_services: [],
+                services_loading: false
                 // promo: localStorage.getItem('bkt_application_promo') || true,
             }
         },
         mounted() {
+            this.services_loading = true;
+            this.$store.dispatch('getServices').finally(() => {
+                this.services_loading = false;
+            });
             if (this.user && this.isLoggedIn) {
                 this.service.name = this.user.name + ' ' + this.user.lastName;
                 this.service.email = this.user.email;
@@ -249,6 +271,9 @@
             },
             rules() {
                 return this.$store.getters.rules
+            },
+            services() {
+                return this.$store.getters.services.filter(item => item.type !== 'purchaseInstructions' && item.type !== 'receiptEGRN');
             }
         },
         watch: {
@@ -327,6 +352,16 @@
             },
             changeMode(mode) {
                 this.mode = mode;
+                this.filtered_services = this.services
+                    .filter(item => {
+                        if (this.mode === 'ECP') {
+                            return item.type === 'purchaseBidByAgent'
+                        }
+                        if (this.mode === 'services') {
+                            return item.type !== 'purchaseBidByAgent'
+                        }
+                        return true;
+                    })
             },
         }
     }

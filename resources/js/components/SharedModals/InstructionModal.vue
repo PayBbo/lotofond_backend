@@ -27,11 +27,11 @@
                 </div>
                 <div class="bkt-card__row bkt-purchase__service bkt-wrapper-down-lg-column">
                     <div class="bkt-purchase__service__text-wrapper bkt-w-down-lg-100">
-                        <h4 class="bkt-card__title">Инструкция для самостоятельной покупки лота</h4>
-                        <h5 class="bkt-card__subtitle">Инструкция для проведения торгов по выбранному лоту</h5>
+                        <h4 class="bkt-card__title">{{filtered_service.header}}</h4>
+                        <h5 class="bkt-card__subtitle">{{filtered_service.description}}</h5>
                     </div>
                     <hr class="d-lg-none w-100 m-0">
-                    <h3 class="bkt-purchase__service__price">3 000 ₽</h3>
+                    <h3 class="bkt-purchase__service__price">{{filtered_service.price | priceFormat}} ₽</h3>
                 </div>
                 <bkt-input
                     v-model="service.email"
@@ -74,6 +74,20 @@
             isLoggedIn() {
                 return this.$store.getters.isLoggedIn
             },
+            filtered_service() {
+                let index = this.$store.getters.services.findIndex(item => item.type ==='purchaseInstructions');
+                if (index>=0) {
+                    return this.$store.getters.services[index]
+                }
+                return {
+                    id: 5,
+                    header: "Покупка без ЭЦП - инструкция",
+                    description: "Инструкция для проведения торгов",
+                    detailedDescription: [],
+                    price: 3000,
+                    type: "purchaseInstructions"
+                }
+            }
         },
         watch: {
             isLoggedIn: function (newVal, oldVal) {

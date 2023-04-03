@@ -9,6 +9,9 @@
                 <slot name="item_wrapper">
                     <div class="bkt-dropdown__item-inner text-truncate">
                         <slot name="item_inner">
+                            <slot name="item_inner_add">
+
+                            </slot>
                             <h5 class="text-truncate bkt-dropdown__title" v-if="title">
                                 {{title}}
                             </h5>

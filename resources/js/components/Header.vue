@@ -4,7 +4,7 @@
             <div class="bkt-container bkt-navbar__wrapper">
                 <div class="bkt-navbar__logo flex-grow-1">
                     <a href="/">
-                        <img class="bkt-navbar__logo" src="/images/logo.png" alt="logo">
+                        <img class="bkt-navbar__logo" src="/images/logo.png" alt="Lotofond">
                     </a>
                 </div>
                 <ul class="bkt-navbar__nav d-none d-lg-flex">

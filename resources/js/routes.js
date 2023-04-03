@@ -494,6 +494,11 @@ let router = new VueRouter({
             }
         },
         { path: '/admin/*', beforeEnter: (to, from, next) => { next('/admin/404') } },
+        {
+            path: '*',
+            name: 'NotFound',
+            component: () => import(/* webpackChunkName: "not-found" */ "./pages/Error404.vue"),
+        },
         // { path: '/:pathMatch(.*)*', component: EmptyView }
     ],
     scrollBehavior(to, from, savedPosition) {

@@ -3,6 +3,7 @@ import permissions from "./admin/roles/Permissions";
 require('./bootstrap');
 
 window.Vue = require("vue").default;
+import axios from 'axios';
 import router from './routes';
 import store from './store/index.js';
 // import firebaseMessaging from './firebase'

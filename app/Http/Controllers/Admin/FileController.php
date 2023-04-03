@@ -98,7 +98,8 @@ class FileController extends Controller
         if (!$lotFile) {
             return response(null, 404);
         }
+        $lot = Lot::find($lotFile->lot_id);
         $lotFile->delete();
-        return response(null, 200);
+        return response(new FileResource($lot), 200);
     }
 }
