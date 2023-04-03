@@ -115,6 +115,9 @@ class BidderService
             } else {
                 $debtor = get_object_vars($debtor_data['DebtorCompany']);
             }
+        }else{
+            logger($debtor_data);
+            return null;
         }
         if (gettype($debtor) == 'object') {
             $debtor = get_object_vars($debtor);

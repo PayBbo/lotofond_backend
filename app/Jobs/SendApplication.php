@@ -60,14 +60,10 @@ class SendApplication implements ShouldQueue
         if($this->isMailing){
             $mailer = 'mailing_smtp';
             $mail_from_address = config('mail.from.mailing_address');
-            logger('mailing!!! '. $mail_from_address);
         }else{
             $mailer = 'user_smtp';
             $mail_from_address = config('mail.from.user_address');
-            logger('user!!!  ' .$mail_from_address);
         }
-        logger($subject);
-        logger('----------------------');
         try {
             Mail::mailer($mailer)->send([], [], function ($message) use ($toEmail, $html, $subject, $mail_from_address, $mail_from_name) {
                 $message->from($mail_from_address, $mail_from_name);

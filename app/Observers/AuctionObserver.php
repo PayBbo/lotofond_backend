@@ -62,12 +62,8 @@ class AuctionObserver
             $emailsHourCount = Cache::get('emailsHourCount');
             if($emailsCount < 500) {
                 $delay = 75 * $emailsHourCount;
-                logger('day '.$emailsCount);
-                logger('hour '.$emailsHourCount);
-                logger('delay: '.$delay);
                 dispatch((new SendApplication($html, $subject, $email, true))->onQueue('credentials')->delay($delay));
             }
-            logger('--------------------------------');
         }
 
     }

@@ -34,6 +34,9 @@ class BiddingInvitation extends TradeMessage
                 try {
                     $bidderParse = new BidderService('debtor', $debtor['INN'], $debtor_type);
                     $debtor = $bidderParse->parseDebtor($codeType);
+                    if(is_null($debtor)){
+                        return null;
+                    }
                 } catch (\Exception $exception) {
                     $inn = $debtor['INN'];
                     $bidderParse = new BidderService('debtor', $inn, $debtor_type);
