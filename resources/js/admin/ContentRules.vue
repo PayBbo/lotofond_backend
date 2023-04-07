@@ -45,7 +45,10 @@ export default {
     mixins: [main],
     data() {
         return {
-            columns: ['Контент', 'Доступно ли на бесплатном тарифе?'],
+            columns: {
+                columns_title: ['Контент', 'Доступно ли на бесплатном тарифе?'],
+                columns_sort: ['title', 'is_available']
+            },
             param: ''
         }
     },

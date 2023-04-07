@@ -58,7 +58,10 @@ export default {
     mixins: [main],
     data() {
         return {
-            columns: ['#', 'Имя пользователя', 'Почта', 'Телефон', 'Тип обращения', 'Номер платежа', 'Статус', 'Дата заявки', 'Действия'],
+            columns: {
+                columns_title: ['#', 'Имя пользователя', 'Почта', 'Телефон', 'Тип обращения', 'Номер платежа', 'Статус', 'Дата заявки', 'Действия'],
+                columns_sort: ['id', 'username', 'email', 'phone', 'type', 'payment_id', 'status',  'created_at', null]
+            },
             param: '',
 
             modalColumns: {

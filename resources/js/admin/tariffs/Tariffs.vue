@@ -11,6 +11,7 @@
         </template>
         <template v-slot:raws-block>
             <tr v-for="item in dataItems">
+                <td>{{ item.id }}</td>
                 <td>{{ item.title }}</td>
                 <td>{{ item.period === null ? 'Не задано' : item.period + ' дн.' }}</td>
                 <td>{{ item.price  | priceFormat }} ₽</td>
@@ -38,7 +39,10 @@ export default {
     mixins: [main],
     data() {
         return {
-            columns: ['Заголовок', 'Период действия', 'Цена', 'Описание', 'Действия']
+            columns: {
+                columns_title: ['ID', 'Заголовок', 'Период действия', 'Цена', 'Описание', 'Действия'],
+                columns_sort: ['id', 'title', 'period', 'price','description', null]
+            },
         }
     }
 }

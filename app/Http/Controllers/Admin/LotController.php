@@ -30,6 +30,8 @@ class LotController extends Controller
     public function get(Request $request)
     {
         $searchString = $request->query('param');
+        $sortParam = $request->query('sort_property');
+        $sortDirection = $request->query('sort_direction');
         $lots = Lot::with((['auction', 'showRegions', 'status', 'lotImages', 'categories', 'lotParams']))
             ->when(isset($searchString) && strlen((string)$searchString) > 0, function ($query) use ($searchString) {
                 $query->whereHas('auction', function ($q) use ($searchString) {
@@ -37,7 +39,13 @@ class LotController extends Controller
                 })
                     ->orWhere('description', 'like', '%' . $searchString . '%');
             })
-            ->orderBy('created_at', 'desc')
+            ->join('auctions as auction', 'auction.id', '=', 'lots.auction_id')
+            ->join('auction_types as type', 'auction.auction_type_id', '=', 'type.id')
+            ->join('statuses as status', 'status.id', '=', 'lots.status_id')
+            ->select('lots.*','auction.publish_date as publish_date', 'auction.trade_id as trade_number', 'type.title as trade_type', 'status.value as status_value')
+            ->when(isset($sortParam) && isset($sortDirection), function ($query) use ($sortParam, $sortDirection) {
+                $query->orderBy($sortParam, $sortDirection);
+            })
             ->paginate(20);
         return response(new LotCollection($lots), 200);
     }

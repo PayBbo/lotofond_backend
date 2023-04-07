@@ -15,7 +15,10 @@ const getDefaultState = () => {
         currentRoute: null,
         param: '',
         item: null,
-        types: []
+        types: [],
+
+        sortProperty: 'id',
+        sortDirection: 'desc'
     }
 }
 
@@ -61,13 +64,21 @@ export default {
         },
         resetState(state) {
             Object.assign(state, getDefaultState())
+        },
+
+        updateSortDirection(state, data) {
+            state.sortDirection = data
+        },
+        updateSortProperty(state, data) {
+            state.sortProperty = data
         }
     },
     actions: {
         async getData({commit, state}) {
             await axios({
                 method: 'get',
-                url: '/api' + state.currentRoute + '?page=' + state.currentPage + '&param=' + state.param,
+                url: '/api' + state.currentRoute + '?page=' + state.currentPage + '&param=' + state.param
+                    + '&sort_direction=' + state.sortDirection + '&sort_property=' + state.sortProperty,
                 data: {},
             })
                 .then((response) => {
@@ -201,6 +212,13 @@ export default {
         },
         types(state) {
             return state.types
-        }
+        },
+
+        getSortDirection(state) {
+            return state.sortDirection
+        },
+        getSortProperty(state) {
+            return state.sortProperty
+        },
     }
 }

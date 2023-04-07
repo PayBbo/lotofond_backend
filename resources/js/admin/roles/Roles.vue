@@ -62,7 +62,10 @@ export default {
     mixins: [main],
     data() {
         return {
-            columns: ['ID', 'Название', 'Действия'],
+            columns: {
+                columns_title: ['ID', 'Название', 'Действия'],
+                columns_sort: ['id', 'name', null]
+            },
             param: ''
         }
     },

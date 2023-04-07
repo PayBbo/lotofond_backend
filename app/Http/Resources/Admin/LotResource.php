@@ -23,7 +23,8 @@ class LotResource extends JsonResource
             'tradeType' => $this->auction->auctionType->title,
             'description' => $this->description,
             'startPrice' => $this->start_price,
-            'status' => $this->status->value
+            'status' => $this->status->value,
+            'publishDate'=>is_null($this->auction->publish_date) ? null : $this->auction->publish_date->format('d.m.Y H:i')
         ];
         if($this->isLotInfo){
             $regions = $this->showRegions;
@@ -42,7 +43,6 @@ class LotResource extends JsonResource
             if ($currentPriceRed) {
                 $currentPrice = (float)$currentPriceRed['price'];
             }
-            $lotData['publishDate'] = is_null($this->auction->publish_date) ? null : $this->auction->publish_date->format('d.m.Y H:i');
             $lotData['eventTimeStart'] = is_null($this->auction->event_start_date) ? null : $this->auction->event_start_date->format('d.m.Y H:i');
             $lotData['eventTimeEnd'] = is_null($this->auction->event_end_date) ? null : $this->auction->event_end_date->format('d.m.Y H:i');
             $lotData['eventTimeResult'] =  is_null($this->auction->result_date) ? null : $this->auction->result_date->format('d.m.Y H:i');

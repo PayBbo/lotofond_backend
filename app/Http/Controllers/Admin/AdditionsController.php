@@ -31,13 +31,18 @@ class AdditionsController extends Controller
         $search = json_decode($request->query('param'), true) ?? [];
         $isModerated = array_key_exists('isModerated', $search) ? $search['isModerated'] : false;
         $date =array_key_exists('date', $search) ? $search['date'] : null;
+        $sortParam = $request->query('sort_property');
+        $sortDirection = $request->query('sort_direction');
         $additions = AdditionalLotInfo::when($isModerated, function ($query) {
             $query->where('is_moderated', false);
         })
             ->when(!is_null($date), function ($query) use ($date) {
                 $query->whereDate('created_at', $date);
             })
-            ->orderBy('created_at', 'desc')
+            ->withCount('files')
+            ->when(isset($sortParam) && isset($sortDirection), function ($query) use ($sortParam, $sortDirection) {
+                $query->orderBy($sortParam, $sortDirection);
+            })
             ->paginate(20);
         return response(new AdditionsCollection($additions), 200);
     }

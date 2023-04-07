@@ -24,9 +24,15 @@ class TariffController extends Controller
         $this->middleware('permission:tariff-delete', ['only' => ['delete']]);
     }
 
-    public function get()
+    public function get(Request $request)
     {
-        $tariffs = Tariff::whereIn('type', ['tariff', 'service'])->get();
+        $sortParam = $request->query('sort_property');
+        $sortDirection = $request->query('sort_direction');
+        $tariffs = Tariff::whereIn('type', ['tariff', 'service'])
+            ->when(isset($sortParam) && isset($sortDirection), function ($query) use ($sortParam, $sortDirection) {
+                $query->orderBy($sortParam, $sortDirection);
+            })
+            ->get();
         return response(['data'=>TariffResource::collection($tariffs), 'pagination'=>[]], 200);
     }
 

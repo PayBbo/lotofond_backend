@@ -32,13 +32,14 @@
                         {{ statement.status }}
                     </span>
                 </td>
-                <td>{{ statement.cadastralNumber }}</td>
+                <td>{{ statement.cadastralNumber !== null ?  statement.cadastralNumber : "Заявка была удалена"}}</td>
                 <td>{{ statement.lastCheckDate }}</td>
                 <td>
-                    <a :href="'/admin/applications?id='+ statement.applicationId" target="_blank"
+                    <a v-if="statement.applicationId !== null" :href="'/admin/applications?id='+ statement.applicationId" target="_blank"
                        style="color: #007bff; text-decoration: none; background-color: transparent;">
                         Перейти к заявке
                     </a>
+                    <p v-else>Заявка была удалена</p>
                 </td>
 
             </tr>
@@ -56,7 +57,10 @@ export default {
     mixins: [main],
     data() {
         return {
-            columns: ['ID', 'Номер заказа', 'Файл отчета', 'Статус', 'Кадастровый номер', 'Дата последней проверки', 'Заявка'],
+            columns: {
+                columns_title: ['ID', 'Номер заказа', 'Файл отчета', 'Статус', 'Кадастровый номер', 'Дата последней проверки', 'Заявка'],
+                columns_sort: ['id', 'order_id', 'file', 'status', 'cadastral_number', 'last_check_date', 'application_id']
+            },
             param: ''
         }
     }

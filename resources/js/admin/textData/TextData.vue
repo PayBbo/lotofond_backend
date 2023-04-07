@@ -18,6 +18,7 @@
         </template>
         <template v-slot:raws-block>
             <tr v-for="item in dataItems">
+                <td>{{ item.id }}</td>
                 <td>{{ item.header }}</td>
                 <td>{{ item.value }}</td>
                 <td>
@@ -45,7 +46,10 @@ export default {
     mixins: [main],
     data() {
         return {
-            columns: ['Заголовок', 'Значение', 'Действия'],
+            columns: {
+                columns_title: ['ID', 'Заголовок', 'Значение', 'Действия'],
+                columns_sort: ['id', 'header', 'value', null]
+            },
             param: 'contacts'
         }
     },

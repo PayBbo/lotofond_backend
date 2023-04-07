@@ -28,8 +28,14 @@ class TextDataController extends Controller
 
     public function get(Request $request)
     {
+        $sortParam = $request->query('sort_property');
+        $sortDirection = $request->query('sort_direction');
         $type = $request->query('param');
-        $items = TextData::where('type', $type)->paginate(20);
+        $items = TextData::where('type', $type)
+            ->when(isset($sortParam) && isset($sortDirection), function ($query) use ($sortParam, $sortDirection) {
+                $query->orderBy($sortParam, $sortDirection);
+            })
+            ->paginate(20);
         return response(new TextDataCollection($items), 200);
     }
 

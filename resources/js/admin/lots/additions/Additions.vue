@@ -20,6 +20,7 @@
         </template>
         <template v-slot:raws-block>
             <tr v-for="(item, index) in dataItems">
+                <td>{{item.id}}</td>
                 <td>{{item.message}}</td>
                 <td>{{ item.filesCount }}</td>
                 <td>
@@ -61,7 +62,10 @@ export default {
     mixins: [main],
     data() {
         return {
-            columns: ['Ответ', 'Количество файлов', 'Проверен?', 'Дата', 'Лот', 'Действия'],
+            columns: {
+                columns_title: ['ID', 'Ответ', 'Количество файлов', 'Проверен?', 'Дата', 'Лот', 'Действия'],
+                columns_sort: ['id', 'message', 'files_count', 'is_moderated', 'created_at', 'lot_id', null]
+            },
             param: {'isModerated': false, 'date': null}
         }
     },

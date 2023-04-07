@@ -26,26 +26,36 @@ class RoleController extends Controller
     }
 
 
-    public function get(){
-        $roles = Role::select(['id', 'name'])->get();
-        return response(['data'=>$roles, 'pagination'=>[]], 200);
+    public function get(Request $request)
+    {
+        $sortParam = $request->query('sort_property');
+        $sortDirection = $request->query('sort_direction');
+        $roles = Role::select(['id', 'name'])
+            ->when(isset($sortParam) && isset($sortDirection), function ($query) use ($sortParam, $sortDirection) {
+                $query->orderBy($sortParam, $sortDirection);
+            })
+            ->get();
+        return response(['data' => $roles, 'pagination' => []], 200);
     }
 
-    public function add(AddRoleRequest $request){
-        Role::create(['name' => $request->name, 'guard_name'=>'api']);
+    public function add(AddRoleRequest $request)
+    {
+        Role::create(['name' => $request->name, 'guard_name' => 'api']);
         return response(null, 200);
     }
 
-    public function edit($id){
+    public function edit($id)
+    {
         $role = Role::where('id', $id)->with('permissions')->first();
-        if($role) {
+        if ($role) {
             return response($role, 200);
-        }else{
+        } else {
             return response(null, 404);
         }
     }
 
-    public function update(UpdateRoleRequest $request){
+    public function update(UpdateRoleRequest $request)
+    {
         $role = Role::find($request->id);
         $role->name = $request->name;
         $role->save();
@@ -53,20 +63,22 @@ class RoleController extends Controller
         return response(null, 200);
     }
 
-    public function delete($id){
+    public function delete($id)
+    {
         $role = Role::find($id);
-        if($role && $role->name != 'admin' && $role->name != 'user'){
+        if ($role && $role->name != 'admin' && $role->name != 'user') {
             $role->delete();
             return response(null, 200);
         }
         return response(null, 404);
     }
 
-    public function permissions(){
+    public function permissions()
+    {
         $groups = Permission::groupBy('permission_group')->pluck('permission_group');
         $data = [];
-        foreach ($groups as $group){
-            $data[] = ['group'=>$group, 'permissions'=>Permission::where('permission_group', $group)->select('id', 'name', 'visible_name')->get()];
+        foreach ($groups as $group) {
+            $data[] = ['group' => $group, 'permissions' => Permission::where('permission_group', $group)->select('id', 'name', 'visible_name')->get()];
         }
         return response($data, 200);
     }
