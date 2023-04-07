@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\V1\Auth\RegisterController;
 use App\Http\Controllers\V1\Auth\ResetPasswordController;
+use App\Http\Controllers\V1\FavouriteController;
 use App\Http\Controllers\V1\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -39,6 +40,12 @@ Route::group(['middleware' => ['json.response', 'localization'], 'prefix' => 'v1
             Route::post('credentials/code', [ProfileController::class, 'getCredentialsCode']);
 
             Route::post('delete/code', [ProfileController::class, 'getDeleteProfileCode']);
+
+        });
+
+        Route::group(['prefix' => 'favourite', 'middleware'=>['check.tariff:hasAccessToFavourite']], function () {
+
+            Route::post('/add/lots', [FavouriteController::class, 'addLotsToFavourite']);
 
         });
 

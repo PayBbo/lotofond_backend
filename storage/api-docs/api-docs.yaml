@@ -1705,6 +1705,67 @@ paths:
                 $ref: '#/components/schemas/Error'
       security:
         - bearerAuth: [ ]
+  /v1/favourite/add/lots:
+    post:
+      parameters:
+        - name: Content-Language
+          in: header
+          description: Заголовок для определения локали (ru, en, zh_CN)
+          required: true
+      tags:
+        - Favourite
+      summary: Добавление лотов в папку избранного (с проверкой на наличие почты)
+      operationId: addLotsToFavouriteV1
+      requestBody:
+        description: данные для добавления лотов
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: если нужно добавить лоты в папку Общее - не передаем ни айдишник, ни имя
+              required:
+                - lots
+              properties:
+                pathId:
+                  type: integer
+                  description: айдишник папки избранного, если выбрана существующая папка
+                pathName:
+                  type: string
+                  description: название папки, если создаем ее
+                lots:
+                  type: array
+                  example: [ 1, 2, 3 ]
+                  description: массив с айдишниками лотов для добавления в папку
+      responses:
+        "200":
+          description: лоты успешно добавлены в избранное
+        "422":
+          description: Ошибка валидации данных (папка не существует)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "406":
+          description: У пользователя нет доступа к данному функционалу (тариф не активирован)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "409":
+          description: Для добавления лотов необходимо заполнить почту
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+        - bearerAuth: [ ]
   /favourite/get/paths:
     get:
       tags:

@@ -301,8 +301,10 @@ $lotDesc</p>
                 $message->subject($subject);
                 $message->setBody($html, 'text/html');
             });
+            return true;
         } catch (Exception $e) {
             logger($e);
+            return false;
         }
     }
 }

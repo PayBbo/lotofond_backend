@@ -42,7 +42,10 @@ class NewUsersNotificationsJob implements ShouldQueue
         $toEmail = Contact::where('tariff_id', $tariff->id)->pluck('contact')->toArray();
         if($users->count() > 0 && count($toEmail) > 0) {
             $sendCodeService = new SendCodeService();
-            $sendCodeService->sendNewUserEmailNotification($users, $toEmail, $startTime->format('d.m.Y H:i'), $endTime->format('d.m.Y H:i'));
+            $isSent = $sendCodeService->sendNewUserEmailNotification($users, $toEmail, $startTime->format('d.m.Y H:i'), $endTime->format('d.m.Y H:i'));
+            if(!$isSent){
+                dispatch((new NewUsersNotificationsJob())->onQueue('user'))->delay(now()->addMinutes(15));
+            }
         }
     }
 }
