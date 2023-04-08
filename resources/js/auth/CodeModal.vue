@@ -11,7 +11,7 @@
                 <div class="bkt-shadow-card bkt-shadow-card_green">
                     <div class="bkt-shadow-card__inner bkt-gap-large">
                         <h5 class="bkt-card__subtitle">Попробуйте все услуги нашего сервиса</h5>
-                        <h1 class="bkt-card__title">бесплатно в течение 3 дней</h1>
+                        <h1 class="bkt-card__title">бесплатно в течение 3 месяцев</h1>
                         <div class="bkt-shadow-card__shadow-1">
                         </div>
                         <div class="bkt-shadow-card__shadow-2">

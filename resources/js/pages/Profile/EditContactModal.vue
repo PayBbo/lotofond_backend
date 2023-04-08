@@ -1,5 +1,5 @@
 <template>
-    <bkt-modal :id="'editContactModal'" ref="editContactModal" v-if="user" :title="'Привязать контакт'"
+    <bkt-modal :id="'editContactModal'" ref="editContactModal" v-if="user" :title="contact.grantType =='email' ? 'Привяжите эл.почту' :'Привязать контакт'"
                :modal_class="'bkt-code-modal'" :loading="loading" @close-modal="back"
     >
         <template #body="{ invalid }">
@@ -99,7 +99,7 @@
             >
                 Далее
                 <bkt-icon name="ArrowDown" v-show="!loading && !code_loading"></bkt-icon>
-                <span v-if="loading||code_loading" class="spinner-border spinner-border-sm bkt-border-primary" role="status"></span>
+                <span v-if="loading||code_loading" class="spinner-border spinner-border-sm bkt-text-primary" role="status"></span>
             </button>
             <button type="button" class="bkt-button next me-auto" v-if="code_mode" :disabled="loading||code_loading" @click="back">
                 <bkt-icon name="ArrowDown" class="bkt-rotate-90"></bkt-icon>
@@ -110,7 +110,7 @@
             >
                 Далее
                 <bkt-icon name="ArrowDown" v-show="!loading && !code_loading"></bkt-icon>
-                <span v-if="loading" class="spinner-border spinner-border-sm bkt-border-primary" role="status"></span>
+                <span v-if="loading" class="spinner-border spinner-border-sm bkt-text-primary" role="status"></span>
             </button>
             <button class="bkt-button primary bkt-button_save" v-if="code_mode && new_code"
                     @click="verifyCode"
@@ -300,7 +300,6 @@
                             else {
                                 this.$store.dispatch('sendNotification',
                                     {self: this, message: 'Ваш контакт будет изменен через 14 дней'});
-                                console.log(resp.data, resp, resp.data.changeCredentialsProcess)
                                 if(resp.data.changeCredentialsProcess) {
                                     this.$store.dispatch('saveDataProperty', {
                                         module_key: 'auth', state_key: 'auth_user',
@@ -308,7 +307,6 @@
                                         value: resp.data.changeCredentialsProcess
                                     }, {root: true});
                                 }
-                                console.log(this.user)
                             }
                             this.cancel()
                         }
@@ -327,7 +325,7 @@
             cancel() {
                 this.back();
                 this.$store.commit('closeModal', '#editContactModal');
-            }
+            },
         }
     }
 </script>

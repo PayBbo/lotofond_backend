@@ -9,9 +9,9 @@
             <div v-tooltip="type ==='menu' ? '' : (item[action.status] && action.status_icon ? action.status_label : action.label)"
                  class="bkt-cursor-pointer"
                 :class="[
-                     type ==='menu' ? '' : (item[action.status] ? 'bkt-bg-'+action.color : main_bg),
+                     type ==='menu' ? '' : (item[action.status]||in_process.indexOf(action.icon)>=0 ? 'bkt-bg-'+action.color : main_bg),
                      type ==='menu' ? '' : (action.color ? 'bkt-hover-'+action.color : 'bkt-hover-'+main_bg),
-                     type ==='menu' ? 'd-flex bkt-gap-small align-items-center' : 'bkt-button'+button_type, action.class
+                     type ==='menu' ? 'd-flex bkt-gap-small align-items-center w-100' : 'bkt-button'+button_type, action.class
                 ]"
                 @click="makeAction(action.method, action.method_params, action.icon)"
                 :id="action.dropdown_id ? action.dropdown_id : 'button-dropdown-'+action.icon"
@@ -352,6 +352,9 @@
                     if(this.type!=='menu') { return item.place === 'all' || item.place === 'permanent';}
                     return item.place !== 'permanent';
                 });
+            },
+            auth_user() {
+                return this.$store.getters.auth_user;
             }
         },
         methods: {
@@ -387,11 +390,14 @@
 
                 if (method) {
                     if (this.isLoggedIn) {
-                        method(method_params);
+                        if(this.in_process.indexOf(icon)<0)
+                        {
+                            method(method_params);
+                        }
                         return;
 
                     } else {
-                        this.$store.dispatch('sendAuthNotification', {self: this})
+                        this.$store.dispatch('sendAuthNotification')
                     }
                 }
             },
@@ -434,53 +440,70 @@
             },
             addToFavourites(payload) {
                 if (!this.item.inFavourite) {
-                    this.toggleProcess(payload.icon);
-                    this.$store.dispatch('addFavourite', {lots: [this.item.id]})
-                        .then(resp => {
-                            this.$store.commit('saveTradeProperty', {
-                                id: this.item.id,
-                                key: 'inFavourite',
-                                value: !this.item.inFavourite
-                            });
-                            this.$store.commit('saveTradeProperty', {
-                                id: this.item.id,
-                                key: 'favouritePaths',
-                                value: [this.favourites_paths[0]]
-                            });
-                            this.$store.commit('updateMonitoringItem', {
-                                id: this.item.id,
-                                key: 'inFavourite',
-                                value: !this.item.inFavourite
-                            });
-                            this.$store.commit('updateFavouriteItem', {
-                                id: this.item.id,
-                                key: 'inFavourite',
-                                value: !this.item.inFavourite
-                            });
-                            this.$store.commit('updateMonitoringItem', {
-                                id: this.item.id,
-                                key: 'favouritePaths',
-                                value: [this.favourites_paths[0]]
-                            });
-                            this.$store.commit('updateFavouriteItem', {
-                                id: this.item.id,
-                                key: 'favouritePaths',
-                                value: [this.favourites_paths[0]]
-                            });
-                            this.$store.dispatch('saveDataProperty', {
-                                module_key: 'lots', state_key: 'selected_lot',
-                                key: 'favouritePaths',
-                                value: [this.favourites_paths[0]]
-                            }, {root: true});
-                            this.$emit('changeStatus', {key: 'inFavourite', value: !this.item.inFavourite, icon:payload.icon});
-                            let index = this.actions.findIndex(item => item.icon ==='Star');
-                            if (index>=0) {
-                                this.actions[index].color = this.favourite_color;
-                            }
-                        })
-                        .finally(() => {
-                            this.toggleProcess(payload.icon)
-                        })
+                    if(!this.auth_user.email && this.auth_user.phone)
+                    {
+                        let parent = this.$parent;
+                        if(this.place !=='lot-card') {
+                            parent = this.$parent.$parent.$parent
+                        }
+                        if(parent.$refs) {
+                            parent.$refs.editContact.setType('email');
+                            this.$store.commit('openModal', '#editContactModal');
+                        }
+                        else {
+                            this.$store.dispatch('sendNotification',
+                                {message: 'Произошла ошибка. Попробуйте позже.', type: 'error'})
+                        }
+                    }
+                    else {
+                        this.toggleProcess(payload.icon);
+                        this.$store.dispatch('addFavourite', {lots: [this.item.id]})
+                            .then(resp => {
+                                this.$store.commit('saveTradeProperty', {
+                                    id: this.item.id,
+                                    key: 'inFavourite',
+                                    value: !this.item.inFavourite
+                                });
+                                this.$store.commit('saveTradeProperty', {
+                                    id: this.item.id,
+                                    key: 'favouritePaths',
+                                    value: [this.favourites_paths[0]]
+                                });
+                                this.$store.commit('updateMonitoringItem', {
+                                    id: this.item.id,
+                                    key: 'inFavourite',
+                                    value: !this.item.inFavourite
+                                });
+                                this.$store.commit('updateFavouriteItem', {
+                                    id: this.item.id,
+                                    key: 'inFavourite',
+                                    value: !this.item.inFavourite
+                                });
+                                this.$store.commit('updateMonitoringItem', {
+                                    id: this.item.id,
+                                    key: 'favouritePaths',
+                                    value: [this.favourites_paths[0]]
+                                });
+                                this.$store.commit('updateFavouriteItem', {
+                                    id: this.item.id,
+                                    key: 'favouritePaths',
+                                    value: [this.favourites_paths[0]]
+                                });
+                                this.$store.dispatch('saveDataProperty', {
+                                    module_key: 'lots', state_key: 'selected_lot',
+                                    key: 'favouritePaths',
+                                    value: [this.favourites_paths[0]]
+                                }, {root: true});
+                                this.$emit('changeStatus', {key: 'inFavourite', value: !this.item.inFavourite, icon:payload.icon});
+                                let index = this.actions.findIndex(item => item.icon ==='Star');
+                                if (index>=0) {
+                                    this.actions[index].color = this.favourite_color;
+                                }
+                            })
+                            .finally(() => {
+                                this.toggleProcess(payload.icon)
+                            })
+                    }
                 }
             },
             removeFromFavourites() {

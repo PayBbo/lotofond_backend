@@ -1,10 +1,10 @@
 <template>
     <bkt-modal :id="'instructionModal'" title="Покупка инструкции" modal_class="bkt-filters-modal bkt-purchase"
-               left_button_class="d-none" @right_action="buyInstruction" :loading="loading"
-               right_button="Купить - 3 000 ₽"
+               left_button_class="d-none" @right_action="buyInstruction" :loading="loading||service_loading"
+               :right_button="`Купить - ${$options.filters.priceFormat(filtered_service.price)} ₽`"
     >
         <template #body>
-            <div class="bkt-form bkt-wrapper-column bkt-promo__form p-0 w-100">
+            <div class="bkt-form bkt-wrapper-column bkt-promo__form p-0 w-100" v-if="!service_loading">
                 <div v-if="selected_lot" class="bkt-promo__lot-wrapper">
                     <div class="bkt-wrapper bkt-gap bkt-nowrap bkt-cursor-pointer" @click="navigate('/lot/'+selected_lot.id)">
                         <card-image-category :no_multiple="true"
@@ -45,6 +45,13 @@
                     icon_name="Email"
                 />
             </div>
+            <div v-if="service_loading" class="d-flex w-100 justify-content-center my-5">
+                    <div
+                        style="color: #2953ff;border-width: 2px;"
+                        class="spinner-border"
+                        role="status"
+                    ></div>
+            </div>
         </template>
     </bkt-modal>
 </template>
@@ -55,6 +62,12 @@
     export default {
         name: "InstructionModal",
         components: {CardImageCategory},
+        props: {
+            service_loading: {
+                type: Boolean,
+                default: false
+            }
+        },
         data() {
             return {
                 loading: false,

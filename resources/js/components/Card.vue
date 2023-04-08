@@ -9,8 +9,9 @@
                     </skeleton>
                     <span class="bkt-text-neutral-dark"> • </span>
                     <skeleton type_name="spoiler" tag="span" :loading="rules && !rules.trade.publishDate">
-                        <span
-                            v-if="item.trade.publishDate">{{item.trade.publishDate | moment('DD MMMM YYYY HH:mm')}}</span>
+                        <span v-if="item.trade.publishDate">
+                            {{item.trade.publishDate | moment('DD MMMM YYYY HH:mm')}}
+                        </span>
                     </skeleton>
                 </h5>
             </div>
@@ -359,12 +360,12 @@
                                             <span>
                                                  <span
                                                      v-if="item.trade.applicationTime && item.trade.applicationTime.end && dateStatus && dateStatus.status === 'application'">
-                                                до {{item.trade.applicationTime.end | moment('DD.MM.YYYY')}}
-                                            </span>
-                                            <span
-                                                v-if="item.trade.applicationTime && item.trade.applicationTime.start && (item.state==='BiddingDeclaration' || item.state==='biddingDeclaration')">
-                                                приём заявок с {{item.trade.applicationTime.start | moment('DD.MM.YYYY')}}
-                                            </span>
+                                                     до {{item.trade.applicationTime.end | moment('DD.MM.YYYY')}}
+                                                </span>
+                                                <span
+                                                    v-if="item.trade.applicationTime && item.trade.applicationTime.start && (item.state==='BiddingDeclaration' || item.state==='biddingDeclaration')">
+                                                    приём заявок с {{item.trade.applicationTime.start | moment('DD.MM.YYYY')}}
+                                                </span>
                                             </span>
                                             </skeleton>
                                         </h5>
@@ -558,7 +559,8 @@
                     this.$store.commit('setSelectedLot', this.item);
                     this.$store.commit('openModal', '#purchaseModal')
                 } else {
-                    this.$store.dispatch('sendAuthNotification')
+                    // this.$store.dispatch('sendAuthNotification')
+                    this.$store.commit('openModal', '#authModal')
                 }
 
             },
@@ -625,12 +627,6 @@
                 //         this.$store.dispatch('sendNotification',
                 //             {self: this, type: 'error', message: 'Произошла ошибка, попробуйте позже'});
                 //     })
-            },
-            touchHandler() {
-                if (this.isMobile) {
-                    console.log('tap', this.item.description)
-                }
-
             }
         }
     };

@@ -388,7 +388,7 @@
                 this.loading = true;
                 this.params.page = page;
                 this.params.pathId = this.current_path;
-                sessionStorage.setItem('favourite' + this.current_path + '_page', page);
+                sessionStorage.setItem('favourite' + this.current_path + '_page', page+'');
                 if (this.$refs.card_list) {
                     this.$refs.card_list.scrollToElement();
                 }

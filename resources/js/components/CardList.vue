@@ -3,10 +3,11 @@
         <slot name="modals" v-if="!no_modals">
             <bkt-move-favourite-modal v-if="isLoggedIn" @moveFavourite="moveFavourite"/>
             <bkt-note-modal v-if="isLoggedIn"/>
-            <bkt-application-modal ref="applicationModal"/>
-            <bkt-purchase-modal/>
-            <bkt-instruction-modal/>
-            <bkt-egrn-modal/>
+            <bkt-application-modal ref="applicationModal" :service_loading="service_loading"/>
+            <bkt-purchase-modal :service_loading="service_loading"/>
+            <bkt-instruction-modal :service_loading="service_loading"/>
+            <bkt-egrn-modal :service_loading="service_loading"/>
+            <bkt-edit-contact-modal ref="editContact" v-if="isLoggedIn"></bkt-edit-contact-modal>
         </slot>
         <slot name="filters">
         </slot>
@@ -189,6 +190,7 @@
     import BktPurchaseModal from "./SharedModals/PurchaseModal";
     import BktInstructionModal from "./SharedModals/InstructionModal";
     import BktEgrnModal from "./SharedModals/EgrnModal";
+    import BktEditContactModal from "../pages/Profile/EditContactModal";
 
     export default {
         name: "CardList",
@@ -248,12 +250,14 @@
         components: {
             'bkt-move-favourite-modal': MoveFavouriteModal,
             'bkt-note-modal': NoteModal,
-            BktApplicationModal, BktPurchaseModal, BktInstructionModal, BktEgrnModal
+            BktApplicationModal, BktPurchaseModal, BktInstructionModal, BktEgrnModal,
+            BktEditContactModal
         },
         data() {
             return {
                 results: [],
                 observer: null,
+                service_loading: false,
                 // search:'',
             }
         },
@@ -267,6 +271,12 @@
             //     this.observer.observe(this.$refs.infiniteLoad);
             // }
             // this.runSearch();
+            if(this.services.length===0) {
+                this.service_loading = true;
+                this.$store.dispatch('getServices').finally(() => {
+                    this.service_loading = false;
+                });
+            }
         },
         computed: {
             search: {
@@ -292,6 +302,9 @@
                     return 20
                 // }
                 // return 5
+            },
+            services() {
+                return this.$store.getters.services;
             }
         },
         // destroyed() {

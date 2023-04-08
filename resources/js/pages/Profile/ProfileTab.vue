@@ -47,7 +47,6 @@
                         >
                             <bkt-icon :name="'Cancel'" :width="'22px'" :height="'22px'" color="red"></bkt-icon>
                         </button>
-
                         <button type="button" class="bkt-button bkt-button_save" @click="save"
                                 :disabled="invalid||loading" v-if="edit_user_mode"
                         >

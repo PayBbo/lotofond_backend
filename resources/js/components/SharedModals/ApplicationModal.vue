@@ -1,30 +1,30 @@
 <template>
     <bkt-modal :id="'applicationModal'" title="Заявка менеджеру" modal_class="bkt-filters-modal bkt-purchase"
-               left_button_class="d-none" @right_action="sendApplication" :loading="loading"
+               left_button_class="d-none" @right_action="sendApplication" :loading="loading||service_loading"
                right_button="Отправить"  @close-modal="clear" ref="applicationModal"
     >
         <template #body>
-            <div class="bkt-form bkt-wrapper-column bkt-promo__form p-0 w-100">
-                <!--                <div class="bkt-promo__block-wrapper" v-if="promo == true">-->
-                <!--                    <div class="bkt-promo__block">-->
-                <!--                        <div class="bkt-promo__block-body">-->
-                <!--                            <h1 class="bkt-promo__block-title">Новичок?<br><span-->
-                <!--                                class="bkt-text-yellow">сэкономьте до 50%</span></h1>-->
-                <!--                            <h5 class="bkt-promo__block-subtitle">на торгах с нашей помощью</h5>-->
-                <!--                            <h4 class="bkt-promo__block-text">-->
-                <!--                                Воспользуйтесь нашим опытом побед, чтобы избежать ошибок и сэкономить время, деньги и-->
-                <!--                                нервы.-->
-                <!--                            </h4>-->
-                <!--                        </div>-->
-                <!--                        <button class="bkt-button bkt-button_yellow bkt-button_plump" @click="navigate('/agent')">-->
-                <!--                            Подробнее о покупке без ЭЦП-->
-                <!--                        </button>-->
-                <!--                        <span type="button" class="bkt-close-button" @click="close"-->
-                <!--                                aria-label="Close">-->
-                <!--                            <bkt-icon :name="'Cancel'" :width="'20px'" :height="'20px'" color="white"></bkt-icon>-->
-                <!--                        </span>-->
-                <!--                    </div>-->
-                <!--                </div>-->
+            <div class="bkt-form bkt-wrapper-column bkt-promo__form p-0 w-100" v-if="!service_loading">
+<!--                                <div class="bkt-promo__block-wrapper" v-if="promo == true">-->
+<!--                                    <div class="bkt-promo__block">-->
+<!--                                        <div class="bkt-promo__block-body">-->
+<!--                                            <h1 class="bkt-promo__block-title">Новичок?<br><span-->
+<!--                                                class="bkt-text-yellow">сэкономьте до 50%</span></h1>-->
+<!--                                            <h5 class="bkt-promo__block-subtitle">на торгах с нашей помощью</h5>-->
+<!--                                            <h4 class="bkt-promo__block-text">-->
+<!--                                                Воспользуйтесь нашим опытом побед, чтобы избежать ошибок и сэкономить время, деньги и-->
+<!--                                                нервы.-->
+<!--                                            </h4>-->
+<!--                                        </div>-->
+<!--                                        <button class="bkt-button bkt-button_yellow bkt-button_plump" @click="navigate('/agent')">-->
+<!--                                            Подробнее о покупке без ЭЦП-->
+<!--                                        </button>-->
+<!--                                        <span type="button" class="bkt-close-button" @click="close"-->
+<!--                                                aria-label="Close">-->
+<!--                                            <bkt-icon :name="'Cancel'" :width="'20px'" :height="'20px'" color="white"></bkt-icon>-->
+<!--                                        </span>-->
+<!--                                    </div>-->
+<!--                                </div>-->
                 <div v-if="selected_lot" class="bkt-promo__lot-wrapper">
                     <div class="bkt-wrapper bkt-gap bkt-nowrap bkt-cursor-pointer"
                          @click="navigate('/lot/'+selected_lot.id)">
@@ -221,6 +221,13 @@
                     </ValidationProvider>
                 </div>
             </div>
+            <div v-if="service_loading" class="d-flex w-100 justify-content-center my-5">
+                <div
+                    style="color: #2953ff;border-width: 2px;"
+                    class="spinner-border"
+                    role="status"
+                ></div>
+            </div>
         </template>
     </bkt-modal>
 </template>
@@ -231,6 +238,12 @@
     export default {
         name: "ApplicationModal",
         components: {CardImageCategory},
+        props: {
+            service_loading: {
+                type: Boolean,
+                default: false
+            }
+        },
         data() {
             return {
                 loading: false,
@@ -244,15 +257,10 @@
                 },
                 mode: '',
                 filtered_services: [],
-                services_loading: false
                 // promo: localStorage.getItem('bkt_application_promo') || true,
             }
         },
         mounted() {
-            this.services_loading = true;
-            this.$store.dispatch('getServices').finally(() => {
-                this.services_loading = false;
-            });
             if (this.user && this.isLoggedIn) {
                 this.service.name = this.user.name + ' ' + this.user.lastName;
                 this.service.email = this.user.email;

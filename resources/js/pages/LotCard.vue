@@ -5,6 +5,7 @@
         <bkt-application-modal ref="applicationModal"/>
         <bkt-purchase-modal/>
         <bkt-instruction-modal/>
+        <bkt-edit-contact-modal ref="editContact" v-if="isLoggedIn"></bkt-edit-contact-modal>
         <!--        <bkt-add-mark-modal></bkt-add-mark-modal>-->
         <CoolLightBox
             v-if="item && item.photos && item.photos.length>0"
@@ -127,7 +128,7 @@
                                     </div>
                                     <div class="bkt-contents__answer">
                                         <skeleton type_name="spoiler" tag="span" :loading="rules && !rules.state">
-                                            <span>{{$t('trades.state.'+item.state)}}</span>
+                                            <span :class="stateColor">{{$t('trades.state.'+item.state)}}</span>
                                         </skeleton>
                                     </div>
                                 </li>
@@ -137,7 +138,8 @@
                                     </div>
                                     <div class="bkt-contents__answer">
                                         <skeleton type_name="spoiler" tag="span"
-                                                  :loading="rules && !rules.trade.priceOfferForm">
+                                                  :loading="rules && !rules.trade.priceOfferForm"
+                                        >
                                             <span>{{$t('trades.priceOfferForm.'+item.trade.priceOfferForm)}}</span>
                                         </skeleton>
                                     </div>
@@ -1584,15 +1586,15 @@
                 </div>
                 <div class="col-12 order-3 px-lg-0" v-if="item && !loading && (auth_user && auth_user.isAdmin)">
                     <bkt-collapse title="Изображения лота" :count="images.length" class="bkt-lot__collapse"
-                                  id="collapseAdminImages" :loading="files_loading" :disabled="images.length==0"
+                                  id="collapseAdminImages" :loading="files_loading"
                     >
                         <template #collapse>
                             <bkt-upload-file upload_button_class="bkt-button green mb-2 bkt-w-down-sm-100" ref="upload_file_collapse"
                                              @change="saveLotImage" :multiple="false" :disabled="files_loading||loading||images_loading">
                                 <template #upload_button_inner>
-                                 <span v-if="files_loading||loading||images_loading" role="status"
-                                       class="spinner-border spinner-border-sm bkt-text-primary"
-                                 ></span> Добавить изображение
+                                     <span v-if="files_loading||loading||images_loading" role="status"
+                                           class="spinner-border spinner-border-sm bkt-text-primary"
+                                     ></span> Добавить изображение
                                 </template>
                             </bkt-upload-file>
                             <bkt-table :items="images">
@@ -1605,9 +1607,9 @@
                                 <template #tbody_tr="{item}">
                                     <slot name="tbody_tr" v-bind:item="item">
                                         <td>
-                                        <span v-if="in_process.includes('id'+item.id)" role="status"
-                                              class="spinner-border spinner-border-sm bkt-text-primary"
-                                        ></span>
+                                            <span v-if="in_process.includes('id'+item.id)" role="status"
+                                                  class="spinner-border spinner-border-sm bkt-text-primary"
+                                            ></span>
                                             <div v-else class="bkt-wrapper bkt-gap-mini">
                                                 <button class="bkt-button-icon red-outline"
                                                         @click="deleteLotImage(item.id)"
@@ -1623,13 +1625,13 @@
                                             </div>
                                         </td>
                                         <td>
-                                            <div class="d-flex">
-                                                <img v-lazy="item.preview" width="150px" height="100px"
-                                                     style="object-fit: fill" alt="image"/>
-                                                <div>
-                                                    <strong>ID:</strong> {{item.id}}<br>{{ item.name }}
-                                                </div>
-                                            </div>
+<!--                                            <div class="d-flex">-->
+                                            <img v-lazy="item.preview" width="150px" height="100px"
+                                                 style="object-fit: fill" alt="image"/>
+<!--                                                <div>-->
+<!--                                                    <strong>ID:</strong> {{item.id}}<br>{{ item.name }}-->
+<!--                                                </div>-->
+<!--                                            </div>-->
                                         </td>
                                     </slot>
                                 </template>
@@ -1693,7 +1695,6 @@
                 <!--                </bkt-collapse>-->
                 <!--            </div>-->
             </template>
-
         </div>
     </div>
 </template>
@@ -1721,7 +1722,7 @@
     import BktInstructionModal from "../components/SharedModals/InstructionModal";
     import BktCardPriceInfo from "../components/CardPriceInfo";
     import BktTable from "../components/Table";
-    import axios from "axios";
+    import BktEditContactModal from "./Profile/EditContactModal";
 
     export default {
         name: "LotCard",
@@ -1741,7 +1742,7 @@
             // 'bkt-add-mark-modal': AddMarkModal,
             'bkt-note-modal': NoteModal,
             BktApplicationModal, BktPurchaseModal, BktInstructionModal,
-            BktObjectsList, BktCardPriceInfo, BktTable
+            BktObjectsList, BktCardPriceInfo, BktTable, BktEditContactModal
         },
         data() {
             return {
@@ -1844,6 +1845,18 @@
             },
             system_rules() {
                 return this.$store.getters.system_rules
+            },
+            stateColor() {
+                if(this.item && this.item.state) {
+                    const tmp_state =  this.item.state;
+                    if(tmp_state === 'biddingcanceled' || tmp_state === 'finished' || tmp_state === 'annulment'
+                        ||tmp_state === 'biddingfail' || tmp_state === 'biddingpause' || tmp_state === 'biddingcancel')
+                    {
+                        return 'bkt-text-red bkt-text-700'
+                    }
+                }
+               return ''
+
             }
         },
         watch: {
@@ -1868,50 +1881,52 @@
                 // }, 100)
             },
             async getLot() {
-                this.loading = true;
-                this.clear();
-                // if (this.trades.length > 0) {
-                //     let trade = this.trades.findIndex(item => item.id == this.$route.params.id);
-                //     if (trade >= 0) {
-                //         this.item = JSON.parse(JSON.stringify(this.trades[trade]));
-                //     }
-                //     this.loading = false;
-                // } else {
-                await this.$store.dispatch('getTradeLot', this.$route.params.id)
-                    .then(resp => {
-                        // this.item = resp.data;
-                        this.short_description = '';
-                        if (resp.data.description.length > 0 && resp.data.description.length > 1000) {
-                            this.short_description = resp.data.description.slice(0, 1000) + '...';
-                        }
+                if( this.$route.params.id) {
+                    this.loading = true;
+                    this.clear();
+                    // if (this.trades.length > 0) {
+                    //     let trade = this.trades.findIndex(item => item.id == this.$route.params.id);
+                    //     if (trade >= 0) {
+                    //         this.item = JSON.parse(JSON.stringify(this.trades[trade]));
+                    //     }
+                    //     this.loading = false;
+                    // } else {
+                    await this.$store.dispatch('getTradeLot', this.$route.params.id)
+                        .then(resp => {
+                            // this.item = resp.data;
+                            this.short_description = '';
+                            if (resp.data.description.length > 0 && resp.data.description.length > 1000) {
+                                this.short_description = resp.data.description.slice(0, 1000) + '...';
+                            }
 
-                        this.$store.commit('setSelectedLot', resp.data);
-                        this.loading = false;
-                        if (this.isLoggedIn) {
-                            this.makeWatched();
-                            this.getLotNotifications();
-                            this.getLotFiles();
-                            // this.getLotMarks();
-                            this.getDebtorActiveLots();
-                            this.getDebtorCompletedLots();
-                            if (this.item.trade && this.item.trade.lotCount > 1) {
-                                this.getRelatedLots();
+                            this.$store.commit('setSelectedLot', resp.data);
+                            this.loading = false;
+                            if (this.isLoggedIn) {
+                                this.makeWatched();
+                                this.getLotNotifications();
+                                this.getLotFiles();
+                                // this.getLotMarks();
+                                this.getDebtorActiveLots();
+                                this.getDebtorCompletedLots();
+                                if (this.item.trade && this.item.trade.lotCount > 1) {
+                                    this.getRelatedLots();
+                                }
+                                if(this.item.organizerAnswer && this.item.organizerAnswer.files.length>0) {
+                                    this.organizer_answer_files = [];
+                                    this.item.organizerAnswer.files.forEach(item => {
+                                        let str = item;
+                                        let n = item.lastIndexOf('/');
+                                        let result = str.substring(n + 1);
+                                        this.organizer_answer_files.push({title: result, url: item})
+                                    })
+                                }
                             }
-                            if(this.item.organizerAnswer && this.item.organizerAnswer.files.length>0) {
-                                this.organizer_answer_files = [];
-                                this.item.organizerAnswer.files.forEach(item => {
-                                    let str = item;
-                                    let n = item.lastIndexOf('/');
-                                    let result = str.substring(n + 1);
-                                    this.organizer_answer_files.push({title: result, url: item})
-                                })
-                            }
-                        }
-                    })
-                    .catch(error => {
-                        this.loading = false;
-                    });
-                // }
+                        })
+                        .catch(error => {
+                            this.loading = false;
+                        });
+                    // }
+                }
             },
             async getLotFiles() {
                 this.files_loading = true;
@@ -2100,7 +2115,8 @@
                 if (this.isLoggedIn) {
                     this.$store.commit('openModal', '#purchaseModal')
                 } else {
-                    this.$store.dispatch('sendAuthNotification')
+                    // this.$store.dispatch('sendAuthNotification')
+                    this.$store.commit('openModal', '#authModal')
                 }
             },
             makeWatched() {

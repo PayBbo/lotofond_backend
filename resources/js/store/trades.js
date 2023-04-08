@@ -253,17 +253,17 @@ export default {
             await
                 axios({
                     method: 'put',
-                    url: '/api/trades/'+payload.type+'/hidden/lots/' + payload.lotId,
+                    url: '/api/trades/' + payload.type + '/hidden/lots/' + payload.lotId,
                     data: payload,
                 })
-            .then((response) => {
-                payload.type = 'hide';
-                dispatch('changeTradeLotStatus', payload)
-                // commit('saveTradeProperty', {id: payload.lot_id, key: payload.key, value: payload.value})
-            }).catch(error => {
-                console.log(error);
-                throw error
-            });
+                    .then((response) => {
+                        payload.type = 'hide';
+                        dispatch('changeTradeLotStatus', payload)
+                        // commit('saveTradeProperty', {id: payload.lot_id, key: payload.key, value: payload.value})
+                    }).catch(error => {
+                    console.log(error);
+                    throw error
+                });
         },
         async getNearestTrades({commit, state, dispatch}, payload) {
             dispatch('checkAbort','getNearestTrades');

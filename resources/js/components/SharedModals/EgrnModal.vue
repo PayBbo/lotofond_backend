@@ -1,10 +1,10 @@
 <template>
-    <bkt-modal :id="'egrnModal'" title="Отчёт ЕГРН" modal_class="bkt-filters-modal bkt-purchase"
-               left_button_class="d-none" @right_action="buy" :loading="loading"
-               right_button="Купить - 70 ₽"
+    <bkt-modal :id="'egrnModal'" :title="filtered_service.header ? filtered_service.header : 'Отчёт ЕГРН'" modal_class="bkt-filters-modal bkt-purchase"
+               left_button_class="d-none" @right_action="buy" :loading="loading||service_loading"
+               :right_button="`Купить - ${$options.filters.priceFormat(filtered_service.price)} ₽`"
     >
         <template #body>
-            <div class="bkt-form bkt-wrapper-column bkt-promo__form p-0 w-100">
+            <div class="bkt-form bkt-wrapper-column bkt-promo__form p-0 w-100" v-if="!service_loading">
                 <div v-if="selected_lot" class="bkt-promo__lot-wrapper">
                     <div class="bkt-wrapper bkt-gap bkt-nowrap bkt-cursor-pointer" @click="navigate('/lot/'+selected_lot.id)">
                         <card-image-category :no_multiple="true"
@@ -42,11 +42,11 @@
                 </div>
                 <div class="bkt-card__row bkt-purchase__service bkt-wrapper-down-lg-column">
                     <div class="bkt-purchase__service__text-wrapper bkt-w-down-lg-100">
-                        <h4 class="bkt-card__title">Отчёт ЕГРН</h4>
-                        <h5 class="bkt-card__subtitle">Официальная справка с информацией о собственнике и характеристиках объекта, наличии или отсутствии ограничений и обременений.</h5>
+                        <h4 class="bkt-card__title">{{filtered_service.header}}</h4>
+                        <h5 class="bkt-card__subtitle">{{filtered_service.description}}</h5>
                     </div>
                     <hr class="d-lg-none w-100 m-0">
-                    <h3 class="bkt-purchase__service__price">70 ₽</h3>
+                    <h3 class="bkt-purchase__service__price">{{filtered_service.price | priceFormat}} ₽</h3>
                 </div>
                 <bkt-input
                     v-model="service.email"
@@ -60,6 +60,13 @@
                     icon_name="Email"
                     :disabled="loading"
                 />
+            </div >
+            <div v-if="service_loading" class="d-flex w-100 justify-content-center my-5">
+                <div
+                    style="color: #2953ff;border-width: 2px;"
+                    class="spinner-border"
+                    role="status"
+                ></div>
             </div>
         </template>
     </bkt-modal>
@@ -71,6 +78,12 @@
     export default {
         name: "EgrnModal",
         components: {CardImageCategory},
+        props: {
+            service_loading: {
+                type: Boolean,
+                default: false
+            }
+        },
         data() {
             return {
                 loading: false,
@@ -92,6 +105,20 @@
             isLoggedIn() {
                 return this.$store.getters.isLoggedIn
             },
+            filtered_service() {
+                let index = this.$store.getters.services.findIndex(item => item.type ==='receiptEGRN ');
+                if (index>=0) {
+                    return this.$store.getters.services[index]
+                }
+                return {
+                    id: 6,
+                    header: "Отчёт ЕГРН",
+                    description: "Официальная справка с информацией о собственнике и характеристиках объекта, наличии или отсутствии ограничений и обременений.",
+                    detailedDescription: [],
+                    price: 70,
+                    type: "receiptEGRN"
+                }
+            }
         },
         watch: {
             isLoggedIn: function (newVal, oldVal) {
