@@ -25,6 +25,7 @@
                 <td>{{ lot.status }}</td>
                 <td>{{ lot.tradeNumber }}</td>
                 <td>{{ $t('trades.type.' + lot.tradeType) }}</td>
+                <td>{{ lot.publishDate }}</td>
                 <td>
                     <router-link v-can="'lot-edit'" :to="'/admin/lots/'+lot.id" class="btn btn-primary btn-sm">
                         <i class="fas fa-pencil-alt"> </i>
@@ -48,7 +49,10 @@ export default {
     mixins: [main],
     data() {
         return {
-            columns: ['ID', 'Описание', 'Начальная цена', 'Статус', 'Номер торгов', 'Тип торгов', 'Действия'],
+            columns: {
+                columns_title: ['ID', 'Описание', 'Начальная цена', 'Статус', 'Номер торгов', 'Тип торгов', 'Дата публикации', 'Действия'],
+                columns_sort: ['id', 'description', 'start_price', 'status_value', 'trade_number', 'trade_type', 'publish_date',   null]
+            },
             param: ''
         }
     }

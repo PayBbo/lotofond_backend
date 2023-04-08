@@ -19,13 +19,22 @@ class EgrnStatementsController extends Controller
         $this->middleware('permission:egrn-statements-list', ['only' => ['get']]);
     }
 
-    public function get(Request $request){
+    public function get(Request $request)
+    {
         $cadastralNumber = $request->query('param');
-        $statements = EgrnStatement::when(isset($cadastralNumber), function($query) use ($cadastralNumber) {
-            $query->whereHas('application', function($que) use ($cadastralNumber){
-                $que->where('cadastral_number', 'LIKE', '%'.$cadastralNumber.'%');
+        $sortParam = $request->query('sort_property');
+        $sortDirection = $request->query('sort_direction');
+        $statements = EgrnStatement::when(isset($cadastralNumber), function ($query) use ($cadastralNumber) {
+            $query->whereHas('application', function ($que) use ($cadastralNumber) {
+                $que->where('cadastral_number', 'LIKE', '%' . $cadastralNumber . '%');
             });
-        })->orderBy('created_at', 'desc')->paginate(20);
+        })
+            ->leftJoin('applications as application', 'egrn_statements.application_id', '=', 'application.id')
+            ->select('egrn_statements.*','application.cadastral_number as cadastral_number')
+            ->when(isset($sortParam) && isset($sortDirection), function ($query) use ($sortParam, $sortDirection) {
+                $query->orderBy($sortParam, $sortDirection);
+            })
+            ->paginate(20);
         return response(new EgrnStatementCollection($statements), 200);
     }
 }

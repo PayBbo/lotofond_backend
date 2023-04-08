@@ -26,6 +26,8 @@ class ApplicationsController extends Controller
     public function get(Request $request)
     {
         $search = $request->query('param');
+        $sortParam = $request->query('sort_property');
+        $sortDirection = $request->query('sort_direction');
         $applications = Application::when(isset($search), function ($query) use ($search) {
             $query->where('email', 'LIKE', '%' . $search . '%')
                 ->orWhere('username', 'LIKE', '%' . $search . '%')
@@ -33,7 +35,13 @@ class ApplicationsController extends Controller
                 ->orWhere('topic', 'LIKE', '%' . $search . '%')
                 ->orWhere('question', 'LIKE', '%' . $search . '%')
                 ->orWhere('cadastral_number', 'LIKE', '%' . $search . '%');
-        })->orderBy('created_at', 'desc')->paginate(20);
+        })
+            ->leftJoin('tariffs as tariff', 'tariff.id', '=', 'applications.tariff_id')
+            ->select('applications.*', 'tariff.title->ru as type')
+            ->when(isset($sortParam) && isset($sortDirection), function ($query) use ($sortParam, $sortDirection) {
+                $query->orderBy($sortParam, $sortDirection);
+            })
+            ->paginate(20);
         return response(new ApplicationCollection($applications), 200);
     }
 
@@ -50,7 +58,10 @@ class ApplicationsController extends Controller
 
     public function show($id)
     {
-        $application = Application::find($id);
+        $application = Application::where('id', $id)
+            ->leftJoin('tariffs as tariff', 'tariff.id', '=', 'applications.tariff_id')
+            ->select('applications.*', 'tariff.title->ru as type')
+            ->first();
         if (!$application) {
             return response(null, 404);
         }

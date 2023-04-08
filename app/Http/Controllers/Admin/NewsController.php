@@ -27,10 +27,13 @@ class NewsController extends Controller
         $this->middleware('permission:news-delete', ['only' => ['delete']]);
     }
 
-    public function get()
+    public function get(Request $request)
     {
-        $news = News::orderBy('created_at', 'desc')
-            ->orderBy('is_banner')
+        $sortParam = $request->query('sort_property');
+        $sortDirection = $request->query('sort_direction');
+        $news = News::when(isset($sortParam) && isset($sortDirection), function ($query) use ($sortParam, $sortDirection) {
+            $query->orderBy($sortParam, $sortDirection);
+        })
             ->paginate(20);
         return response(new NewsCollection($news), 200);
     }
@@ -65,7 +68,7 @@ class NewsController extends Controller
         if (!$news) {
             return response(null, 404);
         }
-        $news->description =  $request->description;
+        $news->description = $request->description;
         $news->is_banner = isset($request->isBanner);
         if (strlen($request->image) == 0 && !is_null($news->image)) {
             $this->changeImage($news);

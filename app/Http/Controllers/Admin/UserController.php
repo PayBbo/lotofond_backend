@@ -39,12 +39,18 @@ class UserController extends Controller
     public function get(Request $request)
     {
         $searchString = $request->query('param');
-        $users = User::when(isset($searchString), function ($query) use ($searchString) {
-            $query->where('email', 'LIKE', '%' . $searchString . '%')
-                ->orWhere('phone', 'LIKE', '%' . $searchString . '%')
-                ->orWhere('name', 'LIKE', '%' . $searchString . '%')
-                ->orWhere('surname', 'LIKE', '%' . $searchString . '%');
-        })->paginate(20);
+        $sortParam = $request->query('sort_property');
+        $sortDirection = $request->query('sort_direction');
+        $users = User::leftJoin('regions', 'regions.id', '=', 'users.region_id')
+            ->select('users.*','regions.title')
+            ->when(isset($searchString), function ($query) use ($searchString) {
+                $query->where('email', 'LIKE', '%' . $searchString . '%')
+                    ->orWhere('phone', 'LIKE', '%' . $searchString . '%')
+                    ->orWhere('name', 'LIKE', '%' . $searchString . '%')
+                    ->orWhere('surname', 'LIKE', '%' . $searchString . '%');
+            })->when(isset($sortParam) && isset($sortDirection), function ($query) use ($sortParam, $sortDirection) {
+                $query->orderBy($sortParam, $sortDirection);
+            })->paginate(20);
         return response(new UserCollection($users), 200);
     }
 
@@ -70,7 +76,7 @@ class UserController extends Controller
             'phone' => preg_replace('/\D/', '', $request->phone),
             'password' => Hash::make($request->password),
             'email_verified_at' => Carbon::now()->setTimezone('Europe/Moscow'),
-            'region_id'=>!is_null($request->region) ? Region::where('title', $request->region)->first()['id'] : null,
+            'region_id' => !is_null($request->region) ? Region::where('title', $request->region)->first()['id'] : null,
             'not_settings' => [
                 'favouriteEventStart' => 1,
                 'favouriteEventEnd' => 1,
@@ -118,16 +124,16 @@ class UserController extends Controller
                         'tariff_id' => $request->tariff,
                         'finished_at' => Carbon::now()->setTimezone('Europe/Moscow')->addDays($tariff->period),
                         'is_confirmed' => true,
-                        'status'=>'Settled'
+                        'status' => 'Settled'
                     ]);
                 }
-            }else {
+            } else {
                 Payment::create([
                     'user_id' => $user->id,
                     'tariff_id' => $request->tariff,
                     'finished_at' => Carbon::now()->setTimezone('Europe/Moscow')->addDays($tariff->period),
                     'is_confirmed' => true,
-                    'status'=>'Settled'
+                    'status' => 'Settled'
                 ]);
             }
         } else {

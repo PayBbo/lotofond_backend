@@ -23,8 +23,8 @@
         <template v-slot:raws-block>
             <tr v-for="user in dataItems">
                 <td>{{ user.id }}</td>
-                <td>{{ user.name }}</td>
-                <td>{{ user.surname }}</td>
+                <td>{{ user.name ? user.name : "Не указано"}}</td>
+                <td>{{ user.surname ? user.surname : "Не указано"}}</td>
                 <td>{{ user.email ? user.email : "Не указано" }}</td>
                 <td v-if="user.phone"><input style="border: none; background: transparent"
                                              v-mask="['+# ### ### ####','+## ### ### ####', '+## ### #### ####',]"
@@ -57,7 +57,10 @@ export default {
     directives:{mask},
     data() {
         return {
-            columns: ['ID', 'Имя', 'Фамилия', 'Почта', 'Телефон', 'Регион', 'Дата регистрации', 'Действия'],
+            columns: {
+                columns_title: ['ID', 'Имя', 'Фамилия', 'Почта', 'Телефон', 'Регион', 'Дата регистрации', 'Действия'],
+                columns_sort: ['id', 'name', 'surname', 'email', 'phone', 'regions.title', 'email_verified_at', null]
+            },
             param: ''
         }
     }

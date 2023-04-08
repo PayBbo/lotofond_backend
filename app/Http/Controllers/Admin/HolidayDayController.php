@@ -27,6 +27,8 @@ class HolidayDayController extends Controller
     public function get(Request $request)
     {
         $searchString = $request->query('param');
+        $sortParam = $request->query('sort_property');
+        $sortDirection = $request->query('sort_direction');
         if ($searchString === "null") {
             $searchString = null;
         }
@@ -35,7 +37,11 @@ class HolidayDayController extends Controller
         }
         $holidays = HolidayDate::when(!is_null($searchString), function ($query) use ($searchString) {
             $query->where('date', 'LIKE', '%'.$searchString.'%');
-        })->orderBy('date', 'desc')->paginate(20);
+        })
+            ->when(isset($sortParam) && isset($sortDirection), function ($query) use ($sortParam, $sortDirection) {
+                $query->orderBy($sortParam, $sortDirection);
+            })
+            ->paginate(20);
         return response(new HolidayCollection($holidays),  200);
     }
 

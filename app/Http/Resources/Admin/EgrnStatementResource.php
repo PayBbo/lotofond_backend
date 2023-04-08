@@ -23,7 +23,7 @@ class EgrnStatementResource extends JsonResource
             'applicationId'=>$this->application_id,
             'status'=>$this->status,
             'lastCheckDate'=>Carbon::parse($this->last_check_date)->format('d.m.Y H:i'),
-            'cadastralNumber'=> !is_null($this->application_id) ? $this->application->cadastral_number : null
+            'cadastralNumber'=> !is_null($this->application_id) ? $this->cadastral_number : null
         ];
     }
 }

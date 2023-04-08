@@ -23,9 +23,16 @@ class ContentRulesController extends Controller
     public function get(Request $request)
     {
         $content = $request->query('param');
+        $sortParam = $request->query('sort_property');
+        $sortDirection = $request->query('sort_direction');
         $rules = ContentRule::when(isset($content), function ($query) use ($content) {
             $query->where('title', 'LIKE', '%' . $content . '%');
-        })->select('title', 'code', 'is_available as isAvailable')->get();
+        })
+            ->when(isset($sortParam) && isset($sortDirection), function ($query) use ($sortParam, $sortDirection) {
+                $query->orderBy($sortParam, $sortDirection);
+            })
+            ->select('title', 'code', 'is_available as isAvailable')
+            ->get();
         return response(['data' => $rules, 'pagination' => []], 200);
     }
 

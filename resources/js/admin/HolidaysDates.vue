@@ -71,7 +71,10 @@ export default {
     mixins: [main],
     data() {
         return {
-            columns: ['Дата праздника', 'Действия'],
+            columns: {
+                columns_title: ['Дата праздника', 'Действия'],
+                columns_sort: ['date', null]
+            },
             param: ''
         }
     },

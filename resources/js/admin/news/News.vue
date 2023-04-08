@@ -13,7 +13,7 @@
         </template>
         <template v-slot:raws-block>
             <tr v-for="(item, index) in dataItems">
-                <td>{{index}}</td>
+                <td>{{item.id}}</td>
                 <td>{{ item.description === null ? 'Нет' : item.description}}</td>
                 <td>
                     <img v-if="item.image !== null"  :src="item.image" width="50%" alt="image"/>
@@ -52,7 +52,10 @@ export default {
     mixins: [main],
     data() {
         return {
-            columns: ['№','Описание', 'Картинка', 'Отображается на сайте?', 'Дата',  'Действия']
+            columns: {
+                columns_title: ['№','Описание', 'Картинка', 'Отображается на сайте?', 'Дата',  'Действия'],
+                columns_sort: ['id', 'description', 'image', 'is_banner', 'created_at', null]
+            },
         }
     },
     methods: {
