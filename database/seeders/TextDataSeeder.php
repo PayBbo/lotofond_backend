@@ -15,7 +15,7 @@ class TextDataSeeder extends Seeder
     public function run()
     {
         $data = [
-            ['header'=>'Заголовок1', 'value'=>'С нашей помощью Вы можете сэкономить до 50% на торгах!
+           ['header'=>'Заголовок1', 'value'=>'С нашей помощью Вы можете сэкономить до 50% на торгах!
             Воспользуйтесь нашим опытом побед, чтобы избежать ошибок и сэкономить время, деньги и нервы.
             1. ЭЦП не нужна
             2. Аккредитация не нужна
@@ -47,6 +47,16 @@ class TextDataSeeder extends Seeder
             ['header'=>'Телефон', 'value'=>'+7 916 018-48-58', 'type'=>'contacts', 'screen'=>'Контакты'],
             ['header'=>'Почта', 'value'=>'vicemine@mail.ru', 'type'=>'contacts', 'screen'=>'Контакты'],
             ['header'=>'Сайт', 'value'=>'https://www.lotofond.ru', 'type'=>'contacts', 'screen'=>'Контакты'],
+            ['header'=>'Проведение торгов, юридическая консультация и другое', 'value'=>'Воспользуйтесь нашим опытом побед, чтобы избежать ошибок и сэкономить время, деньги и нервы', 'type'=>'buyBlock', 'screen'=>'Блок "Купить"',
+                'points'=>[
+                    "ЭЦП не нужна",
+                    "Аккредитация не нужна",
+                    "Заполнять документы не нужно",
+                    "Гарантируем допуск к торгам"
+                ]
+            ],
+            ['header'=>'Инструкция для самостоятельной покупки лота', 'value'=>'Инструкция для проведения торгов по выбранному лоту', 'type'=>'buyBlock', 'screen'=>'Блок "Купить"'],
+            ['header'=>'Оценка ликвидности, юридическая консультация и другое', 'value'=>'Узнайте подробнее о прочих услугах', 'type'=>'buyBlock', 'screen'=>'Блок "Купить"'],
 
         ];
 
@@ -55,7 +65,8 @@ class TextDataSeeder extends Seeder
                 'header'=>$item['header'],
                 'value'=>$item['value'],
                 'type'=>$item['type'],
-                'screen'=>$item['screen']
+                'screen'=>$item['screen'],
+                'points'=>array_key_exists('points', $item) ? $item['points'] : null
             ]);
         }
     }

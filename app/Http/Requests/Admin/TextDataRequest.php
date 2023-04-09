@@ -26,8 +26,8 @@ class TextDataRequest extends FormRequest
         return [
             'header' => ['required', 'string', 'max:255'],
             'value' => ['required', 'string'],
-            'type' => ['sometimes', 'required', 'in:info,help,about,contacts'],
-            'screen' => ['sometimes', 'required', 'in:О приложении,Помощь,О нас,Контакты']
+            'type' => ['sometimes', 'required', 'in:info,help,about,contacts,buyBlock'],
+            'screen' => ['sometimes', 'required', 'in:О приложении,Помощь,О нас,Контакты,Блок "Купить"']
         ];
     }
 

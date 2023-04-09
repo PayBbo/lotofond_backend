@@ -4059,6 +4059,7 @@ paths:
               - help
               - about
               - contacts
+              - buyBlock
       tags:
         - TextData
       summary: получение данных для страниц помощи, контакты, о приложении и тд
@@ -6167,6 +6168,12 @@ components:
             - help
             - about
             - contacts
+            - buyBlock
+        points:
+          type: array
+          items:
+            type: string
+          description: описание по пунктам (сейчас только для одной карточки в блоке "Купить", в остальных случаях - null)
     Tariff:
       type: object
       properties:

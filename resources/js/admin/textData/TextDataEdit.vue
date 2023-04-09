@@ -41,6 +41,40 @@
                                         <option v-for="type in types" :value="type.type">{{ type.screen }}</option>
                                     </select>
                                 </div>
+                                <div class="form-group" v-if="isEdit && item.points !== null">
+                                    <label>Описание по пунктам</label>
+                                    <div class="table-responsive max-h-350px">
+                                        <table class="table table-hover table-head-fixed text-nowrap mb-0">
+                                            <thead>
+                                            <tr>
+                                                <th style="width: 90%">Пункт описания</th>
+                                                <th style="width: 10%">
+                                                    <button @click.prevent="addNewOneItem()"
+                                                            type="button"
+                                                            class="btn btn-outline-primary">
+                                                        <i class="fas fa-plus"></i>
+                                                    </button>
+                                                </th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <tr v-for="(row, index) in item.points">
+                                                <td>
+                                                    <input v-model="item.points[index]" class="form-control"
+                                                           required>
+                                                </td>
+                                                <td>
+                                                    <button @click="removeOneItem(index)"
+                                                            type="button"
+                                                            class="btn btn-outline-danger">
+                                                        <i class="far fa-trash-alt"></i>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
                                 <button type="submit" class="btn btn-success float-right" @click="isEdit ? updateData(item) : storeData(item)">Сохранить</button>
                             </div>
                             <!-- /.card-body -->
@@ -81,6 +115,12 @@ export default {
             item.screen = this.types.find(type => type.type === item.type).screen
             this.addData(item)
 
+        },
+        addNewOneItem() {
+            this.item.points.push('');
+        },
+        removeOneItem(index) {
+            this.item.points.splice(index, 1);
         }
     }
 }

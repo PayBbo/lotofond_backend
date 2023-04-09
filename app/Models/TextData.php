@@ -13,6 +13,13 @@ class TextData extends Model
         'header',
         'value',
         'type',
-        'screen'
+        'screen',
+        'points'
     ];
+
+    protected $casts = [
+        'id' => 'integer',
+        'points'=>'array'
+    ];
+
 }

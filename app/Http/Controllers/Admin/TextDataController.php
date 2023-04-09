@@ -57,6 +57,9 @@ class TextDataController extends Controller
         if ($textData) {
             $textData->header = $request->header;
             $textData->value = $request->value;
+            if($textData->type == 'buyBlock') {
+                $textData->points = $request->points;
+            }
             $textData->save();
             return response(null, 200);
         }
