@@ -25,6 +25,7 @@ export default {
         info: [],
         informationMessage: null,
         informationMessageMode: localStorage.getItem('shortNewsItemMode') || 'show',
+        buyBlock: [],
         controllers: [],
         signals: [],
         tariffs:[],
@@ -58,6 +59,9 @@ export default {
         },
         informationMessageMode(state) {
             return state.informationMessageMode;
+        },
+        buyBlock(state) {
+            return state.buyBlock;
         },
         controllers(state) {
             return state.controllers;
@@ -202,6 +206,12 @@ export default {
             axios.get('/api/text-data/content-rules')
                 .then( resp => {
                     commit('setRules', resp.data)
+            });
+        },
+        getBuyBlock({commit}) {
+            axios.get('/api/text-data/buyBlock')
+                .then(resp => {
+                    commit('setBuyBlock', resp.data)
             });
         },
         async getInformationMessage({commit}) {
@@ -398,6 +408,9 @@ export default {
         setInformationMessageMode(state, payload) {
             localStorage.setItem('shortNewsItemMode', payload)
             return (state.informationMessageMode = payload);
+        },
+        setBuyBlock(state, payload) {
+            return (state.buyBlock = payload);
         },
         setTariffs(state, payload) {
             return (state.tariffs = payload);

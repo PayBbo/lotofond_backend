@@ -47,8 +47,8 @@
                                     </router-link>
                                 </li>
                                 <li class="bkt-footer__link bkt-cursor-pointer" @click="navigate('/calendar')">
-                                    Календарь <strong
-                                    style="color:rgb(216, 43, 30); margin-left: 5px;">&#10095;</strong>
+                                    Календарь
+                                    <strong style="color:rgb(216, 43, 30); margin-left: 5px;">&#10095;</strong>
                                 </li>
                             </ul>
                         </div>
@@ -116,11 +116,12 @@
         <div class="bkt-footer__politics">
             <div class="bkt-container">
                 <div class="bkt-wrapper-between bkt-wrapper-down-sm-column">
-                    <p class="bkt-footer__politics-copyright">Все права защищены © LotoFond, {{new Date() |
-                        moment('YYYY')}}</p>
+                    <p class="bkt-footer__politics-copyright">
+                        Все права защищены © LotoFond, {{new Date() | moment('YYYY')}}</p>
                     <div class="bkt-footer__politics-links">
-                        <a class="bkt-footer__politics-link" href="/privacy-policy">Политика обработки персональных
-                            данных</a>
+                        <a class="bkt-footer__politics-link" href="/privacy-policy">
+                            Политика обработки персональных данных
+                        </a>
                         <a class="bkt-footer__politics-link" href="/terms">Пользовательское соглашение</a>
                     </div>
                 </div>

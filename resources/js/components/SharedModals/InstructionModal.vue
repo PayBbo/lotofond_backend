@@ -46,11 +46,11 @@
                 />
             </div>
             <div v-if="service_loading" class="d-flex w-100 justify-content-center my-5">
-                    <div
-                        style="color: #2953ff;border-width: 2px;"
-                        class="spinner-border"
-                        role="status"
-                    ></div>
+                <div
+                    style="color: #2953ff;border-width: 2px;"
+                    class="spinner-border"
+                    role="status"
+                ></div>
             </div>
         </template>
     </bkt-modal>

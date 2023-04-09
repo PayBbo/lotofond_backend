@@ -96,7 +96,7 @@
             // this.hasSlotContent = this.checkForSlotContent();
             this.showSkeleton = this.loading !== null
                 ? this.loading
-                :  this.isEmpty();
+                : this.isEmpty();
             if(!this.$slots.default || this.$slots.default[0].text=='' || this.$slots.default[0].text) {
                 this.showSkeleton = this.loading !== null
                     ? this.loading
@@ -112,7 +112,7 @@
         mounted() {
             this.showSkeleton = this.loading !== null
                 ? this.loading
-                :  this.isEmpty();
+                : this.isEmpty();
         }
     }
 </script>
