@@ -208,13 +208,14 @@ $lotDesc</p>
     {
         try {
             $html = "Пользователь $application->username  задал вопрос по теме:
-            <p>$application->topic</p>
-            <p>$application->question</p>
-            <strong>Почта: $application->email</strong>";
+<p>$application->topic</p>
+<p>$application->question</p>
+<strong>Почта: $application->email</strong>";
             if ($application->files) {
                 foreach ($application->files as $file) {
                     $path = URL::to('storage/' . $file);
-                    $html .= " <br><a href=$path> Прикрепленный файл </a>";
+                    $html .= " <br>
+<a href='$path'>Прикрепленный файл </a>";
                 }
             }
             $subject = $application->tariff->getTranslation('title', 'ru');
@@ -222,6 +223,9 @@ $lotDesc</p>
             if (count($emails) > 0) {
                 dispatch((new SendApplication($html, $subject, $emails))->onQueue('credentials'));
             }
+            $token = config('telegram.bot_token');
+            \Illuminate\Support\Facades\Notification::route('telegram', $token)
+                ->notify(new ApplicationTelegramNotification($html));
         } catch (Exception $e) {
             throw new BaseException("ERR_SEND_MESSAGE_FAILED", 550, __('validation.message_err'));
         }
@@ -236,13 +240,16 @@ $lotDesc</p>
                 $communication = 'Телефон для ответа: ' . $application->phone;
             }
             $html = "У Вас новый вопрос:
-            <p>$application->question</p>
-            <strong>$communication</strong>";
+<p>$application->question</p>
+<strong>$communication</strong>";
             $subject = $application->tariff->getTranslation('title', 'ru');
             $emails = Contact::where('tariff_id', $application->tariff_id)->pluck('contact')->toArray();
             if (count($emails) > 0) {
                 dispatch((new SendApplication($html, $subject, $emails))->onQueue('credentials'));
             }
+            $token = config('telegram.bot_token');
+            \Illuminate\Support\Facades\Notification::route('telegram', $token)
+                ->notify(new ApplicationTelegramNotification($html));
         } catch (Exception $e) {
             throw new BaseException("ERR_SEND_MESSAGE_FAILED", 550, __('validation.message_err'));
         }

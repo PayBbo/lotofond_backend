@@ -30,11 +30,11 @@ class ContentSettingsService
         $hiddenLots = DB::table('hidden_lots')->where('user_id', $user->id)->pluck('lot_id')->toArray();
         $monitorings = DB::table('monitorings')->where('user_id', $user->id)->pluck('id')->toArray();
         $monitoringLots = DB::table('lot_monitoring')->whereIn('monitoring_id', $monitorings)->pluck('lot_id')->toArray();
-        $favourites = $user->favourites()->with('lots');
+        $favourites = $user->favourites()->with('lots')->get();
         $favouritesLots = [];
         $lots = [];
         foreach ($favourites as $favourite) {
-            $lotIds = $favourite->lots->pluck('lots.id')->toArray();
+            $lotIds = $favourite->lots()->pluck('lots.id')->toArray();
 
             if (count($lotIds) > 0) {
                 $lots = array_merge($lots, $favourite->lots()->pluck('favourite_lot.id')->toArray());
