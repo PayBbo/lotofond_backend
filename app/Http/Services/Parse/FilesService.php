@@ -186,9 +186,8 @@ class FilesService
                     'main' => 'storage' . $this->slash . $path . $this->slash . $filename,
                     'preview' => 'storage' . $this->slash . $this->generatePreview($path, $filename)
                 ];
+                $this->generateWatermark($path . $this->slash . $filename);
             }
-            logger($imageAssets);
-            $this->generateWatermark($path . $this->slash . $filename);
         }
         return $imageAssets;
     }
@@ -205,8 +204,6 @@ class FilesService
     }
 
     public function generateWatermark($img) {
-        logger('generateWatermark');
-        logger($img);
         $thumbnail = Image::make(Storage::disk('public')->get($img));
         $thumbnailWidth = $thumbnail->getWidth();
         $thumbnailHeight = $thumbnail->getHeight();
