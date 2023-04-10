@@ -24,12 +24,10 @@ class CheckTariffMiddleware
     {
         $user = User::find(auth()->guard('api')->id());
         $isAvailable = false;
-        logger($isAvailable);
         if(!is_null($contentRule)){
             logger($contentRule);
             $isAvailable = Cache::get('contentRules')[$contentRule];
         }
-        logger(auth()->guard('api')->check());
         if(auth()->guard('api')->check() && !$isAvailable) {
            // $trialPeriod = config('paymaster.trial_period');
             if(!Cache::has('trialPeriod')){
