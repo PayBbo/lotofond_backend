@@ -28,7 +28,7 @@ class LotUploadFileRequest extends FormRequest
             'files'=>['sometimes', 'array'],
             'files.*'=>['sometimes', 'nullable', 'file'],
             'images'=>['sometimes', 'array'],
-            'images.*'=>['sometimes', 'nullable', 'image','max:10240']
+            'images.*'=>['sometimes', 'nullable', 'image']
 
         ];
     }
