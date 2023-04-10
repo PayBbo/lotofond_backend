@@ -2971,13 +2971,13 @@ paths:
       operationId: getStatisticsByLots
       responses:
         "200":
-          description: Информация о количестве активных/неактивных лотов
+          description: Информация о количестве активных/неактивных лотов. Добавлен срок тестового периода для вывода в окне регистрации
           content:
             application/json:
               schema:
                 type: object
                 example:
-                  { 'activeLotsCount': 100, 'nonactiveLotsCount': 200, 'allLotsCount': 300, 'newLotsCount': 10 }
+                  { 'activeLotsCount': 100, 'nonactiveLotsCount': 200, 'allLotsCount': 300, 'newLotsCount': 10, 'trialPeriod': 90}
         default:
           description: unexpected error
           content:

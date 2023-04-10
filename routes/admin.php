@@ -21,6 +21,10 @@ Route::group(['middleware' =>['localization', 'role:admin|manager', 'json.respon
 
     Route::get('/dashboard', [DashboardController::class, 'getDashboardData']);
 
+    Route::post('/change-watermark', [DashboardController::class, 'changeWatermark']);
+
+    Route::post('/change-trial-period', [DashboardController::class, 'changeTrialPeriod']);
+
     Route::get('/regions', [DashboardController::class, 'getRegions']);
 
     Route::group(['prefix' => 'users'], function () {

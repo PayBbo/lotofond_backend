@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Admin;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class ContactRequest extends FormRequest
 {
@@ -24,7 +25,11 @@ class ContactRequest extends FormRequest
     public function rules()
     {
         return [
-            'contact'=>['required', 'string', 'email'],
+            'contact'=>['required', 'string', 'email',
+                Rule::unique('contacts')->where(function ($query) {
+                    return $query->where('tariff_id', $this->type);
+                })
+            ],
             'type'=>['required', 'numeric', 'exists:tariffs,id']
         ];
     }
@@ -32,6 +37,7 @@ class ContactRequest extends FormRequest
     public function messages()
     {
         return [
+            'contact.unique' => 'Выбранное значение почты уже существует для выбранного назначения рассылки',
             'contact.*' => 'Поле Почта заполнено неверно',
             'type.*' => 'Поле Назначение почты заполнено неверно'
         ];

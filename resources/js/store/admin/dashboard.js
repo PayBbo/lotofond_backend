@@ -11,6 +11,8 @@ export default {
         lotsCount: 0,
         newLotsCount: 0,
         isAdmin: null,
+        watermark: {text: '', image: ''},
+        trialPeriod: 0,
         permissions: []
     },
     mutations: {
@@ -19,10 +21,15 @@ export default {
             state.newUsersCount = payload.newUsersCount
             state.lotsCount = payload.lotsCount
             state.newLotsCount = payload.newLotsCount
+            state.watermark = payload.watermark
+            state.trialPeriod = payload.trialPeriod
         },
         setAdminData(state, data) {
             state.isAdmin = data.status
             state.permissions = data.permissions
+        },
+        setTrialPeriod(state, value) {
+            state.trialPeriod = value
         }
 
     },
@@ -82,6 +89,12 @@ export default {
         },
         permissions(state) {
             return state.permissions
+        },
+        watermark(state) {
+            return state.watermark
+        },
+        trialPeriod(state) {
+            return state.trialPeriod
         }
     }
 }

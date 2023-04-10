@@ -122,7 +122,7 @@ Route::group(['middleware' => ['json.response', 'localization']], function () {
     Route::put('/bidders/trades', [BidderController::class, 'getTradesByBidder'])
         ->middleware('auth:api')->name('bidders-trades');
 
-    Route::group(['prefix' => 'bidders', 'middleware'=>['check.tariff:hasAccessToReestr']], function () {
+    Route::group(['prefix' => 'bidders', 'middleware'=>['check.tariff:hasAccessToReestr', 'auth:api']], function () {
 
         Route::get('/{bidderId}/{type}', [BidderController::class, 'getBidder'])->middleware('auth:api');
 

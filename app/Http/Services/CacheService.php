@@ -6,6 +6,7 @@ use App\Models\Category;
 use App\Models\Lot;
 use App\Models\PriceReduction;
 use App\Models\RegionGroup;
+use App\Models\Setting;
 use App\Models\TradePlace;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Cache;
@@ -103,6 +104,12 @@ class CacheService
             $regions[] = ['regionGroup' => $group->title, 'regions' => $group->regions()->pluck('code')->toArray()];
         }
         Cache::forever('regions', $regions);
+    }
+
+    public function cacheTrialPeriod(){
+        $trialPeriod = Setting::where('variable', 'trial_period')->first();
+        Cache::forget('trialPeriod');
+        Cache::forever('trialPeriod', $trialPeriod->value);
     }
 
 }

@@ -2,9 +2,11 @@
 
 namespace App\Http\Resources;
 
+use App\Http\Services\CacheService;
 use App\Models\ContentRule;
 use Carbon\Carbon;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Facades\Cache;
 
 class ProfileResource extends JsonResource
 {
@@ -19,7 +21,11 @@ class ProfileResource extends JsonResource
         $changeCredentials = $this->changeCredentials()
             ->where(['is_old_credentials' => false, 'is_submitted_old_credentials' => false, 'is_submitted_new_credentials' => true])
             ->latest()->first();
-        $testPeriodInDays = config('paymaster.trial_period');
+        if(!Cache::has('trialPeriod')){
+            $cacheService = new CacheService();
+            $cacheService->cacheTrialPeriod();
+        }
+        $testPeriodInDays =  Cache::get('trialPeriod');
         $hasTariff = !is_null($this->tariff);
         $hasTestPeriod =$this->email_verified_at->addDays($testPeriodInDays)->format('Y-m-d H:i') >= Carbon::now()->setTimezone('Europe/Moscow')->format('Y-m-d H:i');
         $contentDisplayRules = ['lot'=>['trade'=>[]], 'system'=>[]];

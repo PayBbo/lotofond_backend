@@ -2,6 +2,7 @@
 
 namespace App\Jobs;
 
+use App\Http\Services\CacheService;
 use App\Models\Lot;
 use App\Models\Monitoring;
 use App\Models\Notification;
@@ -13,6 +14,7 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\MaxAttemptsExceededException;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Cache;
 
 class MonitoringJob implements ShouldQueue
 {
@@ -45,9 +47,13 @@ class MonitoringJob implements ShouldQueue
     {
         $minDate = $this->startFrom;
         $maxDate = $this->endTo;
+        if(!Cache::has('trialPeriod')){
+            $cacheService = new CacheService();
+            $cacheService->cacheTrialPeriod();
+        }
         $monitorings = Monitoring::whereHas('user', function ($query){
             $query->hasByNonDependentSubquery('tariff')
-            ->orWhere('email_verified_at', '>=', Carbon::now()->setTimezone('Europe/Moscow')->subDays(config('paymaster.trial_period')));
+            ->orWhere('email_verified_at', '>=', Carbon::now()->setTimezone('Europe/Moscow')->subDays( Cache::get('trialPeriod')));
         })->get();
         foreach ($monitorings as $monitoring) {
             $lots = Lot::whereNotIn('lots.id', $monitoring->user->hiddenLots->pluck('id'))->filterBy($monitoring->filters)

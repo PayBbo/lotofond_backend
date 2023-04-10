@@ -80,6 +80,7 @@ class FileController extends Controller
         $fileService = new FilesService();
         $fileService->generatePreview($dest, basename($path));
         $preview = 'storage/' . $dest. '/previews/' . basename($path);
+        $fileService->generateWatermark($path);
         $imageAssets = ['main' => 'storage/' . $path, 'preview' => $preview];
         $lotFile->type = 'image';
         $lotFile->url = json_encode($imageAssets);

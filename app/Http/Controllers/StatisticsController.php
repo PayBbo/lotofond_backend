@@ -28,6 +28,11 @@ class StatisticsController extends Controller
         }
 
         $data = Cache::get('lotsStatistics');
+        if(!Cache::has('trialPeriod')){
+            $cacheService = new CacheService();
+            $cacheService->cacheTrialPeriod();
+        }
+        $data['trialPeriod'] =  (integer)Cache::get('trialPeriod');
         return response($data, 200);
 
     }

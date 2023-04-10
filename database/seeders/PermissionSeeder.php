@@ -59,12 +59,15 @@ class PermissionSeeder extends Seeder
             ['name' => 'additions-list', 'visible_name' => 'Просмотр ответов на запросы доп. информации по лотам', 'permission_group' => 'Запросы доп. информации'],
             ['name' => 'additions-edit', 'visible_name' => 'Редактирование ответов на запросы доп. информации по лотам', 'permission_group' => 'Запросы доп. информации'],
             ['name' => 'additions-add', 'visible_name' => 'Добавление ответов на запросы доп. информации по лотам', 'permission_group' => 'Запросы доп. информации'],
-            ['name' => 'additions-delete', 'visible_name' => 'Удаление ответов на запросы доп. информации по лотам', 'permission_group' => 'Запросы доп. информации'],*/
+            ['name' => 'additions-delete', 'visible_name' => 'Удаление ответов на запросы доп. информации по лотам', 'permission_group' => 'Запросы доп. информации'],
 
             ['name' => 'news-list', 'visible_name' => 'Просмотр информационных сообщений', 'permission_group' => 'Информационные сообщения'],
             ['name' => 'news-edit', 'visible_name' => 'Редактирование информационных сообщений', 'permission_group' => 'Информационные сообщения'],
             ['name' => 'news-add', 'visible_name' => 'Добавление информационных сообщений', 'permission_group' => 'Информационные сообщения'],
-            ['name' => 'news-delete', 'visible_name' => 'Удаление информационных сообщений', 'permission_group' => 'Информационные сообщения'],
+            ['name' => 'news-delete', 'visible_name' => 'Удаление информационных сообщений', 'permission_group' => 'Информационные сообщения'],*/
+            ['name' => 'change-watermark', 'visible_name' => 'Изменение водяного знака', 'permission_group' => 'Настройки'],
+            ['name' => 'change-trial-period', 'visible_name' => 'Изменение длительности тестового периода', 'permission_group' => 'Настройки'],
+
         ];
         foreach ($permissions as $permission) {
             Permission::create([

@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use App\Exceptions\CustomExceptions\BaseException;
+use App\Http\Services\CacheService;
 use App\Models\ContentRule;
 use App\Models\User;
 use Carbon\Carbon;
@@ -23,11 +24,19 @@ class CheckTariffMiddleware
     {
         $user = User::find(auth()->guard('api')->id());
         $isAvailable = false;
+        logger($isAvailable);
         if(!is_null($contentRule)){
+            logger($contentRule);
             $isAvailable = Cache::get('contentRules')[$contentRule];
         }
+        logger(auth()->guard('api')->check());
         if(auth()->guard('api')->check() && !$isAvailable) {
-            $trialPeriod = config('paymaster.trial_period');
+           // $trialPeriod = config('paymaster.trial_period');
+            if(!Cache::has('trialPeriod')){
+                $cacheService = new CacheService();
+                $cacheService->cacheTrialPeriod();
+            }
+            $trialPeriod = (int)Cache::get('trialPeriod');
             if (Carbon::parse($user->email_verified_at)->addDays($trialPeriod)->format('Y-m-d H:i') < Carbon::now()->setTimezone('Europe/Moscow')->format('Y-m-d H:i') && is_null($user->tariff)) {
                 throw new BaseException('ERR_CHECK_TARIFF_FAILED', 406, __('validation.no_activated_tariff'));
             }

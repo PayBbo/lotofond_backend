@@ -61,7 +61,11 @@ class ContentSettingsService
     {
         $hasTariff = false;
         $hasTestPeriod = false;
-        $trialPeriod = config('paymaster.trial_period');
+        if(!Cache::has('trialPeriod')){
+            $cacheService = new CacheService();
+            $cacheService->cacheTrialPeriod();
+        }
+        $trialPeriod =  Cache::get('trialPeriod');
         if($this->authCheck) {
             $user = $this->user;
             $hasTariff = !is_null($user->tariff);

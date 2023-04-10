@@ -163,6 +163,7 @@ class AdditionalLotInfoParseJob implements ShouldQueue
                     }
                     if ($fileService->is_image($dest, $filename) && $fileService->is_image_extension($filename)) {
                         $fileService->generatePreview($dest, $filename);
+                        $fileService->generateWatermark($dest . $this->slash . $filename);
                         $preview = 'storage' . $this->slash . $dest . $this->slash . 'previews' . $this->slash . $filename;
                         $files[] = ['url' => ['main' => 'storage' . $this->slash . $dest . $this->slash . $filename, 'preview' => $preview], 'type' => 'image'];
                     } else {
