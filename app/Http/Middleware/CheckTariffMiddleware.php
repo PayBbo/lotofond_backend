@@ -25,7 +25,6 @@ class CheckTariffMiddleware
         $user = User::find(auth()->guard('api')->id());
         $isAvailable = false;
         if(!is_null($contentRule)){
-            logger($contentRule);
             $isAvailable = Cache::get('contentRules')[$contentRule];
         }
         if(auth()->guard('api')->check() && !$isAvailable) {
