@@ -39,12 +39,12 @@ class DescriptionExtractsService
                 $changeDesc = str_replace($match, str_repeat('░', strlen($match) - 1), $changeDesc);
                 if (!$lot->params()->where('value', $match)->exists() && strlen((string)$match) > 0) {
                     $lot->params()->attach(Param::find(4), ['value' => $match, 'parent_id' => null]);
-                    $reestrApiService = new ReestrApiService();
+                    /*$reestrApiService = new ReestrApiService();
                     $success = $reestrApiService->searchByCadastralNumber($match);
-                    if (!$success) {
+                    if (!$success) {*/
                         $parseDataFromRosreestr = new ParseDataFromRosreestrService($match);
                         $parseDataFromRosreestr->handle();
-                    }
+                    //}
                 }
             }
         }
