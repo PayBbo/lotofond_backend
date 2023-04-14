@@ -250,7 +250,7 @@ export default {
                 });
         },
         getServices({commit}) {
-            axios.get('/api/services')
+            axios.post('/api/services', null)
                 .then( resp => {
                     if(resp.data && Array.isArray(resp.data))
                     {

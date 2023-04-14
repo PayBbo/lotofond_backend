@@ -2,9 +2,10 @@
     <div class="bkt-main bkt-page bkt-lot bkt-container position-relative">
         <bkt-move-favourite-modal v-if="isLoggedIn"/>
         <bkt-note-modal v-if="isLoggedIn"/>
-        <bkt-application-modal ref="applicationModal"/>
-        <bkt-purchase-modal/>
-        <bkt-instruction-modal/>
+        <bkt-application-modal ref="applicationModal" :service_loading="service_loading"/>
+        <bkt-purchase-modal :service_loading="service_loading"/>
+        <bkt-instruction-modal :service_loading="service_loading"/>
+<!--        <bkt-egrn-modal :service_loading="service_loading"/>-->
         <bkt-edit-contact-modal ref="editContact" v-if="isLoggedIn"></bkt-edit-contact-modal>
         <!--        <bkt-add-mark-modal></bkt-add-mark-modal>-->
         <CoolLightBox
@@ -586,7 +587,7 @@
                     </bkt-collapse>
                 </div>
                 <div class="col-12 col-lg-12 order-3 px-lg-0">
-                    <div class="bkt-card bkt-lot__card bkt-lot-tasks" v-if="!loading">
+                    <div class="bkt-card bkt-lot__card bkt-lot-tasks" v-if="!loading&&item">
                         <div class="bkt-card__header bkt-wrapper-between bkt-wrapper-up-md-nowrap m-0 bkt-gap-large">
                             <div class="bkt-gap bkt-wrapper-column bkt-wrapper-down-md">
                                 <div class="bkt-lot__card-period bkt-wrapper" v-if="item && item.trade &&
@@ -616,14 +617,14 @@
                                     </h5>
                                 </div>
                                 <div class="bkt-lot__card-period bkt-wrapper"
-                                     v-if="item.trade && ((!rules || (rules && !rules.trade.eventTime)) || (item.trade.eventTime
+                                     v-if="item && item.trade && ((!rules || (rules && !rules.trade.eventTime)) || (item.trade.eventTime
                                  && (item.trade.eventTime.start || item.trade.eventTime.end || item.trade.eventTime.result)))"
                                 >
                                     <div class="bkt-card__category bkt-bg-yellow">
                                         <bkt-icon :name="'Gavel'" :width="'22px'" :height="'22px'"></bkt-icon>
                                     </div>
                                     <h5 class="bkt-card__text">
-                                        <skeleton type_name="spoiler" :loading="rules && !rules.trade.eventTime">
+                                        <skeleton type_name="spoiler" :loading="!item || (rules && !rules.trade.eventTime)">
                                             {{item.trade.eventTime.result?'объявление результатов торгов':'проведение торгов'}}
                                             <span v-if="item.trade.eventTime.start">
                                             <br class="d-md-none">
@@ -710,7 +711,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="bkt-card bkt-lot__card bkt-lot-tasks" v-if="loading">
+                    <div class="bkt-card bkt-lot__card bkt-lot-tasks" v-if="loading||!item">
                         <div class="bkt-card__header bkt-wrapper-between bkt-wrapper-up-md-nowrap m-0 bkt-gap-large">
                             <div class="bkt-gap bkt-wrapper-column bkt-wrapper-down-md">
                                 <div class="bkt-lot__card-period bkt-wrapper">
@@ -1776,6 +1777,7 @@
                 read_more: false,
                 photo_index: null,
                 image_index: null,
+                service_loading: false,
             };
         },
         computed: {
@@ -1857,6 +1859,9 @@
                 }
                return ''
 
+            },
+            services() {
+                return this.$store.getters.services;
             }
         },
         watch: {
@@ -1865,6 +1870,12 @@
             }
         },
         async mounted() {
+            if(this.services.length===0) {
+                this.service_loading = true;
+                this.$store.dispatch('getServices').finally(() => {
+                    this.service_loading = false;
+                });
+            }
             this.getLot();
         },
         methods: {

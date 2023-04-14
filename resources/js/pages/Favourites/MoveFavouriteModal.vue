@@ -5,7 +5,7 @@
             <div class="bkt-wrapper-column bkt-gap">
                 <div v-for="(path, index) in items_paths" :key="index">
                     <button @click="setNewPath(path.pathId)"
-                            class="bkt-button w-100 bkt-button_plump text-uppercase"
+                            class="bkt-button w-100 bkt-button_plump text-uppercase text-break"
                             :class="[newPathId === path.pathId && path.color ? 'bkt-bg-'+path.color : '',
                                 {'bkt-bg-primary': newPathId === path.pathId && !path.color,
                                 'bkt-bg-body bkt-text-main': newPathId !== path.pathId}]"
@@ -28,9 +28,9 @@
             </div>
         </template>
         <template #footer="{ invalid }">
-            <button class="w-100 bkt-button primary bkt-button_plump" @click="move" :disabled="loading || !newPathId">
+            <button class="w-100 bkt-button primary bkt-button_plump text-break" @click="move" :disabled="loading || !newPathId">
                 <span v-if="loading" class="spinner-border spinner-border-sm" role="status"></span>
-                Переместить
+                Переместить {{newPath && newPath.name ? 'в папку "'+newPath.name+'"' : ''}}
             </button>
         </template>
     </bkt-modal>
@@ -61,6 +61,7 @@
                     paths = paths.filter(item => item.pathId != this.item.favouritePaths[0].pathId)
                     if (paths.length > 0) {
                         this.newPathId = paths[0].pathId;
+                        this.newPath = paths[0];
                     }
                     return paths;
                 }
@@ -86,14 +87,19 @@
                     newPathId: this.newPathId,
                     newPath: this.newPath,
                     lotId: this.item.id
-                }
+                };
                 await this.$store.dispatch('moveFavourite', payload)
                     .then(resp => {
                         this.$emit('moveFavourite', payload);
+                        this.$store.dispatch('saveDataProperty', {
+                            module_key: 'lots', state_key: 'selected_lot',
+                            key: 'favouritePaths',
+                            value: [this.newPath]
+                        }, {root: true});
                         this.$store.commit('closeModal', '#moveFavouriteModal');
                         this.loading = false;
                     })
-                    .finally(() => {
+                    .catch(err => {
                         this.loading = false;
                     });
             },
