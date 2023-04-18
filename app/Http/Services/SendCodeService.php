@@ -197,8 +197,9 @@ $lotDesc</p>
                 dispatch((new SendApplication($html, $subject, $emails))->onQueue('credentials'));
             }
             $token = config('telegram.bot_token');
+            $chat_id = config('telegram.admin_chat_id');
             \Illuminate\Support\Facades\Notification::route('telegram', $token)
-                ->notify(new ApplicationTelegramNotification($html));
+                ->notify(new ApplicationTelegramNotification($html, $chat_id));
         } catch (Exception $e) {
             throw new BaseException("ERR_SEND_MESSAGE_FAILED", 550, __('validation.message_err'));
         }
@@ -224,8 +225,9 @@ $lotDesc</p>
                 dispatch((new SendApplication($html, $subject, $emails))->onQueue('credentials'));
             }
             $token = config('telegram.bot_token');
+            $chat_id = config('telegram.admin_chat_id');
             \Illuminate\Support\Facades\Notification::route('telegram', $token)
-                ->notify(new ApplicationTelegramNotification($html));
+                ->notify(new ApplicationTelegramNotification($html, $chat_id));
         } catch (Exception $e) {
             throw new BaseException("ERR_SEND_MESSAGE_FAILED", 550, __('validation.message_err'));
         }
@@ -248,8 +250,9 @@ $lotDesc</p>
                 dispatch((new SendApplication($html, $subject, $emails))->onQueue('credentials'));
             }
             $token = config('telegram.bot_token');
+            $chat_id = config('telegram.admin_chat_id');
             \Illuminate\Support\Facades\Notification::route('telegram', $token)
-                ->notify(new ApplicationTelegramNotification($html));
+                ->notify(new ApplicationTelegramNotification($html, $chat_id));
         } catch (Exception $e) {
             throw new BaseException("ERR_SEND_MESSAGE_FAILED", 550, __('validation.message_err'));
         }
