@@ -204,60 +204,62 @@ class FilesService
     }
 
     public function generateWatermark($img) {
-        $thumbnail = Image::make(Storage::disk('public')->get($img));
-        $thumbnailWidth = $thumbnail->getWidth();
-        $thumbnailHeight = $thumbnail->getHeight();
-        if ($thumbnailWidth > $thumbnailHeight)
-            $waterMarkSize = (int)($thumbnailHeight * 0.15);
-        else
-            $waterMarkSize = (int)($thumbnailHeight * 0.1);
-        $settings = Setting::all()->pluck( 'value', 'variable')->toArray();
-        $waterMarkUrl = Image::make(Storage::disk('public')->path('watermark/'.$settings['watermark_image']))->fit($waterMarkSize, $waterMarkSize);
-        $thumbnail->insert($waterMarkUrl, 'bottom-left', 10, 10);
-        $fontSize = $waterMarkSize / 4;
-        // Создаем копию изображения, ограниченную границами левой нижней части
-        $leftBottomImage = Image::make(Storage::disk('public')->get($img));
-        $bottom = $waterMarkSize + 10;
-        $left = $thumbnailWidth;
-        if ($thumbnailWidth > $thumbnailHeight)
-            $left = (int)($left * 0.15);
-        else
-            $left = (int)($left * 0.1);
-        $colors = [];
-        $leftBottomImage = $leftBottomImage->crop($left, $bottom, $waterMarkSize + 10, $thumbnailHeight - $waterMarkSize - 10);
-        for ($x = 0; $x < $leftBottomImage->getWidth() - 1; $x++) {
-            for ($y = 0; $y < $leftBottomImage->getHeight() - 1; $y++) {
-                $color = $leftBottomImage->pickColor($x, $y, 'array');
-                $colorString = sprintf('#%02x%02x%02x', $color[0], $color[1], $color[2]);
-                $colors[] = $colorString;
+            $thumbnail = Image::make(Storage::disk('public')->get($img));
+            $thumbnailWidth = $thumbnail->getWidth();
+            $thumbnailHeight = $thumbnail->getHeight();
+            if ($thumbnailWidth > $thumbnailHeight)
+                $waterMarkSize = (int)($thumbnailHeight * 0.15);
+            else
+                $waterMarkSize = (int)($thumbnailHeight * 0.1);
+            if($thumbnailWidth == 0 || $thumbnailHeight == 0)
+                return;
+            $settings = Setting::all()->pluck('value', 'variable')->toArray();
+            $waterMarkUrl = Image::make(Storage::disk('public')->path('watermark/' . $settings['watermark_image']))->fit($waterMarkSize, $waterMarkSize);
+            $thumbnail->insert($waterMarkUrl, 'bottom-left', 10, 10);
+            $fontSize = $waterMarkSize / 4;
+            // Создаем копию изображения, ограниченную границами левой нижней части
+            $leftBottomImage = Image::make(Storage::disk('public')->get($img));
+            $bottom = $waterMarkSize + 10;
+            $left = $thumbnailWidth;
+            if ($thumbnailWidth > $thumbnailHeight)
+                $left = (int)($left * 0.15);
+            else
+                $left = (int)($left * 0.1);
+            $colors = [];
+            $leftBottomImage = $leftBottomImage->crop($left, $bottom, $waterMarkSize + 10, $thumbnailHeight - $waterMarkSize - 10);
+            for ($x = 0; $x < $leftBottomImage->getWidth() - 1; $x++) {
+                for ($y = 0; $y < $leftBottomImage->getHeight() - 1; $y++) {
+                    $color = $leftBottomImage->pickColor($x, $y, 'array');
+                    $colorString = sprintf('#%02x%02x%02x', $color[0], $color[1], $color[2]);
+                    $colors[] = $colorString;
+                }
             }
-        }
-        // Считаем количество каждого уникального цвета в массиве
-        $colorCounts = array_count_values($colors);
-        // Находим самый распространенный цвет
-        arsort($colorCounts);
-        $mainColor = key($colorCounts);
-        // Конвертируем цвет из RGB в HSL
-        list($r, $g, $b) = sscanf($mainColor, "#%02x%02x%02x");
-        $hsl = $this->rgbToHsl($r, $g, $b);
-        // Определяем, светлое это изображение или темное
-        if ($hsl[2] >= 0.5) {
-            $textColor = '#2953ff';
-        } else {
-            $textColor = '#FFFFFF';
-        }
-        $x = $waterMarkSize + 10;
-        $y = $thumbnailHeight - 10 - ($waterMarkSize / 2) + ($fontSize / 2);
-        $text = $settings['watermark_text'];
-        $thumbnail->text($text, $x, $y, function ($font) use ($fontSize, $textColor) {
-            $font->file(Storage::disk('public')->path('watermark/Inter-Bold.ttf'));
-            $font->size($fontSize);
-            $font->color($textColor);
-            $font->align('left');
-            $font->valign('middle');
-        });
-        Storage::disk('public')->put($img, $thumbnail);
-        $thumbnail->save(Storage::disk('public')->path($img));
+            // Считаем количество каждого уникального цвета в массиве
+            $colorCounts = array_count_values($colors);
+            // Находим самый распространенный цвет
+            arsort($colorCounts);
+            $mainColor = key($colorCounts);
+            // Конвертируем цвет из RGB в HSL
+            list($r, $g, $b) = sscanf($mainColor, "#%02x%02x%02x");
+            $hsl = $this->rgbToHsl($r, $g, $b);
+            // Определяем, светлое это изображение или темное
+            if ($hsl[2] >= 0.5) {
+                $textColor = '#2953ff';
+            } else {
+                $textColor = '#FFFFFF';
+            }
+            $x = $waterMarkSize + 10;
+            $y = $thumbnailHeight - 10 - ($waterMarkSize / 2) + ($fontSize / 2);
+            $text = $settings['watermark_text'];
+            $thumbnail->text($text, $x, $y, function ($font) use ($fontSize, $textColor) {
+                $font->file(Storage::disk('public')->path('watermark/Inter-Bold.ttf'));
+                $font->size($fontSize);
+                $font->color($textColor);
+                $font->align('left');
+                $font->valign('middle');
+            });
+            Storage::disk('public')->put($img, $thumbnail);
+            $thumbnail->save(Storage::disk('public')->path($img));
     }
 
     // Функция для конвертирования цвета из RGB в HSL
