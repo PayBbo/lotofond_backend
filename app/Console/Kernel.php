@@ -41,7 +41,7 @@ class Kernel extends ConsoleKernel
         $schedule->job((new ParseDebtor)->onQueue('parse'))->daily()->timezone('Europe/Moscow');
         //$schedule->job((new ParseDebtorMessages)->onQueue('parse'))->hourly()->timezone('Europe/Moscow');
         $schedule->job((new SendLotsToChannel)->onQueue('parse'))->hourly()->timezone('Europe/Moscow')->between('8:00', '20:00');
-        $schedule->job((new EGRNStatementJob)->onQueue('user'))->dailyAt('08:30')->timezone('Europe/Moscow');
+        $schedule->job((new EGRNStatementJob)->onQueue('user'))->hourly()->timezone('Europe/Moscow');
         $schedule->job((new FixDescription)->onQueue('parse'))->dailyAt('03:30')->timezone('Europe/Moscow');
         $schedule->job((new NewUsersNotificationsJob)->onQueue('user'))->dailyAt('20:00')->timezone('Europe/Moscow');
         $schedule->job((new AdditionalLotInfoParseJob)->onQueue('parse'))->dailyAt('01:20')->timezone('Europe/Moscow');

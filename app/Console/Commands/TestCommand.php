@@ -3,10 +3,13 @@
 namespace App\Console\Commands;
 
 use App\Jobs\AdditionalLotInfoParseJob;
+use App\Jobs\FixLotRegionJob;
 use App\Jobs\ParseTrades;
 
 use App\Jobs\SendApplication;
 use App\Models\AdditionalLotInfo;
+use App\Models\Lot;
+use App\Models\Region;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
 
@@ -54,13 +57,26 @@ class TestCommand extends Command
         //  dispatch(new MonitoringNotificationJob('hourly'));
         //dispatch(new ParseDebtorMessages);
 
-           $startDate = Carbon::parse('2023-07-13 05:00');
+           /*$startDate = Carbon::parse('2023-07-13 05:00');
            $endDate = Carbon::parse('2023-07-13 12:30');
            while ($startDate < $endDate) {
                $startFrom = $startDate->format('Y-m-d\TH:i:s');
                $startDate->addMinutes(30);
                dispatch((new ParseTrades($startFrom, $startDate->format('Y-m-d\TH:i:s')))->onQueue('parse'));
-           }
+           }*/
+
+        $lotCount = Lot::whereHas('paramsLot', function($query) {
+           return $query->where('param_id', 4);
+        })->whereDoesntHave('regions', function ($query) {
+            return $query->where('is_debtor_region', false);
+        })->pluck('id')->toArray();
+        $counter = 0;
+        while ($counter <= $lotCount){
+            dispatch((new FixLotRegionJob())->onQueue('parse'));
+            $counter+=500;
+        }
+
+
 
 
         // dispatch(new ParseTrades);

@@ -8,6 +8,7 @@ use App\Models\Lot;
 use App\Models\LotParam;
 use App\Models\Param;
 use App\Models\PriceReduction;
+use App\Models\Region;
 use Carbon\Carbon;
 use Carbon\CarbonPeriod;
 use Exception;
@@ -39,6 +40,13 @@ class DescriptionExtractsService
                 $changeDesc = str_replace($match, str_repeat('░', strlen($match) - 1), $changeDesc);
                 if (!$lot->params()->where('value', $match)->exists() && strlen((string)$match) > 0) {
                     $lot->params()->attach(Param::find(4), ['value' => $match, 'parent_id' => null]);
+                    $objectRegion = substr($match, 0, strpos($match, ':'));
+                    $region = Region::where('numbers', 'LIKE', '%' . $objectRegion . '%')->first();
+                    if ($region) {
+                        if (!$lot->objectRegions->contains($region)) {
+                            $lot->regions()->attach($region, ['is_debtor_region' => false]);
+                        }
+                    }
                     /*$reestrApiService = new ReestrApiService();
                     $success = $reestrApiService->searchByCadastralNumber($match);
                     if (!$success) {*/

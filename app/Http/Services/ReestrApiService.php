@@ -43,7 +43,7 @@ class ReestrApiService
             $objectRegion = substr($cadastralNumber, 0, strpos($cadastralNumber, ':'));
             $region = Region::where('numbers', 'LIKE', '%' . $objectRegion . '%')->first();
             if ($region) {
-                if (!$lot->regions->contains($region)) {
+                if (!$lot->objectRegions->contains($region)) {
                     $lot->regions()->attach($region, ['is_debtor_region' => false]);
                 }
             }
