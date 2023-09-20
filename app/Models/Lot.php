@@ -428,7 +428,7 @@ class Lot extends Model
 
     public function showRegions()
     {
-        return $this->belongsToMany(Region::class, 'lot_regions')->withPivot('is_debtor_region')->select('code', 'lot_regions.is_debtor_region as isDebtorRegion');
+        return $this->belongsToMany(Region::class, 'lot_regions')->withPivot('is_debtor_region')->select('code', 'lot_regions.is_debtor_region as isDebtorRegion')->distinct()->orderBy('is_debtor_region');
     }
 
     public function favouritePaths()

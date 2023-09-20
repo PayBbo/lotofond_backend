@@ -42,7 +42,7 @@ class ParseDataFromRosreestrService
                     $region = Region::where('numbers', 'LIKE', '%' . $objectRegion . '%')->first();
                     if ($region) {
                         $objectAddress = $region->title . ', ' . $objectAddress;
-                        if (!$lot->regions->contains($region)) {
+                        if (!$lot->objectRegions->contains($region)) {
                             $lot->regions()->attach($region, ['is_debtor_region' => false]);
                         }
                     }

@@ -57,25 +57,27 @@ class TestCommand extends Command
         //  dispatch(new MonitoringNotificationJob('hourly'));
         //dispatch(new ParseDebtorMessages);
 
-           /*$startDate = Carbon::parse('2023-07-13 05:00');
-           $endDate = Carbon::parse('2023-07-13 12:30');
-           while ($startDate < $endDate) {
-               $startFrom = $startDate->format('Y-m-d\TH:i:s');
-               $startDate->addMinutes(30);
-               dispatch((new ParseTrades($startFrom, $startDate->format('Y-m-d\TH:i:s')))->onQueue('parse'));
-           }*/
+       /** $startDate = Carbon::parse('2023-07-13 05:00');
+        $endDate = Carbon::parse('2023-07-13 12:30');
+        while ($startDate < $endDate) {
+            $startFrom = $startDate->format('Y-m-d\TH:i:s');
+            $startDate->addMinutes(30);
+            dispatch((new ParseTrades($startFrom, $startDate->format('Y-m-d\TH:i:s')))->onQueue('parse'));
+        }*/
 
-        $lotCount = Lot::whereHas('paramsLot', function($query) {
-           return $query->where('param_id', 4);
+       /* $lotCount = Lot::whereHas('paramsLot', function ($query) {
+            return $query->where('param_id', 4);
         })->whereDoesntHave('regions', function ($query) {
             return $query->where('is_debtor_region', false);
         })->pluck('id')->toArray();
-        $counter = 0;
-        while ($counter <= $lotCount){
-            dispatch((new FixLotRegionJob())->onQueue('parse'));
-            $counter+=500;
-        }
+        logger(count($lotCount));*/
 
+        /*$lotCount = Lot::whereHas('paramsLot', function ($query) {
+            return $query->where('param_id', 4);
+        })->whereDoesntHave('regions', function ($query) {
+            return $query->where('is_debtor_region', false);
+        })->pluck('id')->toArray();
+        logger(count($lotCount));*/
 
 
 
@@ -112,26 +114,26 @@ class TestCommand extends Command
 
         //dispatch((new AdditionalLotInfoParseJob())->onQueue('parse'));
 
-       /* $texts = AdditionalLotInfo::get();
+        /* $texts = AdditionalLotInfo::get();
 
-        foreach ($texts as $addition) {
-            $text = $addition->message;
+         foreach ($texts as $addition) {
+             $text = $addition->message;
 
-            $text = str_replace('</p>', ' </p>', $text);
-            $text = str_replace('<br>', ' ', $text);
-            $text = str_replace("&nbsp;", " ", $text);
-            $text = preg_replace("/<([^>]*(<|$))/", "&lt;$1 ", $text);
-            $text = strip_tags($text);
-            $text = str_replace(chr(194), " ", $text);
-            $text = str_replace(chr(160), " ", $text);
-            $text = preg_replace(array('/\s{2,}/', '/[\r\t\n]/', '/\r/', '/\t/', '/\n/'), ' ', $text);
-            $text = str_replace("&lt;", "", str_replace("&gt;", "", $text));
-            $text = iconv('utf-8//IGNORE', 'windows-1251//IGNORE', $text);
-            $text = iconv('windows-1251//IGNORE', 'utf-8//IGNORE', $text);
-            $addition->message = $text;
-            $addition->save();
+             $text = str_replace('</p>', ' </p>', $text);
+             $text = str_replace('<br>', ' ', $text);
+             $text = str_replace("&nbsp;", " ", $text);
+             $text = preg_replace("/<([^>]*(<|$))/", "&lt;$1 ", $text);
+             $text = strip_tags($text);
+             $text = str_replace(chr(194), " ", $text);
+             $text = str_replace(chr(160), " ", $text);
+             $text = preg_replace(array('/\s{2,}/', '/[\r\t\n]/', '/\r/', '/\t/', '/\n/'), ' ', $text);
+             $text = str_replace("&lt;", "", str_replace("&gt;", "", $text));
+             $text = iconv('utf-8//IGNORE', 'windows-1251//IGNORE', $text);
+             $text = iconv('windows-1251//IGNORE', 'utf-8//IGNORE', $text);
+             $addition->message = $text;
+             $addition->save();
 
-        }*/
+         }*/
     }
 
 }
