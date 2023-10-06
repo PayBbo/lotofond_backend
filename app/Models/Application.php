@@ -55,16 +55,22 @@ class Application extends Model
         parent::boot();
 
         static::updated(function ($application) {
-            if ($application->status == 'completed' && !is_null($application->user_id) && $application->tariff->code != 'newQuestion') {
-                Notification::create([
-                    'user_id' => $application->user_id,
-                    'date' => Carbon::now()->setTimezone('Europe/Moscow'),
-                    'label' => 'applicationAnswerTitle',
-                    'type_id' => 1,
-                    'message' => 'applicationAnswerBody',
-                    'application_id'=>$application->id,
-                    'platform_action'=>'info'
-                ]);
+            if (!is_null($application->user_id) && $application->tariff->code != 'newQuestion') {
+                $notification = new Notification();
+                $notification->user_id = $application->user_id;
+                $notification->date = Carbon::now()->setTimezone('Europe/Moscow');
+                $notification->type_id = 1;
+                $notification->application_id = $application->id;
+                $notification->platform_action = 'info';
+                if($application->status == 'inProgress') {
+                    $notification->label = 'applicationProcessTitle';
+                    $notification->message = 'applicationProcessBody';
+                }
+                if ($application->status == 'completed') {
+                    $notification->label = 'applicationAnswerTitle';
+                    $notification->message = 'applicationAnswerBody';
+                }
+                $notification->save();
             }
         });
 

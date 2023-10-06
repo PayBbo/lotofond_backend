@@ -28,6 +28,8 @@ return [
     'logInToYourAccountTitle'=>'Log in to your account',
     'logInToYourAccountBody'=>'Your account was logged in with :value',
     'logInToYourAccountPush'=>'Your account was logged in with :value at :date',
+    'applicationProcessTitle' => 'Application for ":value" of lot no. :value2 accepted for processing',
+    'applicationProcessBody'=>'Your application has been accepted for processing',
 
 
     'Annulment'=>'Cancellation Notice',

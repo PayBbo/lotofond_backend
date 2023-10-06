@@ -25,6 +25,8 @@ return [
     "gladToSeeYou"=>"我们很高兴在 Lotofond 见到你",
     'applicationAnswerTitle'=>'申请 ":value" 地段没有。 :value2 已处理',
     'applicationAnswerBody'=>'您的申请已被处理，回复已发送到邮件中',
+    'applicationProcessTitle' => '申请 ":value" 地段没有。 :value2 接受处理',
+    'applicationProcessBody'=>'你的申请已被接受处理',
 
     'logInToYourAccountTitle'=>'登入您的帐户',
     'logInToYourAccountBody'=>'您的帐户已从:value登录',

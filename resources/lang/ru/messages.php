@@ -28,6 +28,8 @@ return [
     'logInToYourAccountTitle'=>'Вход в Ваш аккаунт',
     'logInToYourAccountBody'=>'В Ваш аккаунт был совершен вход с :value',
     'logInToYourAccountBodyPush'=>'В Ваш аккаунт был совершен вход с :value в :date',
+    'applicationProcessTitle' => 'Ваша заявка на ":value" лота № :value2 принята в обработку',
+    'applicationProcessBody'=>'Ваша заявка была принята в обработку',
 
 
     'Annulment'=>'Сообщение об аннулировании',
