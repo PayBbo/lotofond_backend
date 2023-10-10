@@ -36,7 +36,7 @@ class ParseDataFromRosreestrService
             $res = $client->get('http://rosreestr.ru/api/online/fir_object/' . $cadastralNumber);
             if ($res->getStatusCode() == 200) {
                 $data = json_decode($res->getBody(), true);
-                $lotParam = LotParam::where(['value', $this->cadastralNumber, 'lot_id'=>$this->lotId])->first();
+                $lotParam = LotParam::where(['value'=> $this->cadastralNumber, 'lot_id' => $this->lotId])->first();
                 if ($lotParam) {
                     $lot = Lot::find($lotParam->lot_id);
                     $objectAddress = $data['objectData']['objectAddress']['mergedAddress'];
@@ -81,17 +81,15 @@ class ParseDataFromRosreestrService
                         $objectName = 'Помещение';
                         $type = 'premise';
                     }
-                    $mainLotParam = LotParam::find($lotParam->parent_id);
-                    if(!$mainLotParam) {
-                        $mainLotParam = LotParam::create([
-                            'param_id' => 7,
-                            'value' => stripslashes(preg_replace('/[\x00-\x1F\x7F]/u', ' ', $objectName . ' по адресу ' . $objectAddress)),
-                            'lot_id' => $lot->id,
-                            'type' => $type
-                        ]);
-                        $lotParam->parent_id = $mainLotParam->id;
-                        $lotParam->save();
-                    }
+
+                    $mainLotParam = LotParam::create([
+                        'param_id' => 7,
+                        'value' => stripslashes(preg_replace('/[\x00-\x1F\x7F]/u', ' ', $objectName . ' по адресу ' . $objectAddress)),
+                        'lot_id' => $lot->id,
+                        'type' => $type
+                    ]);
+                    $lotParam->parent_id = $mainLotParam->id;
+                    $lotParam->save();
 
                     $objectCadastralPrice = $data['parcelData']['cadCost'];
                     if (!$lot->params()->where(['param_id' => 1, 'value' => $objectCadastralPrice, 'parent_id' => $mainLotParam->id])->exists()) {
