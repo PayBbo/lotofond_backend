@@ -48,9 +48,9 @@ class DescriptionExtractsService
                         }
                     }
                     /*$reestrApiService = new ReestrApiService();
-                    $success = $reestrApiService->searchByCadastralNumber($match);
+                    $success = $reestrApiService->searchByCadastralNumber($match, $lot->id);
                     if (!$success) {*/
-                        $parseDataFromRosreestr = new ParseDataFromRosreestrService($match);
+                        $parseDataFromRosreestr = new ParseDataFromRosreestrService($match, $lot->id);
                         $parseDataFromRosreestr->handle();
                     //}
                 }

@@ -20,9 +20,13 @@ class ReestrApiService
         $this->auth_token = config('reestr.auth_token');
     }
 
-    public function searchByCadastralNumber($cadastralNumber)
+    public function searchByCadastralNumber($cadastralNumber, $lotId)
     {
         try {
+            $lotParam = LotParam::where(['value'=> $cadastralNumber, 'lot_id'=>$lotId])->first();
+            if (!$lotParam) {
+                return false;
+            }
             $client = new Client();
             $options = [
                 'form_params' => [
@@ -32,10 +36,6 @@ class ReestrApiService
             $res = $client->sendAsync($request, $options)->wait();
             $response = json_decode($res->getBody(), true);
             if ($response['query'] != 'success' || $response['found'] < 1) {
-                return false;
-            }
-            $lotParam = LotParam::where('value', $cadastralNumber)->first();
-            if (!$lotParam) {
                 return false;
             }
             $lot = Lot::find($lotParam->lot_id);

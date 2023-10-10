@@ -321,7 +321,7 @@ class Lot extends Model
 
     public function lotParams()
     {
-        return $this->hasMany(LotParam::class)->where('parent_id', null)->with(['param', 'childParams']);
+        return $this->hasMany(LotParam::class)->where('parent_id', null)->orderBy('created_at', 'desc')->with(['param', 'childParams']);
     }
 
     public function getDescriptionExtractsAttribute()
