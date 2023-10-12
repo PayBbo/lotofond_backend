@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Http\Services\Parse\GetTradeMessageContent;
+use App\Http\Services\Parse\PriceFormatterService;
 use App\Http\Services\Parse\SoapWrapperService;
 use App\Jobs\AdditionalLotInfoParseJob;
 use App\Jobs\FixLotRegionJob;

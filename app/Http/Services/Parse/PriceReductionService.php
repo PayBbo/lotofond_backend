@@ -20,6 +20,7 @@ class PriceReductionService
     public function getPriceReduction($red, $lot_id)
     {
         try {
+            logger($red);
             $lot = Lot::find($lot_id);
             if (str_starts_with($red, '&lt;table&gt;&lt;')) {
                 $red = htmlspecialchars_decode($red);
@@ -105,6 +106,8 @@ class PriceReductionService
             $start_time = substr($items[0][$start_time_index], 4, strlen($items[0][$start_time_index]) - 9);
             $end_time = substr($items[0][$end_time_index], 4, strlen($items[0][$end_time_index]) - 9);
             $price = array_key_exists((string)$price_index, $items[0]) ? $this->priceFormatter->formatPrice($items[0][$price_index]) : 0;
+            logger('price '.$items[0][$price_index]);
+            logger('formatted price '.$price);
             $deposit = null;
             if (!is_null($deposit_index)) {
                 $deposit = array_key_exists((string)$deposit_index, $items[0]) ? $this->priceFormatter->formatPrice($items[0][$deposit_index]) : null;
@@ -112,6 +115,7 @@ class PriceReductionService
             if ($i > 1) {
                 preg_match_all($new_pattern, $matches[0][$i - 1], $prev_item);
                 $prev_price = array_key_exists((string)$price_index, $prev_item[0]) ? $this->priceFormatter->formatPrice($prev_item[0][$price_index]) : 0;
+                logger('prev_price '.$price);
             } else {
                 $prev_price = $lot->start_price;
             }
