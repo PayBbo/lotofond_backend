@@ -7,6 +7,9 @@ class PriceFormatterService
     protected $priceRegex = "/(?(DEFINE)(?'usa_thousands_separators'[ ,]))(?(DEFINE)(?'usa_decimal_separators'[.]))(?(DEFINE)(?'cis_thousands_separators'[ .]))(?(DEFINE)(?'cis_decimal_separators'[,]))\b(?<![., ])(?:(?'usa'(?:(?:(?:(?:(?:[1-9]\d{0,2}))(?:(?:(?:(?&usa_thousands_separators)?[\d]{3}(?&usa_thousands_separators)?)+(?:[\d]{3}))|(?:(?&usa_thousands_separators)?[\d]{3}))?)|[0])(?:(?&usa_decimal_separators)\d{2})?))|(?'cis'(?:(?:(?:(?:(?:[1-9]\d{0,2}))(?:(?:(?:(?&cis_thousands_separators)?[\d]{3}(?&cis_thousands_separators)?)+(?:[\d]{3}))|(?:(?&cis_thousands_separators)?[\d]{3}))?)|[0])(?:(?&cis_decimal_separators)\d{2})?)))\b(?![., ])/";
 
     public function formatPrice($price){
+        //$price = htmlentities($price, null, 'utf-8');
+        $price = str_replace("&nbsp;", "", $price);
+        //$price = html_entity_decode($price);
         preg_match_all($this->priceRegex, $price, $match);
         if (count($match[0])>0){
             if(strlen($match['usa'][0])>0){
