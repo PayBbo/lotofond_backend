@@ -2,6 +2,7 @@
 
 namespace App\Http\Services\Parse\TradeMessages;
 
+use App\Http\Services\Parse\PriceFormatterService;
 use App\Models\Auction;
 use App\Models\PriceReduction;
 use Carbon\Carbon;
@@ -10,6 +11,7 @@ class BiddingProcess extends TradeMessage implements TradeMessageContract
 {
     public function response()
     {
+        $priceFormatter =new PriceFormatterService();
         $invitation = $this->invitation;
         $prefix = $this->prefix;
         $auction = $this->auction;
@@ -17,7 +19,7 @@ class BiddingProcess extends TradeMessage implements TradeMessageContract
             $data = $invitation[$prefix . 'PriceInfo']['@attributes'];
             $auction_lot = $auction->lots->where('number', $data['LotNumber'])->first();
             if ($auction_lot) {
-                $price = $data['NewPrice'];
+                $price = $priceFormatter->formatPrice($data['NewPrice']);
                 $priceReduction = $auction_lot->currentPriceReduction;
                 $new_id = null;
                 if ($priceReduction) {

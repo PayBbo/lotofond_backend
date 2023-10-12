@@ -10,6 +10,12 @@ use Exception;
 
 class PriceReductionService
 {
+    protected $priceFormatter;
+
+    public function __construct()
+    {
+        $this->priceFormatter = new PriceFormatterService();
+    }
 
     public function getPriceReduction($red, $lot_id)
     {
@@ -51,7 +57,7 @@ class PriceReductionService
                         foreach ($values as $value) {
                             $items = explode(': ', $value);
                             if (count($items) > 1) {
-                                $price = (float)$items[1];
+                                $price =  $this->priceFormatter->formatPrice($items[1]);
                                 if (date('Y-m-d H:i:s', strtotime($items[0]) == $items[0]) && $price != 0) {
                                     if ($i < count($values) - 1) {
                                         $next_item = explode(': ', $values[$i + 1]);
@@ -61,7 +67,7 @@ class PriceReductionService
                                     }
                                     if ($i > 1) {
                                         $prev_item = explode(': ', $values[$i - 1]);
-                                        $prev_price = (float)$prev_item[1];
+                                        $prev_price = $this->priceFormatter->formatPrice($prev_item[1]);
                                     } else {
                                         $prev_price = $lot->start_price;
                                     }
@@ -98,22 +104,14 @@ class PriceReductionService
             preg_match_all($new_pattern, $match, $items);
             $start_time = substr($items[0][$start_time_index], 4, strlen($items[0][$start_time_index]) - 9);
             $end_time = substr($items[0][$end_time_index], 4, strlen($items[0][$end_time_index]) - 9);
-            $price = array_key_exists((string)$price_index, $items[0]) ? number_format((float)preg_replace("/[^,.0-9]/", '',
-                str_replace(',', '.',
-                    substr($items[0][$price_index], 4, strlen($items[0][$price_index]) - 9)
-                )), 2, '.', '') : 0;
+            $price = array_key_exists((string)$price_index, $items[0]) ? $this->priceFormatter->formatPrice($items[0][$price_index]) : 0;
             $deposit = null;
             if (!is_null($deposit_index)) {
-                $deposit = array_key_exists((string)$deposit_index, $items[0]) ? number_format((float)preg_replace("/[^,.0-9]/", '',
-                    str_replace(',', '.',
-                        substr($items[0][$deposit_index], 4, strlen($items[0][$deposit_index]) - 9)
-                    )), 2, '.', '') : null;
+                $deposit = array_key_exists((string)$deposit_index, $items[0]) ? $this->priceFormatter->formatPrice($items[0][$deposit_index]) : null;
             }
             if ($i > 1) {
                 preg_match_all($new_pattern, $matches[0][$i - 1], $prev_item);
-                $prev_price = array_key_exists((string)$price_index, $items[0]) ? (float)preg_replace("/[^,.0-9]/", '',
-                    str_replace(',', '.',
-                        substr($prev_item[0][$price_index], 4, strlen($prev_item[0][$price_index]) - 9))) : 0;
+                $prev_price = array_key_exists((string)$price_index, $prev_item[0]) ? $this->priceFormatter->formatPrice($prev_item[0][$price_index]) : 0;
             } else {
                 $prev_price = $lot->start_price;
             }
