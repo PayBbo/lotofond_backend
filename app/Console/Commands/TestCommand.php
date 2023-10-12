@@ -86,12 +86,12 @@ class TestCommand extends Command
         // dispatch(new ParseTrades);
         //$get_trade_message_content = new GetTradeMessageContent($xml, 'BiddingInvitation');
         //$get_trade_message_content->switchMessageType(1, $xml, 13275260);
-        /*$soapWrapper = new SoapWrapper();
+        $soapWrapper = new SoapWrapper();
         $service = new SoapWrapperService($soapWrapper);
 
-        $xml = $service->getTradeMessageContent(15096676);
+        $xml = $service->getTradeMessageContent(15228520);
         $getTradeMessageContent = new GetTradeMessageContent($xml, 'BiddingInvitation');
-        $getTradeMessageContent->switchMessageType(81, 15096676, '17916bd0-00e9-49f4-9482-508b54de7dcb');*/
+        $getTradeMessageContent->switchMessageType(2, 15228520, 'ad35f6ab-53fb-4f32-875c-bc8cf50dc2e8');
 
 
         /*    $soapWrapper = new SoapWrapper();
