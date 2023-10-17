@@ -61,13 +61,13 @@ class TestCommand extends Command
         //  dispatch(new MonitoringNotificationJob('hourly'));
         //dispatch(new ParseDebtorMessages);
 
-        /** $startDate = Carbon::parse('2023-07-13 05:00');
-         * $endDate = Carbon::parse('2023-07-13 12:30');
-         * while ($startDate < $endDate) {
-         * $startFrom = $startDate->format('Y-m-d\TH:i:s');
-         * $startDate->addMinutes(30);
-         * dispatch((new ParseTrades($startFrom, $startDate->format('Y-m-d\TH:i:s')))->onQueue('parse'));
-         * }*/
+        $startDate = Carbon::parse('2023-10-16 13:00');
+        $endDate = Carbon::parse('2023-10-17 18:00');
+        while ($startDate < $endDate) {
+            $startFrom = $startDate->format('Y-m-d\TH:i:s');
+            $startDate->addMinutes(30);
+            dispatch((new ParseTrades($startFrom, $startDate->format('Y-m-d\TH:i:s')))->onQueue('parse'));
+        }
 
         /* $lotCount = Lot::whereHas('paramsLot', function ($query) {
              return $query->where('param_id', 4);
@@ -87,12 +87,12 @@ class TestCommand extends Command
         // dispatch(new ParseTrades);
         //$get_trade_message_content = new GetTradeMessageContent($xml, 'BiddingInvitation');
         //$get_trade_message_content->switchMessageType(1, $xml, 13275260);
-       /* $soapWrapper = new SoapWrapper();
-        $service = new SoapWrapperService($soapWrapper);
+        /* $soapWrapper = new SoapWrapper();
+         $service = new SoapWrapperService($soapWrapper);
 
-        $xml = $service->getTradeMessageContent(15228383);
-        $getTradeMessageContent = new GetTradeMessageContent($xml, 'BiddingInvitation');
-        $getTradeMessageContent->switchMessageType(5, 15228383, '36cff9e8-113e-4fc3-867d-0d566b5261cd');*/
+         $xml = $service->getTradeMessageContent(15228383);
+         $getTradeMessageContent = new GetTradeMessageContent($xml, 'BiddingInvitation');
+         $getTradeMessageContent->switchMessageType(5, 15228383, '36cff9e8-113e-4fc3-867d-0d566b5261cd');*/
 
 
         /*    $soapWrapper = new SoapWrapper();
