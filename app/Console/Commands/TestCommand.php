@@ -147,7 +147,7 @@ class TestCommand extends Command
             logger($file);
             $slash = DIRECTORY_SEPARATOR;
             if ($file->type == 'file') {
-                if (LotFile::where('url', json_encode(stristr($file->url, 'storage')))->count() == 1) {
+                if (LotFile::where('url', stristr($file->url, 'storage'))->count() == 1) {
                     $path = \storage_path('app' . $slash . 'public' . $slash . stristr($file->url, 'auction-files'));
                     File::delete($path);
                     $this->deleteDirectory($path);
