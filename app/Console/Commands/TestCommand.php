@@ -66,8 +66,8 @@ class TestCommand extends Command
 
          /*$startDate = Carbon::parse('2023-10-16 13:00');
          $endDate = Carbon::parse('2023-10-24 00:00');*/
-        $startDate = Carbon::parse('2023-10-23 19:00');
-        $endDate = Carbon::parse('2023-10-25 02:00');
+        $startDate = Carbon::parse('2023-10-25 00:00');
+        $endDate = Carbon::parse('2023-10-25 03:00');
          while ($startDate < $endDate) {
              $startFrom = $startDate->format('Y-m-d\TH:i:s');
              $startDate->addMinutes(15);

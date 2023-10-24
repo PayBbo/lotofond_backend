@@ -40,6 +40,7 @@ class DeleteOldFilesJob implements ShouldQueue
         foreach ($files as $file) {
             $slash = DIRECTORY_SEPARATOR;
             if ($file->type == 'file') {
+                logger('DELETE FILE '.$file->url);
                 $path = \storage_path('app' . $slash . 'public' . $slash . stristr($file->url, 'auction-files'));
                 File::delete($path);
                 $this->deleteDirectory($path);
@@ -57,6 +58,7 @@ class DeleteOldFilesJob implements ShouldQueue
                 $this->deleteDirectory(substr_replace($main, '', strrpos($main, $slash)));
                 LotFile::where('url', json_encode($fileForFind))->delete();
             }
+            $file->delete();
         }
     }
 
@@ -71,6 +73,7 @@ class DeleteOldFilesJob implements ShouldQueue
             && empty(File::directories($pathWithoutFile))
         ) {
             File::deleteDirectory($pathWithoutFile);
+            logger('DELETE PATH '.$pathWithoutFile);
         }
     }
 }
