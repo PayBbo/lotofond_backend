@@ -32,9 +32,11 @@ class LotFileObserver
     public function deleting(LotFile $file){
         $slash = DIRECTORY_SEPARATOR;
         if ($file->type == 'file') {
-            if (LotFile::where('url', json_encode(stristr($file->url, 'storage')))->count() == 1) {
+            if (LotFile::where('url', stristr($file->url, 'storage'))->count() == 1) {
                 $path = \storage_path('app' . $slash . 'public' . $slash . stristr($file->url, 'auction-files'));
                 File::delete($path);
+                $this->deleteDirectory($path);
+                $this->deleteDirectory(substr_replace($path,'',strrpos($path, $slash)));
             }
         } else {
             $fileForFind = ['main'=> stristr($file->url[0], 'storage'), 'preview'=>stristr($file->url[1], 'storage')];
@@ -42,6 +44,9 @@ class LotFileObserver
                 $main = \storage_path('app' . $slash . 'public' . $slash . stristr($file->url[0], 'auction-files'));
                 $preview = \storage_path('app' . $slash . 'public' . $slash . stristr($file->url[1], 'auction-files'));
                 File::delete([$main, $preview]);
+                $this->deleteDirectory($preview);
+                $this->deleteDirectory($main);
+                $this->deleteDirectory(substr_replace($main,'',strrpos($main, $slash)));
             }
         }
     }
@@ -77,5 +82,19 @@ class LotFileObserver
     public function forceDeleted(LotFile $lotFile)
     {
         //
+    }
+
+    private function deleteDirectory($path)
+    {
+        $slash = DIRECTORY_SEPARATOR;
+        $pathWithoutFile = substr_replace($path,'',strrpos($path, $slash));
+        if (substr($pathWithoutFile, strrpos($pathWithoutFile, $slash) + 1, strlen($pathWithoutFile)) !== 'auction-files'
+            && File::isDirectory($pathWithoutFile)
+            && empty(File::files($pathWithoutFile))
+            && empty(File::directories($pathWithoutFile))
+        ) {
+            File::deleteDirectory($pathWithoutFile);
+            logger('DELETE - ' .  $pathWithoutFile);
+        }
     }
 }

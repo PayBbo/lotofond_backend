@@ -34,13 +34,13 @@ class DeleteOldFilesJob implements ShouldQueue
     {
         $lastDate = Carbon::now()->subMonths(6);
         logger('DeleteOldFilesJob '.$lastDate->format('Y-m-d H:i:s'));
-        /*$files = LotFile::where('created_at', '<=', $lastDate)->limit(1000)->get();
+        $files = LotFile::where('created_at', '<=', $lastDate)->limit(1000)->get();
         foreach ($files as $file){
            $file->delete();
         }
         $count = LotFile::where('created_at', '<=', $lastDate)->count();
         logger($count);
         if($count > 0)
-            dispatch((new DeleteOldFilesJob)->onQueue('parse'));*/
+            dispatch((new DeleteOldFilesJob)->onQueue('parse'));
     }
 }

@@ -6,6 +6,7 @@ use App\Http\Services\Parse\GetTradeMessageContent;
 use App\Http\Services\Parse\PriceFormatterService;
 use App\Http\Services\Parse\SoapWrapperService;
 use App\Jobs\AdditionalLotInfoParseJob;
+use App\Jobs\DeleteOldFilesJob;
 use App\Jobs\FixLotRegionJob;
 use App\Jobs\ParseTrades;
 
@@ -63,13 +64,13 @@ class TestCommand extends Command
         //  dispatch(new MonitoringNotificationJob('hourly'));
         //dispatch(new ParseDebtorMessages);
 
-       /* $startDate = Carbon::parse('2023-10-16 13:00');
-        $endDate = Carbon::parse('2023-10-24 19:00');
-        while ($startDate < $endDate) {
-            $startFrom = $startDate->format('Y-m-d\TH:i:s');
-            $startDate->addMinutes(15);
-            dispatch((new ParseTrades($startFrom, $startDate->format('Y-m-d\TH:i:s')))->onQueue('parse'));
-        }*/
+        /* $startDate = Carbon::parse('2023-10-16 13:00');
+         $endDate = Carbon::parse('2023-10-24 23:00');
+         while ($startDate < $endDate) {
+             $startFrom = $startDate->format('Y-m-d\TH:i:s');
+             $startDate->addMinutes(15);
+             dispatch((new ParseTrades($startFrom, $startDate->format('Y-m-d\TH:i:s')))->onQueue('parse'));
+         }*/
 
         /* $lotCount = Lot::whereHas('paramsLot', function ($query) {
              return $query->where('param_id', 4);
@@ -142,43 +143,14 @@ class TestCommand extends Command
              $addition->save();
 
          }*/
-        $files = LotFile::where('lot_id', 96122)->get();
-        foreach ($files as $file){
-            logger($file);
-            $slash = DIRECTORY_SEPARATOR;
-            if ($file->type == 'file') {
-                if (LotFile::where('url', stristr($file->url, 'storage'))->count() == 1) {
-                    $path = \storage_path('app' . $slash . 'public' . $slash . stristr($file->url, 'auction-files'));
-                    File::delete($path);
-                    $this->deleteDirectory($path);
-                    $this->deleteDirectory(substr_replace($path,'',strrpos($path, $slash)));
-                }
-            } else {
-                $fileForFind = ['main'=> stristr($file->url[0], 'storage'), 'preview'=>stristr($file->url[1], 'storage')];
-                if (LotFile::where('url', json_encode($fileForFind))->count() == 1) {
-                    $main = \storage_path('app' . $slash . 'public' . $slash . stristr($file->url[0], 'auction-files'));
-                    $preview = \storage_path('app' . $slash . 'public' . $slash . stristr($file->url[1], 'auction-files'));
-                    File::delete([$main, $preview]);
-                    $this->deleteDirectory($preview);
-                    $this->deleteDirectory($main);
-                    $this->deleteDirectory(substr_replace($main,'',strrpos($main, $slash)));
-                }
-            }
-            //$file->delete();
-        }
+        /* $startDate = Carbon::parse('2023-10-16 13:00');
+           $endDate = Carbon::parse('2023-10-24 23:00');
+        while ($startDate < $endDate) {
+     $startFrom = $startDate->format('Y-m-d\TH:i:s');
+     $startDate->addMinutes(15);
+     dispatch((new ParseTrades($startFrom, $startDate->format('Y-m-d\TH:i:s')))->onQueue('parse'));
+ }*/
+        dispatch((new DeleteOldFilesJob())->onQueue('parse'));
     }
 
-    public function deleteDirectory($path)
-    {
-        $slash = DIRECTORY_SEPARATOR;
-        $pathWithoutFile = substr_replace($path,'',strrpos($path, $slash));
-        if (substr($pathWithoutFile, strrpos($pathWithoutFile, $slash) + 1, strlen($pathWithoutFile)) !== 'auction-files'
-            && File::isDirectory($pathWithoutFile)
-            && empty(File::files($pathWithoutFile))
-            && empty(File::directories($pathWithoutFile))
-        ) {
-            File::deleteDirectory($pathWithoutFile);
-            logger('DELETE - ' .  $pathWithoutFile);
-        }
-    }
 }
