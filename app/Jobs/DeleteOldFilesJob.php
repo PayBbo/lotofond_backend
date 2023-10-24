@@ -34,53 +34,48 @@ class DeleteOldFilesJob implements ShouldQueue
     public function handle()
     {
         $lastDate = Carbon::now()->subMonths(6);
-        logger('DeleteOldFilesJob '.$lastDate->format('Y-m-d H:i:s'));
+        logger('DeleteOldFilesJob ' . $lastDate->format('Y-m-d H:i:s'));
         $files = LotFile::where('created_at', '<=', $lastDate)->limit(1000)->get();
-        foreach ($files as $file){
+        foreach ($files as $file) {
             $slash = DIRECTORY_SEPARATOR;
             if ($file->type == 'file') {
-                logger('file');
-                logger(LotFile::where('url', stristr($file->url, 'storage'))->count());
-                if (LotFile::where('url', stristr($file->url, 'storage'))->count() == 1) {
-                    logger('DELETE FILE '.$file->url);
-                    /*$path = \storage_path('app' . $slash . 'public' . $slash . stristr($file->url, 'auction-files'));
-                    File::delete($path);
-                    $this->deleteDirectory($path);
-                    $this->deleteDirectory(substr_replace($path,'',strrpos($path, $slash)));*/
-                }
+                logger('DELETE FILE ' . $file->url);
+                $path = \storage_path('app' . $slash . 'public' . $slash . stristr($file->url, 'auction-files'));
+                File::delete($path);
+                $this->deleteDirectory($path);
+                $this->deleteDirectory(substr_replace($path, '', strrpos($path, $slash)));
+                LotFile::where('url', json_encode(stristr($file->url, 'storage')))->delete();
+
             } else {
-                $fileForFind = ['main'=> stristr($file->url[0], 'storage'), 'preview'=>stristr($file->url[1], 'storage')];
-                logger('image');
-                logger(LotFile::where('url', json_encode($fileForFind))->count());
-                if (LotFile::where('url', json_encode($fileForFind))->count() == 1) {
-                    logger('DELETE IMAGE '.$file->url[0]);
-                    /*$main = \storage_path('app' . $slash . 'public' . $slash . stristr($file->url[0], 'auction-files'));
-                    $preview = \storage_path('app' . $slash . 'public' . $slash . stristr($file->url[1], 'auction-files'));
-                    File::delete([$main, $preview]);
-                    $this->deleteDirectory($preview);
-                    $this->deleteDirectory($main);
-                    $this->deleteDirectory(substr_replace($main,'',strrpos($main, $slash)));*/
-                }
+                $fileForFind = ['main' => stristr($file->url[0], 'storage'), 'preview' => stristr($file->url[1], 'storage')];
+                logger('DELETE IMAGE ' . $file->url[0]);
+                $main = \storage_path('app' . $slash . 'public' . $slash . stristr($file->url[0], 'auction-files'));
+                $preview = \storage_path('app' . $slash . 'public' . $slash . stristr($file->url[1], 'auction-files'));
+                File::delete([$main, $preview]);
+                $this->deleteDirectory($preview);
+                $this->deleteDirectory($main);
+                $this->deleteDirectory(substr_replace($main, '', strrpos($main, $slash)));
+                LotFile::where('url', json_encode($fileForFind))->delete();
             }
-          // $file->delete();
         }
-        /*$count = LotFile::where('created_at', '<=', $lastDate)->count();
-        logger($count);
+        $count = LotFile::where('created_at', '<=', $lastDate)->count();
+        logger('COUNT '.$count);
         if($count > 0)
-            dispatch((new DeleteOldFilesJob)->onQueue('parse'));*/
+            dispatch((new DeleteOldFilesJob)->onQueue('parse'));
     }
 
-    private function deleteDirectory($path)
+    private
+    function deleteDirectory($path)
     {
         $slash = DIRECTORY_SEPARATOR;
-        $pathWithoutFile = substr_replace($path,'',strrpos($path, $slash));
+        $pathWithoutFile = substr_replace($path, '', strrpos($path, $slash));
         if (substr($pathWithoutFile, strrpos($pathWithoutFile, $slash) + 1, strlen($pathWithoutFile)) !== 'auction-files'
             && File::isDirectory($pathWithoutFile)
             && empty(File::files($pathWithoutFile))
             && empty(File::directories($pathWithoutFile))
         ) {
             File::deleteDirectory($pathWithoutFile);
-            logger('DELETE - ' .  $pathWithoutFile);
+            logger('DELETE - ' . $pathWithoutFile);
         }
     }
 }
