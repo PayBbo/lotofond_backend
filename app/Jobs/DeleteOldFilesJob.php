@@ -22,6 +22,16 @@ class DeleteOldFilesJob implements ShouldQueue
      */
     public function __construct()
     {
+
+    }
+
+    /**
+     * Execute the job.
+     *
+     * @return void
+     */
+    public function handle()
+    {
         $lastDate = Carbon::now()->subMonths(6);
         logger('DeleteOldFilesJob '.$lastDate->format('Y-m-d H:i:s'));
         /*$files = LotFile::where('created_at', '<=', $lastDate)->limit(1000)->get();
@@ -32,15 +42,5 @@ class DeleteOldFilesJob implements ShouldQueue
         logger($count);
         if($count > 0)
             dispatch((new DeleteOldFilesJob)->onQueue('parse'));*/
-    }
-
-    /**
-     * Execute the job.
-     *
-     * @return void
-     */
-    public function handle()
-    {
-        //
     }
 }
