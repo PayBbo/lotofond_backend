@@ -38,7 +38,7 @@ class ParseTrades implements ShouldQueue
             $this->startFrom = $startFrom;
             $this->endTo = $endTo;
         } else {
-            $this->startFrom = Carbon::now()->setTimezone('Europe/Moscow')->subMinutes(30)->format('Y-m-d\TH:i:s');
+            $this->startFrom = Carbon::now()->setTimezone('Europe/Moscow')->subMinutes(15)->format('Y-m-d\TH:i:s');
             $this->endTo = Carbon::now()->setTimezone('Europe/Moscow')->format('Y-m-d\TH:i:s');
         }
     }
@@ -51,7 +51,6 @@ class ParseTrades implements ShouldQueue
     public function handle()
     {
         logger('START:' . $this->startFrom);
-        logger('END:' . $this->endTo);
         $startFrom = $this->startFrom;
         $endTo = $this->endTo;
         $soapWrapper = new SoapWrapper();
@@ -160,6 +159,7 @@ class ParseTrades implements ShouldQueue
         $cacheService->cacheCategoriesStatistics();
         $cacheService->cacheLotsStatistics();
         $cacheService->cachePricesForFilter();
+        logger('END:' . $this->endTo);
     }
 
 

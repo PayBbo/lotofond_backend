@@ -3,6 +3,7 @@
 namespace App\Console;
 
 use App\Jobs\AdditionalLotInfoParseJob;
+use App\Jobs\DeleteOldFilesJob;
 use App\Jobs\EGRNStatementJob;
 use App\Jobs\FavouriteJob;
 use App\Jobs\FixDescription;
@@ -29,7 +30,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->job((new ParseTrades)->onQueue('parse'))->everyThirtyMinutes()->timezone('Europe/Moscow');
+        $schedule->job((new ParseTrades)->onQueue('parse'))->everyFifteenMinutes()->timezone('Europe/Moscow');
         $schedule->job((new MonitoringJob)->onQueue('parse'))->hourly()->timezone('Europe/Moscow');
         $schedule->job((new MonitoringNotificationJob('hourly'))->onQueue('parse'))->hourly()->timezone('Europe/Moscow');
         $schedule->job((new MonitoringNotificationJob('daily'))->onQueue('parse'))->daily()->timezone('Europe/Moscow');
@@ -45,6 +46,7 @@ class Kernel extends ConsoleKernel
         $schedule->job((new FixDescription)->onQueue('parse'))->dailyAt('03:30')->timezone('Europe/Moscow');
         $schedule->job((new NewUsersNotificationsJob)->onQueue('user'))->dailyAt('20:00')->timezone('Europe/Moscow');
         $schedule->job((new AdditionalLotInfoParseJob)->onQueue('parse'))->dailyAt('01:20')->timezone('Europe/Moscow');
+        $schedule->job((new DeleteOldFilesJob)->onQueue('parse'))->lastDayOfMonth('01:00')->timezone('Europe/Moscow');
     }
 
     /**
