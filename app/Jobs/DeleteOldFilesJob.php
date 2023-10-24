@@ -33,13 +33,13 @@ class DeleteOldFilesJob implements ShouldQueue
      */
     public function handle()
     {
-        $lastDate = Carbon::now()->subMonths(6);
-        logger('DeleteOldFilesJob ' . $lastDate->format('Y-m-d H:i:s'));
-        $files = LotFile::where('created_at', '<=', $lastDate)->limit(1000)->get();
+        //$lastDate = Carbon::now()->subMonths(6);
+        //logger('DeleteOldFilesJob ' . $lastDate->format('Y-m-d H:i:s'));
+        $lastDate = '2023-04-25 00:00:00';
+        $files = LotFile::where('created_at', '<=', $lastDate)->limit(500)->get();
         foreach ($files as $file) {
             $slash = DIRECTORY_SEPARATOR;
             if ($file->type == 'file') {
-                logger('DELETE FILE ' . $file->url);
                 $path = \storage_path('app' . $slash . 'public' . $slash . stristr($file->url, 'auction-files'));
                 File::delete($path);
                 $this->deleteDirectory($path);
@@ -58,10 +58,6 @@ class DeleteOldFilesJob implements ShouldQueue
                 LotFile::where('url', json_encode($fileForFind))->delete();
             }
         }
-        $count = LotFile::where('created_at', '<=', $lastDate)->count();
-        logger('COUNT '.$count);
-        if($count > 0)
-            dispatch((new DeleteOldFilesJob)->onQueue('parse'));
     }
 
     private
@@ -75,7 +71,6 @@ class DeleteOldFilesJob implements ShouldQueue
             && empty(File::directories($pathWithoutFile))
         ) {
             File::deleteDirectory($pathWithoutFile);
-            logger('DELETE - ' . $pathWithoutFile);
         }
     }
 }
