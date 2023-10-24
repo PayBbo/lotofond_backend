@@ -39,31 +39,35 @@ class DeleteOldFilesJob implements ShouldQueue
         foreach ($files as $file){
             $slash = DIRECTORY_SEPARATOR;
             if ($file->type == 'file') {
+                logger('file');
+                logger(LotFile::where('url', stristr($file->url, 'storage'))->count());
                 if (LotFile::where('url', stristr($file->url, 'storage'))->count() == 1) {
                     logger('DELETE FILE '.$file->url);
-                    $path = \storage_path('app' . $slash . 'public' . $slash . stristr($file->url, 'auction-files'));
+                    /*$path = \storage_path('app' . $slash . 'public' . $slash . stristr($file->url, 'auction-files'));
                     File::delete($path);
                     $this->deleteDirectory($path);
-                    $this->deleteDirectory(substr_replace($path,'',strrpos($path, $slash)));
+                    $this->deleteDirectory(substr_replace($path,'',strrpos($path, $slash)));*/
                 }
             } else {
                 $fileForFind = ['main'=> stristr($file->url[0], 'storage'), 'preview'=>stristr($file->url[1], 'storage')];
+                logger('image');
+                logger(LotFile::where('url', json_encode($fileForFind))->count());
                 if (LotFile::where('url', json_encode($fileForFind))->count() == 1) {
                     logger('DELETE IMAGE '.$file->url[0]);
-                    $main = \storage_path('app' . $slash . 'public' . $slash . stristr($file->url[0], 'auction-files'));
+                    /*$main = \storage_path('app' . $slash . 'public' . $slash . stristr($file->url[0], 'auction-files'));
                     $preview = \storage_path('app' . $slash . 'public' . $slash . stristr($file->url[1], 'auction-files'));
                     File::delete([$main, $preview]);
                     $this->deleteDirectory($preview);
                     $this->deleteDirectory($main);
-                    $this->deleteDirectory(substr_replace($main,'',strrpos($main, $slash)));
+                    $this->deleteDirectory(substr_replace($main,'',strrpos($main, $slash)));*/
                 }
             }
-           $file->delete();
+          // $file->delete();
         }
-        $count = LotFile::where('created_at', '<=', $lastDate)->count();
+        /*$count = LotFile::where('created_at', '<=', $lastDate)->count();
         logger($count);
         if($count > 0)
-            dispatch((new DeleteOldFilesJob)->onQueue('parse'));
+            dispatch((new DeleteOldFilesJob)->onQueue('parse'));*/
     }
 
     private function deleteDirectory($path)
