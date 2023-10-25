@@ -36,7 +36,7 @@ class DeleteOldFilesJob implements ShouldQueue
         //$lastDate = Carbon::now()->subMonths(6);
         //logger('DeleteOldFilesJob ' . $lastDate->format('Y-m-d H:i:s'));
         $lastDate = '2023-04-25 00:00:00';
-        $files = LotFile::where('created_at', '<=', $lastDate)->limit(500)->get();
+        $files = LotFile::where('created_at', '<=', $lastDate)->limit(300)->get();
         foreach ($files as $file) {
             $slash = DIRECTORY_SEPARATOR;
             if ($file->type == 'file') {
@@ -62,8 +62,7 @@ class DeleteOldFilesJob implements ShouldQueue
         }
     }
 
-    private
-    function deleteDirectory($path)
+    private function deleteDirectory($path)
     {
         $slash = DIRECTORY_SEPARATOR;
         $pathWithoutFile = substr_replace($path, '', strrpos($path, $slash));

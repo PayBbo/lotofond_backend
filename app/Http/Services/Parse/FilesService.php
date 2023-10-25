@@ -90,23 +90,23 @@ class FilesService
     {
         $this->searchAllFilesImagesForExtract($temp_dir);
         $this->deleteAllFilesForExtract($temp_dir, null, $filename);
-        if ($type === 'pdf')
-            $this->binwalkNotFindImages($temp_dir, $filename);
+        /*if ($type === 'pdf')
+            $this->binwalkNotFindImages($temp_dir, $filename);*/
         $this->copyAllFilesImagesForExtract($temp_dir, $root_path);
         $this->deleteAllFilesForExtract($temp_dir, 'yes');
     }
 
-    private function binwalkNotFindImages($temp_dir, $filename)
+   /* private function binwalkNotFindImages($temp_dir, $filename)
     {
         $allFiles = Storage::disk('public')->allFiles($temp_dir);
         if (count($allFiles) <= 1) {
             $filename = Storage::disk('public')->path($temp_dir . $this->slash . $filename);
             $comm_dir = Storage::disk('public')->path($temp_dir) . $this->slash;
-            $comm = "pdfimages -png " . $filename . " " . $comm_dir;
+            $comm = "pdfimages -all " . $filename . " " . $comm_dir;
             $this->execCommand($comm);
             $this->searchAllFilesImagesForExtract($temp_dir);
         }
-    }
+    }*/
 
     private function setExecCommand($temp_dir, $filename, $extension, $comm = null)
     {
@@ -114,8 +114,10 @@ class FilesService
         $temp_dir = Storage::disk('public')->path($temp_dir) . $this->slash;
         switch ($extension) {
             case 'doc':
-            case 'pdf':
                 $comm = "binwalk --dd 'jpeg image:jpeg' --dd 'png image:png' --dd 'jpg image:jpg' --dd 'bmp image:bmp' " . $filename . " --directory " . $temp_dir . " --rm  --run-as=root";
+                break;
+            case 'pdf':
+                $comm = "pdfimages -all " . $filename . " " . $temp_dir;
                 break;
             case 'docx':
             case 'zip':

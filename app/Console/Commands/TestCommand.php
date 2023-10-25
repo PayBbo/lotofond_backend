@@ -66,13 +66,13 @@ class TestCommand extends Command
 
          /*$startDate = Carbon::parse('2023-10-16 13:00');
          $endDate = Carbon::parse('2023-10-24 00:00');*/
-        $startDate = Carbon::parse('2023-10-25 00:00');
-        $endDate = Carbon::parse('2023-10-25 03:00');
+       /* $startDate = Carbon::parse('2023-10-16 00:00');
+        $endDate = Carbon::parse('2023-10-17 00:00');
          while ($startDate < $endDate) {
              $startFrom = $startDate->format('Y-m-d\TH:i:s');
              $startDate->addMinutes(15);
              dispatch((new ParseTrades($startFrom, $startDate->format('Y-m-d\TH:i:s')))->onQueue('parse'));
-         }
+         }*/
 
         /* $lotCount = Lot::whereHas('paramsLot', function ($query) {
              return $query->where('param_id', 4);
