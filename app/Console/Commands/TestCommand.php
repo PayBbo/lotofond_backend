@@ -64,15 +64,15 @@ class TestCommand extends Command
         //  dispatch(new MonitoringNotificationJob('hourly'));
         //dispatch(new ParseDebtorMessages);
 
-         /*$startDate = Carbon::parse('2023-10-16 13:00');
-         $endDate = Carbon::parse('2023-10-24 00:00');*/
-       /*$startDate = Carbon::parse('2023-10-25 13:30');
-        $endDate = Carbon::parse('2023-10-25 13:45');
-         while ($startDate < $endDate) {
-             $startFrom = $startDate->format('Y-m-d\TH:i:s');
-             $startDate->addMinutes(15);
-             dispatch((new ParseTrades($startFrom, $startDate->format('Y-m-d\TH:i:s')))->onQueue('parse'));
-         }*/
+        /*$startDate = Carbon::parse('2023-10-16 13:00');
+        $endDate = Carbon::parse('2023-10-24 00:00');*/
+        $startDate = Carbon::parse('2023-10-30 10:00');
+        $endDate = Carbon::parse('2023-10-30 10:15');
+        while ($startDate < $endDate) {
+            $startFrom = $startDate->format('Y-m-d\TH:i:s');
+            $startDate->addMinutes(15);
+            dispatch((new ParseTrades($startFrom, $startDate->format('Y-m-d\TH:i:s')))->onQueue('parse'));
+        }
 
         /* $lotCount = Lot::whereHas('paramsLot', function ($query) {
              return $query->where('param_id', 4);
@@ -153,9 +153,9 @@ class TestCommand extends Command
      dispatch((new ParseTrades($startFrom, $startDate->format('Y-m-d\TH:i:s')))->onQueue('parse'));
  }*/
 
-       /* $lastDate = '2023-04-25 00:00:00';
-        $files = LotFile::where('created_at', '<=', $lastDate)->count();
-        logger($files);*/
+        /* $lastDate = '2023-04-25 00:00:00';
+         $files = LotFile::where('created_at', '<=', $lastDate)->count();
+         logger($files);*/
     }
 
 }

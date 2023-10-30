@@ -53,15 +53,19 @@ class ParseTrades implements ShouldQueue
         logger('START:' . $this->startFrom);
         $startFrom = $this->startFrom;
         $endTo = $this->endTo;
+        logger('START getTradeMessages '.Carbon::now()->setTimezone('Europe/Moscow')->format('H:i:s'));
         $soapWrapper = new SoapWrapper();
         $this->service = new SoapWrapperService($soapWrapper);
         $messages = $this->service->getTradeMessages($startFrom, $endTo);
+        logger('END getTradeMessages '.Carbon::now()->setTimezone('Europe/Moscow')->format('H:i:s'));
+        logger('-----------------------------------------------------');
         foreach ($messages as $value) {
             foreach ($value as $message) {
                 if (gettype($message) == 'string') {
                     $message = $value;
                 }
                 if (!array_key_exists('INN', $message)) {
+                    logger('CONTINUE: INN DO NOT EXISTS');
                     continue;
                 }
                 $tradePlace = TradePlace::where('inn', $message->INN)->first();
@@ -80,15 +84,18 @@ class ParseTrades implements ShouldQueue
                                 $val = json_decode($val);
                             }
                             if (array_key_exists('ID', $val)) {
+                                logger('1');
                                 $this->getMessageContent($val->ID, $val->Type, $tradePlace->id, $val->GUID);
                                 continue;
                             }
                             if (gettype($val) == 'object') {
                                 if (gettype($val->MessageList->TradeMessage) == 'array') {
                                     foreach ($val->MessageList->TradeMessage as $item) {
+                                        logger('2');
                                         $this->getMessageContent($item->ID, $item->Type, $tradePlace->id, $item->GUID);
                                     }
                                 } else {
+                                    logger('3');
                                     $this->getMessageContent($val->MessageList->TradeMessage->ID, $val->MessageList->TradeMessage->Type, $tradePlace->id, $val->GUID);
                                 }
                                 continue;
@@ -96,9 +103,11 @@ class ParseTrades implements ShouldQueue
                             foreach ($val as $trade) {
                                 if (array_key_exists('TradeMessage', $trade)) {
                                     if (gettype($trade->TradeMessage) == 'object') {
+                                        logger('4');
                                         $this->getMessageContent($trade->TradeMessage->ID, $trade->TradeMessage->Type, $tradePlace->id, $trade->GUID);
                                     } else {
                                         foreach ($trade->TradeMessage as $message) {
+                                            logger('5');
                                             $this->getMessageContent($message->ID, $message->Type, $tradePlace->id, $trade->GUID);
                                         }
                                     }
@@ -108,10 +117,12 @@ class ParseTrades implements ShouldQueue
                                             $item = json_decode($item);
                                         }
                                         if (gettype($item) == 'object') {
+                                            logger('6');
                                             $this->getMessageContent($item->ID, $item->Type, $tradePlace->id, $trade->GUID);
                                         }
                                         if (gettype($item) == 'array') {
                                             foreach ($item as $i) {
+                                                logger('7');
                                                 $this->getMessageContent($i->ID, $i->Type, $tradePlace->id, $trade->GUID);
                                             }
                                         }
@@ -126,10 +137,12 @@ class ParseTrades implements ShouldQueue
                         logger($e);
                     }
                 } else {
+                    logger('8');
                     $this->getMessageContent($message->TradeMessage->ID, $message->TradeMessage->Type, $tradePlace->id, $message->GUID);
                 }
             }
         }
+        logger('finishJob');
         $this->finishJob();
     }
 
@@ -138,12 +151,16 @@ class ParseTrades implements ShouldQueue
         try {
             $tradeMessage = TradeMessage::where('number', $messageId)->first();
             if (!$tradeMessage) {
+                logger('START getMessageContent type= '.$messageType.' id= '.$messageId .' time= '.Carbon::now()->setTimezone('Europe/Moscow')->format('H:i:s'));
                 $xml = $this->service->getTradeMessageContent($messageId);
                 $getTradeMessageContent = new GetTradeMessageContent($xml, $messageType);
                 $getTradeMessageContent->switchMessageType($tradePlaceId, $messageId, $messageGUID);
+                logger('END getMessageContent type= '.$messageType.' id= '.$messageId .' time= '.Carbon::now()->setTimezone('Europe/Moscow')->format('H:i:s'));
+                logger('------------------------------------------------------------');
             }
         } catch (\Exception $e) {
             if(str_contains($e->getMessage(), 'Access Denied')){
+                logger('Access Denied');
                 dispatch((new AccessDeniedJob($messageId, $messageType, $messageGUID, $tradePlaceId))
                     ->delay(now()->setTimezone('Europe/Moscow')->addMinutes(5))
                     ->onQueue('parse'));
