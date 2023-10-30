@@ -33,12 +33,9 @@ class BiddingInvitation extends TradeMessage
             if (array_key_exists('INN', $debtor) && $debtor['INN'] !== "" && !is_null($debtor['INN'])) {
                 try {
                     $bidderParse = new BidderService('debtor', $debtor['INN'], $debtor_type);
-                    $debtor = $bidderParse->parseDebtor($codeType);
+                    $debtor = $bidderParse->parseDebtor($codeType, $debtor);
                     if(is_null($debtor)){
-                        logger('DEBTOR data not found');
-                        logger('GUID '.$this->guid);
-                        logger($invitation);
-                        logger('-----------------------------------------------');
+                        logger('DEBTOR data not found. GUID ' .$this->guid);
                         return null;
                     }
                 } catch (\Exception $exception) {
@@ -48,10 +45,7 @@ class BiddingInvitation extends TradeMessage
                     dispatch((new RetryParseDebtor($inn, $codeType, $debtor_type))->onQueue('parse'));
                 }
             } else {
-                logger('DEBTOR data not found');
-                logger('GUID '.$this->guid);
-                logger($invitation);
-                logger('-----------------------------------------------');
+                logger('DEBTOR INN not found. GUID ' .$this->guid);
                 return null;
             }
 

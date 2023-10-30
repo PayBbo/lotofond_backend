@@ -92,7 +92,7 @@ class BidderService
         return $this->bidder;
     }
 
-    public function parseDebtor($codeType)
+    public function parseDebtor($codeType, $debtorMessageData = null)
     {
         $soapWrapper = new SoapWrapper();
         $service = new SoapWrapperService($soapWrapper);
@@ -116,7 +116,10 @@ class BidderService
                 $debtor = get_object_vars($debtor_data['DebtorCompany']);
             }
         }else{
-            return null;
+            if(is_null($debtorMessageData)){
+                return null;
+            }
+            $debtor = $debtorMessageData;
         }
         if (gettype($debtor) == 'object') {
             $debtor = get_object_vars($debtor);
