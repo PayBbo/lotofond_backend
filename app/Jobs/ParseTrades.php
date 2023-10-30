@@ -54,9 +54,16 @@ class ParseTrades implements ShouldQueue
         $startFrom = $this->startFrom;
         $endTo = $this->endTo;
         logger('START getTradeMessages '.Carbon::now()->setTimezone('Europe/Moscow')->format('H:i:s'));
-        $soapWrapper = new SoapWrapper();
-        $this->service = new SoapWrapperService($soapWrapper);
-        $messages = $this->service->getTradeMessages($startFrom, $endTo);
+        try {
+            $soapWrapper = new SoapWrapper();
+            $this->service = new SoapWrapperService($soapWrapper);
+            $messages = $this->service->getTradeMessages($startFrom, $endTo);
+        }catch (Exception $exception){
+            logger('FAILED getTradeMessages, RESTART');
+            dispatch((new ParseTrades($this->startFrom, $this->endTo))
+                ->delay(now()->setTimezone('Europe/Moscow')->addMinutes(5))
+                ->onQueue('parse'));
+        }
         logger('END getTradeMessages '.Carbon::now()->setTimezone('Europe/Moscow')->format('H:i:s'));
         logger('-----------------------------------------------------');
         foreach ($messages as $value) {

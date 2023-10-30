@@ -35,6 +35,10 @@ class BiddingInvitation extends TradeMessage
                     $bidderParse = new BidderService('debtor', $debtor['INN'], $debtor_type);
                     $debtor = $bidderParse->parseDebtor($codeType);
                     if(is_null($debtor)){
+                        logger('DEBTOR data not found');
+                        logger('GUID '.$this->guid);
+                        logger($invitation);
+                        logger('-----------------------------------------------');
                         return null;
                     }
                 } catch (\Exception $exception) {
@@ -44,6 +48,10 @@ class BiddingInvitation extends TradeMessage
                     dispatch((new RetryParseDebtor($inn, $codeType, $debtor_type))->onQueue('parse'));
                 }
             } else {
+                logger('DEBTOR data not found');
+                logger('GUID '.$this->guid);
+                logger($invitation);
+                logger('-----------------------------------------------');
                 return null;
             }
 

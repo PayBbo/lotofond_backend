@@ -13,7 +13,6 @@ use App\Models\TradePlace;
 use Artisaninweb\SoapWrapper\SoapWrapper;
 use Carbon\Carbon;
 use Midnite81\Xml2Array\Xml2Array;
-use function logger;
 
 class GetTradeMessageContent
 {
