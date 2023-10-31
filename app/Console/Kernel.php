@@ -46,8 +46,7 @@ class Kernel extends ConsoleKernel
         $schedule->job((new FixDescription)->onQueue('parse'))->dailyAt('03:30')->timezone('Europe/Moscow');
         $schedule->job((new NewUsersNotificationsJob)->onQueue('user'))->dailyAt('20:00')->timezone('Europe/Moscow');
         $schedule->job((new AdditionalLotInfoParseJob)->onQueue('parse'))->dailyAt('01:20')->timezone('Europe/Moscow');
-        //$schedule->job((new DeleteOldFilesJob)->onQueue('parse'))->monthly()->timezone('Europe/Moscow');
-        $schedule->job((new DeleteOldFilesJob)->onQueue('delete-files'))->everyThirtyMinutes()->timezone('Europe/Moscow');
+        $schedule->job((new DeleteOldFilesJob)->onQueue('delete-files'))->lastDayOfMonth('23:30')->timezone('Europe/Moscow');
     }
 
     /**

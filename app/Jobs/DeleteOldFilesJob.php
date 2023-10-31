@@ -5,12 +5,11 @@ namespace App\Jobs;
 use App\Models\LotFile;
 use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
 
 class DeleteOldFilesJob implements ShouldQueue
 {
@@ -33,43 +32,28 @@ class DeleteOldFilesJob implements ShouldQueue
      */
     public function handle()
     {
-        //$lastDate = Carbon::now()->subMonths(6);
-        //logger('DeleteOldFilesJob ' . $lastDate->format('Y-m-d H:i:s'));
-        $lastDate = '2023-04-25 00:00:00';
-        $files = LotFile::where('created_at', '<=', $lastDate)->limit(300)->get();
-        foreach ($files as $file) {
-            $slash = DIRECTORY_SEPARATOR;
-            if ($file->type == 'file') {
-                $path = \storage_path('app' . $slash . 'public' . $slash . stristr($file->url, 'auction-files'));
-                File::delete($path);
-                $this->deleteDirectory($path);
-                $this->deleteDirectory(substr_replace($path, '', strrpos($path, $slash)));
-                LotFile::where('url', json_encode(stristr($file->url, 'storage')))->delete();
-
-            } else {
-                $fileForFind = ['main' => stristr($file->url[0], 'storage'), 'preview' => stristr($file->url[1], 'storage')];
-                $main = \storage_path('app' . $slash . 'public' . $slash . stristr($file->url[0], 'auction-files'));
-                $preview = \storage_path('app' . $slash . 'public' . $slash . stristr($file->url[1], 'auction-files'));
-                File::delete([$main, $preview]);
-                $this->deleteDirectory($preview);
-                $this->deleteDirectory($main);
-                $this->deleteDirectory(substr_replace($main, '', strrpos($main, $slash)));
-                LotFile::where('url', json_encode($fileForFind))->delete();
-            }
-            $file->delete();
-        }
+        logger('DeleteOldFilesJob ' . Carbon::now()->subDays(7)->subMonths(6)->endOfMonth()->endOfDay()->format('Y-m-d H:i:s'));
+        $lastDate = Carbon::now()->subDays(7)->subMonths(6);
+        $path = Storage::disk('public')->path('auction-files');
+        $commFirst = "find " . $path . " -type d \\( -name \"*-" .  $lastDate->format('m-Y') . "-*\" \\) -exec rm -r {} \\";
+        logger($commFirst);
+        $this->execCommand($commFirst);
+        $commSecond = "find " . $path . " -type d -empty -exec rm -r {} \;";
+        logger($commSecond);
+        $this->execCommand($commSecond);
+        LotFile::where('created_at', '<=', $lastDate->endOfMonth()->endOfDay()->format('Y-m-d H:i:s'))->delete();
+        logger('-----------------------------------------');
     }
 
-    private function deleteDirectory($path)
+    private function execCommand($comm = null)
     {
-        $slash = DIRECTORY_SEPARATOR;
-        $pathWithoutFile = substr_replace($path, '', strrpos($path, $slash));
-        if (substr($pathWithoutFile, strrpos($pathWithoutFile, $slash) + 1, strlen($pathWithoutFile)) !== 'auction-files'
-            && File::isDirectory($pathWithoutFile)
-            && empty(File::files($pathWithoutFile))
-            && empty(File::directories($pathWithoutFile))
-        ) {
-            File::deleteDirectory($pathWithoutFile);
+        if (!is_null($comm)) {
+            try {
+                logger($comm);
+                exec(`$comm`);
+            } catch (\Exception $exception) {
+                logger($exception);
+            }
         }
     }
 }
