@@ -68,7 +68,7 @@ class GetTradeMessageContent
             foreach ($auctions as $auction) {
                 try {
                     $messages = $service->getTradeMessagesByTrade($auction->trade_id, $auction->tradePlace->inn, Carbon::parse($auction->publish_date)->format('Y-m-d\TH:i:s'));
-                    logger($messages);
+                    logger(json_encode($messages));
                     $isAuctionMessage = $this->checkIsAuctionMessage($messages, $id);
                     if ($isAuctionMessage) {
                         $searchAuction = $auction;
