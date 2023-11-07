@@ -53,11 +53,22 @@ class AccessDeniedJob implements ShouldQueue
     public function handle()
     {
         if (!TradeMessage::where('number', $this->messageId)->exists()) {
-            $soapWrapper = new SoapWrapper();
-            $service = new SoapWrapperService($soapWrapper);
-            $xml = $service->getTradeMessageContent($this->messageId);
-            $getTradeMessageContent = new GetTradeMessageContent($xml, $this->messageType);
-            $getTradeMessageContent->switchMessageType($this->tradePlaceId, $this->messageId, $this->messageGUID);
+            try {
+                $soapWrapper = new SoapWrapper();
+                $service = new SoapWrapperService($soapWrapper);
+                $xml = $service->getTradeMessageContent($this->messageId);
+                $getTradeMessageContent = new GetTradeMessageContent($xml, $this->messageType);
+                $getTradeMessageContent->switchMessageType($this->tradePlaceId, $this->messageId, $this->messageGUID);
+            }catch (\Exception $exception){
+                if(str_contains($exception->getMessage(), 'Access Denied')){
+                    dispatch((new AccessDeniedJob($this->messageId, $this->messageType, $this->messageGUID, $this->tradePlaceId))
+                        ->delay(now()->setTimezone('Europe/Moscow')->addMinutes(5))
+                        ->onQueue('parse'));
+                }else {
+                    logger('AccessDeniedJob. Error = ' . $exception->getMessage() . ' ' . $exception->getLine() . ' for MessageId = ' . $this->messageId);
+                    logger($exception);
+                }
+            }
         }
     }
 }
