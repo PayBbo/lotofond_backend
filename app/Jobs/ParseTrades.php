@@ -146,12 +146,10 @@ class ParseTrades implements ShouldQueue
         try {
             $tradeMessage = TradeMessage::where('number', $messageId)->first();
             if (!$tradeMessage) {
-                logger('NOT FOUND ID= '.$messageId.' TYPE = '.$messageType. ' GUID = '.$messageGUID);
                 $xml = $this->service->getTradeMessageContent($messageId);
                 $getTradeMessageContent = new GetTradeMessageContent($xml, $messageType);
                 $getTradeMessageContent->switchMessageType($tradePlaceId, $messageId, $messageGUID);
             }
-            logger('FOUND ID= '.$messageId.' TYPE = '.$messageType. ' GUID = '.$messageGUID);
         } catch (\Exception $e) {
             if(str_contains($e->getMessage(), 'Access Denied')){
                 dispatch((new AccessDeniedJob($messageId, $messageType, $messageGUID, $tradePlaceId))

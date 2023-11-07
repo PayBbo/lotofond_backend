@@ -60,7 +60,6 @@ class GetTradeMessageContent
             $annulment = new Annulment($this->invitation, $this->prefix, $this->messageType, $id, $messageGUID);
             $annulment->response();
         } else {
-            logger($this->invitation);
             $searchAuction = null;
             $auctions = Auction::where('trade_id', $this->invitation['@attributes']['TradeId'])->get();
             $soapWrapper = new SoapWrapper();
@@ -68,7 +67,6 @@ class GetTradeMessageContent
             foreach ($auctions as $auction) {
                 try {
                     $messages = $service->getTradeMessagesByTrade($auction->trade_id, $auction->tradePlace->inn, Carbon::parse($auction->publish_date)->format('Y-m-d\TH:i:s'));
-                    logger(json_encode($messages));
                     $isAuctionMessage = $this->checkIsAuctionMessage($messages, $id);
                     if ($isAuctionMessage) {
                         $searchAuction = $auction;
@@ -87,7 +85,6 @@ class GetTradeMessageContent
 
             }
             if ($searchAuction) {
-                logger('found auction = '.$searchAuction->id);
                 if ($this->messageType == 'BiddingEnd' || $this->messageType == 'BiddingStart' ||
                     $this->messageType == 'ApplicationSessionEnd' || $this->messageType == 'ApplicationSessionStart') {
                     $applicationSession = new ApplicationSession($this->invitation, $this->prefix, $this->messageType, $id, $messageGUID, $searchAuction);
@@ -97,12 +94,9 @@ class GetTradeMessageContent
                     $biddingStatusInfo = new BiddingStatusInfo($this->invitation, $this->prefix, $this->messageType, $id, $messageGUID, $searchAuction);
                     $biddingStatusInfo->response();
                 } else {
-                    logger($this->messageType . ' id = '. $id . ' guid = '. $messageGUID);
                     $class = 'App\Http\Services\Parse\TradeMessages\\' . $this->messageType;
                     (new $class($this->invitation, $this->prefix, $this->messageType, $id, $messageGUID, $searchAuction))->response();
                 }
-            }else{
-                logger('auction not found');
             }
         }
     }

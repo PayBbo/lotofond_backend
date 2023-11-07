@@ -19,16 +19,13 @@ class BiddingResult extends TradeMessage implements TradeMessageContract
         try {
             if (count($invitation[$prefix . 'LotList'][$prefix . 'LotTradeResult']) > 1) {
                 if (array_key_exists('@attributes', $invitation[$prefix . 'LotList'][$prefix . 'LotTradeResult'])) {
-                    logger('1 if');
                     $this->getBiddingResult($invitation[$prefix . 'LotList'][$prefix . 'LotTradeResult'], $auction, $invitation, $prefix);
                 } else {
-                    logger('foreach');
                     foreach ($invitation[$prefix . 'LotList'][$prefix . 'LotTradeResult'] as $item) {
                         $this->getBiddingResult($item, $auction, $invitation, $prefix);
                     }
                 }
             } else {
-                logger('else');
                 $item = $invitation[$prefix . 'LotList'][$prefix . 'LotTradeResult'];
                 $this->getBiddingResult($item, $auction, $invitation, $prefix);
             }
@@ -42,8 +39,9 @@ class BiddingResult extends TradeMessage implements TradeMessageContract
     {
         $lot = $auction->lots->where('number', $item['@attributes']['LotNumber'])->first();
         if ($lot) {
-            if (array_key_exists('FailureTradeResult', $item) || array_key_exists('SuccessTradeResult', $item)) {
-                logger('FailureTradeResult || SuccessTradeResult');
+            $failureKey = $this->searchKeyInArray($item, 'FailureTradeResult', $prefix);
+            $successKey = $this->searchKeyInArray($item, 'SuccessTradeResult', $prefix);
+            if (!is_null($failureKey) || !is_null($successKey)) {
                 $tradeMessage = $this->createNotification($lot->id, $invitation['@attributes']['EventTime'],
                     $lot->status_id, 'status_id');
                 $lot->status_id = Status::where('code', 'finished')->first()['id'];
@@ -51,9 +49,8 @@ class BiddingResult extends TradeMessage implements TradeMessageContract
                 $this->parseFile($prefix, $item, $auction, $lot, $tradeMessage);
             }
             $biddingResult = null;
-            if (array_key_exists('FailureTradeResult', $item)) {
-                logger('FailureTradeResult');
-                $item = $item['FailureTradeResult'];
+            if (!is_null($failureKey)) {
+                $item = $item[$failureKey];
                 $biddingResult = \App\Models\BiddingResult::create([
                     'trade_message_id' => $tradeMessage->id,
                     'substantiation' => array_key_exists('Substantiation', $item) ? $item['Substantiation'] : null,
@@ -61,9 +58,8 @@ class BiddingResult extends TradeMessage implements TradeMessageContract
                 ]);
                 $this->parseParticipants($item, $biddingResult, 'Buyer');
             }
-            if (array_key_exists('SuccessTradeResult', $item)) {
-                logger('SuccessTradeResult');
-                $item = $item['SuccessTradeResult'];
+            if (!is_null($successKey)) {
+                $item = $item[$successKey];
                 $biddingResult = \App\Models\BiddingResult::create([
                     'trade_message_id' => $tradeMessage->id,
                     'end_price' => array_key_exists('@attributes', $item) ? $item['@attributes']['Price'] : null,
@@ -71,13 +67,16 @@ class BiddingResult extends TradeMessage implements TradeMessageContract
                 $this->parseParticipants($item, $biddingResult, 'Winner');
             }
             if (!is_null($biddingResult)) {
-                logger('not is null');
                 if (!is_null($biddingResult->end_price)) {
                     $priceReduction = new PriceReductionService();
                     $priceReduction->saveFinalPrice($biddingResult);
                 }
-                if (array_key_exists('Participants', $item) && array_key_exists('Participant', $item['Participants'])) {
-                    foreach ($item['Participants']['Participant'] as $participant) {
+                $participantsKey = $this->searchKeyInArray($item, 'Participants', $prefix);
+                $participantKey = null;
+                if(!is_null($participantsKey))
+                    $participantKey = $this->searchKeyInArray($item[$participantsKey], 'Participant', $prefix);
+                if (!is_null($participantKey)) {
+                    foreach ($item[$participantsKey][$participantKey] as $participant) {
                         $this->parseParticipants($participant, $biddingResult, 'Participant');
                     }
                 }
@@ -89,11 +88,13 @@ class BiddingResult extends TradeMessage implements TradeMessageContract
     {
         $participantData = null;
         $participantType = 'person';
-        if (array_key_exists($type . 'Person', $item)) {
-            $participantData = $item[$type . 'Person']['@attributes'];
+        $keyPerson = $this->searchKeyInArray($item, $type . 'Person', $this->prefix);
+        if (!is_null($keyPerson)) {
+            $participantData = $item[$keyPerson]['@attributes'];
         }
-        if (array_key_exists($type . 'Company', $item)) {
-            $participantData = $item[$type . 'Company']['@attributes'];
+        $keyCompany = $this->searchKeyInArray($item, $type . 'Company', $this->prefix);
+        if (!is_null($keyCompany)) {
+            $participantData = $item[$keyCompany]['@attributes'];
             $participantType = 'company';
         }
         if (!is_null($participantData)) {

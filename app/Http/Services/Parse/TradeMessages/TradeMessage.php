@@ -69,4 +69,12 @@ abstract class TradeMessage
             return $date;
         return Carbon::createFromTimestampUTC(strtotime($date))->setTimezone('Europe/Moscow');
     }
+
+    protected function searchKeyInArray($array, $searchKey, $prefix = '') {
+        foreach ($array as $key => $value) {
+            if ($key === $searchKey || $key === $prefix . $searchKey)
+                return $key;
+        }
+        return null;
+    }
 }
