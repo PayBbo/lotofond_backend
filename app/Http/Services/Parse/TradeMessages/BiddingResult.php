@@ -19,13 +19,16 @@ class BiddingResult extends TradeMessage implements TradeMessageContract
         try {
             if (count($invitation[$prefix . 'LotList'][$prefix . 'LotTradeResult']) > 1) {
                 if (array_key_exists('@attributes', $invitation[$prefix . 'LotList'][$prefix . 'LotTradeResult'])) {
+                    logger('1 if');
                     $this->getBiddingResult($invitation[$prefix . 'LotList'][$prefix . 'LotTradeResult'], $auction, $invitation, $prefix);
                 } else {
+                    logger('foreach');
                     foreach ($invitation[$prefix . 'LotList'][$prefix . 'LotTradeResult'] as $item) {
                         $this->getBiddingResult($item, $auction, $invitation, $prefix);
                     }
                 }
             } else {
+                logger('else');
                 $item = $invitation[$prefix . 'LotList'][$prefix . 'LotTradeResult'];
                 $this->getBiddingResult($item, $auction, $invitation, $prefix);
             }
@@ -40,6 +43,7 @@ class BiddingResult extends TradeMessage implements TradeMessageContract
         $lot = $auction->lots->where('number', $item['@attributes']['LotNumber'])->first();
         if ($lot) {
             if (array_key_exists('FailureTradeResult', $item) || array_key_exists('SuccessTradeResult', $item)) {
+                logger('FailureTradeResult || SuccessTradeResult');
                 $tradeMessage = $this->createNotification($lot->id, $invitation['@attributes']['EventTime'],
                     $lot->status_id, 'status_id');
                 $lot->status_id = Status::where('code', 'finished')->first()['id'];
@@ -48,6 +52,7 @@ class BiddingResult extends TradeMessage implements TradeMessageContract
             }
             $biddingResult = null;
             if (array_key_exists('FailureTradeResult', $item)) {
+                logger('FailureTradeResult');
                 $item = $item['FailureTradeResult'];
                 $biddingResult = \App\Models\BiddingResult::create([
                     'trade_message_id' => $tradeMessage->id,
@@ -57,6 +62,7 @@ class BiddingResult extends TradeMessage implements TradeMessageContract
                 $this->parseParticipants($item, $biddingResult, 'Buyer');
             }
             if (array_key_exists('SuccessTradeResult', $item)) {
+                logger('SuccessTradeResult');
                 $item = $item['SuccessTradeResult'];
                 $biddingResult = \App\Models\BiddingResult::create([
                     'trade_message_id' => $tradeMessage->id,
@@ -65,6 +71,7 @@ class BiddingResult extends TradeMessage implements TradeMessageContract
                 $this->parseParticipants($item, $biddingResult, 'Winner');
             }
             if (!is_null($biddingResult)) {
+                logger('not is null');
                 if (!is_null($biddingResult->end_price)) {
                     $priceReduction = new PriceReductionService();
                     $priceReduction->saveFinalPrice($biddingResult);

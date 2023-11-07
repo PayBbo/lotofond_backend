@@ -97,8 +97,8 @@ class GetTradeMessageContent
                     $biddingStatusInfo = new BiddingStatusInfo($this->invitation, $this->prefix, $this->messageType, $id, $messageGUID, $searchAuction);
                     $biddingStatusInfo->response();
                 } else {
+                    logger($this->messageType . ' id = '. $id . ' guid = '. $messageGUID);
                     $class = 'App\Http\Services\Parse\TradeMessages\\' . $this->messageType;
-                    logger($this->messageType . ' id = '. $id . ' guid = '. $messageGUID)
                     (new $class($this->invitation, $this->prefix, $this->messageType, $id, $messageGUID, $searchAuction))->response();
                 }
             }else{
