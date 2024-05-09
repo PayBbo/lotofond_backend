@@ -130,7 +130,7 @@
         <nav class="bkt-navbar white">
             <div class="bkt-navbar__wrapper bkt-container">
                 <button @click="sendApplication" class="bkt-button bkt-text-white blue mx-0 bkt-navbar__ecp">
-                    Покупка без ЭЦП
+                    Инструкция
                 </button>
                 <ul class="bkt-navbar__nav">
                     <!--                    <li class="bkt-navbar__nav-item d-none d-lg-flex">-->

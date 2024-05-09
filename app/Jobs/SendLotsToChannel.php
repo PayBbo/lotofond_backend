@@ -95,7 +95,7 @@ class SendLotsToChannel implements ShouldQueue
         }
         foreach ($lots as $lot) {
             $url = URL::to('/lot/' . $lot->id);
-            $lotDesc = mb_strimwidth($lot->processed_description, 0, 250, "...");
+            $lotDesc = mb_strimwidth($lot->description, 0, 250, "...");
             $price = number_format($lot->start_price, 2, ',', ' ');
             $tradeType = $lot->auction->auctionType->description;
             $html = str_replace('<br>', '', str_replace('</p>', '', str_replace('<p>', '',

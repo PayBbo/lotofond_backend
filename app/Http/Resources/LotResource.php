@@ -166,7 +166,7 @@ class LotResource extends JsonResource
                 $lotData['note'] = $this->getNote();
                 $lotData['marks'] = $this->userMarks->makeHidden(['pivot']);
                 $additionalInfo = $this->additionalLotInfo;
-                if ($this->contentSettings->isAvailable('showOrganizerAnswer') && $additionalInfo) {
+                if ($this->contentSettings->isAvailable('showOrganizerAnswer') && $additionalInfo && $additionalInfo->is_moderated) {
                     $imagesDB = $additionalInfo->files()->where(['type' => 'image', 'lot_id' => $this->id])->get();
                     $images = [];
                     foreach ($imagesDB as $image) {
