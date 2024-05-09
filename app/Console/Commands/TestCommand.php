@@ -18,6 +18,7 @@ use App\Models\Application;
 use App\Models\Lot;
 use App\Models\LotFile;
 use App\Models\Monitoring;
+use App\Models\Notification;
 use App\Models\Region;
 use Artisaninweb\SoapWrapper\SoapWrapper;
 use Carbon\Carbon;
@@ -164,7 +165,6 @@ class TestCommand extends Command
 
         /*$pushService = new PushNotificationService("test", "test", 43, "platform");
         $pushService->sendPushNotification();*/
-
     }
 
 }

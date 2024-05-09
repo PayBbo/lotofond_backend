@@ -52,20 +52,36 @@ class MonitoringJob implements ShouldQueue
             $cacheService = new CacheService();
             $cacheService->cacheTrialPeriod();
         }
-        $monitorings = Monitoring::whereHas('user', function ($query){
-            $query->hasByNonDependentSubquery('tariff')
-            ->orWhere('email_verified_at', '>=', Carbon::now()->setTimezone('Europe/Moscow')->subDays( Cache::get('trialPeriod')));
-        })->get();
-        foreach ($monitorings as $monitoring) {
-            $lots = Lot::whereNotIn('lots.id', $monitoring->user->hiddenLots->pluck('id'))->filterBy($monitoring->filters)
-                ->whereBetween('lots.created_at', [$minDate, $maxDate])->get();
-            if ($lots->count() > 0) {
+        try {
+            $monitorings = Monitoring::whereHas('user', function ($query) {
+                $query->whereHas('tariff')
+                    ->orWhere('email_verified_at', '>=', Carbon::now()->setTimezone('Europe/Moscow')->subDays(Cache::get('trialPeriod', 7)));
+            })
+                ->get();
+
+            foreach ($monitorings as $monitoring) {
+                $hiddenLotsIds = $monitoring->user->hiddenLots->pluck('id')->toArray();
+
+                $lots = Lot::whereNotIn('lots.id', $hiddenLotsIds)
+                    ->filterBy($monitoring->filters)
+                    ->whereBetween('lots.created_at', [$minDate, $maxDate])
+                    ->whereDoesntHave('monitorings', function ($query) use ($monitoring) {
+                        $query->where('monitorings.id', $monitoring->id);
+                    })
+                    ->cursor();
+
+                $lotIds = [];
                 foreach ($lots as $lot) {
-                    if (!$monitoring->lots->contains($lot)) {
-                        $monitoring->lots()->attach($lot, ['created_at' => $maxDate]);
-                    }
+                    $lotIds[$lot->id] = ['created_at' => $maxDate];
+                }
+
+                if (!empty($lotIds)) {
+                    $monitoring->lots()->syncWithoutDetaching($lotIds);
                 }
             }
+        }catch (\Exception $exception){
+            logger('MONITORING EXCEPTION');
+            logger($exception);
         }
         logger('END MONITORING:' . $this->endTo);
     }

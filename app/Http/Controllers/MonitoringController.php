@@ -50,10 +50,14 @@ class MonitoringController extends Controller
         $request->validate([
             'pathId'=>['required', 'integer', new IsUserMonitoringPath()]
         ]);
-        $path = Monitoring::find($request->pathId);
-        $lotIds = $path->lots()->pluck('lots.id')->toArray();
         $lots = Lot::with(['auction', 'showRegions', 'status', 'lotImages', 'categories', 'lotParams'])
-            ->whereIn('lots.id', $lotIds)->filterBy($request->request)->customSortBy($request)->paginate(20);
+            ->join('lot_monitoring', 'lots.id', '=', 'lot_monitoring.lot_id')
+            ->join('monitorings', 'monitorings.id', '=', 'lot_monitoring.monitoring_id')
+            ->where('monitorings.id', $request->pathId)
+            ->filterBy($request->request)
+            ->customSortBy($request)
+            ->select('lots.*')
+            ->paginate(20);
         return response(new LotCollection($lots), 200);
     }
 
