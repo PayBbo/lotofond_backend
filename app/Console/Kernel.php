@@ -32,10 +32,10 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         $schedule->job((new ParseTrades)->onQueue('parse'))->everyFifteenMinutes()->timezone('Europe/Moscow');
-        $schedule->job((new MonitoringJob)->onQueue('parse'))->hourly()->timezone('Europe/Moscow');
-        $schedule->job((new MonitoringNotificationJob('hourly'))->onQueue('parse'))->hourly()->timezone('Europe/Moscow');
-        $schedule->job((new MonitoringNotificationJob('daily'))->onQueue('parse'))->daily()->timezone('Europe/Moscow');
-        $schedule->job((new MonitoringNotificationJob('weekly'))->onQueue('parse'))->weekly()->timezone('Europe/Moscow');
+        //$schedule->job((new MonitoringJob)->onQueue('parse'))->everyFifteenMinutes()->timezone('Europe/Moscow');
+        $schedule->job((new MonitoringNotificationJob('hourly'))->onQueue('monitoring'))->hourly()->timezone('Europe/Moscow');
+        $schedule->job((new MonitoringNotificationJob('daily'))->onQueue('monitoring'))->daily()->timezone('Europe/Moscow');
+        $schedule->job((new MonitoringNotificationJob('weekly'))->onQueue('monitoring'))->weekly()->timezone('Europe/Moscow');
         $schedule->job((new FavouriteJob)->onQueue('parse'))->hourly()->timezone('Europe/Moscow');
         $schedule->job((new ParseSRORegister)->onQueue('parse'))->daily()->timezone('Europe/Moscow');
         $schedule->job((new ParseArbitrManager)->onQueue('parse'))->daily()->timezone('Europe/Moscow');

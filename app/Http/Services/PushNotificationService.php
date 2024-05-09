@@ -61,6 +61,8 @@ class PushNotificationService
                 curl_setopt($ch, CURLOPT_POSTFIELDS, $dataString);
 
                 $response = curl_exec($ch);
+                logger("SEND PUSH");
+                logger($response);
                 curl_close($ch);
             }catch(\Exception $e){
                 logger($e);

@@ -167,6 +167,7 @@ class ParseTrades implements ShouldQueue
         $cacheService->cacheCategoriesStatistics();
         $cacheService->cacheLotsStatistics();
         $cacheService->cachePricesForFilter();
+        dispatch((new MonitoringJob($this->startFrom, $this->endTo))->onQueue('monitoring'));
         logger('END:' . $this->endTo);
     }
 

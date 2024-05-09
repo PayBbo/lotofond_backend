@@ -5,19 +5,24 @@ namespace App\Console\Commands;
 use App\Http\Services\Parse\GetTradeMessageContent;
 use App\Http\Services\Parse\PriceFormatterService;
 use App\Http\Services\Parse\SoapWrapperService;
+use App\Http\Services\PushNotificationService;
 use App\Jobs\AdditionalLotInfoParseJob;
 use App\Jobs\DeleteOldFilesJob;
 use App\Jobs\FixLotRegionJob;
+use App\Jobs\MonitoringJob;
 use App\Jobs\ParseTrades;
 
 use App\Jobs\SendApplication;
 use App\Models\AdditionalLotInfo;
+use App\Models\Application;
 use App\Models\Lot;
 use App\Models\LotFile;
+use App\Models\Monitoring;
 use App\Models\Region;
 use Artisaninweb\SoapWrapper\SoapWrapper;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\File;
 
 class TestCommand extends Command
@@ -66,13 +71,13 @@ class TestCommand extends Command
 
         /*$startDate = Carbon::parse('2023-10-16 13:00');
         $endDate = Carbon::parse('2023-10-24 00:00');*/
-        $startDate = Carbon::parse('2023-11-02 16:15');
-        $endDate = Carbon::parse('2023-11-02 16:30');
+        /*$startDate = Carbon::parse('2024-02-09 14:00');
+        $endDate = Carbon::parse('2024-02-17 16:45');
         while ($startDate < $endDate) {
             $startFrom = $startDate->format('Y-m-d\TH:i:s');
             $startDate->addMinutes(15);
             dispatch((new ParseTrades($startFrom, $startDate->format('Y-m-d\TH:i:s')))->onQueue('parse'));
-        }
+        }*/
 
         /* $lotCount = Lot::whereHas('paramsLot', function ($query) {
              return $query->where('param_id', 4);
@@ -156,6 +161,10 @@ class TestCommand extends Command
         /* $lastDate = '2023-04-25 00:00:00';
          $files = LotFile::where('created_at', '<=', $lastDate)->count();
          logger($files);*/
+
+        /*$pushService = new PushNotificationService("test", "test", 43, "platform");
+        $pushService->sendPushNotification();*/
+
     }
 
 }
