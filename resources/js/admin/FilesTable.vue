@@ -1,7 +1,8 @@
 <template>
     <div class="form-group">
         <label>Прикрепленные {{ isImages ? 'изображения' : 'файлы' }}</label>
-        <input ref="fileSelect" type="file" style="display: none" @change="uploadFile()" :accept="isImages ? '.jpg, .jpeg, .png .bmp' : '.*'">
+        <input ref="fileSelect" type="file" style="display: none" @change="uploadFile()"
+               :accept="isImages ? '.jpg, .jpeg, .png .bmp' : '.*'">
         <button type="button" class="btn btn-outline-primary"
                 @click.prevent="selectFile()">
             <i class="fas fa-plus"></i>
@@ -48,24 +49,34 @@ export default {
         selectFile() {
             this.$refs.fileSelect.click()
         },
-        uploadFile() {
+        async uploadFile() {
             let file = this.$refs.fileSelect.files[0]
             let formData = new FormData()
-            if(this.isImages){
+            if (this.isImages) {
                 formData.append('image', file)
-            }else{
+            } else {
                 formData.append('file', file)
             }
             formData.append('type', this.type)
             formData.append('id', this.id)
 
-            axios.post('/api/admin/files/upload', formData).then(response => {
+            await axios.post(
+                '/api/admin/files/upload',
+                formData,
+                {
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    }
+                }
+            ).then(response => {
                 if (response.status === 200) {
                     this.$emit('change');
                     this.$store.commit('setModal', {data: 'success', text: 'Файл успешно загружен'})
-                }else{
+                } else {
                     this.$store.commit('setModal', {data: 'error', text: 'Произошла ошибка при загрузке файла'})
                 }
+            }).catch(error => {
+                this.$store.commit('setModal', {data: 'error', text: 'Произошла ошибка при загрузке файла'})
             })
         },
         deleteFile(id) {
