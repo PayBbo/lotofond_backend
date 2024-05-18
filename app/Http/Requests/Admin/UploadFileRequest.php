@@ -24,10 +24,10 @@ class UploadFileRequest extends FormRequest
     public function rules()
     {
         return [
-            'id'=>['required', 'numeric'],
+            'id'=>['required', 'integer'],
             'type'=>['required', 'string', 'in:additions,lot'],
-            'image'=>['sometimes', 'image'],
-            'file'=>['sometimes']
+            'image'=>['sometimes', 'image', 'max:102400'],
+            'file'=>['sometimes', 'file', 'max:102400']
         ];
     }
 }

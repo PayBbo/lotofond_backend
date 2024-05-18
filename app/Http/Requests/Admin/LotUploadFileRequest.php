@@ -26,9 +26,9 @@ class LotUploadFileRequest extends FormRequest
         return [
             'lotId'=>['required', 'integer', 'exists:lots,id'],
             'files'=>['sometimes', 'array'],
-            'files.*'=>['sometimes', 'nullable', 'file'],
+            'files.*'=>['sometimes', 'nullable', 'file', 'max:102400'],
             'images'=>['sometimes', 'array'],
-            'images.*'=>['sometimes', 'nullable', 'image']
+            'images.*'=>['sometimes', 'nullable', 'image', 'max:102400']
 
         ];
     }
