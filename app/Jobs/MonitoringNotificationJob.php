@@ -62,16 +62,12 @@ class MonitoringNotificationJob implements ShouldQueue
      */
     public function handle()
     {
-        logger('MONITORING NOTIFICATION');
         $monitorings = Monitoring::where('not_time', $this->notTime)->whereHas('user', function ($query) {
             $query->where('not_from_monitoring', true);
         })->get();
         $startDate = $this->startDate;
-        logger($startDate);
         foreach ($monitorings as $monitoring) {
-            logger($monitoring->id);
             $newLotsCount = $monitoring->lots()->wherePivot('created_at', '>', $startDate)->wherePivot('has_notification', false)->count();
-            logger($newLotsCount);
             if ($newLotsCount > 0) {
                 $notification = Notification::create([
                     'user_id' => $monitoring->user_id,
@@ -96,7 +92,6 @@ class MonitoringNotificationJob implements ShouldQueue
                     $sendNotification->sendEmailNotification($user->email, $title.'. '.$subtitle, $value, $notification);
                 }*/
             }
-            logger('-------------------------------------------------------');
         }
     }
 }

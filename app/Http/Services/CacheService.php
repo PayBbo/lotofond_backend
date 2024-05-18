@@ -112,4 +112,24 @@ class CacheService
         Cache::forever('trialPeriod', $trialPeriod->value);
     }
 
+    public function calculateMailDelay(){
+        if(!Cache::has('emailsCount')){
+            Cache::put('emailsCount', 1, Carbon::now()->setTimezone('Europe/Moscow')->startOfDay()->addDay());
+        }else{
+            Cache::increment('emailsCount');
+        }
+        if(!Cache::has('emailsHourCount')){
+            Cache::put('emailsHourCount', 1, Carbon::now()->addHour());
+        }else{
+            Cache::increment('emailsHourCount');
+        }
+        $emailsCount = Cache::get('emailsCount');
+        $emailsHourCount = Cache::get('emailsHourCount');
+        $delay = null;
+        if($emailsCount < 500) {
+            $delay = 75 * $emailsHourCount;
+        }
+        return $delay;
+    }
+
 }

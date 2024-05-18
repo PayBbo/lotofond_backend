@@ -35,9 +35,10 @@
                     </li>
                 </ul>
                 <div class="bkt-wrapper bkt-nowrap mx-md-auto me-0 ms-auto">
-<!--                    <button class="bkt-button-icon">-->
-<!--                        <bkt-icon name="AppleStore" color="main"></bkt-icon>-->
-<!--                    </button>-->
+                   <a class="bkt-button-icon" href="https://apps.apple.com/ru/app/lotofond/id6462861593"
+                      target="_blank" rel="nofollow noopener">
+                        <bkt-icon name="AppleStore" color="main"></bkt-icon>
+                   </a>
                     <a class="bkt-button-icon" href="https://play.google.com/store/apps/details?id=ru.lotofond"
                        target="_blank" rel="nofollow noopener"
                     >

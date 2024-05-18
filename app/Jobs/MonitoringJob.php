@@ -45,7 +45,6 @@ class MonitoringJob implements ShouldQueue
      */
     public function handle()
     {
-        logger('START MONITORING:' . $this->startFrom);
         $minDate = $this->startFrom;
         $maxDate = $this->endTo;
         if(!Cache::has('trialPeriod')){
@@ -83,7 +82,6 @@ class MonitoringJob implements ShouldQueue
             logger('MONITORING EXCEPTION');
             logger($exception);
         }
-        logger('END MONITORING:' . $this->endTo);
     }
 
 }

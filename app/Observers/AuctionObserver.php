@@ -2,10 +2,9 @@
 
 namespace App\Observers;
 
+use App\Http\Services\CacheService;
 use App\Jobs\SendApplication;
 use App\Models\Auction;
-use Carbon\Carbon;
-use Illuminate\Support\Facades\Cache;
 
 class AuctionObserver
 {
@@ -48,20 +47,9 @@ class AuctionObserver
             dispatch((new SendApplication($html, $subject, $email, true))->onQueue('credentials')->delay($delay));
             $emails[] = $email;
             Cache::put('contactEmails', $emails, Carbon::now()->setTimezone('Europe/Moscow')->addDay());*/
-            if(!Cache::has('emailsCount')){
-                Cache::put('emailsCount', 1, Carbon::now()->setTimezone('Europe/Moscow')->startOfDay()->addDay());
-            }else{
-                Cache::increment('emailsCount');
-            }
-            if(!Cache::has('emailsHourCount')){
-                Cache::put('emailsHourCount', 1, Carbon::now()->addHour());
-            }else{
-                Cache::increment('emailsHourCount');
-            }
-            $emailsCount = Cache::get('emailsCount');
-            $emailsHourCount = Cache::get('emailsHourCount');
-            if($emailsCount < 500) {
-                $delay = 75 * $emailsHourCount;
+            $cacheService = new CacheService();
+            $delay = $cacheService->calculateMailDelay();
+            if (!is_null($delay)) {
                 dispatch((new SendApplication($html, $subject, $email, true))->onQueue('credentials')->delay($delay));
             }
         }

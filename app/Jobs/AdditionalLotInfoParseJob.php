@@ -2,6 +2,7 @@
 
 namespace App\Jobs;
 
+use App\Http\Services\CacheService;
 use App\Http\Services\Parse\FilesService;
 use App\Models\AdditionalLotInfo;
 use App\Models\Auction;
@@ -85,22 +86,22 @@ class AdditionalLotInfoParseJob implements ShouldQueue
                     continue;
                 }
                 // для парсинга письма для конкретного лота
-               /* $pattern = '/лоту №[0-9]*./';
-                preg_match($pattern, $htmlMail, $match);
-                if (count($match) == 0) {
-                    continue;
-                } else {
-                    $lotNumber = preg_replace('/\D/', '', $match[0]);
-                    $lot = Lot::where('number', $lotNumber)
-                        ->whereHas('auction', function ($query) use ($idEfrsb, $guid) {
-                            $query->when(!is_null($idEfrsb), function ($q) use ($idEfrsb) {
-                                $q->where('id_efrsb', $idEfrsb);
-                            })->when(!is_null($guid), function ($q) use ($guid) {
-                                $q->where('guid', $guid);
-                            });
-                        })
-                        ->first();
-                }*/
+                /* $pattern = '/лоту №[0-9]*./';
+                 preg_match($pattern, $htmlMail, $match);
+                 if (count($match) == 0) {
+                     continue;
+                 } else {
+                     $lotNumber = preg_replace('/\D/', '', $match[0]);
+                     $lot = Lot::where('number', $lotNumber)
+                         ->whereHas('auction', function ($query) use ($idEfrsb, $guid) {
+                             $query->when(!is_null($idEfrsb), function ($q) use ($idEfrsb) {
+                                 $q->where('id_efrsb', $idEfrsb);
+                             })->when(!is_null($guid), function ($q) use ($guid) {
+                                 $q->where('guid', $guid);
+                             });
+                         })
+                         ->first();
+                 }*/
 
 
                 $auction = Auction::when(!is_null($idEfrsb), function ($q) use ($idEfrsb) {
@@ -135,10 +136,14 @@ class AdditionalLotInfoParseJob implements ShouldQueue
                 $text = str_replace(chr(194), " ", $text);
                 $text = str_replace(chr(160), " ", $text);
                 $text = preg_replace(array('/\s{2,}/', '/[\r\t\n]/', '/\r/', '/\t/', '/\n/'), ' ', $text);
-                $text =str_replace("&lt;","",str_replace("&gt;","",$text));
+                $text = str_replace("&lt;", "", str_replace("&gt;", "", $text));
                 $text = iconv('utf-8//IGNORE', 'windows-1251//IGNORE', $text);
                 $text = iconv('windows-1251//IGNORE', 'utf-8//IGNORE', $text);
                 /*END Удаление всех html-тегов и искаженных символов*/
+                /*START Удаление почты арбитражного управляющего*/
+                $arbitrEmail = $auction->arbitrationManager->email;
+                $text = preg_replace('/\b' . $arbitrEmail . '\b/u', str_repeat('░', strlen($arbitrEmail) - 1), $text);
+                /*END Удаление почты арбитражного управляющего*/
                 $attachments = $message->getAttachments();
                 $files = [];
                 $hasImages = false;
@@ -196,6 +201,17 @@ class AdditionalLotInfoParseJob implements ShouldQueue
                         ]);
                     }
                 }
+                /*START Ответ арбитражному управлющему*/
+                $replyHtml = "<p>Благодарим за ответ.</p>
+<p>Если Вы считаете, что информация о лоте размещена некорректна, просим обратиться к нашему администратору по электронной почте: lotofond@yandex.ru</p>
+<p> С уважением,</p>
+<p>ООО «Русвопрос»</p>";
+                $cacheService = new CacheService();
+                $delay = $cacheService->calculateMailDelay();
+                if (!is_null($delay)) {
+                    dispatch((new SendApplication($replyHtml, "Благодарим за ответ", $arbitrEmail, true))->onQueue('credentials')->delay($delay));
+                }
+                /*END Ответ арбитражному управлющему*/
                 /*$additional = AdditionalLotInfo::create([
                     'uid' => $uid,
                     'message' => $html,

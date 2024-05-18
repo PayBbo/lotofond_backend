@@ -15,6 +15,7 @@ use App\Jobs\ParseTrades;
 use App\Jobs\SendApplication;
 use App\Models\AdditionalLotInfo;
 use App\Models\Application;
+use App\Models\Auction;
 use App\Models\Lot;
 use App\Models\LotFile;
 use App\Models\Monitoring;
@@ -165,6 +166,7 @@ class TestCommand extends Command
 
         /*$pushService = new PushNotificationService("test", "test", 43, "platform");
         $pushService->sendPushNotification();*/
+
     }
 
 }

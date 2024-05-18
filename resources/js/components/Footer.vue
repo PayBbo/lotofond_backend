@@ -88,12 +88,12 @@
                                         Загрузить из Google Play
                                     </a>
                                 </li>
-<!--                                <li class="bkt-footer__socials__item" data-wba-footer-name="AppStore">-->
-<!--                                    <a-->
-<!--                                    class="app-store" rel="nofollow noopener" target="_blank"-->
-<!--                                    href="https://apps.apple.com/ru/app/wildberries/id597880187">Загрузить из-->
-<!--                                    AppStore</a>-->
-<!--                                </li>-->
+                                <li class="bkt-footer__socials__item" data-wba-footer-name="AppStore">
+                                    <a
+                                   class="app-store" rel="nofollow noopener" target="_blank"
+                                  href="https://apps.apple.com/ru/app/lotofond/id6462861593">Загрузить из
+                                  AppStore</a>
+                                </li>
                                 <li class="bkt-footer__socials__item" data-wba-footer-name="AppGallery">
                                     <a class="app-gallery" rel="nofollow noopener"
                                        target="_blank" href="https://appgallery.huawei.ru/app/C107494421">
