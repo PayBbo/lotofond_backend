@@ -47,7 +47,7 @@ class TextDataSeeder extends Seeder
             ['header'=>'Телефон', 'value'=>'+7 916 018-48-58', 'type'=>'contacts', 'screen'=>'Контакты'],
             ['header'=>'Почта', 'value'=>'vicemine@mail.ru', 'type'=>'contacts', 'screen'=>'Контакты'],
             ['header'=>'Сайт', 'value'=>'https://www.lotofond.ru', 'type'=>'contacts', 'screen'=>'Контакты'],
-            ['header'=>'Проведение торгов, юридическая консультация и другое', 'value'=>'Воспользуйтесь нашим опытом побед, чтобы избежать ошибок и сэкономить время, деньги и нервы', 'type'=>'buyBlock', 'screen'=>'Блок "Купить"',
+            ['header'=>'Проведение торгов, выкуп лота', 'value'=>'Воспользуйтесь нашим опытом побед, чтобы избежать ошибок и сэкономить время, деньги и нервы', 'type'=>'buyBlock', 'screen'=>'Блок "Купить"',
                 'points'=>[
                     "ЭЦП не нужна",
                     "Аккредитация не нужна",
@@ -57,6 +57,7 @@ class TextDataSeeder extends Seeder
             ],
             ['header'=>'Инструкция для самостоятельной покупки лота', 'value'=>'Инструкция для проведения торгов по выбранному лоту', 'type'=>'buyBlock', 'screen'=>'Блок "Купить"'],
             ['header'=>'Оценка ликвидности, юридическая консультация и другое', 'value'=>'Узнайте подробнее о прочих услугах', 'type'=>'buyBlock', 'screen'=>'Блок "Купить"'],
+            ['header'=>'', 'value'=>'Проведение торгов на понижение от 10000 руб. и проведение торгов на повышение от 15000 руб', 'type'=>'buyLotBlock', 'screen'=>'Блок "Купить лот"'],
 
         ];
 
@@ -66,7 +67,8 @@ class TextDataSeeder extends Seeder
                 'value'=>$item['value'],
                 'type'=>$item['type'],
                 'screen'=>$item['screen'],
-                'points'=>array_key_exists('points', $item) ? $item['points'] : null
+                'points'=>array_key_exists('points', $item) ? $item['points'] : null,
+                'active' => true
             ]);
         }
     }

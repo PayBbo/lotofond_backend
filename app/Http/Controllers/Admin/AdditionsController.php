@@ -28,12 +28,18 @@ class AdditionsController extends Controller
 
     public function get(Request $request)
     {
-        $search = json_decode($request->query('param'), true) ?? [];
-        $isModerated = array_key_exists('isModerated', $search) ? $search['isModerated'] : false;
-        $date =array_key_exists('date', $search) ? $search['date'] : null;
+        $search = $request->query('pattern', null);
+        $date = $request->query('date', null);
+        $isModerated = $request->query('isModerated', null);
+//        $search = json_decode($request->query('param'), true) ?? [];
+//        $isModerated = array_key_exists('isModerated', $search) ? $search['isModerated'] : false;
+//        $date = array_key_exists('date', $search) ? $search['date'] : null;
         $sortParam = $request->query('sort_property');
         $sortDirection = $request->query('sort_direction');
-        $additions = AdditionalLotInfo::when($isModerated, function ($query) {
+        $additions = AdditionalLotInfo::when(isset($search), function ($query) use ($search) {
+            $query->where('message', 'LIKE', '%' . $search . '%')
+                ->orWhere('lot_id', 'LIKE', '%' . $search . '%');
+        })->when($isModerated, function ($query) {
             $query->where('is_moderated', false);
         })
             ->when(!is_null($date), function ($query) use ($date) {

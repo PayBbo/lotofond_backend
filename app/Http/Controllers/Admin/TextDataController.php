@@ -46,6 +46,7 @@ class TextDataController extends Controller
         $textData->value = $request->value;
         $textData->type = $request->type;
         $textData->screen = $request->screen;
+        $textData->active = isset($request->active) ? $request->active : true;
         $textData->save();
         return response(null, 200);
 
@@ -60,6 +61,7 @@ class TextDataController extends Controller
             if($textData->type == 'buyBlock') {
                 $textData->points = $request->points;
             }
+            $textData->active = isset($request->active) ? $request->active : $textData->active;
             $textData->save();
             return response(null, 200);
         }
@@ -80,6 +82,17 @@ class TextDataController extends Controller
         $textData = TextData::find($id);
         if ($textData) {
             $textData->delete();
+            return response(null, 200);
+        }
+        return response(null, 404);
+    }
+
+    public function changeStatus($id)
+    {
+        $textData = TextData::find($id);
+        if ($textData) {
+            $textData->active = !$textData->active;
+            $textData->save();
             return response(null, 200);
         }
         return response(null, 404);

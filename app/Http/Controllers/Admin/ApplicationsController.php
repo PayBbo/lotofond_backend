@@ -25,7 +25,8 @@ class ApplicationsController extends Controller
 
     public function get(Request $request)
     {
-        $search = $request->query('param');
+        $search = $request->query('pattern', null);
+        $date = $request->query('date', null);
         $sortParam = $request->query('sort_property');
         $sortDirection = $request->query('sort_direction');
         $applications = Application::when(isset($search), function ($query) use ($search) {
@@ -38,6 +39,9 @@ class ApplicationsController extends Controller
         })
             ->leftJoin('tariffs as tariff', 'tariff.id', '=', 'applications.tariff_id')
             ->select('applications.*', 'tariff.title->ru as type')
+            ->when(isset($date), function ($query) use ($date) {
+                $query->where('created_at', $date);
+            })
             ->when(isset($sortParam) && isset($sortDirection), function ($query) use ($sortParam, $sortDirection) {
                 $query->orderBy($sortParam, $sortDirection);
             })

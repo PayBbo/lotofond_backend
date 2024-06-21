@@ -279,13 +279,12 @@
                         }
                         await this.$store.dispatch(this.method_name, payload).then(resp => {
                             if($state) {
-                                if (this.pagination.nextPageUrl !== null) {
+                                if (this.pagination && this.pagination.nextPageUrl !== null) {
                                     $state.loaded();
                                 } else {
                                     $state.complete();
                                 }
                             }
-
                         }).finally(() => {
                             this.infinite_loading = false;
                         });
@@ -305,6 +304,7 @@
                             payload = this.method_params;
                             payload.page = page+1;
                         }
+                        this.infinite_loading = true;
                         await this.$store.dispatch(this.method_name, payload).then(resp => {
                             if($state) {
                                 console.log('$state', $state)
@@ -316,6 +316,8 @@
                                     $state.complete();
                                 }
                             }
+                        }).finally(() => {
+                            this.infinite_loading = false;
                         });
                     }
                 }

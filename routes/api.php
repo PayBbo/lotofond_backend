@@ -87,6 +87,8 @@ Route::group(['middleware' => ['json.response', 'localization']], function () {
 
             Route::put('/short/lots', [AuctionController::class, 'getShortTrades']);
 
+            Route::get('/orders', [ApplicationController::class, 'get']);
+
         });
         Route::get('/notifications/{lotId}', [AuctionController::class, 'getLotNotifications'])
             ->middleware('auth.deny:api');

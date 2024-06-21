@@ -28,7 +28,7 @@
                 :method_name="'getFiltersBidders'"
                 :method_params="{type: 'debtors'}"
                 :pagination="debtors_pagination"
-            ></bkt-select>
+            />
         </div>
         <div class="col-12 col-lg-4">
             <h5 class="bkt-form__label">арбитражный управляющий</h5>
@@ -44,7 +44,7 @@
                 :method_name="'getFiltersBidders'"
                 :method_params="{type: 'arbitrationManagers'}"
                 :pagination="arbitr_managers_pagination"
-            ></bkt-select>
+            />
         </div>
         <div class="col-12 col-lg-4">
             <h5 class="bkt-form__label">организатор торгов</h5>
@@ -60,7 +60,7 @@
                 :method_name="'getFiltersBidders'"
                 :method_params="{type: 'organizers'}"
                 :pagination="organizers_pagination"
-            ></bkt-select>
+            />
         </div>
         <div class="col-12">
             <div class="bkt-wrapper bkt-gap">

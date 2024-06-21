@@ -56,8 +56,19 @@
                         </div>
                     </div>
                 </div>
+                <div v-for="item in buyLotBlock"
+                     class="bkt-card__row bkt-purchase__service bkt-wrapper-down-lg-column bkt-cursor-pointer"
+                >
+                    <div class="bkt-purchase__service__check-wrapper">
+                        <div class="bkt-icon-frame bkt-bg-primary-lighter">
+                            <bkt-icon name="Information" color="primary"  class="bkt-icon-frame__item"/>
+                        </div>
+                        <h4 class="bkt-card__title" v-if="item.header">{{item.header}}</h4>
+                        <h5 class="bkt-card__subtitle">{{item.value}}</h5>
+                    </div>
+                </div>
                 <ValidationProvider :name="'Услуги'" rules="required|min:1" v-slot="{ errors }" tag="div"
-                                    class="bkt-wrapper-column bkt-gap-medium" ref="services"
+                                    class="bkt-wrapper-column bkt-gap-medium" ref="services" v-if="filtered_services.length"
                 >
                     <div v-for="item in filtered_services"
                          class="bkt-card__row bkt-purchase__service bkt-wrapper-down-lg-column bkt-cursor-pointer"
@@ -266,6 +277,7 @@
                 this.service.email = this.user.email;
                 this.service.phone = this.user.phone;
             }
+            this.getBuyLotBlock();
         },
         computed: {
             selected_lot() {
@@ -282,6 +294,9 @@
             },
             services() {
                 return this.$store.getters.services.filter(item => item.type !== 'purchaseInstructions' && item.type !== 'receiptEGRN');
+            },
+            buyLotBlock() {
+                return this.$store.getters.buyLotBlock;
             }
         },
         watch: {
@@ -371,6 +386,15 @@
                         return true;
                     })
             },
+            async getBuyLotBlock() {
+                if(!this.buyLotBlock || this.buyLotBlock.length==0) {
+                    this.loading = true;
+                    await this.$store.dispatch('getBuyLotBlock')
+                        .then(resp => {
+                            this.loading = false;
+                        })
+                }
+            }
         }
     }
 </script>

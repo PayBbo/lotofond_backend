@@ -77,11 +77,12 @@
     import AskQuestionTab from "./Profile/AskQuestionTab";
     import ContactsTab from "./Profile/ContactsTab";
     import NotificationsTab from "./Profile/NotificationsTab";
+    import OrdersTab from "./Profile/OrdersTab";
 
     export default {
         name: "Profile",
         components: {
-            ProfileTab, AboutTab, AskQuestionTab, ContactsTab, NotificationsTab, HelpTab
+            ProfileTab, AboutTab, AskQuestionTab, ContactsTab, NotificationsTab, HelpTab, OrdersTab
         },
         data() {
             return {
@@ -128,6 +129,13 @@
                         code: "About",
                         label: "О сайте",
                         color: 'red'
+                    },
+                    {
+                        // path: '/orders',
+                        icon: 'Wallet',
+                        code: "Orders",
+                        label: "Заказы",
+                        color: 'primary'
                     },
                     {
                         path: '/calendar',

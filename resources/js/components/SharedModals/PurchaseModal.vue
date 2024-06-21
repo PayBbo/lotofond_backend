@@ -11,7 +11,7 @@
                                 <div class="bkt-purchase__card-info">
                                     <skeleton :loading="loading&&!buyBlock&&!buyBlock[0]">
                                         <h3 class="bkt-card__title">
-                                            {{buyBlock&&buyBlock[0]&&buyBlock[0].header ? buyBlock[0].header : 'Проведение торгов, юридическая консультация и другое'}}
+                                            {{buyBlock&&buyBlock[0]&&buyBlock[0].header ? buyBlock[0].header : 'Проведение торгов, выкуп лота'}}
                                         </h3>
                                     </skeleton>
                                     <skeleton :loading="loading&&!buyBlock&&!buyBlock[0]">
@@ -40,40 +40,40 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-12 col-lg-6">
-                    <div class="bkt-card bkt-purchase__card h-100">
-                        <skeleton :loading="loading&&!buyBlock&&!buyBlock[1]">
-                            <h3 class="bkt-card__title">
-                                {{buyBlock&&buyBlock[1]&&buyBlock[1].header ? buyBlock[1].header : 'Инструкция для самостоятельной покупки лота'}}
-                            </h3>
-                        </skeleton>
-                        <skeleton :loading="loading&&!buyBlock&&!buyBlock[1]">
-                            <h5 class="bkt-card__text">
-                                {{buyBlock&&buyBlock[1]&&buyBlock[1].value ? buyBlock[1].value : 'Инструкция для проведения торгов по выбранному лоту'}}
-                            </h5>
-                        </skeleton>
-                        <button class="bkt-button w-100 primary mt-auto bkt-purchase__button" @click="sendInstruction">
-                            Купить
-                        </button>
-                    </div>
-                </div>
-                <div class="col-12 col-lg-6">
-                    <div class="bkt-card bkt-purchase__card h-100">
-                        <skeleton :loading="loading&&!buyBlock&&!buyBlock[2]">
-                            <h3 class="bkt-card__title">
-                                {{buyBlock&&buyBlock[2]&&buyBlock[2].header ? buyBlock[2].header : 'Оценка ликвидности, юридическая консультация и другое'}}
-                            </h3>
-                        </skeleton>
-                        <skeleton :loading="loading&&!buyBlock&&!buyBlock[2]">
-                            <h5 class="bkt-card__text">
-                                {{buyBlock&&buyBlock[2]&&buyBlock[2].value ? buyBlock[2].value : 'Узнайте подробнее о прочих услугах'}}
-                            </h5>
-                        </skeleton>
-                        <button class="bkt-button w-100 primary mt-auto bkt-purchase__button" @click="sendApplication('services')">
-                            Подробнее о прочих услугах
-                        </button>
-                    </div>
-                </div>
+<!--                <div class="col-12 col-lg-6">-->
+<!--                    <div class="bkt-card bkt-purchase__card h-100">-->
+<!--                        <skeleton :loading="loading&&!buyBlock&&!buyBlock[1]">-->
+<!--                            <h3 class="bkt-card__title">-->
+<!--                                {{buyBlock&&buyBlock[1]&&buyBlock[1].header ? buyBlock[1].header : 'Инструкция для самостоятельной покупки лота'}}-->
+<!--                            </h3>-->
+<!--                        </skeleton>-->
+<!--                        <skeleton :loading="loading&&!buyBlock&&!buyBlock[1]">-->
+<!--                            <h5 class="bkt-card__text">-->
+<!--                                {{buyBlock&&buyBlock[1]&&buyBlock[1].value ? buyBlock[1].value : 'Инструкция для проведения торгов по выбранному лоту'}}-->
+<!--                            </h5>-->
+<!--                        </skeleton>-->
+<!--                        <button class="bkt-button w-100 primary mt-auto bkt-purchase__button" @click="sendInstruction">-->
+<!--                            Купить-->
+<!--                        </button>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--                <div class="col-12 col-lg-6">-->
+<!--                    <div class="bkt-card bkt-purchase__card h-100">-->
+<!--                        <skeleton :loading="loading&&!buyBlock&&!buyBlock[2]">-->
+<!--                            <h3 class="bkt-card__title">-->
+<!--                                {{buyBlock&&buyBlock[2]&&buyBlock[2].header ? buyBlock[2].header : 'Оценка ликвидности, юридическая консультация и другое'}}-->
+<!--                            </h3>-->
+<!--                        </skeleton>-->
+<!--                        <skeleton :loading="loading&&!buyBlock&&!buyBlock[2]">-->
+<!--                            <h5 class="bkt-card__text">-->
+<!--                                {{buyBlock&&buyBlock[2]&&buyBlock[2].value ? buyBlock[2].value : 'Узнайте подробнее о прочих услугах'}}-->
+<!--                            </h5>-->
+<!--                        </skeleton>-->
+<!--                        <button class="bkt-button w-100 primary mt-auto bkt-purchase__button" @click="sendApplication('services')">-->
+<!--                            Подробнее о прочих услугах-->
+<!--                        </button>-->
+<!--                    </div>-->
+<!--                </div>-->
             </div>
         </template>
     </bkt-modal>

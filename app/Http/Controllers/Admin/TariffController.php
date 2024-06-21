@@ -69,6 +69,7 @@ class TariffController extends Controller
             $tariff->period = $request->period;
             $tariff->included_details = $request->includedDetails;
             $tariff->excluded_details = $request->excludedDetails;
+            $tariff->active = isset($request->active) ? $request->active : $tariff->active;
             $tariff->save();
             return response(null, 200);
         }
@@ -80,6 +81,17 @@ class TariffController extends Controller
         $tariff = Tariff::find($id);
         if ($tariff) {
             $tariff->delete();
+            return response(null, 200);
+        }
+        return response(null, 404);
+    }
+
+    public function changeStatus($id)
+    {
+        $tariff = Tariff::find($id);
+        if ($tariff) {
+            $tariff->active = !$tariff->active;
+            $tariff->save();
             return response(null, 200);
         }
         return response(null, 404);

@@ -115,7 +115,7 @@ class PaymentController extends Controller
 
     public function getTariffs()
     {
-        $tariffs = Tariff::where('type', 'tariff')->get();
+        $tariffs = Tariff::where('type', 'tariff')->where('active', true)->get();
         return response(TariffResource::collection($tariffs), 200);
     }
 
@@ -123,7 +123,7 @@ class PaymentController extends Controller
         $servicesTypes = $request->serviceTypes ?? [];
         $services = Tariff::when(count($servicesTypes)>0, function ($query) use ($servicesTypes){
             $query->whereIn('code', $servicesTypes);
-        })->where('type', 'service')->get();
+        })->where('type', 'service')->where('active', true)->get();
         return response(ServiceResource::collection($services), 200);
     }
 

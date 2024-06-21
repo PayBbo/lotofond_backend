@@ -33,7 +33,8 @@ class TariffResource extends JsonResource
             ]),
             'type'=> $this->type,
             'includedDetails' => $this->getTranslations('included_details'),
-            'excludedDetails' => $this->getTranslations('excluded_details')
+            'excludedDetails' => $this->getTranslations('excluded_details'),
+            'active' => $this->active
         ];
     }
 }

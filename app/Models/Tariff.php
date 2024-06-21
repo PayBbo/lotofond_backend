@@ -24,7 +24,8 @@ class Tariff extends Model
         'excluded_details',
         'price_prefix',
         'type',
-        'code'
+        'code',
+        'active'
     ];
 
     /**
@@ -36,7 +37,8 @@ class Tariff extends Model
         'id' => 'integer',
         'period' => 'integer',
         'excluded_details'=>'array',
-        'included_details'=>'array'
+        'included_details'=>'array',
+        'active'=>'boolean'
     ];
 
     public function payments()

@@ -72,6 +72,8 @@ Route::group(['middleware' =>['localization', 'role:admin|manager', 'json.respon
 
         Route::put('/{id}/update', [TextDataController::class, 'update']);
 
+        Route::put('/change/status/{id}', [TextDataController::class, 'changeStatus']);
+
     });
 
     Route::group(['prefix' => 'roles'], function () {
@@ -99,6 +101,8 @@ Route::group(['middleware' =>['localization', 'role:admin|manager', 'json.respon
         Route::post('/add', [TariffController::class, 'add']);
 
         Route::put('/{id}/update', [TariffController::class, 'update']);
+
+        Route::put('/change/status/{id}', [TariffController::class, 'changeStatus']);
 
         Route::delete('/{id}', [TariffController::class, 'delete']);
 

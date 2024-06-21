@@ -14,12 +14,14 @@ class TextData extends Model
         'value',
         'type',
         'screen',
-        'points'
+        'points',
+        'active'
     ];
 
     protected $casts = [
         'id' => 'integer',
-        'points'=>'array'
+        'points'=>'array',
+        'active'=>'boolean'
     ];
 
 }

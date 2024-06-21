@@ -20,7 +20,8 @@ class TextDataResource extends JsonResource
             'type'=>$this->type,
             'id'=>$this->id,
             'screen'=>$this->screen,
-            'points'=>$this->points
+            'points'=>$this->points,
+            'active'=>$this->active
         ];
     }
 }

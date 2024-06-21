@@ -1,3 +1,761 @@
-/*! For license information please see users-add.js.LICENSE.txt */
-"use strict";(self.webpackChunk=self.webpackChunk||[]).push([[5605],{98095:(t,e,n)=>{n.d(e,{Z:()=>s});var i=n(94015),o=n.n(i),r=n(23645),a=n.n(r)()(o());a.push([t.id,".my-v-select[data-v-b923fd8a]{flex:1 1 auto;min-width:0;position:relative;width:1%}","",{version:3,sources:["webpack://./resources/js/admin/users/AddUser.vue"],names:[],mappings:"AA4RA,8BAEA,aAAA,CAEA,WAAA,CAHA,iBAAA,CAEA,QAEA",sourcesContent:['<template>\n    <fragment>\n        <div class="content-header">\n            <div class="container-fluid">\n                <div class="row mb-2">\n                    <div class="col-sm-6">\n                        <h1 class="m-0">\n                            {{ isEdit ? \'Редактирование данных пользователя \' : \'Добавление нового пользователя\' }}</h1>\n                    </div>\n                    <div class="col-sm-6">\n                        <ol class="breadcrumb float-sm-right">\n                            <li class="breadcrumb-item">\n                                <router-link to="/admin/users"\n                                             style="color: #007bff; text-decoration: none; background-color: transparent;">\n                                    Пользователи\n                                </router-link>\n                            </li>\n                            <li class="breadcrumb-item active">{{ isEdit ? \'Редактирование\' : \'Добавление\' }}</li>\n                        </ol>\n                    </div>\n                </div>\n            </div>\n        </div>\n\n        <section class="content">\n            <div class="container-fluid">\n                <div class="row">\n                    <div class="col-md-12">\n                        <div class="card card-primary">\n                            <div class="card-body">\n                                <div class="form-group">\n                                    <label>Имя пользователя</label>\n                                    <input required name="name" type="text" class="form-control" v-model="item.name"\n                                           placeholder="Введите имя пользователя">\n                                </div>\n                                <div class="form-group">\n                                    <label>Фамилия пользователя</label>\n                                    <input required name="surname" type="text" class="form-control"\n                                           v-model="item.surname"\n                                           placeholder="Введите фамилию пользователя">\n                                </div>\n                                <div class="form-group">\n                                    <label>Отчество пользователя</label>\n                                    <input name="middleName" type="text" class="form-control" v-model="item.middleName"\n                                           placeholder="Введите отчество пользователя">\n                                </div>\n                                <div class="form-group">\n                                    <label>Почта (обязательно, если не задан телефон)</label>\n                                    <div class="input-group">\n                                        <div class="input-group-prepend">\n                                            <span class="input-group-text"><i class="fas fa-envelope"></i></span>\n                                        </div>\n                                        <input name="email" type="text" class="form-control" v-model="item.email"\n                                               placeholder="Введите почту пользователя">\n                                    </div>\n                                </div>\n                                <div class="form-group">\n                                    <label>Телефон (обязательно, если не задана почта)</label>\n                                    <div class="input-group">\n                                        <div class="input-group-prepend">\n                                            <span class="input-group-text"><i class="fa fa-phone"></i></span>\n                                        </div>\n                                        <input name="phone" type="tel" class="form-control" v-model="item.phone"\n                                               v-mask="[\'+# ### ### ####\',\'+## ### ### ####\', \'+## ### #### ####\',]"\n                                               placeholder="Введите телефон пользователя">\n                                    </div>\n                                </div>\n                                <div class="form-group" v-if="!isEdit">\n                                    <label>Пароль пользователя (не менее 8 символов)</label>\n                                    <div class="input-group">\n                                        <div class="input-group-prepend">\n                                            <span class="input-group-text"><i class="fa fa-key"></i></span>\n                                        </div>\n                                        <input name="password" type="text" class="form-control" v-model="item.password"\n                                               placeholder="Введите пароль пользователя" required>\n                                        <span class="input-group-append">\n                                        <button type="button" class="btn btn-info btn-flat"\n                                                @click="generatePassword">Сгенерировать</button>\n                                    </span>\n                                    </div>\n\n                                </div>\n\n                                <div class="form-group" v-if="!isEdit">\n                                    <div class="custom-control custom-switch">\n                                        <input type="checkbox" class="custom-control-input"\n                                               id="notificationsFromFavourite"\n                                               v-model="item.notificationsFromFavourite">\n                                        <label class="custom-control-label" for="notificationsFromFavourite">\n                                            {{\n                                                item.notificationsFromFavourite ? \'Уведомления от избранного активированы для пользователя\' :\n                                                    \'Уведомления от избранного отключены для пользователя\'\n                                            }}\n                                        </label>\n                                    </div>\n                                </div>\n\n                                <div class="form-group" v-if="!isEdit">\n                                    <div class="custom-control custom-switch">\n                                        <input type="checkbox" class="custom-control-input"\n                                               id="notificationsFromMonitoring"\n                                               v-model="item.notificationsFromMonitoring">\n                                        <label class="custom-control-label" for="notificationsFromMonitoring">\n                                            {{\n                                                item.notificationsFromMonitoring ? \'Уведомления от мониторинга активированы для пользователя\' :\n                                                    \'Уведомления от мониторинга отключены для пользователя\'\n                                            }}\n                                        </label>\n                                    </div>\n                                </div>\n\n                                <div class="form-group" v-if="!isEdit">\n                                    <div class="custom-control custom-switch">\n                                        <input type="checkbox" class="custom-control-input" id="notificationsToEmail"\n                                               v-model="item.notificationsToEmail">\n                                        <label class="custom-control-label" for="notificationsToEmail">\n                                            {{\n                                                item.notificationsToEmail ? \'Уведомления на почту активированы для пользователя\' :\n                                                    \'Уведомления на почту отключены для пользователя\'\n                                            }}\n                                        </label>\n                                    </div>\n                                </div>\n\n                                <div class="form-group">\n                                    <label>Выберите тариф для пользователя</label>\n                                    <div class="input-group">\n                                        <div class="input-group-prepend">\n                                            <span class="input-group-text"><i class="fa fa-tags"></i></span>\n                                        </div>\n                                        <select class="form-control custom-select rounded-0" v-model="item.tariff">\n                                            <option :value="null">Выберите тариф для пользователя</option>\n                                            <option v-for="tariff in tariffs" :value="tariff.id">{{\n                                                    tariff.title\n                                                }}\n                                            </option>\n                                        </select>\n                                    </div>\n                                </div>\n\n                                <div class="form-group">\n                                    <label>Выберите регион для пользователя</label>\n                                    <div class="input-group">\n                                        <div class="input-group-prepend">\n                                            <span class="input-group-text"><i class="fa fa-location-arrow"></i></span>\n                                        </div>\n                                    <v-select\n                                        class="my-v-select"\n                                        v-model="item.region"\n                                        :options="regions"\n                                    >\n                                    </v-select>\n                                    </div>\n                                </div>\n\n                                <div class="form-group">\n                                    <label>Роли</label>\n                                    <div class="input-group">\n                                        <div class="input-group-prepend">\n                                            <span class="input-group-text"><i class="fa fa-users"></i></span>\n                                        </div>\n                                        <v-select\n                                            class="my-v-select"\n                                            multiple\n                                            v-model="item.roles"\n                                            :options="roles.map(role=>role.name)"\n\n                                        >\n                                        </v-select>\n                                    </div>\n\n                                </div>\n\n                                <button type="submit" class="btn btn-success float-right"\n                                        @click="isEdit ? updateData(item) : storeData(item)">Сохранить\n                                </button>\n                            </div>\n                            \x3c!-- /.card-body --\x3e\n                        </div>\n                        \x3c!-- /.card --\x3e\n                    </div>\n                </div>\n            </div>\n        </section>\n    </fragment>\n</template>\n\n<script>\nimport {mapActions, mapGetters} from "vuex";\nimport axios from "axios";\nimport {mask} from \'vue-the-mask\'\nexport default {\n    name: "AddUser",\n    data() {\n        return {\n            roles: [],\n            tariffs: [],\n            regions: []\n        }\n    },\n    directives:{mask},\n    async created() {\n        this.$store.commit(\'setCurrentRoute\', this.$route.path.replace(/(\\/*$)/, ""))\n        if (this.isEdit) {\n            await this.editItem()\n        } else {\n            this.$store.commit(\'setItem\',\n                {\n                    name: \'\', surname: \'\', middleName: \'\', email: null, region: null,\n                    phone: null, password: \'\', notificationsFromFavourite: true, notificationsFromMonitoring: true,\n                    notificationsToEmail: true, roles: [\'user\'], tariff: null\n                }\n            )\n        }\n        await this.getRoles()\n        await this.getTariffs()\n        await this.getRegions()\n    },\n    computed: {\n        ...mapGetters([\'item\', \'types\']),\n        isEdit() {\n            return !this.$route.path.includes(\'add\')\n        }\n    },\n    methods: {\n        ...mapActions([\'editItem\', \'updateData\', \'addData\']),\n        storeData(item) {\n            this.addData(item)\n\n        },\n        generatePassword() {\n            let length = 8,\n                charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789",\n                retVal = "";\n            for (let i = 0, n = charset.length; i < length; ++i) {\n                retVal += charset.charAt(Math.floor(Math.random() * n));\n            }\n            this.item.password = retVal;\n        },\n        async getRoles() {\n            await axios({\n                method: \'get\',\n                url: \'/api/admin/roles\',\n                data: {},\n            })\n                .then((response) => {\n                    this.roles = response.data.data\n                })\n                .catch((error) => {\n                    console.log(error);\n                });\n        },\n        async getTariffs() {\n            await axios({\n                method: \'get\',\n                url: \'/api/admin/tariffs\',\n                data: {},\n            })\n                .then((response) => {\n                    this.tariffs = response.data.data\n                })\n                .catch((error) => {\n                    console.log(error);\n                });\n        },\n        async getRegions() {\n            await axios({\n                method: \'get\',\n                url: \'/api/admin/regions\',\n                data: {},\n            })\n                .then((response) => {\n                    this.regions = response.data\n                })\n                .catch((error) => {\n                    console.log(error);\n                });\n        }\n    }\n\n}\n<\/script>\n\n<style scoped>\n.my-v-select {\n    position: relative;\n    flex: 1 1 auto;\n    width: 1%;\n    min-width: 0;\n}\n</style>\n'],sourceRoot:""}]);const s=a},9214:(t,e,n)=>{n.r(e),n.d(e,{default:()=>y});var i=n(20629),o=n(9669),r=n.n(o);function a(t){return a="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(t){return typeof t}:function(t){return t&&"function"==typeof Symbol&&t.constructor===Symbol&&t!==Symbol.prototype?"symbol":typeof t},a(t)}function s(t,e){var n=Object.keys(t);if(Object.getOwnPropertySymbols){var i=Object.getOwnPropertySymbols(t);e&&(i=i.filter((function(e){return Object.getOwnPropertyDescriptor(t,e).enumerable}))),n.push.apply(n,i)}return n}function c(t){for(var e=1;e<arguments.length;e++){var n=null!=arguments[e]?arguments[e]:{};e%2?s(Object(n),!0).forEach((function(e){l(t,e,n[e])})):Object.getOwnPropertyDescriptors?Object.defineProperties(t,Object.getOwnPropertyDescriptors(n)):s(Object(n)).forEach((function(e){Object.defineProperty(t,e,Object.getOwnPropertyDescriptor(n,e))}))}return t}function l(t,e,n){return(e=function(t){var e=function(t,e){if("object"!==a(t)||null===t)return t;var n=t[Symbol.toPrimitive];if(void 0!==n){var i=n.call(t,e||"default");if("object"!==a(i))return i;throw new TypeError("@@toPrimitive must return a primitive value.")}return("string"===e?String:Number)(t)}(t,"string");return"symbol"===a(e)?e:String(e)}(e))in t?Object.defineProperty(t,e,{value:n,enumerable:!0,configurable:!0,writable:!0}):t[e]=n,t}function u(){u=function(){return t};var t={},e=Object.prototype,n=e.hasOwnProperty,i=Object.defineProperty||function(t,e,n){t[e]=n.value},o="function"==typeof Symbol?Symbol:{},r=o.iterator||"@@iterator",s=o.asyncIterator||"@@asyncIterator",c=o.toStringTag||"@@toStringTag";function l(t,e,n){return Object.defineProperty(t,e,{value:n,enumerable:!0,configurable:!0,writable:!0}),t[e]}try{l({},"")}catch(t){l=function(t,e,n){return t[e]=n}}function m(t,e,n,o){var r=e&&e.prototype instanceof f?e:f,a=Object.create(r.prototype),s=new A(o||[]);return i(a,"_invoke",{value:C(t,n,s)}),a}function d(t,e,n){try{return{type:"normal",arg:t.call(e,n)}}catch(t){return{type:"throw",arg:t}}}t.wrap=m;var p={};function f(){}function v(){}function h(){}var g={};l(g,r,(function(){return this}));var y=Object.getPrototypeOf,b=y&&y(y(P([])));b&&b!==e&&n.call(b,r)&&(g=b);var w=h.prototype=f.prototype=Object.create(g);function x(t){["next","throw","return"].forEach((function(e){l(t,e,(function(t){return this._invoke(e,t)}))}))}function _(t,e){function o(i,r,s,c){var l=d(t[i],t,r);if("throw"!==l.type){var u=l.arg,m=u.value;return m&&"object"==a(m)&&n.call(m,"__await")?e.resolve(m.__await).then((function(t){o("next",t,s,c)}),(function(t){o("throw",t,s,c)})):e.resolve(m).then((function(t){u.value=t,s(u)}),(function(t){return o("throw",t,s,c)}))}c(l.arg)}var r;i(this,"_invoke",{value:function(t,n){function i(){return new e((function(e,i){o(t,n,e,i)}))}return r=r?r.then(i,i):i()}})}function C(t,e,n){var i="suspendedStart";return function(o,r){if("executing"===i)throw new Error("Generator is already running");if("completed"===i){if("throw"===o)throw r;return O()}for(n.method=o,n.arg=r;;){var a=n.delegate;if(a){var s=E(a,n);if(s){if(s===p)continue;return s}}if("next"===n.method)n.sent=n._sent=n.arg;else if("throw"===n.method){if("suspendedStart"===i)throw i="completed",n.arg;n.dispatchException(n.arg)}else"return"===n.method&&n.abrupt("return",n.arg);i="executing";var c=d(t,e,n);if("normal"===c.type){if(i=n.done?"completed":"suspendedYield",c.arg===p)continue;return{value:c.arg,done:n.done}}"throw"===c.type&&(i="completed",n.method="throw",n.arg=c.arg)}}}function E(t,e){var n=e.method,i=t.iterator[n];if(void 0===i)return e.delegate=null,"throw"===n&&t.iterator.return&&(e.method="return",e.arg=void 0,E(t,e),"throw"===e.method)||"return"!==n&&(e.method="throw",e.arg=new TypeError("The iterator does not provide a '"+n+"' method")),p;var o=d(i,t.iterator,e.arg);if("throw"===o.type)return e.method="throw",e.arg=o.arg,e.delegate=null,p;var r=o.arg;return r?r.done?(e[t.resultName]=r.value,e.next=t.nextLoc,"return"!==e.method&&(e.method="next",e.arg=void 0),e.delegate=null,p):r:(e.method="throw",e.arg=new TypeError("iterator result is not an object"),e.delegate=null,p)}function F(t){var e={tryLoc:t[0]};1 in t&&(e.catchLoc=t[1]),2 in t&&(e.finallyLoc=t[2],e.afterLoc=t[3]),this.tryEntries.push(e)}function k(t){var e=t.completion||{};e.type="normal",delete e.arg,t.completion=e}function A(t){this.tryEntries=[{tryLoc:"root"}],t.forEach(F,this),this.reset(!0)}function P(t){if(t){var e=t[r];if(e)return e.call(t);if("function"==typeof t.next)return t;if(!isNaN(t.length)){var i=-1,o=function e(){for(;++i<t.length;)if(n.call(t,i))return e.value=t[i],e.done=!1,e;return e.value=void 0,e.done=!0,e};return o.next=o}}return{next:O}}function O(){return{value:void 0,done:!0}}return v.prototype=h,i(w,"constructor",{value:h,configurable:!0}),i(h,"constructor",{value:v,configurable:!0}),v.displayName=l(h,c,"GeneratorFunction"),t.isGeneratorFunction=function(t){var e="function"==typeof t&&t.constructor;return!!e&&(e===v||"GeneratorFunction"===(e.displayName||e.name))},t.mark=function(t){return Object.setPrototypeOf?Object.setPrototypeOf(t,h):(t.__proto__=h,l(t,c,"GeneratorFunction")),t.prototype=Object.create(w),t},t.awrap=function(t){return{__await:t}},x(_.prototype),l(_.prototype,s,(function(){return this})),t.AsyncIterator=_,t.async=function(e,n,i,o,r){void 0===r&&(r=Promise);var a=new _(m(e,n,i,o),r);return t.isGeneratorFunction(n)?a:a.next().then((function(t){return t.done?t.value:a.next()}))},x(w),l(w,c,"Generator"),l(w,r,(function(){return this})),l(w,"toString",(function(){return"[object Generator]"})),t.keys=function(t){var e=Object(t),n=[];for(var i in e)n.push(i);return n.reverse(),function t(){for(;n.length;){var i=n.pop();if(i in e)return t.value=i,t.done=!1,t}return t.done=!0,t}},t.values=P,A.prototype={constructor:A,reset:function(t){if(this.prev=0,this.next=0,this.sent=this._sent=void 0,this.done=!1,this.delegate=null,this.method="next",this.arg=void 0,this.tryEntries.forEach(k),!t)for(var e in this)"t"===e.charAt(0)&&n.call(this,e)&&!isNaN(+e.slice(1))&&(this[e]=void 0)},stop:function(){this.done=!0;var t=this.tryEntries[0].completion;if("throw"===t.type)throw t.arg;return this.rval},dispatchException:function(t){if(this.done)throw t;var e=this;function i(n,i){return a.type="throw",a.arg=t,e.next=n,i&&(e.method="next",e.arg=void 0),!!i}for(var o=this.tryEntries.length-1;o>=0;--o){var r=this.tryEntries[o],a=r.completion;if("root"===r.tryLoc)return i("end");if(r.tryLoc<=this.prev){var s=n.call(r,"catchLoc"),c=n.call(r,"finallyLoc");if(s&&c){if(this.prev<r.catchLoc)return i(r.catchLoc,!0);if(this.prev<r.finallyLoc)return i(r.finallyLoc)}else if(s){if(this.prev<r.catchLoc)return i(r.catchLoc,!0)}else{if(!c)throw new Error("try statement without catch or finally");if(this.prev<r.finallyLoc)return i(r.finallyLoc)}}}},abrupt:function(t,e){for(var i=this.tryEntries.length-1;i>=0;--i){var o=this.tryEntries[i];if(o.tryLoc<=this.prev&&n.call(o,"finallyLoc")&&this.prev<o.finallyLoc){var r=o;break}}r&&("break"===t||"continue"===t)&&r.tryLoc<=e&&e<=r.finallyLoc&&(r=null);var a=r?r.completion:{};return a.type=t,a.arg=e,r?(this.method="next",this.next=r.finallyLoc,p):this.complete(a)},complete:function(t,e){if("throw"===t.type)throw t.arg;return"break"===t.type||"continue"===t.type?this.next=t.arg:"return"===t.type?(this.rval=this.arg=t.arg,this.method="return",this.next="end"):"normal"===t.type&&e&&(this.next=e),p},finish:function(t){for(var e=this.tryEntries.length-1;e>=0;--e){var n=this.tryEntries[e];if(n.finallyLoc===t)return this.complete(n.completion,n.afterLoc),k(n),p}},catch:function(t){for(var e=this.tryEntries.length-1;e>=0;--e){var n=this.tryEntries[e];if(n.tryLoc===t){var i=n.completion;if("throw"===i.type){var o=i.arg;k(n)}return o}}throw new Error("illegal catch attempt")},delegateYield:function(t,e,n){return this.delegate={iterator:P(t),resultName:e,nextLoc:n},"next"===this.method&&(this.arg=void 0),p}},t}function m(t,e,n,i,o,r,a){try{var s=t[r](a),c=s.value}catch(t){return void n(t)}s.done?e(c):Promise.resolve(c).then(i,o)}function d(t){return function(){var e=this,n=arguments;return new Promise((function(i,o){var r=t.apply(e,n);function a(t){m(r,i,o,a,s,"next",t)}function s(t){m(r,i,o,a,s,"throw",t)}a(void 0)}))}}const p={name:"AddUser",data:function(){return{roles:[],tariffs:[],regions:[]}},directives:{mask:n(32982).mask},created:function(){var t=this;return d(u().mark((function e(){return u().wrap((function(e){for(;;)switch(e.prev=e.next){case 0:if(t.$store.commit("setCurrentRoute",t.$route.path.replace(/(\/*$)/,"")),!t.isEdit){e.next=6;break}return e.next=4,t.editItem();case 4:e.next=7;break;case 6:t.$store.commit("setItem",{name:"",surname:"",middleName:"",email:null,region:null,phone:null,password:"",notificationsFromFavourite:!0,notificationsFromMonitoring:!0,notificationsToEmail:!0,roles:["user"],tariff:null});case 7:return e.next=9,t.getRoles();case 9:return e.next=11,t.getTariffs();case 11:return e.next=13,t.getRegions();case 13:case"end":return e.stop()}}),e)})))()},computed:c(c({},(0,i.Se)(["item","types"])),{},{isEdit:function(){return!this.$route.path.includes("add")}}),methods:c(c({},(0,i.nv)(["editItem","updateData","addData"])),{},{storeData:function(t){this.addData(t)},generatePassword:function(){for(var t="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789",e="",n=0,i=t.length;n<8;++n)e+=t.charAt(Math.floor(Math.random()*i));this.item.password=e},getRoles:function(){var t=this;return d(u().mark((function e(){return u().wrap((function(e){for(;;)switch(e.prev=e.next){case 0:return e.next=2,r()({method:"get",url:"/api/admin/roles",data:{}}).then((function(e){t.roles=e.data.data})).catch((function(t){console.log(t)}));case 2:case"end":return e.stop()}}),e)})))()},getTariffs:function(){var t=this;return d(u().mark((function e(){return u().wrap((function(e){for(;;)switch(e.prev=e.next){case 0:return e.next=2,r()({method:"get",url:"/api/admin/tariffs",data:{}}).then((function(e){t.tariffs=e.data.data})).catch((function(t){console.log(t)}));case 2:case"end":return e.stop()}}),e)})))()},getRegions:function(){var t=this;return d(u().mark((function e(){return u().wrap((function(e){for(;;)switch(e.prev=e.next){case 0:return e.next=2,r()({method:"get",url:"/api/admin/regions",data:{}}).then((function(e){t.regions=e.data})).catch((function(t){console.log(t)}));case 2:case"end":return e.stop()}}),e)})))()}})};var f=n(93379),v=n.n(f),h=n(98095),g={insert:"head",singleton:!1};v()(h.Z,g);h.Z.locals;const y=(0,n(51900).Z)(p,(function(){var t=this,e=t._self._c;return e("fragment",[e("div",{staticClass:"content-header"},[e("div",{staticClass:"container-fluid"},[e("div",{staticClass:"row mb-2"},[e("div",{staticClass:"col-sm-6"},[e("h1",{staticClass:"m-0"},[t._v("\n                        "+t._s(t.isEdit?"Редактирование данных пользователя ":"Добавление нового пользователя"))])]),t._v(" "),e("div",{staticClass:"col-sm-6"},[e("ol",{staticClass:"breadcrumb float-sm-right"},[e("li",{staticClass:"breadcrumb-item"},[e("router-link",{staticStyle:{color:"#007bff","text-decoration":"none","background-color":"transparent"},attrs:{to:"/admin/users"}},[t._v("\n                                Пользователи\n                            ")])],1),t._v(" "),e("li",{staticClass:"breadcrumb-item active"},[t._v(t._s(t.isEdit?"Редактирование":"Добавление"))])])])])])]),t._v(" "),e("section",{staticClass:"content"},[e("div",{staticClass:"container-fluid"},[e("div",{staticClass:"row"},[e("div",{staticClass:"col-md-12"},[e("div",{staticClass:"card card-primary"},[e("div",{staticClass:"card-body"},[e("div",{staticClass:"form-group"},[e("label",[t._v("Имя пользователя")]),t._v(" "),e("input",{directives:[{name:"model",rawName:"v-model",value:t.item.name,expression:"item.name"}],staticClass:"form-control",attrs:{required:"",name:"name",type:"text",placeholder:"Введите имя пользователя"},domProps:{value:t.item.name},on:{input:function(e){e.target.composing||t.$set(t.item,"name",e.target.value)}}})]),t._v(" "),e("div",{staticClass:"form-group"},[e("label",[t._v("Фамилия пользователя")]),t._v(" "),e("input",{directives:[{name:"model",rawName:"v-model",value:t.item.surname,expression:"item.surname"}],staticClass:"form-control",attrs:{required:"",name:"surname",type:"text",placeholder:"Введите фамилию пользователя"},domProps:{value:t.item.surname},on:{input:function(e){e.target.composing||t.$set(t.item,"surname",e.target.value)}}})]),t._v(" "),e("div",{staticClass:"form-group"},[e("label",[t._v("Отчество пользователя")]),t._v(" "),e("input",{directives:[{name:"model",rawName:"v-model",value:t.item.middleName,expression:"item.middleName"}],staticClass:"form-control",attrs:{name:"middleName",type:"text",placeholder:"Введите отчество пользователя"},domProps:{value:t.item.middleName},on:{input:function(e){e.target.composing||t.$set(t.item,"middleName",e.target.value)}}})]),t._v(" "),e("div",{staticClass:"form-group"},[e("label",[t._v("Почта (обязательно, если не задан телефон)")]),t._v(" "),e("div",{staticClass:"input-group"},[e("div",{staticClass:"input-group-prepend"},[e("span",{staticClass:"input-group-text"},[e("i",{staticClass:"fas fa-envelope"})])]),t._v(" "),e("input",{directives:[{name:"model",rawName:"v-model",value:t.item.email,expression:"item.email"}],staticClass:"form-control",attrs:{name:"email",type:"text",placeholder:"Введите почту пользователя"},domProps:{value:t.item.email},on:{input:function(e){e.target.composing||t.$set(t.item,"email",e.target.value)}}})])]),t._v(" "),e("div",{staticClass:"form-group"},[e("label",[t._v("Телефон (обязательно, если не задана почта)")]),t._v(" "),e("div",{staticClass:"input-group"},[e("div",{staticClass:"input-group-prepend"},[e("span",{staticClass:"input-group-text"},[e("i",{staticClass:"fa fa-phone"})])]),t._v(" "),e("input",{directives:[{name:"model",rawName:"v-model",value:t.item.phone,expression:"item.phone"},{name:"mask",rawName:"v-mask",value:["+# ### ### ####","+## ### ### ####","+## ### #### ####"],expression:"['+# ### ### ####','+## ### ### ####', '+## ### #### ####',]"}],staticClass:"form-control",attrs:{name:"phone",type:"tel",placeholder:"Введите телефон пользователя"},domProps:{value:t.item.phone},on:{input:function(e){e.target.composing||t.$set(t.item,"phone",e.target.value)}}})])]),t._v(" "),t.isEdit?t._e():e("div",{staticClass:"form-group"},[e("label",[t._v("Пароль пользователя (не менее 8 символов)")]),t._v(" "),e("div",{staticClass:"input-group"},[e("div",{staticClass:"input-group-prepend"},[e("span",{staticClass:"input-group-text"},[e("i",{staticClass:"fa fa-key"})])]),t._v(" "),e("input",{directives:[{name:"model",rawName:"v-model",value:t.item.password,expression:"item.password"}],staticClass:"form-control",attrs:{name:"password",type:"text",placeholder:"Введите пароль пользователя",required:""},domProps:{value:t.item.password},on:{input:function(e){e.target.composing||t.$set(t.item,"password",e.target.value)}}}),t._v(" "),e("span",{staticClass:"input-group-append"},[e("button",{staticClass:"btn btn-info btn-flat",attrs:{type:"button"},on:{click:t.generatePassword}},[t._v("Сгенерировать")])])])]),t._v(" "),t.isEdit?t._e():e("div",{staticClass:"form-group"},[e("div",{staticClass:"custom-control custom-switch"},[e("input",{directives:[{name:"model",rawName:"v-model",value:t.item.notificationsFromFavourite,expression:"item.notificationsFromFavourite"}],staticClass:"custom-control-input",attrs:{type:"checkbox",id:"notificationsFromFavourite"},domProps:{checked:Array.isArray(t.item.notificationsFromFavourite)?t._i(t.item.notificationsFromFavourite,null)>-1:t.item.notificationsFromFavourite},on:{change:function(e){var n=t.item.notificationsFromFavourite,i=e.target,o=!!i.checked;if(Array.isArray(n)){var r=t._i(n,null);i.checked?r<0&&t.$set(t.item,"notificationsFromFavourite",n.concat([null])):r>-1&&t.$set(t.item,"notificationsFromFavourite",n.slice(0,r).concat(n.slice(r+1)))}else t.$set(t.item,"notificationsFromFavourite",o)}}}),t._v(" "),e("label",{staticClass:"custom-control-label",attrs:{for:"notificationsFromFavourite"}},[t._v("\n                                        "+t._s(t.item.notificationsFromFavourite?"Уведомления от избранного активированы для пользователя":"Уведомления от избранного отключены для пользователя")+"\n                                    ")])])]),t._v(" "),t.isEdit?t._e():e("div",{staticClass:"form-group"},[e("div",{staticClass:"custom-control custom-switch"},[e("input",{directives:[{name:"model",rawName:"v-model",value:t.item.notificationsFromMonitoring,expression:"item.notificationsFromMonitoring"}],staticClass:"custom-control-input",attrs:{type:"checkbox",id:"notificationsFromMonitoring"},domProps:{checked:Array.isArray(t.item.notificationsFromMonitoring)?t._i(t.item.notificationsFromMonitoring,null)>-1:t.item.notificationsFromMonitoring},on:{change:function(e){var n=t.item.notificationsFromMonitoring,i=e.target,o=!!i.checked;if(Array.isArray(n)){var r=t._i(n,null);i.checked?r<0&&t.$set(t.item,"notificationsFromMonitoring",n.concat([null])):r>-1&&t.$set(t.item,"notificationsFromMonitoring",n.slice(0,r).concat(n.slice(r+1)))}else t.$set(t.item,"notificationsFromMonitoring",o)}}}),t._v(" "),e("label",{staticClass:"custom-control-label",attrs:{for:"notificationsFromMonitoring"}},[t._v("\n                                        "+t._s(t.item.notificationsFromMonitoring?"Уведомления от мониторинга активированы для пользователя":"Уведомления от мониторинга отключены для пользователя")+"\n                                    ")])])]),t._v(" "),t.isEdit?t._e():e("div",{staticClass:"form-group"},[e("div",{staticClass:"custom-control custom-switch"},[e("input",{directives:[{name:"model",rawName:"v-model",value:t.item.notificationsToEmail,expression:"item.notificationsToEmail"}],staticClass:"custom-control-input",attrs:{type:"checkbox",id:"notificationsToEmail"},domProps:{checked:Array.isArray(t.item.notificationsToEmail)?t._i(t.item.notificationsToEmail,null)>-1:t.item.notificationsToEmail},on:{change:function(e){var n=t.item.notificationsToEmail,i=e.target,o=!!i.checked;if(Array.isArray(n)){var r=t._i(n,null);i.checked?r<0&&t.$set(t.item,"notificationsToEmail",n.concat([null])):r>-1&&t.$set(t.item,"notificationsToEmail",n.slice(0,r).concat(n.slice(r+1)))}else t.$set(t.item,"notificationsToEmail",o)}}}),t._v(" "),e("label",{staticClass:"custom-control-label",attrs:{for:"notificationsToEmail"}},[t._v("\n                                        "+t._s(t.item.notificationsToEmail?"Уведомления на почту активированы для пользователя":"Уведомления на почту отключены для пользователя")+"\n                                    ")])])]),t._v(" "),e("div",{staticClass:"form-group"},[e("label",[t._v("Выберите тариф для пользователя")]),t._v(" "),e("div",{staticClass:"input-group"},[e("div",{staticClass:"input-group-prepend"},[e("span",{staticClass:"input-group-text"},[e("i",{staticClass:"fa fa-tags"})])]),t._v(" "),e("select",{directives:[{name:"model",rawName:"v-model",value:t.item.tariff,expression:"item.tariff"}],staticClass:"form-control custom-select rounded-0",on:{change:function(e){var n=Array.prototype.filter.call(e.target.options,(function(t){return t.selected})).map((function(t){return"_value"in t?t._value:t.value}));t.$set(t.item,"tariff",e.target.multiple?n:n[0])}}},[e("option",{domProps:{value:null}},[t._v("Выберите тариф для пользователя")]),t._v(" "),t._l(t.tariffs,(function(n){return e("option",{domProps:{value:n.id}},[t._v(t._s(n.title)+"\n                                        ")])}))],2)])]),t._v(" "),e("div",{staticClass:"form-group"},[e("label",[t._v("Выберите регион для пользователя")]),t._v(" "),e("div",{staticClass:"input-group"},[e("div",{staticClass:"input-group-prepend"},[e("span",{staticClass:"input-group-text"},[e("i",{staticClass:"fa fa-location-arrow"})])]),t._v(" "),e("v-select",{staticClass:"my-v-select",attrs:{options:t.regions},model:{value:t.item.region,callback:function(e){t.$set(t.item,"region",e)},expression:"item.region"}})],1)]),t._v(" "),e("div",{staticClass:"form-group"},[e("label",[t._v("Роли")]),t._v(" "),e("div",{staticClass:"input-group"},[e("div",{staticClass:"input-group-prepend"},[e("span",{staticClass:"input-group-text"},[e("i",{staticClass:"fa fa-users"})])]),t._v(" "),e("v-select",{staticClass:"my-v-select",attrs:{multiple:"",options:t.roles.map((function(t){return t.name}))},model:{value:t.item.roles,callback:function(e){t.$set(t.item,"roles",e)},expression:"item.roles"}})],1)]),t._v(" "),e("button",{staticClass:"btn btn-success float-right",attrs:{type:"submit"},on:{click:function(e){t.isEdit?t.updateData(t.item):t.storeData(t.item)}}},[t._v("Сохранить\n                            ")])])])])])])])])}),[],!1,null,"b923fd8a",null).exports}}]);
+"use strict";
+(self["webpackChunk"] = self["webpackChunk"] || []).push([["users-add"],{
+
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/admin/users/AddUser.vue?vue&type=script&lang=js&":
+/*!***************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/admin/users/AddUser.vue?vue&type=script&lang=js& ***!
+  \***************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var vue_the_mask__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue-the-mask */ "./node_modules/vue-the-mask/dist/vue-the-mask.js");
+/* harmony import */ var vue_the_mask__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(vue_the_mask__WEBPACK_IMPORTED_MODULE_1__);
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
+function _defineProperty(obj, key, value) { key = _toPropertyKey(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _typeof(key) === "symbol" ? key : String(key); }
+function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
+function _regeneratorRuntime() { "use strict"; /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/facebook/regenerator/blob/main/LICENSE */ _regeneratorRuntime = function _regeneratorRuntime() { return exports; }; var exports = {}, Op = Object.prototype, hasOwn = Op.hasOwnProperty, defineProperty = Object.defineProperty || function (obj, key, desc) { obj[key] = desc.value; }, $Symbol = "function" == typeof Symbol ? Symbol : {}, iteratorSymbol = $Symbol.iterator || "@@iterator", asyncIteratorSymbol = $Symbol.asyncIterator || "@@asyncIterator", toStringTagSymbol = $Symbol.toStringTag || "@@toStringTag"; function define(obj, key, value) { return Object.defineProperty(obj, key, { value: value, enumerable: !0, configurable: !0, writable: !0 }), obj[key]; } try { define({}, ""); } catch (err) { define = function define(obj, key, value) { return obj[key] = value; }; } function wrap(innerFn, outerFn, self, tryLocsList) { var protoGenerator = outerFn && outerFn.prototype instanceof Generator ? outerFn : Generator, generator = Object.create(protoGenerator.prototype), context = new Context(tryLocsList || []); return defineProperty(generator, "_invoke", { value: makeInvokeMethod(innerFn, self, context) }), generator; } function tryCatch(fn, obj, arg) { try { return { type: "normal", arg: fn.call(obj, arg) }; } catch (err) { return { type: "throw", arg: err }; } } exports.wrap = wrap; var ContinueSentinel = {}; function Generator() {} function GeneratorFunction() {} function GeneratorFunctionPrototype() {} var IteratorPrototype = {}; define(IteratorPrototype, iteratorSymbol, function () { return this; }); var getProto = Object.getPrototypeOf, NativeIteratorPrototype = getProto && getProto(getProto(values([]))); NativeIteratorPrototype && NativeIteratorPrototype !== Op && hasOwn.call(NativeIteratorPrototype, iteratorSymbol) && (IteratorPrototype = NativeIteratorPrototype); var Gp = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(IteratorPrototype); function defineIteratorMethods(prototype) { ["next", "throw", "return"].forEach(function (method) { define(prototype, method, function (arg) { return this._invoke(method, arg); }); }); } function AsyncIterator(generator, PromiseImpl) { function invoke(method, arg, resolve, reject) { var record = tryCatch(generator[method], generator, arg); if ("throw" !== record.type) { var result = record.arg, value = result.value; return value && "object" == _typeof(value) && hasOwn.call(value, "__await") ? PromiseImpl.resolve(value.__await).then(function (value) { invoke("next", value, resolve, reject); }, function (err) { invoke("throw", err, resolve, reject); }) : PromiseImpl.resolve(value).then(function (unwrapped) { result.value = unwrapped, resolve(result); }, function (error) { return invoke("throw", error, resolve, reject); }); } reject(record.arg); } var previousPromise; defineProperty(this, "_invoke", { value: function value(method, arg) { function callInvokeWithMethodAndArg() { return new PromiseImpl(function (resolve, reject) { invoke(method, arg, resolve, reject); }); } return previousPromise = previousPromise ? previousPromise.then(callInvokeWithMethodAndArg, callInvokeWithMethodAndArg) : callInvokeWithMethodAndArg(); } }); } function makeInvokeMethod(innerFn, self, context) { var state = "suspendedStart"; return function (method, arg) { if ("executing" === state) throw new Error("Generator is already running"); if ("completed" === state) { if ("throw" === method) throw arg; return doneResult(); } for (context.method = method, context.arg = arg;;) { var delegate = context.delegate; if (delegate) { var delegateResult = maybeInvokeDelegate(delegate, context); if (delegateResult) { if (delegateResult === ContinueSentinel) continue; return delegateResult; } } if ("next" === context.method) context.sent = context._sent = context.arg;else if ("throw" === context.method) { if ("suspendedStart" === state) throw state = "completed", context.arg; context.dispatchException(context.arg); } else "return" === context.method && context.abrupt("return", context.arg); state = "executing"; var record = tryCatch(innerFn, self, context); if ("normal" === record.type) { if (state = context.done ? "completed" : "suspendedYield", record.arg === ContinueSentinel) continue; return { value: record.arg, done: context.done }; } "throw" === record.type && (state = "completed", context.method = "throw", context.arg = record.arg); } }; } function maybeInvokeDelegate(delegate, context) { var methodName = context.method, method = delegate.iterator[methodName]; if (undefined === method) return context.delegate = null, "throw" === methodName && delegate.iterator["return"] && (context.method = "return", context.arg = undefined, maybeInvokeDelegate(delegate, context), "throw" === context.method) || "return" !== methodName && (context.method = "throw", context.arg = new TypeError("The iterator does not provide a '" + methodName + "' method")), ContinueSentinel; var record = tryCatch(method, delegate.iterator, context.arg); if ("throw" === record.type) return context.method = "throw", context.arg = record.arg, context.delegate = null, ContinueSentinel; var info = record.arg; return info ? info.done ? (context[delegate.resultName] = info.value, context.next = delegate.nextLoc, "return" !== context.method && (context.method = "next", context.arg = undefined), context.delegate = null, ContinueSentinel) : info : (context.method = "throw", context.arg = new TypeError("iterator result is not an object"), context.delegate = null, ContinueSentinel); } function pushTryEntry(locs) { var entry = { tryLoc: locs[0] }; 1 in locs && (entry.catchLoc = locs[1]), 2 in locs && (entry.finallyLoc = locs[2], entry.afterLoc = locs[3]), this.tryEntries.push(entry); } function resetTryEntry(entry) { var record = entry.completion || {}; record.type = "normal", delete record.arg, entry.completion = record; } function Context(tryLocsList) { this.tryEntries = [{ tryLoc: "root" }], tryLocsList.forEach(pushTryEntry, this), this.reset(!0); } function values(iterable) { if (iterable) { var iteratorMethod = iterable[iteratorSymbol]; if (iteratorMethod) return iteratorMethod.call(iterable); if ("function" == typeof iterable.next) return iterable; if (!isNaN(iterable.length)) { var i = -1, next = function next() { for (; ++i < iterable.length;) if (hasOwn.call(iterable, i)) return next.value = iterable[i], next.done = !1, next; return next.value = undefined, next.done = !0, next; }; return next.next = next; } } return { next: doneResult }; } function doneResult() { return { value: undefined, done: !0 }; } return GeneratorFunction.prototype = GeneratorFunctionPrototype, defineProperty(Gp, "constructor", { value: GeneratorFunctionPrototype, configurable: !0 }), defineProperty(GeneratorFunctionPrototype, "constructor", { value: GeneratorFunction, configurable: !0 }), GeneratorFunction.displayName = define(GeneratorFunctionPrototype, toStringTagSymbol, "GeneratorFunction"), exports.isGeneratorFunction = function (genFun) { var ctor = "function" == typeof genFun && genFun.constructor; return !!ctor && (ctor === GeneratorFunction || "GeneratorFunction" === (ctor.displayName || ctor.name)); }, exports.mark = function (genFun) { return Object.setPrototypeOf ? Object.setPrototypeOf(genFun, GeneratorFunctionPrototype) : (genFun.__proto__ = GeneratorFunctionPrototype, define(genFun, toStringTagSymbol, "GeneratorFunction")), genFun.prototype = Object.create(Gp), genFun; }, exports.awrap = function (arg) { return { __await: arg }; }, defineIteratorMethods(AsyncIterator.prototype), define(AsyncIterator.prototype, asyncIteratorSymbol, function () { return this; }), exports.AsyncIterator = AsyncIterator, exports.async = function (innerFn, outerFn, self, tryLocsList, PromiseImpl) { void 0 === PromiseImpl && (PromiseImpl = Promise); var iter = new AsyncIterator(wrap(innerFn, outerFn, self, tryLocsList), PromiseImpl); return exports.isGeneratorFunction(outerFn) ? iter : iter.next().then(function (result) { return result.done ? result.value : iter.next(); }); }, defineIteratorMethods(Gp), define(Gp, toStringTagSymbol, "Generator"), define(Gp, iteratorSymbol, function () { return this; }), define(Gp, "toString", function () { return "[object Generator]"; }), exports.keys = function (val) { var object = Object(val), keys = []; for (var key in object) keys.push(key); return keys.reverse(), function next() { for (; keys.length;) { var key = keys.pop(); if (key in object) return next.value = key, next.done = !1, next; } return next.done = !0, next; }; }, exports.values = values, Context.prototype = { constructor: Context, reset: function reset(skipTempReset) { if (this.prev = 0, this.next = 0, this.sent = this._sent = undefined, this.done = !1, this.delegate = null, this.method = "next", this.arg = undefined, this.tryEntries.forEach(resetTryEntry), !skipTempReset) for (var name in this) "t" === name.charAt(0) && hasOwn.call(this, name) && !isNaN(+name.slice(1)) && (this[name] = undefined); }, stop: function stop() { this.done = !0; var rootRecord = this.tryEntries[0].completion; if ("throw" === rootRecord.type) throw rootRecord.arg; return this.rval; }, dispatchException: function dispatchException(exception) { if (this.done) throw exception; var context = this; function handle(loc, caught) { return record.type = "throw", record.arg = exception, context.next = loc, caught && (context.method = "next", context.arg = undefined), !!caught; } for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i], record = entry.completion; if ("root" === entry.tryLoc) return handle("end"); if (entry.tryLoc <= this.prev) { var hasCatch = hasOwn.call(entry, "catchLoc"), hasFinally = hasOwn.call(entry, "finallyLoc"); if (hasCatch && hasFinally) { if (this.prev < entry.catchLoc) return handle(entry.catchLoc, !0); if (this.prev < entry.finallyLoc) return handle(entry.finallyLoc); } else if (hasCatch) { if (this.prev < entry.catchLoc) return handle(entry.catchLoc, !0); } else { if (!hasFinally) throw new Error("try statement without catch or finally"); if (this.prev < entry.finallyLoc) return handle(entry.finallyLoc); } } } }, abrupt: function abrupt(type, arg) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.tryLoc <= this.prev && hasOwn.call(entry, "finallyLoc") && this.prev < entry.finallyLoc) { var finallyEntry = entry; break; } } finallyEntry && ("break" === type || "continue" === type) && finallyEntry.tryLoc <= arg && arg <= finallyEntry.finallyLoc && (finallyEntry = null); var record = finallyEntry ? finallyEntry.completion : {}; return record.type = type, record.arg = arg, finallyEntry ? (this.method = "next", this.next = finallyEntry.finallyLoc, ContinueSentinel) : this.complete(record); }, complete: function complete(record, afterLoc) { if ("throw" === record.type) throw record.arg; return "break" === record.type || "continue" === record.type ? this.next = record.arg : "return" === record.type ? (this.rval = this.arg = record.arg, this.method = "return", this.next = "end") : "normal" === record.type && afterLoc && (this.next = afterLoc), ContinueSentinel; }, finish: function finish(finallyLoc) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.finallyLoc === finallyLoc) return this.complete(entry.completion, entry.afterLoc), resetTryEntry(entry), ContinueSentinel; } }, "catch": function _catch(tryLoc) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.tryLoc === tryLoc) { var record = entry.completion; if ("throw" === record.type) { var thrown = record.arg; resetTryEntry(entry); } return thrown; } } throw new Error("illegal catch attempt"); }, delegateYield: function delegateYield(iterable, resultName, nextLoc) { return this.delegate = { iterator: values(iterable), resultName: resultName, nextLoc: nextLoc }, "next" === this.method && (this.arg = undefined), ContinueSentinel; } }, exports; }
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  name: "AddUser",
+  data: function data() {
+    return {
+      roles: [],
+      tariffs: [],
+      regions: []
+    };
+  },
+  directives: {
+    mask: vue_the_mask__WEBPACK_IMPORTED_MODULE_1__.mask
+  },
+  created: function created() {
+    var _this = this;
+    return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
+      return _regeneratorRuntime().wrap(function _callee$(_context) {
+        while (1) switch (_context.prev = _context.next) {
+          case 0:
+            _this.$store.commit('setCurrentRoute', _this.$route.path.replace(/(\/*$)/, ""));
+            if (!_this.isEdit) {
+              _context.next = 6;
+              break;
+            }
+            _context.next = 4;
+            return _this.editItem();
+          case 4:
+            _context.next = 7;
+            break;
+          case 6:
+            _this.$store.commit('setItem', {
+              name: '',
+              surname: '',
+              middleName: '',
+              email: null,
+              region: null,
+              phone: null,
+              password: '',
+              notificationsFromFavourite: true,
+              notificationsFromMonitoring: true,
+              notificationsToEmail: true,
+              roles: ['user'],
+              tariff: null
+            });
+          case 7:
+            _context.next = 9;
+            return _this.getRoles();
+          case 9:
+            _context.next = 11;
+            return _this.getTariffs();
+          case 11:
+            _context.next = 13;
+            return _this.getRegions();
+          case 13:
+          case "end":
+            return _context.stop();
+        }
+      }, _callee);
+    }))();
+  },
+  computed: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapGetters)(['item', 'types'])), {}, {
+    isEdit: function isEdit() {
+      return !this.$route.path.includes('add');
+    }
+  }),
+  methods: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapActions)(['editItem', 'updateData', 'addData'])), {}, {
+    storeData: function storeData(item) {
+      this.addData(item);
+    },
+    generatePassword: function generatePassword() {
+      var length = 8,
+        charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789",
+        retVal = "";
+      for (var i = 0, n = charset.length; i < length; ++i) {
+        retVal += charset.charAt(Math.floor(Math.random() * n));
+      }
+      this.item.password = retVal;
+    },
+    getRoles: function getRoles() {
+      var _this2 = this;
+      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2() {
+        return _regeneratorRuntime().wrap(function _callee2$(_context2) {
+          while (1) switch (_context2.prev = _context2.next) {
+            case 0:
+              _context2.next = 2;
+              return axios__WEBPACK_IMPORTED_MODULE_0___default()({
+                method: 'get',
+                url: '/api/admin/roles',
+                data: {}
+              }).then(function (response) {
+                _this2.roles = response.data.data;
+              })["catch"](function (error) {
+                console.log(error);
+              });
+            case 2:
+            case "end":
+              return _context2.stop();
+          }
+        }, _callee2);
+      }))();
+    },
+    getTariffs: function getTariffs() {
+      var _this3 = this;
+      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee3() {
+        return _regeneratorRuntime().wrap(function _callee3$(_context3) {
+          while (1) switch (_context3.prev = _context3.next) {
+            case 0:
+              _context3.next = 2;
+              return axios__WEBPACK_IMPORTED_MODULE_0___default()({
+                method: 'get',
+                url: '/api/admin/tariffs',
+                data: {}
+              }).then(function (response) {
+                _this3.tariffs = response.data.data;
+              })["catch"](function (error) {
+                console.log(error);
+              });
+            case 2:
+            case "end":
+              return _context3.stop();
+          }
+        }, _callee3);
+      }))();
+    },
+    getRegions: function getRegions() {
+      var _this4 = this;
+      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee4() {
+        return _regeneratorRuntime().wrap(function _callee4$(_context4) {
+          while (1) switch (_context4.prev = _context4.next) {
+            case 0:
+              _context4.next = 2;
+              return axios__WEBPACK_IMPORTED_MODULE_0___default()({
+                method: 'get',
+                url: '/api/admin/regions',
+                data: {}
+              }).then(function (response) {
+                _this4.regions = response.data;
+              })["catch"](function (error) {
+                console.log(error);
+              });
+            case 2:
+            case "end":
+              return _context4.stop();
+          }
+        }, _callee4);
+      }))();
+    }
+  })
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/admin/users/AddUser.vue?vue&type=template&id=b923fd8a&scoped=true&":
+/*!**************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/admin/users/AddUser.vue?vue&type=template&id=b923fd8a&scoped=true& ***!
+  \**************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* binding */ render),
+/* harmony export */   "staticRenderFns": () => (/* binding */ staticRenderFns)
+/* harmony export */ });
+var render = function render() {
+  var _vm = this,
+    _c = _vm._self._c;
+  return _c('fragment', [_c('div', {
+    staticClass: "content-header"
+  }, [_c('div', {
+    staticClass: "container-fluid"
+  }, [_c('div', {
+    staticClass: "row mb-2"
+  }, [_c('div', {
+    staticClass: "col-sm-6"
+  }, [_c('h1', {
+    staticClass: "m-0"
+  }, [_vm._v("\n                        " + _vm._s(_vm.isEdit ? 'Редактирование данных пользователя ' : 'Добавление нового пользователя'))])]), _vm._v(" "), _c('div', {
+    staticClass: "col-sm-6"
+  }, [_c('ol', {
+    staticClass: "breadcrumb float-sm-right"
+  }, [_c('li', {
+    staticClass: "breadcrumb-item"
+  }, [_c('router-link', {
+    staticStyle: {
+      "color": "#007bff",
+      "text-decoration": "none",
+      "background-color": "transparent"
+    },
+    attrs: {
+      "to": "/admin/users"
+    }
+  }, [_vm._v("\n                                Пользователи\n                            ")])], 1), _vm._v(" "), _c('li', {
+    staticClass: "breadcrumb-item active"
+  }, [_vm._v(_vm._s(_vm.isEdit ? 'Редактирование' : 'Добавление'))])])])])])]), _vm._v(" "), _c('section', {
+    staticClass: "content"
+  }, [_c('div', {
+    staticClass: "container-fluid"
+  }, [_c('div', {
+    staticClass: "row"
+  }, [_c('div', {
+    staticClass: "col-md-12"
+  }, [_c('div', {
+    staticClass: "card card-primary"
+  }, [_c('div', {
+    staticClass: "card-body"
+  }, [_c('div', {
+    staticClass: "form-group"
+  }, [_c('label', [_vm._v("Имя пользователя")]), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: _vm.item.name,
+      expression: "item.name"
+    }],
+    staticClass: "form-control",
+    attrs: {
+      "required": "",
+      "name": "name",
+      "type": "text",
+      "placeholder": "Введите имя пользователя"
+    },
+    domProps: {
+      "value": _vm.item.name
+    },
+    on: {
+      "input": function input($event) {
+        if ($event.target.composing) return;
+        _vm.$set(_vm.item, "name", $event.target.value);
+      }
+    }
+  })]), _vm._v(" "), _c('div', {
+    staticClass: "form-group"
+  }, [_c('label', [_vm._v("Фамилия пользователя")]), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: _vm.item.surname,
+      expression: "item.surname"
+    }],
+    staticClass: "form-control",
+    attrs: {
+      "required": "",
+      "name": "surname",
+      "type": "text",
+      "placeholder": "Введите фамилию пользователя"
+    },
+    domProps: {
+      "value": _vm.item.surname
+    },
+    on: {
+      "input": function input($event) {
+        if ($event.target.composing) return;
+        _vm.$set(_vm.item, "surname", $event.target.value);
+      }
+    }
+  })]), _vm._v(" "), _c('div', {
+    staticClass: "form-group"
+  }, [_c('label', [_vm._v("Отчество пользователя")]), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: _vm.item.middleName,
+      expression: "item.middleName"
+    }],
+    staticClass: "form-control",
+    attrs: {
+      "name": "middleName",
+      "type": "text",
+      "placeholder": "Введите отчество пользователя"
+    },
+    domProps: {
+      "value": _vm.item.middleName
+    },
+    on: {
+      "input": function input($event) {
+        if ($event.target.composing) return;
+        _vm.$set(_vm.item, "middleName", $event.target.value);
+      }
+    }
+  })]), _vm._v(" "), _c('div', {
+    staticClass: "form-group"
+  }, [_c('label', [_vm._v("Почта (обязательно, если не задан телефон)")]), _vm._v(" "), _c('div', {
+    staticClass: "input-group"
+  }, [_c('div', {
+    staticClass: "input-group-prepend"
+  }, [_c('span', {
+    staticClass: "input-group-text"
+  }, [_c('i', {
+    staticClass: "fas fa-envelope"
+  })])]), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: _vm.item.email,
+      expression: "item.email"
+    }],
+    staticClass: "form-control",
+    attrs: {
+      "name": "email",
+      "type": "text",
+      "placeholder": "Введите почту пользователя"
+    },
+    domProps: {
+      "value": _vm.item.email
+    },
+    on: {
+      "input": function input($event) {
+        if ($event.target.composing) return;
+        _vm.$set(_vm.item, "email", $event.target.value);
+      }
+    }
+  })])]), _vm._v(" "), _c('div', {
+    staticClass: "form-group"
+  }, [_c('label', [_vm._v("Телефон (обязательно, если не задана почта)")]), _vm._v(" "), _c('div', {
+    staticClass: "input-group"
+  }, [_c('div', {
+    staticClass: "input-group-prepend"
+  }, [_c('span', {
+    staticClass: "input-group-text"
+  }, [_c('i', {
+    staticClass: "fa fa-phone"
+  })])]), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: _vm.item.phone,
+      expression: "item.phone"
+    }, {
+      name: "mask",
+      rawName: "v-mask",
+      value: ['+# ### ### ####', '+## ### ### ####', '+## ### #### ####'],
+      expression: "['+# ### ### ####','+## ### ### ####', '+## ### #### ####',]"
+    }],
+    staticClass: "form-control",
+    attrs: {
+      "name": "phone",
+      "type": "tel",
+      "placeholder": "Введите телефон пользователя"
+    },
+    domProps: {
+      "value": _vm.item.phone
+    },
+    on: {
+      "input": function input($event) {
+        if ($event.target.composing) return;
+        _vm.$set(_vm.item, "phone", $event.target.value);
+      }
+    }
+  })])]), _vm._v(" "), !_vm.isEdit ? _c('div', {
+    staticClass: "form-group"
+  }, [_c('label', [_vm._v("Пароль пользователя (не менее 8 символов)")]), _vm._v(" "), _c('div', {
+    staticClass: "input-group"
+  }, [_c('div', {
+    staticClass: "input-group-prepend"
+  }, [_c('span', {
+    staticClass: "input-group-text"
+  }, [_c('i', {
+    staticClass: "fa fa-key"
+  })])]), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: _vm.item.password,
+      expression: "item.password"
+    }],
+    staticClass: "form-control",
+    attrs: {
+      "name": "password",
+      "type": "text",
+      "placeholder": "Введите пароль пользователя",
+      "required": ""
+    },
+    domProps: {
+      "value": _vm.item.password
+    },
+    on: {
+      "input": function input($event) {
+        if ($event.target.composing) return;
+        _vm.$set(_vm.item, "password", $event.target.value);
+      }
+    }
+  }), _vm._v(" "), _c('span', {
+    staticClass: "input-group-append"
+  }, [_c('button', {
+    staticClass: "btn btn-info btn-flat",
+    attrs: {
+      "type": "button"
+    },
+    on: {
+      "click": _vm.generatePassword
+    }
+  }, [_vm._v("Сгенерировать")])])])]) : _vm._e(), _vm._v(" "), !_vm.isEdit ? _c('div', {
+    staticClass: "form-group"
+  }, [_c('div', {
+    staticClass: "custom-control custom-switch"
+  }, [_c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: _vm.item.notificationsFromFavourite,
+      expression: "item.notificationsFromFavourite"
+    }],
+    staticClass: "custom-control-input",
+    attrs: {
+      "type": "checkbox",
+      "id": "notificationsFromFavourite"
+    },
+    domProps: {
+      "checked": Array.isArray(_vm.item.notificationsFromFavourite) ? _vm._i(_vm.item.notificationsFromFavourite, null) > -1 : _vm.item.notificationsFromFavourite
+    },
+    on: {
+      "change": function change($event) {
+        var $$a = _vm.item.notificationsFromFavourite,
+          $$el = $event.target,
+          $$c = $$el.checked ? true : false;
+        if (Array.isArray($$a)) {
+          var $$v = null,
+            $$i = _vm._i($$a, $$v);
+          if ($$el.checked) {
+            $$i < 0 && _vm.$set(_vm.item, "notificationsFromFavourite", $$a.concat([$$v]));
+          } else {
+            $$i > -1 && _vm.$set(_vm.item, "notificationsFromFavourite", $$a.slice(0, $$i).concat($$a.slice($$i + 1)));
+          }
+        } else {
+          _vm.$set(_vm.item, "notificationsFromFavourite", $$c);
+        }
+      }
+    }
+  }), _vm._v(" "), _c('label', {
+    staticClass: "custom-control-label",
+    attrs: {
+      "for": "notificationsFromFavourite"
+    }
+  }, [_vm._v("\n                                        " + _vm._s(_vm.item.notificationsFromFavourite ? 'Уведомления от избранного активированы для пользователя' : 'Уведомления от избранного отключены для пользователя') + "\n                                    ")])])]) : _vm._e(), _vm._v(" "), !_vm.isEdit ? _c('div', {
+    staticClass: "form-group"
+  }, [_c('div', {
+    staticClass: "custom-control custom-switch"
+  }, [_c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: _vm.item.notificationsFromMonitoring,
+      expression: "item.notificationsFromMonitoring"
+    }],
+    staticClass: "custom-control-input",
+    attrs: {
+      "type": "checkbox",
+      "id": "notificationsFromMonitoring"
+    },
+    domProps: {
+      "checked": Array.isArray(_vm.item.notificationsFromMonitoring) ? _vm._i(_vm.item.notificationsFromMonitoring, null) > -1 : _vm.item.notificationsFromMonitoring
+    },
+    on: {
+      "change": function change($event) {
+        var $$a = _vm.item.notificationsFromMonitoring,
+          $$el = $event.target,
+          $$c = $$el.checked ? true : false;
+        if (Array.isArray($$a)) {
+          var $$v = null,
+            $$i = _vm._i($$a, $$v);
+          if ($$el.checked) {
+            $$i < 0 && _vm.$set(_vm.item, "notificationsFromMonitoring", $$a.concat([$$v]));
+          } else {
+            $$i > -1 && _vm.$set(_vm.item, "notificationsFromMonitoring", $$a.slice(0, $$i).concat($$a.slice($$i + 1)));
+          }
+        } else {
+          _vm.$set(_vm.item, "notificationsFromMonitoring", $$c);
+        }
+      }
+    }
+  }), _vm._v(" "), _c('label', {
+    staticClass: "custom-control-label",
+    attrs: {
+      "for": "notificationsFromMonitoring"
+    }
+  }, [_vm._v("\n                                        " + _vm._s(_vm.item.notificationsFromMonitoring ? 'Уведомления от мониторинга активированы для пользователя' : 'Уведомления от мониторинга отключены для пользователя') + "\n                                    ")])])]) : _vm._e(), _vm._v(" "), !_vm.isEdit ? _c('div', {
+    staticClass: "form-group"
+  }, [_c('div', {
+    staticClass: "custom-control custom-switch"
+  }, [_c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: _vm.item.notificationsToEmail,
+      expression: "item.notificationsToEmail"
+    }],
+    staticClass: "custom-control-input",
+    attrs: {
+      "type": "checkbox",
+      "id": "notificationsToEmail"
+    },
+    domProps: {
+      "checked": Array.isArray(_vm.item.notificationsToEmail) ? _vm._i(_vm.item.notificationsToEmail, null) > -1 : _vm.item.notificationsToEmail
+    },
+    on: {
+      "change": function change($event) {
+        var $$a = _vm.item.notificationsToEmail,
+          $$el = $event.target,
+          $$c = $$el.checked ? true : false;
+        if (Array.isArray($$a)) {
+          var $$v = null,
+            $$i = _vm._i($$a, $$v);
+          if ($$el.checked) {
+            $$i < 0 && _vm.$set(_vm.item, "notificationsToEmail", $$a.concat([$$v]));
+          } else {
+            $$i > -1 && _vm.$set(_vm.item, "notificationsToEmail", $$a.slice(0, $$i).concat($$a.slice($$i + 1)));
+          }
+        } else {
+          _vm.$set(_vm.item, "notificationsToEmail", $$c);
+        }
+      }
+    }
+  }), _vm._v(" "), _c('label', {
+    staticClass: "custom-control-label",
+    attrs: {
+      "for": "notificationsToEmail"
+    }
+  }, [_vm._v("\n                                        " + _vm._s(_vm.item.notificationsToEmail ? 'Уведомления на почту активированы для пользователя' : 'Уведомления на почту отключены для пользователя') + "\n                                    ")])])]) : _vm._e(), _vm._v(" "), _c('div', {
+    staticClass: "form-group"
+  }, [_c('label', [_vm._v("Выберите тариф для пользователя")]), _vm._v(" "), _c('div', {
+    staticClass: "input-group"
+  }, [_c('div', {
+    staticClass: "input-group-prepend"
+  }, [_c('span', {
+    staticClass: "input-group-text"
+  }, [_c('i', {
+    staticClass: "fa fa-tags"
+  })])]), _vm._v(" "), _c('select', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: _vm.item.tariff,
+      expression: "item.tariff"
+    }],
+    staticClass: "form-control custom-select rounded-0",
+    on: {
+      "change": function change($event) {
+        var $$selectedVal = Array.prototype.filter.call($event.target.options, function (o) {
+          return o.selected;
+        }).map(function (o) {
+          var val = "_value" in o ? o._value : o.value;
+          return val;
+        });
+        _vm.$set(_vm.item, "tariff", $event.target.multiple ? $$selectedVal : $$selectedVal[0]);
+      }
+    }
+  }, [_c('option', {
+    domProps: {
+      "value": null
+    }
+  }, [_vm._v("Выберите тариф для пользователя")]), _vm._v(" "), _vm._l(_vm.tariffs, function (tariff) {
+    return _c('option', {
+      domProps: {
+        "value": tariff.id
+      }
+    }, [_vm._v(_vm._s(tariff.title) + "\n                                        ")]);
+  })], 2)])]), _vm._v(" "), _c('div', {
+    staticClass: "form-group"
+  }, [_c('label', [_vm._v("Выберите регион для пользователя")]), _vm._v(" "), _c('div', {
+    staticClass: "input-group"
+  }, [_c('div', {
+    staticClass: "input-group-prepend"
+  }, [_c('span', {
+    staticClass: "input-group-text"
+  }, [_c('i', {
+    staticClass: "fa fa-location-arrow"
+  })])]), _vm._v(" "), _c('v-select', {
+    staticClass: "my-v-select",
+    attrs: {
+      "options": _vm.regions
+    },
+    model: {
+      value: _vm.item.region,
+      callback: function callback($$v) {
+        _vm.$set(_vm.item, "region", $$v);
+      },
+      expression: "item.region"
+    }
+  })], 1)]), _vm._v(" "), _c('div', {
+    staticClass: "form-group"
+  }, [_c('label', [_vm._v("Роли")]), _vm._v(" "), _c('div', {
+    staticClass: "input-group"
+  }, [_c('div', {
+    staticClass: "input-group-prepend"
+  }, [_c('span', {
+    staticClass: "input-group-text"
+  }, [_c('i', {
+    staticClass: "fa fa-users"
+  })])]), _vm._v(" "), _c('v-select', {
+    staticClass: "my-v-select",
+    attrs: {
+      "multiple": "",
+      "options": _vm.roles.map(function (role) {
+        return role.name;
+      })
+    },
+    model: {
+      value: _vm.item.roles,
+      callback: function callback($$v) {
+        _vm.$set(_vm.item, "roles", $$v);
+      },
+      expression: "item.roles"
+    }
+  })], 1)]), _vm._v(" "), _c('button', {
+    staticClass: "btn btn-success float-right",
+    attrs: {
+      "type": "submit"
+    },
+    on: {
+      "click": function click($event) {
+        _vm.isEdit ? _vm.updateData(_vm.item) : _vm.storeData(_vm.item);
+      }
+    }
+  }, [_vm._v("Сохранить\n                            ")])])])])])])])]);
+};
+var staticRenderFns = [];
+
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/admin/users/AddUser.vue?vue&type=style&index=0&id=b923fd8a&prod&scoped=true&lang=css&":
+/*!****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/admin/users/AddUser.vue?vue&type=style&index=0&id=b923fd8a&prod&scoped=true&lang=css& ***!
+  \****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((module, __webpack_exports__, __webpack_require__) => {
+
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_css_loader_dist_runtime_cssWithMappingToString_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../../node_modules/css-loader/dist/runtime/cssWithMappingToString.js */ "./node_modules/css-loader/dist/runtime/cssWithMappingToString.js");
+/* harmony import */ var _node_modules_css_loader_dist_runtime_cssWithMappingToString_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_cssWithMappingToString_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js");
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__);
+// Imports
+
+
+var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_cssWithMappingToString_js__WEBPACK_IMPORTED_MODULE_0___default()));
+// Module
+___CSS_LOADER_EXPORT___.push([module.id, ".my-v-select[data-v-b923fd8a]{flex:1 1 auto;min-width:0;position:relative;width:1%}", "",{"version":3,"sources":["webpack://./resources/js/admin/users/AddUser.vue"],"names":[],"mappings":"AA4RA,8BAEA,aAAA,CAEA,WAAA,CAHA,iBAAA,CAEA,QAEA","sourcesContent":["<template>\r\n    <fragment>\r\n        <div class=\"content-header\">\r\n            <div class=\"container-fluid\">\r\n                <div class=\"row mb-2\">\r\n                    <div class=\"col-sm-6\">\r\n                        <h1 class=\"m-0\">\r\n                            {{ isEdit ? 'Редактирование данных пользователя ' : 'Добавление нового пользователя' }}</h1>\r\n                    </div>\r\n                    <div class=\"col-sm-6\">\r\n                        <ol class=\"breadcrumb float-sm-right\">\r\n                            <li class=\"breadcrumb-item\">\r\n                                <router-link to=\"/admin/users\"\r\n                                             style=\"color: #007bff; text-decoration: none; background-color: transparent;\">\r\n                                    Пользователи\r\n                                </router-link>\r\n                            </li>\r\n                            <li class=\"breadcrumb-item active\">{{ isEdit ? 'Редактирование' : 'Добавление' }}</li>\r\n                        </ol>\r\n                    </div>\r\n                </div>\r\n            </div>\r\n        </div>\r\n\r\n        <section class=\"content\">\r\n            <div class=\"container-fluid\">\r\n                <div class=\"row\">\r\n                    <div class=\"col-md-12\">\r\n                        <div class=\"card card-primary\">\r\n                            <div class=\"card-body\">\r\n                                <div class=\"form-group\">\r\n                                    <label>Имя пользователя</label>\r\n                                    <input required name=\"name\" type=\"text\" class=\"form-control\" v-model=\"item.name\"\r\n                                           placeholder=\"Введите имя пользователя\">\r\n                                </div>\r\n                                <div class=\"form-group\">\r\n                                    <label>Фамилия пользователя</label>\r\n                                    <input required name=\"surname\" type=\"text\" class=\"form-control\"\r\n                                           v-model=\"item.surname\"\r\n                                           placeholder=\"Введите фамилию пользователя\">\r\n                                </div>\r\n                                <div class=\"form-group\">\r\n                                    <label>Отчество пользователя</label>\r\n                                    <input name=\"middleName\" type=\"text\" class=\"form-control\" v-model=\"item.middleName\"\r\n                                           placeholder=\"Введите отчество пользователя\">\r\n                                </div>\r\n                                <div class=\"form-group\">\r\n                                    <label>Почта (обязательно, если не задан телефон)</label>\r\n                                    <div class=\"input-group\">\r\n                                        <div class=\"input-group-prepend\">\r\n                                            <span class=\"input-group-text\"><i class=\"fas fa-envelope\"></i></span>\r\n                                        </div>\r\n                                        <input name=\"email\" type=\"text\" class=\"form-control\" v-model=\"item.email\"\r\n                                               placeholder=\"Введите почту пользователя\">\r\n                                    </div>\r\n                                </div>\r\n                                <div class=\"form-group\">\r\n                                    <label>Телефон (обязательно, если не задана почта)</label>\r\n                                    <div class=\"input-group\">\r\n                                        <div class=\"input-group-prepend\">\r\n                                            <span class=\"input-group-text\"><i class=\"fa fa-phone\"></i></span>\r\n                                        </div>\r\n                                        <input name=\"phone\" type=\"tel\" class=\"form-control\" v-model=\"item.phone\"\r\n                                               v-mask=\"['+# ### ### ####','+## ### ### ####', '+## ### #### ####',]\"\r\n                                               placeholder=\"Введите телефон пользователя\">\r\n                                    </div>\r\n                                </div>\r\n                                <div class=\"form-group\" v-if=\"!isEdit\">\r\n                                    <label>Пароль пользователя (не менее 8 символов)</label>\r\n                                    <div class=\"input-group\">\r\n                                        <div class=\"input-group-prepend\">\r\n                                            <span class=\"input-group-text\"><i class=\"fa fa-key\"></i></span>\r\n                                        </div>\r\n                                        <input name=\"password\" type=\"text\" class=\"form-control\" v-model=\"item.password\"\r\n                                               placeholder=\"Введите пароль пользователя\" required>\r\n                                        <span class=\"input-group-append\">\r\n                                        <button type=\"button\" class=\"btn btn-info btn-flat\"\r\n                                                @click=\"generatePassword\">Сгенерировать</button>\r\n                                    </span>\r\n                                    </div>\r\n\r\n                                </div>\r\n\r\n                                <div class=\"form-group\" v-if=\"!isEdit\">\r\n                                    <div class=\"custom-control custom-switch\">\r\n                                        <input type=\"checkbox\" class=\"custom-control-input\"\r\n                                               id=\"notificationsFromFavourite\"\r\n                                               v-model=\"item.notificationsFromFavourite\">\r\n                                        <label class=\"custom-control-label\" for=\"notificationsFromFavourite\">\r\n                                            {{\r\n                                                item.notificationsFromFavourite ? 'Уведомления от избранного активированы для пользователя' :\r\n                                                    'Уведомления от избранного отключены для пользователя'\r\n                                            }}\r\n                                        </label>\r\n                                    </div>\r\n                                </div>\r\n\r\n                                <div class=\"form-group\" v-if=\"!isEdit\">\r\n                                    <div class=\"custom-control custom-switch\">\r\n                                        <input type=\"checkbox\" class=\"custom-control-input\"\r\n                                               id=\"notificationsFromMonitoring\"\r\n                                               v-model=\"item.notificationsFromMonitoring\">\r\n                                        <label class=\"custom-control-label\" for=\"notificationsFromMonitoring\">\r\n                                            {{\r\n                                                item.notificationsFromMonitoring ? 'Уведомления от мониторинга активированы для пользователя' :\r\n                                                    'Уведомления от мониторинга отключены для пользователя'\r\n                                            }}\r\n                                        </label>\r\n                                    </div>\r\n                                </div>\r\n\r\n                                <div class=\"form-group\" v-if=\"!isEdit\">\r\n                                    <div class=\"custom-control custom-switch\">\r\n                                        <input type=\"checkbox\" class=\"custom-control-input\" id=\"notificationsToEmail\"\r\n                                               v-model=\"item.notificationsToEmail\">\r\n                                        <label class=\"custom-control-label\" for=\"notificationsToEmail\">\r\n                                            {{\r\n                                                item.notificationsToEmail ? 'Уведомления на почту активированы для пользователя' :\r\n                                                    'Уведомления на почту отключены для пользователя'\r\n                                            }}\r\n                                        </label>\r\n                                    </div>\r\n                                </div>\r\n\r\n                                <div class=\"form-group\">\r\n                                    <label>Выберите тариф для пользователя</label>\r\n                                    <div class=\"input-group\">\r\n                                        <div class=\"input-group-prepend\">\r\n                                            <span class=\"input-group-text\"><i class=\"fa fa-tags\"></i></span>\r\n                                        </div>\r\n                                        <select class=\"form-control custom-select rounded-0\" v-model=\"item.tariff\">\r\n                                            <option :value=\"null\">Выберите тариф для пользователя</option>\r\n                                            <option v-for=\"tariff in tariffs\" :value=\"tariff.id\">{{\r\n                                                    tariff.title\r\n                                                }}\r\n                                            </option>\r\n                                        </select>\r\n                                    </div>\r\n                                </div>\r\n\r\n                                <div class=\"form-group\">\r\n                                    <label>Выберите регион для пользователя</label>\r\n                                    <div class=\"input-group\">\r\n                                        <div class=\"input-group-prepend\">\r\n                                            <span class=\"input-group-text\"><i class=\"fa fa-location-arrow\"></i></span>\r\n                                        </div>\r\n                                    <v-select\r\n                                        class=\"my-v-select\"\r\n                                        v-model=\"item.region\"\r\n                                        :options=\"regions\"\r\n                                    >\r\n                                    </v-select>\r\n                                    </div>\r\n                                </div>\r\n\r\n                                <div class=\"form-group\">\r\n                                    <label>Роли</label>\r\n                                    <div class=\"input-group\">\r\n                                        <div class=\"input-group-prepend\">\r\n                                            <span class=\"input-group-text\"><i class=\"fa fa-users\"></i></span>\r\n                                        </div>\r\n                                        <v-select\r\n                                            class=\"my-v-select\"\r\n                                            multiple\r\n                                            v-model=\"item.roles\"\r\n                                            :options=\"roles.map(role=>role.name)\"\r\n\r\n                                        >\r\n                                        </v-select>\r\n                                    </div>\r\n\r\n                                </div>\r\n\r\n                                <button type=\"submit\" class=\"btn btn-success float-right\"\r\n                                        @click=\"isEdit ? updateData(item) : storeData(item)\">Сохранить\r\n                                </button>\r\n                            </div>\r\n                            <!-- /.card-body -->\r\n                        </div>\r\n                        <!-- /.card -->\r\n                    </div>\r\n                </div>\r\n            </div>\r\n        </section>\r\n    </fragment>\r\n</template>\r\n\r\n<script>\r\nimport {mapActions, mapGetters} from \"vuex\";\r\nimport axios from \"axios\";\r\nimport {mask} from 'vue-the-mask'\r\nexport default {\r\n    name: \"AddUser\",\r\n    data() {\r\n        return {\r\n            roles: [],\r\n            tariffs: [],\r\n            regions: []\r\n        }\r\n    },\r\n    directives:{mask},\r\n    async created() {\r\n        this.$store.commit('setCurrentRoute', this.$route.path.replace(/(\\/*$)/, \"\"))\r\n        if (this.isEdit) {\r\n            await this.editItem()\r\n        } else {\r\n            this.$store.commit('setItem',\r\n                {\r\n                    name: '', surname: '', middleName: '', email: null, region: null,\r\n                    phone: null, password: '', notificationsFromFavourite: true, notificationsFromMonitoring: true,\r\n                    notificationsToEmail: true, roles: ['user'], tariff: null\r\n                }\r\n            )\r\n        }\r\n        await this.getRoles()\r\n        await this.getTariffs()\r\n        await this.getRegions()\r\n    },\r\n    computed: {\r\n        ...mapGetters(['item', 'types']),\r\n        isEdit() {\r\n            return !this.$route.path.includes('add')\r\n        }\r\n    },\r\n    methods: {\r\n        ...mapActions(['editItem', 'updateData', 'addData']),\r\n        storeData(item) {\r\n            this.addData(item)\r\n\r\n        },\r\n        generatePassword() {\r\n            let length = 8,\r\n                charset = \"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789\",\r\n                retVal = \"\";\r\n            for (let i = 0, n = charset.length; i < length; ++i) {\r\n                retVal += charset.charAt(Math.floor(Math.random() * n));\r\n            }\r\n            this.item.password = retVal;\r\n        },\r\n        async getRoles() {\r\n            await axios({\r\n                method: 'get',\r\n                url: '/api/admin/roles',\r\n                data: {},\r\n            })\r\n                .then((response) => {\r\n                    this.roles = response.data.data\r\n                })\r\n                .catch((error) => {\r\n                    console.log(error);\r\n                });\r\n        },\r\n        async getTariffs() {\r\n            await axios({\r\n                method: 'get',\r\n                url: '/api/admin/tariffs',\r\n                data: {},\r\n            })\r\n                .then((response) => {\r\n                    this.tariffs = response.data.data\r\n                })\r\n                .catch((error) => {\r\n                    console.log(error);\r\n                });\r\n        },\r\n        async getRegions() {\r\n            await axios({\r\n                method: 'get',\r\n                url: '/api/admin/regions',\r\n                data: {},\r\n            })\r\n                .then((response) => {\r\n                    this.regions = response.data\r\n                })\r\n                .catch((error) => {\r\n                    console.log(error);\r\n                });\r\n        }\r\n    }\r\n\r\n}\r\n</script>\r\n\r\n<style scoped>\r\n.my-v-select {\r\n    position: relative;\r\n    flex: 1 1 auto;\r\n    width: 1%;\r\n    min-width: 0;\r\n}\r\n</style>\r\n"],"sourceRoot":""}]);
+// Exports
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
+
+
+/***/ }),
+
+/***/ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/admin/users/AddUser.vue?vue&type=style&index=0&id=b923fd8a&prod&scoped=true&lang=css&":
+/*!********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/admin/users/AddUser.vue?vue&type=style&index=0&id=b923fd8a&prod&scoped=true&lang=css& ***!
+  \********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) => {
+
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_AddUser_vue_vue_type_style_index_0_id_b923fd8a_prod_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !!../../../../node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./AddUser.vue?vue&type=style&index=0&id=b923fd8a&prod&scoped=true&lang=css& */ "./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/admin/users/AddUser.vue?vue&type=style&index=0&id=b923fd8a&prod&scoped=true&lang=css&");
+
+            
+
+var options = {};
+
+options.insert = "head";
+options.singleton = false;
+
+var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_AddUser_vue_vue_type_style_index_0_id_b923fd8a_prod_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_1__["default"], options);
+
+
+
+/* unused harmony default export */ var __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_AddUser_vue_vue_type_style_index_0_id_b923fd8a_prod_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_1__["default"].locals || {});
+
+/***/ }),
+
+/***/ "./resources/js/admin/users/AddUser.vue":
+/*!**********************************************!*\
+  !*** ./resources/js/admin/users/AddUser.vue ***!
+  \**********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _AddUser_vue_vue_type_template_id_b923fd8a_scoped_true___WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./AddUser.vue?vue&type=template&id=b923fd8a&scoped=true& */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/admin/users/AddUser.vue?vue&type=template&id=b923fd8a&scoped=true&");
+/* harmony import */ var _AddUser_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./AddUser.vue?vue&type=script&lang=js& */ "./resources/js/admin/users/AddUser.vue?vue&type=script&lang=js&");
+/* harmony import */ var _AddUser_vue_vue_type_style_index_0_id_b923fd8a_prod_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./AddUser.vue?vue&type=style&index=0&id=b923fd8a&prod&scoped=true&lang=css& */ "./resources/js/admin/users/AddUser.vue?vue&type=style&index=0&id=b923fd8a&prod&scoped=true&lang=css&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+;
+
+
+/* normalize component */
+
+var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _AddUser_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"],
+  _AddUser_vue_vue_type_template_id_b923fd8a_scoped_true___WEBPACK_IMPORTED_MODULE_3__.render,
+  _AddUser_vue_vue_type_template_id_b923fd8a_scoped_true___WEBPACK_IMPORTED_MODULE_3__.staticRenderFns,
+  false,
+  null,
+  "b923fd8a",
+  null
+  
+)
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/admin/users/AddUser.vue?vue&type=script&lang=js&":
+/*!***********************************************************************!*\
+  !*** ./resources/js/admin/users/AddUser.vue?vue&type=script&lang=js& ***!
+  \***********************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_AddUser_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./AddUser.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/admin/users/AddUser.vue?vue&type=script&lang=js&");
+ /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_AddUser_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/admin/users/AddUser.vue?vue&type=style&index=0&id=b923fd8a&prod&scoped=true&lang=css&":
+/*!************************************************************************************************************!*\
+  !*** ./resources/js/admin/users/AddUser.vue?vue&type=style&index=0&id=b923fd8a&prod&scoped=true&lang=css& ***!
+  \************************************************************************************************************/
+/***/ ((__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) => {
+
+/* harmony import */ var _node_modules_style_loader_dist_cjs_js_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_AddUser_vue_vue_type_style_index_0_id_b923fd8a_prod_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/style-loader/dist/cjs.js!../../../../node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./AddUser.vue?vue&type=style&index=0&id=b923fd8a&prod&scoped=true&lang=css& */ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/admin/users/AddUser.vue?vue&type=style&index=0&id=b923fd8a&prod&scoped=true&lang=css&");
+
+
+/***/ })
+
+}]);
 //# sourceMappingURL=users-add.js.map

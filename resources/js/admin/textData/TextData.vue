@@ -3,7 +3,7 @@
         <template v-slot:inline-block>
             <div class="row">
                 <div class="col">
-                    <router-link v-can="'text-data-add'" :to="'/admin/text-data/add'" class="btn btn-success btn-sm">
+                    <router-link v-can="'text-data-add'" :to="'/admin/text-data/add'" class="btn btn-success btn-sm" title="Создать">
                         <i class="fas fa-plus"></i>
                     </router-link>
                 </div>
@@ -17,10 +17,15 @@
             </div>
         </template>
         <template v-slot:raws-block>
-            <tr v-for="item in dataItems">
+            <tr v-for="(item, index) in dataItems">
                 <td>{{ item.id }}</td>
                 <td>{{ item.header }}</td>
                 <td>{{ item.value }}</td>
+                <td>
+                    <admin-switch v-can="'text-data-edit'" :index="index" :model="item.active"
+                                  @change="changeStatusAdmin('text-data/change/status/'+item.id)"></admin-switch>
+                    <p v-cannot="'text-data-edit'">{{ item.active ? 'Да' : 'Нет' }}</p>
+                </td>
                 <td>
                     <router-link v-can="'text-data-edit'" :to="'/admin/text-data/'+item.id"
                                  class="btn btn-primary btn-sm">
@@ -38,23 +43,27 @@
 <script>
 import AdminTable from "../AdminTable";
 import main from "../mixins/main";
-import {mapGetters} from "vuex";
+import {mapActions, mapGetters} from "vuex";
+import AdminSwitch from "../AdminSwitch";
 
 export default {
     name: "TextData",
-    components: {AdminTable},
+    components: {AdminTable, AdminSwitch},
     mixins: [main],
     data() {
         return {
             columns: {
-                columns_title: ['ID', 'Заголовок', 'Значение', 'Действия'],
-                columns_sort: ['id', 'header', 'value', null]
+                columns_title: ['ID', 'Заголовок', 'Значение', 'Активность', 'Действия'],
+                columns_sort: ['id', 'header', 'value', 'active', null]
             },
             param: 'contacts'
         }
     },
     computed: {
         ...mapGetters(['types'])
+    },
+    methods: {
+        ...mapActions(['changeStatusAdmin']),
     }
 }
 </script>

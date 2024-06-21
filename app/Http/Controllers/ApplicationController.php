@@ -8,21 +8,18 @@ use App\Http\Requests\ContactsRequest;
 use App\Http\Requests\PurchaseRequest;
 use App\Http\Requests\QuestionRequest;
 use App\Http\Requests\ReceiptRequest;
+use App\Http\Resources\Admin\ApplicationCollection;
 use App\Http\Services\PaymentService;
 use App\Http\Services\SendCodeService;
-use App\Jobs\SendApplication;
 use App\Models\Application;
-use App\Models\Contact;
 use App\Models\Lot;
 use App\Models\Payment;
 use App\Models\Tariff;
 use App\Models\User;
-use App\Notifications\ApplicationTelegramNotification;
-use Carbon\Carbon;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\URL;
 
 class ApplicationController extends Controller
 {
@@ -157,6 +154,35 @@ class ApplicationController extends Controller
 
         }
         throw new BaseException('ERR_CREATE_PAYMENT_FAILED', 403, $paymentRequest);
+    }
+
+    public function get(Request $request)
+    {
+        try {
+            $search = $request->query('pattern', null);
+            $sortParam = $request->query('sort_property', 'created_at');
+            $sortDirection = $request->query('sort_direction', 'desc');
+            $applications = Application::where('user_id', Auth::id())
+                ->when(isset($search), function ($query) use ($search) {
+                    $query->where('email', 'LIKE', '%' . $search . '%')
+                        ->orWhere('username', 'LIKE', '%' . $search . '%')
+                        ->orWhere('phone', 'LIKE', '%' . $search . '%')
+                        ->orWhere('topic', 'LIKE', '%' . $search . '%')
+                        ->orWhere('question', 'LIKE', '%' . $search . '%')
+                        ->orWhere('cadastral_number', 'LIKE', '%' . $search . '%');
+                })
+                ->leftJoin('tariffs as tariff', 'tariff.id', '=', 'applications.tariff_id')
+                ->select('applications.*', 'tariff.title->ru as type')
+                ->when(isset($sortParam) && isset($sortDirection), function ($query) use ($sortParam, $sortDirection) {
+                    $query->orderBy($sortParam, $sortDirection);
+                })
+                ->paginate(20);
+            return response(new ApplicationCollection($applications), 200);
+//            return response()->json(['data' => $applications], 500);
+        }
+       catch (\Exception $e) {
+           return response()->json(['message' => $e->getMessage()], 500);
+       }
     }
 
 }

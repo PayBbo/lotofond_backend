@@ -318,7 +318,7 @@ export default {
                 }
             });
             commit('setFiltersBidders', {type: payload.type, data: result});
-            if(result.data.length === 0) {
+            if(result.data.length === 0 || (result.pagination && result.pagination.currentPage != payload.page)) {
                 commit('saveFilterDataProperty', {filter: 'bidders', key: payload.type + '.loading', value: true});
                 try {
                     await axios({

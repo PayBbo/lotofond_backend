@@ -3,19 +3,29 @@
                 :getData="getData">
         <template v-slot:inline-block>
             <div class="row">
-                <div class="col-4 text-left">
-                    <admin-datepicker v-model="param.date" @input="searchParam(param)"></admin-datepicker>
+                <div class="col-3 text-left">
+                    <admin-datepicker v-model="param.date" @input="startFilter"></admin-datepicker>
+                </div>
+                <div class="col-3 text-left">
+                    <div class="input-group input-group-sm w-100">
+                        <input type="text" v-model="param.pattern" name="table_search" class="form-control float-right"
+                               placeholder="Поиск">
+                        <div class="input-group-append">
+                            <button type="submit" class="btn btn-default" @click="startFilter">
+                                <i class="fas fa-search"></i>
+                            </button>
+                        </div>
+                    </div>
                 </div>
                 <div class="col-4 text-center">
-                    <input type="checkbox" class="form-check-input" v-model="param.isModerated" id="is-moderated" @change="searchParam(param)">
+                    <input type="checkbox" class="form-check-input" v-model="param.isModerated" id="is-moderated" @change="startFilter">
                     <label  class="form-check-label" for="is-moderated">Показывать только непроверенные ответы</label>
                 </div>
-                <div class="col-4 text-end">
+                <div class="col text-end">
                     <router-link v-can="'additions-add'" to="/admin/additions/store" class="btn btn-success btn-sm">
                         <i class="fas fa-plus"></i>
                     </router-link>
                 </div>
-
             </div>
         </template>
         <template v-slot:raws-block>
@@ -55,6 +65,7 @@ import main from "../../mixins/main";
 import AdminDatepicker from "../../AdminDatepicker";
 import AdminSwitch from "../../AdminSwitch";
 import {mapActions} from "vuex";
+import _ from 'lodash'
 
 export default {
     name: "Additions",
@@ -71,6 +82,21 @@ export default {
     },
     methods: {
         ...mapActions(['changeStatusAdmin', 'getData']),
+        search: _.debounce(function (value) {
+            this.startFilter();
+        }, 500),
+        startFilter() {
+            let result = this.serializeParams(this.param);
+            this.searchParam(result)
+        },
+        serializeParams(obj) {
+            let str = [];
+            for (let p in obj)
+                if (obj.hasOwnProperty(p)) {
+                    str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+                }
+            return str.join("&");
+        },
     }
 }
 </script>

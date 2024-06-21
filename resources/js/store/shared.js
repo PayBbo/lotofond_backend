@@ -26,6 +26,7 @@ export default {
         informationMessage: null,
         informationMessageMode: localStorage.getItem('shortNewsItemMode') || 'show',
         buyBlock: [],
+        buyLotBlock: [],
         controllers: [],
         signals: [],
         tariffs:[],
@@ -62,6 +63,9 @@ export default {
         },
         buyBlock(state) {
             return state.buyBlock;
+        },
+        buyLotBlock(state) {
+            return state.buyLotBlock;
         },
         controllers(state) {
             return state.controllers;
@@ -212,6 +216,12 @@ export default {
             axios.get('/api/text-data/buyBlock')
                 .then(resp => {
                     commit('setBuyBlock', resp.data)
+            });
+        },
+        getBuyLotBlock({commit}) {
+            axios.get('/api/text-data/buyLotBlock')
+                .then(resp => {
+                    commit('setBuyLotBlock', resp.data)
             });
         },
         async getInformationMessage({commit}) {
@@ -411,6 +421,9 @@ export default {
         },
         setBuyBlock(state, payload) {
             return (state.buyBlock = payload);
+        },
+        setBuyLotBlock(state, payload) {
+            return (state.buyLotBlock = payload);
         },
         setTariffs(state, payload) {
             return (state.tariffs = payload);

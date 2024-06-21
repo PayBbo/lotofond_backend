@@ -1,3 +1,656 @@
-/*! For license information please see tariffs-add.js.LICENSE.txt */
-"use strict";(self.webpackChunk=self.webpackChunk||[]).push([[2134],{56864:(t,e,n)=>{n.d(e,{Z:()=>s});var i=n(94015),r=n.n(i),a=n(23645),o=n.n(a)()(r());o.push([t.id,".max-h-350px[data-v-3d53d9d5]{max-height:350px}","",{version:3,sources:["webpack://./resources/js/admin/tariffs/AddEditTariff.vue"],names:[],mappings:"AA6PA,8BACA,gBACA",sourcesContent:['<template>\n    <fragment>\n        <div class="content-header">\n            <div class="container-fluid">\n                <div class="row mb-2">\n                    <div class="col-sm-6">\n                        <h1 class="m-0">{{ isEdit ? \'Редактирование \' + (item.type === \'tariff\' ? \'тарифа\' : \'услуги\') : \'Добавление нового тарифа\' }}</h1>\n                    </div>\n                    <div class="col-sm-6">\n                        <ol class="breadcrumb float-sm-right">\n                            <li class="breadcrumb-item">\n                                <router-link to="/admin/tariffs"\n                                             style="color: #007bff; text-decoration: none; background-color: transparent;">\n                                    Тарифы и услуги\n                                </router-link>\n                            </li>\n                            <li class="breadcrumb-item active">{{ isEdit ? \'Редактирование\' : \'Добавление\' }}</li>\n                        </ol>\n                    </div>\n                </div>\n            </div>\n        </div>\n\n        <section class="content">\n            <div class="container-fluid">\n                <div class="row">\n                    <div class="col-md-12">\n                        <div class="card card-primary">\n                            <div class="card-body">\n                                <div class="form-group">\n                                    <label>Название {{ (item.type === \'tariff\'  || !isEdit ? \'тарифа\' : \'услуги\') }}</label>\n                                    <div class="table-responsive max-h-350px">\n                                        <table class="table table-hover table-head-fixed text-nowrap mb-0">\n                                            <thead>\n                                            <tr>\n                                                <th style="width: 30%">Русский (ru)</th>\n                                                <th style="width: 30%">Английский (en)</th>\n                                                <th style="width: 30%">Китайский (zh_CN)</th>\n                                            </tr>\n                                            </thead>\n                                            <tbody>\n                                            <tr>\n                                                <td v-for="(row, index) in item.title">\n                                                    <input required :name="\'title\'+index" type="text"\n                                                           class="form-control" v-model="item.title[index]">\n                                                </td>\n                                            </tr>\n                                            </tbody>\n                                        </table>\n                                    </div>\n                                </div>\n                                <div class="form-group" v-if="item.type === \'tariff\' || !isEdit">\n                                    <label>Период действия тарифа (в днях)</label>\n                                    <div class="input-group">\n                                        <input required name="period" class="form-control"\n                                               type="text" data-min="1" v-model="item.period"\n                                               @keyup="onlyNumber($event, \'period\')">\n                                        <div class="input-group-prepend">\n                                            <span class="input-group-text">дн.</span>\n                                        </div>\n                                    </div>\n                                </div>\n                                <div class="form-group">\n                                    <label>Цена</label>\n                                    <div class="input-group">\n                                        <input required name="price" class="form-control"\n                                               type="text" data-min="1" v-model="item.price"\n                                               @keyup="onlyNumber($event, \'price\')">\n                                        <div class="input-group-prepend">\n                                            <span class="input-group-text">₽</span>\n                                        </div>\n                                    </div>\n                                </div>\n                                <div class="form-group">\n                                    <label>Описание {{ (item.type === \'tariff\'  || !isEdit ? \'тарифа\' : \'услуги\') }}</label>\n                                    <div class="table-responsive max-h-350px">\n                                        <table class="table table-hover table-head-fixed text-nowrap mb-0">\n                                            <thead>\n                                            <tr>\n                                                <th style="width: 30%">Русский (ru)</th>\n                                                <th style="width: 30%">Английский (en)</th>\n                                                <th style="width: 30%">Китайский (zh_CN)</th>\n                                            </tr>\n                                            </thead>\n                                            <tbody>\n                                            <tr>\n                                                <td v-for="(row, index) in item.description">\n                                                  <textarea required :name="\'description\'+index" class="form-control"\n                                                            v-model="item.description[index]" rows="10"></textarea>\n                                                </td>\n                                            </tr>\n                                            </tbody>\n                                        </table>\n                                    </div>\n                                </div>\n                                <div class="form-group">\n                                    <label> {{ (item.type === \'tariff\'  || !isEdit ? \'Возможности, которые предоставляет тариф\' : \'Детальное описание услуги по пунктам\') }}</label>\n                                    <div class="table-responsive max-h-350px">\n                                        <table class="table table-hover table-head-fixed text-nowrap mb-0">\n                                            <thead>\n                                            <tr>\n                                                <th style="width: 30%">Русский (ru)</th>\n                                                <th style="width: 30%">Английский (en)</th>\n                                                <th style="width: 30%">Китайский (zh_CN)</th>\n                                                <th style="width: 10%">\n                                                    <button @click.prevent="addNewOneItem(\'includedDetails\')"\n                                                            type="button"\n                                                            class="btn btn-outline-primary">\n                                                        <i class="fas fa-plus"></i>\n                                                    </button>\n                                                </th>\n                                            </tr>\n                                            </thead>\n                                            <tbody>\n                                            <tr v-for="(row, index) in item.includedDetails.ru">\n                                                <td>\n                                                    <input v-model="item.includedDetails.ru[index]" class="form-control"\n                                                           required>\n                                                </td>\n                                                <td>\n                                                    <input v-model="item.includedDetails.en[index]" class="form-control"\n                                                           required>\n                                                </td>\n                                                <td>\n                                                    <input v-model="item.includedDetails.zh_CN[index]"\n                                                           class="form-control" required>\n                                                </td>\n                                                <td>\n                                                    <button @click="removeOneItem(\'includedDetails\', index)"\n                                                            type="button"\n                                                            class="btn btn-outline-danger">\n                                                        <i class="far fa-trash-alt"></i>\n                                                    </button>\n                                                </td>\n                                            </tr>\n                                            </tbody>\n                                        </table>\n                                    </div>\n                                </div>\n                                <div class="form-group" v-if="item.type === \'tariff\' || !isEdit" >\n                                    <label>Возможности, которых нет в тарифе</label>\n                                    <div class="table-responsive max-h-350px">\n                                        <table class="table table-hover table-head-fixed text-nowrap mb-0">\n                                            <thead>\n                                            <tr>\n                                                <th style="width: 30%">Русский (ru)</th>\n                                                <th style="width: 30%">Английский (en)</th>\n                                                <th style="width: 30%">Китайский (zh_CN)</th>\n                                                <th style="width: 10%">\n                                                    <button @click.prevent="addNewOneItem(\'excludedDetails\')"\n                                                            type="button"\n                                                            class="btn btn-outline-primary">\n                                                        <i class="fas fa-plus"></i>\n                                                    </button>\n                                                </th>\n                                            </tr>\n                                            </thead>\n                                            <tbody>\n                                            <tr v-for="(row, index) in item.excludedDetails.ru">\n                                                <td>\n                                                    <input v-model="item.excludedDetails.ru[index]" class="form-control"\n                                                           required>\n                                                </td>\n                                                <td>\n                                                    <input v-model="item.excludedDetails.en[index]" class="form-control"\n                                                           required>\n                                                </td>\n                                                <td>\n                                                    <input v-model="item.excludedDetails.zh_CN[index]"\n                                                           class="form-control" required>\n                                                </td>\n                                                <td>\n                                                    <button @click="removeOneItem(\'excludedDetails\',index)"\n                                                            type="button"\n                                                            class="btn btn-outline-danger">\n                                                        <i class="far fa-trash-alt"></i>\n                                                    </button>\n                                                </td>\n                                            </tr>\n                                            </tbody>\n                                        </table>\n                                    </div>\n                                </div>\n\n                                <button type="submit" class="btn btn-success float-right"\n                                        @click="isEdit ? updateData(item) : addData(item)">Сохранить\n                                </button>\n                            </div>\n                            \x3c!-- /.card-body --\x3e\n                        </div>\n                        \x3c!-- /.card --\x3e\n                    </div>\n                </div>\n            </div>\n        </section>\n    </fragment>\n</template>\n\n<script>\nimport {mapActions, mapGetters} from "vuex";\n\nexport default {\n    name: "AddEditTariff",\n    async created() {\n        this.$store.commit(\'setCurrentRoute\', this.$route.path.replace(/(\\/*$)/, ""))\n        if (this.isEdit) {\n            await this.editItem()\n        } else {\n            this.$store.commit(\'setItem\',\n                {\n                    title: {ru: null, en: null, zh_CN: null},\n                    period: null,\n                    price: null,\n                    description: {ru: null, en: null, zh_CN: null},\n                    includedDetails: {en: [], ru: [], zh_CN: []},\n                    excludedDetails: {en: [], ru: [], zh_CN: []}\n                }\n            )\n        }\n    },\n    computed: {\n        ...mapGetters([\'item\']),\n        isEdit() {\n            return !this.$route.path.includes(\'add\')\n        }\n    },\n    methods: {\n        ...mapActions([\'editItem\', \'updateData\', \'addData\']),\n\n        onlyNumber(e, item) {\n            let value = e.target.value.replace(/[^0-9]/g, \'\');\n            if (value < $(e.target).data(\'min\')) {\n                e.target.value = $(e.target).data(\'min\');\n            } else {\n                e.target.value = value;\n            }\n            this.item[item] = e.target.value\n        },\n        addNewOneItem(nameItem) {\n            this.item[nameItem].en.push(\'\');\n            this.item[nameItem].ru.push(\'\');\n            this.item[nameItem].zh_CN.push(\'\');\n        },\n        removeOneItem(nameItem, index) {\n            this.item[nameItem].en.splice(index, 1);\n            this.item[nameItem].ru.splice(index, 1);\n            this.item[nameItem].zh_CN.splice(index, 1);\n        }\n    }\n}\n<\/script>\n\n<style scoped>\n.max-h-350px {\n    max-height: 350px\n}\n</style>\n'],sourceRoot:""}]);const s=o},83544:(t,e,n)=>{n.r(e),n.d(e,{default:()=>h});var i=n(20629);function r(t){return r="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(t){return typeof t}:function(t){return t&&"function"==typeof Symbol&&t.constructor===Symbol&&t!==Symbol.prototype?"symbol":typeof t},r(t)}function a(t,e){var n=Object.keys(t);if(Object.getOwnPropertySymbols){var i=Object.getOwnPropertySymbols(t);e&&(i=i.filter((function(e){return Object.getOwnPropertyDescriptor(t,e).enumerable}))),n.push.apply(n,i)}return n}function o(t){for(var e=1;e<arguments.length;e++){var n=null!=arguments[e]?arguments[e]:{};e%2?a(Object(n),!0).forEach((function(e){s(t,e,n[e])})):Object.getOwnPropertyDescriptors?Object.defineProperties(t,Object.getOwnPropertyDescriptors(n)):a(Object(n)).forEach((function(e){Object.defineProperty(t,e,Object.getOwnPropertyDescriptor(n,e))}))}return t}function s(t,e,n){return(e=function(t){var e=function(t,e){if("object"!==r(t)||null===t)return t;var n=t[Symbol.toPrimitive];if(void 0!==n){var i=n.call(t,e||"default");if("object"!==r(i))return i;throw new TypeError("@@toPrimitive must return a primitive value.")}return("string"===e?String:Number)(t)}(t,"string");return"symbol"===r(e)?e:String(e)}(e))in t?Object.defineProperty(t,e,{value:n,enumerable:!0,configurable:!0,writable:!0}):t[e]=n,t}function l(){l=function(){return t};var t={},e=Object.prototype,n=e.hasOwnProperty,i=Object.defineProperty||function(t,e,n){t[e]=n.value},a="function"==typeof Symbol?Symbol:{},o=a.iterator||"@@iterator",s=a.asyncIterator||"@@asyncIterator",d=a.toStringTag||"@@toStringTag";function c(t,e,n){return Object.defineProperty(t,e,{value:n,enumerable:!0,configurable:!0,writable:!0}),t[e]}try{c({},"")}catch(t){c=function(t,e,n){return t[e]=n}}function u(t,e,n,r){var a=e&&e.prototype instanceof v?e:v,o=Object.create(a.prototype),s=new O(r||[]);return i(o,"_invoke",{value:C(t,n,s)}),o}function m(t,e,n){try{return{type:"normal",arg:t.call(e,n)}}catch(t){return{type:"throw",arg:t}}}t.wrap=u;var p={};function v(){}function h(){}function f(){}var b={};c(b,o,(function(){return this}));var y=Object.getPrototypeOf,g=y&&y(y(k([])));g&&g!==e&&n.call(g,o)&&(b=g);var x=f.prototype=v.prototype=Object.create(b);function w(t){["next","throw","return"].forEach((function(e){c(t,e,(function(t){return this._invoke(e,t)}))}))}function _(t,e){function a(i,o,s,l){var d=m(t[i],t,o);if("throw"!==d.type){var c=d.arg,u=c.value;return u&&"object"==r(u)&&n.call(u,"__await")?e.resolve(u.__await).then((function(t){a("next",t,s,l)}),(function(t){a("throw",t,s,l)})):e.resolve(u).then((function(t){c.value=t,s(c)}),(function(t){return a("throw",t,s,l)}))}l(d.arg)}var o;i(this,"_invoke",{value:function(t,n){function i(){return new e((function(e,i){a(t,n,e,i)}))}return o=o?o.then(i,i):i()}})}function C(t,e,n){var i="suspendedStart";return function(r,a){if("executing"===i)throw new Error("Generator is already running");if("completed"===i){if("throw"===r)throw a;return S()}for(n.method=r,n.arg=a;;){var o=n.delegate;if(o){var s=N(o,n);if(s){if(s===p)continue;return s}}if("next"===n.method)n.sent=n._sent=n.arg;else if("throw"===n.method){if("suspendedStart"===i)throw i="completed",n.arg;n.dispatchException(n.arg)}else"return"===n.method&&n.abrupt("return",n.arg);i="executing";var l=m(t,e,n);if("normal"===l.type){if(i=n.done?"completed":"suspendedYield",l.arg===p)continue;return{value:l.arg,done:n.done}}"throw"===l.type&&(i="completed",n.method="throw",n.arg=l.arg)}}}function N(t,e){var n=e.method,i=t.iterator[n];if(void 0===i)return e.delegate=null,"throw"===n&&t.iterator.return&&(e.method="return",e.arg=void 0,N(t,e),"throw"===e.method)||"return"!==n&&(e.method="throw",e.arg=new TypeError("The iterator does not provide a '"+n+"' method")),p;var r=m(i,t.iterator,e.arg);if("throw"===r.type)return e.method="throw",e.arg=r.arg,e.delegate=null,p;var a=r.arg;return a?a.done?(e[t.resultName]=a.value,e.next=t.nextLoc,"return"!==e.method&&(e.method="next",e.arg=void 0),e.delegate=null,p):a:(e.method="throw",e.arg=new TypeError("iterator result is not an object"),e.delegate=null,p)}function D(t){var e={tryLoc:t[0]};1 in t&&(e.catchLoc=t[1]),2 in t&&(e.finallyLoc=t[2],e.afterLoc=t[3]),this.tryEntries.push(e)}function E(t){var e=t.completion||{};e.type="normal",delete e.arg,t.completion=e}function O(t){this.tryEntries=[{tryLoc:"root"}],t.forEach(D,this),this.reset(!0)}function k(t){if(t){var e=t[o];if(e)return e.call(t);if("function"==typeof t.next)return t;if(!isNaN(t.length)){var i=-1,r=function e(){for(;++i<t.length;)if(n.call(t,i))return e.value=t[i],e.done=!1,e;return e.value=void 0,e.done=!0,e};return r.next=r}}return{next:S}}function S(){return{value:void 0,done:!0}}return h.prototype=f,i(x,"constructor",{value:f,configurable:!0}),i(f,"constructor",{value:h,configurable:!0}),h.displayName=c(f,d,"GeneratorFunction"),t.isGeneratorFunction=function(t){var e="function"==typeof t&&t.constructor;return!!e&&(e===h||"GeneratorFunction"===(e.displayName||e.name))},t.mark=function(t){return Object.setPrototypeOf?Object.setPrototypeOf(t,f):(t.__proto__=f,c(t,d,"GeneratorFunction")),t.prototype=Object.create(x),t},t.awrap=function(t){return{__await:t}},w(_.prototype),c(_.prototype,s,(function(){return this})),t.AsyncIterator=_,t.async=function(e,n,i,r,a){void 0===a&&(a=Promise);var o=new _(u(e,n,i,r),a);return t.isGeneratorFunction(n)?o:o.next().then((function(t){return t.done?t.value:o.next()}))},w(x),c(x,d,"Generator"),c(x,o,(function(){return this})),c(x,"toString",(function(){return"[object Generator]"})),t.keys=function(t){var e=Object(t),n=[];for(var i in e)n.push(i);return n.reverse(),function t(){for(;n.length;){var i=n.pop();if(i in e)return t.value=i,t.done=!1,t}return t.done=!0,t}},t.values=k,O.prototype={constructor:O,reset:function(t){if(this.prev=0,this.next=0,this.sent=this._sent=void 0,this.done=!1,this.delegate=null,this.method="next",this.arg=void 0,this.tryEntries.forEach(E),!t)for(var e in this)"t"===e.charAt(0)&&n.call(this,e)&&!isNaN(+e.slice(1))&&(this[e]=void 0)},stop:function(){this.done=!0;var t=this.tryEntries[0].completion;if("throw"===t.type)throw t.arg;return this.rval},dispatchException:function(t){if(this.done)throw t;var e=this;function i(n,i){return o.type="throw",o.arg=t,e.next=n,i&&(e.method="next",e.arg=void 0),!!i}for(var r=this.tryEntries.length-1;r>=0;--r){var a=this.tryEntries[r],o=a.completion;if("root"===a.tryLoc)return i("end");if(a.tryLoc<=this.prev){var s=n.call(a,"catchLoc"),l=n.call(a,"finallyLoc");if(s&&l){if(this.prev<a.catchLoc)return i(a.catchLoc,!0);if(this.prev<a.finallyLoc)return i(a.finallyLoc)}else if(s){if(this.prev<a.catchLoc)return i(a.catchLoc,!0)}else{if(!l)throw new Error("try statement without catch or finally");if(this.prev<a.finallyLoc)return i(a.finallyLoc)}}}},abrupt:function(t,e){for(var i=this.tryEntries.length-1;i>=0;--i){var r=this.tryEntries[i];if(r.tryLoc<=this.prev&&n.call(r,"finallyLoc")&&this.prev<r.finallyLoc){var a=r;break}}a&&("break"===t||"continue"===t)&&a.tryLoc<=e&&e<=a.finallyLoc&&(a=null);var o=a?a.completion:{};return o.type=t,o.arg=e,a?(this.method="next",this.next=a.finallyLoc,p):this.complete(o)},complete:function(t,e){if("throw"===t.type)throw t.arg;return"break"===t.type||"continue"===t.type?this.next=t.arg:"return"===t.type?(this.rval=this.arg=t.arg,this.method="return",this.next="end"):"normal"===t.type&&e&&(this.next=e),p},finish:function(t){for(var e=this.tryEntries.length-1;e>=0;--e){var n=this.tryEntries[e];if(n.finallyLoc===t)return this.complete(n.completion,n.afterLoc),E(n),p}},catch:function(t){for(var e=this.tryEntries.length-1;e>=0;--e){var n=this.tryEntries[e];if(n.tryLoc===t){var i=n.completion;if("throw"===i.type){var r=i.arg;E(n)}return r}}throw new Error("illegal catch attempt")},delegateYield:function(t,e,n){return this.delegate={iterator:k(t),resultName:e,nextLoc:n},"next"===this.method&&(this.arg=void 0),p}},t}function d(t,e,n,i,r,a,o){try{var s=t[a](o),l=s.value}catch(t){return void n(t)}s.done?e(l):Promise.resolve(l).then(i,r)}const c={name:"AddEditTariff",created:function(){var t,e=this;return(t=l().mark((function t(){return l().wrap((function(t){for(;;)switch(t.prev=t.next){case 0:if(e.$store.commit("setCurrentRoute",e.$route.path.replace(/(\/*$)/,"")),!e.isEdit){t.next=6;break}return t.next=4,e.editItem();case 4:t.next=7;break;case 6:e.$store.commit("setItem",{title:{ru:null,en:null,zh_CN:null},period:null,price:null,description:{ru:null,en:null,zh_CN:null},includedDetails:{en:[],ru:[],zh_CN:[]},excludedDetails:{en:[],ru:[],zh_CN:[]}});case 7:case"end":return t.stop()}}),t)})),function(){var e=this,n=arguments;return new Promise((function(i,r){var a=t.apply(e,n);function o(t){d(a,i,r,o,s,"next",t)}function s(t){d(a,i,r,o,s,"throw",t)}o(void 0)}))})()},computed:o(o({},(0,i.Se)(["item"])),{},{isEdit:function(){return!this.$route.path.includes("add")}}),methods:o(o({},(0,i.nv)(["editItem","updateData","addData"])),{},{onlyNumber:function(t,e){var n=t.target.value.replace(/[^0-9]/g,"");n<$(t.target).data("min")?t.target.value=$(t.target).data("min"):t.target.value=n,this.item[e]=t.target.value},addNewOneItem:function(t){this.item[t].en.push(""),this.item[t].ru.push(""),this.item[t].zh_CN.push("")},removeOneItem:function(t,e){this.item[t].en.splice(e,1),this.item[t].ru.splice(e,1),this.item[t].zh_CN.splice(e,1)}})};var u=n(93379),m=n.n(u),p=n(56864),v={insert:"head",singleton:!1};m()(p.Z,v);p.Z.locals;const h=(0,n(51900).Z)(c,(function(){var t=this,e=t._self._c;return e("fragment",[e("div",{staticClass:"content-header"},[e("div",{staticClass:"container-fluid"},[e("div",{staticClass:"row mb-2"},[e("div",{staticClass:"col-sm-6"},[e("h1",{staticClass:"m-0"},[t._v(t._s(t.isEdit?"Редактирование "+("tariff"===t.item.type?"тарифа":"услуги"):"Добавление нового тарифа"))])]),t._v(" "),e("div",{staticClass:"col-sm-6"},[e("ol",{staticClass:"breadcrumb float-sm-right"},[e("li",{staticClass:"breadcrumb-item"},[e("router-link",{staticStyle:{color:"#007bff","text-decoration":"none","background-color":"transparent"},attrs:{to:"/admin/tariffs"}},[t._v("\n                                Тарифы и услуги\n                            ")])],1),t._v(" "),e("li",{staticClass:"breadcrumb-item active"},[t._v(t._s(t.isEdit?"Редактирование":"Добавление"))])])])])])]),t._v(" "),e("section",{staticClass:"content"},[e("div",{staticClass:"container-fluid"},[e("div",{staticClass:"row"},[e("div",{staticClass:"col-md-12"},[e("div",{staticClass:"card card-primary"},[e("div",{staticClass:"card-body"},[e("div",{staticClass:"form-group"},[e("label",[t._v("Название "+t._s("tariff"!==t.item.type&&t.isEdit?"услуги":"тарифа"))]),t._v(" "),e("div",{staticClass:"table-responsive max-h-350px"},[e("table",{staticClass:"table table-hover table-head-fixed text-nowrap mb-0"},[e("thead",[e("tr",[e("th",{staticStyle:{width:"30%"}},[t._v("Русский (ru)")]),t._v(" "),e("th",{staticStyle:{width:"30%"}},[t._v("Английский (en)")]),t._v(" "),e("th",{staticStyle:{width:"30%"}},[t._v("Китайский (zh_CN)")])])]),t._v(" "),e("tbody",[e("tr",t._l(t.item.title,(function(n,i){return e("td",[e("input",{directives:[{name:"model",rawName:"v-model",value:t.item.title[i],expression:"item.title[index]"}],staticClass:"form-control",attrs:{required:"",name:"title"+i,type:"text"},domProps:{value:t.item.title[i]},on:{input:function(e){e.target.composing||t.$set(t.item.title,i,e.target.value)}}})])})),0)])])])]),t._v(" "),"tariff"!==t.item.type&&t.isEdit?t._e():e("div",{staticClass:"form-group"},[e("label",[t._v("Период действия тарифа (в днях)")]),t._v(" "),e("div",{staticClass:"input-group"},[e("input",{directives:[{name:"model",rawName:"v-model",value:t.item.period,expression:"item.period"}],staticClass:"form-control",attrs:{required:"",name:"period",type:"text","data-min":"1"},domProps:{value:t.item.period},on:{keyup:function(e){return t.onlyNumber(e,"period")},input:function(e){e.target.composing||t.$set(t.item,"period",e.target.value)}}}),t._v(" "),e("div",{staticClass:"input-group-prepend"},[e("span",{staticClass:"input-group-text"},[t._v("дн.")])])])]),t._v(" "),e("div",{staticClass:"form-group"},[e("label",[t._v("Цена")]),t._v(" "),e("div",{staticClass:"input-group"},[e("input",{directives:[{name:"model",rawName:"v-model",value:t.item.price,expression:"item.price"}],staticClass:"form-control",attrs:{required:"",name:"price",type:"text","data-min":"1"},domProps:{value:t.item.price},on:{keyup:function(e){return t.onlyNumber(e,"price")},input:function(e){e.target.composing||t.$set(t.item,"price",e.target.value)}}}),t._v(" "),e("div",{staticClass:"input-group-prepend"},[e("span",{staticClass:"input-group-text"},[t._v("₽")])])])]),t._v(" "),e("div",{staticClass:"form-group"},[e("label",[t._v("Описание "+t._s("tariff"!==t.item.type&&t.isEdit?"услуги":"тарифа"))]),t._v(" "),e("div",{staticClass:"table-responsive max-h-350px"},[e("table",{staticClass:"table table-hover table-head-fixed text-nowrap mb-0"},[e("thead",[e("tr",[e("th",{staticStyle:{width:"30%"}},[t._v("Русский (ru)")]),t._v(" "),e("th",{staticStyle:{width:"30%"}},[t._v("Английский (en)")]),t._v(" "),e("th",{staticStyle:{width:"30%"}},[t._v("Китайский (zh_CN)")])])]),t._v(" "),e("tbody",[e("tr",t._l(t.item.description,(function(n,i){return e("td",[e("textarea",{directives:[{name:"model",rawName:"v-model",value:t.item.description[i],expression:"item.description[index]"}],staticClass:"form-control",attrs:{required:"",name:"description"+i,rows:"10"},domProps:{value:t.item.description[i]},on:{input:function(e){e.target.composing||t.$set(t.item.description,i,e.target.value)}}})])})),0)])])])]),t._v(" "),e("div",{staticClass:"form-group"},[e("label",[t._v(" "+t._s("tariff"!==t.item.type&&t.isEdit?"Детальное описание услуги по пунктам":"Возможности, которые предоставляет тариф"))]),t._v(" "),e("div",{staticClass:"table-responsive max-h-350px"},[e("table",{staticClass:"table table-hover table-head-fixed text-nowrap mb-0"},[e("thead",[e("tr",[e("th",{staticStyle:{width:"30%"}},[t._v("Русский (ru)")]),t._v(" "),e("th",{staticStyle:{width:"30%"}},[t._v("Английский (en)")]),t._v(" "),e("th",{staticStyle:{width:"30%"}},[t._v("Китайский (zh_CN)")]),t._v(" "),e("th",{staticStyle:{width:"10%"}},[e("button",{staticClass:"btn btn-outline-primary",attrs:{type:"button"},on:{click:function(e){return e.preventDefault(),t.addNewOneItem("includedDetails")}}},[e("i",{staticClass:"fas fa-plus"})])])])]),t._v(" "),e("tbody",t._l(t.item.includedDetails.ru,(function(n,i){return e("tr",[e("td",[e("input",{directives:[{name:"model",rawName:"v-model",value:t.item.includedDetails.ru[i],expression:"item.includedDetails.ru[index]"}],staticClass:"form-control",attrs:{required:""},domProps:{value:t.item.includedDetails.ru[i]},on:{input:function(e){e.target.composing||t.$set(t.item.includedDetails.ru,i,e.target.value)}}})]),t._v(" "),e("td",[e("input",{directives:[{name:"model",rawName:"v-model",value:t.item.includedDetails.en[i],expression:"item.includedDetails.en[index]"}],staticClass:"form-control",attrs:{required:""},domProps:{value:t.item.includedDetails.en[i]},on:{input:function(e){e.target.composing||t.$set(t.item.includedDetails.en,i,e.target.value)}}})]),t._v(" "),e("td",[e("input",{directives:[{name:"model",rawName:"v-model",value:t.item.includedDetails.zh_CN[i],expression:"item.includedDetails.zh_CN[index]"}],staticClass:"form-control",attrs:{required:""},domProps:{value:t.item.includedDetails.zh_CN[i]},on:{input:function(e){e.target.composing||t.$set(t.item.includedDetails.zh_CN,i,e.target.value)}}})]),t._v(" "),e("td",[e("button",{staticClass:"btn btn-outline-danger",attrs:{type:"button"},on:{click:function(e){return t.removeOneItem("includedDetails",i)}}},[e("i",{staticClass:"far fa-trash-alt"})])])])})),0)])])]),t._v(" "),"tariff"!==t.item.type&&t.isEdit?t._e():e("div",{staticClass:"form-group"},[e("label",[t._v("Возможности, которых нет в тарифе")]),t._v(" "),e("div",{staticClass:"table-responsive max-h-350px"},[e("table",{staticClass:"table table-hover table-head-fixed text-nowrap mb-0"},[e("thead",[e("tr",[e("th",{staticStyle:{width:"30%"}},[t._v("Русский (ru)")]),t._v(" "),e("th",{staticStyle:{width:"30%"}},[t._v("Английский (en)")]),t._v(" "),e("th",{staticStyle:{width:"30%"}},[t._v("Китайский (zh_CN)")]),t._v(" "),e("th",{staticStyle:{width:"10%"}},[e("button",{staticClass:"btn btn-outline-primary",attrs:{type:"button"},on:{click:function(e){return e.preventDefault(),t.addNewOneItem("excludedDetails")}}},[e("i",{staticClass:"fas fa-plus"})])])])]),t._v(" "),e("tbody",t._l(t.item.excludedDetails.ru,(function(n,i){return e("tr",[e("td",[e("input",{directives:[{name:"model",rawName:"v-model",value:t.item.excludedDetails.ru[i],expression:"item.excludedDetails.ru[index]"}],staticClass:"form-control",attrs:{required:""},domProps:{value:t.item.excludedDetails.ru[i]},on:{input:function(e){e.target.composing||t.$set(t.item.excludedDetails.ru,i,e.target.value)}}})]),t._v(" "),e("td",[e("input",{directives:[{name:"model",rawName:"v-model",value:t.item.excludedDetails.en[i],expression:"item.excludedDetails.en[index]"}],staticClass:"form-control",attrs:{required:""},domProps:{value:t.item.excludedDetails.en[i]},on:{input:function(e){e.target.composing||t.$set(t.item.excludedDetails.en,i,e.target.value)}}})]),t._v(" "),e("td",[e("input",{directives:[{name:"model",rawName:"v-model",value:t.item.excludedDetails.zh_CN[i],expression:"item.excludedDetails.zh_CN[index]"}],staticClass:"form-control",attrs:{required:""},domProps:{value:t.item.excludedDetails.zh_CN[i]},on:{input:function(e){e.target.composing||t.$set(t.item.excludedDetails.zh_CN,i,e.target.value)}}})]),t._v(" "),e("td",[e("button",{staticClass:"btn btn-outline-danger",attrs:{type:"button"},on:{click:function(e){return t.removeOneItem("excludedDetails",i)}}},[e("i",{staticClass:"far fa-trash-alt"})])])])})),0)])])]),t._v(" "),e("button",{staticClass:"btn btn-success float-right",attrs:{type:"submit"},on:{click:function(e){t.isEdit?t.updateData(t.item):t.addData(t.item)}}},[t._v("Сохранить\n                            ")])])])])])])])])}),[],!1,null,"3d53d9d5",null).exports}}]);
+"use strict";
+(self["webpackChunk"] = self["webpackChunk"] || []).push([["tariffs-add"],{
+
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/admin/tariffs/AddEditTariff.vue?vue&type=script&lang=js&":
+/*!***********************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/admin/tariffs/AddEditTariff.vue?vue&type=script&lang=js& ***!
+  \***********************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
+function _defineProperty(obj, key, value) { key = _toPropertyKey(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _typeof(key) === "symbol" ? key : String(key); }
+function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
+function _regeneratorRuntime() { "use strict"; /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/facebook/regenerator/blob/main/LICENSE */ _regeneratorRuntime = function _regeneratorRuntime() { return exports; }; var exports = {}, Op = Object.prototype, hasOwn = Op.hasOwnProperty, defineProperty = Object.defineProperty || function (obj, key, desc) { obj[key] = desc.value; }, $Symbol = "function" == typeof Symbol ? Symbol : {}, iteratorSymbol = $Symbol.iterator || "@@iterator", asyncIteratorSymbol = $Symbol.asyncIterator || "@@asyncIterator", toStringTagSymbol = $Symbol.toStringTag || "@@toStringTag"; function define(obj, key, value) { return Object.defineProperty(obj, key, { value: value, enumerable: !0, configurable: !0, writable: !0 }), obj[key]; } try { define({}, ""); } catch (err) { define = function define(obj, key, value) { return obj[key] = value; }; } function wrap(innerFn, outerFn, self, tryLocsList) { var protoGenerator = outerFn && outerFn.prototype instanceof Generator ? outerFn : Generator, generator = Object.create(protoGenerator.prototype), context = new Context(tryLocsList || []); return defineProperty(generator, "_invoke", { value: makeInvokeMethod(innerFn, self, context) }), generator; } function tryCatch(fn, obj, arg) { try { return { type: "normal", arg: fn.call(obj, arg) }; } catch (err) { return { type: "throw", arg: err }; } } exports.wrap = wrap; var ContinueSentinel = {}; function Generator() {} function GeneratorFunction() {} function GeneratorFunctionPrototype() {} var IteratorPrototype = {}; define(IteratorPrototype, iteratorSymbol, function () { return this; }); var getProto = Object.getPrototypeOf, NativeIteratorPrototype = getProto && getProto(getProto(values([]))); NativeIteratorPrototype && NativeIteratorPrototype !== Op && hasOwn.call(NativeIteratorPrototype, iteratorSymbol) && (IteratorPrototype = NativeIteratorPrototype); var Gp = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(IteratorPrototype); function defineIteratorMethods(prototype) { ["next", "throw", "return"].forEach(function (method) { define(prototype, method, function (arg) { return this._invoke(method, arg); }); }); } function AsyncIterator(generator, PromiseImpl) { function invoke(method, arg, resolve, reject) { var record = tryCatch(generator[method], generator, arg); if ("throw" !== record.type) { var result = record.arg, value = result.value; return value && "object" == _typeof(value) && hasOwn.call(value, "__await") ? PromiseImpl.resolve(value.__await).then(function (value) { invoke("next", value, resolve, reject); }, function (err) { invoke("throw", err, resolve, reject); }) : PromiseImpl.resolve(value).then(function (unwrapped) { result.value = unwrapped, resolve(result); }, function (error) { return invoke("throw", error, resolve, reject); }); } reject(record.arg); } var previousPromise; defineProperty(this, "_invoke", { value: function value(method, arg) { function callInvokeWithMethodAndArg() { return new PromiseImpl(function (resolve, reject) { invoke(method, arg, resolve, reject); }); } return previousPromise = previousPromise ? previousPromise.then(callInvokeWithMethodAndArg, callInvokeWithMethodAndArg) : callInvokeWithMethodAndArg(); } }); } function makeInvokeMethod(innerFn, self, context) { var state = "suspendedStart"; return function (method, arg) { if ("executing" === state) throw new Error("Generator is already running"); if ("completed" === state) { if ("throw" === method) throw arg; return doneResult(); } for (context.method = method, context.arg = arg;;) { var delegate = context.delegate; if (delegate) { var delegateResult = maybeInvokeDelegate(delegate, context); if (delegateResult) { if (delegateResult === ContinueSentinel) continue; return delegateResult; } } if ("next" === context.method) context.sent = context._sent = context.arg;else if ("throw" === context.method) { if ("suspendedStart" === state) throw state = "completed", context.arg; context.dispatchException(context.arg); } else "return" === context.method && context.abrupt("return", context.arg); state = "executing"; var record = tryCatch(innerFn, self, context); if ("normal" === record.type) { if (state = context.done ? "completed" : "suspendedYield", record.arg === ContinueSentinel) continue; return { value: record.arg, done: context.done }; } "throw" === record.type && (state = "completed", context.method = "throw", context.arg = record.arg); } }; } function maybeInvokeDelegate(delegate, context) { var methodName = context.method, method = delegate.iterator[methodName]; if (undefined === method) return context.delegate = null, "throw" === methodName && delegate.iterator["return"] && (context.method = "return", context.arg = undefined, maybeInvokeDelegate(delegate, context), "throw" === context.method) || "return" !== methodName && (context.method = "throw", context.arg = new TypeError("The iterator does not provide a '" + methodName + "' method")), ContinueSentinel; var record = tryCatch(method, delegate.iterator, context.arg); if ("throw" === record.type) return context.method = "throw", context.arg = record.arg, context.delegate = null, ContinueSentinel; var info = record.arg; return info ? info.done ? (context[delegate.resultName] = info.value, context.next = delegate.nextLoc, "return" !== context.method && (context.method = "next", context.arg = undefined), context.delegate = null, ContinueSentinel) : info : (context.method = "throw", context.arg = new TypeError("iterator result is not an object"), context.delegate = null, ContinueSentinel); } function pushTryEntry(locs) { var entry = { tryLoc: locs[0] }; 1 in locs && (entry.catchLoc = locs[1]), 2 in locs && (entry.finallyLoc = locs[2], entry.afterLoc = locs[3]), this.tryEntries.push(entry); } function resetTryEntry(entry) { var record = entry.completion || {}; record.type = "normal", delete record.arg, entry.completion = record; } function Context(tryLocsList) { this.tryEntries = [{ tryLoc: "root" }], tryLocsList.forEach(pushTryEntry, this), this.reset(!0); } function values(iterable) { if (iterable) { var iteratorMethod = iterable[iteratorSymbol]; if (iteratorMethod) return iteratorMethod.call(iterable); if ("function" == typeof iterable.next) return iterable; if (!isNaN(iterable.length)) { var i = -1, next = function next() { for (; ++i < iterable.length;) if (hasOwn.call(iterable, i)) return next.value = iterable[i], next.done = !1, next; return next.value = undefined, next.done = !0, next; }; return next.next = next; } } return { next: doneResult }; } function doneResult() { return { value: undefined, done: !0 }; } return GeneratorFunction.prototype = GeneratorFunctionPrototype, defineProperty(Gp, "constructor", { value: GeneratorFunctionPrototype, configurable: !0 }), defineProperty(GeneratorFunctionPrototype, "constructor", { value: GeneratorFunction, configurable: !0 }), GeneratorFunction.displayName = define(GeneratorFunctionPrototype, toStringTagSymbol, "GeneratorFunction"), exports.isGeneratorFunction = function (genFun) { var ctor = "function" == typeof genFun && genFun.constructor; return !!ctor && (ctor === GeneratorFunction || "GeneratorFunction" === (ctor.displayName || ctor.name)); }, exports.mark = function (genFun) { return Object.setPrototypeOf ? Object.setPrototypeOf(genFun, GeneratorFunctionPrototype) : (genFun.__proto__ = GeneratorFunctionPrototype, define(genFun, toStringTagSymbol, "GeneratorFunction")), genFun.prototype = Object.create(Gp), genFun; }, exports.awrap = function (arg) { return { __await: arg }; }, defineIteratorMethods(AsyncIterator.prototype), define(AsyncIterator.prototype, asyncIteratorSymbol, function () { return this; }), exports.AsyncIterator = AsyncIterator, exports.async = function (innerFn, outerFn, self, tryLocsList, PromiseImpl) { void 0 === PromiseImpl && (PromiseImpl = Promise); var iter = new AsyncIterator(wrap(innerFn, outerFn, self, tryLocsList), PromiseImpl); return exports.isGeneratorFunction(outerFn) ? iter : iter.next().then(function (result) { return result.done ? result.value : iter.next(); }); }, defineIteratorMethods(Gp), define(Gp, toStringTagSymbol, "Generator"), define(Gp, iteratorSymbol, function () { return this; }), define(Gp, "toString", function () { return "[object Generator]"; }), exports.keys = function (val) { var object = Object(val), keys = []; for (var key in object) keys.push(key); return keys.reverse(), function next() { for (; keys.length;) { var key = keys.pop(); if (key in object) return next.value = key, next.done = !1, next; } return next.done = !0, next; }; }, exports.values = values, Context.prototype = { constructor: Context, reset: function reset(skipTempReset) { if (this.prev = 0, this.next = 0, this.sent = this._sent = undefined, this.done = !1, this.delegate = null, this.method = "next", this.arg = undefined, this.tryEntries.forEach(resetTryEntry), !skipTempReset) for (var name in this) "t" === name.charAt(0) && hasOwn.call(this, name) && !isNaN(+name.slice(1)) && (this[name] = undefined); }, stop: function stop() { this.done = !0; var rootRecord = this.tryEntries[0].completion; if ("throw" === rootRecord.type) throw rootRecord.arg; return this.rval; }, dispatchException: function dispatchException(exception) { if (this.done) throw exception; var context = this; function handle(loc, caught) { return record.type = "throw", record.arg = exception, context.next = loc, caught && (context.method = "next", context.arg = undefined), !!caught; } for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i], record = entry.completion; if ("root" === entry.tryLoc) return handle("end"); if (entry.tryLoc <= this.prev) { var hasCatch = hasOwn.call(entry, "catchLoc"), hasFinally = hasOwn.call(entry, "finallyLoc"); if (hasCatch && hasFinally) { if (this.prev < entry.catchLoc) return handle(entry.catchLoc, !0); if (this.prev < entry.finallyLoc) return handle(entry.finallyLoc); } else if (hasCatch) { if (this.prev < entry.catchLoc) return handle(entry.catchLoc, !0); } else { if (!hasFinally) throw new Error("try statement without catch or finally"); if (this.prev < entry.finallyLoc) return handle(entry.finallyLoc); } } } }, abrupt: function abrupt(type, arg) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.tryLoc <= this.prev && hasOwn.call(entry, "finallyLoc") && this.prev < entry.finallyLoc) { var finallyEntry = entry; break; } } finallyEntry && ("break" === type || "continue" === type) && finallyEntry.tryLoc <= arg && arg <= finallyEntry.finallyLoc && (finallyEntry = null); var record = finallyEntry ? finallyEntry.completion : {}; return record.type = type, record.arg = arg, finallyEntry ? (this.method = "next", this.next = finallyEntry.finallyLoc, ContinueSentinel) : this.complete(record); }, complete: function complete(record, afterLoc) { if ("throw" === record.type) throw record.arg; return "break" === record.type || "continue" === record.type ? this.next = record.arg : "return" === record.type ? (this.rval = this.arg = record.arg, this.method = "return", this.next = "end") : "normal" === record.type && afterLoc && (this.next = afterLoc), ContinueSentinel; }, finish: function finish(finallyLoc) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.finallyLoc === finallyLoc) return this.complete(entry.completion, entry.afterLoc), resetTryEntry(entry), ContinueSentinel; } }, "catch": function _catch(tryLoc) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.tryLoc === tryLoc) { var record = entry.completion; if ("throw" === record.type) { var thrown = record.arg; resetTryEntry(entry); } return thrown; } } throw new Error("illegal catch attempt"); }, delegateYield: function delegateYield(iterable, resultName, nextLoc) { return this.delegate = { iterator: values(iterable), resultName: resultName, nextLoc: nextLoc }, "next" === this.method && (this.arg = undefined), ContinueSentinel; } }, exports; }
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  name: "AddEditTariff",
+  created: function created() {
+    var _this = this;
+    return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
+      return _regeneratorRuntime().wrap(function _callee$(_context) {
+        while (1) switch (_context.prev = _context.next) {
+          case 0:
+            _this.$store.commit('setCurrentRoute', _this.$route.path.replace(/(\/*$)/, ""));
+            if (!_this.isEdit) {
+              _context.next = 6;
+              break;
+            }
+            _context.next = 4;
+            return _this.editItem();
+          case 4:
+            _context.next = 7;
+            break;
+          case 6:
+            _this.$store.commit('setItem', {
+              title: {
+                ru: null,
+                en: null,
+                zh_CN: null
+              },
+              period: null,
+              price: null,
+              description: {
+                ru: null,
+                en: null,
+                zh_CN: null
+              },
+              includedDetails: {
+                en: [],
+                ru: [],
+                zh_CN: []
+              },
+              excludedDetails: {
+                en: [],
+                ru: [],
+                zh_CN: []
+              }
+            });
+          case 7:
+          case "end":
+            return _context.stop();
+        }
+      }, _callee);
+    }))();
+  },
+  computed: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapGetters)(['item'])), {}, {
+    isEdit: function isEdit() {
+      return !this.$route.path.includes('add');
+    }
+  }),
+  methods: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapActions)(['editItem', 'updateData', 'addData'])), {}, {
+    onlyNumber: function onlyNumber(e, item) {
+      var value = e.target.value.replace(/[^0-9]/g, '');
+      if (value < $(e.target).data('min')) {
+        e.target.value = $(e.target).data('min');
+      } else {
+        e.target.value = value;
+      }
+      this.item[item] = e.target.value;
+    },
+    addNewOneItem: function addNewOneItem(nameItem) {
+      this.item[nameItem].en.push('');
+      this.item[nameItem].ru.push('');
+      this.item[nameItem].zh_CN.push('');
+    },
+    removeOneItem: function removeOneItem(nameItem, index) {
+      this.item[nameItem].en.splice(index, 1);
+      this.item[nameItem].ru.splice(index, 1);
+      this.item[nameItem].zh_CN.splice(index, 1);
+    }
+  })
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/admin/tariffs/AddEditTariff.vue?vue&type=template&id=3d53d9d5&scoped=true&":
+/*!**********************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/admin/tariffs/AddEditTariff.vue?vue&type=template&id=3d53d9d5&scoped=true& ***!
+  \**********************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* binding */ render),
+/* harmony export */   "staticRenderFns": () => (/* binding */ staticRenderFns)
+/* harmony export */ });
+var render = function render() {
+  var _vm = this,
+    _c = _vm._self._c;
+  return _c('fragment', [_c('div', {
+    staticClass: "content-header"
+  }, [_c('div', {
+    staticClass: "container-fluid"
+  }, [_c('div', {
+    staticClass: "row mb-2"
+  }, [_c('div', {
+    staticClass: "col-sm-6"
+  }, [_c('h1', {
+    staticClass: "m-0"
+  }, [_vm._v(_vm._s(_vm.isEdit ? 'Редактирование ' + (_vm.item.type === 'tariff' ? 'тарифа' : 'услуги') : 'Добавление нового тарифа'))])]), _vm._v(" "), _c('div', {
+    staticClass: "col-sm-6"
+  }, [_c('ol', {
+    staticClass: "breadcrumb float-sm-right"
+  }, [_c('li', {
+    staticClass: "breadcrumb-item"
+  }, [_c('router-link', {
+    staticStyle: {
+      "color": "#007bff",
+      "text-decoration": "none",
+      "background-color": "transparent"
+    },
+    attrs: {
+      "to": "/admin/tariffs"
+    }
+  }, [_vm._v("\n                                Тарифы и услуги\n                            ")])], 1), _vm._v(" "), _c('li', {
+    staticClass: "breadcrumb-item active"
+  }, [_vm._v(_vm._s(_vm.isEdit ? 'Редактирование' : 'Добавление'))])])])])])]), _vm._v(" "), _c('section', {
+    staticClass: "content"
+  }, [_c('div', {
+    staticClass: "container-fluid"
+  }, [_c('div', {
+    staticClass: "row"
+  }, [_c('div', {
+    staticClass: "col-md-12"
+  }, [_c('div', {
+    staticClass: "card card-primary"
+  }, [_c('div', {
+    staticClass: "card-body"
+  }, [_c('div', {
+    staticClass: "form-group"
+  }, [_c('label', [_vm._v("Название " + _vm._s(_vm.item.type === 'tariff' || !_vm.isEdit ? 'тарифа' : 'услуги'))]), _vm._v(" "), _c('div', {
+    staticClass: "table-responsive max-h-350px"
+  }, [_c('table', {
+    staticClass: "table table-hover table-head-fixed text-nowrap mb-0"
+  }, [_c('thead', [_c('tr', [_c('th', {
+    staticStyle: {
+      "width": "30%"
+    }
+  }, [_vm._v("Русский (ru)")]), _vm._v(" "), _c('th', {
+    staticStyle: {
+      "width": "30%"
+    }
+  }, [_vm._v("Английский (en)")]), _vm._v(" "), _c('th', {
+    staticStyle: {
+      "width": "30%"
+    }
+  }, [_vm._v("Китайский (zh_CN)")])])]), _vm._v(" "), _c('tbody', [_c('tr', _vm._l(_vm.item.title, function (row, index) {
+    return _c('td', [_c('input', {
+      directives: [{
+        name: "model",
+        rawName: "v-model",
+        value: _vm.item.title[index],
+        expression: "item.title[index]"
+      }],
+      staticClass: "form-control",
+      attrs: {
+        "required": "",
+        "name": 'title' + index,
+        "type": "text"
+      },
+      domProps: {
+        "value": _vm.item.title[index]
+      },
+      on: {
+        "input": function input($event) {
+          if ($event.target.composing) return;
+          _vm.$set(_vm.item.title, index, $event.target.value);
+        }
+      }
+    })]);
+  }), 0)])])])]), _vm._v(" "), _vm.item.type === 'tariff' || !_vm.isEdit ? _c('div', {
+    staticClass: "form-group"
+  }, [_c('label', [_vm._v("Период действия тарифа (в днях)")]), _vm._v(" "), _c('div', {
+    staticClass: "input-group"
+  }, [_c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: _vm.item.period,
+      expression: "item.period"
+    }],
+    staticClass: "form-control",
+    attrs: {
+      "required": "",
+      "name": "period",
+      "type": "text",
+      "data-min": "1"
+    },
+    domProps: {
+      "value": _vm.item.period
+    },
+    on: {
+      "keyup": function keyup($event) {
+        return _vm.onlyNumber($event, 'period');
+      },
+      "input": function input($event) {
+        if ($event.target.composing) return;
+        _vm.$set(_vm.item, "period", $event.target.value);
+      }
+    }
+  }), _vm._v(" "), _c('div', {
+    staticClass: "input-group-prepend"
+  }, [_c('span', {
+    staticClass: "input-group-text"
+  }, [_vm._v("дн.")])])])]) : _vm._e(), _vm._v(" "), _c('div', {
+    staticClass: "form-group"
+  }, [_c('label', [_vm._v("Цена")]), _vm._v(" "), _c('div', {
+    staticClass: "input-group"
+  }, [_c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: _vm.item.price,
+      expression: "item.price"
+    }],
+    staticClass: "form-control",
+    attrs: {
+      "required": "",
+      "name": "price",
+      "type": "text",
+      "data-min": "1"
+    },
+    domProps: {
+      "value": _vm.item.price
+    },
+    on: {
+      "keyup": function keyup($event) {
+        return _vm.onlyNumber($event, 'price');
+      },
+      "input": function input($event) {
+        if ($event.target.composing) return;
+        _vm.$set(_vm.item, "price", $event.target.value);
+      }
+    }
+  }), _vm._v(" "), _c('div', {
+    staticClass: "input-group-prepend"
+  }, [_c('span', {
+    staticClass: "input-group-text"
+  }, [_vm._v("₽")])])])]), _vm._v(" "), _c('div', {
+    staticClass: "form-group"
+  }, [_c('label', [_vm._v("Описание " + _vm._s(_vm.item.type === 'tariff' || !_vm.isEdit ? 'тарифа' : 'услуги'))]), _vm._v(" "), _c('div', {
+    staticClass: "table-responsive max-h-350px"
+  }, [_c('table', {
+    staticClass: "table table-hover table-head-fixed text-nowrap mb-0"
+  }, [_c('thead', [_c('tr', [_c('th', {
+    staticStyle: {
+      "width": "30%"
+    }
+  }, [_vm._v("Русский (ru)")]), _vm._v(" "), _c('th', {
+    staticStyle: {
+      "width": "30%"
+    }
+  }, [_vm._v("Английский (en)")]), _vm._v(" "), _c('th', {
+    staticStyle: {
+      "width": "30%"
+    }
+  }, [_vm._v("Китайский (zh_CN)")])])]), _vm._v(" "), _c('tbody', [_c('tr', _vm._l(_vm.item.description, function (row, index) {
+    return _c('td', [_c('textarea', {
+      directives: [{
+        name: "model",
+        rawName: "v-model",
+        value: _vm.item.description[index],
+        expression: "item.description[index]"
+      }],
+      staticClass: "form-control",
+      attrs: {
+        "required": "",
+        "name": 'description' + index,
+        "rows": "10"
+      },
+      domProps: {
+        "value": _vm.item.description[index]
+      },
+      on: {
+        "input": function input($event) {
+          if ($event.target.composing) return;
+          _vm.$set(_vm.item.description, index, $event.target.value);
+        }
+      }
+    })]);
+  }), 0)])])])]), _vm._v(" "), _c('div', {
+    staticClass: "form-group"
+  }, [_c('label', [_vm._v(" " + _vm._s(_vm.item.type === 'tariff' || !_vm.isEdit ? 'Возможности, которые предоставляет тариф' : 'Детальное описание услуги по пунктам'))]), _vm._v(" "), _c('div', {
+    staticClass: "table-responsive max-h-350px"
+  }, [_c('table', {
+    staticClass: "table table-hover table-head-fixed text-nowrap mb-0"
+  }, [_c('thead', [_c('tr', [_c('th', {
+    staticStyle: {
+      "width": "30%"
+    }
+  }, [_vm._v("Русский (ru)")]), _vm._v(" "), _c('th', {
+    staticStyle: {
+      "width": "30%"
+    }
+  }, [_vm._v("Английский (en)")]), _vm._v(" "), _c('th', {
+    staticStyle: {
+      "width": "30%"
+    }
+  }, [_vm._v("Китайский (zh_CN)")]), _vm._v(" "), _c('th', {
+    staticStyle: {
+      "width": "10%"
+    }
+  }, [_c('button', {
+    staticClass: "btn btn-outline-primary",
+    attrs: {
+      "type": "button"
+    },
+    on: {
+      "click": function click($event) {
+        $event.preventDefault();
+        return _vm.addNewOneItem('includedDetails');
+      }
+    }
+  }, [_c('i', {
+    staticClass: "fas fa-plus"
+  })])])])]), _vm._v(" "), _c('tbody', _vm._l(_vm.item.includedDetails.ru, function (row, index) {
+    return _c('tr', [_c('td', [_c('input', {
+      directives: [{
+        name: "model",
+        rawName: "v-model",
+        value: _vm.item.includedDetails.ru[index],
+        expression: "item.includedDetails.ru[index]"
+      }],
+      staticClass: "form-control",
+      attrs: {
+        "required": ""
+      },
+      domProps: {
+        "value": _vm.item.includedDetails.ru[index]
+      },
+      on: {
+        "input": function input($event) {
+          if ($event.target.composing) return;
+          _vm.$set(_vm.item.includedDetails.ru, index, $event.target.value);
+        }
+      }
+    })]), _vm._v(" "), _c('td', [_c('input', {
+      directives: [{
+        name: "model",
+        rawName: "v-model",
+        value: _vm.item.includedDetails.en[index],
+        expression: "item.includedDetails.en[index]"
+      }],
+      staticClass: "form-control",
+      attrs: {
+        "required": ""
+      },
+      domProps: {
+        "value": _vm.item.includedDetails.en[index]
+      },
+      on: {
+        "input": function input($event) {
+          if ($event.target.composing) return;
+          _vm.$set(_vm.item.includedDetails.en, index, $event.target.value);
+        }
+      }
+    })]), _vm._v(" "), _c('td', [_c('input', {
+      directives: [{
+        name: "model",
+        rawName: "v-model",
+        value: _vm.item.includedDetails.zh_CN[index],
+        expression: "item.includedDetails.zh_CN[index]"
+      }],
+      staticClass: "form-control",
+      attrs: {
+        "required": ""
+      },
+      domProps: {
+        "value": _vm.item.includedDetails.zh_CN[index]
+      },
+      on: {
+        "input": function input($event) {
+          if ($event.target.composing) return;
+          _vm.$set(_vm.item.includedDetails.zh_CN, index, $event.target.value);
+        }
+      }
+    })]), _vm._v(" "), _c('td', [_c('button', {
+      staticClass: "btn btn-outline-danger",
+      attrs: {
+        "type": "button"
+      },
+      on: {
+        "click": function click($event) {
+          return _vm.removeOneItem('includedDetails', index);
+        }
+      }
+    }, [_c('i', {
+      staticClass: "far fa-trash-alt"
+    })])])]);
+  }), 0)])])]), _vm._v(" "), _vm.item.type === 'tariff' || !_vm.isEdit ? _c('div', {
+    staticClass: "form-group"
+  }, [_c('label', [_vm._v("Возможности, которых нет в тарифе")]), _vm._v(" "), _c('div', {
+    staticClass: "table-responsive max-h-350px"
+  }, [_c('table', {
+    staticClass: "table table-hover table-head-fixed text-nowrap mb-0"
+  }, [_c('thead', [_c('tr', [_c('th', {
+    staticStyle: {
+      "width": "30%"
+    }
+  }, [_vm._v("Русский (ru)")]), _vm._v(" "), _c('th', {
+    staticStyle: {
+      "width": "30%"
+    }
+  }, [_vm._v("Английский (en)")]), _vm._v(" "), _c('th', {
+    staticStyle: {
+      "width": "30%"
+    }
+  }, [_vm._v("Китайский (zh_CN)")]), _vm._v(" "), _c('th', {
+    staticStyle: {
+      "width": "10%"
+    }
+  }, [_c('button', {
+    staticClass: "btn btn-outline-primary",
+    attrs: {
+      "type": "button"
+    },
+    on: {
+      "click": function click($event) {
+        $event.preventDefault();
+        return _vm.addNewOneItem('excludedDetails');
+      }
+    }
+  }, [_c('i', {
+    staticClass: "fas fa-plus"
+  })])])])]), _vm._v(" "), _c('tbody', _vm._l(_vm.item.excludedDetails.ru, function (row, index) {
+    return _c('tr', [_c('td', [_c('input', {
+      directives: [{
+        name: "model",
+        rawName: "v-model",
+        value: _vm.item.excludedDetails.ru[index],
+        expression: "item.excludedDetails.ru[index]"
+      }],
+      staticClass: "form-control",
+      attrs: {
+        "required": ""
+      },
+      domProps: {
+        "value": _vm.item.excludedDetails.ru[index]
+      },
+      on: {
+        "input": function input($event) {
+          if ($event.target.composing) return;
+          _vm.$set(_vm.item.excludedDetails.ru, index, $event.target.value);
+        }
+      }
+    })]), _vm._v(" "), _c('td', [_c('input', {
+      directives: [{
+        name: "model",
+        rawName: "v-model",
+        value: _vm.item.excludedDetails.en[index],
+        expression: "item.excludedDetails.en[index]"
+      }],
+      staticClass: "form-control",
+      attrs: {
+        "required": ""
+      },
+      domProps: {
+        "value": _vm.item.excludedDetails.en[index]
+      },
+      on: {
+        "input": function input($event) {
+          if ($event.target.composing) return;
+          _vm.$set(_vm.item.excludedDetails.en, index, $event.target.value);
+        }
+      }
+    })]), _vm._v(" "), _c('td', [_c('input', {
+      directives: [{
+        name: "model",
+        rawName: "v-model",
+        value: _vm.item.excludedDetails.zh_CN[index],
+        expression: "item.excludedDetails.zh_CN[index]"
+      }],
+      staticClass: "form-control",
+      attrs: {
+        "required": ""
+      },
+      domProps: {
+        "value": _vm.item.excludedDetails.zh_CN[index]
+      },
+      on: {
+        "input": function input($event) {
+          if ($event.target.composing) return;
+          _vm.$set(_vm.item.excludedDetails.zh_CN, index, $event.target.value);
+        }
+      }
+    })]), _vm._v(" "), _c('td', [_c('button', {
+      staticClass: "btn btn-outline-danger",
+      attrs: {
+        "type": "button"
+      },
+      on: {
+        "click": function click($event) {
+          return _vm.removeOneItem('excludedDetails', index);
+        }
+      }
+    }, [_c('i', {
+      staticClass: "far fa-trash-alt"
+    })])])]);
+  }), 0)])])]) : _vm._e(), _vm._v(" "), _c('button', {
+    staticClass: "btn btn-success float-right",
+    attrs: {
+      "type": "submit"
+    },
+    on: {
+      "click": function click($event) {
+        _vm.isEdit ? _vm.updateData(_vm.item) : _vm.addData(_vm.item);
+      }
+    }
+  }, [_vm._v("Сохранить\n                            ")])])])])])])])]);
+};
+var staticRenderFns = [];
+
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/admin/tariffs/AddEditTariff.vue?vue&type=style&index=0&id=3d53d9d5&prod&scoped=true&lang=css&":
+/*!************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/admin/tariffs/AddEditTariff.vue?vue&type=style&index=0&id=3d53d9d5&prod&scoped=true&lang=css& ***!
+  \************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((module, __webpack_exports__, __webpack_require__) => {
+
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_css_loader_dist_runtime_cssWithMappingToString_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../../node_modules/css-loader/dist/runtime/cssWithMappingToString.js */ "./node_modules/css-loader/dist/runtime/cssWithMappingToString.js");
+/* harmony import */ var _node_modules_css_loader_dist_runtime_cssWithMappingToString_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_cssWithMappingToString_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js");
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__);
+// Imports
+
+
+var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_cssWithMappingToString_js__WEBPACK_IMPORTED_MODULE_0___default()));
+// Module
+___CSS_LOADER_EXPORT___.push([module.id, ".max-h-350px[data-v-3d53d9d5]{max-height:350px}", "",{"version":3,"sources":["webpack://./resources/js/admin/tariffs/AddEditTariff.vue"],"names":[],"mappings":"AA6PA,8BACA,gBACA","sourcesContent":["<template>\r\n    <fragment>\r\n        <div class=\"content-header\">\r\n            <div class=\"container-fluid\">\r\n                <div class=\"row mb-2\">\r\n                    <div class=\"col-sm-6\">\r\n                        <h1 class=\"m-0\">{{ isEdit ? 'Редактирование ' + (item.type === 'tariff' ? 'тарифа' : 'услуги') : 'Добавление нового тарифа' }}</h1>\r\n                    </div>\r\n                    <div class=\"col-sm-6\">\r\n                        <ol class=\"breadcrumb float-sm-right\">\r\n                            <li class=\"breadcrumb-item\">\r\n                                <router-link to=\"/admin/tariffs\"\r\n                                             style=\"color: #007bff; text-decoration: none; background-color: transparent;\">\r\n                                    Тарифы и услуги\r\n                                </router-link>\r\n                            </li>\r\n                            <li class=\"breadcrumb-item active\">{{ isEdit ? 'Редактирование' : 'Добавление' }}</li>\r\n                        </ol>\r\n                    </div>\r\n                </div>\r\n            </div>\r\n        </div>\r\n\r\n        <section class=\"content\">\r\n            <div class=\"container-fluid\">\r\n                <div class=\"row\">\r\n                    <div class=\"col-md-12\">\r\n                        <div class=\"card card-primary\">\r\n                            <div class=\"card-body\">\r\n                                <div class=\"form-group\">\r\n                                    <label>Название {{ (item.type === 'tariff'  || !isEdit ? 'тарифа' : 'услуги') }}</label>\r\n                                    <div class=\"table-responsive max-h-350px\">\r\n                                        <table class=\"table table-hover table-head-fixed text-nowrap mb-0\">\r\n                                            <thead>\r\n                                            <tr>\r\n                                                <th style=\"width: 30%\">Русский (ru)</th>\r\n                                                <th style=\"width: 30%\">Английский (en)</th>\r\n                                                <th style=\"width: 30%\">Китайский (zh_CN)</th>\r\n                                            </tr>\r\n                                            </thead>\r\n                                            <tbody>\r\n                                            <tr>\r\n                                                <td v-for=\"(row, index) in item.title\">\r\n                                                    <input required :name=\"'title'+index\" type=\"text\"\r\n                                                           class=\"form-control\" v-model=\"item.title[index]\">\r\n                                                </td>\r\n                                            </tr>\r\n                                            </tbody>\r\n                                        </table>\r\n                                    </div>\r\n                                </div>\r\n                                <div class=\"form-group\" v-if=\"item.type === 'tariff' || !isEdit\">\r\n                                    <label>Период действия тарифа (в днях)</label>\r\n                                    <div class=\"input-group\">\r\n                                        <input required name=\"period\" class=\"form-control\"\r\n                                               type=\"text\" data-min=\"1\" v-model=\"item.period\"\r\n                                               @keyup=\"onlyNumber($event, 'period')\">\r\n                                        <div class=\"input-group-prepend\">\r\n                                            <span class=\"input-group-text\">дн.</span>\r\n                                        </div>\r\n                                    </div>\r\n                                </div>\r\n                                <div class=\"form-group\">\r\n                                    <label>Цена</label>\r\n                                    <div class=\"input-group\">\r\n                                        <input required name=\"price\" class=\"form-control\"\r\n                                               type=\"text\" data-min=\"1\" v-model=\"item.price\"\r\n                                               @keyup=\"onlyNumber($event, 'price')\">\r\n                                        <div class=\"input-group-prepend\">\r\n                                            <span class=\"input-group-text\">₽</span>\r\n                                        </div>\r\n                                    </div>\r\n                                </div>\r\n                                <div class=\"form-group\">\r\n                                    <label>Описание {{ (item.type === 'tariff'  || !isEdit ? 'тарифа' : 'услуги') }}</label>\r\n                                    <div class=\"table-responsive max-h-350px\">\r\n                                        <table class=\"table table-hover table-head-fixed text-nowrap mb-0\">\r\n                                            <thead>\r\n                                            <tr>\r\n                                                <th style=\"width: 30%\">Русский (ru)</th>\r\n                                                <th style=\"width: 30%\">Английский (en)</th>\r\n                                                <th style=\"width: 30%\">Китайский (zh_CN)</th>\r\n                                            </tr>\r\n                                            </thead>\r\n                                            <tbody>\r\n                                            <tr>\r\n                                                <td v-for=\"(row, index) in item.description\">\r\n                                                  <textarea required :name=\"'description'+index\" class=\"form-control\"\r\n                                                            v-model=\"item.description[index]\" rows=\"10\"></textarea>\r\n                                                </td>\r\n                                            </tr>\r\n                                            </tbody>\r\n                                        </table>\r\n                                    </div>\r\n                                </div>\r\n                                <div class=\"form-group\">\r\n                                    <label> {{ (item.type === 'tariff'  || !isEdit ? 'Возможности, которые предоставляет тариф' : 'Детальное описание услуги по пунктам') }}</label>\r\n                                    <div class=\"table-responsive max-h-350px\">\r\n                                        <table class=\"table table-hover table-head-fixed text-nowrap mb-0\">\r\n                                            <thead>\r\n                                            <tr>\r\n                                                <th style=\"width: 30%\">Русский (ru)</th>\r\n                                                <th style=\"width: 30%\">Английский (en)</th>\r\n                                                <th style=\"width: 30%\">Китайский (zh_CN)</th>\r\n                                                <th style=\"width: 10%\">\r\n                                                    <button @click.prevent=\"addNewOneItem('includedDetails')\"\r\n                                                            type=\"button\"\r\n                                                            class=\"btn btn-outline-primary\">\r\n                                                        <i class=\"fas fa-plus\"></i>\r\n                                                    </button>\r\n                                                </th>\r\n                                            </tr>\r\n                                            </thead>\r\n                                            <tbody>\r\n                                            <tr v-for=\"(row, index) in item.includedDetails.ru\">\r\n                                                <td>\r\n                                                    <input v-model=\"item.includedDetails.ru[index]\" class=\"form-control\"\r\n                                                           required>\r\n                                                </td>\r\n                                                <td>\r\n                                                    <input v-model=\"item.includedDetails.en[index]\" class=\"form-control\"\r\n                                                           required>\r\n                                                </td>\r\n                                                <td>\r\n                                                    <input v-model=\"item.includedDetails.zh_CN[index]\"\r\n                                                           class=\"form-control\" required>\r\n                                                </td>\r\n                                                <td>\r\n                                                    <button @click=\"removeOneItem('includedDetails', index)\"\r\n                                                            type=\"button\"\r\n                                                            class=\"btn btn-outline-danger\">\r\n                                                        <i class=\"far fa-trash-alt\"></i>\r\n                                                    </button>\r\n                                                </td>\r\n                                            </tr>\r\n                                            </tbody>\r\n                                        </table>\r\n                                    </div>\r\n                                </div>\r\n                                <div class=\"form-group\" v-if=\"item.type === 'tariff' || !isEdit\" >\r\n                                    <label>Возможности, которых нет в тарифе</label>\r\n                                    <div class=\"table-responsive max-h-350px\">\r\n                                        <table class=\"table table-hover table-head-fixed text-nowrap mb-0\">\r\n                                            <thead>\r\n                                            <tr>\r\n                                                <th style=\"width: 30%\">Русский (ru)</th>\r\n                                                <th style=\"width: 30%\">Английский (en)</th>\r\n                                                <th style=\"width: 30%\">Китайский (zh_CN)</th>\r\n                                                <th style=\"width: 10%\">\r\n                                                    <button @click.prevent=\"addNewOneItem('excludedDetails')\"\r\n                                                            type=\"button\"\r\n                                                            class=\"btn btn-outline-primary\">\r\n                                                        <i class=\"fas fa-plus\"></i>\r\n                                                    </button>\r\n                                                </th>\r\n                                            </tr>\r\n                                            </thead>\r\n                                            <tbody>\r\n                                            <tr v-for=\"(row, index) in item.excludedDetails.ru\">\r\n                                                <td>\r\n                                                    <input v-model=\"item.excludedDetails.ru[index]\" class=\"form-control\"\r\n                                                           required>\r\n                                                </td>\r\n                                                <td>\r\n                                                    <input v-model=\"item.excludedDetails.en[index]\" class=\"form-control\"\r\n                                                           required>\r\n                                                </td>\r\n                                                <td>\r\n                                                    <input v-model=\"item.excludedDetails.zh_CN[index]\"\r\n                                                           class=\"form-control\" required>\r\n                                                </td>\r\n                                                <td>\r\n                                                    <button @click=\"removeOneItem('excludedDetails',index)\"\r\n                                                            type=\"button\"\r\n                                                            class=\"btn btn-outline-danger\">\r\n                                                        <i class=\"far fa-trash-alt\"></i>\r\n                                                    </button>\r\n                                                </td>\r\n                                            </tr>\r\n                                            </tbody>\r\n                                        </table>\r\n                                    </div>\r\n                                </div>\r\n\r\n                                <button type=\"submit\" class=\"btn btn-success float-right\"\r\n                                        @click=\"isEdit ? updateData(item) : addData(item)\">Сохранить\r\n                                </button>\r\n                            </div>\r\n                            <!-- /.card-body -->\r\n                        </div>\r\n                        <!-- /.card -->\r\n                    </div>\r\n                </div>\r\n            </div>\r\n        </section>\r\n    </fragment>\r\n</template>\r\n\r\n<script>\r\nimport {mapActions, mapGetters} from \"vuex\";\r\n\r\nexport default {\r\n    name: \"AddEditTariff\",\r\n    async created() {\r\n        this.$store.commit('setCurrentRoute', this.$route.path.replace(/(\\/*$)/, \"\"))\r\n        if (this.isEdit) {\r\n            await this.editItem()\r\n        } else {\r\n            this.$store.commit('setItem',\r\n                {\r\n                    title: {ru: null, en: null, zh_CN: null},\r\n                    period: null,\r\n                    price: null,\r\n                    description: {ru: null, en: null, zh_CN: null},\r\n                    includedDetails: {en: [], ru: [], zh_CN: []},\r\n                    excludedDetails: {en: [], ru: [], zh_CN: []}\r\n                }\r\n            )\r\n        }\r\n    },\r\n    computed: {\r\n        ...mapGetters(['item']),\r\n        isEdit() {\r\n            return !this.$route.path.includes('add')\r\n        }\r\n    },\r\n    methods: {\r\n        ...mapActions(['editItem', 'updateData', 'addData']),\r\n\r\n        onlyNumber(e, item) {\r\n            let value = e.target.value.replace(/[^0-9]/g, '');\r\n            if (value < $(e.target).data('min')) {\r\n                e.target.value = $(e.target).data('min');\r\n            } else {\r\n                e.target.value = value;\r\n            }\r\n            this.item[item] = e.target.value\r\n        },\r\n        addNewOneItem(nameItem) {\r\n            this.item[nameItem].en.push('');\r\n            this.item[nameItem].ru.push('');\r\n            this.item[nameItem].zh_CN.push('');\r\n        },\r\n        removeOneItem(nameItem, index) {\r\n            this.item[nameItem].en.splice(index, 1);\r\n            this.item[nameItem].ru.splice(index, 1);\r\n            this.item[nameItem].zh_CN.splice(index, 1);\r\n        }\r\n    }\r\n}\r\n</script>\r\n\r\n<style scoped>\r\n.max-h-350px {\r\n    max-height: 350px\r\n}\r\n</style>\r\n"],"sourceRoot":""}]);
+// Exports
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
+
+
+/***/ }),
+
+/***/ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/admin/tariffs/AddEditTariff.vue?vue&type=style&index=0&id=3d53d9d5&prod&scoped=true&lang=css&":
+/*!****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/admin/tariffs/AddEditTariff.vue?vue&type=style&index=0&id=3d53d9d5&prod&scoped=true&lang=css& ***!
+  \****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) => {
+
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_AddEditTariff_vue_vue_type_style_index_0_id_3d53d9d5_prod_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !!../../../../node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./AddEditTariff.vue?vue&type=style&index=0&id=3d53d9d5&prod&scoped=true&lang=css& */ "./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/admin/tariffs/AddEditTariff.vue?vue&type=style&index=0&id=3d53d9d5&prod&scoped=true&lang=css&");
+
+            
+
+var options = {};
+
+options.insert = "head";
+options.singleton = false;
+
+var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_AddEditTariff_vue_vue_type_style_index_0_id_3d53d9d5_prod_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_1__["default"], options);
+
+
+
+/* unused harmony default export */ var __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_AddEditTariff_vue_vue_type_style_index_0_id_3d53d9d5_prod_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_1__["default"].locals || {});
+
+/***/ }),
+
+/***/ "./resources/js/admin/tariffs/AddEditTariff.vue":
+/*!******************************************************!*\
+  !*** ./resources/js/admin/tariffs/AddEditTariff.vue ***!
+  \******************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _AddEditTariff_vue_vue_type_template_id_3d53d9d5_scoped_true___WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./AddEditTariff.vue?vue&type=template&id=3d53d9d5&scoped=true& */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/admin/tariffs/AddEditTariff.vue?vue&type=template&id=3d53d9d5&scoped=true&");
+/* harmony import */ var _AddEditTariff_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./AddEditTariff.vue?vue&type=script&lang=js& */ "./resources/js/admin/tariffs/AddEditTariff.vue?vue&type=script&lang=js&");
+/* harmony import */ var _AddEditTariff_vue_vue_type_style_index_0_id_3d53d9d5_prod_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./AddEditTariff.vue?vue&type=style&index=0&id=3d53d9d5&prod&scoped=true&lang=css& */ "./resources/js/admin/tariffs/AddEditTariff.vue?vue&type=style&index=0&id=3d53d9d5&prod&scoped=true&lang=css&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+;
+
+
+/* normalize component */
+
+var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _AddEditTariff_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"],
+  _AddEditTariff_vue_vue_type_template_id_3d53d9d5_scoped_true___WEBPACK_IMPORTED_MODULE_3__.render,
+  _AddEditTariff_vue_vue_type_template_id_3d53d9d5_scoped_true___WEBPACK_IMPORTED_MODULE_3__.staticRenderFns,
+  false,
+  null,
+  "3d53d9d5",
+  null
+  
+)
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/admin/tariffs/AddEditTariff.vue?vue&type=script&lang=js&":
+/*!*******************************************************************************!*\
+  !*** ./resources/js/admin/tariffs/AddEditTariff.vue?vue&type=script&lang=js& ***!
+  \*******************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_AddEditTariff_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./AddEditTariff.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/admin/tariffs/AddEditTariff.vue?vue&type=script&lang=js&");
+ /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_AddEditTariff_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/admin/tariffs/AddEditTariff.vue?vue&type=style&index=0&id=3d53d9d5&prod&scoped=true&lang=css&":
+/*!********************************************************************************************************************!*\
+  !*** ./resources/js/admin/tariffs/AddEditTariff.vue?vue&type=style&index=0&id=3d53d9d5&prod&scoped=true&lang=css& ***!
+  \********************************************************************************************************************/
+/***/ ((__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) => {
+
+/* harmony import */ var _node_modules_style_loader_dist_cjs_js_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_AddEditTariff_vue_vue_type_style_index_0_id_3d53d9d5_prod_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/style-loader/dist/cjs.js!../../../../node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./AddEditTariff.vue?vue&type=style&index=0&id=3d53d9d5&prod&scoped=true&lang=css& */ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/admin/tariffs/AddEditTariff.vue?vue&type=style&index=0&id=3d53d9d5&prod&scoped=true&lang=css&");
+
+
+/***/ })
+
+}]);
 //# sourceMappingURL=tariffs-add.js.map

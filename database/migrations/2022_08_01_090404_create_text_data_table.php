@@ -17,8 +17,8 @@ class CreateTextDataTable extends Migration
             $table->id();
             $table->string('header');
             $table->longText('value');
-            $table->enum('type', ['info', 'help', 'about', 'contacts', 'buyBlock']);
-            $table->enum('screen', ['О приложении', 'Помощь', 'О нас', 'Контакты', 'Блок "Купить"']);
+            $table->enum('type', ['info', 'help', 'about', 'contacts', 'buyBlock', 'buyLotBlock']);
+            $table->enum('screen', ['О приложении', 'Помощь', 'О нас', 'Контакты', 'Блок "Купить"', 'Блок "Купить лот"']);
             $table->json('points')->nullable();
             $table->timestamps();
         });

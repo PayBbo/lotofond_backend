@@ -1,3 +1,500 @@
-/*! For license information please see messages.js.LICENSE.txt */
-"use strict";(self.webpackChunk=self.webpackChunk||[]).push([[4158],{55528:(t,e,n)=>{n.r(e),n.d(e,{default:()=>c});function r(t){return r="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(t){return typeof t}:function(t){return t&&"function"==typeof Symbol&&t.constructor===Symbol&&t!==Symbol.prototype?"symbol":typeof t},r(t)}function o(){o=function(){return t};var t={},e=Object.prototype,n=e.hasOwnProperty,a=Object.defineProperty||function(t,e,n){t[e]=n.value},i="function"==typeof Symbol?Symbol:{},s=i.iterator||"@@iterator",c=i.asyncIterator||"@@asyncIterator",l=i.toStringTag||"@@toStringTag";function u(t,e,n){return Object.defineProperty(t,e,{value:n,enumerable:!0,configurable:!0,writable:!0}),t[e]}try{u({},"")}catch(t){u=function(t,e,n){return t[e]=n}}function p(t,e,n,r){var o=e&&e.prototype instanceof d?e:d,i=Object.create(o.prototype),s=new S(r||[]);return a(i,"_invoke",{value:x(t,n,s)}),i}function h(t,e,n){try{return{type:"normal",arg:t.call(e,n)}}catch(t){return{type:"throw",arg:t}}}t.wrap=p;var g={};function d(){}function f(){}function v(){}var _={};u(_,s,(function(){return this}));var m=Object.getPrototypeOf,b=m&&m(m(T([])));b&&b!==e&&n.call(b,s)&&(_=b);var y=v.prototype=d.prototype=Object.create(_);function k(t){["next","throw","return"].forEach((function(e){u(t,e,(function(t){return this._invoke(e,t)}))}))}function w(t,e){function o(a,i,s,c){var l=h(t[a],t,i);if("throw"!==l.type){var u=l.arg,p=u.value;return p&&"object"==r(p)&&n.call(p,"__await")?e.resolve(p.__await).then((function(t){o("next",t,s,c)}),(function(t){o("throw",t,s,c)})):e.resolve(p).then((function(t){u.value=t,s(u)}),(function(t){return o("throw",t,s,c)}))}c(l.arg)}var i;a(this,"_invoke",{value:function(t,n){function r(){return new e((function(e,r){o(t,n,e,r)}))}return i=i?i.then(r,r):r()}})}function x(t,e,n){var r="suspendedStart";return function(o,a){if("executing"===r)throw new Error("Generator is already running");if("completed"===r){if("throw"===o)throw a;return I()}for(n.method=o,n.arg=a;;){var i=n.delegate;if(i){var s=C(i,n);if(s){if(s===g)continue;return s}}if("next"===n.method)n.sent=n._sent=n.arg;else if("throw"===n.method){if("suspendedStart"===r)throw r="completed",n.arg;n.dispatchException(n.arg)}else"return"===n.method&&n.abrupt("return",n.arg);r="executing";var c=h(t,e,n);if("normal"===c.type){if(r=n.done?"completed":"suspendedYield",c.arg===g)continue;return{value:c.arg,done:n.done}}"throw"===c.type&&(r="completed",n.method="throw",n.arg=c.arg)}}}function C(t,e){var n=e.method,r=t.iterator[n];if(void 0===r)return e.delegate=null,"throw"===n&&t.iterator.return&&(e.method="return",e.arg=void 0,C(t,e),"throw"===e.method)||"return"!==n&&(e.method="throw",e.arg=new TypeError("The iterator does not provide a '"+n+"' method")),g;var o=h(r,t.iterator,e.arg);if("throw"===o.type)return e.method="throw",e.arg=o.arg,e.delegate=null,g;var a=o.arg;return a?a.done?(e[t.resultName]=a.value,e.next=t.nextLoc,"return"!==e.method&&(e.method="next",e.arg=void 0),e.delegate=null,g):a:(e.method="throw",e.arg=new TypeError("iterator result is not an object"),e.delegate=null,g)}function L(t){var e={tryLoc:t[0]};1 in t&&(e.catchLoc=t[1]),2 in t&&(e.finallyLoc=t[2],e.afterLoc=t[3]),this.tryEntries.push(e)}function E(t){var e=t.completion||{};e.type="normal",delete e.arg,t.completion=e}function S(t){this.tryEntries=[{tryLoc:"root"}],t.forEach(L,this),this.reset(!0)}function T(t){if(t){var e=t[s];if(e)return e.call(t);if("function"==typeof t.next)return t;if(!isNaN(t.length)){var r=-1,o=function e(){for(;++r<t.length;)if(n.call(t,r))return e.value=t[r],e.done=!1,e;return e.value=void 0,e.done=!0,e};return o.next=o}}return{next:I}}function I(){return{value:void 0,done:!0}}return f.prototype=v,a(y,"constructor",{value:v,configurable:!0}),a(v,"constructor",{value:f,configurable:!0}),f.displayName=u(v,l,"GeneratorFunction"),t.isGeneratorFunction=function(t){var e="function"==typeof t&&t.constructor;return!!e&&(e===f||"GeneratorFunction"===(e.displayName||e.name))},t.mark=function(t){return Object.setPrototypeOf?Object.setPrototypeOf(t,v):(t.__proto__=v,u(t,l,"GeneratorFunction")),t.prototype=Object.create(y),t},t.awrap=function(t){return{__await:t}},k(w.prototype),u(w.prototype,c,(function(){return this})),t.AsyncIterator=w,t.async=function(e,n,r,o,a){void 0===a&&(a=Promise);var i=new w(p(e,n,r,o),a);return t.isGeneratorFunction(n)?i:i.next().then((function(t){return t.done?t.value:i.next()}))},k(y),u(y,l,"Generator"),u(y,s,(function(){return this})),u(y,"toString",(function(){return"[object Generator]"})),t.keys=function(t){var e=Object(t),n=[];for(var r in e)n.push(r);return n.reverse(),function t(){for(;n.length;){var r=n.pop();if(r in e)return t.value=r,t.done=!1,t}return t.done=!0,t}},t.values=T,S.prototype={constructor:S,reset:function(t){if(this.prev=0,this.next=0,this.sent=this._sent=void 0,this.done=!1,this.delegate=null,this.method="next",this.arg=void 0,this.tryEntries.forEach(E),!t)for(var e in this)"t"===e.charAt(0)&&n.call(this,e)&&!isNaN(+e.slice(1))&&(this[e]=void 0)},stop:function(){this.done=!0;var t=this.tryEntries[0].completion;if("throw"===t.type)throw t.arg;return this.rval},dispatchException:function(t){if(this.done)throw t;var e=this;function r(n,r){return i.type="throw",i.arg=t,e.next=n,r&&(e.method="next",e.arg=void 0),!!r}for(var o=this.tryEntries.length-1;o>=0;--o){var a=this.tryEntries[o],i=a.completion;if("root"===a.tryLoc)return r("end");if(a.tryLoc<=this.prev){var s=n.call(a,"catchLoc"),c=n.call(a,"finallyLoc");if(s&&c){if(this.prev<a.catchLoc)return r(a.catchLoc,!0);if(this.prev<a.finallyLoc)return r(a.finallyLoc)}else if(s){if(this.prev<a.catchLoc)return r(a.catchLoc,!0)}else{if(!c)throw new Error("try statement without catch or finally");if(this.prev<a.finallyLoc)return r(a.finallyLoc)}}}},abrupt:function(t,e){for(var r=this.tryEntries.length-1;r>=0;--r){var o=this.tryEntries[r];if(o.tryLoc<=this.prev&&n.call(o,"finallyLoc")&&this.prev<o.finallyLoc){var a=o;break}}a&&("break"===t||"continue"===t)&&a.tryLoc<=e&&e<=a.finallyLoc&&(a=null);var i=a?a.completion:{};return i.type=t,i.arg=e,a?(this.method="next",this.next=a.finallyLoc,g):this.complete(i)},complete:function(t,e){if("throw"===t.type)throw t.arg;return"break"===t.type||"continue"===t.type?this.next=t.arg:"return"===t.type?(this.rval=this.arg=t.arg,this.method="return",this.next="end"):"normal"===t.type&&e&&(this.next=e),g},finish:function(t){for(var e=this.tryEntries.length-1;e>=0;--e){var n=this.tryEntries[e];if(n.finallyLoc===t)return this.complete(n.completion,n.afterLoc),E(n),g}},catch:function(t){for(var e=this.tryEntries.length-1;e>=0;--e){var n=this.tryEntries[e];if(n.tryLoc===t){var r=n.completion;if("throw"===r.type){var o=r.arg;E(n)}return o}}throw new Error("illegal catch attempt")},delegateYield:function(t,e,n){return this.delegate={iterator:T(t),resultName:e,nextLoc:n},"next"===this.method&&(this.arg=void 0),g}},t}function a(t,e,n,r,o,a,i){try{var s=t[a](i),c=s.value}catch(t){return void n(t)}s.done?e(c):Promise.resolve(c).then(r,o)}function i(t){return function(){var e=this,n=arguments;return new Promise((function(r,o){var i=t.apply(e,n);function s(t){a(i,r,o,s,c,"next",t)}function c(t){a(i,r,o,s,c,"throw",t)}s(void 0)}))}}const s={name:"Messages",components:{BktCardImageCategory:n(1905).Z},data:function(){return{info_categories:[{id:1,code:"platform",title:"сообщения платформы",color:"green"},{id:2,code:"favourite",title:"избранное",color:"yellow"},{id:3,code:"monitoring",title:"мониторинг",color:"red"}],selectedType:"all",type_loading:!1,signal:null,controller:null}},created:function(){var t=1;sessionStorage.getItem("messages_page")&&(t=sessionStorage.getItem("messages_page")),this.getData(t)},computed:{items:function(){return this.$store.getters.notifications},pagination_data:function(){return this.$store.getters.notifications_pagination},loading:function(){return this.$store.getters.notifications_loading},notifications_count:function(){return this.$store.getters.notifications_count}},methods:{getData:function(){var t=arguments,e=this;return i(o().mark((function n(){var r,a;return o().wrap((function(n){for(;;)switch(n.prev=n.next){case 0:return r=t.length>0&&void 0!==t[0]?t[0]:1,e.controller=new AbortController,e.signal=e.controller.signal,a=e.selectedType,sessionStorage.getItem("messages_page_type")&&(a=sessionStorage.getItem("messages_page_type"))!=e.selectedType&&(e.selectedType=a),sessionStorage.setItem("messages_page",r+""),n.next=8,e.$store.dispatch("getNotifications",{page:r,type:a,signal:e.signal});case 8:case"end":return n.stop()}}),n)})))()},setType:function(t){var e=this;this.signal&&this.controller.abort(),this.type_loading=!0,this.selectedType=t,sessionStorage.setItem("messages_page_type",t),setTimeout((function(){e.getData(1).then((function(t){e.type_loading=!1})).catch((function(t){e.type_loading=!1}))}),50)},changePage:function(t){var e=this;this.signal&&this.controller.abort(),setTimeout((function(){e.getData(t).then((function(){var t=e.$refs.cardList;t&&requestAnimationFrame((function(){t.scrollIntoView({block:"start",scrollBehavior:"smooth"}),requestAnimationFrame((function(){t.scrollIntoView()}))}))}))}),50)},navigate:function(t){"monitoring"===t.type&&(sessionStorage.setItem("monitoring_path_id",t.dataMonitoring.folderInfo.pathId),sessionStorage.setItem("monitoring"+t.dataMonitoring.folderInfo.pathId+"_page","1"),this.$router.push("/monitoring")),"favourite"===t.type&&this.$router.push("/lot/"+t.dataFavourite.id)}}};const c=(0,n(51900).Z)(s,(function(){var t=this,e=t._self._c;return e("div",{staticClass:"bkt-messages bkt-page bkt-container"},[e("h1",{staticClass:"bkt-page__title"},[t._v("\n        Сообщения\n    ")]),t._v(" "),e("div",{staticClass:"bkt-content"},[e("div",{ref:"cardList",staticClass:"row"},[e("div",{staticClass:"col-12 col-lg-3"},[e("div",{staticClass:"bkt-history__chats"},[e("ul",{staticClass:"list-unstyled text-left pt-4 pb-4"},[e("li",{staticClass:"bkt-chat",class:{"bkt-bg-primary-lighter":"all"==t.selectedType},attrs:{id:"chat-1"},on:{click:function(e){return t.setType("all")}}},[t._v("\n                            Все\n                            "),e("div",{staticClass:"bkt-chat__num rounded-pill bkt-bg-primary bkt-text-neutral-light"},[t.notifications_count.all>0?e("span",{staticClass:"p-2"},[t._v("\n                                    "+t._s(t.notifications_count.all)+"\n                                ")]):t._e()])]),t._v(" "),e("li",{staticClass:"bkt-chat",class:{"bkt-bg-green-lighter":"platform"==t.selectedType},attrs:{id:"chat-2"},on:{click:function(e){return t.setType("platform")}}},[e("div",{staticClass:"bkt-chat__text"},[e("bkt-icon",{attrs:{name:"Bell",color:"green",width:"15px",height:"15px"}}),t._v("\n                                Сообщения платформы\n                            ")],1),t._v(" "),e("div",{staticClass:"bkt-chat__num rounded-pill bkt-bg-green bkt-text-neutral-light"},[t.notifications_count.platform>0?e("span",{staticClass:"p-2"},[t._v("\n                                    "+t._s(t.notifications_count.platform)+"\n                                ")]):t._e()])]),t._v(" "),e("li",{staticClass:"bkt-chat",class:{"bkt-bg-yellow-lighter":"favourite"==t.selectedType},attrs:{id:"chat-3"},on:{click:function(e){return t.setType("favourite")}}},[e("div",{staticClass:"bkt-chat__text"},[e("bkt-icon",{attrs:{name:"Star",color:"yellow",width:"15px",height:"15px"}}),t._v("\n                                Избранное\n                            ")],1),t._v(" "),e("div",{staticClass:"bkt-chat__num rounded-pill bkt-bg-yellow bkt-text-neutral-light"},[t.notifications_count.favourite>0?e("span",{staticClass:"p-2"},[t._v("\n                                    "+t._s(t.notifications_count.favourite)+"\n                                ")]):t._e()])]),t._v(" "),e("li",{staticClass:"bkt-chat",class:{"bkt-bg-red-lighter":"monitoring"==t.selectedType},attrs:{id:"chat-4"},on:{click:function(e){return t.setType("monitoring")}}},[e("div",{staticClass:"bkt-chat__text"},[e("bkt-icon",{attrs:{name:"Target",color:"red",width:"15px",height:"15px"}}),t._v("\n                                Мониторинг\n                            ")],1),t._v(" "),e("div",{staticClass:"rounded-pill bkt-bg-red bkt-text-neutral-light"},[t.notifications_count.monitoring>0?e("span",{staticClass:"p-2"},[t._v("\n                                    "+t._s(t.notifications_count.monitoring)+"\n                                ")]):t._e()])])])])]),t._v(" "),e("div",{staticClass:"col-12 col-lg-9 bkt-gap-row-medium"},[e("div",{staticClass:"bkt-wrapper-column bkt-gap-row-medium"},[e("div",{directives:[{name:"show",rawName:"v-show",value:!t.loading,expression:"!loading"}],staticClass:"bkt-wrapper-column bkt-gap-mini"},t._l(t.items,(function(n,r){return n?e("div",{key:r,staticClass:"bkt-message",class:{"bkt-cursor-pointer":"platform"!==n.type},on:{click:function(e){return t.navigate(n)}}},[e("bkt-icon",{staticClass:"bkt-message__check",attrs:{name:"Check",color:n.isSeen?"primary":"main-lighter",width:"15px",height:"15px"}}),t._v(" "),e("div",{staticClass:"d-md-none bkt-wrapper-between w-100"},[e("h6",{staticClass:"bkt-message__date"},[t._v("\n                                    "+t._s(t._f("moment")(n.date,"D MMMM YYYY"))+" в "+t._s(t._f("moment")(n.date,"HH:mm"))+"\n                                ")]),t._v(" "),e("div",{staticClass:"bkt-chat-content__info text-right"},[e("div",{staticClass:"bkt-message__type",class:{"bkt-bg-red-lighter bkt-text-red":"monitoring"==n.type,"bkt-bg-yellow-lighter bkt-text-yellow":"favourite"==n.type,"bkt-bg-green-lighter bkt-text-green":"platform"==n.type}},[t._v("\n                                        "+t._s("monitoring"==n.type?"мониторинг":"")+"\n                                        "+t._s("favourite"==n.type?"избранное":"")+"\n                                        "+t._s("platform"==n.type?"сообщения платформы":"")+"\n                                    ")])])]),t._v(" "),e("div",{staticClass:"bkt-wrapper-column bkt-message__content"},[e("div",{staticClass:"bkt-wrapper bkt-nowrap me-auto ms-0"},["favourite"==n.type?e("div",{staticClass:"bkt-message__image-wrapper"},[(!n.dataFavourite.photos||0==n.dataFavourite.photos.length)&&n.dataFavourite.categories&&n.dataFavourite.categories.length>0?e("bkt-card-image-category",{attrs:{no_multiple:!0,categories:n.dataFavourite.categories}}):t._e(),t._v(" "),n.dataFavourite.photos&&n.dataFavourite.photos.length>0?e("img",{staticClass:"bkt-message__image",attrs:{src:n.dataFavourite.photos[0].preview,alt:""}}):t._e()],1):t._e(),t._v(" "),e("div",{staticClass:"bkt-chat-content__text"},["monitoring"==n.type&&n.dataMonitoring?e("div",{staticClass:"bkt-badge mx-0 mb-2",class:n.dataMonitoring.folderInfo.color?"bkt-bg-"+n.dataMonitoring.folderInfo.color:"bkt-bg-primary"},[t._v("\n                                            "+t._s(n.dataMonitoring.folderInfo.name)+"\n                                        ")]):t._e(),t._v(" "),"monitoring"==n.type?e("h5",{staticClass:"bkt-message__text bkt-cursor-pointer"},[t._v("\n                                            Появились новые лоты в мониторинге:\n                                            "+t._s(n.dataMonitoring?n.dataMonitoring.newLotCount:"0")+"\n                                        ")]):t._e(),t._v(" "),"platform"==n.type&&n.dataPlatform?e("h6",{staticClass:"bkt-message__title"},[t._v("\n                                            "+t._s(n.dataPlatform.label)+"\n                                        ")]):t._e(),t._v(" "),"platform"==n.type?e("h5",{staticClass:"bkt-message__text"},[t._v("\n                                            "+t._s(n.dataPlatform?n.dataPlatform.value:"")+"\n                                        ")]):t._e(),t._v(" "),"favourite"==n.type&&n.dataFavourite?e("h6",{staticClass:"bkt-message__title bkt-card__title bkt-text-truncate bkt-arrow-after bkt-cursor-pointer"},[t._v("\n                                            "+t._s(n.dataFavourite.description)+"\n                                        ")]):t._e(),t._v(" "),"favourite"==n.type?e("h5",{staticClass:"bkt-message__text"},[t._v("\n                                            "+t._s(n.dataFavourite?n.dataFavourite.detail:"")+"\n                                        ")]):t._e()])]),t._v(" "),e("h6",{staticClass:"d-none d-md-block bkt-message__date"},[t._v("\n                                    "+t._s(t._f("moment")(n.date,"D MMMM YYYY"))+" в "+t._s(t._f("moment")(n.date,"HH:mm"))+"\n                                ")])]),t._v(" "),e("div",{staticClass:"bkt-message__type d-none d-md-block",class:{"bkt-bg-red-lighter bkt-text-red":"monitoring"==n.type,"bkt-bg-yellow-lighter bkt-text-yellow":"favourite"==n.type,"bkt-bg-green-lighter bkt-text-green":"platform"==n.type}},[t._v("\n                                "+t._s("monitoring"==n.type?"мониторинг":"")+"\n                                "+t._s("favourite"==n.type?"избранное":"")+"\n                                "+t._s("platform"==n.type?"сообщения платформы":"")+"\n                            ")])],1):t._e()})),0),t._v(" "),e("div",{directives:[{name:"show",rawName:"v-show",value:t.loading||t.type_loading,expression:"loading||type_loading"}],staticClass:"bkt-wrapper-column bkt-gap-mini"},t._l(20,(function(n,r){return e("div",{key:r,staticClass:"bkt-message"},[e("skeleton",{attrs:{width:"15px",height:"15px",skeleton_class:"bkt-message__check"}}),t._v(" "),e("div",{staticClass:"d-md-none bkt-wrapper-between w-100"},[e("skeleton",{attrs:{skeleton_class:"bkt-message__date mb-1",height:"12px"}}),t._v(" "),e("div",{staticClass:"bkt-chat-content__info text-right"},[e("skeleton",{attrs:{skeleton_class:"bkt-bkt-message__type",width:"92px"}})],1)],1),t._v(" "),e("div",{staticClass:"bkt-wrapper-column bkt-message__content"},[e("div",{staticClass:"bkt-wrapper bkt-nowrap me-auto ms-0"},[e("div",{staticClass:"bkt-message__image-wrapper"},[e("skeleton",{attrs:{skeleton_class:"bkt-message__image"}})],1),t._v(" "),e("div",{staticClass:"bkt-chat-content__text"},[e("skeleton",{attrs:{height:"14px",width:"150px",skeleton_class:"mb-1"}}),t._v(" "),e("skeleton",{attrs:{height:"12px",width:"60%"}})],1)]),t._v(" "),e("skeleton",{attrs:{height:"12px",skeleton_class:"d-none d-md-block bkt-message__date"}})],1),t._v(" "),e("skeleton",{attrs:{skeleton_class:"bkt-message__type d-none d-md-block",width:"92px"}})],1)})),0),t._v(" "),t.pagination_data&&!t.type_loading?e("bkt-pagination",{attrs:{limit:1,data:t.pagination_data,extraControls:!1},on:{"change-page":t.changePage}}):t._e()],1)])])])])}),[],!1,null,"8c0212ba",null).exports}}]);
+"use strict";
+(self["webpackChunk"] = self["webpackChunk"] || []).push([["messages"],{
+
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/pages/Messages.vue?vue&type=script&lang=js&":
+/*!**********************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/pages/Messages.vue?vue&type=script&lang=js& ***!
+  \**********************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _components_CardImageCategory__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../components/CardImageCategory */ "./resources/js/components/CardImageCategory.vue");
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
+function _regeneratorRuntime() { "use strict"; /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/facebook/regenerator/blob/main/LICENSE */ _regeneratorRuntime = function _regeneratorRuntime() { return exports; }; var exports = {}, Op = Object.prototype, hasOwn = Op.hasOwnProperty, defineProperty = Object.defineProperty || function (obj, key, desc) { obj[key] = desc.value; }, $Symbol = "function" == typeof Symbol ? Symbol : {}, iteratorSymbol = $Symbol.iterator || "@@iterator", asyncIteratorSymbol = $Symbol.asyncIterator || "@@asyncIterator", toStringTagSymbol = $Symbol.toStringTag || "@@toStringTag"; function define(obj, key, value) { return Object.defineProperty(obj, key, { value: value, enumerable: !0, configurable: !0, writable: !0 }), obj[key]; } try { define({}, ""); } catch (err) { define = function define(obj, key, value) { return obj[key] = value; }; } function wrap(innerFn, outerFn, self, tryLocsList) { var protoGenerator = outerFn && outerFn.prototype instanceof Generator ? outerFn : Generator, generator = Object.create(protoGenerator.prototype), context = new Context(tryLocsList || []); return defineProperty(generator, "_invoke", { value: makeInvokeMethod(innerFn, self, context) }), generator; } function tryCatch(fn, obj, arg) { try { return { type: "normal", arg: fn.call(obj, arg) }; } catch (err) { return { type: "throw", arg: err }; } } exports.wrap = wrap; var ContinueSentinel = {}; function Generator() {} function GeneratorFunction() {} function GeneratorFunctionPrototype() {} var IteratorPrototype = {}; define(IteratorPrototype, iteratorSymbol, function () { return this; }); var getProto = Object.getPrototypeOf, NativeIteratorPrototype = getProto && getProto(getProto(values([]))); NativeIteratorPrototype && NativeIteratorPrototype !== Op && hasOwn.call(NativeIteratorPrototype, iteratorSymbol) && (IteratorPrototype = NativeIteratorPrototype); var Gp = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(IteratorPrototype); function defineIteratorMethods(prototype) { ["next", "throw", "return"].forEach(function (method) { define(prototype, method, function (arg) { return this._invoke(method, arg); }); }); } function AsyncIterator(generator, PromiseImpl) { function invoke(method, arg, resolve, reject) { var record = tryCatch(generator[method], generator, arg); if ("throw" !== record.type) { var result = record.arg, value = result.value; return value && "object" == _typeof(value) && hasOwn.call(value, "__await") ? PromiseImpl.resolve(value.__await).then(function (value) { invoke("next", value, resolve, reject); }, function (err) { invoke("throw", err, resolve, reject); }) : PromiseImpl.resolve(value).then(function (unwrapped) { result.value = unwrapped, resolve(result); }, function (error) { return invoke("throw", error, resolve, reject); }); } reject(record.arg); } var previousPromise; defineProperty(this, "_invoke", { value: function value(method, arg) { function callInvokeWithMethodAndArg() { return new PromiseImpl(function (resolve, reject) { invoke(method, arg, resolve, reject); }); } return previousPromise = previousPromise ? previousPromise.then(callInvokeWithMethodAndArg, callInvokeWithMethodAndArg) : callInvokeWithMethodAndArg(); } }); } function makeInvokeMethod(innerFn, self, context) { var state = "suspendedStart"; return function (method, arg) { if ("executing" === state) throw new Error("Generator is already running"); if ("completed" === state) { if ("throw" === method) throw arg; return doneResult(); } for (context.method = method, context.arg = arg;;) { var delegate = context.delegate; if (delegate) { var delegateResult = maybeInvokeDelegate(delegate, context); if (delegateResult) { if (delegateResult === ContinueSentinel) continue; return delegateResult; } } if ("next" === context.method) context.sent = context._sent = context.arg;else if ("throw" === context.method) { if ("suspendedStart" === state) throw state = "completed", context.arg; context.dispatchException(context.arg); } else "return" === context.method && context.abrupt("return", context.arg); state = "executing"; var record = tryCatch(innerFn, self, context); if ("normal" === record.type) { if (state = context.done ? "completed" : "suspendedYield", record.arg === ContinueSentinel) continue; return { value: record.arg, done: context.done }; } "throw" === record.type && (state = "completed", context.method = "throw", context.arg = record.arg); } }; } function maybeInvokeDelegate(delegate, context) { var methodName = context.method, method = delegate.iterator[methodName]; if (undefined === method) return context.delegate = null, "throw" === methodName && delegate.iterator["return"] && (context.method = "return", context.arg = undefined, maybeInvokeDelegate(delegate, context), "throw" === context.method) || "return" !== methodName && (context.method = "throw", context.arg = new TypeError("The iterator does not provide a '" + methodName + "' method")), ContinueSentinel; var record = tryCatch(method, delegate.iterator, context.arg); if ("throw" === record.type) return context.method = "throw", context.arg = record.arg, context.delegate = null, ContinueSentinel; var info = record.arg; return info ? info.done ? (context[delegate.resultName] = info.value, context.next = delegate.nextLoc, "return" !== context.method && (context.method = "next", context.arg = undefined), context.delegate = null, ContinueSentinel) : info : (context.method = "throw", context.arg = new TypeError("iterator result is not an object"), context.delegate = null, ContinueSentinel); } function pushTryEntry(locs) { var entry = { tryLoc: locs[0] }; 1 in locs && (entry.catchLoc = locs[1]), 2 in locs && (entry.finallyLoc = locs[2], entry.afterLoc = locs[3]), this.tryEntries.push(entry); } function resetTryEntry(entry) { var record = entry.completion || {}; record.type = "normal", delete record.arg, entry.completion = record; } function Context(tryLocsList) { this.tryEntries = [{ tryLoc: "root" }], tryLocsList.forEach(pushTryEntry, this), this.reset(!0); } function values(iterable) { if (iterable) { var iteratorMethod = iterable[iteratorSymbol]; if (iteratorMethod) return iteratorMethod.call(iterable); if ("function" == typeof iterable.next) return iterable; if (!isNaN(iterable.length)) { var i = -1, next = function next() { for (; ++i < iterable.length;) if (hasOwn.call(iterable, i)) return next.value = iterable[i], next.done = !1, next; return next.value = undefined, next.done = !0, next; }; return next.next = next; } } return { next: doneResult }; } function doneResult() { return { value: undefined, done: !0 }; } return GeneratorFunction.prototype = GeneratorFunctionPrototype, defineProperty(Gp, "constructor", { value: GeneratorFunctionPrototype, configurable: !0 }), defineProperty(GeneratorFunctionPrototype, "constructor", { value: GeneratorFunction, configurable: !0 }), GeneratorFunction.displayName = define(GeneratorFunctionPrototype, toStringTagSymbol, "GeneratorFunction"), exports.isGeneratorFunction = function (genFun) { var ctor = "function" == typeof genFun && genFun.constructor; return !!ctor && (ctor === GeneratorFunction || "GeneratorFunction" === (ctor.displayName || ctor.name)); }, exports.mark = function (genFun) { return Object.setPrototypeOf ? Object.setPrototypeOf(genFun, GeneratorFunctionPrototype) : (genFun.__proto__ = GeneratorFunctionPrototype, define(genFun, toStringTagSymbol, "GeneratorFunction")), genFun.prototype = Object.create(Gp), genFun; }, exports.awrap = function (arg) { return { __await: arg }; }, defineIteratorMethods(AsyncIterator.prototype), define(AsyncIterator.prototype, asyncIteratorSymbol, function () { return this; }), exports.AsyncIterator = AsyncIterator, exports.async = function (innerFn, outerFn, self, tryLocsList, PromiseImpl) { void 0 === PromiseImpl && (PromiseImpl = Promise); var iter = new AsyncIterator(wrap(innerFn, outerFn, self, tryLocsList), PromiseImpl); return exports.isGeneratorFunction(outerFn) ? iter : iter.next().then(function (result) { return result.done ? result.value : iter.next(); }); }, defineIteratorMethods(Gp), define(Gp, toStringTagSymbol, "Generator"), define(Gp, iteratorSymbol, function () { return this; }), define(Gp, "toString", function () { return "[object Generator]"; }), exports.keys = function (val) { var object = Object(val), keys = []; for (var key in object) keys.push(key); return keys.reverse(), function next() { for (; keys.length;) { var key = keys.pop(); if (key in object) return next.value = key, next.done = !1, next; } return next.done = !0, next; }; }, exports.values = values, Context.prototype = { constructor: Context, reset: function reset(skipTempReset) { if (this.prev = 0, this.next = 0, this.sent = this._sent = undefined, this.done = !1, this.delegate = null, this.method = "next", this.arg = undefined, this.tryEntries.forEach(resetTryEntry), !skipTempReset) for (var name in this) "t" === name.charAt(0) && hasOwn.call(this, name) && !isNaN(+name.slice(1)) && (this[name] = undefined); }, stop: function stop() { this.done = !0; var rootRecord = this.tryEntries[0].completion; if ("throw" === rootRecord.type) throw rootRecord.arg; return this.rval; }, dispatchException: function dispatchException(exception) { if (this.done) throw exception; var context = this; function handle(loc, caught) { return record.type = "throw", record.arg = exception, context.next = loc, caught && (context.method = "next", context.arg = undefined), !!caught; } for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i], record = entry.completion; if ("root" === entry.tryLoc) return handle("end"); if (entry.tryLoc <= this.prev) { var hasCatch = hasOwn.call(entry, "catchLoc"), hasFinally = hasOwn.call(entry, "finallyLoc"); if (hasCatch && hasFinally) { if (this.prev < entry.catchLoc) return handle(entry.catchLoc, !0); if (this.prev < entry.finallyLoc) return handle(entry.finallyLoc); } else if (hasCatch) { if (this.prev < entry.catchLoc) return handle(entry.catchLoc, !0); } else { if (!hasFinally) throw new Error("try statement without catch or finally"); if (this.prev < entry.finallyLoc) return handle(entry.finallyLoc); } } } }, abrupt: function abrupt(type, arg) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.tryLoc <= this.prev && hasOwn.call(entry, "finallyLoc") && this.prev < entry.finallyLoc) { var finallyEntry = entry; break; } } finallyEntry && ("break" === type || "continue" === type) && finallyEntry.tryLoc <= arg && arg <= finallyEntry.finallyLoc && (finallyEntry = null); var record = finallyEntry ? finallyEntry.completion : {}; return record.type = type, record.arg = arg, finallyEntry ? (this.method = "next", this.next = finallyEntry.finallyLoc, ContinueSentinel) : this.complete(record); }, complete: function complete(record, afterLoc) { if ("throw" === record.type) throw record.arg; return "break" === record.type || "continue" === record.type ? this.next = record.arg : "return" === record.type ? (this.rval = this.arg = record.arg, this.method = "return", this.next = "end") : "normal" === record.type && afterLoc && (this.next = afterLoc), ContinueSentinel; }, finish: function finish(finallyLoc) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.finallyLoc === finallyLoc) return this.complete(entry.completion, entry.afterLoc), resetTryEntry(entry), ContinueSentinel; } }, "catch": function _catch(tryLoc) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.tryLoc === tryLoc) { var record = entry.completion; if ("throw" === record.type) { var thrown = record.arg; resetTryEntry(entry); } return thrown; } } throw new Error("illegal catch attempt"); }, delegateYield: function delegateYield(iterable, resultName, nextLoc) { return this.delegate = { iterator: values(iterable), resultName: resultName, nextLoc: nextLoc }, "next" === this.method && (this.arg = undefined), ContinueSentinel; } }, exports; }
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  name: "Messages",
+  components: {
+    BktCardImageCategory: _components_CardImageCategory__WEBPACK_IMPORTED_MODULE_0__["default"]
+  },
+  data: function data() {
+    return {
+      info_categories: [{
+        id: 1,
+        code: 'platform',
+        title: 'сообщения платформы',
+        color: 'green'
+      }, {
+        id: 2,
+        code: 'favourite',
+        title: 'избранное',
+        color: 'yellow'
+      }, {
+        id: 3,
+        code: 'monitoring',
+        title: 'мониторинг',
+        color: 'red'
+      }],
+      selectedType: 'all',
+      type_loading: false,
+      signal: null,
+      controller: null
+    };
+  },
+  created: function created() {
+    var page = 1;
+    if (sessionStorage.getItem('messages_page')) {
+      page = sessionStorage.getItem('messages_page');
+    }
+    this.getData(page);
+  },
+  computed: {
+    items: function items() {
+      return this.$store.getters.notifications;
+    },
+    pagination_data: function pagination_data() {
+      return this.$store.getters.notifications_pagination;
+    },
+    loading: function loading() {
+      return this.$store.getters.notifications_loading;
+    },
+    notifications_count: function notifications_count() {
+      return this.$store.getters.notifications_count;
+    }
+  },
+  methods: {
+    getData: function getData() {
+      var _arguments = arguments,
+        _this = this;
+      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
+        var page, type;
+        return _regeneratorRuntime().wrap(function _callee$(_context) {
+          while (1) switch (_context.prev = _context.next) {
+            case 0:
+              page = _arguments.length > 0 && _arguments[0] !== undefined ? _arguments[0] : 1;
+              _this.controller = new AbortController();
+              _this.signal = _this.controller.signal;
+              type = _this.selectedType;
+              if (sessionStorage.getItem('messages_page_type')) {
+                type = sessionStorage.getItem('messages_page_type');
+                if (type != _this.selectedType) {
+                  _this.selectedType = type;
+                }
+              }
+              sessionStorage.setItem('messages_page', page + '');
+              _context.next = 8;
+              return _this.$store.dispatch('getNotifications', {
+                page: page,
+                type: type,
+                signal: _this.signal
+              });
+            case 8:
+            case "end":
+              return _context.stop();
+          }
+        }, _callee);
+      }))();
+    },
+    setType: function setType(type) {
+      var _this2 = this;
+      // if (!this.loading) {
+      if (this.signal) {
+        this.controller.abort();
+      }
+      this.type_loading = true;
+      this.selectedType = type;
+      sessionStorage.setItem('messages_page_type', type);
+      setTimeout(function () {
+        _this2.getData(1).then(function (resp) {
+          _this2.type_loading = false;
+        })["catch"](function (resp) {
+          _this2.type_loading = false;
+        });
+      }, 50);
+      // }
+    },
+    changePage: function changePage(page) {
+      var _this3 = this;
+      if (this.signal) {
+        this.controller.abort();
+      }
+      setTimeout(function () {
+        _this3.getData(page).then(function () {
+          var el = _this3.$refs.cardList;
+          if (el) {
+            requestAnimationFrame(function () {
+              el.scrollIntoView({
+                block: 'start',
+                scrollBehavior: 'smooth'
+              });
+              requestAnimationFrame(function () {
+                el.scrollIntoView();
+              });
+            });
+          }
+        });
+      }, 50);
+    },
+    navigate: function navigate(message) {
+      if (message.type === 'monitoring') {
+        sessionStorage.setItem('monitoring_path_id', message.dataMonitoring.folderInfo.pathId);
+        sessionStorage.setItem('monitoring' + message.dataMonitoring.folderInfo.pathId + '_page', '1');
+        this.$router.push('/monitoring');
+      }
+      if (message.type === 'favourite') {
+        this.$router.push('/lot/' + message.dataFavourite.id);
+      }
+      // this.$router.push(path);
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/pages/Messages.vue?vue&type=template&id=8c0212ba&scoped=true&":
+/*!*********************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/pages/Messages.vue?vue&type=template&id=8c0212ba&scoped=true& ***!
+  \*********************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* binding */ render),
+/* harmony export */   "staticRenderFns": () => (/* binding */ staticRenderFns)
+/* harmony export */ });
+var render = function render() {
+  var _vm = this,
+    _c = _vm._self._c;
+  return _c('div', {
+    staticClass: "bkt-messages bkt-page bkt-container"
+  }, [_c('h1', {
+    staticClass: "bkt-page__title"
+  }, [_vm._v("\n        Сообщения\n    ")]), _vm._v(" "), _c('div', {
+    staticClass: "bkt-content"
+  }, [_c('div', {
+    ref: "cardList",
+    staticClass: "row"
+  }, [_c('div', {
+    staticClass: "col-12 col-lg-3"
+  }, [_c('div', {
+    staticClass: "bkt-history__chats"
+  }, [_c('ul', {
+    staticClass: "list-unstyled text-left pt-4 pb-4"
+  }, [_c('li', {
+    staticClass: "bkt-chat",
+    "class": {
+      'bkt-bg-primary-lighter': _vm.selectedType == 'all'
+    },
+    attrs: {
+      "id": "chat-1"
+    },
+    on: {
+      "click": function click($event) {
+        return _vm.setType('all');
+      }
+    }
+  }, [_vm._v("\n                            Все\n                            "), _c('div', {
+    staticClass: "bkt-chat__num rounded-pill bkt-bg-primary bkt-text-neutral-light"
+  }, [_vm.notifications_count.all > 0 ? _c('span', {
+    staticClass: "p-2"
+  }, [_vm._v("\n                                    " + _vm._s(_vm.notifications_count.all) + "\n                                ")]) : _vm._e()])]), _vm._v(" "), _c('li', {
+    staticClass: "bkt-chat",
+    "class": {
+      'bkt-bg-green-lighter': _vm.selectedType == 'platform'
+    },
+    attrs: {
+      "id": "chat-2"
+    },
+    on: {
+      "click": function click($event) {
+        return _vm.setType('platform');
+      }
+    }
+  }, [_c('div', {
+    staticClass: "bkt-chat__text"
+  }, [_c('bkt-icon', {
+    attrs: {
+      "name": 'Bell',
+      "color": 'green',
+      "width": "15px",
+      "height": "15px"
+    }
+  }), _vm._v("\n                                Сообщения платформы\n                            ")], 1), _vm._v(" "), _c('div', {
+    staticClass: "bkt-chat__num rounded-pill bkt-bg-green bkt-text-neutral-light"
+  }, [_vm.notifications_count.platform > 0 ? _c('span', {
+    staticClass: "p-2"
+  }, [_vm._v("\n                                    " + _vm._s(_vm.notifications_count.platform) + "\n                                ")]) : _vm._e()])]), _vm._v(" "), _c('li', {
+    staticClass: "bkt-chat",
+    "class": {
+      'bkt-bg-yellow-lighter': _vm.selectedType == 'favourite'
+    },
+    attrs: {
+      "id": "chat-3"
+    },
+    on: {
+      "click": function click($event) {
+        return _vm.setType('favourite');
+      }
+    }
+  }, [_c('div', {
+    staticClass: "bkt-chat__text"
+  }, [_c('bkt-icon', {
+    attrs: {
+      "name": 'Star',
+      "color": 'yellow',
+      "width": "15px",
+      "height": "15px"
+    }
+  }), _vm._v("\n                                Избранное\n                            ")], 1), _vm._v(" "), _c('div', {
+    staticClass: "bkt-chat__num rounded-pill bkt-bg-yellow bkt-text-neutral-light"
+  }, [_vm.notifications_count.favourite > 0 ? _c('span', {
+    staticClass: "p-2"
+  }, [_vm._v("\n                                    " + _vm._s(_vm.notifications_count.favourite) + "\n                                ")]) : _vm._e()])]), _vm._v(" "), _c('li', {
+    staticClass: "bkt-chat",
+    "class": {
+      'bkt-bg-red-lighter': _vm.selectedType == 'monitoring'
+    },
+    attrs: {
+      "id": "chat-4"
+    },
+    on: {
+      "click": function click($event) {
+        return _vm.setType('monitoring');
+      }
+    }
+  }, [_c('div', {
+    staticClass: "bkt-chat__text"
+  }, [_c('bkt-icon', {
+    attrs: {
+      "name": 'Target',
+      "color": 'red',
+      "width": "15px",
+      "height": "15px"
+    }
+  }), _vm._v("\n                                Мониторинг\n                            ")], 1), _vm._v(" "), _c('div', {
+    staticClass: "rounded-pill bkt-bg-red bkt-text-neutral-light"
+  }, [_vm.notifications_count.monitoring > 0 ? _c('span', {
+    staticClass: "p-2"
+  }, [_vm._v("\n                                    " + _vm._s(_vm.notifications_count.monitoring) + "\n                                ")]) : _vm._e()])])])])]), _vm._v(" "), _c('div', {
+    staticClass: "col-12 col-lg-9 bkt-gap-row-medium"
+  }, [_c('div', {
+    staticClass: "bkt-wrapper-column bkt-gap-row-medium"
+  }, [_c('div', {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: !_vm.loading,
+      expression: "!loading"
+    }],
+    staticClass: "bkt-wrapper-column bkt-gap-mini"
+  }, _vm._l(_vm.items, function (message, index) {
+    return message ? _c('div', {
+      key: index,
+      staticClass: "bkt-message",
+      "class": {
+        'bkt-cursor-pointer': message.type !== 'platform'
+      },
+      on: {
+        "click": function click($event) {
+          return _vm.navigate(message);
+        }
+      }
+    }, [_c('bkt-icon', {
+      staticClass: "bkt-message__check",
+      attrs: {
+        "name": 'Check',
+        "color": message.isSeen ? 'primary' : 'main-lighter',
+        "width": "15px",
+        "height": "15px"
+      }
+    }), _vm._v(" "), _c('div', {
+      staticClass: "d-md-none bkt-wrapper-between w-100"
+    }, [_c('h6', {
+      staticClass: "bkt-message__date"
+    }, [_vm._v("\n                                    " + _vm._s(_vm._f("moment")(message.date, 'D MMMM YYYY')) + " в " + _vm._s(_vm._f("moment")(message.date, 'HH:mm')) + "\n                                ")]), _vm._v(" "), _c('div', {
+      staticClass: "bkt-chat-content__info text-right"
+    }, [_c('div', {
+      staticClass: "bkt-message__type",
+      "class": {
+        'bkt-bg-red-lighter bkt-text-red': message.type == 'monitoring',
+        'bkt-bg-yellow-lighter bkt-text-yellow': message.type == 'favourite',
+        'bkt-bg-green-lighter bkt-text-green': message.type == 'platform'
+      }
+    }, [_vm._v("\n                                        " + _vm._s(message.type == 'monitoring' ? 'мониторинг' : '') + "\n                                        " + _vm._s(message.type == 'favourite' ? 'избранное' : '') + "\n                                        " + _vm._s(message.type == 'platform' ? 'сообщения платформы' : '') + "\n                                    ")])])]), _vm._v(" "), _c('div', {
+      staticClass: "bkt-wrapper-column bkt-message__content"
+    }, [_c('div', {
+      staticClass: "bkt-wrapper bkt-nowrap me-auto ms-0"
+    }, [message.type == 'favourite' ? _c('div', {
+      staticClass: "bkt-message__image-wrapper"
+    }, [(!message.dataFavourite.photos || message.dataFavourite.photos.length == 0) && message.dataFavourite.categories && message.dataFavourite.categories.length > 0 ? _c('bkt-card-image-category', {
+      attrs: {
+        "no_multiple": true,
+        "categories": message.dataFavourite.categories
+      }
+    }) : _vm._e(), _vm._v(" "), message.dataFavourite.photos && message.dataFavourite.photos.length > 0 ? _c('img', {
+      staticClass: "bkt-message__image",
+      attrs: {
+        "src": message.dataFavourite.photos[0].preview,
+        "alt": ""
+      }
+    }) : _vm._e()], 1) : _vm._e(), _vm._v(" "), _c('div', {
+      staticClass: "bkt-chat-content__text"
+    }, [message.type == 'monitoring' && message.dataMonitoring ? _c('div', {
+      staticClass: "bkt-badge mx-0 mb-2",
+      "class": message.dataMonitoring.folderInfo.color ? 'bkt-bg-' + message.dataMonitoring.folderInfo.color : 'bkt-bg-primary'
+    }, [_vm._v("\n                                            " + _vm._s(message.dataMonitoring.folderInfo.name) + "\n                                        ")]) : _vm._e(), _vm._v(" "), message.type == 'monitoring' ? _c('h5', {
+      staticClass: "bkt-message__text bkt-cursor-pointer"
+    }, [_vm._v("\n                                            Появились новые лоты в мониторинге:\n                                            " + _vm._s(message.dataMonitoring ? message.dataMonitoring.newLotCount : '0') + "\n                                        ")]) : _vm._e(), _vm._v(" "), message.type == 'platform' && message.dataPlatform ? _c('h6', {
+      staticClass: "bkt-message__title"
+    }, [_vm._v("\n                                            " + _vm._s(message.dataPlatform.label) + "\n                                        ")]) : _vm._e(), _vm._v(" "), message.type == 'platform' ? _c('h5', {
+      staticClass: "bkt-message__text"
+    }, [_vm._v("\n                                            " + _vm._s(message.dataPlatform ? message.dataPlatform.value : '') + "\n                                        ")]) : _vm._e(), _vm._v(" "), message.type == 'favourite' && message.dataFavourite ? _c('h6', {
+      staticClass: "bkt-message__title bkt-card__title bkt-text-truncate bkt-arrow-after bkt-cursor-pointer"
+    }, [_vm._v("\n                                            " + _vm._s(message.dataFavourite.description) + "\n                                        ")]) : _vm._e(), _vm._v(" "), message.type == 'favourite' ? _c('h5', {
+      staticClass: "bkt-message__text"
+    }, [_vm._v("\n                                            " + _vm._s(message.dataFavourite ? message.dataFavourite.detail : '') + "\n                                        ")]) : _vm._e()])]), _vm._v(" "), _c('h6', {
+      staticClass: "d-none d-md-block bkt-message__date"
+    }, [_vm._v("\n                                    " + _vm._s(_vm._f("moment")(message.date, 'D MMMM YYYY')) + " в " + _vm._s(_vm._f("moment")(message.date, 'HH:mm')) + "\n                                ")])]), _vm._v(" "), _c('div', {
+      staticClass: "bkt-message__type d-none d-md-block",
+      "class": {
+        'bkt-bg-red-lighter bkt-text-red': message.type == 'monitoring',
+        'bkt-bg-yellow-lighter bkt-text-yellow': message.type == 'favourite',
+        'bkt-bg-green-lighter bkt-text-green': message.type == 'platform'
+      }
+    }, [_vm._v("\n                                " + _vm._s(message.type == 'monitoring' ? 'мониторинг' : '') + "\n                                " + _vm._s(message.type == 'favourite' ? 'избранное' : '') + "\n                                " + _vm._s(message.type == 'platform' ? 'сообщения платформы' : '') + "\n                            ")])], 1) : _vm._e();
+  }), 0), _vm._v(" "), _c('div', {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: _vm.loading || _vm.type_loading,
+      expression: "loading||type_loading"
+    }],
+    staticClass: "bkt-wrapper-column bkt-gap-mini"
+  }, _vm._l(20, function (message, index) {
+    return _c('div', {
+      key: index,
+      staticClass: "bkt-message"
+    }, [_c('skeleton', {
+      attrs: {
+        "width": "15px",
+        "height": "15px",
+        "skeleton_class": "bkt-message__check"
+      }
+    }), _vm._v(" "), _c('div', {
+      staticClass: "d-md-none bkt-wrapper-between w-100"
+    }, [_c('skeleton', {
+      attrs: {
+        "skeleton_class": "bkt-message__date mb-1",
+        "height": "12px"
+      }
+    }), _vm._v(" "), _c('div', {
+      staticClass: "bkt-chat-content__info text-right"
+    }, [_c('skeleton', {
+      attrs: {
+        "skeleton_class": "bkt-bkt-message__type",
+        "width": "92px"
+      }
+    })], 1)], 1), _vm._v(" "), _c('div', {
+      staticClass: "bkt-wrapper-column bkt-message__content"
+    }, [_c('div', {
+      staticClass: "bkt-wrapper bkt-nowrap me-auto ms-0"
+    }, [_c('div', {
+      staticClass: "bkt-message__image-wrapper"
+    }, [_c('skeleton', {
+      attrs: {
+        "skeleton_class": "bkt-message__image"
+      }
+    })], 1), _vm._v(" "), _c('div', {
+      staticClass: "bkt-chat-content__text"
+    }, [_c('skeleton', {
+      attrs: {
+        "height": "14px",
+        "width": "150px",
+        "skeleton_class": "mb-1"
+      }
+    }), _vm._v(" "), _c('skeleton', {
+      attrs: {
+        "height": "12px",
+        "width": "60%"
+      }
+    })], 1)]), _vm._v(" "), _c('skeleton', {
+      attrs: {
+        "height": "12px",
+        "skeleton_class": "d-none d-md-block bkt-message__date"
+      }
+    })], 1), _vm._v(" "), _c('skeleton', {
+      attrs: {
+        "skeleton_class": "bkt-message__type d-none d-md-block",
+        "width": "92px"
+      }
+    })], 1);
+  }), 0), _vm._v(" "), _vm.pagination_data && !_vm.type_loading ? _c('bkt-pagination', {
+    attrs: {
+      "limit": 1,
+      "data": _vm.pagination_data,
+      "extraControls": false
+    },
+    on: {
+      "change-page": _vm.changePage
+    }
+  }) : _vm._e()], 1)])])])]);
+};
+var staticRenderFns = [];
+
+
+/***/ }),
+
+/***/ "./resources/js/pages/Messages.vue":
+/*!*****************************************!*\
+  !*** ./resources/js/pages/Messages.vue ***!
+  \*****************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _Messages_vue_vue_type_template_id_8c0212ba_scoped_true___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Messages.vue?vue&type=template&id=8c0212ba&scoped=true& */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/pages/Messages.vue?vue&type=template&id=8c0212ba&scoped=true&");
+/* harmony import */ var _Messages_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Messages.vue?vue&type=script&lang=js& */ "./resources/js/pages/Messages.vue?vue&type=script&lang=js&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+;
+var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_1__["default"])(
+  _Messages_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"],
+  _Messages_vue_vue_type_template_id_8c0212ba_scoped_true___WEBPACK_IMPORTED_MODULE_2__.render,
+  _Messages_vue_vue_type_template_id_8c0212ba_scoped_true___WEBPACK_IMPORTED_MODULE_2__.staticRenderFns,
+  false,
+  null,
+  "8c0212ba",
+  null
+  
+)
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/pages/Messages.vue?vue&type=script&lang=js&":
+/*!******************************************************************!*\
+  !*** ./resources/js/pages/Messages.vue?vue&type=script&lang=js& ***!
+  \******************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Messages_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./Messages.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/pages/Messages.vue?vue&type=script&lang=js&");
+ /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Messages_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ })
+
+}]);
 //# sourceMappingURL=messages.js.map
