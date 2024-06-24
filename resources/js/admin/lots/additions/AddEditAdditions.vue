@@ -1,6 +1,6 @@
 <template>
     <fragment>
-        <div class="content-header">
+        <div class="content-header" v-if="!simple">
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
@@ -28,17 +28,20 @@
                     <div class="col-md-12">
                         <div class="card card-primary">
                             <div class="card-body">
-                                <div class="form-group" v-if="isEdit">
-                                    <label>Ссылка на лот</label>
-                                    <a :href="'/admin/lots/'+ item.lotId" target="_blank"
-                                       style="color: #007bff; text-decoration: none; background-color: transparent;">
-                                        Перейти к лоту
-                                    </a>
-                                </div>
-                                <div class="form-group" v-else>
-                                    <label>Выберите лот (для поиска введите номер торга или часть описания лота)</label>
-                                    <admin-select :options="lots" @search="getLots" v-model="item.lotId" @selected="setLot"></admin-select>
-                                </div>
+                                <template v-if="!simple">
+                                    <div class="form-group" v-if="isEdit">
+                                        <label>Ссылка на лот</label>
+                                        <a :href="'/admin/lots/'+ item.lotId" target="_blank"
+                                           style="color: #007bff; text-decoration: none; background-color: transparent;">
+                                            Перейти к лоту
+                                        </a>
+                                    </div>
+                                    <div class="form-group" v-else>
+                                        <label>Выберите лот (для поиска введите номер торга или часть описания лота)</label>
+                                        <admin-select :options="lots" @search="getLots" v-model="item.lotId" @selected="setLot"></admin-select>
+                                    </div>
+                                </template>
+
                                 <div class="form-group">
                                     <label>Текст сообщения</label>
                                    <!--- <vue-editor v-model="item.message"
@@ -74,10 +77,17 @@
                                     >
                                     </admin-switch>
                                 </div>
-                                <button type="submit" class="btn btn-success float-right"
-                                        @click="isEdit ? updateData(item) : addData(item)">
-                                    Сохранить
-                                </button>
+                                <div class="bkt-wrapper bkt-gap-small justify-content-end">
+                                    <button type="submit" class="btn btn-success float-right"
+                                            @click="isEdit ? updateData(item) : addData(item)">
+                                        Сохранить
+                                    </button>
+                                    <button type="submit" class="btn btn-default float-right" v-if="simple"
+                                            @click="$emit('cancel')">
+                                        Отмена
+                                    </button>
+                                </div>
+
                             </div>
                             <!-- /.card-body -->
                         </div>
@@ -101,6 +111,16 @@ import Textarea from "../../../components/Textarea";
 export default {
     name: "AddEditAdditions",
     components: {Textarea, AdminSelect, VueEditor, FilesTable, AdminSwitch},
+    props: {
+        simple: {
+            type: Boolean,
+            default: false
+        },
+        answer_id: {
+            type: Number,
+            default: null
+        }
+    },
     data() {
         return {
            /* customToolbar: [
@@ -137,7 +157,7 @@ export default {
         }
     },
     async created() {
-        this.$store.commit('setCurrentRoute', this.$route.path.replace(/(\/*$)/, ""))
+        this.$store.commit('setCurrentRoute', this.simple ? '/admin/additions/'+this.answer_id : this.$route.path.replace(/(\/*$)/, ""))
         this.$store.commit('setItem',
             {message: '', files: [], images: [], isModerated: false, lotId: null}
         )

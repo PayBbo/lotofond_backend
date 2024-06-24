@@ -9,6 +9,7 @@ use App\Models\Note;
 use App\Models\PriceReduction;
 use Carbon\Carbon;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\URL;
 
 class LotResource extends JsonResource
@@ -166,7 +167,7 @@ class LotResource extends JsonResource
                 $lotData['note'] = $this->getNote();
                 $lotData['marks'] = $this->userMarks->makeHidden(['pivot']);
                 $additionalInfo = $this->additionalLotInfo;
-                if ($this->contentSettings->isAvailable('showOrganizerAnswer') && $additionalInfo && $additionalInfo->is_moderated) {
+                if ($this->contentSettings->isAvailable('showOrganizerAnswer') && $additionalInfo && ($additionalInfo->is_moderated || Auth::user()->hasRole('admin') )) {
                     $imagesDB = $additionalInfo->files()->where(['type' => 'image', 'lot_id' => $this->id])->get();
                     $images = [];
                     foreach ($imagesDB as $image) {
@@ -178,6 +179,7 @@ class LotResource extends JsonResource
                         ];
                     }
                     $lotData['organizerAnswer'] = [
+                        'id' => $additionalInfo->id,
                         'message' => $additionalInfo->message,
                         'files' => $additionalInfo->files()->where(['type' => 'file', 'lot_id' => $this->id])->pluck('url')->toArray(),
                         'images' => $images,

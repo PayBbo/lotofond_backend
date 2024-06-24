@@ -28,6 +28,9 @@ export default {
             state.isAdmin = data.status
             state.permissions = data.permissions
         },
+        setPermissions(state, data) {
+            state.permissions = data
+        },
         setTrialPeriod(state, value) {
             state.trialPeriod = value
         }

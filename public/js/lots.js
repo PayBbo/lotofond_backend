@@ -112,8 +112,8 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
   data: function data() {
     return {
       columns: {
-        columns_title: ['ID', 'Описание', 'Начальная цена', 'Статус', 'Номер торгов', 'Тип торгов', 'Дата публикации', 'Действия'],
-        columns_sort: ['id', 'description', 'start_price', 'status_value', 'trade_number', 'trade_type', 'publish_date', null]
+        columns_title: ['ID', 'Описание', 'Начальная цена', 'Статус', 'Номер торгов', 'Тип торгов', 'Ответ', 'Дата публикации', 'Действия'],
+        columns_sort: ['id', 'description', 'start_price', 'status_value', 'trade_number', 'trade_type', 'additional_lot_info_is_moderated', 'publish_date', null]
       },
       param: ''
     };
@@ -260,9 +260,9 @@ var staticRenderFns = [];
 
 /***/ }),
 
-/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/admin/lots/Lots.vue?vue&type=template&id=749a860b&scoped=true&":
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/admin/lots/Lots.vue?vue&type=template&id=5dbbe034&scoped=true&":
 /*!**********************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/admin/lots/Lots.vue?vue&type=template&id=749a860b&scoped=true& ***!
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/admin/lots/Lots.vue?vue&type=template&id=5dbbe034&scoped=true& ***!
   \**********************************************************************************************************************************************************************************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
@@ -339,7 +339,27 @@ var render = function render() {
               "text-overflow": "ellipsis",
               "white-space": "nowrap"
             }
-          }, [_vm._v("\n                " + _vm._s(lot.description) + "\n            ")]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm._f("priceFormat")(lot.startPrice)) + " ₽")]), _vm._v(" "), _c('td', [_vm._v(_vm._s(lot.status))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(lot.tradeNumber))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.$t('trades.type.' + lot.tradeType)))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(lot.publishDate))]), _vm._v(" "), _c('td', [_c('router-link', {
+          }, [_vm._v("\n                " + _vm._s(lot.description) + "\n            ")]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm._f("priceFormat")(lot.startPrice)) + " ₽")]), _vm._v(" "), _c('td', [_vm._v(_vm._s(lot.status))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(lot.tradeNumber))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.$t('trades.type.' + lot.tradeType)))]), _vm._v(" "), _c('td', [lot.additionalLotInfoId ? _c('a', {
+            staticClass: "d-flex justify-content-center",
+            attrs: {
+              "href": '/admin/additions/' + lot.additionalLotInfoId,
+              "target": "_blank"
+            }
+          }, [_c('span', {
+            staticClass: "bkt-cursor-pointer",
+            "class": {
+              'bkt-bg-green': lot.additionalLotInfoIsModerated == true,
+              'bkt-bg-red': lot.additionalLotInfoIsModerated === false
+            },
+            staticStyle: {
+              "width": "20px",
+              "height": "20px",
+              "border-radius": "50%"
+            },
+            attrs: {
+              "title": lot.additionalLotInfoIsModerated === true ? 'Проверен' : 'Непроверен'
+            }
+          })]) : _vm._e()]), _vm._v(" "), _c('td', [_vm._v(_vm._s(lot.publishDate))]), _vm._v(" "), _c('td', [_c('router-link', {
             directives: [{
               name: "can",
               rawName: "v-can",
@@ -607,7 +627,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _Lots_vue_vue_type_template_id_749a860b_scoped_true___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Lots.vue?vue&type=template&id=749a860b&scoped=true& */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/admin/lots/Lots.vue?vue&type=template&id=749a860b&scoped=true&");
+/* harmony import */ var _Lots_vue_vue_type_template_id_5dbbe034_scoped_true___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Lots.vue?vue&type=template&id=5dbbe034&scoped=true& */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/admin/lots/Lots.vue?vue&type=template&id=5dbbe034&scoped=true&");
 /* harmony import */ var _Lots_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Lots.vue?vue&type=script&lang=js& */ "./resources/js/admin/lots/Lots.vue?vue&type=script&lang=js&");
 /* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
@@ -619,11 +639,11 @@ __webpack_require__.r(__webpack_exports__);
 ;
 var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_1__["default"])(
   _Lots_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"],
-  _Lots_vue_vue_type_template_id_749a860b_scoped_true___WEBPACK_IMPORTED_MODULE_2__.render,
-  _Lots_vue_vue_type_template_id_749a860b_scoped_true___WEBPACK_IMPORTED_MODULE_2__.staticRenderFns,
+  _Lots_vue_vue_type_template_id_5dbbe034_scoped_true___WEBPACK_IMPORTED_MODULE_2__.render,
+  _Lots_vue_vue_type_template_id_5dbbe034_scoped_true___WEBPACK_IMPORTED_MODULE_2__.staticRenderFns,
   false,
   null,
-  "749a860b",
+  "5dbbe034",
   null
   
 )

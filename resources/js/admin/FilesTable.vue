@@ -3,9 +3,10 @@
         <label>Прикрепленные {{ isImages ? 'изображения' : 'файлы' }}</label>
         <input ref="fileSelect" type="file" style="display: none" @change="uploadFile()"
                :accept="isImages ? '.jpg, .jpeg, .png .bmp' : '.*'">
-        <button type="button" class="btn btn-outline-primary"
+        <button type="button" class="btn btn-outline-primary bkt-button-icon primary-outline bkt-hover-primary"
                 @click.prevent="selectFile()">
-            <i class="fas fa-plus"></i>
+            <bkt-icon name="Plus" color="primary" :width="'16px'" :height="'16px'"/>
+<!--            <i class="fas fa-plus"></i>-->
         </button>
         <div class="table-responsive max-h-350px">
             <table class="table table-hover table-head-fixed text-nowrap mb-0">
@@ -22,13 +23,13 @@
                     <td>
                         <a v-if="!isImages" type="button" class="btn btn-secondary" :href="file.url"
                            target="_blank">
-                            <i class="fas fa-download"></i>
+                            <bkt-icon name="Download"  color="primary"/>
                         </a>
                         <img v-else :src="file.url[0]" width="50%" alt="image"/>
                     </td>
                     <td>
                         <button v-can="'additions-delete'" class="btn btn-danger" @click="deleteFile(file.id)">
-                            <i class="fas fa-trash-alt"> </i>
+                            <bkt-icon name="Trash" color="white" :width="'22px'" :height="'22px'"/>
                         </button>
                     </td>
                 </tr>

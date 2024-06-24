@@ -23,6 +23,7 @@ class AdditionsResource extends JsonResource
             'isModerated'=>$this->is_moderated,
             'date'=>Carbon::parse($this->created_at)->format('d.m.Y'),
             'lotId'=>$this->lot_id,
+            'tradeId'=>$this->trade_id,
             $this->mergeWhen(\Request::route()->getName() == 'edit.addition', [
                 'files'=>$this->files()->where('type', 'file')->select('id', 'url')->get(),
                 'images'=>$this->files()->where('type', 'image')->select('id', 'url')->get()

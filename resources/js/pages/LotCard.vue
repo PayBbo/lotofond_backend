@@ -672,12 +672,12 @@
                                 <div class="bkt-wrapper bkt-nowrap m-0">
                                     <div class="bkt-card__category bkt-bg-primary-lighter">
                                         <bkt-icon :name="'Pencil'" :color="'primary'"
-                                                  class="bkt-card__category-icon"></bkt-icon>
+                                                  class="bkt-card__category-icon"/>
                                     </div>
                                     <h5 class="bkt-note__title">Заметка по лоту (видите только вы)</h5>
                                 </div>
                                 <button class="bkt-button-icon primary" v-if="!item.note" @click="callNoteModal">
-                                    <bkt-icon :name="'Plus'" class="bkt-button__icon"></bkt-icon>
+                                    <bkt-icon :name="'Plus'" class="bkt-button__icon"/>
                                 </button>
                             </div>
                             <div class="bkt-note__wrapper bkt-wrapper-down-sm-column" v-if="item.note">
@@ -686,7 +686,7 @@
                                     <div class="bkt-note__date-wrapper">
                                         <div class="bkt-card__category bkt-bg-blue-lighter">
                                             <bkt-icon :name="'Date'" :width="'16px'"
-                                                      :height="'16px'" :color="'blue'"></bkt-icon>
+                                                      :height="'16px'" :color="'blue'"/>
                                         </div>
                                         <h5 class="bkt-note__date">
                                             {{item.note.date | moment('D MMMM YYYY')}}
@@ -1265,46 +1265,7 @@
                         </div>
                     </div>
                     <div class="col-12 col-lg-12 order-3 px-lg-0" v-if="item && item.organizerAnswer">
-                        <div class="bkt-card bkt-card__body bkt-lot__card">
-                            <div class="bkt-card__header bkt-wrapper-between pb-0">
-                                <h3 class="bkt-card__title">Ответ организатора</h3>
-                                <h3 class="bkt-card__subtitle bkt-text-neutral">
-                                    {{item.organizerAnswer.publishDate | moment('DD.MM.YYYY')}}
-                                </h3>
-                            </div>
-                            <div class="bkt-form w-100">
-                                <div class="col-5" v-if="item.organizerAnswer.images.length>0
-                                        && ((rules && rules.showOrganizerAnswer) || !rules)">
-                                    <hooper :itemsToShow="1" :centerMode="true" class="bkt-card__image-slider">
-                                        <slide v-for="(img, index) in item.organizerAnswer.images" :key="img.id">
-                                            <img v-lazy="img.preview" class="bkt-card__image" @click="image_index = index"/>
-                                        </slide>
-                                        <hooper-navigation slot="hooper-addons"></hooper-navigation>
-                                    </hooper>
-                                </div>
-                                <div :class="[item.organizerAnswer.images.length>0 ? 'col': 'col-12']">
-                                    <skeleton type_name="spoiler" :loading="rules && !rules.showOrganizerAnswer">
-                                        {{item.organizerAnswer.message}}
-                                    </skeleton>
-                                </div>
-                                <template v-if="item.organizerAnswer.files.length>0 && ((rules && rules.showOrganizerAnswer) || !rules)">
-                                    <div class="col-12 col-md-6" v-for="file in organizer_answer_files">
-                                        <div class="row bkt-row outline align-items-start bkt-nowrap h-100">
-                                            <div class="col p-0" style="max-width: 28px;">
-                                                <bkt-icon name="Note" color="red" width="16px" height="16px"
-                                                          class="d-flex"></bkt-icon>
-                                            </div>
-                                            <div class="col">
-                                                <a :href="file.url" target="_blank" class="h-100">
-                                                    <h6>{{file.title}}</h6>
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </template>
-
-                            </div>
-                        </div>
+                        <bkt-organizer-answer :answer="item.organizerAnswer" @changeImageIndex="changeImageIndex"/>
                     </div>
                     <template v-if="item.trade.debtor">
                         <div class="col-12 col-lg-12 order-3 px-lg-0">
@@ -1615,13 +1576,12 @@
                                                 <button class="bkt-button-icon red-outline"
                                                         @click="deleteLotImage(item.id)"
                                                 >
-                                                    <bkt-icon name="Trash"></bkt-icon>
+                                                    <bkt-icon name="Trash"/>
                                                 </button>
                                                 <!--                                             v-can="'additions-delete'"-->
                                                 <a class="bkt-button-icon primary-outline d-flex flex-shrink-0"
                                                    :href="item.main" target="_blank">
-                                                    <bkt-icon name="Download" color="primary" height="16px"
-                                                              width="16px"></bkt-icon>
+                                                    <bkt-icon name="Download" color="primary" height="16px" width="16px"/>
                                                 </a>
                                             </div>
                                         </td>
@@ -1724,6 +1684,7 @@
     import BktCardPriceInfo from "../components/CardPriceInfo";
     import BktTable from "../components/Table";
     import BktEditContactModal from "./Profile/EditContactModal";
+    import BktOrganizerAnswer from "./LotCard/OrganizerAnswer";
 
     export default {
         name: "LotCard",
@@ -1743,7 +1704,8 @@
             // 'bkt-add-mark-modal': AddMarkModal,
             'bkt-note-modal': NoteModal,
             BktApplicationModal, BktPurchaseModal, BktInstructionModal,
-            BktObjectsList, BktCardPriceInfo, BktTable, BktEditContactModal
+            BktObjectsList, BktCardPriceInfo, BktTable, BktEditContactModal,
+            BktOrganizerAnswer
         },
         data() {
             return {
@@ -1921,15 +1883,6 @@
                                 this.getDebtorCompletedLots();
                                 if (this.item.trade && this.item.trade.lotCount > 1) {
                                     this.getRelatedLots();
-                                }
-                                if(this.item.organizerAnswer && this.item.organizerAnswer.files.length>0) {
-                                    this.organizer_answer_files = [];
-                                    this.item.organizerAnswer.files.forEach(item => {
-                                        let str = item;
-                                        let n = item.lastIndexOf('/');
-                                        let result = str.substring(n + 1);
-                                        this.organizer_answer_files.push({title: result, url: item})
-                                    })
                                 }
                             }
                         })
@@ -2320,6 +2273,9 @@
                 this.$scrollTo('#collapse' + method, 300);
                 this['get' + method](page);
             },
+            changeImageIndex(index) {
+                this.image_index = index;
+            }
         }
     }
 </script>

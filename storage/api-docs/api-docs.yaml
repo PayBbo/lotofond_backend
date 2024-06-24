@@ -4095,6 +4095,7 @@ paths:
               - about
               - contacts
               - buyBlock
+              - buyLotBlock
       tags:
         - TextData
       summary: получение данных для страниц помощи, контакты, о приложении и тд

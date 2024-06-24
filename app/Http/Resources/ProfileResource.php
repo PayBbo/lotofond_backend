@@ -75,6 +75,7 @@ class ProfileResource extends JsonResource
                 'tariff' => null
             ]),
             'contentDisplayRules'=>$contentDisplayRules,
+            'permissions' => $this->getAllPermissions()->pluck('name')->toArray(),
             'isAdmin'=>$this->hasRole('admin')
         ];
     }

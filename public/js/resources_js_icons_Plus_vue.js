@@ -30,9 +30,9 @@
 
 /***/ }),
 
-/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/icons/Plus.vue?vue&type=template&id=064d467d&scoped=true&":
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/icons/Plus.vue?vue&type=template&id=bbf3c7bc&scoped=true&":
 /*!*****************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/icons/Plus.vue?vue&type=template&id=064d467d&scoped=true& ***!
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/icons/Plus.vue?vue&type=template&id=bbf3c7bc&scoped=true& ***!
   \*****************************************************************************************************************************************************************************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
@@ -44,7 +44,7 @@ var render = function render() {
   var _vm = this,
     _c = _vm._self._c;
   return _c('svg', {
-    "class": 'bkt-fill-' + _vm.color,
+    "class": 'bkt-fill bkt-fill-' + _vm.color,
     attrs: {
       "xmlns": "http://www.w3.org/2000/svg",
       "viewBox": "0 0 298.6 298.8",
@@ -73,7 +73,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _Plus_vue_vue_type_template_id_064d467d_scoped_true___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Plus.vue?vue&type=template&id=064d467d&scoped=true& */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/icons/Plus.vue?vue&type=template&id=064d467d&scoped=true&");
+/* harmony import */ var _Plus_vue_vue_type_template_id_bbf3c7bc_scoped_true___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Plus.vue?vue&type=template&id=bbf3c7bc&scoped=true& */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/icons/Plus.vue?vue&type=template&id=bbf3c7bc&scoped=true&");
 /* harmony import */ var _Plus_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Plus.vue?vue&type=script&lang=js& */ "./resources/js/icons/Plus.vue?vue&type=script&lang=js&");
 /* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
@@ -85,11 +85,11 @@ __webpack_require__.r(__webpack_exports__);
 ;
 var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_1__["default"])(
   _Plus_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"],
-  _Plus_vue_vue_type_template_id_064d467d_scoped_true___WEBPACK_IMPORTED_MODULE_2__.render,
-  _Plus_vue_vue_type_template_id_064d467d_scoped_true___WEBPACK_IMPORTED_MODULE_2__.staticRenderFns,
+  _Plus_vue_vue_type_template_id_bbf3c7bc_scoped_true___WEBPACK_IMPORTED_MODULE_2__.render,
+  _Plus_vue_vue_type_template_id_bbf3c7bc_scoped_true___WEBPACK_IMPORTED_MODULE_2__.staticRenderFns,
   false,
   null,
-  "064d467d",
+  "bbf3c7bc",
   null
   
 )

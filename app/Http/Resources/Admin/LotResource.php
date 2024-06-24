@@ -19,12 +19,16 @@ class LotResource extends JsonResource
     {
         $lotData = [
             'id' => $this->id,
-            'tradeNumber' => $this->auction->trade_id,
-            'tradeType' => $this->auction->auctionType->title,
+            'additionalLotInfoIsModerated' => is_null($this->additional_lot_info_is_moderated) ? null : !!$this->additional_lot_info_is_moderated,
+            'additionalLotInfoId' => $this->additional_lot_info_id,
+            'tradeNumber' => isset($this->auction) ? $this->auction->trade_id : $this->trade_number,
+            'tradeType' => isset($this->auction) ? $this->auction->auctionType->title : $this->trade_type,
             'description' => $this->description,
             'startPrice' => $this->start_price,
-            'status' => $this->status->value,
-            'publishDate'=>is_null($this->auction->publish_date) ? null : $this->auction->publish_date->format('d.m.Y H:i')
+            'status' => isset($this->status) ? $this->status->value : $this->status_value,
+            'publishDate'=> isset($this->auction)
+                ? (is_null($this->auction->publish_date) ? null : $this->auction->publish_date->format('d.m.Y H:i'))
+                : $this->publish_date
         ];
         if($this->isLotInfo){
             $regions = $this->showRegions;

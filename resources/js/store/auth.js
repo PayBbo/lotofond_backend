@@ -212,6 +212,7 @@ export default {
             commit('logout');
             commit('setHasNotSeenNotifications', false);
             commit('setAuthUserLoading', false);
+            commit('setPermissions', [])
             dispatch('getRules');
             if(payload) {
                 commit('setTrades', {data: [], pagination: {}});
@@ -232,6 +233,9 @@ export default {
                 commit('setAuthUser', resp.data);
                 dispatch('checkNotifications')
                 commit('setAuthUserLoading', false);
+                if( resp.data.permissions) {
+                    commit('setPermissions', resp.data.permissions)
+                }
             }).catch(error => {
                 console.log(error);
                 dispatch('logout');
