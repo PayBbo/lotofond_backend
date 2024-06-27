@@ -81,16 +81,16 @@ class MonitoringNotificationJob implements ShouldQueue
                     $notification->notificationLots()->attach($lot);
                     $monitoring->lots()->wherePivot('created_at', '>', $startDate)->updateExistingPivot($lot, array('has_notification' => 1), false);
                 }
-                /*$title = $notification->monitoring->title;
+                $title = $notification->monitoring->title;
                 $subtitle = 'Новые лоты в мониторинге';
                 $value = __('messages.' . $notification->message, ['value' => $notification->value]);
-               $push = new PushNotificationService($title, $value, $notification->user_id, $notification->type->title);
+                $push = new PushNotificationService($title, $value, $notification->user_id, $notification->type->title);
                 $push->sendPushNotification();
                 $user = User::find($notification->user_id);
                 if (!is_null($user->email) && $user->not_to_email) {
                     $sendNotification = new SendCodeService();
-                    $sendNotification->sendEmailNotification($user->email, $title.'. '.$subtitle, $value, $notification);
-                }*/
+                    $sendNotification->sendEmailNotification($user->email, $title . '. ' . $subtitle, $value, $notification);
+                }
             }
         }
     }

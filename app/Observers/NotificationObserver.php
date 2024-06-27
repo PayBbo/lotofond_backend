@@ -17,18 +17,17 @@ class NotificationObserver
      */
     public function created(Notification $notification)
     {
-        //if( $notification->type->title == 'favourite' ||  $notification->type->title == 'platform') {
-            logger('NEW NOTIFICATION TYPE '.$notification->type->title . ' ID = '.$notification->id);
+        if( $notification->type->title == 'favourite' ||  $notification->type->title == 'platform') {
             try {
                 if ($notification->type->title == 'favourite') {
                     $title = $notification->lot->favourite->title;
                     $value = __('messages.' . $notification->message, ['value' => $notification->value]);
                     $subtitle = 'Изменение лота';
-                } elseif ($notification->type->title == 'monitoring') {
+                } /*elseif ($notification->type->title == 'monitoring') {
                     $title = $notification->monitoring->title;
                     $value = __('messages.' . $notification->message, ['value' => $notification->value]);
                     $subtitle = 'Новые лоты в мониторинге';
-                } else {
+                } */ else {
                     if (is_null($notification->application_id)) {
                         $title = is_null($notification->title) ? 'Новое оповещение' : __('messages.' . $notification->label);
                         $subtitle = '';
@@ -52,7 +51,7 @@ class NotificationObserver
                 logger('SEND NOTIFICATION ERROR');
                 logger($exception);
             }
-       // }
+        }
     }
 
     /**

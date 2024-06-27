@@ -6,6 +6,7 @@ use App\Http\Services\Parse\GetTradeMessageContent;
 use App\Http\Services\Parse\PriceFormatterService;
 use App\Http\Services\Parse\SoapWrapperService;
 use App\Http\Services\PushNotificationService;
+use App\Http\Services\SendCodeService;
 use App\Jobs\AdditionalLotInfoParseJob;
 use App\Jobs\DeleteOldFilesJob;
 use App\Jobs\FixLotRegionJob;
@@ -21,6 +22,7 @@ use App\Models\LotFile;
 use App\Models\Monitoring;
 use App\Models\Notification;
 use App\Models\Region;
+use App\Models\User;
 use Artisaninweb\SoapWrapper\SoapWrapper;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
@@ -73,8 +75,8 @@ class TestCommand extends Command
 
         /*$startDate = Carbon::parse('2023-10-16 13:00');
         $endDate = Carbon::parse('2023-10-24 00:00');*/
-        /*$startDate = Carbon::parse('2024-02-09 14:00');
-        $endDate = Carbon::parse('2024-02-17 16:45');
+        /*$startDate = Carbon::parse('2024-05-27 19:00');
+        $endDate = Carbon::parse('2024-05-27 21:00');
         while ($startDate < $endDate) {
             $startFrom = $startDate->format('Y-m-d\TH:i:s');
             $startDate->addMinutes(15);
@@ -166,7 +168,6 @@ class TestCommand extends Command
 
         /*$pushService = new PushNotificationService("test", "test", 43, "platform");
         $pushService->sendPushNotification();*/
-
     }
 
 }
