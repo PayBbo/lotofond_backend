@@ -46,7 +46,7 @@ mix.js('resources/js/app.js', 'public/js')
         })
     ]
 })
-    .sourceMaps().minify(['public/css/app.css', 'public/js/app.js'])
+    .sourceMaps().minify(['public/css/app.css', 'public/js/app.js']).version();
     // .postCss('resources/css/app.css', 'public/css', [
     //     //
     // ]);

@@ -8,7 +8,7 @@ use App\Http\Requests\ContactsRequest;
 use App\Http\Requests\PurchaseRequest;
 use App\Http\Requests\QuestionRequest;
 use App\Http\Requests\ReceiptRequest;
-use App\Http\Resources\Admin\ApplicationCollection;
+use App\Http\Resources\OrderCollection;
 use App\Http\Services\PaymentService;
 use App\Http\Services\SendCodeService;
 use App\Models\Application;
@@ -125,9 +125,12 @@ class ApplicationController extends Controller
         ]);
         $application = new Application();
         $application->user_id = auth()->id();
-        $application->lot_id = $request->lotId;
-        $lotDesc = mb_strimwidth(Lot::find($request->lotId)['description'], 0, 100, "...");
-        $description = $service->description .' для лота - '.$lotDesc;
+        $description = $service->description;
+        if(isset($request->lotId)) {
+            $application->lot_id = $request->lotId;
+            $lotDesc = mb_strimwidth(Lot::find($request->lotId)['description'], 0, 100, "...");
+            $description .=' для лота - '.$lotDesc;
+        }
         $customer = null;
         if (isset($request->email)) {
             $application->email = $request->email;
@@ -177,10 +180,9 @@ class ApplicationController extends Controller
                     $query->orderBy($sortParam, $sortDirection);
                 })
                 ->paginate(20);
-            return response(new ApplicationCollection($applications), 200);
-//            return response()->json(['data' => $applications], 500);
+            return response(new OrderCollection($applications), 200);
         }
-       catch (\Exception $e) {
+        catch (\Exception $e) {
            return response()->json(['message' => $e->getMessage()], 500);
        }
     }

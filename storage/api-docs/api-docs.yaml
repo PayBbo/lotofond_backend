@@ -6311,14 +6311,37 @@ components:
           type: string
         lotUrl:
           type: string
+        lotId:
+          type: integer
         paymentId:
           type: integer
         tariffId:
           type: integer
         dateForAnswer:
           type: string
+        createdAt:
+          type: timestamp
         publishDate:
           type: string
+        publishDateIso:
+          type: string
+        lot:
+          type: object
+          description: присутствует в данных, если заявка была по лоту
+          properties:
+            photos:
+              $ref: "#/components/schemas/Images"
+            description:
+              type: string
+            favouritePaths:
+              type: array
+              items:
+                $ref: "#/components/schemas/PathFavourite"
+            lotId:
+              type: integer
+              description: айдишник лота
+            categories:
+              $ref: '#/components/schemas/Categories'
   securitySchemes:
     bearerAuth:
       type: http

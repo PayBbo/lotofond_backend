@@ -4,6 +4,7 @@ namespace App\Http\Resources\Admin;
 
 use Carbon\Carbon;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 
 class AdditionsResource extends JsonResource
@@ -25,8 +26,12 @@ class AdditionsResource extends JsonResource
             'lotId'=>$this->lot_id,
             'tradeId'=>$this->trade_id,
             $this->mergeWhen(\Request::route()->getName() == 'edit.addition', [
-                'files'=>$this->files()->where('type', 'file')->select('id', 'url')->get(),
-                'images'=>$this->files()->where('type', 'image')->select('id', 'url')->get()
+                'files'=>$this->files()->where('type', 'file')->where('additional_lot_info_id' , $this->id)
+                    ->select('id', 'url', DB::raw("SUBSTRING_INDEX(LEFT(url, char_length(url) - 1),'/',-1) as name"))
+                    ->get(),
+                'images'=>$this->files()->where('type', 'image')->where('additional_lot_info_id' , $this->id)
+                    ->select('id', 'url', DB::raw("SUBSTRING_INDEX(LEFT(url, char_length(url) - 2),'/',-1) as name"))
+                    ->get()
             ])
 
         ];

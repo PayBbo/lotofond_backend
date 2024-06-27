@@ -42,8 +42,11 @@
                 <td>
                     <a :href="'/admin/lots/'+ item.lotId" target="_blank"
                        style="color: #007bff; text-decoration: none; background-color: transparent;">
-                        Перейти к лоту
+                        {{item.lotId}}
                     </a>
+                </td>
+                <td>
+                    {{item.tradeId}}
                 </td>
                 <td>
                     <router-link v-can="'additions-edit'" :to="'/admin/additions/'+item.id"
@@ -74,8 +77,8 @@ export default {
     data() {
         return {
             columns: {
-                columns_title: ['ID', 'Ответ', 'Количество файлов', 'Проверен?', 'Дата', 'Лот', 'Действия'],
-                columns_sort: ['id', 'message', 'files_count', 'is_moderated', 'created_at', 'lot_id', null]
+                columns_title: ['ID', 'Ответ', 'Количество файлов', 'Проверен?', 'Дата', 'Лот', 'Номер торгов', 'Действия'],
+                columns_sort: ['id', 'message', 'files_count', 'is_moderated', 'created_at', 'lot_id', 'trade_id', null]
             },
             param: {'isModerated': false, 'date': null}
         }

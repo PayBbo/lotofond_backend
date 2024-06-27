@@ -24,7 +24,7 @@ class ReceiptRequest extends FormRequest
     public function rules()
     {
         return [
-            'lotId'=>['required', 'integer', 'exists:lots,id'],
+            'lotId'=>['sometimes', 'integer', 'exists:lots,id'],
             'email'=>['required', 'email'],
             'cadastralNumber'=>['required', 'string'],
             'answerFormat'=>['sometimes', 'in:pdf,html,zip']

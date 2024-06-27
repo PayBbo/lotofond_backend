@@ -6,7 +6,9 @@
 
 // Variables
 @import 'variables';
+@import 'functions';
 @import 'mixins';
+
 
 //Base
 @import "./base/text.scss";
@@ -18,6 +20,7 @@
 @import "./base/gap.scss";
 @import "./base/width.scss";
 @import './base/container';
+@import './base/display';
 
 // Components
 @import './components/skeleton.scss';

@@ -1,0 +1,30 @@
+@each $breakpoint in map-keys($breakpoints) {
+    @include media-breakpoint-up($breakpoint) {
+        $infix: infix($breakpoint, $breakpoints);
+        #{'.'+$namespace} {
+            &-d#{$infix}-none         { display: none !important; }
+            &-d#{$infix}-inline       { display: inline !important; }
+            &-d#{$infix}-inline-block { display: inline-block !important; }
+            &-d#{$infix}-block        { display: block !important; }
+            &-d#{$infix}-table        { display: table !important; }
+            &-d#{$infix}-table-row    { display: table-row !important; }
+            &-d#{$infix}-table-cell   { display: table-cell !important; }
+            &-d#{$infix}-flex         { display: flex !important; }
+            &-d#{$infix}-inline-flex  { display: inline-flex !important; }
+        }
+    }
+}
+
+@include up_all() using ($key, $value) {
+    #{'.'+$namespace} {
+        &-d#{$key}-none         { display: none !important; }
+        &-d#{$key}-inline       { display: inline !important; }
+        &-d#{$key}-inline-block { display: inline-block !important; }
+        &-d#{$key}-block        { display: block !important; }
+        &-d#{$key}-table        { display: table !important; }
+        &-d#{$key}-table-row    { display: table-row !important; }
+        &-d#{$key}-table-cell   { display: table-cell !important; }
+        &-d#{$key}-flex         { display: flex !important; }
+        &-d#{$key}-inline-flex  { display: inline-flex !important; }
+    }
+}

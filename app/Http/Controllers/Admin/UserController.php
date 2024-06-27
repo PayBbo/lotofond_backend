@@ -52,10 +52,18 @@ class UserController extends Controller
                         ->orWhere('surname', 'LIKE', '%' . $searchString . '%');
 
                 })
-                ->leftJoin('payments', 'payments.user_id', '=', 'users.id')
+                ->leftJoin('payments', function($join)
+                {
+                    $join->on('users.id', '=', 'payments.user_id')
+                        ->where('payments.tariff_id', '!=', null)
+                        ->where('payments.is_confirmed', true)
+                        ->where('payments.status', 'Settled')
+                        ->where('payments.finished_at', '>=', Carbon::now()->setTimezone('Europe/Moscow'));
+                })
                 ->when(isset($sortParam) && isset($sortDirection), function ($query) use ($sortParam, $sortDirection) {
                     $query->orderBy($sortParam, $sortDirection);
-                })->paginate(20);
+                })
+                ->paginate(20);
             return response(new UserCollection($users), 200);
         }
         catch (\Exception $e) {

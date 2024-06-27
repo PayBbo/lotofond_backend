@@ -37,6 +37,7 @@
                             style="width: 20px; height: 20px; border-radius: 50%"
                         />
                     </a>
+                    {{lot.additionalLotInfoIsModerated === null ? 'Нет' : ''}}
                 </td>
                 <td>{{ lot.publishDate }}</td>
                 <td>

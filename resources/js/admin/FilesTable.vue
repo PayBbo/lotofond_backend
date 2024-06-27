@@ -12,14 +12,16 @@
             <table class="table table-hover table-head-fixed text-nowrap mb-0">
                 <thead>
                 <tr>
-                    <th style="width: 10%">№</th>
+                    <th style="width: 5%">№</th>
+                    <th style="width: 25%">Наименование</th>
                     <th style="width: 60%">{{ isImages ? 'Изображение' : 'Ссылка на файл' }}</th>
-                    <th style="width: 30%"></th>
+                    <th style="width: 10%"></th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr v-for="(file, index) in files">
                     <td>{{ index + 1 }}</td>
+                    <td>{{ file.name ? file.name : ''}}</td>
                     <td>
                         <a v-if="!isImages" type="button" class="btn btn-secondary" :href="file.url"
                            target="_blank">

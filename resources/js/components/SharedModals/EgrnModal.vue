@@ -48,6 +48,18 @@
                     <hr class="d-lg-none w-100 m-0">
                     <h3 class="bkt-purchase__service__price">{{filtered_service.price | priceFormat}} ₽</h3>
                 </div>
+                <bkt-input v-if="!selected_lot"
+                    v-model="service.cadastralNumber"
+                    :name="'cadastral'"
+                    type="text"
+                    label="Кадастровый номер <span class='bkt-text-red'>*</span>"
+                    label_class="bkt-form__label"
+                    field_name="Кадастровый номер"
+                    :rules="'required'"
+                    icon_name="Home"
+                    icon_color="primary"
+                    :disabled="loading"
+                />
                 <bkt-input
                     v-model="service.email"
                     :name="'egrn_email'"
@@ -89,7 +101,7 @@
                 loading: false,
                 service: {
                     email: '',
-                    lotId: 0,
+                    // lotId: null,
                     cadastralNumber: '',
                     answerFormat: "pdf"
                 },
@@ -97,7 +109,7 @@
         },
         computed: {
             selected_lot() {
-                return this.$store.getters.selected_lot;
+                return this.$store.getters.selected_item;
             },
             user() {
                 return this.$store.getters.auth_user
@@ -144,14 +156,21 @@
             buy() {
                 this.loading = true;
                 let data = JSON.parse(JSON.stringify(this.service));
-                data.lotId = this.selected_lot.id;
-                data.cadastralNumber = this.selected_lot.cadastralData.cadastralNumber;
+                if(this.selected_lot) {
+                    data.lotId = this.selected_lot.id;
+                    data.cadastralNumber = this.selected_lot.cadastralData.cadastralNumber;
+                }
+
                 axios.post('/api/send/receipt/egrn', data)
                     .then(resp => {
                         this.loading = false;
                         // this.$store.dispatch('sendNotification',
                         //     {self: this, message: 'Инструкция успешно преобретена'});
-                        this.service.lotId = 0;
+                        this.service = {
+                            email: '',
+                            cadastralNumber: '',
+                            answerFormat: "pdf"
+                        };
                         this.$store.commit('closeModal', '#egrnModal');
                         window.location.replace(resp.data.redirectUrl)
                     })

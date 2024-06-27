@@ -27,12 +27,12 @@ class ApplicationRequest extends FormRequest
         return [
             'email'=>['required', 'email'],
             'phone'=>['required', new Phone],
-            'lotId'=>['sometimes', 'required', 'integer', 'exists:lots,id'],
+            'lotId'=>['sometimes', 'integer', 'exists:lots,id'],
             'name'=>['sometimes', 'required', 'string'],
             'socialsForAnswer'=>['required', 'array'],
             'socialsForAnswer.*'=>['required', 'string'],
-            'paymentTradingTypes'=>['required', 'array'],
-            'paymentTradingTypes.*' => ['required', 'string', 'in:purchaseBidByAgent,infoAboutLot,consultation,accompanimentFAS']
+            'paymentTradingTypes'=>['array'],
+            'paymentTradingTypes.*' => ['required_unless:paymentTradingTypes,null', 'string', 'in:purchaseBidByAgent,infoAboutLot,consultation,accompanimentFAS']
         ];
     }
 }

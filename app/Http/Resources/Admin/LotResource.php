@@ -5,6 +5,7 @@ namespace App\Http\Resources\Admin;
 use App\Http\Resources\FavouritePathResource;
 use App\Http\Resources\TradeResource;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\URL;
 
 class LotResource extends JsonResource
@@ -20,7 +21,7 @@ class LotResource extends JsonResource
         $lotData = [
             'id' => $this->id,
             'additionalLotInfoIsModerated' => is_null($this->additional_lot_info_is_moderated) ? null : !!$this->additional_lot_info_is_moderated,
-            'additionalLotInfoId' => $this->additional_lot_info_id,
+            'additionalLotInfoId' => $this->additional_lot_info_id ?: ($this->additionalLotInfo ? $this->additionalLotInfo->id : null),
             'tradeNumber' => isset($this->auction) ? $this->auction->trade_id : $this->trade_number,
             'tradeType' => isset($this->auction) ? $this->auction->auctionType->title : $this->trade_type,
             'description' => $this->description,
@@ -53,9 +54,9 @@ class LotResource extends JsonResource
             $lotData['applicationTimeStart'] = is_null($this->auction->application_start_date) ? null : $this->auction->application_start_date->format('d.m.Y H:i');
             $lotData['applicationTimeEnd'] = is_null($this->auction->publish_date) ? null : $this->auction->application_end_date->format('d.m.Y H:i');
             $lotData['lotNumber'] = $this->number;
-            $lotData['images'] = $this->lotFiles()->where('type', 'image')->where('user_id', null)->select('id', 'url')->get();
+            $lotData['images'] = $this->lotFiles()->where('type', 'image')->where('additional_lot_info_id' , null)->where('user_id', null)->select('id', 'url', DB::raw("SUBSTRING_INDEX(LEFT(url, char_length(url) - 2),'/',-1) as name"))->get();
 
-            $lotData['files'] = $this->lotFiles()->where('type', 'file')->select('id', 'url')->get();
+            $lotData['files'] = $this->lotFiles()->where('type', 'file')->where('additional_lot_info_id' , null)->select('id', 'url', DB::raw("SUBSTRING_INDEX(LEFT(url, char_length(url) - 1),'/',-1) as name"))->get();
             $lotData['categories'] = $this->categoriesStructure();
             $lotData['location'] =  $regions->makeHidden(['pivot']);
             $lotData['priceReduction'] = $this->price_reduction;
@@ -79,7 +80,6 @@ class LotResource extends JsonResource
                     'value' => $this->deposit
                 ];
             }
-
         }
         return $lotData;
     }

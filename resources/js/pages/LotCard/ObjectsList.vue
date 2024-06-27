@@ -175,6 +175,7 @@
                 tmp.cadastralData = cadastralObject.cadastralData;
                 tmp.cadastralObject = cadastralObject;
                 this.$store.commit('setSelectedLot', tmp);
+                this.$store.commit('setSelectedItem', tmp);
                 this.$store.commit('openModal', '#egrnModal')
                 // this.egrn_loading = true;
                 // let data = {

@@ -1265,11 +1265,11 @@
                         </div>
                     </div>
                     <div class="col-12 col-lg-12 order-3 px-lg-0" v-if="item && item.organizerAnswer">
-                        <bkt-organizer-answer :answer="item.organizerAnswer" @changeImageIndex="changeImageIndex"/>
+                        <bkt-organizer-answer :answer="item.organizerAnswer" @changeImageIndex="changeImageIndex" @update="getLot"/>
                     </div>
                     <template v-if="item.trade.debtor">
                         <div class="col-12 col-lg-12 order-3 px-lg-0">
-                                <bkt-collapse title="Другие активные лоты должника" :count="debtor_active_lots_pagination.total"
+                            <bkt-collapse title="Другие активные лоты должника" :count="debtor_active_lots_pagination.total"
                                               id="collapseDebtorActiveLots" :loading="debtor_active_lots_loading"
                                               :disabled="debtor_active_lots.length==0&&!debtor_active_lots_loading"
                                               class="bkt-lot__collapse"
@@ -1308,7 +1308,7 @@
                                         </div>
                                     </template>
                                 </bkt-collapse>
-                            </div>
+                        </div>
                         <div class="col-12 col-lg-12 order-3 px-lg-0">
                             <bkt-collapse title="Завершённые лоты должника " :count="debtor_completed_lots_pagination.total"
                                           id="collapseDebtorCompletedLots" :loading="debtor_completed_lots_loading"
@@ -1873,6 +1873,7 @@
                             }
 
                             this.$store.commit('setSelectedLot', resp.data);
+                            this.$store.commit('setSelectedItem', resp.data);
                             this.loading = false;
                             if (this.isLoggedIn) {
                                 this.makeWatched();

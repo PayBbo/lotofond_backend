@@ -79,7 +79,7 @@
                                 </div>
                                 <div class="bkt-wrapper bkt-gap-small justify-content-end">
                                     <button type="submit" class="btn btn-success float-right"
-                                            @click="isEdit ? updateData(item) : addData(item)">
+                                            @click="isEdit ? editLot(item) : addData(item)">
                                         Сохранить
                                     </button>
                                     <button type="submit" class="btn btn-default float-right" v-if="simple"
@@ -191,6 +191,12 @@ export default {
         },
         setLot(val){
             this.item.lotId = val.code
+        },
+        async editLot(item) {
+            await this.updateData(item)
+                .then(resp => {
+                    this.$emit('update');
+                });
         }
     }
 }

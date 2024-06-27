@@ -129,11 +129,16 @@
             </div>
         </nav>
         <nav class="bkt-navbar white">
-            <div class="bkt-navbar__wrapper bkt-container">
-                <button @click="sendApplication" class="bkt-button bkt-text-white blue mx-0 bkt-navbar__ecp">
-                    Инструкция
-                </button>
-                <ul class="bkt-navbar__nav">
+            <div class="bkt-navbar__wrapper bkt-wrapper-down-md-wrap bkt-container">
+                <div class="bkt-wrapper bkt-nowrap bkt-gap-small order-last order-md-1 bkt-w-down-md-100">
+                    <button @click="toInstruction" class="bkt-button bkt-text-white blue mx-0 bkt-navbar__ecp" title="инструкция работы сервиса">
+                        Инструкция
+                    </button>
+                    <button @click="buyEgrn" class="bkt-button bkt-text-white blue mx-0 bkt-navbar__ecp" title="отчёт на любой кадастр">
+                        Отчёт ЕГРН
+                    </button>
+                </div>
+                <ul class="bkt-navbar__nav order-1 order-md-2">
                     <!--                    <li class="bkt-navbar__nav-item d-none d-lg-flex">-->
                     <!--                        <router-link to="/agent" class="bkt-navbar__nav-link">-->
                     <!--                            Купить через агента-->
@@ -152,12 +157,12 @@
                             Горящие торги
                         </router-link>
                     </li>
-                    <li class="bkt-navbar__nav-item d-none d-md-flex">
+                    <li class="bkt-navbar__nav-item d-none bkt-d-up-xsm-flex bkt-d-up-md-none bkt-d-up-lg-flex">
                         <router-link to="/week-winners" class="bkt-navbar__nav-link">
                             Победы недели
                         </router-link>
                     </li>
-                    <li class="bkt-navbar__nav-item d-none d-md-flex" v-if="isLoggedIn">
+                    <li class="bkt-navbar__nav-item d-none d-sm-flex" v-if="isLoggedIn">
                         <router-link to="/registries" class="bkt-navbar__nav-link">
                             Реестры
                         </router-link>
@@ -186,7 +191,7 @@
                 <!--                    </router-link>-->
 
                 <!--                </div>-->
-                <div class="bkt-navbar__wrapper flex-grow-1">
+                <div class="bkt-navbar__wrapper flex-grow-1 order-2 order-md-3">
                     <!--                    <button class="bkt-button red-outline d-none d-lg-flex">-->
                     <!--                        <span class="bkt-button__icon mx-2">-->
                     <!--                             <bkt-icon :name="'Law'" :width="'16px'" :height="'16px'"/>-->
@@ -430,9 +435,13 @@
             checkNotifications() {
                 this.$store.dispatch('checkNotifications')
             },
-            sendApplication() {
+            toInstruction() {
                 this.$store.commit('setSelectedLot', null);
                 this.$router.push('/agent')
+            },
+            buyEgrn() {
+                this.$store.commit('setSelectedItem', null);
+                this.$store.commit('openModal', '#egrnModal')
             }
         }
 

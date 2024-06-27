@@ -130,7 +130,6 @@ class AuctionController extends Controller
 
     public function getLotInformation($lotId)
     {
-
         $lot = Lot::find($lotId);
         if (!$lot) {
             throw new BaseException("ERR_FIND_LOT_FAILED", 404, "Lot with id= " . $lotId . ' does not exist');

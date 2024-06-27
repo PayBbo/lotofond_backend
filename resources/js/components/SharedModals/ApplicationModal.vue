@@ -323,6 +323,9 @@
             sendApplication() {
                 this.loading = true;
                 let data = JSON.parse(JSON.stringify(this.service));
+                if(this.mode === 'ECP') {
+                    data.paymentTradingTypes = ['purchaseBidByAgent'];
+                }
                 // data.socialsForAnswer = [this.service.socialsForAnswer];
                 data.lotId = this.selected_lot.id;
                 axios.post('/api/send/application', data)

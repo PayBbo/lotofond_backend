@@ -168,7 +168,7 @@ class LotResource extends JsonResource
                 $lotData['marks'] = $this->userMarks->makeHidden(['pivot']);
                 $additionalInfo = $this->additionalLotInfo;
                 if ($this->contentSettings->isAvailable('showOrganizerAnswer') && $additionalInfo && ($additionalInfo->is_moderated || Auth::user()->hasRole('admin') )) {
-                    $imagesDB = $additionalInfo->files()->where(['type' => 'image', 'lot_id' => $this->id])->get();
+                    $imagesDB = $additionalInfo->files()->where(['type' => 'image', 'lot_id' => $this->id, 'additional_lot_info_id' => $additionalInfo->id])->get();
                     $images = [];
                     foreach ($imagesDB as $image) {
                         $images[] = [
@@ -181,9 +181,10 @@ class LotResource extends JsonResource
                     $lotData['organizerAnswer'] = [
                         'id' => $additionalInfo->id,
                         'message' => $additionalInfo->message,
-                        'files' => $additionalInfo->files()->where(['type' => 'file', 'lot_id' => $this->id])->pluck('url')->toArray(),
+                        'files' => $additionalInfo->files()->where(['type' => 'file', 'lot_id' => $this->id, 'additional_lot_info_id' => $additionalInfo->id])->pluck('url')->toArray(),
                         'images' => $images,
-                        'publishDate' => $this->created_at
+                        'publishDate' => $this->created_at,
+                        'isModerated' => $additionalInfo->is_moderated
                     ];
                 } else {
                     $lotData['organizerAnswer'] = null;

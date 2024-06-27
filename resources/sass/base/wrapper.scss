@@ -41,6 +41,10 @@
     flex-wrap: nowrap !important;
 }
 
+.bkt-wrap {
+    flex-wrap: wrap !important;
+}
+
 .wrapper {
     min-height: calc(100vh - 100px);
 }
@@ -78,6 +82,10 @@
 
         &-nowrap {
             flex-wrap: nowrap;
+        }
+
+        &-wrap {
+            flex-wrap: wrap !important;
         }
     }
 }
@@ -229,6 +237,10 @@
 
         &-nowrap {
             flex-wrap: nowrap;
+        }
+
+        &-wrap {
+            flex-wrap: wrap !important;
         }
     }
 }

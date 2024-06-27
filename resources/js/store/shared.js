@@ -82,6 +82,9 @@ export default {
         isMobile(state) {
             return state.isMobile;
         },
+        selected_item(state) {
+            return state.selected_item;
+        },
     },
 
     actions: {
@@ -379,6 +382,9 @@ export default {
             if (backdrop) {
                 backdrop.remove()
             }
+        },
+        setSelectedItem(state, payload) {
+            return (state.selected_item = payload);
         },
         setUser(state, payload) {
             return (state.user = payload);

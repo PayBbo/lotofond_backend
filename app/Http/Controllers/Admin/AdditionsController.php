@@ -35,7 +35,7 @@ class AdditionsController extends Controller
             $sortParam = $request->query('sort_property');
             $sortDirection = $request->query('sort_direction');
 
-            $additions = AdditionalLotInfo::select(['additional_lot_infos.*'])
+            $additions = AdditionalLotInfo::select(['additional_lot_infos.*', 'auction.trade_id'])
                 ->when($isModerated, function ($query) {
                     $query->where('is_moderated', false);
                 })

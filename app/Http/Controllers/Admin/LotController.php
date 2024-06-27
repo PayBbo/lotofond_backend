@@ -41,7 +41,8 @@ class LotController extends Controller
                 'type.title as trade_type',
                 'status.value as status_value',
                 'ali.is_moderated as additional_lot_info_is_moderated',
-                'ali.id as additional_lot_info_id'
+                'ali.id as additional_lot_info_id',
+                'ali.message as additional_lot_info_message',
             ])
                 ->when(isset($searchString) && strlen((string)$searchString) > 0, function ($query) use ($searchString) {
                     $query->where('auction.trade_id', 'like', '%' . $searchString . '%')

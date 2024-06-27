@@ -211,8 +211,12 @@
                                         </ul>
                                     </div>
                                 </div>
-
-
+                                <div class="card" v-if="item.additionalLotInfoId">
+                                    <div class="card-body d-flex flex-column">
+                                        <label>Ответ организатора</label>
+                                        <add-edit-additions simple :answer_id="item.additionalLotInfoId"/>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -225,10 +229,11 @@
 <script>
 import {mapActions, mapGetters} from "vuex";
 import FilesTable from "../FilesTable";
+import AddEditAdditions from "./additions/AddEditAdditions";
 
 export default {
     name: "ShowLot",
-    components: {FilesTable},
+    components: {FilesTable, AddEditAdditions},
     computed: {
         ...mapGetters(['item']),
     },

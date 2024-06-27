@@ -4,6 +4,9 @@
             <h3 class="bkt-card__title">Ответ организатора</h3>
             <h3 class="bkt-card__subtitle bkt-text-neutral">
                 {{answer.publishDate | moment('DD.MM.YYYY')}}
+                <span :class="'bkt-text-'+( answer.isModerated ? 'green': 'red')">
+                    {{ answer.isModerated ? 'Проверен': 'Не проверен'}}
+                </span>
             </h3>
         </div>
         <div class="bkt-form w-100">
@@ -13,7 +16,7 @@
                         <slide v-for="(img, index) in answer.images" :key="img.id">
                             <img v-lazy="img.preview" class="bkt-card__image" @click="$emit('changeImageIndex', index)"/>
                         </slide>
-                        <hooper-navigation slot="hooper-addons"></hooper-navigation>
+                        <hooper-navigation slot="hooper-addons"/>
                     </hooper>
                 </div>
                 <div :class="[answer.images.length>0 ? 'col': 'col-12']">
@@ -39,7 +42,7 @@
 
             <div class="col-12" v-can="'additions-edit'">
                 <button class="bkt-button primary" style="float: right;" @click="edit" v-if="!edit_mode">Редактировать</button>
-                <add-edit-additions v-if="edit_mode" :answer_id="answer.id" simple @cancel="edit_mode=false"/>
+                <add-edit-additions v-if="edit_mode" :answer_id="answer.id" simple @cancel="edit_mode=false" @update="update"/>
             </div>
         </div>
     </div>
@@ -102,6 +105,10 @@
                             commit('setModal', {data: 'error', text: 'Произошла ошибка'})
                         this.loading=false;
                     });
+            },
+            update() {
+                this.edit_mode = false;
+                this.$emit('update');
             }
         }
     }

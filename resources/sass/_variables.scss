@@ -1,3 +1,4 @@
+$namespace: 'bkt';
 // Body
 $body-bg: #f5f7fe;
 
@@ -152,3 +153,21 @@ $theme-colors: (
 );
 
 $breadcrumb-divider: url("data:image/svg+xml, %3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%0Afill='%23abadb4' stroke='%23abadb4' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' class='feather feather-more-horizontal'%3E%3Ccircle cx='12' cy='12' r='1'%3E%3C/circle%3E%3Ccircle cx='19' cy='12' r='1'%3E%3C/circle%3E%3Ccircle cx='5' cy='12' r='1'%3E%3C/circle%3E%3C/svg%3E");
+
+$breakpoints: (
+    xs: 0,
+    xsm: 420px,
+    sm: 576px,
+    md: 768px,
+    lg: 992px,
+    xl: 1200px,
+    xxl: 1400px
+);
+$indents: (
+    none: 0,
+    small: 5px,
+    medium: 10px,
+    large: 15px,
+    xlarge: 20px,
+    xxlarge: 30px
+);

@@ -611,6 +611,7 @@
                 this.item.cadastralData = this.cadastralData;
                 this.item.cadastralObject = this.item.descriptionExtracts[0];
                 this.$store.commit('setSelectedLot', this.item);
+                this.$store.commit('setSelectedItem', this.item);
                 this.$store.commit('openModal', '#egrnModal')
                 // this.loading = true;
                 // let data = {
