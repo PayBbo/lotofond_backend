@@ -65,4 +65,23 @@ class LotFile extends Model
             }
         }
     }
+
+    public function getNameAttribute($value)
+    {
+        $urls = json_decode($value, true);
+        if (gettype($urls) == 'array') {
+            $result = [];
+            foreach ($urls as $url) {
+                $result[] = substr($url, strrpos($url, '/') + 1);
+            }
+            return $result;
+        } else {
+            $val = json_decode($value);
+            if ($val) {
+                return substr($val, strrpos($val, '/') + 1);
+            } else {
+                return substr($value, strrpos($value, '/') + 1);
+            }
+        }
+    }
 }

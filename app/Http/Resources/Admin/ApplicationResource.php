@@ -31,6 +31,7 @@ class ApplicationResource extends JsonResource
             'lotUrl' => URL::to('/lot/' . $this->lot_id),
             'lotId' => $this->lot_id,
             'status' => $this->status,
+            'cadastral_number' => $this->cadastral_number,
             'paymentId' => $this->payment_id . ( !is_null($this->payment_id) ? ($this->payment->status == 'Settled' ? ' - подтвержден': ' - не подтвержден') : ''),
             'publishDate'=> $this->created_at->format('d.m.Y H:i')
         ];

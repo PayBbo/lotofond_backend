@@ -12,7 +12,7 @@ use Illuminate\Http\Request;
 class DataController extends Controller
 {
     public function getTextData($type){
-        $items = TextData::where('type', $type)->get();
+        $items = TextData::where('type', $type)->where('active', true)->get();
         return response(TextDataResource::collection($items), 200);
     }
 

@@ -68,12 +68,18 @@ class LotController extends Controller
 
     public function show($id)
     {
-        $lot = Lot::find($id);
-        if ($lot) {
-            $lot->isLotInfo = true;
-            return response(new LotResource($lot), 200);
+        try {
+            $lot = Lot::find($id);
+            if ($lot) {
+                $lot->isLotInfo = true;
+                return response(new LotResource($lot), 200);
+            }
+            return response(null, 404);
         }
-        return response(null, 404);
+        catch (\Exception $e) {
+            return response()->json(['message' => $e->getMessage()], 500);
+        }
+
     }
 
     public function delete($id){

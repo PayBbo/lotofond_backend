@@ -49,7 +49,7 @@
                             {{$t('trades.tradeSubjectType.'+item.cadastralData.cadastralDataAreaType)}}
                         </h6>
                     </div>
-                    <span class="bkt-row__icon"><bkt-icon :name="'Tree'"></bkt-icon></span>
+                    <span class="bkt-row__icon"><bkt-icon :name="'Tree'"/></span>
                 </div>
                 <div class="bkt-row outline bkt-wrapper-between align-items-center"
                      v-if="item.cadastralData && item.cadastralData.cadastralDataPrice">
@@ -59,7 +59,7 @@
                         </h4>
                         <h6 class="bkt-row__feature-subtitle">кадастровая стоимость</h6>
                     </div>
-                    <span class="bkt-row__icon"><bkt-icon :name="'File'"></bkt-icon></span>
+                    <span class="bkt-row__icon"><bkt-icon :name="'File'"/></span>
                 </div>
                 <div class="bkt-row outline bkt-wrapper-between align-items-center"
                      v-if="item.cadastralData && item.cadastralData.cadastralDataFractionalOwnership">
@@ -68,7 +68,7 @@
                             {{item.cadastralData.cadastralDataFractionalOwnership}}%</h4>
                         <h6 class="bkt-row__feature-subtitle">доля в собственности</h6>
                     </div>
-                    <span class="bkt-row__icon"><bkt-icon :name="'Pie'"></bkt-icon></span>
+                    <span class="bkt-row__icon"><bkt-icon :name="'Pie'"/></span>
                 </div>
                 <button class="bkt-button bkt-card-trade__button bkt-card-trade__button_egrn" @click="buyEgrn(item)"
                      v-if="item.cadastralData && item.cadastralData.cadastralNumber" :disabled="egrn_loading"

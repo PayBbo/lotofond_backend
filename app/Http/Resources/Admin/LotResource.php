@@ -4,12 +4,14 @@ namespace App\Http\Resources\Admin;
 
 use App\Http\Resources\FavouritePathResource;
 use App\Http\Resources\TradeResource;
+use App\Traits\PriceTrait;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\URL;
 
 class LotResource extends JsonResource
 {
+    use PriceTrait;
     /**
      * Transform the resource into an array.
      *
@@ -54,9 +56,9 @@ class LotResource extends JsonResource
             $lotData['applicationTimeStart'] = is_null($this->auction->application_start_date) ? null : $this->auction->application_start_date->format('d.m.Y H:i');
             $lotData['applicationTimeEnd'] = is_null($this->auction->publish_date) ? null : $this->auction->application_end_date->format('d.m.Y H:i');
             $lotData['lotNumber'] = $this->number;
-            $lotData['images'] = $this->lotFiles()->where('type', 'image')->where('additional_lot_info_id' , null)->where('user_id', null)->select('id', 'url', DB::raw("SUBSTRING_INDEX(LEFT(url, char_length(url) - 2),'/',-1) as name"))->get();
+            $lotData['images'] = $this->lotFiles()->where('type', 'image')->where('additional_lot_info_id' , null)->where('user_id', null)->select('id', 'url', 'url as name')->get();
 
-            $lotData['files'] = $this->lotFiles()->where('type', 'file')->where('additional_lot_info_id' , null)->select('id', 'url', DB::raw("SUBSTRING_INDEX(LEFT(url, char_length(url) - 1),'/',-1) as name"))->get();
+            $lotData['files'] = $this->lotFiles()->where('type', 'file')->where('additional_lot_info_id' , null)->select('id', 'url', 'url as name')->get();
             $lotData['categories'] = $this->categoriesStructure();
             $lotData['location'] =  $regions->makeHidden(['pivot']);
             $lotData['priceReduction'] = $this->price_reduction;
@@ -65,7 +67,39 @@ class LotResource extends JsonResource
             $lotData['link'] = URL::to('/lot/' . $this->id);
 
             $lotData['efrsbLink'] = 'https://fedresurs.ru/bidding/' . $this->auction->guid;
-            $lotData['descriptionExtracts'] = $this->description_extracts;
+            $descriptionExtracts = $this->description_extracts;
+            if ($descriptionExtracts && count($descriptionExtracts)) {
+////                $extracts = $descriptionExtracts[0]['extracts'];
+////                $obj = array_column($extracts, null, 'type')['cadastralDataPrice'] ?: false;
+//                $extract = array_reduce($descriptionExtracts, static function ($carry, $item) {
+//                    $ext = (array_column($item['extracts'], null, 'type')['cadastralDataPrice'] ?: false);
+//                    return $carry === false && $ext ? $ext : $carry;
+//                }, false);
+//                if ($extract) {
+//                    $price = +$extract['value'];
+//                    $lotData['tax'] = 'от ' . $this->priceFormat(round($price * 0.3 / 100, 2)) . ' до '
+//                        . $this->priceFormat(round($price * 2 / 100, 2));
+////                    $lotData['descriptionExtracts']['extracts'][] = [
+////                        'title' => 'Налог',
+////                        'type' => 'tax',
+////                        'value' => 'от ' . $this->priceFormat(round($price * 0.3 / 100, 2)) . ' до ' . $this->priceFormat(round($price * 2 / 100, 2)) . ' ₽'
+////                    ];
+//                }
+                foreach ($descriptionExtracts as $index => $item) {
+                    $cad = array_column($item['extracts'], null, 'type');
+                    $ext = ($cad && isset($cad['cadastralDataPrice']) ? $cad['cadastralDataPrice'] : false);
+                    if($ext) {
+                        $price = +$ext['value'];
+                        $descriptionExtracts[$index]['extracts'][] = [
+                            'title' => 'Налог',
+                            'type' => 'other',
+                            'value' => 'от ' . $this->priceFormat(round($price * 0.3 / 100, 2)) . ' до '
+                                . $this->priceFormat(round($price * 2 / 100, 2)) . ' ₽'
+                        ];
+                    }
+                }
+            }
+            $lotData['descriptionExtracts'] = $descriptionExtracts;
             $lotData['stepPrice'] = null;
             if(!is_null($this->auction_step)){
                 $lotData['stepPrice'] = [

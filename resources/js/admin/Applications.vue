@@ -67,7 +67,7 @@ export default {
             modalColumns: {
                 'id': 'Номер', 'name': 'Имя пользователя', 'email': 'Почта', 'phone': 'Телефон',
                 'socials': 'Социальные сети для ответа', 'files': 'Прикрепленные файлы', 'topic': 'Тема',
-                'question': 'Вопрос', 'dateForAnswer': 'Время для ответа', 'type': 'Тип заявки',
+                'question': 'Вопрос', 'cadastral_number': 'Кадастровый номер', 'dateForAnswer': 'Время для ответа', 'type': 'Тип заявки',
                 'lotUrl': 'Ссылка на лот', 'paymentId': 'Номер платежа', 'showStatus': 'Статус заявки', 'publishDate': 'Дата заявки'
             },
             statuses: [

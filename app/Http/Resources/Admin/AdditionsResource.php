@@ -27,10 +27,10 @@ class AdditionsResource extends JsonResource
             'tradeId'=>$this->trade_id,
             $this->mergeWhen(\Request::route()->getName() == 'edit.addition', [
                 'files'=>$this->files()->where('type', 'file')->where('additional_lot_info_id' , $this->id)
-                    ->select('id', 'url', DB::raw("SUBSTRING_INDEX(LEFT(url, char_length(url) - 1),'/',-1) as name"))
+                    ->select('id', 'url', 'url as name')
                     ->get(),
                 'images'=>$this->files()->where('type', 'image')->where('additional_lot_info_id' , $this->id)
-                    ->select('id', 'url', DB::raw("SUBSTRING_INDEX(LEFT(url, char_length(url) - 2),'/',-1) as name"))
+                    ->select('id', 'url', 'url as name')
                     ->get()
             ])
 

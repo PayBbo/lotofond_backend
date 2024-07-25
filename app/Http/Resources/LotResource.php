@@ -7,6 +7,7 @@ use App\Models\Category;
 use App\Models\ContentRule;
 use App\Models\Note;
 use App\Models\PriceReduction;
+use App\Traits\PriceTrait;
 use Carbon\Carbon;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Auth;
@@ -14,6 +15,7 @@ use Illuminate\Support\Facades\URL;
 
 class LotResource extends JsonResource
 {
+    use PriceTrait;
     protected $authCheck;
     protected $contentSettings;
     protected $content;
@@ -76,7 +78,7 @@ class LotResource extends JsonResource
         if (auth()->guard('api')->check()) {
             $monitoringLots = $this->content['monitoringLots'];
         }
-
+        $descriptionExtracts = $this->contentSettings->isAvailable('descriptionExtracts') ? $this->description_extracts : null;
         $lotData = [
             'id' => $this->id,
             'trade' => (new TradeResource($this->auction))->content($this->contentSettings),
@@ -119,7 +121,8 @@ class LotResource extends JsonResource
             'currentPriceState' => $currentPriceState,
             'link' => URL::to('/lot/' . $this->id),
             'efrsbLink' => $this->contentSettings->isAvailable('efrsbLink') ? 'https://fedresurs.ru/bidding/' . $this->auction->guid : null,
-            'descriptionExtracts' => $this->contentSettings->isAvailable('descriptionExtracts') ? $this->description_extracts : null,
+
+//            'descriptionExtracts' => $descriptionExtracts,
             /*  $this->mergeWhen(($this->isLotInfo), [
            'requirementsForParticipants' => $this->participants,
             'paymentInfo' => $this->payment_info,
@@ -128,6 +131,32 @@ class LotResource extends JsonResource
             'applicationRules' => $this->auction->application_rules
       ])*/
         ];
+        if ($descriptionExtracts && count($descriptionExtracts)) {
+//            $extract = array_reduce($descriptionExtracts, static function ($carry, $item) {
+//                $cad = array_column($item['extracts'], null, 'type');
+//                $ext = ($cad && isset($cad['cadastralDataPrice']) ? $cad['cadastralDataPrice'] : false);
+//                return $carry === false && $ext ? $ext : $carry;
+//            }, false);
+//            if ($extract) {
+//                $price = +$extract['value'];
+//                $lotData['tax'] = 'от ' . $this->priceFormat(round($price * 0.3 / 100, 2)) . ' до '
+//                    . $this->priceFormat(round($price * 2 / 100, 2));
+//            }
+            foreach ($descriptionExtracts as $index => $item) {
+                $cad = array_column($item['extracts'], null, 'type');
+                $ext = ($cad && isset($cad['cadastralDataPrice']) ? $cad['cadastralDataPrice'] : false);
+                if($ext) {
+                    $price = +$ext['value'];
+                    $descriptionExtracts[$index]['extracts'][] = [
+                    'title' => 'Налог',
+                        'type' => 'other',
+                        'value' => 'от ' . $this->priceFormat(round($price * 0.3 / 100, 2)) . ' до '
+                    . $this->priceFormat(round($price * 2 / 100, 2)) . ' ₽'
+                    ];
+                }
+            }
+        }
+        $lotData['descriptionExtracts'] = $descriptionExtracts;
         if ($this->isLotInfo) {
             $priceReductions = null;
             if ($this->contentSettings->isAvailable('priceReduction') && $isPublicOffer) {

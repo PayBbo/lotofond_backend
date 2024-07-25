@@ -44,6 +44,7 @@ class OrderResource extends JsonResource
             'createdAt'=> $this->created_at,
             'publishDate'=> $this->created_at->format('d.m.Y H:i'),
             'publishDateIso'=> $this->created_at->format('c'),
+            'cadastralNumber' =>  $this->cadastral_number,
             $this->mergeWhen(!is_null($this->lot_id), [
                 'lot' => [
                     'photos' => is_null($this->lot_id) ? null : $this->lot->photos,

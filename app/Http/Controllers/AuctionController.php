@@ -48,17 +48,23 @@ class AuctionController extends Controller
 
     public function getFilteredTrades(Request $request)
     {
-        $authCheck = auth()->guard('api')->check();
-        if ($authCheck) {
-            $lots = Lot::with(['auction', 'showRegions', 'status', 'lotImages', 'categories', 'lotParams'])
-                ->filterBy($request->request)->customSortBy($request)->paginate(20);
-            return response(new LotCollection($lots), 200);
-        } else {
-            $lots = Lot::with(['auction', 'showRegions', 'status', 'lotImages', 'categories', 'lotParams'])
-                ->filterBy($request->request)->customSortBy($request)
-                ->limit($this->numberOfLotsForUnauthorizedUsers)->get();
-            return response(new LotCollection($lots), 200);
+        try {
+            $authCheck = auth()->guard('api')->check();
+            if ($authCheck) {
+                $lots = Lot::with(['auction', 'showRegions', 'status', 'lotImages', 'categories', 'lotParams'])
+                    ->filterBy($request->request)->customSortBy($request)->paginate(20);
+                return response(new LotCollection($lots), 200);
+            } else {
+                $lots = Lot::with(['auction', 'showRegions', 'status', 'lotImages', 'categories', 'lotParams'])
+                    ->filterBy($request->request)->customSortBy($request)
+                    ->limit($this->numberOfLotsForUnauthorizedUsers)->get();
+                return response(new LotCollection($lots), 200);
+            }
         }
+        catch (\Exception $e) {
+            return response()->json(['message'=> $e->getMessage()], 500);
+        }
+
     }
 
     public function getNearestTrades(Request $request)
