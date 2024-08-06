@@ -22,8 +22,8 @@
                     <div class="bkt-wrapper-column bkt-gap">
 
                             <div class="bkt-wrapper bkt-nowrap bkt-gap align-items-center me-auto ms-0" v-if="item.cadastralNumber">
-                                <div class="bkt-icon-frame bkt-bg-purple-lighter">
-                                    <bkt-icon :name="'categories/realEstate'" :color="'purple'" width="25px" height="25px"/>
+                                <div class="bkt-icon-frame bkt-bg-cornflower-blue-lighter">
+                                    <bkt-icon :name="'categories/realEstate'" :color="'cornflower-blue'" width="25px" height="25px"/>
                                 </div>
                                 <div>
                                     <h6 class="bkt-order__subtitle">Кадастровый номер</h6>
@@ -31,7 +31,7 @@
                                 </div>
                             </div>
 
-                            <div class="bkt-wrapper bkt-nowrap align-items-center bkt-cursor-pointer"
+                            <div class="bkt-wrapper bkt-nowrap align-items-center bkt-cursor-pointer mx-0"
                                  v-if="item.lot" @click="toLot(item.lot.id)"
                             >
                                 <div class="bkt-order__image-wrapper">

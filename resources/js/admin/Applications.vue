@@ -40,7 +40,7 @@
                     </button>
                 </td>
             </tr>
-            <admin-view-modal :modalData="modalData" :mColumns="mColumns"></admin-view-modal>
+            <admin-view-modal :modalData="modalData" :mColumns="mColumns"/>
         </template>
     </AdminTable>
 </template>

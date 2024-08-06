@@ -10931,6 +10931,14 @@ textarea.form-control-lg {
   color: #eefcf8 !important;
 }
 
+.bkt-text-cornflower-blue {
+  color: #728BE3 !important;
+}
+
+.bkt-text-cornflower-blue-lighter {
+  color: #F5F7FE !important;
+}
+
 .bkt-text-neutral {
   color: #cdced2 !important;
 }
@@ -11152,6 +11160,14 @@ textarea.form-control-lg {
   background-color: #eefcf8 !important;
 }
 
+.bkt-bg-cornflower-blue {
+  background-color: #728BE3 !important;
+}
+
+.bkt-bg-cornflower-blue-lighter {
+  background-color: #F5F7FE !important;
+}
+
 .bkt-bg-neutral {
   background-color: #cdced2 !important;
 }
@@ -11302,6 +11318,14 @@ textarea.form-control-lg {
 
 .bkt-border-teal-lighter {
   border: 2px solid #eefcf8 !important;
+}
+
+.bkt-border-cornflower-blue {
+  border: 2px solid #728BE3 !important;
+}
+
+.bkt-border-cornflower-blue-lighter {
+  border: 2px solid #F5F7FE !important;
 }
 
 .bkt-border-neutral {
@@ -11566,6 +11590,22 @@ textarea.form-control-lg {
 
 .bkt-fill-teal-lighter {
   fill: #eefcf8 !important;
+}
+
+.bkt-stroke-cornflower-blue {
+  stroke: #728BE3 !important;
+}
+
+.bkt-fill-cornflower-blue {
+  fill: #728BE3 !important;
+}
+
+.bkt-stroke-cornflower-blue-lighter {
+  stroke: #F5F7FE !important;
+}
+
+.bkt-fill-cornflower-blue-lighter {
+  fill: #F5F7FE !important;
 }
 
 .bkt-fill-neutral {
@@ -11938,6 +11978,26 @@ textarea.form-control-lg {
   stroke: white !important;
 }
 
+.bkt-hover-cornflower-blue.bkt-button:hover, .bkt-hover-cornflower-blue.bkt-button_delete:hover, .bkt-hover-cornflower-blue.bkt-button_save:hover, .bkt-hover-cornflower-blue.bkt-button-icon:hover, .bkt-hover-cornflower-blue.bkt-button-link:hover {
+  background-color: #728BE3 !important;
+}
+.bkt-hover-cornflower-blue.bkt-button:hover .bkt-fill, .bkt-hover-cornflower-blue.bkt-button_delete:hover .bkt-fill, .bkt-hover-cornflower-blue.bkt-button_save:hover .bkt-fill, .bkt-hover-cornflower-blue.bkt-button-icon:hover .bkt-fill, .bkt-hover-cornflower-blue.bkt-button-link:hover .bkt-fill {
+  fill: white !important;
+}
+.bkt-hover-cornflower-blue.bkt-button:hover .bkt-stroke, .bkt-hover-cornflower-blue.bkt-button_delete:hover .bkt-stroke, .bkt-hover-cornflower-blue.bkt-button_save:hover .bkt-stroke, .bkt-hover-cornflower-blue.bkt-button-icon:hover .bkt-stroke, .bkt-hover-cornflower-blue.bkt-button-link:hover .bkt-stroke {
+  stroke: white !important;
+}
+
+.bkt-hover-cornflower-blue-lighter.bkt-button:hover, .bkt-hover-cornflower-blue-lighter.bkt-button_delete:hover, .bkt-hover-cornflower-blue-lighter.bkt-button_save:hover, .bkt-hover-cornflower-blue-lighter.bkt-button-icon:hover, .bkt-hover-cornflower-blue-lighter.bkt-button-link:hover {
+  background-color: #F5F7FE !important;
+}
+.bkt-hover-cornflower-blue-lighter.bkt-button:hover .bkt-fill, .bkt-hover-cornflower-blue-lighter.bkt-button_delete:hover .bkt-fill, .bkt-hover-cornflower-blue-lighter.bkt-button_save:hover .bkt-fill, .bkt-hover-cornflower-blue-lighter.bkt-button-icon:hover .bkt-fill, .bkt-hover-cornflower-blue-lighter.bkt-button-link:hover .bkt-fill {
+  fill: white !important;
+}
+.bkt-hover-cornflower-blue-lighter.bkt-button:hover .bkt-stroke, .bkt-hover-cornflower-blue-lighter.bkt-button_delete:hover .bkt-stroke, .bkt-hover-cornflower-blue-lighter.bkt-button_save:hover .bkt-stroke, .bkt-hover-cornflower-blue-lighter.bkt-button-icon:hover .bkt-stroke, .bkt-hover-cornflower-blue-lighter.bkt-button-link:hover .bkt-stroke {
+  stroke: white !important;
+}
+
 .bkt-hover-neutral.bkt-button:hover, .bkt-hover-neutral.bkt-button_delete:hover, .bkt-hover-neutral.bkt-button_save:hover, .bkt-hover-neutral.bkt-button-icon:hover, .bkt-hover-neutral.bkt-button-link:hover {
   background-color: #cdced2 !important;
 }
@@ -12298,6 +12358,26 @@ textarea.form-control-lg {
   stroke: white !important;
 }
 
+.bkt-hover-cornflower-blue.bkt-button-ellipse:hover {
+  background-color: #728BE3 !important;
+}
+.bkt-hover-cornflower-blue.bkt-button-ellipse:hover .bkt-fill {
+  fill: white !important;
+}
+.bkt-hover-cornflower-blue.bkt-button-ellipse:hover .bkt-stroke {
+  stroke: white !important;
+}
+
+.bkt-hover-cornflower-blue-lighter.bkt-button-ellipse:hover {
+  background-color: #F5F7FE !important;
+}
+.bkt-hover-cornflower-blue-lighter.bkt-button-ellipse:hover .bkt-fill {
+  fill: white !important;
+}
+.bkt-hover-cornflower-blue-lighter.bkt-button-ellipse:hover .bkt-stroke {
+  stroke: white !important;
+}
+
 .bkt-hover-neutral.bkt-button-ellipse:hover {
   background-color: #cdced2 !important;
 }
@@ -12645,6 +12725,26 @@ textarea.form-control-lg {
   fill: white !important;
 }
 .bkt-hover-teal-lighter.bkt-button-icon:hover .bkt-stroke {
+  stroke: white !important;
+}
+
+.bkt-hover-cornflower-blue.bkt-button-icon:hover {
+  background-color: #728BE3 !important;
+}
+.bkt-hover-cornflower-blue.bkt-button-icon:hover .bkt-fill {
+  fill: white !important;
+}
+.bkt-hover-cornflower-blue.bkt-button-icon:hover .bkt-stroke {
+  stroke: white !important;
+}
+
+.bkt-hover-cornflower-blue-lighter.bkt-button-icon:hover {
+  background-color: #F5F7FE !important;
+}
+.bkt-hover-cornflower-blue-lighter.bkt-button-icon:hover .bkt-fill {
+  fill: white !important;
+}
+.bkt-hover-cornflower-blue-lighter.bkt-button-icon:hover .bkt-stroke {
   stroke: white !important;
 }
 
@@ -22341,12 +22441,12 @@ ul.bkt-contents .bkt-contents__answer {
   box-shadow: 0 3px 10px 0 rgba(41, 177, 255, 0.53);
 }
 .bkt-calendar .custom-calendar.vc-container {
-  --day-border: 2px solid #F5F7FE;
+  --day-border: 2px solid $cornflower-blue-lighter;
   --day-border-highlight: 1px solid #b8c2cc;
   --day-width: 100%;
   --day-height: 100%;
   --weekday-bg: #f8fafc;
-  --weekday-border: 2px solid #F5F7FE;
+  --weekday-border: 2px solid $cornflower-blue-lighter;
   border-radius: 15px;
   width: 100%;
   background: transparent;

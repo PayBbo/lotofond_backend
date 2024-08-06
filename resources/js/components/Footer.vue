@@ -102,7 +102,7 @@
                                 </li>
                                 <li class="bkt-footer__socials__item" data-wba-footer-name="AppStore">
                                     <a class="ru-store" rel="nofollow noopener" target="_blank"
-                                       href="https://apps.rustore.ru/app/ru.lotofond">
+                                       href="https://www.rustore.ru/catalog/app/ru.lotofond">
                                         Загрузить из RuStore
                                     </a>
                                 </li>

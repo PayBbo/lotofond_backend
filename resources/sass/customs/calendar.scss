@@ -23,12 +23,12 @@
     }
 
     & .custom-calendar.vc-container {
-        --day-border: 2px solid #F5F7FE;
+        --day-border: 2px solid $cornflower-blue-lighter;
         --day-border-highlight: 1px solid #b8c2cc;
         --day-width: 100%;
         --day-height: 100%;
         --weekday-bg: #f8fafc;
-        --weekday-border: 2px solid #F5F7FE;
+        --weekday-border: 2px solid $cornflower-blue-lighter;
         border-radius: 15px;
         width: 100%;
         background: transparent;
