@@ -28,7 +28,7 @@ class ApplicationResource extends JsonResource
             'dateForAnswer' => !is_null($this->answer_date) ? Carbon::parse($this->answer_date)->format('d.m.Y h:i') : null,
             'type' => $this->type,
             'tariffId'=> $this->tariff_id,
-            'lotUrl' => URL::to('/lot/' . $this->lot_id),
+            'lotUrl' => $this->lot_id ? URL::to('/lot/' . $this->lot_id) : null,
             'lotId' => $this->lot_id,
             'status' => $this->status,
             'cadastral_number' => $this->cadastral_number,

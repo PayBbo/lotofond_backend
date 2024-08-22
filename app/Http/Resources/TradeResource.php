@@ -48,15 +48,15 @@ class TradeResource extends JsonResource
             $trade['arbitrationManager'] = $this->contentSettings->isAvailable( 'arbitrationManager') ? new BidderResource($this->arbitrationManager) : null;
             $trade['debtor'] =  $this->contentSettings->isAvailable( 'debtor') ? new BidderResource($this->debtor) : null;
            // $trade['lotCount'] = $this->isAvailable( 'lotCount') ? $this->lots->count() : null;
-            $trade['tradePlace'] =  $this->contentSettings->isAvailable( 'tradePlace') ? [
-                'name' => $this->tradePlace->name,
+            $trade['tradePlace'] = $this->contentSettings->isAvailable( 'tradePlace') && $this->tradePlace ? [
+                'name' => isset($this->tradePlace->name) ? $this->tradePlace->name : '',
                 'site' => str_starts_with($this->tradePlace->site, 'http') ? $this->tradePlace->site : 'http://'.$this->tradePlace->site
             ] : null;
         }
         if(Route::getCurrentRoute()->getName() === 'bidders-trades'){
             $trade['organizer'] = $this->contentSettings->isAvailable( 'organizer') ? new BidderResource($this->companyTradeOrganizer) : null;
-            $trade['tradePlace'] =  $this->contentSettings->isAvailable( 'tradePlace') ? [
-                'name' => $this->tradePlace->name,
+            $trade['tradePlace'] =  $this->contentSettings->isAvailable( 'tradePlace')  && $this->tradePlace ? [
+                'name' => isset($this->tradePlace->name) ? $this->tradePlace->name : '',
                 'site' => str_starts_with($this->tradePlace->site, 'http') ? $this->tradePlace->site : 'http://'.$this->tradePlace->site
             ] : null;
         }

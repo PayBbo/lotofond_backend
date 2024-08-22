@@ -45,7 +45,7 @@ class FilesService
         return $files;
     }
 
-    public function downloadFileByLink($arrayFiles, $auctionId): array
+    public function downloadFileByLink($arrayFiles, $auctionId, $is_content=false): array
     {
         $time = $this->getTimeNow();
         $root_path = 'auction-files' . $this->slash . 'auction-' . $auctionId . $this->slash . $time;
@@ -53,7 +53,7 @@ class FilesService
         $files = array();
         $hasImages = false;
         foreach ($arrayFiles as $file) {
-            $content = $this->getContentWithCookiesFile($file['link']);
+            $content = $is_content ? $file['content'] : $this->getContentWithCookiesFile($file['link']);
             $filename = str_replace(' ', '-', $file['filename']);
             $filenameExtension = File::extension($filename) ? '.' . File::extension($filename) : File::extension($filename);
             $extension = File::extension($filename);

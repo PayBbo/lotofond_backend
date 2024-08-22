@@ -79,8 +79,11 @@ class LotResource extends JsonResource
             $monitoringLots = $this->content['monitoringLots'];
         }
         $descriptionExtracts = $this->contentSettings->isAvailable('descriptionExtracts') ? $this->description_extracts : null;
+        $efrsbLink = $this->auction->source_id == 1 ? 'https://fedresurs.ru/bidding/' . $this->auction->guid
+            : 'https://torgi.gov.ru/new/public/lots/lot/'. $this->auction->guid;
         $lotData = [
             'id' => $this->id,
+            'guid' => $this->guid,
             'trade' => (new TradeResource($this->auction))->content($this->contentSettings),
             'lotNumber' => $this->contentSettings->isAvailable('lotNumber') ? $this->number : null,
             'photos' => $this->contentSettings->isAvailable('photos') ? $this->photos : null,
@@ -120,7 +123,8 @@ class LotResource extends JsonResource
             'minPrice' => $this->contentSettings->isAvailable('minPrice') && $isPublicOffer ? $this->min_price : null,
             'currentPriceState' => $currentPriceState,
             'link' => URL::to('/lot/' . $this->id),
-            'efrsbLink' => $this->contentSettings->isAvailable('efrsbLink') ? 'https://fedresurs.ru/bidding/' . $this->auction->guid : null,
+            'efrsbLink' => $this->contentSettings->isAvailable('efrsbLink') ? $efrsbLink : null,
+            'sourceId' => $this->contentSettings->isAvailable('efrsbLink') ? $this->auction->source_id : null,
 
 //            'descriptionExtracts' => $descriptionExtracts,
             /*  $this->mergeWhen(($this->isLotInfo), [

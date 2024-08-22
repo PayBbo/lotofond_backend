@@ -10,7 +10,7 @@
                     }"
                 >
                     <skeleton type_name="spoiler" tag="div" :loading="rules && !rules.currentPrice">
-                        {{item && item.currentPrice ? item.currentPrice : '0' | priceFormat}} ₽
+                        {{(item && item.currentPrice ? item.currentPrice : '0') | priceFormat}} ₽
                     </skeleton>
                     <skeleton type_name="spoiler_mini" tag="div"
                               :loading="rules && !rules.currentPriceState"
@@ -29,9 +29,9 @@
             </div>
             <div class="bkt-card-trade__price-arrow d-none d-sm-flex align-self-end"
                  v-if="item && item.trade && item.trade.type &&
-                 ((item.startPrice && item.startPrice>=0 && item.trade.type!=='ClosePublicOffer' && item.trade.type!=='PublicOffer')
-                 || (item.minPrice && item.minPrice>=0 && (item.trade.type==='ClosePublicOffer' || item.trade.type==='PublicOffer')))"
-                 :class="{'bkt-rotate-180' : item.trade && (item.trade.type!=='ClosePublicOffer' && item.trade.type!=='PublicOffer')}">
+                 ((item.startPrice && item.startPrice>=0 && !offers.includes(item.trade.type))
+                 || (item.minPrice && item.minPrice>=0 && offers.includes(item.trade.type)))"
+                 :class="{'bkt-rotate-180' : item.trade && !offers.includes(item.trade.type)}">
                 <svg width="10" height="10" viewBox="0 0 10 10" fill="none"
                      xmlns="http://www.w3.org/2000/svg">
                     <path
@@ -42,7 +42,7 @@
             <!--                                        <template v-if="item && item.trade && item.trade.type">-->
             <div class="bkt-card__feature"
                  v-if="((item.minPrice && item.minPrice>=0) && item && item.trade && item.trade.type &&
-                 (item.trade.type==='ClosePublicOffer' || item.trade.type==='PublicOffer')
+                 offers.includes(item.trade.type)
                  && (!rules || rules && rules.minPrice))||(rules && !rules.minPrice)"
             >
                 <h6 class="bkt-card__subtitle bkt-text-700">
@@ -88,9 +88,7 @@
             >
                 <h6 class="bkt-card__subtitle">задаток
                     <span v-if="item && item.trade && item.trade.type">
-                        {{(item.trade.type==='CloseAuction' || item.trade.type==='OpenAuction'
-                        || item.trade.type==='OpenConcours' || item.trade.type==='CloseConcours')
-                        ? '(от начальной цены)' : '(от текущей цены)'}}
+                        {{auctions.includes(item.trade.type) ? '(от начальной цены)' : '(от текущей цены)'}}
                     </span>
                 </h6>
                 <h5 class="bkt-card__text bkt-text-700 bkt-card-trade__subprice">
@@ -98,7 +96,7 @@
                               :loading="rules && !rules.deposit">
                         <template v-if="item.deposit">
                             {{priceInfo.deposit.money | priceFormat}} ₽
-                            <span class="bkt-text-neutral-dark bkt-card-trade__subprice-percent">
+                            <span class="bkt-text-neutral-dark bkt-card-trade__subprice-percent" v-if="isNumber(priceInfo.deposit.percent)">
                                 {{priceInfo.deposit.percent | numberFormat}} %
                             </span>
                         </template>
@@ -112,8 +110,7 @@
             </div>
             <div class="bkt-card__feature" :class="step_class"
                  v-if="(item && item.stepPrice && item.stepPrice.value>0 && item.trade && item.trade.type &&
-                 (item.trade.type==='CloseAuction' || item.trade.type==='OpenAuction'
-                 || item.trade.type==='OpenConcours' || item.trade.type==='CloseConcours')
+                 auctions.includes(item.trade.type)
                  && (!rules || rules && rules.stepPrice))||(rules && !rules.stepPrice)"
             >
                 <h6 class="bkt-card__subtitle">шаг аукциона (от начальной цены)</h6>
@@ -121,7 +118,7 @@
                     <skeleton type_name="spoiler" :loading="rules && !rules.stepPrice">
                         <template v-if="item.stepPrice">
                             {{priceInfo.auction_step.money | priceFormat}} ₽
-                            <span class="bkt-text-neutral-dark bkt-card-trade__subprice-percent">
+                            <span class="bkt-text-neutral-dark bkt-card-trade__subprice-percent" v-if="isNumber(priceInfo.auction_step.percent)">
                                 {{priceInfo.auction_step.percent | numberFormat}} %
                             </span>
                         </template>
@@ -162,15 +159,27 @@
                 default: ''
             },
         },
+        data() {
+            return {
+               offers:['ClosePublicOffer', 'PublicOffer',"PPZ", "PPU"],
+                auctions: ['CloseAuction', 'OpenAuction', 'EA', 'OpenConcours', 'CloseConcours', "EK", "SA", "PA" , "BC", "PK"]
+            }
+        },
         computed: {
             priceInfo() {
                 if (this.item && this.item.trade && this.item.trade.type) {
-                    let prime_price = this.item.startPrice;
-                    let percent = ((this.item.currentPrice - this.item.startPrice) / this.item.startPrice) * 100;
+
+                    let start_price = Number(this.item.startPrice);
+                    let current_price = Number(this.item.currentPrice);
+                    let min_price = Number(this.item.minPrice);
+
+                    let prime_price = start_price;
+
+                    let percent = ((current_price - start_price) / start_price) * 100;
 
                     if (this.item.trade.type === 'ClosePublicOffer' || this.item.trade.type === 'PublicOffer') {
-                        prime_price = this.item.currentPrice;
-                        percent = ((this.item.startPrice - this.item.minPrice) / this.item.startPrice) * 100;
+                        prime_price = current_price;
+                        percent = ((start_price - min_price) / start_price) * 100;
                     }
 
                     if (percent > 0 && percent <= 0.01) {
@@ -185,7 +194,7 @@
                     if (this.item.deposit) {
                         deposit.type = this.item.deposit.type;
                         if (this.item.deposit.type === 'rubles') {
-                            deposit.money = this.item.deposit.value;
+                            deposit.money = Number(this.item.deposit.value);
                             deposit.percent = deposit.money * 100 / prime_price;
                             if (deposit.percent > 0 && deposit.percent <= 0.01) {
                                 deposit.percent = 0.01;
@@ -194,7 +203,7 @@
                                 deposit.percent = 99.99;
                             }
                         } else {
-                            deposit.percent = this.item.deposit.value;
+                            deposit.percent = Number(this.item.deposit.value);
                             deposit.money = prime_price * deposit.percent / 100;
                         }
                     }
@@ -210,16 +219,22 @@
                                 auction_step.percent = 99.99;
                             }
                         } else {
-                            auction_step.percent = this.item.stepPrice.value;
+                            auction_step.percent = Number(this.item.stepPrice.value);
                             auction_step.money = prime_price * auction_step.percent / 100;
                         }
                     }
+
                     return {percent: percent, deposit: deposit, auction_step: auction_step}
                 }
             },
             rules() {
                 return this.$store.getters.rules
             },
+        },
+        methods: {
+            isNumber(value) {
+                return typeof value === 'number' && !isNaN(value) && Number.isFinite(value);
+            }
         }
     }
 </script>

@@ -16,6 +16,7 @@ use App\Jobs\ParseCompanyTradeOrganizer;
 use App\Jobs\ParseDebtor;
 use App\Jobs\ParseDebtorMessages;
 use App\Jobs\ParseSRORegister;
+use App\Jobs\ParseTorgiGovRu;
 use App\Jobs\ParseTrades;
 use App\Jobs\SendLotsToChannel;
 use Illuminate\Console\Scheduling\Schedule;
@@ -32,6 +33,8 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         $schedule->job((new ParseTrades)->onQueue('parse'))->everyFifteenMinutes()->timezone('Europe/Moscow');
+//        $schedule->job((new ParseTorgiGovRu)->onQueue('parse'))->dailyAt('03:05')->timezone('Europe/Moscow');
+//        $schedule->job((new ParseTorgiGovRu('current'))->onQueue('parse'))->everyFifteenMinutes()->timezone('Europe/Moscow');
         //$schedule->job((new MonitoringJob)->onQueue('parse'))->everyFifteenMinutes()->timezone('Europe/Moscow');
         $schedule->job((new MonitoringNotificationJob('hourly'))->onQueue('monitoring'))->hourly()->timezone('Europe/Moscow');
         $schedule->job((new MonitoringNotificationJob('daily'))->onQueue('monitoring'))->daily()->timezone('Europe/Moscow');

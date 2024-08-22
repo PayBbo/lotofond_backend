@@ -85,6 +85,6 @@ class ContentSettingsService
 
     public function isAvailable($code)
     {
-        return $this->contentRules[$code];
+        return isset($this->contentRules[$code]) ? $this->contentRules[$code] : null;
     }
 }

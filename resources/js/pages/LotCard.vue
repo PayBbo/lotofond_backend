@@ -277,7 +277,7 @@
                             <a :href="item.efrsbLink" target="_blank" style="font-weight: 600"
                                class="bkt-button next bkt-text-primary py-1 ms-auto"
                             >
-                                Лот на Федресурсе
+                                Лот на {{item.sourceId ==1 ? 'Федресурсе' : 'ГИС ТОРГИ'}}
                                 <bkt-icon name="ArrowDown" color="primary"></bkt-icon>
                             </a>
 

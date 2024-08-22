@@ -16,44 +16,45 @@ class AuctionObserver
      */
     public function created(Auction $auction)
     {
-        $email = $auction->arbitrationManager->email;
-        if (!is_null($email)) {
-            $debtor = $auction->debtor;
-            $debtorName = $debtor->name;
-            if (!is_null($debtor->last_name)) {
-                $debtorName = $debtor->last_name . ' ' . $debtor->name;
-            }
-            if (!is_null($debtor->last_name)) {
-                $debtorName .= ' ' . $debtor->middle_name;
-            }
+        if($auction->arbitrationManager && $auction->source_id==1) {
+            $email = $auction->arbitrationManager->email;
+            if (!is_null($email)) {
+                $debtor = $auction->debtor;
+                $debtorName = $debtor->name;
+                if (!is_null($debtor->last_name)) {
+                    $debtorName = $debtor->last_name . ' ' . $debtor->name;
+                }
+                if (!is_null($debtor->last_name)) {
+                    $debtorName .= ' ' . $debtor->middle_name;
+                }
 
-            $subject = "Запрос информации по торгу должника: " . $debtorName;
-            $tradeId = $auction->trade_id;
-            $idEfrsb = '. </p> <p> Ссылка на торги на федресурсе: https://fedresurs.ru/bidding/' . $auction->guid . '</p>';
-            if (!is_null($auction->id_efrsb)) {
-                $idEfrsb = ". </p> <p>Номер сообщения в ЕФРСБ: " . $auction->id_efrsb . '</p>';
-            }
-            $html = "Добрый день, просим предоставить все имеющиеся документы и информацию по торгам № " . $tradeId .
-                ".<p>Должник: " . $debtorName . ",  ИНН: " . $debtor->inn . $idEfrsb .
-                "<br>
+                $subject = "Запрос информации по торгу должника: " . $debtorName;
+                $tradeId = $auction->trade_id;
+                $idEfrsb = '. </p> <p> Ссылка на торги на федресурсе: https://fedresurs.ru/bidding/' . $auction->guid . '</p>';
+                if (!is_null($auction->id_efrsb)) {
+                    $idEfrsb = ". </p> <p>Номер сообщения в ЕФРСБ: " . $auction->id_efrsb . '</p>';
+                }
+                $html = "Добрый день, просим предоставить все имеющиеся документы и информацию по торгам № " . $tradeId .
+                    ".<p>Должник: " . $debtorName . ",  ИНН: " . $debtor->inn . $idEfrsb .
+                    "<br>
 <p>Лотофонд оставляет за собой право для публикации Вашего ответа на нашем ресурсе.</p>
 <p> С уважением,</p>
 <p>ООО «Русвопрос»</p>";
 
-           /* $emails = Cache::get('contactEmails') ?? [];
-            $counts = array_count_values($emails);
-            $count = array_key_exists($email, $counts) ? $counts[$email] : 1;
-            $delay = random_int(60, 360) * $count;
-            dispatch((new SendApplication($html, $subject, $email, true))->onQueue('credentials')->delay($delay));
-            $emails[] = $email;
-            Cache::put('contactEmails', $emails, Carbon::now()->setTimezone('Europe/Moscow')->addDay());*/
-            $cacheService = new CacheService();
-            $delay = $cacheService->calculateMailDelay();
-            if (!is_null($delay)) {
-                dispatch((new SendApplication($html, $subject, $email, true))->onQueue('credentials')->delay($delay));
+                /* $emails = Cache::get('contactEmails') ?? [];
+                 $counts = array_count_values($emails);
+                 $count = array_key_exists($email, $counts) ? $counts[$email] : 1;
+                 $delay = random_int(60, 360) * $count;
+                 dispatch((new SendApplication($html, $subject, $email, true))->onQueue('credentials')->delay($delay));
+                 $emails[] = $email;
+                 Cache::put('contactEmails', $emails, Carbon::now()->setTimezone('Europe/Moscow')->addDay());*/
+                $cacheService = new CacheService();
+                $delay = $cacheService->calculateMailDelay();
+                if (!is_null($delay)) {
+                    dispatch((new SendApplication($html, $subject, $email, true))->onQueue('credentials')->delay($delay));
+                }
             }
         }
-
     }
 
     /**

@@ -41,7 +41,10 @@ class Lot extends Model
         'sale_agreement',
         'concours',*/
         'created_at',
-        'price_reduction'
+        'price_reduction',
+        'guid',
+        'active',
+        'number'
 
     ];
     /**
@@ -58,7 +61,8 @@ class Lot extends Model
         'deposit' => 'float',
         'is_auction_step_rub' => 'boolean',
         'is_deposit_rub' => 'boolean',
-        'status_id' => 'integer'
+        'status_id' => 'integer',
+        'active' => 'boolean'
     ];
 
     public function applications()

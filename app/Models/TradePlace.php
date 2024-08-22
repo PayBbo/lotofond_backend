@@ -20,7 +20,8 @@ class TradePlace extends Model
         'inn',
         'site',
         'trade_place_category_id',
-        'email'
+        'email',
+        'code'
     ];
 
     /**

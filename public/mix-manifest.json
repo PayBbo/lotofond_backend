@@ -1,6 +1,6 @@
 {
-    "/js/app.js": "/js/app.js?id=28addf5e32a2d3e51736670f9e21fdbc",
-    "/js/main.js": "/js/main.js?id=ed08428da556634c7330cfb36f5d712a",
+    "/js/app.js": "/js/app.js?id=991d54c38f0e4af6d38aa85f787558d6",
+    "/js/main.js": "/js/main.js?id=7c7bfbb54bf0187d286144ebb0658a16",
     "/js/registries.js": "/js/registries.js?id=f818deb77b23b693dd272f6c240a9b35",
     "/js/registry.js": "/js/registry.js?id=a5380c539d3494f1999049d94f2355b2",
     "/js/profile.js": "/js/profile.js?id=86535c18e0f592c9561e5a1b3ff15d3a",
@@ -11,9 +11,9 @@
     "/js/monitoring.js": "/js/monitoring.js?id=a38679285acf7a4ec69c65c1dbd9be93",
     "/js/messages.js": "/js/messages.js?id=61c42326f6a19956adbd8c9497fc860f",
     "/js/tariffs.js": "/js/tariffs.js?id=15814b7c99fb05bed4ba9026f5e1e890",
-    "/js/auctions.js": "/js/auctions.js?id=b7b8b783a41ca9f3aec9effe424e2691",
+    "/js/auctions.js": "/js/auctions.js?id=d3b6d0d3e3c5234424d3317aad53082d",
     "/js/calendar.js": "/js/calendar.js?id=825888c67630e4d4b37afe5261ba8b73",
-    "/js/lot-card.js": "/js/lot-card.js?id=76fabe8d6d3453f309e0056b03bcd290",
+    "/js/lot-card.js": "/js/lot-card.js?id=c3c556fd506d52a99e9838feb9bda4df",
     "/js/week-winners.js": "/js/week-winners.js?id=f8432acdc4396a24d761e714854b3b01",
     "/js/privacy-policy.js": "/js/privacy-policy.js?id=29d6bc1e228160af02f7513983ce2080",
     "/js/terms.js": "/js/terms.js?id=f38ebf6400b0b0e4dbf84f88c050c92a",
@@ -22,7 +22,7 @@
     "/js/users.js": "/js/users.js?id=6ad00b91769e881a37d8d4941f85eaa4",
     "/js/users-add.js": "/js/users-add.js?id=608fe853e882402cc2226aae2271b2e3",
     "/js/text-data.js": "/js/text-data.js?id=c8cdd29d2051a646dc3d4dc062d15592",
-    "/js/text-data-edit.js": "/js/text-data-edit.js?id=9acaeba98fdd598461e7c87da7047be0",
+    "/js/text-data-edit.js": "/js/text-data-edit.js?id=3fa725a225097709ee69c3ab02860fd9",
     "/js/lots.js": "/js/lots.js?id=cad42e96e7dd707a5513cb7b113cd9f0",
     "/js/roles.js": "/js/roles.js?id=7003f7eb30ce502c6c7af62fb41efea4",
     "/js/tariffs-add.js": "/js/tariffs-add.js?id=682e0ad7e2de3989b6c8caa3a36b7592",
@@ -34,5 +34,5 @@
     "/js/not-found.js": "/js/not-found.js?id=dec3846fdf237085061e859b405f3580",
     "/css/app.css": "/css/app.css?id=e7d3cc958268c4c73e6c9496ca5af5c6",
     "/css/app.min.css": "/css/app.min.css?id=e7d3cc958268c4c73e6c9496ca5af5c6",
-    "/js/app.min.js": "/js/app.min.js?id=28addf5e32a2d3e51736670f9e21fdbc"
+    "/js/app.min.js": "/js/app.min.js?id=991d54c38f0e4af6d38aa85f787558d6"
 }
