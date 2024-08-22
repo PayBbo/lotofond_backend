@@ -80,7 +80,7 @@ class LotResource extends JsonResource
         }
         $descriptionExtracts = $this->contentSettings->isAvailable('descriptionExtracts') ? $this->description_extracts : null;
         $efrsbLink = $this->auction->source_id == 1 ? 'https://fedresurs.ru/bidding/' . $this->auction->guid
-            : 'https://torgi.gov.ru/new/public/lots/lot/'. $this->auction->guid;
+            : 'https://torgi.gov.ru/new/public/lots/lot/'. $this->guid;
         $lotData = [
             'id' => $this->id,
             'guid' => $this->guid,
