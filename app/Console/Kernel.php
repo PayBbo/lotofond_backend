@@ -3,6 +3,7 @@
 namespace App\Console;
 
 use App\Console\Commands\DeleteOldFilesCommand;
+use App\Console\Commands\ParseTorgiGovRuCommand;
 use App\Jobs\AdditionalLotInfoParseJob;
 use App\Jobs\DeleteOldFilesJob;
 use App\Jobs\EGRNStatementJob;
@@ -33,6 +34,7 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         $schedule->job((new ParseTrades)->onQueue('parse'))->everyFifteenMinutes()->timezone('Europe/Moscow');
+        $schedule->command(ParseTorgiGovRuCommand::class)->dailyAt('03:15')->timezone('Europe/Moscow');
 //        $schedule->job((new ParseTorgiGovRu)->onQueue('parse'))->dailyAt('03:05')->timezone('Europe/Moscow');
 //        $schedule->job((new ParseTorgiGovRu('current'))->onQueue('parse'))->everyFifteenMinutes()->timezone('Europe/Moscow');
         //$schedule->job((new MonitoringJob)->onQueue('parse'))->everyFifteenMinutes()->timezone('Europe/Moscow');

@@ -20,12 +20,15 @@ use App\Models\Lot;
 use App\Models\Monitoring;
 use App\Models\Notification;
 use App\Models\User;
+use App\Traits\TorgiGovRuTrait;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class AuctionController extends Controller
 {
+    use TorgiGovRuTrait;
+
     protected $numberOfLotsForUnauthorizedUsers;
 
     public function __construct()
@@ -42,6 +45,7 @@ class AuctionController extends Controller
                     $subQuery->where("user_id", "=", $userId);
                 });
             })
+            ->where('active', true)
             ->customSortBy($request)->paginate(20);
         return response(new LotCollection($lots), 200);
     }
@@ -52,6 +56,7 @@ class AuctionController extends Controller
             $authCheck = auth()->guard('api')->check();
             if ($authCheck) {
                 $lots = Lot::with(['auction', 'showRegions', 'status', 'lotImages', 'categories', 'lotParams'])
+                    ->where('active', true)
                     ->filterBy($request->request)->customSortBy($request)->paginate(20);
                 return response(new LotCollection($lots), 200);
             } else {
@@ -74,6 +79,7 @@ class AuctionController extends Controller
         $authCheck = auth()->guard('api')->check();
         if ($authCheck) {
             $lots = Lot::with(['auction', 'showRegions', 'status', 'lotImages', 'categories', 'lotParams'])
+                ->where('active', true)
                 ->filterBy($request->request)
                 ->hasByNonDependentSubquery('auction', function ($q) use ($start, $end) {
                     $q->whereBetween('application_start_date', [$start, $end])
@@ -82,6 +88,7 @@ class AuctionController extends Controller
             return response(new LotCollection($lots), 200);
         } else {
             $lots = Lot::with(['auction', 'showRegions', 'status', 'lotImages', 'categories', 'lotParams'])
+                ->where('active', true)
                 ->filterBy($request->request)
                 ->whereHas('auction', function ($q) use ($start, $end) {
                     $q->whereBetween('application_start_date', [$start, $end])
@@ -110,6 +117,7 @@ class AuctionController extends Controller
     {
         $searchString = $request->searchString;
         $lots = Lot::with(['auction', 'lotImages', 'categories'])
+            ->where('active', true)
             ->when(auth()->guard('api')->check(), function ($query) {
                 $query->whereNotIn('lots.id', auth()->guard('api')->user()->hiddenLots->pluck('id'));
             })

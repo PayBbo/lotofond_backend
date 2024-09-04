@@ -4,7 +4,6 @@ namespace App\Traits;
 
 use App\Http\Services\Parse\DescriptionExtractsService;
 use App\Http\Services\Parse\FilesService;
-use App\Http\Services\Parse\PriceReductionService;
 use App\Jobs\ParseTorgiGovRu;
 use App\Models\Auction;
 use App\Models\AuctionType;
@@ -17,7 +16,7 @@ use App\Models\Status;
 use App\Models\TradePlace;
 use App\Models\Type;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\DB;
 
 trait TorgiGovRuTrait
 {
@@ -202,10 +201,11 @@ trait TorgiGovRuTrait
      * Последние извещения
      * @return \Illuminate\Http\JsonResponse|mixed
      */
-    public function getLastNotices($limit=0)
+    public function getLastNotices($limit=0, $count_statuses=false)
     {
         $result = [];
         $notices = [];
+
         try {
             $notices = $this->getNotices();
         }
@@ -215,41 +215,38 @@ trait TorgiGovRuTrait
                 ->delay(now()->setTimezone('Europe/Moscow')->addMinutes(5))
                 ->onQueue('parse'));
         }
+
         $i = 0;
+        $statuses = ['noticeCancel', 'noticeStop', 'noticeResumption', 'noticeAnnulment'];
+
         foreach ($notices as $notice) {
+            $item = $this->callMethod('', [], $notice['href']);
             if ($notice['documentType'] === 'notice') {
-                $auction = $this->callMethod('', [], $notice['href']);
-//                $result[] = $auction;
-                $result[] = $this->parseAuction($auction, $notice['documentType'], $notice['subjectRightHolderCode']);
-               $i++;
+                $result[] = $this->parseAuction($item, $notice['documentType'], $notice['subjectRightHolderCode']);
+                $i++;
             }
-            if($limit > 0 && $i===$limit) {
-                logger('limit break '.$limit);
+            else {
+                $auction = Auction::where('trade_id', $notice['regNum'])->first();
+                if ($auction) {
+                    $files = $this->parseFiles($item);
+                    $lots = Lot::where('auction_id', $auction->id)->get();
+                    foreach ($lots as $lot) {
+                        $this->storeFiles($files, $auction->id, $lot->id);
+                        if (in_array($notice['documentType'], $statuses)) {
+                            $lot->status_id = $this->parseStatus($notice['documentType']);
+                            $lot->save();
+                        }
+                    }
+                }
+                if ($count_statuses) {
+                    $i++;
+                }
+            }
+            if ($limit > 0 && $i === $limit) {
+                logger('limit break ' . $limit);
                 break;
             }
-            logger('$i = '.$i);
-//                            if ($notice['documentType'] === 'noticeCancel') {
-//
-//                            }
-//                            if ($notice['documentType'] === 'noticeStop') {
-//
-//                            }
-//                            if ($notice['documentType'] === 'noticeResumption') {
-//
-//                            }
-//                            if ($notice['documentType'] === 'clarifications') {
-//
-//                            }
-//                            if ($notice['documentType'] === 'noticeAnnulment') {
-////                                $auction = Auction::where('trade_id', $notice['regNum'])->first();
-////                                if($auction) {
-////                                    //annulment here
-////                                }
-////                                else {
-////                                    $auction = $this->callMethod('',[],$notice['href']);
-////                                    $this->parseAuction($auction);
-////                                }
-//                            }
+            logger('$i = ' . $i);
         }
 
         return $result;
@@ -272,7 +269,7 @@ trait TorgiGovRuTrait
     public function getCurrentNotices($from = null, $to = null) {
         $notices = [];
         try {
-            $notices = $this->searchAuctions();
+            $notices = $this->searchAuctions($from, $to);
         }
         catch (\Exception $exception){
             logger('FAILED getNotices, RESTART');
@@ -331,7 +328,7 @@ trait TorgiGovRuTrait
         }
         //todo: check recursion function, that it take all pages of search to result
         if(isset($response['last']) && $response['last'] === false) {
-            $result = array_merge($result, $this->searchAuctions($from = null, $to = null, $page+1));
+            $result = array_merge($result, $this->searchAuctions($from, $to, $page+1));
         }
         return $result;
     }
@@ -401,85 +398,82 @@ trait TorgiGovRuTrait
                 }
             }
             if ($parse) {
-//        logger('parse = '.mb_convert_encoding(json_encode($parse), 'UTF-8', 'Windows-1251'));
-                logger('start -----------------------' . $parse['noticeNumber']);
-                logger('$bidderOrg = oranizwq');
-                $companyTradeOrganizerId = null;
-                $debtorId = null;
-                //организатор
-                $bidderOrg = isset($parse['bidderOrg']) ? $parse['bidderOrg'] : null;
-                if ($bidderOrg) {
-                    if (isset($bidderOrg['orgInfo']) && isset($bidderOrg['contactInfo'])) {
-                        $bidderOrg = array_merge($bidderOrg['orgInfo'], $bidderOrg['contactInfo']);
-                    }
-                    logger('$bidderOrg = ' . json_encode($bidderOrg));
-                    $bidder = $this->parseBidder($bidderOrg, 'organizer');
-                    if ($bidder) {
-                        $companyTradeOrganizerId = $bidder->id;
-                    }
-                }
-
-                logger('rightHolderOrg');
-                //правообладатель
-                //todo: добавить новый тип в Types
-                $rightHolderOrg = isset($parse['rightHolderInfo']) ? $parse['rightHolderInfo']['rightHolderOrg'] : $parse['rightHolderOrg'];
-                if ($rightHolderOrg) {
-                    $rightHolder = $this->parseBidder($rightHolderOrg, 'debtor', $subjectRightHolderCode);
-                    if ($rightHolder) {
-                        $debtorId = $rightHolder->id;
-                    }
-                }
-
-//                updateOrCreate
-                $auction = Auction::firstOrCreate(
-                    [
-                        'guid' => isset($parse['rootId']) ? $parse['rootId'] : $parse['id'],
-                        'trade_id' => $parse['noticeNumber'],
-                    ],
-                    [
-                        'trade_id' => $parse['noticeNumber'],
-                        'publish_date' => $parse['publishDate'],
-                        'event_start_date' => isset($parse['auctionStartDate']) ? $parse['auctionStartDate']
-                            : (isset($parse['startDate']) ? $parse['startDate'] : null),
-//            'event_end_date' => $parse['biddReviewDate'],
-                        'application_start_date' => $parse['biddStartTime'],
-                        'application_end_date' => $parse['biddEndTime'],
-                        'source_id' => 2, //todo: change to constant
-//            'result_date' => $parse['biddReviewDate'],
-                        'debtor_id' => $debtorId,
-                        'company_trade_organizer_id' => $companyTradeOrganizerId,
-                        'auction_type_id' => $this->parseBiddingForm($parse['biddForm']['code'], $parse['biddForm']['name']),
-                        'price_form' => 'open'
-                    ]
-                );
-                logger('etp ' . $parse['noticeNumber']);
-                $etp = isset($parse['etpCode']) ? $parse['etpCode'] : (isset($parse['etp']['code']) ? $parse['etp']['code'] : null);
-                if ($etp) {
-                    $tradePlace = TradePlace::where('code', $etp)->first();
-                    if (!$tradePlace) {
-                        $platforms = $this->getElectronicPlatforms();
-                        if ($platforms) {
-                            $platform = collect($platforms)->where('code', $etp)->first();
-                            if ($platform) {
-                                $tradePlace = TradePlace::where('site', 'like', '%' . $platform['site'] . '%')->first();
-                            }
+                DB::transaction(function () use($parse, $documentType, $subjectRightHolderCode) {
+                    logger('start -----------------------' . $parse['noticeNumber']);
+                    $companyTradeOrganizerId = null;
+                    $debtorId = null;
+                    //организатор
+                    $bidderOrg = isset($parse['bidderOrg']) ? $parse['bidderOrg'] : null;
+                    if ($bidderOrg) {
+                        if (isset($bidderOrg['orgInfo']) && isset($bidderOrg['contactInfo'])) {
+                            $bidderOrg = array_merge($bidderOrg['orgInfo'], $bidderOrg['contactInfo']);
+                        }
+                        $bidder = $this->parseBidder($bidderOrg, 'organizer');
+                        if ($bidder) {
+                            $companyTradeOrganizerId = $bidder->id;
                         }
                     }
-                    if ($tradePlace) {
-                        $auction->trade_place_id = $tradePlace->id;
-                    }
-                }
 
-                $auction->save();
-                logger('parseFiles');
-                $files = $this->parseFiles($parse);
-                if (isset($parse['lots'])) {
-                    foreach ($parse['lots'] as $lot) {
-                        $this->parseLot($lot, $auction->id, $parse['noticeNumber'], $files);
+                    //правообладатель
+                    $rightHolderOrg = isset($parse['rightHolderInfo']) ? $parse['rightHolderInfo']['rightHolderOrg'] : $parse['rightHolderOrg'];
+                    if ($rightHolderOrg) {
+                        $rightHolder = $this->parseBidder($rightHolderOrg, 'debtor', $subjectRightHolderCode);
+                        if ($rightHolder) {
+                            $debtorId = $rightHolder->id;
+                        }
                     }
-                }
-                logger(' end au-------------------- ' . $parse['noticeNumber']);
-                return $auction;
+
+                    $auction = Auction::firstOrCreate(
+                        [
+                            'guid' => isset($parse['rootId']) ? $parse['rootId'] : $parse['id'],
+                            'trade_id' => $parse['noticeNumber'],
+                        ],
+                        [
+                            'trade_id' => $parse['noticeNumber'],
+                            'publish_date' => $parse['publishDate'],
+                            'event_start_date' => isset($parse['auctionStartDate']) ? $parse['auctionStartDate']
+                                : (isset($parse['startDate']) ? $parse['startDate'] : null),
+//            'event_end_date' => $parse['biddReviewDate'],
+                            'application_start_date' => $parse['biddStartTime'],
+                            'application_end_date' => $parse['biddEndTime'],
+                            'source_id' => 2,
+//            'result_date' => $parse['biddReviewDate'],
+                            'debtor_id' => $debtorId,
+                            'company_trade_organizer_id' => $companyTradeOrganizerId,
+                            'auction_type_id' => $this->parseBiddingForm($parse['biddForm']['code'], $parse['biddForm']['name']),
+                            'price_form' => 'open'
+                        ]
+                    );
+
+                    logger('etp ');
+                    $etp = isset($parse['etpCode']) ? $parse['etpCode'] : (isset($parse['etp']['code']) ? $parse['etp']['code'] : null);
+                    if ($etp) {
+                        $tradePlace = TradePlace::where('code', $etp)->first();
+                        if (!$tradePlace) {
+                            $platforms = $this->getElectronicPlatforms();
+                            if ($platforms) {
+                                $platform = collect($platforms)->where('code', $etp)->first();
+                                if ($platform) {
+                                    $tradePlace = TradePlace::where('site', 'like', '%' . $platform['site'] . '%')->first();
+                                }
+                            }
+                        }
+                        if ($tradePlace) {
+                            $auction->trade_place_id = $tradePlace->id;
+                        }
+                    }
+
+                    $auction->save();
+                    logger('parseFiles');
+                    $files = $this->parseFiles($parse);
+                    if (isset($parse['lots'])) {
+                        foreach ($parse['lots'] as $lot) {
+                            $this->parseLot($lot, $auction->id, $parse['noticeNumber'], $files);
+                        }
+                    }
+                    logger(' end au-------------------- ' . $parse['noticeNumber']);
+                    return $auction;
+                });
             }
             return null;
         } catch (\Exception $e) {
@@ -491,8 +485,6 @@ trait TorgiGovRuTrait
     public function parseBidder($parse, $type, $regionCode = null)
     {
         logger('regionCode '.$regionCode);
-        logger('bidder ' . $type . ' = ' . (isset($parse['email']) ? $parse['email'] : json_encode($parse)));
-        logger('bidder ' . $type . ' = ' . (isset($parse['code']) ? $parse['code'] : json_encode($parse)));
         if ($parse) {
             $regionId = null;
             if ($regionCode) {
@@ -519,7 +511,7 @@ trait TorgiGovRuTrait
                     'region_id' => $regionId,
                 'debtor_category_id' => 8,
                     'reg_num' => isset($parse['code']) ? $parse['code'] : null,
-//                'correspondence_address' => isset($parse['actualAddress']) ? $parse['actualAddress'] : null,
+                'correspondence_address' => isset($parse['actualAddress']) ? $parse['actualAddress'] : null,
 //                'sro_au_id' => $bidderOrg[""],
 //                'reg_date' => $bidderOrg[""],
 //                'bankrupt_id' => $bidderOrg[""]
@@ -553,16 +545,6 @@ trait TorgiGovRuTrait
     public function parseLot($parse, $auctionId, $auctionNumber, $auctionFiles = [])
     {
         logger('parseLot');
-//        updateOrCreate
-        //todo: CHECK проверить на фронте, что процент число а не бесконечность
-        //todo: выяснить где показывается какие цены и проценты
-        //todo: CHECK заменить 'или' includes на фронте
-        //todo: CHECK на фронте убрать ссылку на федресурс
-        //todo: сделать ссылку на etp
-        //todo: CHECK в lang добавить новые типы торгов
-
-        //характеристики парсить ? добавлять к ним меры ? доп.атрибуты парсить?
-
         $lot = Lot::firstOrCreate(
             [
                 'guid' => isset($parse['id']) ? $parse['id'] : $auctionNumber . '_' . $parse['lotNumber'],
@@ -620,21 +602,7 @@ trait TorgiGovRuTrait
 //            $priceReduction->savePriceReduction($lot->id, $lot->start_price, $lot->created_at, null, null, 0, $lot->deposit, true);
 //
             $files = array_merge($this->parseFiles($parse), $auctionFiles);
-
-            $fileService = new FilesService();
-            $parsedFiles = $fileService->downloadFileByLink($files, $auctionId, true);
-            if (!is_null($parsedFiles)) {
-                if (count($parsedFiles['files']) > 0) {
-                    foreach ($parsedFiles['files'] as $file) {
-                        $this->saveFile($file, 'file', $lot->id);
-                    }
-                }
-                if (count($parsedFiles['images']) > 0) {
-                    foreach ($parsedFiles['images'] as $image) {
-                        $this->saveFile($image, 'image', $lot->id);
-                    }
-                }
-            }
+            $this->storeFiles($files, $auctionId, $lot->id);
         }
     }
 
@@ -680,7 +648,6 @@ trait TorgiGovRuTrait
 
         if ($attachments) {
             foreach ($attachments as $attachment) {
-                Log::info('$attachmentid = ' . $attachment['id']);
                 $content = $this->getFile($attachment['id'], true);
                 if ($content) {
                     $files[] = [
@@ -694,6 +661,23 @@ trait TorgiGovRuTrait
         }
 
         return $files;
+    }
+
+    public function storeFiles($files=[], $auctionId=null, $lotId=null) {
+        $fileService = new FilesService();
+        $parsedFiles = $fileService->downloadFileByLink($files, $auctionId, true);
+        if (!is_null($parsedFiles)) {
+            if (count($parsedFiles['files']) > 0) {
+                foreach ($parsedFiles['files'] as $file) {
+                    $this->saveFile($file, 'file', $lotId);
+                }
+            }
+            if (count($parsedFiles['images']) > 0) {
+                foreach ($parsedFiles['images'] as $image) {
+                    $this->saveFile($image, 'image', $lotId);
+                }
+            }
+        }
     }
     //</editor-fold>
 

@@ -16,7 +16,7 @@ class ParseTorgiGovRuCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'parseTorgi {--limit=}';
+    protected $signature = 'parseTorgi {--limit=} {--count_statuses=}';
 
     /**
      * The console command description.
@@ -36,14 +36,26 @@ class ParseTorgiGovRuCommand extends Command
         if ($this->option('limit')) {
             $limit = +$this->option('limit');
         }
+        $count_statuses = 0;
+        if ($this->option('count_statuses')) {
+            $count_statuses = +$this->option('count_statuses');
+        }
+
         logger('START ParseTorgiGovRuCommand');
         $notices = $this->getNotices();
+
         if ($notices && count($notices)) {
             $i = 0;
             foreach ($notices as $notice) {
                 if ($notice['documentType'] === 'notice') {
-                    dispatch((new ParseTorgiGovRuTrade($notice))->onQueue('parse'));
+                    dispatch((new ParseTorgiGovRuTrade($notice, null))->onQueue('parse'));
                     $i++;
+                }
+                else {
+                    dispatch((new ParseTorgiGovRuTrade(null, $notice))->onQueue('parse'));
+                    if ($count_statuses) {
+                        $i++;
+                    }
                 }
                 if ($limit > 0 && $i === $limit) {
                     break;
