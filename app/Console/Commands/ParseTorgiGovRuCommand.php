@@ -6,6 +6,7 @@ use App\Http\Services\CacheService;
 use App\Jobs\MonitoringJob;
 use App\Jobs\ParseTorgiGovRuTrade;
 use App\Traits\TorgiGovRuTrait;
+use Carbon\Carbon;
 use Illuminate\Console\Command;
 
 class ParseTorgiGovRuCommand extends Command
@@ -42,6 +43,7 @@ class ParseTorgiGovRuCommand extends Command
         }
 
         logger('START ParseTorgiGovRuCommand');
+        $this->info('START ParseTorgiGovRuCommand '.Carbon::now());
         $notices = $this->getNotices();
 
         if ($notices && count($notices)) {
@@ -69,6 +71,7 @@ class ParseTorgiGovRuCommand extends Command
         $cacheService->cachePricesForFilter();
         dispatch((new MonitoringJob())->onQueue('monitoring'));
         logger('END ParseTorgiGovRuCommand');
+        $this->info('END ParseTorgiGovRuCommand '.Carbon::now());
         return 0;
     }
 }

@@ -29,6 +29,8 @@ trait TorgiGovRuTrait
         $this->setCategories();
         //добавляем виды торгов, которые отсутствуют
         $this->setBiddingTypes();
+        //добавляем торговые площадки
+        $this->setTradePlaces();
     }
 
     public function setCategories()
@@ -193,6 +195,25 @@ trait TorgiGovRuTrait
             }
         }
         return AuctionType::all();
+    }
+
+    public function setTradePlaces() {
+        $places = $this->getElectronicPlatforms();
+        foreach ($places as $place) {
+            $tradePlace = TradePlace::where('code', $place['code'])->orWhere('site', 'like', '%' . $place['site'] . '%')->first();
+            if (!$tradePlace) {
+                $tradePlace = TradePlace::firstOrCreate([
+                    'code' => $place['code'],
+                    'site' => $place['site'],
+                    'name' => $place['shortName'],
+                    'owner_name' => $place['name']
+                ]);
+            }
+            else {
+                $tradePlace->code = $place['code'];
+                $tradePlace->save();
+            }
+        }
     }
     //</editor-fold>
 
