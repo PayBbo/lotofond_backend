@@ -14,7 +14,7 @@ class UpdateAuctionsTable20240907 extends Migration
     public function up()
     {
         \Illuminate\Support\Facades\DB::table('auctions')
-            ->where('source_id', null)
+            ->where('source_id', null)->orWhere('source_id', 0)
             ->update([
                 'source_id' => 1
             ]);
