@@ -89,6 +89,7 @@ class BiddingInvitation extends TradeMessage
             $data = $invitation[$prefix . 'TradeInfo'];
             $auction->id_efrsb = array_key_exists($prefix . 'IDEFRSB', $invitation) ? $invitation[$prefix . 'IDEFRSB'] : NULL;
             $auction->guid = $this->guid;
+            $auction->source_id = 1; //todo: change to constant
             $auction->trade_place_id = $tradePlace;
             $auction->trade_id = $invitation['@attributes']['TradeId'];
             $auction->publish_date = $this->parseDate($invitation['@attributes']['EventTime']);
