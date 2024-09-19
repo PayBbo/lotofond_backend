@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\ContactsController;
 use App\Http\Controllers\Admin\ContentRulesController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\EgrnStatementsController;
+use App\Http\Controllers\Admin\FedresursController;
 use App\Http\Controllers\Admin\FileController;
 use App\Http\Controllers\Admin\HolidayDayController;
 use App\Http\Controllers\Admin\LotController;
@@ -180,6 +181,14 @@ Route::group(['middleware' =>['localization', 'role:admin|manager', 'json.respon
 
         Route::put('/change/status/{id}', [NewsController::class, 'changeStatus']);
 
+    });
+
+    Route::group(['prefix' => 'fedresurs'], function() {
+        Route::get('/trade-messages', [FedresursController::class, 'getTradeMessages']);
+        Route::get('/trade-messages/by-trade', [FedresursController::class, 'getTradeMessagesByTrade']);
+        Route::get('/trade-messages/{id}', [FedresursController::class, 'getTradeMessageContent']);
+        Route::get('/messages', [FedresursController::class, 'getMessageIds']);
+        Route::get('/messages/{id}', [FedresursController::class, 'getMessageContent']);
     });
 
 });
