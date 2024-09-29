@@ -260,6 +260,7 @@ $lotDesc</p>
 
     public function sendEGRNStatement($application, $fileLink)
     {
+        logger('sendEGRNStatement id ='.$application->id);
         try {
             $lotUrl = URL::to('/lot/' . $application->lot_id);
             $html = "<p>Добрый день!</p>
@@ -274,6 +275,7 @@ $lotDesc</p>
                 $message->subject($subject);
                 $message->setBody($html, 'text/html');
             });
+            logger('email send success');
         } catch (Exception $e) {
             logger($e);
         }
