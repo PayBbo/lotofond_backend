@@ -3,7 +3,12 @@
          :class="{'bkt-shadow-card bkt-shadow-card_white': item && item.trade && item.trade.lotCount>1}">
         <div class="bkt-card-trade bkt-card__row w-100 mx-auto mx-0" @click.self="navigate('mobile')">
             <div class="bkt-wrapper-between bkt-card__heading w-100" v-if="item && item.trade">
-                <h5 class="me-auto">торги №
+
+                <h5 class="me-auto">
+                    <bkt-icon v-if="item.sourceId === 2" :name="'categories/torgi'" :color="'indigo'"
+                              class="bkt-card__heading-icon" title="государственные торги"
+                    />
+                    торги №
                     <skeleton type_name="spoiler" tag="span" :loading="rules && !rules.trade.externalId">
                         {{item.trade.externalId ? item.trade.externalId : '0'}}
                     </skeleton>

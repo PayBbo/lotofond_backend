@@ -85,7 +85,17 @@
                                 </div>
                                 <div class="card">
                                     <div class="card-body d-flex flex-column">
-                                        <label>Описание</label>
+                                        <div class="bkt-wrapper-between">
+                                            <label>Описание</label>
+                                            <button  type="button"
+                                                    class="btn btn-outline-primary bkt-button-icon primary-outline bkt-hover-primary"
+                                                    @click="updateCadastralInfo"
+                                                    title="Поиск кадастровых номеров"
+                                                     :disabled="loading"
+                                            >
+                                                <bkt-icon name="Search" color="primary" :width="'16px'" :height="'16px'"/>
+                                            </button>
+                                        </div>
                                         <p class="card-text text-wrap">{{ item.description }}</p>
                                     </div>
                                 </div>
@@ -131,17 +141,16 @@
                                     </div>
                                 </div>
                                 <div class="card"
-                                     v-if="item.stepPrice && (item.tradeType === 'CloseAuction' || item.tradeType === 'OpenAuction')">
+                                     v-if="item.stepPrice && auctions.includes(item.tradeType)">
                                     <div class="card-body d-flex flex-column">
                                         <label>Шаг аукциона</label>
                                         <p class="card-text text-wrap">
-                                            {{
-                                                item.stepPrice.value + (item.stepPrice.type == 'rubles' ? '₽' : '%')
-                                            }}</p>
+                                            {{item.stepPrice.value + (item.stepPrice.type == 'rubles' ? '₽' : '%') }}
+                                        </p>
                                     </div>
                                 </div>
                                 <div class="card"
-                                     v-if="item.deposit && (item.tradeType === 'CloseAuction' || item.tradeType === 'OpenAuction')">
+                                     v-if="item.deposit && auctions.includes(item.tradeType)">
                                     <div class="card-body d-flex flex-column">
                                         <label>Задаток</label>
                                         <p class="card-text text-wrap">
@@ -149,7 +158,7 @@
                                     </div>
                                 </div>
                                 <div class="card"
-                                     v-if="item.priceReduction && (item.tradeType === 'PublicOffer' || item.tradeType === 'ClosePublicOffer')">
+                                     v-if="item.priceReduction && offers.includes(item.tradeType)">
                                     <div class="card-body d-flex flex-column">
                                         <label>Информация о снижении цены</label>
                                         <p class="card-text text-wrap" v-html="item.priceReduction"></p>
@@ -190,13 +199,23 @@
                                 </div>
                                 <div class="card">
                                     <div class="card-body d-flex flex-column">
-                                        <label>Ссылка на лот на федресурсе</label>
+                                        <label>Ссылка на лот в источнике</label>
                                         <a :href="item.efrsbLink" target="_blank">Перейти</a>
                                     </div>
                                 </div>
                                 <div class="card" v-if="item.descriptionExtracts.length>0">
                                     <div class="card-body d-flex flex-column">
-                                        <label>Данные из описания</label>
+                                        <div class="bkt-wrapper-between">
+                                            <label>Данные из описания</label>
+<!--                                            <button v-if="cadastralData" type="button"-->
+<!--                                                    class="btn btn-outline-primary bkt-button-icon primary-outline bkt-hover-primary"-->
+<!--                                                    @click="updateCadastralNumberInfo"-->
+<!--                                                    title="Обновить данные кадастра"-->
+<!--                                            >-->
+<!--                                                <bkt-icon name="Refresh" color="primary" :width="'16px'" :height="'16px'"/>-->
+<!--                                            </button>-->
+                                        </div>
+
                                         <ul>
                                             <li v-for="extract in item.descriptionExtracts">
                                                 {{
@@ -204,7 +223,28 @@
                                                 }}
                                                 <ul v-if="extract.extracts.length > 0">
                                                     <li v-for="property in extract.extracts" v-if="property.value">
-                                                        {{ property.title + ' - ' + property.value }}
+                                                        <div :class="{'bkt-wrapper-between': property.type=='cadastralNumber'}">
+
+                                                            <div class="flex align-items-center">
+                                                                <span v-if="property.id" @click="deleteParam(property.id)"
+                                                                     title="Удалить параметр"
+                                                                     class="bkt-cursor-pointer me-1">
+                                                                     <bkt-icon
+                                                                         name="Trash" color="red"
+                                                                         :width="'12px'" :height="'12px'"
+                                                                     />
+                                                                </span>
+                                                                {{ property.title + ' - ' + property.value }}
+                                                            </div>
+                                                            <button v-if="property.type=='cadastralNumber'" type="button"
+                                                                    class="btn btn-outline-primary bkt-button-icon primary-outline bkt-hover-primary"
+                                                                    @click="updateCadastralNumberInfo(property.value)"
+                                                                    title="Обновить данные кадастра"
+                                                                    :disabled="loading"
+                                                            >
+                                                                <bkt-icon name="Refresh" color="primary" :width="'16px'" :height="'16px'"/>
+                                                            </button>
+                                                        </div>
                                                     </li>
                                                 </ul>
                                             </li>
@@ -234,19 +274,108 @@ import AddEditAdditions from "./additions/AddEditAdditions";
 export default {
     name: "ShowLot",
     components: {FilesTable, AddEditAdditions},
+    data() {
+        return {
+            loading: false,
+            offers: ['ClosePublicOffer', 'PublicOffer', "PPZ", "PPU"],
+            auctions: ['CloseAuction', 'OpenAuction', 'EA', 'OpenConcours', 'CloseConcours', "EK", "SA", "PA", "BC", "PK"]
+        }
+    },
     computed: {
         ...mapGetters(['item']),
+        cadastralData() {
+            if (this.item.descriptionExtracts && this.item.descriptionExtracts.length == 1) {
+                let tmp = this.item.descriptionExtracts[0];
+                if (tmp.extracts.length > 0) {
+                    let extracts = tmp.extracts;
+                    // let cadastralData = {};
+                    // let index = extracts.findIndex(item => item.type == 'cadastralDataPrice')
+                    // if (index >= 0) {
+                    //     if (extracts[index].value > 0) {
+                    //         cadastralData.cadastralDataPrice = extracts[index].value;
+                    //     }
+                    // }
+                    let index = extracts.findIndex(item => item.type == 'cadastralNumber');
+                    if (index >= 0) {
+                        // cadastralData.cadastralNumber = extracts[index].value;
+                        return extracts[index].value
+                    }
+                    // return cadastralData == {} ? null : cadastralData
+                }
+            }
+            return null;
+        },
     },
     methods: {
         ...mapActions(['editItem']),
         async changeItem(){
             await this.editItem('show')
+        },
+        async updateCadastralNumberInfo(number) {
+            // if(this.cadastralData) {
+            this.loading = true;
+                await axios.post('/api/admin/lots/update-cadastral-number-info', {id: this.item.id, cadastralNumber: number})
+                    .then((response) => {
+                        console.log('response', response.data.result);
+                        if(response.data.result) {
+                            this.$store.commit('setModal', {data: 'success', text: 'Данные успешно обновлены'});
+                            this.changeItem()
+                        }
+                        else {
+                            this.$store.commit('setModal', {data: 'error', text: 'Поиск ничего не нашел'});
+                        }
+                        this.loading = false;
+                    }).catch(error => {
+                        console.log(error);
+                        this.loading = false;
+                        this.$store.commit('setModal', {data: 'error', text: 'Произошла ошибка'});
+                        throw error
+                    });
+            // }
+        },
+        async updateCadastralInfo() {
+            this.loading = true;
+            await axios.post('/api/admin/lots/update-cadastral-info', {
+                id: this.item.id,
+            })
+                .then((response) => {
+                    console.log('response', response.data.result);
+                    if (response.data.result) {
+                        this.$store.commit('setModal', {data: 'success', text: 'Данные успешно обновлены'});
+                        this.changeItem()
+                    }
+                    this.loading = false;
+                }).catch(error => {
+                    console.log(error);
+                    this.loading = false;
+                    this.$store.commit('setModal', {data: 'error', text: 'Произошла ошибка'});
+                    throw error
+                });
+
+        },
+        async deleteParam(id) {
+            this.loading = true;
+            await axios.delete('/api/admin/lots/param/'+id)
+                .then((response) => {
+                    console.log('response', response.data);
+                    if (response.data.result) {
+                        this.$store.commit('setModal', {data: 'success', text: 'Данные успешно обновлены'});
+                        this.changeItem()
+                    }
+                    this.loading = false;
+                }).catch(error => {
+                    console.log(error);
+                    this.loading = false;
+                    this.$store.commit('setModal', {data: 'error', text: 'Произошла ошибка'});
+                    throw error
+                });
+
         }
     },
     async created() {
         this.$store.commit('setCurrentRoute', this.$route.path.replace(/(\/*$)/, ""))
         await this.editItem('show')
-    }
+    },
 }
 </script>
 

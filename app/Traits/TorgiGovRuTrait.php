@@ -602,6 +602,11 @@ trait TorgiGovRuTrait
                 $category = Category::where('code', '99')->first();
                 $lot->categories()->attach($category);
             }
+            $togiCategory = Category::where('code', 'torgi')->fisrt();
+            if($togiCategory) {
+                $lot->categories()->attach($togiCategory);
+            }
+
             logger('parseLot getDescriptionExtracts');
             $descriptionExtracts = new DescriptionExtractsService();
             $descriptionExtracts->getDescriptionExtracts($lot, $lot->description);

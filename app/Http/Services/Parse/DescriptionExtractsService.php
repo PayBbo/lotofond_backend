@@ -114,6 +114,27 @@ class DescriptionExtractsService
         $lot->save();
     }
 
+    public function getCadastralNumbers($lot, $description) {
+        $cadastr_number = '/\d{2}:\d{2}:\d{1,8}:\d{1,}/';
+        preg_match_all($cadastr_number, $description, $matches);
+        if (count($matches[0]) > 0) {
+            foreach (array_unique($matches[0]) as $match) {
+                if (!$lot->params()->where('value', $match)->exists() && strlen((string)$match) > 0) {
+                    $lot->params()->attach(Param::find(4), ['value' => $match, 'parent_id' => null]);
+                    $objectRegion = substr($match, 0, strpos($match, ':'));
+                    $region = Region::where('numbers', 'LIKE', '%' . $objectRegion . '%')->first();
+                    if ($region) {
+                        if (!$lot->objectRegions->contains($region)) {
+                            $lot->regions()->attach($region, ['is_debtor_region' => false]);
+                        }
+                    }
+                    $parseDataFromRosreestr = new ParseDataFromRosreestrService($match, $lot->id);
+                    $parseDataFromRosreestr->handle();
+                }
+            }
+        }
+    }
+
     public function getAvtoNumberRegex()
     {
         $result = $this->regexStart . '(?<licence_plate>(?:';

@@ -2039,8 +2039,7 @@ progress {
 .form-control::file-selector-button {
   padding: 0.375rem 0.75rem;
   margin: -0.375rem -0.75rem;
-  -webkit-margin-end: 0.75rem;
-          margin-inline-end: 0.75rem;
+  margin-inline-end: 0.75rem;
   color: #212529;
   background-color: #e9ecef;
   pointer-events: none;
@@ -2088,8 +2087,7 @@ progress {
 .form-control-sm::file-selector-button {
   padding: 0.25rem 0.5rem;
   margin: -0.25rem -0.5rem;
-  -webkit-margin-end: 0.5rem;
-          margin-inline-end: 0.5rem;
+  margin-inline-end: 0.5rem;
 }
 
 .form-control-lg {
@@ -2101,8 +2099,7 @@ progress {
 .form-control-lg::file-selector-button {
   padding: 0.5rem 1rem;
   margin: -0.5rem -1rem;
-  -webkit-margin-end: 1rem;
-          margin-inline-end: 1rem;
+  margin-inline-end: 1rem;
 }
 
 textarea.form-control {
@@ -5803,8 +5800,7 @@ textarea.form-control-lg {
   float: left;
   width: 100%;
   margin-right: -100%;
-  -webkit-backface-visibility: hidden;
-          backface-visibility: hidden;
+  backface-visibility: hidden;
   transition: transform 0.6s ease-in-out;
 }
 @media (prefers-reduced-motion: reduce) {
@@ -10939,6 +10935,18 @@ textarea.form-control-lg {
   color: #F5F7FE !important;
 }
 
+.bkt-text-indigo {
+  color: #00067a !important;
+}
+
+.bkt-text-indigo-light {
+  color: #0061D9 !important;
+}
+
+.bkt-text-indigo-lighter {
+  color: #dde0e6 !important;
+}
+
 .bkt-text-neutral {
   color: #cdced2 !important;
 }
@@ -11168,6 +11176,18 @@ textarea.form-control-lg {
   background-color: #F5F7FE !important;
 }
 
+.bkt-bg-indigo {
+  background-color: #00067a !important;
+}
+
+.bkt-bg-indigo-light {
+  background-color: #0061D9 !important;
+}
+
+.bkt-bg-indigo-lighter {
+  background-color: #dde0e6 !important;
+}
+
 .bkt-bg-neutral {
   background-color: #cdced2 !important;
 }
@@ -11326,6 +11346,18 @@ textarea.form-control-lg {
 
 .bkt-border-cornflower-blue-lighter {
   border: 2px solid #F5F7FE !important;
+}
+
+.bkt-border-indigo {
+  border: 2px solid #00067a !important;
+}
+
+.bkt-border-indigo-light {
+  border: 2px solid #0061D9 !important;
+}
+
+.bkt-border-indigo-lighter {
+  border: 2px solid #dde0e6 !important;
 }
 
 .bkt-border-neutral {
@@ -11606,6 +11638,30 @@ textarea.form-control-lg {
 
 .bkt-fill-cornflower-blue-lighter {
   fill: #F5F7FE !important;
+}
+
+.bkt-stroke-indigo {
+  stroke: #00067a !important;
+}
+
+.bkt-fill-indigo {
+  fill: #00067a !important;
+}
+
+.bkt-stroke-indigo-light {
+  stroke: #0061D9 !important;
+}
+
+.bkt-fill-indigo-light {
+  fill: #0061D9 !important;
+}
+
+.bkt-stroke-indigo-lighter {
+  stroke: #dde0e6 !important;
+}
+
+.bkt-fill-indigo-lighter {
+  fill: #dde0e6 !important;
 }
 
 .bkt-fill-neutral {
@@ -11998,6 +12054,36 @@ textarea.form-control-lg {
   stroke: white !important;
 }
 
+.bkt-hover-indigo.bkt-button:hover, .bkt-hover-indigo.bkt-button_delete:hover, .bkt-hover-indigo.bkt-button_save:hover, .bkt-hover-indigo.bkt-button-icon:hover, .bkt-hover-indigo.bkt-button-link:hover {
+  background-color: #00067a !important;
+}
+.bkt-hover-indigo.bkt-button:hover .bkt-fill, .bkt-hover-indigo.bkt-button_delete:hover .bkt-fill, .bkt-hover-indigo.bkt-button_save:hover .bkt-fill, .bkt-hover-indigo.bkt-button-icon:hover .bkt-fill, .bkt-hover-indigo.bkt-button-link:hover .bkt-fill {
+  fill: white !important;
+}
+.bkt-hover-indigo.bkt-button:hover .bkt-stroke, .bkt-hover-indigo.bkt-button_delete:hover .bkt-stroke, .bkt-hover-indigo.bkt-button_save:hover .bkt-stroke, .bkt-hover-indigo.bkt-button-icon:hover .bkt-stroke, .bkt-hover-indigo.bkt-button-link:hover .bkt-stroke {
+  stroke: white !important;
+}
+
+.bkt-hover-indigo-light.bkt-button:hover, .bkt-hover-indigo-light.bkt-button_delete:hover, .bkt-hover-indigo-light.bkt-button_save:hover, .bkt-hover-indigo-light.bkt-button-icon:hover, .bkt-hover-indigo-light.bkt-button-link:hover {
+  background-color: #0061D9 !important;
+}
+.bkt-hover-indigo-light.bkt-button:hover .bkt-fill, .bkt-hover-indigo-light.bkt-button_delete:hover .bkt-fill, .bkt-hover-indigo-light.bkt-button_save:hover .bkt-fill, .bkt-hover-indigo-light.bkt-button-icon:hover .bkt-fill, .bkt-hover-indigo-light.bkt-button-link:hover .bkt-fill {
+  fill: white !important;
+}
+.bkt-hover-indigo-light.bkt-button:hover .bkt-stroke, .bkt-hover-indigo-light.bkt-button_delete:hover .bkt-stroke, .bkt-hover-indigo-light.bkt-button_save:hover .bkt-stroke, .bkt-hover-indigo-light.bkt-button-icon:hover .bkt-stroke, .bkt-hover-indigo-light.bkt-button-link:hover .bkt-stroke {
+  stroke: white !important;
+}
+
+.bkt-hover-indigo-lighter.bkt-button:hover, .bkt-hover-indigo-lighter.bkt-button_delete:hover, .bkt-hover-indigo-lighter.bkt-button_save:hover, .bkt-hover-indigo-lighter.bkt-button-icon:hover, .bkt-hover-indigo-lighter.bkt-button-link:hover {
+  background-color: #dde0e6 !important;
+}
+.bkt-hover-indigo-lighter.bkt-button:hover .bkt-fill, .bkt-hover-indigo-lighter.bkt-button_delete:hover .bkt-fill, .bkt-hover-indigo-lighter.bkt-button_save:hover .bkt-fill, .bkt-hover-indigo-lighter.bkt-button-icon:hover .bkt-fill, .bkt-hover-indigo-lighter.bkt-button-link:hover .bkt-fill {
+  fill: white !important;
+}
+.bkt-hover-indigo-lighter.bkt-button:hover .bkt-stroke, .bkt-hover-indigo-lighter.bkt-button_delete:hover .bkt-stroke, .bkt-hover-indigo-lighter.bkt-button_save:hover .bkt-stroke, .bkt-hover-indigo-lighter.bkt-button-icon:hover .bkt-stroke, .bkt-hover-indigo-lighter.bkt-button-link:hover .bkt-stroke {
+  stroke: white !important;
+}
+
 .bkt-hover-neutral.bkt-button:hover, .bkt-hover-neutral.bkt-button_delete:hover, .bkt-hover-neutral.bkt-button_save:hover, .bkt-hover-neutral.bkt-button-icon:hover, .bkt-hover-neutral.bkt-button-link:hover {
   background-color: #cdced2 !important;
 }
@@ -12378,6 +12464,36 @@ textarea.form-control-lg {
   stroke: white !important;
 }
 
+.bkt-hover-indigo.bkt-button-ellipse:hover {
+  background-color: #00067a !important;
+}
+.bkt-hover-indigo.bkt-button-ellipse:hover .bkt-fill {
+  fill: white !important;
+}
+.bkt-hover-indigo.bkt-button-ellipse:hover .bkt-stroke {
+  stroke: white !important;
+}
+
+.bkt-hover-indigo-light.bkt-button-ellipse:hover {
+  background-color: #0061D9 !important;
+}
+.bkt-hover-indigo-light.bkt-button-ellipse:hover .bkt-fill {
+  fill: white !important;
+}
+.bkt-hover-indigo-light.bkt-button-ellipse:hover .bkt-stroke {
+  stroke: white !important;
+}
+
+.bkt-hover-indigo-lighter.bkt-button-ellipse:hover {
+  background-color: #dde0e6 !important;
+}
+.bkt-hover-indigo-lighter.bkt-button-ellipse:hover .bkt-fill {
+  fill: white !important;
+}
+.bkt-hover-indigo-lighter.bkt-button-ellipse:hover .bkt-stroke {
+  stroke: white !important;
+}
+
 .bkt-hover-neutral.bkt-button-ellipse:hover {
   background-color: #cdced2 !important;
 }
@@ -12745,6 +12861,36 @@ textarea.form-control-lg {
   fill: white !important;
 }
 .bkt-hover-cornflower-blue-lighter.bkt-button-icon:hover .bkt-stroke {
+  stroke: white !important;
+}
+
+.bkt-hover-indigo.bkt-button-icon:hover {
+  background-color: #00067a !important;
+}
+.bkt-hover-indigo.bkt-button-icon:hover .bkt-fill {
+  fill: white !important;
+}
+.bkt-hover-indigo.bkt-button-icon:hover .bkt-stroke {
+  stroke: white !important;
+}
+
+.bkt-hover-indigo-light.bkt-button-icon:hover {
+  background-color: #0061D9 !important;
+}
+.bkt-hover-indigo-light.bkt-button-icon:hover .bkt-fill {
+  fill: white !important;
+}
+.bkt-hover-indigo-light.bkt-button-icon:hover .bkt-stroke {
+  stroke: white !important;
+}
+
+.bkt-hover-indigo-lighter.bkt-button-icon:hover {
+  background-color: #dde0e6 !important;
+}
+.bkt-hover-indigo-lighter.bkt-button-icon:hover .bkt-fill {
+  fill: white !important;
+}
+.bkt-hover-indigo-lighter.bkt-button-icon:hover .bkt-stroke {
   stroke: white !important;
 }
 
@@ -14604,6 +14750,11 @@ textarea.form-control-lg {
   border-top-right-radius: 25px;
   left: 0;
 }
+.bkt-card__heading .bkt-card__heading-icon {
+  width: 15px;
+  height: 15px;
+  display: inline-flex;
+}
 .bkt-card__head {
   margin-bottom: 20px !important;
 }
@@ -14695,6 +14846,10 @@ textarea.form-control-lg {
   }
   .bkt-card__heading .bkt-card__icon svg path, .bkt-card__row__heading .bkt-card__icon svg path {
     fill: white;
+  }
+  .bkt-card__heading .bkt-card__heading-icon, .bkt-card__heading .bkt-card__row__heading-icon, .bkt-card__row__heading .bkt-card__heading-icon, .bkt-card__row__heading .bkt-card__row__heading-icon {
+    width: 12px;
+    height: 12px;
   }
   .bkt-card__list, .bkt-card__row__list {
     gap: 10px;

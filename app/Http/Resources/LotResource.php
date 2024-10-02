@@ -2,13 +2,7 @@
 
 namespace App\Http\Resources;
 
-use App\Http\Services\ContentSettingsService;
-use App\Models\Category;
-use App\Models\ContentRule;
-use App\Models\Note;
-use App\Models\PriceReduction;
 use App\Traits\PriceTrait;
-use Carbon\Carbon;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\URL;
@@ -159,8 +153,11 @@ class LotResource extends JsonResource
                     ];
                 }
             }
+
         }
         $lotData['descriptionExtracts'] = $descriptionExtracts;
+        $lotData['coordinates'] = $descriptionExtracts ? $this->coordinates : null;
+
         if ($this->isLotInfo) {
             $priceReductions = null;
             if ($this->contentSettings->isAvailable('priceReduction') && $isPublicOffer) {

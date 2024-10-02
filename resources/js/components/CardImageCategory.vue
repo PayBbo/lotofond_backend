@@ -44,6 +44,7 @@
                     "productionLines": "purple",
                     "obligations": "teal",
                     "accountsReceivable": "primary",
+                    "torgi": "indigo",
                 },
                 categories_icons: [
                     {
@@ -99,6 +100,12 @@
                         "key": "accountsReceivable",
                         icon: 'Percentage',
                         color: 'primary'
+                    },
+                    {
+                        "label": "ГИС Торги",
+                        "key": "torgi",
+                        icon: 'torgi',
+                        color: 'indigo'
                     }
                 ],
             }

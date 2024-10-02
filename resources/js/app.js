@@ -228,6 +228,11 @@ Vue.use(VueScrollTo, {
     y: true
 });
 
+import { createYmapsVue2 } from 'vue-yandex-maps';
+Vue.use(createYmapsVue2({
+    apikey: process.env.MIX_YANDEX_API_KEY,
+}));
+
 Vue.component("App", require("./App.vue").default);
 Vue.component("Layout", require("./Layout.vue").default);
 Vue.component("Admin", require("./Admin.vue").default);

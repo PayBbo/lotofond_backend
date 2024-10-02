@@ -9,6 +9,7 @@ use App\Utilities\SortBuilder;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 
@@ -331,28 +332,48 @@ class Lot extends Model
     public function getDescriptionExtractsAttribute()
     {
          $result = [];
+         $admin = Auth::user()->hasRole('admin');
           foreach ($this->lotParams->unique('value') as $param) {
               $extracts = [];
               foreach ($param->childParams as $sub) {
-                  $extracts[] = [
+                  $subArray = [
                       'title' => $sub->param->title,
                       'type' => $sub->param->type,
                       'value' => $sub->value
                   ];
+                  if($admin) {
+                      $subArray['id'] = $sub->id;
+//                      $subArray['parent_id'] = $sub->parent_id;
+                  }
+                  $extracts[] = $subArray;
               }
               $tradeSubject = $param->value;
               $type = is_null($param->type) ? 'other' : $param->type;
               if (count($extracts) == 0) {
-                  $extracts[] = [
+                  $paramArray = [
                       'title' => $param->param->title,
                       'type' => $param->param->type,
                       'value' => $param->value
                   ];
+                  if ($admin) {
+                      $paramArray['id'] = $param->id;
+                  }
+                  $extracts[] = $paramArray;
                   $tradeSubject = null;
                   $type = 'other';
               }
               $result[] = compact('tradeSubject', 'type', 'extracts');
           }
+        return $result;
+    }
+
+    public function getCoordinatesAttribute()
+    {
+        $result = [];
+        $params = $this->lotParams->where('param_id', 11)->unique('value');
+        foreach ($params as $param) {
+            $result[] = ['coordinates' => explode(" ", $param->value)];
+        }
         return $result;
     }
 

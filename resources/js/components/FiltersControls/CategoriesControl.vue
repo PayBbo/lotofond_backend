@@ -97,6 +97,7 @@
                     "productionLines": "purple",
                     "obligations": "teal",
                     "accountsReceivable": "primary",
+                    "torgi": "indigo",
                 },
             };
         },

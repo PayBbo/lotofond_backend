@@ -34,4 +34,7 @@ return [
         'token' => env('TELEGRAM_BOT_TOKEN')
     ],
 
+    'yandex' => [
+        'api_key' => env('YANDEX_API_KEY', null)
+    ]
 ];

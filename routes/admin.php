@@ -60,6 +60,8 @@ Route::group(['middleware' =>['localization', 'role:admin|manager', 'json.respon
 
         Route::put('/update', [ApplicationsController::class, 'update']);
 
+        Route::post('/generate-payment-url', [ApplicationsController::class, 'generatePaymentUrl']);
+
     });
     Route::group(['prefix' => 'text-data'], function () {
 
@@ -117,7 +119,13 @@ Route::group(['middleware' =>['localization', 'role:admin|manager', 'json.respon
 
         Route::delete('/{id}', [LotController::class, 'delete']);
 
+        Route::delete('/param/{id}', [LotController::class, 'deleteParam']);
+
         Route::get('/shorts', [LotController::class, 'getShorts'])->name('admin.lots.shorts');
+
+        Route::post('/update-cadastral-number-info', [LotController::class, 'updateCadastralNumberInfo']);
+
+        Route::post('/update-cadastral-info', [LotController::class, 'updateCadastralInfo']);
 
     });
 
@@ -134,6 +142,8 @@ Route::group(['middleware' =>['localization', 'role:admin|manager', 'json.respon
         Route::put('/change/status/{id}', [AdditionsController::class, 'changeStatus']);
 
         Route::delete('/{id}', [AdditionsController::class, 'delete']);
+
+        Route::post('/process-text', [AdditionsController::class, 'processText']);
 
     });
 

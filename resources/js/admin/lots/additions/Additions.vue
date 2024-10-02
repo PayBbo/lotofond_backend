@@ -4,7 +4,7 @@
         <template v-slot:inline-block>
             <div class="row">
                 <div class="col-3 text-left">
-                    <admin-datepicker v-model="param.date" @input="startFilter"></admin-datepicker>
+                    <admin-datepicker v-model="param.date" @input="startFilter"/>
                 </div>
                 <div class="col-3 text-left">
                     <div class="input-group input-group-sm w-100">
@@ -31,7 +31,7 @@
         <template v-slot:raws-block>
             <tr v-for="(item, index) in dataItems">
                 <td>{{item.id}}</td>
-                <td>{{item.message}}</td>
+                <td><div class="bkt-text-truncate-5">{{item.message}}</div></td>
                 <td>{{ item.filesCount }}</td>
                 <td>
                     <admin-switch v-can="'additions-edit'" :index="index" :model="item.isModerated"

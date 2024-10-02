@@ -9,11 +9,12 @@ class AdditionalLotInfo extends Model
 {
     use HasFactory;
 
-    protected $table ='additional_lot_infos';
+    protected $table = 'additional_lot_infos';
 
     protected $fillable = [
         'uid',
         'message',
+        'initial_message',
         'is_moderated',
         'lot_id'
     ];

@@ -42,8 +42,21 @@
                                     </div>
                                 </template>
 
+                                <div class="form-group" v-if="item.initial_message">
+                                    <label>Оригинальное сообщение</label>
+                                    <textarea v-model="item.initial_message" class="form-control" rows="10" name="initial_message" readonly></textarea>
+                                </div>
                                 <div class="form-group">
-                                    <label>Текст сообщения</label>
+                                    <div class="bkt-wrapper-between">
+                                        <label>Текст сообщения</label>
+                                        <button v-if="item.message" type="button"
+                                                class="btn btn-outline-primary bkt-button-icon primary-outline bkt-hover-primary"
+                                                @click="processText(item.message)"
+                                                title="обработать текст снова"
+                                        >
+                                            <bkt-icon name="Refresh" color="primary" :width="'16px'" :height="'16px'"/>
+                                        </button>
+                                    </div>
                                    <!--- <vue-editor v-model="item.message"
                                                 :editor-toolbar="customToolbar"
                                                 :editorOptions="editorOptions">
@@ -196,6 +209,17 @@ export default {
             await this.updateData(item)
                 .then(resp => {
                     this.$emit('update');
+                });
+        },
+        async processText(message) {
+            await axios.post('/api/admin/additions/process-text', {message: message})
+                .then((response) => {
+                    console.log('response', response.data);
+                   this.item.message = response.data;
+                }).catch(error => {
+                    console.log(error);
+                    this.$store.commit('setModal', {data: 'error', text: 'Произошла ошибка'});
+                    throw error
                 });
         }
     }

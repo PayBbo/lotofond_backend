@@ -9,7 +9,10 @@ use App\Http\Resources\Admin\ShortLotCollection;
 use App\Http\Resources\Admin\UserResource;
 use App\Http\Resources\Admin\LotResource;
 use App\Http\Resources\PaginationResource;
+use App\Http\Services\Parse\DescriptionExtractsService;
+use App\Http\Services\Parse\ParseDataFromRosreestrService;
 use App\Models\Lot;
+use App\Models\LotParam;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -102,5 +105,51 @@ class LotController extends Controller
             ->orderBy('created_at', 'desc')
             ->paginate(10);
         return response(new ShortLotCollection($lots), 200);
+    }
+
+    public function updateCadastralNumberInfo() {
+        try {
+            $lotId = request()->get("id");
+            $number = request()->get("cadastralNumber");
+            $lot = Lot::find($lotId);
+            $categories = null;
+            if($lot) {
+                $categories = $lot->categories()->get();
+            }
+            $parseDataFromRosreestr = new ParseDataFromRosreestrService($number, $lotId, $categories);
+            $response = $parseDataFromRosreestr->handle();
+            return response()->json(['result' => $response], 200);
+        }
+        catch (\Exception $e) {
+            return response()->json(['message' => $e->getMessage()], 500);
+        }
+    }
+
+    public function updateCadastralInfo() {
+        try {
+            $lot = Lot::find(request()->get("id"));
+            if($lot) {
+                $description = $lot->description;
+                $descriptionExtracts = new DescriptionExtractsService();
+                $descriptionExtracts->getCadastralNumbers($lot, $description);
+                return response()->json(['result' => true], 200);
+            }
+            return response()->json(['message' => 'Такой лот не найден'], 500);
+        }
+        catch (\Exception $e) {
+            return response()->json(['message' => $e->getMessage()], 500);
+        }
+    }
+
+    public function deleteParam($id) {
+        $param = LotParam::find($id);
+        if($param) {
+            if($param->parent_id===null) {
+                LotParam::where('parent_id', $param->id)->delete();
+            }
+            $param->delete();
+            return response()->json(['message' => 'Параметр успешно удален', 'result'=> true], 200);
+        }
+        return response()->json(['message' => 'Такой параметр не найден'], 500);
     }
 }

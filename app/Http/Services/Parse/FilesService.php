@@ -68,6 +68,24 @@ class FilesService
             } else {
                 Storage::disk('public')->put($root_path . $this->slash . $filename, $content);
                 $files[] = 'storage' . $this->slash . $root_path . $this->slash . $filename;
+                try {
+                    if($extension == 'pdf') {
+                        logger('LINKS. PDF from type ' . $extension);
+                        $pages = $this->convertPdfToImage($root_path . $this->slash . $filename, $root_path, $filename.'_');
+                        if(count($pages)) {
+                            foreach ($pages as $page) {
+                                $pageFilename = substr(File::name($page), 0, 200) . '.jpg';
+                                $this->parseImages(
+                                    'auction-files/auction-15/14-08-2024-21-22',
+                                    $pageFilename,
+                                    'jpg');
+                            }
+                        }
+                    }
+                }
+                catch (\Exception $e) {
+                    logger('PDF error ' . $e->getMessage());
+                }
             }
         }
         if ($hasImages)
@@ -179,10 +197,12 @@ class FilesService
 
     public function createPreview($path): array
     {
+        logger('createPreview '.$path);
         $imageAssets = array();
         foreach (Storage::disk('public')->files($path) as $key => $object) {
             $path = dirname($object);
             $filename = File::basename($object);
+            logger('createPreview $filename '.$filename);
             if ($this->is_image($path, $filename) && $this->is_image_extension($filename)) {
                 $imageAssets[$key] = [
                     'main' => 'storage' . $this->slash . $path . $this->slash . $filename,
@@ -191,21 +211,25 @@ class FilesService
                 $this->generateWatermark($path . $this->slash . $filename);
             }
         }
+        logger('end createPreview');
         return $imageAssets;
     }
 
     public function generatePreview($path, $filename, $isUserFile = false): string
     {
+        logger('generatePreview '.$filename);
         $previewPath = $path . $this->slash . 'previews' . $this->slash;
         $thumbnail = Image::make(Storage::disk('public')->get($path . $this->slash . $filename))->fit(960, 480);
         Storage::disk('public')->put($previewPath . $filename, $thumbnail);
         $thumbnail->save(Storage::disk('public')->path($previewPath . $filename));
         if (!$isUserFile)
             $this->generateWatermark($previewPath . $filename);
+        logger('end generatePreview');
         return $previewPath . $filename;
     }
 
     public function generateWatermark($img) {
+        logger('generateWatermark '.$img);
             $thumbnail = Image::make(Storage::disk('public')->get($img));
             $thumbnailWidth = $thumbnail->getWidth();
             $thumbnailHeight = $thumbnail->getHeight();
@@ -216,6 +240,7 @@ class FilesService
             if($thumbnailWidth == 0 || $thumbnailHeight == 0)
                 return;
             $settings = Setting::all()->pluck('value', 'variable')->toArray();
+        logger('center generateWatermark ');
             $waterMarkUrl = Image::make(Storage::disk('public')->path('watermark/' . $settings['watermark_image']))->fit($waterMarkSize, $waterMarkSize);
             $thumbnail->insert($waterMarkUrl, 'bottom-left', 10, 10);
             $fontSize = $waterMarkSize / 4;
@@ -262,6 +287,7 @@ class FilesService
             });
             Storage::disk('public')->put($img, $thumbnail);
             $thumbnail->save(Storage::disk('public')->path($img));
+        logger('end generateWatermark ');
     }
 
     // Функция для конвертирования цвета из RGB в HSL
@@ -377,5 +403,12 @@ class FilesService
         $content = curl_exec($ch);
         curl_close($ch);
         return $content;
+    }
+
+    public function convertPdfToImage($pathToPdf, $pathToStorage, $prefix='') {
+        $pathToPdf = Storage::disk('public')->path($pathToPdf);
+        $pathToStorage = \storage_path('app' . $this->slash . 'public' . $this->slash .$pathToStorage);
+        $pdf = new \Spatie\PdfToImage\Pdf($pathToPdf);
+        return $pdf->saveAllPagesAsImages($pathToStorage, $prefix);
     }
 }

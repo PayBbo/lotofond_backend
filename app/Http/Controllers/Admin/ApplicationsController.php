@@ -2,11 +2,16 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Exceptions\CustomExceptions\BaseException;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Admin\ApplicationCollection;
 use App\Http\Resources\Admin\ApplicationResource;
+use App\Http\Services\PaymentService;
 use App\Models\Application;
+use App\Models\Lot;
 use App\Models\Notification;
+use App\Models\Payment;
+use App\Models\Tariff;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
@@ -70,5 +75,40 @@ class ApplicationsController extends Controller
             return response(null, 404);
         }
         return response(new ApplicationResource($application), 200);
+    }
+
+    public function generatePaymentUrl(Request $request) {
+        $application = Application::find($request->id);
+        $service = Tariff::where('id', $application->tariff_id)->first();
+        $payment = Payment::find($application->payment_id);
+        if(!$payment) {
+            $payment = Payment::create([
+                'user_id' => $application->user_id,
+                'sum' => $service->price,
+                'tariff_id' => $service->id
+            ]);
+        }
+
+        $description = $service->description;
+        if($application->lot_id) {
+            $lotDesc = mb_strimwidth(Lot::find($application->lot_id)['description'], 0, 100, "...");
+            $description .=' для лота - '.$lotDesc;
+        }
+        $customer = null;
+        if ($application->email) {
+            $customer = ['email' => $application->email];
+        }
+
+        $paymentService = new PaymentService();
+        $paymentRequest = $paymentService->paymentRequest($payment->id, $service, $customer, $description);
+        if (array_key_exists('paymentId', $paymentRequest)) {
+            $paymentId = $paymentRequest['paymentId'];
+            $payment->payment_id = $paymentId;
+            $payment->token = hash('sha256', $payment->id);
+            $payment->save();
+            return $paymentRequest['url'];
+
+        }
+        throw new BaseException('ERR_CREATE_PAYMENT_FAILED', 403, $paymentRequest);
     }
 }

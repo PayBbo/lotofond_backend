@@ -97,6 +97,14 @@ $orange-lighter: #fff4ee;
 $cornflower-blue-default: #728BE3;
 $cornflower-blue-lighter: #F5F7FE;
 
+//Indigo
+//$indigo-default: #0050B2;
+//$indigo-default: #00077b;
+$indigo-default: #00067a;
+$indigo-light: #0061D9;
+$indigo-lighter: #dde0e6;
+//$indigo-lighter: #c2c3f3;
+
 
 $theme-colors: (
     "body-bg": #f5f7fe,
@@ -157,6 +165,10 @@ $theme-colors: (
     //Cornflower Blue
     "cornflower-blue-default": #728BE3,
     "cornflower-blue-lighter": #F5F7FE,
+    //Indigo
+    "indigo-default": #00067a,
+    "indigo-light": #0061D9,
+    "indigo-lighter": #dde0e6,
 );
 
 $breadcrumb-divider: url("data:image/svg+xml, %3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%0Afill='%23abadb4' stroke='%23abadb4' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' class='feather feather-more-horizontal'%3E%3Ccircle cx='12' cy='12' r='1'%3E%3C/circle%3E%3Ccircle cx='19' cy='12' r='1'%3E%3C/circle%3E%3Ccircle cx='5' cy='12' r='1'%3E%3C/circle%3E%3C/svg%3E");

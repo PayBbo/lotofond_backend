@@ -161,8 +161,8 @@
         },
         data() {
             return {
-               offers:['ClosePublicOffer', 'PublicOffer',"PPZ", "PPU"],
-                auctions: ['CloseAuction', 'OpenAuction', 'EA', 'OpenConcours', 'CloseConcours', "EK", "SA", "PA" , "BC", "PK"]
+                offers: ['ClosePublicOffer', 'PublicOffer', "PPZ", "PPU"],
+                auctions: ['CloseAuction', 'OpenAuction', 'EA', 'OpenConcours', 'CloseConcours', "EK", "SA", "PA", "BC", "PK"]
             }
         },
         computed: {
@@ -177,7 +177,7 @@
 
                     let percent = ((current_price - start_price) / start_price) * 100;
 
-                    if (this.item.trade.type === 'ClosePublicOffer' || this.item.trade.type === 'PublicOffer') {
+                    if (this.offers.includes(this.item.trade.type)) {
                         prime_price = current_price;
                         percent = ((start_price - min_price) / start_price) * 100;
                     }

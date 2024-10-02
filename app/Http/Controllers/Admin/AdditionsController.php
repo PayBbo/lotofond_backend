@@ -73,6 +73,7 @@ class AdditionsController extends Controller
     {
         $addition = new AdditionalLotInfo();
         $addition->lot_id = $request->lotId;
+        $addition->initial_message = $request->message;
         $addition->message = $request->message;
         $addition->is_moderated = $request->isModerated;
         $addition->save();
@@ -114,5 +115,47 @@ class AdditionsController extends Controller
         return response(null, 200);
     }
 
+    public function processText(Request $request) {
+        $message = $request->message;
+        $html = str_replace('&nbsp;', '', $message);
+        $pattern = '/<img[\s\S]*?>/';
+        preg_match_all($pattern, $html, $matches);
+        if (count($matches[0]) > 0) {
+            foreach ($matches[0] as $img) {
+                $html = str_replace($img, '', $html);
+            }
+        }
+        $html = str_replace('div', 'p', $html);
+        /*START Удаление всех html-тегов и искаженных символов*/
+        $text = str_replace('</p>', ' </p> ', $html);
+        $text = str_replace('<br>', ' ', $text);
+        $text = str_replace("&nbsp;", " ", $text);
+        $text = preg_replace("/<([^>]*(<|$))/", "&lt;$1 ", $text);
+        $text = strip_tags($text);
+        $text = str_replace(chr(194), " ", $text);
+        $text = str_replace(chr(160), " ", $text);
+        $text = preg_replace(array('/\s{2,}/', '/[\r\t\n]/', '/\r/', '/\t/', '/\n/'), ' ', $text);
+        $text = str_replace("&lt;", "", str_replace("&gt;", "", $text));
+        $text = iconv('utf-8//IGNORE', 'windows-1251//IGNORE', $text);
+        $text = iconv('windows-1251//IGNORE', 'utf-8//IGNORE', $text);
+        $initialText = $text;
+        /*END Удаление всех html-тегов и искаженных символов*/
+        /*START Удаление почты арбитражного управляющего*/
+//                $arbitrEmail = $auction->arbitrationManager->email;
+//                $text = preg_replace('/\b' . $arbitrEmail . '\b/u', str_repeat('░', strlen($arbitrEmail) - 1), $text);
+        /*END Удаление почты арбитражного управляющего*/
+
+        $replacement = '░░░░░░░░░░░░░░░░░░';
+        /*START Удаление любой почты */
+        $patternEmail = "/[^@\s]*@[^@\s]*\.[^@\s]*/";
+        $text = preg_replace($patternEmail, $replacement, $text);
+        /*END Удаление любой почты*/
+        /*START Удаление любой ссылки */
+        $patternUrl = "/[a-zA-Z]*[:\/\/]*[A-Za-z0-9\-_]+\.+[A-Za-z0-9\.\/%&=\?\-_]+/i";
+        $text = preg_replace($patternUrl, $replacement, $text);
+        /*END Удаление любой почты*/
+
+        return $text;
+    }
 
 }

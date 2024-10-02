@@ -9,6 +9,7 @@
 @include svg-color('orange', '', 'lighter');
 @include svg-color('teal', '', 'lighter');
 @include svg-color('cornflower-blue', '', 'lighter');
+@include svg-color('indigo', '', 'light', 'lighter');
 @include setColorSvg('fill', 'neutral', 'default','lighter', 'light', 'dark', 'darker');
 @include setColorSvg('stroke', 'neutral', 'default', 'lighter','light', 'dark', 'darker');
 @include setColorSvg('fill', 'white', '');

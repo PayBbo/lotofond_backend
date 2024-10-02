@@ -128,7 +128,7 @@ class AdditionalLotInfoParseJob implements ShouldQueue
                 }
                 $html = str_replace('div', 'p', $html);
                 /*START Удаление всех html-тегов и искаженных символов*/
-                $text = str_replace('</p>', ' </p>', $html);
+                $text = str_replace('</p>', ' </p> ', $html);
                 $text = str_replace('<br>', ' ', $text);
                 $text = str_replace("&nbsp;", " ", $text);
                 $text = preg_replace("/<([^>]*(<|$))/", "&lt;$1 ", $text);
@@ -139,11 +139,23 @@ class AdditionalLotInfoParseJob implements ShouldQueue
                 $text = str_replace("&lt;", "", str_replace("&gt;", "", $text));
                 $text = iconv('utf-8//IGNORE', 'windows-1251//IGNORE', $text);
                 $text = iconv('windows-1251//IGNORE', 'utf-8//IGNORE', $text);
+                $initialText = $text;
                 /*END Удаление всех html-тегов и искаженных символов*/
                 /*START Удаление почты арбитражного управляющего*/
-                $arbitrEmail = $auction->arbitrationManager->email;
-                $text = preg_replace('/\b' . $arbitrEmail . '\b/u', str_repeat('░', strlen($arbitrEmail) - 1), $text);
+//                $arbitrEmail = $auction->arbitrationManager->email;
+//                $text = preg_replace('/\b' . $arbitrEmail . '\b/u', str_repeat('░', strlen($arbitrEmail) - 1), $text);
                 /*END Удаление почты арбитражного управляющего*/
+
+                $replacement = '░░░░░░░░░░░░░░░░░░';
+                /*START Удаление любой почты */
+                $patternEmail = "/[^@\s]*@[^@\s]*\.[^@\s]*/";
+                $text = preg_replace($patternEmail, $replacement, $text);
+                /*END Удаление любой почты*/
+                /*START Удаление любой ссылки */
+                $patternUrl = "/[a-zA-Z]*[:\/\/]*[A-Za-z0-9\-_]+\.+[A-Za-z0-9\.\/%&=\?\-_]+/i";
+                $text = preg_replace($patternUrl, $replacement, $text);
+                /*END Удаление любой почты*/
+
                 $attachments = $message->getAttachments();
                 $files = [];
                 $hasImages = false;
@@ -190,6 +202,7 @@ class AdditionalLotInfoParseJob implements ShouldQueue
                     $additional = AdditionalLotInfo::create([
                         'uid' => $uid,
                         'message' => $text,
+                        'initial_message' => $initialText,
                         'lot_id' => $lot->id
                     ]);
                     foreach ($files as $file) {
