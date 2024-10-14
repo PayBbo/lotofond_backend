@@ -240,6 +240,7 @@ class Lot extends Model
             })
             ->map(function ($image) {
                 return [
+                    'filetype' => $image->type,
                     'type' => $image->user_id === null ? 'system' : 'user',
                     'main' => $image->url[0],
                     'preview' => $image->url[1],
