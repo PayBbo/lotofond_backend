@@ -1,11 +1,11 @@
 <template>
-    <bkt-modal :id="'ratingModal'" title="Оцените работу организатора торгов"
+    <bkt-modal :id="id" :title="'Оцените '+(type === 'answer' ? '' : 'работу ')+types[type]"
                modal_class="bkt-filters-modal text-center" :loading="loading"
-               @left_action="cancel" @right_action="save"
+               @left_action="cancel" @right_action="chooseSave"
     >
         <template #title>
             <h3 class="bkt-modal__title mx-auto">
-                Оцените работу {{ type == 'arbitrationManager' ? 'арбитражного управляющего' : 'организатора'}}
+                Оцените {{type === 'answer' ?'' : 'работу '}}{{ types[type]}}
             </h3>
         </template>
         <template #body>
@@ -38,6 +38,10 @@
     export default {
         name: "RatingModal",
         props: {
+            id: {
+                type: String,
+                default: 'ratingModal'
+            },
             type: {
                 type: String,
                 default: 'organizer'
@@ -45,6 +49,14 @@
             bidderId: {
                 type: [String, Number],
                 default: '0'
+            },
+            answerId: {
+                type: [String, Number],
+                default: null
+            },
+            admin: {
+                type: Boolean,
+                default: false
             }
         },
         components: {
@@ -57,25 +69,47 @@
                     estimate: 0,
                     comment: "",
                     bidderId: 0,
-                    type: "organizer"
+                    type: "organizer",
+                    answerId: null
+                },
+                types: {
+                    organizer: 'организатора торгов',
+                    arbitrationManager: 'арбитражного управляющего',
+                    answer: 'ответ организатора'
                 }
             };
         },
         methods: {
             cancel() {
-                this.$store.commit('closeModal', '#ratingModal');
+                this.$store.commit('closeModal', '#'+this.id);
                 this.rating = {
                     estimate: 0,
                     comment: "",
                     bidderId: this.bidderId,
-                    type: this.type
+                    type: this.type,
+                    answerId: this.answerId
+                }
+                this.$emit('cancel');
+            },
+            chooseSave() {
+                if(this.admin) {
+                    this.rating.answerId = this.answerId;
+                    this.$emit('save', this.rating);
+                }
+                else {
+                    this.save()
                 }
             },
             save() {
                 this.loading = true;
                 this.rating.bidderId = this.bidderId;
                 this.rating.type = this.type;
-                this.$store.dispatch('estimateBidder', this.rating)
+                this.rating.answerId = this.answerId;
+                this.method='Bidder';
+                if(this.type === 'answer') {
+                    this.method='Answer';
+                }
+                this.$store.dispatch('estimate'+this.method, this.rating)
                     .then(resp => {
                         this.loading = false;
                         this.$emit('estimated', resp.data);

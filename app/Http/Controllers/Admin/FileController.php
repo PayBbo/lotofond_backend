@@ -11,7 +11,6 @@ use App\Models\AdditionalLotInfo;
 use App\Models\Lot;
 use App\Models\LotFile;
 use Carbon\Carbon;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
 class FileController extends Controller
@@ -47,32 +46,36 @@ class FileController extends Controller
         return response(null, 200);
     }
 
-    public function uploadLotFiles(LotUploadFileRequest $request){
-        $lot = Lot::find($request->lotId);
-        if($request->hasFile('images'))
-        {
-            $files = $request->file('images');
-            foreach ($files as $file) {
-                $lotFile = new LotFile();
-                $lotFile->lot_id = $request->lotId;
-                $time = Carbon::now()->format('d-m-Y-H-i');
-                $dest = 'auction-files/auction-' . $lot->auction_id .'/' . $time;
-                $this->saveImage($dest, $file, $lotFile);
+    public function uploadLotFiles(LotUploadFileRequest $request)
+    {
+        try {
+            ini_set('max_execution_time', 6000);
+            $lot = Lot::find($request->lotId);
+            if ($request->hasFile('images')) {
+                $files = $request->file('images');
+                foreach ($files as $file) {
+                    $lotFile = new LotFile();
+                    $lotFile->lot_id = $request->lotId;
+                    $time = Carbon::now()->format('d-m-Y-H-i');
+                    $dest = 'auction-files/auction-' . $lot->auction_id . '/' . $time;
+                    $this->saveImage($dest, $file, $lotFile);
+                }
             }
-        }
 
-        if($request->hasFile('files'))
-        {
-            $files = $request->file('files');
-            foreach ($files as $file) {
-                $lotFile = new LotFile();
-                $lotFile->lot_id = $request->lotId;
-                $time = Carbon::now()->format('d-m-Y-H-i');
-                $dest = 'auction-files/auction-' . $lot->auction_id .'/' . $time;
-                $this->saveFile($dest, $file, $lotFile);
+            if ($request->hasFile('files')) {
+                $files = $request->file('files');
+                foreach ($files as $file) {
+                    $lotFile = new LotFile();
+                    $lotFile->lot_id = $request->lotId;
+                    $time = Carbon::now()->format('d-m-Y-H-i');
+                    $dest = 'auction-files/auction-' . $lot->auction_id . '/' . $time;
+                    $this->saveFile($dest, $file, $lotFile);
+                }
             }
+            return response(new FileResource($lot), 200);
+        } catch (\Exception $e) {
+            return response()->json(['message' => $e->getMessage(), 500]);
         }
-        return response(new FileResource($lot), 200);
     }
 
     private function saveImage($dest, $image, $lotFile){
@@ -87,10 +90,17 @@ class FileController extends Controller
         $lotFile->save();
     }
 
-    private function saveFile($dest, $file, $lotFile){
+    private function saveFile($dest, $file, $lotFile)
+    {
         $path = Storage::disk('public')->put($dest, $file);
-        $lotFile->type = 'file';
+        $isVideo = strtok($file->getClientMimeType(), '/') === 'video';
+        $lotFile->type = $isVideo ? 'video' : 'file';
         $lotFile->url = 'storage/' . $path;
+        if ($isVideo) {
+            $imageAssets = ['main' => 'storage/' . $path, 'preview' => 'storage/watermark/video-preview.jpg'];
+            $lotFile->type = 'video';
+            $lotFile->url = json_encode($imageAssets);
+        }
         $lotFile->save();
     }
 

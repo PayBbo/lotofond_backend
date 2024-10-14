@@ -30,7 +30,10 @@ class AdditionsController extends Controller
     {
         try {
             $search = $request->query('pattern', null);
-            $date = $request->query('date', null);
+            $dateFrom = $request->get('dateFrom', null);
+            $dateFrom = $dateFrom && $dateFrom != 'null' ? Carbon::parse($request->get('dateFrom'))->startOfDay() : null;
+            $dateTo = $request->get('dateTo', null);
+            $dateTo = $dateTo && $dateTo != 'null' ? Carbon::parse($request->get('dateTo'))->endOfDay() : null;
             $isModerated = $request->query('isModerated', null);
             $sortParam = $request->query('sort_property');
             $sortDirection = $request->query('sort_direction');
@@ -39,8 +42,11 @@ class AdditionsController extends Controller
                 ->when($isModerated, function ($query) {
                     $query->where('is_moderated', false);
                 })
-                ->when(!is_null($date) && $date != 'null', function ($q) use ($date) {
-                    $q->whereDate('additional_lot_infos.created_at', $date);
+                ->when(!is_null($dateFrom) && $dateFrom != 'null', function ($q) use ($dateFrom) {
+                    $q->where('additional_lot_infos.created_at','>=', $dateFrom);
+                })
+                ->when(!is_null($dateTo) && $dateTo != 'null', function ($q) use ($dateTo) {
+                    $q->where('additional_lot_infos.created_at','<=',$dateTo);
                 })
                 ->when(isset($search), function ($q) use ($search) {
                     $q->where('additional_lot_infos.lot_id', 'LIKE', '%' . $search . '%')

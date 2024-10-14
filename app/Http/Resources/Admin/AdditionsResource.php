@@ -19,9 +19,11 @@ class AdditionsResource extends JsonResource
     {
         return [
             'id'=>$this->id,
+            'initial_message'=>$this->initial_message,
             'message'=>$this->message,
             'filesCount'=> $this->files_count ?: $this->files->count(),
             'isModerated'=>$this->is_moderated,
+            'rating'=>$this->rating(),
             'date'=>Carbon::parse($this->created_at)->format('d.m.Y'),
             'lotId'=>$this->lot_id,
             'tradeId'=>$this->trade_id,

@@ -2,9 +2,14 @@
     <AdminTable header="Ответы на запросы доп. информации по лотам" :columns="columns" :pagination="pagination"
                 :getData="getData">
         <template v-slot:inline-block>
-            <div class="row">
-                <div class="col-3 text-left">
-                    <admin-datepicker v-model="param.date" @input="startFilter"/>
+            <div class="row align-items-end">
+                <div class="col-2 text-left">
+                    <p class="mb-0">С даты</p>
+                    <admin-datepicker v-model="param.dateFrom" @input="startFilter('start_date')" ref="start_date" refName="start_date"/>
+                </div>
+                <div class="col-2 text-left">
+                    <p class="mb-0">По дату</p>
+                    <admin-datepicker v-model="param.dateTo" @input="startFilter('end_date')" ref="end_date" refName="end_date"/>
                 </div>
                 <div class="col-3 text-left">
                     <div class="input-group input-group-sm w-100">
@@ -80,7 +85,7 @@ export default {
                 columns_title: ['ID', 'Ответ', 'Количество файлов', 'Проверен?', 'Дата', 'Лот', 'Номер торгов', 'Действия'],
                 columns_sort: ['id', 'message', 'files_count', 'is_moderated', 'created_at', 'lot_id', 'trade_id', null]
             },
-            param: {'isModerated': false, 'date': null}
+            param: {'isModerated': false, 'dateFrom': null, 'dateTo': null}
         }
     },
     methods: {
@@ -88,7 +93,10 @@ export default {
         search: _.debounce(function (value) {
             this.startFilter();
         }, 500),
-        startFilter() {
+        startFilter(date=null) {
+            if(date) {
+                this.checkDates(date);
+            }
             let result = this.serializeParams(this.param);
             this.searchParam(result)
         },
@@ -99,6 +107,29 @@ export default {
                     str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
                 }
             return str.join("&");
+        },
+        // Если конечная дата меньше начальной, выставлем начальную такую же как конечную
+// Если начальная дата больше конечной, выставлем конечную такую же как начальную
+        checkDates(date) {
+            if(this.param.dateFrom && this.param.dateTo) {
+                let start = this.param.dateFrom.split('.');
+                let end = this.param.dateTo.split('.');
+                let startNum = start[2] + start[1] + start[0];
+                let endNum = end[2] + end[1] + end[0];
+                if (startNum > endNum) {
+                    if (date == 'start_date') {
+                       this.param.dateTo = this.param.dateFrom;
+                       if(this.$refs.end_date) {
+                           this.$refs.end_date.setDate(start[2]+'-'+start[1]+'-'+ start[0])
+                       }
+                    } else {
+                       this.param.dateFrom = this.param.dateTo;
+                        if(this.$refs.start_date) {
+                            this.$refs.start_date.setDate(end[2]+'-'+end[1]+'-'+ end[0])
+                        }
+                    }
+                }
+            }
         },
     }
 }

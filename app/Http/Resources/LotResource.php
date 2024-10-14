@@ -214,7 +214,8 @@ class LotResource extends JsonResource
                         'files' => $additionalInfo->files()->where(['type' => 'file', 'lot_id' => $this->id, 'additional_lot_info_id' => $additionalInfo->id])->pluck('url')->toArray(),
                         'images' => $images,
                         'publishDate' => $this->created_at,
-                        'isModerated' => $additionalInfo->is_moderated
+                        'isModerated' => $additionalInfo->is_moderated,
+                        'rating' => $additionalInfo->rating(),
                     ];
                 } else {
                     $lotData['organizerAnswer'] = null;

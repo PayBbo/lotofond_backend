@@ -91,9 +91,9 @@
                         <div class="dropdown-menu dropdown-menu-right bkt-navbar__user-dropdown"
                              aria-labelledby="navbarDropdown" v-if="!loading && !auth_user_loading">
                             <div class="bkt-navbar__user-dropdown-menu">
-                                <button class="bkt-button bkt-tariff-button" @click="navigate('/tariffs')">Сменить
-                                    тариф
-                                </button>
+                                <a class="bkt-button bkt-tariff-button" href="/profile?tab=Tariff">
+                                    Сменить тариф
+                                </a>
                                 <a class="bkt-navbar__user-dropdown-item" href="/profile">
                                     <div class="bkt-navbar__user-dropdown-item-icon bkt-bg-primary-lighter">
                                         <bkt-icon :name="'User'" :color="'primary'"></bkt-icon>

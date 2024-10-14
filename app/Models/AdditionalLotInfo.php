@@ -44,4 +44,24 @@ class AdditionalLotInfo extends Model
         return $this->hasMany(LotFile::class);
     }
 
+    public function estimates()
+    {
+        return $this->hasMany(OrganizerAnswerRating::class, 'answer_id');
+    }
+
+    public function rating(){
+        $count = $this->estimates->count();
+        if($count > 0){
+            $sum = $this->estimates->sum('estimate');
+            return round($sum/$count, 1);
+        }
+        return 0.0;
+    }
+
+    public function getUserEstimate(){
+        if(auth()->guard('api')->check()) {
+            return $this->estimates()->where(['user_id'=> auth()->id()])->first();
+        }
+        return null;
+    }
 }

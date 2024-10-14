@@ -15,6 +15,7 @@
             loop
             srcName="main"
             srcThumb="preview"
+            :srcMediaType="item.photos[photo_index].filetype"
             @close="photo_index = null">
         </CoolLightBox>
         <CoolLightBox
@@ -24,6 +25,7 @@
             loop
             srcName="main"
             srcThumb="preview"
+            :srcMediaType="item.organizerAnswer.images[image_index].filetype"
             @close="image_index = null">
         </CoolLightBox>
         <nav class="bkt-wrapper bkt-nowrap m-0 bkt-breadcrumb" aria-label="breadcrumb">
@@ -1636,7 +1638,7 @@
                         </template>
                     </bkt-collapse>
                 </div>
-                <div v-if="item && item.coordinates.length > 0 && !loading" class="col-12 col-lg-12 order-3 px-lg-0">
+                <div v-if="item && item.coordinates && item.coordinates.length > 0 && !loading" class="col-12 col-lg-12 order-3 px-lg-0">
                     <bkt-collapse title="Объекты на карте" class="bkt-lot__collapse"
                                   id="map" collapse_class="show"
                     >
@@ -2204,7 +2206,7 @@
                 this.images_loading = true;
                 let formData = new FormData();
                 formData.append('lotId', this.item.id);
-                formData.append("images[]", image);
+                formData.append(image.fileType+"s[]", image);
                 axios.post('/api/admin/files/lot/upload', formData, {
                     headers: {
                         'Content-Type': 'multipart/form-data',
@@ -2226,6 +2228,12 @@
                             {type: 'error', message: 'Произошла ошибка при загрузке изображения'});
                     })
                     .finally(() => {
+                        if (this.$refs.upload_file_top) {
+                            this.$refs.upload_file_top.clear();
+                        }
+                        if (this.$refs.upload_file_collapse) {
+                            this.$refs.upload_file_collapse.clear();
+                        }
                         this.images_loading = false;
 
                     })

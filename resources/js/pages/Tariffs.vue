@@ -70,9 +70,9 @@
                                  class="bkt-card__row outline bkt-tariffs__item"
                                  :class="{'current': choice==index}" @click="chooseTariff(index)"
                             >
-                                <bkt-checkbox v-if="!tariff.isUserTariff" type="radio" v-model="choice" :val="index"
+                                <bkt-checkbox v-if="!tariff.isUserTariff" :name="'tariff_'+index" type="radio" v-model="choice" :val="index"
                                               wrapper_class="bkt-check_radio-check"></bkt-checkbox>
-                                <bkt-checkbox v-else :value="true" disabled
+                                <bkt-checkbox v-else :name="'tariff_'+index" :value="true" disabled
                                               wrapper_class="bkt-check_radio-check"></bkt-checkbox>
                                 <div class="bkt-wrapper-between w-100">
                                     <div
@@ -197,6 +197,9 @@
                     return tmp;
                 }
                 return null;
+            },
+            isLoggedIn() {
+                return this.$store.getters.isLoggedIn
             }
         },
         mounted() {
@@ -221,17 +224,22 @@
                 }
             },
             buyTariff() {
-                this.tariff_loading = true;
-                axios.post('/api/payment', {tariffId: this.available_tariffs[this.choice].id})
-                    .then(resp => {
-                        this.tariff_loading = false;
-                        window.location.replace(resp.data.redirectUrl)
-                    })
-                    .catch(error => {
-                        this.tariff_loading = false;
-                        this.$store.dispatch('sendNotification',
-                            {self: this, type: 'error', message: 'Произошла ошибка, попробуйте позже'});
-                    })
+                if (this.isLoggedIn) {
+                    this.tariff_loading = true;
+                    axios.post('/api/payment', {tariffId: this.available_tariffs[this.choice].id})
+                        .then(resp => {
+                            this.tariff_loading = false;
+                            window.location.replace(resp.data.redirectUrl);
+                        })
+                        .catch(error => {
+                            this.tariff_loading = false;
+                            this.$store.dispatch('sendNotification',
+                                {self: this, type: 'error', message: 'Произошла ошибка, попробуйте позже'});
+                        })
+                }
+                else {
+                    this.$store.commit('openModal', '#authModal')
+                }
             },
             chooseTariff(index) {
                 if (!this.available_tariffs[index].isUserTariff) {

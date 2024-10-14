@@ -3,8 +3,15 @@
         <div class="bkt-card__header bkt-wrapper-between pb-0">
             <h3 class="bkt-card__title">Ответ организатора</h3>
             <h3 class="bkt-card__subtitle bkt-text-neutral">
-                {{answer.publishDate | moment('DD.MM.YYYY')}}
-                <span :class="'bkt-text-'+( answer.isModerated ? 'green': 'red')">
+                <span>
+                    {{answer.publishDate | moment('DD.MM.YYYY')}}
+                <star-rating :title="answer.rating" v-if="answer.rating>0"
+                             :show-rating="false" :rating="answer.rating" :read-only="true" :star-size="16"
+                             :increment="0.01"
+                             :rounded-corners="false"
+                />
+                </span>
+                <span v-if="isAdmin" :class="'bkt-text-'+( answer.isModerated ? 'green': 'red')" >
                     {{ answer.isModerated ? 'Проверен': 'Не проверен'}}
                 </span>
             </h3>
@@ -42,9 +49,13 @@
 
             <div class="col-12" v-can="'additions-edit'">
                 <button class="bkt-button primary" style="float: right;" @click="edit" v-if="!edit_mode">Редактировать</button>
+<!--                <button class="bkt-button primary" data-bs-toggle="modal" data-bs-target="#ratingModal">-->
+<!--                    Оценить-->
+<!--                </button>-->
                 <add-edit-additions v-if="edit_mode" :answer_id="answer.id" simple @cancel="edit_mode=false" @update="update"/>
             </div>
         </div>
+        <rating-modal type="answer" :answer-id="answer.id" @estimated="estimated"/>
     </div>
 </template>
 
@@ -52,6 +63,8 @@
     import {Hooper, Navigation as HooperNavigation, Slide} from "hooper";
     import axios from "axios";
     import AddEditAdditions from "../../admin/lots/additions/AddEditAdditions";
+    import RatingModal from "./RatingModal";
+    import StarRating from "vue-star-rating";
 
     export default {
         name: "OrganizerAnswer",
@@ -60,7 +73,9 @@
             Hooper,
             Slide,
             HooperNavigation,
-            AddEditAdditions
+            AddEditAdditions,
+            RatingModal,
+            StarRating
         },
         data() {
             return {
@@ -82,6 +97,13 @@
             rules() {
                 return this.$store.getters.rules
             },
+            auth_user() {
+                return this.$store.getters.auth_user;
+                // auth_user && auth_user.isAdmin
+            },
+            isAdmin() {
+                return this.auth_user && this.auth_user.isAdmin;
+            }
         },
         methods: {
             edit() {
@@ -109,6 +131,9 @@
             update() {
                 this.edit_mode = false;
                 this.$emit('update');
+            },
+            estimated() {
+
             }
         }
     }

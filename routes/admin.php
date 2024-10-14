@@ -145,6 +145,13 @@ Route::group(['middleware' =>['localization', 'role:admin|manager', 'json.respon
 
         Route::post('/process-text', [AdditionsController::class, 'processText']);
 
+        Route::group(['prefix' => 'rating'], function () {
+            Route::get('/', [\App\Http\Controllers\OrganizerAnswerRatingController::class, 'get']);
+            Route::post('/create', [\App\Http\Controllers\OrganizerAnswerRatingController::class, 'create']);
+            Route::post('/update', [\App\Http\Controllers\OrganizerAnswerRatingController::class, 'update']);
+            Route::post('/delete', [\App\Http\Controllers\OrganizerAnswerRatingController::class, 'delete']);
+        });
+
     });
 
     Route::group(['prefix' => 'files'], function () {

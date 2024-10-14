@@ -157,7 +157,7 @@ class Lot extends Model
 
     public function lotImages()
     {
-        return $this->hasMany(LotFile::class)->where('type', 'image');
+        return $this->hasMany(LotFile::class)->where('type', 'image')->orWhere('type', 'video');
     }
 
     public function lotUserImages()

@@ -138,6 +138,9 @@ Route::group(['middleware' => ['json.response', 'localization']], function () {
         Route::post('/estimate', [BidderController::class, 'estimateBidder'])
             ->middleware('auth.deny:api');
 
+        Route::post('/estimate-answer', [\App\Http\Controllers\OrganizerAnswerRatingController::class, 'create'])
+            ->withoutMiddleware('check.tariff:hasAccessToReestr');
+
         Route::put('/debtor/messages', [BidderController::class, 'getDebtorMessages']);
 
         Route::post('/debtor/message', [BidderController::class, 'getDebtorMessagePage']);

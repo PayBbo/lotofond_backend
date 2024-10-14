@@ -106,6 +106,39 @@
                         </div>
                         <!-- /.card -->
                     </div>
+                    <div class="col-md-12" v-if="isEdit">
+                        <div class="card card-primary">
+                            <div class="card-body">
+                                <div class="bkt-wrapper bkt-wrapper-between my-2">
+                                    <div>Общая Оценка: {{item_rating}}</div>
+                                    <button type="button"
+                                            class="btn btn-outline-primary bkt-button-icon primary-outline bkt-hover-primary"
+                                            data-bs-toggle="modal" data-bs-target="#answerRatingModal" :disabled="loading">
+                                        <bkt-icon name="Plus" color="primary" :width="'16px'" :height="'16px'"/>
+                                    </button>
+                                </div>
+                                <div class="bkt-wrapper-column bkt-gap-small"
+                                     style="max-height: 600px; overflow-y: auto">
+                                    <div v-for="(rating,index) in ratings" class="bkt-border-neutral bkt-border-rounded p-2">
+                                        <div class="bkt-wrapper bkt-wrapper-between">
+                                            <span>Оценка: {{rating.estimate}}</span>
+                                            <button
+                                                type="button"
+                                                class="btn btn-outline-red bkt-button-icon red-outline bkt-hover-red"
+                                                @click="deleteRating(index,rating.id)"
+                                                title="Удалить оценку"
+                                                :disabled="loading"
+                                            >
+                                                <bkt-icon name="Trash" color="red" :width="'16px'" :height="'16px'"/>
+                                            </button>
+                                        </div>
+                                        <p v-if="rating.comment">{{rating.comment}}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <rating-modal id="answerRatingModal" ref="answerRatingModal" type="answer" :answer-id="item.id" @save="createRating" admin/>
+                    </div>
                 </div>
             </div>
         </section>
@@ -120,10 +153,11 @@ import {VueEditor} from "vue2-editor";
 import AdminSelect from "../../AdminSelect";
 import axios from "axios";
 import Textarea from "../../../components/Textarea";
+import RatingModal from "../../../pages/LotCard/RatingModal";
 
 export default {
     name: "AddEditAdditions",
-    components: {Textarea, AdminSelect, VueEditor, FilesTable, AdminSwitch},
+    components: {Textarea, AdminSelect, VueEditor, FilesTable, AdminSwitch, RatingModal},
     props: {
         simple: {
             type: Boolean,
@@ -166,7 +200,10 @@ export default {
                 ]
             },*/
             lot: null,
-            lots: []
+            lots: [],
+            item_rating: 0,
+            ratings:[],
+            loading: false
         }
     },
     async created() {
@@ -175,7 +212,9 @@ export default {
             {message: '', files: [], images: [], isModerated: false, lotId: null}
         )
         if (this.isEdit) {
-            await this.editItem()
+            await this.editItem();
+            this.getRatings();
+            this.item_rating = this.item.rating;
         }else{
             await this.getLots()
         }
@@ -220,6 +259,58 @@ export default {
                     console.log(error);
                     this.$store.commit('setModal', {data: 'error', text: 'Произошла ошибка'});
                     throw error
+                });
+        },
+        async getRatings() {
+            await axios({
+                method: 'get',
+                url: '/api/admin/additions/rating',
+                data: {answer_id: this.item.id}
+            }).then((response) => {
+                this.ratings = response.data.ratings
+            })
+                .catch((error) => {
+                    console.log(error);
+                    this.$store.commit('setModal', {data: 'error', text: 'Произошла ошибка при загрузке оценок ответов'})
+                });
+        },
+        createRating(payload) {
+            this.loading = true;
+            payload.admin = true;
+            axios({
+                method: 'post',
+                url: '/api/admin/additions/rating/create',
+                data: payload
+            }).then((response) => {
+                this.item_rating = response.data.answer.rating;
+                this.ratings.push(response.data.rating);
+                this.loading = false;
+                if(this.$refs.answerRatingModal) {
+                    this.$refs.answerRatingModal.cancel()
+                }
+
+            })
+                .catch((error) => {
+                    console.log(error);
+                    this.loading = false;
+                    this.$store.commit('setModal', {data: 'error', text: 'Произошла ошибка при создании оценки'})
+                });
+        },
+        deleteRating(index, id) {
+            this.loading = true;
+            axios({
+                method: 'post',
+                url: '/api/admin/additions/rating/delete',
+                data: {id: id}
+            }).then((response) => {
+                this.item_rating = response.data.rating;
+                this.ratings.splice(index, 1);
+                this.loading = false;
+            })
+                .catch((error) => {
+                    console.log(error);
+                    this.loading = false;
+                    this.$store.commit('setModal', {data: 'error', text: 'Произошла ошибка при удалении оценки'})
                 });
         }
     }

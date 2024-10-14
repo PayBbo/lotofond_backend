@@ -235,6 +235,13 @@ export default {
                 data: payload
             })
         },
+        async estimateAnswer({commit, state}, payload) {
+            return await axios({
+                method: 'post',
+                url: '/api/bidders/estimate-answer',
+                data: payload
+            })
+        },
         async getDebtorMessages({dispatch, commit, state}, payload) {
             dispatch('saveDataProperty', {module_key: 'bidders', state_key: 'messages', key: 'loading', value: true}, {root: true});
             if(payload.filters) {

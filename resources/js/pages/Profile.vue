@@ -31,9 +31,9 @@
                                 <h6 class="bkt-card__subtitle">тарифный план</h6>
                                 <h5 class="bkt-card__title">{{user.tariff ? user.tariff.title  :'Базовый'}}</h5>
                             </div>
-                            <a class="bkt-button bkt-tariff-button" href="/tariffs">
+                            <button class="bkt-button bkt-tariff-button" @click="tab='Tariff'">
                                 Сменить тариф
-                            </a>
+                            </button>
                             <div class="bkt-card bkt-card__background-figure-1">
                             </div>
                             <div class="bkt-card bkt-card__background-figure-2 bkt-bg-primary">
@@ -78,11 +78,12 @@
     import ContactsTab from "./Profile/ContactsTab";
     import NotificationsTab from "./Profile/NotificationsTab";
     import OrdersTab from "./Profile/OrdersTab";
+    import TariffTab from "./Profile/TariffTab";
 
     export default {
         name: "Profile",
         components: {
-            ProfileTab, AboutTab, AskQuestionTab, ContactsTab, NotificationsTab, HelpTab, OrdersTab
+            ProfileTab, AboutTab, AskQuestionTab, ContactsTab, NotificationsTab, HelpTab, OrdersTab, TariffTab
         },
         data() {
             return {
@@ -144,6 +145,12 @@
                         label: "Календарь",
                         color: 'blue'
                     },
+                    {
+                        icon: 'Clock',
+                        code: "Tariff",
+                        label: "Тариф",
+                        color: 'yellow'
+                    },
                 ],
             }
         },
@@ -157,6 +164,17 @@
             isLoggedIn() {
                 return this.$store.getters.isLoggedIn
             },
+        },
+        watch: {
+            '$route.query': {
+                immediate: true,
+                handler(newVal) {
+                    if(newVal && newVal.tab) {
+                        this.tab = newVal.tab;
+                        window.history.pushState({}, "Tariff", "/"+window.location.href.substring(window.location.href.lastIndexOf('/') + 1).split("?")[0]);
+                    }
+                }
+            }
         },
         methods: {
             navigate(link) {
