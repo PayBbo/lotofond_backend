@@ -65,8 +65,7 @@ class FilterController extends Controller
 
     public function getCategoriesForFilter()
     {
-
-        if (!Cache::has('categories')) {
+        if (!Cache::has('categories') || request()->get('recache',false)) {
             $cacheService = new CacheService();
             $cacheService->cacheCategories();
         }

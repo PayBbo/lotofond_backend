@@ -264,7 +264,9 @@ export default {
                     await axios({
                         method: 'get',
                         url: '/api/trades/filter/categories',
-                        data: {},
+                        data: {
+                            recache: true
+                        },
                     })
                         .then((response) => {
                             commit('setCategories', response.data.sort(function (one, other) {

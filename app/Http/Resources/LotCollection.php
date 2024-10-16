@@ -28,7 +28,7 @@ class LotCollection extends ResourceCollection
 
     public function __construct($resource)
     {
-        $this->authCheck = auth()->guard('api')->check();;
+        $this->authCheck = auth()->guard('api')->check();
         $this->contentSettings = new ContentSettingsService();
         $this->content = $this->authCheck ? $this->contentSettings->getUserData() : null;
         parent::__construct($resource);
