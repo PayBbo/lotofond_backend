@@ -442,6 +442,7 @@ export default {
             const item = {
                 value: payload.value,
                 expiry: now.getTime() + 2629800000,
+                cache_key: localStorage.getItem('lotofond_cache_key') ?? 'lotofond_cache_key'
             }
             localStorage.setItem('lotofond_cached_'+payload.key, JSON.stringify(item))
         },
