@@ -67,6 +67,7 @@ class AuctionController extends Controller
             }
         }
         catch (\Exception $e) {
+            logger('getFilteredTrades ERROR = '.$e->getMessage());
             return response()->json(['message'=> $e->getMessage()], 500);
         }
 
