@@ -333,7 +333,7 @@ class Lot extends Model
     public function getDescriptionExtractsAttribute()
     {
          $result = [];
-         $admin = Auth::user()->hasRole('admin');
+         $admin = auth()->check() && Auth::user()->hasRole('admin');
           foreach ($this->lotParams->unique('value') as $param) {
               $extracts = [];
               foreach ($param->childParams as $sub) {
@@ -351,13 +351,16 @@ class Lot extends Model
               $tradeSubject = $param->value;
               $type = is_null($param->type) ? 'other' : $param->type;
               if (count($extracts) == 0) {
-                  $paramArray = [
-                      'title' => $param->param->title,
-                      'type' => $param->param->type,
-                      'value' => $param->value
-                  ];
-                  if ($admin) {
-                      $paramArray['id'] = $param->id;
+                  if($param->param) {
+                      $paramArray = [
+                          'title' => $param->param->title,
+                          'type' => $param->param->type,
+                          'value' => $param->value
+                      ];
+                      if ($admin) {
+                          $paramArray['id'] = $param->id;
+                      }
+                      $extracts[] = $paramArray;
                   }
                   $extracts[] = $paramArray;
                   $tradeSubject = null;
