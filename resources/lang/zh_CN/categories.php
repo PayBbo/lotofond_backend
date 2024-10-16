@@ -36,4 +36,5 @@ return [
     "PropertyComplex" => "物业综合体",
     "obligations" => "证券",
     "other" => "其他",
+    "torgi" => "Government tenders",
 ];

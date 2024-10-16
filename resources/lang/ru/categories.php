@@ -36,4 +36,5 @@ return [
     'PropertyComplex' => 'имущественный комплекс',
     'obligations' => 'ценные бумаги',
     'other' => 'прочее',
+    'torgi' => 'гис торги',
 ];

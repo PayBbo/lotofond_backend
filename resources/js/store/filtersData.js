@@ -264,7 +264,7 @@ export default {
                     await axios({
                         method: 'get',
                         url: '/api/trades/filter/categories',
-                        data: {
+                        params: {
                             recache: true
                         },
                     })

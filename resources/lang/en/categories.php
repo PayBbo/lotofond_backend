@@ -36,4 +36,5 @@ return [
     "PropertyComplex" => "Property complex",
     "bonds" => "Securities",
     "other" => "Other",
+    "torgi" => "Government tenders",
 ];
