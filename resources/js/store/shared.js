@@ -347,7 +347,7 @@ export default {
             const now = new Date();
 
             // compare the expiry time of the item with the current time
-            if (now.getTime() > item.expiry) {
+            if (now.getTime() > item.expiry || item.cache_key !==localStorage.getItem('lotofond_cache_key')) {
                 // If the item is expired, delete the item from storage
                 // and return null
                 localStorage.removeItem('lotofond_cached_'+payload.key);

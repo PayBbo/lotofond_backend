@@ -324,7 +324,7 @@ const app = new Vue({
     router,
     store
 });
-
+localStorage.setItem('lotofond_cache_key', process.env.MIX_CACHE_KEY);
 if (!localStorage.getItem('locale')) {
     localStorage.setItem('locale', 'ru');
 }
