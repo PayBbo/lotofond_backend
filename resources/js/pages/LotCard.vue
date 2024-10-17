@@ -15,7 +15,7 @@
             loop
             srcName="main"
             srcThumb="preview"
-            :srcMediaType="item.photos[photo_index].filetype"
+            :srcMediaType="photo_filetype"
             @close="photo_index = null">
         </CoolLightBox>
         <CoolLightBox
@@ -25,7 +25,7 @@
             loop
             srcName="main"
             srcThumb="preview"
-            :srcMediaType="item.organizerAnswer.images[image_index].filetype"
+            :srcMediaType="image_filetype"
             @close="image_index = null">
         </CoolLightBox>
         <nav class="bkt-wrapper bkt-nowrap m-0 bkt-breadcrumb" aria-label="breadcrumb">
@@ -391,7 +391,7 @@
                                     v-if="item && item.photos && item.photos.length>0 && ((rules && rules.photos) || !rules)"
                             >
                                 <slide v-for="(photo, index) in item.photos" :key="photo.id">
-                                    <img v-lazy="photo.preview" class="bkt-card__image" @click="photo_index = index"/>
+                                    <img v-lazy="photo.preview" class="bkt-card__image" @click="changePhotoIndex(index)"/>
                                 </slide>
                                 <hooper-navigation slot="hooper-addons"></hooper-navigation>
                             </hooper>
@@ -1754,7 +1754,9 @@
                 short_description: '',
                 read_more: false,
                 photo_index: null,
+                photo_filetype: 'image',
                 image_index: null,
+                image_filetype: 'image',
                 service_loading: false,
                 offers: ['ClosePublicOffer', 'PublicOffer', "PPZ", "PPU"],
                 auctions: ['CloseAuction', 'OpenAuction', 'EA', 'OpenConcours', 'CloseConcours', "EK", "SA", "PA", "BC", "PK"]
@@ -2299,7 +2301,15 @@
                 this['get' + method](page);
             },
             changeImageIndex(index) {
+                this.image_filetype = this.item && this.item.organizerAnswer && this.item.organizerAnswer.images
+                && this.item.organizerAnswer.images[index].filetype
+                    ? this.item.organizerAnswer.images[index].filetype : 'image';
                 this.image_index = index;
+            },
+            changePhotoIndex(index) {
+                this.photo_filetype = this.item && this.item.photos && this.item.photos[index] && this.item.photos[index].filetype
+                    ? this.item.photos[index].filetype : 'image';
+                this.photo_index = index;
             }
         }
     }
