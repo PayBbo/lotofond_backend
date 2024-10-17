@@ -53,6 +53,7 @@ class AuctionController extends Controller
     public function getFilteredTrades(Request $request)
     {
         try {
+            ini_set('max_execution_time', 6000);
             $authCheck = auth()->guard('api')->check();
             if ($authCheck) {
                 $lots = Lot::with(['auction', 'showRegions', 'status', 'lotImages', 'categories', 'lotParams'])
