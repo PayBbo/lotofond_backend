@@ -362,7 +362,7 @@ class Lot extends Model
                       }
                       $extracts[] = $paramArray;
                   }
-                  $extracts[] = $paramArray;
+
                   $tradeSubject = null;
                   $type = 'other';
               }
