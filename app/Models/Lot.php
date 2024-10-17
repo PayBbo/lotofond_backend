@@ -157,7 +157,7 @@ class Lot extends Model
 
     public function lotImages()
     {
-        return $this->hasMany(LotFile::class)->where('type', 'image')->orWhere('type', 'video');
+        return $this->hasMany(LotFile::class)->where(function($q) {$q->where('type', 'image')->orWhere('type', 'video');});
     }
 
     public function lotUserImages()
@@ -333,34 +333,26 @@ class Lot extends Model
     public function getDescriptionExtractsAttribute()
     {
          $result = [];
-         $admin = auth()->check() && Auth::user()->hasRole('admin');
           foreach ($this->lotParams->unique('value') as $param) {
               $extracts = [];
               foreach ($param->childParams as $sub) {
-                  $subArray = [
+                  $extracts[] = [
                       'title' => $sub->param->title,
                       'type' => $sub->param->type,
-                      'value' => $sub->value
+                      'value' => $sub->value,
+                      'id' =>$sub->id
                   ];
-                  if($admin) {
-                      $subArray['id'] = $sub->id;
-//                      $subArray['parent_id'] = $sub->parent_id;
-                  }
-                  $extracts[] = $subArray;
               }
               $tradeSubject = $param->value;
               $type = is_null($param->type) ? 'other' : $param->type;
               if (count($extracts) == 0) {
                   if($param->param) {
-                      $paramArray = [
+                      $extracts[] = [
                           'title' => $param->param->title,
                           'type' => $param->param->type,
-                          'value' => $param->value
+                          'value' => $param->value,
+                          'id' => $param->id
                       ];
-                      if ($admin) {
-                          $paramArray['id'] = $param->id;
-                      }
-                      $extracts[] = $paramArray;
                   }
 
                   $tradeSubject = null;
