@@ -674,15 +674,22 @@ trait TorgiGovRuTrait
 
         if ($attachments) {
             foreach ($attachments as $attachment) {
-                $content = $this->getFile($attachment['id'], true);
-                if ($content) {
-                    $files[] = [
-                        'filename' => $attachment['name'],
-                        'link' => 'https://torgi.gov.ru/new/file-store/v1/' . $attachment['id'],
-                        'content' => $content,
-                        'guid' => $attachment['id']
-                    ];
+                try {
+                    $content = $this->getFile($attachment['id'], true);
+                    if ($content) {
+                        $files[] = [
+                            'filename' => $attachment['name'],
+                            'link' => 'https://torgi.gov.ru/new/file-store/v1/' . $attachment['id'],
+                            'content' => $content,
+                            'guid' => $attachment['id']
+                        ];
+                    }
                 }
+                catch (\Exception $exception) {
+                    logger('parseLot downloadFile '.isset($attachment['id']) ? $attachment['id'] : '');
+                    logger('parseLot downloadFile error = '.$exception->getMessage());
+                }
+
             }
         }
 
