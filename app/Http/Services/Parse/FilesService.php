@@ -76,7 +76,7 @@ class FilesService
                             foreach ($pages as $page) {
                                 $pageFilename = substr(File::name($page), 0, 200) . '.jpg';
                                 $this->parseImages(
-                                    'auction-files/auction-15/14-08-2024-21-22',
+                                    $root_path,
                                     $pageFilename,
                                     'jpg');
                             }
@@ -405,10 +405,22 @@ class FilesService
         return $content;
     }
 
-    public function convertPdfToImage($pathToPdf, $pathToStorage, $prefix='') {
+    public function convertPdfToImage($pathToPdf, $pathToStorage, $prefix='', $limit=5) {
         $pathToPdf = Storage::disk('public')->path($pathToPdf);
         $pathToStorage = \storage_path('app' . $this->slash . 'public' . $this->slash .$pathToStorage);
         $pdf = new \Spatie\PdfToImage\Pdf($pathToPdf);
+        if($pdf->getNumberOfPages() > $limit)
+        {
+            return array_map(function ($pageNumber) use ($pdf, $pathToStorage, $prefix) {
+                $pdf->setPage($pageNumber);
+
+                $destination = "{$pathToStorage}/{$prefix}{$pageNumber}.jpg";
+
+                $pdf->saveImage($destination);
+
+                return $destination;
+            }, range(1, $limit));
+        }
         return $pdf->saveAllPagesAsImages($pathToStorage, $prefix);
     }
 }
