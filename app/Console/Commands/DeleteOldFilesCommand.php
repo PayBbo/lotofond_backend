@@ -47,7 +47,7 @@ class DeleteOldFilesCommand extends Command
         $this->execCommand($commFirst);
         $commSecond = "find " . $path . " -type d -empty -exec rm -r {} \;";
         $this->execCommand($commSecond);
-        LotFile::where('created_at', '<=', $lastDate->endOfMonth()->endOfDay()->format('Y-m-d H:i:s'))->delete();
+        LotFile::where('created_at', '<=', $lastDate->endOfDay()->format('Y-m-d H:i:s'))->delete();
         logger('-----------------------------------------');
         return 0;
     }
