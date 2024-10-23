@@ -59,6 +59,8 @@ class ParseTrades implements ShouldQueue
             $messages = $this->service->getTradeMessages($startFrom, $endTo);
         }catch (Exception $exception){
             logger('FAILED getTradeMessages, RESTART');
+            logger('FAILED getTradeMessages, now ='.now().' delay =' .now()->setTimezone('Europe/Moscow')->addMinutes(5));
+            logger('FAILED getTradeMessages, exception '.$exception->getMessage());
             dispatch((new ParseTrades($this->startFrom, $this->endTo))
                 ->delay(now()->setTimezone('Europe/Moscow')->addMinutes(5))
                 ->onQueue('parse'));
