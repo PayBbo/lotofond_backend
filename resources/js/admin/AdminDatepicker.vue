@@ -4,7 +4,6 @@
         calendar-button-icon="fa fa-calendar"
         :calendar-button="true"
         monday-first
-        typeable
         :bootstrap-styling="true"
         :clear-button="true"
         clear-button-icon="fa fa-times"
@@ -32,7 +31,7 @@ export default {
                 return this.model;
             },
             set(val) {
-                console.log('set val', val)
+                console.log('set val', val);
                 if(val !== null) {
                     val = moment(val).format('DD.MM.YYYY');
                 }
@@ -53,8 +52,7 @@ export default {
             if(this.refName && this.$refs[this.refName]) {
                 this.$refs[this.refName].setValue(date);
             }
-
-        }
+        },
     }
 }
 </script>
