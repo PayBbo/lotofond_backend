@@ -628,7 +628,12 @@ trait TorgiGovRuTrait
 //            $priceReduction->savePriceReduction($lot->id, $lot->start_price, $lot->created_at, null, null, 0, $lot->deposit, true);
 //
             $files = array_merge($this->parseFiles($parse), $auctionFiles);
-            $this->storeFiles($files, $auctionId, $lot->id);
+            try {
+                $this->storeFiles($files, $auctionId, $lot->id);
+            }
+            catch (\Exception $exception) {
+            }
+
         }
     }
 

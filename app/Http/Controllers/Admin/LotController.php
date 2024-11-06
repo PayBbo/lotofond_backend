@@ -49,8 +49,8 @@ class LotController extends Controller
             ])
                 ->when(isset($searchString) && strlen((string)$searchString) > 0, function ($query) use ($searchString) {
                     $query->where('auction.trade_id', 'like', '%' . $searchString . '%')
-                        ->orWhere('lot.description', 'like', '%' . $searchString . '%')
-                        ->orWhere('lot.id', 'like', '%' . $searchString . '%');
+                        ->orWhere('lots.description', 'like', '%' . $searchString . '%')
+                        ->orWhere('lots.id', 'like', '%' . $searchString . '%');
                 })
             ->leftJoin('auctions as auction', 'auction.id', '=', 'lots.auction_id')
             ->leftJoin('auction_types as type', 'auction.auction_type_id', '=', 'type.id')
