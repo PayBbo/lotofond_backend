@@ -151,6 +151,9 @@ class AdditionsController extends Controller
 //                $text = preg_replace('/\b' . $arbitrEmail . '\b/u', str_repeat('░', strlen($arbitrEmail) - 1), $text);
         /*END Удаление почты арбитражного управляющего*/
 
+        $patternEmailAnswer = "/(Отправлено из мобильной).*(lotofond@yandex.ru)/";
+        $text = preg_replace($patternEmailAnswer, '', $text);
+
         $replacement = '░░░░░░░░░░░░░░░░░░';
         /*START Удаление любой почты */
         $patternEmail = "/[^@\s]*@[^@\s]*\.[^@\s]*/";
