@@ -665,6 +665,24 @@ trait TorgiGovRuTrait
         return $status ? $status->id : 1;
     }
 
+    public function parseStatusName($code) {
+        $statuses = [
+            'notice' => 'biddingDeclared',
+            'noticeCancel' => 'biddingCanceled',
+            'noticeStop' => 'biddingPaused',
+            'noticeResumption' => 'biddingResumed',
+            'noticeAnnulment' => 'annul',
+            'CANCELED' => 'biddingCanceled',
+            'PUBLISHED' => 'biddingDeclared',
+            'FAILED' => 'biddingFail',
+            'APPLICATIONS_SUBMISSION' => 'applicationSessionStarted',
+            'DETERMINING_WINNER' => 'applicationSessionEnd',
+            'SUCCEED' => 'finished',
+        ];
+
+        return isset($statuses[$code]) ? $statuses[$code] : null;
+    }
+
     public function parseFiles($parse)
     {
         $files = [];
