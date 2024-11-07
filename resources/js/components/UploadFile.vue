@@ -55,7 +55,7 @@
             handleFile() {
                 let uploadedFiles = this.$refs['upload'+this.id].files;
                 for (let i = 0; i < uploadedFiles.length; i++) {
-                    if (/\.(jpe?g|png|bmp|pdf|doc|docx|mp4|mov|avi)$/i.test(uploadedFiles[i].name)) {
+                    if (/\.(jpe?g|png|bmp|pdf|doc|docx|mp4|webm|ogg)$/i.test(uploadedFiles[i].name)) {
                         uploadedFiles[i].fileType = 'file';
                         if(/\.(jpe?g|png|bmp)$/i.test(uploadedFiles[i].name))
                         {

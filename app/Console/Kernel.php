@@ -4,6 +4,7 @@ namespace App\Console;
 
 use App\Console\Commands\DeleteOldFilesCommand;
 use App\Console\Commands\ParseTorgiGovRuCommand;
+use App\Console\Commands\SendTariffCancellationNotificationsCommand;
 use App\Jobs\AdditionalLotInfoParseJob;
 use App\Jobs\DeleteFilesJob;
 use App\Jobs\DeleteOldFilesJob;
@@ -54,7 +55,8 @@ class Kernel extends ConsoleKernel
         $schedule->job((new NewUsersNotificationsJob)->onQueue('user'))->dailyAt('20:00')->timezone('Europe/Moscow');
         $schedule->job((new AdditionalLotInfoParseJob)->onQueue('parse'))->dailyAt('01:20')->timezone('Europe/Moscow');
         $schedule->command(DeleteOldFilesCommand::class)->dailyAt('23:30')->timezone('Europe/Moscow');
-        $schedule->job((new DeleteFilesJob)->onQueue('parse'))->dailyAt('23:30')->timezone('Europe/Moscow');
+        $schedule->job((new DeleteFilesJob)->onQueue('parse'))->dailyAt('02:30')->timezone('Europe/Moscow');
+        $schedule->command(SendTariffCancellationNotificationsCommand::class)->dailyAt('13:00')->timezone('Europe/Moscow');
     }
 
     /**

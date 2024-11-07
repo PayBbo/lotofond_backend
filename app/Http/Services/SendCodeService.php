@@ -319,4 +319,26 @@ $lotDesc</p>
             return false;
         }
     }
+
+    public function sendTariffCancellationNotification($tariff)
+    {
+        logger('sendTariffCancellationNotification user_id =' . $tariff->user_id);
+        try {
+            $html = "<p>Здравствуйте, уведомляем Вас, что Ваш тариф <strong>$tariff->title</strong>" .
+                " для полного доступа к сервису Lotofond заканчивается <strong>$tariff->expired_at</strong> !</p>
+
+<p>С уважением, Lotofond</p>";
+            $subject = 'Заканчивается срок действия тарифа Lotofond';
+            $toEmail = $tariff->email;
+            Mail::mailer('user_smtp')->send([], [], function ($message) use ($toEmail, $html, $subject) {
+                $message->from(config('mail.from.user_address'), config('mail.from.name'));
+                $message->to($toEmail);
+                $message->subject($subject);
+                $message->setBody($html, 'text/html');
+            });
+            logger('sendTariffCancellationNotification email send success');
+        } catch (Exception $e) {
+            logger($e->getMessage());
+        }
+    }
 }
