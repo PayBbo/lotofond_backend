@@ -57,11 +57,11 @@ class ParseDataFromRosreestrService
                     }
                     if($pkkType) {
                         //данные по публичной карте
-                        $res = $this->getPkkObject($client, $cadastralNumber, $pkkType);
+                        $res = $this->getPkkObject($client, $cadastralNumber, $pkkType, $lotParam, $lot, $mainLotParam);
                     }
                 }
                 //если карта ничего не вернула
-                if($res) {
+                if(!$res) {
                     //более новое апи и данные
                     $res = $this->getFirLiteObject($client, $cadastralNumber, $lotParam, $lot, $mainLotParam);
                     if(!$res) {
@@ -337,15 +337,21 @@ class ParseDataFromRosreestrService
                 .'&lang=ru_RU&format=json');
             if ($res->getStatusCode() == 200) {
                 $data = json_decode($res->getBody(), true);
-                if(isset($data['response']['GeoObjectCollection']['featureMember']['GeoObject']['Point']['pos'])) {
-                    $coordinatesString = $data['response']['GeoObjectCollection']['featureMember']['GeoObject']['Point']['pos'];
-//                    $coordinates = explode(" ", $coordinatesString);
-                    if($coordinatesString && $coordinatesString != null) {
-                        if (!$lot->params()->where(['param_id' => 11, 'value' => $coordinatesString, 'parent_id' => $mainLotParam->id])->exists()) {
-                            $lot->params()->attach(11, ['value' => $coordinatesString, 'parent_id' => $mainLotParam->id]);
-                        }
+                if(isset($data['response']['GeoObjectCollection']['featureMember'])) {
+                    $featureMember = $data['response']['GeoObjectCollection']['featureMember'];
+                    if(is_array($featureMember)) {
+                        $featureMember = $data['response']['GeoObjectCollection']['featureMember'][0];
                     }
+                    if(isset($featureMember['GeoObject']['Point']['pos'])) {
+                        $coordinatesString = $featureMember['GeoObject']['Point']['pos'];
+//                    $coordinates = explode(" ", $coordinatesString);
+                        if($coordinatesString && $coordinatesString != null) {
+                            if (!$lot->params()->where(['param_id' => 11, 'value' => $coordinatesString, 'parent_id' => $mainLotParam->id])->exists()) {
+                                $lot->params()->attach(11, ['value' => $coordinatesString, 'parent_id' => $mainLotParam->id]);
+                            }
+                        }
 
+                    }
                 }
             }
         }

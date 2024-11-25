@@ -366,9 +366,9 @@ class Lot extends Model
     public function getCoordinatesAttribute()
     {
         $result = [];
-        $params = $this->lotParams->where('param_id', 11)->unique('value');
+        $params = $this->paramsLot->where('param_id', 11)->unique('value')->toArray();
         foreach ($params as $param) {
-            $result[] = ['coordinates' => explode(" ", $param->value)];
+            $result[] = ['coordinates' =>array_map(function ($item) { return (float)$item; },explode(" ", $param['value']))];
         }
         return $result;
     }

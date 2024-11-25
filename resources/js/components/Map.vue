@@ -1,6 +1,6 @@
 <template>
     <yandex-map
-        v-if="points.length > 0"
+        v-if="POINTS.length > 0"
         :height="'500px'"
                 :width="'100%'"
                 :settings="{ location: LOCATION }">
@@ -67,14 +67,14 @@
                     zoom: 20, // starting zoom
                 },
                 POINTS: [
-                    {coordinates: [46.079702, 51.575741]},
+                    // {coordinates: [46.079702, 51.575741]},
                 ],
             }
         },
         mounted() {
             this.LOCATION.zoom = this.zoom;
             if(this.points.length > 0) {
-                this.LOCATION.center = this.points[0];
+                this.LOCATION.center = this.points[0]['coordinates'];
                 this.POINTS = JSON.parse(JSON.stringify(this.points))
             }
         }
