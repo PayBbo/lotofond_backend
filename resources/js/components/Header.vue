@@ -167,6 +167,11 @@
                             Реестры
                         </router-link>
                     </li>
+                    <li class="bkt-navbar__nav-item d-none d-sm-flex" v-if="isLoggedIn">
+                        <router-link to="/map" class="bkt-navbar__nav-link">
+                            Карта
+                        </router-link>
+                    </li>
                     <li class="bkt-navbar__nav-item d-none d-lg-flex">
                         <router-link to="/contacts" class="bkt-navbar__nav-link">
                             Контакты
@@ -293,18 +298,21 @@
         <bkt-code-modal v-if="!isLoggedIn"></bkt-code-modal>
         <bkt-reset-password-modal v-if="!isLoggedIn"></bkt-reset-password-modal>
         <bkt-reset-success-modal v-if="!isLoggedIn"></bkt-reset-success-modal>
+        <bkt-egrn-modal/>
     </header>
 </template>
 
 <script>
     import BktResetPasswordModal from "../auth/ResetPasswordModal";
     import BktResetSuccessModal from "../auth/ResetSuccessModal";
+    import BktEgrnModal from "./SharedModals/EgrnModal";
 
     export default {
         name: "Header",
         components: {
             BktResetPasswordModal,
-            BktResetSuccessModal
+            BktResetSuccessModal,
+            BktEgrnModal
         },
         data() {
             return {
@@ -385,6 +393,14 @@
                         code: "Contacts",
                         label: "Контакты",
                         color: 'yellow',
+                    },
+                    {
+                        path: '/map',
+                        icon: 'Location',
+                        code: "Map",
+                        label: "Карта",
+                        color: 'red',
+                        meta: 'auth'
                     },
                 ],
             }

@@ -32,6 +32,7 @@ class LotParam extends Model
         'param_id' => 'integer',
         'lot_id' => 'integer',
         'parent_id' => 'integer',
+        'coordinates' => 'array',
     ];
 
     public function childParams(){

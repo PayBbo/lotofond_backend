@@ -6,7 +6,6 @@
             <bkt-application-modal ref="applicationModal" :service_loading="service_loading"/>
             <bkt-purchase-modal :service_loading="service_loading"/>
             <bkt-instruction-modal :service_loading="service_loading"/>
-            <bkt-egrn-modal :service_loading="service_loading"/>
             <bkt-edit-contact-modal ref="editContact" v-if="isLoggedIn"></bkt-edit-contact-modal>
         </slot>
         <slot name="filters">
@@ -189,7 +188,6 @@
     import BktApplicationModal from "./SharedModals/ApplicationModal";
     import BktPurchaseModal from "./SharedModals/PurchaseModal";
     import BktInstructionModal from "./SharedModals/InstructionModal";
-    import BktEgrnModal from "./SharedModals/EgrnModal";
     import BktEditContactModal from "../pages/Profile/EditContactModal";
 
     export default {
@@ -250,7 +248,7 @@
         components: {
             'bkt-move-favourite-modal': MoveFavouriteModal,
             'bkt-note-modal': NoteModal,
-            BktApplicationModal, BktPurchaseModal, BktInstructionModal, BktEgrnModal,
+            BktApplicationModal, BktPurchaseModal, BktInstructionModal,
             BktEditContactModal
         },
         data() {

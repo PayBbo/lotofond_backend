@@ -89,6 +89,8 @@ Route::group(['middleware' => ['json.response', 'localization']], function () {
 
             Route::get('/orders', [ApplicationController::class, 'get']);
 
+            Route::get('/for-map', [AuctionController::class, 'getLotsForMap']);
+
         });
         Route::get('/notifications/{lotId}', [AuctionController::class, 'getLotNotifications'])
             ->middleware('auth.deny:api');

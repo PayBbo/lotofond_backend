@@ -108,6 +108,15 @@ let router = new VueRouter({
             },
         },
         {
+            path: '/map',
+            beforeEnter: guardMyRoute,
+            name: 'MainMap',
+            component: () => import(/* webpackChunkName: "calendar" */ "./pages/MainMap.vue"),
+            meta: {
+                auth: true
+            },
+        },
+        {
             path: '/lot/:id',
             name: 'LotCard',
             component: () => import(/* webpackChunkName: "lot-card" */ "./pages/LotCard.vue"),

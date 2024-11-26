@@ -17,6 +17,7 @@ use App\Models\ContentRule;
 use App\Models\Favourite;
 use App\Models\FavouriteLot;
 use App\Models\Lot;
+use App\Models\LotParam;
 use App\Models\Monitoring;
 use App\Models\Notification;
 use App\Models\User;
@@ -260,5 +261,20 @@ class AuctionController extends Controller
         return response()->json(['lotIds' => $result], 200);
     }
 
+
+    public function getLotsForMap() {
+        $coordinates = LotParam::select([
+                DB::raw('REPLACE(concat("[", lot_params.value, "]")," ",",") as coordinates'),
+                'lot_params.value',
+                'lot_params.lot_id',
+            ])
+            ->where('param_id', 11)
+            ->where('lots.status_id', '<=', 2)
+            ->where('lots.active', true)
+            ->leftJoin('lots', 'lots.id', 'lot_params.lot_id')
+            ->distinct()
+            ->get();
+        return $coordinates;
+    }
 
 }

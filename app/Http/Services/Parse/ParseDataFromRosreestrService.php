@@ -34,7 +34,7 @@ class ParseDataFromRosreestrService
     public function handle()
     {
         try {
-            $cadastralNumber = preg_replace("/::/", ':0:', preg_replace("/(?<=:)(0*)/", '', $this->cadastralNumber));
+            $cadastralNumber = preg_replace("/::/", ':0:', preg_replace("/(^0+)|(?<=:)(0*)/", '', $this->cadastralNumber));
             $lotParam = LotParam::where(['value'=> $this->cadastralNumber, 'lot_id' => $this->lotId])->first();
             if ($lotParam) {
                 $lot = Lot::find($lotParam->lot_id);
@@ -62,16 +62,20 @@ class ParseDataFromRosreestrService
                 }
                 //если карта ничего не вернула
                 if(!$res) {
-                    //более новое апи и данные
-                    $res = $this->getFirLiteObject($client, $cadastralNumber, $lotParam, $lot, $mainLotParam);
+                    //старое апи и данные, но что есть, то есть
+                    $res = $this->getFirObject($client, $cadastralNumber, $lotParam, $lot, $mainLotParam);
                     if(!$res) {
-                        //старое апи и данные, но что есть, то есть
-                        $res = $this->getFirObject($client, $cadastralNumber, $lotParam, $lot, $mainLotParam);
+                        //более новое апи и данные
+                        $res = $this->getFirLiteObject($client, $cadastralNumber, $lotParam, $lot, $mainLotParam);
                     }
                 }
 
+                if(!$mainLotParam&&isset($res['mainLotParam'])) {
+                    $mainLotParam = $res['mainLotParam'];
+                }
+
                 //если есть адрес, то определяем координаты через Яндекс
-                if($res && isset($res['address'])) {
+                if($res && isset($res['address']) && $mainLotParam) {
                     $this->getCoordinatesFromYandex($client, $res['address'], $lot, $mainLotParam);
                 }
                 return $res;
@@ -83,7 +87,7 @@ class ParseDataFromRosreestrService
 
     public function getFirObject($client, $cadastralNumber, $lotParam, $lot, $mainLotParam)
     {
-        $res = $client->get('http://rosreestr.ru/api/online/fir_object/' . $cadastralNumber);
+        $res = $client->get('https://rosreestr.ru/api/online/fir_object/' . $cadastralNumber);
         if ($res->getStatusCode() == 200) {
             $data = json_decode($res->getBody(), true);
             if(isset($data['objectData'])) {
@@ -142,6 +146,7 @@ class ParseDataFromRosreestrService
                     ]);
                     $lotParam->parent_id = $mainLotParam->id;
                     $lotParam->save();
+                    $response['mainLotParam'] = $mainLotParam;
                 }
 
                 if (isset($data['parcelData']['cadCost']) && $data['parcelData']['cadCost'] != null) {
@@ -231,6 +236,7 @@ class ParseDataFromRosreestrService
                     ]);
                     $lotParam->parent_id = $mainLotParam->id;
                     $lotParam->save();
+                    $response['mainLotParam'] = $mainLotParam;
                 }
 
                 if (isset($objectData[$objectTypeName])) {
@@ -305,6 +311,7 @@ class ParseDataFromRosreestrService
                         ]);
                         $lotParam->parent_id = $mainLotParam->id;
                         $lotParam->save();
+                        $response['mainLotParam'] = $mainLotParam;
                     }
                     if(isset($featureAttrs['cad_cost'])) {
                         $objectCadastralPrice = $featureAttrs['cad_cost'];
