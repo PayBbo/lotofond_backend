@@ -76,7 +76,8 @@ class ParseDataFromRosreestrService
 
                 //если есть адрес, то определяем координаты через Яндекс
                 if($res && isset($res['address']) && $mainLotParam) {
-                    $this->getCoordinatesFromYandex($client, $res['address'], $lot, $mainLotParam);
+                    $yandexData = $this->getCoordinatesFromYandex($client, $res['address'], $lot, $mainLotParam);
+                    $res['yandexData'] = $yandexData;
                 }
                 return $res;
             }
@@ -360,7 +361,9 @@ class ParseDataFromRosreestrService
 
                     }
                 }
+                return $data;
             }
+            return 'Status 500';
         }
         return null;
     }
