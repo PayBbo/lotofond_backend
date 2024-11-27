@@ -485,7 +485,7 @@ trait TorgiGovRuTrait
                     }
 
                     $auction->save();
-                    logger('parseFiles');
+                    logger('parseAuction parseFiles');
                     $files = $this->parseFiles($parse);
                     if (isset($parse['lots'])) {
                         foreach ($parse['lots'] as $lot) {
@@ -627,6 +627,7 @@ trait TorgiGovRuTrait
 //            $priceReduction = new PriceReductionService();
 //            $priceReduction->savePriceReduction($lot->id, $lot->start_price, $lot->created_at, null, null, 0, $lot->deposit, true);
 //
+            logger('parseLot parseFiles parse');
             $files = array_merge($this->parseFiles($parse), $auctionFiles);
             try {
                 $this->storeFiles($files, $auctionId, $lot->id);
@@ -685,6 +686,7 @@ trait TorgiGovRuTrait
 
     public function parseFiles($parse)
     {
+        logger('function parseFiles -------------------------------------------- Start');
         $files = [];
         $attachments = isset($parse['attachments']) ? $parse['attachments'] : [];
         if (isset($parse['docs']) && count($parse['docs'])) {
@@ -698,24 +700,30 @@ trait TorgiGovRuTrait
         if ($attachments) {
             foreach ($attachments as $attachment) {
                 try {
-                    $content = $this->getFile($attachment['id'], true);
-                    if ($content) {
-                        $files[] = [
-                            'filename' => $attachment['name'],
-                            'link' => 'https://torgi.gov.ru/new/file-store/v1/' . $attachment['id'],
-                            'content' => $content,
-                            'guid' => $attachment['id']
-                        ];
+                    if(isset($attachment['id'])) {
+                        $content = $this->getFile($attachment['id'], true);
+                        if ($content) {
+                            $files[] = [
+                                'filename' => $attachment['name'],
+                                'link' => 'https://torgi.gov.ru/new/file-store/v1/' . $attachment['id'],
+                                'content' => $content,
+                                'guid' => $attachment['id']
+                            ];
+                        }
+                    }
+                    else {
+                        logger('parseFiles no attachment ID ');
                     }
                 }
                 catch (\Exception $exception) {
-                    logger('parseLot downloadFile '.isset($attachment['id']) ? $attachment['id'] : '');
+                    logger('parseLot downloadFile '.(isset($attachment['id']) ? $attachment['id'] : ''));
                     logger('parseLot downloadFile error = '.$exception->getMessage());
                 }
 
             }
         }
 
+        logger('function parseFiles -------------------------------------------- End');
         return $files;
     }
 
