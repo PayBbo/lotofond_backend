@@ -50,11 +50,11 @@ class ParseTorgiGovRuCommand extends Command
             $i = 0;
             foreach ($notices as $notice) {
                 if ($notice['documentType'] === 'notice') {
-                    dispatch((new ParseTorgiGovRuTrade($notice, null))->onQueue('parse'));
+                    dispatch((new ParseTorgiGovRuTrade($notice, null))->onQueue('parseTorgi'));
                     $i++;
                 }
                 else {
-                    dispatch((new ParseTorgiGovRuTrade(null, $notice))->onQueue('parse'));
+                    dispatch((new ParseTorgiGovRuTrade(null, $notice))->onQueue('parseTorgi'));
                     if ($count_statuses) {
                         $i++;
                     }

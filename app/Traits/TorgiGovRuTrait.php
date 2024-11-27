@@ -234,7 +234,7 @@ trait TorgiGovRuTrait
             logger('FAILED getNotices, RESTART');
             dispatch((new ParseTorgiGovRu())
                 ->delay(now()->setTimezone('Europe/Moscow')->addMinutes(5))
-                ->onQueue('parse'));
+                ->onQueue('parseTorgi'));
         }
 
         $i = 0;
@@ -296,7 +296,7 @@ trait TorgiGovRuTrait
             logger('FAILED getNotices, RESTART');
             dispatch((new ParseTorgiGovRu('current', $from, $to))
                 ->delay(now()->setTimezone('Europe/Moscow')->addMinutes(5))
-                ->onQueue('parse'));
+                ->onQueue('parseTorgi'));
         }
         foreach ($notices as $notice) {
             if(isset($notice['noticeNumber'])) {
