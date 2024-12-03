@@ -6,6 +6,7 @@ use App\Models\Lot;
 use App\Models\LotParam;
 use App\Models\Param;
 use App\Models\Region;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Config;
 
 class ParseDataFromRosreestrService
@@ -57,6 +58,7 @@ class ParseDataFromRosreestrService
                     }
                     if($pkkType) {
                         //данные по публичной карте
+                        logger('данные по публичной карте ');
                         $res = $this->getPkkObject($client, $cadastralNumber, $pkkType, $lotParam, $lot, $mainLotParam);
                     }
                 }
@@ -339,29 +341,33 @@ class ParseDataFromRosreestrService
 
     public function getCoordinatesFromYandex($client, $address, $lot, $mainLotParam) {
         if(Config::get('services.yandex.api_key')) {
-            $res = $client->get('https://geocode-maps.yandex.ru/1.x/?'
-                .'apikey='.Config::get('services.yandex.api_key')
-                .'&geocode='.$address
-                .'&lang=ru_RU&format=json');
-            if ($res->getStatusCode() == 200) {
-                $data = json_decode($res->getBody(), true);
-                if(isset($data['response']['GeoObjectCollection']['featureMember'])) {
-                    $featureMember = $data['response']['GeoObjectCollection']['featureMember'];
-                    if(is_array($featureMember)) {
-                        $featureMember = $data['response']['GeoObjectCollection']['featureMember'][0];
-                    }
-                    if(isset($featureMember['GeoObject']['Point']['pos'])) {
-                        $coordinatesString = $featureMember['GeoObject']['Point']['pos'];
-//                    $coordinates = explode(" ", $coordinatesString);
-                        if($coordinatesString && $coordinatesString != null) {
-                            if (!$lot->params()->where(['param_id' => 11, 'value' => $coordinatesString, 'parent_id' => $mainLotParam->id])->exists()) {
-                                $lot->params()->attach(11, ['value' => $coordinatesString, 'parent_id' => $mainLotParam->id]);
-                            }
+            Cache::add('yandex', 0, now()->endOfDay());
+            $requestQty = (integer)Cache::get('yandex');
+            if($requestQty<1000) {
+                $res = $client->get('https://geocode-maps.yandex.ru/1.x/?'
+                    .'apikey='.Config::get('services.yandex.api_key')
+                    .'&geocode='.$address
+                    .'&lang=ru_RU&format=json');
+                Cache::increment('yandex');
+                if ($res->getStatusCode() == 200) {
+                    $data = json_decode($res->getBody(), true);
+                    if(isset($data['response']['GeoObjectCollection']['featureMember'])) {
+                        $featureMember = $data['response']['GeoObjectCollection']['featureMember'];
+                        if(is_array($featureMember)) {
+                            $featureMember = $data['response']['GeoObjectCollection']['featureMember'][0];
                         }
+                        if(isset($featureMember['GeoObject']['Point']['pos'])) {
+                            $coordinatesString = $featureMember['GeoObject']['Point']['pos'];
+                            if($coordinatesString && $coordinatesString != null) {
+                                if (!$lot->params()->where(['param_id' => 11, 'value' => $coordinatesString, 'parent_id' => $mainLotParam->id])->exists()) {
+                                    $lot->params()->attach(11, ['value' => $coordinatesString, 'parent_id' => $mainLotParam->id]);
+                                }
+                            }
 
+                        }
                     }
+                    return $data;
                 }
-                return $data;
             }
             return 'Status 500';
         }
