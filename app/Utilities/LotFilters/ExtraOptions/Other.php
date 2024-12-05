@@ -14,32 +14,39 @@ class Other extends SortQuery implements SortContract
         $value = json_decode(json_encode($value), true);
         $minDate = null;
         $maxDate = null;
-        if (!is_null($value) && isset($value['period']) && strlen((string)$value['period']) > 0 && $value['period'] !== 'periodAll') {
-            $result = $this->getPeriodDates($value['period']);
-            $minDate = $result[0];
-            $maxDate = $result[1];
-        }
-        if (!is_null($value) && isset($value['hasPhotos']) && $value['hasPhotos'] === true) {
-            $this->query->hasByNonDependentSubquery('lotImages', function ($q) {
-                $q->where('user_id', null)
-                    ->orWhere('user_id', auth()->guard('api')->id());
-            });
-        }
-        if (!is_null($value) && isset($value['isCompleted']) && $value['isCompleted'] === true) {
-            $this->query->hasByNonDependentSubquery('status', function ($q) {
-                $q->where('id', 6);
-            });
-        }
-        if (!is_null($value) && isset($value['isStopped']) && $value['isStopped'] === true) {
-            $this->query->hasByNonDependentSubquery('status', function ($q) {
-                $q->where('id', 10);
-            });
-        }
-        if (!is_null($value) && isset($value['isHidden']) && $value['isHidden'] === true && auth()->check()) {
-            $userId = auth()->id();
-            $this->query->whereHas("hiddenLots", function ($subQuery) use ($userId) {
-                $subQuery->where("user_id", "=", $userId);
-            });
+        if (!is_null($value)) {
+            if (isset($value['period']) && strlen((string)$value['period']) > 0 && $value['period'] !== 'periodAll') {
+                $result = $this->getPeriodDates($value['period']);
+                $minDate = $result[0];
+                $maxDate = $result[1];
+            }
+            if (isset($value['hasPhotos']) && $value['hasPhotos'] === true) {
+                $this->query->hasByNonDependentSubquery('lotImages', function ($q) {
+                    $q->where('user_id', null)
+                        ->orWhere('user_id', auth()->guard('api')->id());
+                });
+            }
+            if (isset($value['isCompleted']) && $value['isCompleted'] === true) {
+                $this->query->hasByNonDependentSubquery('status', function ($q) {
+                    $q->whereIn('id', [5,6,8]);
+                });
+            }
+            else {
+                $this->query->hasByNonDependentSubquery('status', function ($q) {
+                    $q->whereNotIn('id', [5,6,8]);
+                });
+            }
+            if (isset($value['isStopped']) && $value['isStopped'] === true) {
+                $this->query->hasByNonDependentSubquery('status', function ($q) {
+                    $q->where('id', 10);
+                });
+            }
+            if (isset($value['isHidden']) && $value['isHidden'] === true && auth()->check()) {
+                $userId = auth()->id();
+                $this->query->whereHas("hiddenLots", function ($subQuery) use ($userId) {
+                    $subQuery->where("user_id", "=", $userId);
+                });
+            }
         }
 
         if (!$value['isHidden'] && auth()->check()) {

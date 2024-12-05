@@ -1,5 +1,5 @@
 {
-    "/js/app.js": "/js/app.js?id=c4d54271d2afb93f03fbe0a69b4c8a45",
+    "/js/app.js": "/js/app.js?id=d18e119df17618f7fc8068475fb51712",
     "/js/main.js": "/js/main.js?id=8845d4d8e2b6e8ab61113ce8c357e7ea",
     "/js/registries.js": "/js/registries.js?id=e91b396684eda7cf53a773cdabeb1bed",
     "/js/registry.js": "/js/registry.js?id=d8a2024b71eea0bc10a7bb7618a8a048",
@@ -12,8 +12,8 @@
     "/js/messages.js": "/js/messages.js?id=e67319b5c9ec6bcddf7acb93d4197e2d",
     "/js/tariffs.js": "/js/tariffs.js?id=e9ab27b112c77f1c7ed3433758a60052",
     "/js/auctions.js": "/js/auctions.js?id=8630f9b7830bed4f9a2e124d40205d92",
-    "/js/calendar.js": "/js/calendar.js?id=e0af9d48a34f860b3466fac9f3d486b8",
-    "/js/lot-card.js": "/js/lot-card.js?id=de65014e2ff62d86439f1e015f90ccba",
+    "/js/calendar.js": "/js/calendar.js?id=ace217418df342f1ed011d92d3f5ad51",
+    "/js/lot-card.js": "/js/lot-card.js?id=1ae92ae67f68e92e7e2ff4b039e13cfe",
     "/js/week-winners.js": "/js/week-winners.js?id=4732d526c2d7488779ab8b68491f34e3",
     "/js/privacy-policy.js": "/js/privacy-policy.js?id=451ba24be727dce9f92d0bdf2ff1333a",
     "/js/terms.js": "/js/terms.js?id=c073bd355a6d7614714082e4e760cd4d",
@@ -34,5 +34,5 @@
     "/js/not-found.js": "/js/not-found.js?id=c07a632282361ddef4c7a57bb1073257",
     "/css/app.css": "/css/app.css?id=70d40c145064069cc96abed8c0e9402c",
     "/css/app.min.css": "/css/app.min.css?id=70d40c145064069cc96abed8c0e9402c",
-    "/js/app.min.js": "/js/app.min.js?id=c4d54271d2afb93f03fbe0a69b4c8a45"
+    "/js/app.min.js": "/js/app.min.js?id=d18e119df17618f7fc8068475fb51712"
 }

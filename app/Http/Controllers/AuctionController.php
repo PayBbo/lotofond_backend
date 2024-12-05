@@ -273,6 +273,7 @@ class AuctionController extends Controller
             ->where('lots.active', true)
             ->leftJoin('lots', 'lots.id', 'lot_params.lot_id')
             ->distinct()
+            ->orderBy('lots.created_at', 'desc')
             ->limit(2500)
             ->get();
         return $coordinates;

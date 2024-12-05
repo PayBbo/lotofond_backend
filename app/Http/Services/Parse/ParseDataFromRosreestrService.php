@@ -344,6 +344,9 @@ class ParseDataFromRosreestrService
             Cache::add('yandex', 0, now()->endOfDay());
             $requestQty = (integer)Cache::get('yandex');
             if($requestQty<1000) {
+                //избавляемся от римских цифер
+                $addressProccess = $this->roman2dec($address);
+                $address = preg_replace($addressProccess['replace'], $addressProccess['replacement'], $address);
                 $res = $client->get('https://geocode-maps.yandex.ru/1.x/?'
                     .'apikey='.Config::get('services.yandex.api_key')
                     .'&geocode='.$address
@@ -359,8 +362,14 @@ class ParseDataFromRosreestrService
                         if(isset($featureMember['GeoObject']['Point']['pos'])) {
                             $coordinatesString = $featureMember['GeoObject']['Point']['pos'];
                             if($coordinatesString && $coordinatesString != null) {
-                                if (!$lot->params()->where(['param_id' => 11, 'value' => $coordinatesString, 'parent_id' => $mainLotParam->id])->exists()) {
-                                    $lot->params()->attach(11, ['value' => $coordinatesString, 'parent_id' => $mainLotParam->id]);
+                                $coordinates = explode(' ', $coordinatesString);
+                                $coord1 = (float)$coordinates[0];
+                                $coord2 = (float)$coordinates[1];
+                                //пытаемся ограничивать координатами России
+                                if($coord1>=18 && $coord1<=181 && $coord2 >= 18 && $coord2 <= 181) {
+                                    if (!$lot->params()->where(['param_id' => 11, 'value' => $coordinatesString, 'parent_id' => $mainLotParam->id])->exists()) {
+                                        $lot->params()->attach(11, ['value' => $coordinatesString, 'parent_id' => $mainLotParam->id]);
+                                    }
                                 }
                             }
 
@@ -372,6 +381,35 @@ class ParseDataFromRosreestrService
             return 'Status 500';
         }
         return null;
+    }
+
+    public function roman2dec ($linje) {
+        # Fixing variable so it follows convention
+        # Removing all not-roman letters
+        $linje = preg_replace("/[^IVXLCDM]/", "",  strtoupper($linje));
+
+        # Defining variables
+        $romanLettersToNumbers = array("M" => 1000, "D" => 500, "C" => 100, "L" => 50, "X" => 10, "V" => 5, "I" => 1);
+
+        $oldChunk = 1001;
+        $calculation=0;
+        # Looping through line
+        for($start = 0; $start < strlen($linje); $start++) {
+            $chunk = substr($linje, $start, 1);
+
+            $chunk = $romanLettersToNumbers[$chunk];
+
+            if($chunk <= $oldChunk) {
+                $calculation += $chunk;
+            } else {
+                $calculation += ($chunk - (2 * $oldChunk));
+            }
+
+            $oldChunk = $chunk;
+        }
+
+        # Summing it up
+        return ['replace'=>$linje, 'replacement' => $calculation];
     }
 
     /*

@@ -363,7 +363,9 @@
                 } else {
                     this.service.paymentTradingTypes.splice(index, 1);
                 }
-                this.$refs.services.validate();
+                if(this.$refs.services) {
+                    this.$refs.services.validate();
+                }
             },
             clear() {
                 this.service.paymentTradingTypes = [];
@@ -387,7 +389,10 @@
                             return item.type !== 'purchaseBidByAgent'
                         }
                         return true;
-                    })
+                    });
+                if(this.filtered_services.length>0) {
+                    this.toggleService(this.filtered_services[0].type)
+                }
             },
             async getBuyLotBlock() {
                 if(!this.buyLotBlock || this.buyLotBlock.length==0) {

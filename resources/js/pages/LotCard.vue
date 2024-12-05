@@ -1166,8 +1166,7 @@
 <!--                                </bkt-collapse>-->
 <!--                            </div>-->
                 <template v-if="item && item.trade">
-                    <div v-if="item.trade.lotCount>1"
-                         class="col-12 col-lg-12 order-3 px-lg-0">
+                    <div v-if="item.trade.lotCount>1" class="col-12 col-lg-12 order-3 px-lg-0">
                         <bkt-collapse title="Все лоты торга" :count="related_lots_pagination.total"
                                       id="collapseRelatedLots" :loading="related_lots_loading||loading"
                                       :disabled="related_lots.length==0&&!related_lots_loading"
@@ -1211,7 +1210,7 @@
                             </template>
                         </bkt-collapse>
                     </div>
-                    <div v-if="item.trade.debtor" class="col-12 col-lg-12 order-3 px-lg-0">
+                    <div v-if="item.trade.debtor && item.sourceId !== 2" class="col-12 col-lg-12 order-4 px-lg-0">
                         <div class="bkt-card bkt-card__body bkt-lot__card">
                             <div class="bkt-card__header bkt-wrapper-between pb-0">
                                 <h3 class="bkt-card__title">Информация по должнику</h3>
@@ -1269,53 +1268,56 @@
                             </ul>
                         </div>
                     </div>
-                    <div class="col-12 col-lg-12 order-3 px-lg-0" v-if="item && item.organizerAnswer">
+                    <div class="col-12 col-lg-12 order-4 px-lg-0" v-if="item && item.organizerAnswer">
                         <bkt-organizer-answer :answer="item.organizerAnswer" @changeImageIndex="changeImageIndex" @update="getLot"/>
                     </div>
                     <template v-if="item.trade.debtor">
-                        <div class="col-12 col-lg-12 order-3 px-lg-0">
-                            <bkt-collapse title="Другие активные лоты должника" :count="debtor_active_lots_pagination.total"
-                                              id="collapseDebtorActiveLots" :loading="debtor_active_lots_loading"
-                                              :disabled="debtor_active_lots.length==0&&!debtor_active_lots_loading"
-                                              class="bkt-lot__collapse"
-                                >
-                                    <template #collapse v-if="debtor_active_lots.length>0">
-                                        <div class="row w-100 m-auto bkt-gap">
-                                            <div class="col-12 px-0 d-none d-lg-block">
-                                                <div class="row w-100 mx-auto align-items-center justify-content-center">
-                                                    <div class="col-2 pl-0">
-                                                        <h6 class="bkt-text-neutral-dark">фото</h6>
-                                                    </div>
-                                                    <div class="col-3">
-                                                        <h6 class="bkt-text-neutral-dark">описание лота</h6>
-                                                    </div>
-                                                    <div class="col-2">
-                                                        <h6 class="bkt-text-neutral-dark">цена</h6>
-                                                    </div>
-                                                    <div class="col-2">
-                                                        <h6 class="bkt-text-neutral-dark">даты торгов</h6>
-                                                    </div>
-                                                    <div class="col-3">
-                                                        <h6 class="bkt-text-neutral-dark">ЭТП и организатор</h6>
-                                                    </div>
+                        <div class="col-12 col-lg-12 order-4 px-lg-0">
+                            <bkt-collapse
+                                :title="'Другие активные лоты ' + (item.sourceId === 2 ? 'организатора' : 'должника')"
+                                :count="debtor_active_lots_pagination.total"
+                                id="collapseDebtorActiveLots" :loading="debtor_active_lots_loading"
+                                :disabled="debtor_active_lots.length==0&&!debtor_active_lots_loading"
+                                class="bkt-lot__collapse"
+                            >
+                                <template #collapse v-if="debtor_active_lots.length>0">
+                                    <div class="row w-100 m-auto bkt-gap">
+                                        <div class="col-12 px-0 d-none d-lg-block">
+                                            <div class="row w-100 mx-auto align-items-center justify-content-center">
+                                                <div class="col-2 pl-0">
+                                                    <h6 class="bkt-text-neutral-dark">фото</h6>
+                                                </div>
+                                                <div class="col-3">
+                                                    <h6 class="bkt-text-neutral-dark">описание лота</h6>
+                                                </div>
+                                                <div class="col-2">
+                                                    <h6 class="bkt-text-neutral-dark">цена</h6>
+                                                </div>
+                                                <div class="col-2">
+                                                    <h6 class="bkt-text-neutral-dark">даты торгов</h6>
+                                                </div>
+                                                <div class="col-3">
+                                                    <h6 class="bkt-text-neutral-dark">ЭТП и организатор</h6>
                                                 </div>
                                             </div>
-                                            <div class="col-12 px-0" v-for="active_lot in debtor_active_lots">
-                                                <mini-trade-card :item="active_lot"></mini-trade-card>
-                                            </div>
-                                            <div class="col-12 px-0" v-if="debtor_active_lots_pagination">
-                                                <bkt-pagination
-                                                    :limit="1"
-                                                    :data="debtor_active_lots_pagination"
-                                                    @change-page="changePageInCollapse($event,'DebtorActiveLots')"
-                                                ></bkt-pagination>
-                                            </div>
                                         </div>
-                                    </template>
-                                </bkt-collapse>
+                                        <div class="col-12 px-0" v-for="active_lot in debtor_active_lots">
+                                            <mini-trade-card :item="active_lot"></mini-trade-card>
+                                        </div>
+                                        <div class="col-12 px-0" v-if="debtor_active_lots_pagination">
+                                            <bkt-pagination
+                                                :limit="1"
+                                                :data="debtor_active_lots_pagination"
+                                                @change-page="changePageInCollapse($event,'DebtorActiveLots')"
+                                            ></bkt-pagination>
+                                        </div>
+                                    </div>
+                                </template>
+                            </bkt-collapse>
                         </div>
-                        <div class="col-12 col-lg-12 order-3 px-lg-0">
-                            <bkt-collapse title="Завершённые лоты должника " :count="debtor_completed_lots_pagination.total"
+                        <div class="col-12 col-lg-12 order-4 px-lg-0">
+                            <bkt-collapse :title="'Завершённые лоты ' + (item.sourceId === 2 ? 'организатора' : 'должника')"
+                                          :count="debtor_completed_lots_pagination.total"
                                           id="collapseDebtorCompletedLots" :loading="debtor_completed_lots_loading"
                                           :disabled="debtor_completed_lots.length==0&&!debtor_completed_lots_loading"
                                           class="bkt-lot__collapse"
@@ -1360,7 +1362,8 @@
                         </div>
                     </template>
                     <div v-if="item.trade.organizer"
-                         class="col-12 col-lg-8 order-3 ps-lg-0">
+                         class="col-12 ps-lg-0"
+                         :class="[item.trade.arbitrationManager ? 'col-lg-8' : 'col-lg-12 px-lg-0', item.sourceId === 2 ? 'order-3' : 'order-4']">
                         <div class="bkt-card bkt-card__body bkt-lot__card">
                             <div class="bkt-card__header pb-0">
                                 <h3 class="bkt-card__title">Информация по организатору</h3>
@@ -1432,7 +1435,7 @@
                         </div>
                     </div>
                     <div v-if="item.trade.arbitrationManager"
-                         class="col-12 col-lg-4 order-3 pe-lg-0">
+                         class="col-12 col-lg-4 order-4 pe-lg-0">
                         <div class=" bkt-card bkt-card__body bkt-lot__card">
                             <div class="bkt-card__header pb-0">
                                 <h3 class="bkt-card__title bkt-lot__card-title">Информация по арбитражному управляющему</h3>
@@ -1481,7 +1484,7 @@
                         </div>
                     </div>
                 </template>
-                <div class="col-12 col-lg-12 order-3 px-lg-0">
+                <div class="col-12 col-lg-12 order-4 px-lg-0">
                     <bkt-collapse title="Актуальное по лоту" :count="notifications_pagination.total"
                                   id="collapseActualInfo" :loading="loading || notifications_loading"
                                   :disabled="(notifications.length==0&&!notifications_loading) || notifications_loading || loading"
@@ -1514,7 +1517,7 @@
                     </bkt-collapse>
                 </div>
                 <div v-if="system_rules && system_rules.hasAccessToTradeFiles"
-                     class="col-12 col-lg-12 order-3 px-lg-0">
+                     class="col-12 col-lg-12 order-4 px-lg-0">
                     <bkt-collapse title="Документы по торгам" :count="files.length" class="bkt-lot__collapse"
                                   id="collapseDocuments" :loading="files_loading" :disabled="files.length==0"
                     >
@@ -1551,7 +1554,7 @@
                         </template>
                     </bkt-collapse>
                 </div>
-                <div class="col-12 order-3 px-lg-0" v-if="item && !loading && (auth_user && auth_user.isAdmin)">
+                <div class="col-12 order-4 px-lg-0" v-if="item && !loading && (auth_user && auth_user.isAdmin)">
                     <bkt-collapse title="Изображения лота" :count="images.length" class="bkt-lot__collapse"
                                   id="collapseAdminImages" :loading="files_loading"
                     >
@@ -1605,7 +1608,7 @@
                         </template>
                     </bkt-collapse>
                 </div>
-                <div v-if="item && item.biddingInfo" class="col-12 col-lg-12 order-3 px-lg-0">
+                <div v-if="item && item.biddingInfo" class="col-12 col-lg-12 order-4 px-lg-0">
                     <bkt-collapse title="Информация о торгах" class="bkt-lot__collapse"
                                   id="biddingInfo"
                     >
@@ -1616,7 +1619,7 @@
                         </template>
                     </bkt-collapse>
                 </div>
-                <!--            <div v-if="isLoggedIn && item.applicationRules" class="col-12 col-lg-12 order-3 px-lg-0">-->
+                <!--            <div v-if="isLoggedIn && item.applicationRules" class="col-12 col-lg-12 order-4 px-lg-0">-->
                 <!--                <bkt-collapse title="Правила подачи заявок" class="bkt-lot__collapse"-->
                 <!--                              id="applicationRules"-->
                 <!--                >-->
@@ -1627,7 +1630,7 @@
                 <!--                    </template>-->
                 <!--                </bkt-collapse>-->
                 <!--            </div>-->
-                <div v-if="item &&item.requirementsForParticipants" class="col-12 col-lg-12 order-3 px-lg-0">
+                <div v-if="item &&item.requirementsForParticipants" class="col-12 col-lg-12 order-4 px-lg-0">
                     <bkt-collapse title="Требования к участникам" class="bkt-lot__collapse"
                                   id="requirementsForParticipants"
                     >
@@ -1638,16 +1641,17 @@
                         </template>
                     </bkt-collapse>
                 </div>
-                <div v-if="item && item.coordinates && item.coordinates.length > 0 && !loading" class="col-12 col-lg-12 order-3 px-lg-0">
+                <div v-if="item && item.coordinates && item.coordinates.length > 0 && !loading" class="col-12 col-lg-12 order-4 px-lg-0">
                     <bkt-collapse title="Объекты на карте" class="bkt-lot__collapse"
                                   id="map" collapse_class="show"
                     >
                         <template #collapse>
+                            <p class="bkt-text-neutral-dark">Координаты приведены исключительно для ознакомления и могут отличаться от фактического местоположения объекта</p>
                             <bkt-map :points="item.coordinates"/>
                         </template>
                     </bkt-collapse>
                 </div>
-                <!--            <div v-if="isLoggedIn && item.paymentInfo" class="col-12 col-lg-12 order-3 px-lg-0">-->
+                <!--            <div v-if="isLoggedIn && item.paymentInfo" class="col-12 col-lg-12 order-4 px-lg-0">-->
                 <!--                <bkt-collapse title="Информация об оплате" class="bkt-lot__collapse"-->
                 <!--                              id="paymentInfo"-->
                 <!--                >-->
@@ -1658,7 +1662,7 @@
                 <!--                    </template>-->
                 <!--                </bkt-collapse>-->
                 <!--            </div>-->
-                <!--            <div v-if="isLoggedIn && item.saleAgreement" class="col-12 col-lg-12 order-3 px-lg-0">-->
+                <!--            <div v-if="isLoggedIn && item.saleAgreement" class="col-12 col-lg-12 order-4 px-lg-0">-->
                 <!--                <bkt-collapse title="Порядок и срок заключения договора купли-продажи" class="bkt-lot__collapse"-->
                 <!--                              id="saleAgreement"-->
                 <!--                >-->

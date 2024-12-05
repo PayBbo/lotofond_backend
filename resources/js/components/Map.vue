@@ -22,7 +22,7 @@
             >
                 <yandex-map-default-marker
                     :settings="{ coordinates: point.coordinates, onClick: () => $emit('marker-click', point),
-                    popup: main_view ? { position: 'top',  hidesMarker: true } : null
+                    hideOutsideViewport: true, popup: main_view ? { position: 'top',  hidesMarker: true } : null
                 }"
                     :key="index"
                 >
