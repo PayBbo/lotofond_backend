@@ -35,7 +35,7 @@ class DeleteFilesJob implements ShouldQueue
     {
         logger('START DeleteFilesJob');
         $dateFrom = Carbon::now()->setTimezone('Europe/Moscow')->subDays(7)->subMonths(6)->startOfDay()->format('Y-m-d');
-        $dateTo = Carbon::now()->setTimezone('Europe/Moscow')->subDays(7)->subMonths(3)->endOfDay()->format('Y-m-d');
+        $dateTo = Carbon::now()->setTimezone('Europe/Moscow')->subDays(7)->endOfDay()->format('Y-m-d');
         logger('DeleteFilesJob dateFrom ' . $dateFrom);
         logger('DeleteFilesJob dateTo ' . $dateTo);
         // собираем лоты, по которым у нас законились торги, а через 3 месяца удалялись прикрепленные файлы к лоту
