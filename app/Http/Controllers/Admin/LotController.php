@@ -34,34 +34,39 @@ class LotController extends Controller
     public function get(Request $request)
     {
         try {
+            ini_set('max_execution_time', 6000);
             $searchString = $request->query('param');
             $sortParam = $request->query('sort_property');
             $sortDirection = $request->query('sort_direction');
-            $lots = Lot::select([
+            $response = DB::table('lots')->select([
                 'lots.*',
-                'auction.publish_date as publish_date',
-                'auction.trade_id as trade_number',
-                'type.title as trade_type',
-                'status.value as status_value',
-                'ali.is_moderated as additional_lot_info_is_moderated',
-                'ali.id as additional_lot_info_id',
+                DB::raw('DATE_FORMAT(ifnull(auction.publish_date,lots.created_at), "%d.%m.%Y, %H:%i") as publishDate'),
+//                'auction.publish_date as publishDate',
+                'auction.trade_id as tradeNumber',
+                'type.title as tradeType',
+                'status.value as status',
+                'ali.is_moderated as additionalLotInfoIsModerated',
+                'ali.id as additionalLotInfoId',
                 'ali.message as additional_lot_info_message',
+                'lots.start_price as startPrice',
             ])
                 ->when(isset($searchString) && strlen((string)$searchString) > 0, function ($query) use ($searchString) {
                     $query->where('auction.trade_id', 'like', '%' . $searchString . '%')
                         ->orWhere('lots.description', 'like', '%' . $searchString . '%')
                         ->orWhere('lots.id', 'like', '%' . $searchString . '%');
                 })
-            ->leftJoin('auctions as auction', 'auction.id', '=', 'lots.auction_id')
-            ->leftJoin('auction_types as type', 'auction.auction_type_id', '=', 'type.id')
-            ->leftJoin('statuses as status', 'status.id', '=', 'lots.status_id')
-            ->leftJoin('additional_lot_infos as ali', 'ali.lot_id', '=', 'lots.id')
+                ->leftJoin('auctions as auction', 'auction.id', '=', 'lots.auction_id')
+                ->leftJoin('auction_types as type', 'auction.auction_type_id', '=', 'type.id')
+                ->leftJoin('statuses as status', 'status.id', '=', 'lots.status_id')
+                ->leftJoin('additional_lot_infos as ali', 'ali.lot_id', '=', 'lots.id')
                 ->when(isset($sortParam) && isset($sortDirection), function ($query) use ($sortParam, $sortDirection) {
                     $query->orderBy($sortParam, $sortDirection);
                 })
                 ->paginate(20);
-
-            return response(new LotCollection($lots), 200);
+            return response([
+                'data' => $response->items(),
+                'pagination' => new PaginationResource($response)
+            ], 200);
         }
         catch (\Exception $e) {
             return response()->json(['message' => $e->getMessage()], 500);

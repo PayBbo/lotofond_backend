@@ -37,6 +37,7 @@ class LotCollection extends ResourceCollection
 
     public function toArray($request)
     {
+        logger('collection reso');
         $isPagination = $this->resource instanceof \Illuminate\Pagination\AbstractPaginator;
         return [
             'data' => $this->collection->each->content($this->contentSettings, $this->authCheck, $this->content),

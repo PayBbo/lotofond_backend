@@ -30,10 +30,10 @@
                        class="d-flex justify-content-center"
                     >
                         <span
-                            :title="lot.additionalLotInfoIsModerated===true ? 'Проверен' : 'Непроверен'"
+                            :title="lot.additionalLotInfoIsModerated==true ? 'Проверен' : 'Непроверен'"
                             class="bkt-cursor-pointer"
                             :class="{'bkt-bg-green': lot.additionalLotInfoIsModerated == true,
-                            'bkt-bg-red': lot.additionalLotInfoIsModerated === false}"
+                            'bkt-bg-red': lot.additionalLotInfoIsModerated == false}"
                             style="width: 20px; height: 20px; border-radius: 50%"
                         />
                     </a>
@@ -65,7 +65,7 @@ export default {
         return {
             columns: {
                 columns_title: ['ID', 'Описание', 'Начальная цена', 'Статус', 'Номер торгов', 'Тип торгов', 'Ответ', 'Дата публикации', 'Действия'],
-                columns_sort: ['id', 'description', 'start_price', 'status_value', 'trade_number', 'trade_type', 'additional_lot_info_is_moderated', 'publish_date',   null]
+                columns_sort: ['id', 'description', 'startPrice', 'status', 'tradeNumber', 'tradeType', 'additionalLotInfoIsModerated', 'publishDate',   null]
             },
             param: ''
         }
