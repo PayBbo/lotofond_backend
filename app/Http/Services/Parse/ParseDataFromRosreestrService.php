@@ -346,7 +346,10 @@ class ParseDataFromRosreestrService
             if($requestQty<1000) {
                 //избавляемся от римских цифер
                 $addressProccess = $this->roman2dec($address);
-                $address = preg_replace($addressProccess['replace'], $addressProccess['replacement'], $address);
+                if($addressProccess['replace'])
+                {
+                    $address = preg_replace($addressProccess['replace'], $addressProccess['replacement'], $address);
+                }
                 $res = $client->get('https://geocode-maps.yandex.ru/1.x/?'
                     .'apikey='.Config::get('services.yandex.api_key')
                     .'&geocode='.$address
