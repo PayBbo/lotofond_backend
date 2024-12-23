@@ -31,7 +31,6 @@ class SendTariffCancellationNotificationsCommand extends Command
      */
     public function handle()
     {
-        logger('START SendTariffCancellationNotificationsCommand');
         $this->info('START SendTariffCancellationNotificationsCommand '.Carbon::now());
         $tariffs = Payment::select([
             'payments.id',
@@ -56,7 +55,6 @@ class SendTariffCancellationNotificationsCommand extends Command
                 dispatch((new SendTariffCancellationNotificationJob($tariff))->onQueue('user'));
             }
         }
-        logger('END SendTariffCancellationNotificationsCommand');
         $this->info('END SendTariffCancellationNotificationsCommand '.Carbon::now());
         return 1;
     }

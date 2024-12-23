@@ -106,7 +106,7 @@ class ReestrApiService
                 ]];
             $request = new Request('POST', 'https://reestr-api.ru/v1/order/create/?auth_token=' . $this->auth_token);
             $res = $client->sendAsync($request, $options)->wait();
-            logger($res->getBody());
+
             $response = json_decode($res->getBody(), true);
             if ($response['query'] == 'success') {
                 EgrnStatement::create([
@@ -134,7 +134,6 @@ class ReestrApiService
     public function checkEgrnOrder($orders)
     {
         logger('checkEgrnOrder orders:');
-        logger($orders);
         try {
             $client = new Client();
             $options = [
@@ -144,7 +143,7 @@ class ReestrApiService
             $request = new Request('POST', 'https://reestr-api.ru/v1/order/check?auth_token=' . $this->auth_token);
             $res = $client->sendAsync($request, $options)->wait();
             $response = json_decode($res->getBody(), true);
-            logger($response);
+
             logger('------------------------------------');
             return $response;
         }catch (\Exception $exception){

@@ -47,7 +47,6 @@ class BiddingEndBankruptcyCreditor extends TradeMessage implements TradeMessageC
             }
         } catch (\Exception $e) {
             logger('BiddingEndBankruptcyCreditorExc: ' . $e);
-            logger($invitation);
         }
 
     }

@@ -58,7 +58,6 @@ class ParseDataFromRosreestrService
                     }
                     if($pkkType) {
                         //данные по публичной карте
-                        logger('данные по публичной карте ');
                         $res = $this->getPkkObject($client, $cadastralNumber, $pkkType, $lotParam, $lot, $mainLotParam);
                     }
                 }
@@ -375,7 +374,6 @@ class ParseDataFromRosreestrService
                                     }
                                 }
                             }
-
                         }
                     }
                     return $data;

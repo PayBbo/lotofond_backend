@@ -34,14 +34,14 @@ class DeleteFilesJob implements ShouldQueue
     public function handle()
     {
         logger('START DeleteFilesJob');
-        $dateFrom = Carbon::now()->setTimezone('Europe/Moscow')->subDays(7)->subMonths(6)->startOfDay()->format('Y-m-d');
+//        $dateFrom = Carbon::now()->setTimezone('Europe/Moscow')->subDays(7)->subMonths(6)->startOfDay()->format('Y-m-d');
         $dateTo = Carbon::now()->setTimezone('Europe/Moscow')->subDays(7)->endOfDay()->format('Y-m-d');
-        logger('DeleteFilesJob dateFrom ' . $dateFrom);
+//        logger('DeleteFilesJob dateFrom ' . $dateFrom);
         logger('DeleteFilesJob dateTo ' . $dateTo);
         // собираем лоты, по которым у нас законились торги, а через 3 месяца удалялись прикрепленные файлы к лоту
         $lotIds = DB::table('trade_messages')->whereIn('param', [5, 6, 7, 8])
             ->where('param_type', 'status_id')
-            ->where('trade_messages.created_at', '>=', $dateFrom) //ограничиваем полгодом
+//            ->where('trade_messages.created_at', '>=', $dateFrom) //ограничиваем полгодом
             ->where('trade_messages.created_at', '<=', $dateTo) // дата создания раньше нынешних трех месяцев
             ->leftJoin('lot_files', 'trade_messages.lot_id', '=', 'lot_files.lot_id')
             ->groupBy('trade_messages.id')

@@ -21,7 +21,6 @@ class ApplicationSessionStatistic extends TradeMessage implements TradeMessageCo
             }
         } catch (\Exception $e) {
             logger('applicationSessionStatistic: ' . $e);
-            logger($invitation);
         }
 
     }

@@ -62,7 +62,6 @@ class PushNotificationService
 
                 $response = curl_exec($ch);
                 logger("SEND PUSH");
-                logger($response);
                 curl_close($ch);
             }catch(\Exception $e){
                 logger($e);
@@ -116,7 +115,7 @@ class PushNotificationService
                     ]
                 ]);
             $res = json_decode($response->getBody(), true);
-            logger($res);
+
             return $res['code'];
 
         }catch(\Exception $e){
@@ -155,7 +154,7 @@ class PushNotificationService
                     ]
                 ]);
             $res = json_decode($response->getBody(), true);
-            logger($res);
+
             if (array_key_exists('access_token', $res)) {
                 Cache::put('huawei_access_token', $res['access_token'], Carbon::now()->setTimezone('Europe/Moscow')->addSeconds($res['expires_in']  - 60));
             }

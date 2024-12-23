@@ -67,7 +67,6 @@ class BiddingProcess extends TradeMessage implements TradeMessageContract
             }
         } catch (\Exception $e) {
             logger('biddingProcessInfo(Exc: ' . $e);
-            logger($invitation);
         }
     }
 }

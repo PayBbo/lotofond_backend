@@ -81,7 +81,6 @@ class ParseDebtorMessages implements ShouldQueue
             } catch (\Exception $e) {
                 logger('ParseDebtorMessages');
                 logger($e);
-                logger($data);
             }
         }
     }

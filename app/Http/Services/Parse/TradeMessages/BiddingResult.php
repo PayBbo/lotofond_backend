@@ -31,7 +31,6 @@ class BiddingResult extends TradeMessage implements TradeMessageContract
             }
         } catch (\Exception $e) {
             logger('biddingResultMessageExc: ' . $e);
-            logger($invitation);
         }
     }
 

@@ -46,7 +46,6 @@ class GetTradeMessageContent
         } catch (\Exception $e) {
             logger('GetTradeMessage');
             logger($e);
-            logger($xml);
         }
     }
 

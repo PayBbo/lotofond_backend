@@ -21,7 +21,7 @@ class DeleteOldFilesCommand extends Command
      *
      * @var string
      */
-    protected $description = 'Удаление файлов и картинок к лотам, которые добавлены более полугода назад';
+    protected $description = 'Удаление файлов и картинок к лотам, которые добавлены более 3 месяцев назад';
 
     /**
      * Create a new command instance.
@@ -40,8 +40,8 @@ class DeleteOldFilesCommand extends Command
      */
     public function handle()
     {
-        logger('DeleteOldFilesJob ' . Carbon::now()->subDays(7)->subMonths(6)->endOfMonth()->endOfDay()->format('Y-m-d H:i:s'));
-        $lastDate = Carbon::now()->subDays(7)->subMonths(6);
+        logger('DeleteOldFilesJob ' . Carbon::now()->subDays(7)->subMonths(3)->endOfMonth()->endOfDay()->format('Y-m-d H:i:s'));
+        $lastDate = Carbon::now()->subDays(7)->subMonths(3);
         $path = Storage::disk('public')->path('auction-files');
         $commFirst = "find " . $path . " -type d \\( -name \"*-" .  $lastDate->format('m-Y') . "-*\" \\) -exec rm -r {} \\;";
         $this->execCommand($commFirst);

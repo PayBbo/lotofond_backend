@@ -148,7 +148,6 @@ class BiddingInvitation extends TradeMessage
 
         } catch (\Exception $e) {
             logger('ParseTradesExc: ' . $e);
-            logger($invitation);
         }
 
     }
