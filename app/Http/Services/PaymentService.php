@@ -107,10 +107,11 @@ class PaymentService
         return json_decode($response->getBody(), true);
     }
 
-    public function checkPreviousActiveTariff($user_id, $days, $is_extension=true)
+    public function checkPreviousActiveTariff($user_id, $days, $is_extension=true, $tariff_type='tariff')
     {
-        $user = User::with('userTariffs')->where('id', $user_id)->first();
-        $userTariffs = $user->userTariffs;
+        $relations = $tariff_type === 'bot_tariff' ? 'userBotTariffs' : 'userTariffs';
+        $user = User::with($relations)->where('id', $user_id)->first();
+        $userTariffs = $user->{$relations};
         foreach ($userTariffs as $userTariff) {
             $finishedAt = Carbon::parse($userTariff->finished_at);
             if($is_extension) {
@@ -119,7 +120,6 @@ class PaymentService
                 $userTariff->finished_at = $finishedAt->subDays($days);
             }
             $userTariff->save();
-
         }
     }
 }

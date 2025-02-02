@@ -132,6 +132,7 @@
                             :index="index"
                             :key="index"
                             :ref="'card'+index"
+                            v-bind="current_component_attrs"
                             @changeStatus="changeStatus"
                         />
                     </template>
@@ -218,6 +219,9 @@
             },
             current_component: {
                 // type:String
+            },
+            current_component_attrs: {
+                type: Object,
             },
             no_results: {
                 type: Boolean,

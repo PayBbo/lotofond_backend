@@ -112,6 +112,12 @@ class CacheService
         Cache::forever('trialPeriod', $trialPeriod->value);
     }
 
+    public function cacheBotTrialPeriod(){
+        $trialPeriod = Setting::where('variable', 'bot_trial_period')->first();
+        Cache::forget('botTrialPeriod');
+        Cache::forever('botTrialPeriod', $trialPeriod->value);
+    }
+
     public function calculateMailDelay(){
         if(!Cache::has('emailsCount')){
             Cache::put('emailsCount', 1, Carbon::now()->setTimezone('Europe/Moscow')->startOfDay()->addDay());

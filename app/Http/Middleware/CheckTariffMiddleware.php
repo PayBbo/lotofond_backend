@@ -29,13 +29,30 @@ class CheckTariffMiddleware
         }
         if(auth()->guard('api')->check() && !$isAvailable) {
            // $trialPeriod = config('paymaster.trial_period');
-            if(!Cache::has('trialPeriod')){
-                $cacheService = new CacheService();
-                $cacheService->cacheTrialPeriod();
+            $header = $request->header('TGBot');
+            if($header) {
+                if(!Cache::has('botTrialPeriod')){
+                    $cacheService = new CacheService();
+                    $cacheService->cacheBotTrialPeriod();
+                }
+
+                $botTrialPeriod = (int)Cache::get('botTrialPeriod');
+                if ($user->tg_connected_at &&
+                    Carbon::parse($user->tg_connected_at)->addDays($botTrialPeriod)->format('Y-m-d H:i') < Carbon::now()->setTimezone('Europe/Moscow')->format('Y-m-d H:i')
+                    && is_null($user->botTariff)
+                ) {
+                    throw new BaseException('ERR_CHECK_TARIFF_FAILED', 406, __('validation.no_activated_tariff'));
+                }
             }
-            $trialPeriod = (int)Cache::get('trialPeriod');
-            if (Carbon::parse($user->email_verified_at)->addDays($trialPeriod)->format('Y-m-d H:i') < Carbon::now()->setTimezone('Europe/Moscow')->format('Y-m-d H:i') && is_null($user->tariff)) {
-                throw new BaseException('ERR_CHECK_TARIFF_FAILED', 406, __('validation.no_activated_tariff'));
+            else  {
+                if(!Cache::has('trialPeriod')){
+                    $cacheService = new CacheService();
+                    $cacheService->cacheTrialPeriod();
+                }
+                $trialPeriod = (int)Cache::get('trialPeriod');
+                if (Carbon::parse($user->email_verified_at)->addDays($trialPeriod)->format('Y-m-d H:i') < Carbon::now()->setTimezone('Europe/Moscow')->format('Y-m-d H:i') && is_null($user->tariff)) {
+                    throw new BaseException('ERR_CHECK_TARIFF_FAILED', 406, __('validation.no_activated_tariff'));
+                }
             }
         }
         return $next($request);

@@ -17,7 +17,14 @@ class TariffResource extends JsonResource
     {
         $userTariff = null;
         if (auth()->guard('api')->check()) {
-            $userTariff = auth()->guard('api')->user()->tariff;
+            $header = $request->header('TGBot');
+            $user = auth()->guard('api')->user();
+            if($header) {
+                $userTariff = $user->botTariff;
+            }
+            else {
+                $userTariff = $user->tariff;
+            }
         }
         return [
             'id' => $this->id,

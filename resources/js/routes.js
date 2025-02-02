@@ -508,6 +508,50 @@ let router = new VueRouter({
             name: 'NotFound',
             component: () => import(/* webpackChunkName: "not-found" */ "./pages/Error404.vue"),
         },
+        {
+            path: '/bot',
+            component: () => import(/* webpackChunkName: "bot" */ "./bot/Layout.vue"),
+            children: [
+                {
+                    path: '', component:  () => import(/* webpackChunkName: "bot-main" */ "./bot/MainPage.vue"),
+                    name: 'Bot',
+                    meta: {
+                        // auth: true,
+                        // layout: 'Bot'
+                    }
+                },
+                {
+                    path: 'auth', component: () => import(/* webpackChunkName: "bot-auth" */ "./bot/AuthPage.vue"),
+                    name: 'BotAuth',
+                    meta: {
+                        // auth: true,
+                        // layout: 'Bot'
+                    }
+                },
+                {
+                    path: 'tariffs', component: () => import(/* webpackChunkName: "bot-tariffs" */ "./bot/TariffPage.vue"),
+                    name: 'BotTariffs',
+                    meta: {
+                        // auth: true,
+                        // layout: 'Bot'
+                    }
+                },
+                {
+                    path: 'lot/:id',
+                    name: 'BotLotCard',
+                    component: () => import(/* webpackChunkName: "bot-lot-card" */ "./pages/LotCard.vue"),
+                    meta: {
+                        // auth: true,
+                        // layout: 'Bot'
+                    }
+                },
+                {
+                    path: 'pay-answer/:id?',
+                    name: 'BotPayAnswer',
+                    component: () => import(/* webpackChunkName: "bot-pay-answer" */ "./bot/PayAnswerPage.vue"),
+                },
+            ],
+        },
         // { path: '/:pathMatch(.*)*', component: EmptyView }
     ],
     scrollBehavior(to, from, savedPosition) {

@@ -34,7 +34,7 @@
             </button>
             <ol class="breadcrumb m-0">
                 <li class="breadcrumb-item bkt-breadcrumb__item">
-                    <router-link to="/" class="bkt-text-neutral-dark">главная</router-link>
+                    <router-link :to="'/'+type" class="bkt-text-neutral-dark">главная</router-link>
                 </li>
                 <li class="breadcrumb-item bkt-breadcrumb__item">торги</li>
                 <li class="breadcrumb-item bkt-breadcrumb__item active" aria-current="page">
@@ -79,7 +79,7 @@
                 </skeleton>
             </div>
             <bkt-card-actions :item="item" class="bkt-actions" button_type="-icon" place="lot-card"
-                              @changeStatus="changeStatus" v-if="!loading"
+                              @changeStatus="changeStatus" v-if="!loading&&!isTgBot"
             />
         </div>
         <div class="row bkt-lot__cards w-100 p-0">
@@ -330,7 +330,7 @@
                     </div>
                     <bkt-objects-list v-if="item && isLoggedIn" :items="item.descriptionExtracts"
                                       :loading="loading"></bkt-objects-list>
-                    <div v-if="!isLoggedIn" class="bkt-shadow-card bkt-shadow-card_primary">
+                    <div v-if="!isLoggedIn&&!isTgBot" class="bkt-shadow-card bkt-shadow-card_primary">
                         <div class="bkt-shadow-card__inner bkt-gap-large">
                             <h4 class="bkt-shadow-card__title bkt-text-white">
                                 Чтобы посмотреть полную информацию <br>
@@ -367,7 +367,7 @@
                                 <!--                                <div class="bkt-card-menu m-0 dropdown-menu dropdown-menu-end position-absolute"-->
                                 <!--                                     aria-labelledby="dropdownMenuClickableOutside"-->
                                 <!--                                >-->
-                                <bkt-card-actions :item="item" place="lot-card" @changeStatus="changeStatus"
+                                <bkt-card-actions v-if="!isTgBot" :item="item" place="lot-card" @changeStatus="changeStatus"
                                                   button_type="-ellipse" main_bg="bkt-bg-body" icon_color="main"
                                 />
                                 <!--                                </div>-->
@@ -400,7 +400,7 @@
                                     Купить
                                 </button>
                                 <bkt-upload-file upload_button_class="bkt-button green mb-2 bkt-w-100"
-                                                 v-show="item && isLoggedIn && auth_user && auth_user.isAdmin"
+                                                 v-show="item && isLoggedIn && auth_user && auth_user.isAdmin && !isTgBot"
                                                  ref="upload_file_top" @change="saveLotImage" :id="'upload_file_top'"
                                                  :disabled="files_loading||loading||images_loading" :multiple="false"
                                 >
@@ -1220,7 +1220,7 @@
                                 <!--                            <bkt-icon name="ArrowDown"></bkt-icon>-->
                                 <!--                        </a>-->
                                 <router-link custom v-slot="{navigate}" :to="'/registries/debtor/'+item.trade.debtor.id"
-                                             v-if="item.trade && item.trade.debtor"
+                                             v-if="item.trade && item.trade.debtor && !isTgBot"
                                 >
                                     <button class="bkt-button next" @click="navigate">
                                         Подробнее о должнике
@@ -1368,7 +1368,7 @@
                             <div class="bkt-card__header pb-0">
                                 <h3 class="bkt-card__title">Информация по организатору</h3>
                                 <router-link custom v-slot="{navigate}" :to="'/registries/organizer/'+item.trade.organizer.id"
-                                             v-if="item.trade && item.trade.organizer"
+                                             v-if="item.trade && item.trade.organizer && !isTgBot"
                                 >
                                     <button class="bkt-button next" @click="navigate">
                                         Подробнее об организаторе
@@ -1441,7 +1441,7 @@
                                 <h3 class="bkt-card__title bkt-lot__card-title">Информация по арбитражному управляющему</h3>
                                 <router-link custom v-slot="{navigate}"
                                              :to="'/registries/arbitrationManager/'+item.trade.arbitrationManager.id"
-                                             v-if="item.trade && item.trade.arbitrationManager"
+                                             v-if="item.trade && item.trade.arbitrationManager && !isTgBot"
                                 >
                                     <button class="bkt-button next" @click="navigate">
                                         Подробнее об управляющем
@@ -1554,7 +1554,7 @@
                         </template>
                     </bkt-collapse>
                 </div>
-                <div class="col-12 order-4 px-lg-0" v-if="item && !loading && (auth_user && auth_user.isAdmin)">
+                <div class="col-12 order-4 px-lg-0" v-if="item && !loading && (auth_user && auth_user.isAdmin) && !isTgBot">
                     <bkt-collapse title="Изображения лота" :count="images.length" class="bkt-lot__collapse"
                                   id="collapseAdminImages" :loading="files_loading"
                     >
@@ -1707,6 +1707,12 @@
 
     export default {
         name: "LotCard",
+        props: {
+            type: {
+                type:String,
+                default: 'website'
+            }
+        },
         components: {
             // AddMarkModal,
             MiniTradeCard,
@@ -1848,6 +1854,9 @@
             },
             services() {
                 return this.$store.getters.services;
+            },
+            isTgBot() {
+                return this.type==='bot'
             }
         },
         watch: {
@@ -1867,7 +1876,7 @@
         methods: {
             goBack() {
                 // this.$router.push('/')
-                window.history.length > 1 ? this.$router.go(-1) : this.$router.push('/');
+                window.history.length > 1 ? this.$router.go(-1) : this.$router.push('/'+this.type);
                 // setTimeout(() => {
                 //     if (this.$route.params.id && this.item && this.$route.params.id != this.item.id) {
                 //         this.$nextTick(() => {
@@ -2105,7 +2114,9 @@
                     this.$store.commit('openModal', '#purchaseModal')
                 } else {
                     // this.$store.dispatch('sendAuthNotification')
-                    this.$store.commit('openModal', '#authModal')
+                    if(!this.isTgBot) {
+                        this.$store.commit('openModal', '#authModal')
+                    }
                 }
             },
             makeWatched() {

@@ -23,6 +23,7 @@ class GenerateAccessTokenService
                 "client_secret" => $client->secret,
                 "username" => $username,
                 "password" => $password,
+                'scope' => $req->get('scope', '')
             ]);
             $tokenRequest = $req->create(
                 '/oauth/token',

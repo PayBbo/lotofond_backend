@@ -51,7 +51,7 @@ class PaymentController extends Controller
                     if (!is_null($payment->tariff_id)) {
                         if(!is_null($payment->tariff->period)) {
                             $payment->finished_at = Carbon::now()->setTimezone('Europe/Moscow')->addDays($payment->tariff->period);
-                            $paymentService->checkPreviousActiveTariff($payment->user_id, $payment->tariff->period);
+                            $paymentService->checkPreviousActiveTariff($payment->user_id, $payment->tariff->period, true, $payment->tariff->type);
                         }
                     }
                     $payment->status = $paymentStatus['status'];
@@ -92,7 +92,7 @@ class PaymentController extends Controller
                     if (!is_null($payment->tariff_id)) {
                         if(!is_null($payment->tariff->period)) {
                             $payment->finished_at = Carbon::now()->setTimezone('Europe/Moscow')->addDays($payment->tariff->period);
-                            $paymentService->checkPreviousActiveTariff($payment->user_id, $payment->tariff->period);
+                            $paymentService->checkPreviousActiveTariff($payment->user_id, $payment->tariff->period, true, $payment->tariff->type);
                         }
                     }
                     $payment->status = $paymentStatus['status'];
@@ -115,7 +115,9 @@ class PaymentController extends Controller
 
     public function getTariffs()
     {
-        $tariffs = Tariff::where('type', 'tariff')->where('active', true)->get();
+        $tariffs = Tariff::where('active', true)
+            ->where('type', request()->get('type', 'tariff'))
+            ->get();
         return response(TariffResource::collection($tariffs), 200);
     }
 

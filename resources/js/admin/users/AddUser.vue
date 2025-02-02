@@ -254,7 +254,10 @@ export default {
             await axios({
                 method: 'get',
                 url: '/api/admin/tariffs',
-                data: {},
+                data: {
+                    type: 'tariff',
+                    active: true
+                },
             })
                 .then((response) => {
                     this.tariffs = response.data.data

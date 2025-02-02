@@ -30,5 +30,10 @@ class AuthServiceProvider extends ServiceProvider
         Passport::routes();
         Passport::tokensExpireIn(Carbon::now()->addDays(21));
         Passport::refreshTokensExpireIn(Carbon::now()->addDays(90));
+        Passport::tokensCan([
+            'all' => 'Token can everything',
+            'website' => 'For website',
+            'bot' => 'For Telegram Bot',
+        ]);
     }
 }

@@ -30,7 +30,10 @@ class User extends Authenticatable
         'password',
         'not_to_email',
         'email_verified_at',
-        'region_id'
+        'region_id',
+        'tg_id',
+        'tg_username',
+        'tg_connected_at',
     ];
 
     /**
@@ -50,6 +53,7 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'tg_connected_at' => 'datetime',
         'not_settings'=>'json',
         'not_to_email'=>'boolean',
         'not_from_favourite' =>'boolean',
@@ -159,20 +163,47 @@ class User extends Authenticatable
     public function tariff()
     {
         return $this->hasOne(Payment::class)
-            ->where('tariff_id', '!=', null)
-            ->where('is_confirmed', true)
-            ->where('status', 'Settled')
-            ->where('finished_at', '>=', Carbon::now()->setTimezone('Europe/Moscow'))
+            ->leftJoin('tariffs', 'tariffs.id', '=', 'payments.tariff_id')
+            ->where('payments.tariff_id', '!=', null)
+            ->where('payments.is_confirmed', true)
+            ->where('payments.status', 'Settled')
+            ->where('payments.finished_at', '>=', Carbon::now()->setTimezone('Europe/Moscow'))
+            ->where('tariffs.type', 'tariff')
+            ->latest();
+    }
+
+    public function botTariff()
+    {
+        return $this->hasOne(Payment::class)
+            ->leftJoin('tariffs', 'tariffs.id', '=', 'payments.tariff_id')
+            ->where('payments.tariff_id', '!=', null)
+            ->where('payments.is_confirmed', true)
+            ->where('payments.status', 'Settled')
+            ->where('payments.finished_at', '>=', Carbon::now()->setTimezone('Europe/Moscow'))
+            ->where('tariffs.type', 'bot_tariff')
             ->latest();
     }
 
     public function userTariffs()
     {
         return $this->hasMany(Payment::class)
-            ->where('tariff_id', '!=', null)
-            ->where('is_confirmed', true)
-            ->where('status', 'Settled')
-            ->where('finished_at', '>=', Carbon::now()->setTimezone('Europe/Moscow'));
+            ->leftJoin('tariffs', 'tariffs.id', '=', 'payments.tariff_id')
+            ->where('payments.tariff_id', '!=', null)
+            ->where('payments.is_confirmed', true)
+            ->where('payments.status', 'Settled')
+            ->where('payments.finished_at', '>=', Carbon::now()->setTimezone('Europe/Moscow'))
+            ->where('tariffs.type', 'tariff');
+    }
+
+    public function userBotTariffs()
+    {
+        return $this->hasMany(Payment::class)
+            ->leftJoin('tariffs', 'tariffs.id', '=', 'payments.tariff_id')
+            ->where('payments.tariff_id', '!=', null)
+            ->where('payments.is_confirmed', true)
+            ->where('payments.status', 'Settled')
+            ->where('payments.finished_at', '>=', Carbon::now()->setTimezone('Europe/Moscow'))
+            ->where('tariffs.type', 'bot_tariff');
     }
 
     public function region(){

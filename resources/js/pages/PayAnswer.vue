@@ -3,11 +3,11 @@
         <div class="bkt-card">
             <div class="bkt-card__body align-items-center text-center bkt-gap-medium" v-if="!loading">
                 <bkt-icon name="Check" height="100px" width="100px" color="green"
-                          v-if="status==='Authorized' || status==='Settled'"></bkt-icon>
+                          v-if="status==='Authorized' || status==='Settled'"/>
                 <bkt-icon name="Cancel" height="100px" width="100px" color="red"
-                          v-if="status==='Cancelled' || status==='Rejected'"></bkt-icon>
+                          v-if="status==='Cancelled' || status==='Rejected'"/>
                 <bkt-icon name="Clock" height="100px" width="100px" color="yellow"
-                          v-if="status==='Confirmation' || status==='Pending'"></bkt-icon>
+                          v-if="status==='Confirmation' || status==='Pending'"/>
                 <h2 class="bkt-card__title"
                     :class="{ 'bkt-text-green' : status==='Authorized' || status==='Settled',
                     'bkt-text-red': status==='Cancelled' || status==='Rejected',
@@ -15,7 +15,7 @@
                 >
                     {{ $t('payments.' + status)}}
                 </h2>
-                <a class="bkt-button green" href="/">На главную</a>
+                <a class="bkt-button green" :href="'/'+type">На главную</a>
             </div>
             <div class="bkt-card__body align-items-center text-center bkt-gap-medium" v-if="loading">
                 <skeleton type_name="item" height="100px" width="100px"></skeleton>
@@ -29,6 +29,12 @@
 <script>
     export default {
         name: "PayAnswer",
+        props: {
+          type: {
+              type:String,
+              default:''
+          }
+        },
         data() {
             return {
                 loading: false,

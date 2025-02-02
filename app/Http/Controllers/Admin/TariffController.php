@@ -29,6 +29,12 @@ class TariffController extends Controller
         $sortParam = $request->query('sort_property');
         $sortDirection = $request->query('sort_direction');
         $tariffs = Tariff::whereIn('type', ['tariff', 'service'])
+            ->when(request()->get('type', null), function ($query) {
+                $query->where('type', request()->get('type'));
+            })
+            ->when(request()->get('active') !== null, function ($query) {
+                $query->where('active', request()->get('active'));
+            })
             ->when(isset($sortParam) && isset($sortDirection), function ($query) use ($sortParam, $sortDirection) {
                 $query->orderBy($sortParam, $sortDirection);
             })

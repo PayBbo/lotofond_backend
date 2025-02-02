@@ -22,6 +22,7 @@ use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\StatisticsController;
+use App\Http\Controllers\TelegramWebhookController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -34,6 +35,9 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+
+Route::post('webhook', TelegramWebhookController::class);
+
 Route::group(['middleware' => ['json.response', 'localization']], function () {
 
     Route::get('/information-message', [DataController::class, 'getInformationMessage']);

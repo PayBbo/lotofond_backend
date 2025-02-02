@@ -38,6 +38,7 @@ class DashboardController extends Controller
                 'lotsCount'=>$lotsCount,
                 'newLotsCount'=>$newLotsCount,
                 'trialPeriod'=>$settings['trial_period'],
+                'botTrialPeriod'=>$settings['bot_trial_period'],
                 'watermark'=>[
                     'text'=>$settings['watermark_text'],
                     'image'=>URL::to('storage/watermark/'.$settings['watermark_image'])

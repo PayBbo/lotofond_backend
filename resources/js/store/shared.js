@@ -256,8 +256,8 @@ export default {
                 state.controllers[payload].abort();
             }
         },
-        getTariffs({commit}) {
-            axios.get('/api/tariffs')
+        getTariffs({commit}, payload) {
+            axios.get('/api/tariffs', {payload})
                 .then( resp => {
                     commit('setTariffs', resp.data)
                 });

@@ -15,9 +15,11 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/{any}', function () {
     return view('main');
-})->where('any', '^(?!admin).*$');
 Route::get('/admin/{any}', function () {
     return view('admin');
+})->where('any', '.*');
+Route::get('/bot{any}', function () {
+    return view('bot');
 })->where('any', '.*');
 
 

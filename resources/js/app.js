@@ -22,6 +22,10 @@ const token = localStorage.getItem('token');
 if (token) {
     axios.defaults.headers.common['Authorization'] = "Bearer " + token;
 }
+if(localStorage.getItem('is_tg_bot')) {
+    axios.defaults.headers.common['TGBot'] = 'is_tg_bot';
+}
+
 axios.interceptors.response.use(
     (response) => {
         return response
@@ -236,6 +240,7 @@ Vue.use(createYmapsVue2({
 Vue.component("App", require("./App.vue").default);
 Vue.component("Layout", require("./Layout.vue").default);
 Vue.component("Admin", require("./Admin.vue").default);
+Vue.component("Bot", require("./bot/Layout.vue").default);
 import Card from "./components/Card.vue";
 import Icon from "./components/Icon.vue";
 import Modal from "./components/Modal.vue";

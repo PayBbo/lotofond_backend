@@ -11,14 +11,19 @@ use App\Http\Services\SocialsService;
 use App\Http\Services\UserAgentService;
 use App\Models\SocialAccount;
 use App\Models\User;
+use App\Traits\TelegramTrait;
+use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Route;
 
 class LoginController extends Controller
 {
+    use TelegramTrait;
+
     public function login(LoginRequest $request)
     {
         $userPassword = null;
@@ -59,6 +64,36 @@ class LoginController extends Controller
                 $user->save();
                 break;
             }
+            case 'bot': {
+                $user = User::where('tg_id', '=', $request->id)->orWhere(function ($query) use($request) {
+                    $query->when($request->phone, function ($q) use($request) {
+                       $q->where('phone', $request->phone);
+                    })->when($request->email, function ($q) use($request) {
+                       $q->where('email', $request->email);
+                    });
+                })->first();
+                if (!$this->checkTelegramAuthorization($request->all(), Config::get('telegram.bot_token'))) {
+                    // данные не прошли проверку "Ошибка проверки данных входа"
+                    throw new BaseException("ERR_VALIDATION_FAILED_SOCIALS", 422, __('validation.user_not_found'));
+                }
+                $password = strval(mt_rand(10000000, 99999999));
+                if(!$user) {
+                    $user = $this->addNewTelegramUser($request, $password);
+                }
+                else {
+                    if(!$user->tg_id) {
+                        $user->tg_id = $request->get('id', null);
+                        $user->tg_username = $request->get('username', null);
+                        $user->tg_connected_at = Carbon::now()->setTimezone('Europe/Moscow');
+                    }
+                    $user->phone = $request->phone ?: $user->phone;
+                    $user->email = $request->email ?: $user->email;
+                    $user->password=Hash::make($password);
+                    $user->save();
+                }
+
+                break;
+            }
 
         }
         if ($request->grantType == 'email' || $request->grantType == 'phone') {
@@ -96,7 +131,7 @@ class LoginController extends Controller
                 "client_id" => $client->id,
                 "client_secret" => $client->secret,
                 "refresh_token" => $refreshToken,
-                "scope" => ""
+                "scope" => $req->get('scope', '')
 
             ]);
             $tokenRequest = $req->create(

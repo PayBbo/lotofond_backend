@@ -3,7 +3,6 @@
          :class="{'bkt-shadow-card bkt-shadow-card_white': item && item.trade && item.trade.lotCount>1}">
         <div class="bkt-card-trade bkt-card__row w-100 mx-auto mx-0" @click.self="navigate('mobile')">
             <div class="bkt-wrapper-between bkt-card__heading w-100" v-if="item && item.trade">
-
                 <h5 class="me-auto">
                     <bkt-icon v-if="item.sourceId === 2" :name="'categories/torgi'" :color="'indigo'"
                               class="bkt-card__heading-icon" title="государственные торги"
@@ -313,7 +312,7 @@
                                         Купить
                                     </button>
                                 </div>
-                                <div class="d-lg-none">
+                                <div class="d-lg-none" v-if="type !== 'bot'">
                                     <card-actions :item="item" button_type="-ellipse mt-1 mx-0 mb-0" place="dropdown"
                                                   @changeStatus="changeStatus" main_bg="bkt-bg-body"
                                                   icon_color="main"
@@ -387,7 +386,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-2 col-lg-1 p-0 d-none d-lg-block">
+            <div class="col-2 col-lg-1 p-0 d-none d-lg-block" v-if="type!=='bot'">
                 <card-actions :item="item" class="bkt-card vertical m-0 gap-0 py-0" button_type="-ellipse"
                               @changeStatus="changeStatus" main_bg="bkt-bg-body" icon_color="main"
                 >
@@ -417,6 +416,10 @@
             item: {
                 type: Object,
             },
+            type: {
+                type: String,
+                default: 'website'
+            }
         },
         components: {
             Hooper,
@@ -487,17 +490,17 @@
                             }
 
                         }
-                        index = extracts.findIndex(item => item.type == 'cadastralDataFractionalOwnership')
+                        index = extracts.findIndex(item => item.type == 'cadastralDataFractionalOwnership');
                         if (index >= 0) {
                             if (extracts[index].value > 0) {
                                 cadastralData.cadastralDataFractionalOwnership = extracts[index].value;
                             }
                         }
-                        index = extracts.findIndex(item => item.type == 'cadastralNumber')
+                        index = extracts.findIndex(item => item.type == 'cadastralNumber');
                         if (index >= 0) {
                             cadastralData.cadastralNumber = extracts[index].value;
                         }
-                        return cadastralData == {} ? null : cadastralData
+                        return cadastralData == {} ? null : cadastralData;
                     }
                 }
                 return null;
@@ -589,27 +592,27 @@
                 return -1
             },
             changeStatus(payload) {
-                this.$emit('changeStatus', payload)
+                this.$emit('changeStatus', payload);
             },
             pluralization(choice, choicesLength = 4) {
                 if (choice === 0) {
-                    return 0
+                    return 0;
                 }
 
-                const teen = choice > 10 && choice < 20
-                const endsWithOne = choice % 10 === 1
+                const teen = choice > 10 && choice < 20;
+                const endsWithOne = choice % 10 === 1;
                 if (!teen && endsWithOne) {
-                    return 1
+                    return 1;
                 }
                 if (!teen && choice % 10 >= 2 && choice % 10 <= 4) {
-                    return 2
+                    return 2;
                 }
                 //0 соток | {n} сотка | {n} сотки | {n} соток
-                return choicesLength < 4 ? 2 : 3
+                return choicesLength < 4 ? 2 : 3;
             },
             navigate(type='desktop') {
-                if ((this.isMobile && type === 'mobile') || type === 'desktop') {
-                    this.$router.push('/lot/' + this.item.id)
+                if (((this.isMobile && type === 'mobile') || this.type==='bot') || type === 'desktop') {
+                    this.$router.push((this.type == 'bot' ? '/bot' : '') +'/lot/' + this.item.id)
                 }
             },
             buyEgrn() {

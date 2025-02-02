@@ -13,7 +13,11 @@ export default {
         layout() {
             if(window.location.href.includes('/admin')){
                 return this.$route.meta.layout
-            }else{
+            }
+            else if(window.location.href.includes('/bot')){
+                return 'router-view'
+            }
+            else{
                 return 'App'
             }
         }
