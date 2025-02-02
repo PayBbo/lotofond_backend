@@ -15,6 +15,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\MaxAttemptsExceededException;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\DB;
 
 class MonitoringJob implements ShouldQueue
 {
@@ -52,14 +53,20 @@ class MonitoringJob implements ShouldQueue
             $cacheService->cacheTrialPeriod();
         }
         try {
-            $monitorings = Monitoring::whereHas('user', function ($query) {
-                $query->whereHas('tariff')
-                    ->orWhere('email_verified_at', '>=', Carbon::now()->setTimezone('Europe/Moscow')->subDays(Cache::get('trialPeriod', 7)));
-            })
-                ->get();
+            $monitorings = Monitoring::leftJoin('users', 'users.id', '=', 'monitorings.user_id')
+                ->leftJoin('payments', 'users.id', '=', 'payments.user_id')
+                ->leftJoin('tariffs', 'tariffs.id', '=', 'payments.tariff_id')
+                ->where(function ($query) {
+                    $query->where('payments.tariff_id', '!=', null)
+                        ->where('payments.is_confirmed', true)
+                        ->where('payments.status', 'Settled')
+                        ->where('payments.finished_at', '>=', Carbon::now()->setTimezone('Europe/Moscow'))
+                        ->where('tariffs.type', 'tariff');
+                })->orWhere('users.email_verified_at', '>=', Carbon::now()->setTimezone('Europe/Moscow')->subDays(Cache::get('trialPeriod', 7)))
+            ->groupBy('monitorings.id')->get();
 
             foreach ($monitorings as $monitoring) {
-                $hiddenLotsIds = $monitoring->user->hiddenLots->pluck('id')->toArray();
+                $hiddenLotsIds = DB::table('hidden_lots')->where('user_id', $monitoring->user_id)->get()->pluck('lot_id')->toArray();
 
                 $lots = Lot::whereNotIn('lots.id', $hiddenLotsIds)
                     ->filterBy($monitoring->filters)
