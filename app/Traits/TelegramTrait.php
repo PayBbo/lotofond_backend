@@ -13,12 +13,9 @@ use Illuminate\Support\Facades\Hash;
 
 trait TelegramTrait
 {
-    public function validateTGData($botToken, $data) {
-        $bot_secret = $botToken;
+    public function validateTGData($auth_data, $bot_token) {
 
-        $in =  $data;
-
-        parse_str($in, $arr);
+        parse_str($auth_data, $arr);
 
         $check_hash = $arr['hash'];
         unset($arr['hash']);
@@ -29,7 +26,7 @@ trait TelegramTrait
         }
         $data_str = trim($data_str);
 
-        $secret = hash_hmac('sha256', $bot_secret, 'WebAppData', true);
+        $secret = hash_hmac('sha256', $bot_token, 'WebAppData', true);
         $hash = hash_hmac('sha256', $data_str, $secret);
 
         return strcmp($hash, $check_hash) === 0;
@@ -39,22 +36,26 @@ trait TelegramTrait
         $check_hash = $auth_data['hash'];
         unset($auth_data['hash']);
 
-//        $data_check_arr = [];
-//        foreach ($auth_data as $key => $value) {
-//            $data_check_arr[] = $key . '=' . $value;
-//        }
-//        sort($data_check_arr);
-//        $data_check_string = implode("\n", $data_check_arr);
-        $check_data = http_build_query($auth_data);
+        if(is_array($auth_data['user'])) {
+            $auth_data['user'] = json_encode($auth_data['user'], JSON_UNESCAPED_UNICODE);
+        }
 
-        $secret_key = hash('sha256', $bot_token, true);
-        $hash = hash_hmac('sha256', $check_data, $secret_key);
+        $data_check_arr = [];
+        foreach ($auth_data as $key => $value) {
+            $data_check_arr[] = $key . '=' . $value;
+        }
+        sort($data_check_arr);
+        $data_check_string = implode("\x0A", $data_check_arr);
+
+        $secret_key = hash_hmac('sha256', $bot_token, 'WebAppData', true);
+        $hash = hash_hmac('sha256', $data_check_string, $secret_key);
+        $result = strcmp($hash, $check_hash);
         if (strcmp($hash, $check_hash) !== 0) {
             throw new Exception('Data is NOT from Telegram');
         }
         if ((time() - $auth_data['auth_date']) > 86400)
             throw new Exception('Data is outdated');
-        return $auth_data;
+        return $result === 0;
     }
 
     public function addNewTelegramUser($userData, $password) {
