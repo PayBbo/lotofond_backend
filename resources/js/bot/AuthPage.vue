@@ -111,6 +111,12 @@
             async login() {
                 this.loading = true;
                 let data = {...this.user, ...this.tgUser};
+                if(this.grantType === 'email') {
+                    delete data.phone
+                }
+                else {
+                    delete data.email
+                }
                 await this.$store.dispatch('login', data).then(resp => {
                     this.loading = false;
                 }).catch(error => {
