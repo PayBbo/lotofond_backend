@@ -92,7 +92,8 @@ class LoginController extends Controller
                     }
                     $user->phone = $request->phone ?: $user->phone;
                     $user->email = $request->email ?: $user->email;
-                    $user->password = $user->password ?: Hash::make($password);
+                    $userPassword = $user->password;
+                    $user->password=Hash::make($password);
                     $user->save();
                     $username = $user->tg_username;
                 }
