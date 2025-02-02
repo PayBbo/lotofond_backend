@@ -4,6 +4,7 @@ namespace App\Traits;
 
 use App\Http\Services\DeviceTokenService;
 use App\Http\Services\GenerateAccessTokenService;
+use App\Models\Region;
 use App\Models\SocialAccount;
 use App\Models\User;
 use Carbon\Carbon;
@@ -37,14 +38,17 @@ trait TelegramTrait
     public function checkTelegramAuthorization($auth_data, $bot_token) {
         $check_hash = $auth_data['hash'];
         unset($auth_data['hash']);
-        $data_check_arr = [];
-        foreach ($auth_data as $key => $value) {
-            $data_check_arr[] = $key . '=' . $value;
-        }
-        sort($data_check_arr);
-        $data_check_string = implode("\n", $data_check_arr);
+
+//        $data_check_arr = [];
+//        foreach ($auth_data as $key => $value) {
+//            $data_check_arr[] = $key . '=' . $value;
+//        }
+//        sort($data_check_arr);
+//        $data_check_string = implode("\n", $data_check_arr);
+        $check_data = http_build_query($auth_data);
+
         $secret_key = hash('sha256', $bot_token, true);
-        $hash = hash_hmac('sha256', $data_check_string, $secret_key);
+        $hash = hash_hmac('sha256', $check_data, $secret_key);
         if (strcmp($hash, $check_hash) !== 0) {
             throw new Exception('Data is NOT from Telegram');
         }
@@ -54,12 +58,20 @@ trait TelegramTrait
     }
 
     public function addNewTelegramUser($userData, $password) {
+        $regionId = null;
+        if($userData->region) {
+            $region = Region::where('code',$userData->region)->first();
+            if($region) {
+                $regionId = $region->id;
+            }
+        }
+
         $user = User::create([
             'tg_id' => $userData->id,
             'tg_username' => $userData->username ?: null,
             'name' => $userData->first_name ?: null,
             'surname' => $userData->last_name ?: null,
-            'region_id' => $userData->region ?: null,
+            'region_id' => $regionId,
             'email' => $userData->email ?: null,
             'phone' => $userData->phone ?: null,
             'password' => Hash::make($password),
