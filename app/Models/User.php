@@ -169,7 +169,7 @@ class User extends Authenticatable
             ->where('payments.status', 'Settled')
             ->where('payments.finished_at', '>=', Carbon::now()->setTimezone('Europe/Moscow'))
             ->where('tariffs.type', 'tariff')
-            ->latest();
+            ->latest('payments.created_at');
     }
 
     public function botTariff()
@@ -181,7 +181,7 @@ class User extends Authenticatable
             ->where('payments.status', 'Settled')
             ->where('payments.finished_at', '>=', Carbon::now()->setTimezone('Europe/Moscow'))
             ->where('tariffs.type', 'bot_tariff')
-            ->latest();
+            ->latest('payments.created_at');
     }
 
     public function userTariffs()
