@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/{any}', function () {
     return view('main');
+})->where('any', '^(?!admin|bot).*$');
 Route::get('/admin/{any}', function () {
     return view('admin');
 })->where('any', '.*');
