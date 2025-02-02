@@ -111,7 +111,7 @@
             async login() {
                 this.loading = true;
                 let data = {...this.user, ...this.tgUser};
-                data = {...data, ...this.tg.initDataUnsafe};
+                data.initData = this.tg.initDataUnsafe;
                 if(this.grantType === 'email') {
                     delete data.phone
                 }
