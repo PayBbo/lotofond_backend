@@ -1,5 +1,6 @@
 <template>
     <div class="bkt-bot">
+        <notifications position="top right" classes="bkt-notification"/>
         <header class="bkt-bot__header">
             <nav class="bkt-navbar">
                 <div class="bkt-container bkt-navbar__wrapper">

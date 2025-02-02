@@ -72,13 +72,17 @@ class LoginController extends Controller
                        $q->where('email', $request->email);
                     });
                 })->first();
+                logger('bot login req = '.json_encode($request->all()));
+                logger('bot login user = '.json_encode($user));
                 if (!$this->checkTelegramAuthorization($request->all(), Config::get('telegram.bot_token'))) {
+                    logger('checkTelegramAuthorization');
                     // данные не прошли проверку "Ошибка проверки данных входа"
                     throw new BaseException("ERR_VALIDATION_FAILED_SOCIALS", 422, __('validation.user_not_found'));
                 }
                 $password = strval(mt_rand(10000000, 99999999));
                 if(!$user) {
                     $user = $this->addNewTelegramUser($request, $password);
+                    logger('bot login new user = '.json_encode($user));
                 }
                 else {
                     if(!$user->tg_id) {
@@ -88,7 +92,7 @@ class LoginController extends Controller
                     }
                     $user->phone = $request->phone ?: $user->phone;
                     $user->email = $request->email ?: $user->email;
-                    $user->password=Hash::make($password);
+                    $user->password = $user->password ?: Hash::make($password);
                     $user->save();
                 }
 
@@ -103,6 +107,7 @@ class LoginController extends Controller
         }
         $generateToken = new GenerateAccessTokenService();
         $token = $generateToken->generateToken($request, $username, $password);
+        logger('bot login token = '.json_encode($token));
         if (isset($request->deviceToken)) {
             $deviceTokenService = new DeviceTokenService($user, $request->deviceToken);
             $deviceTokenService->saveDeviceToken();
