@@ -112,6 +112,7 @@
                 this.loading = true;
                 let data = {...this.user, ...this.tgUser};
                 data.initData = this.tg.initDataUnsafe;
+                data.initDataString = this.tg.initData;
                 if(this.grantType === 'email') {
                     delete data.phone
                 }
