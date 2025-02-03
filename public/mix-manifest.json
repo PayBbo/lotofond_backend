@@ -1,5 +1,5 @@
 {
-    "/js/app.js": "/js/app.js?id=a61a3140ee0d819d727be518867aad46",
+    "/js/app.js": "/js/app.js?id=11b8301ede3e39a52113d4b44c783a47",
     "/js/main.js": "/js/main.js?id=8845d4d8e2b6e8ab61113ce8c357e7ea",
     "/js/registries.js": "/js/registries.js?id=e91b396684eda7cf53a773cdabeb1bed",
     "/js/registry.js": "/js/registry.js?id=d8a2024b71eea0bc10a7bb7618a8a048",
@@ -13,7 +13,7 @@
     "/js/tariffs.js": "/js/tariffs.js?id=e9ab27b112c77f1c7ed3433758a60052",
     "/js/auctions.js": "/js/auctions.js?id=6ad685c8c86e0a70a6c8f2fcfbcdc138",
     "/js/calendar.js": "/js/calendar.js?id=ace217418df342f1ed011d92d3f5ad51",
-    "/js/lot-card.js": "/js/lot-card.js?id=216d7b2c969a9f6d76ede2b18743da08",
+    "/js/lot-card.js": "/js/lot-card.js?id=a86b4c9e8f6688ad0d05def00668be87",
     "/js/week-winners.js": "/js/week-winners.js?id=4732d526c2d7488779ab8b68491f34e3",
     "/js/privacy-policy.js": "/js/privacy-policy.js?id=451ba24be727dce9f92d0bdf2ff1333a",
     "/js/terms.js": "/js/terms.js?id=c073bd355a6d7614714082e4e760cd4d",
@@ -32,10 +32,10 @@
     "/js/news-add.js": "/js/news-add.js?id=b3d5b85f14ca03315ec0a7b9b0b4d9df",
     "/js/error-404.js": "/js/error-404.js?id=d3c1c3d5014d9edaae7d55e227aa1473",
     "/js/not-found.js": "/js/not-found.js?id=c07a632282361ddef4c7a57bb1073257",
-    "/js/bot-main.js": "/js/bot-main.js?id=9b76623174b7d5ae2de7ccf12775ab40",
+    "/js/bot-main.js": "/js/bot-main.js?id=af09da8611dc0e3d5c867890bc5cb32c",
     "/js/bot-tariffs.js": "/js/bot-tariffs.js?id=1e4b99bc992c1ed50630cbf1916ff998",
     "/js/bot-pay-answer.js": "/js/bot-pay-answer.js?id=f43290123c02ffbcddb9b1dfdf51ff5b",
     "/css/app.css": "/css/app.css?id=70d40c145064069cc96abed8c0e9402c",
     "/css/app.min.css": "/css/app.min.css?id=70d40c145064069cc96abed8c0e9402c",
-    "/js/app.min.js": "/js/app.min.js?id=a61a3140ee0d819d727be518867aad46"
+    "/js/app.min.js": "/js/app.min.js?id=11b8301ede3e39a52113d4b44c783a47"
 }

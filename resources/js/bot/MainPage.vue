@@ -1,5 +1,12 @@
 <template>
     <div class="container bkt-container">
+        <div class="bkt-wrapper bkt-nowrap bkt-gap">
+            <bkt-search v-model="filters.searchString" no_dropdown :loading="loading" simple @runSearch="runSearch" clearable
+                        class="w-100"
+            >
+            </bkt-search>
+        </div>
+
         <bkt-card-list :current_component="'BktCard'" :items="items" :loading="loading"
                        :current_component_attrs="attributes"
                        :pagination_data="pagination_data" @change-page="getData" @changeStatus="changeStatus">
@@ -69,7 +76,11 @@
             },
             toTariffsPage() {
                 this.$router.push('/bot/tariffs')
-            }
+            },
+            runSearch(search) {
+                this.getData(1);
+                this.$scrollTo('#cardList', 200);
+            },
         }
     }
 </script>

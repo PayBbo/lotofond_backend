@@ -672,7 +672,7 @@
                             </span>
                             </a>
                         </div>
-                        <div class="bkt-card__body" v-if="isLoggedIn">
+                        <div class="bkt-card__body" v-if="isLoggedIn && !isTgBot">
                             <div class="bkt-wrapper-between bkt-nowrap">
                                 <div class="bkt-wrapper bkt-nowrap m-0">
                                     <div class="bkt-card__category bkt-bg-primary-lighter">
