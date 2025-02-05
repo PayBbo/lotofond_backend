@@ -121,6 +121,7 @@
                 return this.$store.getters.isLoggedIn
             },
             colorScheme() {
+                return this.tg.colorScheme ? this.tg.colorScheme : ''
             }
         },
         methods: {

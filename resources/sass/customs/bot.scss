@@ -1,14 +1,43 @@
 .bkt-bot-body {
-    background: var(--tg-theme-bg-color, #f5f7fe);
+    background: var(--tg-theme-secondary-bg-color, #f5f7fe);
     //color: var(--tg-theme-text-color);
 }
 .bkt-bot {
     &__header {
         .bkt-navbar {
-            background: var(--tg-theme-secondary-bg-color, #fff);
+            background: var(--tg-theme-bg-color, #fff);
         }
     }
 
+    &.dark {
+        & ul.bkt-contents li span {
+            background-color: var(--tg-theme-bg-color, #fff);;
+        }
+        & .bkt-sidebar__header {
+            background: var(--tg-theme-bg-color, #2d3244);
+        }
+        & .offcanvas {
+            background-color: var(--tg-theme-secondary-bg-color, #fff);
+        }
+        & .bkt-card {
+            background: var(--tg-theme-bg-color, #fff);
+            &__row {
+                background: var(--tg-theme-bg-color, #fff);
+            }
+            &__title {
+                color: #5f6c9a;
+            }
+            &__text {
+                color: #7984ae; //#9799a0;
+            }
+            &-trade-price-info {
+                background: #38415f !important;
+            }
+        }
+        & .bkt-collapse__title {
+            color: #5f6c9a;
+        }
+    }
     &__body {
 
     }

@@ -3,6 +3,7 @@
         <bkt-category-modal/>
         <bkt-region-modal/>
         <bkt-price-modal/>
+        <bkt-trade-type-modal/>
         <div class="bkt-wrapper bkt-nowrap bkt-gap">
             <bkt-search v-model="filters.searchString" no_dropdown :loading="loading" simple @runSearch="runSearch" clearable
                         class="w-100"
