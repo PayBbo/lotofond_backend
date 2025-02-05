@@ -1,9 +1,10 @@
-.bkt-bot {
+.bkt-bot-body {
     background: var(--tg-theme-bg-color);
-    color: var(--tg-theme-text-color);
-
+    //color: var(--tg-theme-text-color);
+}
+.bkt-bot {
     &__header {
-
+        background: var(--tg-theme-secondary-bg-color);
     }
 
     &__body {

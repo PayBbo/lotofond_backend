@@ -34,6 +34,11 @@
                 title="Стоимость лота" :count="filters.prices"
                 modal_name="#priceModal"
             />
+            <bkt-filter-card
+                :icon="{name:'Clipboard', color:'teal'}" category_class="bkt-bg-teal-lighter"
+                title="Тип торгов" :count="filters.mainParams.tradeTypes"
+                modal_name="#tradeTypesModal"
+            />
         </div>
 
         <bkt-card-list :current_component="'BktCard'" :items="items" :loading="loading"
@@ -65,11 +70,13 @@
     import BktRegionModal from "../components/SharedModals/RegionModal";
     import BktCategoryModal from "../components/SharedModals/CategoryModal";
     import BktPriceModal from "../components/SharedModals/PriceModal";
+    import BktTradeTypeModal from "../components/SharedModals/TradeTypeModal";
 
     export default {
         name: "MainPage",
         components: {
-            BktFilterCard, BktRegionModal, BktCategoryModal, BktPriceModal
+            BktFilterCard, BktRegionModal, BktCategoryModal,
+            BktPriceModal, BktTradeTypeModal
         },
         data() {
             return {

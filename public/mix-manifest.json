@@ -1,5 +1,5 @@
 {
-    "/js/app.js": "/js/app.js?id=63eb20079303d96b40f38632256eacdd",
+    "/js/app.js": "/js/app.js?id=37dd815535ff76e45fcdca3d122a67ee",
     "/js/main.js": "/js/main.js?id=43bf68a6238cd67d5cab2dbf8903f9c0",
     "/js/registries.js": "/js/registries.js?id=e91b396684eda7cf53a773cdabeb1bed",
     "/js/registry.js": "/js/registry.js?id=d8a2024b71eea0bc10a7bb7618a8a048",
@@ -32,10 +32,10 @@
     "/js/news-add.js": "/js/news-add.js?id=b3d5b85f14ca03315ec0a7b9b0b4d9df",
     "/js/error-404.js": "/js/error-404.js?id=d3c1c3d5014d9edaae7d55e227aa1473",
     "/js/not-found.js": "/js/not-found.js?id=c07a632282361ddef4c7a57bb1073257",
-    "/js/bot-main.js": "/js/bot-main.js?id=77730f79cf811f81f5b07fff50ca8d7a",
+    "/js/bot-main.js": "/js/bot-main.js?id=ed772b55c459407cddd18f91ddfa8dab",
     "/js/bot-tariffs.js": "/js/bot-tariffs.js?id=b46d28ac832088bd52a60576018a9ffe",
     "/js/bot-pay-answer.js": "/js/bot-pay-answer.js?id=f43290123c02ffbcddb9b1dfdf51ff5b",
-    "/css/app.css": "/css/app.css?id=1831d0fb86dda4b8b519139b157f785a",
-    "/css/app.min.css": "/css/app.min.css?id=1831d0fb86dda4b8b519139b157f785a",
-    "/js/app.min.js": "/js/app.min.js?id=63eb20079303d96b40f38632256eacdd"
+    "/css/app.css": "/css/app.css?id=e707fcd72983ee32a04ee9d06cae5b05",
+    "/css/app.min.css": "/css/app.min.css?id=e707fcd72983ee32a04ee9d06cae5b05",
+    "/js/app.min.js": "/js/app.min.js?id=37dd815535ff76e45fcdca3d122a67ee"
 }

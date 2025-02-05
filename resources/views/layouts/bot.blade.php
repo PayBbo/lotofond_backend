@@ -42,7 +42,7 @@
     <!-- Styles -->
     <link href="{{ mix('css/app.min.css') }}" rel="stylesheet">
 </head>
-<body>
+<body class="bkt-bot-body">
 <div id="app">
     @yield('content')
 </div>
