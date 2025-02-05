@@ -27,6 +27,9 @@ class UserResource extends JsonResource
             'registrationDate'=> is_null($this->email_verified_at) ? 'Не указано' : $this->email_verified_at->format('d.m.Y H:i'),
             'roles'=> $this->roles->pluck('name'),
             'tariff'=> $this->tariff ? $this->tariff->tariff->id : null,
+            'botTariff'=> $this->botTariff ? $this->botTariff->tariff->id : null,
+            'tgId'=> $this->tg_id ?: null,
+            'tgConnectedAt'=> $this->tg_connected_at ?: null,
             'diffInDays' =>  $this->finished_at ? Carbon::now()->diffInDays($this->finished_at) : null,
             'finishedAt' => $this->finished_at,
             'region'=>!is_null($this->region_id) ? $this->region->title : null

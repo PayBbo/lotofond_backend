@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use App\Rules\Phone;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class RegisterRequest extends FormRequest
 {
@@ -26,8 +27,26 @@ class RegisterRequest extends FormRequest
     {
         return [
             'grantType' => ['required', 'string'],
-            'email' => ['sometimes', 'required', 'email', 'unique:users,email', 'unique:change_credentials,email'],
-            'phone' => ['sometimes', 'required', new Phone, 'unique:users,phone', 'unique:change_credentials,phone'],
+            'email' => [
+                'sometimes',
+                'required',
+                'email',
+                Rule::unique('users','email')
+                    ->where(function ($query){
+                        return $query->where('email_verified_at', '!=', null);
+                    }),
+                'unique:change_credentials,email'
+            ],
+            'phone' => [
+                'sometimes',
+                'required',
+                new Phone,
+                Rule::unique('users','phone')
+                    ->where(function ($query){
+                        return $query->where('email_verified_at', '!=', null);
+                    }),
+                'unique:change_credentials,phone'
+            ],
             'surname'=>['sometimes','required', 'string', 'max:255'],
             'name'=>['sometimes','required', 'string', 'max:255'],
             'password'=>['sometimes','required', 'string', 'min:8'],

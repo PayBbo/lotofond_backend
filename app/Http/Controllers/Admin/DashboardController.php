@@ -37,8 +37,8 @@ class DashboardController extends Controller
                 'newUsersCount'=>$newUsersCount,
                 'lotsCount'=>$lotsCount,
                 'newLotsCount'=>$newLotsCount,
-                'trialPeriod'=>$settings['trial_period'],
-                'botTrialPeriod'=>$settings['bot_trial_period'],
+                'trialPeriod'=>(int)$settings['trial_period'],
+                'botTrialPeriod'=>(int)$settings['bot_trial_period'],
                 'watermark'=>[
                     'text'=>$settings['watermark_text'],
                     'image'=>URL::to('storage/watermark/'.$settings['watermark_image'])
@@ -84,6 +84,19 @@ class DashboardController extends Controller
         $trialPeriod->save();
         $cacheService = new CacheService();
         $cacheService->cacheTrialPeriod();
+        return response(null, 200);
+    }
+
+    public function changeBotTrialPeriod(Request $request){
+        $this->validate($request, [
+            'botTrialPeriod' => 'required|integer|min:0'
+        ]);
+
+        $trialPeriod = Setting::where('variable', 'bot_trial_period')->first();
+        $trialPeriod->value = $request->botTrialPeriod;
+        $trialPeriod->save();
+        $cacheService = new CacheService();
+        $cacheService->cacheBotTrialPeriod();
         return response(null, 200);
     }
 

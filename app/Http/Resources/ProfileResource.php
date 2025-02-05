@@ -28,6 +28,16 @@ class ProfileResource extends JsonResource
         $testPeriodInDays =  Cache::get('trialPeriod');
         $hasTariff = !is_null($this->tariff);
         $hasTestPeriod =$this->email_verified_at->addDays($testPeriodInDays)->format('Y-m-d H:i') >= Carbon::now()->setTimezone('Europe/Moscow')->format('Y-m-d H:i');
+
+
+        if(!Cache::has('botTrialPeriod')){
+            $cacheService = new CacheService();
+            $cacheService->cacheBotTrialPeriod();
+        }
+        $botTestPeriodInDays =  Cache::get('botTrialPeriod');
+        $hasBotTariff = !is_null($this->botTariff);
+        $hasBotTestPeriod = $this->tg_connected_at->addDays($botTestPeriodInDays)->format('Y-m-d H:i') >= Carbon::now()->setTimezone('Europe/Moscow')->format('Y-m-d H:i');
+
         $contentDisplayRules = ['lot'=>['trade'=>[]], 'system'=>[]];
         $rules = ContentRule::all();
         foreach($rules as $rule){
@@ -73,6 +83,23 @@ class ProfileResource extends JsonResource
             ]),
             $this->mergeWhen(!$hasTariff && !$hasTestPeriod, [
                 'tariff' => null
+            ]),
+            $this->mergeWhen(!$hasBotTariff && $hasBotTestPeriod, [
+                'botTariff' => [
+                    'title'=>__('payments.test_period'),
+                    'expiredAt'=>$this->tg_connected_at->addDays($testPeriodInDays)->format('d.m.Y H:i:s'),
+                    'trial' => true
+                ]
+            ]),
+            $this->mergeWhen($hasBotTariff && !$hasBotTestPeriod, [
+                'botTariff' => [
+                    'title'=> !is_null($this->botTariff) ? $this->botTariff['tariff']->title : null,
+                    'expiredAt'=>!is_null($this->botTariff) ? Carbon::parse($this->botTariff->finished_at)->format('d.m.Y H:i:s') : null,
+                    'trial' => false
+                ]
+            ]),
+            $this->mergeWhen(!$hasBotTariff && !$hasBotTestPeriod, [
+                'botTariff' => null
             ]),
             'contentDisplayRules'=>$contentDisplayRules,
             'permissions' => $this->getAllPermissions()->pluck('name')->toArray(),

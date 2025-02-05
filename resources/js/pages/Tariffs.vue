@@ -210,7 +210,7 @@
         methods: {
             async getTariffs() {
                 this.loading = true;
-                await this.$store.dispatch('getTariffs')
+                await this.$store.dispatch('getTariffs', {type: 'tariff'})
                     .finally(() => {
                         this.loading = false;
                     })

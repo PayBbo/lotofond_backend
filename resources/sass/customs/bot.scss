@@ -13,4 +13,16 @@
     &__footer {
 
     }
+
+    @media screen and (max-width: 568px) {
+        & .bkt-main-categories .bkt-card__row {
+            border-radius: 12px;
+            padding: 16px;
+            & .bkt-card__category {
+                width: 32px;
+                border-radius: 6px;
+                margin: 0 !important;
+            }
+        }
+    }
 }

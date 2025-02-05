@@ -12,6 +12,7 @@
         <template v-slot:raws-block>
             <tr v-for="(item, index) in dataItems">
                 <td>{{ item.id }}</td>
+                <td>{{ item.type_name }}</td>
                 <td>{{ item.title }}</td>
                 <td>{{ item.period === null ? 'Не задано' : item.period + ' дн.' }}</td>
                 <td>{{ item.price  | priceFormat }} ₽</td>
@@ -46,8 +47,8 @@ export default {
     data() {
         return {
             columns: {
-                columns_title: ['ID', 'Заголовок', 'Период действия', 'Цена', 'Описание', 'Активность', 'Действия'],
-                columns_sort: ['id', 'title', 'period', 'price','description', 'active', null]
+                columns_title: ['ID', 'Тип', 'Заголовок', 'Период действия', 'Цена', 'Описание', 'Активность', 'Действия'],
+                columns_sort: ['id', 'type_name', 'title', 'period', 'price','description', 'active', null]
             },
         }
     },

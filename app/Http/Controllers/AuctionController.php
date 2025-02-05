@@ -57,9 +57,32 @@ class AuctionController extends Controller
             ini_set('max_execution_time', 6000);
             $authCheck = auth()->guard('api')->check();
             if ($authCheck) {
+                $regionsCount = $request->regions ? count($request->regions) : 0;
+                $isRealEstate = false;
+                if($request->categories && count($request->categories)) {
+                    $isRealEstate = !empty(array_intersect($request->categories, ["land", "residentialProperty", "commercialRealEstate"]));
+                    $regions = Region::whereIn('code', $request->regions)->get()->pluck('numbers');
+                    $regionsNumbers=[];
+                    foreach ($regions as $region) {
+                        $numbers = explode(', ', $region);
+                        foreach ($numbers as $number) {
+                            $regionsNumbers[] = $number;
+                        }
+                    }
+                }
                 $lots = Lot::with(['auction', 'showRegions', 'status', 'lotImages', 'categories', 'lotParams'])
                     ->where('active', true)
-                    ->filterBy($request->request)->customSortBy($request)->paginate(20);
+                    ->filterBy($request->request)->customSortBy($request)
+                    ->when($regionsCount && $isRealEstate, function ($q) use($regionsNumbers){
+                        $q->whereHas('lotParams', function ($query) use ($regionsNumbers) {
+                            $query->where('param_id', 4)->where(function($que) use ($regionsNumbers) {
+                                foreach ($regionsNumbers as $number) {
+                                    $que->orWhere('value','like', $number.':%');
+                                }
+                            });
+                        });
+                    })
+                    ->paginate(20);
                 return response(new LotCollection($lots), 200);
             } else {
                 $lots = Lot::with(['auction', 'showRegions', 'status', 'lotImages', 'categories', 'lotParams'])

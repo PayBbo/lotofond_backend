@@ -28,10 +28,11 @@ class TariffController extends Controller
     {
         $sortParam = $request->query('sort_property');
         $sortDirection = $request->query('sort_direction');
-        $tariffs = Tariff::whereIn('type', ['tariff', 'service'])
-            ->when(request()->get('type', null), function ($query) {
+        $tariffs = Tariff::when(request()->get('type', null), function ($query) {
                 $query->where('type', request()->get('type'));
-            })
+            }, function ($query) {
+            $query->whereIn('type', ['tariff','bot_tariff', 'service']);
+        })
             ->when(request()->get('active') !== null, function ($query) {
                 $query->where('active', request()->get('active'));
             })
@@ -51,7 +52,7 @@ class TariffController extends Controller
         $tariff->period = $request->period;
         $tariff->included_details = $request->includedDetails;
         $tariff->excluded_details = $request->excludedDetails;
-        $tariff->type = 'tariff';
+        $tariff->type = $request->get('type', 'tariff');
         $tariff->save();
         return response(null, 200);
     }

@@ -15,6 +15,11 @@ class TariffResource extends JsonResource
      */
     public function toArray($request)
     {
+        $typeNames = [
+            'service' => 'Услуга',
+            'tariff' => 'Тариф',
+            'bot_tariff' => 'Тариф бота'
+        ];
         return [
             'id' => $this->id,
             $this->mergeWhen(Route::getCurrentRoute()->getName() === 'admin-get-tariffs', [
@@ -32,6 +37,7 @@ class TariffResource extends JsonResource
                 'description' => $this->getTranslations('description'),
             ]),
             'type'=> $this->type,
+            'type_name'=> $typeNames[$this->type],
             'includedDetails' => $this->getTranslations('included_details'),
             'excludedDetails' => $this->getTranslations('excluded_details'),
             'active' => $this->active

@@ -25,6 +25,7 @@ Route::group(['middleware' =>['localization', 'role:admin|manager', 'json.respon
     Route::post('/change-watermark', [DashboardController::class, 'changeWatermark']);
 
     Route::post('/change-trial-period', [DashboardController::class, 'changeTrialPeriod']);
+    Route::post('/change-bot-trial-period', [DashboardController::class, 'changeBotTrialPeriod']);
 
     Route::get('/regions', [DashboardController::class, 'getRegions']);
 

@@ -110,23 +110,31 @@ class RegisterController extends Controller
             throw new BaseException("ERR_VALIDATION_FAILED_CODE", 422, __('validation.verification_code'));
         }
         $password = $verifyAccount->code;
-        $user = User::create([
-            'surname' => $verifyAccount->surname,
-            'name' => $verifyAccount->name,
-            'email' => $verifyAccount->value,
-            'phone' => $verifyAccount->phone,
-            'password' => Hash::make($password),
-            'email_verified_at' => Carbon::now()->setTimezone('Europe/Moscow'),
-            'region_id'=>!is_null( $verifyAccount->region) ? Region::where('code', $verifyAccount->region)->first()->id : null,
-            'not_settings' => [
-                'favouriteEventStart' => 1,
-                'favouriteEventEnd' => 1,
-                'favouriteApplicationStart' => 1,
-                'favouriteApplicationEnd' => 1,
-                'favouriteResult' => 1,
-                'favouritePriceReduction' => 1
+        $authValue = $verifyAccount->value ?: $verifyAccount->phone;
+        $authKey = $verifyAccount->value ? 'email' : 'phone';
+
+        $user = User::updateOrCreate(
+            [
+                $authKey => $authValue
+            ],
+            [
+                'surname' => $verifyAccount->surname,
+                'name' => $verifyAccount->name,
+                'email' => $verifyAccount->value,
+                'phone' => $verifyAccount->phone,
+                'password' => Hash::make($password),
+                'email_verified_at' => Carbon::now()->setTimezone('Europe/Moscow'),
+                'region_id' => !is_null($verifyAccount->region) ? Region::where('code', $verifyAccount->region)->first()->id : null,
+                'not_settings' => [
+                    'favouriteEventStart' => 1,
+                    'favouriteEventEnd' => 1,
+                    'favouriteApplicationStart' => 1,
+                    'favouriteApplicationEnd' => 1,
+                    'favouriteResult' => 1,
+                    'favouritePriceReduction' => 1
+                ]
             ]
-        ]);
+        );
         $verifyAccount->delete();
         $this->saveUser($user, $request);
         $generateToken = new GenerateAccessTokenService();

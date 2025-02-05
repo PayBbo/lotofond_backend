@@ -1,6 +1,18 @@
 <template>
     <div>
         <div class="bkt-page bkt-container bkt-tariffs">
+            <div  v-if="!loading && !auth_user_loading && (!isLoggedIn || !auth_user || !auth_user.botTariff)" class="bkt-shadow-card bkt-shadow-card_primary mt-3 mb-4">
+                <div class="bkt-shadow-card__inner bkt-gap-large">
+                    <h4 class="bkt-shadow-card__title bkt-text-white">
+                        Пробный период закончился<br>
+                        <span>Купите подписку, чтобы продолжить просмотр лотов</span>
+                    </h4>
+                    <div class="bkt-shadow-card__shadow-1">
+                    </div>
+                    <div class="bkt-shadow-card__shadow-2">
+                    </div>
+                </div>
+            </div>
             <h1 class="bkt-page__title">Тарифы подписки</h1>
             <div class="bkt-card bkt-card__body">
                 <div class="bkt-form mx-auto w-100">
@@ -44,14 +56,14 @@
                             </template>
                             <template v-if="loading">
                                 <div v-for="n in 4" class="bkt-card__row outline bkt-tariffs__item">
-                                    <skeleton circle height="20px" width="20px"></skeleton>
+                                    <skeleton circle height="20px" width="20px"/>
                                     <div class="bkt-wrapper-between w-100">
                                         <div
                                             class="bkt-wrapper-down-sm-between bkt-gap-down-sm-column bkt-w-down-sm-100 bkt-gap-row-mini">
-                                            <skeleton type_name="text" heigth="16px"></skeleton>
-                                            <skeleton skeleton_class="bkt-badge" width="50px"></skeleton>
+                                            <skeleton type_name="text" heigth="16px"/>
+                                            <skeleton skeleton_class="bkt-badge" width="50px"/>
                                         </div>
-                                        <skeleton type_name="text" heigth="26px"></skeleton>
+                                        <skeleton type_name="text" heigth="26px"/>
                                     </div>
                                 </div>
                             </template>
@@ -104,7 +116,13 @@
             },
             isLoggedIn() {
                 return this.$store.getters.isLoggedIn
-            }
+            },
+            auth_user() {
+                return this.$store.getters.auth_user
+            },
+            auth_user_loading() {
+                return this.$store.getters.auth_user_loading
+            },
         },
         mounted() {
             if (this.tariffs.length === 0) {
@@ -114,10 +132,11 @@
         methods: {
             async getTariffs() {
                 this.loading = true;
-                await this.$store.dispatch('getTariffs', {type:'bot_tariff'})
-                    .finally(() => {
-                        this.loading = false;
-                    })
+                await this.$store.dispatch('getTariffs', {type: 'bot_tariff'}).then(resp => {
+                    this.loading = false;
+                }).catch(error => {
+                    this.loading = false;
+                });
             },
             getBenefit(tariff) {
                 let benefit = (100 - (tariff.price * 100 / (this.tariffs[0].price * (tariff.period / this.tariffs[0].period).toFixed())));

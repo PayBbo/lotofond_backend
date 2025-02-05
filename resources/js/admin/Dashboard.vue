@@ -156,6 +156,27 @@
                         </div>
                         <!-- /.card -->
                     </div>
+                    <div class="col-md-12">
+                        <div class="card card-primary">
+                            <div class="card-body">
+                                <div class="form-group">
+                                    <label>Длительность тестового периода Telegram бота</label>
+                                    <div class="input-group">
+                                        <input name="trialPeriod" type="number" min="0" class="form-control"
+                                               v-model="botTrialPeriod">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">дней</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <button type="submit" class="btn btn-success float-right" @click="saveBotTrialPeriod()">
+                                    Сохранить
+                                </button>
+                            </div>
+                            <!-- /.card-body -->
+                        </div>
+                        <!-- /.card -->
+                    </div>
                 </div>
             </div>
         </section>
@@ -174,13 +195,17 @@ export default {
         trialPeriod:{
                 get(){ return this.$store.getters.trialPeriod; },
                 set( value ){ this.$store.commit("setTrialPeriod", value );}
+        },
+        botTrialPeriod:{
+                get(){ return this.$store.getters.botTrialPeriod; },
+                set( value ){ this.$store.commit("setBotTrialPeriod", value );}
         }
     },
     created() {
         this.getDashboardData()
     },
     methods: {
-        ...mapMutations(['setTrialPeriod']),
+        ...mapMutations(['setTrialPeriod', 'setBotTrialPeriod']),
         ...mapActions(['getDashboardData']),
         selectFile() {
             this.$refs.fileSelect.click()
@@ -203,6 +228,13 @@ export default {
         saveTrialPeriod() {
             axios.post('/api/admin/change-trial-period', {trialPeriod: this.trialPeriod}).then(response => {
                 this.$store.commit('setModal', {data: 'success', text: 'Тестовый период успешно изменен'})
+            }).catch(error => {
+                this.$store.commit('setModal', {data: 'error', text: error.response.data.detail})
+            })
+        },
+        saveBotTrialPeriod() {
+            axios.post('/api/admin/change-bot-trial-period', {botTrialPeriod: this.botTrialPeriod}).then(response => {
+                this.$store.commit('setModal', {data: 'success', text: 'Тестовый период Telegram бота успешно изменен'})
             }).catch(error => {
                 this.$store.commit('setModal', {data: 'error', text: error.response.data.detail})
             })

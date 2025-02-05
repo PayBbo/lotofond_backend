@@ -1,5 +1,5 @@
 <template>
-    <fragment>
+    <fragment v-if="item">
         <div class="content-header">
             <div class="container-fluid">
                 <div class="row mb-2">
@@ -138,6 +138,22 @@
                                     </div>
                                 </div>
 
+                                <div class="form-group" v-if="isEdit&&item.tgId">
+                                    <label>Выберите тариф Telegram бота</label>
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i class="fa fa-tags"></i></span>
+                                        </div>
+                                        <select class="form-control custom-select rounded-0" v-model="item.botTariff">
+                                            <option :value="null">Выберите тариф для Telegram бота</option>
+                                            <option v-for="tariff in bot_tariffs" :value="tariff.id">{{
+                                                    tariff.title
+                                                }}
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+
                                 <div class="form-group">
                                     <label>Выберите регион для пользователя</label>
                                     <div class="input-group">
@@ -195,6 +211,7 @@ export default {
         return {
             roles: [],
             tariffs: [],
+            bot_tariffs: [],
             regions: []
         }
     },
@@ -208,13 +225,14 @@ export default {
                 {
                     name: '', surname: '', middleName: '', email: null, region: null,
                     phone: null, password: '', notificationsFromFavourite: true, notificationsFromMonitoring: true,
-                    notificationsToEmail: true, roles: ['user'], tariff: null
+                    notificationsToEmail: true, roles: ['user'], tariff: null, botTariff: null
                 }
             )
         }
-        await this.getRoles()
-        await this.getTariffs()
-        await this.getRegions()
+        await this.getRoles();
+        await this.getTariffs();
+        await this.getBotTariffs();
+        await this.getRegions();
     },
     computed: {
         ...mapGetters(['item', 'types']),
@@ -251,16 +269,22 @@ export default {
                 });
         },
         async getTariffs() {
-            await axios({
-                method: 'get',
-                url: '/api/admin/tariffs',
-                data: {
-                    type: 'tariff',
-                    active: true
-                },
+            await axios.get('/api/admin/tariffs', {
+                params: {type: 'tariff', active: 1}
             })
                 .then((response) => {
                     this.tariffs = response.data.data
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
+        },
+        async getBotTariffs() {
+            await axios.get('/api/admin/tariffs', {
+                params: {type: 'bot_tariff', active: 1}
+            })
+                .then((response) => {
+                    this.bot_tariffs = response.data.data
                 })
                 .catch((error) => {
                     console.log(error);

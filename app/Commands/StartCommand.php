@@ -36,7 +36,6 @@ class StartCommand extends Command
         if ($telegramUser) {
             $this->sendAnswerForOldUsers();
         } else {
-            $this->addNewTelegramUser($userData);
             $this->sendAnswerForNewUsers();
         }
     }

@@ -1,10 +1,10 @@
 <template>
-    <fragment>
+    <fragment v-if="item">
         <div class="content-header">
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1 class="m-0">{{ isEdit ? 'Редактирование ' + (item.type === 'tariff' ? 'тарифа' : 'услуги') : 'Добавление нового тарифа' }}</h1>
+                        <h1 class="m-0">{{ isEdit ? 'Редактирование ' + ((item.type === 'tariff' || item.type === 'bot_tariff') ? 'тарифа' : 'услуги') : 'Добавление нового тарифа' }}</h1>
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
@@ -28,7 +28,7 @@
                         <div class="card card-primary">
                             <div class="card-body">
                                 <div class="form-group">
-                                    <label>Название {{ (item.type === 'tariff'  || !isEdit ? 'тарифа' : 'услуги') }}</label>
+                                    <label>Название {{ ((item.type === 'tariff' || item.type === 'bot_tariff') || !isEdit ? 'тарифа' : 'услуги') }}</label>
                                     <div class="table-responsive max-h-350px">
                                         <table class="table table-hover table-head-fixed text-nowrap mb-0">
                                             <thead>
@@ -49,17 +49,31 @@
                                         </table>
                                     </div>
                                 </div>
-                                <div class="form-group" v-if="item.type === 'tariff' || !isEdit">
-                                    <label>Период действия тарифа (в днях)</label>
-                                    <div class="input-group">
-                                        <input required name="period" class="form-control"
-                                               type="text" data-min="1" v-model="item.period"
-                                               @keyup="onlyNumber($event, 'period')">
-                                        <div class="input-group-prepend">
-                                            <span class="input-group-text">дн.</span>
+                                <div class="bkt-wrapper bkt-gap-medium bkt-nowrap">
+                                    <div class="form-group w-100" v-if="(item.type === 'tariff' || item.type === 'bot_tariff') || !isEdit">
+                                        <label>Период действия тарифа (в днях)</label>
+                                        <div class="input-group">
+                                            <input required name="period" class="form-control"
+                                                   type="text" data-min="1" v-model="item.period"
+                                                   @keyup="onlyNumber($event, 'period')">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text">дн.</span>
+                                            </div>
                                         </div>
                                     </div>
+                                    <div class="form-group w-100" v-if="(item.type === 'tariff' || item.type === 'bot_tariff' ) && !isEdit" >
+                                        <label>Тип тарифа</label>
+                                        <select class="form-control custom-select rounded-0" v-model="item.type">
+                                            <option :value="'tariff'">
+                                                Тариф для сайта
+                                            </option>
+                                            <option :value="'bot_tariff'">
+                                                Тариф для бота
+                                            </option>
+                                        </select>
+                                    </div>
                                 </div>
+
                                 <div class="form-group">
                                     <label>Цена</label>
                                     <div class="input-group">
@@ -72,7 +86,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label>Описание {{ (item.type === 'tariff'  || !isEdit ? 'тарифа' : 'услуги') }}</label>
+                                    <label>Описание {{ ((item.type === 'tariff' || item.type === 'bot_tariff' ) || !isEdit ? 'тарифа' : 'услуги') }}</label>
                                     <div class="table-responsive max-h-350px">
                                         <table class="table table-hover table-head-fixed text-nowrap mb-0">
                                             <thead>
@@ -94,7 +108,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label> {{ (item.type === 'tariff'  || !isEdit ? 'Возможности, которые предоставляет тариф' : 'Детальное описание услуги по пунктам') }}</label>
+                                    <label> {{ ((item.type === 'tariff' || item.type === 'bot_tariff' ) || !isEdit ? 'Возможности, которые предоставляет тариф' : 'Детальное описание услуги по пунктам') }}</label>
                                     <div class="table-responsive max-h-350px">
                                         <table class="table table-hover table-head-fixed text-nowrap mb-0">
                                             <thead>
@@ -137,7 +151,7 @@
                                         </table>
                                     </div>
                                 </div>
-                                <div class="form-group" v-if="item.type === 'tariff' || !isEdit" >
+                                <div class="form-group" v-if="(item.type === 'tariff' || item.type === 'bot_tariff' ) || !isEdit" >
                                     <label>Возможности, которых нет в тарифе</label>
                                     <div class="table-responsive max-h-350px">
                                         <table class="table table-hover table-head-fixed text-nowrap mb-0">
@@ -181,7 +195,6 @@
                                         </table>
                                     </div>
                                 </div>
-
                                 <button type="submit" class="btn btn-success float-right"
                                         @click="isEdit ? updateData(item) : addData(item)">Сохранить
                                 </button>
@@ -213,7 +226,8 @@ export default {
                     price: null,
                     description: {ru: null, en: null, zh_CN: null},
                     includedDetails: {en: [], ru: [], zh_CN: []},
-                    excludedDetails: {en: [], ru: [], zh_CN: []}
+                    excludedDetails: {en: [], ru: [], zh_CN: []},
+                    type: 'tariff'
                 }
             )
         }

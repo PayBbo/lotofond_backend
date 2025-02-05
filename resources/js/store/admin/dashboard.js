@@ -13,6 +13,7 @@ export default {
         isAdmin: null,
         watermark: {text: '', image: ''},
         trialPeriod: 0,
+        botTrialPeriod: 0,
         permissions: []
     },
     mutations: {
@@ -23,6 +24,7 @@ export default {
             state.newLotsCount = payload.newLotsCount
             state.watermark = payload.watermark
             state.trialPeriod = payload.trialPeriod
+            state.botTrialPeriod = payload.botTrialPeriod
         },
         setAdminData(state, data) {
             state.isAdmin = data.status
@@ -33,6 +35,9 @@ export default {
         },
         setTrialPeriod(state, value) {
             state.trialPeriod = value
+        },
+        setBotTrialPeriod(state, value) {
+            state.botTrialPeriod = value
         }
 
     },
@@ -98,6 +103,9 @@ export default {
         },
         trialPeriod(state) {
             return state.trialPeriod
+        },
+        botTrialPeriod(state) {
+            return state.botTrialPeriod
         }
     }
 }

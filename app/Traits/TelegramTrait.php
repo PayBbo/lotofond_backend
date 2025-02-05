@@ -76,7 +76,7 @@ trait TelegramTrait
             'email' => $userData->email ?: null,
             'phone' => $userData->phone ?: null,
             'password' => Hash::make($password),
-            'email_verified_at' => Carbon::now()->setTimezone('Europe/Moscow'),
+            'email_verified_at' => null,
             'tg_connected_at' => Carbon::now()->setTimezone('Europe/Moscow'),
             'not_settings' => [
                 'favouriteEventStart' => 1,
