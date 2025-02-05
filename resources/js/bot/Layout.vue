@@ -1,5 +1,5 @@
 <template>
-    <div class="bkt-bot">
+    <div class="bkt-bot" :class="colorScheme">
         <notifications position="top right" classes="bkt-notification"/>
         <header class="bkt-bot__header">
             <nav class="bkt-navbar">
@@ -120,8 +120,7 @@
             isLoggedIn() {
                 return this.$store.getters.isLoggedIn
             },
-            trialPeriod() {
-                return true;
+            colorScheme() {
             }
         },
         methods: {

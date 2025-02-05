@@ -1,10 +1,12 @@
 .bkt-bot-body {
-    background: var(--tg-theme-bg-color);
+    background: var(--tg-theme-bg-color, #f5f7fe);
     //color: var(--tg-theme-text-color);
 }
 .bkt-bot {
     &__header {
-        background: var(--tg-theme-secondary-bg-color);
+        .bkt-navbar {
+            background: var(--tg-theme-secondary-bg-color, #fff);
+        }
     }
 
     &__body {
