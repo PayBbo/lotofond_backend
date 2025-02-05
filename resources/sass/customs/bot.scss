@@ -11,9 +11,28 @@
 
     &.dark {
         color: #7984ae;
-        & ul.bkt-contents li span {
-            background-color: var(--tg-theme-bg-color, #fff);;
+
+        & a {
+            color: #7984ae;
         }
+
+        & ul.bkt-contents {
+            & li span {
+                background-color: var(--tg-theme-bg-color, #fff);;
+            }
+
+            & .bkt-contents {
+                &__answer {
+                    color: #5f6c9a;
+                }
+
+                &__heading {
+                    color: #7984ae;
+                }
+            }
+        }
+
+
         & .bkt-sidebar__header {
             background: var(--tg-theme-bg-color, #2d3244);
         }
@@ -35,7 +54,11 @@
             &-trade__price-info {
                 background: #38415f !important;
             }
-
+        }
+        & .bkt-lot {
+            &-trade__price-info {
+                background: var(--tg-theme-bg-color, #fff) !important;
+            }
         }
         & .bkt-collapse__title {
             color: #5f6c9a;
@@ -45,13 +68,32 @@
                 background: var(--tg-theme-bg-color, #fff);
             }
             &__title {
-                color: #5f6c9a;
+                color: #5f6c9a !important;
             }
             &__text {
-                color: #7984ae;
+                color: #7984ae !important;
             }
         }
 
+        & .bkt-shadow-card_white .bkt-shadow-card__shadow-1 {
+            background: var(--tg-theme-bg-color, #fff);
+        }
+
+        & .bkt-lot__card .bkt-platform-button
+        {
+            &-title {
+                color: #5f6c9a;
+            }
+            &-subtitle {
+                color: #7984ae;
+            }
+        }
+        & .bkt-lot-tasks .bkt-card__header {
+            border-bottom: none;
+        }
+        & .bkt-tariffs__button {
+            box-shadow: none;
+        }
     }
     &__body {
 
