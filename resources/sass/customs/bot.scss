@@ -18,7 +18,11 @@
 
         & ul.bkt-contents {
             & li span {
-                background-color: var(--tg-theme-bg-color, #fff);;
+                background-color: var(--tg-theme-bg-color, #fff);
+            }
+
+            & li {
+                border-bottom: 2px dotted rgba(121, 132, 174, 0.6);
             }
 
             & .bkt-contents {
@@ -64,6 +68,9 @@
             color: #5f6c9a;
         }
         & .bkt-modal {
+            & .bkt-modal-header .bkt-close-button {
+                background: var(--tg-theme-bg-color, #f5f7fe);
+            }
             & .bkt-modal-content  {
                 background: var(--tg-theme-bg-color, #fff);
             }
@@ -93,6 +100,27 @@
         }
         & .bkt-tariffs__button {
             box-shadow: none;
+        }
+
+        & .bkt-form__label {
+            color: #7984ae;
+        }
+        & .bkt-input {
+            color: #7984ae;
+        }
+        & .bkt-input, .bkt-input__group {
+            background: #3b425d;
+        }
+        .bkt-search {
+            background-color: #3b425d !important;
+        }
+        & .bkt-filters-modal .bkt-auctions-types .bkt-auctions-type .bkt-auctions-type{
+            &__title {
+
+            }
+            &__card {
+                background: #698cb9 !important;
+            }
         }
     }
     &__body {
