@@ -20,6 +20,7 @@ use App\Models\Lot;
 use App\Models\LotParam;
 use App\Models\Monitoring;
 use App\Models\Notification;
+use App\Models\Region;
 use App\Models\User;
 use App\Traits\TorgiGovRuTrait;
 use Carbon\Carbon;
