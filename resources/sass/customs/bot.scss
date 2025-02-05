@@ -86,6 +86,10 @@
             background: var(--tg-theme-bg-color, #fff);
         }
 
+        & .bkt-shadow-card_white .bkt-shadow-card__shadow-2 {
+            background: var(--tg-theme-bg-color, #fff);
+        }
+
         & .bkt-lot__card .bkt-platform-button
         {
             &-title {
