@@ -10,6 +10,7 @@
     }
 
     &.dark {
+        color: #7984ae;
         & ul.bkt-contents li span {
             background-color: var(--tg-theme-bg-color, #fff);;
         }
@@ -21,6 +22,7 @@
         }
         & .bkt-card {
             background: var(--tg-theme-bg-color, #fff);
+            color: #7984ae;
             &__row {
                 background: var(--tg-theme-bg-color, #fff);
             }
@@ -30,13 +32,26 @@
             &__text {
                 color: #7984ae; //#9799a0;
             }
-            &-trade-price-info {
+            &-trade__price-info {
                 background: #38415f !important;
             }
+
         }
         & .bkt-collapse__title {
             color: #5f6c9a;
         }
+        & .bkt-modal {
+            & .bkt-modal-content  {
+                background: var(--tg-theme-bg-color, #fff);
+            }
+            &__title {
+                color: #5f6c9a;
+            }
+            &__text {
+                color: #7984ae;
+            }
+        }
+
     }
     &__body {
 
