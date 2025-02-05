@@ -59,7 +59,7 @@
                 background: #38415f !important;
             }
         }
-        & .bkt-lot {
+        & .bkt-lot .bkt-card {
             &-trade__price-info {
                 background: var(--tg-theme-bg-color, #fff) !important;
             }
@@ -111,15 +111,17 @@
         & .bkt-input, .bkt-input__group {
             background: #3b425d;
         }
-        .bkt-search {
+        & .bkt-search, & .bkt-search__input {
+            color: #7984ae;
             background-color: #3b425d !important;
         }
         & .bkt-filters-modal .bkt-auctions-types .bkt-auctions-type .bkt-auctions-type{
             &__title {
-
+                color: #7984ae;
             }
             &__card {
-                background: #698cb9 !important;
+                background: #38415f !important;
+                border-color: #38415f !important;
             }
         }
     }
