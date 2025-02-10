@@ -152,7 +152,32 @@ const initialState = {
         },
         perPage: 20,
         page:1
-    }
+    },
+    bot_filters: {
+        categories: [],
+        regions: [],
+        prices: {
+            currentPrice: {
+                min: '',
+                max: ''
+            },
+            startPrice: {
+                min: '',
+                max: ''
+            },
+            minPrice: {
+                min: '',
+                max: ''
+            },
+            percentageReduction: {
+                min: '',
+                max: ''
+            }
+        },
+        mainParams: {
+            tradeTypes:[]
+        },
+    },
 }
 export default {
     state: {
@@ -316,7 +341,32 @@ export default {
             },
             perPage: 20,
             page:1
-        }
+        },
+        bot_filters: {
+            categories: JSON.parse(localStorage.getItem('bot_filters_categories')) || [],
+            regions: JSON.parse(localStorage.getItem('bot_filters_regions')) || [],
+            prices: JSON.parse(localStorage.getItem('bot_filters_prices')) || {
+                currentPrice: {
+                    min: '',
+                    max: ''
+                },
+                startPrice: {
+                    min: '',
+                    max: ''
+                },
+                minPrice: {
+                    min: '',
+                    max: ''
+                },
+                percentageReduction: {
+                    min: '',
+                    max: ''
+                }
+            },
+            mainParams: JSON.parse(localStorage.getItem('bot_filters_mainParams')) ||  {
+                tradeTypes:[]
+            },
+        },
     },
 
     getters: {
@@ -353,9 +403,18 @@ export default {
         messages_filters(state) {
             return state.messages_filters;
         },
+        bot_filters(state) {
+            return state.bot_filters;
+        },
     },
 
     actions: {
+        async saveUserFilters({state}, payload) {
+            await axios.post('/api/bot/save-filters', {filters: state.bot_filters})
+                .then(resp => {
+                }).catch(error => {
+                });
+        }
     },
 
     mutations: {

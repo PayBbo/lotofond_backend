@@ -1,9 +1,9 @@
 <template>
     <div class="container bkt-container bkt-page">
-        <bkt-category-modal/>
-        <bkt-region-modal/>
-        <bkt-price-modal/>
-        <bkt-trade-type-modal/>
+        <bkt-category-modal filter_name="bot_filters"/>
+        <bkt-region-modal filter_name="bot_filters"/>
+        <bkt-price-modal filter_name="bot_filters"/>
+        <bkt-trade-type-modal filter_name="bot_filters"/>
         <div class="bkt-wrapper bkt-nowrap bkt-gap">
             <bkt-search v-model="filters.searchString" no_dropdown :loading="loading" simple @runSearch="runSearch" clearable
                         class="w-100"
@@ -41,7 +41,6 @@
                 modal_name="#tradeTypesModal"
             />
         </div>
-
         <bkt-card-list :current_component="'BktCard'" :items="items" :loading="loading"
                        :current_component_attrs="attributes"
                        :pagination_data="pagination_data" @change-page="getData" @changeStatus="changeStatus">
@@ -89,7 +88,7 @@
         },
         computed: {
             filters() {
-                return this.$store.getters.filters;
+                return this.$store.getters.bot_filters;
             },
             items() {
                 return this.$store.getters.trades;
@@ -108,9 +107,6 @@
             },
             filters_total() {
                 let filters = JSON.parse(JSON.stringify(this.filters));
-                filters.searchString = null;
-                filters.sort = null;
-                filters.extraOptions.other.period = null;
                 let total = 0;
                 if(filters) {
                     Object.keys(filters).forEach(key => {

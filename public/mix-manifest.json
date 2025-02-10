@@ -1,7 +1,7 @@
 {
-    "/js/app.js": "/js/app.js?id=07c020d2af93f8bccf6a659ded3a69f0",
-    "/js/main.js": "/js/main.js?id=43bf68a6238cd67d5cab2dbf8903f9c0",
-    "/js/registries.js": "/js/registries.js?id=e91b396684eda7cf53a773cdabeb1bed",
+    "/js/app.js": "/js/app.js?id=4db14ae9ea0b8c66e06cab3a57c18295",
+    "/js/main.js": "/js/main.js?id=3df7582880b0c27e2e590e41ccbf39c3",
+    "/js/registries.js": "/js/registries.js?id=4c29a257e2ad01641bdef7a4a2276ace",
     "/js/registry.js": "/js/registry.js?id=d8a2024b71eea0bc10a7bb7618a8a048",
     "/js/profile.js": "/js/profile.js?id=2189d0dd6aea900aa4995bced9f927c2",
     "/js/agent.js": "/js/agent.js?id=043c2ecfdde350c58ad0048b1fb56ab3",
@@ -11,7 +11,7 @@
     "/js/monitoring.js": "/js/monitoring.js?id=c70c2550f57e04b1872a7acb7738643c",
     "/js/messages.js": "/js/messages.js?id=e67319b5c9ec6bcddf7acb93d4197e2d",
     "/js/tariffs.js": "/js/tariffs.js?id=ae197448397e86e41e5fc5ae440b0f59",
-    "/js/auctions.js": "/js/auctions.js?id=6ad685c8c86e0a70a6c8f2fcfbcdc138",
+    "/js/auctions.js": "/js/auctions.js?id=34c47241a57167388c06682c11faa1fd",
     "/js/calendar.js": "/js/calendar.js?id=ace217418df342f1ed011d92d3f5ad51",
     "/js/lot-card.js": "/js/lot-card.js?id=a86b4c9e8f6688ad0d05def00668be87",
     "/js/week-winners.js": "/js/week-winners.js?id=4732d526c2d7488779ab8b68491f34e3",
@@ -32,10 +32,10 @@
     "/js/news-add.js": "/js/news-add.js?id=b3d5b85f14ca03315ec0a7b9b0b4d9df",
     "/js/error-404.js": "/js/error-404.js?id=d3c1c3d5014d9edaae7d55e227aa1473",
     "/js/not-found.js": "/js/not-found.js?id=c07a632282361ddef4c7a57bb1073257",
-    "/js/bot-main.js": "/js/bot-main.js?id=e24180930550779b8689a1c89eca87b8",
+    "/js/bot-main.js": "/js/bot-main.js?id=ac3d4e6f6e323e2c9e5d430645108296",
     "/js/bot-tariffs.js": "/js/bot-tariffs.js?id=b46d28ac832088bd52a60576018a9ffe",
     "/js/bot-pay-answer.js": "/js/bot-pay-answer.js?id=f43290123c02ffbcddb9b1dfdf51ff5b",
     "/css/app.css": "/css/app.css?id=686a8c56632df5c73f11a53657517709",
     "/css/app.min.css": "/css/app.min.css?id=686a8c56632df5c73f11a53657517709",
-    "/js/app.min.js": "/js/app.min.js?id=07c020d2af93f8bccf6a659ded3a69f0"
+    "/js/app.min.js": "/js/app.min.js?id=4db14ae9ea0b8c66e06cab3a57c18295"
 }

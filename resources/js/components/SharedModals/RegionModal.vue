@@ -107,6 +107,9 @@
             },
             callMethod() {
                 let tmp_filters = JSON.parse(JSON.stringify(this.filters));
+                if(this.filter_name==='bot_filters') {
+                    this.$store.dispatch('saveUserFilters', tmp_filters);
+                }
                 this.$store.dispatch(this.method_name, {page: 1, filters: tmp_filters});
             }
         },

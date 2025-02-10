@@ -57,7 +57,8 @@ class User extends Authenticatable
         'not_settings'=>'json',
         'not_to_email'=>'boolean',
         'not_from_favourite' =>'boolean',
-        'not_from_monitoring' =>'boolean'
+        'not_from_monitoring' =>'boolean',
+        'filters' =>'array'
     ];
 
     public function applications()
