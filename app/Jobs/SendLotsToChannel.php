@@ -172,8 +172,8 @@ class SendLotsToChannel implements ShouldQueue
 
             if(count($users)) {
                 //получаем все лоты добавленные за час
-                $minDate = Carbon::now()->addHours(3)->subHours(1)->startOfHour();
-                $maxDate = Carbon::now()->addHours(3)->startOfHour();
+                $minDate = Carbon::now()->setTimezone('Europe/Moscow')->subHours(1)->startOfHour();
+                $maxDate = Carbon::now()->setTimezone('Europe/Moscow')->startOfHour();
                 $lots = DB::table('lots')
                     ->select([
                         'lots.id',
