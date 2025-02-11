@@ -149,6 +149,7 @@ class SendLotsToChannel implements ShouldQueue
             //получаем пользователей с активным тарифом и сохраненными фильтрами
             $users = User::select([
                 'users.id',
+                'users.tg_id',
                 'users_bot_filters.filters'
             ])
                 ->leftJoin('users_bot_filters', 'users_bot_filters.user_id', '=', 'users.id')
