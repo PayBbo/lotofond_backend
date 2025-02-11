@@ -10,6 +10,7 @@ use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\Auth\SocialController;
 use App\Http\Controllers\BidderController;
+use App\Http\Controllers\BotController;
 use App\Http\Controllers\DataController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\FavouriteController;
