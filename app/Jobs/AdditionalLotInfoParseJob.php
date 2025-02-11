@@ -142,8 +142,8 @@ class AdditionalLotInfoParseJob implements ShouldQueue
                 $initialText = $text;
                 /*END Удаление всех html-тегов и искаженных символов*/
                 /*START Удаление почты арбитражного управляющего*/
-//                $arbitrEmail = $auction->arbitrationManager->email;
-//                $text = preg_replace('/\b' . $arbitrEmail . '\b/u', str_repeat('░', strlen($arbitrEmail) - 1), $text);
+                $arbitrEmail = $auction->arbitrationManager->email;
+                $text = preg_replace('/\b' . $arbitrEmail . '\b/u', str_repeat('░', strlen($arbitrEmail) - 1), $text);
                 /*END Удаление почты арбитражного управляющего*/
 
                 $replacement = '░░░░░░░░░░░░░░░░░░';
