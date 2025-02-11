@@ -107,6 +107,7 @@
             },
             filters_total() {
                 let filters = JSON.parse(JSON.stringify(this.filters));
+                filters.sort = null;
                 let total = 0;
                 if(filters) {
                     Object.keys(filters).forEach(key => {

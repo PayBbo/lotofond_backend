@@ -366,6 +366,10 @@ export default {
             mainParams: JSON.parse(localStorage.getItem('bot_filters_mainParams')) ||  {
                 tradeTypes:[]
             },
+            sort: {
+                direction: "desc",
+                type: "publishDate"
+            },
         },
     },
 
