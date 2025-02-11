@@ -98,6 +98,7 @@ class SendLotsToChannel implements ShouldQueue
         } else {
             $lots = $lots->get();
         }
+        $offers= ['ClosePublicOffer', 'PublicOffer', "PPZ", "PPU"];
         foreach ($lots as $lot) {
             $url = URL::to('/lot/' . $lot->id);
             $lotDesc = mb_strimwidth($lot->description, 0, 250, "...");
@@ -106,7 +107,7 @@ class SendLotsToChannel implements ShouldQueue
             $html = str_replace('<br>', '', str_replace('</p>', '', str_replace('<p>', '',
                 "<p>$lotDesc</p>
 <strong>Начальная цена: $price ₽</strong>")));
-            if (($lot->auction->auctionType->title == 'PublicOffer' || $lot->auction->auctionType->title == 'ClosePublicOffer') && !is_null($lot->min_price)) {
+            if (in_array($lot->auction->auctionType->title, $offers) && !is_null($lot->min_price)) {
                 $min_price = number_format($lot->min_price, 2, ',', ' ');
                 $html .= "
 <strong>Минимальная цена: $min_price ₽</strong>";
@@ -171,8 +172,8 @@ class SendLotsToChannel implements ShouldQueue
 
             if(count($users)) {
                 //получаем все лоты добавленные за час
-                $minDate = Carbon::now()->setTimezone('Europe/Moscow')->subHour();
-                $maxDate = Carbon::now()->setTimezone('Europe/Moscow');
+                $minDate = Carbon::now()->addHours(3)->subHours(1)->startOfHour();
+                $maxDate = Carbon::now()->addHours(3)->startOfHour();
                 $lots = DB::table('lots')
                     ->select([
                         'lots.id',
@@ -217,7 +218,6 @@ class SendLotsToChannel implements ShouldQueue
                     ->leftJoin('auctions', 'lots.auction_id', '=', 'auctions.id')
                     ->leftJoin('auction_types', 'auctions.auction_type_id', '=', 'auction_types.id')
                     ->whereBetween('lots.created_at', [$minDate, $maxDate])
-                    ->groupBy('lots.id')
                     ->get();
 
                 $priceKeys = [
@@ -253,7 +253,7 @@ class SendLotsToChannel implements ShouldQueue
                             }
                         }
                     }
-                    $userLots = $userLots->take(30)->values();
+                    $userLots = $userLots->unique('id')->take(30)->values();
                     if(count($userLots)) {
                         foreach ($userLots as $lot) {
                             $lotToSend = $lot;
@@ -305,7 +305,8 @@ class SendLotsToChannel implements ShouldQueue
         $html = str_replace('<br>', '', str_replace('</p>', '', str_replace('<p>', '',
             "<p>$lotDesc</p>
 <strong>Начальная цена: $price ₽</strong>")));
-        if (($auctionType == 'PublicOffer' || $auctionType == 'ClosePublicOffer') && !is_null($lot->min_price)) {
+        $offers = ['ClosePublicOffer', 'PublicOffer', "PPZ", "PPU"];
+        if (in_array($auctionType, $offers) && !is_null($lot->min_price)) {
             $min_price = number_format($lot->min_price, 2, ',', ' ');
             $html .= "
 <strong>Минимальная цена: $min_price ₽</strong>";

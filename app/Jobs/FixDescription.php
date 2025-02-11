@@ -36,7 +36,9 @@ class FixDescription implements ShouldQueue
         foreach ($lots as $lot) {
             $descriptionExtracts = new DescriptionExtractsService();
             $descriptionExtracts->getDescriptionExtracts($lot, $lot->description);
-            if (is_null($lot->min_price) && ($lot->auction->auctionType->title == 'PublicOffer' || $lot->auction->auctionType->title == 'ClosePublicOffer')) {
+            $offers= ['ClosePublicOffer', 'PublicOffer', "PPZ", "PPU"];
+            $isPublicOffer = in_array($lot->auction->auctionType->title, $offers);
+            if (is_null($lot->min_price) && $isPublicOffer) {
                 $prices = $lot->showPriceReductions->pluck('price')->toArray();
                 if (count($prices) > 0) {
                     $lot->min_price = min($prices);

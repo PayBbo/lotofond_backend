@@ -46,7 +46,8 @@ class LotResource extends JsonResource
         $currentPrice = $this->contentSettings->isAvailable('currentPrice') ? $this->start_price : null;
         $currentPriceState = $this->contentSettings->isAvailable('currentPriceState') ? 'hold' : null;
         $currentPriceRed = null;
-        $isPublicOffer = $this->auction->auctionType->title == 'PublicOffer' || $this->auction->auctionType->title == 'ClosePublicOffer';
+        $offers= ['ClosePublicOffer', 'PublicOffer', "PPZ", "PPU"];
+        $isPublicOffer = in_array($this->auction->auctionType->title, $offers);
         if (($this->contentSettings->isAvailable('currentPrice') || $this->contentSettings->isAvailable('currentPriceState'))) {
             $currentPriceRed = $this->currentPriceReduction;
             if ($currentPriceRed) {

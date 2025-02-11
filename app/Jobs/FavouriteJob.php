@@ -55,7 +55,9 @@ class FavouriteJob implements ShouldQueue
                     'favouriteApplicationEnd' => $applicationEnd,
                     'favouriteResult' => $resultDate
                 ];
-                if($lot->auction->auctionType->title == 'PublicOffer' || $lot->auction->auctionType->title == 'ClosePublicOffer'){
+                $offers= ['ClosePublicOffer', 'PublicOffer', "PPZ", "PPU"];
+                $isPublicOffer = in_array($lot->auction->auctionType->title, $offers);
+                if($isPublicOffer){
                     $changePriceDate = null;
                     $currentPriceReduction = $lot->currentPriceReduction;
                     if($currentPriceReduction){
