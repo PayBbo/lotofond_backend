@@ -205,6 +205,7 @@
         },
         destroyed() {
             localStorage.removeItem('is_tg_bot');
+            delete axios.defaults.headers.common['TGBot'];
         }
     }
 </script>

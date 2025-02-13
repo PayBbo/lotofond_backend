@@ -142,8 +142,10 @@ export default {
             await axios.post('/api/login', payload)
                 .then(resp => {
                     commit('auth_success', {token: resp.data.accessToken, refreshToken: resp.data.refreshToken});
-                    commit('closeModal', '#authModal');
-                    dispatch('getAuthUser');
+                    dispatch('getAuthUser', payload);
+                    if(payload.grantType !=='bot') {
+                        commit('closeModal', '#authModal');
+                    }
                 })
                 .catch(error => {
                     commit('clearStorage');
@@ -227,13 +229,15 @@ export default {
                 dispatch('simpleLogout');
             });
         },
-        async getAuthUser({dispatch, commit}) {
+        async getAuthUser({dispatch, commit}, payload) {
             commit('setAuthUserLoading', true);
             await axios.get('/api/account/user').then(resp => {
                 commit('setAuthUser', resp.data);
-                dispatch('checkNotifications')
+                if(!payload || payload.grantType !== 'bot') {
+                    dispatch('checkNotifications')
+                }
                 commit('setAuthUserLoading', false);
-                if( resp.data.permissions) {
+                if(resp.data.permissions) {
                     commit('setPermissions', resp.data.permissions)
                 }
             }).catch(error => {

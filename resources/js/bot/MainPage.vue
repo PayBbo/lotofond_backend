@@ -42,7 +42,7 @@
             />
         </div>
         <bkt-card-list :current_component="'BktCard'" :items="items" :loading="loading"
-                       :current_component_attrs="attributes"
+                       :current_component_attrs="attributes" :type="'bot'"
                        :pagination_data="pagination_data" @change-page="getData" @changeStatus="changeStatus">
         </bkt-card-list>
         <div v-if="!loading && (!isLoggedIn || !auth_user || !auth_user.botTariff)" class="bkt-shadow-card bkt-shadow-card_primary mt-3">

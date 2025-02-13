@@ -1,5 +1,5 @@
 {
-    "/js/app.js": "/js/app.js?id=9a066d5871b10ba5d9af0fae6da8037f",
+    "/js/app.js": "/js/app.js?id=ef3dee9a8662833429ab7a83d6a4a666",
     "/js/main.js": "/js/main.js?id=a1c046e084a465530fefe9bd89444b3b",
     "/js/registries.js": "/js/registries.js?id=4c29a257e2ad01641bdef7a4a2276ace",
     "/js/registry.js": "/js/registry.js?id=a0a77f13be54fca5e497774fbba38d0e",
@@ -11,7 +11,7 @@
     "/js/monitoring.js": "/js/monitoring.js?id=c70c2550f57e04b1872a7acb7738643c",
     "/js/messages.js": "/js/messages.js?id=e67319b5c9ec6bcddf7acb93d4197e2d",
     "/js/tariffs.js": "/js/tariffs.js?id=ae197448397e86e41e5fc5ae440b0f59",
-    "/js/auctions.js": "/js/auctions.js?id=34c47241a57167388c06682c11faa1fd",
+    "/js/auctions.js": "/js/auctions.js?id=637ab0474a89f5b9939e8721af589529",
     "/js/calendar.js": "/js/calendar.js?id=ace217418df342f1ed011d92d3f5ad51",
     "/js/lot-card.js": "/js/lot-card.js?id=655647478c7474c9499e81459fed378d",
     "/js/week-winners.js": "/js/week-winners.js?id=4732d526c2d7488779ab8b68491f34e3",
@@ -32,10 +32,10 @@
     "/js/news-add.js": "/js/news-add.js?id=b3d5b85f14ca03315ec0a7b9b0b4d9df",
     "/js/error-404.js": "/js/error-404.js?id=d3c1c3d5014d9edaae7d55e227aa1473",
     "/js/not-found.js": "/js/not-found.js?id=c07a632282361ddef4c7a57bb1073257",
-    "/js/bot-main.js": "/js/bot-main.js?id=9fcbb7a85c30274be9889bc516aa2fca",
+    "/js/bot-main.js": "/js/bot-main.js?id=a5dafe1eff686223f97c5201db0a24f0",
     "/js/bot-tariffs.js": "/js/bot-tariffs.js?id=b46d28ac832088bd52a60576018a9ffe",
     "/js/bot-pay-answer.js": "/js/bot-pay-answer.js?id=f43290123c02ffbcddb9b1dfdf51ff5b",
     "/css/app.css": "/css/app.css?id=686a8c56632df5c73f11a53657517709",
     "/css/app.min.css": "/css/app.min.css?id=686a8c56632df5c73f11a53657517709",
-    "/js/app.min.js": "/js/app.min.js?id=9a066d5871b10ba5d9af0fae6da8037f"
+    "/js/app.min.js": "/js/app.min.js?id=ef3dee9a8662833429ab7a83d6a4a666"
 }

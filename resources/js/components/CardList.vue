@@ -1,12 +1,12 @@
 <template>
     <div ref="cardList" id="cardList">
         <slot name="modals" v-if="!no_modals">
-            <bkt-move-favourite-modal v-if="isLoggedIn" @moveFavourite="moveFavourite"/>
+            <bkt-move-favourite-modal v-if="isLoggedIn&&type!='bot'" @moveFavourite="moveFavourite"/>
             <bkt-note-modal v-if="isLoggedIn"/>
             <bkt-application-modal ref="applicationModal" :service_loading="service_loading"/>
             <bkt-purchase-modal :service_loading="service_loading"/>
             <bkt-instruction-modal :service_loading="service_loading"/>
-            <bkt-edit-contact-modal ref="editContact" v-if="isLoggedIn"></bkt-edit-contact-modal>
+            <bkt-edit-contact-modal ref="editContact" v-if="isLoggedIn"/>
         </slot>
         <slot name="filters">
         </slot>
@@ -247,7 +247,11 @@
                 type: String,
                 default: ''
             },
-            method_params: {}
+            method_params: {},
+            type: {
+                type: String,
+                default: ''
+            },
         },
         components: {
             'bkt-move-favourite-modal': MoveFavouriteModal,
