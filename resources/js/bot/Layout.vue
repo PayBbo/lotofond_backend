@@ -106,6 +106,7 @@
 <script>
     import BktEgrnModal from "../components/SharedModals/EgrnModal";
     import AuthPage from "./AuthPage";
+    import axios from "axios";
 
     export default {
         name: "Layout",
@@ -137,6 +138,7 @@
         created() {
             this.tg.expand();
             localStorage.setItem('is_tg_bot', 1);
+            axios.defaults.headers.common['TGBot'] = 'is_tg_bot';
             this.getUser();
         },
         mounted() {

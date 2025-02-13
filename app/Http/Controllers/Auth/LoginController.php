@@ -74,10 +74,14 @@ class LoginController extends Controller
                 })->first();
                 logger('bot login req = '.json_encode($request->all()));
                 logger('bot login user = '.json_encode($user));
-                if (!$this->checkTelegramAuthorization($request->initData, Config::get('telegram.bots.mybot.token'))) {
-                    logger('checkTelegramAuthorization');
-                    // данные не прошли проверку "Ошибка проверки данных входа"
-                    throw new BaseException("ERR_VALIDATION_FAILED_SOCIALS", 422, __('validation.user_not_found'));
+                try {
+                    if (!$this->checkTelegramAuthorization($request->initData, Config::get('telegram.bots.mybot.token'))) {
+                        // данные не прошли проверку "Ошибка проверки данных входа"
+                        throw new BaseException("ERR_VALIDATION_FAILED_SOCIALS", 422, __('validation.user_not_found'));
+                    }
+                }
+                catch (\Exception $e) {
+                    throw new BaseException("ERR_VALIDATION_FAILED_SOCIALS", 422, "Ошибка проверки данных входа");
                 }
                 $password = strval(mt_rand(10000000, 99999999));
                 if(!$user) {
@@ -93,7 +97,7 @@ class LoginController extends Controller
                     $user->phone = $request->phone ?: $user->phone;
                     $user->email = $request->email ?: $user->email;
                     $userPassword = $user->password;
-                    $user->password=Hash::make($password);
+                    $user->password = Hash::make($password);
                     $user->save();
                     $username = $request->phone ?: ($request->email ?:$user->tg_username);
                 }

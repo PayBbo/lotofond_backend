@@ -61,16 +61,33 @@ class ContentSettingsService
     {
         $hasTariff = false;
         $hasTestPeriod = false;
-        if(!Cache::has('trialPeriod')){
-            $cacheService = new CacheService();
-            $cacheService->cacheTrialPeriod();
+        $header = request()->header('TGBot');
+        if($header) {
+            if(!Cache::has('botTrialPeriod')){
+                $cacheService = new CacheService();
+                $cacheService->cacheBotTrialPeriod();
+            }
+
+            $botTrialPeriod = (int)Cache::get('botTrialPeriod');
+            if($this->authCheck) {
+                $user = $this->user;
+                $hasTariff = !is_null($user->botTariff);
+                $hasTestPeriod = $user->tg_connected_at->addDays($botTrialPeriod)->format('Y-m-d H:i') >= Carbon::now()->setTimezone('Europe/Moscow')->format('Y-m-d H:i');
+            }
         }
-        $trialPeriod =  Cache::get('trialPeriod');
-        if($this->authCheck) {
-            $user = $this->user;
-            $hasTariff = !is_null($user->tariff);
-            $hasTestPeriod = $user->email_verified_at->addDays($trialPeriod)->format('Y-m-d H:i') >= Carbon::now()->setTimezone('Europe/Moscow')->format('Y-m-d H:i');
+        else {
+            if(!Cache::has('trialPeriod')){
+                $cacheService = new CacheService();
+                $cacheService->cacheTrialPeriod();
+            }
+            $trialPeriod =  Cache::get('trialPeriod');
+            if($this->authCheck) {
+                $user = $this->user;
+                $hasTariff = !is_null($user->tariff);
+                $hasTestPeriod = $user->email_verified_at->addDays($trialPeriod)->format('Y-m-d H:i') >= Carbon::now()->setTimezone('Europe/Moscow')->format('Y-m-d H:i');
+            }
         }
+
         if(!Cache::has('contentRules')){
             Cache::forever('contentRules', ContentRule::all()->pluck('is_available', 'code'));
         }
