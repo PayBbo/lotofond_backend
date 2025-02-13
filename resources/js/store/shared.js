@@ -379,10 +379,12 @@ export default {
         },
         closeModal(state, payload) {
             let modal = bootstrap.Modal.getOrCreateInstance(document.querySelector(''+payload));
-            modal.hide();
-            let backdrop = document.querySelector('.modal-backdrop');
-            if (backdrop) {
-                backdrop.remove()
+            if(modal) {
+                modal.hide();
+                let backdrop = document.querySelector('.modal-backdrop');
+                if (backdrop) {
+                    backdrop.remove()
+                }
             }
         },
         setSelectedItem(state, payload) {
