@@ -74,7 +74,7 @@ class LoginController extends Controller
                 })->first();
                 logger('bot login req = '.json_encode($request->all()));
                 logger('bot login user = '.json_encode($user));
-                if (!$this->checkTelegramAuthorization($request->initData, Config::get('telegram.bot_token'))) {
+                if (!$this->checkTelegramAuthorization($request->initData, Config::get('telegram.bots.mybot.token'))) {
                     logger('checkTelegramAuthorization');
                     // данные не прошли проверку "Ошибка проверки данных входа"
                     throw new BaseException("ERR_VALIDATION_FAILED_SOCIALS", 422, __('validation.user_not_found'));
