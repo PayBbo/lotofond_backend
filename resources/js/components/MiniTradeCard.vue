@@ -109,7 +109,14 @@
     import CardImageCategory from "./CardImageCategory";
     export default {
         name: "MiniTradeCard",
-        props: ['item'],
+        props: {
+            item: {
+            },
+            type: {
+                type:String,
+                default: 'website'
+            }
+        },
         components: {
             CardImageCategory
         },
@@ -165,7 +172,7 @@
         methods: {
             navigate() {
                 this.$emit('navigate', this.item.id);
-                this.$router.push('/lot/'+this.item.id);
+                this.$router.push((this.type === 'bot' ? '/bot' : '') +'/lot/'+this.item.id);
             },
         }
     }

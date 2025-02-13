@@ -10,6 +10,8 @@
 </template>
 
 <script>
+    import axios from "axios";
+
     export default {
         name: "App",
         created() {
@@ -38,6 +40,8 @@
         mounted() {
             this.$store.dispatch('getContacts');
             this.$store.dispatch('getInformationMessage');
+            localStorage.removeItem('is_tg_bot');
+            delete axios.defaults.headers.common['TGBot'];
         },
         computed: {
             isLoggedIn() {
