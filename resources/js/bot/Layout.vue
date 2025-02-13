@@ -56,15 +56,50 @@
                         </template>
                     </ul>
                 </div>
+                <div class="bkt-sidebar__footer">
+                    <div v-if="isLoggedIn" class="bkt-sidebar__user">
+                        <div class="bkt-sidebar__profile">
+                            <div class="text-truncate me-1" v-if="!loading&&!auth_user_loading">
+                                <div class="bkt-sidebar__user-tariff">
+                                    тариф: <span class="bkt-sidebar__user-tariff-name">
+                                {{auth_user && auth_user.botTariff ? auth_user.botTariff.title  :'Базовый'}}</span>
+                                </div>
+                                <div class="bkt-sidebar__user-tariff">
+                                    истекает:
+                                    <span class="bkt-sidebar__user-tariff-name">
+                                    {{auth_user && auth_user.botTariff ? auth_user.botTariff.expiredAt  :''}}
+                                </span>
+                                </div>
+                            </div>
+                            <div class="text-truncate me-1" v-else>
+                                <skeleton type_name="text" height="14px" skeleton_class="mb-1"/>
+                                <skeleton type_name="text" height="12px" skeleton_class="mb-1"/>
+                                <skeleton type_name="text" height="12px" skeleton_class="mb-0"/>
+                            </div>
+                        </div>
+                        <div class="bkt-sidebar__button" @click="logout" data-bs-dismiss="offcanvas">
+                            <bkt-icon name="LogOut" color="white" width="20px" height="20px"/>
+                        </div>
+                    </div>
+                </div>
             </div>
         </header>
-        <template v-if="!isLoggedIn">
-            <auth-page/>
-        </template>
-        <template v-else>
-            <router-view :key="$route.fullPath" :type="'bot'"/>
-            <bkt-egrn-modal v-if="isLoggedIn"/>
-        </template>
+        <div v-if="!loading && !auth_user_loading">
+            <template v-if="!isLoggedIn">
+                <auth-page/>
+            </template>
+            <template v-else>
+                <router-view :key="$route.fullPath" :type="'bot'"/>
+                <bkt-egrn-modal v-if="isLoggedIn"/>
+            </template>
+        </div>
+        <div v-else class="d-flex w-100 justify-content-center mb-5">
+            <div
+                style="color: #2953ff;border-width: 2px;"
+                class="spinner-border"
+                role="status"
+            ></div>
+        </div>
     </div>
 </template>
 
@@ -100,14 +135,12 @@
             }
         },
         created() {
-            localStorage.setItem('is_tg_bot', 1)
+            this.tg.expand();
+            localStorage.setItem('is_tg_bot', 1);
+            this.getUser();
         },
         mounted() {
-            let test_tg = window.Telegram.WebApp;
-            console.log('test_tg', test_tg);
-            this.tg.expand();
-            console.log('tgUser', this.tgUser)
-            this.getUser();
+
         },
         computed: {
             tg() {
@@ -122,6 +155,12 @@
             },
             colorScheme() {
                 return this.tg.colorScheme ? this.tg.colorScheme : ''
+            },
+            auth_user() {
+                return this.$store.getters.auth_user;
+            },
+            auth_user_loading() {
+                return this.$store.getters.auth_user_loading;
             }
         },
         methods: {
@@ -134,18 +173,36 @@
                 this.tg.close()
             },
             async getUser() {
+                this.loading = true;
                 if (this.isLoggedIn) {
                     await this.$store.dispatch('getAuthUser')
                         .then(resp => {
-                        }).catch(error => {
+                            this.loading = false;
+                        })
+                        .catch(error => {
+                            this.loading = false;
                         })
                 } else {
                     await this.$store.dispatch('getRules')
+                        .then(resp => {
+                            this.loading = false;
+                        })
+                        .catch(error => {
+                            this.loading = false;
+                        })
                 }
-            }
+            },
+            async logout() {
+                this.loading = true;
+                await this.$store.dispatch('logout').then(resp => {
+                    this.loading = false;
+                }).catch(error => {
+                    this.loading = false;
+                })
+            },
         },
         destroyed() {
-            localStorage.removeItem('is_tg_bot')
+            localStorage.removeItem('is_tg_bot');
         }
     }
 </script>

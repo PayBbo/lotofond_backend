@@ -122,9 +122,9 @@
                 await this.$store.dispatch('login', data).then(resp => {
                     this.loading = false;
                     if(this.user.region) {
-                        this.$store.commit('saveFiltersProperty', {key: 'filters_regions', value: this.user.region});
+                        this.$store.commit('saveFiltersProperty', {key: 'bot_filters_regions', value: this.user.region});
                         this.$store.dispatch('saveDataProperty', {
-                            module_key: 'filters', state_key: 'filters_regions',
+                            module_key: 'filters', state_key: 'bot_filters_regions',
                             key: 'regions',
                             value: this.user.region
                         }, {root: true});
