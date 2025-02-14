@@ -36,17 +36,22 @@ class ProfileResource extends JsonResource
         }
         $botTestPeriodInDays =  Cache::get('botTrialPeriod');
         $hasBotTariff = !is_null($this->botTariff);
-        $hasBotTestPeriod = $this->tg_connected_at->addDays($botTestPeriodInDays)->format('Y-m-d H:i') >= Carbon::now()->setTimezone('Europe/Moscow')->format('Y-m-d H:i');
-
+        $hasBotTestPeriod = $this->tg_connected_at ?
+            $this->tg_connected_at->addDays($botTestPeriodInDays)->format('Y-m-d H:i') >= Carbon::now()->setTimezone('Europe/Moscow')->format('Y-m-d H:i')
+        : false;
+        $header = $request->header('TGBot');
+        $condition = ($hasTariff || $hasTestPeriod);
+        if($header) {
+            $condition = ($hasBotTariff || $hasBotTestPeriod);
+        }
         $contentDisplayRules = ['lot'=>['trade'=>[]], 'system'=>[]];
         $rules = ContentRule::all();
         foreach($rules as $rule){
             if($rule->type == 'trade'){
-                $contentDisplayRules['lot'][$rule->type][$rule->code] = ($hasTariff || $hasTestPeriod) ? true : $rule->is_available;
+                $contentDisplayRules['lot'][$rule->type][$rule->code] = $condition ? true : $rule->is_available;
             }else{
-                $contentDisplayRules[$rule->type][$rule->code] = ($hasTariff || $hasTestPeriod) ? true : $rule->is_available;
+                $contentDisplayRules[$rule->type][$rule->code] = $condition ? true : $rule->is_available;
             }
-
         }
         return [
             'email' => $this->email,
@@ -87,7 +92,7 @@ class ProfileResource extends JsonResource
             $this->mergeWhen(!$hasBotTariff && $hasBotTestPeriod, [
                 'botTariff' => [
                     'title'=>__('payments.test_period'),
-                    'expiredAt'=>$this->tg_connected_at->addDays($testPeriodInDays)->format('d.m.Y H:i:s'),
+                    'expiredAt'=> $this->tg_connected_at ? $this->tg_connected_at->addDays($testPeriodInDays)->format('d.m.Y H:i:s') : $this->tg_connected_at,
                     'trial' => true
                 ]
             ]),
