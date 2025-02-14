@@ -94,8 +94,6 @@ class LoginController extends Controller
                         $user->tg_username = $request->get('username', null);
                         $user->tg_connected_at = Carbon::now()->setTimezone('Europe/Moscow');
                     }
-                    $user->phone = $request->phone ?: $user->phone;
-                    $user->email = $request->email ?: $user->email;
                     $userPassword = $user->password;
                     $user->password = Hash::make($password);
                     $user->save();
