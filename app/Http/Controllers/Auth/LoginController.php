@@ -67,7 +67,7 @@ class LoginController extends Controller
             case 'bot': {
                 $user = User::where('tg_id', '=', $request->id)->orWhere(function ($query) use($request) {
                     $query->when($request->phone, function ($q) use($request) {
-                       $q->where('phone', $request->phone);
+                       $q->where('phone', preg_replace('/\D/', '',$request->phone));
                     })->when($request->email, function ($q) use($request) {
                        $q->where('email', $request->email);
                     });
