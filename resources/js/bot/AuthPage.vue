@@ -14,6 +14,7 @@
 <!--                </div>-->
 <!--            </div>-->
 <!--        </div>-->
+        {{tg ? tg : ''}}
         <ValidationObserver v-slot="{ invalid }" ref="observer" tag="div" class="bkt-card bkt-card__body modal-content bkt-modal-content">
             <ul class="bkt-navbar__nav bkt-navbar__nav-pills">
                 <li class="bkt-navbar__nav-item" :class="{active: grantType === 'email'}"
