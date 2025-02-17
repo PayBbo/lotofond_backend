@@ -42,7 +42,7 @@ trait TelegramTrait
 
         $data_check_arr = [];
         foreach ($auth_data as $key => $value) {
-            $data_check_arr[] = $key . '=' . $value;
+            $data_check_arr[] = $key . '=' . ($value===null ? "" : $value);
         }
         sort($data_check_arr);
         $data_check_string = implode("\x0A", $data_check_arr);

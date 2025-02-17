@@ -1,20 +1,23 @@
 <template>
     <div class="bkt-container container">
-<!--        <div class="bkt-shadow-card bkt-shadow-card_primary mt-3 mb-4">-->
-<!--            <div class="bkt-shadow-card__inner bkt-gap-large">-->
-<!--                <h4 class="bkt-shadow-card__title bkt-text-white">-->
-<!--                    Давайте знакомиться!<br>-->
-<!--                    <span style="font-size: 12px; color: whitesmoke;font-weight: 200;">-->
-<!--                        для новых друзей действует 30-ти дневный пробный период-->
-<!--                    </span>-->
-<!--                </h4>-->
-<!--                <div class="bkt-shadow-card__shadow-1">-->
+        <div class="bkt-shadow-card bkt-shadow-card_primary mt-3 mb-4">
+            <div class="bkt-shadow-card__inner bkt-gap-large">
+                <h4 class="bkt-shadow-card__title bkt-text-white">
+                    Давайте знакомиться!<br>
+                    <span style="font-size: 12px; color: whitesmoke;font-weight: 200;">
+                        для новых друзей действует 30-ти дневный пробный период
+                    </span>
+                </h4>
+                <div class="bkt-shadow-card__shadow-1">
+                </div>
+                <div class="bkt-shadow-card__shadow-2">
+                </div>
+            </div>
+        </div>
 <!--                </div>-->
-<!--                <div class="bkt-shadow-card__shadow-2">-->
 <!--                </div>-->
 <!--            </div>-->
 <!--        </div>-->
-        {{tg ? tg : ''}}
         <ValidationObserver v-slot="{ invalid }" ref="observer" tag="div" class="bkt-card bkt-card__body modal-content bkt-modal-content">
             <ul class="bkt-navbar__nav bkt-navbar__nav-pills">
                 <li class="bkt-navbar__nav-item" :class="{active: grantType === 'email'}"
