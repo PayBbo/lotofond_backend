@@ -38,11 +38,12 @@ trait TelegramTrait
 
         if(is_array($auth_data['user'])) {
             $auth_data['user'] = json_encode($auth_data['user'], JSON_UNESCAPED_UNICODE);
+            $auth_data['user'] = str_replace('null', '""', $auth_data['user']);
         }
 
         $data_check_arr = [];
         foreach ($auth_data as $key => $value) {
-            $data_check_arr[] = $key . '=' . ($value===null ? "" : $value);
+            $data_check_arr[] = $key . '=' . $value;
         }
         sort($data_check_arr);
         $data_check_string = implode("\x0A", $data_check_arr);
