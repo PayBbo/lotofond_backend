@@ -56,6 +56,7 @@
             <bkt-select
                 name="regions"
                 v-model="user.region"
+                v-if="tab==='registration'"
                 :options="region_options"
                 label="регион"
                 label_class="bkt-input__label"

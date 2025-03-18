@@ -71,21 +71,28 @@ class AuctionController extends Controller
                             $regionsNumbers[] = $number;
                         }
                         if($region->is_center) {
-                            $regionsAddresses[] = $region->title
+                            $regionsAddresses[] = $region->title;
                         }
                     }
                 }
                 $lots = Lot::with(['auction', 'showRegions', 'status', 'lotImages', 'categories', 'lotParams'])
                     ->where('active', true)
                     ->filterBy($request->request)->customSortBy($request)
-                    ->when($regionsCount && $isRealEstate && count($regionsNumbers), function ($q) use($regionsNumbers){
-                        $q->whereHas('lotParams', function ($query) use ($regionsNumbers) {
+                    ->when($regionsCount && $isRealEstate && count($regionsNumbers), function ($q) use($regionsNumbers, $regionsAddresses){
+                        $q->whereHas('lotParams', function ($query) use ($regionsNumbers, $regionsAddresses) {
                             $query->where('param_id', 4)
-                                ->where(function($que) use ($regionsNumbers) {
-                                foreach ($regionsNumbers as $number) {
-                                    $que->orWhere('value','like', $number.':%');
-                                }
-                            });
+                                ->where(function ($que) use ($regionsNumbers) {
+                                    foreach ($regionsNumbers as $number) {
+                                        $que->orWhere('value', 'like', $number . ':%');
+                                    }
+                                })->when(count($regionsAddresses), function ($que) use ($regionsAddresses) {
+                                    $que->orWhere(function ($q) use ($regionsAddresses) {
+                                        $q->where('param_id', 7);
+                                        foreach ($regionsAddresses as $address) {
+                                            $q->orWhere('value', 'like', '%'. $address . '%');
+                                        }
+                                    });
+                                });
                         });
                     })
                     ->paginate(20);
