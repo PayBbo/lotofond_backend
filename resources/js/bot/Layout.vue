@@ -88,6 +88,9 @@
             <template v-if="!isLoggedIn">
                 <auth-page/>
             </template>
+            <template v-else-if="!user_filters_exist">
+                <filters-page/>
+            </template>
             <template v-else>
                 <router-view :key="$route.fullPath" :type="'bot'"/>
                 <bkt-egrn-modal v-if="isLoggedIn"/>
@@ -106,12 +109,13 @@
 <script>
     import BktEgrnModal from "../components/SharedModals/EgrnModal";
     import AuthPage from "./AuthPage";
+    import FiltersPage from "./FiltersPage";
     import axios from "axios";
 
     export default {
         name: "Layout",
         components: {
-            BktEgrnModal,AuthPage
+            BktEgrnModal,AuthPage, FiltersPage
         },
         data() {
             return {
@@ -140,6 +144,7 @@
             localStorage.setItem('is_tg_bot', 1);
             axios.defaults.headers.common['TGBot'] = 'is_tg_bot';
             this.getUser();
+            this.getUserFilters();
         },
         mounted() {
 
@@ -163,6 +168,9 @@
             },
             auth_user_loading() {
                 return this.$store.getters.auth_user_loading;
+            },
+            user_filters_exist() {
+                return this.$store.getters.user_filters_exist;
             }
         },
         methods: {
@@ -202,6 +210,9 @@
                     this.loading = false;
                 })
             },
+            async getUserFilters() {
+                await this.$store.dispatch('getUserFilters');
+            }
         },
         destroyed() {
             localStorage.removeItem('is_tg_bot');

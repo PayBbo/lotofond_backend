@@ -371,6 +371,7 @@ export default {
                 type: "publishDate"
             },
         },
+        user_filters_exist: false
     },
 
     getters: {
@@ -410,13 +411,27 @@ export default {
         bot_filters(state) {
             return state.bot_filters;
         },
+        user_filters_exist(state) {
+            return state.user_filters_exist;
+        },
     },
 
     actions: {
-        async saveUserFilters({state}, payload) {
+        async saveUserFilters({commit, state}, payload) {
             await axios.post('/api/bot/save-filters', {filters: state.bot_filters})
                 .then(resp => {
+                    commit('setUserFilters', true)
                 }).catch(error => {
+                });
+        },
+        async getUserFilters({commit, state}) {
+            await axios.post('/api/bot/get-filters')
+                .then(resp => {
+                    if(resp.data.filters) {
+                        commit('setUserFilters', true)
+                    }
+                }).catch(error => {
+                    commit('setUserFilters', false)
                 });
         }
     },
@@ -424,6 +439,9 @@ export default {
     mutations: {
         setFilters(state, payload) {
             return (state.filters = payload);
+        },
+        setUserFilters(state, payload) {
+            return (state.user_filters_exist = payload);
         },
         saveFiltersProperty(state, payload) {
             // Vue.set(state.filters, payload.key, payload.value);

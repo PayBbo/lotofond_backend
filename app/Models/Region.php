@@ -18,7 +18,8 @@ class Region extends Model
         'title',
         'code',
         'region_group_id',
-        'numbers'
+        'numbers',
+        'is_center'
     ];
 
     /**
@@ -29,6 +30,7 @@ class Region extends Model
     protected $casts = [
         'id' => 'integer',
         'region_group_id' => 'integer',
+        'is_center' => 'boolean'
     ];
 
     public function regionGroup()

@@ -20,12 +20,12 @@
 <!--        </div>-->
         <ValidationObserver v-slot="{ invalid }" ref="observer" tag="div" class="bkt-card bkt-card__body modal-content bkt-modal-content">
             <ul class="bkt-navbar__nav bkt-navbar__nav-pills">
-                <li class="bkt-navbar__nav-item" :class="{active: grantType === 'email'}"
-                    @click="grantType = 'email'">
-                    Email
+                <li class="bkt-navbar__nav-item" :class="{active: tab==='registration'}"
+                    @click="changeTab('registration')">
+                    Регистрация
                 </li>
-                <li class="bkt-navbar__nav-item" :class="{active: grantType === 'phone'}" @click="grantType = 'phone'">
-                    Телефон
+                <li class="bkt-navbar__nav-item" :class="{active: tab==='login'}" @click="changeTab('login')">
+                    Вход
                 </li>
             </ul>
             <bkt-input
@@ -66,7 +66,60 @@
                 :rules="'required'"
             >
             </bkt-select>
-            <button class="bkt-button primary" :disabled="invalid||loading" @click="login">
+            <bkt-input
+                v-model="user.password"
+                name="password"
+                :type="type1"
+                label="пароль"
+                field_name="'пароль'"
+                @click-group-item="switchVisibility('type1')"
+                :rules="'required|min:8'"
+                group_item_action
+            >
+                <template #errors="{errors}" v-if="password_error">
+                    <p class="bkt-input-error" v-if="errors.length>0">{{errors[0]}}</p>
+                    <p class="bkt-input-error" v-else>{{error.detail}}</p>
+                </template>
+                <template #icon>
+                    <bkt-icon name="Eye" color="primary" height="18px"/>
+                </template>
+            </bkt-input>
+            <bkt-input
+                v-model="user.confirm_password"
+                v-if="tab==='registration'"
+                @click-group-item="switchVisibility('type2')"
+                :name="'confirmation'"
+                :type="type2"
+                label="повторите пароль"
+                field_name="'повторите пароль'"
+                :rules="'required|min:8|confirmed:password'"
+                group_item_action
+            >
+                <template #icon>
+                    <bkt-icon name="Eye" color="primary" height="18px"/>
+                </template>
+            </bkt-input>
+            <bkt-checkbox name="'Условия'" id="terms" :rules="'required_boolean'" v-model="terms"
+                          v-if="tab=='registration'">
+                <template #label>
+                    Согласен с условиями пользовательского соглашения,<br>политики сайта, обработки персональных
+                    данных.
+                </template>
+            </bkt-checkbox>
+
+                <button class="bkt-button primary-outline bkt-text-main" @click="grantType = 'phone'" v-if="grantType === 'email'">
+                    {{tab==='registration'? 'Регистрация':'Вход'}} через телефон
+                </button>
+                <button class="bkt-button primary-outline bkt-text-main" @click="grantType = 'email'" v-if="grantType === 'phone'">
+                    {{tab==='registration'? 'Регистрация':'Вход'}} через эл.почту
+                </button>
+
+
+            <button class="bkt-button primary" v-if="tab==='registration'" :disabled="invalid||loading" @click="login">
+                <span v-if="loading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                Зарегистрироваться
+            </button>
+            <button class="bkt-button primary" v-else :disabled="invalid||loading" @click="login">
                 <span v-if="loading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                 Войти
             </button>
@@ -86,9 +139,15 @@
                     region: null,
                     email:null,
                     phone:null,
-                    password: 'bot',
+                    password: null,
+                    confirm_password: null,
                     scope: 'bot'
                 },
+                tab: 'login',
+                type1: "password",
+                type2: "password",
+                terms: false,
+                password_error:false,
             }
         },
         computed: {
@@ -136,7 +195,47 @@
                 }).catch(error => {
                     this.loading = false;
                 })
-            }
+            },
+            async submit() {
+                this.loading = true;
+                let data = {...this.user, ...this.tgUser};
+                data.initData = this.tg.initDataUnsafe;
+                data.initDataString = this.tg.initData;
+                if(this.grantType === 'email') {
+                    delete data.phone
+                }
+                else {
+                    delete data.email
+                }
+                await this.$store.dispatch(this.tab, data).then(resp => {
+                    this.loading = false;
+                    if(this.tab == 'registration') {
+                        this.$store.dispatch('sendNotification',
+                            {self: this, message:'Код подтверждения был отправлен на указанный контакт'})
+                    }
+                    else {
+                        this.$store.dispatch('saveDataProperty', {
+                            module_key: 'auth',
+                            key: 'auth_check.'+this.$route.name,
+                            value: true
+                        }, {root: true});
+                    }
+                }).catch(error => {
+                    this.loading = false;
+                })
+            },
+            changeTab(tab) {
+                if(!this.loading) {
+                    this.terms = false;
+                    if(this.$refs.observer) {
+                        this.$refs.observer.reset();
+                    }
+                    this.tab = tab;
+                }
+            },
+            switchVisibility(type) {
+                this[type] = this[type] === "password" ? "text" : "password";
+            },
         }
     }
 </script>

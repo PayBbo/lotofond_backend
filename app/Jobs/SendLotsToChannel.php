@@ -197,11 +197,16 @@ class SendLotsToChannel implements ShouldQueue
 
                         'auction_types.id as auction_type_id',
                         'auction_types.title as auction_type_title',
-                        'auction_types.description as auction_type_description'
+                        'auction_types.description as auction_type_description',
+
+                        'lot_files.url'
                     ])
                     ->leftJoin('lot_categories', 'lot_categories.lot_id', '=', 'lots.id')
                     ->leftJoin('categories', 'lot_categories.category_id', '=', 'categories.id')
-                    ->leftJoin('lot_regions', 'lot_regions.lot_id', '=', 'lots.id')
+                    ->leftJoin('lot_regions', function ($join) {
+                        $join->on('lot_regions', 'lot_regions.lot_id', '=', 'lots.id')
+                            ->where('lot_regions.is_debtor_region', false);
+                    })
                     ->leftJoin('regions', 'lot_regions.region_id', '=', 'regions.id')
                     ->leftJoin('price_reductions', function ($join) use ($maxDate) {
                         $join->on('price_reductions.lot_id', '=', 'lots.id')
@@ -217,6 +222,10 @@ class SendLotsToChannel implements ShouldQueue
                     })
                     ->leftJoin('auctions', 'lots.auction_id', '=', 'auctions.id')
                     ->leftJoin('auction_types', 'auctions.auction_type_id', '=', 'auction_types.id')
+                    ->leftJoin('lot_files', function ($join) {
+                        $join->on('lots.id', '=', 'lot_files.lot_id')
+                            ->where('lot_files.type', 'image')->limit(1);
+                    })
                     ->whereBetween('lots.created_at', [$minDate, $maxDate])
                     ->get();
 
@@ -315,11 +324,21 @@ class SendLotsToChannel implements ShouldQueue
 <strong>Тип торгов: $tradeType</strong>
 <a href='$url'>Ссылка на лот</a>";
 
-        $message = Telegram::sendMessage([
-            'chat_id' => $lot->tg_id,  // The ID of the chat to send the message to
-            'text' => $html,  // The message text to send
-            'parse_mode' => 'html'
-        ]);
+        if($lot->url) {
+            $message = Telegram::sendPhoto([
+                'chat_id' => $lot->tg_id,  // The ID of the chat to send the message to
+                'photo' => $lot->url,
+                'caption' => $html,  // The message text to send
+                'parse_mode' => 'html'
+            ]);
+        }
+        else {
+            $message = Telegram::sendMessage([
+                'chat_id' => $lot->tg_id,  // The ID of the chat to send the message to
+                'text' => $html,  // The message text to send
+                'parse_mode' => 'html'
+            ]);
+        }
     }
 
 }

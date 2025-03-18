@@ -72,6 +72,7 @@ class LoginController extends Controller
                        $q->where('email', $request->email);
                     });
                 })->first();
+                $password = $request->password;
                 logger('bot login req = '.json_encode($request->all()));
                 logger('bot login user = '.json_encode($user));
                 try {

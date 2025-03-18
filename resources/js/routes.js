@@ -532,7 +532,7 @@ let router = new VueRouter({
                     path: 'tariffs', component: () => import(/* webpackChunkName: "bot-tariffs" */ "./bot/TariffPage.vue"),
                     name: 'BotTariffs',
                     meta: {
-                        // auth: true,
+                        auth: true,
                         // layout: 'Bot'
                     }
                 },
@@ -541,7 +541,7 @@ let router = new VueRouter({
                     name: 'BotLotCard',
                     component: () => import(/* webpackChunkName: "bot-lot-card" */ "./pages/LotCard.vue"),
                     meta: {
-                        // auth: true,
+                        auth: true,
                         // layout: 'Bot'
                     }
                 },
@@ -549,7 +549,19 @@ let router = new VueRouter({
                     path: 'pay-answer/:id?',
                     name: 'BotPayAnswer',
                     component: () => import(/* webpackChunkName: "bot-pay-answer" */ "./bot/PayAnswerPage.vue"),
+                    meta: {
+                        auth: true
+                    },
                 },
+                {
+                    path: 'filters',
+                    name: 'BotFilters',
+                    component: () => import(/* webpackChunkName: "bot-filters" */ "./bot/FiltersPage.vue"),
+                    meta: {
+                        auth: true
+                    },
+                },
+
             ],
         },
         // { path: '/:pathMatch(.*)*', component: EmptyView }

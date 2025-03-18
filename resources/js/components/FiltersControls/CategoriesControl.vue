@@ -3,11 +3,11 @@
         <div class="bkt-wrapper-column bkt-gap-small" v-if="!loading">
             <bkt-collapse :id="'category-collapse-'+index" v-for="(category, index) in items" :key="index"
                           main_class="bkt-collapse_check" :collapse_header="false"
-                          :collapse_button_class="category.subcategories.length>0 ? 'bkt-bg-white': 'd-none'"
+                          :collapse_button_class="category.subcategories && category.subcategories.length>0 ? 'bkt-bg-white': 'd-none'"
             >
                 <template #title>
                     <div class="bkt-collapse__title-wrapper">
-                        <bkt-checkbox v-if="category.subcategories.length==0"
+                        <bkt-checkbox v-if="category.subcategories.length==0 && (!category.items || category.items.length==0)"
                                       :name="'bkt-category-checkbox-'+index"
                                       :id="'bkt-category-checkbox-'+index"
                                       v-model="model"
@@ -78,6 +78,10 @@
                 type: Boolean,
                 default: true,
             },
+            custom_categories: {
+                type: Array,
+                default: () => []
+            }
         },
         model: {
             prop: 'value',
@@ -138,7 +142,9 @@
                 this.saveValue()
             },
             selectAll(index) {
-                let tmp = this.items[index].subcategories.map(item => item.key);
+                let keyName = this.items[index].items && this.items[index].items.length > 0 ? 'items' : 'subcategories';
+
+                let tmp = this.items[index][keyName].map(item => item.key ?? item);
                 if (this.items[index].status) {
                     tmp.forEach(item => {
                         let item_index = this.model.findIndex(el => el == item);
@@ -146,8 +152,7 @@
                             this.model.push(item)
                         }
                     })
-                }
-                else {
+                } else {
                     tmp.forEach(it => {
                         let item_index = this.model.findIndex(el => el == it);
                         if (item_index >= 0) {
@@ -155,26 +160,34 @@
                         }
                     });
                 }
+
                 this.saveValue()
             },
             allChecked(arr, target) {
                 return target.every(v => arr.includes(v))
             },
             isIndeterminate(index) {
-                let all_checked = this.allChecked(this.model, this.items[index].subcategories.map(item=>item.key));
-                let some_checked = this.items[index].subcategories.some(v => this.model.includes(v.key));
+                let keyName = this.items[index].items && this.items[index].items.length > 0 ? 'items' : 'subcategories';
+                let all_checked = this.allChecked(this.model, this.items[index][keyName].map(item=>item.key ?? item));
+                let some_checked = this.items[index][keyName].some(v => this.model.includes(v.key??v));
                 this.items[index].status = !!all_checked;
                 return !all_checked && some_checked;
             },
             async getCategories() {
-                if (this.categories.length === 0) {
-                    await this.$store.dispatch('getCategories').then(resp => {
-                        this.items = JSON.parse(JSON.stringify(this.categories));
-                    });
+                if(this.custom_categories&&this.custom_categories.length>0) {
+                    this.items = JSON.parse(JSON.stringify(this.custom_categories));
                 }
                 else {
-                    this.items = JSON.parse(JSON.stringify(this.categories));
+                    if (this.categories.length === 0) {
+                        await this.$store.dispatch('getCategories').then(resp => {
+                            this.items = JSON.parse(JSON.stringify(this.categories));
+                        });
+                    }
+                    else {
+                        this.items = JSON.parse(JSON.stringify(this.categories));
+                    }
                 }
+
             },
         }
     }

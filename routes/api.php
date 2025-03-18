@@ -332,6 +332,7 @@ Route::group(['middleware' => ['json.response', 'localization']], function () {
 
         Route::group(['prefix' => 'bot'], function () {
             Route::post('/save-filters', [BotController::class, 'saveFilters']);
+            Route::post('/get-filters', [BotController::class, 'getFilters']);
         });
     });
 

@@ -158,8 +158,10 @@ export default {
             await axios.post('/api/registration', payload)
                 .then(resp => {
                     commit('setUser', payload);
-                    commit('closeModal', '#authModal');
-                    commit('openModal', '#codeModal');
+                    if(payload.grantType !=='bot') {
+                        commit('closeModal', '#authModal');
+                        commit('openModal', '#codeModal');
+                    }
                     // dispatch('registrationCode', payload);
                 })
                 .catch(error => {

@@ -27,6 +27,21 @@ class BotController extends Controller
         return response()->json(['message'=>$message, 'text' => $text, 'chat_id' => $chatId], 200);
     }
 
+    public function getFilters()
+    {
+        try {
+            $userBotFilter = UserBotFilter::where(
+                [
+                    'user_id' => Auth::id()
+                ]
+            )->first();
+
+            return response()->json(['filter' => $userBotFilter?: null], 200);
+        }
+        catch (\Exception $e) {
+            return response()->json(['message'=> $e->getMessage()], 500);
+        }
+    }
     public function saveFilters()
     {
         try {

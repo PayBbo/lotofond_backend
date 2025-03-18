@@ -61,13 +61,17 @@ class AuctionController extends Controller
                 $regionsCount = $request->regions ? count($request->regions) : 0;
                 $isRealEstate = false;
                 $regionsNumbers=[];
+                $regionsAddresses=[];
                 if($request->categories && count($request->categories)) {
                     $isRealEstate = !empty(array_intersect($request->categories, ["land", "residentialProperty", "commercialRealEstate"]));
-                    $regions = Region::whereIn('code', $request->regions)->get()->pluck('numbers');
+                    $regions = Region::whereIn('code', $request->regions)->get();
                     foreach ($regions as $region) {
-                        $numbers = explode(', ', $region);
+                        $numbers = explode(', ', $region->numbers);
                         foreach ($numbers as $number) {
                             $regionsNumbers[] = $number;
+                        }
+                        if($region->is_center) {
+                            $regionsAddresses[] = $region->title
                         }
                     }
                 }
@@ -76,7 +80,8 @@ class AuctionController extends Controller
                     ->filterBy($request->request)->customSortBy($request)
                     ->when($regionsCount && $isRealEstate && count($regionsNumbers), function ($q) use($regionsNumbers){
                         $q->whereHas('lotParams', function ($query) use ($regionsNumbers) {
-                            $query->where('param_id', 4)->where(function($que) use ($regionsNumbers) {
+                            $query->where('param_id', 4)
+                                ->where(function($que) use ($regionsNumbers) {
                                 foreach ($regionsNumbers as $number) {
                                     $que->orWhere('value','like', $number.':%');
                                 }
