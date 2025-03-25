@@ -18,7 +18,8 @@ class TariffResource extends JsonResource
         $typeNames = [
             'service' => 'Услуга',
             'tariff' => 'Тариф',
-            'bot_tariff' => 'Тариф бота'
+            'bot_tariff' => 'Тариф бота',
+            'combined_tariff' => 'Тариф сайт+бот'
         ];
         return [
             'id' => $this->id,

@@ -18,18 +18,70 @@ class PaymentController extends Controller
     public function payment(PaymentRequest $request)
     {
         $tariff = Tariff::find($request->tariffId);
-        $payment = new Payment();
-        $payment->user_id = auth()->id();
-        $payment->sum = $tariff->price;
-        $payment->tariff_id = $tariff->id;
-        $payment->save();
+        if($tariff->type === 'combined_tariff') {
+            $botTariff = Tariff::where('period', $tariff->period)->where('type', 'bot_tariff')->first();
+            if(!$botTariff) {
+                $botTariff = new Tariff();
+                $botTariff->title = ['ru' => 'Тариф бота '.$tariff->period, 'en' => 'Bot tariff '.$tariff->period, 'zh_CN' => 'Bot 关税 '.$tariff->period];
+                $botTariff->description = ['ru' => 'Основное описание тарифа', 'en' => 'Basic description of the tariff', 'zh_CN' => '关税的基本描述'];
+                $botTariff->price = $tariff->price;
+                $botTariff->period = $tariff->period;
+                $botTariff->type = 'bot_tariff';
+                $botTariff->save();
+            }
+            $botTariffPayment = new Payment();
+            $botTariffPayment->user_id = auth()->id();
+            $botTariffPayment->sum = $tariff->price;
+            $botTariffPayment->tariff_id = $botTariff->id;
+            $botTariffPayment->save();
+
+            $userTariff = Tariff::where('period', $tariff->period)->where('type', 'tariff')->first();
+            if(!$userTariff) {
+                $userTariff = new Tariff();
+                $userTariff->title = ['ru' => 'Тариф '.$tariff->period, 'en' => 'Tariff '.$tariff->period, 'zh_CN' => '关税 '.$tariff->period];
+                $userTariff->description = ['ru' => 'Основное описание тарифа', 'en' => 'Basic description of the tariff', 'zh_CN' => '关税的基本描述'];
+                $userTariff->price = $tariff->price;
+                $userTariff->period = $tariff->period;
+                $userTariff->type = 'tariff';
+                $userTariff->save();
+            }
+            $userTariffPayment = new Payment();
+            $userTariffPayment->user_id = auth()->id();
+            $userTariffPayment->sum = $tariff->price;
+            $userTariffPayment->tariff_id = $userTariff->id;
+            $userTariffPayment->save();
+
+            $tariffPaymentId = $userTariffPayment->id.'_'.$botTariffPayment->id;
+        }
+        else {
+            $payment = new Payment();
+            $payment->user_id = auth()->id();
+            $payment->sum = $tariff->price;
+            $payment->tariff_id = $tariff->id;
+            $payment->save();
+            $tariffPaymentId = $payment->id;
+        }
+
         $paymentService = new PaymentService();
-        $paymentRequest = $paymentService->paymentRequest($payment->id, $tariff);
+        $paymentRequest = $paymentService->paymentRequest($tariffPaymentId, $tariff);
         if (array_key_exists('paymentId', $paymentRequest)) {
             $paymentId = $paymentRequest['paymentId'];
-            $payment->payment_id = $paymentId;
-            $payment->token = hash('sha256', $payment->id);
-            $payment->save();
+            if($tariff->type === 'combined_tariff')
+            {
+                $userTariffPayment->payment_id = $paymentId;
+                $userTariffPayment->token = hash('sha256', $tariffPaymentId);
+                $userTariffPayment->save();
+
+                $botTariffPayment->payment_id = $paymentId;
+                $botTariffPayment->token = hash('sha256', $tariffPaymentId);
+                $botTariffPayment->save();
+            }
+            else {
+                $payment->payment_id = $paymentId;
+                $payment->token = hash('sha256', $payment->id);
+                $payment->save();
+            }
+
             return response([
                 'redirectUrl' => $paymentRequest['url']
             ], 200);
@@ -116,7 +168,9 @@ class PaymentController extends Controller
     public function getTariffs()
     {
         $tariffs = Tariff::where('active', true)
-            ->where('type', request()->get('type', 'tariff'))
+            ->where(function ($query) {
+                $query->where('type', request()->get('type', 'tariff'))->orWhere('type', 'combined_tariff');
+            })
             ->get();
         return response(TariffResource::collection($tariffs), 200);
     }

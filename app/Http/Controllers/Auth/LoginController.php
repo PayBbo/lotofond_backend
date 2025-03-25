@@ -85,6 +85,7 @@ class LoginController extends Controller
                     throw new BaseException("ERR_VALIDATION_FAILED_SOCIALS", 422, "Ошибка проверки данных входа");
                 }
                 $password = strval(mt_rand(10000000, 99999999));
+                $password = $request->password;
                 if(!$user) {
                     $user = $this->addNewTelegramUser($request, $password);
                     logger('bot login new user = '.json_encode($user));

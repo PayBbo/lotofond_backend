@@ -21,6 +21,7 @@ use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\URL;
 use GuzzleHttp\Client;
 use GuzzleHttp\RequestOptions;
+use Telegram\Bot\FileUpload\InputFile;
 use Telegram\Bot\Laravel\Facades\Telegram;
 
 class SendLotsToChannel implements ShouldQueue
@@ -199,12 +200,12 @@ class SendLotsToChannel implements ShouldQueue
                         'auction_types.title as auction_type_title',
                         'auction_types.description as auction_type_description',
 
-                        'lot_files.url'
+                        DB::raw('JSON_UNQUOTE(JSON_EXTRACT(lot_files.url, \'$.main\')) as url')
                     ])
                     ->leftJoin('lot_categories', 'lot_categories.lot_id', '=', 'lots.id')
                     ->leftJoin('categories', 'lot_categories.category_id', '=', 'categories.id')
                     ->leftJoin('lot_regions', function ($join) {
-                        $join->on('lot_regions', 'lot_regions.lot_id', '=', 'lots.id')
+                        $join->on('lot_regions.lot_id', '=', 'lots.id')
                             ->where('lot_regions.is_debtor_region', false);
                     })
                     ->leftJoin('regions', 'lot_regions.region_id', '=', 'regions.id')
@@ -327,7 +328,7 @@ class SendLotsToChannel implements ShouldQueue
         if($lot->url) {
             $message = Telegram::sendPhoto([
                 'chat_id' => $lot->tg_id,  // The ID of the chat to send the message to
-                'photo' => $lot->url,
+                'photo' => new InputFile('https://www.lotofond.ru/'.$lot->url),
                 'caption' => $html,  // The message text to send
                 'parse_mode' => 'html'
             ]);

@@ -130,6 +130,7 @@ class UserController extends Controller
         $user->syncRoles($request->role);
         $user->assignRole($request->roles);
         $userTariff = $user->tariff;
+        $botTariff = $user->botTariff;
         $paymentService = new PaymentService();
         if (isset($request->tariff)) {
             $tariff = Tariff::find($request->tariff);
@@ -154,12 +155,38 @@ class UserController extends Controller
                     'status' => 'Settled'
                 ]);
             }
+            if ($botTariff) {
+                if ($botTariff->tariff_id != $request->tariff) {
+                    $paymentService->checkPreviousActiveTariff($user->id, $botTariff->tariff->period, false);
+                    $botTariff->delete();
+                    Payment::create([
+                        'user_id' => $user->id,
+                        'tariff_id' => $request->tariff,
+                        'finished_at' => Carbon::now()->setTimezone('Europe/Moscow')->addDays($tariff->period),
+                        'is_confirmed' => true,
+                        'status' => 'Settled'
+                    ]);
+                }
+            } else {
+                Payment::create([
+                    'user_id' => $user->id,
+                    'tariff_id' => $request->tariff,
+                    'finished_at' => Carbon::now()->setTimezone('Europe/Moscow')->addDays($tariff->period),
+                    'is_confirmed' => true,
+                    'status' => 'Settled'
+                ]);
+            }
         } else {
             if ($userTariff) {
                 $paymentService->checkPreviousActiveTariff($user->id, $userTariff->tariff->period, false);
                 $userTariff->delete();
             }
+            if ($botTariff) {
+                $paymentService->checkPreviousActiveTariff($user->id, $botTariff->tariff->period, false);
+                $botTariff->delete();
+            }
         }
+
         return response(null, 200);
     }
 
