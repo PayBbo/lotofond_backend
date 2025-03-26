@@ -64,33 +64,39 @@ class AuctionController extends Controller
                 $regionsAddresses=[];
                 if($request->categories && count($request->categories)) {
                     $isRealEstate = !empty(array_intersect($request->categories, ["land", "residentialProperty", "commercialRealEstate"]));
-                    $regions = Region::whereIn('code', $request->regions)->get();
-                    foreach ($regions as $region) {
-                        $numbers = explode(', ', $region->numbers);
-                        foreach ($numbers as $number) {
-                            $regionsNumbers[] = $number;
-                        }
-                        if($region->is_center) {
-                            $regionsAddresses[] = $region->title;
+                    if($isRealEstate) {
+                        $regions = Region::whereIn('code', $request->regions)->where('is_center', false)->get();
+                        foreach ($regions as $region) {
+                            $numbers = explode(', ', $region->numbers);
+                            foreach ($numbers as $number) {
+                                $regionsNumbers[] = $number;
+                            }
+                            if($region->is_center) {
+                                $regionsAddresses[] = $region->title;
+                            }
                         }
                     }
                 }
                 $lots = Lot::with(['auction', 'showRegions', 'status', 'lotImages', 'categories', 'lotParams'])
                     ->where('active', true)
                     ->filterBy($request->request)->customSortBy($request)
-                    ->when($regionsCount && $isRealEstate && count($regionsNumbers), function ($q) use($regionsNumbers, $regionsAddresses){
+                    ->when($regionsCount && $isRealEstate && count($regionsNumbers), function ($q) use ($regionsNumbers, $regionsAddresses) {
                         $q->whereHas('lotParams', function ($query) use ($regionsNumbers, $regionsAddresses) {
-                            $query->where('param_id', 4)
-                                ->where(function ($que) use ($regionsNumbers) {
+                            $query->where(function ($que) use ($regionsNumbers) {
+                                $que->where('param_id', 4)->where(function ($q) use ($regionsNumbers) {
                                     foreach ($regionsNumbers as $number) {
-                                        $que->orWhere('value', 'like', $number . ':%');
+                                        $q->orWhere('value', 'like', $number . ':%');
                                     }
-                                })->when(count($regionsAddresses), function ($que) use ($regionsAddresses) {
+                                });
+                            })
+                                ->when(count($regionsAddresses), function ($que) use ($regionsAddresses) {
                                     $que->orWhere(function ($q) use ($regionsAddresses) {
-                                        $q->where('param_id', 7);
-                                        foreach ($regionsAddresses as $address) {
-                                            $q->orWhere('value', 'like', '%'. $address . '%');
-                                        }
+                                        $q->where('param_id', 7)
+                                            ->where(function ($qr) use ($regionsAddresses) {
+                                                foreach ($regionsAddresses as $address) {
+                                                    $qr->orWhere('value', 'like', '%' . $address . '%');
+                                                }
+                                            });
                                     });
                                 });
                         });

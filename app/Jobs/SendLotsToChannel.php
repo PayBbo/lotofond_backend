@@ -243,7 +243,18 @@ class SendLotsToChannel implements ShouldQueue
                     $userLots = $lots;
                     $userFilters = $user->filters;
                     if (isset($userFilters['regions']) && count($userFilters['regions'])) {
-                        $userLots = $userLots->whereIn('region_code', $userFilters['regions']);
+                        $regions = Region::whereIn('code', $userFilters['regions'])->get();
+                        $centers = $regions->where('is_center', true)->pluck('title')->toArray();
+                        $codes = $regions->where('is_center', false)->pluck('code')->toArray();
+                        $userLots = $userLots->filter(function ($lot) use ($codes, $centers) {
+                            $condition = in_array($lot->region_code, $codes);
+                            if (count($centers)) {
+                                foreach ($centers as $center) {
+                                    $condition = $condition || strstr($lot->description, str_replace('г. ', '', $center));
+                                }
+                            }
+                            return $condition;
+                        });
                     }
                     if (isset($userFilters['categories']) && count($userFilters['categories'])) {
                         $userLots = $userLots->whereIn('category_title', $userFilters['categories']);
@@ -251,8 +262,8 @@ class SendLotsToChannel implements ShouldQueue
                     if (isset($userFilters['mainParams']['tradeTypes']) && count($userFilters['mainParams']['tradeTypes'])) {
                         $userLots = $userLots->whereIn('auction_type_title', $userFilters['mainParams']['tradeTypes']);
                     }
-                    if (isset($userFilters['price'])) {
-                        foreach ($userFilters['price'] as $key => $value) {
+                    if (isset($userFilters['prices'])) {
+                        foreach ($userFilters['prices'] as $key => $value) {
                             $min = $value['min'];
                             $max = $value['max'];
                             if (isset($min) && $min != null) {
