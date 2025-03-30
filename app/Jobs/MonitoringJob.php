@@ -53,7 +53,7 @@ class MonitoringJob implements ShouldQueue
             $cacheService->cacheTrialPeriod();
         }
         try {
-            $monitorings = Monitoring::leftJoin('users', 'users.id', '=', 'monitorings.user_id')
+            $monitorings = Monitoring::select(['monitorings.*'])->leftJoin('users', 'users.id', '=', 'monitorings.user_id')
                 ->leftJoin('payments', 'users.id', '=', 'payments.user_id')
                 ->leftJoin('tariffs', 'tariffs.id', '=', 'payments.tariff_id')
                 ->where(function ($query) {

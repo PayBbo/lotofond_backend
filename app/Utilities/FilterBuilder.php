@@ -19,7 +19,7 @@ class FilterBuilder
 
     public function apply()
     {
-        logger('start FilterBuilder');
+//        logger('start FilterBuilder');
         $names = [];
         foreach ($this->filters as $name => $value) {
             if (is_null($value) || (gettype($value) == 'array' && count($value)==0) || (gettype($value) == 'string' && strlen((string)$value) == 0)) {
@@ -27,7 +27,7 @@ class FilterBuilder
             }
             $normailizedName = ucfirst($name);
             $class = $this->namespace . "\\{$normailizedName}";
-            logger('FilterBuilder class'.$class);
+//            logger('FilterBuilder class'.$class);
             if (!class_exists($class)) {
                 continue;
             }
@@ -51,7 +51,7 @@ class FilterBuilder
                 }
             }
         }
-        logger('end FilterBuilder');
+//        logger('end FilterBuilder');
         return $this->query;
     }
 }
