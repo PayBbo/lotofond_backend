@@ -436,13 +436,13 @@ trait TorgiGovRuTrait
                     }
 
                     //правообладатель
-                    $rightHolderOrg = isset($parse['rightHolderInfo']) ? $parse['rightHolderInfo']['rightHolderOrg'] : $parse['rightHolderOrg'];
-                    if ($rightHolderOrg) {
-                        $rightHolder = $this->parseBidder($rightHolderOrg, 'debtor', $subjectRightHolderCode);
-                        if ($rightHolder) {
-                            $debtorId = $rightHolder->id;
-                        }
-                    }
+//                    $rightHolderOrg = isset($parse['rightHolderInfo']) ? $parse['rightHolderInfo']['rightHolderOrg'] : $parse['rightHolderOrg'];
+//                    if ($rightHolderOrg) {
+//                        $rightHolder = $this->parseBidder($rightHolderOrg, 'debtor', $subjectRightHolderCode);
+//                        if ($rightHolder) {
+//                            $debtorId = $rightHolder->id;
+//                        }
+//                    }
 
                     $auction = Auction::firstOrCreate(
                         [
@@ -590,6 +590,7 @@ trait TorgiGovRuTrait
         if ($lot->wasRecentlyCreated) {
             logger('parseLot wasRecentlyCreated');
             if (isset($parse['category']) && isset($parse['category']['code'])) {
+                logger('category code = '.$parse['category']['code']);
                 $category = Category::where('code', $parse['category']['code'])->first();
                 if ($category) {
                     if (!$lot->categories()->where('title', $category->title)->exists()) {
