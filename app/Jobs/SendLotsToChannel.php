@@ -45,27 +45,32 @@ class SendLotsToChannel implements ShouldQueue
      */
     public function handle()
     {
-        $realtyCategories = [
-            "land",
-            "residentialProperty",
-            "commercialRealEstate"
-        ];
-        $realtyType = 'countRealtyLotsChannel';
-        $transportCategories = [
-            "airTransport",
-            "waterTransport",
-            "freightTransport",
-            "commercialTransport",
-            "passengerTransport",
-            "mototechnics"
-        ];
-        $transportType = 'countTransportLotsChannel';
-        if (Cache::get($transportType) < 10) {
-            $this->sendLots($transportCategories, $transportType);
+        try {
+            logger('SendLotsToChannel');
+            $realtyCategories = [
+                "land",
+                "residentialProperty",
+                "commercialRealEstate"
+            ];
+            $realtyType = 'countRealtyLotsChannel';
+            $transportCategories = [
+                "airTransport",
+                "waterTransport",
+                "freightTransport",
+                "commercialTransport",
+                "passengerTransport",
+                "mototechnics"
+            ];
+            $transportType = 'countTransportLotsChannel';
+            if (Cache::get($transportType) < 10) {
+                $this->sendLots($transportCategories, $transportType);
+            }
+            $this->sendLots($realtyCategories, $realtyType);
+            $this->sendLotsToClients();
         }
-        $this->sendLots($realtyCategories, $realtyType);
-        $this->sendLotsToClients();
-
+        catch (\Exception $e) {
+            logger('SendLotsToChannel error = '.$e->getMessage());
+        }
     }
 
     public function sendLots($categories, $type)
@@ -142,6 +147,7 @@ class SendLotsToChannel implements ShouldQueue
 
     public function sendLotsToClients() {
         try {
+            logger('sendLotsToClients');
             if(!Cache::has('botTrialPeriod')){
                 $cacheService = new CacheService();
                 $cacheService->cacheBotTrialPeriod();
@@ -166,7 +172,7 @@ class SendLotsToChannel implements ShouldQueue
                             ->where('tariffs.type', 'bot_tariff');
                     })->orWhere('users.tg_connected_at', '>=', Carbon::now()->subDays($botTestPeriodInDays)->setTimezone('Europe/Moscow'));
                 })
-                ->where('tg_id', '!=', null)
+                ->where('users.tg_id', '!=', null)
                 ->where('users_bot_filters.filters', '!=', null)
                 ->groupBy('users.id')
                 ->get();
@@ -257,10 +263,14 @@ class SendLotsToChannel implements ShouldQueue
                         });
                     }
                     if (isset($userFilters['categories']) && count($userFilters['categories'])) {
-                        $userLots = $userLots->whereIn('category_title', $userFilters['categories']);
+                        $userLots = $userLots->filter(function ($lot) use ($userFilters) {
+                            return in_array($lot->category_title, $userFilters['categories']);
+                        });
                     }
                     if (isset($userFilters['mainParams']['tradeTypes']) && count($userFilters['mainParams']['tradeTypes'])) {
-                        $userLots = $userLots->whereIn('auction_type_title', $userFilters['mainParams']['tradeTypes']);
+                        $userLots = $userLots->filter(function ($lot) use ($userFilters) {
+                            return in_array($lot->auction_type_title, $userFilters['mainParams']['tradeTypes']);
+                        });
                     }
                     if (isset($userFilters['prices'])) {
                         foreach ($userFilters['prices'] as $key => $value) {
@@ -315,7 +325,7 @@ class SendLotsToChannel implements ShouldQueue
             }
         }
         catch (\Exception $e) {
-            return response()->json(['message' => $e->getMessage()], 500);
+            logger('sendLotsToClients error = '.$e->getMessage());
         }
     }
 

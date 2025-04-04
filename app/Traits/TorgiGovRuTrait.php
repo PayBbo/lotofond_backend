@@ -589,9 +589,11 @@ trait TorgiGovRuTrait
 
         if ($lot->wasRecentlyCreated) {
             logger('parseLot wasRecentlyCreated');
-            if (isset($parse['category']) && isset($parse['category']['code'])) {
-                logger('category code = '.$parse['category']['code']);
-                $category = Category::where('code', $parse['category']['code'])->first();
+            $categoryCode = isset($parse['category']['code']) ? $parse['category']['code']
+                : (isset($parse['biddingObjectInfo']['category']['code']) ? $parse['biddingObjectInfo']['category']['code'] : null);
+            if ($categoryCode) {
+                logger('category code = '.$categoryCode);
+                $category = Category::where('code', $categoryCode)->first();
                 if ($category) {
                     if (!$lot->categories()->where('title', $category->title)->exists()) {
                         $lot->categories()->attach($category);
@@ -600,11 +602,13 @@ trait TorgiGovRuTrait
             }
             logger('parseLot categories');
             if ($lot->categories()->count() == 0) {
+                logger('parseLot categories 99');
                 $category = Category::where('code', '99')->first();
                 $lot->categories()->attach($category);
             }
             $torgiCategory = Category::where('code', 'torgi')->first();
             if($torgiCategory) {
+                logger('parseLot categories torgi');
                 $lot->categories()->attach($torgiCategory);
             }
 
@@ -616,8 +620,10 @@ trait TorgiGovRuTrait
                 $parse['attachments'] = $parse['docs'];
             }
 
-            if(isset($parse['subjectRFCode'])) {
-                $region = Region::where('numbers', 'LIKE', '%' . $parse['subjectRFCode'] . '%')->first();
+            $regionCode = isset($parse['subjectRFCode']) ? $parse['subjectRFCode']
+                : (isset($parse['biddingObjectInfo']['subjectRF']['code']) ? $parse['biddingObjectInfo']['subjectRF']['code'] : null);
+            if($regionCode) {
+                $region = Region::where('numbers', 'LIKE', '%' . $regionCode . '%')->first();
                 if ($region) {
                     if (!$lot->objectRegions->contains($region)) {
                         $lot->regions()->attach($region, ['is_debtor_region' => false]);
