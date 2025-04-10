@@ -112,7 +112,7 @@
         props: {
             filter_name: {
                 type: String,
-                default: 'filters'
+                default: 'bot_filters'
             },
             method_name: {
                 type: String,
@@ -254,9 +254,13 @@
         methods: {
             saveFilters() {
                 this.is_loading = true;
+                localStorage.setItem(this.filter_name+'_categories', JSON.stringify(this.bot_filters.categories));
+                localStorage.setItem(this.filter_name+'_regions', JSON.stringify(this.bot_filters.regions));
+                localStorage.setItem(this.filter_name+'_prices', JSON.stringify(this.bot_filters.prices));
+                localStorage.setItem(this.filter_name+'_mainParams', JSON.stringify(this.bot_filters.mainParams));
                 this.$store.dispatch('saveDataProperty', {
                     module_key: 'filters',
-                    key: 'bot_filters',
+                    key: this.filter_name,
                     value: this.bot_filters
                 }, {root: true});
                 let tmp_filters = JSON.parse(JSON.stringify(this.filters));
