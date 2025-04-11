@@ -30,13 +30,8 @@ class BotController extends Controller
     public function getFilters()
     {
         try {
-            $userBotFilter = UserBotFilter::where(
-                [
-                    'user_id' => Auth::id()
-                ]
-            )->first();
-
-            return response()->json(['filter' => $userBotFilter?: null], 200);
+            $userBotFilter = UserBotFilter::where('user_id', Auth::id())->first();
+            return response()->json(['filter' => $userBotFilter ? $userBotFilter : null], 200);
         }
         catch (\Exception $e) {
             return response()->json(['message'=> $e->getMessage()], 500);

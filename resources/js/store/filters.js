@@ -427,7 +427,7 @@ export default {
         async getUserFilters({commit, state}) {
             await axios.post('/api/bot/get-filters')
                 .then(resp => {
-                    if(resp.data.filters) {
+                    if(resp.data.filter) {
                         commit('setUserFilters', true)
                     }
                 }).catch(error => {
