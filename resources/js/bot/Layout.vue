@@ -211,7 +211,12 @@
                 })
             },
             async getUserFilters() {
-                await this.$store.dispatch('getUserFilters');
+                this.loading = true;
+                await this.$store.dispatch('getUserFilters').then(resp => {
+                    this.loading = false;
+                }).catch(error => {
+                    this.loading = false;
+                });
             }
         },
         destroyed() {
