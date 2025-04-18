@@ -7,7 +7,9 @@
     >
         <template #body="{ invalid }">
             <div class="bkt-code-modal-steps">
-                <h4 class="bkt-modal__subtitle bkt-input__label">Чтобы начать работу, пройдите несколько шагов:</h4>
+                <h4 class="bkt-modal__subtitle bkt-input__label">Введите
+                    {{user.grantType === 'email' ? 'электронную почту ': 'номер телефона'}}, на
+                    {{user.grantType === 'email' ? 'неё ': 'него'}} мы пришлем код подтверждения</h4>
                 <div class="bkt-shadow-card bkt-shadow-card_green">
                     <div class="bkt-shadow-card__inner bkt-gap-large">
                         <h5 class="bkt-card__subtitle">Попробуйте все услуги нашего сервиса</h5>

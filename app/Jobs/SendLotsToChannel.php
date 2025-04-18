@@ -194,6 +194,7 @@ class SendLotsToChannel implements ShouldQueue
 
                         'regions.id as region_id',
                         'regions.code as region_code',
+                        'lot_regions.is_debtor_region',
 
                         'price_reductions.id as price_reductions_id',
                         'price_reductions.price',
@@ -210,10 +211,11 @@ class SendLotsToChannel implements ShouldQueue
                     ])
                     ->leftJoin('lot_categories', 'lot_categories.lot_id', '=', 'lots.id')
                     ->leftJoin('categories', 'lot_categories.category_id', '=', 'categories.id')
-                    ->leftJoin('lot_regions', function ($join) {
-                        $join->on('lot_regions.lot_id', '=', 'lots.id')
-                            ->where('lot_regions.is_debtor_region', false);
-                    })
+                    ->leftJoin('lot_regions', 'lot_regions.lot_id', '=', 'lots.id')
+//                    ->leftJoin('lot_regions', function ($join) {
+//                        $join->on('lot_regions.lot_id', '=', 'lots.id')
+//                            ->where('lot_regions.is_debtor_region', false);
+//                    })
                     ->leftJoin('regions', 'lot_regions.region_id', '=', 'regions.id')
                     ->leftJoin('price_reductions', function ($join) use ($maxDate) {
                         $join->on('price_reductions.lot_id', '=', 'lots.id')
@@ -248,7 +250,7 @@ class SendLotsToChannel implements ShouldQueue
                 foreach ($users as $user) {
                     $userLots = $lots;
                     $userFilters = $user->filters;
-                    if (isset($userFilters['regions']) && count($userFilters['regions'])) {
+                    if (isset($userFilters['regions']) && count($userFilters['regions']) && count($userLots)>0) {
                         $regions = Region::whereIn('code', $userFilters['regions'])->get();
                         $centers = $regions->where('is_center', true)->pluck('title')->toArray();
                         $codes = $regions->where('is_center', false)->pluck('code')->toArray();
@@ -262,17 +264,27 @@ class SendLotsToChannel implements ShouldQueue
                             return $condition;
                         });
                     }
-                    if (isset($userFilters['categories']) && count($userFilters['categories'])) {
-                        $userLots = $userLots->filter(function ($lot) use ($userFilters) {
-                            return in_array($lot->category_title, $userFilters['categories']);
+                    if (isset($userFilters['categories']) && count($userFilters['categories']) && count($userLots)>0) {
+                        $realtyCategories = [
+                            "land",
+                            "residentialProperty",
+                            "commercialRealEstate"
+                        ];
+                        $checkRealty = count(array_intersect($userFilters['categories'], $realtyCategories)) > 0;
+                        $userLots = $userLots->filter(function ($lot) use ($userFilters, $checkRealty, $realtyCategories) {
+                            $checkCategory = in_array($lot->category_title, $userFilters['categories']);
+                            if ($checkRealty && in_array($lot->category_title, $realtyCategories)) {
+                                return $checkCategory && $lot->is_debtor_region == false;
+                            }
+                            return $checkCategory;
                         });
                     }
-                    if (isset($userFilters['mainParams']['tradeTypes']) && count($userFilters['mainParams']['tradeTypes'])) {
+                    if (isset($userFilters['mainParams']['tradeTypes']) && count($userFilters['mainParams']['tradeTypes']) && count($userLots)>0) {
                         $userLots = $userLots->filter(function ($lot) use ($userFilters) {
                             return in_array($lot->auction_type_title, $userFilters['mainParams']['tradeTypes']);
                         });
                     }
-                    if (isset($userFilters['prices'])) {
+                    if (isset($userFilters['prices']) && count($userLots)>0) {
                         foreach ($userFilters['prices'] as $key => $value) {
                             $min = $value['min'];
                             $max = $value['max'];
