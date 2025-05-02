@@ -343,9 +343,9 @@ export default {
             page:1
         },
         bot_filters: {
-            categories: JSON.parse(localStorage.getItem('bot_filters_categories')) || [],
-            regions: JSON.parse(localStorage.getItem('bot_filters_regions')) || [],
-            prices: JSON.parse(localStorage.getItem('bot_filters_prices')) || {
+            categories: [],
+            regions: [],
+            prices: {
                 currentPrice: {
                     min: '',
                     max: ''
@@ -363,7 +363,7 @@ export default {
                     max: ''
                 }
             },
-            mainParams: JSON.parse(localStorage.getItem('bot_filters_mainParams')) ||  {
+            mainParams: {
                 tradeTypes:[]
             },
             sort: {
@@ -417,10 +417,11 @@ export default {
     },
 
     actions: {
-        async saveUserFilters({commit, state}, payload) {
-            await axios.post('/api/bot/save-filters', {filters: state.bot_filters})
+        async saveUserFilters({dispatch, commit, state}, payload) {
+            await axios.post('/api/bot/save-filters', {filters: payload})
                 .then(resp => {
-                    commit('setUserFilters', true)
+                    commit('setUserFilters', true);
+                    commit('setBotFilters', payload);
                 }).catch(error => {
                 });
         },
@@ -428,7 +429,8 @@ export default {
             await axios.post('/api/bot/get-filters')
                 .then(resp => {
                     if(resp.data.filter) {
-                        commit('setUserFilters', true)
+                        commit('setUserFilters', true);
+                        commit('setBotFilters', resp.data.filter.filters);
                     }
                 }).catch(error => {
                     commit('setUserFilters', false)
@@ -442,6 +444,9 @@ export default {
         },
         setUserFilters(state, payload) {
             return (state.user_filters_exist = payload);
+        },
+        setBotFilters(state, payload) {
+            return (state.bot_filters = payload);
         },
         saveFiltersProperty(state, payload) {
             // Vue.set(state.filters, payload.key, payload.value);

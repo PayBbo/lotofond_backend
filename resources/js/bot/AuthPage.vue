@@ -193,6 +193,7 @@
                             value: [this.user.region]
                         }, {root: true});
                     }
+                    this.getUserFilters();
                 }).catch(error => {
                     this.loading = false;
                 })
@@ -237,6 +238,14 @@
             switchVisibility(type) {
                 this[type] = this[type] === "password" ? "text" : "password";
             },
+            async getUserFilters() {
+                this.loading = true;
+                await this.$store.dispatch('getUserFilters').then(resp => {
+                    this.loading = false;
+                }).catch(error => {
+                    this.loading = false;
+                });
+            }
         }
     }
 </script>

@@ -144,7 +144,6 @@
             localStorage.setItem('is_tg_bot', 1);
             axios.defaults.headers.common['TGBot'] = 'is_tg_bot';
             this.getUser();
-            this.getUserFilters();
         },
         mounted() {
 
@@ -188,6 +187,7 @@
                     await this.$store.dispatch('getAuthUser')
                         .then(resp => {
                             this.loading = false;
+                            this.getUserFilters();
                         })
                         .catch(error => {
                             this.loading = false;

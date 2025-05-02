@@ -26,18 +26,24 @@ class Regions extends SortQuery implements SortContract
             });*/
 
             $this->query
-                ->when(count($codes), function ($query) use($codes) {
-                    $query->where(function ($qr) use ($codes){
-                        $qr->hasByNonDependentSubquery('objectRegions', function ($q) use ($codes) {
+                ->when(count($codes), function ($query) use($codes, $centers) {
+                    $query->where(function ($qr) use ($codes, $centers){
+                        $qr->hasByNonDependentSubquery('objectRegions', function ($q) use ($codes, $centers) {
                             $q->whereIn('code', $codes);
-                        })->orDoesntHaveByNonDependentSubquery('objectRegions', function () use ($codes) {
-                            $this->query->hasByNonDependentSubquery('regions', function ($que) use ($codes) {
+                            foreach ($centers as $center) {
+                                $q->orWhere('lots.description', 'like', '%' . str_replace('г. ', '', $center) . '%');
+                            }
+                        })->orDoesntHaveByNonDependentSubquery('objectRegions', function () use ($codes, $centers) {
+                            $this->query->hasByNonDependentSubquery('regions', function ($que) use ($codes, $centers) {
                                 $que->whereIn('code', $codes);
+                                foreach ($centers as $center) {
+                                    $que->orWhere('lots.description', 'like', '%' . str_replace('г. ', '', $center) . '%');
+                                }
                             });
                         });
                     });
                  })
-                ->when(count($centers), function ($query) use ($centers) {
+                ->when(count($centers) && !count($codes), function ($query) use ($centers) {
                     $query->where(function ($q) use ($centers) {
                         foreach ($centers as $center) {
                             $q->orWhere('lots.description', 'like', '%' . str_replace('г. ', '', $center) . '%');
