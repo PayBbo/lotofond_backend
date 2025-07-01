@@ -390,7 +390,10 @@ class FilesService
     {
         $content = $this->getContentFile($file);
         preg_match_all('/(?<=a=toNumbers\(").*(?="\),b)|(?<=b=toNumbers\(").*(?="\),c)|(?<=c=toNumbers\(").*(?="\),now)/', $content, $matches);
-        return $this->getContentFile($file, $matches[0][0], $matches[0][1], $matches[0][2]);
+        if(count($matches) && isset($matches[0][0])) {
+            return $this->getContentFile($file, $matches[0][0], $matches[0][1], $matches[0][2]);
+        }
+        return $this->getContentFile($file);
     }
 
     private function getContentFile($file, $a = '8b3d7f4e9ab55daee9fb89016f8a76a9', $b = 'a9ee0b0a96986edc98bfe6a739b457a6', $c = '535a97a4d149ee29ac533ad1ebf746d4')
