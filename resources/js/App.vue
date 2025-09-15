@@ -4,6 +4,7 @@
         <bkt-header></bkt-header>
         <main class="wrapper">
             <router-view :key="$route.fullPath" ref="view"></router-view>
+            <cookie-consent/>
         </main>
         <bkt-footer></bkt-footer>
     </div>
@@ -11,9 +12,11 @@
 
 <script>
     import axios from "axios";
+    import CookieConsent from "./components/CookieConsent";
 
     export default {
         name: "App",
+        components: {CookieConsent},
         created() {
             let callback = (val, oldVal, uri) => {
                 if (val && !oldVal) {

@@ -2,23 +2,6 @@
     <div class="bkt-card-trade__wrapper w-100"
          :class="{'bkt-shadow-card bkt-shadow-card_white': item && item.trade && item.trade.lotCount>1}">
         <div class="bkt-card-trade bkt-card__row w-100 mx-auto mx-0" @click.self="navigate('mobile')">
-            <div class="bkt-wrapper-between bkt-card__heading w-100" v-if="item && item.trade">
-                <h5 class="me-auto">
-                    <bkt-icon v-if="item.sourceId === 2" :name="'categories/torgi'" :color="'indigo'"
-                              class="bkt-card__heading-icon" title="государственные торги"
-                    />
-                    торги №
-                    <skeleton type_name="spoiler" tag="span" :loading="rules && !rules.trade.externalId">
-                        {{item.trade.externalId ? item.trade.externalId : '0'}}
-                    </skeleton>
-                    <span class="bkt-text-neutral-dark"> • </span>
-                    <skeleton type_name="spoiler" tag="span" :loading="rules && !rules.trade.publishDate">
-                        <span v-if="item.trade.publishDate">
-                            {{item.trade.publishDate | moment('DD MMMM YYYY HH:mm')}}
-                        </span>
-                    </skeleton>
-                </h5>
-            </div>
             <div class="col-12 col-lg-11 p-0">
                 <div class="row h-100 w-100 mx-auto row-cols-1 row-cols-lg-4 bkt-card-trade__gap">
                     <div class="col-12 col-lg-2 p-0 pe-md-2" @click="navigate('mobile')">
@@ -383,6 +366,29 @@
                                 </div>
                             </div>
                         </div>
+                    </div>
+                    <div class="col-12 p-0 bkt-wrapper-between bkt-card__heading w-100" v-if="item && item.trade">
+                        <h6 class="me-auto">
+                            <bkt-icon v-if="item.sourceId === 2" :name="'categories/torgi'" :color="'indigo'"
+                                      class="bkt-card__heading-icon" title="государственные торги"
+                            />
+                            торги №
+                            <skeleton type_name="spoiler" tag="span" :loading="rules && !rules.trade.externalId">
+                                {{item.trade.externalId ? item.trade.externalId : '0'}}
+                            </skeleton>
+                            <span class="bkt-text-neutral-dark"> • </span>
+                            <skeleton type_name="spoiler" tag="span" :loading="rules && !rules.trade.publishDate">
+                        <span v-if="item.trade.publishDate">
+                            {{item.trade.publishDate | moment('DD MMMM YYYY HH:mm')}}
+                        </span>
+                            </skeleton>
+                            <span class="bkt-text-neutral-dark"> • </span>
+                            <skeleton type_name="spoiler" tag="span" :loading="rules && !rules.trade.externalId">
+                        <span v-if="item.sourceId">
+                            {{item.sourceId === 2 ? 'государственные' : 'банкротство'}}
+                        </span>
+                            </skeleton>
+                        </h6>
                     </div>
                 </div>
             </div>

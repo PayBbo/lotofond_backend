@@ -10,6 +10,7 @@
         v-model="param"
         :language="ru"
         :ref="refName"
+        :id="refName"
     />
 </template>
 

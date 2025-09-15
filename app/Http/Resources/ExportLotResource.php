@@ -18,61 +18,65 @@ class ExportLotResource extends JsonResource
     public function toArray($request)
     {
         return [
-            $this->mergeWhen(self::$conditions['addTradeNumber'], [
+            $this->mergeWhen(self::$conditions['addTradeNumber'] != false, [
                 'tradeNumber' => $this->auction->trade_id,
             ]),
-            $this->mergeWhen(self::$conditions['addEfrsbLink'], [
+            $this->mergeWhen(isset(self::$conditions['addEfrsbLink']) && self::$conditions['addEfrsbLink'] != false, [
                 'efrsbLink' => 'https://fedresurs.ru/bidding/' . $this->auction->guid,
             ]),
-            $this->mergeWhen(self::$conditions['addDescription'], [
+            $this->mergeWhen(self::$conditions['addSourceLink'] != false, [
+                'sourceLink' => $this->auction->source_id == 1 ? 'https://fedresurs.ru/bidding/' . $this->auction->guid
+                    : 'https://torgi.gov.ru/new/public/lots/lot/'. $this->guid,
+            ]),
+            $this->mergeWhen(self::$conditions['addDescription'] != false, [
                 'description' => stripslashes(preg_replace('/[\x00-\x1F\x7F]/u', ' ', $this->description)),
             ]),
-            $this->mergeWhen(self::$conditions['addCurrentPrice'], [
-                'currentPrice' => (float)$this->current_price,
+            $this->mergeWhen(self::$conditions['addCurrentPrice'] != false, [
+                'currentPrice' => (float)$this->start_price,
             ]),
-            $this->mergeWhen(self::$conditions['addAuctionType'], [
-                'auctionType' => $this->auction->auctionType->title,
+            $this->mergeWhen(self::$conditions['addAuctionType'] != false, [
+                'auctionType' => __('trades.type.'.$this->auction->auctionType->title),
             ]),
-            $this->mergeWhen(self::$conditions['addDebtor'], [
-                'debtor' => $this->auction->debtor->getNameForExport(),
+            $this->mergeWhen(self::$conditions['addDebtor'] != false, [
+                'debtor' => $this->auction->debtor ? ($this->auction->debtor->getNameForExport() ?: '') : '',
             ]),
-            $this->mergeWhen(self::$conditions['addArbitrationManager'], [
-                'arbitrationManager' => $this->auction->arbitrationManager->getNameForExport(),
+            $this->mergeWhen(self::$conditions['addArbitrationManager'] != false, [
+                'arbitrationManager' => $this->auction->arbitrationManager ? ($this->auction->arbitrationManager->getNameForExport() ?: '') : '',
             ]),
-            $this->mergeWhen(self::$conditions['addApplicationStart'], [
+            $this->mergeWhen(self::$conditions['addApplicationStart'] != false, [
                 'applicationStart' => is_null($this->auction->application_start_date) ? '-' :  $this->auction->application_start_date->format('d.m.Y h:i'),
             ]),
-            $this->mergeWhen(self::$conditions['addApplicationEnd'], [
+            $this->mergeWhen(self::$conditions['addApplicationEnd'] != false, [
                 'applicationEnd' => is_null($this->auction->application_end_date) ? '-' :  $this->auction->application_end_date->format('d.m.Y h:i'),
             ]),
-            $this->mergeWhen(self::$conditions['addWinner'], [
+            $this->mergeWhen(isset(self::$conditions['addWinner']) && self::$conditions['addWinner'] != false, [
                 'winner' => 'Победитель торгов',
             ]),
-            $this->mergeWhen(self::$conditions['addLotNumber'], [
+            $this->mergeWhen(self::$conditions['addLotNumber'] != false, [
                 'lotNumber' => $this->number,
             ]),
-            $this->mergeWhen(self::$conditions['addTradePlace'], [
+            $this->mergeWhen(self::$conditions['addTradePlace'] != false, [
                 'tradePlace' => $this->auction->tradePlace->name . ' ' . $this->auction->tradePlace->site,
             ]),
-            $this->mergeWhen(self::$conditions['addStartPrice'], [
+            $this->mergeWhen(self::$conditions['addStartPrice'] != false, [
                 'startPrice' => (float)$this->start_price,
             ]),
-            $this->mergeWhen(self::$conditions['addMinPrice'], [
+            $this->mergeWhen(self::$conditions['addMinPrice'] != false, [
                 'minPrice' => (float)$this->min_price,
             ]),
-            $this->mergeWhen(self::$conditions['addRegion'], [
-                'region' => $this->auction->debtor->region ? __('regions.' . $this->auction->debtor->region->code) : null,
+            $this->mergeWhen(self::$conditions['addRegion'] != false, [
+                'region' => $this->auction->debtor && $this->auction->debtor->region ? __('regions.' . $this->auction->debtor->region->code) : null,
             ]),
-            $this->mergeWhen(self::$conditions['addOrganizer'], [
-                'organizer' => $this->auction->companyTradeOrganizer->getNameForExport(),
+            $this->mergeWhen(self::$conditions['addOrganizer'] != false, [
+                'organizer' => $this->auction->companyTradeOrganizer ? ($this->auction->companyTradeOrganizer->getNameForExport() ?: '') : '',
             ]),
-            $this->mergeWhen(self::$conditions['addEventStart'], [
+            $this->mergeWhen(self::$conditions['addEventStart'] != false, [
                 'eventStart' => is_null($this->auction->event_start_date) ? '-' :  $this->auction->event_start_date->format('d.m.Y h:i'),
             ]),
-            $this->mergeWhen(self::$conditions['addEventEnd'], [
+            $this->mergeWhen(self::$conditions['addEventEnd'] != false, [
                 'eventEnd' => is_null($this->auction->event_end_date) ? '-' : $this->auction->event_end_date->format('d.m.Y h:i'),
             ]),
-            $this->mergeWhen(self::$conditions['addNote'], [
+            $this->mergeWhen(isset(self::$conditions['addNote']) && self::$conditions['addNote'] != false, [
                 'note' => 'Заметка по лоту'
             ])
         ];

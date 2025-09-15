@@ -75,9 +75,19 @@ export default {
     },
     actions: {
         async getData({commit, state}) {
+
+            let param = '&param=' + state.param;
+            if(typeof(state.param) === 'object') {
+                let str = [];
+                for (let p in state.param)
+                    if (state.param.hasOwnProperty(p) && state.param[p] != null) {
+                        str.push(encodeURIComponent(p) + "=" + encodeURIComponent(state.param[p]));
+                    }
+                param = str.length>0 ? '&'+str.join("&") : '';
+            }
             await axios({
                 method: 'get',
-                url: '/api' + state.currentRoute + '?page=' + state.currentPage + '&param=' + state.param
+                url: '/api' + state.currentRoute + '?page=' + state.currentPage + param
                     + '&sort_direction=' + state.sortDirection + '&sort_property=' + state.sortProperty,
                 data: {},
             })

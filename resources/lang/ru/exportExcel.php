@@ -2,6 +2,7 @@
 return [
     'tradeNumber' =>  'Номер торгов',
     'efrsbLink' =>   'Ссылка ЕФРС',
+    'sourceLink' =>   'Ссылка на источник',
     'description' => 'Описание',
     'currentPrice' => 'Текущая цена',
     'auctionType' => 'Тип торгов',

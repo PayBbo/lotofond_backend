@@ -2,7 +2,7 @@
     padding: 32px;
 
     &__wrapper {
-        margin: 25px 0;
+        margin: 10px 0;
     }
 
     &__gap {
@@ -401,6 +401,7 @@
     }
     & .bkt-card {
         &__heading {
+            position: absolute;
             top: -25px !important;
         }
         &__title {

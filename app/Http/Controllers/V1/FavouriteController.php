@@ -28,7 +28,7 @@ class FavouriteController extends Controller
             $path->title = $request->name;
             $path->save();
         } else {
-            $path = Favourite::where(['user_id' => auth()->id(), 'title' => 'Общее'])->first();
+            $path = Favourite::where(['user_id' => auth()->id(), 'main' => true])->first();
         }
         $lots = Lot::whereIn('id', $request->lots)->get();
         dispatch((new AddFavouriteEventsJob($lots, $user, $path))->onQueue('user'));

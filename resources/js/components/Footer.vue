@@ -82,24 +82,24 @@
                                 <!--                                </button>-->
                             </div>
                             <ul class="bkt-footer__socials-list mt-2">
-                                <li class="bkt-footer__socials__item" data-wba-footer-name="GooglePlay">
-                                    <a class="google-play" rel="nofollow noopener" target="_blank"
-                                       href="https://play.google.com/store/apps/details?id=ru.lotofond">
-                                        Загрузить из Google Play
-                                    </a>
-                                </li>
+<!--                                <li class="bkt-footer__socials__item" data-wba-footer-name="GooglePlay">-->
+<!--                                    <a class="google-play" rel="nofollow noopener" target="_blank"-->
+<!--                                       href="https://play.google.com/store/apps/details?id=ru.lotofond">-->
+<!--                                        Загрузить из Google Play-->
+<!--                                    </a>-->
+<!--                                </li>-->
                                 <li class="bkt-footer__socials__item" data-wba-footer-name="AppStore">
                                     <a
                                    class="app-store" rel="nofollow noopener" target="_blank"
                                   href="https://apps.apple.com/ru/app/lotofond/id6462861593">Загрузить из
                                   AppStore</a>
                                 </li>
-                                <li class="bkt-footer__socials__item" data-wba-footer-name="AppGallery">
-                                    <a class="app-gallery" rel="nofollow noopener"
-                                       target="_blank" href="https://appgallery.huawei.ru/app/C107494421">
-                                        Загрузить из AppGallery
-                                    </a>
-                                </li>
+<!--                                <li class="bkt-footer__socials__item" data-wba-footer-name="AppGallery">-->
+<!--                                    <a class="app-gallery" rel="nofollow noopener"-->
+<!--                                       target="_blank" href="https://appgallery.huawei.ru/app/C107494421">-->
+<!--                                        Загрузить из AppGallery-->
+<!--                                    </a>-->
+<!--                                </li>-->
                                 <li class="bkt-footer__socials__item" data-wba-footer-name="AppStore">
                                     <a class="ru-store" rel="nofollow noopener" target="_blank"
                                        href="https://www.rustore.ru/catalog/app/ru.lotofond">

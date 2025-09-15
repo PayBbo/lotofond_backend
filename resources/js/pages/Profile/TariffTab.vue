@@ -28,7 +28,7 @@
                                 <div
                                     class="bkt-wrapper-down-sm-between bkt-gap-down-sm-column bkt-w-down-sm-100 bkt-gap-row-mini">
                                     <h4 class="bkt-card__text">{{tariff.title}}</h4>
-                                    <div class="bkt-badge" v-if="index>0 && !tariff.isUserTariff">
+                                    <div class="bkt-badge" v-if="index>0 && !tariff.isUserTariff&&getBenefit(tariff)>0">
                                         Выгода {{getBenefit(tariff)}} %
                                     </div>
                                     <div class="bkt-badge" v-if="tariff.isUserTariff">Активен</div>
@@ -123,12 +123,10 @@
                     })
             },
             getBenefit(tariff) {
-                let benefit = (100 - (tariff.price * 100 / (this.tariffs[0].price * (tariff.period / this.tariffs[0].period).toFixed())));
-                if (Number.isInteger(benefit)) {
-                    return benefit;
-                } else {
-                    return benefit.toFixed(1);
-                }
+                let firstTariff = this.tariffs.filter(item => item.type == tariff.type)[0];
+                let benefit = (100 - (tariff.price * 100 / (firstTariff.price * (tariff.period / firstTariff.period).toFixed())));
+                let val = parseFloat((benefit/1).toFixed(1));
+                return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
             },
             buyTariff() {
                 if (this.isLoggedIn) {

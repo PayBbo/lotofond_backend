@@ -237,7 +237,9 @@ export default {
                 //     data: payload,
                 //     // responseType: "arraybuffer"
                 // })
-                .post('/api/favourite/download/path', payload)
+                .post('/api/favourite/download/path', payload, {
+                    responseType: "blob"
+                })
             // .then((response) => {
             //
             // }).catch(error => {

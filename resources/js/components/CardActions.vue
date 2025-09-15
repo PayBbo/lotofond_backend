@@ -62,9 +62,21 @@
                     </div>
                 </template>
                 <template v-if="action.dropdown_id==='shareDropdown'">
-                    <skeleton :count="networks.length" v-if="!item.id" height="38px" skeleton_class="mb-1"></skeleton>
+                    <skeleton :count="networks.length" v-if="!item.id" height="38px" skeleton_class="mb-1"/>
+                    <div  class="bkt-dropdown__menu-item bkt-wrapper-between bkt-cursor-pointer"
+                          :class="{'mb-1':type!=='menu'}" v-if="item.id"
+                    >
+                        <a @click="copy" class="share-network-copy bkt-bg-primary">
+                            <span class="share-icon h-100">
+                                 <bkt-icon name="Clone" width="18px" height="18px" color="white"/>
+                            </span>
+                            <div class="bkt-dropdown__menu-text" style="line-height: 13px; text-align: center;">
+                                Скопировать ссылку
+                            </div>
+                        </a>
+                    </div>
                     <div class="bkt-dropdown__menu-item bkt-wrapper-between bkt-cursor-pointer"
-                         :class="{'mb-1':type!=='menu'}" v-for="network in networks" v-else
+                         :class="{'mb-1':type!=='menu'}" v-for="network in networks" v-if="item.id"
                     >
                         <ShareNetwork
                             :network="network.network"
@@ -82,7 +94,7 @@
                             </span>
 <!--                    </div>-->
                             <div class="bkt-dropdown__menu-text">
-                                {{ network.name }}
+                                {{ network.label ?? network.name }}
                             </div>
                         </ShareNetwork>
                     </div>
@@ -298,19 +310,20 @@
                     media: 'https://www.lotofond.ru/images/card-image1.png'
                 },
                 networks: [
+                    // {network: 'copy', name: 'Clipboard', label: 'Скопировать ссылку', color: '#2953ff'},
                     // { network: 'baidu', name: 'Baidu', icon: 'fas fah fa-lg fa-paw', color: '#2529d8' },
-                    {network: 'email', name: 'Email', color: '#2953ff'},
+                    {network: 'email', name: 'Email', color: '#d82b1e'},
                     // { network: 'line', name: 'Line', icon: 'fab fah fa-lg fa-line', color: '#00c300' },
                     // { network: 'linkedin', name: 'LinkedIn', icon: 'fab fah fa-lg fa-linkedin', color: '#007bb5' },
                     // {network: 'odnoklassniki', name: 'Odnoklassniki', color: '#ed812b'},
                     // { network: 'skype', name: 'Skype', icon: 'fab fah fa-lg fa-skype', color: '#00aff0' },
                     // { network: 'sms', name: 'SMS', icon: 'far fah fa-lg fa-comment-dots', color: '#333333' },
-                    {network: 'telegram', name: 'Telegram', color: '#0088cc'},
                     // {network: 'twitter', name: 'Twitter', color: '#1da1f2'},
-                    {network: 'viber', name: 'Viber', color: '#59267c'},
-                    {network: 'vk', name: 'Vk', color: '#4a76a8'},
+                    // {network: 'viber', name: 'Viber', color: '#59267c'},
+                    {network: 'vk', name: 'Vk', label: 'Вконтакте', color: '#4a76a8'},
                     // { network: 'weibo', name: 'Weibo', icon: 'fab fah fa-lg fa-weibo', color: '#e9152d' },
                     {network: 'whatsapp', name: 'WhatsApp', color: '#25d366'},
+                    {network: 'telegram', name: 'Telegram', color: '#0088cc'},
                     // { network: 'xing', name: 'Xing', icon: 'fab fah fa-lg fa-xing', color: '#026466' },
                 ],
                 short_description: '',
@@ -577,7 +590,23 @@
             },
             emitChange(payload) {
                 this.$emit('changeStatus', payload)
-            }
+            },
+            copy() {
+                let url = 'https://www.lotofond.ru/lot/'+ this.item.id;
+
+                let append_content = '<textarea class="textarea_copy"></textarea>';
+                document.querySelector('body').insertAdjacentHTML('beforeend', append_content);
+
+                let textarea_copy = document.querySelector('.textarea_copy');
+
+                textarea_copy.value = url;
+                textarea_copy.select();
+                document.execCommand('copy');
+                textarea_copy.remove();
+
+                this.$store.dispatch('sendNotification',
+                    {message: 'Текст скопирован.'});
+            },
         }
     }
 </script>

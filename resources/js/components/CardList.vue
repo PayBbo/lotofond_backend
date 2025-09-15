@@ -23,10 +23,6 @@
                     <div class="bkt-card-trade bkt-card-trade__wrapper bkt-card__row w-100 mx-auto mx-0"
                          v-for="(item, index) in count" :key="'loading-'+index"
                     >
-                        <div class="bkt-wrapper-between bkt-card__heading w-100">
-                            <skeleton type_name="text" skeleton_class="me-auto mb-0" height="10px"
-                                      width="100px"></skeleton>
-                        </div>
                         <div class="col-12 col-lg-11 p-0">
                             <div class="row h-100 w-100 mx-auto row-cols-1 row-cols-lg-4 bkt-card-trade__gap">
                                 <div class="col-12 col-lg-2 p-0 pe-md-2">
@@ -112,6 +108,10 @@
                                             <skeleton skeleton_class="bkt-progress-bar"></skeleton>
                                         </div>
                                     </div>
+                                </div>
+                                <div class="col-12 p-0 bkt-card__heading w-100">
+                                    <skeleton type_name="text" skeleton_class="me-auto mb-0" height="10px"
+                                              width="250px"></skeleton>
                                 </div>
                             </div>
                         </div>

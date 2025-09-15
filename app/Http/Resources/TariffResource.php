@@ -31,6 +31,7 @@ class TariffResource extends JsonResource
             'title' => $this->title,
             'period' => $this->period,
             'price' => $this->price,
+            'type' => $this->type,
             'description' => [
                 'mainInfo' => $this->description,
                 'includedDetails' => $this->included_details,
@@ -39,7 +40,6 @@ class TariffResource extends JsonResource
 
             'isUserTariff' => !is_null($userTariff) && $userTariff->tariff->id == $this->id,
             'expiredAt' => !is_null($userTariff) && $userTariff->tariff->id == $this->id ? Carbon::parse($userTariff->finished_at)->format('d.m.Y H:i:s') : null
-
 
         ];
     }

@@ -146,7 +146,8 @@ class RegisterController extends Controller
     {
         Favourite::create([
             'user_id' => $user->id,
-            'title' => 'Общее'
+            'title' => 'Общее',
+            'main' => true
         ]);
         Notification::create([
             'user_id' => $user->id,

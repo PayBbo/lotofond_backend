@@ -13,6 +13,7 @@ use App\Http\Services\Parse\DescriptionExtractsService;
 use App\Http\Services\Parse\ParseDataFromRosreestrService;
 use App\Models\Lot;
 use App\Models\LotParam;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -35,7 +36,12 @@ class LotController extends Controller
     {
         try {
             ini_set('max_execution_time', 6000);
-            $searchString = $request->query('param');
+            $region = $request->get('region', null);
+            $dateFrom = $request->get('dateFrom', null);
+            $dateFrom = $dateFrom && $dateFrom != 'null' ? Carbon::parse($request->get('dateFrom'))->startOfDay() : null;
+            $dateTo = $request->get('dateTo', null);
+            $dateTo = $dateTo && $dateTo != 'null' ? Carbon::parse($request->get('dateTo'))->endOfDay() : null;
+            $searchString = $request->query('search');
             $sortParam = $request->query('sort_property');
             $sortDirection = $request->query('sort_direction');
             $response = DB::table('lots')->select([
@@ -59,9 +65,21 @@ class LotController extends Controller
                 ->leftJoin('auction_types as type', 'auction.auction_type_id', '=', 'type.id')
                 ->leftJoin('statuses as status', 'status.id', '=', 'lots.status_id')
                 ->leftJoin('additional_lot_infos as ali', 'ali.lot_id', '=', 'lots.id')
+                ->leftJoin('lot_regions', 'lot_regions.lot_id', '=', 'lots.id')
+                ->leftJoin('regions', 'lot_regions.region_id', '=', 'regions.id')
+                ->when(!is_null($dateFrom) && $dateFrom != 'null', function ($q) use ($dateFrom) {
+                    $q->where('lots.created_at','>=', $dateFrom);
+                })
+                ->when(!is_null($dateTo) && $dateTo != 'null', function ($q) use ($dateTo) {
+                    $q->where('lots.created_at','<=',$dateTo);
+                })
+                ->when(!is_null($region) && $region != 'null', function ($q) use ($region) {
+                    $q->where('regions.code','=', $region);
+                })
                 ->when(isset($sortParam) && isset($sortDirection), function ($query) use ($sortParam, $sortDirection) {
                     $query->orderBy($sortParam, $sortDirection);
                 })
+                ->groupBy('lots.id')
                 ->paginate(20);
             return response([
                 'data' => $response->items(),

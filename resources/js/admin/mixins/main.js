@@ -34,6 +34,8 @@ export default {
     async created() {
         this.$store.commit('resetState')
         this.$store.commit('setCurrentRoute', this.$route.path.replace(/(\/*$)/, ""))
+    },
+    async mounted() {
         this.$store.commit('setParam', this.param)
         await this.getData()
     },

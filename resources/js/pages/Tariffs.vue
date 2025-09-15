@@ -10,8 +10,7 @@
                         </h3>
                         <template v-if="!loading">
                             <div class="d-flex bkt-gap align-items-center"
-                                 v-if="available_tariffs.length >0 && available_tariffs[choice] && available_tariffs[choice].description"
-                                 v-for="detail in available_tariffs[choice].description.includedDetails">
+                                 v-for="detail in includedDetails">
                                 <bkt-icon name="Check" color="green" height="16px" width="16px"></bkt-icon>
                                 <h4 class="bkt-card__text">
                                     {{detail}}
@@ -78,7 +77,7 @@
                                     <div
                                         class="bkt-wrapper-down-sm-between bkt-gap-down-sm-column bkt-w-down-sm-100 bkt-gap-row-mini">
                                         <h4 class="bkt-card__text">{{tariff.title}}</h4>
-                                        <div class="bkt-badge" v-if="index>0 && !tariff.isUserTariff">
+                                        <div class="bkt-badge" v-if="index>0 && !tariff.isUserTariff && getBenefit(tariff)>0">
                                             Выгода {{getBenefit(tariff)}} %
                                         </div>
                                         <div class="bkt-badge" v-if="tariff.isUserTariff">Активен</div>
@@ -177,7 +176,7 @@
         name: "Tariffs",
         data() {
             return {
-                choice: '0',
+                choice: null,
                 loading: false,
                 tariff_loading: false,
             }
@@ -200,6 +199,19 @@
             },
             isLoggedIn() {
                 return this.$store.getters.isLoggedIn
+            },
+            includedDetails() {
+                let details = [];
+                if(this.available_tariffs.length > 0 && this.choice != null) {
+                    if(this.available_tariffs[this.choice]
+                    && this.available_tariffs[this.choice].description
+                    && this.available_tariffs[this.choice].description.includedDetails)
+                    {
+                        return this.available_tariffs[this.choice].description.includedDetails
+                    }
+                }
+
+                return details;
             }
         },
         mounted() {
@@ -211,17 +223,18 @@
             async getTariffs() {
                 this.loading = true;
                 await this.$store.dispatch('getTariffs', {type: 'tariff'})
+                    .then(() => {
+                        this.choice = 0;
+                    })
                     .finally(() => {
                         this.loading = false;
                     })
             },
             getBenefit(tariff) {
-                let benefit = (100 - (tariff.price * 100 / (this.tariffs[0].price * (tariff.period / this.tariffs[0].period).toFixed())))
-                if (Number.isInteger(benefit)) {
-                    return benefit
-                } else {
-                    return benefit.toFixed(1)
-                }
+                let firstTariff = this.tariffs.filter(item => item.type == tariff.type)[0];
+                let benefit = (100 - (tariff.price * 100 / (firstTariff.price * (tariff.period / firstTariff.period).toFixed())));
+                let val = parseFloat((benefit/1).toFixed(1));
+                return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
             },
             buyTariff() {
                 if (this.isLoggedIn) {

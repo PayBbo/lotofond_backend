@@ -1647,7 +1647,14 @@
                     >
                         <template #collapse>
                             <p class="bkt-text-neutral-dark">Координаты приведены исключительно для ознакомления и могут отличаться от фактического местоположения объекта</p>
-                            <bkt-map :points="item.coordinates"/>
+                            <div class="bkt-map__container" @click="mapIsActive = true">
+                                <bkt-map :points="item.coordinates"/>
+                                <!-- Затемнение -->
+                                <div
+                                    class="bkt-map__overlay"
+                                    v-if="!mapIsActive"
+                                ></div>
+                            </div>
                         </template>
                     </bkt-collapse>
                 </div>
@@ -1769,7 +1776,8 @@
                 image_filetype: 'image',
                 service_loading: false,
                 offers: ['ClosePublicOffer', 'PublicOffer', "PPZ", "PPU"],
-                auctions: ['CloseAuction', 'OpenAuction', 'EA', 'OpenConcours', 'CloseConcours', "EK", "SA", "PA", "BC", "PK"]
+                auctions: ['CloseAuction', 'OpenAuction', 'EA', 'OpenConcours', 'CloseConcours', "EK", "SA", "PA", "BC", "PK"],
+                mapIsActive: false
             };
         },
         computed: {

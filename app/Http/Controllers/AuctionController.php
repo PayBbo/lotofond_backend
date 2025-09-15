@@ -305,15 +305,25 @@ class AuctionController extends Controller
 
 
     public function getLotsForMap() {
+        $content = new ContentSettingsService();
         $coordinates = LotParam::select([
                 DB::raw('REPLACE(concat("[", lot_params.value, "]")," ",",") as coordinates'),
                 'lot_params.value',
                 'lot_params.lot_id',
+            ($content->isAvailable('descriptionExtracts') ? 'lots.description' : 'lots.processed_description') .' as title',
+            'type.title as tradeType',
+            'status.value as status',
+            'lots.start_price',
+            'lots.min_price',
             ])
             ->where('param_id', 11)
             ->where('lots.status_id', '<=', 2)
             ->where('lots.active', true)
             ->leftJoin('lots', 'lots.id', 'lot_params.lot_id')
+            ->leftJoin('auctions as auction', 'auction.id', '=', 'lots.auction_id')
+            ->leftJoin('auction_types as type', 'auction.auction_type_id', '=', 'type.id')
+            ->leftJoin('statuses as status', 'status.id', '=', 'lots.status_id')
+            ->groupBy('lot_params.id')
             ->distinct()
             ->orderBy('lots.created_at', 'desc')
             ->limit(2500)

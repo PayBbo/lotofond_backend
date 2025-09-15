@@ -28,7 +28,7 @@ class FavouriteController extends Controller
     {
         if ($request->has('pathId') && !is_null($request->pathId)) {
             $path = Favourite::find($request->pathId);
-            if ($path->title == 'Общее') {
+            if ($path->title == 'Общее' || $path->main) {
                 throw new BaseException("ERR_ACCESS_FORBIDDEN", 403, "The user does not have rights to edit the selected path");
             }
 
@@ -50,7 +50,7 @@ class FavouriteController extends Controller
     public function deleteFavouritePath($id)
     {
         $path = Favourite::find($id);
-        if (!$path || $path->user_id != auth()->id() || $path->title == 'Общее') {
+        if (!$path || $path->user_id != auth()->id() || $path->title == 'Общее' || $path->main) {
             throw new BaseException("ERR_ACCESS_FORBIDDEN", 403, "The user does not have rights to edit the selected path");
         }
         $path->lots()->detach();
@@ -60,28 +60,27 @@ class FavouriteController extends Controller
 
     public function downloadFavouritePath(Request $request)
     {
-        $this->validate($request, [
-            'pathId' => ['required', 'numeric', 'exists:favourites,id', new IsUserFavouritePath()],
-        ]);
-        $path = Favourite::find($request->pathId);
-        $headings = [];
-        $request->request->remove('pathId');
-        $conditions = [];
-        foreach ($request->request as $key => $param) {
-            if ($param) {
-                $headings[] = __('exportExcel.' . lcfirst(substr($key, 3)));
+        try {
+            $this->validate($request, [
+                'pathId' => ['required', 'numeric', 'exists:favourites,id', new IsUserFavouritePath()],
+            ]);
+            $path = Favourite::find($request->pathId);
+            $headings = [];
+            $request->request->remove('pathId');
+            $conditions = [];
+            foreach ($request->request as $key => $param) {
+                if ($param) {
+                    $headings[] = __('exportExcel.' . lcfirst(substr($key, 3)));
+                }
+                $conditions[$key] = $param;
             }
-            $conditions[$key] = $param;
+            $collection = ExportLotResource::customCollection($path->lots, $conditions);
+            $name = '/users/excel/user-' . auth()->id() . '/favourite.xlsx';
+            return Excel::download(new FavouritePathExport($headings, $collection, $path->title), 'favourite.xlsx');
         }
-        $collection = ExportLotResource::customCollection($path->lots, $conditions);
-        $name = '/users/excel/user-' . auth()->id() . '/favourite.xlsx';
-        $isSuccess = Excel::store(new FavouritePathExport($headings, $collection, $path->title), $name);
-        if ($isSuccess) {
-            return response(['url' => Storage::url($name)], 200);
-        } else {
-            throw new BaseException('ERR_FILE_UPLOAD', 422, __('validation.export_err'));
+        catch (\Exception $e) {
+            return response()->json(['message' => $e->getMessage()], 500);
         }
-
     }
 
     public function getFavourites(Request $request)
@@ -108,7 +107,7 @@ class FavouriteController extends Controller
             $path->title = $request->name;
             $path->save();
         } else {
-            $path = Favourite::where(['user_id' => auth()->id(), 'title' => 'Общее'])->first();
+            $path = Favourite::where(['user_id' => auth()->id(), 'main' => true])->first();
         }
         $lots = Lot::whereIn('id', $request->lots)->get();
         $user = User::find(auth()->id());

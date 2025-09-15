@@ -58,8 +58,8 @@
                 </h5>
             </div>
             <div class="bkt-card__feature"
-                 v-if="((item.startPrice && item.startPrice>=0) && item && item.trade && item.trade.type &&
-                 (item.trade.type!=='ClosePublicOffer' && item.trade.type!=='PublicOffer')
+                 v-if="((item.startPrice && item.startPrice>=0) && item && item.trade && item.trade.type
+                 && !offers.includes(item.trade.type)
                  && (!rules || rules && rules.startPrice))||(rules && !rules.startPrice)"
             >
                 <h6 class="bkt-card__subtitle">

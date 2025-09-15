@@ -29,7 +29,8 @@ class UserSeeder extends Seeder
             ]);
             Favourite::create([
                 'user_id'=>$user->id,
-                'title'=>'Общее'
+                'title'=>'Общее',
+                'main' => true
             ]);
             $i++;
         }

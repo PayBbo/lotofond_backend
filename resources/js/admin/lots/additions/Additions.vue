@@ -106,7 +106,7 @@ export default {
                 if (obj.hasOwnProperty(p)) {
                     str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
                 }
-            return str.join("&");
+            return 'null&'+str.join("&");
         },
         // Если конечная дата меньше начальной, выставлем начальную такую же как конечную
 // Если начальная дата больше конечной, выставлем конечную такую же как начальную

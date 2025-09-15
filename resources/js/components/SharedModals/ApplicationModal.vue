@@ -191,15 +191,15 @@
                         общаться <span class="bkt-text-red">*</span></label>
                     <ValidationProvider :name="'Мессенджеры'" rules="required|min:1" v-slot="{ errors }">
                         <div class="communications bkt-wrapper-between bkt-gap-small">
-                            <bkt-checkbox wrapper_class="flex-fill"
-                                          input_class="bkt-button bkt-bg-body flex-fill" name="Viber"
-                                          v-model="service.socialsForAnswer" val="Viber"
-                                          :border_color="service.socialsForAnswer.includes('Viber') ? 'primary': 'body'"
-                            >
-                                <template #input-check>
-                                    <bkt-icon name="Viber" color="purple" class="bkt-button__icon"></bkt-icon>
-                                </template>
-                            </bkt-checkbox>
+<!--                            <bkt-checkbox wrapper_class="flex-fill"-->
+<!--                                          input_class="bkt-button bkt-bg-body flex-fill" name="Viber"-->
+<!--                                          v-model="service.socialsForAnswer" val="Viber"-->
+<!--                                          :border_color="service.socialsForAnswer.includes('Viber') ? 'primary': 'body'"-->
+<!--                            >-->
+<!--                                <template #input-check>-->
+<!--                                    <bkt-icon name="Viber" color="purple" class="bkt-button__icon"></bkt-icon>-->
+<!--                                </template>-->
+<!--                            </bkt-checkbox>-->
                             <bkt-checkbox wrapper_class="flex-fill"
                                           input_class="bkt-button bkt-bg-body flex-fill" name="Vk"
                                           v-model="service.socialsForAnswer" val="Vk"
