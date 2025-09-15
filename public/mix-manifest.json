@@ -1,5 +1,5 @@
 {
-    "/js/app.js": "/js/app.js?id=3321e82c4d863f31c7f6c19633ed78ff",
+    "/js/app.js": "/js/app.js?id=e98517dff19a6e48a780fa42728c5e17",
     "/js/main.js": "/js/main.js?id=03323ce945a980fb4c7e1e13ba92e5a5",
     "/js/registries.js": "/js/registries.js?id=a12bdc50a2fe64a09a2a8d7ac75c3cde",
     "/js/registry.js": "/js/registry.js?id=c61a0c868de55094f291c6f2118fd485",
@@ -7,13 +7,13 @@
     "/js/agent.js": "/js/agent.js?id=043c2ecfdde350c58ad0048b1fb56ab3",
     "/js/contacts.js": "/js/contacts.js?id=9bcb232a75920bd8aede852ad2e4134d",
     "/js/without-ecp.js": "/js/without-ecp.js?id=7741217c652adcc5e5289320336200f4",
-    "/js/favourites.js": "/js/favourites.js?id=f2275b8991b9a7b95035ae425fcbe2cd",
+    "/js/favourites.js": "/js/favourites.js?id=2fabbb537b046c54237e02feb1645e0b",
     "/js/monitoring.js": "/js/monitoring.js?id=662f79464e6eef072a083ddbeea4cb3d",
     "/js/messages.js": "/js/messages.js?id=70efcec37e7aa20c20ccde3a1753d469",
     "/js/tariffs.js": "/js/tariffs.js?id=8bf93555fd56d6f8633fdded5b6ea930",
     "/js/auctions.js": "/js/auctions.js?id=f28a0175db59fc994711bbbca7283c4f",
-    "/js/calendar.js": "/js/calendar.js?id=b65736473c3b5732e2ca15ab3d4c5d3a",
-    "/js/lot-card.js": "/js/lot-card.js?id=f9b10aa353c03957bdb05750154b86bb",
+    "/js/calendar.js": "/js/calendar.js?id=297ef4dff129e9fc6ad6cf82983ecf81",
+    "/js/lot-card.js": "/js/lot-card.js?id=23d3e2516f63e64d0f587bc954938be8",
     "/js/week-winners.js": "/js/week-winners.js?id=4cb0e79cf49b1b9c2fa3f35905c1e950",
     "/js/privacy-policy.js": "/js/privacy-policy.js?id=451ba24be727dce9f92d0bdf2ff1333a",
     "/js/terms.js": "/js/terms.js?id=c073bd355a6d7614714082e4e760cd4d",
@@ -37,5 +37,5 @@
     "/js/bot-pay-answer.js": "/js/bot-pay-answer.js?id=f43290123c02ffbcddb9b1dfdf51ff5b",
     "/css/app.css": "/css/app.css?id=f7f700dcc4ed7e9f0210f2b60f7c165f",
     "/css/app.min.css": "/css/app.min.css?id=f7f700dcc4ed7e9f0210f2b60f7c165f",
-    "/js/app.min.js": "/js/app.min.js?id=3321e82c4d863f31c7f6c19633ed78ff"
+    "/js/app.min.js": "/js/app.min.js?id=e98517dff19a6e48a780fa42728c5e17"
 }

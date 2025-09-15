@@ -85,34 +85,44 @@ class FavouriteController extends Controller
 
     public function getFavourites(Request $request)
     {
-        $request->validate([
-            'pathId' => ['required', 'integer', new IsUserFavouritePath()]
-        ]);
-        $path = Favourite::find($request->pathId);
-        $lots = Lot::with(['auction', 'showRegions', 'status', 'lotImages', 'categories', 'lotParams'])
-            ->whereIn('lots.id', $path->lots()->pluck('lots.id')->toArray())
-            ->filterBy($request->request)->customSortBy($request)->paginate(20);
-        return response(new LotCollection($lots), 200);
+        try {
+            $request->validate([
+                'pathId' => ['required', 'integer', new IsUserFavouritePath()]
+            ]);
+            $path = Favourite::find($request->pathId);
+            $lots = Lot::with(['auction', 'showRegions', 'status', 'lotImages', 'categories', 'lotParams'])
+                ->whereIn('lots.id', $path->lots()->pluck('lots.id')->toArray())
+                ->filterBy($request->request)->customSortBy($request)->paginate(20);
+            return response(new LotCollection($lots), 200);
+        }
+        catch (\Exception $e) {
+            return response()->json(['message' => $e->getMessage()],500);
+        }
 
     }
 
     public function addLotsToFavourite(FavouriteLotStoreRequest $request)
     {
-        if ($request->has('pathId')) {
-            $path = Favourite::find($request->pathId);
+        try {
+            if ($request->has('pathId')) {
+                $path = Favourite::find($request->pathId);
 
-        } elseif (!$request->has('pathId') && $request->has('name')) {
-            $path = new Favourite();
-            $path->user_id = auth()->id();
-            $path->title = $request->name;
-            $path->save();
-        } else {
-            $path = Favourite::where(['user_id' => auth()->id(), 'main' => true])->first();
+            } elseif (!$request->has('pathId') && $request->has('name')) {
+                $path = new Favourite();
+                $path->user_id = auth()->id();
+                $path->title = $request->name;
+                $path->save();
+            } else {
+                $path = Favourite::where(['user_id' => auth()->id(), 'main' => true])->first();
+            }
+            $lots = Lot::whereIn('id', $request->lots)->get();
+            $user = User::find(auth()->id());
+            dispatch((new AddFavouriteEventsJob($lots, $user, $path))->onQueue('user'));
+            return response(null, 200);
         }
-        $lots = Lot::whereIn('id', $request->lots)->get();
-        $user = User::find(auth()->id());
-        dispatch((new AddFavouriteEventsJob($lots, $user, $path))->onQueue('user'));
-        return response(null, 200);
+        catch (\Exception $e) {
+            return response(['message' => $e->getMessage()], 500);
+        }
     }
 
     public function getFavouritePaths()

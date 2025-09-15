@@ -29,11 +29,12 @@
                     :key="index"
                 >
                     <bkt-icon :name="'categories/realEstate'" :color="'cornflower-blue'" width="25px" height="25px"/>
-                <template #popup="{ close }" v-if="main_view">
+                    <template #popup="{ close }" v-if="main_view">
                         <div class="lot-preview bkt-wrapper-column">
                             <div class="bkt-wrapper bkt-gap-small bkt-nowrap">
                                 <div class="lot-image bkt-bg-cornflower-blue-lighter">
-                                    <bkt-icon :name="'categories/realEstate'" :color="'cornflower-blue'" width="25px" height="25px"/>
+                                    <bkt-icon :name="'categories/realEstate'" :color="'cornflower-blue'" width="25px"
+                                              height="25px"/>
                                 </div>
                                 <h5 class="bkt-text-truncate-3">{{ point.title }}</h5>
                             </div>
@@ -70,13 +71,13 @@
                             </div>
 
                         </div>
-<!--                    <div class="marker-popup bkt-wrapper bkt-nowrap bkt-gap-small">-->
-<!--                        <a class="link-primary" :href="'/lot/'+point.lot_id">Перейти в карточку лота</a>-->
-<!--                        <div title="Закрыть" class="bkt-cursor-pointer" @click="close()">-->
-<!--                            <bkt-icon name="Cancel" color="red" width="10px"/>-->
-<!--                        </div>-->
-<!--                    </div>-->
-                </template>
+                        <!--                    <div class="marker-popup bkt-wrapper bkt-nowrap bkt-gap-small">-->
+                        <!--                        <a class="link-primary" :href="'/lot/'+point.lot_id">Перейти в карточку лота</a>-->
+                        <!--                        <div title="Закрыть" class="bkt-cursor-pointer" @click="close()">-->
+                        <!--                            <bkt-icon name="Cancel" color="red" width="10px"/>-->
+                        <!--                        </div>-->
+                        <!--                    </div>-->
+                    </template>
                 </yandex-map-default-marker>
             </template>
             <template #cluster="{ length }">
@@ -149,7 +150,24 @@
             this.LOCATION.zoom = this.zoom;
             if(this.points.length > 0) {
                  if(!this.main_view) this.LOCATION.center = this.points[0]['coordinates'];
-                this.POINTS = JSON.parse(JSON.stringify(this.points))
+                 this.points.forEach(point => {
+                     let item = JSON.parse(JSON.stringify(point));
+                     if(this.POINTS.findIndex(el => item.value === el.value)>=0) {
+                         item.coordinates = this.addOffset(item.coordinates);
+                     }
+                     this.POINTS.push(item)
+                 })
+                // this.POINTS = JSON.parse(JSON.stringify(this.points))
+            }
+        },
+        methods: {
+            // Функция для добавления смещения
+            addOffset(coordinates) {
+                const offset = 0.0001; // Регулируйте величину смещения
+                return [
+                    coordinates[0] + (Math.random() * offset * 2 - offset),
+                    coordinates[1] + (Math.random() * offset * 2 - offset)
+                ];
             }
         }
     }

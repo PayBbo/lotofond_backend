@@ -34,9 +34,10 @@
                             Скачать папку
                         </button>
                         <button
+                            v-if="!current_path_object.main"
                             class="bkt-button bkt-collection__filters-action bkt-w-100"
                             data-bs-toggle="modal" data-bs-target="#editPathModal"
-                            :disabled="favourites_loading"
+                            :disabled="favourites_loading||current_path_object.main"
                         >
                              <span>
                             <bkt-icon :name="'Settings'" :color="'pink'"
@@ -45,9 +46,10 @@
                             Редактировать папку
                         </button>
                         <button
+                            v-if="!current_path_object.main"
                             class="bkt-button bkt-collection__filters-action bkt-w-100"
                             @click="removeFavouritePath"
-                            :disabled="favourites_loading"
+                            :disabled="favourites_loading||current_path_object.main"
                         >
                              <span>
                             <bkt-icon :name="'FolderDelete'" :color="'red'"
