@@ -8,7 +8,7 @@
 
             & .bkt-card-trade {
                 //filter: brightness(75%); /* затемнение */
-                overflow: hidden;
+                //overflow: hidden;
                 &:hover {
                     & .bkt-card-trade__overlay {
                         opacity: 0;
@@ -769,6 +769,9 @@
         border-radius: 25px;
         padding: 25px;
         //margin: 10px 0 !important;
+        &__overlay {
+            border-radius: 25px;
+        }
         &__icon
         {
             width: 22px;
@@ -978,6 +981,9 @@
     .bkt-card-trade {
         border-radius: 12px;
         padding: 16px;
+        &__overlay {
+            border-radius: 12px;
+        }
         & .bkt-card {
             &__head {
                 flex-wrap: nowrap;

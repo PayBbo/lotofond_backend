@@ -1,5 +1,5 @@
 {
-    "/js/app.js": "/js/app.js?id=f8dbb233bcb076d7434db40c9398b6f6",
+    "/js/app.js": "/js/app.js?id=5298fb62625b5c1182679cd8ae7f79db",
     "/js/main.js": "/js/main.js?id=03323ce945a980fb4c7e1e13ba92e5a5",
     "/js/registries.js": "/js/registries.js?id=a12bdc50a2fe64a09a2a8d7ac75c3cde",
     "/js/registry.js": "/js/registry.js?id=c61a0c868de55094f291c6f2118fd485",
@@ -35,7 +35,7 @@
     "/js/bot-main.js": "/js/bot-main.js?id=be2246ec482b1d4b10d7b26e7828b94b",
     "/js/bot-tariffs.js": "/js/bot-tariffs.js?id=43f15c00c16c9cd9235745eb3eaff797",
     "/js/bot-pay-answer.js": "/js/bot-pay-answer.js?id=f43290123c02ffbcddb9b1dfdf51ff5b",
-    "/css/app.css": "/css/app.css?id=6ba8e0a6f93a8eae4f4d172299988299",
-    "/css/app.min.css": "/css/app.min.css?id=6ba8e0a6f93a8eae4f4d172299988299",
-    "/js/app.min.js": "/js/app.min.js?id=f8dbb233bcb076d7434db40c9398b6f6"
+    "/css/app.css": "/css/app.css?id=20a136266577fce9a3cb477ffaa07e02",
+    "/css/app.min.css": "/css/app.min.css?id=20a136266577fce9a3cb477ffaa07e02",
+    "/js/app.min.js": "/js/app.min.js?id=5298fb62625b5c1182679cd8ae7f79db"
 }
