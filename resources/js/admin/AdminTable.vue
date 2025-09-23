@@ -33,7 +33,14 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <slot name="raws-block"></slot>
+                                    <slot name="raws-block" v-if="!getBusyState"></slot>
+                                    <tr v-else>
+                                        <td :colspan="columns.columns_title.length">
+                                            <div class="bkt-wrapper">
+                                                <div class="spinner-border mx-auto"></div>
+                                            </div>
+                                        </td>
+                                    </tr>
                                     </tbody>
                                 </table>
                             </div>
@@ -62,7 +69,7 @@ export default {
     components: {AdminPagination},
     props: ['columns', 'header', 'pagination', 'getData'],
     computed: {
-        ...mapGetters(['getSortProperty', 'getSortDirection'])
+        ...mapGetters(['getSortProperty', 'getSortDirection', 'getBusyState'])
     },
     methods: {
         ...mapMutations(['updateSortProperty', 'updateSortDirection']),

@@ -18,7 +18,9 @@ const getDefaultState = () => {
         types: [],
 
         sortProperty: 'id',
-        sortDirection: 'desc'
+        sortDirection: 'desc',
+
+        busyState: false
     }
 }
 
@@ -71,11 +73,15 @@ export default {
         },
         updateSortProperty(state, data) {
             state.sortProperty = data
+        },
+        updateBusyState(state, payload) {
+            state.busyState = payload
         }
     },
     actions: {
         async getData({commit, state}) {
 
+            commit('updateBusyState', false)
             let param = '&param=' + state.param;
             if(typeof(state.param) === 'object') {
                 let str = [];
@@ -85,6 +91,7 @@ export default {
                     }
                 param = str.length>0 ? '&'+str.join("&") : '';
             }
+            commit('updateBusyState', true)
             await axios({
                 method: 'get',
                 url: '/api' + state.currentRoute + '?page=' + state.currentPage + param
@@ -93,9 +100,11 @@ export default {
             })
                 .then((response) => {
                     commit('setData', response.data)
+                    commit('updateBusyState', false)
                 })
                 .catch((error) => {
                     console.log(error);
+                    commit('updateBusyState', false)
                 });
         },
         async updateData({commit, dispatch, state}, item) {
@@ -230,5 +239,8 @@ export default {
         getSortProperty(state) {
             return state.sortProperty
         },
+        getBusyState(state) {
+            return state.busyState
+        }
     }
 }

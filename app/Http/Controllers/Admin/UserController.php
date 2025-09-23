@@ -40,7 +40,8 @@ class UserController extends Controller
     public function get(Request $request)
     {
         try {
-            $searchString = $request->query('param');
+            $region = $request->get('region', null);
+            $searchString = $request->query('search');
             $sortParam = $request->query('sort_property');
             $sortDirection = $request->query('sort_direction');
             $users = User::leftJoin('regions', 'regions.id', '=', 'users.region_id')
@@ -60,9 +61,12 @@ class UserController extends Controller
                         ->where('payments.status', 'Settled')
                         ->where('payments.finished_at', '>=', Carbon::now()->setTimezone('Europe/Moscow'));
                 })
+                ->when(!is_null($region) && $region != 'null', function ($q) use ($region) {
+                    $q->where('regions.code','=', $region);
+                })
                 ->when(isset($sortParam) && isset($sortDirection), function ($query) use ($sortParam, $sortDirection) {
                     $query->orderBy($sortParam, $sortDirection);
-                })
+                })->groupBy('users.id')
                 ->paginate(20);
             return response(new UserCollection($users), 200);
         }

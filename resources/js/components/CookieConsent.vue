@@ -34,6 +34,7 @@
 
 <style scoped>
     .cookie-banner {
+        /*
         position: fixed;
         bottom: 0;
         left: 0;
@@ -47,6 +48,25 @@
         z-index: 1000;
         font-size: 14px;
         box-shadow: 0 -2px 6px rgba(0, 0, 0, 0.2);
+         */
+        position: fixed;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 90%;
+        max-width: 500px;
+        padding: 20px 25px;
+        border-radius: 16px;
+        /*background: rgba(255, 255, 255, 0.2);*/
+        background: rgb(245, 247, 254, 0.52);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+        color: #2d3244;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        z-index: 1000;
     }
 
     .cookie-banner p {
@@ -60,6 +80,17 @@
     }
 
     .cookie-banner button {
+        padding: 8px 14px;
+        margin-left: 20px;
+        border: none;
+        border-radius: 10px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: background 0.3s ease;
+
+        background-color: rgba(41, 177, 255, 0.8);
+        color: white;
+        /*
         background: #29b1ff;
         border: none;
         color: white;
@@ -67,5 +98,6 @@
         cursor: pointer;
         border-radius: 10px;
         margin-left: 20px;
+         */
     }
 </style>

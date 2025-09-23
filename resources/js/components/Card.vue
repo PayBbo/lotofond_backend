@@ -1,7 +1,11 @@
 <template>
     <div class="bkt-card-trade__wrapper w-100"
-         :class="{'bkt-shadow-card bkt-shadow-card_white': item && item.trade && item.trade.lotCount>1}">
+         :class="{'bkt-shadow-card bkt-shadow-card_white': item && item.trade && item.trade.lotCount>1,
+         'warning': warning}">
         <div class="bkt-card-trade bkt-card__row w-100 mx-auto mx-0" @click.self="navigate('mobile')">
+            <div class="bkt-card-trade__overlay">
+                <div class="bkt-card-trade__warning-text">⚠️ Лот может быть неактивным</div>
+            </div>
             <div class="col-12 col-lg-11 p-0">
                 <div class="row h-100 w-100 mx-auto row-cols-1 row-cols-lg-4 bkt-card-trade__gap">
                     <div class="col-12 col-lg-2 p-0 pe-md-2" @click="navigate('mobile')">
@@ -441,12 +445,23 @@
                 // realEstate: false,
                 read_more: false,
                 loading: false,
+                warning: false
             }
         },
         mounted() {
             this.short_description = '';
             if (this.item.description.length > 0 && this.item.description.length > 500) {
                 this.short_description = this.item.description.slice(0, 500) + '...';
+            }
+            let publish_date = this.item && this.item.trade && this.item.trade.publishDate ? this.item.trade.publishDate : null;
+            if(publish_date) {
+                // Вычисляем дату "два года назад от сегодня"
+                const twoYearsAgo = this.$moment().subtract(2, 'years');
+
+                // Сравнение: раньше ли publish_date, чем twoYearsAgo?
+                if (this.$moment(publish_date).isBefore(twoYearsAgo)) {
+                    this.warning = true;
+                }
             }
             // let index = this.item.categories.findIndex( item => item.key === 'realEstate');
             // if(index >= 0) {
