@@ -14,7 +14,7 @@ class DeleteOldFilesCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'delete:files';
+    protected $signature = 'delete:files  {--search=} {--standard_path}';
 
     /**
      * The console command description.
@@ -40,10 +40,13 @@ class DeleteOldFilesCommand extends Command
      */
     public function handle()
     {
+        $standardPath = $this->option('standard_path');
+        $search = $this->option('search');
+
         logger('DeleteOldFilesJob ' . Carbon::now()->subDays(7)->subMonths(3)->endOfMonth()->endOfDay()->format('Y-m-d H:i:s'));
         $lastDate = Carbon::now()->subDays(7)->subMonths(3);
-        $path = Storage::disk('public')->path('auction-files');
-        $commFirst = "find " . $path . " -type d \\( -name \"*-" .  $lastDate->format('m-Y') . "-*\" \\) -exec rm -r {} \\;";
+        $path = $standardPath ? './storage/app/public/auctions-files' : Storage::disk('public')->path('auction-files');
+        $commFirst = 'find '.$path.' -type d -name "*'.($search ?: '-' .  $lastDate->format('m-Y') . '-' ).'*" -exec rm -r {} \;';
         $this->execCommand($commFirst);
         $commSecond = "find " . $path . " -type d -empty -exec rm -r {} \;";
         $this->execCommand($commSecond);
@@ -57,7 +60,7 @@ class DeleteOldFilesCommand extends Command
         if (!is_null($comm)) {
             try {
                 logger($comm);
-                exec(`$comm`);
+                exec($comm);
             } catch (\Exception $exception) {
                 logger($exception);
             }
