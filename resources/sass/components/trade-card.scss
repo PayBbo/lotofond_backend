@@ -43,6 +43,7 @@
         pointer-events: none; /* чтобы не мешать кликам на содержимое, если нужно */
         z-index: 1;
         background: #001d9459;
+        border-radius: 25px;
     }
 
     &__gap {
