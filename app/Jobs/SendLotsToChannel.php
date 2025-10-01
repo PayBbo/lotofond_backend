@@ -248,6 +248,7 @@ class SendLotsToChannel implements ShouldQueue
                 $lotsToSend = [];
                 // для каждого клиента отбираем лоты по его фильтрам
                 foreach ($users as $user) {
+                    $userLotsToSend = [];
                     $userLots = clone $lots;
                     $userFilters = $user->filters;
                     if (isset($userFilters['regions']) && count($userFilters['regions']) && count($userLots)>0) {
@@ -296,9 +297,9 @@ class SendLotsToChannel implements ShouldQueue
                             }
                         }
                     }
-                    $userLots = $userLots->unique('id')->take(30)->values();
-                    if(count($userLots)) {
-                        foreach ($userLots as $lot) {
+                    $userLotsToSend = $userLots->unique('id')->take(30)->values();
+                    if(count($userLotsToSend)) {
+                        foreach ($userLotsToSend as $lot) {
                             $lot->tg_id = $user->tg_id;
                             //добавляем отфильтрованные лоты в общий список на отправку
                             $lotsToSend[] = $lot;

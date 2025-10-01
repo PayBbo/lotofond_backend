@@ -44,8 +44,18 @@ class UserController extends Controller
             $searchString = $request->query('search');
             $sortParam = $request->query('sort_property');
             $sortDirection = $request->query('sort_direction');
+            $tariffs = Tariff::select(['tariffs.id', 'tariffs.type'])->get();
+            $userTariffs = $tariffs->where('type', 'tariff')->pluck('id')->toArray();
+            $botTariffs = $tariffs->where('type', 'bot_tariff')->pluck('id')->toArray();
             $users = User::leftJoin('regions', 'regions.id', '=', 'users.region_id')
-                ->select('users.*','regions.title', DB::raw('DATE_FORMAT(payments.finished_at, "%d.%m.%Y, %H:%i") as finished_at'))
+                ->select([
+                    'users.*',
+                    'regions.title',
+                    'user_tariff.tariff_id as user_tariff_id',
+                    'bot_tariff.tariff_id as bot_tariff_id',
+                    DB::raw('DATE_FORMAT(user_tariff.finished_at, "%d.%m.%Y, %H:%i") as finished_at'),
+                    DB::raw('DATE_FORMAT(bot_tariff.finished_at, "%d.%m.%Y, %H:%i") as bot_finished_at')
+                ])
                 ->when(isset($searchString), function ($query) use ($searchString) {
                     $query->where('email', 'LIKE', '%' . $searchString . '%')
                         ->orWhere('phone', 'LIKE', '%' . $searchString . '%')
@@ -53,13 +63,23 @@ class UserController extends Controller
                         ->orWhere('surname', 'LIKE', '%' . $searchString . '%');
 
                 })
-                ->leftJoin('payments', function($join)
+                ->leftJoin('payments as user_tariff', function($join) use($userTariffs)
                 {
-                    $join->on('users.id', '=', 'payments.user_id')
-                        ->where('payments.tariff_id', '!=', null)
-                        ->where('payments.is_confirmed', true)
-                        ->where('payments.status', 'Settled')
-                        ->where('payments.finished_at', '>=', Carbon::now()->setTimezone('Europe/Moscow'));
+                    $join->on('users.id', '=', 'user_tariff.user_id')
+                        ->where('user_tariff.tariff_id', '!=', null)
+                        ->where('user_tariff.is_confirmed', true)
+                        ->where('user_tariff.status', 'Settled')
+                        ->whereIn('user_tariff.tariff_id', $userTariffs)
+                        ->where('user_tariff.finished_at', '>=', Carbon::now()->setTimezone('Europe/Moscow'));
+                })
+                ->leftJoin('payments as bot_tariff', function($join) use($botTariffs)
+                {
+                    $join->on('users.id', '=', 'bot_tariff.user_id')
+                        ->where('bot_tariff.tariff_id', '!=', null)
+                        ->where('bot_tariff.is_confirmed', true)
+                        ->where('bot_tariff.status', 'Settled')
+                        ->whereIn('bot_tariff.tariff_id', $botTariffs)
+                        ->where('bot_tariff.finished_at', '>=', Carbon::now()->setTimezone('Europe/Moscow'));
                 })
                 ->when(!is_null($region) && $region != 'null', function ($q) use ($region) {
                     $q->where('regions.code','=', $region);
@@ -78,7 +98,37 @@ class UserController extends Controller
 
     public function edit($id)
     {
-        $user = User::find($id);
+        $tariffs = Tariff::select(['tariffs.id', 'tariffs.type'])->get();
+        $userTariffs = $tariffs->where('type', 'tariff')->pluck('id')->toArray();
+        $botTariffs = $tariffs->where('type', 'bot_tariff')->pluck('id')->toArray();
+        $user = User::select([
+            'users.*',
+            'regions.title',
+            'user_tariff.tariff_id as user_tariff_id',
+            'bot_tariff.tariff_id as bot_tariff_id',
+            DB::raw('DATE_FORMAT(user_tariff.finished_at, "%d.%m.%Y, %H:%i") as finished_at'),
+            DB::raw('DATE_FORMAT(bot_tariff.finished_at, "%d.%m.%Y, %H:%i") as bot_finished_at')
+        ])
+            ->leftJoin('regions', 'regions.id', '=', 'users.region_id')
+            ->leftJoin('payments as user_tariff', function ($join) use ($userTariffs) {
+                $join->on('users.id', '=', 'user_tariff.user_id')
+                    ->where('user_tariff.tariff_id', '!=', null)
+                    ->where('user_tariff.is_confirmed', true)
+                    ->where('user_tariff.status', 'Settled')
+                    ->whereIn('user_tariff.tariff_id', $userTariffs)
+                    ->where('user_tariff.finished_at', '>=', Carbon::now()->setTimezone('Europe/Moscow'));
+            })
+            ->leftJoin('payments as bot_tariff', function ($join) use ($botTariffs) {
+                $join->on('users.id', '=', 'bot_tariff.user_id')
+                    ->where('bot_tariff.tariff_id', '!=', null)
+                    ->where('bot_tariff.is_confirmed', true)
+                    ->where('bot_tariff.status', 'Settled')
+                    ->whereIn('bot_tariff.tariff_id', $botTariffs)
+                    ->where('bot_tariff.finished_at', '>=', Carbon::now()->setTimezone('Europe/Moscow'));
+            })
+            ->where('users.id', $id)
+            ->groupBy('users.id')
+            ->first();
         if ($user) {
             return response(new UserResource($user), 200);
         }
@@ -159,13 +209,22 @@ class UserController extends Controller
                     'status' => 'Settled'
                 ]);
             }
+        } else {
+            if ($userTariff) {
+                $paymentService->checkPreviousActiveTariff($user->id, $userTariff->tariff->period, false);
+                $userTariff->delete();
+            }
+        }
+
+        if(isset($request->botTariff)) {
+            $tariff = Tariff::find($request->botTariff);
             if ($botTariff) {
-                if ($botTariff->tariff_id != $request->tariff) {
-                    $paymentService->checkPreviousActiveTariff($user->id, $botTariff->tariff->period, false);
+                if ($botTariff->tariff_id != $request->botTariff) {
+                    $paymentService->checkPreviousActiveTariff($user->id, $botTariff->tariff->period, false, 'bot_tariff');
                     $botTariff->delete();
                     Payment::create([
                         'user_id' => $user->id,
-                        'tariff_id' => $request->tariff,
+                        'tariff_id' => $request->botTariff,
                         'finished_at' => Carbon::now()->setTimezone('Europe/Moscow')->addDays($tariff->period),
                         'is_confirmed' => true,
                         'status' => 'Settled'
@@ -174,19 +233,16 @@ class UserController extends Controller
             } else {
                 Payment::create([
                     'user_id' => $user->id,
-                    'tariff_id' => $request->tariff,
+                    'tariff_id' => $request->botTariff,
                     'finished_at' => Carbon::now()->setTimezone('Europe/Moscow')->addDays($tariff->period),
                     'is_confirmed' => true,
                     'status' => 'Settled'
                 ]);
             }
-        } else {
-            if ($userTariff) {
-                $paymentService->checkPreviousActiveTariff($user->id, $userTariff->tariff->period, false);
-                $userTariff->delete();
-            }
+        }
+        else {
             if ($botTariff) {
-                $paymentService->checkPreviousActiveTariff($user->id, $botTariff->tariff->period, false);
+                $paymentService->checkPreviousActiveTariff($user->id, $botTariff->tariff->period, false, 'bot_tariff');
                 $botTariff->delete();
             }
         }

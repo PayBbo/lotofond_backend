@@ -1,5 +1,5 @@
 {
-    "/js/app.js": "/js/app.js?id=5298fb62625b5c1182679cd8ae7f79db",
+    "/js/app.js": "/js/app.js?id=a0c0258d19d7c76ab5fcd83d667b266d",
     "/js/main.js": "/js/main.js?id=03323ce945a980fb4c7e1e13ba92e5a5",
     "/js/registries.js": "/js/registries.js?id=a12bdc50a2fe64a09a2a8d7ac75c3cde",
     "/js/registry.js": "/js/registry.js?id=c61a0c868de55094f291c6f2118fd485",
@@ -19,7 +19,7 @@
     "/js/terms.js": "/js/terms.js?id=c073bd355a6d7614714082e4e760cd4d",
     "/js/pay-answer.js": "/js/pay-answer.js?id=db7d4cad9c1b7bb23ac99c5e94418f8f",
     "/js/dashboard.js": "/js/dashboard.js?id=630e36fdf1b77026c55d19ff602f5ef0",
-    "/js/users.js": "/js/users.js?id=78c2561c9e70f418b924dc09e5a6004e",
+    "/js/users.js": "/js/users.js?id=4db9cf59d43f674313d7199f1dd4963c",
     "/js/users-add.js": "/js/users-add.js?id=8c2cd92ddc41be1bb03a2d7b47efd5d8",
     "/js/text-data.js": "/js/text-data.js?id=a4c768c43981218fddd8fe24ab9ff373",
     "/js/text-data-edit.js": "/js/text-data-edit.js?id=b0f6f6ec46006c2358c0e4dbbad959ca",
@@ -37,5 +37,5 @@
     "/js/bot-pay-answer.js": "/js/bot-pay-answer.js?id=f43290123c02ffbcddb9b1dfdf51ff5b",
     "/css/app.css": "/css/app.css?id=20a136266577fce9a3cb477ffaa07e02",
     "/css/app.min.css": "/css/app.min.css?id=20a136266577fce9a3cb477ffaa07e02",
-    "/js/app.min.js": "/js/app.min.js?id=5298fb62625b5c1182679cd8ae7f79db"
+    "/js/app.min.js": "/js/app.min.js?id=a0c0258d19d7c76ab5fcd83d667b266d"
 }

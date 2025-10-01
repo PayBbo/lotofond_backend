@@ -115,7 +115,7 @@ export default {
             })
                 .then((response) => {
                     if (response.status === 200) {
-                        dispatch('getData')
+                        dispatch('editItem')
                         commit('setModal', {data: 'success', text: 'Операция прошла успешно'})
                     }
                 })

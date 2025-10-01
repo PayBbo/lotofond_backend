@@ -41,7 +41,10 @@
                 <td v-else >Не указано</td>
                 <td>{{ user.region ? user.region : "Не указано" }}</td>
                 <td>{{ user.registrationDate }}</td>
-                <td>{{ user.finishedAt ? user.finishedAt : 'Нет тарифа' }} {{user.finishedAt ? '('+ user.diffInDays +' дней)' : ''}}</td>
+                <td>
+                    <div>Сайт: {{ user.finishedAt ? user.finishedAt : 'Нет тарифа' }} {{user.finishedAt ? '('+ user.diffInDays +' дней)' : ''}}</div>
+                    <div>Бот: {{ user.botFinishedAt ? user.botFinishedAt : 'Нет тарифа' }} {{user.botFinishedAt ? '('+ user.botDiffInDays +' дней)' : ''}}</div>
+                </td>
                 <td>
                     <router-link v-can="'user-edit'" :to="'/admin/users/'+user.id" class="btn btn-primary btn-sm">
                         <i class="fas fa-pencil-alt"> </i>
@@ -69,7 +72,7 @@ export default {
         return {
             columns: {
                 columns_title: ['ID', 'Имя', 'Фамилия', 'Почта', 'Телефон', 'Регион', 'Дата регистрации', 'Окончание подписки', 'Действия'],
-                columns_sort: ['id', 'name', 'surname', 'email', 'phone', 'regions.title', 'email_verified_at', 'payments.finished_at', null]
+                columns_sort: ['id', 'name', 'surname', 'email', 'phone', 'regions.title', 'email_verified_at', 'user_tariff.finished_at', null]
             },
             param: {'search': null, region: null},
         }
