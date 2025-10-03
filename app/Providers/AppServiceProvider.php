@@ -37,7 +37,7 @@ class AppServiceProvider extends ServiceProvider
     {
         ContentRule::observe(ContentRuleObserver::class);
         Lot::observe(LotObserver::class);
-        Auction::observe(AuctionObserver::class);
+//        Auction::observe(AuctionObserver::class);
         Notification::observe(NotificationObserver::class);
         LotFile::observe(LotFileObserver::class);
         User::observe(UserObserver::class);
