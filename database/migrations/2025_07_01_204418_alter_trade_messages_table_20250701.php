@@ -16,7 +16,6 @@ class AlterTradeMessagesTable20250701 extends Migration
         Schema::table('trade_messages', function (Blueprint $table) {
             $table->index('number');
             $table->index('guid');
-            $table->index('value');
             $table->index('param_type');
         });
     }
@@ -29,7 +28,7 @@ class AlterTradeMessagesTable20250701 extends Migration
     public function down()
     {
         Schema::table('trade_messages', function (Blueprint $table) {
-            $table->dropIndex(['number', 'guid', 'value', 'param_type']);
+            $table->dropIndex(['number', 'guid', 'param_type']);
         });
     }
 }

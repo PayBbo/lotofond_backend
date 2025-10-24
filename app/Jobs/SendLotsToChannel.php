@@ -134,13 +134,14 @@ class SendLotsToChannel implements ShouldQueue
                 ]);
             } catch (ClientException $e) {
                 if ($e->getResponse()->getStatusCode() === 429) {
-                    $retryAfter = $e->getResponse()->getHeader('retry-after')[0] ?? 60;
+                    $retryAfter = $e->getResponse()->getHeader('retry-after')[0] ?: 60;
+                    logger('sendLots retry = '.$retryAfter);
                     sleep($retryAfter);
                 } else {
-                    logger($e->getMessage());
+                    logger('sendLots ClientException err = '. $e->getMessage());
                 }
             } catch (\Exception $e) {
-                logger($e->getMessage());
+                logger('sendLots err = '. $e->getMessage());
             }
         }
     }
@@ -312,12 +313,15 @@ class SendLotsToChannel implements ShouldQueue
                     $start = microtime(true);
                     $index = 0;
                     foreach ($lotsToSend as $lot) {
+                        logger('user tg_id = '.$lot->tg_id. ' lot_id = '.$lot->id);
                         $index++;
                         try {
                             $this->sendMessage($lot,$lot->auction_type_description,$lot->auction_type_title);
                         } catch (ClientException $e) {
+                            logger('sendLotsToClients error '.$e->getMessage());
                             if ($e->getResponse()->getStatusCode() === 429) {
-                                $retryAfter = $e->getResponse()->getHeader('retry-after')[0] ?? 60;
+                                $retryAfter = $e->getResponse()->getHeader('retry-after')[0] ?: 60;
+                                logger('sendLotsToClients retry = '.$retryAfter);
                                 sleep($retryAfter);
                             }
                         }
@@ -329,6 +333,7 @@ class SendLotsToChannel implements ShouldQueue
                                     sleep($sleep);
                                 }
                             } catch (\Exception $e) {
+                                logger('$index '. $index .' sendLotsToClients error '.$e->getMessage());
                             }
                             $start = microtime(true);
                         }

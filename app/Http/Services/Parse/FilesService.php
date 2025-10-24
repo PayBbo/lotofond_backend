@@ -71,7 +71,7 @@ class FilesService
                 try {
                     if($extension == 'pdf') {
                         logger('LINKS. PDF from type ' . $extension);
-                        $pages = $this->convertPdfToImage($root_path . $this->slash . $filename, $root_path, $filename.'_');
+                        $pages = $this->convertPdfToImage($root_path . $this->slash . $filename, $root_path, $filename.'_', 1);
                         if(count($pages)) {
                             foreach ($pages as $page) {
                                 $pageFilename = substr(File::name($page), 0, 200) . '.jpg';

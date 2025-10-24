@@ -19,6 +19,7 @@ class LotFile extends Model
         'url',
         'type',
         'user_id',
+        'auction_id',
         'lot_id',
         'trade_message_id',
         'additional_lot_info_id'

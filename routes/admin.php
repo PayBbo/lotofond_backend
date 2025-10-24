@@ -161,6 +161,10 @@ Route::group(['middleware' =>['localization', 'role:admin|manager', 'json.respon
 
         Route::post('/lot/upload', [FileController::class, 'uploadLotFiles']);
 
+        Route::post('/call-delete-files-job', [FileController::class, 'callDeleteFilesJob']);
+
+        Route::post('/call-delete-old-files-command', [FileController::class, 'callDeleteOldFilesCommand']);
+
         Route::delete('/{id}', [FileController::class, 'delete']);
 
     });

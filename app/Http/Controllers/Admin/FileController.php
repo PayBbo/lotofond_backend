@@ -7,10 +7,12 @@ use App\Http\Requests\Admin\LotUploadFileRequest;
 use App\Http\Requests\Admin\UploadFileRequest;
 use App\Http\Resources\FileResource;
 use App\Http\Services\Parse\FilesService;
+use App\Jobs\DeleteFilesJob;
 use App\Models\AdditionalLotInfo;
 use App\Models\Lot;
 use App\Models\LotFile;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Storage;
 
 class FileController extends Controller
@@ -113,4 +115,18 @@ class FileController extends Controller
         $lotFile->delete();
         return response(new FileResource($lot), 200);
     }
+
+    public function callDeleteFilesJob() {
+        $dateFrom = request()->get('date_from', null);
+        $dateTo = request()->get('date_from', null);
+        dispatch(new DeleteFilesJob($dateFrom, $dateTo));
+    }
+
+    public function callDeleteOldFilesCommand() {
+        $search = request()->get('search', null) ? ' --search='.request()->get('search') : '';
+        $standardPath = request()->get('standard_path', false) ? ' --standard_path' : '';
+
+        Artisan::call('delete:files'.$search.$standardPath);
+    }
+
 }

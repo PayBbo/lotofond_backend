@@ -18,7 +18,7 @@ class CreateLotFilesTable extends Migration
             $table->mediumText('url');
             $table->enum('type', ['file', 'image'])->default('file');
             $table->unsignedBigInteger('user_id')->nullable();
-            $table->unsignedBigInteger('lot_id');
+            $table->unsignedBigInteger('lot_id')->nullable();
             $table->foreign('lot_id')->references('id')
                 ->on('lots')->cascadeOnDelete();
             $table->foreign('user_id')->references('id')

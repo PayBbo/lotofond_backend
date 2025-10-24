@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 use App\Models\LotFile;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
 class DeleteOldFilesCommand extends Command
@@ -50,8 +51,8 @@ class DeleteOldFilesCommand extends Command
         $this->execCommand($commFirst);
         $commSecond = "find " . $path . " -type d -empty -exec rm -r {} \;";
         $this->execCommand($commSecond);
-        LotFile::where('created_at', '<=', $lastDate->endOfDay()->format('Y-m-d H:i:s'))->delete();
-        logger('-----------------------------------------');
+        DB::table('lot_files')->where('created_at', '<=', Carbon::now()->subDays(7)->subMonths(3)->endOfDay()->format('Y-m-d H:i:s'))->delete();
+        logger('----------------------------------------- DeleteOldFilesJob');
         return 0;
     }
 

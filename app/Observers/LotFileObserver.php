@@ -30,6 +30,7 @@ class LotFileObserver
     }
 
     public function deleting(LotFile $file){
+        logger('LotFile observer deleting = '.$file->id . ' lot = '.$file->lot_id);
         $slash = DIRECTORY_SEPARATOR;
         if ($file->type == 'file') {
             if (LotFile::where('url', stristr($file->url, 'storage'))->count() == 1) {

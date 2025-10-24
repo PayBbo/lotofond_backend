@@ -487,6 +487,9 @@ trait TorgiGovRuTrait
                     $auction->save();
                     logger('parseAuction parseFiles');
                     $files = $this->parseFiles($parse);
+                    if(count($files)) {
+                        $this->storeFiles($files, $auction->id);
+                    }
                     if (isset($parse['lots'])) {
                         foreach ($parse['lots'] as $lot) {
                             $this->parseLot($lot, $auction->id, $parse['noticeNumber'], $files);
@@ -635,9 +638,11 @@ trait TorgiGovRuTrait
 //            $priceReduction->savePriceReduction($lot->id, $lot->start_price, $lot->created_at, null, null, 0, $lot->deposit, true);
 //
             logger('parseLot parseFiles parse');
-            $files = array_merge($this->parseFiles($parse), $auctionFiles);
+            $files = $this->parseFiles($parse);
             try {
-                $this->storeFiles($files, $auctionId, $lot->id);
+                if(count($files)) {
+                    $this->storeFiles($files, $auctionId, $lot->id);
+                }
             }
             catch (\Exception $exception) {
             }
@@ -740,25 +745,26 @@ trait TorgiGovRuTrait
         if (!is_null($parsedFiles)) {
             if (count($parsedFiles['files']) > 0) {
                 foreach ($parsedFiles['files'] as $file) {
-                    $this->saveFile($file, 'file', $lotId);
+                    $this->saveFile($file, 'file', $lotId, $auctionId);
                 }
             }
             if (count($parsedFiles['images']) > 0) {
                 foreach ($parsedFiles['images'] as $image) {
-                    $this->saveFile($image, 'image', $lotId);
+                    $this->saveFile($image, 'image', $lotId, $auctionId);
                 }
             }
         }
     }
     //</editor-fold>
 
-    private function saveFile($file, $type, $lotId = null)
+    private function saveFile($file, $type, $lotId = null, $auctionId = null)
     {
-        if (!LotFile::where(['url' => json_encode($file), 'lot_id' => $lotId, 'type' => $type])->exists()) {
+        if (!LotFile::where(['url' => json_encode($file), 'lot_id' => $lotId, 'type' => $type, 'auction_id' => $auctionId])->exists()) {
             LotFile::firstOrCreate([
                 'url' => json_encode($file),
                 'type' => $type,
-                'lot_id' => $lotId
+                'lot_id' => $lotId,
+                'auction_id' => $auctionId
             ]);
         }
     }
