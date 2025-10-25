@@ -67,6 +67,9 @@ class DeleteFilesJob implements ShouldQueue
                     File::delete($path);
                     $this->deleteDirectory($path);
                     $this->deleteDirectory(substr_replace($path, '', strrpos($path, $slash)));
+                    LotFile::withoutEvents(function () use ($file) {
+                        $file->delete();
+                    });
                 } else {
                     $main = \storage_path('app' . $slash . 'public' . $slash . stristr($file->url[0], 'auction-files'));
                     $preview = \storage_path('app' . $slash . 'public' . $slash . stristr($file->url[1], 'auction-files'));
@@ -74,6 +77,9 @@ class DeleteFilesJob implements ShouldQueue
                     $this->deleteDirectory($preview);
                     $this->deleteDirectory($main);
                     $this->deleteDirectory(substr_replace($main, '', strrpos($main, $slash)));
+                    LotFile::withoutEvents(function () use ($file) {
+                        $file->delete();
+                    });
                 }
             }
             catch (\Exception $e) {

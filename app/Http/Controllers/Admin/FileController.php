@@ -119,7 +119,7 @@ class FileController extends Controller
     public function callDeleteFilesJob() {
         $dateFrom = request()->get('date_from', null);
         $dateTo = request()->get('date_to', null);
-        dispatch(new DeleteFilesJob($dateFrom, $dateTo));
+        dispatch(new DeleteFilesJob($dateFrom, $dateTo))->onQueue('parseTorgi');
         return 'ok';
     }
 

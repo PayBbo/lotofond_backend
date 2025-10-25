@@ -46,7 +46,7 @@ class DeleteOldFilesCommand extends Command
 
         logger('DeleteOldFilesJob ' . Carbon::now()->subDays(7)->subMonths(3)->endOfMonth()->endOfDay()->format('Y-m-d H:i:s'));
         $lastDate = Carbon::now()->subDays(7)->subMonths(3);
-        $path = $standardPath ? './storage/app/public/auctions-files' : Storage::disk('public')->path('auction-files');
+        $path = $standardPath ? './storage/app/public/auction-files' : Storage::disk('public')->path('auction-files');
         $commFirst = 'find '.$path.' -type d -name "*'.($search ?: '-' .  $lastDate->format('m-Y') . '-' ).'*" -exec rm -r {} \;';
         $this->execCommand($commFirst);
         $commSecond = "find " . $path . " -type d -empty -exec rm -r {} \;";
